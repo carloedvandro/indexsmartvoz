@@ -29,14 +29,6 @@ export default function AdminUsers() {
     status: "",
     documentId: "",
     cnpj: "",
-    phone: "",
-    mobile: "",
-    city: "",
-    state: "",
-    country: "",
-    voucher: "",
-    licenseType: "",
-    graduationType: "",
   });
 
   const { data: users, isLoading, refetch } = useQuery({
@@ -47,27 +39,36 @@ export default function AdminUsers() {
         .select("*")
         .order("created_at", { ascending: false });
 
-      if (filters.fullName) {
-        query = query.ilike("full_name", `%${filters.fullName}%`);
+      // Aplicar filtros apenas se houver valores
+      if (filters.fullName.trim()) {
+        query = query.ilike("full_name", `%${filters.fullName.trim()}%`);
       }
-      if (filters.email) {
-        query = query.ilike("email", `%${filters.email}%`);
+      if (filters.email.trim()) {
+        query = query.ilike("email", `%${filters.email.trim()}%`);
       }
       if (filters.status && filters.status !== "all") {
         query = query.eq("status", filters.status);
       }
-      if (filters.externalId) {
-        query = query.ilike("external_id", `%${filters.externalId}%`);
+      if (filters.externalId.trim()) {
+        query = query.ilike("external_id", `%${filters.externalId.trim()}%`);
       }
-      if (filters.documentId) {
-        query = query.ilike("document_id", `%${filters.documentId}%`);
+      if (filters.documentId.trim()) {
+        query = query.ilike("document_id", `%${filters.documentId.trim()}%`);
       }
-      if (filters.cnpj) {
-        query = query.ilike("cnpj", `%${filters.cnpj}%`);
+      if (filters.cnpj.trim()) {
+        query = query.ilike("cnpj", `%${filters.cnpj.trim()}%`);
       }
 
+      console.log("Query filters:", filters); // Debug log
+
       const { data, error } = await query;
-      if (error) throw error;
+      
+      if (error) {
+        console.error("Query error:", error); // Debug log
+        throw error;
+      }
+      
+      console.log("Query results:", data); // Debug log
       return data;
     },
   });
@@ -78,6 +79,7 @@ export default function AdminUsers() {
   };
 
   const handleSearch = () => {
+    console.log("Executing search with filters:", filters); // Debug log
     refetch();
   };
 
@@ -156,6 +158,11 @@ export default function AdminUsers() {
             <Card>
               <CardHeader>
                 <CardTitle>Resultados da Busca</CardTitle>
+                {users && (
+                  <CardDescription>
+                    {users.length} usuário(s) encontrado(s)
+                  </CardDescription>
+                )}
               </CardHeader>
               <CardContent>
                 {isLoading ? (

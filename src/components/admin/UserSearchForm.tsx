@@ -11,8 +11,13 @@ import {
 import { Search } from "lucide-react";
 
 export function UserSearchForm({ filters, setFilters, onSearch }) {
+  const handleSearch = (e) => {
+    e.preventDefault();
+    onSearch();
+  };
+
   return (
-    <div className="space-y-4">
+    <form onSubmit={handleSearch} className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div className="space-y-2">
           <Label htmlFor="externalId">ID Externo</Label>
@@ -20,7 +25,7 @@ export function UserSearchForm({ filters, setFilters, onSearch }) {
             id="externalId"
             value={filters.externalId}
             onChange={(e) =>
-              setFilters({ ...filters, externalId: e.target.value })
+              setFilters({ ...filters, externalId: e.target.value.trim() })
             }
           />
         </div>
@@ -30,7 +35,7 @@ export function UserSearchForm({ filters, setFilters, onSearch }) {
             id="fullName"
             value={filters.fullName}
             onChange={(e) =>
-              setFilters({ ...filters, fullName: e.target.value })
+              setFilters({ ...filters, fullName: e.target.value.trim() })
             }
           />
         </div>
@@ -41,7 +46,7 @@ export function UserSearchForm({ filters, setFilters, onSearch }) {
             type="email"
             value={filters.email}
             onChange={(e) =>
-              setFilters({ ...filters, email: e.target.value })
+              setFilters({ ...filters, email: e.target.value.trim() })
             }
           />
         </div>
@@ -70,7 +75,7 @@ export function UserSearchForm({ filters, setFilters, onSearch }) {
             id="documentId"
             value={filters.documentId}
             onChange={(e) =>
-              setFilters({ ...filters, documentId: e.target.value })
+              setFilters({ ...filters, documentId: e.target.value.trim() })
             }
           />
         </div>
@@ -80,17 +85,17 @@ export function UserSearchForm({ filters, setFilters, onSearch }) {
             id="cnpj"
             value={filters.cnpj}
             onChange={(e) =>
-              setFilters({ ...filters, cnpj: e.target.value })
+              setFilters({ ...filters, cnpj: e.target.value.trim() })
             }
           />
         </div>
       </div>
       <div className="flex justify-end">
-        <Button onClick={onSearch}>
+        <Button type="submit">
           <Search className="mr-2 h-4 w-4" />
           Buscar
         </Button>
       </div>
-    </div>
+    </form>
   );
 }
