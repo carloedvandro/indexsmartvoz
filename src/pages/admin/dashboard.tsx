@@ -42,21 +42,27 @@ export default function AdminDashboard() {
 
   const handleLogout = async () => {
     try {
+      // First check if we have a session
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        // If no session exists, just redirect to login
+        navigate("/admin/login");
+        return;
+      }
+
+      // If we have a session, try to sign out
       const { error } = await supabase.auth.signOut();
       if (error) {
         console.error('Logout error:', error);
-        toast({
-          title: "Erro ao sair",
-          description: "Houve um problema ao fazer logout. Tente novamente.",
-          variant: "destructive",
-        });
+        // Even if there's an error, we'll redirect to login
+        navigate("/admin/login");
         return;
       }
-      // Mesmo com erro, forçamos a navegação para a página de login
+
       navigate("/admin/login");
     } catch (error) {
       console.error('Unexpected error during logout:', error);
-      // Mesmo com erro, forçamos a navegação para a página de login
       navigate("/admin/login");
     }
   };
