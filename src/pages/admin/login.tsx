@@ -71,7 +71,7 @@ export default function AdminLogin() {
       {/* Left side - Login form */}
       <div className="w-full md:w-[480px] p-8 flex flex-col justify-between bg-white">
         <div>
-          <h1 className="text-[#00ffa3] text-4xl font-bold w-[70%] mb-12">Y-TECH</h1>
+          <h1 className="text-secondary text-6xl font-bold w-[70%] mb-12">Y-TECH<sup className="text-sm align-top">®</sup></h1>
           <h2 className="text-lg font-medium mb-8">ADMINISTRAÇÃO</h2>
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
@@ -120,7 +120,7 @@ export default function AdminLogin() {
           <p>
             Tecnologia por{" "}
             <a href="#" className="underline">
-              WI Digital
+              Yrwen Technology
             </a>
           </p>
         </div>
