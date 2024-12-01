@@ -35,16 +35,6 @@ export default function ClientLogin() {
         }
       } else if (event === 'SIGNED_OUT') {
         navigate("/");
-      } else if (event === 'USER_UPDATED') {
-        toast({
-          title: "Conta atualizada",
-          description: "Suas informações foram atualizadas com sucesso.",
-        });
-      } else if (event === 'PASSWORD_RECOVERY') {
-        toast({
-          title: "Recuperação de senha",
-          description: "Verifique seu email para redefinir sua senha.",
-        });
       }
     });
 
@@ -80,20 +70,20 @@ export default function ClientLogin() {
                   loading_button_label: "Entrando...",
                   password_input_placeholder: "Sua senha",
                   email_input_placeholder: "seu@email.com",
-                  link_text: "Esqueceu sua senha?",
-                  social_provider_text: "Entrar com {{provider}}",
-                },
-                forgotten_password: {
-                  button_label: "Enviar instruções",
-                  loading_button_label: "Enviando instruções...",
-                  link_text: "Esqueceu sua senha?",
-                  confirmation_text: "Verifique seu email para redefinir sua senha",
                 },
               },
             }}
             providers={[]}
             view="sign_in"
           />
+          <div className="mt-4 text-center space-y-2">
+            <Link to="/client/forgot-password" className="block text-sm text-gray-600 hover:text-gray-900">
+              Esqueceu sua senha?
+            </Link>
+            <Link to="/client/register" className="block text-sm text-gray-600 hover:text-gray-900">
+              Não tem uma conta? Cadastre-se
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </div>
