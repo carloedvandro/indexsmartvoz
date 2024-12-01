@@ -65,6 +65,8 @@ export default function ClientLogin() {
                 button: 'bg-[#00ffa3] hover:bg-[#004d31] text-white',
               },
             }}
+            view="sign_in"
+            showLinks={false}
             providers={[]}
             localization={{
               variables: {
@@ -76,24 +78,18 @@ export default function ClientLogin() {
                   password_input_placeholder: "Digite sua senha",
                   email_input_placeholder: "Digite seu email",
                 },
-                sign_up: {
-                  email_label: "Email",
-                  password_label: "Senha",
-                  button_label: "Cadastrar",
-                  loading_button_label: "Cadastrando...",
-                  password_input_placeholder: "Digite sua senha",
-                  email_input_placeholder: "Digite seu email",
-                },
-                forgotten_password: {
-                  email_label: "Email",
-                  button_label: "Enviar instruções",
-                  loading_button_label: "Enviando...",
-                  link_text: "Esqueceu sua senha?",
-                  confirmation_text: "Verifique seu email para redefinir sua senha",
-                },
               },
             }}
           />
+          <div className="mt-4 text-center">
+            <span className="text-gray-600">Não tem uma conta? </span>
+            <Link 
+              to="/register" 
+              className="text-[#00ffa3] hover:text-[#004d31] font-medium"
+            >
+              Cadastre-se
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </div>
