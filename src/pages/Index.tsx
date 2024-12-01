@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 export default function Index() {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
       <motion.div
@@ -12,23 +15,23 @@ export default function Index() {
       >
         <div className="space-y-4">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-            Bem-vindo ao NetQuest
+            {t('welcome_to')} NetQuest
           </h1>
           <p className="text-lg text-gray-600">
-            Escolha como deseja acessar o sistema
+            {t('choose_access')}
           </p>
         </div>
 
         <div className="space-y-4">
           <Link to="/client/login">
             <Button className="w-full text-lg py-6" variant="default">
-              Área do Cliente
+              {t('client_area')}
             </Button>
           </Link>
           
           <Link to="/admin/login">
             <Button className="w-full text-lg py-6" variant="secondary">
-              Área Administrativa
+              {t('admin_area')}
             </Button>
           </Link>
         </div>

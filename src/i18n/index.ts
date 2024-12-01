@@ -34,6 +34,10 @@ const resources = {
       "sign_up": "Cadastrar",
       "signing_up": "Cadastrando...",
       "dont_have_account": "Não tem uma conta? Cadastre-se",
+      "welcome_to": "Bem-vindo ao",
+      "choose_access": "Escolha como deseja acessar o sistema",
+      "client_area": "Área do Cliente",
+      "admin_area": "Área Administrativa",
       "sign_in": {
         "email_label": "Email",
         "password_label": "Senha",
