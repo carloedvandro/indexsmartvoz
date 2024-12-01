@@ -45,7 +45,7 @@ function App() {
               <Route path="/reset-password" element={
                 <Auth 
                   supabaseClient={supabase}
-                  view="reset_password"
+                  view="forgotten_password"
                   appearance={{ theme: ThemeSupa }}
                 />
               } />
