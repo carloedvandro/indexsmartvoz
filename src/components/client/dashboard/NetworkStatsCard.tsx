@@ -45,7 +45,16 @@ export const NetworkStatsCard = () => {
       <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="h-[300px] md:h-[400px] w-full min-w-[200px]">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={barData} margin={{ right: 10, left: -20 }}>
+            <BarChart 
+              data={barData} 
+              margin={{ right: 10, left: -20 }}
+            >
+              <defs>
+                <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#9b87f5" stopOpacity={0.9}/>
+                  <stop offset="95%" stopColor="#9b87f5" stopOpacity={0.6}/>
+                </linearGradient>
+              </defs>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="name"
@@ -58,7 +67,14 @@ export const NetworkStatsCard = () => {
               />
               <YAxis fontSize={10} width={40} />
               <Tooltip />
-              <Bar dataKey="value" fill="#9b87f5" />
+              <Bar 
+                dataKey="value" 
+                fill="url(#colorValue)"
+                stroke="#8884d8"
+                strokeWidth={1}
+                radius={[4, 4, 0, 0]}
+                isAnimationActive={true}
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -71,14 +87,20 @@ export const NetworkStatsCard = () => {
                 cy="50%"
                 labelLine={false}
                 outerRadius={100}
-                fill="#8884d8"
+                innerRadius={60}
+                paddingAngle={5}
                 dataKey="value"
                 label={({ name, percent }) =>
                   `${name}: ${(percent * 100).toFixed(0)}%`
                 }
               >
                 {pieData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
+                  <Cell 
+                    key={`cell-${index}`} 
+                    fill={entry.color}
+                    stroke="#ffffff"
+                    strokeWidth={2}
+                  />
                 ))}
               </Pie>
               <Tooltip />
