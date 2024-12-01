@@ -13,11 +13,34 @@ export default function ClientLogin() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
-        navigate("/client/dashboard");
+        // Verificar se o perfil existe
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .single();
+
+        if (profileError) {
+          toast({
+            title: "Erro",
+            description: "Erro ao carregar perfil do usuário",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        if (profile) {
+          navigate("/client/dashboard");
+        }
       } else if (event === 'SIGNED_OUT') {
         navigate("/");
+      } else if (event === 'USER_UPDATED') {
+        toast({
+          title: "Conta atualizada",
+          description: "Suas informações foram atualizadas com sucesso.",
+        });
       } else if (event === 'PASSWORD_RECOVERY') {
         toast({
           title: "Recuperação de senha",
@@ -58,17 +81,25 @@ export default function ClientLogin() {
                   loading_button_label: "Entrando...",
                   password_input_placeholder: "Sua senha",
                   email_input_placeholder: "seu@email.com",
-                  link_text: "Esqueceu sua senha?"
+                  link_text: "Esqueceu sua senha?",
+                  social_provider_text: "Entrar com {{provider}}",
                 },
                 sign_up: {
                   email_label: "Email",
                   password_label: "Senha",
-                  button_label: "Cadastrar",
-                  loading_button_label: "Cadastrando...",
-                  link_text: "Não tem uma conta? Cadastre-se",
+                  button_label: "Criar conta",
+                  loading_button_label: "Criando conta...",
                   password_input_placeholder: "Sua senha",
-                  email_input_placeholder: "seu@email.com"
-                }
+                  email_input_placeholder: "seu@email.com",
+                  link_text: "Não tem uma conta? Cadastre-se",
+                  confirmation_text: "Verifique seu email para confirmar o cadastro",
+                },
+                forgotten_password: {
+                  button_label: "Enviar instruções",
+                  loading_button_label: "Enviando instruções...",
+                  link_text: "Esqueceu sua senha?",
+                  confirmation_text: "Verifique seu email para redefinir sua senha",
+                },
               },
             }}
             providers={[]}

@@ -10,14 +10,30 @@ export default function ClientRegister() {
 
   const onSubmit = async (values: RegisterFormData) => {
     try {
-      const { data: existingProfiles, error: profileCheckError } = await supabase
+      // Primeiro, verificar se o email já existe
+      const { data: existingUser } = await supabase
+        .from('profiles')
+        .select('email')
+        .eq('email', values.email)
+        .single();
+
+      if (existingUser) {
+        toast({
+          title: "Erro",
+          description: "Este email já está cadastrado",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Verificar se o ID personalizado já existe
+      const { data: existingCustomId } = await supabase
         .from('profiles')
         .select('custom_id')
-        .eq('custom_id', values.customId);
+        .eq('custom_id', values.customId)
+        .single();
 
-      if (profileCheckError) throw profileCheckError;
-
-      if (existingProfiles && existingProfiles.length > 0) {
+      if (existingCustomId) {
         toast({
           title: "Erro",
           description: "Este ID personalizado já está em uso",
@@ -26,27 +42,40 @@ export default function ClientRegister() {
         return;
       }
 
-      const { data, error } = await supabase.auth.signUp({
+      // Criar o usuário no Auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
         options: {
           data: {
             full_name: values.fullName,
-            cpf: values.cpf,
-            custom_id: values.customId,
-            sponsor_id: values.referralId || null,
           },
         },
       });
 
-      if (error) throw error;
+      if (authError) throw authError;
 
-      toast({
-        title: "Sucesso",
-        description: "Conta criada com sucesso! Verifique seu email para confirmar o cadastro.",
-      });
+      if (authData.user) {
+        // Atualizar o perfil com informações adicionais
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .update({
+            full_name: values.fullName,
+            document_id: values.cpf,
+            custom_id: values.customId,
+            sponsor_id: values.referralId || null,
+          })
+          .eq('id', authData.user.id);
 
-      navigate("/");
+        if (profileError) throw profileError;
+
+        toast({
+          title: "Sucesso",
+          description: "Conta criada com sucesso! Verifique seu email para confirmar o cadastro.",
+        });
+
+        navigate("/");
+      }
     } catch (error: any) {
       toast({
         title: "Erro no cadastro",
