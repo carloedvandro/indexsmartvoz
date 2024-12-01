@@ -42,27 +42,19 @@ export default function AdminDashboard() {
 
   const handleLogout = async () => {
     try {
-      // First check if we have a session
-      const { data: { session } } = await supabase.auth.getSession();
+      // Clear any existing session state first
+      await supabase.auth.clearSession();
       
-      if (!session) {
-        // If no session exists, just redirect to login
-        navigate("/admin/login");
-        return;
-      }
-
-      // If we have a session, try to sign out
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.error('Logout error:', error);
-        // Even if there's an error, we'll redirect to login
-        navigate("/admin/login");
-        return;
-      }
-
+      // Then attempt to sign out
+      await supabase.auth.signOut({
+        scope: 'local'  // Use local scope to avoid the global session error
+      });
+      
+      // Always navigate to login after clearing session
       navigate("/admin/login");
     } catch (error) {
-      console.error('Unexpected error during logout:', error);
+      console.error('Logout error:', error);
+      // Even if there's an error, redirect to login
       navigate("/admin/login");
     }
   };
