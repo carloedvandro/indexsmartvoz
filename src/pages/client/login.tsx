@@ -70,6 +70,10 @@ export default function ClientLogin() {
                   },
                 },
               },
+              className: {
+                message: 'hidden',
+                anchor: 'hidden',
+              },
             }}
             localization={{
               variables: {
