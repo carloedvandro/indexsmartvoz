@@ -122,7 +122,7 @@ export default function AdminLogin() {
           <p>
             {t('technology_by')}{" "}
             <a href="#" className="underline">
-              Yrwen Technology
+              Yrwen Technology<sup className="text-sm align-top">®</sup>
             </a>
           </p>
         </div>
