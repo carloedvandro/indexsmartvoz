@@ -4,12 +4,22 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        toast({
+          title: "Recuperação de senha",
+          description: "Por favor, aguarde alguns segundos antes de tentar novamente.",
+          variant: "destructive"
+        });
+      }
+      
       if (session?.user) {
         // Verificar se o usuário é um admin antes de redirecionar
         supabase
@@ -26,7 +36,7 @@ export default function AdminLogin() {
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, toast]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
