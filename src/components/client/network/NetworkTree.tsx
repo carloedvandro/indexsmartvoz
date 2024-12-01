@@ -38,17 +38,17 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }
 
   return (
-    <div className="flex flex-col h-full w-full">
-      <div className="mb-4 px-4">
+    <div className="flex flex-col w-full">
+      <div className="mb-4">
         <NetworkFilter
           selectedLevel={selectedLevel}
           onLevelChange={setSelectedLevel}
         />
       </div>
 
-      <div className="flex-1 overflow-hidden">
-        <ScrollArea className="h-[calc(100vh-220px)] w-full">
-          <div className="min-w-[800px] pb-6 px-4">
+      <div className="relative min-w-[800px]">
+        <ScrollArea className="h-[calc(100vh-220px)]">
+          <div className="space-y-2 pb-6">
             <AnimatePresence>
               {filteredData.length > 0 ? (
                 <div className="space-y-2">

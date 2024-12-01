@@ -22,10 +22,8 @@ export default function NetworkPage() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="w-full overflow-x-auto">
-          <div className="min-w-full">
-            {profile?.id && <NetworkTree userId={profile.id} />}
-          </div>
+        <div className="overflow-x-auto">
+          {profile?.id && <NetworkTree userId={profile.id} />}
         </div>
       </main>
     </div>
