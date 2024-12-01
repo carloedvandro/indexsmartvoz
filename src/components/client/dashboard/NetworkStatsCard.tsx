@@ -133,7 +133,7 @@ export const NetworkStatsCard = () => {
                 }
                 isAnimationActive={true}
                 blendStroke
-                viewBox={{ x: 0, y: -30, width: 400, height: 400 }}
+                viewBox="0 -30 400 400"
               >
                 {pieData.map((entry, index) => (
                   <Cell 
