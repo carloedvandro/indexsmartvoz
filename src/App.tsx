@@ -11,6 +11,7 @@ import AdminPlans from "./pages/admin/plans";
 import AdminNetwork from "./pages/admin/network";
 import ClientLogin from "./pages/client/login";
 import ClientRegister from "./pages/client/register";
+import ClientDashboard from "./pages/client/dashboard";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/admin/network" element={<AdminNetwork />} />
             <Route path="/" element={<ClientLogin />} />
             <Route path="/register" element={<ClientRegister />} />
+            <Route path="/client/dashboard" element={<ClientDashboard />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </AnimatePresence>
