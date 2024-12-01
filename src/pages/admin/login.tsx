@@ -12,22 +12,21 @@ export default function AdminLogin() {
 
   useEffect(() => {
     // Verificar se há um token de recuperação na URL
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('token');
+    const params = new URLSearchParams(window.location.hash.substring(1));
+    const token = params.get('access_token');
     const type = params.get('type');
 
     if (token && type === 'recovery') {
-      // Se houver um token de recuperação, mostrar mensagem apropriada
       toast({
         title: "Redefinição de Senha",
         description: "Por favor, defina sua nova senha no formulário abaixo.",
-        duration: 10000, // Aumentando para 10 segundos para dar mais tempo de leitura
+        duration: 10000,
       });
     }
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("Auth event:", event); // Debug log
-      console.log("Auth session:", session); // Debug log
+      console.log("Auth event:", event);
+      console.log("Session:", session);
       
       if (event === 'PASSWORD_RECOVERY') {
         toast({
@@ -37,19 +36,17 @@ export default function AdminLogin() {
         });
       } else if (event === 'SIGNED_IN') {
         if (session?.user) {
-          // Verificar se o usuário é um admin antes de redirecionar
           const { data } = await supabase
             .from("profiles")
             .select("role")
             .eq("id", session.user.id)
             .single();
 
-          console.log("User role:", data?.role); // Debug log
+          console.log("User role:", data?.role);
 
           if (data?.role === "admin") {
             navigate("/admin/dashboard");
           } else {
-            // Se não for admin, fazer logout e mostrar mensagem
             await supabase.auth.signOut();
             toast({
               title: "Acesso negado",
