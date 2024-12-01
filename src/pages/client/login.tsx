@@ -14,8 +14,6 @@ export default function ClientLogin() {
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log("Auth event:", event);
-      
       if (event === 'SIGNED_IN' && session?.user) {
         navigate("/client/dashboard");
       } else if (event === 'SIGNED_OUT') {
@@ -62,6 +60,15 @@ export default function ClientLogin() {
                   email_input_placeholder: "seu@email.com",
                   link_text: "Esqueceu sua senha?"
                 },
+                sign_up: {
+                  email_label: "Email",
+                  password_label: "Senha",
+                  button_label: "Cadastrar",
+                  loading_button_label: "Cadastrando...",
+                  link_text: "Não tem uma conta? Cadastre-se",
+                  password_input_placeholder: "Sua senha",
+                  email_input_placeholder: "seu@email.com"
+                }
               },
             }}
             providers={[]}
@@ -69,7 +76,7 @@ export default function ClientLogin() {
           />
           <div className="mt-4 text-center">
             <Link 
-              to="/client/register" 
+              to="/register" 
               className="text-sm text-primary hover:underline"
             >
               Não é cadastrado? Cadastre-se aqui!

@@ -13,13 +13,12 @@ import AdminNetwork from "./pages/admin/network";
 import ClientLogin from "./pages/client/login";
 import ClientRegister from "./pages/client/register";
 import ClientDashboard from "./pages/client/dashboard";
-import { useState } from "react";
 
 function App() {
-  const [queryClient] = useState(() => new QueryClient({
+  const [queryClient] = React.useState(() => new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 60 * 1000, // 1 minute
+        staleTime: 60 * 1000,
         retry: 1,
       },
     },
