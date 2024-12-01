@@ -8,12 +8,9 @@ export default function Index() {
 
   return (
     <div 
-      className="min-h-screen flex flex-col items-center justify-center p-4 relative"
+      className="min-h-screen w-full flex flex-col items-center justify-center p-4 relative bg-cover bg-center bg-no-repeat"
       style={{
-        backgroundImage: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        backgroundImage: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2000&q=80")',
       }}
     >
       {/* Dark overlay */}
@@ -22,10 +19,10 @@ export default function Index() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-md w-full space-y-8 text-center relative z-10"
+        className="max-w-md w-full space-y-8 text-center relative z-10 px-4 sm:px-0"
       >
         <div className="space-y-4">
-          <h1 className="text-5xl font-bold tracking-tight text-white">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white">
             Bem vindo à Y-TECH
           </h1>
           <p className="text-lg text-gray-200">
@@ -34,13 +31,13 @@ export default function Index() {
         </div>
 
         <div className="space-y-4">
-          <Link to="/client/login">
+          <Link to="/client/login" className="block">
             <Button className="w-full text-lg py-6" variant="default">
               {t('client_area')}
             </Button>
           </Link>
           
-          <Link to="/admin/login">
+          <Link to="/admin/login" className="block">
             <Button className="w-full text-lg py-6" variant="secondary">
               {t('admin_area')}
             </Button>
