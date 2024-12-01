@@ -121,6 +121,8 @@ export const NetworkStatsCard = () => {
                 data={pieData}
                 cx="50%"
                 cy="50%"
+                startAngle={0}
+                endAngle={360}
                 labelLine={false}
                 outerRadius={100}
                 innerRadius={60}
@@ -129,6 +131,9 @@ export const NetworkStatsCard = () => {
                 label={({ name, percent }) =>
                   `${name}: ${(percent * 100).toFixed(0)}%`
                 }
+                isAnimationActive={true}
+                blendStroke
+                viewBox={{ x: 0, y: -30, width: 400, height: 400 }}
               >
                 {pieData.map((entry, index) => (
                   <Cell 
@@ -138,6 +143,8 @@ export const NetworkStatsCard = () => {
                     strokeWidth={2}
                     style={{
                       filter: "drop-shadow(6px 6px 8px rgba(0,0,0,0.6))",
+                      transform: "rotateX(45deg)",
+                      transformOrigin: "center",
                     }}
                   />
                 ))}
