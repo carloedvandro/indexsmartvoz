@@ -1,8 +1,8 @@
 import { useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
@@ -13,16 +13,7 @@ export default function ClientLogin() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    // Check if user is already authenticated
-    const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        navigate("/client/dashboard");
-      }
-    };
-    checkUser();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       console.log("Auth event:", event);
       
       if (event === 'SIGNED_IN' && session?.user) {
@@ -34,11 +25,6 @@ export default function ClientLogin() {
           title: "Recuperação de senha",
           description: "Verifique seu email para redefinir sua senha.",
         });
-      } else if (event === 'USER_UPDATED') {
-        toast({
-          title: "Perfil atualizado",
-          description: "Suas informações foram atualizadas com sucesso.",
-        });
       }
     });
 
@@ -49,7 +35,7 @@ export default function ClientLogin() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Cliente</CardTitle>
+          <CardTitle className="text-2xl text-center">Área do Cliente</CardTitle>
         </CardHeader>
         <CardContent>
           <Auth
@@ -72,29 +58,23 @@ export default function ClientLogin() {
                   password_label: "Senha",
                   button_label: "Entrar",
                   loading_button_label: "Entrando...",
-                  social_provider_text: "Entrar com {{provider}}",
-                  link_text: "Não tem uma conta? Cadastre-se",
-                },
-                sign_up: {
-                  email_label: "Email",
-                  password_label: "Senha",
-                  button_label: "Criar conta",
-                  loading_button_label: "Criando conta...",
-                  social_provider_text: "Cadastrar com {{provider}}",
-                  link_text: "Já tem uma conta? Entre",
-                },
-                forgotten_password: {
-                  link_text: "Esqueceu sua senha?",
-                  button_label: "Recuperar senha",
-                  loading_button_label: "Enviando instruções...",
-                  confirmation_text: "Verifique seu email para redefinir sua senha",
+                  password_input_placeholder: "Sua senha",
+                  email_input_placeholder: "seu@email.com",
+                  forgot_password_label: "Esqueceu sua senha?",
                 },
               },
             }}
             providers={[]}
             view="sign_in"
-            redirectTo={`${window.location.origin}/client/dashboard`}
           />
+          <div className="mt-4 text-center">
+            <Link 
+              to="/register" 
+              className="text-sm text-primary hover:underline"
+            >
+              Não é cadastrado? Cadastre-se aqui!
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </div>
