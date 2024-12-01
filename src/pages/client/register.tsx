@@ -1,28 +1,31 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import { RegisterForm, RegisterFormData } from "@/components/client/RegisterForm";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
-export default function ClientRegister() {
+export default function Register() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (values: RegisterFormData) => {
+    if (isLoading) return;
+    setIsLoading(true);
+
     try {
-      // Check if custom_id already exists using a direct query
-      const { data: existingCustomIds, error: customIdError } = await supabase
+      // Check if custom_id already exists
+      const { data: existingCustomId, error: customIdError } = await supabase
         .from('profiles')
         .select('id')
         .eq('custom_id', values.customId)
         .maybeSingle();
 
       if (customIdError) {
-        console.error('Error checking custom ID:', customIdError);
-        throw new Error("Erro ao verificar ID personalizado. Por favor, tente novamente.");
+        throw new Error("Erro ao verificar ID personalizado");
       }
 
-      if (existingCustomIds) {
+      if (existingCustomId) {
         toast({
           title: "Erro",
           description: "Este ID personalizado já está em uso",
@@ -31,21 +34,20 @@ export default function ClientRegister() {
         return;
       }
 
-      // Check if referral ID exists if provided
+      // Check referral ID if provided
       let sponsorId = null;
       if (values.referralId) {
-        const { data: sponsorData, error: sponsorError } = await supabase
+        const { data: sponsor, error: sponsorError } = await supabase
           .from('profiles')
           .select('id')
           .eq('custom_id', values.referralId)
           .maybeSingle();
 
         if (sponsorError) {
-          console.error('Error checking referral ID:', sponsorError);
-          throw new Error("Erro ao verificar ID de indicação. Por favor, tente novamente.");
+          throw new Error("Erro ao verificar ID de indicação");
         }
 
-        if (!sponsorData) {
+        if (!sponsor) {
           toast({
             title: "Erro",
             description: "ID de indicação inválido",
@@ -53,10 +55,11 @@ export default function ClientRegister() {
           });
           return;
         }
-        sponsorId = sponsorData.id;
+
+        sponsorId = sponsor.id;
       }
 
-      // Create the user in Auth
+      // Create user account
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -68,8 +71,7 @@ export default function ClientRegister() {
       });
 
       if (signUpError) {
-        console.error('Signup error:', signUpError);
-        if (signUpError.message.includes('User already registered')) {
+        if (signUpError.message.includes('already registered')) {
           toast({
             title: "Erro",
             description: "Este email já está cadastrado",
@@ -84,7 +86,7 @@ export default function ClientRegister() {
         throw new Error("Erro ao criar usuário");
       }
 
-      // Update the profile with additional information
+      // Update profile with additional information
       const { error: profileError } = await supabase
         .from('profiles')
         .update({
@@ -92,42 +94,42 @@ export default function ClientRegister() {
           document_id: values.cpf,
           custom_id: values.customId,
           sponsor_id: sponsorId,
-          role: 'client'
         })
         .eq('id', authData.user.id);
 
       if (profileError) {
-        console.error('Profile update error:', profileError);
         throw profileError;
       }
 
       toast({
         title: "Sucesso",
-        description: "Conta criada com sucesso! Verifique seu email para confirmar o cadastro.",
+        description: "Conta criada com sucesso! Você já pode fazer login.",
       });
 
       navigate("/client/login");
     } catch (error: any) {
       console.error('Registration error:', error);
-      
       toast({
-        title: "Erro no cadastro",
-        description: error.message || "Ocorreu um erro ao criar sua conta",
+        title: "Erro",
+        description: error.message || "Erro ao criar conta",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-2xl text-center">Criar Conta</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <RegisterForm onSubmit={onSubmit} />
-        </CardContent>
-      </Card>
+    <div className="container max-w-lg mx-auto p-4">
+      <div className="space-y-6">
+        <div className="space-y-2 text-center">
+          <h1 className="text-3xl font-bold">Criar Conta</h1>
+          <p className="text-gray-500">
+            Preencha os dados abaixo para criar sua conta
+          </p>
+        </div>
+        <RegisterForm onSubmit={onSubmit} />
+      </div>
     </div>
   );
 }
