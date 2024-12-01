@@ -31,7 +31,7 @@ export const useNetworkData = (userId: string) => {
 
         console.log("User network found:", userNetwork);
 
-        // Get all members in the network tree with their actual levels
+        // Get all members in the network tree
         const { data: allNetworkMembers, error: membersError } = await supabase
           .from("network")
           .select(`
@@ -60,13 +60,13 @@ export const useNetworkData = (userId: string) => {
 
           const profileResults = await Promise.all(profilePromises);
           
-          // Create a map of members by their IDs, preserving their original levels
+          // Create a map of members by their IDs
           const membersMap = new Map();
           allNetworkMembers.forEach((member, index) => {
             const profileData = profileResults[index].data;
             membersMap.set(member.id, {
               id: member.id,
-              level: member.level, // Mantendo o nível original do banco
+              level: member.level,
               parentId: member.parent_id,
               user: {
                 full_name: profileData?.full_name || null,
@@ -77,7 +77,7 @@ export const useNetworkData = (userId: string) => {
             });
           });
 
-          // Build the tree structure while preserving original levels
+          // Build the tree structure starting from the root
           const rootMembers: NetworkMember[] = [];
           membersMap.forEach(member => {
             if (member.parentId === userNetwork.id) {
@@ -91,7 +91,7 @@ export const useNetworkData = (userId: string) => {
             }
           });
 
-          console.log("Final network data with preserved levels:", rootMembers);
+          console.log("Final network data:", rootMembers);
           setNetworkData(rootMembers);
         }
       } catch (error) {
