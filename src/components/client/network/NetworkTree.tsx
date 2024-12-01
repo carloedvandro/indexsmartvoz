@@ -38,28 +38,26 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }
 
   return (
-    <div className="h-[calc(100vh-120px)] flex flex-col">
-      <div className="mb-4 px-2 md:px-6">
+    <div className="flex flex-col h-full">
+      <div className="mb-4">
         <NetworkFilter
           selectedLevel={selectedLevel}
           onLevelChange={setSelectedLevel}
         />
       </div>
 
-      <ScrollArea className="flex-1 w-full px-2 md:px-6">
-        <div className="min-w-[280px] pr-2 md:pr-4">
+      <ScrollArea className="flex-1 w-full pr-4 overflow-x-auto">
+        <div className="min-w-[280px] space-y-2 pb-6">
           <AnimatePresence>
             {filteredData.length > 0 ? (
-              <div className="space-y-2 pb-6">
-                {filteredData.map((member) => (
-                  <NetworkNode
-                    key={member.id}
-                    member={member}
-                    onToggle={toggleNode}
-                    expandedNodes={expandedNodes}
-                  />
-                ))}
-              </div>
+              filteredData.map((member) => (
+                <NetworkNode
+                  key={member.id}
+                  member={member}
+                  onToggle={toggleNode}
+                  expandedNodes={expandedNodes}
+                />
+              ))
             ) : (
               <div className="text-center py-8">
                 <p className="text-gray-500 text-sm">

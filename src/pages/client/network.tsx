@@ -9,7 +9,7 @@ export default function NetworkPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow">
+      <header className="bg-white shadow sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center">
           <button
             onClick={() => navigate("/client/dashboard")}
@@ -21,7 +21,7 @@ export default function NetworkPage() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto h-[calc(100vh-72px)]">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 min-h-[calc(100vh-72px)] overflow-x-hidden">
         {profile?.id && <NetworkTree userId={profile.id} />}
       </main>
     </div>
