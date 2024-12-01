@@ -109,7 +109,7 @@ export default function AdminLogin() {
                   loading_button_label: "Enviando instruções...",
                   confirmation_text: "Verifique seu email para redefinir sua senha",
                 },
-                password_recovery: {
+                update_password: {
                   header_text: "Redefinir senha",
                   button_label: "Atualizar senha",
                   loading_button_label: "Atualizando senha...",
