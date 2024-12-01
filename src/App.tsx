@@ -45,8 +45,20 @@ function App() {
               <Route path="/reset-password" element={
                 <Auth 
                   supabaseClient={supabase}
-                  view="update_password"
+                  view="magic_link"
                   appearance={{ theme: ThemeSupa }}
+                  localization={{
+                    variables: {
+                      magic_link: {
+                        email_input_label: "Email",
+                        email_input_placeholder: "Seu email",
+                        button_label: "Enviar link de redefinição",
+                        loading_button_label: "Enviando link...",
+                        link_text: "Enviar link mágico",
+                        confirmation_text: "Verifique seu email para o link mágico"
+                      }
+                    }
+                  }}
                 />
               } />
               <Route path="/client/dashboard" element={<ClientDashboard />} />
