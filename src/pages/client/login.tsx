@@ -60,6 +60,10 @@ export default function ClientLogin() {
                   },
                 },
               },
+              className: {
+                anchor: 'hidden',
+                button: 'bg-[#00ffa3] hover:bg-[#004d31] text-white',
+              },
             }}
             localization={{
               variables: {
@@ -77,11 +81,11 @@ export default function ClientLogin() {
             view="sign_in"
           />
           <div className="mt-4 text-center space-y-2">
-            <Link to="/client/forgot-password" className="block text-sm text-gray-600 hover:text-gray-900">
-              Esqueceu sua senha?
+            <Link to="/forgot-password" className="block text-sm text-gray-600 hover:text-gray-900">
+              {t('forgot_password')}
             </Link>
-            <Link to="/client/register" className="block text-sm text-gray-600 hover:text-gray-900">
-              Não tem uma conta? Cadastre-se
+            <Link to="/register" className="block text-sm text-gray-600 hover:text-gray-900">
+              {t('dont_have_account')}
             </Link>
           </div>
         </CardContent>

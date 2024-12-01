@@ -38,8 +38,7 @@ const resources = {
         "button_label": "Entrar",
         "loading_button_label": "Entrando...",
         "password_input_placeholder": "Digite sua senha",
-        "email_input_placeholder": "Digite seu email",
-        "link_text": "Não tem uma conta? Cadastre-se"
+        "email_input_placeholder": "Digite seu email"
       }
     }
   },
