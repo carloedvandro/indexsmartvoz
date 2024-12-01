@@ -60,7 +60,7 @@ export default function ClientLogin() {
                   loading_button_label: "Entrando...",
                   password_input_placeholder: "Sua senha",
                   email_input_placeholder: "seu@email.com",
-                  forgot_password_label: "Esqueceu sua senha?",
+                  link_text: "Esqueceu sua senha?"
                 },
               },
             }}
@@ -69,7 +69,7 @@ export default function ClientLogin() {
           />
           <div className="mt-4 text-center">
             <Link 
-              to="/register" 
+              to="/client/register" 
               className="text-sm text-primary hover:underline"
             >
               Não é cadastrado? Cadastre-se aqui!

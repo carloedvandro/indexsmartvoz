@@ -11,7 +11,6 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import ReCAPTCHA from "react-google-recaptcha";
 
-// Função para validar CPF
 function validateCPF(cpf: string) {
   cpf = cpf.replace(/[^\d]/g, '');
   
@@ -214,10 +213,10 @@ export default function ClientRegister() {
                   </FormItem>
                 )}
               />
-
+              
               <div className="flex justify-center my-4">
                 <ReCAPTCHA
-                  sitekey="YOUR_RECAPTCHA_SITE_KEY"
+                  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY || "YOUR_RECAPTCHA_SITE_KEY"}
                   onChange={(value) => setIsVerified(!!value)}
                 />
               </div>
