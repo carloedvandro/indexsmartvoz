@@ -10,15 +10,14 @@ export default function ClientRegister() {
 
   const onSubmit = async (values: RegisterFormData) => {
     try {
-      // Verificar se o email já existe
-      const { data: existingEmails, error: emailError } = await supabase
-        .from('profiles')
-        .select('email')
-        .eq('email', values.email);
+      // Verificar se o usuário já existe no auth
+      const { data: authUser, error: authCheckError } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      });
 
-      if (emailError) throw emailError;
-      
-      if (existingEmails && existingEmails.length > 0) {
+      // Se conseguir fazer login, significa que o usuário já existe
+      if (authUser?.user) {
         toast({
           title: "Erro",
           description: "Este email já está cadastrado",
@@ -113,6 +112,17 @@ export default function ClientRegister() {
       }
     } catch (error: any) {
       console.error('Registration error:', error);
+      
+      // Tratamento específico para erro de usuário já existente
+      if (error.message?.includes('User already registered')) {
+        toast({
+          title: "Erro",
+          description: "Este email já está cadastrado",
+          variant: "destructive",
+        });
+        return;
+      }
+
       toast({
         title: "Erro no cadastro",
         description: error.message || "Ocorreu um erro ao criar sua conta",
