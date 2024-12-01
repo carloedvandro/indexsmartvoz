@@ -22,6 +22,7 @@ export default function Register() {
         .maybeSingle();
 
       if (customIdError) {
+        console.error('Custom ID check error:', customIdError);
         throw new Error("Erro ao verificar ID personalizado");
       }
 
@@ -44,6 +45,7 @@ export default function Register() {
           .maybeSingle();
 
         if (sponsorError) {
+          console.error('Sponsor check error:', sponsorError);
           throw new Error("Erro ao verificar ID de indicação");
         }
 
@@ -66,11 +68,15 @@ export default function Register() {
         options: {
           data: {
             full_name: values.fullName,
+            custom_id: values.customId,
+            document_id: values.cpf,
+            sponsor_id: sponsorId
           },
         },
       });
 
       if (signUpError) {
+        console.error('Signup error:', signUpError);
         if (signUpError.message.includes('already registered')) {
           toast({
             title: "Erro",
@@ -86,18 +92,21 @@ export default function Register() {
         throw new Error("Erro ao criar usuário");
       }
 
-      // Update profile with additional information
+      // Manually create profile since the trigger might not be working
       const { error: profileError } = await supabase
         .from('profiles')
-        .update({
+        .insert({
+          id: authData.user.id,
+          email: values.email,
           full_name: values.fullName,
           document_id: values.cpf,
           custom_id: values.customId,
           sponsor_id: sponsorId,
-        })
-        .eq('id', authData.user.id);
+          role: 'client'
+        });
 
       if (profileError) {
+        console.error('Profile creation error:', profileError);
         throw profileError;
       }
 
