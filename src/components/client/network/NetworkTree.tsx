@@ -15,6 +15,18 @@ interface NetworkMember {
   children?: NetworkMember[];
 }
 
+interface SupabaseNetworkResponse {
+  id: string;
+  level: number;
+  user_id: string;
+  parent_id: string | null;
+  profiles: {
+    full_name: string | null;
+    email: string;
+    custom_id: string | null;
+  };
+}
+
 interface NetworkTreeProps {
   userId: string;
 }
@@ -74,7 +86,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
         console.log("Network members found:", members);
 
         if (members) {
-          const formattedMembers = members.map(member => ({
+          const formattedMembers = (members as SupabaseNetworkResponse[]).map(member => ({
             id: member.id,
             level: member.level,
             user: {
