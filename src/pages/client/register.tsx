@@ -61,73 +61,53 @@ export default function Register() {
         sponsorId = sponsor.id;
       }
 
-      // First check if user already exists in auth.users
-      const { data: { user: existingUser }, error: getUserError } = await supabase.auth.getUser();
-      
-      let userId;
-      
-      if (!existingUser) {
-        // Create user account if doesn't exist
-        const { data: authData, error: signUpError } = await supabase.auth.signUp({
-          email: values.email,
-          password: values.password,
-          options: {
-            data: {
-              full_name: values.fullName,
-              custom_id: values.customId,
-              document_id: values.cpf,
-              sponsor_id: sponsorId
-            },
+      // Create user account
+      const { data: authData, error: signUpError } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
+        options: {
+          data: {
+            full_name: values.fullName,
+            custom_id: values.customId,
+            document_id: values.cpf,
+            sponsor_id: sponsorId
           },
-        });
+        },
+      });
 
-        if (signUpError) {
-          console.error('Signup error:', signUpError);
-          if (signUpError.message.includes('already registered')) {
-            toast({
-              title: "Erro",
-              description: "Este email já está cadastrado",
-              variant: "destructive",
-            });
-            return;
-          }
-          throw signUpError;
+      if (signUpError) {
+        console.error('Signup error:', signUpError);
+        if (signUpError.message.includes('already registered')) {
+          toast({
+            title: "Erro",
+            description: "Este email já está cadastrado",
+            variant: "destructive",
+          });
+          return;
         }
-
-        if (!authData.user) {
-          throw new Error("Erro ao criar usuário");
-        }
-
-        userId = authData.user.id;
-      } else {
-        userId = existingUser.id;
+        throw signUpError;
       }
 
-      // Check if profile already exists
-      const { data: existingProfile } = await supabase
+      if (!authData.user) {
+        throw new Error("Erro ao criar usuário");
+      }
+
+      // Create profile
+      const { error: profileError } = await supabase
         .from('profiles')
-        .select('id')
-        .eq('id', userId)
-        .single();
+        .insert({
+          id: authData.user.id,
+          email: values.email,
+          full_name: values.fullName,
+          document_id: values.cpf,
+          custom_id: values.customId,
+          sponsor_id: sponsorId,
+          role: 'client'
+        });
 
-      if (!existingProfile) {
-        // Create profile only if it doesn't exist
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .insert({
-            id: userId,
-            email: values.email,
-            full_name: values.fullName,
-            document_id: values.cpf,
-            custom_id: values.customId,
-            sponsor_id: sponsorId,
-            role: 'client'
-          });
-
-        if (profileError) {
-          console.error('Profile creation error:', profileError);
-          throw profileError;
-        }
+      if (profileError) {
+        console.error('Profile creation error:', profileError);
+        throw profileError;
       }
 
       toast({
