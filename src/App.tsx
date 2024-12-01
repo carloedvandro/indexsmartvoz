@@ -15,6 +15,7 @@ import AdminNetwork from "@/pages/admin/network";
 import ClientLogin from "@/pages/client/login";
 import ClientDashboard from "@/pages/client/dashboard";
 import ClientRegister from "@/pages/client/register";
+import NetworkPage from "@/pages/client/network";
 
 // Styles
 import "@/App.css";
@@ -32,6 +33,7 @@ function App() {
           <Route path="/client">
             <Route path="login" element={<ClientLogin />} />
             <Route path="dashboard" element={<ClientDashboard />} />
+            <Route path="network" element={<NetworkPage />} />
           </Route>
 
           {/* Admin Routes */}
