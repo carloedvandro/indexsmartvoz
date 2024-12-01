@@ -19,23 +19,21 @@ export default function AdminLogin() {
     if (token && type === 'recovery') {
       // Se houver um token de recuperação, mostrar mensagem apropriada
       toast({
-        title: "Recuperação de senha",
-        description: "Por favor, defina sua nova senha.",
-        duration: 6000, // Aumentando a duração para 6 segundos
+        title: "Redefinição de Senha",
+        description: "Por favor, defina sua nova senha no formulário abaixo.",
+        duration: 10000, // Aumentando para 10 segundos para dar mais tempo de leitura
       });
-      
-      // Atualizar a URL para remover os parâmetros de recuperação
-      window.history.replaceState({}, document.title, "/admin/login");
     }
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("Auth event:", event); // Debug log
+      console.log("Auth session:", session); // Debug log
       
       if (event === 'PASSWORD_RECOVERY') {
         toast({
-          title: "Recuperação de senha",
-          description: "Por favor, defina sua nova senha.",
-          duration: 6000,
+          title: "Redefinição de Senha",
+          description: "Por favor, defina sua nova senha no formulário abaixo.",
+          duration: 10000,
         });
       } else if (event === 'SIGNED_IN') {
         if (session?.user) {
@@ -110,6 +108,12 @@ export default function AdminLogin() {
                   button_label: "Recuperar senha",
                   loading_button_label: "Enviando instruções...",
                   confirmation_text: "Verifique seu email para redefinir sua senha",
+                },
+                password_recovery: {
+                  header_text: "Redefinir senha",
+                  button_label: "Atualizar senha",
+                  loading_button_label: "Atualizando senha...",
+                  confirmation_text: "Sua senha foi atualizada com sucesso",
                 },
               },
             }}
