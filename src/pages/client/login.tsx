@@ -65,9 +65,8 @@ export default function ClientLogin() {
                 button: 'bg-[#00ffa3] hover:bg-[#004d31] text-white',
               },
             }}
-            view="sign_in"
-            showLinks={false}
             providers={[]}
+            redirectTo={`${window.location.origin}/client/dashboard`}
             localization={{
               variables: {
                 sign_in: {
@@ -77,6 +76,13 @@ export default function ClientLogin() {
                   loading_button_label: "Entrando...",
                   password_input_placeholder: "Digite sua senha",
                   email_input_placeholder: "Digite seu email",
+                },
+                forgotten_password: {
+                  email_label: "Email",
+                  button_label: "Enviar instruções",
+                  loading_button_label: "Enviando...",
+                  link_text: "Esqueceu sua senha?",
+                  confirmation_text: "Verifique seu email para redefinir sua senha",
                 },
               },
             }}
