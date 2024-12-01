@@ -14,9 +14,9 @@ export default function ClientLogin() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
         navigate("/client/dashboard");
-      } else if (event === 'USER_DELETED' || event === 'SIGNED_OUT') {
+      } else if (event === 'SIGNED_OUT') {
         navigate("/client/login");
-      } else if (event === 'AUTH_ERROR') {
+      } else if (!session?.user && event !== 'INITIAL_SESSION') {
         toast({
           title: "Erro de autenticação",
           description: "Credenciais inválidas. Por favor, verifique seu email e senha.",
@@ -77,13 +77,6 @@ export default function ClientLogin() {
             providers={[]}
             view="sign_in"
             redirectTo={`${window.location.origin}/client/dashboard`}
-            onError={(error) => {
-              toast({
-                title: "Erro de autenticação",
-                description: "Credenciais inválidas. Por favor, verifique seu email e senha.",
-                variant: "destructive",
-              });
-            }}
           />
         </CardContent>
       </Card>
