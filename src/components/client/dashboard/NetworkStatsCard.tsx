@@ -43,24 +43,26 @@ export const NetworkStatsCard = () => {
         <CardTitle>Estatísticas da Rede</CardTitle>
       </CardHeader>
       <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="h-[400px]">
+        <div className="h-[300px] md:h-[400px] w-full min-w-[200px]">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={barData}>
+            <BarChart data={barData} margin={{ right: 10, left: -20 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="name"
-                fontSize={12}
+                fontSize={10}
                 angle={-45}
                 textAnchor="end"
                 height={60}
+                interval={2}
+                tick={{ dy: 10 }}
               />
-              <YAxis fontSize={12} />
+              <YAxis fontSize={10} width={40} />
               <Tooltip />
               <Bar dataKey="value" fill="#9b87f5" />
             </BarChart>
           </ResponsiveContainer>
         </div>
-        <div className="h-[400px]">
+        <div className="h-[300px] md:h-[400px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -68,7 +70,7 @@ export const NetworkStatsCard = () => {
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                outerRadius={150}
+                outerRadius={100}
                 fill="#8884d8"
                 dataKey="value"
                 label={({ name, percent }) =>
@@ -80,7 +82,7 @@ export const NetworkStatsCard = () => {
                 ))}
               </Pie>
               <Tooltip />
-              <Legend />
+              <Legend verticalAlign="bottom" height={36} />
             </PieChart>
           </ResponsiveContainer>
         </div>
