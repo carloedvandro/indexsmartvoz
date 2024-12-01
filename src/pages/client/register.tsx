@@ -1,55 +1,25 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { RegisterForm, RegisterFormData } from "@/components/client/RegisterForm";
 import { supabase } from "@/integrations/supabase/client";
+import { RegisterForm, RegisterFormData } from "@/components/client/RegisterForm";
 import { useToast } from "@/hooks/use-toast";
 
-export default function Register() {
+export default function ClientRegister() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (values: RegisterFormData) => {
-    if (isLoading) return;
-    setIsLoading(true);
-
+  const handleSubmit = async (values: RegisterFormData) => {
     try {
-      // Check if custom_id already exists
-      const { data: existingCustomId, error: customIdError } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('custom_id', values.customId)
-        .maybeSingle();
-
-      if (customIdError) {
-        console.error('Custom ID check error:', customIdError);
-        throw new Error("Erro ao verificar ID personalizado");
-      }
-
-      if (existingCustomId) {
-        toast({
-          title: "Erro",
-          description: "Este ID personalizado já está em uso",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      // Check referral ID if provided
       let sponsorId = null;
+
+      // Check if referral ID exists
       if (values.referralId) {
         const { data: sponsor, error: sponsorError } = await supabase
-          .from('profiles')
-          .select('id')
-          .eq('custom_id', values.referralId)
-          .maybeSingle();
+          .from("profiles")
+          .select("id")
+          .eq("custom_id", values.referralId)
+          .single();
 
         if (sponsorError) {
-          console.error('Sponsor check error:', sponsorError);
-          throw new Error("Erro ao verificar ID de indicação");
-        }
-
-        if (!sponsor) {
           toast({
             title: "Erro",
             description: "ID de indicação inválido",
@@ -61,7 +31,7 @@ export default function Register() {
         sponsorId = sponsor.id;
       }
 
-      // Create user account
+      // Create user account with metadata
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -72,6 +42,7 @@ export default function Register() {
             document_id: values.cpf,
             sponsor_id: sponsorId
           },
+          emailRedirectTo: `${window.location.origin}/client/dashboard`
         },
       });
 
@@ -111,33 +82,47 @@ export default function Register() {
       }
 
       toast({
-        title: "Sucesso",
-        description: "Conta criada com sucesso! Você já pode fazer login.",
+        title: "Sucesso!",
+        description: "Conta criada com sucesso! Você será redirecionado em instantes.",
       });
 
-      navigate("/client/login");
+      // Wait a moment before redirecting to ensure the toast is visible
+      setTimeout(() => {
+        navigate("/client/login");
+      }, 2000);
+
     } catch (error: any) {
       console.error('Registration error:', error);
       toast({
         title: "Erro",
-        description: error.message || "Erro ao criar conta",
+        description: "Ocorreu um erro ao criar sua conta. Por favor, tente novamente.",
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
   return (
-    <div className="container max-w-lg mx-auto p-4">
-      <div className="space-y-6">
-        <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold">Criar Conta</h1>
-          <p className="text-gray-500">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-md space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
+            Criar nova conta
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
             Preencha os dados abaixo para criar sua conta
           </p>
         </div>
-        <RegisterForm onSubmit={onSubmit} />
+
+        <RegisterForm onSubmit={handleSubmit} />
+
+        <div className="text-center">
+          <button
+            onClick={() => navigate("/client/login")}
+            className="text-sm text-gray-600 hover:text-gray-900"
+          >
+            Já tem uma conta? Faça login
+          </button>
+        </div>
       </div>
     </div>
   );
