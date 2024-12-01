@@ -24,7 +24,8 @@ export const useProfile = () => {
           sponsor:sponsor_id (
             id,
             full_name,
-            email
+            email,
+            custom_id
           )
         `)
         .eq("id", session.user.id)
@@ -37,15 +38,14 @@ export const useProfile = () => {
 
       console.log("Profile data:", data);
       
-      // First cast to unknown to avoid direct type conversion error
       const profileData = data as unknown;
       
-      // Then cast to the specific type we want
       return profileData as Profile & {
         sponsor?: {
           id: string;
           full_name: string | null;
           email: string;
+          custom_id: string | null;
         } | null;
       };
     },

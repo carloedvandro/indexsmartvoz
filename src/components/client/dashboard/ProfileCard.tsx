@@ -9,6 +9,7 @@ interface ProfileCardProps {
       id: string;
       full_name: string | null;
       email: string;
+      custom_id: string | null;
     } | null;
   };
 }
@@ -36,6 +37,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
           <p>
             <span className="font-semibold">Patrocinador:</span>{" "}
             {profile?.sponsor?.full_name || "Não possui"}
+            {profile?.sponsor?.custom_id && ` (ID: ${profile.sponsor.custom_id})`}
           </p>
           {profile?.custom_id && (
             <p>

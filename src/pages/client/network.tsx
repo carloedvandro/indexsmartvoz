@@ -4,34 +4,46 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft } from "lucide-react";
+import { useProfile } from "@/hooks/useProfile";
+
+interface NetworkMember {
+  id: string;
+  level: number;
+  user: {
+    full_name: string | null;
+    email: string;
+    custom_id: string | null;
+  };
+}
 
 export default function NetworkTree() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
-  const [networkData, setNetworkData] = useState<any[]>([]);
+  const [networkData, setNetworkData] = useState<NetworkMember[]>([]);
+  const { data: profile } = useProfile();
 
   useEffect(() => {
     const fetchNetworkData = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        navigate("/");
-        return;
-      }
+      if (!profile?.id) return;
 
       try {
         const { data, error } = await supabase
           .from("network")
           .select(`
-            *,
-            user:profiles!network_user_id_fkey (
+            id,
+            level,
+            user:user_id (
               full_name,
-              email
+              email,
+              custom_id
             )
           `)
-          .eq("parent_id", session.user.id);
+          .eq("parent_id", profile.id);
 
         if (error) throw error;
+        
+        console.log("Network data:", data);
         setNetworkData(data || []);
       } catch (error) {
         console.error("Error fetching network data:", error);
@@ -46,7 +58,7 @@ export default function NetworkTree() {
     };
 
     fetchNetworkData();
-  }, [navigate, toast]);
+  }, [profile?.id, toast]);
 
   if (loading) {
     return (
@@ -79,9 +91,14 @@ export default function NetworkTree() {
                   <div className="flex justify-between items-center">
                     <div>
                       <h3 className="font-semibold text-lg">
-                        {member.user.full_name}
+                        {member.user.full_name || "Nome não informado"}
                       </h3>
                       <p className="text-gray-500">{member.user.email}</p>
+                      {member.user.custom_id && (
+                        <p className="text-sm text-gray-600">
+                          ID: {member.user.custom_id}
+                        </p>
+                      )}
                     </div>
                     <div className="bg-blue-100 px-3 py-1 rounded-full">
                       <span className="text-blue-700">Nível {member.level}</span>
