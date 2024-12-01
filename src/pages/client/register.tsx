@@ -10,31 +10,19 @@ export default function ClientRegister() {
 
   const onSubmit = async (values: RegisterFormData) => {
     try {
-      // Verificar se o usuário já existe no auth
-      const { data: authUser, error: authCheckError } = await supabase.auth.signInWithPassword({
-        email: values.email,
-        password: values.password,
-      });
-
-      // Se conseguir fazer login, significa que o usuário já existe
-      if (authUser?.user) {
-        toast({
-          title: "Erro",
-          description: "Este email já está cadastrado",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      // Verificar se o ID personalizado já existe
+      // Check if custom_id already exists using a direct query
       const { data: existingCustomIds, error: customIdError } = await supabase
         .from('profiles')
-        .select('custom_id')
-        .eq('custom_id', values.customId);
+        .select('id')
+        .eq('custom_id', values.customId)
+        .maybeSingle();
 
-      if (customIdError) throw customIdError;
+      if (customIdError) {
+        console.error('Error checking custom ID:', customIdError);
+        throw new Error("Erro ao verificar ID personalizado. Por favor, tente novamente.");
+      }
 
-      if (existingCustomIds && existingCustomIds.length > 0) {
+      if (existingCustomIds) {
         toast({
           title: "Erro",
           description: "Este ID personalizado já está em uso",
@@ -43,18 +31,21 @@ export default function ClientRegister() {
         return;
       }
 
-      // Se houver um ID de indicação, verificar se ele existe
+      // Check if referral ID exists if provided
       let sponsorId = null;
       if (values.referralId) {
         const { data: sponsorData, error: sponsorError } = await supabase
           .from('profiles')
           .select('id')
           .eq('custom_id', values.referralId)
-          .limit(1);
+          .maybeSingle();
 
-        if (sponsorError) throw sponsorError;
+        if (sponsorError) {
+          console.error('Error checking referral ID:', sponsorError);
+          throw new Error("Erro ao verificar ID de indicação. Por favor, tente novamente.");
+        }
 
-        if (!sponsorData || sponsorData.length === 0) {
+        if (!sponsorData) {
           toast({
             title: "Erro",
             description: "ID de indicação inválido",
@@ -62,10 +53,10 @@ export default function ClientRegister() {
           });
           return;
         }
-        sponsorId = sponsorData[0].id;
+        sponsorId = sponsorData.id;
       }
 
-      // Criar o usuário no Auth
+      // Create the user in Auth
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -76,26 +67,39 @@ export default function ClientRegister() {
         },
       });
 
-      if (signUpError) throw signUpError;
+      if (signUpError) {
+        console.error('Signup error:', signUpError);
+        if (signUpError.message.includes('User already registered')) {
+          toast({
+            title: "Erro",
+            description: "Este email já está cadastrado",
+            variant: "destructive",
+          });
+          return;
+        }
+        throw signUpError;
+      }
 
       if (!authData.user) {
         throw new Error("Erro ao criar usuário");
       }
 
-      // Criar o perfil manualmente (caso o trigger não funcione)
+      // Update the profile with additional information
       const { error: profileError } = await supabase
         .from('profiles')
-        .upsert({
-          id: authData.user.id,
-          email: values.email,
+        .update({
           full_name: values.fullName,
           document_id: values.cpf,
           custom_id: values.customId,
           sponsor_id: sponsorId,
           role: 'client'
-        });
+        })
+        .eq('id', authData.user.id);
 
-      if (profileError) throw profileError;
+      if (profileError) {
+        console.error('Profile update error:', profileError);
+        throw profileError;
+      }
 
       toast({
         title: "Sucesso",
@@ -106,16 +110,6 @@ export default function ClientRegister() {
     } catch (error: any) {
       console.error('Registration error:', error);
       
-      // Tratamento específico para erro de usuário já existente
-      if (error.message?.includes('User already registered')) {
-        toast({
-          title: "Erro",
-          description: "Este email já está cadastrado",
-          variant: "destructive",
-        });
-        return;
-      }
-
       toast({
         title: "Erro no cadastro",
         description: error.message || "Ocorreu um erro ao criar sua conta",
