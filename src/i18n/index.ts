@@ -33,7 +33,16 @@ const resources = {
       "forgot_password": "Esqueceu sua senha?",
       "sign_up": "Cadastrar",
       "signing_up": "Cadastrando...",
-      "dont_have_account": "Não tem uma conta? Cadastre-se"
+      "dont_have_account": "Não tem uma conta? Cadastre-se",
+      "sign_in": {
+        "email_label": "Email",
+        "password_label": "Senha",
+        "button_label": "Entrar",
+        "loading_button_label": "Entrando...",
+        "password_input_placeholder": "Sua senha",
+        "email_input_placeholder": "seu@email.com",
+        "link_text": "Não tem uma conta? Cadastre-se"
+      }
     }
   }
 };
