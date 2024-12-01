@@ -32,8 +32,8 @@ const barData = [
 ];
 
 const pieData = [
-  { name: "Ativos", value: 6700, color: "#10B981" },
-  { name: "Inativos", value: 0, color: "#6366F1" },
+  { name: "Ativos", value: 6700, color: "#9b87f5" },
+  { name: "Inativos", value: 0, color: "#D946EF" },
 ];
 
 export const NetworkStatsCard = () => {
@@ -56,7 +56,7 @@ export const NetworkStatsCard = () => {
               />
               <YAxis fontSize={12} />
               <Tooltip />
-              <Bar dataKey="value" fill="#10B981" />
+              <Bar dataKey="value" fill="#9b87f5" />
             </BarChart>
           </ResponsiveContainer>
         </div>
