@@ -11,9 +11,11 @@ import {
 } from "@/components/ui/card";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { useToast } from "@/hooks/use-toast";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -39,8 +41,24 @@ export default function AdminDashboard() {
   }, [navigate]);
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate("/admin");
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error('Logout error:', error);
+        toast({
+          title: "Erro ao sair",
+          description: "Houve um problema ao fazer logout. Tente novamente.",
+          variant: "destructive",
+        });
+        return;
+      }
+      // Mesmo com erro, forçamos a navegação para a página de login
+      navigate("/admin/login");
+    } catch (error) {
+      console.error('Unexpected error during logout:', error);
+      // Mesmo com erro, forçamos a navegação para a página de login
+      navigate("/admin/login");
+    }
   };
 
   return (
