@@ -86,7 +86,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
         console.log("Network members found:", networkMembers);
 
         if (networkMembers) {
-          const formattedMembers: NetworkMember[] = networkMembers.map((member: SupabaseNetworkResponse) => ({
+          const formattedMembers: NetworkMember[] = (networkMembers as any[]).map((member) => ({
             id: member.id,
             level: member.level,
             user: {
