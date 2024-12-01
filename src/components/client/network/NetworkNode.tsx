@@ -25,6 +25,19 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
     ? format(new Date(member.user.registration_date), "dd/MM/yyyy", { locale: ptBR })
     : "03/08/2015"; // Default date if none is provided
 
+  // Calculate total network size recursively
+  const calculateTotalTeamSize = (node: NetworkMember): number => {
+    if (!node.children || node.children.length === 0) {
+      return 0;
+    }
+    
+    return node.children.reduce((total, child) => {
+      return total + 1 + calculateTotalTeamSize(child);
+    }, 0);
+  };
+
+  const totalTeamSize = calculateTotalTeamSize(member);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -98,7 +111,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               
               <div className="flex items-center gap-2 text-gray-600">
                 <Users2 className="h-4 w-4" />
-                <span>Equipe: {member.team_size || "0"}</span>
+                <span>Equipe: {totalTeamSize}</span>
               </div>
             </div>
           </div>
