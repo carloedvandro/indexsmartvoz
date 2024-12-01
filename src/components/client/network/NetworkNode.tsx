@@ -1,17 +1,7 @@
 import { motion } from "framer-motion";
 import { User2, ChevronDown, ChevronRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
-
-interface NetworkMember {
-  id: string;
-  level: number;
-  user: {
-    full_name: string | null;
-    email: string;
-    custom_id: string | null;
-  };
-  children?: NetworkMember[];
-}
+import { NetworkMember } from "./types";
 
 interface NetworkNodeProps {
   member: NetworkMember;
