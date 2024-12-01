@@ -25,7 +25,12 @@ export default function NetworkTree() {
 
   useEffect(() => {
     const fetchNetworkData = async () => {
-      if (!profile?.id) return;
+      if (!profile?.id) {
+        console.log("No profile ID available");
+        return;
+      }
+
+      console.log("Fetching network data for profile ID:", profile.id);
 
       try {
         const { data, error } = await supabase
@@ -33,7 +38,7 @@ export default function NetworkTree() {
           .select(`
             id,
             level,
-            user:user_id (
+            user:profiles!network_user_id_fkey (
               full_name,
               email,
               custom_id
@@ -41,11 +46,13 @@ export default function NetworkTree() {
           `)
           .eq("parent_id", profile.id);
 
-        if (error) throw error;
+        if (error) {
+          console.error("Supabase query error:", error);
+          throw error;
+        }
         
-        console.log("Network data:", data);
+        console.log("Network data received:", data);
         
-        // Cast the data to unknown first, then to NetworkMember[]
         const typedData = (data || []) as unknown as NetworkMember[];
         setNetworkData(typedData);
       } catch (error) {

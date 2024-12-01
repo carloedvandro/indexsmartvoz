@@ -12,7 +12,12 @@ export const useNetworkStats = (userId: string | undefined) => {
   return useQuery({
     queryKey: ['networkStats', userId],
     queryFn: async () => {
-      if (!userId) return null;
+      if (!userId) {
+        console.log("No user ID provided for network stats");
+        return null;
+      }
+
+      console.log("Fetching network stats for user ID:", userId);
 
       const stats: NetworkStats = {
         level1Count: 0,
@@ -31,7 +36,12 @@ export const useNetworkStats = (userId: string | undefined) => {
         `)
         .eq("parent_id", userId);
 
-      if (error) throw error;
+      if (error) {
+        console.error("Error fetching network stats:", error);
+        throw error;
+      }
+
+      console.log("Network stats data received:", networkData);
 
       networkData?.forEach((member) => {
         switch (member.level) {
@@ -50,6 +60,7 @@ export const useNetworkStats = (userId: string | undefined) => {
         }
       });
 
+      console.log("Calculated network stats:", stats);
       return stats;
     },
     enabled: !!userId
