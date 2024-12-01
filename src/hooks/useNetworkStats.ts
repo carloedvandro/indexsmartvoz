@@ -26,6 +26,24 @@ export const useNetworkStats = (userId: string | undefined) => {
         level4Count: 0,
       };
 
+      // First, get the network ID for the current user
+      const { data: userNetwork, error: userNetworkError } = await supabase
+        .from("network")
+        .select("id")
+        .eq("user_id", userId)
+        .single();
+
+      if (userNetworkError) {
+        console.error("Error fetching user network:", userNetworkError);
+        throw userNetworkError;
+      }
+
+      if (!userNetwork) {
+        console.log("No network found for user");
+        return stats;
+      }
+
+      // Then, get all network members that have this network ID as parent
       const { data: networkData, error } = await supabase
         .from("network")
         .select(`
@@ -34,7 +52,7 @@ export const useNetworkStats = (userId: string | undefined) => {
           user_id,
           parent_id
         `)
-        .eq("parent_id", userId);
+        .eq("parent_id", userNetwork.id);
 
       if (error) {
         console.error("Error fetching network stats:", error);
