@@ -79,6 +79,27 @@ export default function AdminLogin() {
     }
   };
 
+  const handleResetPassword = async (email: string) => {
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/update-password`,
+      });
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Email enviado",
+        description: "Verifique sua caixa de entrada para redefinir sua senha",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Erro",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen flex">
       {/* Left side - Login form */}
@@ -115,6 +136,15 @@ export default function AdminLogin() {
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
+            </div>
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={() => handleResetPassword(email)}
+                className="text-sm text-secondary hover:underline"
+              >
+                Esqueceu sua senha?
+              </button>
             </div>
             <Button
               type="submit"
