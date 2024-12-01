@@ -20,10 +20,10 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      className="relative w-full"
+      className="relative"
       style={{ 
         marginLeft: `${depth * 12}px`,
-        maxWidth: `calc(100% - ${depth * 12}px)`
+        width: `calc(100% - ${depth * 12}px)`
       }}
     >
       {depth > 0 && (
@@ -34,7 +34,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           }}
         />
       )}
-      <Card className="p-2 md:p-4 bg-white shadow-sm hover:shadow-md transition-shadow border-l-4 border-l-primary w-full">
+      <Card className="p-2 md:p-4 bg-white shadow-sm hover:shadow-md transition-shadow border-l-4 border-l-primary">
         <div className="flex items-start md:items-center gap-2">
           <div className="flex items-center gap-2 shrink-0">
             {hasChildren && (
@@ -54,7 +54,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               <User2 className="h-3 w-3 md:h-4 md:w-4 text-primary" />
             </div>
           </div>
-          <div className="flex-1 min-w-0 text-left">
+          <div className="flex-1 min-w-0">
             <p className="font-medium text-xs md:text-sm truncate">
               {member.user.full_name || 'Usuário'}
             </p>
