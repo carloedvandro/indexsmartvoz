@@ -21,7 +21,8 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/client/login" element={<ClientLogin />} />
-            {/* Protected routes will be added later */}
+            {/* Rotas protegidas serão adicionadas posteriormente */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </AnimatePresence>
       </BrowserRouter>
