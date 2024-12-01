@@ -5,6 +5,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import { Auth } from "@supabase/auth-ui-react";
+import { supabase } from "@/integrations/supabase/client";
 import AdminLogin from "./pages/admin/login";
 import AdminDashboard from "./pages/admin/dashboard";
 import AdminUsers from "./pages/admin/users";
@@ -39,7 +41,7 @@ function App() {
               <Route path="/admin/network" element={<AdminNetwork />} />
               <Route path="/" element={<ClientLogin />} />
               <Route path="/register" element={<ClientRegister />} />
-              <Route path="/reset-password" element={<Auth.ResetPassword supabaseClient={supabase}} />
+              <Route path="/reset-password" element={<Auth.ResetPassword supabaseClient={supabase} />} />
               <Route path="/client/dashboard" element={<ClientDashboard />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
