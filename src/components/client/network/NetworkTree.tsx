@@ -57,7 +57,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
             level,
             user_id,
             parent_id,
-            user:user_id (
+            profiles:user_id (
               full_name,
               email,
               custom_id
@@ -77,9 +77,9 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
             id: member.id,
             level: member.level,
             user: {
-              full_name: member.user?.full_name || null,
-              email: member.user?.email || '',
-              custom_id: member.user?.custom_id || null
+              full_name: member.profiles?.full_name || null,
+              email: member.profiles?.email || '',
+              custom_id: member.profiles?.custom_id || null
             }
           }));
           setNetworkData(formattedMembers);
