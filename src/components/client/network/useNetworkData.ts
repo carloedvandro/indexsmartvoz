@@ -1,16 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-
-interface NetworkMember {
-  id: string;
-  level: number;
-  user: {
-    full_name: string | null;
-    email: string;
-    custom_id: string | null;
-  };
-  children?: NetworkMember[];
-}
+import { NetworkMember } from "./types";
 
 export const useNetworkData = (userId: string) => {
   const [networkData, setNetworkData] = useState<NetworkMember[]>([]);
@@ -76,7 +66,7 @@ export const useNetworkData = (userId: string) => {
             const profileData = profileResults[index].data;
             membersMap.set(member.id, {
               id: member.id,
-              level: member.level, // Using the actual level from the database
+              level: member.level,
               parentId: member.parent_id,
               user: {
                 full_name: profileData?.full_name || null,
@@ -100,7 +90,8 @@ export const useNetworkData = (userId: string) => {
               }
             }
           });
-          
+
+          console.log("Final network data:", rootMembers);
           setNetworkData(rootMembers);
         }
       } catch (error) {
