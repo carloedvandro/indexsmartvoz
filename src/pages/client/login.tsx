@@ -110,7 +110,7 @@ export default function ClientLogin() {
               to="/register" 
               className="text-sm text-primary hover:underline"
             >
-              Não é cadastrado? Cadastre-se aqui!
+              {t("dont_have_account")}
             </Link>
           </div>
         </CardContent>
