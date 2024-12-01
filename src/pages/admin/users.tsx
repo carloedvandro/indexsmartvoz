@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/card";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { UserPlus } from "lucide-react";
 import { UserSearchForm } from "@/components/admin/UserSearchForm";
 import { UsersTable } from "@/components/admin/UsersTable";
 import { UserEditDialog } from "@/components/admin/UserEditDialog";
@@ -59,16 +58,16 @@ export default function AdminUsers() {
         query = query.ilike("cnpj", `%${filters.cnpj.trim()}%`);
       }
 
-      console.log("Query filters:", filters); // Debug log
+      console.log("Query filters:", filters);
 
       const { data, error } = await query;
       
       if (error) {
-        console.error("Query error:", error); // Debug log
+        console.error("Query error:", error);
         throw error;
       }
       
-      console.log("Query results:", data); // Debug log
+      console.log("Query results:", data);
       return data;
     },
   });
@@ -79,7 +78,7 @@ export default function AdminUsers() {
   };
 
   const handleSearch = () => {
-    console.log("Executing search with filters:", filters); // Debug log
+    console.log("Executing search with filters:", filters);
     refetch();
   };
 
@@ -89,29 +88,6 @@ export default function AdminUsers() {
 
   const handleUserUpdated = () => {
     refetch();
-  };
-
-  const handleNewUser = () => {
-    setSelectedUser({
-      id: null,
-      email: "",
-      full_name: "",
-      status: "pending",
-      person_type: "pf",
-      birth_date: "",
-      document_id: "",
-      cnpj: "",
-      phone: "",
-      mobile: "",
-      address: "",
-      zip_code: "",
-      city: "",
-      state: "",
-      country: "",
-      voucher: "",
-      license_type: "",
-      graduation_type: "",
-    });
   };
 
   return (
@@ -128,10 +104,6 @@ export default function AdminUsers() {
                 </p>
               </div>
               <div className="flex items-center gap-4">
-                <Button variant="outline" onClick={handleNewUser}>
-                  <UserPlus className="mr-2 h-4 w-4" />
-                  Novo Usuário
-                </Button>
                 <SidebarTrigger />
                 <Button variant="outline" onClick={handleLogout}>
                   Sair
