@@ -72,9 +72,9 @@ export default function AdminLogin() {
       <div className="w-full md:w-[480px] p-8 flex flex-col justify-between bg-white">
         <div>
           <img 
-            src="/lovable-uploads/cdbdd204-5032-464f-99df-1b02caeaf7ef.png" 
+            src="/lovable-uploads/bc36a371-10b1-4714-a732-8ab8c30a24c5.png" 
             alt="Logo" 
-            className="h-8 mb-12"
+            className="h-16 mb-12"
           />
           <h1 className="text-lg font-medium mb-8">ADMINISTRAÇÃO</h1>
           <form onSubmit={handleLogin} className="space-y-6">
