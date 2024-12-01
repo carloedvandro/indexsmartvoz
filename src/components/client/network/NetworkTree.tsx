@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { AnimatePresence } from "framer-motion";
 import { NetworkNode } from "./NetworkNode";
 import { NetworkFilter } from "./NetworkFilter";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface NetworkMember {
   id: string;
@@ -166,34 +167,36 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }
 
   return (
-    <div className="p-3 md:p-6 max-w-full overflow-x-auto">
-      <div className="mb-4 md:mb-6">
+    <div className="h-[calc(100vh-120px)] flex flex-col">
+      <div className="mb-4 md:mb-6 px-3 md:px-6">
         <NetworkFilter
           selectedLevel={selectedLevel}
           onLevelChange={setSelectedLevel}
         />
       </div>
 
-      <div className="min-w-[300px] max-w-full">
-        <AnimatePresence>
-          {filteredData.length > 0 ? (
-            <div className="space-y-4">
-              {filteredData.map((member) => (
-                <NetworkNode
-                  key={member.id}
-                  member={member}
-                  onToggle={toggleNode}
-                  expandedNodes={expandedNodes}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-8 md:py-12">
-              <p className="text-gray-500">Nenhum membro encontrado em sua rede.</p>
-            </div>
-          )}
-        </AnimatePresence>
-      </div>
+      <ScrollArea className="flex-1 w-full px-3 md:px-6">
+        <div className="min-w-[300px] pr-4">
+          <AnimatePresence>
+            {filteredData.length > 0 ? (
+              <div className="space-y-4 pb-6">
+                {filteredData.map((member) => (
+                  <NetworkNode
+                    key={member.id}
+                    member={member}
+                    onToggle={toggleNode}
+                    expandedNodes={expandedNodes}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 md:py-12">
+                <p className="text-gray-500">Nenhum membro encontrado em sua rede.</p>
+              </div>
+            )}
+          </AnimatePresence>
+        </div>
+      </ScrollArea>
     </div>
   );
 };

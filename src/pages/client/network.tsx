@@ -21,7 +21,7 @@ export default function NetworkPage() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto">
+      <main className="max-w-7xl mx-auto h-[calc(100vh-72px)]">
         {profile?.id && <NetworkTree userId={profile.id} />}
       </main>
     </div>
