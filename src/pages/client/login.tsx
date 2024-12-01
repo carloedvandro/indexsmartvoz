@@ -45,24 +45,6 @@ export default function ClientLogin() {
     return () => subscription.unsubscribe();
   }, [navigate, toast]);
 
-  const handleAuthError = async (error: any) => {
-    console.log("Auth error:", error);
-    
-    let errorMessage = "Ocorreu um erro durante a autenticação.";
-    
-    if (error.message.includes("Invalid login credentials")) {
-      errorMessage = "Email não cadastrado ou senha incorreta.";
-    } else if (error.message.includes("Email not confirmed")) {
-      errorMessage = "Por favor, confirme seu email antes de fazer login.";
-    }
-
-    toast({
-      title: "Erro de autenticação",
-      description: errorMessage,
-      variant: "destructive",
-    });
-  };
-
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
@@ -112,7 +94,6 @@ export default function ClientLogin() {
             providers={[]}
             view="sign_in"
             redirectTo={`${window.location.origin}/client/dashboard`}
-            onError={handleAuthError}
           />
         </CardContent>
       </Card>
