@@ -36,6 +36,18 @@ const pieData = [
   { name: "Inativos", value: 0, color: "#D946EF" },
 ];
 
+const colors = [
+  "#FF6B6B",
+  "#FFA07A",
+  "#FFD700",
+  "#98FB98",
+  "#87CEEB",
+  "#9B87F5",
+  "#DDA0DD",
+  "#FF69B4",
+  "#FF1493",
+];
+
 export const NetworkStatsCard = () => {
   return (
     <Card className="col-span-2">
@@ -50,12 +62,21 @@ export const NetworkStatsCard = () => {
               margin={{ right: 10, left: -20 }}
             >
               <defs>
-                <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#9b87f5" stopOpacity={0.9}/>
-                  <stop offset="95%" stopColor="#9b87f5" stopOpacity={0.6}/>
-                </linearGradient>
+                {colors.map((color, index) => (
+                  <linearGradient
+                    key={`gradient-${index}`}
+                    id={`colorGradient-${index}`}
+                    x1="0"
+                    y1="0"
+                    x2="1"
+                    y2="0"
+                  >
+                    <stop offset="0%" stopColor={color} stopOpacity={1} />
+                    <stop offset="100%" stopColor={color} stopOpacity={0.8} />
+                  </linearGradient>
+                ))}
               </defs>
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis
                 dataKey="name"
                 fontSize={10}
@@ -66,15 +87,30 @@ export const NetworkStatsCard = () => {
                 tick={{ dy: 10 }}
               />
               <YAxis fontSize={10} width={40} />
-              <Tooltip />
+              <Tooltip 
+                contentStyle={{
+                  backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  border: "1px solid #ccc",
+                  borderRadius: "4px",
+                }}
+              />
               <Bar 
                 dataKey="value" 
-                fill="url(#colorValue)"
-                stroke="#8884d8"
+                stroke="#ffffff"
                 strokeWidth={1}
                 radius={[4, 4, 0, 0]}
                 isAnimationActive={true}
-              />
+              >
+                {barData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={`url(#colorGradient-${index % colors.length})`}
+                    style={{
+                      filter: "drop-shadow(2px 2px 2px rgba(0,0,0,0.2))",
+                    }}
+                  />
+                ))}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -100,6 +136,9 @@ export const NetworkStatsCard = () => {
                     fill={entry.color}
                     stroke="#ffffff"
                     strokeWidth={2}
+                    style={{
+                      filter: "drop-shadow(3px 3px 3px rgba(0,0,0,0.2))",
+                    }}
                   />
                 ))}
               </Pie>
