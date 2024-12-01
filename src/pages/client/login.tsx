@@ -90,6 +90,13 @@ export default function ClientLogin() {
             providers={[]}
             view="sign_in"
             redirectTo={`${window.location.origin}/client/dashboard`}
+            onError={(error) => {
+              toast({
+                title: "Erro de autenticação",
+                description: "Credenciais inválidas. Por favor, tente novamente.",
+                variant: "destructive",
+              });
+            }}
           />
         </CardContent>
       </Card>
