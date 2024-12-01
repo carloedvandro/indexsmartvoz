@@ -20,44 +20,54 @@ export default function AdminLogin() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN') {
-        if (session?.user) {
-          const { data } = await supabase
-            .from("profiles")
-            .select("role")
-            .eq("id", session.user.id)
-            .single();
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", session.user.id)
+          .single();
 
-          if (data?.role === "admin") {
-            navigate("/admin/dashboard");
-          } else {
-            await supabase.auth.signOut();
-            toast({
-              title: t('login_error'),
-              description: t('check_credentials'),
-              variant: "destructive",
-              duration: 6000,
-            });
-          }
+        if (profile?.role === "admin") {
+          navigate("/admin/dashboard");
         }
       }
-    });
+    };
 
-    return () => subscription.unsubscribe();
-  }, [navigate, toast, t]);
+    checkSession();
+  }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data: { session }, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) throw error;
+
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", session.user.id)
+          .single();
+
+        if (profile?.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          await supabase.auth.signOut();
+          toast({
+            title: t('login_error'),
+            description: t('check_credentials'),
+            variant: "destructive",
+          });
+        }
+      }
     } catch (error: any) {
       toast({
         title: t('login_error'),
