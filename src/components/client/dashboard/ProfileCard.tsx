@@ -38,8 +38,8 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1">
-              <span className="text-sm font-semibold text-muted-foreground">Graduação</span>
-              <p className="text-sm">{profile?.graduation_type || "Pré-Coletivo"}</p>
+              <span className="text-sm font-semibold text-muted-foreground">Plano Atual</span>
+              <p className="text-sm">160-GB</p>
             </div>
             <div className="space-y-1">
               <span className="text-sm font-semibold text-muted-foreground">Pontos</span>
