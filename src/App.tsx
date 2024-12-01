@@ -43,18 +43,27 @@ function App() {
               <Route path="/" element={<ClientLogin />} />
               <Route path="/register" element={<ClientRegister />} />
               <Route path="/reset-password" element={
-                <Auth 
-                  supabaseClient={supabase}
-                  view="forgotten_password"
-                  appearance={{ theme: ThemeSupa }}
-                />
+                <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+                  <div className="w-full max-w-md">
+                    <Auth 
+                      supabaseClient={supabase}
+                      view="forgotten_password"
+                      appearance={{ theme: ThemeSupa }}
+                      showLinks={false}
+                    />
+                  </div>
+                </div>
               } />
               <Route path="/update-password" element={
-                <Auth 
-                  supabaseClient={supabase}
-                  view="update_password"
-                  appearance={{ theme: ThemeSupa }}
-                />
+                <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+                  <div className="w-full max-w-md">
+                    <Auth 
+                      supabaseClient={supabase}
+                      view="update_password"
+                      appearance={{ theme: ThemeSupa }}
+                    />
+                  </div>
+                </div>
               } />
               <Route path="/client/dashboard" element={<ClientDashboard />} />
               <Route path="*" element={<Navigate to="/" replace />} />
