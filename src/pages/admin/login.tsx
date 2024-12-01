@@ -11,15 +11,20 @@ export default function AdminLogin() {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Capturar o parâmetro 'type' da URL
+    // Verificar se há um token de recuperação na URL
     const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
     const type = params.get('type');
 
-    if (type === 'recovery') {
+    if (token && type === 'recovery') {
+      // Se houver um token de recuperação, mostrar mensagem apropriada
       toast({
         title: "Recuperação de senha",
         description: "Por favor, defina sua nova senha.",
       });
+      
+      // Atualizar a URL para remover os parâmetros de recuperação
+      window.history.replaceState({}, document.title, "/admin/login");
     }
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
@@ -30,28 +35,28 @@ export default function AdminLogin() {
           title: "Recuperação de senha",
           description: "Por favor, defina sua nova senha.",
         });
-      }
-      
-      if (session?.user) {
-        // Verificar se o usuário é um admin antes de redirecionar
-        const { data } = await supabase
-          .from("profiles")
-          .select("role")
-          .eq("id", session.user.id)
-          .single();
+      } else if (event === 'SIGNED_IN') {
+        if (session?.user) {
+          // Verificar se o usuário é um admin antes de redirecionar
+          const { data } = await supabase
+            .from("profiles")
+            .select("role")
+            .eq("id", session.user.id)
+            .single();
 
-        console.log("User role:", data?.role); // Debug log
+          console.log("User role:", data?.role); // Debug log
 
-        if (data?.role === "admin") {
-          navigate("/admin/dashboard");
-        } else {
-          // Se não for admin, fazer logout e mostrar mensagem
-          await supabase.auth.signOut();
-          toast({
-            title: "Acesso negado",
-            description: "Esta área é restrita para administradores.",
-            variant: "destructive"
-          });
+          if (data?.role === "admin") {
+            navigate("/admin/dashboard");
+          } else {
+            // Se não for admin, fazer logout e mostrar mensagem
+            await supabase.auth.signOut();
+            toast({
+              title: "Acesso negado",
+              description: "Esta área é restrita para administradores.",
+              variant: "destructive"
+            });
+          }
         }
       }
     });
