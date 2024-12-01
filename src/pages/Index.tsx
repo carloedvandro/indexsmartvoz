@@ -8,7 +8,7 @@ export default function Index() {
 
   return (
     <div 
-      className="min-h-screen w-full flex flex-col items-center justify-center p-4 relative bg-cover bg-center bg-no-repeat"
+      className="fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2000&q=80")',
       }}
