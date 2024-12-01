@@ -110,7 +110,7 @@ export default function AdminLogin() {
                   confirmation_text: "Verifique seu email para redefinir sua senha",
                 },
                 update_password: {
-                  header_text: "Redefinir senha",
+                  password_label: "Nova senha",
                   button_label: "Atualizar senha",
                   loading_button_label: "Atualizando senha...",
                   confirmation_text: "Sua senha foi atualizada com sucesso",
