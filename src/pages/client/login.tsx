@@ -94,14 +94,6 @@ export default function ClientLogin() {
             providers={[]}
             view="sign_in"
           />
-          <div className="mt-4 text-center">
-            <Link 
-              to="/register" 
-              className="text-sm text-primary hover:underline"
-            >
-              {t("dont_have_account")}
-            </Link>
-          </div>
         </CardContent>
       </Card>
     </div>
