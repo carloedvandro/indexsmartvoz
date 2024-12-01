@@ -7,17 +7,28 @@ export default function Index() {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
+    <div 
+      className="min-h-screen flex flex-col items-center justify-center p-4 relative"
+      style={{
+        backgroundImage: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/50" />
+      
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-md w-full space-y-8 text-center"
+        className="max-w-md w-full space-y-8 text-center relative z-10"
       >
         <div className="space-y-4">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-            {t('welcome_to')} NetQuest
+          <h1 className="text-5xl font-bold tracking-tight text-white">
+            Bem vindo à Y-TECH
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-200">
             {t('choose_access')}
           </p>
         </div>
