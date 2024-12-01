@@ -46,32 +46,30 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
         />
       </div>
 
-      <div className="relative">
-        <ScrollArea className="h-[calc(100vh-220px)] w-full" type="scroll">
-          <div className="min-w-[800px] space-y-2 pb-6 pr-4">
-            <AnimatePresence>
-              {filteredData.length > 0 ? (
-                <div className="space-y-2">
-                  {filteredData.map((member) => (
-                    <NetworkNode
-                      key={member.id}
-                      member={member}
-                      onToggle={toggleNode}
-                      expandedNodes={expandedNodes}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <p className="text-gray-500 text-sm">
-                    Nenhum membro encontrado em sua rede.
-                  </p>
-                </div>
-              )}
-            </AnimatePresence>
-          </div>
-        </ScrollArea>
-      </div>
+      <ScrollArea className="h-[calc(100vh-220px)]">
+        <div className="pr-4">
+          <AnimatePresence>
+            {filteredData.length > 0 ? (
+              <div className="space-y-2">
+                {filteredData.map((member) => (
+                  <NetworkNode
+                    key={member.id}
+                    member={member}
+                    onToggle={toggleNode}
+                    expandedNodes={expandedNodes}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-gray-500 text-sm">
+                  Nenhum membro encontrado em sua rede.
+                </p>
+              </div>
+            )}
+          </AnimatePresence>
+        </div>
+      </ScrollArea>
     </div>
   );
 };
