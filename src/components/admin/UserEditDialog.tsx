@@ -33,23 +33,57 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const { error } = await supabase
-        .from('profiles')
-        .update(data)
-        .eq('id', user.id);
+      if (!user.id) {
+        // Create new user
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+          email: data.email,
+          password: "changeme123", // Temporary password
+          options: {
+            data: {
+              full_name: data.full_name,
+            },
+          },
+        });
 
-      if (error) throw error;
+        if (authError) throw authError;
 
-      toast({
-        title: "Sucesso",
-        description: "Usuário atualizado com sucesso",
-      });
+        // Update the profile with additional data
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .update({
+            ...data,
+            id: authData.user.id,
+          })
+          .eq('id', authData.user.id);
+
+        if (profileError) throw profileError;
+
+        toast({
+          title: "Sucesso",
+          description: "Usuário criado com sucesso",
+        });
+      } else {
+        // Update existing user
+        const { error } = await supabase
+          .from('profiles')
+          .update(data)
+          .eq('id', user.id);
+
+        if (error) throw error;
+
+        toast({
+          title: "Sucesso",
+          description: "Usuário atualizado com sucesso",
+        });
+      }
+      
       onUserUpdated();
       onOpenChange(false);
     } catch (error) {
+      console.error('Error:', error);
       toast({
         title: "Erro",
-        description: "Erro ao atualizar usuário",
+        description: error.message || "Erro ao salvar usuário",
         variant: "destructive",
       });
     } finally {
@@ -59,9 +93,9 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-background">
         <DialogHeader>
-          <DialogTitle>Editar Usuário</DialogTitle>
+          <DialogTitle>{user?.id ? 'Editar Usuário' : 'Novo Usuário'}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Tabs defaultValue="personal" className="w-full">
@@ -80,7 +114,7 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
                 </div>
                 <div className="space-y-2">
                   <Label>Email</Label>
-                  <Input {...register("email")} type="email" />
+                  <Input {...register("email")} type="email" readOnly={!!user?.id} />
                 </div>
                 <div className="space-y-2">
                   <Label>Data de Nascimento</Label>

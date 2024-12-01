@@ -16,9 +16,11 @@ import { UserPlus } from "lucide-react";
 import { UserSearchForm } from "@/components/admin/UserSearchForm";
 import { UsersTable } from "@/components/admin/UsersTable";
 import { UserEditDialog } from "@/components/admin/UserEditDialog";
+import { useToast } from "@/hooks/use-toast";
 
 export default function AdminUsers() {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [selectedUser, setSelectedUser] = useState(null);
   const [filters, setFilters] = useState({
     externalId: "",
@@ -51,7 +53,7 @@ export default function AdminUsers() {
       if (filters.email) {
         query = query.ilike("email", `%${filters.email}%`);
       }
-      if (filters.status) {
+      if (filters.status && filters.status !== "all") {
         query = query.eq("status", filters.status);
       }
       if (filters.externalId) {
@@ -72,7 +74,7 @@ export default function AdminUsers() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate("/admin");
+    navigate("/admin/login");
   };
 
   const handleSearch = () => {
@@ -85,6 +87,29 @@ export default function AdminUsers() {
 
   const handleUserUpdated = () => {
     refetch();
+  };
+
+  const handleNewUser = () => {
+    setSelectedUser({
+      id: null,
+      email: "",
+      full_name: "",
+      status: "pending",
+      person_type: "pf",
+      birth_date: "",
+      document_id: "",
+      cnpj: "",
+      phone: "",
+      mobile: "",
+      address: "",
+      zip_code: "",
+      city: "",
+      state: "",
+      country: "",
+      voucher: "",
+      license_type: "",
+      graduation_type: "",
+    });
   };
 
   return (
@@ -101,7 +126,7 @@ export default function AdminUsers() {
                 </p>
               </div>
               <div className="flex items-center gap-4">
-                <Button variant="outline" onClick={() => {}}>
+                <Button variant="outline" onClick={handleNewUser}>
                   <UserPlus className="mr-2 h-4 w-4" />
                   Novo Usuário
                 </Button>
