@@ -56,12 +56,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
             id,
             level,
             user_id,
-            parent_id,
-            profiles(
-              full_name,
-              email,
-              custom_id
-            )
+            parent_id
           `)
           .eq("parent_id", userNetwork.id);
 
@@ -72,16 +67,31 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
 
         console.log("Network members found:", networkMembers);
 
-        if (networkMembers) {
-          const formattedMembers: NetworkMember[] = networkMembers.map((member: any) => ({
-            id: member.id,
-            level: member.level,
-            user: {
-              full_name: member.profiles?.full_name || null,
-              email: member.profiles?.email || '',
-              custom_id: member.profiles?.custom_id || null
-            }
-          }));
+        // If we have network members, fetch their profile information
+        if (networkMembers && networkMembers.length > 0) {
+          const profilePromises = networkMembers.map(member => 
+            supabase
+              .from("profiles")
+              .select("full_name, email, custom_id")
+              .eq("id", member.user_id)
+              .single()
+          );
+
+          const profileResults = await Promise.all(profilePromises);
+          
+          const formattedMembers: NetworkMember[] = networkMembers.map((member, index) => {
+            const profileData = profileResults[index].data;
+            return {
+              id: member.id,
+              level: member.level,
+              user: {
+                full_name: profileData?.full_name || null,
+                email: profileData?.email || '',
+                custom_id: profileData?.custom_id || null
+              }
+            };
+          });
+          
           setNetworkData(formattedMembers);
         }
       } catch (error) {
