@@ -132,15 +132,7 @@ export default function AdminLogin() {
       {/* Right side - Background image */}
       <div 
         className="hidden md:block flex-1 bg-[#004d31] bg-[url('https://images.unsplash.com/photo-1557683311-eac922347aa1?q=80&w=2029')] bg-cover bg-center bg-blend-soft-light"
-      >
-        <div className="h-full w-full flex items-end justify-end p-8">
-          <img 
-            src="/lovable-uploads/cdbdd204-5032-464f-99df-1b02caeaf7ef.png" 
-            alt="Logo" 
-            className="h-12 opacity-80"
-          />
-        </div>
-      </div>
+      />
     </div>
   );
 }
