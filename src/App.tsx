@@ -12,31 +12,41 @@ import AdminNetwork from "./pages/admin/network";
 import ClientLogin from "./pages/client/login";
 import ClientRegister from "./pages/client/register";
 import ClientDashboard from "./pages/client/dashboard";
+import { useState } from "react";
 
-const queryClient = new QueryClient();
+function App() {
+  const [queryClient] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 60 * 1000, // 1 minute
+        retry: 1,
+      },
+    },
+  }));
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <AnimatePresence mode="wait">
-          <Routes>
-            <Route path="/admin" element={<AdminLogin />} />
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
-            <Route path="/admin/users" element={<AdminUsers />} />
-            <Route path="/admin/plans" element={<AdminPlans />} />
-            <Route path="/admin/network" element={<AdminNetwork />} />
-            <Route path="/" element={<ClientLogin />} />
-            <Route path="/register" element={<ClientRegister />} />
-            <Route path="/client/dashboard" element={<ClientDashboard />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </AnimatePresence>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AnimatePresence mode="wait">
+            <Routes>
+              <Route path="/admin" element={<AdminLogin />} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/admin/users" element={<AdminUsers />} />
+              <Route path="/admin/plans" element={<AdminPlans />} />
+              <Route path="/admin/network" element={<AdminNetwork />} />
+              <Route path="/" element={<ClientLogin />} />
+              <Route path="/register" element={<ClientRegister />} />
+              <Route path="/client/dashboard" element={<ClientDashboard />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </AnimatePresence>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
 
 export default App;
