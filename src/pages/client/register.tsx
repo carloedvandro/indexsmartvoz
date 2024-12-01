@@ -47,7 +47,7 @@ export default function ClientRegister() {
         return;
       }
 
-      // Create user account with metadata - the trigger will create the profile
+      // Create user account with metadata
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -56,9 +56,9 @@ export default function ClientRegister() {
             full_name: values.fullName,
             custom_id: values.customId,
             document_id: values.cpf,
-            sponsor_id: sponsorId
+            sponsor_id: sponsorId,
           },
-          emailRedirectTo: `${window.location.origin}/client/dashboard`
+          emailRedirectTo: `${window.location.origin}/client/dashboard`,
         },
       });
 
@@ -77,6 +77,20 @@ export default function ClientRegister() {
 
       if (!authData.user) {
         throw new Error("Erro ao criar usuário");
+      }
+
+      // Atualizar o perfil com os dados adicionais
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({
+          custom_id: values.customId,
+          sponsor_id: sponsorId,
+        })
+        .eq('id', authData.user.id);
+
+      if (updateError) {
+        console.error('Profile update error:', updateError);
+        throw updateError;
       }
 
       toast({
