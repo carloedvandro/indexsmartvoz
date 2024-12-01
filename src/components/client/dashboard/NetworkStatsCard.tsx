@@ -133,7 +133,6 @@ export const NetworkStatsCard = () => {
                 }
                 isAnimationActive={true}
                 blendStroke
-                viewBox="0 -30 400 400"
               >
                 {pieData.map((entry, index) => (
                   <Cell 
@@ -142,9 +141,11 @@ export const NetworkStatsCard = () => {
                     stroke="#ffffff"
                     strokeWidth={2}
                     style={{
-                      filter: "drop-shadow(6px 6px 8px rgba(0,0,0,0.6))",
-                      transform: "rotateX(45deg)",
-                      transformOrigin: "center",
+                      transition: "filter 0.3s ease-in-out",
+                      filter: "drop-shadow(2px 2px 4px rgba(0,0,0,0.3))",
+                      ":hover": {
+                        filter: "drop-shadow(4px 4px 8px rgba(0,0,0,0.6))",
+                      },
                     }}
                   />
                 ))}
