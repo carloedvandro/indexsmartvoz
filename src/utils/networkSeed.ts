@@ -7,194 +7,167 @@ async function wait(ms: number) {
 export async function seedNetworkUsers() {
   try {
     // Configurações dos níveis
-    const level1Count = 10;
-    const level2Count = 15;
-    const level3Count = 15;
-    const level4Count = 10;
+    const level1Count = 3; // Quantidade menor para teste inicial
+    const level2Count = 4;
+    const level3Count = 5;
+    const level4Count = 3;
     
     const level1Users: string[] = [];
     const level2Users: string[] = [];
     const level3Users: string[] = [];
 
     // Criar usuários nível 1
-    console.log("Creating level 1 users...");
+    console.log("Criando usuários nível 1...");
     for (let i = 1; i <= level1Count; i++) {
+      const email = `teste_nivel1_${i}@exemplo.com`;
       const { data: authData, error } = await supabase.auth.signUp({
-        email: `test_level1_${i}@example.com`,
-        password: "testpassword123",
+        email: email,
+        password: "senha123456",
         options: {
           data: {
-            full_name: `Usuário Nível 1 ${i}`,
+            full_name: `Usuário Nível 1 - ${i}`,
           },
         },
       });
 
       if (error) {
-        console.error(`Error creating level 1 user ${i}:`, error);
+        console.error(`Erro ao criar usuário nível 1 ${i}:`, error);
         continue;
       }
 
       if (authData.user) {
         level1Users.push(authData.user.id);
         
-        // Calculate birth date and format as ISO string
-        const birthDate = new Date();
-        birthDate.setFullYear(birthDate.getFullYear() - 20);
-        birthDate.setDate(birthDate.getDate() - i);
-        const formattedBirthDate = birthDate.toISOString().split('T')[0];
-        
-        // Update profile with additional data
+        // Atualizar perfil com dados adicionais
         await supabase
           .from('profiles')
           .update({
-            document_id: String(i).padStart(11, '0'),
-            birth_date: formattedBirthDate,
-            phone: `11999${String(i).padStart(6, '0')}`,
-            status: 'active'
+            document_id: `111${String(i).padStart(8, '0')}`,
+            status: 'active',
+            custom_id: `N1-${i}`
           })
           .eq('id', authData.user.id);
       }
 
-      await wait(100);
+      await wait(1000); // Esperar 1 segundo entre cada criação
     }
 
     // Criar usuários nível 2
-    console.log("Creating level 2 users...");
+    console.log("Criando usuários nível 2...");
     for (let i = 1; i <= level2Count; i++) {
       const sponsorId = level1Users[Math.floor(Math.random() * level1Users.length)];
+      const email = `teste_nivel2_${i}@exemplo.com`;
       
       const { data: authData, error } = await supabase.auth.signUp({
-        email: `test_level2_${i}@example.com`,
-        password: "testpassword123",
+        email: email,
+        password: "senha123456",
         options: {
           data: {
-            full_name: `Usuário Nível 2 ${i}`,
+            full_name: `Usuário Nível 2 - ${i}`,
           },
         },
       });
 
       if (error) {
-        console.error(`Error creating level 2 user ${i}:`, error);
+        console.error(`Erro ao criar usuário nível 2 ${i}:`, error);
         continue;
       }
 
       if (authData.user) {
         level2Users.push(authData.user.id);
         
-        // Calculate birth date and format as ISO string
-        const birthDate = new Date();
-        birthDate.setFullYear(birthDate.getFullYear() - 25);
-        birthDate.setDate(birthDate.getDate() - i);
-        const formattedBirthDate = birthDate.toISOString().split('T')[0];
-        
-        // Update profile with additional data and sponsor
         await supabase
           .from('profiles')
           .update({
-            document_id: String(level1Count + i).padStart(11, '0'),
-            birth_date: formattedBirthDate,
-            phone: `11998${String(i).padStart(6, '0')}`,
+            document_id: `222${String(i).padStart(8, '0')}`,
             status: 'active',
-            sponsor_id: sponsorId
+            sponsor_id: sponsorId,
+            custom_id: `N2-${i}`
           })
           .eq('id', authData.user.id);
       }
 
-      await wait(100);
+      await wait(1000);
     }
 
     // Criar usuários nível 3
-    console.log("Creating level 3 users...");
+    console.log("Criando usuários nível 3...");
     for (let i = 1; i <= level3Count; i++) {
       const sponsorId = level2Users[Math.floor(Math.random() * level2Users.length)];
+      const email = `teste_nivel3_${i}@exemplo.com`;
       
       const { data: authData, error } = await supabase.auth.signUp({
-        email: `test_level3_${i}@example.com`,
-        password: "testpassword123",
+        email: email,
+        password: "senha123456",
         options: {
           data: {
-            full_name: `Usuário Nível 3 ${i}`,
+            full_name: `Usuário Nível 3 - ${i}`,
           },
         },
       });
 
       if (error) {
-        console.error(`Error creating level 3 user ${i}:`, error);
+        console.error(`Erro ao criar usuário nível 3 ${i}:`, error);
         continue;
       }
 
       if (authData.user) {
         level3Users.push(authData.user.id);
         
-        // Calculate birth date and format as ISO string
-        const birthDate = new Date();
-        birthDate.setFullYear(birthDate.getFullYear() - 30);
-        birthDate.setDate(birthDate.getDate() - i);
-        const formattedBirthDate = birthDate.toISOString().split('T')[0];
-        
-        // Update profile with additional data and sponsor
         await supabase
           .from('profiles')
           .update({
-            document_id: String(level1Count + level2Count + i).padStart(11, '0'),
-            birth_date: formattedBirthDate,
-            phone: `11997${String(i).padStart(6, '0')}`,
+            document_id: `333${String(i).padStart(8, '0')}`,
             status: 'active',
-            sponsor_id: sponsorId
+            sponsor_id: sponsorId,
+            custom_id: `N3-${i}`
           })
           .eq('id', authData.user.id);
       }
 
-      await wait(100);
+      await wait(1000);
     }
 
     // Criar usuários nível 4
-    console.log("Creating level 4 users...");
+    console.log("Criando usuários nível 4...");
     for (let i = 1; i <= level4Count; i++) {
       const sponsorId = level3Users[Math.floor(Math.random() * level3Users.length)];
+      const email = `teste_nivel4_${i}@exemplo.com`;
       
       const { data: authData, error } = await supabase.auth.signUp({
-        email: `test_level4_${i}@example.com`,
-        password: "testpassword123",
+        email: email,
+        password: "senha123456",
         options: {
           data: {
-            full_name: `Usuário Nível 4 ${i}`,
+            full_name: `Usuário Nível 4 - ${i}`,
           },
         },
       });
 
       if (error) {
-        console.error(`Error creating level 4 user ${i}:`, error);
+        console.error(`Erro ao criar usuário nível 4 ${i}:`, error);
         continue;
       }
 
       if (authData.user) {
-        // Calculate birth date and format as ISO string
-        const birthDate = new Date();
-        birthDate.setFullYear(birthDate.getFullYear() - 35);
-        birthDate.setDate(birthDate.getDate() - i);
-        const formattedBirthDate = birthDate.toISOString().split('T')[0];
-        
-        // Update profile with additional data and sponsor
         await supabase
           .from('profiles')
           .update({
-            document_id: String(level1Count + level2Count + level3Count + i).padStart(11, '0'),
-            birth_date: formattedBirthDate,
-            phone: `11996${String(i).padStart(6, '0')}`,
+            document_id: `444${String(i).padStart(8, '0')}`,
             status: 'active',
-            sponsor_id: sponsorId
+            sponsor_id: sponsorId,
+            custom_id: `N4-${i}`
           })
           .eq('id', authData.user.id);
       }
 
-      await wait(100);
+      await wait(1000);
     }
 
-    console.log("Network seeding completed!");
+    console.log("Criação de usuários concluída!");
     return true;
   } catch (error) {
-    console.error("Error seeding network:", error);
+    console.error("Erro ao criar usuários:", error);
     return false;
   }
 }
