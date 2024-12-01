@@ -140,7 +140,7 @@ export default function AdminLogin() {
             <div className="flex justify-end">
               <button
                 type="button"
-                onClick={() => handleResetPassword(email)}
+                onClick={() => navigate("/reset-password")}
                 className="text-sm text-secondary hover:underline"
               >
                 Esqueceu sua senha?

@@ -44,23 +44,45 @@ function App() {
               <Route path="/register" element={<ClientRegister />} />
               <Route path="/reset-password" element={
                 <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-                  <div className="w-full max-w-md">
+                  <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-sm">
                     <Auth 
                       supabaseClient={supabase}
                       view="forgotten_password"
-                      appearance={{ theme: ThemeSupa }}
+                      appearance={{ 
+                        theme: ThemeSupa,
+                        variables: {
+                          default: {
+                            colors: {
+                              brand: '#00ffa3',
+                              brandAccent: '#004d31',
+                            },
+                          },
+                        },
+                      }}
                       showLinks={false}
+                      redirectTo={`${window.location.origin}/update-password`}
                     />
                   </div>
                 </div>
               } />
               <Route path="/update-password" element={
                 <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-                  <div className="w-full max-w-md">
+                  <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-sm">
                     <Auth 
                       supabaseClient={supabase}
                       view="update_password"
-                      appearance={{ theme: ThemeSupa }}
+                      appearance={{ 
+                        theme: ThemeSupa,
+                        variables: {
+                          default: {
+                            colors: {
+                              brand: '#00ffa3',
+                              brandAccent: '#004d31',
+                            },
+                          },
+                        },
+                      }}
+                      redirectTo={`${window.location.origin}/admin`}
                     />
                   </div>
                 </div>
