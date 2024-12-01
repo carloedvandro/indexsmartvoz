@@ -11,28 +11,26 @@ export default function AdminLogin() {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Verificar se há um token de recuperação na URL
+    // Verificar imediatamente se há um token de recuperação na URL
     const params = new URLSearchParams(window.location.hash.substring(1));
     const token = params.get('access_token');
     const type = params.get('type');
 
     if (token && type === 'recovery') {
+      // Mostrar o toast imediatamente
       toast({
         title: "Redefinição de Senha",
         description: "Por favor, defina sua nova senha no formulário abaixo.",
-        duration: 10000,
+        duration: 5000,
       });
     }
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("Auth event:", event);
-      console.log("Session:", session);
-      
       if (event === 'PASSWORD_RECOVERY') {
         toast({
           title: "Redefinição de Senha",
           description: "Por favor, defina sua nova senha no formulário abaixo.",
-          duration: 10000,
+          duration: 5000,
         });
       } else if (event === 'SIGNED_IN') {
         if (session?.user) {
@@ -41,8 +39,6 @@ export default function AdminLogin() {
             .select("role")
             .eq("id", session.user.id)
             .single();
-
-          console.log("User role:", data?.role);
 
           if (data?.role === "admin") {
             navigate("/admin/dashboard");
