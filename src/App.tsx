@@ -16,6 +16,7 @@ import AdminNetwork from "./pages/admin/network";
 import ClientLogin from "./pages/client/login";
 import ClientRegister from "./pages/client/register";
 import ClientDashboard from "./pages/client/dashboard";
+import ResetPassword from "./components/auth/ResetPassword";
 
 function App() {
   const [queryClient] = React.useState(() => new QueryClient({
@@ -42,23 +43,12 @@ function App() {
               <Route path="/admin/network" element={<AdminNetwork />} />
               <Route path="/" element={<ClientLogin />} />
               <Route path="/register" element={<ClientRegister />} />
-              <Route path="/reset-password" element={
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/update-password" element={
                 <Auth 
                   supabaseClient={supabase}
-                  view="magic_link"
+                  view="update_password"
                   appearance={{ theme: ThemeSupa }}
-                  localization={{
-                    variables: {
-                      magic_link: {
-                        email_input_label: "Email",
-                        email_input_placeholder: "Seu email",
-                        button_label: "Enviar link de redefinição",
-                        loading_button_label: "Enviando link...",
-                        link_text: "Enviar link mágico",
-                        confirmation_text: "Verifique seu email para o link mágico"
-                      }
-                    }
-                  }}
                 />
               } />
               <Route path="/client/dashboard" element={<ClientDashboard />} />
