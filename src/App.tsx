@@ -39,6 +39,7 @@ function App() {
               <Route path="/admin/network" element={<AdminNetwork />} />
               <Route path="/" element={<ClientLogin />} />
               <Route path="/register" element={<ClientRegister />} />
+              <Route path="/reset-password" element={<Auth.ResetPassword supabaseClient={supabase}} />
               <Route path="/client/dashboard" element={<ClientDashboard />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>

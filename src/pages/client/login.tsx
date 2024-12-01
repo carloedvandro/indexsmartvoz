@@ -81,7 +81,7 @@ export default function ClientLogin() {
             view="sign_in"
           />
           <div className="mt-4 text-center space-y-2">
-            <Link to="/forgot-password" className="block text-sm text-gray-600 hover:text-gray-900">
+            <Link to="/reset-password" className="block text-sm text-gray-600 hover:text-gray-900">
               {t('forgot_password')}
             </Link>
             <Link to="/register" className="block text-sm text-gray-600 hover:text-gray-900">
