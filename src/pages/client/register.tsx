@@ -11,18 +11,18 @@ export default function ClientRegister() {
     try {
       let sponsorId = null;
 
-      // Check if referral ID exists
-      if (values.referralId) {
+      // Check if sponsor custom ID exists
+      if (values.sponsorCustomId) {
         const { data: sponsor, error: sponsorError } = await supabase
           .from("profiles")
           .select("id")
-          .eq("custom_id", values.referralId)
+          .eq("custom_id", values.sponsorCustomId)
           .single();
 
         if (sponsorError) {
           toast({
             title: "Erro",
-            description: "ID de indicação inválido",
+            description: "ID do patrocinador inválido",
             variant: "destructive",
           });
           return;
