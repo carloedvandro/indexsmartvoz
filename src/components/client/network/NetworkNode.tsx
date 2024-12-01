@@ -88,7 +88,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               </h3>
               {member.user.custom_id && (
                 <span className="text-xs text-gray-500">
-                  Kit {member.user.custom_id}
+                  {member.user.custom_id}
                 </span>
               )}
             </div>
