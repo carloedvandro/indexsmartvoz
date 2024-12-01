@@ -38,13 +38,13 @@ export default function NetworkTree() {
           .select(`
             id,
             level,
-            user:user_id (
+            profiles!network_user_id_fkey (
               full_name,
               email,
               custom_id
             )
           `)
-          .eq("user_id", profile.id);
+          .eq("parent_id", profile.id);
 
         if (error) {
           console.error("Supabase query error:", error);
@@ -53,8 +53,14 @@ export default function NetworkTree() {
         
         console.log("Network data received:", data);
         
-        const typedData = (data || []) as unknown as NetworkMember[];
-        setNetworkData(typedData);
+        if (data) {
+          const formattedData = data.map(item => ({
+            id: item.id,
+            level: item.level,
+            user: item.profiles
+          }));
+          setNetworkData(formattedData as NetworkMember[]);
+        }
       } catch (error) {
         console.error("Error fetching network data:", error);
         toast({
@@ -126,4 +132,4 @@ export default function NetworkTree() {
       </main>
     </div>
   );
-}
+};
