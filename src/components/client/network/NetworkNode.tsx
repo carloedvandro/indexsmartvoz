@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { NetworkMember } from "./types";
-import { Users } from "lucide-react";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 interface NetworkNodeProps {
   member: NetworkMember;
@@ -18,6 +19,11 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   
   // Placeholder image from Unsplash - using a professional looking photo
   const profileImage = "https://images.unsplash.com/photo-1649972904349-6e44c42644a7";
+
+  // Format the registration date
+  const formattedDate = member.user.registration_date 
+    ? format(new Date(member.user.registration_date), "dd/MM/yyyy", { locale: ptBR })
+    : "03/08/2015"; // Default date if none is provided
 
   return (
     <motion.div
@@ -39,7 +45,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           }}
         />
       )}
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow border-l-4 border-l-primary">
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow">
         <div className="flex items-start gap-4">
           <div className="flex items-center gap-2">
             {hasChildren && (
@@ -55,7 +61,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                 )}
               </button>
             )}
-            <Avatar className="h-12 w-12">
+            <Avatar className="h-12 w-12 border-2 border-primary">
               <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
               <AvatarFallback>
                 <Users className="h-6 w-6" />
@@ -63,21 +69,37 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             </Avatar>
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="text-base font-semibold text-gray-900 mb-0.5">
-              {member.user.full_name || "Usuário"}
-            </h3>
-            <p className="text-sm text-gray-500 break-all mb-1">
-              {member.user.email}
-            </p>
-            <div className="flex flex-col gap-0.5">
+            <div className="flex items-center gap-2 mb-2">
+              <h3 className="text-base font-semibold text-gray-900">
+                {member.user.full_name || "Usuário"}
+              </h3>
               {member.user.custom_id && (
-                <p className="text-xs text-gray-400">
-                  ID: {member.user.custom_id}
-                </p>
+                <span className="text-xs text-gray-500">
+                  Kit {member.user.custom_id}
+                </span>
               )}
-              <p className="text-xs text-primary">
-                Nível {member.level}
-              </p>
+            </div>
+            
+            <div className="space-y-1 text-sm">
+              <div className="flex items-center gap-2 text-gray-600">
+                <GraduationCap className="h-4 w-4" />
+                <span>Graduação {member.user.graduation_type || "0"}</span>
+              </div>
+              
+              <div className="flex items-center gap-2 text-gray-600">
+                <Calendar className="h-4 w-4" />
+                <span>{formattedDate}</span>
+              </div>
+              
+              <div className="flex items-center gap-2 text-gray-600">
+                <UserPlus2 className="h-4 w-4" />
+                <span>Diretos: {member.children?.length || 0}</span>
+              </div>
+              
+              <div className="flex items-center gap-2 text-gray-600">
+                <Users2 className="h-4 w-4" />
+                <span>Equipe: {member.team_size || "0"}</span>
+              </div>
             </div>
           </div>
         </div>
