@@ -132,7 +132,10 @@ export type Database = {
           cnpj: string | null
           country: string | null
           created_at: string
+          custom_id: string | null
           document_id: string | null
+          document_validated: boolean | null
+          document_validation_date: string | null
           email: string
           external_id: string | null
           full_name: string | null
@@ -165,7 +168,10 @@ export type Database = {
           cnpj?: string | null
           country?: string | null
           created_at?: string
+          custom_id?: string | null
           document_id?: string | null
+          document_validated?: boolean | null
+          document_validation_date?: string | null
           email: string
           external_id?: string | null
           full_name?: string | null
@@ -198,7 +204,10 @@ export type Database = {
           cnpj?: string | null
           country?: string | null
           created_at?: string
+          custom_id?: string | null
           document_id?: string | null
+          document_validated?: boolean | null
+          document_validation_date?: string | null
           email?: string
           external_id?: string | null
           full_name?: string | null
