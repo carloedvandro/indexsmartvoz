@@ -109,7 +109,7 @@ export default function AdminLogin() {
             </div>
             <Button
               type="submit"
-              className="w-full bg-gray-600 hover:bg-gray-700 text-white"
+              className="w-full bg-secondary hover:bg-secondary/90 text-white"
               disabled={isLoading}
             >
               {isLoading ? "Entrando..." : "Entrar"}
@@ -131,7 +131,7 @@ export default function AdminLogin() {
       </div>
       {/* Right side - Background image */}
       <div 
-        className="hidden md:block flex-1 bg-[#004d31] bg-[url('https://images.unsplash.com/photo-1557683311-eac922347aa1?q=80&w=2029')] bg-cover bg-center bg-blend-soft-light"
+        className="hidden md:block flex-1 bg-[#004d31] bg-[url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=4076')] bg-cover bg-center bg-blend-soft-light"
       />
     </div>
   );
