@@ -24,17 +24,16 @@ export default function ClientLogin() {
       if (event === 'SIGNED_IN' && session?.user) {
         navigate("/client/dashboard");
       } else if (event === 'SIGNED_OUT') {
-        navigate("/client/login");
+        navigate("/");
       } else if (event === 'PASSWORD_RECOVERY') {
         toast({
           title: "Recuperação de senha",
           description: "Verifique seu email para redefinir sua senha.",
         });
-      } else if (!session?.user) {
+      } else if (event === 'USER_UPDATED') {
         toast({
-          title: "Erro de autenticação",
-          description: "Credenciais inválidas. Por favor, tente novamente.",
-          variant: "destructive",
+          title: "Perfil atualizado",
+          description: "Suas informações foram atualizadas com sucesso.",
         });
       }
     });
