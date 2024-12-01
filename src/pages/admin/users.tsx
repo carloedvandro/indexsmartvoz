@@ -25,7 +25,7 @@ export default function AdminUsers() {
     externalId: "",
     fullName: "",
     email: "",
-    status: "",
+    status: "all",
     documentId: "",
     cnpj: "",
   });
@@ -38,27 +38,24 @@ export default function AdminUsers() {
         .select("*")
         .order("created_at", { ascending: false });
 
-      // Aplicar filtros apenas se houver valores
-      if (filters.fullName.trim()) {
-        query = query.ilike("full_name", `%${filters.fullName.trim()}%`);
+      if (filters.fullName) {
+        query = query.ilike("full_name", `%${filters.fullName}%`);
       }
-      if (filters.email.trim()) {
-        query = query.ilike("email", `%${filters.email.trim()}%`);
+      if (filters.email) {
+        query = query.ilike("email", `%${filters.email}%`);
       }
       if (filters.status && filters.status !== "all") {
         query = query.eq("status", filters.status);
       }
-      if (filters.externalId.trim()) {
-        query = query.ilike("external_id", `%${filters.externalId.trim()}%`);
+      if (filters.externalId) {
+        query = query.ilike("external_id", `%${filters.externalId}%`);
       }
-      if (filters.documentId.trim()) {
-        query = query.ilike("document_id", `%${filters.documentId.trim()}%`);
+      if (filters.documentId) {
+        query = query.ilike("document_id", `%${filters.documentId}%`);
       }
-      if (filters.cnpj.trim()) {
-        query = query.ilike("cnpj", `%${filters.cnpj.trim()}%`);
+      if (filters.cnpj) {
+        query = query.ilike("cnpj", `%${filters.cnpj}%`);
       }
-
-      console.log("Query filters:", filters);
 
       const { data, error } = await query;
       
@@ -67,7 +64,6 @@ export default function AdminUsers() {
         throw error;
       }
       
-      console.log("Query results:", data);
       return data;
     },
   });
@@ -78,7 +74,6 @@ export default function AdminUsers() {
   };
 
   const handleSearch = () => {
-    console.log("Executing search with filters:", filters);
     refetch();
   };
 
@@ -88,6 +83,7 @@ export default function AdminUsers() {
 
   const handleUserUpdated = () => {
     refetch();
+    setSelectedUser(null);
   };
 
   return (

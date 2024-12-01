@@ -11,7 +11,6 @@ export async function checkExistingUser(email: string) {
 }
 
 export async function checkExistingCnpj(cnpj: string | null, excludeUserId?: string) {
-  // If CNPJ is empty or null, consider it as not duplicate
   if (!cnpj?.trim()) {
     return false;
   }
@@ -31,7 +30,6 @@ export async function checkExistingCnpj(cnpj: string | null, excludeUserId?: str
 }
 
 export async function checkExistingDocumentId(documentId: string | null, excludeUserId?: string) {
-  // If document ID is empty or null, consider it as not duplicate
   if (!documentId?.trim()) {
     return false;
   }
@@ -51,14 +49,12 @@ export async function checkExistingDocumentId(documentId: string | null, exclude
 }
 
 export async function createUser(data: any, isAdmin: boolean = false) {
-  // Clean up CNPJ and document_id before checking
   const cleanData = {
     ...data,
     cnpj: data.cnpj?.trim() || null,
     document_id: data.document_id?.trim() || null
   };
 
-  // Check for duplicate CNPJ and CPF before creating
   if (cleanData.cnpj && await checkExistingCnpj(cleanData.cnpj)) {
     throw new Error("Este CNPJ já está cadastrado no sistema");
   }
@@ -79,7 +75,6 @@ export async function createUser(data: any, isAdmin: boolean = false) {
 
   if (authError) throw authError;
 
-  // If this is an admin user, update the profile role
   if (isAdmin && authData.user) {
     const { error: profileError } = await supabase
       .from('profiles')
@@ -93,14 +88,12 @@ export async function createUser(data: any, isAdmin: boolean = false) {
 }
 
 export async function updateProfile(id: string, data: any) {
-  // Clean up CNPJ and document_id before checking
   const cleanData = {
     ...data,
     cnpj: data.cnpj?.trim() || null,
     document_id: data.document_id?.trim() || null
   };
 
-  // Check for duplicate CNPJ and CPF before updating
   if (cleanData.cnpj && await checkExistingCnpj(cleanData.cnpj, id)) {
     throw new Error("Este CNPJ já está cadastrado no sistema");
   }
