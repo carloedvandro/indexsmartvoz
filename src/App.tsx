@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { Auth } from "@supabase/auth-ui-react";
+import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { supabase } from "@/integrations/supabase/client";
 import AdminLogin from "./pages/admin/login";
 import AdminDashboard from "./pages/admin/dashboard";
@@ -44,8 +45,8 @@ function App() {
               <Route path="/reset-password" element={
                 <Auth 
                   supabaseClient={supabase}
-                  view="reset-password"
-                  appearance={{ theme: 'light' }}
+                  view="update_password"
+                  appearance={{ theme: ThemeSupa }}
                 />
               } />
               <Route path="/client/dashboard" element={<ClientDashboard />} />
