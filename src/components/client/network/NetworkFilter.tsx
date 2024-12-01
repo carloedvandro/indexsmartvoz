@@ -14,16 +14,16 @@ interface NetworkFilterProps {
 
 export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterProps) => {
   return (
-    <div className="mb-6 flex items-center gap-4">
+    <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4">
       <div className="flex items-center gap-2">
         <Filter className="h-4 w-4 text-gray-500" />
-        <span className="text-sm text-gray-500">Filtrar por nível:</span>
+        <span className="text-xs md:text-sm text-gray-500">Filtrar por nível:</span>
       </div>
       <Select
         value={selectedLevel}
         onValueChange={onLevelChange}
       >
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-full md:w-[180px] text-xs md:text-sm">
           <SelectValue placeholder="Selecione o nível" />
         </SelectTrigger>
         <SelectContent>

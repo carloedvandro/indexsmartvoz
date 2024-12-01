@@ -160,7 +160,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center p-4 md:p-8">
+      <div className="flex justify-center items-center p-4">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
@@ -168,18 +168,18 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
 
   return (
     <div className="h-[calc(100vh-120px)] flex flex-col">
-      <div className="mb-4 md:mb-6 px-3 md:px-6">
+      <div className="mb-4 px-2 md:px-6">
         <NetworkFilter
           selectedLevel={selectedLevel}
           onLevelChange={setSelectedLevel}
         />
       </div>
 
-      <ScrollArea className="flex-1 w-full px-3 md:px-6">
-        <div className="min-w-[300px] pr-4">
+      <ScrollArea className="flex-1 w-full px-2 md:px-6">
+        <div className="min-w-[280px] pr-2 md:pr-4">
           <AnimatePresence>
             {filteredData.length > 0 ? (
-              <div className="space-y-4 pb-6">
+              <div className="space-y-2 pb-6">
                 {filteredData.map((member) => (
                   <NetworkNode
                     key={member.id}
@@ -190,8 +190,10 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 md:py-12">
-                <p className="text-gray-500">Nenhum membro encontrado em sua rede.</p>
+              <div className="text-center py-8">
+                <p className="text-gray-500 text-sm">
+                  Nenhum membro encontrado em sua rede.
+                </p>
               </div>
             )}
           </AnimatePresence>
