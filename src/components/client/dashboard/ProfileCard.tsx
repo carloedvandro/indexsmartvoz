@@ -4,7 +4,13 @@ import { Tables } from "@/integrations/supabase/types";
 type Profile = Tables<"profiles">;
 
 interface ProfileCardProps {
-  profile: Profile & { sponsor?: { full_name: string | null } };
+  profile: Profile & { 
+    sponsor?: { 
+      id: string;
+      full_name: string | null;
+      email: string;
+    } | null;
+  };
 }
 
 export const ProfileCard = ({ profile }: ProfileCardProps) => {
@@ -21,7 +27,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
           </p>
           <p>
             <span className="font-semibold">Email:</span>{" "}
-            {profile?.email}
+            {profile?.email || "Não informado"}
           </p>
           <p>
             <span className="font-semibold">Status:</span>{" "}
@@ -31,6 +37,12 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
             <span className="font-semibold">Patrocinador:</span>{" "}
             {profile?.sponsor?.full_name || "Não possui"}
           </p>
+          {profile?.custom_id && (
+            <p>
+              <span className="font-semibold">ID Personalizado:</span>{" "}
+              {profile.custom_id}
+            </p>
+          )}
         </div>
       </CardContent>
     </Card>
