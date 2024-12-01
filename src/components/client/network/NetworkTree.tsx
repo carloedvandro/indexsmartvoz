@@ -12,6 +12,7 @@ interface NetworkMember {
     email: string;
     custom_id: string | null;
   };
+  children?: NetworkMember[];
 }
 
 interface NetworkTreeProps {
@@ -49,27 +50,26 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
 
         console.log("User network found:", userNetwork);
 
-        // Then, get all members connected to this network with their profile information
-        const { data: networkMembers, error: membersError } = await supabase
+        // Get all members in the network tree
+        const { data: allNetworkMembers, error: membersError } = await supabase
           .from("network")
           .select(`
             id,
             level,
             user_id,
             parent_id
-          `)
-          .eq("parent_id", userNetwork.id);
+          `);
 
         if (membersError) {
           console.error("Error fetching network members:", membersError);
           return;
         }
 
-        console.log("Network members found:", networkMembers);
+        console.log("All network members found:", allNetworkMembers);
 
         // If we have network members, fetch their profile information
-        if (networkMembers && networkMembers.length > 0) {
-          const profilePromises = networkMembers.map(member => 
+        if (allNetworkMembers && allNetworkMembers.length > 0) {
+          const profilePromises = allNetworkMembers.map(member => 
             supabase
               .from("profiles")
               .select("full_name, email, custom_id")
@@ -79,20 +79,38 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
 
           const profileResults = await Promise.all(profilePromises);
           
-          const formattedMembers: NetworkMember[] = networkMembers.map((member, index) => {
+          // Create a map of members by their IDs
+          const membersMap = new Map();
+          allNetworkMembers.forEach((member, index) => {
             const profileData = profileResults[index].data;
-            return {
+            membersMap.set(member.id, {
               id: member.id,
               level: member.level,
+              parentId: member.parent_id,
               user: {
                 full_name: profileData?.full_name || null,
                 email: profileData?.email || '',
                 custom_id: profileData?.custom_id || null
+              },
+              children: []
+            });
+          });
+
+          // Build the tree structure
+          const rootMembers: NetworkMember[] = [];
+          membersMap.forEach(member => {
+            if (member.parentId === userNetwork.id) {
+              rootMembers.push(member);
+            } else {
+              const parent = membersMap.get(member.parentId);
+              if (parent) {
+                if (!parent.children) parent.children = [];
+                parent.children.push(member);
               }
-            };
+            }
           });
           
-          setNetworkData(formattedMembers);
+          setNetworkData(rootMembers);
         }
       } catch (error) {
         console.error("Error in fetchNetworkData:", error);
