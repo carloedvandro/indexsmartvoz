@@ -21,7 +21,6 @@ import NetworkPage from "@/pages/client/network";
 // Styles
 import "@/App.css";
 
-// Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -157,12 +156,12 @@ const AppRoutes = () => {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
         <AppRoutes />
         <Toaster />
-      </BrowserRouter>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </BrowserRouter>
   );
 }
 
