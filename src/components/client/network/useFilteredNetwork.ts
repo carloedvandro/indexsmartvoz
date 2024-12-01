@@ -13,27 +13,24 @@ export const useFilteredNetwork = (data: NetworkMember[], selectedLevel: string)
     return members.reduce<NetworkMember[]>((acc, member) => {
       console.log(`Checking member ${member.id} with level ${member.level}`);
       
-      // Se o membro está no nível desejado, adiciona ele com seus filhos
       if (member.level === level) {
+        // Se o membro está no nível desejado, adiciona ele sem filhos
         console.log(`Found matching member:`, member);
         acc.push({
           ...member,
-          children: member.children || [] // Mantém os filhos para preservar a estrutura
+          children: [] // Remove os filhos quando encontra o nível desejado
         });
-      } else if (member.level < level) {
-        // Se o membro está em um nível anterior ao desejado, verifica os filhos
-        if (member.children && member.children.length > 0) {
-          console.log(`Checking children of member ${member.id}`);
-          const filteredChildren = filterByLevel(member.children);
-          
-          if (filteredChildren.length > 0) {
-            // Se encontrou filhos no nível desejado, adiciona o membro com os filhos filtrados
-            console.log(`Adding member with filtered children:`, member.id);
-            acc.push({
-              ...member,
-              children: filteredChildren
-            });
-          }
+      } else if (member.level < level && member.children && member.children.length > 0) {
+        // Se o membro está em um nível anterior e tem filhos, continua procurando
+        console.log(`Checking children of member ${member.id}`);
+        const filteredChildren = filterByLevel(member.children);
+        
+        if (filteredChildren.length > 0) {
+          // Se encontrou filhos no nível desejado, adiciona o membro com apenas esses filhos
+          acc.push({
+            ...member,
+            children: filteredChildren
+          });
         }
       }
       
