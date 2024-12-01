@@ -50,7 +50,6 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
         console.log("User network found:", userNetwork);
 
         // Then, get all members connected to this network with their profile information
-        // Using a subquery to join with profiles through user_id
         const { data: networkMembers, error: membersError } = await supabase
           .from("network")
           .select(`
@@ -58,10 +57,10 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
             level,
             user_id,
             parent_id,
-            user:user_id (
-              full_name:profiles!inner(full_name),
-              email:profiles!inner(email),
-              custom_id:profiles!inner(custom_id)
+            profiles:user_id (
+              full_name,
+              email,
+              custom_id
             )
           `)
           .eq("parent_id", userNetwork.id);
@@ -78,9 +77,9 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
             id: member.id,
             level: member.level,
             user: {
-              full_name: member.user?.full_name || null,
-              email: member.user?.email || '',
-              custom_id: member.user?.custom_id || null
+              full_name: member.profiles?.full_name || null,
+              email: member.profiles?.email || '',
+              custom_id: member.profiles?.custom_id || null
             }
           }));
           setNetworkData(formattedMembers);
