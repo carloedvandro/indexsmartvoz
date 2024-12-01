@@ -136,9 +136,26 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
     });
   };
 
-  const filteredData = selectedLevel === "all" 
-    ? networkData 
-    : networkData.filter(member => member.level === parseInt(selectedLevel));
+  const filterNetworkData = (data: NetworkMember[]): NetworkMember[] => {
+    if (selectedLevel === "all") return data;
+    
+    return data.reduce<NetworkMember[]>((acc, member) => {
+      if (member.level === parseInt(selectedLevel)) {
+        acc.push(member);
+      } else if (member.children) {
+        const filteredChildren = filterNetworkData(member.children);
+        if (filteredChildren.length > 0) {
+          acc.push({
+            ...member,
+            children: filteredChildren
+          });
+        }
+      }
+      return acc;
+    }, []);
+  };
+
+  const filteredData = filterNetworkData(networkData);
 
   if (loading) {
     return (
@@ -164,7 +181,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
                   key={member.id}
                   member={member}
                   onToggle={toggleNode}
-                  isExpanded={expandedNodes.has(member.id)}
+                  expandedNodes={expandedNodes}
                 />
               ))}
             </div>

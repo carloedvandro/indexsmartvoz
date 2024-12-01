@@ -17,11 +17,12 @@ interface NetworkNodeProps {
   member: NetworkMember;
   depth?: number;
   onToggle: (nodeId: string) => void;
-  isExpanded: boolean;
+  expandedNodes: Set<string>;
 }
 
-export const NetworkNode = ({ member, depth = 0, onToggle, isExpanded }: NetworkNodeProps) => {
+export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: NetworkNodeProps) => {
   const hasChildren = member.children && member.children.length > 0;
+  const isExpanded = expandedNodes.has(member.id);
 
   return (
     <motion.div
@@ -70,7 +71,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, isExpanded }: Network
               member={child}
               depth={depth + 1}
               onToggle={onToggle}
-              isExpanded={isExpanded}
+              expandedNodes={expandedNodes}
             />
           ))}
         </div>
