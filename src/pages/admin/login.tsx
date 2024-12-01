@@ -100,9 +100,8 @@ export default function AdminLogin() {
               },
             }}
             view="sign_in"
-            showLinks={true}
+            showLinks={false}
             providers={[]}
-            redirectTo="https://netquest-saas.lovable.app/admin/login"
           />
         </CardContent>
       </Card>

@@ -9,6 +9,116 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      network: {
+        Row: {
+          created_at: string
+          id: string
+          level: number
+          parent_id: string | null
+          plan_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          level?: number
+          parent_id?: string | null
+          plan_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          level?: number
+          parent_id?: string | null
+          plan_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "network_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "network"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "network_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "network_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      network_plan_commissions: {
+        Row: {
+          commission_value: number
+          created_at: string
+          id: string
+          level: number
+          plan_id: string
+          updated_at: string
+        }
+        Insert: {
+          commission_value: number
+          created_at?: string
+          id?: string
+          level: number
+          plan_id: string
+          updated_at?: string
+        }
+        Update: {
+          commission_value?: number
+          created_at?: string
+          id?: string
+          level?: number
+          plan_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "network_plan_commissions_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "network_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      network_plans: {
+        Row: {
+          active: boolean | null
+          code: string
+          created_at: string
+          id: string
+          name: string
+          price: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean | null
+          code: string
+          created_at?: string
+          id?: string
+          name: string
+          price: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean | null
+          code?: string
+          created_at?: string
+          id?: string
+          name?: string
+          price?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
