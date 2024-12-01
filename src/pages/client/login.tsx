@@ -16,18 +16,11 @@ export default function ClientLogin() {
         navigate("/client/dashboard");
       } else if (event === 'SIGNED_OUT') {
         navigate("/client/login");
-      } else if (!session?.user && event !== 'INITIAL_SESSION') {
-        // Show error toast for authentication failures
-        toast({
-          title: "Erro de autenticação",
-          description: "Credenciais inválidas. Por favor, verifique seu email e senha.",
-          variant: "destructive",
-        });
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate, toast]);
+  }, [navigate]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
@@ -57,7 +50,7 @@ export default function ClientLogin() {
                   button_label: "Entrar",
                   loading_button_label: "Entrando...",
                   social_provider_text: "Entrar com {{provider}}",
-                  link_text: "Não tem uma conta? Cadastre-se",
+                  link_text: "Já tem uma conta? Entre",
                 },
                 sign_up: {
                   email_label: "Email",
