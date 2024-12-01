@@ -10,6 +10,7 @@ import AdminUsers from "./pages/admin/users";
 import AdminPlans from "./pages/admin/plans";
 import AdminNetwork from "./pages/admin/network";
 import ClientLogin from "./pages/client/login";
+import ClientRegister from "./pages/client/register";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
             <Route path="/admin/plans" element={<AdminPlans />} />
             <Route path="/admin/network" element={<AdminNetwork />} />
             <Route path="/" element={<ClientLogin />} />
+            <Route path="/register" element={<ClientRegister />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </AnimatePresence>
