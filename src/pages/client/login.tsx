@@ -5,10 +5,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Check if user is already authenticated
@@ -21,6 +23,8 @@ export default function ClientLogin() {
     checkUser();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("Auth event:", event);
+      
       if (event === 'SIGNED_IN' && session?.user) {
         navigate("/client/dashboard");
       } else if (event === 'SIGNED_OUT') {
@@ -40,6 +44,24 @@ export default function ClientLogin() {
 
     return () => subscription.unsubscribe();
   }, [navigate, toast]);
+
+  const handleAuthError = async (error: any) => {
+    console.log("Auth error:", error);
+    
+    let errorMessage = "Ocorreu um erro durante a autenticação.";
+    
+    if (error.message.includes("Invalid login credentials")) {
+      errorMessage = "Email não cadastrado ou senha incorreta.";
+    } else if (error.message.includes("Email not confirmed")) {
+      errorMessage = "Por favor, confirme seu email antes de fazer login.";
+    }
+
+    toast({
+      title: "Erro de autenticação",
+      description: errorMessage,
+      variant: "destructive",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
@@ -90,13 +112,7 @@ export default function ClientLogin() {
             providers={[]}
             view="sign_in"
             redirectTo={`${window.location.origin}/client/dashboard`}
-            onError={(error) => {
-              toast({
-                title: "Erro de autenticação",
-                description: "Credenciais inválidas. Por favor, tente novamente.",
-                variant: "destructive",
-              });
-            }}
+            onError={handleAuthError}
           />
         </CardContent>
       </Card>
