@@ -32,7 +32,7 @@ export default function ClientLogin() {
           title: "Recuperação de senha",
           description: "Verifique seu email para redefinir sua senha.",
         });
-      } else if (!session?.user && event === 'USER_DELETED') {
+      } else if (!session?.user) {
         toast({
           title: "Conta removida",
           description: "Sua conta foi removida com sucesso.",
