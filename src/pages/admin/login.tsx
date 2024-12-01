@@ -105,10 +105,12 @@ export default function AdminLogin() {
       {/* Left side - Login form */}
       <div className="w-full md:w-[480px] p-4 sm:p-8 flex flex-col justify-between bg-white">
         <div>
-          <div className="w-4/5">
-            <h1 className="text-secondary text-4xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-12 whitespace-nowrap">
-              Y-TECH
-            </h1>
+          <div className="w-full flex justify-center">
+            <div className="w-4/5">
+              <h1 className="text-secondary text-4xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-12 whitespace-nowrap text-center">
+                Y-TECH
+              </h1>
+            </div>
           </div>
           <h2 className="text-lg font-medium mb-8">{t('administration')}</h2>
           <form onSubmit={handleLogin} className="space-y-6">
