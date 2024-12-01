@@ -42,19 +42,10 @@ export default function AdminDashboard() {
 
   const handleLogout = async () => {
     try {
-      // Clear any existing session state first
-      await supabase.auth.clearSession();
-      
-      // Then attempt to sign out
-      await supabase.auth.signOut({
-        scope: 'local'  // Use local scope to avoid the global session error
-      });
-      
-      // Always navigate to login after clearing session
+      await supabase.auth.signOut();
       navigate("/admin/login");
     } catch (error) {
       console.error('Logout error:', error);
-      // Even if there's an error, redirect to login
       navigate("/admin/login");
     }
   };
