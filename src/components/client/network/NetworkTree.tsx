@@ -9,7 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface NetworkMember {
@@ -36,23 +35,37 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   useEffect(() => {
     const fetchNetworkData = async () => {
       try {
-        // Primeiro, pegamos o network ID do usuário atual
-        const { data: userNetwork } = await supabase
+        console.log("Fetching network data for user:", userId);
+        
+        // First, get the network ID of the current user
+        const { data: userNetwork, error: userNetworkError } = await supabase
           .from("network")
           .select("id")
           .eq("user_id", userId)
           .single();
 
-        if (!userNetwork) return;
+        if (userNetworkError) {
+          console.error("Error fetching user network:", userNetworkError);
+          return;
+        }
 
-        // Depois, buscamos todos os membros conectados
-        const { data: members } = await supabase
+        if (!userNetwork) {
+          console.log("No network found for user");
+          setLoading(false);
+          return;
+        }
+
+        console.log("User network found:", userNetwork);
+
+        // Then, get all members connected to this network
+        const { data: members, error: membersError } = await supabase
           .from("network")
           .select(`
             id,
             level,
+            user_id,
             parent_id,
-            profiles!network_user_id_fkey (
+            profiles!inner (
               full_name,
               email,
               custom_id
@@ -60,20 +73,27 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           `)
           .eq("parent_id", userNetwork.id);
 
+        if (membersError) {
+          console.error("Error fetching network members:", membersError);
+          return;
+        }
+
+        console.log("Network members found:", members);
+
         if (members) {
           const formattedMembers = members.map(member => ({
             id: member.id,
             level: member.level,
             user: {
-              full_name: member.profiles?.[0]?.full_name || null,
-              email: member.profiles?.[0]?.email || '',
-              custom_id: member.profiles?.[0]?.custom_id || null
+              full_name: member.profiles.full_name,
+              email: member.profiles.email,
+              custom_id: member.profiles.custom_id
             }
           }));
           setNetworkData(formattedMembers);
         }
       } catch (error) {
-        console.error("Erro ao buscar dados da rede:", error);
+        console.error("Error in fetchNetworkData:", error);
       } finally {
         setLoading(false);
       }
