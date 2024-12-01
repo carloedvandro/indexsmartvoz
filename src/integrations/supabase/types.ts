@@ -121,30 +121,113 @@ export type Database = {
       }
       profiles: {
         Row: {
+          address: string | null
+          approval_date: string | null
+          birth_date: string | null
+          block_date: string | null
+          block_reason: string | null
+          blocked: boolean | null
+          city: string | null
+          civil_status: string | null
+          cnpj: string | null
+          country: string | null
           created_at: string
+          document_id: string | null
           email: string
+          external_id: string | null
           full_name: string | null
+          gender: string | null
+          graduation_type: string | null
           id: string
+          license_type: string | null
+          mobile: string | null
+          monthly_graduation: boolean | null
+          person_type: string | null
+          phone: string | null
+          registration_date: string | null
           role: string
+          sponsor_id: string | null
+          state: string | null
+          status: string | null
           updated_at: string
+          voucher: string | null
+          zip_code: string | null
         }
         Insert: {
+          address?: string | null
+          approval_date?: string | null
+          birth_date?: string | null
+          block_date?: string | null
+          block_reason?: string | null
+          blocked?: boolean | null
+          city?: string | null
+          civil_status?: string | null
+          cnpj?: string | null
+          country?: string | null
           created_at?: string
+          document_id?: string | null
           email: string
+          external_id?: string | null
           full_name?: string | null
+          gender?: string | null
+          graduation_type?: string | null
           id: string
+          license_type?: string | null
+          mobile?: string | null
+          monthly_graduation?: boolean | null
+          person_type?: string | null
+          phone?: string | null
+          registration_date?: string | null
           role?: string
+          sponsor_id?: string | null
+          state?: string | null
+          status?: string | null
           updated_at?: string
+          voucher?: string | null
+          zip_code?: string | null
         }
         Update: {
+          address?: string | null
+          approval_date?: string | null
+          birth_date?: string | null
+          block_date?: string | null
+          block_reason?: string | null
+          blocked?: boolean | null
+          city?: string | null
+          civil_status?: string | null
+          cnpj?: string | null
+          country?: string | null
           created_at?: string
+          document_id?: string | null
           email?: string
+          external_id?: string | null
           full_name?: string | null
+          gender?: string | null
+          graduation_type?: string | null
           id?: string
+          license_type?: string | null
+          mobile?: string | null
+          monthly_graduation?: boolean | null
+          person_type?: string | null
+          phone?: string | null
+          registration_date?: string | null
           role?: string
+          sponsor_id?: string | null
+          state?: string | null
+          status?: string | null
           updated_at?: string
+          voucher?: string | null
+          zip_code?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

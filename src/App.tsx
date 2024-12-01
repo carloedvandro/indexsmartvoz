@@ -7,6 +7,8 @@ import { AnimatePresence } from "framer-motion";
 import AdminLogin from "./pages/admin/login";
 import AdminDashboard from "./pages/admin/dashboard";
 import AdminUsers from "./pages/admin/users";
+import AdminPlans from "./pages/admin/plans";
+import AdminNetwork from "./pages/admin/network";
 import ClientLogin from "./pages/client/login";
 
 const queryClient = new QueryClient();
@@ -22,6 +24,8 @@ const App = () => (
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/plans" element={<AdminPlans />} />
+            <Route path="/admin/network" element={<AdminNetwork />} />
             <Route path="/" element={<ClientLogin />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
