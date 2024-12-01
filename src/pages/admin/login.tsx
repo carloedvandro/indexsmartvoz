@@ -11,27 +11,8 @@ export default function AdminLogin() {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Verificar imediatamente se há um token de recuperação na URL
-    const params = new URLSearchParams(window.location.hash.substring(1));
-    const token = params.get('access_token');
-    const type = params.get('type');
-
-    if (token && type === 'recovery') {
-      toast({
-        title: "Redefinição de Senha",
-        description: "Por favor, defina sua nova senha no formulário abaixo.",
-        duration: 5000,
-      });
-    }
-
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'PASSWORD_RECOVERY') {
-        toast({
-          title: "Redefinição de Senha",
-          description: "Por favor, defina sua nova senha no formulário abaixo.",
-          duration: 5000,
-        });
-      } else if (event === 'SIGNED_IN') {
+      if (event === 'SIGNED_IN') {
         if (session?.user) {
           const { data } = await supabase
             .from("profiles")
@@ -84,18 +65,6 @@ export default function AdminLogin() {
                   password_label: "Senha",
                   button_label: "Entrar",
                   loading_button_label: "Entrando...",
-                },
-                forgotten_password: {
-                  link_text: "Esqueceu sua senha?",
-                  button_label: "Recuperar senha",
-                  loading_button_label: "Enviando instruções...",
-                  confirmation_text: "Verifique seu email para redefinir sua senha",
-                },
-                update_password: {
-                  password_label: "Nova senha",
-                  button_label: "Atualizar senha",
-                  loading_button_label: "Atualizando senha...",
-                  confirmation_text: "Sua senha foi atualizada com sucesso",
                 },
               },
             }}
