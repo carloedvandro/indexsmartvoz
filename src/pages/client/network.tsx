@@ -38,13 +38,13 @@ export default function NetworkTree() {
           .select(`
             id,
             level,
-            user:profiles!network_user_id_fkey (
+            user:user_id (
               full_name,
               email,
               custom_id
             )
           `)
-          .eq("parent_id", profile.id);
+          .eq("user_id", profile.id);
 
         if (error) {
           console.error("Supabase query error:", error);

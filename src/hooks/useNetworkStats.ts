@@ -34,7 +34,7 @@ export const useNetworkStats = (userId: string | undefined) => {
           user_id,
           parent_id
         `)
-        .eq("parent_id", userId);
+        .eq("user_id", userId);
 
       if (error) {
         console.error("Error fetching network stats:", error);
