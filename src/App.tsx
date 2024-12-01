@@ -1,98 +1,150 @@
-import React from "react";
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
+import { Toaster } from "@/components/ui/toaster";
 import { Auth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from '@supabase/auth-ui-shared'
+import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
-import AdminLogin from "./pages/admin/login";
-import AdminDashboard from "./pages/admin/dashboard";
-import AdminUsers from "./pages/admin/users";
-import AdminPlans from "./pages/admin/plans";
-import AdminNetwork from "./pages/admin/network";
-import ClientLogin from "./pages/client/login";
-import ClientRegister from "./pages/client/register";
-import ClientDashboard from "./pages/client/dashboard";
+
+// Pages
+import Index from "@/pages/Index";
+import AdminLogin from "@/pages/admin/login";
+import AdminDashboard from "@/pages/admin/dashboard";
+import AdminUsers from "@/pages/admin/users";
+import AdminPlans from "@/pages/admin/plans";
+import AdminNetwork from "@/pages/admin/network";
+import ClientLogin from "@/pages/client/login";
+import ClientDashboard from "@/pages/client/dashboard";
+import ClientRegister from "@/pages/client/register";
+
+// Styles
+import "@/App.css";
+
+const queryClient = new QueryClient();
 
 function App() {
-  const [queryClient] = React.useState(() => new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 60 * 1000,
-        retry: 1,
-      },
-    },
-  }));
-
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          
+          {/* Client Routes */}
+          <Route path="/client">
+            <Route path="login" element={<ClientLogin />} />
+            <Route path="dashboard" element={<ClientDashboard />} />
+          </Route>
+
+          {/* Admin Routes */}
+          <Route path="/admin">
+            <Route index element={<AdminLogin />} />
+            <Route path="login" element={<AdminLogin />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="plans" element={<AdminPlans />} />
+            <Route path="network" element={<AdminNetwork />} />
+          </Route>
+
+          {/* Auth Routes */}
+          <Route path="/register" element={<ClientRegister />} />
+          <Route path="/reset-password" element={
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+              <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-sm">
+                <Auth 
+                  supabaseClient={supabase}
+                  view="forgotten_password"
+                  appearance={{ 
+                    theme: ThemeSupa,
+                    variables: {
+                      default: {
+                        colors: {
+                          brand: '#00ffa3',
+                          brandAccent: '#004d31',
+                        },
+                      },
+                    },
+                  }}
+                  showLinks={false}
+                  redirectTo={`${window.location.origin}/update-password`}
+                  localization={{
+                    variables: {
+                      sign_in: {
+                        email_label: "Email",
+                        password_label: "Senha",
+                        button_label: "Entrar",
+                        loading_button_label: "Entrando...",
+                        password_input_placeholder: "Digite sua senha",
+                        email_input_placeholder: "Digite seu email",
+                      },
+                      forgotten_password: {
+                        email_label: "Email",
+                        button_label: "Enviar instruções",
+                        loading_button_label: "Enviando...",
+                        link_text: "Esqueceu sua senha?",
+                        confirmation_text: "Verifique seu email para redefinir sua senha",
+                      },
+                      update_password: {
+                        password_label: "Nova Senha",
+                        button_label: "Atualizar senha",
+                        loading_button_label: "Atualizando...",
+                        confirmation_text: "Sua senha foi atualizada",
+                      },
+                    },
+                  }}
+                />
+              </div>
+            </div>
+          } />
+          <Route path="/update-password" element={
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+              <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-sm">
+                <Auth 
+                  supabaseClient={supabase}
+                  view="update_password"
+                  appearance={{ 
+                    theme: ThemeSupa,
+                    variables: {
+                      default: {
+                        colors: {
+                          brand: '#00ffa3',
+                          brandAccent: '#004d31',
+                        },
+                      },
+                    },
+                  }}
+                  showLinks={false}
+                  redirectTo={`${window.location.origin}/admin`}
+                  localization={{
+                    variables: {
+                      sign_in: {
+                        email_label: "Email",
+                        password_label: "Senha",
+                        button_label: "Entrar",
+                        loading_button_label: "Entrando...",
+                        password_input_placeholder: "Digite sua senha",
+                        email_input_placeholder: "Digite seu email",
+                      },
+                      forgotten_password: {
+                        email_label: "Email",
+                        button_label: "Enviar instruções",
+                        loading_button_label: "Enviando...",
+                        link_text: "Esqueceu sua senha?",
+                        confirmation_text: "Verifique seu email para redefinir sua senha",
+                      },
+                      update_password: {
+                        password_label: "Nova Senha",
+                        button_label: "Atualizar senha",
+                        loading_button_label: "Atualizando...",
+                        confirmation_text: "Sua senha foi atualizada",
+                      },
+                    },
+                  }}
+                />
+              </div>
+            </div>
+          } />
+        </Routes>
         <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <AnimatePresence mode="wait">
-            <Routes>
-              <Route path="/admin" element={<AdminLogin />} />
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
-              <Route path="/admin/users" element={<AdminUsers />} />
-              <Route path="/admin/plans" element={<AdminPlans />} />
-              <Route path="/admin/network" element={<AdminNetwork />} />
-              <Route path="/" element={<ClientLogin />} />
-              <Route path="/register" element={<ClientRegister />} />
-              <Route path="/reset-password" element={
-                <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-                  <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-sm">
-                    <Auth 
-                      supabaseClient={supabase}
-                      view="forgotten_password"
-                      appearance={{ 
-                        theme: ThemeSupa,
-                        variables: {
-                          default: {
-                            colors: {
-                              brand: '#00ffa3',
-                              brandAccent: '#004d31',
-                            },
-                          },
-                        },
-                      }}
-                      showLinks={false}
-                      redirectTo={`${window.location.origin}/update-password`}
-                    />
-                  </div>
-                </div>
-              } />
-              <Route path="/update-password" element={
-                <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-                  <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-sm">
-                    <Auth 
-                      supabaseClient={supabase}
-                      view="update_password"
-                      appearance={{ 
-                        theme: ThemeSupa,
-                        variables: {
-                          default: {
-                            colors: {
-                              brand: '#00ffa3',
-                              brandAccent: '#004d31',
-                            },
-                          },
-                        },
-                      }}
-                      redirectTo={`${window.location.origin}/admin`}
-                    />
-                  </div>
-                </div>
-              } />
-              <Route path="/client/dashboard" element={<ClientDashboard />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </AnimatePresence>
-        </BrowserRouter>
-      </TooltipProvider>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }

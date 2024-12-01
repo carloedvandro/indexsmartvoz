@@ -29,6 +29,35 @@ const resources = {
       "choose_access": "Escolha como deseja acessar o sistema",
       "client_area": "Área do Cliente",
       "admin_area": "Área Administrativa",
+      "forgot_password": "Esqueceu sua senha?",
+      "reset_password": "Redefinir Senha",
+      "reset_password_success": "Email enviado com sucesso",
+      "reset_password_error": "Erro ao enviar email",
+      "check_email": "Verifique sua caixa de entrada para redefinir sua senha",
+      "update_password": "Atualizar Senha",
+      "update_password_success": "Senha atualizada com sucesso",
+      "update_password_error": "Erro ao atualizar senha",
+      "new_password": "Nova Senha",
+      "confirm_password": "Confirmar Senha",
+      "passwords_dont_match": "As senhas não conferem",
+      "cancel": "Cancelar",
+      "save": "Salvar",
+      "loading": "Carregando...",
+      "error": "Erro",
+      "search": "Buscar",
+      "actions": "Ações",
+      "edit": "Editar",
+      "delete": "Excluir",
+      "confirm": "Confirmar",
+      "confirm_delete": "Confirmar exclusão",
+      "confirm_delete_message": "Tem certeza que deseja excluir este item?",
+      "yes": "Sim",
+      "no": "Não",
+      "status": {
+        "pending": "Pendente",
+        "active": "Ativo",
+        "blocked": "Bloqueado"
+      },
       "sign_in": {
         "email_label": "Email",
         "password_label": "Senha",
@@ -45,7 +74,18 @@ const resources = {
       "welcome_to": "Welcome to",
       "choose_access": "Choose how you want to access the system",
       "client_area": "Client Area",
-      "admin_area": "Administrative Area"
+      "admin_area": "Administrative Area",
+      "forgot_password": "Forgot password?",
+      "reset_password": "Reset Password",
+      "update_password": "Update Password",
+      "sign_in": {
+        "email_label": "Email",
+        "password_label": "Password",
+        "button_label": "Sign in",
+        "loading_button_label": "Signing in...",
+        "password_input_placeholder": "Enter your password",
+        "email_input_placeholder": "Enter your email"
+      }
     }
   }
 };

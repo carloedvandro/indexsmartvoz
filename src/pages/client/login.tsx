@@ -5,10 +5,12 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
@@ -21,8 +23,8 @@ export default function ClientLogin() {
 
         if (profileError) {
           toast({
-            title: "Error",
-            description: "Error loading user profile",
+            title: t('error'),
+            description: t('login_error'),
             variant: "destructive",
           });
           return;
@@ -37,13 +39,13 @@ export default function ClientLogin() {
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate, toast]);
+  }, [navigate, toast, t]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Client Area</CardTitle>
+          <CardTitle className="text-2xl text-center">{t('client_area')}</CardTitle>
         </CardHeader>
         <CardContent>
           <Auth
@@ -64,6 +66,33 @@ export default function ClientLogin() {
               },
             }}
             providers={[]}
+            localization={{
+              variables: {
+                sign_in: {
+                  email_label: "Email",
+                  password_label: "Senha",
+                  button_label: "Entrar",
+                  loading_button_label: "Entrando...",
+                  password_input_placeholder: "Digite sua senha",
+                  email_input_placeholder: "Digite seu email",
+                },
+                sign_up: {
+                  email_label: "Email",
+                  password_label: "Senha",
+                  button_label: "Cadastrar",
+                  loading_button_label: "Cadastrando...",
+                  password_input_placeholder: "Digite sua senha",
+                  email_input_placeholder: "Digite seu email",
+                },
+                forgotten_password: {
+                  email_label: "Email",
+                  button_label: "Enviar instruções",
+                  loading_button_label: "Enviando...",
+                  link_text: "Esqueceu sua senha?",
+                  confirmation_text: "Verifique seu email para redefinir sua senha",
+                },
+              },
+            }}
           />
         </CardContent>
       </Card>
