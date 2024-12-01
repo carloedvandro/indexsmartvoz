@@ -14,6 +14,8 @@ import {
 } from "recharts";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
 import { useProfile } from "@/hooks/useProfile";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 const barData = [
   { name: "Nov 1", value: 7 },
@@ -49,14 +51,60 @@ export const NetworkStatsCard = () => {
   const { data: profile } = useProfile();
   const { data: networkStats } = useNetworkStats(profile?.id);
 
-  // Calculate total network size and active/inactive members
+  // Fetch active/inactive members count
+  const { data: membersStatus } = useQuery({
+    queryKey: ['networkMembersStatus', profile?.id],
+    queryFn: async () => {
+      if (!profile?.id) return null;
+
+      // First get all members in the user's network
+      const { data: networkMembers } = await supabase
+        .from('network')
+        .select('user_id')
+        .neq('user_id', profile.id);
+
+      if (!networkMembers) return null;
+
+      const memberIds = networkMembers.map(member => member.user_id);
+
+      // Then get their status from profiles
+      const { data: profilesData } = await supabase
+        .from('profiles')
+        .select('blocked')
+        .in('id', memberIds);
+
+      if (!profilesData) return {
+        active: 0,
+        inactive: 0
+      };
+
+      const active = profilesData.filter(p => !p.blocked).length;
+      const inactive = profilesData.filter(p => p.blocked).length;
+
+      return {
+        active,
+        inactive
+      };
+    },
+    enabled: !!profile?.id
+  });
+
+  // Calculate total network size
   const totalNetworkSize = networkStats ? 
     networkStats.level1Count + networkStats.level2Count + networkStats.level3Count + networkStats.level4Count : 
     0;
 
   const pieData = [
-    { name: "Ativos", value: totalNetworkSize, color: "#9b87f5" },
-    { name: "Inativos", value: 0, color: "#D946EF" },
+    { 
+      name: "Ativos", 
+      value: membersStatus?.active || 0, 
+      color: "#9b87f5" 
+    },
+    { 
+      name: "Inativos", 
+      value: membersStatus?.inactive || 0, 
+      color: "#D946EF" 
+    },
   ];
 
   return (
