@@ -34,6 +34,23 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
     setIsLoading(true);
     try {
       if (!user.id) {
+        // Check if user exists first
+        const { data: existingUser } = await supabase
+          .from('profiles')
+          .select('id')
+          .eq('email', data.email)
+          .single();
+
+        if (existingUser) {
+          toast({
+            title: "Erro",
+            description: "Este email já está cadastrado no sistema",
+            variant: "destructive",
+          });
+          setIsLoading(false);
+          return;
+        }
+
         // Create new user
         const { data: authData, error: authError } = await supabase.auth.signUp({
           email: data.email,
@@ -45,7 +62,17 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
           },
         });
 
-        if (authError) throw authError;
+        if (authError) {
+          if (authError.message.includes("already registered")) {
+            toast({
+              title: "Erro",
+              description: "Este email já está cadastrado no sistema",
+              variant: "destructive",
+            });
+            return;
+          }
+          throw authError;
+        }
 
         // Update the profile with additional data
         const { error: profileError } = await supabase
