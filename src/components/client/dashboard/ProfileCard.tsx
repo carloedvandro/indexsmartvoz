@@ -16,34 +16,36 @@ interface ProfileCardProps {
 
 export const ProfileCard = ({ profile }: ProfileCardProps) => {
   return (
-    <Card>
+    <Card className="h-full">
       <CardHeader>
         <CardTitle>Informações Pessoais</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
-          <p>
-            <span className="font-semibold">Nome:</span>{" "}
-            {profile?.full_name || "Não informado"}
-          </p>
-          <p>
-            <span className="font-semibold">Email:</span>{" "}
-            {profile?.email || "Não informado"}
-          </p>
-          <p>
-            <span className="font-semibold">Status:</span>{" "}
-            <span className="capitalize">{profile?.status || "Pendente"}</span>
-          </p>
-          <p>
-            <span className="font-semibold">Patrocinador:</span>{" "}
-            {profile?.sponsor?.full_name || "Não possui"}
-            {profile?.sponsor?.custom_id && ` (ID: ${profile.sponsor.custom_id})`}
-          </p>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-1">
+            <span className="text-sm font-semibold">Nome:</span>
+            <span className="text-sm">{profile?.full_name || "Não informado"}</span>
+          </div>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-1">
+            <span className="text-sm font-semibold">Email:</span>
+            <span className="text-sm break-all">{profile?.email || "Não informado"}</span>
+          </div>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-1">
+            <span className="text-sm font-semibold">Status:</span>
+            <span className="text-sm capitalize">{profile?.status || "Pendente"}</span>
+          </div>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-1">
+            <span className="text-sm font-semibold">Patrocinador:</span>
+            <span className="text-sm">
+              {profile?.sponsor?.full_name || "Não possui"}
+              {profile?.sponsor?.custom_id && ` (ID: ${profile.sponsor.custom_id})`}
+            </span>
+          </div>
           {profile?.custom_id && (
-            <p>
-              <span className="font-semibold">ID Personalizado:</span>{" "}
-              {profile.custom_id}
-            </p>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-1">
+              <span className="text-sm font-semibold">ID Personalizado:</span>
+              <span className="text-sm">{profile.custom_id}</span>
+            </div>
           )}
         </div>
       </CardContent>
