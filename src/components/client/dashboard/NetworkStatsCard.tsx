@@ -46,7 +46,7 @@ const colors = [
 ];
 
 export const NetworkStatsCard = () => {
-  const { profile } = useProfile();
+  const { data: profile } = useProfile();
   const { data: networkStats } = useNetworkStats(profile?.id);
 
   // Calculate total network size and active/inactive members
