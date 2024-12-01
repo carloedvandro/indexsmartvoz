@@ -16,13 +16,14 @@ export default function ResetPassword() {
 
     try {
       // First, check if the user exists
-      const { data: user, error: userError } = await supabase
+      const { data: users, error: userError } = await supabase
         .from('profiles')
         .select('id, email')
-        .eq('email', email)
-        .single();
+        .eq('email', email);
 
-      if (userError || !user) {
+      if (userError) throw userError;
+      
+      if (!users || users.length === 0) {
         toast({
           title: "Erro",
           description: "Este email não está cadastrado em nossa base de dados.",
