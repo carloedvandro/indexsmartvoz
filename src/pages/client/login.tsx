@@ -5,12 +5,10 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { useTranslation } from "react-i18next";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { t } = useTranslation();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
@@ -23,8 +21,8 @@ export default function ClientLogin() {
 
         if (profileError) {
           toast({
-            title: "Erro",
-            description: "Erro ao carregar perfil do usuário",
+            title: "Error",
+            description: "Error loading user profile",
             variant: "destructive",
           });
           return;
@@ -45,7 +43,7 @@ export default function ClientLogin() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Área do Cliente</CardTitle>
+          <CardTitle className="text-2xl text-center">Client Area</CardTitle>
         </CardHeader>
         <CardContent>
           <Auth
@@ -61,33 +59,12 @@ export default function ClientLogin() {
                 },
               },
               className: {
-                anchor: 'hidden',
+                anchor: 'text-gray-600 hover:text-gray-900',
                 button: 'bg-[#00ffa3] hover:bg-[#004d31] text-white',
               },
             }}
-            localization={{
-              variables: {
-                sign_in: {
-                  email_label: "Email",
-                  password_label: "Senha",
-                  button_label: "Entrar",
-                  loading_button_label: "Entrando...",
-                  password_input_placeholder: "Sua senha",
-                  email_input_placeholder: "seu@email.com",
-                },
-              },
-            }}
             providers={[]}
-            view="sign_in"
           />
-          <div className="mt-4 text-center space-y-2">
-            <Link to="/reset-password" className="block text-sm text-gray-600 hover:text-gray-900">
-              {t('forgot_password')}
-            </Link>
-            <Link to="/register" className="block text-sm text-gray-600 hover:text-gray-900">
-              {t('dont_have_account')}
-            </Link>
-          </div>
         </CardContent>
       </Card>
     </div>
