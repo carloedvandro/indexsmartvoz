@@ -21,9 +21,9 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          <div className="p-3 bg-blue-50 rounded-lg">
-            <p className="text-sm text-blue-600">Nível 1</p>
-            <p className="text-2xl font-bold text-blue-700">{networkStats?.level1Count || 0}</p>
+          <div className="p-3 bg-red-50 rounded-lg">
+            <p className="text-sm text-red-600">Nível 1</p>
+            <p className="text-2xl font-bold text-red-700">{networkStats?.level1Count || 0}</p>
           </div>
           <div className="p-3 bg-green-50 rounded-lg">
             <p className="text-sm text-green-600">Nível 2</p>
