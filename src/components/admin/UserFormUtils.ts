@@ -50,7 +50,7 @@ export async function checkExistingDocumentId(documentId: string | null, exclude
   return data && data.length > 0;
 }
 
-export async function createUser(data: any) {
+export async function createUser(data: any, isAdmin: boolean = false) {
   // Clean up CNPJ and document_id before checking
   const cleanData = {
     ...data,
@@ -78,6 +78,17 @@ export async function createUser(data: any) {
   });
 
   if (authError) throw authError;
+
+  // If this is an admin user, update the profile role
+  if (isAdmin && authData.user) {
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .update({ role: 'admin' })
+      .eq('id', authData.user.id);
+
+    if (profileError) throw profileError;
+  }
+
   return authData;
 }
 
