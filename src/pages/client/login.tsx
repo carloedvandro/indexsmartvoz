@@ -25,8 +25,6 @@ export default function ClientLogin() {
         navigate("/client/dashboard");
       } else if (event === 'SIGNED_OUT') {
         navigate("/client/login");
-      } else if (event === 'USER_UPDATED') {
-        // Handle user update events if needed
       } else if (event === 'PASSWORD_RECOVERY') {
         toast({
           title: "Recuperação de senha",
@@ -34,8 +32,8 @@ export default function ClientLogin() {
         });
       } else if (!session?.user) {
         toast({
-          title: "Conta removida",
-          description: "Sua conta foi removida com sucesso.",
+          title: "Erro de autenticação",
+          description: "Credenciais inválidas. Por favor, tente novamente.",
           variant: "destructive",
         });
       }
