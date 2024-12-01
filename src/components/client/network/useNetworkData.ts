@@ -63,11 +63,13 @@ export const useNetworkData = (userId: string) => {
           
           // Create a map of members by their IDs
           const membersMap = new Map();
+          
+          // Primeiro, vamos criar todos os membros sem calcular os níveis
           allNetworkMembers.forEach((member, index) => {
             const profileData = profileResults[index].data;
-            const memberData = {
+            membersMap.set(member.id, {
               id: member.id,
-              level: member.level,
+              level: 1, // Inicialmente definimos todos como nível 1
               parentId: member.parent_id,
               user: {
                 full_name: profileData?.full_name || null,
@@ -75,12 +77,36 @@ export const useNetworkData = (userId: string) => {
                 custom_id: profileData?.custom_id || null
               },
               children: []
-            };
-            console.log(`Member ${member.id} data:`, memberData);
-            membersMap.set(member.id, memberData);
+            });
           });
 
-          // Build the tree structure starting from the root
+          // Agora vamos calcular os níveis corretamente
+          const calculateLevels = (memberId: string, currentLevel: number) => {
+            const member = membersMap.get(memberId);
+            if (!member) return;
+            
+            // Atualiza o nível do membro
+            member.level = currentLevel;
+            
+            // Encontra todos os filhos diretos deste membro
+            allNetworkMembers
+              .filter(m => m.parent_id === memberId)
+              .forEach(child => {
+                // Limita o nível máximo a 4
+                if (currentLevel < 4) {
+                  calculateLevels(child.id, currentLevel + 1);
+                }
+              });
+          };
+
+          // Calcula os níveis começando dos membros raiz
+          allNetworkMembers
+            .filter(member => member.parent_id === userNetwork.id)
+            .forEach(rootMember => {
+              calculateLevels(rootMember.id, 1);
+            });
+
+          // Constrói a árvore
           const rootMembers: NetworkMember[] = [];
           membersMap.forEach(member => {
             if (member.parentId === userNetwork.id) {
