@@ -11,27 +11,37 @@ export default function AdminLogin() {
   const { toast } = useToast();
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("Auth event:", event); // Debug log
+      
       if (event === 'PASSWORD_RECOVERY') {
         toast({
           title: "Recuperação de senha",
-          description: "Por favor, aguarde alguns segundos antes de tentar novamente.",
-          variant: "destructive"
+          description: "Por favor, defina sua nova senha.",
         });
       }
       
       if (session?.user) {
         // Verificar se o usuário é um admin antes de redirecionar
-        supabase
+        const { data } = await supabase
           .from("profiles")
           .select("role")
           .eq("id", session.user.id)
-          .single()
-          .then(({ data }) => {
-            if (data?.role === "admin") {
-              navigate("/admin/dashboard");
-            }
+          .single();
+
+        console.log("User role:", data?.role); // Debug log
+
+        if (data?.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          // Se não for admin, fazer logout e mostrar mensagem
+          await supabase.auth.signOut();
+          toast({
+            title: "Acesso negado",
+            description: "Esta área é restrita para administradores.",
+            variant: "destructive"
           });
+        }
       }
     });
 
