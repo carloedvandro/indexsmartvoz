@@ -17,6 +17,7 @@ export default function ClientLogin() {
       } else if (event === 'SIGNED_OUT') {
         navigate("/client/login");
       } else if (!session?.user && event !== 'INITIAL_SESSION') {
+        // Show error toast for authentication failures
         toast({
           title: "Erro de autenticação",
           description: "Credenciais inválidas. Por favor, verifique seu email e senha.",
