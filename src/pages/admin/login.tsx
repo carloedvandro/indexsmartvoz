@@ -103,9 +103,11 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen flex">
       {/* Left side - Login form */}
-      <div className="w-full md:w-[480px] p-8 flex flex-col justify-between bg-white">
+      <div className="w-full md:w-[480px] p-4 sm:p-8 flex flex-col justify-between bg-white">
         <div>
-          <h1 className="text-secondary text-6xl font-bold w-[70%] mb-12">Y-TECH</h1>
+          <h1 className="text-secondary text-4xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-12 break-words">
+            Y-<br className="sm:hidden" />TECH
+          </h1>
           <h2 className="text-lg font-medium mb-8">{t('administration')}</h2>
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
@@ -143,7 +145,7 @@ export default function AdminLogin() {
                 onClick={() => navigate("/reset-password")}
                 className="text-sm text-secondary hover:underline"
               >
-                Esqueceu sua senha?
+                {t('forgot_password')}
               </button>
             </div>
             <Button
@@ -155,7 +157,7 @@ export default function AdminLogin() {
             </Button>
           </form>
         </div>
-        <div className="text-center text-sm text-gray-500">
+        <div className="text-center text-sm text-gray-500 mt-8">
           <div className="flex items-center justify-center gap-2 mb-2">
             <LanguageSelector />
           </div>
