@@ -22,15 +22,32 @@ export default function ClientDashboard() {
       }
 
       try {
+        // Changed from .single() to get() and handling the array response
         const { data, error } = await supabase
           .from("profiles")
           .select("*")
           .eq("id", session.user.id)
-          .single();
+          .limit(1);
 
         if (error) throw error;
-        setProfile(data);
+        
+        // If we have data, set the first profile
+        if (data && data.length > 0) {
+          setProfile(data[0]);
+        } else {
+          // If no profile is found, show an error
+          toast({
+            title: "Erro",
+            description: "Perfil não encontrado",
+            variant: "destructive",
+          });
+          // Optionally sign out the user since their profile is missing
+          await supabase.auth.signOut();
+          navigate("/");
+          return;
+        }
       } catch (error) {
+        console.error('Error fetching profile:', error);
         toast({
           title: "Erro",
           description: "Erro ao carregar perfil",
