@@ -7,6 +7,7 @@ import { DashboardHeader } from "@/components/client/dashboard/DashboardHeader";
 import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
 import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
+import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -29,8 +30,9 @@ export default function ClientDashboard() {
           <ProfileCard profile={profile} />
           <NetworkCard networkStats={networkStats} onClick={handleNetworkClick} />
           <PlansCard />
+          <NetworkStatsCard />
         </div>
       </main>
     </div>
   );
-}
+};
