@@ -4,69 +4,111 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tables } from "@/integrations/supabase/types";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery } from "@tanstack/react-query";
 
 type Profile = Tables<"profiles">;
+type NetworkMember = Tables<"network">;
+
+interface NetworkStats {
+  level1Count: number;
+  level2Count: number;
+  level3Count: number;
+  level4Count: number;
+  sponsorName: string | null;
+}
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const checkSession = async () => {
+  // Fetch profile data
+  const { data: profileData, isLoading: profileLoading } = useQuery({
+    queryKey: ['profile'],
+    queryFn: async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
         navigate("/");
-        return;
+        return null;
       }
 
-      try {
-        // Changed from .single() to get() and handling the array response
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", session.user.id)
-          .limit(1);
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*, sponsor:profiles!profiles_sponsor_id_fkey(full_name)")
+        .eq("id", session.user.id)
+        .single();
 
-        if (error) throw error;
-        
-        // If we have data, set the first profile
-        if (data && data.length > 0) {
-          setProfile(data[0]);
-        } else {
-          // If no profile is found, show an error
-          toast({
-            title: "Erro",
-            description: "Perfil não encontrado",
-            variant: "destructive",
-          });
-          // Optionally sign out the user since their profile is missing
-          await supabase.auth.signOut();
-          navigate("/");
-          return;
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  // Fetch network statistics
+  const { data: networkStats, isLoading: networkLoading } = useQuery({
+    queryKey: ['networkStats'],
+    queryFn: async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return null;
+
+      const stats: NetworkStats = {
+        level1Count: 0,
+        level2Count: 0,
+        level3Count: 0,
+        level4Count: 0,
+        sponsorName: null,
+      };
+
+      // Get all network members
+      const { data: networkData, error } = await supabase
+        .from("network")
+        .select(`
+          id,
+          level,
+          user_id,
+          parent_id
+        `)
+        .eq("parent_id", session.user.id);
+
+      if (error) throw error;
+
+      // Count members by level
+      networkData?.forEach((member) => {
+        switch (member.level) {
+          case 1:
+            stats.level1Count++;
+            break;
+          case 2:
+            stats.level2Count++;
+            break;
+          case 3:
+            stats.level3Count++;
+            break;
+          case 4:
+            stats.level4Count++;
+            break;
         }
-      } catch (error) {
-        console.error('Error fetching profile:', error);
-        toast({
-          title: "Erro",
-          description: "Erro ao carregar perfil",
-          variant: "destructive",
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
+      });
 
-    checkSession();
-  }, [navigate, toast]);
+      return stats;
+    },
+  });
+
+  useEffect(() => {
+    if (profileData) {
+      setProfile(profileData);
+    }
+  }, [profileData]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/");
   };
 
-  if (loading) {
+  const handleNetworkClick = () => {
+    navigate("/client/network");
+  };
+
+  if (profileLoading || networkLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <p>Carregando...</p>
@@ -108,24 +150,40 @@ export default function ClientDashboard() {
                   <span className="font-semibold">Status:</span>{" "}
                   <span className="capitalize">{profile?.status || "Pendente"}</span>
                 </p>
-                {profile?.sponsor_id && (
-                  <p>
-                    <span className="font-semibold">Patrocinador ID:</span>{" "}
-                    {profile.sponsor_id}
-                  </p>
-                )}
+                <p>
+                  <span className="font-semibold">Patrocinador:</span>{" "}
+                  {(profile as any)?.sponsor?.full_name || "Não possui"}
+                </p>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card 
+            className="cursor-pointer hover:shadow-lg transition-shadow"
+            onClick={handleNetworkClick}
+          >
             <CardHeader>
-              <CardTitle>Rede</CardTitle>
+              <CardTitle>Minha Rede</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
-                Informações sobre sua rede serão exibidas aqui.
-              </p>
+              <div className="space-y-3">
+                <div className="p-3 bg-blue-50 rounded-lg">
+                  <p className="text-sm text-blue-600">Nível 1</p>
+                  <p className="text-2xl font-bold text-blue-700">{networkStats?.level1Count || 0}</p>
+                </div>
+                <div className="p-3 bg-green-50 rounded-lg">
+                  <p className="text-sm text-green-600">Nível 2</p>
+                  <p className="text-2xl font-bold text-green-700">{networkStats?.level2Count || 0}</p>
+                </div>
+                <div className="p-3 bg-purple-50 rounded-lg">
+                  <p className="text-sm text-purple-600">Nível 3</p>
+                  <p className="text-2xl font-bold text-purple-700">{networkStats?.level3Count || 0}</p>
+                </div>
+                <div className="p-3 bg-orange-50 rounded-lg">
+                  <p className="text-sm text-orange-600">Nível 4</p>
+                  <p className="text-2xl font-bold text-orange-700">{networkStats?.level4Count || 0}</p>
+                </div>
+              </div>
             </CardContent>
           </Card>
 
