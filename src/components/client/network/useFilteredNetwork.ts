@@ -1,32 +1,36 @@
 import { NetworkMember } from "./types";
 
 export const useFilteredNetwork = (data: NetworkMember[], selectedLevel: string) => {
+  console.log("Filtering network data:", { data, selectedLevel });
+  
   if (!data) return [];
   if (selectedLevel === "all") return data;
   
   const level = parseInt(selectedLevel);
+  console.log("Filtering for level:", level);
   
-  // Função recursiva para encontrar membros do nível específico e manter a estrutura da árvore
   const filterByLevel = (members: NetworkMember[]): NetworkMember[] => {
-    return members.reduce<NetworkMember[]>((acc, member) => {
-      // Se o membro atual está no nível desejado, adiciona ele
+    const result = members.reduce<NetworkMember[]>((acc, member) => {
+      console.log(`Checking member ${member.id} with level ${member.level}`);
+      
       if (member.level === level) {
+        console.log(`Found matching member:`, member);
         acc.push({ ...member, children: [] });
       }
       
-      // Se tem filhos, procura recursivamente neles também
       if (member.children && member.children.length > 0) {
+        console.log(`Checking children of member ${member.id}`);
         const filteredChildren = filterByLevel(member.children);
+        
         if (filteredChildren.length > 0) {
-          // Se encontrou filhos no nível desejado, adiciona o membro atual com os filhos filtrados
           if (member.level === level) {
-            // Se o membro atual já foi adicionado, apenas atualiza seus filhos
             const existingMember = acc.find(m => m.id === member.id);
             if (existingMember) {
+              console.log(`Updating existing member's children:`, member.id);
               existingMember.children = filteredChildren;
             }
           } else {
-            // Se o membro atual não está no nível desejado, mas tem filhos que estão
+            console.log(`Adding parent with filtered children:`, member.id);
             acc.push({
               ...member,
               children: filteredChildren
@@ -37,7 +41,12 @@ export const useFilteredNetwork = (data: NetworkMember[], selectedLevel: string)
       
       return acc;
     }, []);
+    
+    console.log("Filtered results:", result);
+    return result;
   };
 
-  return filterByLevel(data);
+  const filteredData = filterByLevel(data);
+  console.log("Final filtered data:", filteredData);
+  return filteredData;
 };

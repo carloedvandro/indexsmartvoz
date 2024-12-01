@@ -46,7 +46,7 @@ export const useNetworkData = (userId: string) => {
           return;
         }
 
-        console.log("All network members found:", allNetworkMembers);
+        console.log("Raw network members data:", allNetworkMembers);
 
         // If we have network members, fetch their profile information
         if (allNetworkMembers && allNetworkMembers.length > 0) {
@@ -59,12 +59,13 @@ export const useNetworkData = (userId: string) => {
           );
 
           const profileResults = await Promise.all(profilePromises);
+          console.log("Profile results:", profileResults);
           
           // Create a map of members by their IDs
           const membersMap = new Map();
           allNetworkMembers.forEach((member, index) => {
             const profileData = profileResults[index].data;
-            membersMap.set(member.id, {
+            const memberData = {
               id: member.id,
               level: member.level,
               parentId: member.parent_id,
@@ -74,18 +75,22 @@ export const useNetworkData = (userId: string) => {
                 custom_id: profileData?.custom_id || null
               },
               children: []
-            });
+            };
+            console.log(`Member ${member.id} data:`, memberData);
+            membersMap.set(member.id, memberData);
           });
 
           // Build the tree structure starting from the root
           const rootMembers: NetworkMember[] = [];
           membersMap.forEach(member => {
             if (member.parentId === userNetwork.id) {
+              console.log(`Adding root member:`, member);
               rootMembers.push(member);
             } else {
               const parent = membersMap.get(member.parentId);
               if (parent) {
                 if (!parent.children) parent.children = [];
+                console.log(`Adding child member to parent ${parent.id}:`, member);
                 parent.children.push(member);
               }
             }
