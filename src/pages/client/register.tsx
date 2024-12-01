@@ -10,14 +10,15 @@ export default function ClientRegister() {
 
   const onSubmit = async (values: RegisterFormData) => {
     try {
-      // Primeiro, verificar se o email já existe
-      const { data: existingUser } = await supabase
+      // Verificar se o email já existe
+      const { data: existingEmails, error: emailError } = await supabase
         .from('profiles')
         .select('email')
-        .eq('email', values.email)
-        .single();
+        .eq('email', values.email);
 
-      if (existingUser) {
+      if (emailError) throw emailError;
+      
+      if (existingEmails && existingEmails.length > 0) {
         toast({
           title: "Erro",
           description: "Este email já está cadastrado",
@@ -27,19 +28,39 @@ export default function ClientRegister() {
       }
 
       // Verificar se o ID personalizado já existe
-      const { data: existingCustomId } = await supabase
+      const { data: existingCustomIds, error: customIdError } = await supabase
         .from('profiles')
         .select('custom_id')
-        .eq('custom_id', values.customId)
-        .single();
+        .eq('custom_id', values.customId);
 
-      if (existingCustomId) {
+      if (customIdError) throw customIdError;
+
+      if (existingCustomIds && existingCustomIds.length > 0) {
         toast({
           title: "Erro",
           description: "Este ID personalizado já está em uso",
           variant: "destructive",
         });
         return;
+      }
+
+      // Se houver um ID de indicação, verificar se ele existe
+      if (values.referralId) {
+        const { data: sponsorData, error: sponsorError } = await supabase
+          .from('profiles')
+          .select('id')
+          .eq('custom_id', values.referralId);
+
+        if (sponsorError) throw sponsorError;
+
+        if (!sponsorData || sponsorData.length === 0) {
+          toast({
+            title: "Erro",
+            description: "ID de indicação inválido",
+            variant: "destructive",
+          });
+          return;
+        }
       }
 
       // Criar o usuário no Auth
@@ -56,6 +77,20 @@ export default function ClientRegister() {
       if (authError) throw authError;
 
       if (authData.user) {
+        // Buscar o ID do sponsor se existir
+        let sponsorId = null;
+        if (values.referralId) {
+          const { data: sponsorData } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('custom_id', values.referralId)
+            .single();
+          
+          if (sponsorData) {
+            sponsorId = sponsorData.id;
+          }
+        }
+
         // Atualizar o perfil com informações adicionais
         const { error: profileError } = await supabase
           .from('profiles')
@@ -63,7 +98,7 @@ export default function ClientRegister() {
             full_name: values.fullName,
             document_id: values.cpf,
             custom_id: values.customId,
-            sponsor_id: values.referralId || null,
+            sponsor_id: sponsorId,
           })
           .eq('id', authData.user.id);
 
@@ -74,12 +109,13 @@ export default function ClientRegister() {
           description: "Conta criada com sucesso! Verifique seu email para confirmar o cadastro.",
         });
 
-        navigate("/");
+        navigate("/client/login");
       }
     } catch (error: any) {
+      console.error('Registration error:', error);
       toast({
         title: "Erro no cadastro",
-        description: error.message,
+        description: error.message || "Ocorreu um erro ao criar sua conta",
         variant: "destructive",
       });
     }
