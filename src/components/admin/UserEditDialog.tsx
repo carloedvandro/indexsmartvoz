@@ -10,8 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { UserFormTabs } from "./UserFormTabs";
-import { checkExistingUser, createUser, updateProfile } from "./UserFormUtils";
-import { supabase } from "@/integrations/supabase/client";
+import { checkExistingUser, createUser, updateProfile, deleteUser } from "./UserFormUtils";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -38,11 +37,7 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      const { error } = await supabase.rpc('delete_user_and_profile', {
-        user_id: user.id
-      });
-
-      if (error) throw error;
+      await deleteUser(user.id);
 
       toast({
         title: "Sucesso",

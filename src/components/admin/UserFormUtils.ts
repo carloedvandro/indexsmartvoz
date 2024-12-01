@@ -116,3 +116,27 @@ export async function updateProfile(id: string, data: any) {
 
   if (error) throw error;
 }
+
+export async function deleteUser(userId: string) {
+  // Primeiro, verificar se o usuário que está tentando deletar é um admin
+  const { data: adminCheck, error: adminError } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', (await supabase.auth.getUser()).data.user?.id)
+    .single();
+
+  if (adminError) throw adminError;
+  if (adminCheck?.role !== 'admin') {
+    throw new Error("Apenas administradores podem excluir usuários");
+  }
+
+  // Agora podemos chamar a função RPC que deleta o usuário e seu perfil
+  const { error } = await supabase.rpc('delete_user_and_profile', {
+    user_id: userId
+  });
+
+  if (error) {
+    console.error('Error deleting user:', error);
+    throw new Error("Erro ao excluir usuário. Por favor, tente novamente.");
+  }
+}
