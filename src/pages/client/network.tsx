@@ -57,9 +57,13 @@ export default function NetworkTree() {
           const formattedData = data.map(item => ({
             id: item.id,
             level: item.level,
-            user: item.profiles
+            user: {
+              full_name: item.profiles?.full_name || null,
+              email: item.profiles?.email || '',
+              custom_id: item.profiles?.custom_id || null
+            }
           }));
-          setNetworkData(formattedData as NetworkMember[]);
+          setNetworkData(formattedData);
         }
       } catch (error) {
         console.error("Error fetching network data:", error);
