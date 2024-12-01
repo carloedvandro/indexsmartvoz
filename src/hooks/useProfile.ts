@@ -36,7 +36,13 @@ export const useProfile = () => {
       }
 
       console.log("Profile data:", data);
-      return data;
+      return data as Profile & {
+        sponsor: {
+          id: string;
+          full_name: string | null;
+          email: string;
+        } | null;
+      };
     },
     retry: 1,
     refetchOnWindowFocus: false,
