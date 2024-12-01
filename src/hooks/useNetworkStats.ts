@@ -61,22 +61,63 @@ export const useNetworkStats = (userId: string | undefined) => {
 
       console.log("Network stats data received:", networkData);
 
+      // Count members based on their actual level in relation to the current user
       networkData?.forEach((member) => {
-        switch (member.level) {
-          case 1:
-            stats.level1Count++;
-            break;
-          case 2:
-            stats.level2Count++;
-            break;
-          case 3:
-            stats.level3Count++;
-            break;
-          case 4:
-            stats.level4Count++;
-            break;
-        }
+        // Adjust the level count based on the direct relationship
+        // Since these are direct children of the current user's network,
+        // they are all level 1 (direct indicators)
+        stats.level1Count++;
       });
+
+      // Now get second level members (members whose parent is one of our direct members)
+      if (networkData && networkData.length > 0) {
+        const directMemberIds = networkData.map(member => member.id);
+        const { data: level2Data, error: level2Error } = await supabase
+          .from("network")
+          .select()
+          .in("parent_id", directMemberIds);
+
+        if (level2Error) {
+          console.error("Error fetching level 2 stats:", level2Error);
+          throw level2Error;
+        }
+
+        if (level2Data) {
+          stats.level2Count = level2Data.length;
+
+          // Get third level members
+          const level2MemberIds = level2Data.map(member => member.id);
+          const { data: level3Data, error: level3Error } = await supabase
+            .from("network")
+            .select()
+            .in("parent_id", level2MemberIds);
+
+          if (level3Error) {
+            console.error("Error fetching level 3 stats:", level3Error);
+            throw level3Error;
+          }
+
+          if (level3Data) {
+            stats.level3Count = level3Data.length;
+
+            // Get fourth level members
+            const level3MemberIds = level3Data.map(member => member.id);
+            const { data: level4Data, error: level4Error } = await supabase
+              .from("network")
+              .select()
+              .in("parent_id", level3MemberIds);
+
+            if (level4Error) {
+              console.error("Error fetching level 4 stats:", level4Error);
+              throw level4Error;
+            }
+
+            if (level4Data) {
+              stats.level4Count = level4Data.length;
+            }
+          }
+        }
+      }
 
       console.log("Calculated network stats:", stats);
       return stats;
