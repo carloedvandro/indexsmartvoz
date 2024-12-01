@@ -21,6 +21,7 @@ export default function AdminLogin() {
       toast({
         title: "Recuperação de senha",
         description: "Por favor, defina sua nova senha.",
+        duration: 6000, // Aumentando a duração para 6 segundos
       });
       
       // Atualizar a URL para remover os parâmetros de recuperação
@@ -34,6 +35,7 @@ export default function AdminLogin() {
         toast({
           title: "Recuperação de senha",
           description: "Por favor, defina sua nova senha.",
+          duration: 6000,
         });
       } else if (event === 'SIGNED_IN') {
         if (session?.user) {
@@ -54,7 +56,8 @@ export default function AdminLogin() {
             toast({
               title: "Acesso negado",
               description: "Esta área é restrita para administradores.",
-              variant: "destructive"
+              variant: "destructive",
+              duration: 6000,
             });
           }
         }
@@ -111,6 +114,7 @@ export default function AdminLogin() {
               },
             }}
             providers={[]}
+            redirectTo="https://ytech-saas.lovable.app/admin/login"
             theme="light"
           />
         </CardContent>
