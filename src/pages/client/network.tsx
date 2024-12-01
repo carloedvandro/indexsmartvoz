@@ -44,7 +44,10 @@ export default function NetworkTree() {
         if (error) throw error;
         
         console.log("Network data:", data);
-        setNetworkData(data || []);
+        
+        // Cast the data to unknown first, then to NetworkMember[]
+        const typedData = (data || []) as unknown as NetworkMember[];
+        setNetworkData(typedData);
       } catch (error) {
         console.error("Error fetching network data:", error);
         toast({
