@@ -57,29 +57,31 @@ export const NetworkStatsCard = () => {
     queryFn: async () => {
       if (!profile?.id) return null;
 
-      // First get all members in the user's network
-      const { data: networkMembers } = await supabase
-        .from('network')
-        .select('user_id')
-        .neq('user_id', profile.id);
-
-      if (!networkMembers) return null;
-
-      const memberIds = networkMembers.map(member => member.user_id);
-
-      // Then get their status from profiles
-      const { data: profilesData } = await supabase
+      // Get all profiles and their status
+      const { data: profilesData, error } = await supabase
         .from('profiles')
-        .select('blocked')
-        .in('id', memberIds);
+        .select('status, blocked')
+        .neq('id', profile.id); // Exclude current user
+
+      if (error) {
+        console.error("Error fetching profiles:", error);
+        return {
+          active: 0,
+          inactive: 0
+        };
+      }
 
       if (!profilesData) return {
         active: 0,
         inactive: 0
       };
 
-      const active = profilesData.filter(p => !p.blocked).length;
-      const inactive = profilesData.filter(p => p.blocked).length;
+      // Count active and inactive members
+      const active = profilesData.filter(p => p.status === 'active' && !p.blocked).length;
+      const inactive = profilesData.filter(p => p.status !== 'active' || p.blocked).length;
+
+      console.log("Active members:", active);
+      console.log("Inactive members:", inactive);
 
       return {
         active,
@@ -186,8 +188,8 @@ export const NetworkStatsCard = () => {
                 innerRadius={60}
                 paddingAngle={5}
                 dataKey="value"
-                label={({ name, percent }) =>
-                  `${name}: ${(percent * 100).toFixed(0)}%`
+                label={({ name, value, percent }) =>
+                  `${name}: ${value} (${(percent * 100).toFixed(0)}%)`
                 }
                 isAnimationActive={true}
                 blendStroke
