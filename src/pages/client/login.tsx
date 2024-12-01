@@ -11,17 +11,31 @@ export default function ClientLogin() {
   const { toast } = useToast();
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    // Check if user is already authenticated
+    const checkUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        navigate("/client/dashboard");
+      }
+    };
+    checkUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
         navigate("/client/dashboard");
       } else if (event === 'SIGNED_OUT') {
         navigate("/client/login");
       } else if (event === 'USER_UPDATED') {
         // Handle user update events if needed
-      } else if (!session?.user && event !== 'INITIAL_SESSION') {
+      } else if (event === 'PASSWORD_RECOVERY') {
         toast({
-          title: "Erro de autenticação",
-          description: "Credenciais inválidas. Por favor, verifique seu email e senha.",
+          title: "Recuperação de senha",
+          description: "Verifique seu email para redefinir sua senha.",
+        });
+      } else if (!session?.user && event === 'USER_DELETED') {
+        toast({
+          title: "Conta removida",
+          description: "Sua conta foi removida com sucesso.",
           variant: "destructive",
         });
       }
