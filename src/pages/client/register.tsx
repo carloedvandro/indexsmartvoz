@@ -31,7 +31,23 @@ export default function ClientRegister() {
         sponsorId = sponsor.id;
       }
 
-      // Create user account with metadata
+      // Check if custom_id is already in use
+      const { data: existingCustomId, error: customIdError } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("custom_id", values.customId)
+        .single();
+
+      if (existingCustomId) {
+        toast({
+          title: "Erro",
+          description: "Este ID personalizado já está em uso",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Create user account with metadata - the trigger will create the profile
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -61,24 +77,6 @@ export default function ClientRegister() {
 
       if (!authData.user) {
         throw new Error("Erro ao criar usuário");
-      }
-
-      // Create profile
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: authData.user.id,
-          email: values.email,
-          full_name: values.fullName,
-          document_id: values.cpf,
-          custom_id: values.customId,
-          sponsor_id: sponsorId,
-          role: 'client'
-        });
-
-      if (profileError) {
-        console.error('Profile creation error:', profileError);
-        throw profileError;
       }
 
       toast({
