@@ -159,20 +159,22 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center p-8">
+      <div className="flex justify-center items-center p-4 md:p-8">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   return (
-    <div className="p-6">
-      <NetworkFilter
-        selectedLevel={selectedLevel}
-        onLevelChange={setSelectedLevel}
-      />
+    <div className="p-3 md:p-6 max-w-full overflow-x-auto">
+      <div className="mb-4 md:mb-6">
+        <NetworkFilter
+          selectedLevel={selectedLevel}
+          onLevelChange={setSelectedLevel}
+        />
+      </div>
 
-      <div className="space-y-4">
+      <div className="min-w-[300px] max-w-full">
         <AnimatePresence>
           {filteredData.length > 0 ? (
             <div className="space-y-4">
@@ -186,7 +188,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
               ))}
             </div>
           ) : (
-            <div className="text-center py-12">
+            <div className="text-center py-8 md:py-12">
               <p className="text-gray-500">Nenhum membro encontrado em sua rede.</p>
             </div>
           )}
