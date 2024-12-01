@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Index from "./pages/Index";
 import AdminLogin from "./pages/admin/login";
+import AdminDashboard from "./pages/admin/dashboard";
 import ClientLogin from "./pages/client/login";
 
 const queryClient = new QueryClient();
@@ -20,8 +21,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/client/login" element={<ClientLogin />} />
-            {/* Rotas protegidas serão adicionadas posteriormente */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </AnimatePresence>

@@ -17,7 +17,6 @@ export default function AdminLogin() {
     const type = params.get('type');
 
     if (token && type === 'recovery') {
-      // Mostrar o toast imediatamente
       toast({
         title: "Redefinição de Senha",
         description: "Por favor, defina sua nova senha no formulário abaixo.",
@@ -85,16 +84,6 @@ export default function AdminLogin() {
                   password_label: "Senha",
                   button_label: "Entrar",
                   loading_button_label: "Entrando...",
-                  social_provider_text: "Entrar com {{provider}}",
-                  link_text: "Já tem uma conta? Entre",
-                },
-                sign_up: {
-                  email_label: "Email",
-                  password_label: "Senha",
-                  button_label: "Criar conta",
-                  loading_button_label: "Criando conta...",
-                  social_provider_text: "Cadastrar com {{provider}}",
-                  link_text: "Não tem uma conta? Cadastre-se",
                 },
                 forgotten_password: {
                   link_text: "Esqueceu sua senha?",
@@ -110,9 +99,10 @@ export default function AdminLogin() {
                 },
               },
             }}
+            view="sign_in"
+            showLinks={true}
             providers={[]}
-            redirectTo="https://ytech-saas.lovable.app/admin/login"
-            theme="light"
+            redirectTo="https://netquest-saas.lovable.app/admin/login"
           />
         </CardContent>
       </Card>
