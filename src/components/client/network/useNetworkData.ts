@@ -67,7 +67,7 @@ export const useNetworkData = (userId: string) => {
             const profileData = profileResults[index].data;
             const memberData = {
               id: member.id,
-              level: member.level, // Mantendo o nível original do banco
+              level: member.level,
               parentId: member.parent_id,
               user: {
                 full_name: profileData?.full_name || null,
