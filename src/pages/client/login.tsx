@@ -15,7 +15,6 @@ export default function ClientLogin() {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
-        // Verificar se o perfil existe
         const { data: profile, error: profileError } = await supabase
           .from('profiles')
           .select('*')
@@ -36,16 +35,6 @@ export default function ClientLogin() {
         }
       } else if (event === 'SIGNED_OUT') {
         navigate("/");
-      } else if (event === 'USER_UPDATED') {
-        toast({
-          title: "Conta atualizada",
-          description: "Suas informações foram atualizadas com sucesso.",
-        });
-      } else if (event === 'PASSWORD_RECOVERY') {
-        toast({
-          title: "Recuperação de senha",
-          description: "Verifique seu email para redefinir sua senha.",
-        });
       }
     });
 
@@ -71,6 +60,9 @@ export default function ClientLogin() {
                   },
                 },
               },
+              className: {
+                anchor: 'hidden', // Esconde o link padrão do Auth UI
+              },
             }}
             localization={{
               variables: {
@@ -82,23 +74,6 @@ export default function ClientLogin() {
                   password_input_placeholder: "Sua senha",
                   email_input_placeholder: "seu@email.com",
                   link_text: "Esqueceu sua senha?",
-                  social_provider_text: "Entrar com {{provider}}",
-                },
-                sign_up: {
-                  email_label: "Email",
-                  password_label: "Senha",
-                  button_label: "Criar conta",
-                  loading_button_label: "Criando conta...",
-                  password_input_placeholder: "Sua senha",
-                  email_input_placeholder: "seu@email.com",
-                  link_text: "Não tem uma conta? Cadastre-se",
-                  confirmation_text: "Verifique seu email para confirmar o cadastro",
-                },
-                forgotten_password: {
-                  button_label: "Enviar instruções",
-                  loading_button_label: "Enviando instruções...",
-                  link_text: "Esqueceu sua senha?",
-                  confirmation_text: "Verifique seu email para redefinir sua senha",
                 },
               },
             }}
