@@ -4,13 +4,24 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
+    // Capturar o parâmetro 'type' da URL
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get('type');
+
+    if (type === 'recovery') {
+      toast({
+        title: "Recuperação de senha",
+        description: "Por favor, defina sua nova senha.",
+      });
+    }
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("Auth event:", event); // Debug log
       
