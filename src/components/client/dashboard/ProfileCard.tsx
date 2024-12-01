@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tables } from "@/integrations/supabase/types";
 import { Users } from "lucide-react";
+import { useNetworkStats } from "@/hooks/useNetworkStats";
 
 type Profile = Tables<"profiles">;
 
@@ -19,6 +20,12 @@ interface ProfileCardProps {
 export const ProfileCard = ({ profile }: ProfileCardProps) => {
   // Placeholder image from Unsplash
   const profileImage = "https://images.unsplash.com/photo-1649972904349-6e44c42644a7";
+  const { data: networkStats } = useNetworkStats(profile?.id);
+
+  // Calculate total network size
+  const totalNetworkSize = networkStats ? 
+    networkStats.level1Count + networkStats.level2Count + networkStats.level3Count + networkStats.level4Count : 
+    0;
 
   return (
     <Card className="h-full">
@@ -47,7 +54,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
             </div>
             <div className="space-y-1">
               <span className="text-sm font-semibold text-muted-foreground">Equipe</span>
-              <p className="text-sm">{profile?.custom_id ? profile.custom_id : "9"}</p>
+              <p className="text-sm">{totalNetworkSize}</p>
             </div>
             <div className="space-y-1">
               <span className="text-sm font-semibold text-muted-foreground">Status</span>

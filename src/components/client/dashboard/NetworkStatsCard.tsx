@@ -12,6 +12,8 @@ import {
   Cell,
   Legend,
 } from "recharts";
+import { useNetworkStats } from "@/hooks/useNetworkStats";
+import { useProfile } from "@/hooks/useProfile";
 
 const barData = [
   { name: "Nov 1", value: 7 },
@@ -31,11 +33,6 @@ const barData = [
   { name: "Nov 15", value: 612 },
 ];
 
-const pieData = [
-  { name: "Ativos", value: 6700, color: "#9b87f5" },
-  { name: "Inativos", value: 0, color: "#D946EF" },
-];
-
 const colors = [
   "#FF6B6B",
   "#FFA07A",
@@ -49,6 +46,19 @@ const colors = [
 ];
 
 export const NetworkStatsCard = () => {
+  const { profile } = useProfile();
+  const { data: networkStats } = useNetworkStats(profile?.id);
+
+  // Calculate total network size and active/inactive members
+  const totalNetworkSize = networkStats ? 
+    networkStats.level1Count + networkStats.level2Count + networkStats.level3Count + networkStats.level4Count : 
+    0;
+
+  const pieData = [
+    { name: "Ativos", value: totalNetworkSize, color: "#9b87f5" },
+    { name: "Inativos", value: 0, color: "#D946EF" },
+  ];
+
   return (
     <Card className="col-span-2">
       <CardHeader>
