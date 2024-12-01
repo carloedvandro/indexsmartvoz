@@ -27,7 +27,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   useEffect(() => {
     const fetchNetworkData = async () => {
       try {
-        console.log("Fetching network data for user:", userId);
+        console.log("Fetching network data for user ID:", userId);
         
         // First, get the network ID of the current user
         const { data: userNetwork, error: userNetworkError } = await supabase
@@ -57,7 +57,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
             level,
             user_id,
             parent_id,
-            user:profiles!user_id(
+            profiles(
               full_name,
               email,
               custom_id
@@ -77,9 +77,9 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
             id: member.id,
             level: member.level,
             user: {
-              full_name: member.user?.full_name || null,
-              email: member.user?.email || '',
-              custom_id: member.user?.custom_id || null
+              full_name: member.profiles?.full_name || null,
+              email: member.profiles?.email || '',
+              custom_id: member.profiles?.custom_id || null
             }
           }));
           setNetworkData(formattedMembers);
