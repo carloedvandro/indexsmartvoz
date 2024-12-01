@@ -4,19 +4,29 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session?.user) {
+      if (event === 'SIGNED_IN' && session?.user) {
         navigate("/client/dashboard");
+      } else if (event === 'USER_DELETED' || event === 'SIGNED_OUT') {
+        navigate("/client/login");
+      } else if (event === 'AUTH_ERROR') {
+        toast({
+          title: "Erro de autenticação",
+          description: "Credenciais inválidas. Por favor, verifique seu email e senha.",
+          variant: "destructive",
+        });
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, toast]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
@@ -67,6 +77,13 @@ export default function ClientLogin() {
             providers={[]}
             view="sign_in"
             redirectTo={`${window.location.origin}/client/dashboard`}
+            onError={(error) => {
+              toast({
+                title: "Erro de autenticação",
+                description: "Credenciais inválidas. Por favor, verifique seu email e senha.",
+                variant: "destructive",
+              });
+            }}
           />
         </CardContent>
       </Card>
