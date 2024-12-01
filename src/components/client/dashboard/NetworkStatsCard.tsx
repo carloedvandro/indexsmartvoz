@@ -106,7 +106,7 @@ export const NetworkStatsCard = () => {
                     key={`cell-${index}`}
                     fill={`url(#colorGradient-${index % colors.length})`}
                     style={{
-                      filter: "drop-shadow(2px 2px 2px rgba(0,0,0,0.2))",
+                      filter: "drop-shadow(4px 4px 6px rgba(0,0,0,0.5))",
                     }}
                   />
                 ))}
@@ -137,7 +137,7 @@ export const NetworkStatsCard = () => {
                     stroke="#ffffff"
                     strokeWidth={2}
                     style={{
-                      filter: "drop-shadow(3px 3px 3px rgba(0,0,0,0.2))",
+                      filter: "drop-shadow(6px 6px 8px rgba(0,0,0,0.6))",
                     }}
                   />
                 ))}
