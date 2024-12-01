@@ -37,12 +37,17 @@ export async function seedNetworkUsers() {
       if (authData.user) {
         level1Users.push(authData.user.id);
         
+        // Calculate birth date
+        const birthDate = new Date();
+        birthDate.setFullYear(birthDate.getFullYear() - 20);
+        birthDate.setDate(birthDate.getDate() - i);
+        
         // Update profile with additional data
         await supabase
           .from('profiles')
           .update({
             document_id: String(i).padStart(11, '0'),
-            birth_date: new Date(Date.now() - (20 * 365 * 24 * 60 * 60 * 1000) - (i * 24 * 60 * 60 * 1000)),
+            birth_date: birthDate.toISOString().split('T')[0],
             phone: `11999${String(i).padStart(6, '0')}`,
             status: 'active'
           })
@@ -76,12 +81,17 @@ export async function seedNetworkUsers() {
       if (authData.user) {
         level2Users.push(authData.user.id);
         
+        // Calculate birth date
+        const birthDate = new Date();
+        birthDate.setFullYear(birthDate.getFullYear() - 25);
+        birthDate.setDate(birthDate.getDate() - i);
+        
         // Update profile with additional data and sponsor
         await supabase
           .from('profiles')
           .update({
             document_id: String(level1Count + i).padStart(11, '0'),
-            birth_date: new Date(Date.now() - (25 * 365 * 24 * 60 * 60 * 1000) - (i * 24 * 60 * 60 * 1000)),
+            birth_date: birthDate.toISOString().split('T')[0],
             phone: `11998${String(i).padStart(6, '0')}`,
             status: 'active',
             sponsor_id: sponsorId
@@ -115,12 +125,17 @@ export async function seedNetworkUsers() {
       if (authData.user) {
         level3Users.push(authData.user.id);
         
+        // Calculate birth date
+        const birthDate = new Date();
+        birthDate.setFullYear(birthDate.getFullYear() - 30);
+        birthDate.setDate(birthDate.getDate() - i);
+        
         // Update profile with additional data and sponsor
         await supabase
           .from('profiles')
           .update({
             document_id: String(level1Count + level2Count + i).padStart(11, '0'),
-            birth_date: new Date(Date.now() - (30 * 365 * 24 * 60 * 60 * 1000) - (i * 24 * 60 * 60 * 1000)),
+            birth_date: birthDate.toISOString().split('T')[0],
             phone: `11997${String(i).padStart(6, '0')}`,
             status: 'active',
             sponsor_id: sponsorId
@@ -152,12 +167,17 @@ export async function seedNetworkUsers() {
       }
 
       if (authData.user) {
+        // Calculate birth date
+        const birthDate = new Date();
+        birthDate.setFullYear(birthDate.getFullYear() - 35);
+        birthDate.setDate(birthDate.getDate() - i);
+        
         // Update profile with additional data and sponsor
         await supabase
           .from('profiles')
           .update({
             document_id: String(level1Count + level2Count + level3Count + i).padStart(11, '0'),
-            birth_date: new Date(Date.now() - (35 * 365 * 24 * 60 * 60 * 1000) - (i * 24 * 60 * 60 * 1000)),
+            birth_date: birthDate.toISOString().split('T')[0],
             phone: `11996${String(i).padStart(6, '0')}`,
             status: 'active',
             sponsor_id: sponsorId
