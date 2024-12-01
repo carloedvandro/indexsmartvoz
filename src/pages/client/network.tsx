@@ -58,9 +58,9 @@ export default function NetworkTree() {
             id: item.id,
             level: item.level,
             user: {
-              full_name: item.profiles?.full_name || null,
-              email: item.profiles?.email || '',
-              custom_id: item.profiles?.custom_id || null
+              full_name: item.profiles?.[0]?.full_name || null,
+              email: item.profiles?.[0]?.email || '',
+              custom_id: item.profiles?.[0]?.custom_id || null
             }
           }));
           setNetworkData(formattedData);
@@ -136,4 +136,4 @@ export default function NetworkTree() {
       </main>
     </div>
   );
-};
+}
