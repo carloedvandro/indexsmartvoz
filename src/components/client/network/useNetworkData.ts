@@ -32,7 +32,7 @@ export const useNetworkData = (userId: string) => {
         console.log("User network found:", userNetwork);
 
         // Get all members in the network tree
-        const { data: allNetworkMembers, error: membersError } = await supabase
+        const { data: allNetworkMembers, error } = await supabase
           .from("network")
           .select(`
             id,
@@ -41,8 +41,8 @@ export const useNetworkData = (userId: string) => {
             parent_id
           `);
 
-        if (membersError) {
-          console.error("Error fetching network members:", membersError);
+        if (error) {
+          console.error("Error fetching network members:", error);
           return;
         }
 
@@ -67,7 +67,7 @@ export const useNetworkData = (userId: string) => {
             const profileData = profileResults[index].data;
             const memberData = {
               id: member.id,
-              level: member.level,
+              level: member.level, // Mantendo o nível original do banco
               parentId: member.parent_id,
               user: {
                 full_name: profileData?.full_name || null,

@@ -14,28 +14,21 @@ export const useFilteredNetwork = (data: NetworkMember[], selectedLevel: string)
       console.log(`Checking member ${member.id} with level ${member.level}`);
       
       if (member.level === level) {
+        // Se o membro está no nível desejado, adiciona ele sem os filhos
         console.log(`Found matching member:`, member);
         acc.push({ ...member, children: [] });
-      }
-      
-      if (member.children && member.children.length > 0) {
+      } else if (member.children && member.children.length > 0) {
+        // Se o membro não está no nível desejado, mas pode ter filhos no nível
         console.log(`Checking children of member ${member.id}`);
         const filteredChildren = filterByLevel(member.children);
         
         if (filteredChildren.length > 0) {
-          if (member.level === level) {
-            const existingMember = acc.find(m => m.id === member.id);
-            if (existingMember) {
-              console.log(`Updating existing member's children:`, member.id);
-              existingMember.children = filteredChildren;
-            }
-          } else {
-            console.log(`Adding parent with filtered children:`, member.id);
-            acc.push({
-              ...member,
-              children: filteredChildren
-            });
-          }
+          // Se encontrou filhos no nível desejado, adiciona o membro com os filhos filtrados
+          console.log(`Adding parent with filtered children:`, member.id);
+          acc.push({
+            ...member,
+            children: filteredChildren
+          });
         }
       }
       
