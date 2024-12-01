@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -6,11 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { useTranslation } from 'react-i18next';
+import { LanguageSelector } from "@/components/LanguageSelector";
+import '@/i18n';
 
 export default function AdminLogin() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -31,8 +34,8 @@ export default function AdminLogin() {
           } else {
             await supabase.auth.signOut();
             toast({
-              title: "Acesso negado",
-              description: "Esta área é restrita para administradores.",
+              title: t('login_error'),
+              description: t('check_credentials'),
               variant: "destructive",
               duration: 6000,
             });
@@ -42,7 +45,7 @@ export default function AdminLogin() {
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate, toast]);
+  }, [navigate, toast, t]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,8 +60,8 @@ export default function AdminLogin() {
       if (error) throw error;
     } catch (error: any) {
       toast({
-        title: "Erro ao fazer login",
-        description: "Verifique suas credenciais e tente novamente.",
+        title: t('login_error'),
+        description: t('check_credentials'),
         variant: "destructive",
       });
     } finally {
@@ -72,10 +75,10 @@ export default function AdminLogin() {
       <div className="w-full md:w-[480px] p-8 flex flex-col justify-between bg-white">
         <div>
           <h1 className="text-secondary text-6xl font-bold w-[70%] mb-12">Y-TECH<sup className="text-sm align-top">®</sup></h1>
-          <h2 className="text-lg font-medium mb-8">ADMINISTRAÇÃO</h2>
+          <h2 className="text-lg font-medium mb-8">{t('administration')}</h2>
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email">Usuário</Label>
+              <Label htmlFor="email">{t('user')}</Label>
               <Input
                 id="email"
                 type="email"
@@ -85,7 +88,7 @@ export default function AdminLogin() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Senha</Label>
+              <Label htmlFor="password">{t('password')}</Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -108,17 +111,16 @@ export default function AdminLogin() {
               className="w-full bg-secondary hover:bg-secondary/90 text-white"
               disabled={isLoading}
             >
-              {isLoading ? "Entrando..." : "Entrar"}
+              {isLoading ? t('entering') : t('enter')}
             </Button>
           </form>
         </div>
         <div className="text-center text-sm text-gray-500">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <img src="/placeholder.svg" alt="Language" className="h-4 w-4" />
-            <span>Português</span>
+            <LanguageSelector />
           </div>
           <p>
-            Tecnologia por{" "}
+            {t('technology_by')}{" "}
             <a href="#" className="underline">
               Yrwen Technology
             </a>
