@@ -44,11 +44,13 @@ export default function ClientRegister() {
       }
 
       // Se houver um ID de indicação, verificar se ele existe
+      let sponsorId = null;
       if (values.referralId) {
         const { data: sponsorData, error: sponsorError } = await supabase
           .from('profiles')
           .select('id')
-          .eq('custom_id', values.referralId);
+          .eq('custom_id', values.referralId)
+          .limit(1);
 
         if (sponsorError) throw sponsorError;
 
@@ -60,10 +62,11 @@ export default function ClientRegister() {
           });
           return;
         }
+        sponsorId = sponsorData[0].id;
       }
 
       // Criar o usuário no Auth
-      const { data: authData, error: authError } = await supabase.auth.signUp({
+      const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
         options: {
@@ -73,43 +76,33 @@ export default function ClientRegister() {
         },
       });
 
-      if (authError) throw authError;
+      if (signUpError) throw signUpError;
 
-      if (authData.user) {
-        // Buscar o ID do sponsor se existir
-        let sponsorId = null;
-        if (values.referralId) {
-          const { data: sponsorData } = await supabase
-            .from('profiles')
-            .select('id')
-            .eq('custom_id', values.referralId)
-            .single();
-          
-          if (sponsorData) {
-            sponsorId = sponsorData.id;
-          }
-        }
+      if (!authData.user) {
+        throw new Error("Erro ao criar usuário");
+      }
 
-        // Atualizar o perfil com informações adicionais
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .update({
-            full_name: values.fullName,
-            document_id: values.cpf,
-            custom_id: values.customId,
-            sponsor_id: sponsorId,
-          })
-          .eq('id', authData.user.id);
-
-        if (profileError) throw profileError;
-
-        toast({
-          title: "Sucesso",
-          description: "Conta criada com sucesso! Verifique seu email para confirmar o cadastro.",
+      // Criar o perfil manualmente (caso o trigger não funcione)
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .upsert({
+          id: authData.user.id,
+          email: values.email,
+          full_name: values.fullName,
+          document_id: values.cpf,
+          custom_id: values.customId,
+          sponsor_id: sponsorId,
+          role: 'client'
         });
 
-        navigate("/client/login");
-      }
+      if (profileError) throw profileError;
+
+      toast({
+        title: "Sucesso",
+        description: "Conta criada com sucesso! Verifique seu email para confirmar o cadastro.",
+      });
+
+      navigate("/client/login");
     } catch (error: any) {
       console.error('Registration error:', error);
       
