@@ -63,7 +63,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
         console.log("User network found:", userNetwork);
 
         // Then, get all members connected to this network
-        const { data: members, error: membersError } = await supabase
+        const { data: networkMembers, error: membersError } = await supabase
           .from("network")
           .select(`
             id,
@@ -83,10 +83,10 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           return;
         }
 
-        console.log("Network members found:", members);
+        console.log("Network members found:", networkMembers);
 
-        if (members) {
-          const formattedMembers = (members as SupabaseNetworkResponse[]).map(member => ({
+        if (networkMembers) {
+          const formattedMembers: NetworkMember[] = networkMembers.map((member: SupabaseNetworkResponse) => ({
             id: member.id,
             level: member.level,
             user: {
