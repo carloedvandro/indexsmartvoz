@@ -42,8 +42,16 @@ export default function ClientLogin() {
   }, [navigate, toast, t]);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+    <div 
+      className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center p-4"
+      style={{
+        backgroundImage: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2000&q=80")',
+      }}
+    >
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/50" />
+      
+      <Card className="w-full max-w-md relative z-10">
         <CardHeader>
           <CardTitle className="text-2xl text-center">{t('client_area')}</CardTitle>
         </CardHeader>
