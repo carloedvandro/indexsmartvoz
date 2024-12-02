@@ -36,10 +36,10 @@ export const useNetworkMembersStatus = (userId: string | undefined, networkId: s
         return { active: 0, pending: 0 };
       }
 
-      // Filtra apenas membros entre nível 1 e 4 e remove duplicatas
+      // Filtra apenas membros entre nível 1 e 4 e remove duplicatas e o próprio usuário
       const validMembers = allNetworkData.filter(member => 
         member.level >= 1 && 
-        member.level <= 4 && 
+        member.level <= 4 && // Garante que apenas membros até o nível 4 sejam incluídos
         member.user_id !== userId
       );
       
