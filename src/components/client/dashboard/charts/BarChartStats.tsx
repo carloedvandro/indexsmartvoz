@@ -10,7 +10,7 @@ interface BarChartStatsProps {
 
 export const BarChartStats = ({ data, colors }: BarChartStatsProps) => {
   return (
-    <div className="h-[300px] md:h-[400px] w-full min-w-[200px]">
+    <div className="w-full h-full">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ right: 10, left: -20 }}>
           <defs>

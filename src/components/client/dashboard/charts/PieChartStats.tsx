@@ -21,7 +21,7 @@ export const PieChartStats = ({ data }: PieChartStatsProps) => {
   };
 
   return (
-    <div className="h-[300px] md:h-[400px] w-full">
+    <div className="w-full h-full">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie

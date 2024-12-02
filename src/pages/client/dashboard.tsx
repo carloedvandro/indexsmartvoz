@@ -27,10 +27,10 @@ export default function ClientDashboard() {
     <SidebarProvider defaultOpen={true}>
       <div className="flex h-screen">
         <ClientSidebar />
-        <main className="flex-1 bg-[#F8F9FE]">
+        <div className="flex-1 bg-[#F8F9FE]">
           <DashboardHeader />
-          <div className="h-[calc(100vh-64px)] overflow-auto">
-            <div className="container mx-auto p-6">
+          <div className="h-[calc(100vh-64px)] overflow-y-auto">
+            <div className="max-w-[1000px] mx-auto px-4 py-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <ProfileCard profile={profile} />
                 <NetworkCard networkStats={networkStats} onClick={handleNetworkClick} />
@@ -39,7 +39,7 @@ export default function ClientDashboard() {
               <NetworkStatsCard />
             </div>
           </div>
-        </main>
+        </div>
       </div>
     </SidebarProvider>
   );
