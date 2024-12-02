@@ -46,8 +46,8 @@ export function ClientSidebar() {
     <Sidebar>
       <SidebarHeader className="border-b border-border p-4">
         <img
-          src="/lovable-uploads/9d8fdf74-71c6-45cf-8aeb-3f7bc603f7f3.png"
-          alt="Logo"
+          src="/lovable-uploads/dd13194a-ddb9-41f1-ac14-d4e483f9b1df.png"
+          alt="Y-TECH Logo"
           className="h-8"
         />
       </SidebarHeader>
