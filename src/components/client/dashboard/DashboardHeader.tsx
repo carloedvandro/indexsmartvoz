@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
+import { LogOut } from "lucide-react";
 
 export function DashboardHeader() {
   const navigate = useNavigate();
@@ -17,9 +16,10 @@ export function DashboardHeader() {
         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
         <button
           onClick={handleLogout}
-          className="text-gray-600 hover:text-gray-900"
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
         >
-          <LogOut className="h-6 w-6" />
+          <LogOut className="w-5 h-5" />
+          <span>Sair</span>
         </button>
       </div>
     </header>
