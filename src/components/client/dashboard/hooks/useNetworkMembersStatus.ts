@@ -36,15 +36,18 @@ export const useNetworkMembersStatus = (userId: string | undefined, networkId: s
         return { active: 0, pending: 0 };
       }
 
-      // Garantir que estamos considerando apenas membros até o nível 4
-      const validMembers = allNetworkData.filter(member => member.level > 0 && member.level <= 4);
+      // Filtra apenas membros entre nível 1 e 4 e remove duplicatas
+      const validMembers = allNetworkData.filter(member => 
+        member.level >= 1 && 
+        member.level <= 4 && 
+        member.user_id !== userId
+      );
       
-      // Remover duplicatas usando Set e excluir o ID do usuário atual
-      const networkUserIds = [...new Set(
-        validMembers.map(item => item.user_id)
-      )].filter(id => id !== userId);
+      // Usa Set para garantir que não há duplicatas de user_id
+      const networkUserIds = [...new Set(validMembers.map(item => item.user_id))];
 
-      console.log("Filtered network user IDs (excluding current user):", networkUserIds);
+      console.log("Valid members count:", validMembers.length);
+      console.log("Unique network user IDs:", networkUserIds.length);
 
       if (networkUserIds.length === 0) {
         return { active: 0, pending: 0 };
@@ -72,6 +75,7 @@ export const useNetworkMembersStatus = (userId: string | undefined, networkId: s
 
       console.log("Active members:", active);
       console.log("Pending members:", pending);
+      console.log("Total members:", active + pending);
 
       return { active, pending };
     },
