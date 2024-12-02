@@ -12,11 +12,11 @@ export const DashboardHeader = () => {
 
   return (
     <header className="bg-white shadow">
-      <div className="w-full mx-auto px-0.5 py-2 flex justify-between items-center">
+      <div className="w-full mx-auto px-0 py-2 flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
         <button
           onClick={handleLogout}
-          className="text-gray-600 hover:text-gray-900 transition-colors"
+          className="text-gray-600 hover:text-gray-900 transition-colors mr-1"
         >
           <LogOut className="h-6 w-6" />
         </button>

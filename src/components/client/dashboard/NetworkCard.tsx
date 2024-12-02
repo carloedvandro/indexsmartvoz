@@ -13,27 +13,27 @@ interface NetworkCardProps {
 export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
   return (
     <Card 
-      className="cursor-pointer hover:shadow-lg transition-shadow h-full"
+      className="cursor-pointer hover:shadow-lg transition-shadow h-full mx-0.5"
       onClick={onClick}
     >
-      <CardHeader className="pb-1 space-y-0">
+      <CardHeader className="pb-0.5 space-y-0">
         <CardTitle className="text-center">Minha Rede</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 gap-1">
-          <div className="p-1 bg-red-50 rounded-lg text-center">
+        <div className="grid grid-cols-2 gap-0.5">
+          <div className="p-0.5 bg-red-50 rounded-lg text-center">
             <p className="text-sm text-red-600">Nível 1</p>
             <p className="text-2xl font-bold text-red-700">{networkStats?.level1Count || 0}</p>
           </div>
-          <div className="p-1 bg-green-50 rounded-lg text-center">
+          <div className="p-0.5 bg-green-50 rounded-lg text-center">
             <p className="text-sm text-green-600">Nível 2</p>
             <p className="text-2xl font-bold text-green-700">{networkStats?.level2Count || 0}</p>
           </div>
-          <div className="p-1 bg-purple-50 rounded-lg text-center">
+          <div className="p-0.5 bg-purple-50 rounded-lg text-center">
             <p className="text-sm text-purple-600">Nível 3</p>
             <p className="text-2xl font-bold text-purple-700">{networkStats?.level3Count || 0}</p>
           </div>
-          <div className="p-1 bg-orange-50 rounded-lg text-center">
+          <div className="p-0.5 bg-orange-50 rounded-lg text-center">
             <p className="text-sm text-orange-600">Nível 4</p>
             <p className="text-2xl font-bold text-orange-700">{networkStats?.level4Count || 0}</p>
           </div>
