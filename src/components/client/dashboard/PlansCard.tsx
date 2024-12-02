@@ -1,16 +1,21 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 
-export const PlansCard = () => {
+export function PlansCard() {
   return (
-    <Card className="h-full">
-      <CardHeader className="py-4 px-0">
-        <CardTitle className="text-center">Planos</CardTitle>
-      </CardHeader>
-      <CardContent className="py-4 px-0">
-        <p className="text-center text-muted-foreground">
-          Informações sobre seus planos serão exibidas aqui.
-        </p>
-      </CardContent>
-    </Card>
+    <div className="h-full">
+      <Card className="h-full p-4">
+        <h2 className="text-xl font-semibold mb-4">Planos</h2>
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600">Plano atual:</span>
+            <span className="font-medium">Nenhum plano ativo</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600">Próximo pagamento:</span>
+            <span className="font-medium">-</span>
+          </div>
+        </div>
+      </Card>
+    </div>
   );
-};
+}
