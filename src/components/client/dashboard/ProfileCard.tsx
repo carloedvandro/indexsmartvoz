@@ -1,8 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tables } from "@/integrations/supabase/types";
-import { Users } from "lucide-react";
+import { Users, UserCheck, UserX } from "lucide-react";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 type Profile = Tables<"profiles">;
 
@@ -20,20 +21,39 @@ interface ProfileCardProps {
 export const ProfileCard = ({ profile }: ProfileCardProps) => {
   const profileImage = "https://images.unsplash.com/photo-1649972904349-6e44c42644a7";
   const { data: networkStats } = useNetworkStats(profile?.id);
+  const isActive = profile?.status === 'active';
 
   const totalNetworkSize = networkStats ? 
     networkStats.level1Count + networkStats.level2Count + networkStats.level3Count + networkStats.level4Count : 
     0;
 
+  const StatusIcon = isActive ? UserCheck : UserX;
+
   return (
     <Card className="h-full">
       <CardHeader className="flex flex-col items-center space-y-0.5 py-4 px-0">
-        <Avatar className="h-16 w-16">
-          <AvatarImage src={profileImage} alt={profile?.full_name || "Profile"} />
-          <AvatarFallback>
-            <Users className="h-8 w-8" />
-          </AvatarFallback>
-        </Avatar>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <div className="relative">
+                <Avatar className={`h-16 w-16 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
+                  <AvatarImage src={profileImage} alt={profile?.full_name || "Profile"} />
+                  <AvatarFallback>
+                    <Users className="h-8 w-8" />
+                  </AvatarFallback>
+                </Avatar>
+                <StatusIcon 
+                  className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-white p-0.5 ${
+                    isActive ? 'text-green-500' : 'text-red-500'
+                  }`}
+                />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{isActive ? 'Ativo' : 'Pendente'}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <div className="text-center">
           <h3 className="text-xl font-semibold">{profile?.full_name || "Não informado"}</h3>
           <p className="text-sm text-muted-foreground break-all">{profile?.email || "Não informado"}</p>
