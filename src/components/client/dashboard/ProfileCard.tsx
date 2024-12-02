@@ -26,8 +26,8 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
     0;
 
   return (
-    <Card className="h-full mx-0.5">
-      <CardHeader className="flex flex-col items-center space-y-0.5 pb-0.5">
+    <Card className="h-full rounded-none">
+      <CardHeader className="flex flex-col items-center space-y-0.5 p-2">
         <Avatar className="h-16 w-16">
           <AvatarImage src={profileImage} alt={profile?.full_name || "Profile"} />
           <AvatarFallback>
@@ -39,7 +39,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
           <p className="text-sm text-muted-foreground break-all">{profile?.email || "Não informado"}</p>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-2">
         <div className="space-y-1">
           <div className="grid grid-cols-2 gap-0.5">
             <div className="text-center">

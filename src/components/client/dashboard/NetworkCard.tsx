@@ -13,13 +13,13 @@ interface NetworkCardProps {
 export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
   return (
     <Card 
-      className="cursor-pointer hover:shadow-lg transition-shadow h-full mx-0.5"
+      className="cursor-pointer hover:shadow-lg transition-shadow h-full rounded-none"
       onClick={onClick}
     >
-      <CardHeader className="pb-0.5 space-y-0">
+      <CardHeader className="pb-0.5 space-y-0 p-2">
         <CardTitle className="text-center">Minha Rede</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-2">
         <div className="grid grid-cols-2 gap-0.5">
           <div className="p-0.5 bg-red-50 rounded-lg text-center">
             <p className="text-sm text-red-600">Nível 1</p>

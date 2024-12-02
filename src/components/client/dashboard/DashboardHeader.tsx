@@ -1,8 +1,8 @@
+import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { LogOut } from "lucide-react";
 
-export const DashboardHeader = () => {
+export function DashboardHeader() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -12,15 +12,15 @@ export const DashboardHeader = () => {
 
   return (
     <header className="bg-white shadow">
-      <div className="w-full mx-auto px-0 py-2 flex justify-between items-center">
+      <div className="w-full mx-auto py-2 flex justify-between items-center px-2">
         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
         <button
           onClick={handleLogout}
-          className="text-gray-600 hover:text-gray-900 transition-colors mr-1"
+          className="text-gray-600 hover:text-gray-900 transition-colors"
         >
           <LogOut className="h-6 w-6" />
         </button>
       </div>
     </header>
   );
-};
+}
