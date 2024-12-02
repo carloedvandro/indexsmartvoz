@@ -1,58 +1,55 @@
-import { 
-  LayoutDashboard, 
-  Users, 
-  Grid,
-  List
+import { Link } from "react-router-dom";
+import {
+  Home,
+  Settings,
+  Users,
+  FileText,
+  HelpCircle,
+  LogOut,
 } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 const menuItems = [
-  {
-    title: "Dashboard",
-    url: "/admin/dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    title: "Usuários",
-    url: "/admin/users",
-    icon: Users,
-  },
-  {
-    title: "Planos",
-    url: "/admin/plans",
-    icon: Grid,
-  },
-  {
-    title: "Rede",
-    url: "/admin/network",
-    icon: List,
-  }
+  { icon: Home, label: "Dashboard", path: "/admin/dashboard" },
+  { icon: Settings, label: "Configurações", path: "/admin/settings" },
+  { icon: Users, label: "Usuários", path: "/admin/users" },
+  { icon: FileText, label: "Relatórios", path: "/admin/reports" },
+  { icon: HelpCircle, label: "Suporte", path: "/admin/support" },
+  { icon: LogOut, label: "Sair", path: "/admin/logout" },
 ];
 
 export function AdminSidebar() {
   return (
     <Sidebar className="bg-white border-r">
+      <SidebarHeader className="flex items-center justify-between border-b border-border p-4 bg-white">
+        <img
+          src="/lovable-uploads/dd13194a-ddb9-41f1-ac14-d4e483f9b1df.png"
+          alt="Y-TECH Logo"
+          className="h-12 w-auto object-contain"
+        />
+        <SidebarTrigger className="md:hidden" />
+      </SidebarHeader>
       <SidebarContent className="bg-white">
         <SidebarGroup>
-          <SidebarGroupLabel>Administração</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
+                    <Link to={item.path} className="flex items-center gap-2">
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.label}</span>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
