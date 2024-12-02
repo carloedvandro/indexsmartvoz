@@ -54,7 +54,7 @@ export const useNetworkData = (userId: string) => {
           const profilePromises = allNetworkMembers.map(member => 
             supabase
               .from("profiles")
-              .select("full_name, email, custom_id")
+              .select("full_name, email, custom_id, status")
               .eq("id", member.user_id)
               .single()
           );
@@ -74,7 +74,8 @@ export const useNetworkData = (userId: string) => {
                 user: {
                   full_name: profileData?.full_name || null,
                   email: profileData?.email || '',
-                  custom_id: profileData?.custom_id || null
+                  custom_id: profileData?.custom_id || null,
+                  status: profileData?.status || 'pending'
                 },
                 children: []
               });
