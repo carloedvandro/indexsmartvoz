@@ -45,12 +45,12 @@ const menuItems = [
 export function ClientSidebar() {
   return (
     <>
-      <Sidebar className="w-56">
+      <Sidebar className="w-56 bg-white">
         <SidebarHeader className="flex items-center justify-between border-b border-border p-4">
           <img
             src="/lovable-uploads/dd13194a-ddb9-41f1-ac14-d4e483f9b1df.png"
             alt="Y-TECH Logo"
-            className="h-8 w-auto object-contain"
+            className="h-12 w-auto object-contain"
           />
           <SidebarTrigger className="md:hidden" />
         </SidebarHeader>
