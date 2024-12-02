@@ -30,8 +30,8 @@ export default function ClientDashboard() {
         <ClientSidebar />
         <main className="flex-1">
           <DashboardHeader />
-          <div className="w-full mx-auto px-2 sm:px-4 lg:max-w-5xl xl:max-w-6xl py-2 sm:py-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <div className="w-full mx-auto px-1 sm:px-4 lg:max-w-5xl xl:max-w-6xl py-2 sm:py-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-4">
               <div className="md:col-span-1">
                 <ProfileCard profile={profile} />
               </div>
@@ -41,7 +41,7 @@ export default function ClientDashboard() {
               <div className="md:col-span-1">
                 <PlansCard />
               </div>
-              <div className="md:col-span-2 lg:col-span-3">
+              <div className="md:col-span-3">
                 <NetworkStatsCard />
               </div>
             </div>
