@@ -30,8 +30,8 @@ const menuItems = [
 
 export function AdminSidebar() {
   return (
-    <Sidebar className="bg-white border-r">
-      <SidebarHeader className="flex items-center justify-between border-b border-border p-4 bg-white">
+    <Sidebar className="bg-sidebar border-r border-sidebar-border">
+      <SidebarHeader className="flex items-center justify-between p-4 border-b border-sidebar-border bg-sidebar">
         <img
           src="/lovable-uploads/dd13194a-ddb9-41f1-ac14-d4e483f9b1df.png"
           alt="Y-TECH Logo"
@@ -39,14 +39,17 @@ export function AdminSidebar() {
         />
         <SidebarTrigger className="md:hidden" />
       </SidebarHeader>
-      <SidebarContent className="bg-white">
+      <SidebarContent className="bg-sidebar">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton asChild>
-                    <Link to={item.path} className="flex items-center gap-2">
+                    <Link 
+                      to={item.path} 
+                      className="flex items-center gap-2 text-sidebar-foreground hover:text-primary transition-colors"
+                    >
                       <item.icon className="h-4 w-4" />
                       <span>{item.label}</span>
                     </Link>

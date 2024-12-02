@@ -22,7 +22,7 @@ const queryClient = new QueryClient();
 
 function AppRoutes() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Routes>
         {/* Admin routes */}
         <Route path="/admin/login" element={<AdminLogin />} />
@@ -46,7 +46,7 @@ function App() {
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           <AppRoutes />
           <Toaster />
         </ThemeProvider>
