@@ -12,5 +12,6 @@ export interface NetworkMember {
     custom_id: string | null;
     graduation_type: string | null;
     registration_date?: string;
+    status?: 'active' | 'pending';
   };
 }

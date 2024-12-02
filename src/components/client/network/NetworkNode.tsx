@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2 } from "lucide-react";
+import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { NetworkMember } from "./types";
@@ -16,6 +16,7 @@ interface NetworkNodeProps {
 export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: NetworkNodeProps) => {
   const hasChildren = member.children && member.children.length > 0;
   const isExpanded = expandedNodes.has(member.id);
+  const isActive = member.user.status === 'active';
   
   // Placeholder image from Unsplash - using a professional looking photo
   const profileImage = "https://images.unsplash.com/photo-1649972904349-6e44c42644a7";
@@ -37,6 +38,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   };
 
   const totalTeamSize = calculateTotalTeamSize(member);
+
+  const StatusIcon = isActive ? UserCheck : UserX;
 
   return (
     <motion.div
@@ -74,12 +77,19 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                 )}
               </button>
             )}
-            <Avatar className="h-12 w-12 border-2 border-primary">
-              <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
-              <AvatarFallback>
-                <Users className="h-6 w-6" />
-              </AvatarFallback>
-            </Avatar>
+            <div className="relative">
+              <Avatar className="h-12 w-12 border-2 border-primary">
+                <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
+                <AvatarFallback>
+                  <Users className="h-6 w-6" />
+                </AvatarFallback>
+              </Avatar>
+              <StatusIcon 
+                className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-white p-0.5 ${
+                  isActive ? 'text-green-500' : 'text-red-500'
+                }`}
+              />
+            </div>
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-2">
@@ -91,6 +101,11 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                   {member.user.custom_id}
                 </span>
               )}
+              <span className={`text-xs px-2 py-0.5 rounded-full ${
+                isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+              }`}>
+                {isActive ? 'Ativo' : 'Pendente'}
+              </span>
             </div>
             
             <div className="space-y-1 text-sm">
