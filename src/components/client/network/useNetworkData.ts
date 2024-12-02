@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { NetworkMember } from "./types";
+import { toast } from "sonner";
 
 export const useNetworkData = (userId: string) => {
   const [networkData, setNetworkData] = useState<NetworkMember[]>([]);
@@ -19,6 +20,8 @@ export const useNetworkData = (userId: string) => {
 
         if (userNetworkError) {
           console.error("Error fetching user network:", userNetworkError);
+          toast.error("Error fetching network data");
+          setLoading(false);
           return;
         }
 
@@ -41,6 +44,7 @@ export const useNetworkData = (userId: string) => {
 
         if (error) {
           console.error("Error fetching network members:", error);
+          toast.error("Error fetching network members");
           return;
         }
 
@@ -55,75 +59,75 @@ export const useNetworkData = (userId: string) => {
               .single()
           );
 
-          const profileResults = await Promise.all(profilePromises);
-          console.log("Profile results:", profileResults);
-          
-          const membersMap = new Map();
-          
-          // Primeiro, vamos criar todos os membros sem seus filhos
-          allNetworkMembers.forEach((member, index) => {
-            const profileData = profileResults[index].data;
-            membersMap.set(member.id, {
-              id: member.id,
-              level: 0, // Será calculado depois
-              parentId: member.parent_id,
-              user: {
-                full_name: profileData?.full_name || null,
-                email: profileData?.email || '',
-                custom_id: profileData?.custom_id || null
-              },
-              children: []
+          try {
+            const profileResults = await Promise.all(profilePromises);
+            console.log("Profile results:", profileResults);
+            
+            const membersMap = new Map();
+            
+            allNetworkMembers.forEach((member, index) => {
+              const profileData = profileResults[index].data;
+              membersMap.set(member.id, {
+                id: member.id,
+                level: 0,
+                parentId: member.parent_id,
+                user: {
+                  full_name: profileData?.full_name || null,
+                  email: profileData?.email || '',
+                  custom_id: profileData?.custom_id || null
+                },
+                children: []
+              });
             });
-          });
 
-          // Função para calcular níveis
-          const calculateLevels = (memberId: string, currentLevel: number): boolean => {
-            const member = membersMap.get(memberId);
-            if (!member || currentLevel > 4) return false;
-            
-            member.level = currentLevel;
-            
-            // Encontra e processa os filhos
-            const childMembers = allNetworkMembers.filter(m => m.parent_id === memberId);
-            childMembers.forEach(child => {
-              if (currentLevel < 4) {
-                calculateLevels(child.id, currentLevel + 1);
+            const calculateLevels = (memberId: string, currentLevel: number): boolean => {
+              const member = membersMap.get(memberId);
+              if (!member || currentLevel > 4) return false;
+              
+              member.level = currentLevel;
+              
+              const childMembers = allNetworkMembers.filter(m => m.parent_id === memberId);
+              childMembers.forEach(child => {
+                if (currentLevel < 4) {
+                  calculateLevels(child.id, currentLevel + 1);
+                }
+              });
+
+              return true;
+            };
+
+            const rootMembers = allNetworkMembers.filter(member => member.parent_id === userNetwork.id);
+            rootMembers.forEach(rootMember => {
+              calculateLevels(rootMember.id, 1);
+            });
+
+            membersMap.forEach((member, id) => {
+              if (member.level === 0 || member.level > 4) {
+                membersMap.delete(id);
               }
             });
 
-            return true;
-          };
+            const finalRootMembers: NetworkMember[] = [];
+            membersMap.forEach(member => {
+              if (member.parentId === userNetwork.id) {
+                finalRootMembers.push(member);
+              } else if (membersMap.has(member.parentId)) {
+                const parent = membersMap.get(member.parentId);
+                if (!parent.children) parent.children = [];
+                parent.children.push(member);
+              }
+            });
 
-          // Calcula os níveis começando dos membros raiz
-          const rootMembers = allNetworkMembers.filter(member => member.parent_id === userNetwork.id);
-          rootMembers.forEach(rootMember => {
-            calculateLevels(rootMember.id, 1);
-          });
-
-          // Remove membros com nível 0 ou maior que 4 do Map
-          membersMap.forEach((member, id) => {
-            if (member.level === 0 || member.level > 4) {
-              membersMap.delete(id);
-            }
-          });
-
-          // Constrói a árvore apenas com membros válidos
-          const finalRootMembers: NetworkMember[] = [];
-          membersMap.forEach(member => {
-            if (member.parentId === userNetwork.id) {
-              finalRootMembers.push(member);
-            } else if (membersMap.has(member.parentId)) {
-              const parent = membersMap.get(member.parentId);
-              if (!parent.children) parent.children = [];
-              parent.children.push(member);
-            }
-          });
-
-          console.log("Final network data:", finalRootMembers);
-          setNetworkData(finalRootMembers);
+            console.log("Final network data:", finalRootMembers);
+            setNetworkData(finalRootMembers);
+          } catch (error) {
+            console.error("Error processing profile data:", error);
+            toast.error("Error processing network data");
+          }
         }
       } catch (error) {
         console.error("Error in fetchNetworkData:", error);
+        toast.error("Error fetching network data");
       } finally {
         setLoading(false);
       }

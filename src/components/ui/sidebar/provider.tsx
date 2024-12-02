@@ -59,7 +59,7 @@ export const SidebarProvider = React.forwardRef<HTMLDivElement, SidebarProviderP
 
     const state = open ? "expanded" : "collapsed"
 
-    const contextValue = React.useMemo<SidebarContext>(
+    const contextValue = React.useMemo(
       () => ({
         state,
         open,
@@ -78,7 +78,7 @@ export const SidebarProvider = React.forwardRef<HTMLDivElement, SidebarProviderP
           <div
             style={
               {
-                "--sidebar-width": "calc(14rem - 10px)", // Reduzido 10px da largura original
+                "--sidebar-width": "calc(14rem - 10px)",
                 "--sidebar-width-icon": "3rem",
                 ...style,
               } as React.CSSProperties

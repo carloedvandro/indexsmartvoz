@@ -1,5 +1,5 @@
-import { type ClassValue } from "class-variance-authority"
-import { type ReactNode } from "react"
+import type { VariantProps } from "class-variance-authority"
+import type { ReactNode } from "react"
 
 export type SidebarContext = {
   state: "expanded" | "collapsed"
