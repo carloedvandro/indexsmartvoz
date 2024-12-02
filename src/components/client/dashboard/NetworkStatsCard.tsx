@@ -38,6 +38,13 @@ const colors = [
   "#FF1493",
 ];
 
+interface NetworkMember {
+  id: string;
+  user_id: string;
+  parent_id: string;
+  level: number;
+}
+
 export const NetworkStatsCard = () => {
   const { data: profile } = useProfile();
   const { data: networkStats } = useNetworkStats(profile?.id);
@@ -70,9 +77,9 @@ export const NetworkStatsCard = () => {
         };
       }
 
-      // Buscar todos os membros da rede recursivamente
+      // Buscar todos os membros da rede recursivamente usando a função RPC
       const { data: allNetworkData, error: networkError } = await supabase
-        .rpc('get_all_network_members', { root_network_id: userNetwork.id });
+        .rpc<NetworkMember>('get_all_network_members', { root_network_id: userNetwork.id });
 
       if (networkError) {
         console.error("Error fetching network members:", networkError);

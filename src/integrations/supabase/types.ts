@@ -249,6 +249,17 @@ export type Database = {
         }
         Returns: undefined
       }
+      get_all_network_members: {
+        Args: {
+          root_network_id: string
+        }
+        Returns: {
+          id: string
+          user_id: string
+          parent_id: string
+          level: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
