@@ -5,6 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { BarChartStats } from "./charts/BarChartStats";
 import { PieChartStats } from "./charts/PieChartStats";
+import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const barData = [
   { name: "Nov 1", value: 7 },
@@ -39,6 +41,7 @@ const colors = [
 export const NetworkStatsCard = () => {
   const { data: profile } = useProfile();
   const { data: networkStats } = useNetworkStats(profile?.id);
+  const queryClient = useQueryClient();
 
   const { data: membersStatus } = useQuery({
     queryKey: ['networkMembersStatus', profile?.id],
@@ -73,6 +76,30 @@ export const NetworkStatsCard = () => {
     },
     enabled: !!profile?.id
   });
+
+  useEffect(() => {
+    if (!profile?.id) return;
+
+    const channel = supabase
+      .channel('profiles-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'profiles'
+        },
+        () => {
+          // Invalidate and refetch the query when profiles change
+          queryClient.invalidateQueries({ queryKey: ['networkMembersStatus', profile.id] });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [profile?.id, queryClient]);
 
   const pieData = [
     { 
