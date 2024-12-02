@@ -4,6 +4,7 @@ import { Tables } from "@/integrations/supabase/types";
 import { Users, UserCheck, UserX } from "lucide-react";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 
 type Profile = Tables<"profiles">;
 
@@ -57,6 +58,12 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
         <div className="text-center">
           <h3 className="text-xl font-semibold">{profile?.full_name || "Não informado"}</h3>
           <p className="text-sm text-muted-foreground break-all">{profile?.email || "Não informado"}</p>
+          <Badge 
+            className="mt-2" 
+            variant={isActive ? "default" : "destructive"}
+          >
+            {profile?.status === 'active' ? 'Ativo' : 'Pendente'}
+          </Badge>
         </div>
       </CardHeader>
       <CardContent className="py-4 px-0">
