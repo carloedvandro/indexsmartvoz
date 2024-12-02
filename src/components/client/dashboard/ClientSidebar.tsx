@@ -54,7 +54,7 @@ export function ClientSidebar() {
           />
           <SidebarTrigger className="md:hidden" />
         </SidebarHeader>
-        <SidebarContent>
+        <SidebarContent className="bg-white">
           <SidebarGroup>
             <SidebarGroupContent>
               <SidebarMenu>

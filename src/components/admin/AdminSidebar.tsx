@@ -41,7 +41,7 @@ const menuItems = [
 export function AdminSidebar() {
   return (
     <Sidebar className="bg-white border-r">
-      <SidebarContent>
+      <SidebarContent className="bg-white">
         <SidebarGroup>
           <SidebarGroupLabel>Administração</SidebarGroupLabel>
           <SidebarGroupContent>
