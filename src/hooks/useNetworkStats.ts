@@ -2,6 +2,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
 interface NetworkStats {
+  id: string;
   level1Count: number;
   level2Count: number;
   level3Count: number;
@@ -20,6 +21,7 @@ export const useNetworkStats = (userId: string | undefined) => {
       console.log("Fetching network stats for user ID:", userId);
 
       const stats: NetworkStats = {
+        id: '', // Será preenchido abaixo
         level1Count: 0,
         level2Count: 0,
         level3Count: 0,
@@ -42,6 +44,9 @@ export const useNetworkStats = (userId: string | undefined) => {
         console.log("No network found for user");
         return stats;
       }
+
+      // Set the network ID
+      stats.id = userNetwork.id;
 
       // Then, get all network members that have this network ID as parent
       const { data: networkData, error } = await supabase

@@ -46,13 +46,13 @@ export const NetworkStatsCard = () => {
   const { data: membersStatus } = useQuery({
     queryKey: ['networkMembersStatus', profile?.id],
     queryFn: async () => {
-      if (!profile?.id) return null;
+      if (!profile?.id || !networkStats?.id) return null;
 
       // Primeiro, buscar os IDs dos usuários na rede
       const { data: networkData } = await supabase
         .from('network')
         .select('user_id')
-        .eq('parent_id', networkStats?.id);
+        .eq('parent_id', networkStats.id);
 
       if (!networkData || networkData.length === 0) {
         return {
