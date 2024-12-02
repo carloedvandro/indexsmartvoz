@@ -21,13 +21,6 @@ export const useNetworkMembersStatus = (userId: string | undefined, networkId: s
 
       console.log("Fetching members status for network:", networkId);
 
-      // Primeiro, buscar o próprio usuário para excluí-lo da contagem
-      const { data: currentUser } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('id', userId)
-        .single();
-
       const { data: allNetworkData, error: networkError } = await supabase
         .rpc('get_all_network_members', { 
           root_network_id: networkId 
