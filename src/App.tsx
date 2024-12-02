@@ -17,6 +17,7 @@ import ClientLogin from "./pages/client/login";
 import ClientNetwork from "./pages/client/network";
 import ClientRegister from "./pages/client/register";
 import UpgradePage from "./pages/client/upgrade";
+import Index from "./pages/Index";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,9 @@ function AppRoutes() {
   return (
     <div className="min-h-screen bg-background">
       <Routes>
+        {/* Index route */}
+        <Route path="/" element={<Index />} />
+
         {/* Admin routes */}
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
