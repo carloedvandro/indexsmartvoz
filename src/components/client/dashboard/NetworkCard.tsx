@@ -16,10 +16,10 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
       className="cursor-pointer hover:shadow-lg transition-shadow h-full"
       onClick={onClick}
     >
-      <CardHeader className="pb-2 space-y-0 p-4">
+      <CardHeader className="pb-2 space-y-0 py-4 px-0">
         <CardTitle className="text-center">Minha Rede</CardTitle>
       </CardHeader>
-      <CardContent className="p-4">
+      <CardContent className="py-4 px-0">
         <div className="grid grid-cols-2 gap-2">
           <div className="p-2 bg-red-50 rounded-lg text-center">
             <p className="text-sm text-red-600">Nível 1</p>
