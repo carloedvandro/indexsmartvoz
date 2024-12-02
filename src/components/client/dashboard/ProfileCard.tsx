@@ -27,7 +27,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
 
   return (
     <Card className="h-full">
-      <CardHeader className="flex flex-col items-center space-y-3 pb-3">
+      <CardHeader className="flex flex-col items-center space-y-2 pb-2">
         <Avatar className="h-16 w-16">
           <AvatarImage src={profileImage} alt={profile?.full_name || "Profile"} />
           <AvatarFallback>
@@ -40,8 +40,8 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-3">
+          <div className="grid grid-cols-2 gap-2">
             <div className="text-center">
               <p className="text-sm text-muted-foreground">Plano Atual</p>
               <p className="font-medium">160-GB</p>
@@ -60,7 +60,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
             </div>
           </div>
           
-          <div className="space-y-2 pt-2">
+          <div className="space-y-2">
             <div className="text-center">
               <p className="text-sm text-muted-foreground">Patrocinador</p>
               <p className="font-medium">

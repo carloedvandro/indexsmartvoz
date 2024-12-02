@@ -11,7 +11,7 @@ export const DashboardHeader = () => {
 
   return (
     <header className="bg-white shadow">
-      <div className="w-full mx-auto px-1 sm:px-4 lg:max-w-5xl xl:max-w-6xl py-2 flex justify-between items-center">
+      <div className="w-full mx-auto px-2 py-2 flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
         <button
           onClick={handleLogout}
