@@ -66,7 +66,6 @@ export const NetworkStatsCard = () => {
 
   const barData = generateInitialBarData();
 
-  // Função para contar membros ativos e pendentes
   const countMembersByStatus = (members: any[]) => {
     let active = 0;
     let pending = 0;
@@ -103,13 +102,17 @@ export const NetworkStatsCard = () => {
   ];
 
   return (
-    <Card className="col-span-2">
+    <Card>
       <CardHeader>
         <CardTitle>Estatísticas da Rede</CardTitle>
       </CardHeader>
       <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <BarChartStats data={barData} colors={colors} />
-        <PieChartStats data={pieData} />
+        <div className="w-full h-[300px]">
+          <BarChartStats data={barData} colors={colors} />
+        </div>
+        <div className="w-full h-[300px] flex items-center justify-center">
+          <PieChartStats data={pieData} />
+        </div>
       </CardContent>
     </Card>
   );
