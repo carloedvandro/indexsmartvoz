@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 // Pages
 import Index from "@/pages/Index";
@@ -158,8 +159,10 @@ function App() {
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <AppRoutes />
-        <Toaster />
+        <SidebarProvider>
+          <AppRoutes />
+          <Toaster />
+        </SidebarProvider>
       </QueryClientProvider>
     </BrowserRouter>
   );

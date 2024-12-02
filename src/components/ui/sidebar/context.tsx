@@ -1,5 +1,4 @@
 import * as React from "react"
-import { useIsMobile } from "@/hooks/use-mobile"
 import type { SidebarContext as SidebarContextType } from "./types"
 
 export const SidebarContext = React.createContext<SidebarContextType | null>(null)
