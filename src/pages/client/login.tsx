@@ -95,11 +95,12 @@ export default function ClientLogin() {
                     },
                   },
                 }}
+                view="sign_in"
               />
               <div className="mt-4 text-center">
                 <span className="text-gray-600">Não tem uma conta? </span>
                 <Link 
-                  to="/register" 
+                  to="/client/register" 
                   className="text-[#00ffa3] hover:text-[#004d31] font-medium"
                 >
                   Cadastre-se
