@@ -91,8 +91,8 @@ export const NetworkStatsCard = () => {
         };
       }
 
-      if (!allNetworkData || allNetworkData.length === 0) {
-        console.log("No network members found");
+      if (!allNetworkData || !Array.isArray(allNetworkData)) {
+        console.log("No network members found or invalid data format");
         return {
           active: 0,
           pending: 0
