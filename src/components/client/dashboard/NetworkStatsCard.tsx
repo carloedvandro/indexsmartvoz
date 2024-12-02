@@ -102,16 +102,18 @@ export const NetworkStatsCard = () => {
   ];
 
   return (
-    <Card className="w-full overflow-hidden">
-      <CardHeader>
+    <Card className="w-full">
+      <CardHeader className="pb-2">
         <CardTitle>Estatísticas da Rede</CardTitle>
       </CardHeader>
-      <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="w-full h-[300px]">
-          <BarChartStats data={barData} colors={colors} />
-        </div>
-        <div className="w-full h-[300px] flex items-center justify-center">
-          <PieChartStats data={pieData} />
+      <CardContent>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="w-full h-[300px]">
+            <BarChartStats data={barData} colors={colors} />
+          </div>
+          <div className="w-full h-[300px] flex items-center justify-center">
+            <PieChartStats data={pieData} />
+          </div>
         </div>
       </CardContent>
     </Card>
