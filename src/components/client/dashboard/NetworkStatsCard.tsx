@@ -176,21 +176,22 @@ export const NetworkStatsCard = () => {
         </div>
         <div className="h-[300px] md:h-[400px] w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
+            <PieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
               <Pie
                 data={pieData}
                 cx="50%"
                 cy="50%"
                 startAngle={0}
                 endAngle={360}
-                labelLine={false}
-                outerRadius={100}
-                innerRadius={60}
+                labelLine={true}
+                outerRadius={({ viewBox }) => Math.min(viewBox.width, viewBox.height) / 3}
+                innerRadius={({ viewBox }) => Math.min(viewBox.width, viewBox.height) / 5}
                 paddingAngle={5}
                 dataKey="value"
-                label={({ name, value, percent }) =>
-                  `${name}: ${value} (${(percent * 100).toFixed(0)}%)`
-                }
+                label={({ name, value, percent }) => {
+                  const percentage = (percent * 100).toFixed(0);
+                  return `${name}: ${value} (${percentage}%)`;
+                }}
                 isAnimationActive={true}
                 blendStroke
                 onMouseEnter={(_, index, e) => {
@@ -217,7 +218,14 @@ export const NetworkStatsCard = () => {
                 ))}
               </Pie>
               <Tooltip />
-              <Legend verticalAlign="bottom" height={36} />
+              <Legend 
+                verticalAlign="bottom" 
+                height={36}
+                wrapperStyle={{
+                  paddingTop: "20px",
+                  fontSize: "12px",
+                }}
+              />
             </PieChart>
           </ResponsiveContainer>
         </div>
