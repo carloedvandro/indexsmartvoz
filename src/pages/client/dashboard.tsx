@@ -29,7 +29,7 @@ export default function ClientDashboard() {
         <ClientSidebar />
         <main className="flex-1 overflow-auto bg-[#F8F9FE]">
           <DashboardHeader />
-          <div className="container mx-auto p-6">
+          <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
               <ProfileCard profile={profile} />
               <NetworkCard networkStats={networkStats} onClick={handleNetworkClick} />
