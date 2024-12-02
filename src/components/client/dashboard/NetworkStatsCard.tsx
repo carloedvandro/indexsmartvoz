@@ -50,7 +50,6 @@ export const NetworkStatsCard = () => {
 
       console.log("Fetching members status for network:", networkStats.id);
 
-      // Primeiro, buscar todos os IDs dos usuários na rede (incluindo subníveis)
       const { data: allNetworkData, error: networkError } = await supabase
         .from('network')
         .select('user_id')
@@ -65,24 +64,23 @@ export const NetworkStatsCard = () => {
         console.log("No network members found");
         return {
           active: 0,
-          inactive: 0
+          pending: 0
         };
       }
 
       const networkUserIds = allNetworkData.map(item => item.user_id);
       console.log("Network user IDs:", networkUserIds);
 
-      // Buscar os perfis dos usuários na rede
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
-        .select('status, blocked')
+        .select('status')
         .in('id', networkUserIds);
 
       if (profilesError) {
         console.error("Error fetching profiles:", profilesError);
         return {
           active: 0,
-          inactive: 0
+          pending: 0
         };
       }
 
@@ -90,21 +88,21 @@ export const NetworkStatsCard = () => {
         console.log("No profiles found");
         return {
           active: 0,
-          inactive: 0
+          pending: 0
         };
       }
 
       console.log("Profiles data:", profilesData);
 
-      const active = profilesData.filter(p => p.status === 'active' && !p.blocked).length;
-      const inactive = profilesData.filter(p => p.status !== 'active' || p.blocked).length;
+      const active = profilesData.filter(p => p.status === 'active').length;
+      const pending = profilesData.filter(p => p.status === 'pending').length;
 
       console.log("Active members:", active);
-      console.log("Inactive members:", inactive);
+      console.log("Pending members:", pending);
 
       return {
         active,
-        inactive
+        pending
       };
     },
     enabled: !!profile?.id && !!networkStats?.id
@@ -140,8 +138,8 @@ export const NetworkStatsCard = () => {
       color: "#9b87f5" 
     },
     { 
-      name: "Inativos", 
-      value: membersStatus?.inactive || 0, 
+      name: "Pendentes", 
+      value: membersStatus?.pending || 0, 
       color: "#D946EF" 
     },
   ];
