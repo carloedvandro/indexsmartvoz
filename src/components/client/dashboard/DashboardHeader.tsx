@@ -2,7 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { LogOut } from "lucide-react";
 
-export function DashboardHeader() {
+interface DashboardHeaderProps {
+  title?: string;
+  subtitle?: string;
+  icon?: React.ReactNode;
+}
+
+export function DashboardHeader({ title = "Dashboard", subtitle, icon }: DashboardHeaderProps) {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -14,7 +20,15 @@ export function DashboardHeader() {
     <header className="p-2">
       <div className="bg-white shadow border rounded-lg">
         <div className="max-w-[1280px] mx-auto px-2 flex justify-between items-center py-2">
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <div className="flex items-center gap-2">
+            {icon}
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
+              {subtitle && (
+                <p className="text-sm text-muted-foreground">{subtitle}</p>
+              )}
+            </div>
+          </div>
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
