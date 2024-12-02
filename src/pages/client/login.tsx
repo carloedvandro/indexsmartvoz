@@ -96,6 +96,7 @@ export default function ClientLogin() {
                   },
                 }}
                 view="sign_in"
+                showLinks={false}
               />
               <div className="mt-4 text-center">
                 <span className="text-gray-600">Não tem uma conta? </span>
