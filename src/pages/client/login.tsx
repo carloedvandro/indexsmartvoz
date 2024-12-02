@@ -13,6 +13,15 @@ export default function ClientLogin() {
   const { t } = useTranslation();
 
   useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        navigate("/client/dashboard");
+      }
+    };
+
+    checkSession();
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
         const { data: profile, error: profileError } = await supabase
@@ -38,7 +47,9 @@ export default function ClientLogin() {
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [navigate, toast, t]);
 
   return (
