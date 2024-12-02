@@ -11,8 +11,8 @@ export function DashboardHeader() {
   };
 
   return (
-    <header className="bg-white shadow">
-      <div className="container mx-auto p-2 flex justify-between items-center">
+    <header className="bg-white shadow mb-2">
+      <div className="max-w-[400px] mx-auto p-2 flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
         <button
           onClick={handleLogout}
