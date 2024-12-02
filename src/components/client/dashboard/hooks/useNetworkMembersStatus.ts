@@ -21,6 +21,13 @@ export const useNetworkMembersStatus = (userId: string | undefined, networkId: s
 
       console.log("Fetching members status for network:", networkId);
 
+      // Primeiro, buscar o próprio usuário para excluí-lo da contagem
+      const { data: currentUser } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', userId)
+        .single();
+
       const { data: allNetworkData, error: networkError } = await supabase
         .rpc('get_all_network_members', { 
           root_network_id: networkId 
@@ -43,16 +50,19 @@ export const useNetworkMembersStatus = (userId: string | undefined, networkId: s
           .map(item => item.user_id)
       )];
 
-      console.log("Unique network user IDs:", networkUserIds);
+      // Remover o ID do usuário atual da lista se estiver presente
+      const filteredUserIds = networkUserIds.filter(id => id !== userId);
 
-      if (networkUserIds.length === 0) {
+      console.log("Filtered network user IDs (excluding current user):", filteredUserIds);
+
+      if (filteredUserIds.length === 0) {
         return { active: 0, pending: 0 };
       }
 
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
         .select('status')
-        .in('id', networkUserIds);
+        .in('id', filteredUserIds);
 
       if (profilesError) {
         console.error("Error fetching profiles:", profilesError);
