@@ -36,26 +36,24 @@ export const useNetworkMembersStatus = (userId: string | undefined, networkId: s
         return { active: 0, pending: 0 };
       }
 
-      // Filtrar membros até o nível 4 e remover duplicatas usando Set
+      // Garantir que estamos considerando apenas membros até o nível 4
+      const validMembers = allNetworkData.filter(member => member.level > 0 && member.level <= 4);
+      
+      // Remover duplicatas usando Set e excluir o ID do usuário atual
       const networkUserIds = [...new Set(
-        allNetworkData
-          .filter(item => item.level <= 4)
-          .map(item => item.user_id)
-      )];
+        validMembers.map(item => item.user_id)
+      )].filter(id => id !== userId);
 
-      // Remover o ID do usuário atual da lista se estiver presente
-      const filteredUserIds = networkUserIds.filter(id => id !== userId);
+      console.log("Filtered network user IDs (excluding current user):", networkUserIds);
 
-      console.log("Filtered network user IDs (excluding current user):", filteredUserIds);
-
-      if (filteredUserIds.length === 0) {
+      if (networkUserIds.length === 0) {
         return { active: 0, pending: 0 };
       }
 
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
         .select('status')
-        .in('id', filteredUserIds);
+        .in('id', networkUserIds);
 
       if (profilesError) {
         console.error("Error fetching profiles:", profilesError);
