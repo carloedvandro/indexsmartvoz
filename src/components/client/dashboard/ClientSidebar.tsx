@@ -45,7 +45,7 @@ const menuItems = [
 export function ClientSidebar() {
   return (
     <>
-      <Sidebar className="w-72">
+      <Sidebar className="fixed left-0 top-0 h-screen w-72 border-r">
         <SidebarHeader className="flex items-center justify-between p-4 bg-white">
           <img
             src="/lovable-uploads/dd13194a-ddb9-41f1-ac14-d4e483f9b1df.png"
