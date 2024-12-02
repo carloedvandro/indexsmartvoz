@@ -1,21 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  Legend,
-} from "recharts";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
 import { useProfile } from "@/hooks/useProfile";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { BarChartStats } from "./charts/BarChartStats";
+import { PieChartStats } from "./charts/PieChartStats";
 
 const barData = [
   { name: "Nov 1", value: 7 },
@@ -104,107 +93,8 @@ export const NetworkStatsCard = () => {
         <CardTitle>Estatísticas da Rede</CardTitle>
       </CardHeader>
       <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="h-[300px] md:h-[400px] w-full min-w-[200px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart 
-              data={barData} 
-              margin={{ right: 10, left: -20 }}
-            >
-              <defs>
-                {colors.map((color, index) => (
-                  <linearGradient
-                    key={`gradient-${index}`}
-                    id={`colorGradient-${index}`}
-                    x1="0"
-                    y1="0"
-                    x2="1"
-                    y2="0"
-                  >
-                    <stop offset="0%" stopColor={color} stopOpacity={1} />
-                    <stop offset="100%" stopColor={color} stopOpacity={0.8} />
-                  </linearGradient>
-                ))}
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis
-                dataKey="name"
-                fontSize={10}
-                angle={-45}
-                textAnchor="end"
-                height={60}
-                interval={2}
-                tick={{ dy: 10 }}
-              />
-              <YAxis fontSize={10} width={40} />
-              <Tooltip 
-                contentStyle={{
-                  backgroundColor: "rgba(255, 255, 255, 0.9)",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                }}
-              />
-              <Bar 
-                dataKey="value" 
-                stroke="#ffffff"
-                strokeWidth={1}
-                radius={[4, 4, 0, 0]}
-                isAnimationActive={true}
-              >
-                {barData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={`url(#colorGradient-${index % colors.length})`}
-                    style={{
-                      filter: "drop-shadow(4px 4px 6px rgba(0,0,0,0.5))",
-                    }}
-                  />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-        
-        <div className="h-[300px] md:h-[400px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-              <Pie
-                data={pieData}
-                cx="50%"
-                cy="50%"
-                startAngle={0}
-                endAngle={360}
-                outerRadius={70}
-                innerRadius={45}
-                paddingAngle={5}
-                dataKey="value"
-                label={({ value, percent }) => {
-                  const percentage = (percent * 100).toFixed(0);
-                  return `${value} (${percentage}%)`;
-                }}
-                labelLine={{ strokeWidth: 1, stroke: "#666" }}
-                isAnimationActive={true}
-              >
-                {pieData.map((entry, index) => (
-                  <Cell 
-                    key={`cell-${index}`} 
-                    fill={entry.color}
-                    stroke="#ffffff"
-                    strokeWidth={2}
-                  />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend 
-                verticalAlign="bottom"
-                height={36}
-                wrapperStyle={{
-                  paddingTop: "10px",
-                  fontSize: "12px",
-                }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+        <BarChartStats data={barData} colors={colors} />
+        <PieChartStats data={pieData} />
       </CardContent>
     </Card>
   );
