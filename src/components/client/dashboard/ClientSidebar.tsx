@@ -45,12 +45,12 @@ const menuItems = [
 export function ClientSidebar() {
   return (
     <>
-      <Sidebar className="w-48">
+      <Sidebar className="w-64">
         <SidebarHeader className="flex items-center justify-between p-4 bg-white">
           <img
             src="/lovable-uploads/dd13194a-ddb9-41f1-ac14-d4e483f9b1df.png"
             alt="Y-TECH Logo"
-            className="h-10 w-auto object-contain"
+            className="h-12 w-auto object-contain"
           />
           <SidebarTrigger className="md:hidden" />
         </SidebarHeader>
@@ -61,7 +61,7 @@ export function ClientSidebar() {
                 {menuItems.map((item) => (
                   <SidebarMenuItem key={item.label}>
                     <SidebarMenuButton asChild>
-                      <Link to={item.path} className="flex items-center gap-2 text-sm">
+                      <Link to={item.path} className="flex items-center gap-2">
                         <item.icon className="h-4 w-4" />
                         <span>{item.label}</span>
                       </Link>
