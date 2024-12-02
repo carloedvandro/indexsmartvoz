@@ -50,14 +50,36 @@ export const NetworkStatsCard = () => {
 
       console.log("Fetching members status for network:", networkStats.id);
 
-      const { data: allNetworkData, error: networkError } = await supabase
+      // Primeiro, buscar o ID da rede do usuário atual
+      const { data: userNetwork, error: userNetworkError } = await supabase
         .from('network')
-        .select('user_id')
-        .or(`parent_id.eq.${networkStats.id},user_id.eq.${profile.id}`);
+        .select('id')
+        .eq('user_id', profile.id)
+        .single();
+
+      if (userNetworkError) {
+        console.error("Error fetching user network:", userNetworkError);
+        return null;
+      }
+
+      if (!userNetwork) {
+        console.log("No network found for user");
+        return {
+          active: 0,
+          pending: 0
+        };
+      }
+
+      // Buscar todos os membros da rede recursivamente
+      const { data: allNetworkData, error: networkError } = await supabase
+        .rpc('get_all_network_members', { root_network_id: userNetwork.id });
 
       if (networkError) {
-        console.error("Error fetching network data:", networkError);
-        return null;
+        console.error("Error fetching network members:", networkError);
+        return {
+          active: 0,
+          pending: 0
+        };
       }
 
       if (!allNetworkData || allNetworkData.length === 0) {
