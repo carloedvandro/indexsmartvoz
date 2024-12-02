@@ -1,12 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useNetworkStats } from "@/hooks/useNetworkStats";
 import { useProfile } from "@/hooks/useProfile";
 import { supabase } from "@/integrations/supabase/client";
 import { BarChartStats } from "./charts/BarChartStats";
 import { PieChartStats } from "./charts/PieChartStats";
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNetworkMembersStatus } from "./hooks/useNetworkMembersStatus";
+import { useNetworkData } from "@/components/client/network/useNetworkData";
 
 // Gera dados dos últimos 15 dias
 const generateInitialBarData = () => {
@@ -39,10 +38,8 @@ const colors = [
 
 export const NetworkStatsCard = () => {
   const { data: profile } = useProfile();
-  const { data: networkStats } = useNetworkStats(profile?.id);
+  const { networkData } = useNetworkData(profile?.id || '');
   const queryClient = useQueryClient();
-  
-  const { data: membersStatus } = useNetworkMembersStatus(profile?.id, networkStats?.id);
 
   useEffect(() => {
     if (!profile?.id) return;
@@ -57,7 +54,7 @@ export const NetworkStatsCard = () => {
           table: 'profiles'
         },
         () => {
-          queryClient.invalidateQueries({ queryKey: ['networkMembersStatus', profile.id] });
+          queryClient.invalidateQueries({ queryKey: ['networkData', profile.id] });
         }
       )
       .subscribe();
@@ -69,15 +66,38 @@ export const NetworkStatsCard = () => {
 
   const barData = generateInitialBarData();
 
+  // Função para contar membros ativos e pendentes
+  const countMembersByStatus = (members: any[]) => {
+    let active = 0;
+    let pending = 0;
+
+    const countStatus = (member: any) => {
+      if (member.user.status === 'active') {
+        active++;
+      } else {
+        pending++;
+      }
+
+      if (member.children && member.children.length > 0) {
+        member.children.forEach(countStatus);
+      }
+    };
+
+    members.forEach(countStatus);
+    return { active, pending };
+  };
+
+  const memberCounts = networkData ? countMembersByStatus(networkData) : { active: 0, pending: 0 };
+
   const pieData = [
     { 
       name: "Ativos", 
-      value: membersStatus?.active || 0, 
+      value: memberCounts.active, 
       color: "#9b87f5" 
     },
     { 
       name: "Pendentes", 
-      value: membersStatus?.pending || 0, 
+      value: memberCounts.pending, 
       color: "#D946EF" 
     },
   ];
