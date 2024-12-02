@@ -19,6 +19,12 @@ import {
 
 import { SidebarContext, useSidebar } from "./context"
 import { SIDEBAR_WIDTH, SIDEBAR_WIDTH_MOBILE, SIDEBAR_WIDTH_ICON } from "./types"
+import { 
+  SidebarMenuSkeleton, 
+  SidebarMenuSub, 
+  SidebarMenuSubButton, 
+  SidebarMenuSubItem 
+} from "./components/submenu"
 
 const Sidebar = React.forwardRef<
   HTMLDivElement,
