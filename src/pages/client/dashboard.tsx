@@ -25,12 +25,12 @@ export default function ClientDashboard() {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full">
+      <div className="flex min-h-screen">
         <ClientSidebar />
-        <main className="flex-1 pl-[288px]">
+        <main className="flex-1">
           <DashboardHeader />
-          <div className="container mx-auto py-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="md:col-span-1">
                 <ProfileCard profile={profile} />
               </div>
