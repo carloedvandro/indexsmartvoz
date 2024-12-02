@@ -1,5 +1,4 @@
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { useState } from "react";
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 
 interface PieChartStatsProps {
   data: Array<{
@@ -10,82 +9,50 @@ interface PieChartStatsProps {
 }
 
 export const PieChartStats = ({ data }: PieChartStatsProps) => {
-  const [activeIndex, setActiveIndex] = useState<number | undefined>();
+  const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+  }: any) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * (Math.PI / 180));
+    const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
 
-  const onPieEnter = (_: any, index: number) => {
-    setActiveIndex(index);
-  };
-
-  const onPieLeave = () => {
-    setActiveIndex(undefined);
+    return percent > 0 ? (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor="middle"
+        dominantBaseline="central"
+      >
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    ) : null;
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="h-full w-full">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
             data={data}
             cx="50%"
             cy="50%"
-            startAngle={0}
-            endAngle={360}
-            outerRadius={70}
-            innerRadius={45}
-            paddingAngle={2}
-            dataKey="value"
-            label={({ value }) => `${value}`}
             labelLine={false}
-            onMouseEnter={onPieEnter}
-            onMouseLeave={onPieLeave}
-            animationBegin={0}
-            animationDuration={1500}
-            animationEasing="ease-out"
+            label={renderCustomizedLabel}
+            outerRadius={80}
+            fill="#8884d8"
+            dataKey="value"
           >
             {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={entry.color}
-                stroke="#ffffff"
-                strokeWidth={3}
-                style={{
-                  filter: "drop-shadow(3px 3px 2px rgba(0,0,0,0.3))",
-                  transform: `scale(${activeIndex === index ? 1.1 : 1})`,
-                  transition: "transform 0.3s ease-in-out",
-                  cursor: "pointer",
-                }}
-              />
+              <Cell key={`cell-${index}`} fill={entry.color} />
             ))}
           </Pie>
-          <Tooltip
-            formatter={(value: number, name: string) => [
-              `${value} (${((value / data.reduce((acc, curr) => acc + curr.value, 0)) * 100).toFixed(0)}%)`,
-              name,
-            ]}
-            contentStyle={{
-              animation: "fade-in 0.3s ease-out",
-            }}
-          />
-          <Legend
-            layout="horizontal"
-            verticalAlign="top"
-            align="center"
-            wrapperStyle={{
-              fontSize: "12px",
-              paddingBottom: "20px",
-              animation: "fade-in 0.5s ease-out",
-            }}
-          />
-          <Legend
-            layout="horizontal"
-            verticalAlign="bottom"
-            align="center"
-            wrapperStyle={{
-              fontSize: "12px",
-              paddingTop: "20px",
-              animation: "fade-in 0.5s ease-out",
-            }}
-          />
+          <Legend />
         </PieChart>
       </ResponsiveContainer>
     </div>
