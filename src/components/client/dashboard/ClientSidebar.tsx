@@ -45,8 +45,8 @@ const menuItems = [
 export function ClientSidebar() {
   return (
     <>
-      <Sidebar className="w-56 bg-white">
-        <SidebarHeader className="flex items-center justify-between border-b border-border p-4 bg-white">
+      <Sidebar className="w-56 border-r-0">
+        <SidebarHeader className="flex items-center justify-between p-4 bg-white">
           <img
             src="/lovable-uploads/dd13194a-ddb9-41f1-ac14-d4e483f9b1df.png"
             alt="Y-TECH Logo"
