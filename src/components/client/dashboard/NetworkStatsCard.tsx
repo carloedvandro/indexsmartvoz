@@ -48,10 +48,26 @@ export const NetworkStatsCard = () => {
     queryFn: async () => {
       if (!profile?.id) return null;
 
+      // Primeiro, buscar os IDs dos usuários na rede
+      const { data: networkData } = await supabase
+        .from('network')
+        .select('user_id')
+        .eq('parent_id', networkStats?.id);
+
+      if (!networkData || networkData.length === 0) {
+        return {
+          active: 0,
+          inactive: 0
+        };
+      }
+
+      const networkUserIds = networkData.map(item => item.user_id);
+
+      // Agora buscar os perfis apenas dos usuários na rede
       const { data: profilesData, error } = await supabase
         .from('profiles')
         .select('status, blocked')
-        .neq('id', profile.id);
+        .in('id', networkUserIds);
 
       if (error) {
         console.error("Error fetching profiles:", error);
@@ -74,7 +90,7 @@ export const NetworkStatsCard = () => {
         inactive
       };
     },
-    enabled: !!profile?.id
+    enabled: !!profile?.id && !!networkStats?.id
   });
 
   useEffect(() => {
