@@ -102,11 +102,11 @@ export const NetworkStatsCard = () => {
   ];
 
   return (
-    <Card className="w-full">
+    <Card className="w-full overflow-hidden">
       <CardHeader>
         <CardTitle>Estatísticas da Rede</CardTitle>
       </CardHeader>
-      <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="w-full h-[300px]">
           <BarChartStats data={barData} colors={colors} />
         </div>
