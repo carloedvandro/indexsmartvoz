@@ -11,16 +11,18 @@ export function DashboardHeader() {
   };
 
   return (
-    <header className="bg-white shadow mb-2 border rounded-lg">
-      <div className="max-w-[1280px] mx-auto px-2 flex justify-between items-center py-2">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
-        >
-          <LogOut className="w-5 h-5" />
-          <span>Sair</span>
-        </button>
+    <header className="p-2">
+      <div className="bg-white shadow border rounded-lg">
+        <div className="max-w-[1280px] mx-auto px-2 flex justify-between items-center py-2">
+          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+          >
+            <LogOut className="w-5 h-5" />
+            <span>Sair</span>
+          </button>
+        </div>
       </div>
     </header>
   );
