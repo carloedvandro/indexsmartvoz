@@ -13,6 +13,7 @@ import {
   FolderOpen,
   User,
   HelpCircle,
+  ArrowUp,
 } from "lucide-react";
 import {
   Sidebar,
@@ -39,6 +40,7 @@ const menuItems = [
   { icon: FileText, label: "Relatórios", path: "/client/reports" },
   { icon: Wifi, label: "MKT Digital", path: "/client/marketing" },
   { icon: FolderOpen, label: "Materiais", path: "/client/materials" },
+  { icon: ArrowUp, label: "Upgrade", path: "/client/upgrade" },
   { icon: HelpCircle, label: "Suporte", path: "/client/support" },
 ];
 
