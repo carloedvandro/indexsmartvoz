@@ -56,11 +56,10 @@ export const NetworkStatsCard = () => {
     queryFn: async () => {
       if (!profile?.id) return null;
 
-      // Get all profiles and their status
       const { data: profilesData, error } = await supabase
         .from('profiles')
         .select('status, blocked')
-        .neq('id', profile.id); // Exclude current user
+        .neq('id', profile.id);
 
       if (error) {
         console.error("Error fetching profiles:", error);
@@ -75,12 +74,8 @@ export const NetworkStatsCard = () => {
         inactive: 0
       };
 
-      // Count active and inactive members
       const active = profilesData.filter(p => p.status === 'active' && !p.blocked).length;
       const inactive = profilesData.filter(p => p.status !== 'active' || p.blocked).length;
-
-      console.log("Active members:", active);
-      console.log("Inactive members:", inactive);
 
       return {
         active,
@@ -171,24 +166,23 @@ export const NetworkStatsCard = () => {
         
         <div className="h-[300px] md:h-[400px] w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
+            <PieChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
               <Pie
                 data={pieData}
                 cx="50%"
                 cy="50%"
                 startAngle={0}
                 endAngle={360}
-                outerRadius={90}
-                innerRadius={60}
+                outerRadius={70}
+                innerRadius={45}
                 paddingAngle={5}
                 dataKey="value"
-                label={({ name, value, percent }) => {
+                label={({ value, percent }) => {
                   const percentage = (percent * 100).toFixed(0);
-                  return `${name}: ${value} (${percentage}%)`;
+                  return `${value} (${percentage}%)`;
                 }}
-                labelLine={true}
+                labelLine={{ strokeWidth: 1, stroke: "#666" }}
                 isAnimationActive={true}
-                blendStroke
               >
                 {pieData.map((entry, index) => (
                   <Cell 
@@ -196,9 +190,6 @@ export const NetworkStatsCard = () => {
                     fill={entry.color}
                     stroke="#ffffff"
                     strokeWidth={2}
-                    style={{
-                      filter: "drop-shadow(2px 2px 4px rgba(0,0,0,0.3))",
-                    }}
                   />
                 ))}
               </Pie>
@@ -207,8 +198,8 @@ export const NetworkStatsCard = () => {
                 verticalAlign="bottom"
                 height={36}
                 wrapperStyle={{
-                  paddingTop: "20px",
-                  fontSize: "14px",
+                  paddingTop: "10px",
+                  fontSize: "12px",
                 }}
               />
             </PieChart>
