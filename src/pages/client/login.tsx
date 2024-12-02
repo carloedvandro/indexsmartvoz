@@ -93,10 +93,12 @@ export default function ClientLogin() {
                       link_text: "Esqueceu sua senha?",
                       confirmation_text: "Verifique seu email para redefinir sua senha",
                     },
+                    sign_up: {
+                      link_text: "",
+                    },
                   },
                 }}
                 view="sign_in"
-                showLinks={false}
               />
               <div className="mt-4 text-center">
                 <span className="text-gray-600">Não tem uma conta? </span>
