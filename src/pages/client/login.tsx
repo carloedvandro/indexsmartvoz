@@ -53,7 +53,7 @@ export default function ClientLogin() {
         <div className="absolute inset-0 bg-black/50" />
         
         <div className="relative z-10 w-full h-full flex items-stretch">
-          <Card className="w-full max-w-md h-full rounded-none bg-white/95">
+          <Card className="w-full max-w-md h-full rounded-none bg-white/95 md:bg-white/95 sm:bg-white/90">
             <CardHeader>
               <CardTitle className="text-2xl text-center">{t('client_area')}</CardTitle>
             </CardHeader>
