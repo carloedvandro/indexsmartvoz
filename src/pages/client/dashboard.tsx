@@ -25,23 +25,23 @@ export default function ClientDashboard() {
 
   return (
     <SidebarProvider defaultOpen={true}>
-      <div className="flex h-screen bg-[#F8F9FE]">
+      <div className="flex h-screen overflow-hidden bg-[#F8F9FE]">
         <ClientSidebar />
-        <main className="flex-1 flex flex-col">
+        <main className="flex-1 flex flex-col min-w-0">
           <DashboardHeader />
-          <div className="flex-1 p-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-              <div>
+          <div className="flex-1 p-6 overflow-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div className="w-full">
                 <ProfileCard profile={profile} />
               </div>
-              <div>
+              <div className="w-full">
                 <NetworkCard networkStats={networkStats} onClick={handleNetworkClick} />
               </div>
-              <div>
+              <div className="w-full">
                 <PlansCard />
               </div>
             </div>
-            <div>
+            <div className="w-full">
               <NetworkStatsCard />
             </div>
           </div>

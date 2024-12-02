@@ -102,7 +102,7 @@ export const NetworkStatsCard = () => {
   ];
 
   return (
-    <Card className="h-full">
+    <Card className="w-full h-full">
       <CardHeader>
         <CardTitle>Estatísticas da Rede</CardTitle>
       </CardHeader>
