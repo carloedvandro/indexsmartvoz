@@ -79,7 +79,9 @@ export const NetworkStatsCard = () => {
 
       // Buscar todos os membros da rede recursivamente usando a função RPC
       const { data: allNetworkData, error: networkError } = await supabase
-        .rpc<NetworkMember>('get_all_network_members', { root_network_id: userNetwork.id });
+        .rpc<NetworkMember, { root_network_id: string }>('get_all_network_members', { 
+          root_network_id: userNetwork.id 
+        });
 
       if (networkError) {
         console.error("Error fetching network members:", networkError);
