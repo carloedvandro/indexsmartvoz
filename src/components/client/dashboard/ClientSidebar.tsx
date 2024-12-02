@@ -50,7 +50,7 @@ export function ClientSidebar() {
       <Sidebar className="w-72 border-r">
         <SidebarHeader className="flex items-center justify-between p-4 bg-white">
           <img
-            src="/lovable-uploads/dd13194a-ddb9-41f1-ac14-d4e483f9b1df.png"
+            src="/lovable-uploads/5343131e-3d13-41e5-98f0-3633e05fe81b.png"
             alt="Y-TECH Logo"
             className="h-12 w-auto object-contain"
           />
@@ -63,7 +63,7 @@ export function ClientSidebar() {
                 {menuItems.map((item) => (
                   <SidebarMenuItem key={item.label}>
                     <SidebarMenuButton asChild>
-                      <Link to={item.path} className="flex items-center gap-2">
+                      <Link to={item.path} className="flex items-center gap-2 text-gray-700">
                         <item.icon className="h-4 w-4" />
                         <span>{item.label}</span>
                       </Link>
