@@ -8,7 +8,7 @@ export function PlansCard() {
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <span className="text-gray-600">Plano atual:</span>
-            <span className="font-medium">Nenhum plano ativo</span>
+            <span className="font-medium">Gratuito</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-600">Próximo pagamento:</span>
