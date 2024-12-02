@@ -78,7 +78,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               </button>
             )}
             <div className="relative">
-              <Avatar className="h-12 w-12 border-2 border-primary">
+              <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
                 <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
                 <AvatarFallback>
                   <Users className="h-6 w-6" />
