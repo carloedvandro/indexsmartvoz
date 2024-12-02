@@ -29,7 +29,7 @@ export default function ClientDashboard() {
         <ClientSidebar />
         <main className="flex-1 pl-72">
           <DashboardHeader />
-          <div className="px-6">
+          <div className="px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
               <div className="md:col-span-1">
                 <ProfileCard profile={profile} />
