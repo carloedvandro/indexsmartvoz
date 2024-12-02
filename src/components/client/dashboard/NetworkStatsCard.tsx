@@ -48,42 +48,59 @@ export const NetworkStatsCard = () => {
     queryFn: async () => {
       if (!profile?.id || !networkStats?.id) return null;
 
-      // Primeiro, buscar os IDs dos usuários na rede
-      const { data: networkData } = await supabase
+      console.log("Fetching members status for network:", networkStats.id);
+
+      // Primeiro, buscar todos os IDs dos usuários na rede (incluindo subníveis)
+      const { data: allNetworkData, error: networkError } = await supabase
         .from('network')
         .select('user_id')
-        .eq('parent_id', networkStats.id);
+        .or(`parent_id.eq.${networkStats.id},user_id.eq.${profile.id}`);
 
-      if (!networkData || networkData.length === 0) {
+      if (networkError) {
+        console.error("Error fetching network data:", networkError);
+        return null;
+      }
+
+      if (!allNetworkData || allNetworkData.length === 0) {
+        console.log("No network members found");
         return {
           active: 0,
           inactive: 0
         };
       }
 
-      const networkUserIds = networkData.map(item => item.user_id);
+      const networkUserIds = allNetworkData.map(item => item.user_id);
+      console.log("Network user IDs:", networkUserIds);
 
-      // Agora buscar os perfis apenas dos usuários na rede
-      const { data: profilesData, error } = await supabase
+      // Buscar os perfis dos usuários na rede
+      const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
         .select('status, blocked')
         .in('id', networkUserIds);
 
-      if (error) {
-        console.error("Error fetching profiles:", error);
+      if (profilesError) {
+        console.error("Error fetching profiles:", profilesError);
         return {
           active: 0,
           inactive: 0
         };
       }
 
-      if (!profilesData) return {
-        active: 0,
-        inactive: 0
-      };
+      if (!profilesData) {
+        console.log("No profiles found");
+        return {
+          active: 0,
+          inactive: 0
+        };
+      }
+
+      console.log("Profiles data:", profilesData);
 
       const active = profilesData.filter(p => p.status === 'active' && !p.blocked).length;
       const inactive = profilesData.filter(p => p.status !== 'active' || p.blocked).length;
+
+      console.log("Active members:", active);
+      console.log("Inactive members:", inactive);
 
       return {
         active,
@@ -106,7 +123,6 @@ export const NetworkStatsCard = () => {
           table: 'profiles'
         },
         () => {
-          // Invalidate and refetch the query when profiles change
           queryClient.invalidateQueries({ queryKey: ['networkMembersStatus', profile.id] });
         }
       )
