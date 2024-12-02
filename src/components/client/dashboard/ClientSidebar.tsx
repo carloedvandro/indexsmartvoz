@@ -23,6 +23,7 @@ import {
   SidebarMenuButton,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 const menuItems = [
@@ -43,32 +44,38 @@ const menuItems = [
 
 export function ClientSidebar() {
   return (
-    <Sidebar className="w-56"> {/* Reduced from default width */}
-      <SidebarHeader className="border-b border-border p-4">
-        <img
-          src="/lovable-uploads/dd13194a-ddb9-41f1-ac14-d4e483f9b1df.png"
-          alt="Y-TECH Logo"
-          className="h-6 w-auto object-contain" /* Added object-contain and w-auto to maintain aspect ratio */
-        />
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.label}>
-                  <SidebarMenuButton asChild>
-                    <Link to={item.path} className="flex items-center gap-2">
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.label}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+    <>
+      <Sidebar className="w-56">
+        <SidebarHeader className="flex items-center justify-between border-b border-border p-4">
+          <img
+            src="/lovable-uploads/dd13194a-ddb9-41f1-ac14-d4e483f9b1df.png"
+            alt="Y-TECH Logo"
+            className="h-8 w-auto object-contain"
+          />
+          <SidebarTrigger className="md:hidden" />
+        </SidebarHeader>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {menuItems.map((item) => (
+                  <SidebarMenuItem key={item.label}>
+                    <SidebarMenuButton asChild>
+                      <Link to={item.path} className="flex items-center gap-2">
+                        <item.icon className="h-4 w-4" />
+                        <span>{item.label}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+      <div className="fixed right-4 top-4 z-50 md:hidden">
+        <SidebarTrigger />
+      </div>
+    </>
   );
 }
