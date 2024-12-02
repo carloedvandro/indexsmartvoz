@@ -27,9 +27,9 @@ export default function ClientDashboard() {
     <SidebarProvider>
       <div className="flex min-h-screen">
         <ClientSidebar />
-        <main className="flex-1">
+        <main className="flex-1 max-w-[1400px] mx-auto">
           <DashboardHeader />
-          <div className="p-4 pr-0">
+          <div className="p-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <ProfileCard profile={profile} />
               <NetworkCard networkStats={networkStats} onClick={handleNetworkClick} />
