@@ -52,8 +52,8 @@ export default function ClientLogin() {
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/50" />
         
-        <div className="relative z-10 w-full h-full flex items-center p-4 justify-start pl-16">
-          <Card className="w-full max-w-md bg-white/95">
+        <div className="relative z-10 w-full h-full flex items-stretch">
+          <Card className="w-full max-w-md h-full rounded-none bg-white/95">
             <CardHeader>
               <CardTitle className="text-2xl text-center">{t('client_area')}</CardTitle>
             </CardHeader>
