@@ -42,70 +42,74 @@ export default function ClientLogin() {
   }, [navigate, toast, t]);
 
   return (
-    <div 
-      className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center p-4"
-      style={{
-        backgroundImage: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2000&q=80")',
-      }}
-    >
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/50" />
-      
-      <Card className="w-full max-w-md relative z-10">
-        <CardHeader>
-          <CardTitle className="text-2xl text-center">{t('client_area')}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Auth
-            supabaseClient={supabase}
-            appearance={{
-              theme: ThemeSupa,
-              variables: {
-                default: {
-                  colors: {
-                    brand: '#00ffa3',
-                    brandAccent: '#004d31',
+    <div className="fixed inset-0 w-full h-full">
+      <div 
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2000&q=80")',
+        }}
+      >
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/50" />
+        
+        <div className="relative z-10 w-full h-full flex items-center justify-center p-4">
+          <Card className="w-full max-w-md">
+            <CardHeader>
+              <CardTitle className="text-2xl text-center">{t('client_area')}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Auth
+                supabaseClient={supabase}
+                appearance={{
+                  theme: ThemeSupa,
+                  variables: {
+                    default: {
+                      colors: {
+                        brand: '#00ffa3',
+                        brandAccent: '#004d31',
+                      },
+                    },
                   },
-                },
-              },
-              className: {
-                anchor: 'text-gray-600 hover:text-gray-900',
-                button: 'bg-[#00ffa3] hover:bg-[#004d31] text-white',
-              },
-            }}
-            providers={[]}
-            redirectTo={`${window.location.origin}/client/dashboard`}
-            localization={{
-              variables: {
-                sign_in: {
-                  email_label: "Email",
-                  password_label: "Senha",
-                  button_label: "Entrar",
-                  loading_button_label: "Entrando...",
-                  password_input_placeholder: "Digite sua senha",
-                  email_input_placeholder: "Digite seu email",
-                },
-                forgotten_password: {
-                  email_label: "Email",
-                  button_label: "Enviar instruções",
-                  loading_button_label: "Enviando...",
-                  link_text: "Esqueceu sua senha?",
-                  confirmation_text: "Verifique seu email para redefinir sua senha",
-                },
-              },
-            }}
-          />
-          <div className="mt-4 text-center">
-            <span className="text-gray-600">Não tem uma conta? </span>
-            <Link 
-              to="/register" 
-              className="text-[#00ffa3] hover:text-[#004d31] font-medium"
-            >
-              Cadastre-se
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
+                  className: {
+                    anchor: 'text-gray-600 hover:text-gray-900',
+                    button: 'bg-[#00ffa3] hover:bg-[#004d31] text-white',
+                  },
+                }}
+                providers={[]}
+                redirectTo={`${window.location.origin}/client/dashboard`}
+                localization={{
+                  variables: {
+                    sign_in: {
+                      email_label: "Email",
+                      password_label: "Senha",
+                      button_label: "Entrar",
+                      loading_button_label: "Entrando...",
+                      password_input_placeholder: "Digite sua senha",
+                      email_input_placeholder: "Digite seu email",
+                    },
+                    forgotten_password: {
+                      email_label: "Email",
+                      button_label: "Enviar instruções",
+                      loading_button_label: "Enviando...",
+                      link_text: "Esqueceu sua senha?",
+                      confirmation_text: "Verifique seu email para redefinir sua senha",
+                    },
+                  },
+                }}
+              />
+              <div className="mt-4 text-center">
+                <span className="text-gray-600">Não tem uma conta? </span>
+                <Link 
+                  to="/register" 
+                  className="text-[#00ffa3] hover:text-[#004d31] font-medium"
+                >
+                  Cadastre-se
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }
