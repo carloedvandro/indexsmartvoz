@@ -8,23 +8,22 @@ import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNetworkMembersStatus } from "./hooks/useNetworkMembersStatus";
 
-const barData = [
-  { name: "Nov 1", value: 7 },
-  { name: "Nov 2", value: 12 },
-  { name: "Nov 3", value: 58 },
-  { name: "Nov 4", value: 29 },
-  { name: "Nov 5", value: 59 },
-  { name: "Nov 6", value: 117 },
-  { name: "Nov 7", value: 205 },
-  { name: "Nov 8", value: 232 },
-  { name: "Nov 9", value: 414 },
-  { name: "Nov 10", value: 466 },
-  { name: "Nov 11", value: 741 },
-  { name: "Nov 12", value: 812 },
-  { name: "Nov 13", value: 835 },
-  { name: "Nov 14", value: 713 },
-  { name: "Nov 15", value: 612 },
-];
+// Gera dados dos últimos 15 dias
+const generateInitialBarData = () => {
+  const data = [];
+  const today = new Date();
+  
+  for (let i = 14; i >= 0; i--) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+    data.push({
+      name: `${date.getDate()}/${date.getMonth() + 1}`,
+      value: 0
+    });
+  }
+  
+  return data;
+};
 
 const colors = [
   "#FF6B6B",
@@ -67,6 +66,8 @@ export const NetworkStatsCard = () => {
       supabase.removeChannel(channel);
     };
   }, [profile?.id, queryClient]);
+
+  const barData = generateInitialBarData();
 
   const pieData = [
     { 
