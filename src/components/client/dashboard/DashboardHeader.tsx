@@ -12,7 +12,7 @@ export function DashboardHeader() {
 
   return (
     <header className="bg-white shadow">
-      <div className="px-6 py-4 flex justify-between items-center">
+      <div className="p-2 flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
         <button
           onClick={handleLogout}
