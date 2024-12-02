@@ -51,7 +51,6 @@ export const NetworkStatsCard = () => {
   const { data: profile } = useProfile();
   const { data: networkStats } = useNetworkStats(profile?.id);
 
-  // Fetch active/inactive members count
   const { data: membersStatus } = useQuery({
     queryKey: ['networkMembersStatus', profile?.id],
     queryFn: async () => {
@@ -90,11 +89,6 @@ export const NetworkStatsCard = () => {
     },
     enabled: !!profile?.id
   });
-
-  // Calculate total network size
-  const totalNetworkSize = networkStats ? 
-    networkStats.level1Count + networkStats.level2Count + networkStats.level3Count + networkStats.level4Count : 
-    0;
 
   const pieData = [
     { 
@@ -174,36 +168,27 @@ export const NetworkStatsCard = () => {
             </BarChart>
           </ResponsiveContainer>
         </div>
+        
         <div className="h-[300px] md:h-[400px] w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <PieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+            <PieChart>
               <Pie
                 data={pieData}
                 cx="50%"
                 cy="50%"
                 startAngle={0}
                 endAngle={360}
-                labelLine={true}
-                outerRadius={({ viewBox }) => Math.min(viewBox.width, viewBox.height) / 3}
-                innerRadius={({ viewBox }) => Math.min(viewBox.width, viewBox.height) / 5}
+                outerRadius={90}
+                innerRadius={60}
                 paddingAngle={5}
                 dataKey="value"
                 label={({ name, value, percent }) => {
                   const percentage = (percent * 100).toFixed(0);
                   return `${name}: ${value} (${percentage}%)`;
                 }}
+                labelLine={true}
                 isAnimationActive={true}
                 blendStroke
-                onMouseEnter={(_, index, e) => {
-                  if (e.target) {
-                    e.target.style.filter = "drop-shadow(4px 4px 8px rgba(0,0,0,0.6))";
-                  }
-                }}
-                onMouseLeave={(_, index, e) => {
-                  if (e.target) {
-                    e.target.style.filter = "drop-shadow(2px 2px 4px rgba(0,0,0,0.3))";
-                  }
-                }}
               >
                 {pieData.map((entry, index) => (
                   <Cell 
@@ -219,11 +204,11 @@ export const NetworkStatsCard = () => {
               </Pie>
               <Tooltip />
               <Legend 
-                verticalAlign="bottom" 
+                verticalAlign="bottom"
                 height={36}
                 wrapperStyle={{
                   paddingTop: "20px",
-                  fontSize: "12px",
+                  fontSize: "14px",
                 }}
               />
             </PieChart>
