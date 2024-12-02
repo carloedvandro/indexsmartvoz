@@ -8,6 +8,8 @@ import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
 import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
+import { ClientSidebar } from "@/components/client/dashboard/ClientSidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -23,24 +25,29 @@ export default function ClientDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <DashboardHeader />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          <div className="md:col-span-1">
-            <ProfileCard profile={profile} />
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full bg-gray-50">
+        <ClientSidebar />
+        <main className="flex-1">
+          <DashboardHeader />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="md:col-span-1">
+                <ProfileCard profile={profile} />
+              </div>
+              <div className="md:col-span-1">
+                <NetworkCard networkStats={networkStats} onClick={handleNetworkClick} />
+              </div>
+              <div className="md:col-span-1">
+                <PlansCard />
+              </div>
+              <div className="md:col-span-2 lg:col-span-3">
+                <NetworkStatsCard />
+              </div>
+            </div>
           </div>
-          <div className="md:col-span-1">
-            <NetworkCard networkStats={networkStats} onClick={handleNetworkClick} />
-          </div>
-          <div className="md:col-span-1">
-            <PlansCard />
-          </div>
-          <div className="md:col-span-2 lg:col-span-3">
-            <NetworkStatsCard />
-          </div>
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+    </SidebarProvider>
   );
 }
