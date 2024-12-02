@@ -78,6 +78,7 @@ export const NetworkStatsCard = () => {
       }
 
       // Buscar todos os membros da rede recursivamente usando a função RPC
+      // que já está limitada até o nível 4 na sua definição
       const { data: allNetworkData, error: networkError } = await supabase
         .rpc('get_all_network_members', { 
           root_network_id: userNetwork.id 
@@ -99,8 +100,19 @@ export const NetworkStatsCard = () => {
         };
       }
 
-      const networkUserIds = allNetworkData.map(item => item.user_id);
+      // Filtrar apenas membros até o nível 4
+      const networkUserIds = allNetworkData
+        .filter(item => item.level <= 4)
+        .map(item => item.user_id);
+
       console.log("Network user IDs:", networkUserIds);
+
+      if (networkUserIds.length === 0) {
+        return {
+          active: 0,
+          pending: 0
+        };
+      }
 
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
