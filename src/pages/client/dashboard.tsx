@@ -45,7 +45,7 @@ export default function ClientDashboard() {
                   <PlansCard />
                 </div>
               </div>
-              <div className="pl-10">
+              <div className="pl-10 pr-3">
                 <NetworkStatsCard />
               </div>
             </div>
