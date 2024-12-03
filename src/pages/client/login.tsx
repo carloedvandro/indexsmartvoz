@@ -42,8 +42,6 @@ export default function ClientLogin() {
         if (profile) {
           navigate("/client/dashboard");
         }
-      } else if (event === 'SIGNED_OUT') {
-        navigate("/");
       }
     });
 

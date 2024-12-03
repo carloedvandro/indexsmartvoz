@@ -11,7 +11,6 @@ export default function ClientRegister() {
     try {
       let sponsorId = null;
 
-      // Check if sponsor custom ID exists
       if (values.sponsorCustomId) {
         const { data: sponsor, error: sponsorError } = await supabase
           .from("profiles")
@@ -31,8 +30,7 @@ export default function ClientRegister() {
         sponsorId = sponsor.id;
       }
 
-      // Check if custom_id is already in use
-      const { data: existingCustomId, error: customIdError } = await supabase
+      const { data: existingCustomId } = await supabase
         .from("profiles")
         .select("id")
         .eq("custom_id", values.customId)
@@ -47,7 +45,6 @@ export default function ClientRegister() {
         return;
       }
 
-      // Create user account with metadata
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -58,7 +55,6 @@ export default function ClientRegister() {
             document_id: values.cpf,
             sponsor_id: sponsorId,
           },
-          emailRedirectTo: `${window.location.origin}/client/dashboard`,
         },
       });
 
@@ -79,7 +75,6 @@ export default function ClientRegister() {
         throw new Error("Erro ao criar usuário");
       }
 
-      // Atualizar o perfil com os dados adicionais
       const { error: updateError } = await supabase
         .from('profiles')
         .update({
@@ -98,7 +93,6 @@ export default function ClientRegister() {
         description: "Conta criada com sucesso! Você será redirecionado em instantes.",
       });
 
-      // Wait a moment before redirecting to ensure the toast is visible
       setTimeout(() => {
         navigate("/client/login");
       }, 2000);
