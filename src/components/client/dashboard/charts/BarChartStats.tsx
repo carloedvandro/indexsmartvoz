@@ -6,7 +6,6 @@ interface BarChartStatsProps {
     value: number;
     previousValue: number;
   }>;
-  colors: string[];
 }
 
 export const BarChartStats = ({ data }: BarChartStatsProps) => {
@@ -18,33 +17,26 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
           margin={{ right: 10, left: -20, bottom: 0 }}
         >
           <defs>
+            {/* Rosa para Roxo */}
             <linearGradient id="colorGradient1" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#FF69B4" stopOpacity={0.9} />
-              <stop offset="100%" stopColor="#FF1493" stopOpacity={0.7} />
+              <stop offset="0%" stopColor="#FF69B4" stopOpacity={1} />
+              <stop offset="100%" stopColor="#9b87f5" stopOpacity={0.8} />
             </linearGradient>
+            {/* Laranja para Amarelo */}
             <linearGradient id="colorGradient2" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#FFA500" stopOpacity={0.9} />
-              <stop offset="100%" stopColor="#FF8C00" stopOpacity={0.7} />
+              <stop offset="0%" stopColor="#F97316" stopOpacity={1} />
+              <stop offset="100%" stopColor="#FFA500" stopOpacity={0.8} />
             </linearGradient>
+            {/* Verde para Azul */}
             <linearGradient id="colorGradient3" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#98FB98" stopOpacity={0.9} />
-              <stop offset="100%" stopColor="#87CEEB" stopOpacity={0.7} />
+              <stop offset="0%" stopColor="#00ffa3" stopOpacity={1} />
+              <stop offset="100%" stopColor="#0EA5E9" stopOpacity={0.8} />
             </linearGradient>
+            {/* Roxo para Rosa */}
             <linearGradient id="colorGradient4" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#9370DB" stopOpacity={0.9} />
-              <stop offset="100%" stopColor="#8A2BE2" stopOpacity={0.7} />
+              <stop offset="0%" stopColor="#D946EF" stopOpacity={1} />
+              <stop offset="100%" stopColor="#FF69B4" stopOpacity={0.8} />
             </linearGradient>
-            <filter id="shadow" height="130%">
-              <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
-              <feOffset dx="2" dy="4" />
-              <feComponentTransfer>
-                <feFuncA type="linear" slope="0.3" />
-              </feComponentTransfer>
-              <feMerge>
-                <feMergeNode />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
           </defs>
           <CartesianGrid 
             strokeDasharray="3 3" 
@@ -75,28 +67,32 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
             itemStyle={{ color: '#333', padding: '2px 0' }}
             cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
           />
-          <Bar 
-            dataKey="value"
-            radius={[6, 6, 0, 0]}
-            barSize={window.innerWidth < 768 ? 12 : 20}
-            fill="url(#colorGradient1)"
-          >
-            {data.map((entry, index) => (
-              <g 
-                key={`cell-${index}`}
-                filter="url(#shadow)"
-              >
-                <rect
-                  x={0}
-                  y={0}
-                  width="100%"
-                  height="100%"
-                  fill={`url(#colorGradient${(index % 4) + 1})`}
-                  className="transition-all duration-300 hover:opacity-90 hover:transform hover:translate-y-[-2px]"
-                />
-              </g>
-            ))}
-          </Bar>
+          {data.map((entry, index) => (
+            <Bar
+              key={`bar-${index}`}
+              dataKey="value"
+              data={[entry]}
+              radius={[6, 6, 0, 0]}
+              barSize={window.innerWidth < 768 ? 12 : 20}
+              fill={`url(#colorGradient${(index % 4) + 1})`}
+              style={{
+                filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.1))',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                if (e.target) {
+                  e.target.style.opacity = '0.8';
+                  e.target.style.transform = 'translateY(-2px)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (e.target) {
+                  e.target.style.opacity = '1';
+                  e.target.style.transform = 'translateY(0)';
+                }
+              }}
+            />
+          ))}
         </BarChart>
       </ResponsiveContainer>
     </div>
