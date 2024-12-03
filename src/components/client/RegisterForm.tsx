@@ -33,3 +33,6 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
     </Form>
   );
 }
+
+// Export the RegisterFormData type
+export type { RegisterFormData };
