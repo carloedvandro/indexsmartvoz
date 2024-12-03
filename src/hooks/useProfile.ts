@@ -38,17 +38,9 @@ export const useProfile = () => {
 
       console.log("Profile data:", data);
       
-      // Cast the sponsor data to the correct type and handle it as a single object
-      const sponsorData = data?.sponsor && typeof data.sponsor === 'object' ? {
-        id: (data.sponsor as any).id as string,
-        full_name: (data.sponsor as any).full_name as string | null,
-        email: (data.sponsor as any).email as string,
-        custom_id: (data.sponsor as any).custom_id as string | null
-      } : null;
-      
       return {
         ...data,
-        sponsor: sponsorData
+        sponsor: data?.sponsor || null
       } as Profile & {
         sponsor?: {
           id: string;
