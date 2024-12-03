@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { ProductCard } from "@/components/store/ProductCard";
-import { ProductForm } from "@/components/store/ProductForm";
+import { StoreHeader } from "@/components/store/StoreHeader";
+import { ProductList } from "@/components/store/ProductList";
+import { ExampleProducts } from "@/components/store/ExampleProducts";
 
 type Product = {
   id: string;
@@ -15,23 +13,6 @@ type Product = {
   image_url: string | null;
 };
 
-const placeholderProducts = [
-  {
-    id: "example-1",
-    name: "Professional Development Course",
-    description: "Comprehensive online course covering the latest industry trends and best practices.",
-    price: 999.99,
-    image_url: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-  },
-  {
-    id: "example-2",
-    name: "Business Consultation Package",
-    description: "One-on-one consultation sessions with industry experts to grow your business.",
-    price: 1499.99,
-    image_url: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-  },
-];
-
 export default function Store() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,9 +21,13 @@ export default function Store() {
 
   const loadProducts = async () => {
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("User not authenticated");
+
       const { data, error } = await supabase
         .from("store_products")
         .select("*")
+        .eq("user_id", user.id)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
@@ -105,7 +90,7 @@ export default function Store() {
         description: formData.get("description") as string,
         price: parseFloat(formData.get("price") as string),
         image_url: imageUrl,
-        user_id: user.id, // Add user_id to the product data
+        user_id: user.id,
       };
 
       if (selectedProduct) {
@@ -173,51 +158,26 @@ export default function Store() {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">My Store</h1>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>
-              <PlusCircle className="mr-2" />
-              Add Product
-            </Button>
-          </DialogTrigger>
-          <ProductForm
-            selectedProduct={selectedProduct}
-            isLoading={isLoading}
-            onSubmit={handleSubmit}
-          />
-        </Dialog>
-      </div>
+      <StoreHeader 
+        isLoading={isLoading}
+        onSubmit={handleSubmit}
+        selectedProduct={selectedProduct}
+      />
 
-      {isLoading ? (
-        <div className="text-center">Loading...</div>
-      ) : products.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onEdit={setSelectedProduct}
-              onDelete={handleDelete}
-            />
-          ))}
-        </div>
+      {products.length > 0 ? (
+        <ProductList
+          products={products}
+          isLoading={isLoading}
+          onSubmit={handleSubmit}
+          selectedProduct={selectedProduct}
+          setSelectedProduct={setSelectedProduct}
+          onDelete={handleDelete}
+        />
       ) : (
-        <div className="text-center">
-          <p className="text-gray-600 mb-4">No products yet. Here are some examples:</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {placeholderProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onEdit={setSelectedProduct}
-                onDelete={handleDelete}
-                isExample
-              />
-            ))}
-          </div>
-        </div>
+        <ExampleProducts
+          setSelectedProduct={setSelectedProduct}
+          onDelete={handleDelete}
+        />
       )}
     </div>
   );
