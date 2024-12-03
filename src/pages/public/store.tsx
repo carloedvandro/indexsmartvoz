@@ -52,26 +52,36 @@ export default function PublicStore() {
   }, [storeUrl]);
 
   if (isLoading) {
-    return <div className="container mx-auto p-4">Loading...</div>;
+    return (
+      <div className="h-screen w-full overflow-y-auto">
+        <div className="container mx-auto p-4">Loading...</div>
+      </div>
+    );
   }
 
   if (!storeOwner) {
-    return <div className="container mx-auto p-4">Store not found</div>;
+    return (
+      <div className="h-screen w-full overflow-y-auto">
+        <div className="container mx-auto p-4">Store not found</div>
+      </div>
+    );
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Loja de {storeOwner.full_name}</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            isPublic
-          />
-        ))}
+    <div className="h-screen w-full overflow-y-auto">
+      <div className="container mx-auto p-4">
+        <h1 className="text-3xl font-bold mb-6">Loja de {storeOwner.full_name}</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onEdit={() => {}}
+              onDelete={() => {}}
+              isPublic
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
