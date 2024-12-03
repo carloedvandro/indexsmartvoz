@@ -1,6 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import { Tables } from "@/integrations/supabase/types";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 type Profile = Tables<"profiles">;
 
@@ -34,22 +35,26 @@ const mapSponsor = (sponsorData: Record<string, any> | null): Sponsor | null => 
 };
 
 export const useProfile = () => {
+  const navigate = useNavigate();
+
   return useQuery({
     queryKey: ['profile'],
     queryFn: async () => {
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session?.user) {
-        console.log("No session found");
+        console.log("No session found, redirecting to login");
+        navigate("/client/login");
         return null;
       }
 
       console.log("Query Key:", "profile");
       console.log("Fetching profile for user:", session.user.id);
       
-      const { data: profileData, error } = await supabase
-        .from("profiles")
-        .select(`
+      const query = {
+        table: "profiles",
+        filters: { id: session.user.id },
+        fields: `
           *,
           sponsor:sponsor_id (
             id,
@@ -57,7 +62,14 @@ export const useProfile = () => {
             email,
             custom_id
           )
-        `)
+        `
+      };
+      
+      console.log("Executing Supabase query:", query);
+
+      const { data: profileData, error } = await supabase
+        .from("profiles")
+        .select(query.fields)
         .eq("id", session.user.id)
         .single();
 
@@ -69,6 +81,7 @@ export const useProfile = () => {
       console.log("Fetched profile data:", profileData);
 
       if (!profileData) {
+        console.warn("No profile data found for user:", session.user.id);
         return null;
       }
 
