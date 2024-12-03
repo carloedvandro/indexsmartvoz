@@ -28,6 +28,7 @@ export const PieChartStats = ({ data }: PieChartStatsProps) => {
         fill="white"
         textAnchor="middle"
         dominantBaseline="central"
+        className="text-xs sm:text-sm"
       >
         {`${(percent * 100).toFixed(0)}%`}
       </text>
@@ -44,15 +45,29 @@ export const PieChartStats = ({ data }: PieChartStatsProps) => {
             cy="50%"
             labelLine={false}
             label={renderCustomizedLabel}
-            outerRadius={80}
-            fill="#8884d8"
+            outerRadius={window.innerWidth < 768 ? 50 : 80}
+            innerRadius={window.innerWidth < 768 ? 25 : 40}
+            paddingAngle={5}
             dataKey="value"
+            isAnimationActive={true}
+            animationBegin={0}
+            animationDuration={1000}
+            animationEasing="ease-out"
           >
             {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.color} />
+              <Cell 
+                key={`cell-${index}`} 
+                fill={entry.color}
+                stroke="none"
+                className="hover:opacity-80 transition-opacity duration-300"
+              />
             ))}
           </Pie>
-          <Legend />
+          <Legend 
+            wrapperStyle={{
+              fontSize: window.innerWidth < 768 ? '10px' : '12px'
+            }}
+          />
         </PieChart>
       </ResponsiveContainer>
     </div>
