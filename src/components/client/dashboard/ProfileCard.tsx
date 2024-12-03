@@ -44,7 +44,11 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
   const handleSaveStoreUrl = async () => {
     try {
       setIsLoading(true);
-      await updateProfile(profile.id, { ...profile, store_url: storeUrl });
+      const dataToUpdate = {
+        store_url: storeUrl
+      };
+      
+      await updateProfile(profile.id, dataToUpdate);
       await queryClient.invalidateQueries({ queryKey: ['profile'] });
       setIsEditing(false);
       toast({
