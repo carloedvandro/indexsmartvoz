@@ -38,14 +38,17 @@ export const useProfile = () => {
 
       console.log("Profile data:", data);
       
+      // Ensure data.sponsor is treated as a single object, not an array
+      const sponsorData = data.sponsor as {
+        id: string;
+        full_name: string | null;
+        email: string;
+        custom_id: string | null;
+      } | null;
+      
       return {
         ...data,
-        sponsor: data.sponsor ? {
-          id: data.sponsor.id,
-          full_name: data.sponsor.full_name,
-          email: data.sponsor.email,
-          custom_id: data.sponsor.custom_id
-        } : null
+        sponsor: sponsorData
       } as Profile & {
         sponsor?: {
           id: string;
