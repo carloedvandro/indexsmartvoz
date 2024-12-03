@@ -17,9 +17,9 @@ export function DashboardHeader({ title = "Dashboard", subtitle, icon }: Dashboa
   };
 
   return (
-    <header className="p-2">
+    <header className="px-4 py-2">
       <div className="bg-white shadow border rounded-lg">
-        <div className="max-w-[1280px] mx-auto px-2 flex justify-between items-center py-2">
+        <div className="max-w-[1400px] mx-auto px-4 flex justify-between items-center py-2">
           <div className="flex items-center gap-2">
             {icon}
             <div>
