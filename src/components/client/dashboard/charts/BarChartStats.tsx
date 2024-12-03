@@ -18,7 +18,12 @@ export const BarChartStats = ({ data, colors }: BarChartStatsProps) => {
           margin={{ right: 10, left: -20, bottom: 0 }}
         >
           <defs>
-            {colors.map((color, index) => (
+            {[
+              ['#FF69B4', '#FF1493'],  // Rosa para Rosa Profundo
+              ['#FF8C00', '#FFA500'],  // Laranja Escuro para Laranja
+              ['#98FB98', '#87CEEB'],  // Verde Claro para Azul Céu
+              ['#9370DB', '#FF69B4'],  // Roxo Médio para Rosa
+            ].map((colors, index) => (
               <linearGradient 
                 key={`gradient-${index}`} 
                 id={`gradient-${index}`} 
@@ -27,21 +32,10 @@ export const BarChartStats = ({ data, colors }: BarChartStatsProps) => {
                 x2="0" 
                 y2="1"
               >
-                <stop offset="0%" stopColor={color} stopOpacity={0.9} />
-                <stop offset="100%" stopColor={color} stopOpacity={0.4} />
+                <stop offset="5%" stopColor={colors[0]} stopOpacity={0.8} />
+                <stop offset="95%" stopColor={colors[1]} stopOpacity={0.5} />
               </linearGradient>
             ))}
-            <filter id="shadow" height="130%">
-              <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
-              <feOffset dx="2" dy="4" />
-              <feComponentTransfer>
-                <feFuncA type="linear" slope="0.3" />
-              </feComponentTransfer>
-              <feMerge>
-                <feMergeNode />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
           </defs>
           <CartesianGrid 
             strokeDasharray="3 3" 
@@ -76,24 +70,18 @@ export const BarChartStats = ({ data, colors }: BarChartStatsProps) => {
             dataKey="value" 
             radius={[6, 6, 0, 0]}
             barSize={window.innerWidth < 768 ? 12 : 20}
-            animationBegin={0}
-            animationDuration={1500}
-            animationEasing="ease-out"
           >
             {data.map((entry, index) => (
-              <g 
-                key={`cell-${index}`}
-                filter="url(#shadow)"
-              >
+              <g key={`cell-${index}`}>
                 <rect
                   x={0}
                   y={0}
                   width="100%"
                   height="100%"
-                  fill={`url(#gradient-${index % colors.length})`}
-                  className="transition-all duration-300 hover:opacity-90 hover:transform hover:translate-y-[-2px]"
+                  fill={`url(#gradient-${index % 4})`}
                   style={{
-                    filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.1))'
+                    filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.1))',
+                    transition: 'all 0.3s ease'
                   }}
                 />
               </g>
