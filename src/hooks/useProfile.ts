@@ -37,7 +37,7 @@ export const useProfile = () => {
       }
 
       console.log("Profile data:", data);
-      
+
       // Transform the data to ensure proper typing
       const typedData: Profile & {
         sponsor?: {
@@ -48,7 +48,7 @@ export const useProfile = () => {
         } | null;
       } = {
         ...data,
-        sponsor: data?.sponsor ? {
+        sponsor: data.sponsor ? {
           id: data.sponsor.id,
           full_name: data.sponsor.full_name,
           email: data.sponsor.email,
