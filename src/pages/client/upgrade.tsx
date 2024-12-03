@@ -176,16 +176,6 @@ export default function ClientUpgrade() {
           </div>
         </Card>
       </div>
-
-      {/* Bottom buttons */}
-      <div className="fixed bottom-0 left-0 right-0 bg-purple-700 p-4 flex justify-center gap-4">
-        <Button variant="outline" className="bg-white hover:bg-gray-100">
-          WhatsApp
-        </Button>
-        <Button variant="outline" className="bg-white hover:bg-gray-100">
-          Compre pelo chat
-        </Button>
-      </div>
     </div>
   );
 }
