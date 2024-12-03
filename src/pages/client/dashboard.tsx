@@ -23,35 +23,39 @@ export default function ClientDashboard() {
     return <LoadingState />;
   }
 
-  return (
-    <SidebarProvider defaultOpen={true}>
-      <div className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden">
-        <ClientSidebar />
-        <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
-          <DashboardHeader />
-          <div className="flex-1 overflow-y-auto">
-            <div className="container mx-auto p-0.5">
-              <div className="pl-10 pr-3 grid grid-cols-1 md:grid-cols-3 gap-2">
-                <div className="w-full">
-                  <ProfileCard profile={profile} />
-                </div>
-                <div className="w-full">
-                  <NetworkCard 
-                    networkStats={networkStats} 
-                    onClick={handleNetworkClick} 
-                  />
-                </div>
-                <div className="w-full">
-                  <PlansCard />
-                </div>
+  const dashboardLayout = (
+    <div className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden">
+      <ClientSidebar />
+      <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <DashboardHeader />
+        <div className="flex-1 overflow-y-auto">
+          <div className="container mx-auto p-0.5">
+            <div className="pl-10 pr-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="w-full">
+                <ProfileCard profile={profile} />
               </div>
-              <div className="pl-10 pr-3 pt-2 pb-8">
-                <NetworkStatsCard />
+              <div className="w-full">
+                <NetworkCard 
+                  networkStats={networkStats} 
+                  onClick={handleNetworkClick} 
+                />
+              </div>
+              <div className="w-full">
+                <PlansCard />
               </div>
             </div>
+            <div className="pl-10 pr-3 pt-2 pb-8">
+              <NetworkStatsCard />
+            </div>
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
+    </div>
+  );
+
+  return (
+    <SidebarProvider defaultOpen={true}>
+      {dashboardLayout}
     </SidebarProvider>
   );
 }
