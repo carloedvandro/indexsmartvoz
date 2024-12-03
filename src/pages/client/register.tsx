@@ -121,34 +121,39 @@ export default function ClientRegister() {
 
   return (
     <div 
-      className="min-h-screen w-full overflow-y-auto bg-gray-50 flex items-center justify-center bg-cover bg-center bg-no-repeat"
+      className="min-h-screen w-full flex items-center justify-center bg-fixed"
       style={{
         backgroundImage: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2000&q=80")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
       }}
     >
       {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="fixed inset-0 bg-black/50" />
       
-      <div className="relative z-10 w-full max-w-sm mx-4 bg-white shadow-xl rounded-xl my-8">
-        <div className="p-5">
-          <h2 className="text-center text-xl font-bold text-gray-900">
-            Criar nova conta
-          </h2>
-          <p className="mt-1 text-center text-sm text-gray-600">
-            Preencha os dados abaixo para criar sua conta
-          </p>
-          
-          <div className="mt-4">
-            <RegisterForm onSubmit={handleSubmit} />
-          </div>
+      <div className="container min-h-screen py-8 relative z-10 flex items-center justify-center overflow-y-auto">
+        <div className="w-full max-w-sm bg-white shadow-xl rounded-xl">
+          <div className="p-5">
+            <h2 className="text-center text-xl font-bold text-gray-900">
+              Criar nova conta
+            </h2>
+            <p className="mt-1 text-center text-sm text-gray-600">
+              Preencha os dados abaixo para criar sua conta
+            </p>
+            
+            <div className="mt-4">
+              <RegisterForm onSubmit={handleSubmit} />
+            </div>
 
-          <div className="text-center mt-3">
-            <button
-              onClick={() => navigate("/client/login")}
-              className="text-sm text-gray-600 hover:text-gray-900"
-            >
-              Já tem uma conta? Faça login
-            </button>
+            <div className="text-center mt-3">
+              <button
+                onClick={() => navigate("/client/login")}
+                className="text-sm text-gray-600 hover:text-gray-900"
+              >
+                Já tem uma conta? Faça login
+              </button>
+            </div>
           </div>
         </div>
       </div>
