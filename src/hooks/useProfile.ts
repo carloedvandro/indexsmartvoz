@@ -38,8 +38,15 @@ export const useProfile = () => {
 
       console.log("Profile data:", data);
       
-      // Ensure proper typing of the response
-      const typedData = {
+      // Transform the data to ensure proper typing
+      const typedData: Profile & {
+        sponsor?: {
+          id: string;
+          full_name: string | null;
+          email: string;
+          custom_id: string | null;
+        } | null;
+      } = {
         ...data,
         sponsor: data?.sponsor ? {
           id: data.sponsor.id,
@@ -47,13 +54,6 @@ export const useProfile = () => {
           email: data.sponsor.email,
           custom_id: data.sponsor.custom_id
         } : null
-      } as Profile & {
-        sponsor?: {
-          id: string;
-          full_name: string | null;
-          email: string;
-          custom_id: string | null;
-        } | null;
       };
 
       return typedData;
