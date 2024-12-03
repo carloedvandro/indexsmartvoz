@@ -53,7 +53,6 @@ export const useProfile = () => {
         return null;
       }
 
-      // Transform the data to ensure proper typing
       const typedData: ProfileWithSponsor = {
         ...profileData,
         sponsor: profileData.sponsor ? {
