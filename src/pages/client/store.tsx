@@ -11,6 +11,7 @@ type Product = {
   description: string | null;
   price: number;
   image_url: string | null;
+  currency: string;
 };
 
 export default function Store() {
@@ -91,6 +92,7 @@ export default function Store() {
         price: parseFloat(formData.get("price") as string),
         image_url: imageUrl,
         user_id: user.id,
+        currency: "BRL" // Add default currency
       };
 
       if (selectedProduct) {
