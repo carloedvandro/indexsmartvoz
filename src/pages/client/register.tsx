@@ -110,8 +110,8 @@ export default function ClientRegister() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <div className="flex-1 overflow-y-auto">
-        <div className="flex flex-col items-center justify-center min-h-full p-4 sm:p-6 lg:p-8">
-          <div className="w-full max-w-md space-y-8">
+        <div className="flex flex-col justify-center items-center min-h-screen px-4 py-8 sm:px-6 lg:px-8">
+          <div className="w-full max-w-md space-y-8 bg-white shadow-lg rounded-lg p-6">
             <div>
               <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
                 Criar nova conta
@@ -123,7 +123,7 @@ export default function ClientRegister() {
 
             <RegisterForm onSubmit={handleSubmit} />
 
-            <div className="text-center">
+            <div className="text-center mt-6">
               <button
                 onClick={() => navigate("/client/login")}
                 className="text-sm text-gray-600 hover:text-gray-900"
