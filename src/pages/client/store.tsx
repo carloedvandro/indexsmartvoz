@@ -4,7 +4,6 @@ import { ProductList } from "@/components/store/ProductList";
 import { ExampleProducts } from "@/components/store/ExampleProducts";
 import { useStoreProducts } from "@/components/store/hooks/useStoreProducts";
 import { useProductActions } from "@/components/store/hooks/useProductActions";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function Store() {
   const { products, isLoading, loadProducts } = useStoreProducts();
@@ -21,7 +20,7 @@ export default function Store() {
   }, []);
 
   return (
-    <ScrollArea className="h-full">
+    <div className="h-screen w-full overflow-y-auto">
       <div className="container mx-auto p-4 space-y-6">
         <StoreHeader 
           isLoading={isActionLoading}
@@ -45,6 +44,6 @@ export default function Store() {
           />
         )}
       </div>
-    </ScrollArea>
+    </div>
   );
 }
