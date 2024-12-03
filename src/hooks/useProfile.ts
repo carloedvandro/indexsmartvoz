@@ -38,7 +38,15 @@ export const useProfile = () => {
 
       console.log("Profile data:", data);
       
-      return data as Profile & {
+      return {
+        ...data,
+        sponsor: data.sponsor ? {
+          id: data.sponsor.id,
+          full_name: data.sponsor.full_name,
+          email: data.sponsor.email,
+          custom_id: data.sponsor.custom_id
+        } : null
+      } as Profile & {
         sponsor?: {
           id: string;
           full_name: string | null;
