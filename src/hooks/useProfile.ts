@@ -55,12 +55,7 @@ export const useProfile = () => {
 
       const typedData: ProfileWithSponsor = {
         ...profileData,
-        sponsor: profileData.sponsor ? {
-          id: profileData.sponsor.id,
-          full_name: profileData.sponsor.full_name,
-          email: profileData.sponsor.email,
-          custom_id: profileData.sponsor.custom_id
-        } : null
+        sponsor: profileData.sponsor as Sponsor | null
       };
 
       return typedData;
