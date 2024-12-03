@@ -131,6 +131,7 @@ export type Database = {
           civil_status: string | null
           cnpj: string | null
           country: string | null
+          cpf: string | null
           created_at: string
           custom_id: string | null
           document_id: string | null
@@ -167,6 +168,7 @@ export type Database = {
           civil_status?: string | null
           cnpj?: string | null
           country?: string | null
+          cpf?: string | null
           created_at?: string
           custom_id?: string | null
           document_id?: string | null
@@ -203,6 +205,7 @@ export type Database = {
           civil_status?: string | null
           cnpj?: string | null
           country?: string | null
+          cpf?: string | null
           created_at?: string
           custom_id?: string | null
           document_id?: string | null

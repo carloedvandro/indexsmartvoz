@@ -92,6 +92,7 @@ export default function ClientRegister() {
       const { error: updateError } = await supabase
         .from('profiles')
         .update({
+          full_name: values.fullName,
           custom_id: values.customId,
           sponsor_id: sponsorId,
           cpf: values.cpf,
