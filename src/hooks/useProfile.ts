@@ -38,9 +38,15 @@ export const useProfile = () => {
 
       console.log("Profile data:", data);
       
-      return {
+      // Ensure proper typing of the response
+      const typedData = {
         ...data,
-        sponsor: data?.sponsor || null
+        sponsor: data?.sponsor ? {
+          id: data.sponsor.id,
+          full_name: data.sponsor.full_name,
+          email: data.sponsor.email,
+          custom_id: data.sponsor.custom_id
+        } : null
       } as Profile & {
         sponsor?: {
           id: string;
@@ -49,6 +55,8 @@ export const useProfile = () => {
           custom_id: string | null;
         } | null;
       };
+
+      return typedData;
     },
     retry: 1,
     refetchOnWindowFocus: false,
