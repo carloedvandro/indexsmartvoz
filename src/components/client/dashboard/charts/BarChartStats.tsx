@@ -31,11 +31,19 @@ export const BarChartStats = ({ data, colors }: BarChartStatsProps) => {
                 <stop offset="100%" stopColor={color} stopOpacity={0.4} />
               </linearGradient>
             ))}
+            <filter id="shadow">
+              <feDropShadow 
+                dx="2" 
+                dy="2" 
+                stdDeviation="3"
+                floodColor="rgba(0,0,0,0.3)"
+              />
+            </filter>
           </defs>
           <CartesianGrid 
             strokeDasharray="3 3" 
             vertical={false} 
-            stroke="#eee"
+            stroke="rgba(238, 238, 238, 0.5)"
           />
           <XAxis 
             dataKey="name" 
@@ -51,34 +59,38 @@ export const BarChartStats = ({ data, colors }: BarChartStatsProps) => {
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: 'rgba(255, 255, 255, 0.9)',
+              backgroundColor: 'rgba(255, 255, 255, 0.95)',
               border: 'none',
               borderRadius: '8px',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-              padding: '8px'
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+              padding: '10px'
             }}
-            labelStyle={{ color: '#666', fontWeight: 'bold' }}
+            labelStyle={{ color: '#666', fontWeight: 'bold', marginBottom: '5px' }}
+            itemStyle={{ color: '#333', padding: '2px 0' }}
+            cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
           />
           <Bar 
             dataKey="value" 
-            fill={`url(#gradient-0)`}
-            radius={[4, 4, 0, 0]}
+            radius={[6, 6, 0, 0]}
             barSize={window.innerWidth < 768 ? 12 : 20}
             animationBegin={0}
             animationDuration={1500}
             animationEasing="ease-out"
           >
             {data.map((entry, index) => (
-              <g key={`cell-${index}`}>
+              <g 
+                key={`cell-${index}`}
+                filter="url(#shadow)"
+              >
                 <rect
                   x={0}
                   y={0}
                   width="100%"
                   height="100%"
                   fill={`url(#gradient-${index % colors.length})`}
-                  className="transition-all duration-300 hover:opacity-80"
+                  className="transition-all duration-300 hover:opacity-90 hover:transform hover:translate-y-[-2px]"
                   style={{
-                    filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.2))'
+                    filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.1))'
                   }}
                 />
               </g>
