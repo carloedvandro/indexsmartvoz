@@ -120,34 +120,33 @@ export default function ClientRegister() {
   };
 
   return (
-    <div className="min-h-screen w-full overflow-auto">
+    <div className="min-h-screen w-full overflow-auto relative">
       {/* Background container */}
-      <div 
+      <div
         className="fixed inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2000&q=80")',
+          backgroundImage:
+            'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2000&q=80")',
         }}
       >
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/50" />
       </div>
-      
+
       {/* Content container */}
-      <div className="relative min-h-screen w-full flex items-center justify-center py-8 px-4">
-        <div className="w-full max-w-sm bg-white shadow-xl rounded-xl">
-          <div className="p-5">
-            <h2 className="text-center text-xl font-bold text-gray-900">
+      <div className="relative flex items-center justify-center min-h-screen px-4">
+        <div className="w-full max-w-md bg-white shadow-xl rounded-xl overflow-auto py-6">
+          <div className="px-6">
+            <h2 className="text-center text-2xl font-bold text-gray-900">
               Criar nova conta
             </h2>
-            <p className="mt-1 text-center text-sm text-gray-600">
+            <p className="mt-2 text-center text-sm text-gray-600">
               Preencha os dados abaixo para criar sua conta
             </p>
-            
-            <div className="mt-4">
+            <div className="mt-6">
               <RegisterForm onSubmit={handleSubmit} />
             </div>
-
-            <div className="text-center mt-3">
+            <div className="text-center mt-4">
               <button
                 onClick={() => navigate("/client/login")}
                 className="text-sm text-gray-600 hover:text-gray-900"
