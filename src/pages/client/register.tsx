@@ -44,13 +44,18 @@ export default function ClientRegister() {
         sponsorId = sponsor.id;
       }
 
-      const { data: existingCustomId } = await supabase
+      // Verificar se o custom_id já existe
+      const { data: existingCustomIds, error: customIdError } = await supabase
         .from("profiles")
         .select("id")
-        .eq("custom_id", values.customId)
-        .single();
+        .eq("custom_id", values.customId);
 
-      if (existingCustomId) {
+      if (customIdError) {
+        console.error('Custom ID check error:', customIdError);
+        throw customIdError;
+      }
+
+      if (existingCustomIds && existingCustomIds.length > 0) {
         toast({
           title: "Erro",
           description: "Este ID personalizado já está em uso",
