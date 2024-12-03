@@ -45,34 +45,43 @@ export default function UpgradePage() {
     <SidebarProvider>
       <div className="flex min-h-screen">
         <ClientSidebar />
-        <main className="flex-1 p-6">
-          <h1 className="text-2xl font-bold mb-6">Upgrade seu Plano</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {plans?.map((plan) => (
-              <Card key={plan.id} className="flex flex-col">
-                <CardHeader>
-                  <CardTitle className="text-xl">{plan.name}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex-1 flex flex-col">
-                  <div className="text-3xl font-bold mb-4">
-                    R$ {plan.price.toFixed(2)}
-                    <span className="text-sm font-normal text-muted-foreground">/mês</span>
-                  </div>
-                  <div className="space-y-2 mb-6">
-                    <p className="text-sm">Comissões por nível:</p>
-                    {plan.network_plan_commissions.map((commission: Commission) => (
-                      <div key={commission.level} className="flex justify-between text-sm">
-                        <span>Nível {commission.level}</span>
-                        <span>R$ {commission.commission_value.toFixed(2)}</span>
+        <main className="flex-1 overflow-auto">
+          <div className="container mx-auto px-4 py-8">
+            <h1 className="text-3xl font-bold mb-8 text-center">Upgrade seu Plano</h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto pb-16">
+              {plans?.map((plan) => (
+                <Card key={plan.id} className="flex flex-col h-full">
+                  <CardHeader className="text-center">
+                    <CardTitle className="text-2xl">{plan.name}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex-1 flex flex-col">
+                    <div className="text-center mb-6">
+                      <div className="text-4xl font-bold text-primary mb-2">
+                        R$ {plan.price.toFixed(2)}
                       </div>
-                    ))}
-                  </div>
-                  <Button className="mt-auto">
-                    Fazer Upgrade
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
+                      <span className="text-sm text-muted-foreground">/mês</span>
+                    </div>
+                    <div className="space-y-4 mb-8">
+                      <h3 className="font-semibold text-lg mb-2">Comissões por nível:</h3>
+                      {plan.network_plan_commissions.map((commission: Commission) => (
+                        <div 
+                          key={commission.level} 
+                          className="flex justify-between items-center py-2 px-4 bg-muted/50 rounded-lg"
+                        >
+                          <span className="font-medium">Nível {commission.level}</span>
+                          <span className="text-primary font-semibold">
+                            R$ {commission.commission_value.toFixed(2)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                    <Button className="w-full mt-auto">
+                      Fazer Upgrade
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </main>
       </div>
