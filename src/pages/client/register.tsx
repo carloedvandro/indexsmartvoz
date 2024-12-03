@@ -121,7 +121,7 @@ export default function ClientRegister() {
 
   return (
     <div 
-      className="h-screen w-screen overflow-auto bg-gray-50 flex items-center justify-center bg-cover bg-center bg-no-repeat"
+      className="min-h-screen w-full overflow-y-auto bg-gray-50 flex items-center justify-center bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2000&q=80")',
       }}
@@ -129,7 +129,7 @@ export default function ClientRegister() {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/50" />
       
-      <div className="relative z-10 w-full max-w-sm mx-4 bg-white shadow-xl rounded-xl">
+      <div className="relative z-10 w-full max-w-sm mx-4 bg-white shadow-xl rounded-xl my-8">
         <div className="p-5">
           <h2 className="text-center text-xl font-bold text-gray-900">
             Criar nova conta
