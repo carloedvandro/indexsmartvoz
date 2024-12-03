@@ -37,7 +37,7 @@ const mapSponsor = (sponsorData: Record<string, any> | null): Sponsor | null => 
 export const useProfile = () => {
   const navigate = useNavigate();
 
-  return useQuery({
+  return useQuery<ProfileWithSponsor | null>({
     queryKey: ['profile'],
     queryFn: async () => {
       const { data: { session } } = await supabase.auth.getSession();
