@@ -120,7 +120,7 @@ export default function ClientRegister() {
   };
 
   return (
-    <div className="min-h-screen w-full overflow-auto relative">
+    <div className="h-screen w-screen overflow-auto">
       {/* Background container */}
       <div
         className="fixed inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
@@ -134,8 +134,8 @@ export default function ClientRegister() {
       </div>
 
       {/* Content container */}
-      <div className="relative flex items-center justify-center min-h-screen px-4">
-        <div className="w-full max-w-md bg-white shadow-xl rounded-xl overflow-auto py-6">
+      <div className="relative flex justify-center items-start min-h-screen py-8 px-4">
+        <div className="w-full max-w-md bg-white shadow-xl rounded-xl overflow-y-auto py-6">
           <div className="px-6">
             <h2 className="text-center text-2xl font-bold text-gray-900">
               Criar nova conta
