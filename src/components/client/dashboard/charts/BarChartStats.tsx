@@ -70,27 +70,31 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
             itemStyle={{ color: '#333', padding: '2px 0' }}
             cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
           />
-          <Bar
-            dataKey="value"
-            radius={[6, 6, 0, 0]}
-            fill="url(#colorGradient1)"
-            style={{
-              filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.1))',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={(e) => {
-              if (e.target) {
-                e.target.style.opacity = '0.8';
-                e.target.style.transform = 'translateY(-2px)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (e.target) {
-                e.target.style.opacity = '1';
-                e.target.style.transform = 'translateY(0)';
-              }
-            }}
-          />
+          {data.map((entry, index) => (
+            <Bar
+              key={`bar-${index}`}
+              dataKey="value"
+              data={[entry]}
+              radius={[6, 6, 0, 0]}
+              fill={`url(#colorGradient${(index % 4) + 1})`}
+              style={{
+                filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.1))',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                if (e.target) {
+                  e.target.style.opacity = '0.8';
+                  e.target.style.transform = 'translateY(-2px)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (e.target) {
+                  e.target.style.opacity = '1';
+                  e.target.style.transform = 'translateY(0)';
+                }
+              }}
+            />
+          ))}
         </BarChart>
       </ResponsiveContainer>
     </div>
