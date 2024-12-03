@@ -75,7 +75,7 @@ export function ClientSidebar() {
           </SidebarGroup>
         </SidebarContent>
       </Sidebar>
-      <div className="fixed right-4 top-4 z-50 md:hidden">
+      <div className="fixed left-4 top-4 z-50 md:hidden">
         <SidebarTrigger />
       </div>
     </>
