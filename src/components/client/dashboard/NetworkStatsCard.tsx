@@ -103,11 +103,11 @@ export const NetworkStatsCard = () => {
 
   return (
     <Card>
-      <CardHeader className="pb-2">
+      <CardHeader className="pb-2 pl-10">
         <CardTitle>Estatísticas da Rede</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="pl-10 grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="h-[300px]">
             <BarChartStats data={barData} colors={colors} />
           </div>
