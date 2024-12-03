@@ -8,20 +8,14 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { UserFormTabs } from "./UserFormTabs";
-import { checkExistingUser, createUser, updateProfile, deleteUser } from "./UserFormUtils";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { UserFormActions } from "./dialogs/UserFormActions";
+import { 
+  checkExistingUser, 
+  createUser, 
+  updateProfile, 
+  deleteUser 
+} from "./UserFormUtils";
 
 export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const { toast } = useToast();
@@ -38,12 +32,10 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
     setIsDeleting(true);
     try {
       await deleteUser(user.id);
-
       toast({
         title: "Sucesso",
         description: "Usuário excluído com sucesso",
       });
-      
       onUserUpdated();
       onOpenChange(false);
     } catch (error) {
@@ -58,13 +50,11 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
     }
   };
 
-  const onSubmit = async (data) => {
+  const handleSave = async (data) => {
     setIsLoading(true);
     try {
       if (!user.id) {
-        // Check if user exists
         const existingUser = await checkExistingUser(data.email);
-
         if (existingUser) {
           toast({
             title: "Erro",
@@ -74,35 +64,18 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
           return;
         }
 
-        try {
-          // Create new user
-          const authData = await createUser(data);
-          
-          // Update the profile
-          await updateProfile(authData.user.id, {
-            ...data,
-            id: authData.user.id,
-          });
+        const authData = await createUser(data);
+        await updateProfile(authData.user.id, {
+          ...data,
+          id: authData.user.id,
+        });
 
-          toast({
-            title: "Sucesso",
-            description: "Usuário criado com sucesso",
-          });
-        } catch (error) {
-          if (error.message.includes("already registered")) {
-            toast({
-              title: "Erro",
-              description: "Este email já está cadastrado no sistema",
-              variant: "destructive",
-            });
-            return;
-          }
-          throw error;
-        }
+        toast({
+          title: "Sucesso",
+          description: "Usuário criado com sucesso",
+        });
       } else {
-        // Update existing user
         await updateProfile(user.id, data);
-
         toast({
           title: "Sucesso",
           description: "Usuário atualizado com sucesso",
@@ -129,55 +102,21 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
         <DialogHeader>
           <DialogTitle>{user?.id ? 'Editar Usuário' : 'Novo Usuário'}</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(handleSave)} className="space-y-4">
           <UserFormTabs 
             register={register} 
             setValue={setValue} 
             watch={watch} 
             readOnly={!!user?.id}
           />
-          <DialogFooter className="flex justify-between items-center">
-            <div className="flex gap-2">
-              {user?.id && (
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button
-                      type="button"
-                      variant="destructive"
-                      disabled={isDeleting}
-                    >
-                      {isDeleting ? "Excluindo..." : "Excluir"}
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Tem certeza que deseja excluir este usuário? Esta ação não pode ser desfeita.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                      <AlertDialogAction onClick={handleDelete}>
-                        Confirmar
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              )}
-            </div>
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => onOpenChange(false)}
-              >
-                Cancelar
-              </Button>
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? "Salvando..." : "Salvar"}
-              </Button>
-            </div>
+          <DialogFooter>
+            <UserFormActions
+              userId={user?.id}
+              isLoading={isLoading}
+              isDeleting={isDeleting}
+              onDelete={handleDelete}
+              onCancel={() => onOpenChange(false)}
+            />
           </DialogFooter>
         </form>
       </DialogContent>
