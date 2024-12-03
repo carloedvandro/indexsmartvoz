@@ -21,7 +21,6 @@ import ClientCourses from "./pages/client/courses";
 import ClientEvents from "./pages/client/events";
 import ClientStore from "./pages/client/store";
 import PublicStore from "./pages/public/store";
-import UpgradePage from "./pages/client/upgrade";
 import Index from "./pages/Index";
 
 const queryClient = new QueryClient();
@@ -45,7 +44,6 @@ function AppRoutes() {
         <Route path="/client/dashboard" element={<ClientDashboard />} />
         <Route path="/client/network" element={<ClientNetwork />} />
         <Route path="/client/register" element={<ClientRegister />} />
-        <Route path="/client/upgrade" element={<UpgradePage />} />
         <Route path="/client/news" element={<ClientNews />} />
         <Route path="/client/courses" element={<ClientCourses />} />
         <Route path="/client/events" element={<ClientEvents />} />
