@@ -53,9 +53,19 @@ export const useProfile = () => {
         return null;
       }
 
+      // Explicitly construct the sponsor object with type checking
+      const sponsor = profileData.sponsor && typeof profileData.sponsor === 'object'
+        ? {
+            id: (profileData.sponsor as any).id,
+            full_name: (profileData.sponsor as any).full_name,
+            email: (profileData.sponsor as any).email,
+            custom_id: (profileData.sponsor as any).custom_id,
+          }
+        : null;
+
       const typedData: ProfileWithSponsor = {
         ...profileData,
-        sponsor: profileData.sponsor as Sponsor | null
+        sponsor,
       };
 
       return typedData;
