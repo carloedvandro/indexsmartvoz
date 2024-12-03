@@ -27,33 +27,36 @@ export const BarChartStats = ({ data, colors }: BarChartStatsProps) => {
                 x2="0" 
                 y2="1"
               >
-                <stop offset="0%" stopColor={color} stopOpacity={0.5} />
-                <stop offset="100%" stopColor={color} stopOpacity={0.3} />
+                <stop offset="0%" stopColor={color} stopOpacity={0.9} />
+                <stop offset="100%" stopColor={color} stopOpacity={0.4} />
               </linearGradient>
             ))}
-            <filter id="shadow">
-              <feDropShadow 
-                dx="2" 
-                dy="2" 
-                stdDeviation="3"
-                floodColor="rgba(0,0,0,0.3)"
-              />
+            <filter id="shadow" height="130%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+              <feOffset dx="2" dy="4" />
+              <feComponentTransfer>
+                <feFuncA type="linear" slope="0.3" />
+              </feComponentTransfer>
+              <feMerge>
+                <feMergeNode />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
             </filter>
           </defs>
           <CartesianGrid 
             strokeDasharray="3 3" 
             vertical={false} 
-            stroke="rgba(238, 238, 238, 0.5)"
+            stroke="rgba(238, 238, 238, 0.3)"
           />
           <XAxis 
             dataKey="name" 
-            tick={{ fontSize: window.innerWidth < 768 ? 8 : 10 }}
+            tick={{ fontSize: window.innerWidth < 768 ? 8 : 10, fill: '#666' }}
             interval={window.innerWidth < 768 ? 2 : 0}
             axisLine={{ stroke: '#E0E0E0' }}
             tickLine={{ stroke: '#E0E0E0' }}
           />
           <YAxis 
-            tick={{ fontSize: window.innerWidth < 768 ? 8 : 10 }}
+            tick={{ fontSize: window.innerWidth < 768 ? 8 : 10, fill: '#666' }}
             axisLine={{ stroke: '#E0E0E0' }}
             tickLine={{ stroke: '#E0E0E0' }}
           />

@@ -21,7 +21,7 @@ const generateInitialBarData = () => {
     const value = baseValues[14 - i] + randomVariation;
     
     data.push({
-      name: `${date.getDate()}/${date.getMonth() + 1}`,
+      name: `Nov ${date.getDate()}`,
       value: value,
       previousValue: value - Math.floor(Math.random() * 8)
     });
@@ -31,15 +31,15 @@ const generateInitialBarData = () => {
 };
 
 const colors = [
-  "#9b87f5",  // Roxo
-  "#D946EF",  // Rosa
-  "#0EA5E9",  // Azul
-  "#F97316",  // Laranja
-  "#22C55E",  // Verde
-  "#EC4899",  // Pink
-  "#3B82F6",  // Azul claro
-  "#F59E0B",  // Âmbar
-  "#8B5CF6",  // Violeta
+  "#FF69B4",  // Rosa
+  "#FF1493",  // Rosa Profundo
+  "#FF69B4",  // Rosa Claro
+  "#FFB6C1",  // Rosa Suave
+  "#FF8C00",  // Laranja Escuro
+  "#FFA500",  // Laranja
+  "#98FB98",  // Verde Claro
+  "#87CEEB",  // Azul Céu
+  "#9370DB",  // Roxo Médio
 ];
 
 export const NetworkStatsCard = () => {
@@ -99,7 +99,7 @@ export const NetworkStatsCard = () => {
       color: "rgba(155, 135, 245, 0.8)" 
     },
     { 
-      name: "Pendentes", 
+      name: "Inativos", 
       value: memberCounts.pending, 
       color: "rgba(217, 70, 239, 0.8)" 
     },
