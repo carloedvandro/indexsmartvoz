@@ -38,9 +38,7 @@ export const useProfile = () => {
 
       console.log("Profile data:", data);
       
-      const profileData = data as unknown;
-      
-      return profileData as Profile & {
+      return data as Profile & {
         sponsor?: {
           id: string;
           full_name: string | null;
