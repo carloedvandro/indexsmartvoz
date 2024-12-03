@@ -108,30 +108,26 @@ export default function ClientRegister() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      <div className="flex-1 overflow-y-auto">
-        <div className="flex flex-col justify-center items-center min-h-screen px-4 py-8 sm:px-6 lg:px-8">
-          <div className="w-full max-w-md space-y-8 bg-white shadow-lg rounded-lg p-6">
-            <div>
-              <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
-                Criar nova conta
-              </h2>
-              <p className="mt-2 text-center text-sm text-gray-600">
-                Preencha os dados abaixo para criar sua conta
-              </p>
-            </div>
+    <div className="h-screen w-screen overflow-auto bg-gray-50 flex items-center justify-center">
+      <div className="min-h-full w-full max-w-md p-6 my-8 bg-white shadow-lg rounded-lg flex flex-col justify-center">
+        <h2 className="text-center text-3xl font-bold text-gray-900">
+          Criar nova conta
+        </h2>
+        <p className="mt-2 text-center text-sm text-gray-600">
+          Preencha os dados abaixo para criar sua conta
+        </p>
+        
+        <div className="mt-8">
+          <RegisterForm onSubmit={handleSubmit} />
+        </div>
 
-            <RegisterForm onSubmit={handleSubmit} />
-
-            <div className="text-center mt-6">
-              <button
-                onClick={() => navigate("/client/login")}
-                className="text-sm text-gray-600 hover:text-gray-900"
-              >
-                Já tem uma conta? Faça login
-              </button>
-            </div>
-          </div>
+        <div className="text-center mt-6">
+          <button
+            onClick={() => navigate("/client/login")}
+            className="text-sm text-gray-600 hover:text-gray-900"
+          >
+            Já tem uma conta? Faça login
+          </button>
         </div>
       </div>
     </div>
