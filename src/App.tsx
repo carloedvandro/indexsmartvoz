@@ -19,6 +19,7 @@ import ClientRegister from "./pages/client/register";
 import ClientNews from "./pages/client/news";
 import ClientCourses from "./pages/client/courses";
 import ClientEvents from "./pages/client/events";
+import ClientStore from "./pages/client/store";
 import UpgradePage from "./pages/client/upgrade";
 import Index from "./pages/Index";
 
@@ -47,6 +48,7 @@ function AppRoutes() {
         <Route path="/client/news" element={<ClientNews />} />
         <Route path="/client/courses" element={<ClientCourses />} />
         <Route path="/client/events" element={<ClientEvents />} />
+        <Route path="/client/store" element={<ClientStore />} />
       </Routes>
     </div>
   );
