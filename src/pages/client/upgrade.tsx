@@ -45,28 +45,31 @@ export default function UpgradePage() {
     <SidebarProvider>
       <div className="flex min-h-screen">
         <ClientSidebar />
-        <main className="flex-1 overflow-auto">
-          <div className="container mx-auto px-4 py-8">
+        <main className="flex-1 overflow-y-auto bg-background">
+          <div className="container mx-auto px-4 py-8 max-w-7xl">
             <h1 className="text-3xl font-bold mb-8 text-center">Upgrade seu Plano</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto pb-16">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-16">
               {plans?.map((plan) => (
-                <Card key={plan.id} className="flex flex-col h-full">
-                  <CardHeader className="text-center">
-                    <CardTitle className="text-2xl">{plan.name}</CardTitle>
+                <Card 
+                  key={plan.id} 
+                  className="flex flex-col h-full hover:shadow-lg transition-shadow duration-200"
+                >
+                  <CardHeader className="text-center pb-4">
+                    <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
                   </CardHeader>
-                  <CardContent className="flex-1 flex flex-col">
-                    <div className="text-center mb-6">
+                  <CardContent className="flex-1 flex flex-col pt-4">
+                    <div className="text-center mb-8">
                       <div className="text-4xl font-bold text-primary mb-2">
                         R$ {plan.price.toFixed(2)}
                       </div>
                       <span className="text-sm text-muted-foreground">/mês</span>
                     </div>
-                    <div className="space-y-4 mb-8">
-                      <h3 className="font-semibold text-lg mb-2">Comissões por nível:</h3>
+                    <div className="space-y-3 mb-8 flex-1">
+                      <h3 className="font-semibold text-lg mb-4">Comissões por nível:</h3>
                       {plan.network_plan_commissions.map((commission: Commission) => (
                         <div 
                           key={commission.level} 
-                          className="flex justify-between items-center py-2 px-4 bg-muted/50 rounded-lg"
+                          className="flex justify-between items-center py-2.5 px-4 bg-muted/50 rounded-lg hover:bg-muted/70 transition-colors"
                         >
                           <span className="font-medium">Nível {commission.level}</span>
                           <span className="text-primary font-semibold">
@@ -75,7 +78,10 @@ export default function UpgradePage() {
                         </div>
                       ))}
                     </div>
-                    <Button className="w-full mt-auto">
+                    <Button 
+                      className="w-full mt-auto hover:scale-[1.02] transition-transform"
+                      size="lg"
+                    >
                       Fazer Upgrade
                     </Button>
                   </CardContent>
