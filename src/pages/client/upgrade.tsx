@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { ClientSidebar } from "@/components/client/dashboard/ClientSidebar";
+import { DashboardHeader } from "@/components/client/dashboard/DashboardHeader";
+import { ArrowUp } from "lucide-react";
 
 interface Plan {
   id: string;
@@ -43,50 +45,56 @@ export default function UpgradePage() {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen">
+      <div className="flex h-screen bg-background">
         <ClientSidebar />
-        <main className="flex-1 overflow-y-auto bg-background">
-          <div className="container mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold mb-8 text-center">Upgrade seu Plano</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {plans?.map((plan) => (
-                <Card
-                  key={plan.id}
-                  className="flex flex-col h-full hover:shadow-lg transition-shadow duration-200"
-                >
-                  <CardHeader className="text-center pb-4">
-                    <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="flex-1 flex flex-col pt-4">
-                    <div className="text-center mb-8">
-                      <div className="text-4xl font-bold text-primary mb-2">
+        <main className="flex-1 flex flex-col overflow-hidden">
+          <DashboardHeader 
+            title="Upgrade seu Plano" 
+            subtitle="Escolha o melhor plano para você"
+            icon={<ArrowUp className="w-8 h-8 text-primary" />}
+          />
+          <div className="flex-1 overflow-y-auto">
+            <div className="container mx-auto p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {plans?.map((plan) => (
+                  <Card
+                    key={plan.id}
+                    className="flex flex-col h-full hover:shadow-lg transition-shadow duration-200 border-2 border-muted"
+                  >
+                    <CardHeader className="text-center pb-4 space-y-2">
+                      <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
+                      <div className="text-4xl font-bold text-primary">
                         R$ {plan.price.toFixed(2)}
+                        <span className="text-sm text-muted-foreground font-normal">/mês</span>
                       </div>
-                      <span className="text-sm text-muted-foreground">/mês</span>
-                    </div>
-                    <div className="space-y-3 mb-8 flex-1">
-                      <h3 className="font-semibold text-lg mb-4">Comissões por nível:</h3>
-                      {plan.network_plan_commissions.map((commission: Commission) => (
-                        <div
-                          key={commission.level}
-                          className="flex justify-between items-center py-2.5 px-4 bg-muted/50 rounded-lg hover:bg-muted/70 transition-colors"
-                        >
-                          <span className="font-medium">Nível {commission.level}</span>
-                          <span className="text-primary font-semibold">
-                            R$ {commission.commission_value.toFixed(2)}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                    <Button
-                      className="w-full mt-auto hover:scale-[1.02] transition-transform"
-                      size="lg"
-                    >
-                      Fazer Upgrade
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
+                    </CardHeader>
+                    <CardContent className="flex-1 flex flex-col">
+                      <div className="space-y-4 mb-8 flex-1">
+                        <h3 className="font-semibold text-lg">Comissões por nível:</h3>
+                        {plan.network_plan_commissions
+                          .sort((a: Commission, b: Commission) => a.level - b.level)
+                          .map((commission: Commission) => (
+                            <div
+                              key={commission.level}
+                              className="flex justify-between items-center py-2.5 px-4 bg-muted/50 rounded-lg hover:bg-muted/70 transition-colors"
+                            >
+                              <span className="font-medium">Nível {commission.level}</span>
+                              <span className="text-primary font-semibold">
+                                R$ {commission.commission_value.toFixed(2)}
+                              </span>
+                            </div>
+                          ))}
+                      </div>
+                      <Button
+                        className="w-full mt-auto hover:scale-[1.02] transition-transform"
+                        size="lg"
+                      >
+                        Fazer Upgrade
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </div>
           </div>
         </main>
