@@ -4,6 +4,15 @@ import { useQuery } from "@tanstack/react-query";
 
 type Profile = Tables<"profiles">;
 
+type ProfileWithSponsor = Profile & {
+  sponsor?: {
+    id: string;
+    full_name: string | null;
+    email: string;
+    custom_id: string | null;
+  } | null;
+};
+
 export const useProfile = () => {
   return useQuery({
     queryKey: ['profile'],
@@ -38,15 +47,12 @@ export const useProfile = () => {
 
       console.log("Profile data:", data);
 
+      if (!data) {
+        return null;
+      }
+
       // Transform the data to ensure proper typing
-      const typedData: Profile & {
-        sponsor?: {
-          id: string;
-          full_name: string | null;
-          email: string;
-          custom_id: string | null;
-        } | null;
-      } = {
+      const typedData: ProfileWithSponsor = {
         ...data,
         sponsor: data.sponsor ? {
           id: data.sponsor.id,
