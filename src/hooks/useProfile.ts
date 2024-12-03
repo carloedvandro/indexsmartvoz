@@ -15,6 +15,22 @@ type ProfileWithSponsor = Profile & {
   sponsor?: Sponsor | null;
 };
 
+/**
+ * Maps the sponsor data from the database to a strongly typed Sponsor object
+ * @param sponsorData - Raw sponsor data from the database
+ * @returns Typed Sponsor object or null if no sponsor data
+ */
+const mapSponsor = (sponsorData: Record<string, any> | null): Sponsor | null => {
+  if (!sponsorData) return null;
+  
+  return {
+    id: sponsorData.id,
+    full_name: sponsorData.full_name,
+    email: sponsorData.email,
+    custom_id: sponsorData.custom_id,
+  };
+};
+
 export const useProfile = () => {
   return useQuery({
     queryKey: ['profile'],
@@ -26,6 +42,7 @@ export const useProfile = () => {
         return null;
       }
 
+      console.log("Query Key:", "profile");
       console.log("Fetching profile for user:", session.user.id);
       
       const { data: profileData, error } = await supabase
@@ -47,25 +64,15 @@ export const useProfile = () => {
         throw error;
       }
 
-      console.log("Profile data:", profileData);
+      console.log("Fetched profile data:", profileData);
 
       if (!profileData) {
         return null;
       }
 
-      // Explicitly construct the sponsor object with type checking
-      const sponsor = profileData.sponsor && typeof profileData.sponsor === 'object'
-        ? {
-            id: (profileData.sponsor as any).id,
-            full_name: (profileData.sponsor as any).full_name,
-            email: (profileData.sponsor as any).email,
-            custom_id: (profileData.sponsor as any).custom_id,
-          }
-        : null;
-
       const typedData: ProfileWithSponsor = {
         ...profileData,
-        sponsor,
+        sponsor: mapSponsor(profileData.sponsor),
       };
 
       return typedData;
