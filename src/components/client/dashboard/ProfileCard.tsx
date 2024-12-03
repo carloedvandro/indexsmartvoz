@@ -19,6 +19,10 @@ interface ProfileCardProps {
 }
 
 export const ProfileCard = ({ profile }: ProfileCardProps) => {
+  if (!profile) {
+    return null;
+  }
+
   const profileImage = "https://images.unsplash.com/photo-1649972904349-6e44c42644a7";
   const isActive = profile?.status === 'active';
 

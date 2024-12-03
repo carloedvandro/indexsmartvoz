@@ -12,7 +12,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
-  const { data: profile, isLoading: profileLoading } = useProfile();
+  const { data: profile, isLoading: profileLoading, error: profileError } = useProfile();
   const { data: networkStats, isLoading: networkLoading } = useNetworkStats(profile?.id);
 
   const handleNetworkClick = () => {
@@ -21,6 +21,11 @@ export default function ClientDashboard() {
 
   if (profileLoading || networkLoading) {
     return <LoadingState />;
+  }
+
+  if (profileError || !profile) {
+    navigate("/client/login");
+    return null;
   }
 
   const dashboardLayout = (
