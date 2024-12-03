@@ -114,9 +114,9 @@ export default function ClientRegister() {
   };
 
   return (
-    <div className="h-full w-full overflow-auto bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        <div className="w-full max-w-md mx-auto">
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <div className="flex-1 overflow-y-auto py-8">
+        <div className="container max-w-md mx-auto px-4">
           <div className="mb-8">
             <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
               Criar nova conta
