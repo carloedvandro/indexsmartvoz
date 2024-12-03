@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { PlusCircle, Pencil, Trash2 } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { PlusCircle } from "lucide-react";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { ProductCard } from "@/components/store/ProductCard";
+import { ProductForm } from "@/components/store/ProductForm";
 
 type Product = {
   id: string;
@@ -15,6 +14,23 @@ type Product = {
   price: number;
   image_url: string | null;
 };
+
+const placeholderProducts = [
+  {
+    id: "example-1",
+    name: "Professional Development Course",
+    description: "Comprehensive online course covering the latest industry trends and best practices.",
+    price: 999.99,
+    image_url: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+  },
+  {
+    id: "example-2",
+    name: "Business Consultation Package",
+    description: "One-on-one consultation sessions with industry experts to grow your business.",
+    price: 1499.99,
+    image_url: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+  },
+];
 
 export default function Store() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -81,11 +97,15 @@ export default function Store() {
         imageUrl = await handleImageUpload(imageFile);
       }
 
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("User not authenticated");
+
       const productData = {
         name: formData.get("name") as string,
         description: formData.get("description") as string,
         price: parseFloat(formData.get("price") as string),
         image_url: imageUrl,
+        user_id: user.id, // Add user_id to the product data
       };
 
       if (selectedProduct) {
@@ -151,21 +171,6 @@ export default function Store() {
     }
   };
 
-  const placeholderProducts = [
-    {
-      name: "Professional Development Course",
-      description: "Comprehensive online course covering the latest industry trends and best practices.",
-      price: 999.99,
-      image_url: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-    },
-    {
-      name: "Business Consultation Package",
-      description: "One-on-one consultation sessions with industry experts to grow your business.",
-      price: 1499.99,
-      image_url: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-    },
-  ];
-
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
@@ -177,48 +182,11 @@ export default function Store() {
               Add Product
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>{selectedProduct ? "Edit Product" : "Add New Product"}</DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <Input
-                  name="name"
-                  placeholder="Product Name"
-                  defaultValue={selectedProduct?.name}
-                  required
-                />
-              </div>
-              <div>
-                <Textarea
-                  name="description"
-                  placeholder="Product Description"
-                  defaultValue={selectedProduct?.description || ""}
-                />
-              </div>
-              <div>
-                <Input
-                  name="price"
-                  type="number"
-                  step="0.01"
-                  placeholder="Price"
-                  defaultValue={selectedProduct?.price}
-                  required
-                />
-              </div>
-              <div>
-                <Input
-                  name="image"
-                  type="file"
-                  accept="image/*"
-                />
-              </div>
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? "Saving..." : "Save Product"}
-              </Button>
-            </form>
-          </DialogContent>
+          <ProductForm
+            selectedProduct={selectedProduct}
+            isLoading={isLoading}
+            onSubmit={handleSubmit}
+          />
         </Dialog>
       </div>
 
@@ -227,64 +195,26 @@ export default function Store() {
       ) : products.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => (
-            <Card key={product.id} className="flex flex-col">
-              <CardHeader>
-                {product.image_url && (
-                  <img
-                    src={product.image_url}
-                    alt={product.name}
-                    className="w-full h-48 object-cover rounded-t-lg"
-                  />
-                )}
-                <CardTitle>{product.name}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600">{product.description}</p>
-                <p className="text-xl font-bold mt-2">${product.price.toFixed(2)}</p>
-              </CardContent>
-              <CardFooter className="flex justify-end space-x-2 mt-auto">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setSelectedProduct(product)}
-                >
-                  <Pencil className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="destructive"
-                  size="icon"
-                  onClick={() => handleDelete(product.id)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </CardFooter>
-            </Card>
+            <ProductCard
+              key={product.id}
+              product={product}
+              onEdit={setSelectedProduct}
+              onDelete={handleDelete}
+            />
           ))}
         </div>
       ) : (
         <div className="text-center">
           <p className="text-gray-600 mb-4">No products yet. Here are some examples:</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {placeholderProducts.map((product, index) => (
-              <Card key={index} className="flex flex-col">
-                <CardHeader>
-                  {product.image_url && (
-                    <img
-                      src={product.image_url}
-                      alt={product.name}
-                      className="w-full h-48 object-cover rounded-t-lg"
-                    />
-                  )}
-                  <CardTitle>{product.name}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600">{product.description}</p>
-                  <p className="text-xl font-bold mt-2">${product.price.toFixed(2)}</p>
-                </CardContent>
-                <CardFooter className="flex justify-end space-x-2 mt-auto">
-                  <p className="text-sm text-gray-500 italic">Example Product</p>
-                </CardFooter>
-              </Card>
+            {placeholderProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onEdit={setSelectedProduct}
+                onDelete={handleDelete}
+                isExample
+              />
             ))}
           </div>
         </div>
