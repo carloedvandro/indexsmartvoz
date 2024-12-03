@@ -15,22 +15,22 @@ export const PieChartStats = ({ data }: PieChartStatsProps) => {
     midAngle,
     innerRadius,
     outerRadius,
-    percent,
+    value,
   }: any) => {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos(-midAngle * (Math.PI / 180));
     const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
 
-    return percent > 0 ? (
+    return value > 0 ? (
       <text
         x={x}
         y={y}
         fill="white"
         textAnchor="middle"
         dominantBaseline="central"
-        className="text-xs sm:text-sm"
+        className="text-xs sm:text-sm font-medium"
       >
-        {`${(percent * 100).toFixed(0)}%`}
+        {value}
       </text>
     ) : null;
   };
