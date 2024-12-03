@@ -15,7 +15,7 @@ const formSchema = z.object({
     (password) => ({ message: validatePasswordStrength(password).message })
   ),
   cpf: z.string().refine(validateCPF, "CPF inválido"),
-  sponsorCustomId: z.string().optional(),
+  sponsorCustomId: z.string().min(1, "ID do patrocinador é obrigatório"),
   customId: z.string()
     .min(3, "ID personalizado deve ter pelo menos 3 caracteres")
     .regex(/^[a-zA-Z0-9]+$/, "ID personalizado deve conter apenas letras e números"),
@@ -104,7 +104,7 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
           name="sponsorCustomId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>ID Personalizado do Patrocinador (opcional)</FormLabel>
+              <FormLabel>ID Personalizado do Patrocinador</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
