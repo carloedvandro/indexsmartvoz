@@ -20,8 +20,8 @@ export default function Store() {
   }, []);
 
   return (
-    <div className="h-screen w-full overflow-y-auto">
-      <div className="container mx-auto p-4 space-y-6">
+    <div className="h-screen w-screen overflow-auto">
+      <div className="container mx-auto p-4 pb-16 space-y-6">
         <StoreHeader 
           isLoading={isActionLoading}
           onSubmit={handleSubmit}
