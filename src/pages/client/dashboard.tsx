@@ -30,8 +30,8 @@ export default function ClientDashboard() {
         <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
           <DashboardHeader />
           <div className="flex-1 overflow-y-auto">
-            <div className="container mx-auto p-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="container mx-auto p-0.5">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-0.5">
                 <div className="w-full">
                   <ProfileCard profile={profile} />
                 </div>
@@ -45,7 +45,7 @@ export default function ClientDashboard() {
                   <PlansCard />
                 </div>
               </div>
-              <div className="mt-6">
+              <div className="mt-0.5">
                 <NetworkStatsCard />
               </div>
             </div>
