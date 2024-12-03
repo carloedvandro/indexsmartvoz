@@ -27,8 +27,8 @@ export const BarChartStats = ({ data, colors }: BarChartStatsProps) => {
                 x2="0" 
                 y2="1"
               >
-                <stop offset="0%" stopColor={color} stopOpacity={0.9} />
-                <stop offset="100%" stopColor={color} stopOpacity={0.4} />
+                <stop offset="0%" stopColor={color} stopOpacity={1} />
+                <stop offset="100%" stopColor={color} stopOpacity={0.6} />
               </linearGradient>
             ))}
             <filter id="shadow">
