@@ -129,25 +129,27 @@ export default function ClientRegister() {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/50" />
       
-      <div className="relative z-10 w-full max-w-md p-6 m-8 bg-white shadow-lg rounded-lg">
-        <h2 className="text-center text-3xl font-bold text-gray-900">
-          Criar nova conta
-        </h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
-          Preencha os dados abaixo para criar sua conta
-        </p>
-        
-        <div className="mt-8">
-          <RegisterForm onSubmit={handleSubmit} />
-        </div>
+      <div className="relative z-10 w-full max-w-md mx-4 bg-white shadow-lg rounded-lg">
+        <div className="p-6">
+          <h2 className="text-center text-2xl font-bold text-gray-900">
+            Criar nova conta
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Preencha os dados abaixo para criar sua conta
+          </p>
+          
+          <div className="mt-6">
+            <RegisterForm onSubmit={handleSubmit} />
+          </div>
 
-        <div className="text-center mt-6">
-          <button
-            onClick={() => navigate("/client/login")}
-            className="text-sm text-gray-600 hover:text-gray-900"
-          >
-            Já tem uma conta? Faça login
-          </button>
+          <div className="text-center mt-4">
+            <button
+              onClick={() => navigate("/client/login")}
+              className="text-sm text-gray-600 hover:text-gray-900"
+            >
+              Já tem uma conta? Faça login
+            </button>
+          </div>
         </div>
       </div>
     </div>
