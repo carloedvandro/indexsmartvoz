@@ -10,6 +10,8 @@ export default function ClientRegister() {
 
   const handleSubmit = async (values: RegisterFormData) => {
     try {
+      console.log("Iniciando processo de registro...", values);
+
       // Verificar CPF duplicado
       if (await checkExistingCpf(values.cpf)) {
         toast({
@@ -30,6 +32,7 @@ export default function ClientRegister() {
           .single();
 
         if (sponsorError) {
+          console.error("Erro ao buscar patrocinador:", sponsorError);
           toast({
             title: "Erro",
             description: "ID do patrocinador inválido",
