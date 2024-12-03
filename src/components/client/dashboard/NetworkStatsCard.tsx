@@ -7,17 +7,26 @@ import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNetworkData } from "@/components/client/network/useNetworkData";
 
-// Gera dados dos últimos 15 dias
+// Gera dados dos últimos 15 dias com valores fictícios de crescimento
 const generateInitialBarData = () => {
   const data = [];
   const today = new Date();
   
+  // Valores base para simular crescimento
+  const baseValues = [15, 18, 22, 25, 28, 32, 35, 38, 42, 45, 48, 52, 55, 58, 62];
+  
   for (let i = 14; i >= 0; i--) {
     const date = new Date(today);
     date.setDate(date.getDate() - i);
+    
+    // Adiciona uma variação aleatória ao valor base
+    const randomVariation = Math.floor(Math.random() * 5);
+    const value = baseValues[14 - i] + randomVariation;
+    
     data.push({
       name: `${date.getDate()}/${date.getMonth() + 1}`,
-      value: 0
+      value: value,
+      previousValue: value - Math.floor(Math.random() * 8) // Valor anterior para comparação
     });
   }
   
@@ -25,15 +34,15 @@ const generateInitialBarData = () => {
 };
 
 const colors = [
-  "#FF6B6B",
-  "#FFA07A",
-  "#FFD700",
-  "#98FB98",
-  "#87CEEB",
-  "#9B87F5",
-  "#DDA0DD",
-  "#FF69B4",
-  "#FF1493",
+  "#4CAF50",
+  "#2196F3",
+  "#9C27B0",
+  "#FF9800",
+  "#E91E63",
+  "#00BCD4",
+  "#8BC34A",
+  "#FFC107",
+  "#3F51B5",
 ];
 
 export const NetworkStatsCard = () => {
