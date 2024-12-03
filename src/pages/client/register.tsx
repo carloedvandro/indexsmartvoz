@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { RegisterForm, RegisterFormData } from "@/components/client/RegisterForm";
 import { useToast } from "@/hooks/use-toast";
+import { checkExistingCpf } from "@/components/admin/UserFormUtils";
 
 export default function ClientRegister() {
   const navigate = useNavigate();
@@ -9,6 +10,16 @@ export default function ClientRegister() {
 
   const handleSubmit = async (values: RegisterFormData) => {
     try {
+      // Verificar CPF duplicado
+      if (await checkExistingCpf(values.cpf)) {
+        toast({
+          title: "Erro",
+          description: "Este CPF já está cadastrado no sistema",
+          variant: "destructive",
+        });
+        return;
+      }
+
       let sponsorId = null;
 
       if (values.sponsorCustomId) {
@@ -52,7 +63,7 @@ export default function ClientRegister() {
           data: {
             full_name: values.fullName,
             custom_id: values.customId,
-            document_id: values.cpf,
+            cpf: values.cpf,
             sponsor_id: sponsorId,
           },
         },
@@ -80,6 +91,7 @@ export default function ClientRegister() {
         .update({
           custom_id: values.customId,
           sponsor_id: sponsorId,
+          cpf: values.cpf,
         })
         .eq('id', authData.user.id);
 

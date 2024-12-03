@@ -29,15 +29,15 @@ export async function checkExistingCnpj(cnpj: string | null, excludeUserId?: str
   return data && data.length > 0;
 }
 
-export async function checkExistingDocumentId(documentId: string | null, excludeUserId?: string) {
-  if (!documentId?.trim()) {
+export async function checkExistingCpf(cpf: string | null, excludeUserId?: string) {
+  if (!cpf?.trim()) {
     return false;
   }
 
   const query = supabase
     .from('profiles')
     .select('id')
-    .eq('document_id', documentId.trim());
+    .eq('cpf', cpf.trim());
     
   if (excludeUserId) {
     query.neq('id', excludeUserId);
@@ -52,6 +52,7 @@ export async function createUser(data: any, isAdmin: boolean = false) {
   const cleanData = {
     ...data,
     cnpj: data.cnpj?.trim() || null,
+    cpf: data.cpf?.trim() || null,
     document_id: data.document_id?.trim() || null
   };
 
@@ -59,7 +60,7 @@ export async function createUser(data: any, isAdmin: boolean = false) {
     throw new Error("Este CNPJ já está cadastrado no sistema");
   }
   
-  if (cleanData.document_id && await checkExistingDocumentId(cleanData.document_id)) {
+  if (cleanData.cpf && await checkExistingCpf(cleanData.cpf)) {
     throw new Error("Este CPF já está cadastrado no sistema");
   }
 
@@ -91,6 +92,7 @@ export async function updateProfile(id: string, data: any) {
   const cleanData = {
     ...data,
     cnpj: data.cnpj?.trim() || null,
+    cpf: data.cpf?.trim() || null,
     document_id: data.document_id?.trim() || null
   };
 
@@ -98,7 +100,7 @@ export async function updateProfile(id: string, data: any) {
     throw new Error("Este CNPJ já está cadastrado no sistema");
   }
   
-  if (cleanData.document_id && await checkExistingDocumentId(cleanData.document_id, id)) {
+  if (cleanData.cpf && await checkExistingCpf(cleanData.cpf, id)) {
     throw new Error("Este CPF já está cadastrado no sistema");
   }
 
