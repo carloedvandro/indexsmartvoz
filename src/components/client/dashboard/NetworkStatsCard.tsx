@@ -30,18 +30,6 @@ const generateInitialBarData = () => {
   return data;
 };
 
-const colors = [
-  "#FF69B4",  // Rosa
-  "#FF1493",  // Rosa Profundo
-  "#FF69B4",  // Rosa Claro
-  "#FFB6C1",  // Rosa Suave
-  "#FF8C00",  // Laranja Escuro
-  "#FFA500",  // Laranja
-  "#98FB98",  // Verde Claro
-  "#87CEEB",  // Azul Céu
-  "#9370DB",  // Roxo Médio
-];
-
 export const NetworkStatsCard = () => {
   const { data: profile } = useProfile();
   const { networkData } = useNetworkData(profile?.id || '');
@@ -113,7 +101,7 @@ export const NetworkStatsCard = () => {
       <CardContent className="pt-2">
         <div className="pl-5 grid grid-cols-1 gap-8">
           <div className="h-[300px] w-full">
-            <BarChartStats data={barData} colors={colors} />
+            <BarChartStats data={barData} />
           </div>
           <div className="h-[300px] w-full">
             <PieChartStats data={pieData} />
