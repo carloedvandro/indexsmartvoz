@@ -4,13 +4,15 @@ import { useQuery } from "@tanstack/react-query";
 
 type Profile = Tables<"profiles">;
 
+type Sponsor = {
+  id: string;
+  full_name: string | null;
+  email: string;
+  custom_id: string | null;
+};
+
 type ProfileWithSponsor = Profile & {
-  sponsor?: {
-    id: string;
-    full_name: string | null;
-    email: string;
-    custom_id: string | null;
-  } | null;
+  sponsor?: Sponsor | null;
 };
 
 export const useProfile = () => {
