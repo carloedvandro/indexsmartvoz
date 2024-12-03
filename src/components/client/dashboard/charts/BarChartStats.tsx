@@ -15,25 +15,29 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
         <BarChart 
           data={data}
           margin={{ top: 10, right: 30, left: 0, bottom: 5 }}
-          barGap={2}
-          barSize={40}
+          barGap={8}
+          barSize={32}
         >
           <defs>
+            {/* Gradient 1: Purple to Pink */}
             <linearGradient id="colorGradient1" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#FF69B4" stopOpacity={0.8} />
-              <stop offset="100%" stopColor="#9b87f5" stopOpacity={0.6} />
+              <stop offset="0%" stopColor="#9b87f5" stopOpacity={0.9} />
+              <stop offset="100%" stopColor="#D946EF" stopOpacity={0.7} />
             </linearGradient>
+            {/* Gradient 2: Orange to Yellow */}
             <linearGradient id="colorGradient2" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#F97316" stopOpacity={0.8} />
-              <stop offset="100%" stopColor="#FFA500" stopOpacity={0.6} />
+              <stop offset="0%" stopColor="#F97316" stopOpacity={0.9} />
+              <stop offset="100%" stopColor="#FFA500" stopOpacity={0.7} />
             </linearGradient>
+            {/* Gradient 3: Green to Blue */}
             <linearGradient id="colorGradient3" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#00ffa3" stopOpacity={0.8} />
-              <stop offset="100%" stopColor="#0EA5E9" stopOpacity={0.6} />
+              <stop offset="0%" stopColor="#00ffa3" stopOpacity={0.9} />
+              <stop offset="100%" stopColor="#0EA5E9" stopOpacity={0.7} />
             </linearGradient>
+            {/* Gradient 4: Pink to Purple */}
             <linearGradient id="colorGradient4" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#D946EF" stopOpacity={0.8} />
-              <stop offset="100%" stopColor="#FF69B4" stopOpacity={0.6} />
+              <stop offset="0%" stopColor="#D946EF" stopOpacity={0.9} />
+              <stop offset="100%" stopColor="#9b87f5" stopOpacity={0.7} />
             </linearGradient>
           </defs>
           <CartesianGrid 
@@ -86,7 +90,15 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
                 e.target.style.transform = 'translateY(0)';
               }
             }}
-          />
+          >
+            {data.map((entry, index) => (
+              <Bar
+                key={`bar-${index}`}
+                fill={`url(#colorGradient${(index % 4) + 1})`}
+                radius={[6, 6, 0, 0]}
+              />
+            ))}
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>
