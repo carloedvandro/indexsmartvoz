@@ -23,6 +23,8 @@ type ProfileWithSponsor = Profile & {
 const mapSponsor = (sponsorData: Record<string, any> | null): Sponsor | null => {
   if (!sponsorData) return null;
   
+  console.log("Raw sponsor data:", sponsorData);
+  
   return {
     id: sponsorData.id,
     full_name: sponsorData.full_name,
