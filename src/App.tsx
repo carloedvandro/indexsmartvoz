@@ -20,6 +20,7 @@ import ClientNews from "./pages/client/news";
 import ClientCourses from "./pages/client/courses";
 import ClientEvents from "./pages/client/events";
 import ClientStore from "./pages/client/store";
+import PublicStore from "./pages/public/store";
 import UpgradePage from "./pages/client/upgrade";
 import Index from "./pages/Index";
 
@@ -49,6 +50,9 @@ function AppRoutes() {
         <Route path="/client/courses" element={<ClientCourses />} />
         <Route path="/client/events" element={<ClientEvents />} />
         <Route path="/client/store" element={<ClientStore />} />
+
+        {/* Public routes */}
+        <Route path="/store/:storeUrl" element={<PublicStore />} />
       </Routes>
     </div>
   );

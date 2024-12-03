@@ -153,6 +153,7 @@ export type Database = {
           sponsor_id: string | null
           state: string | null
           status: string | null
+          store_url: string | null
           updated_at: string
           voucher: string | null
           zip_code: string | null
@@ -190,6 +191,7 @@ export type Database = {
           sponsor_id?: string | null
           state?: string | null
           status?: string | null
+          store_url?: string | null
           updated_at?: string
           voucher?: string | null
           zip_code?: string | null
@@ -227,6 +229,7 @@ export type Database = {
           sponsor_id?: string | null
           state?: string | null
           status?: string | null
+          store_url?: string | null
           updated_at?: string
           voucher?: string | null
           zip_code?: string | null
@@ -241,9 +244,54 @@ export type Database = {
           },
         ]
       }
+      store_orders: {
+        Row: {
+          amount: number
+          buyer_email: string
+          buyer_name: string
+          created_at: string | null
+          currency: string
+          id: string
+          product_id: string
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          buyer_email: string
+          buyer_name: string
+          created_at?: string | null
+          currency: string
+          id?: string
+          product_id: string
+          status?: string
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          buyer_email?: string
+          buyer_name?: string
+          created_at?: string | null
+          currency?: string
+          id?: string
+          product_id?: string
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "store_orders_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "store_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       store_products: {
         Row: {
           created_at: string
+          currency: string
           description: string | null
           id: string
           image_url: string | null
@@ -254,6 +302,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          currency?: string
           description?: string | null
           id?: string
           image_url?: string | null
@@ -264,6 +313,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          currency?: string
           description?: string | null
           id?: string
           image_url?: string | null

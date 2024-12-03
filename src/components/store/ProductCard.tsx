@@ -8,6 +8,7 @@ type Product = {
   description: string | null;
   price: number;
   image_url: string | null;
+  currency: string;
 };
 
 interface ProductCardProps {
@@ -15,9 +16,17 @@ interface ProductCardProps {
   onEdit: (product: Product) => void;
   onDelete: (id: string) => void;
   isExample?: boolean;
+  isPublic?: boolean;
 }
 
-export function ProductCard({ product, onEdit, onDelete, isExample }: ProductCardProps) {
+const formatCurrency = (value: number, currency: string = 'BRL') => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: currency,
+  }).format(value);
+};
+
+export function ProductCard({ product, onEdit, onDelete, isExample, isPublic }: ProductCardProps) {
   return (
     <Card className="flex flex-col">
       <CardHeader>
@@ -32,10 +41,14 @@ export function ProductCard({ product, onEdit, onDelete, isExample }: ProductCar
       </CardHeader>
       <CardContent>
         <p className="text-gray-600">{product.description}</p>
-        <p className="text-xl font-bold mt-2">${product.price.toFixed(2)}</p>
+        <p className="text-xl font-bold mt-2">{formatCurrency(product.price, product.currency)}</p>
       </CardContent>
       <CardFooter className="flex justify-end space-x-2 mt-auto">
-        {isExample ? (
+        {isPublic ? (
+          <Button className="w-full">
+            Comprar
+          </Button>
+        ) : isExample ? (
           <p className="text-sm text-gray-500 italic">Example Product</p>
         ) : (
           <>
