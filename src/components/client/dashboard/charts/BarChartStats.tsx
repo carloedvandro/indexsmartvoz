@@ -73,7 +73,7 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
           <Bar
             dataKey="value"
             radius={[6, 6, 0, 0]}
-            fill="url(#colorGradient1)"
+            fill={`url(#colorGradient${1})`}
             style={{
               filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.1))',
               transition: 'all 0.3s ease'
@@ -90,15 +90,7 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
                 e.target.style.transform = 'translateY(0)';
               }
             }}
-          >
-            {data.map((entry, index) => (
-              <Bar
-                key={`bar-${index}`}
-                fill={`url(#colorGradient${(index % 4) + 1})`}
-                radius={[6, 6, 0, 0]}
-              />
-            ))}
-          </Bar>
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>
