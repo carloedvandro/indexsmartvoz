@@ -46,7 +46,7 @@ export default function UpgradePage() {
       <div className="flex min-h-screen">
         <ClientSidebar />
         <main className="flex-1 overflow-y-auto bg-background">
-          <div className="container mx-auto px-4 pl-14 pt-16 pb-8 max-w-7xl overflow-y-auto h-screen">
+          <div className="w-full h-full px-4 pt-16 pb-8 overflow-y-auto">
             <h1 className="text-3xl font-bold mb-8 text-center pl-2">Upgrade seu Plano</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-16">
               {plans?.map((plan) => (
