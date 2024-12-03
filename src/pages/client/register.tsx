@@ -121,7 +121,7 @@ export default function ClientRegister() {
 
   return (
     <div 
-      className="min-h-screen w-full bg-gray-50 flex items-center justify-center bg-cover bg-center bg-no-repeat"
+      className="h-screen w-screen overflow-auto bg-gray-50 flex items-center justify-center bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2000&q=80")',
       }}
