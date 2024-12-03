@@ -85,9 +85,12 @@ export const useProfile = () => {
         return null;
       }
 
+      const baseProfile = profileData as unknown as Profile;
+      const sponsorData = (profileData as any).sponsor;
+
       const typedData: ProfileWithSponsor = {
-        ...profileData,
-        sponsor: mapSponsor(profileData.sponsor),
+        ...baseProfile,
+        sponsor: mapSponsor(sponsorData),
       };
 
       return typedData;
