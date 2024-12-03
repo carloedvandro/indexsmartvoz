@@ -31,15 +31,15 @@ const generateInitialBarData = () => {
 };
 
 const colors = [
-  "rgba(155, 135, 245, 0.5)",  // Roxo
-  "rgba(217, 70, 239, 0.5)",   // Rosa
-  "rgba(14, 165, 233, 0.5)",   // Azul
-  "rgba(249, 115, 22, 0.5)",   // Laranja
-  "rgba(34, 197, 94, 0.5)",    // Verde
-  "rgba(236, 72, 153, 0.5)",   // Pink
-  "rgba(59, 130, 246, 0.5)",   // Azul claro
-  "rgba(245, 158, 11, 0.5)",   // Âmbar
-  "rgba(139, 92, 246, 0.5)",   // Violeta
+  "#9b87f5",  // Roxo
+  "#D946EF",  // Rosa
+  "#0EA5E9",  // Azul
+  "#F97316",  // Laranja
+  "#22C55E",  // Verde
+  "#EC4899",  // Pink
+  "#3B82F6",  // Azul claro
+  "#F59E0B",  // Âmbar
+  "#8B5CF6",  // Violeta
 ];
 
 export const NetworkStatsCard = () => {
