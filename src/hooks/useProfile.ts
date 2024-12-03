@@ -38,13 +38,13 @@ export const useProfile = () => {
 
       console.log("Profile data:", data);
       
-      // Ensure data.sponsor is treated as a single object, not an array
-      const sponsorData = data.sponsor as {
-        id: string;
-        full_name: string | null;
-        email: string;
-        custom_id: string | null;
-      } | null;
+      // Cast the sponsor data to the correct type
+      const sponsorData = data?.sponsor ? {
+        id: data.sponsor.id,
+        full_name: data.sponsor.full_name,
+        email: data.sponsor.email,
+        custom_id: data.sponsor.custom_id
+      } : null;
       
       return {
         ...data,
