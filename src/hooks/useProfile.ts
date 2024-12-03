@@ -26,7 +26,7 @@ export const useProfile = () => {
 
       console.log("Fetching profile for user:", session.user.id);
       
-      const { data, error } = await supabase
+      const { data: profileData, error } = await supabase
         .from("profiles")
         .select(`
           *,
@@ -45,20 +45,20 @@ export const useProfile = () => {
         throw error;
       }
 
-      console.log("Profile data:", data);
+      console.log("Profile data:", profileData);
 
-      if (!data) {
+      if (!profileData) {
         return null;
       }
 
       // Transform the data to ensure proper typing
       const typedData: ProfileWithSponsor = {
-        ...data,
-        sponsor: data.sponsor ? {
-          id: data.sponsor.id,
-          full_name: data.sponsor.full_name,
-          email: data.sponsor.email,
-          custom_id: data.sponsor.custom_id
+        ...profileData,
+        sponsor: profileData.sponsor ? {
+          id: profileData.sponsor.id,
+          full_name: profileData.sponsor.full_name,
+          email: profileData.sponsor.email,
+          custom_id: profileData.sponsor.custom_id
         } : null
       };
 
