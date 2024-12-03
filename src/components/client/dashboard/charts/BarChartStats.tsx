@@ -9,7 +9,7 @@ export const BarChartStats = ({ data, colors }: BarChartStatsProps) => {
   return (
     <div className="h-full w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ right: 10, left: -20 }}>
+        <BarChart data={data} margin={{ right: 10, left: -20, bottom: 0 }}>
           <defs>
             {colors.map((color, index) => (
               <linearGradient key={`gradient-${index}`} id={`gradient-${index}`} x1="0" y1="0" x2="0" y2="1">
@@ -19,8 +19,12 @@ export const BarChartStats = ({ data, colors }: BarChartStatsProps) => {
             ))}
           </defs>
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <XAxis 
+            dataKey="name" 
+            tick={{ fontSize: 10 }}
+            interval={window.innerWidth < 768 ? 2 : 0}
+          />
+          <YAxis tick={{ fontSize: 10 }} />
           <Bar dataKey="value" fill={`url(#gradient-0)`} radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
