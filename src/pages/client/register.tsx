@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { RegisterForm, RegisterFormData } from "@/components/client/RegisterForm";
+import { RegisterForm } from "@/components/client/RegisterForm";
+import type { RegisterFormData } from "@/components/client/register/RegisterSchema";
 import { useToast } from "@/hooks/use-toast";
 import { checkExistingCpf } from "@/components/admin/UserFormUtils";
 

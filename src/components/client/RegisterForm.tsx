@@ -2,7 +2,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { registerFormSchema, RegisterFormData } from "./register/RegisterSchema";
+import { registerFormSchema } from "./register/RegisterSchema";
+import type { RegisterFormData } from "./register/RegisterSchema";
 import { FormFields } from "./register/FormFields";
 
 interface RegisterFormProps {
@@ -33,6 +34,3 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
     </Form>
   );
 }
-
-// Export the RegisterFormData type
-export type { RegisterFormData };
