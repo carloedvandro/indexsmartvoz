@@ -111,11 +111,11 @@ export const NetworkStatsCard = () => {
         <CardTitle>Estatísticas da Rede</CardTitle>
       </CardHeader>
       <CardContent className="pt-2">
-        <div className="pl-5 grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className="h-[150px] sm:h-[200px] md:h-[300px]">
+        <div className="pl-5 grid grid-cols-1 gap-8">
+          <div className="h-[300px] w-full">
             <BarChartStats data={barData} colors={colors} />
           </div>
-          <div className="h-[150px] sm:h-[200px] md:h-[300px] flex items-center justify-center">
+          <div className="h-[300px] w-full">
             <PieChartStats data={pieData} />
           </div>
         </div>
