@@ -114,26 +114,28 @@ export default function ClientRegister() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 overflow-y-auto">
-      <div className="w-full max-w-md space-y-8 my-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-            Criar nova conta
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Preencha os dados abaixo para criar sua conta
-          </p>
-        </div>
+    <div className="min-h-screen bg-gray-50 flex flex-col overflow-y-auto">
+      <div className="flex-1 flex items-center justify-center p-4">
+        <div className="w-full max-w-md space-y-8 py-8">
+          <div>
+            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
+              Criar nova conta
+            </h2>
+            <p className="mt-2 text-center text-sm text-gray-600">
+              Preencha os dados abaixo para criar sua conta
+            </p>
+          </div>
 
-        <RegisterForm onSubmit={handleSubmit} />
+          <RegisterForm onSubmit={handleSubmit} />
 
-        <div className="text-center">
-          <button
-            onClick={() => navigate("/client/login")}
-            className="text-sm text-gray-600 hover:text-gray-900"
-          >
-            Já tem uma conta? Faça login
-          </button>
+          <div className="text-center">
+            <button
+              onClick={() => navigate("/client/login")}
+              className="text-sm text-gray-600 hover:text-gray-900"
+            >
+              Já tem uma conta? Faça login
+            </button>
+          </div>
         </div>
       </div>
     </div>
