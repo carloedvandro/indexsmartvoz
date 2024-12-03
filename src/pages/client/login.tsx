@@ -14,9 +14,35 @@ export default function ClientLogin() {
 
   useEffect(() => {
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        navigate("/client/dashboard");
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (error) throw error;
+        
+        if (session?.user) {
+          const { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .single();
+
+          if (profileError) {
+            await supabase.auth.signOut();
+            toast({
+              title: t('error'),
+              description: t('login_error'),
+              variant: "destructive",
+            });
+            return;
+          }
+
+          if (profile) {
+            navigate("/client/dashboard");
+          }
+        }
+      } catch (error: any) {
+        console.error('Session check error:', error);
+        // Clear any invalid session state
+        await supabase.auth.signOut();
       }
     };
 
@@ -24,24 +50,32 @@ export default function ClientLogin() {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
-        const { data: profile, error: profileError } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single();
+        try {
+          const { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .single();
 
-        if (profileError) {
-          toast({
-            title: t('error'),
-            description: t('login_error'),
-            variant: "destructive",
-          });
-          return;
-        }
+          if (profileError) {
+            await supabase.auth.signOut();
+            toast({
+              title: t('error'),
+              description: t('login_error'),
+              variant: "destructive",
+            });
+            return;
+          }
 
-        if (profile) {
-          navigate("/client/dashboard");
+          if (profile) {
+            navigate("/client/dashboard");
+          }
+        } catch (error) {
+          console.error('Profile fetch error:', error);
+          await supabase.auth.signOut();
         }
+      } else if (event === 'SIGNED_OUT') {
+        navigate("/client/login");
       }
     });
 
