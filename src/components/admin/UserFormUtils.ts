@@ -48,12 +48,32 @@ export async function checkExistingCpf(cpf: string | null, excludeUserId?: strin
   return data && data.length > 0;
 }
 
+export async function checkExistingStoreUrl(url: string | null, excludeUserId?: string) {
+  if (!url?.trim()) {
+    return false;
+  }
+
+  const query = supabase
+    .from('profiles')
+    .select('id')
+    .eq('store_url', url.trim());
+    
+  if (excludeUserId) {
+    query.neq('id', excludeUserId);
+  }
+
+  const { data, error } = await query;
+  if (error) throw error;
+  return data && data.length > 0;
+}
+
 export async function createUser(data: any, isAdmin: boolean = false) {
   const cleanData = {
     ...data,
     cnpj: data.cnpj?.trim() || null,
     cpf: data.cpf?.trim() || null,
-    document_id: data.document_id?.trim() || null
+    document_id: data.document_id?.trim() || null,
+    store_url: data.store_url?.trim() || null
   };
 
   if (cleanData.cnpj && await checkExistingCnpj(cleanData.cnpj)) {
@@ -62,6 +82,10 @@ export async function createUser(data: any, isAdmin: boolean = false) {
   
   if (cleanData.cpf && await checkExistingCpf(cleanData.cpf)) {
     throw new Error("Este CPF já está cadastrado no sistema");
+  }
+
+  if (cleanData.store_url && await checkExistingStoreUrl(cleanData.store_url)) {
+    throw new Error("Esta URL de loja já está em uso");
   }
 
   const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -93,7 +117,8 @@ export async function updateProfile(id: string, data: any) {
     ...data,
     cnpj: data.cnpj?.trim() || null,
     cpf: data.cpf?.trim() || null,
-    document_id: data.document_id?.trim() || null
+    document_id: data.document_id?.trim() || null,
+    store_url: data.store_url?.trim() || null
   };
 
   if (cleanData.cnpj && await checkExistingCnpj(cleanData.cnpj, id)) {
@@ -102,6 +127,10 @@ export async function updateProfile(id: string, data: any) {
   
   if (cleanData.cpf && await checkExistingCpf(cleanData.cpf, id)) {
     throw new Error("Este CPF já está cadastrado no sistema");
+  }
+
+  if (cleanData.store_url && await checkExistingStoreUrl(cleanData.store_url, id)) {
+    throw new Error("Esta URL de loja já está em uso");
   }
 
   const { error } = await supabase
