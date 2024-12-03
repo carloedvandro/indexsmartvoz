@@ -7,6 +7,7 @@ const placeholderProducts = [
     description: "Comprehensive online course covering the latest industry trends and best practices.",
     price: 999.99,
     image_url: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+    currency: "BRL",
   },
   {
     id: "example-2",
@@ -14,6 +15,7 @@ const placeholderProducts = [
     description: "One-on-one consultation sessions with industry experts to grow your business.",
     price: 1499.99,
     image_url: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+    currency: "BRL",
   },
 ];
 
