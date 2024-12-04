@@ -7,6 +7,7 @@ import { ProductList } from "@/components/store/ProductList";
 import { StoreHeader } from "@/components/store/public/StoreHeader";
 import { useToast } from "@/hooks/use-toast";
 import { useStoreProducts } from "@/components/store/hooks/useStoreProducts";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type StoreOwner = {
   id: string;
@@ -90,33 +91,35 @@ export default function PublicStore() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="space-y-8">
-        <StoreHeader ownerName={storeOwner.full_name} />
-        
-        <div className="grid gap-8">
-          <ProductList
-            products={products}
-            isLoading={productsLoading}
-            onSubmit={() => {}}
-            selectedProduct={null}
-            setSelectedProduct={() => {}}
-            onDelete={() => {}}
-            isManager={false}
-            onBuy={handleBuy}
-          />
-        </div>
+    <ScrollArea className="h-screen">
+      <div className="container mx-auto p-4">
+        <div className="space-y-8">
+          <StoreHeader ownerName={storeOwner.full_name} />
+          
+          <div className="grid gap-8">
+            <ProductList
+              products={products}
+              isLoading={productsLoading}
+              onSubmit={() => {}}
+              selectedProduct={null}
+              setSelectedProduct={() => {}}
+              onDelete={() => {}}
+              isManager={false}
+              onBuy={handleBuy}
+            />
+          </div>
 
-        <div className="mt-8 p-6 bg-card rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-4">Link de Indicação</h2>
-          <p className="text-muted-foreground mb-4">
-            Use o link abaixo para se cadastrar e fazer parte da nossa rede:
-          </p>
-          <div className="bg-muted p-4 rounded-lg break-all text-sm">
-            {`https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id || storeOwner.id}`}
+          <div className="mt-8 p-6 bg-card rounded-lg shadow">
+            <h2 className="text-xl font-semibold mb-4">Link de Indicação</h2>
+            <p className="text-muted-foreground mb-4">
+              Use o link abaixo para se cadastrar e fazer parte da nossa rede:
+            </p>
+            <div className="bg-muted p-4 rounded-lg break-all text-sm">
+              {`https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id || storeOwner.id}`}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ScrollArea>
   );
 }
