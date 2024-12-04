@@ -38,22 +38,25 @@ export default function PublicStore() {
           .from("profiles")
           .select("id, full_name, custom_id")
           .eq("store_url", storeUrl)
-          .single();
+          .maybeSingle();
 
         if (storeUrlError) {
+          console.error("Error fetching by store_url:", storeUrlError);
+          throw storeUrlError;
+        }
+
+        // If not found by store_url, try custom_id
+        if (!ownerData) {
           console.log("Not found by store_url, trying custom_id");
-          // If not found by store_url, try custom_id
           const { data: customIdData, error: customIdError } = await supabase
             .from("profiles")
             .select("id, full_name, custom_id")
             .eq("custom_id", storeUrl)
-            .single();
+            .maybeSingle();
 
           if (customIdError) {
             console.error("Error fetching by custom_id:", customIdError);
-            setStoreOwner(null);
-            setIsLoading(false);
-            return;
+            throw customIdError;
           }
 
           ownerData = customIdData;
@@ -75,6 +78,7 @@ export default function PublicStore() {
           description: "Não foi possível carregar a loja",
           variant: "destructive",
         });
+        setStoreOwner(null);
       } finally {
         setIsLoading(false);
       }
