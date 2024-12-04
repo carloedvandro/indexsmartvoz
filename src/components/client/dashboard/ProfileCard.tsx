@@ -3,7 +3,6 @@ import { Tables } from "@/integrations/supabase/types";
 import { Badge } from "@/components/ui/badge";
 import { ProfileAvatar } from "./profile/ProfileAvatar";
 import { ProfileStats } from "./profile/ProfileStats";
-import { StoreUrlEditor } from "./profile/StoreUrlEditor";
 
 type Profile = Tables<"profiles">;
 
@@ -63,10 +62,6 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
                 <p className="font-medium">{profile.custom_id}</p>
               </div>
             )}
-            <StoreUrlEditor 
-              profileId={profile.id}
-              initialStoreUrl={profile?.store_url || ''}
-            />
           </div>
         </div>
       </CardContent>
