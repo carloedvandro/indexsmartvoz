@@ -19,22 +19,27 @@ export default function PublicStore() {
   const [storeOwner, setStoreOwner] = useState<StoreOwner | null>(null);
   const { storeUrl } = useParams();
   const { toast } = useToast();
-  const registrationUrl = storeOwner 
-    ? `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id}`
-    : '';
 
   useEffect(() => {
     const loadStore = async () => {
-      if (!storeUrl) return;
+      if (!storeUrl) {
+        console.log("No storeUrl provided");
+        return;
+      }
 
       try {
+        console.log("Fetching store owner with storeUrl:", storeUrl);
+        
         const { data: owner, error: ownerError } = await supabase
           .from("profiles")
           .select("id, full_name, custom_id")
-          .or(`store_url.eq.${storeUrl},custom_id.eq.${storeUrl}`)
+          .or(`store_url.eq."${storeUrl}",custom_id.eq."${storeUrl}"`)
           .single();
 
-        if (ownerError || !owner) {
+        console.log("Query result:", { owner, ownerError });
+
+        if (ownerError) {
+          console.error("Error fetching store owner:", ownerError);
           toast({
             title: "Erro",
             description: "Loja não encontrada",
@@ -43,9 +48,15 @@ export default function PublicStore() {
           return;
         }
 
+        if (!owner) {
+          console.log("No owner found for storeUrl:", storeUrl);
+          return;
+        }
+
+        console.log("Setting store owner:", owner);
         setStoreOwner(owner);
       } catch (error) {
-        console.error("Erro ao carregar a loja:", error);
+        console.error("Error loading store:", error);
         toast({
           title: "Erro",
           description: "Não foi possível carregar a loja",
@@ -58,6 +69,10 @@ export default function PublicStore() {
 
     loadStore();
   }, [storeUrl, toast]);
+
+  const registrationUrl = storeOwner?.custom_id 
+    ? `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id}`
+    : '';
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(registrationUrl);
