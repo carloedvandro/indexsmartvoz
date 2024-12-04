@@ -25,6 +25,11 @@ export default function PublicStore() {
 
   useEffect(() => {
     const loadStore = async () => {
+      if (!storeUrl) {
+        setIsLoading(false);
+        return;
+      }
+
       try {
         console.log("Iniciando carregamento da loja com URL:", storeUrl);
         
