@@ -1,49 +1,27 @@
-import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
-import { useEffect } from "react";
+import { useState, useCallback } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import type { Session } from '@supabase/supabase-js';
 
 export const useSession = () => {
-  const navigate = useNavigate();
-  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_OUT' || (!session && event !== 'INITIAL_SESSION')) {
-        navigate("/client/login");
-      }
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [navigate]);
-
-  const getSession = async () => {
+  const getSession = useCallback(async (): Promise<Session | null> => {
     try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-
-      if (sessionError) {
-        console.error("Session error:", sessionError);
-        await supabase.auth.signOut();
-        navigate("/client/login");
+      const { data: { session }, error } = await supabase.auth.getSession();
+      
+      if (error) {
+        console.error('Error fetching session:', error);
         return null;
       }
-
-      if (!session?.user) {
-        console.warn("No active session found");
-        navigate("/client/login");
-        return null;
-      }
-
+      
       return session;
     } catch (error) {
-      console.error("Session retrieval error:", error);
-      await supabase.auth.signOut();
-      navigate("/client/login");
+      console.error('Error in getSession:', error);
       return null;
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, []);
 
-  return { getSession };
+  return { getSession, isLoading };
 };

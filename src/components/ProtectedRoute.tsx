@@ -1,26 +1,31 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { LoadingState } from "@/components/client/dashboard/LoadingState";
+import { useEffect } from 'react';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { useSession } from '@/hooks/useSession';
+import { LoadingState } from '@/components/client/dashboard/LoadingState';
 
-interface ProtectedRouteProps {
-  children: React.ReactNode;
-}
-
-export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+export const ProtectedRoute = () => {
+  const { getSession, isLoading } = useSession();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+    const checkAuth = async () => {
+      const session = await getSession();
       
       if (!session) {
-        navigate('/client/login');
+        // Determine which login page to redirect to based on the current path
+        const isAdminRoute = location.pathname.startsWith('/admin');
+        const loginPath = isAdminRoute ? '/admin/login' : '/client/login';
+        navigate(loginPath, { replace: true });
       }
     };
 
-    checkSession();
-  }, [navigate]);
+    checkAuth();
+  }, [getSession, navigate, location]);
 
-  return <>{children}</>;
+  if (isLoading) {
+    return <LoadingState />;
+  }
+
+  return <Outlet />;
 };
