@@ -16,12 +16,82 @@ type Product = {
   order: number;
 };
 
+type StoreOwner = {
+  id: string;
+  full_name: string;
+  custom_id: string;
+};
+
 export default function PublicStore() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [storeOwner, setStoreOwner] = useState<{ full_name: string; custom_id: string; id: string } | null>(null);
+  const [storeOwner, setStoreOwner] = useState<StoreOwner | null>(null);
   const { storeUrl } = useParams();
   const { toast } = useToast();
+
+  const fetchStoreOwner = async (url: string): Promise<StoreOwner | null> => {
+    console.log("Buscando dono da loja com URL:", url);
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id, full_name, custom_id")
+        .or(`store_url.eq."${url}",custom_id.eq."${url}"`)
+        .single();
+
+      if (error) {
+        console.error("Erro ao buscar dono da loja:", error);
+        throw error;
+      }
+
+      if (!data) {
+        console.log("Loja não encontrada para URL:", url);
+        toast({ 
+          title: "Loja não encontrada", 
+          description: "Não foi possível encontrar a loja especificada",
+          variant: "destructive" 
+        });
+        return null;
+      }
+
+      console.log("Dono da loja encontrado:", data);
+      return data as StoreOwner;
+    } catch (err) {
+      console.error("Erro ao buscar dono da loja:", err);
+      toast({ 
+        title: "Erro", 
+        description: "Não foi possível carregar a loja", 
+        variant: "destructive" 
+      });
+      return null;
+    }
+  };
+
+  const fetchProducts = async (ownerId: string): Promise<Product[]> => {
+    console.log("Buscando produtos para o dono:", ownerId);
+    try {
+      const { data, error } = await supabase
+        .from("store_products")
+        .select("*")
+        .eq("user_id", ownerId)
+        .order("order", { ascending: true });
+
+      if (error) {
+        console.error("Erro ao buscar produtos:", error);
+        throw error;
+      }
+
+      console.log("Produtos carregados:", data?.length || 0, "produtos");
+      return data || [];
+    } catch (err) {
+      console.error("Erro ao buscar produtos:", err);
+      toast({ 
+        title: "Erro", 
+        description: "Não foi possível carregar os produtos", 
+        variant: "destructive" 
+      });
+      return [];
+    }
+  };
 
   useEffect(() => {
     const loadStore = async () => {
@@ -33,44 +103,20 @@ export default function PublicStore() {
       try {
         console.log("Iniciando carregamento da loja com URL:", storeUrl);
         
-        // Fixed query syntax by using proper string interpolation
-        const { data: profileData, error: profileError } = await supabase
-          .from("profiles")
-          .select("id, full_name, custom_id")
-          .or(`store_url.eq."${storeUrl}",custom_id.eq."${storeUrl}"`)
-          .single();
-
-        if (profileError) {
-          console.error("Erro ao buscar perfil:", profileError);
-          throw profileError;
+        const owner = await fetchStoreOwner(storeUrl);
+        if (!owner) {
+          setIsLoading(false);
+          return;
         }
 
-        if (!profileData) {
-          console.error("Perfil não encontrado para URL:", storeUrl);
-          throw new Error("Store not found");
-        }
-
-        console.log("Perfil do dono da loja:", profileData);
-        setStoreOwner(profileData);
-
-        const { data: productsData, error: productsError } = await supabase
-          .from("store_products")
-          .select("*")
-          .eq("user_id", profileData.id)
-          .order("order", { ascending: true });
-
-        if (productsError) {
-          console.error("Erro ao buscar produtos:", productsError);
-          throw productsError;
-        }
-
-        console.log("Produtos carregados:", productsData?.length || 0);
-        setProducts(productsData || []);
+        setStoreOwner(owner);
+        const storeProducts = await fetchProducts(owner.id);
+        setProducts(storeProducts);
       } catch (error) {
         console.error("Erro ao carregar a loja:", error);
         toast({
           title: "Erro",
-          description: "Não foi possível carregar a loja",
+          description: "Ocorreu um erro ao carregar a loja",
           variant: "destructive",
         });
       } finally {
@@ -78,9 +124,7 @@ export default function PublicStore() {
       }
     };
 
-    if (storeUrl) {
-      loadStore();
-    }
+    loadStore();
   }, [storeUrl, toast]);
 
   const handleBuyClick = () => {
@@ -95,7 +139,7 @@ export default function PublicStore() {
     }
 
     const registerUrl = `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id}`;
-    console.log("URL de redirecionamento:", registerUrl);
+    console.log("Redirecionando para:", registerUrl);
     window.location.href = registerUrl;
   };
 
@@ -128,18 +172,22 @@ export default function PublicStore() {
           </Button>
           <h1 className="text-3xl font-bold">Loja de {storeOwner.full_name}</h1>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onEdit={() => {}}
-              onDelete={() => {}}
-              onBuy={handleBuyClick}
-              isPublic
-            />
-          ))}
-        </div>
+        {products.length === 0 ? (
+          <div className="text-center">Nenhum produto disponível no momento.</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {products.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onEdit={() => {}}
+                onDelete={() => {}}
+                onBuy={handleBuyClick}
+                isPublic
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
