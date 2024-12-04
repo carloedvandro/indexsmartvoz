@@ -45,7 +45,7 @@ export default function PublicStore() {
           console.error("Error fetching store owner:", ownerError);
           toast({
             title: "Erro",
-            description: "Loja não encontrada",
+            description: "Erro ao carregar a loja",
             variant: "destructive",
           });
           setIsLoading(false);
