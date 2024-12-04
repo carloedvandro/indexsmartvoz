@@ -18,8 +18,8 @@ export function StoreHeader({ isLoading, onSubmit, selectedProduct, isManager = 
   const { toast } = useToast();
   const { data: profile } = useProfile();
   
-  const storeUrl = profile?.custom_id 
-    ? `https://ytech.lovable.app/store/${profile.custom_id}`
+  const storeUrl = profile?.store_url || profile?.custom_id 
+    ? `https://ytech.lovable.app/store/${profile.store_url || profile.custom_id}`
     : null;
 
   const handleCopyLink = async () => {
