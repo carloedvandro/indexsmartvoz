@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { LoadingState } from "@/components/store/public/LoadingState";
 import { StoreNotFound } from "@/components/store/public/StoreNotFound";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { ProductList } from "@/components/store/ProductList";
+import { StoreHeader } from "@/components/store/public/StoreHeader";
 import { useToast } from "@/hooks/use-toast";
-import { Copy } from "lucide-react";
+import { useStoreProducts } from "@/components/store/hooks/useStoreProducts";
 
 type StoreOwner = {
   id: string;
@@ -19,6 +19,7 @@ export default function PublicStore() {
   const [storeOwner, setStoreOwner] = useState<StoreOwner | null>(null);
   const { storeUrl } = useParams();
   const { toast } = useToast();
+  const { products, isLoading: productsLoading, loadProducts } = useStoreProducts();
 
   useEffect(() => {
     const loadStore = async () => {
@@ -55,6 +56,9 @@ export default function PublicStore() {
 
         console.log("Setting store owner:", owner);
         setStoreOwner(owner);
+        
+        // Após encontrar o dono da loja, carregamos os produtos
+        await loadProducts();
       } catch (error) {
         console.error("Error loading store:", error);
         toast({
@@ -68,22 +72,9 @@ export default function PublicStore() {
     };
 
     loadStore();
-  }, [storeUrl, toast]);
+  }, [storeUrl, toast, loadProducts]);
 
-  // Usar custom_id se disponível, caso contrário usar o id do usuário
-  const registrationUrl = storeOwner 
-    ? `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id || storeOwner.id}`
-    : '';
-
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(registrationUrl);
-    toast({
-      title: "Link copiado!",
-      description: "O link de indicação foi copiado para sua área de transferência.",
-    });
-  };
-
-  if (isLoading) {
+  if (isLoading || productsLoading) {
     return <LoadingState />;
   }
 
@@ -91,40 +82,41 @@ export default function PublicStore() {
     return <StoreNotFound />;
   }
 
+  const handleBuy = () => {
+    toast({
+      title: "Em breve!",
+      description: "A funcionalidade de compra estará disponível em breve.",
+    });
+  };
+
   return (
-    <div className="container mx-auto p-4 max-w-2xl">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-center">
-            Link de Indicação de {storeOwner.full_name}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <p className="text-center text-muted-foreground">
+    <div className="container mx-auto p-4">
+      <div className="space-y-8">
+        <StoreHeader ownerName={storeOwner.full_name} />
+        
+        <div className="grid gap-8">
+          <ProductList
+            products={products}
+            isLoading={productsLoading}
+            onSubmit={() => {}}
+            selectedProduct={null}
+            setSelectedProduct={() => {}}
+            onDelete={() => {}}
+            isManager={false}
+            onBuy={handleBuy}
+          />
+        </div>
+
+        <div className="mt-8 p-6 bg-card rounded-lg shadow">
+          <h2 className="text-xl font-semibold mb-4">Link de Indicação</h2>
+          <p className="text-muted-foreground mb-4">
             Use o link abaixo para se cadastrar e fazer parte da nossa rede:
           </p>
-          
           <div className="bg-muted p-4 rounded-lg break-all text-sm">
-            {registrationUrl}
+            {`https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id || storeOwner.id}`}
           </div>
-
-          <div className="flex justify-center gap-4">
-            <Button 
-              onClick={handleCopyLink}
-              className="w-full max-w-xs"
-            >
-              <Copy className="mr-2 h-4 w-4" />
-              Copiar Link
-            </Button>
-            <Button 
-              onClick={() => window.location.href = registrationUrl}
-              className="w-full max-w-xs"
-            >
-              Cadastrar Agora
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }
