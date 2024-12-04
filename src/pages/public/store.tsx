@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useStoreProducts } from "@/components/store/hooks/useStoreProducts";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { Copy } from "lucide-react";
+import { Copy, ArrowRight } from "lucide-react";
 
 type StoreOwner = {
   id: string;
@@ -95,6 +95,12 @@ export default function PublicStore() {
     window.location.href = referralLink;
   };
 
+  const handleGoToReferralLink = () => {
+    if (!storeOwner?.custom_id) return;
+    const referralLink = `${window.location.origin}/client/register?sponsor=${storeOwner.custom_id}`;
+    window.location.href = referralLink;
+  };
+
   if (isLoading || productsLoading) {
     return <LoadingState />;
   }
@@ -102,6 +108,10 @@ export default function PublicStore() {
   if (!storeOwner) {
     return <StoreNotFound />;
   }
+
+  const referralLink = storeOwner.custom_id 
+    ? `${window.location.origin}/client/register?sponsor=${storeOwner.custom_id}`
+    : "";
 
   return (
     <ScrollArea className="h-screen">
@@ -129,9 +139,14 @@ export default function PublicStore() {
               Use o link abaixo para se cadastrar e fazer parte da nossa rede:
             </p>
             <div className="flex items-center gap-4">
-              <div className="flex-1 bg-muted p-4 rounded-lg break-all text-sm">
-                {`${window.location.origin}/client/register?sponsor=${storeOwner.custom_id}`}
-              </div>
+              <a 
+                href={referralLink}
+                className="flex-1 bg-muted p-4 rounded-lg break-all text-sm hover:bg-muted/80 transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {referralLink}
+              </a>
               <Button
                 variant="outline"
                 size="icon"
@@ -139,6 +154,12 @@ export default function PublicStore() {
                 className="shrink-0"
               >
                 <Copy className="h-4 w-4" />
+              </Button>
+              <Button
+                onClick={handleGoToReferralLink}
+                className="shrink-0"
+              >
+                Ir <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </div>
