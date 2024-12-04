@@ -120,10 +120,11 @@ export default function ClientLogin() {
             redirectTo={`${window.location.origin}/client/dashboard`}
             view="sign_in"
             showLinks={false}
-            authCallback={(event) => {
-              if (event.error?.message.includes('Invalid login credentials')) {
+            onError={(error) => {
+              console.error('Auth error:', error);
+              if (error.message.includes('Invalid login credentials')) {
                 toast.error('E-mail ou senha incorretos');
-              } else if (event.error) {
+              } else {
                 toast.error('Erro ao fazer login. Tente novamente.');
               }
             }}
