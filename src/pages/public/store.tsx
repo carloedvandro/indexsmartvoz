@@ -26,11 +26,11 @@ export default function PublicStore() {
       try {
         console.log("Iniciando carregamento da loja com URL:", storeUrl);
         
-        // Buscar o perfil do dono da loja
+        // Buscar o perfil do dono da loja por store_url ou custom_id
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .select("id, full_name, custom_id")
-          .eq("store_url", storeUrl)
+          .or(`store_url.eq.${storeUrl},custom_id.eq.${storeUrl}`)
           .single();
 
         if (profileError) {
@@ -46,7 +46,7 @@ export default function PublicStore() {
         console.log("Perfil encontrado:", profileData);
         setStoreOwner(profileData);
 
-        // Buscar os produtos do gerente
+        // Buscar os produtos
         const { data: productsData, error: productsError } = await supabase
           .from("store_products")
           .select("*")
