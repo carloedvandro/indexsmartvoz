@@ -20,7 +20,6 @@ export default function PublicStore() {
   const [isLoading, setIsLoading] = useState(true);
   const [storeOwner, setStoreOwner] = useState<{ full_name: string, custom_id: string } | null>(null);
   const { storeUrl } = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const loadStore = async () => {
@@ -105,7 +104,7 @@ export default function PublicStore() {
           <Button
             variant="outline"
             size="icon"
-            onClick={() => navigate(-1)}
+            onClick={() => window.history.back()}
           >
             <ArrowLeft className="h-4 w-4" />
           </Button>
