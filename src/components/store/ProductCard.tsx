@@ -20,11 +20,11 @@ interface ProductCardProps {
 
 export function ProductCard({ product, onEdit, onDelete, onBuy, isPublic, isExample }: ProductCardProps) {
   const handleBuyClick = (e: React.MouseEvent) => {
+    console.log("Clique no botão comprar detectado");
     e.preventDefault();
     e.stopPropagation();
     
     if (onBuy) {
-      console.log("Clique no botão comprar detectado");
       onBuy();
     }
   };

@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { ProductCard } from "@/components/store/ProductCard";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 type Product = {
   id: string;
@@ -20,12 +21,14 @@ export default function PublicStore() {
   const [isLoading, setIsLoading] = useState(true);
   const [storeOwner, setStoreOwner] = useState<{ full_name: string, custom_id: string } | null>(null);
   const { storeUrl } = useParams();
+  const { toast } = useToast();
 
   useEffect(() => {
     const loadStore = async () => {
       try {
         console.log("Iniciando carregamento da loja com URL:", storeUrl);
         
+        // Modificando a query para usar template strings corretamente
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .select("id, full_name, custom_id")
@@ -42,12 +45,13 @@ export default function PublicStore() {
           throw new Error("Store not found");
         }
 
-        console.log("Perfil encontrado:", profileData);
+        console.log("Perfil do dono da loja:", profileData);
         setStoreOwner(profileData);
 
         const { data: productsData, error: productsError } = await supabase
           .from("store_products")
           .select("*")
+          .eq("user_id", profileData.id)
           .order("order", { ascending: true });
 
         if (productsError) {
@@ -59,6 +63,11 @@ export default function PublicStore() {
         setProducts(productsData || []);
       } catch (error) {
         console.error("Erro ao carregar a loja:", error);
+        toast({
+          title: "Erro",
+          description: "Não foi possível carregar a loja",
+          variant: "destructive",
+        });
       } finally {
         setIsLoading(false);
       }
@@ -67,30 +76,36 @@ export default function PublicStore() {
     if (storeUrl) {
       loadStore();
     }
-  }, [storeUrl]);
+  }, [storeUrl, toast]);
 
   const handleBuyClick = () => {
-    if (storeOwner?.custom_id) {
-      const registerUrl = `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id}`;
-      console.log("URL de redirecionamento:", registerUrl);
-      window.location.href = registerUrl;
-    } else {
+    if (!storeOwner?.custom_id) {
       console.error("Custom ID não encontrado para o dono da loja");
+      toast({
+        title: "Erro",
+        description: "Não foi possível processar a compra",
+        variant: "destructive",
+      });
+      return;
     }
+
+    const registerUrl = `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id}`;
+    console.log("URL de redirecionamento:", registerUrl);
+    window.location.href = registerUrl;
   };
 
   if (isLoading) {
     return (
-      <div className="h-screen w-full overflow-y-auto">
-        <div className="container mx-auto p-4">Carregando...</div>
+      <div className="h-screen w-full flex items-center justify-center">
+        <div>Carregando...</div>
       </div>
     );
   }
 
   if (!storeOwner) {
     return (
-      <div className="h-screen w-full overflow-y-auto">
-        <div className="container mx-auto p-4">Loja não encontrada</div>
+      <div className="h-screen w-full flex items-center justify-center">
+        <div>Loja não encontrada</div>
       </div>
     );
   }
