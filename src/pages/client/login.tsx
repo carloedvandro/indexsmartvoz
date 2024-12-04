@@ -31,17 +31,32 @@ export default function ClientLogin() {
 
     checkSession();
 
-    // Listen for auth state changes
+    // Listen for auth state changes and errors
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session) {
         navigate('/client/dashboard');
       } else if (event === 'SIGNED_OUT') {
         navigate('/client/login');
+      } else if (event === 'USER_DELETED') {
+        toast.error('Usuário não encontrado');
+      } else if (event === 'PASSWORD_RECOVERY') {
+        navigate('/client/reset-password');
+      }
+    });
+
+    // Listen for auth errors
+    const authListener = supabase.auth.onError((error) => {
+      console.error('Auth error:', error);
+      if (error.message.includes('Invalid login credentials')) {
+        toast.error('E-mail ou senha incorretos');
+      } else {
+        toast.error('Erro ao fazer login. Tente novamente.');
       }
     });
 
     return () => {
       subscription.unsubscribe();
+      authListener.data.subscription.unsubscribe();
     };
   }, [navigate]);
 
@@ -120,14 +135,6 @@ export default function ClientLogin() {
             redirectTo={`${window.location.origin}/client/dashboard`}
             view="sign_in"
             showLinks={false}
-            onError={(error) => {
-              console.error('Auth error:', error);
-              if (error.message.includes('Invalid login credentials')) {
-                toast.error('E-mail ou senha incorretos');
-              } else {
-                toast.error('Erro ao fazer login. Tente novamente.');
-              }
-            }}
           />
         </div>
         <div className="mt-8 text-center text-sm text-gray-500">
