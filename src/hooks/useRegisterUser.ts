@@ -4,7 +4,7 @@ import { RegisterFormData } from "@/components/client/register/RegisterSchema";
 export const useRegisterUser = () => {
   const registerUser = async (values: RegisterFormData) => {
     try {
-      console.log("Starting user registration process with values:", {
+      console.log("Starting registration with values:", {
         ...values,
         password: "[PROTECTED]",
         customId: values.customId,
@@ -66,7 +66,8 @@ export const useRegisterUser = () => {
         console.log("Found sponsor ID:", sponsorId);
       }
 
-      console.log("Creating user in Supabase Auth with custom_id:", values.customId);
+      // Create user with custom_id in metadata
+      console.log("Creating user with custom_id in metadata:", values.customId);
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -90,19 +91,19 @@ export const useRegisterUser = () => {
         throw new Error("Erro ao criar usuário");
       }
 
-      // Update the profile with additional data
+      // Explicitly update profile with custom_id and other data
       console.log("Updating profile with data:", {
-        sponsor_id: sponsorId,
         custom_id: values.customId,
         store_url: values.customId,
+        sponsor_id: sponsorId,
       });
 
       const { error: updateError } = await supabase
         .from("profiles")
         .update({
-          sponsor_id: sponsorId,
           custom_id: values.customId,
           store_url: values.customId,
+          sponsor_id: sponsorId,
         })
         .eq("id", authData.user.id);
 
@@ -111,7 +112,7 @@ export const useRegisterUser = () => {
         throw new Error("Erro ao atualizar perfil");
       }
 
-      console.log("User created successfully:", {
+      console.log("User registration completed successfully:", {
         userId: authData.user.id,
         customId: values.customId,
       });
