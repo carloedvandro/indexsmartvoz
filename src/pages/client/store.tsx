@@ -9,7 +9,7 @@ import { useSession } from "@/hooks/useSession";
 export default function Store() {
   const { getSession } = useSession();
   const [isSessionLoaded, setIsSessionLoaded] = useState(false);
-  const { products, isLoading, loadProducts } = useStoreProducts();
+  const { products, isLoading, loadProducts, reorderProducts } = useStoreProducts();
   const { 
     selectedProduct, 
     setSelectedProduct, 
@@ -57,6 +57,7 @@ export default function Store() {
             selectedProduct={selectedProduct}
             setSelectedProduct={setSelectedProduct}
             onDelete={handleDelete}
+            onReorder={reorderProducts}
           />
         ) : (
           <ExampleProducts

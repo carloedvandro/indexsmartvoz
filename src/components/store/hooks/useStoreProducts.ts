@@ -9,6 +9,7 @@ export type Product = {
   price: number;
   image_url: string | null;
   currency: string;
+  order: number;
 };
 
 export function useStoreProducts() {
@@ -25,7 +26,7 @@ export function useStoreProducts() {
         .from("store_products")
         .select("*")
         .eq("user_id", user.id)
-        .order("created_at", { ascending: false });
+        .order("order", { ascending: true });
 
       if (error) throw error;
       setProducts(data || []);
@@ -41,9 +42,42 @@ export function useStoreProducts() {
     }
   };
 
+  const reorderProducts = async (reorderedProducts: Product[]) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("User not authenticated");
+
+      const updates = reorderedProducts.map((product) => ({
+        id: product.id,
+        order: product.order,
+      }));
+
+      const { error } = await supabase
+        .from("store_products")
+        .upsert(updates);
+
+      if (error) throw error;
+
+      setProducts(reorderedProducts);
+      
+      toast({
+        title: "Success",
+        description: "Product order updated successfully",
+      });
+    } catch (error) {
+      console.error("Error reordering products:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update product order",
+        variant: "destructive",
+      });
+    }
+  };
+
   return {
     products,
     isLoading,
     loadProducts,
+    reorderProducts,
   };
 }
