@@ -37,20 +37,24 @@ export default function PublicStore() {
           .from("profiles")
           .select("id, full_name, custom_id")
           .eq("store_url", storeUrl)
-          .single();
+          .maybeSingle();
+
+        console.log("Query result:", { ownerData, ownerError });
 
         if (ownerError) {
-          if (ownerError.code === 'PGRST116') {
-            console.log("No store found for URL:", storeUrl);
-            setStoreOwner(null);
-          } else {
-            console.error("Error fetching store owner:", ownerError);
-            toast({
-              title: "Erro",
-              description: "Erro ao carregar a loja",
-              variant: "destructive",
-            });
-          }
+          console.error("Error fetching store owner:", ownerError);
+          toast({
+            title: "Erro",
+            description: "Loja não encontrada",
+            variant: "destructive",
+          });
+          setIsLoading(false);
+          return;
+        }
+
+        if (!ownerData) {
+          console.log("No owner found for storeUrl:", storeUrl);
+          setStoreOwner(null);
           setIsLoading(false);
           return;
         }
