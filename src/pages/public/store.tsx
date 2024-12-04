@@ -67,7 +67,7 @@ export default function PublicStore() {
 
   const handleBuyClick = () => {
     if (storeOwner?.custom_id) {
-      navigate(`/register?sponsor=${storeOwner.custom_id}`);
+      navigate(`/client/register?sponsor=${storeOwner.custom_id}`);
     }
   };
 
