@@ -74,7 +74,7 @@ export default function PublicStore() {
   const handleBuyClick = () => {
     if (storeOwner?.custom_id) {
       console.log("Redirecionando para registro com patrocinador:", storeOwner.custom_id);
-      window.location.href = `/client/register?sponsor=${storeOwner.custom_id}`;
+      window.location.href = `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id}`;
     } else {
       console.error("Custom ID não encontrado para o dono da loja");
     }
