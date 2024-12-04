@@ -11,7 +11,7 @@ import { Copy } from "lucide-react";
 type StoreOwner = {
   id: string;
   full_name: string;
-  custom_id: string;
+  custom_id: string | null;
 };
 
 export default function PublicStore() {
@@ -70,8 +70,9 @@ export default function PublicStore() {
     loadStore();
   }, [storeUrl, toast]);
 
-  const registrationUrl = storeOwner?.custom_id 
-    ? `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id}`
+  // Usar custom_id se disponível, caso contrário usar o id do usuário
+  const registrationUrl = storeOwner 
+    ? `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id || storeOwner.id}`
     : '';
 
   const handleCopyLink = () => {
