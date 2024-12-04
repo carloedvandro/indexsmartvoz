@@ -5,9 +5,11 @@ import { ExampleProducts } from "@/components/store/ExampleProducts";
 import { useStoreProducts } from "@/components/store/hooks/useStoreProducts";
 import { useProductActions } from "@/components/store/hooks/useProductActions";
 import { useSession } from "@/hooks/useSession";
+import { useProfile } from "@/hooks/useProfile";
 
 export default function Store() {
   const { getSession } = useSession();
+  const { profile } = useProfile();
   const [isSessionLoaded, setIsSessionLoaded] = useState(false);
   const { products, isLoading, loadProducts } = useStoreProducts();
   const { 
@@ -17,6 +19,8 @@ export default function Store() {
     handleSubmit, 
     handleDelete 
   } = useProductActions(loadProducts);
+
+  const isManager = profile?.email === 'yrwentechnology@gmail.com';
 
   useEffect(() => {
     const initializeStore = async () => {
@@ -43,11 +47,13 @@ export default function Store() {
   return (
     <div className="h-screen w-screen overflow-auto">
       <div className="container mx-auto p-4 pb-16 space-y-6">
-        <StoreHeader 
-          isLoading={isActionLoading}
-          onSubmit={handleSubmit}
-          selectedProduct={selectedProduct}
-        />
+        {isManager && (
+          <StoreHeader 
+            isLoading={isActionLoading}
+            onSubmit={handleSubmit}
+            selectedProduct={selectedProduct}
+          />
+        )}
 
         {products.length > 0 ? (
           <ProductList
@@ -57,6 +63,7 @@ export default function Store() {
             selectedProduct={selectedProduct}
             setSelectedProduct={setSelectedProduct}
             onDelete={handleDelete}
+            isManager={isManager}
           />
         ) : (
           <ExampleProducts

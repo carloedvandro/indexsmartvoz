@@ -19,6 +19,7 @@ interface ProductListProps {
   selectedProduct: Product | null;
   setSelectedProduct: (product: Product | null) => void;
   onDelete: (id: string) => void;
+  isManager?: boolean;
 }
 
 export function ProductList({ 
@@ -28,6 +29,7 @@ export function ProductList({
   selectedProduct, 
   setSelectedProduct, 
   onDelete,
+  isManager = false,
 }: ProductListProps) {
   if (isLoading) {
     return <div className="text-center">Loading...</div>;
@@ -43,14 +45,17 @@ export function ProductList({
                 product={product}
                 onEdit={() => setSelectedProduct(product)}
                 onDelete={onDelete}
+                isPublic={!isManager}
               />
             </div>
           </DialogTrigger>
-          <ProductForm
-            selectedProduct={selectedProduct}
-            isLoading={isLoading}
-            onSubmit={onSubmit}
-          />
+          {isManager && (
+            <ProductForm
+              selectedProduct={selectedProduct}
+              isLoading={isLoading}
+              onSubmit={onSubmit}
+            />
+          )}
         </Dialog>
       ))}
     </div>
