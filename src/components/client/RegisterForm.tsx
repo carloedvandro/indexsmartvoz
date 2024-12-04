@@ -35,9 +35,18 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
     }
   }, [sponsorId, form]);
 
+  const handleFormSubmit = async (data: RegisterFormData) => {
+    console.log("Form submitted with data:", { ...data, password: "[PROTECTED]" });
+    try {
+      await onSubmit(data);
+    } catch (error) {
+      console.error("Error in form submission:", error);
+    }
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-4">
         <FormFields form={form} disableSponsor={!!sponsorId} />
         <Button type="submit" className="w-full">
           Criar Conta
