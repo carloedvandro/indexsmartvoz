@@ -2,9 +2,18 @@ import { Button } from "@/components/ui/button";
 import { useProfile } from "@/hooks/useProfile";
 import { useToast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
-import { Copy, Settings } from "lucide-react";
+import { Copy, Settings, PlusCircle } from "lucide-react";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { ProductForm } from "./ProductForm";
 
-export function StoreHeader() {
+interface StoreHeaderProps {
+  isLoading: boolean;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  selectedProduct: any;
+  isManager: boolean;
+}
+
+export function StoreHeader({ isLoading, onSubmit, selectedProduct, isManager }: StoreHeaderProps) {
   const { toast } = useToast();
   const { data: profile } = useProfile();
   
@@ -35,11 +44,28 @@ export function StoreHeader() {
     <div className="flex flex-col gap-4 p-4 bg-white rounded-lg shadow-sm">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">Minha Loja</h2>
-        <Link to="/client/profile">
-          <Button variant="outline" size="icon">
-            <Settings className="h-4 w-4" />
-          </Button>
-        </Link>
+        <div className="flex gap-2">
+          <Link to="/client/profile">
+            <Button variant="outline" size="icon">
+              <Settings className="h-4 w-4" />
+            </Button>
+          </Link>
+          {isManager && (
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button>
+                  <PlusCircle className="mr-2 h-4 w-4" />
+                  Adicionar Produto
+                </Button>
+              </DialogTrigger>
+              <ProductForm
+                selectedProduct={selectedProduct}
+                isLoading={isLoading}
+                onSubmit={onSubmit}
+              />
+            </Dialog>
+          )}
+        </div>
       </div>
 
       {!storeUrl ? (
