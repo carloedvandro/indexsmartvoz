@@ -71,7 +71,6 @@ export default function PublicStore() {
 
   const handleBuyClick = () => {
     if (storeOwner?.custom_id) {
-      console.log("Redirecionando para registro com patrocinador:", storeOwner.custom_id);
       const registerUrl = `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id}`;
       console.log("URL de redirecionamento:", registerUrl);
       window.location.href = registerUrl;
