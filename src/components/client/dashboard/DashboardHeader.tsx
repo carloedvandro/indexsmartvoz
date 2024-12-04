@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { LogOut } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface DashboardHeaderProps {
   title?: string;
@@ -10,10 +11,29 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ title = "Dashboard", subtitle, icon }: DashboardHeaderProps) {
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate("/client/login");
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error("Erro ao fazer logout:", error);
+        toast({
+          title: "Erro",
+          description: "Não foi possível fazer logout. Tente novamente.",
+          variant: "destructive",
+        });
+        return;
+      }
+      navigate("/client/login");
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível fazer logout. Tente novamente.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
