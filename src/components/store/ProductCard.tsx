@@ -28,22 +28,24 @@ const formatCurrency = (value: number, currency: string = 'BRL') => {
 
 export function ProductCard({ product, onEdit, onDelete, isExample, isPublic }: ProductCardProps) {
   return (
-    <Card className="flex flex-col">
-      <CardHeader>
+    <Card className="flex flex-col h-full">
+      <CardHeader className="flex-none">
         {product.image_url && (
-          <img
-            src={product.image_url}
-            alt={product.name}
-            className="w-full h-48 object-cover rounded-t-lg"
-          />
+          <div className="aspect-[16/9] overflow-hidden rounded-t-lg">
+            <img
+              src={product.image_url}
+              alt={product.name}
+              className="w-full h-full object-cover"
+            />
+          </div>
         )}
-        <CardTitle>{product.name}</CardTitle>
+        <CardTitle className="text-xl mt-2">{product.name}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <p className="text-gray-600">{product.description}</p>
-        <p className="text-xl font-bold mt-2">{formatCurrency(product.price, product.currency)}</p>
+      <CardContent className="flex-grow">
+        <p className="text-gray-600 line-clamp-3">{product.description}</p>
+        <p className="text-xl font-bold mt-4">{formatCurrency(product.price, product.currency)}</p>
       </CardContent>
-      <CardFooter className="flex justify-end space-x-2 mt-auto">
+      <CardFooter className="flex justify-end space-x-2 mt-auto p-4">
         {isPublic ? (
           <Button className="w-full">
             Comprar
