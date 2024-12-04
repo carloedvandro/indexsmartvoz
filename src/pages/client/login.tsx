@@ -32,32 +32,45 @@ export default function ClientLogin() {
   }, [navigate]);
 
   return (
-    <div className="flex min-h-screen flex-col justify-center bg-gray-50 py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <img
-          className="mx-auto h-12 w-auto"
-          src="/og-image.png"
-          alt="Logo"
-        />
-        <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-          {t('welcome_to')} YrWen
-        </h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
-          {t('choose_access')}
-        </p>
-      </div>
-
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
+    <div className="flex min-h-screen">
+      {/* Left side - Login form */}
+      <div className="w-full md:w-[480px] bg-white p-8 flex flex-col">
+        <div className="flex-1">
+          <img
+            src="/lovable-uploads/5c77d143-7f3e-4121-ae56-dbc5a3779756.png"
+            alt="Y-TECH Logo"
+            className="h-8 w-auto mb-12"
+          />
           <Auth
             supabaseClient={supabase}
-            appearance={{ 
+            appearance={{
               theme: ThemeSupa,
+              style: {
+                button: {
+                  background: '#004d31',
+                  color: 'white',
+                  borderRadius: '4px',
+                },
+                anchor: {
+                  color: '#666666',
+                  textDecoration: 'none',
+                },
+                input: {
+                  borderRadius: '4px',
+                  border: '1px solid #e2e8f0',
+                },
+                message: {
+                  color: '#004d31',
+                },
+                label: {
+                  color: '#333333',
+                }
+              },
               variables: {
                 default: {
                   colors: {
-                    brand: '#9b87f5',
-                    brandAccent: '#7E69AB',
+                    brand: '#004d31',
+                    brandAccent: '#00693e',
                   },
                 },
               },
@@ -65,24 +78,50 @@ export default function ClientLogin() {
             localization={{
               variables: {
                 sign_in: {
-                  email_label: t('sign_in.email_label'),
-                  password_label: t('sign_in.password_label'),
-                  button_label: t('sign_in.button_label'),
-                  loading_button_label: t('sign_in.loading_button_label'),
-                  password_input_placeholder: t('sign_in.password_input_placeholder'),
-                  email_input_placeholder: t('sign_in.email_input_placeholder'),
+                  email_label: "Usuário ou E-mail",
+                  password_label: "Senha",
+                  button_label: "Entrar",
+                  loading_button_label: "Entrando...",
+                  password_input_placeholder: "Sua senha",
+                  email_input_placeholder: "Seu e-mail",
+                },
+                sign_up: {
+                  link_text: "Registre-se",
+                  email_label: "E-mail",
+                  password_label: "Senha",
+                  button_label: "Registrar",
+                  loading_button_label: "Registrando...",
+                  password_input_placeholder: "Sua senha",
+                  email_input_placeholder: "Seu e-mail",
                 },
                 forgotten_password: {
-                  link_text: t('forgot_password'),
-                  button_label: t('reset_password'),
-                }
+                  link_text: "Recuperar senha",
+                  button_label: "Enviar instruções",
+                  confirmation_text: "Enviamos as instruções para seu e-mail",
+                },
               }
             }}
-            theme="light"
+            theme="default"
             providers={[]}
             redirectTo={`${window.location.origin}/client/dashboard`}
           />
         </div>
+        <div className="mt-8 text-center text-sm text-gray-500">
+          <span>Tecnologia por </span>
+          <a href="https://wi.digital" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            WI Digital
+          </a>
+        </div>
+      </div>
+
+      {/* Right side - Background image */}
+      <div className="hidden md:block flex-1 bg-[#004d31] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/lovable-uploads/b837a6d7-9b84-4d0d-bbe5-90cd8038957d.png')] bg-cover bg-center" />
+        <img
+          src="/lovable-uploads/5c77d143-7f3e-4121-ae56-dbc5a3779756.png"
+          alt="Y-TECH Logo"
+          className="absolute top-8 right-8 h-8 w-auto"
+        />
       </div>
     </div>
   );
