@@ -32,13 +32,13 @@ export default function PublicStore() {
       try {
         console.log("Fetching store owner with storeUrl:", storeUrl);
         
-        const { data: owner, error: ownerError } = await supabase
+        const { data: ownerData, error: ownerError } = await supabase
           .from("profiles")
           .select("id, full_name, custom_id")
           .or(`store_url.eq.${storeUrl},custom_id.eq.${storeUrl}`)
-          .single();
+          .maybeSingle();
 
-        console.log("Query result:", { owner, ownerError });
+        console.log("Query result:", { ownerData, ownerError });
 
         if (ownerError) {
           console.error("Error fetching store owner:", ownerError);
@@ -50,13 +50,13 @@ export default function PublicStore() {
           return;
         }
 
-        if (!owner) {
+        if (!ownerData) {
           console.log("No owner found for storeUrl:", storeUrl);
           return;
         }
 
-        console.log("Setting store owner:", owner);
-        setStoreOwner(owner);
+        console.log("Setting store owner:", ownerData);
+        setStoreOwner(ownerData);
         
         // Após encontrar o dono da loja, carregamos os produtos
         await loadProducts();
