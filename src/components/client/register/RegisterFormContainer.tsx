@@ -11,6 +11,8 @@ export const RegisterFormContainer = () => {
 
   const handleSubmit = async (values: RegisterFormData) => {
     try {
+      console.log("Iniciando registro com valores:", values);
+      
       await registerUser(values);
       
       toast({
@@ -23,10 +25,19 @@ export const RegisterFormContainer = () => {
       }, 2000);
 
     } catch (error: any) {
-      console.error('Registration error:', error);
+      console.error('Erro detalhado do registro:', error);
+      
+      let errorMessage = "Ocorreu um erro ao criar sua conta. Por favor, tente novamente.";
+      
+      if (error.message) {
+        errorMessage = error.message;
+      } else if (error.error_description) {
+        errorMessage = error.error_description;
+      }
+
       toast({
-        title: "Erro",
-        description: error.message || "Ocorreu um erro ao criar sua conta. Por favor, tente novamente.",
+        title: "Erro no cadastro",
+        description: errorMessage,
         variant: "destructive",
       });
     }
