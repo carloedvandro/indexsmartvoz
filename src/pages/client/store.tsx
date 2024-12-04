@@ -6,10 +6,14 @@ import { useStoreProducts } from "@/components/store/hooks/useStoreProducts";
 import { useProductActions } from "@/components/store/hooks/useProductActions";
 import { useSession } from "@/hooks/useSession";
 import { useProfile } from "@/hooks/useProfile";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Store() {
   const { getSession } = useSession();
   const { data: profile } = useProfile();
+  const navigate = useNavigate();
   const [isSessionLoaded, setIsSessionLoaded] = useState(false);
   const { products, isLoading, loadProducts } = useStoreProducts();
   const { 
@@ -47,12 +51,23 @@ export default function Store() {
   return (
     <div className="h-screen w-screen overflow-auto">
       <div className="container mx-auto p-4 pb-16 space-y-6">
-        <StoreHeader 
-          isLoading={isActionLoading}
-          onSubmit={handleSubmit}
-          selectedProduct={selectedProduct}
-          isManager={isManager}
-        />
+        <div className="flex items-center gap-4">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <div className="flex-1">
+            <StoreHeader 
+              isLoading={isActionLoading}
+              onSubmit={handleSubmit}
+              selectedProduct={selectedProduct}
+              isManager={isManager}
+            />
+          </div>
+        </div>
 
         {products.length > 0 ? (
           <ProductList

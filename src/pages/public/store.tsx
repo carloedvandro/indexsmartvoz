@@ -25,19 +25,28 @@ export default function PublicStore() {
   useEffect(() => {
     const loadStore = async () => {
       try {
-        // Primeiro, obtemos o dono da loja pelo custom_id
+        console.log("Buscando perfil com URL:", storeUrl);
+        
+        // Busca o dono da loja pelo store_url ou custom_id
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .select("id, full_name, custom_id")
-          .eq("custom_id", storeUrl)
+          .or(`store_url.eq.${storeUrl},custom_id.eq.${storeUrl}`)
           .single();
 
-        if (profileError) throw profileError;
-        if (!profileData) throw new Error("Store not found");
+        if (profileError) {
+          console.error("Erro ao buscar perfil:", profileError);
+          throw profileError;
+        }
+        if (!profileData) {
+          console.error("Loja não encontrada");
+          throw new Error("Store not found");
+        }
 
+        console.log("Perfil encontrado:", profileData);
         setStoreOwner(profileData);
 
-        // Então, obtemos os produtos do gerente
+        // Então, obtemos os produtos do gerenciador
         const { data: managerData, error: managerError } = await supabase
           .from("profiles")
           .select("id")
