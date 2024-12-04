@@ -15,6 +15,14 @@ export function DashboardHeader({ title = "Dashboard", subtitle, icon }: Dashboa
 
   const handleLogout = async () => {
     try {
+      // Primeiro, limpa todos os dados da sessão do localStorage
+      for (const key of Object.keys(localStorage)) {
+        if (key.startsWith('sb-')) {
+          localStorage.removeItem(key);
+        }
+      }
+
+      // Tenta fazer o logout no Supabase
       const { error } = await supabase.auth.signOut();
       if (error) {
         console.error("Erro ao fazer logout:", error);
@@ -25,12 +33,12 @@ export function DashboardHeader({ title = "Dashboard", subtitle, icon }: Dashboa
         });
         return;
       }
-      
-      // Força a limpeza da sessão localmente
-      localStorage.removeItem('sb-maelrohlhrhihntydydh-auth-token');
-      
-      // Redireciona para a página de login
-      window.location.href = "/client/login";
+
+      // Força uma pequena espera para garantir que tudo foi limpo
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Redireciona e força um reload completo da página
+      window.location.replace("/client/login");
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
       toast({
