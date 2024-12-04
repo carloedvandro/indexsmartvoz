@@ -16,7 +16,11 @@ export default function ClientLogin() {
     const checkSession = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
-        if (error) throw error;
+        if (error) {
+          console.error('Session check error:', error);
+          await supabase.auth.signOut();
+          return;
+        }
         
         if (session?.user) {
           const { data: profile, error: profileError } = await supabase
@@ -26,6 +30,7 @@ export default function ClientLogin() {
             .single();
 
           if (profileError) {
+            console.error('Profile fetch error:', profileError);
             await supabase.auth.signOut();
             toast({
               title: t('error'),
@@ -41,7 +46,6 @@ export default function ClientLogin() {
         }
       } catch (error: any) {
         console.error('Session check error:', error);
-        // Clear any invalid session state
         await supabase.auth.signOut();
       }
     };

@@ -1,14 +1,27 @@
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { useEffect } from "react";
 
 export const useSession = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
+        navigate("/client/login");
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [navigate]);
+
   const getSession = async () => {
     try {
-      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
       if (sessionError) {
         console.error("Session error:", sessionError);
@@ -17,9 +30,8 @@ export const useSession = () => {
         return null;
       }
 
-      const session = sessionData?.session;
       if (!session?.user) {
-        console.warn("No active session, redirecting to login.");
+        console.warn("No active session found");
         navigate("/client/login");
         return null;
       }
