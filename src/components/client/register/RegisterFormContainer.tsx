@@ -11,14 +11,14 @@ export const RegisterFormContainer = () => {
 
   const handleSubmit = async (values: RegisterFormData) => {
     try {
-      console.log("Iniciando processo de registro com valores:", {
+      console.log("Starting registration process with values:", {
         ...values,
-        password: "[PROTEGIDO]",
+        password: "[PROTECTED]",
       });
 
       await registerUser(values);
 
-      console.log("Registro concluído, redirecionando...");
+      console.log("Registration completed, redirecting...");
       toast({
         title: "Conta criada!",
         description: "Sua conta foi criada com sucesso. Redirecionando para o login...",
@@ -30,7 +30,7 @@ export const RegisterFormContainer = () => {
       }, 2000);
 
     } catch (error: any) {
-      console.error("Erro detalhado do registro:", error);
+      console.error("Detailed registration error:", error);
       
       const errorMessage = error.message || 
         error.error_description || 
@@ -42,7 +42,7 @@ export const RegisterFormContainer = () => {
         variant: "destructive",
       });
 
-      throw error; // Re-throw to be handled by the form
+      throw error;
     }
   };
 

@@ -1,48 +1,35 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { RegisterFormData } from "@/components/client/register/RegisterSchema";
-import { checkExistingCpf, checkExistingUser } from "@/components/admin/UserFormUtils";
 
 export const useRegisterUser = () => {
   const registerUser = async (values: RegisterFormData) => {
     try {
-      console.log("Iniciando verificações de usuário existente...");
-      
-      // Check for existing email/CPF
-      const [emailExists, cpfExists] = await Promise.all([
-        checkExistingUser(values.email),
-        checkExistingCpf(values.cpf)
-      ]);
+      console.log("Starting registration process...");
 
-      if (emailExists) {
+      // Check for existing email
+      const { data: existingEmail } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("email", values.email)
+        .single();
+
+      if (existingEmail) {
         throw new Error("Este email já está cadastrado");
       }
 
-      if (cpfExists) {
+      // Check for existing CPF
+      const { data: existingCPF } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("cpf", values.cpf)
+        .single();
+
+      if (existingCPF) {
         throw new Error("Este CPF já está cadastrado");
       }
 
-      console.log("Verificando patrocinador...");
-      let sponsorId = null;
-
-      if (values.sponsorCustomId) {
-        const { data: sponsor, error: sponsorError } = await supabase
-          .from("profiles")
-          .select("id")
-          .eq("custom_id", values.sponsorCustomId)
-          .single();
-
-        if (sponsorError || !sponsor) {
-          console.error("Erro ao buscar patrocinador:", sponsorError);
-          throw new Error("ID do patrocinador inválido ou não encontrado");
-        }
-
-        sponsorId = sponsor.id;
-        console.log("Patrocinador encontrado:", sponsorId);
-      }
-
-      // Verify if custom_id is available
-      console.log("Verificando disponibilidade do ID personalizado...");
-      const { data: existingCustomId, error: customIdError } = await supabase
+      // Check for existing custom ID
+      const { data: existingCustomId } = await supabase
         .from("profiles")
         .select("id")
         .eq("custom_id", values.customId)
@@ -52,12 +39,22 @@ export const useRegisterUser = () => {
         throw new Error("Este ID personalizado já está em uso");
       }
 
-      if (customIdError && customIdError.code !== 'PGRST116') {
-        console.error("Erro ao verificar ID personalizado:", customIdError);
-        throw new Error("Erro ao verificar disponibilidade do ID personalizado");
+      // Verify sponsor if provided
+      let sponsorId = null;
+      if (values.sponsorCustomId) {
+        const { data: sponsor, error: sponsorError } = await supabase
+          .from("profiles")
+          .select("id")
+          .eq("custom_id", values.sponsorCustomId)
+          .single();
+
+        if (sponsorError || !sponsor) {
+          throw new Error("ID do patrocinador inválido ou não encontrado");
+        }
+        sponsorId = sponsor.id;
       }
 
-      console.log("Criando usuário no Supabase Auth...");
+      console.log("Creating user in Supabase Auth...");
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -72,20 +69,19 @@ export const useRegisterUser = () => {
       });
 
       if (signUpError) {
-        console.error("Erro no signup:", signUpError);
+        console.error("Signup error:", signUpError);
         throw new Error(signUpError.message);
       }
 
       if (!authData.user) {
-        console.error("Nenhum usuário retornado após signup");
         throw new Error("Erro ao criar usuário");
       }
 
-      console.log("Usuário criado com sucesso:", authData.user.id);
+      console.log("User created successfully:", authData.user.id);
       return authData;
 
     } catch (error: any) {
-      console.error("Erro durante o processo de registro:", error);
+      console.error("Registration error:", error);
       throw error;
     }
   };

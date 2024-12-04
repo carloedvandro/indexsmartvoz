@@ -39,26 +39,26 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
 
   const handleFormSubmit = async (data: RegisterFormData) => {
     try {
-      console.log("Iniciando submissão do formulário com dados:", {
+      console.log("Starting form submission with data:", {
         ...data,
-        password: "[PROTEGIDO]",
+        password: "[PROTECTED]",
       });
 
       await onSubmit(data);
       
-      console.log("Registro concluído com sucesso");
+      console.log("Registration completed successfully");
       toast({
         title: "Sucesso!",
         description: "Sua conta foi criada com sucesso. Você será redirecionado em instantes.",
       });
     } catch (error: any) {
-      console.error("Erro durante o registro:", error);
+      console.error("Registration error:", error);
       toast({
         title: "Erro no cadastro",
         description: error.message || "Ocorreu um erro ao criar sua conta. Por favor, tente novamente.",
         variant: "destructive",
       });
-      throw error; // Re-throw to be handled by the form's error state
+      throw error;
     }
   };
 
