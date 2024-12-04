@@ -28,11 +28,11 @@ export default function PublicStore() {
       try {
         console.log("Iniciando carregamento da loja com URL:", storeUrl);
         
-        // Corrigindo a sintaxe da query para usar or com eq
+        // Fixed query syntax by using proper string interpolation
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .select("id, full_name, custom_id")
-          .or(`store_url.eq.${storeUrl},custom_id.eq.${storeUrl}`)
+          .or(`store_url.eq."${storeUrl}",custom_id.eq."${storeUrl}"`)
           .single();
 
         if (profileError) {
@@ -48,7 +48,6 @@ export default function PublicStore() {
         console.log("Perfil do dono da loja:", profileData);
         setStoreOwner(profileData);
 
-        // Buscando produtos do dono da loja
         const { data: productsData, error: productsError } = await supabase
           .from("store_products")
           .select("*")
