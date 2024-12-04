@@ -79,19 +79,6 @@ export default function PublicStore() {
     loadStore();
   }, [storeUrl, toast]);
 
-  const handleBuyClick = () => {
-    if (!storeOwner?.custom_id) {
-      toast({
-        title: "Erro",
-        description: "Não foi possível processar a compra",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    window.location.href = `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id}`;
-  };
-
   if (isLoading) {
     return (
       <div className="container mx-auto p-4">
@@ -136,7 +123,6 @@ export default function PublicStore() {
         onSubmit={() => {}}
         onDelete={() => {}}
         isManager={false}
-        onBuy={handleBuyClick}
       />
     </div>
   );
