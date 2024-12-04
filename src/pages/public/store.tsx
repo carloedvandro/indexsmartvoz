@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { ProductList } from "@/components/store/ProductList";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Card, CardContent } from "@/components/ui/card";
+import { LoadingState } from "@/components/store/public/LoadingState";
+import { StoreNotFound } from "@/components/store/public/StoreNotFound";
+import { StoreHeader } from "@/components/store/public/StoreHeader";
 
 type Product = {
   id: string;
@@ -29,7 +29,6 @@ export default function PublicStore() {
   const [storeOwner, setStoreOwner] = useState<StoreOwner | null>(null);
   const { storeUrl } = useParams();
   const { toast } = useToast();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const loadStore = async () => {
@@ -79,41 +78,30 @@ export default function PublicStore() {
     loadStore();
   }, [storeUrl, toast]);
 
+  const handleBuyClick = () => {
+    if (!storeOwner?.custom_id) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível processar a compra",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    window.location.href = `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id}`;
+  };
+
   if (isLoading) {
-    return (
-      <div className="container mx-auto p-4">
-        <div className="text-center">Carregando...</div>
-      </div>
-    );
+    return <LoadingState />;
   }
 
   if (!storeOwner) {
-    return (
-      <div className="container mx-auto p-4">
-        <Card>
-          <CardContent className="pt-6">
-            <div className="text-center">
-              <p className="text-lg mb-4">Loja não encontrada</p>
-              <Button onClick={() => navigate(-1)}>Voltar</Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return <StoreNotFound />;
   }
 
   return (
     <div className="container mx-auto p-4 space-y-6">
-      <div className="flex items-center gap-4">
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => navigate(-1)}
-        >
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
-        <h1 className="text-2xl font-bold">Loja de {storeOwner.full_name}</h1>
-      </div>
+      <StoreHeader ownerName={storeOwner.full_name} />
 
       <ProductList
         products={products}
@@ -123,6 +111,7 @@ export default function PublicStore() {
         onSubmit={() => {}}
         onDelete={() => {}}
         isManager={false}
+        onBuy={handleBuyClick}
       />
     </div>
   );
