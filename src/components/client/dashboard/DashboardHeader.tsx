@@ -25,7 +25,12 @@ export function DashboardHeader({ title = "Dashboard", subtitle, icon }: Dashboa
         });
         return;
       }
-      navigate("/client/login");
+      
+      // Força a limpeza da sessão localmente
+      localStorage.removeItem('sb-maelrohlhrhihntydydh-auth-token');
+      
+      // Redireciona para a página de login
+      window.location.href = "/client/login";
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
       toast({
