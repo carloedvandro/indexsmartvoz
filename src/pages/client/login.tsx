@@ -120,7 +120,7 @@ export default function ClientLogin() {
             redirectTo={`${window.location.origin}/client/dashboard`}
             view="sign_in"
             showLinks={false}
-            onSubmitError={(error) => {
+            onError={(error) => {
               console.error('Auth error:', error);
               if (error.message.includes('Invalid login credentials')) {
                 toast.error('E-mail ou senha incorretos');
