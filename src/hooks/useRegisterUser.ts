@@ -4,7 +4,11 @@ import { RegisterFormData } from "@/components/client/register/RegisterSchema";
 export const useRegisterUser = () => {
   const registerUser = async (values: RegisterFormData) => {
     try {
-      console.log("Starting user registration process...");
+      console.log("Starting user registration process with values:", {
+        ...values,
+        password: "[PROTECTED]",
+        customId: values.customId,
+      });
 
       // Check if email already exists
       const { data: existingEmail } = await supabase
@@ -32,6 +36,7 @@ export const useRegisterUser = () => {
 
       // Check if custom ID already exists
       if (values.customId) {
+        console.log("Checking if custom ID exists:", values.customId);
         const { data: existingCustomId } = await supabase
           .from("profiles")
           .select("id")
@@ -61,7 +66,7 @@ export const useRegisterUser = () => {
         console.log("Found sponsor ID:", sponsorId);
       }
 
-      console.log("Creating user in Supabase Auth...");
+      console.log("Creating user in Supabase Auth with custom_id:", values.customId);
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -85,20 +90,20 @@ export const useRegisterUser = () => {
         throw new Error("Erro ao criar usuário");
       }
 
-      // Update the profile with sponsor_id and store_url
-      const updateData: any = {
+      // Update the profile with additional data
+      console.log("Updating profile with data:", {
         sponsor_id: sponsorId,
-      };
-      
-      // Set store_url to custom_id if it exists
-      if (values.customId) {
-        updateData.store_url = values.customId;
-      }
+        custom_id: values.customId,
+        store_url: values.customId,
+      });
 
-      console.log("Updating profile with:", updateData);
       const { error: updateError } = await supabase
         .from("profiles")
-        .update(updateData)
+        .update({
+          sponsor_id: sponsorId,
+          custom_id: values.customId,
+          store_url: values.customId,
+        })
         .eq("id", authData.user.id);
 
       if (updateError) {
@@ -106,7 +111,11 @@ export const useRegisterUser = () => {
         throw new Error("Erro ao atualizar perfil");
       }
 
-      console.log("User created successfully:", authData.user.id);
+      console.log("User created successfully:", {
+        userId: authData.user.id,
+        customId: values.customId,
+      });
+      
       return authData;
 
     } catch (error: any) {

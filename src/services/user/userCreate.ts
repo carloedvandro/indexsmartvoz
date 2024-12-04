@@ -51,6 +51,24 @@ export const createUser = async (data: CreateUserData) => {
     throw new Error("Falha ao criar usuário");
   }
 
-  log("info", "User created successfully", { userId: authData.user.id });
+  // Atualizar o perfil com o custom_id
+  const { error: updateError } = await supabase
+    .from("profiles")
+    .update({
+      custom_id: data.customId,
+      store_url: data.customId,
+    })
+    .eq("id", authData.user.id);
+
+  if (updateError) {
+    log("error", "Error updating profile with custom_id", updateError);
+    throw new Error("Erro ao atualizar perfil com ID personalizado");
+  }
+
+  log("info", "User created successfully", { 
+    userId: authData.user.id,
+    customId: data.customId 
+  });
+  
   return authData;
 };
