@@ -19,7 +19,7 @@ type Product = {
 export default function PublicStore() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [storeOwner, setStoreOwner] = useState<{ full_name: string, custom_id: string, id: string } | null>(null);
+  const [storeOwner, setStoreOwner] = useState<{ full_name: string; custom_id: string; id: string } | null>(null);
   const { storeUrl } = useParams();
   const { toast } = useToast();
 
@@ -41,7 +41,7 @@ export default function PublicStore() {
         }
 
         if (!profileData) {
-          console.error("Loja não encontrada para URL:", storeUrl);
+          console.error("Perfil não encontrado para URL:", storeUrl);
           throw new Error("Store not found");
         }
 
