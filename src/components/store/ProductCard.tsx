@@ -43,7 +43,11 @@ export function ProductCard({ product, onEdit, onDelete, onBuy, isPublic, isExam
       </CardContent>
       <CardFooter className="flex gap-2">
         {isPublic ? (
-          <Button onClick={onBuy} className="w-full">
+          <Button 
+            onClick={onBuy} 
+            className="w-full"
+            type="button"
+          >
             Comprar
           </Button>
         ) : (

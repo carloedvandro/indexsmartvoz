@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { ProductCard } from "@/components/store/ProductCard";
 import { Button } from "@/components/ui/button";
@@ -27,7 +27,6 @@ export default function PublicStore() {
       try {
         console.log("Buscando perfil com URL:", storeUrl);
         
-        // Busca o dono da loja pelo store_url ou custom_id
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .select("id, full_name, custom_id")
@@ -46,7 +45,6 @@ export default function PublicStore() {
         console.log("Perfil encontrado:", profileData);
         setStoreOwner(profileData);
 
-        // Então, obtemos os produtos do gerenciador
         const { data: managerData, error: managerError } = await supabase
           .from("profiles")
           .select("id")
@@ -55,7 +53,6 @@ export default function PublicStore() {
 
         if (managerError) throw managerError;
 
-        // Buscamos os produtos do gerente
         const { data: productsData, error: productsError } = await supabase
           .from("store_products")
           .select("*")
@@ -77,7 +74,9 @@ export default function PublicStore() {
   const handleBuyClick = () => {
     if (storeOwner?.custom_id) {
       console.log("Redirecionando para registro com patrocinador:", storeOwner.custom_id);
-      window.location.href = `/client/register?sponsor=${storeOwner.custom_id}`;
+      const url = `/client/register?sponsor=${storeOwner.custom_id}`;
+      console.log("URL de redirecionamento:", url);
+      window.location.href = url;
     } else {
       console.error("Custom ID não encontrado para o dono da loja");
     }
