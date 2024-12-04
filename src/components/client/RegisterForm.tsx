@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { registerFormSchema } from "./register/RegisterSchema";
 import type { RegisterFormData } from "./register/RegisterSchema";
 import { FormFields } from "./register/FormFields";
+import { useToast } from "@/hooks/use-toast";
 
 interface RegisterFormProps {
   onSubmit: (data: RegisterFormData) => Promise<void>;
@@ -15,6 +16,7 @@ interface RegisterFormProps {
 export function RegisterForm({ onSubmit }: RegisterFormProps) {
   const [searchParams] = useSearchParams();
   const sponsorId = searchParams.get("sponsor");
+  const { toast } = useToast();
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
@@ -36,11 +38,20 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
   }, [sponsorId, form]);
 
   const handleFormSubmit = async (data: RegisterFormData) => {
-    console.log("Form submitted with data:", { ...data, password: "[PROTECTED]" });
     try {
+      console.log("Form submitted with data:", { ...data, password: "[PROTECTED]" });
       await onSubmit(data);
-    } catch (error) {
+      toast({
+        title: "Formulário enviado",
+        description: "Seus dados foram enviados com sucesso!",
+      });
+    } catch (error: any) {
       console.error("Error in form submission:", error);
+      toast({
+        title: "Erro no envio",
+        description: error.message || "Ocorreu um erro ao enviar o formulário",
+        variant: "destructive",
+      });
     }
   };
 
@@ -48,8 +59,12 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-4">
         <FormFields form={form} disableSponsor={!!sponsorId} />
-        <Button type="submit" className="w-full">
-          Criar Conta
+        <Button 
+          type="submit" 
+          className="w-full"
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? "Criando conta..." : "Criar Conta"}
         </Button>
       </form>
     </Form>

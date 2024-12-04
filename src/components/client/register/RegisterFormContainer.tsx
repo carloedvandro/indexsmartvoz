@@ -11,7 +11,7 @@ export const RegisterFormContainer = () => {
 
   const handleSubmit = async (values: RegisterFormData) => {
     try {
-      console.log("Iniciando registro com valores:", values);
+      console.log("Starting registration with values:", { ...values, password: "[PROTECTED]" });
       
       await registerUser(values);
       
@@ -25,7 +25,7 @@ export const RegisterFormContainer = () => {
       }, 2000);
 
     } catch (error: any) {
-      console.error('Erro detalhado do registro:', error);
+      console.error('Detailed registration error:', error);
       
       let errorMessage = "Ocorreu um erro ao criar sua conta. Por favor, tente novamente.";
       
@@ -40,6 +40,8 @@ export const RegisterFormContainer = () => {
         description: errorMessage,
         variant: "destructive",
       });
+
+      throw error; // Re-throw to be caught by the form's error handler
     }
   };
 
