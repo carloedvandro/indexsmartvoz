@@ -31,7 +31,7 @@ export default function PublicStore() {
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .select("id, full_name, custom_id")
-          .or(`store_url.eq.${storeUrl},custom_id.eq.${storeUrl}`)
+          .eq("store_url", storeUrl)
           .single();
 
         if (profileError) {
@@ -77,8 +77,7 @@ export default function PublicStore() {
   const handleBuyClick = () => {
     if (storeOwner?.custom_id) {
       console.log("Redirecionando para registro com patrocinador:", storeOwner.custom_id);
-      // Corrigindo a query para usar o formato correto
-      navigate(`/client/register?sponsor=${storeOwner.custom_id}`);
+      window.location.href = `/client/register?sponsor=${storeOwner.custom_id}`;
     } else {
       console.error("Custom ID não encontrado para o dono da loja");
     }
