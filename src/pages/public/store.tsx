@@ -32,7 +32,7 @@ export default function PublicStore() {
           .from("profiles")
           .select("id, full_name, custom_id")
           .or(`store_url.eq.${storeUrl},custom_id.eq.${storeUrl}`)
-          .single();
+          .maybeSingle();
 
         if (profileError) {
           console.error("Erro ao buscar perfil:", profileError);
