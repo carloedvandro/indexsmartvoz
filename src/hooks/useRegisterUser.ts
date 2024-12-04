@@ -1,12 +1,12 @@
 import { supabase } from "@/integrations/supabase/client";
-import type { RegisterFormData } from "@/components/client/register/RegisterSchema";
+import { RegisterFormData } from "@/components/client/register/RegisterSchema";
 
 export const useRegisterUser = () => {
   const registerUser = async (values: RegisterFormData) => {
     try {
-      console.log("Starting registration process...");
+      console.log("Starting user registration process...");
 
-      // Check for existing email
+      // Check if email already exists
       const { data: existingEmail } = await supabase
         .from("profiles")
         .select("id")
@@ -14,29 +14,33 @@ export const useRegisterUser = () => {
         .single();
 
       if (existingEmail) {
-        throw new Error("Este email já está cadastrado");
+        throw new Error("Email já cadastrado");
       }
 
-      // Check for existing CPF
-      const { data: existingCPF } = await supabase
-        .from("profiles")
-        .select("id")
-        .eq("cpf", values.cpf)
-        .single();
+      // Check if CPF already exists
+      if (values.cpf) {
+        const { data: existingCPF } = await supabase
+          .from("profiles")
+          .select("id")
+          .eq("cpf", values.cpf)
+          .single();
 
-      if (existingCPF) {
-        throw new Error("Este CPF já está cadastrado");
+        if (existingCPF) {
+          throw new Error("CPF já cadastrado");
+        }
       }
 
-      // Check for existing custom ID
-      const { data: existingCustomId } = await supabase
-        .from("profiles")
-        .select("id")
-        .eq("custom_id", values.customId)
-        .single();
+      // Check if custom ID already exists
+      if (values.customId) {
+        const { data: existingCustomId } = await supabase
+          .from("profiles")
+          .select("id")
+          .eq("custom_id", values.customId)
+          .single();
 
-      if (existingCustomId) {
-        throw new Error("Este ID personalizado já está em uso");
+        if (existingCustomId) {
+          throw new Error("ID personalizado já está em uso");
+        }
       }
 
       // Verify sponsor if provided
@@ -58,7 +62,7 @@ export const useRegisterUser = () => {
       }
 
       console.log("Creating user in Supabase Auth...");
-      const { data: authData, error: signUpError } = await supabase.auth.signUp({
+      const { data: authData, error: authError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
         options: {
@@ -66,32 +70,40 @@ export const useRegisterUser = () => {
             full_name: values.fullName,
             custom_id: values.customId,
             cpf: values.cpf,
-            sponsor_id: sponsorId, // Include sponsor_id in metadata
+            sponsor_id: sponsorId,
           },
         },
       });
 
-      if (signUpError) {
-        console.error("Signup error:", signUpError);
-        throw new Error(signUpError.message);
-      }
-
-      if (!authData.user) {
+      if (authError) {
+        console.error("Auth error:", authError);
         throw new Error("Erro ao criar usuário");
       }
 
-      // Update the profile with sponsor_id
-      if (sponsorId) {
-        console.log("Updating profile with sponsor ID:", sponsorId);
-        const { error: updateError } = await supabase
-          .from("profiles")
-          .update({ sponsor_id: sponsorId })
-          .eq("id", authData.user.id);
+      if (!authData.user) {
+        console.error("No user data returned");
+        throw new Error("Erro ao criar usuário");
+      }
 
-        if (updateError) {
-          console.error("Error updating profile with sponsor:", updateError);
-          throw new Error("Erro ao vincular patrocinador");
-        }
+      // Update the profile with sponsor_id and store_url
+      const updateData: any = {
+        sponsor_id: sponsorId,
+      };
+      
+      // Set store_url to custom_id if it exists
+      if (values.customId) {
+        updateData.store_url = values.customId;
+      }
+
+      console.log("Updating profile with:", updateData);
+      const { error: updateError } = await supabase
+        .from("profiles")
+        .update(updateData)
+        .eq("id", authData.user.id);
+
+      if (updateError) {
+        console.error("Error updating profile:", updateError);
+        throw new Error("Erro ao atualizar perfil");
       }
 
       console.log("User created successfully:", authData.user.id);
@@ -103,5 +115,7 @@ export const useRegisterUser = () => {
     }
   };
 
-  return { registerUser };
+  return {
+    registerUser,
+  };
 };
