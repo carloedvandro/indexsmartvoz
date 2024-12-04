@@ -8,6 +8,8 @@ import { StoreHeader } from "@/components/store/public/StoreHeader";
 import { useToast } from "@/hooks/use-toast";
 import { useStoreProducts } from "@/components/store/hooks/useStoreProducts";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import { Copy } from "lucide-react";
 
 type StoreOwner = {
   id: string;
@@ -71,6 +73,25 @@ export default function PublicStore() {
     loadStore();
   }, [storeUrl, toast, loadProducts]);
 
+  const handleCopyReferralLink = async () => {
+    if (!storeOwner?.custom_id) return;
+    
+    try {
+      const referralLink = `${window.location.origin}/client/register?sponsor=${storeOwner.custom_id}`;
+      await navigator.clipboard.writeText(referralLink);
+      toast({
+        title: "Link copiado!",
+        description: "O link de indicação foi copiado para a área de transferência.",
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível copiar o link de indicação.",
+        variant: "destructive",
+      });
+    }
+  };
+
   if (isLoading || productsLoading) {
     return <LoadingState />;
   }
@@ -110,8 +131,18 @@ export default function PublicStore() {
             <p className="text-muted-foreground mb-4">
               Use o link abaixo para se cadastrar e fazer parte da nossa rede:
             </p>
-            <div className="bg-muted p-4 rounded-lg break-all text-sm">
-              {`https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id || storeOwner.id}`}
+            <div className="flex items-center gap-4">
+              <div className="flex-1 bg-muted p-4 rounded-lg break-all text-sm">
+                {`${window.location.origin}/client/register?sponsor=${storeOwner.custom_id}`}
+              </div>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={handleCopyReferralLink}
+                className="shrink-0"
+              >
+                <Copy className="h-4 w-4" />
+              </Button>
             </div>
           </div>
         </div>
