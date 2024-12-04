@@ -19,7 +19,7 @@ type Product = {
 export default function PublicStore() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [storeOwner, setStoreOwner] = useState<{ full_name: string, custom_id: string } | null>(null);
+  const [storeOwner, setStoreOwner] = useState<{ full_name: string, custom_id: string, id: string } | null>(null);
   const { storeUrl } = useParams();
   const { toast } = useToast();
 
@@ -28,7 +28,7 @@ export default function PublicStore() {
       try {
         console.log("Iniciando carregamento da loja com URL:", storeUrl);
         
-        // Modificando a query para usar template strings corretamente
+        // Corrigindo a sintaxe da query para usar or com eq
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .select("id, full_name, custom_id")
@@ -48,6 +48,7 @@ export default function PublicStore() {
         console.log("Perfil do dono da loja:", profileData);
         setStoreOwner(profileData);
 
+        // Buscando produtos do dono da loja
         const { data: productsData, error: productsError } = await supabase
           .from("store_products")
           .select("*")
