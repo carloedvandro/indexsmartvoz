@@ -33,6 +33,7 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
 
   useEffect(() => {
     if (sponsorId) {
+      console.log("Setting sponsor ID from URL:", sponsorId);
       form.setValue("sponsorCustomId", sponsorId);
     }
   }, [sponsorId, form]);
@@ -42,6 +43,7 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
       console.log("Starting form submission with data:", {
         ...data,
         password: "[PROTECTED]",
+        sponsorCustomId: data.sponsorCustomId || "none",
       });
 
       await onSubmit(data);

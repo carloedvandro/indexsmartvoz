@@ -42,6 +42,7 @@ export const useRegisterUser = () => {
       // Verify sponsor if provided
       let sponsorId = null;
       if (values.sponsorCustomId) {
+        console.log("Verifying sponsor with custom ID:", values.sponsorCustomId);
         const { data: sponsor, error: sponsorError } = await supabase
           .from("profiles")
           .select("id")
@@ -49,9 +50,11 @@ export const useRegisterUser = () => {
           .single();
 
         if (sponsorError || !sponsor) {
+          console.error("Sponsor verification error:", sponsorError);
           throw new Error("ID do patrocinador inválido ou não encontrado");
         }
         sponsorId = sponsor.id;
+        console.log("Found sponsor ID:", sponsorId);
       }
 
       console.log("Creating user in Supabase Auth...");
@@ -63,7 +66,7 @@ export const useRegisterUser = () => {
             full_name: values.fullName,
             custom_id: values.customId,
             cpf: values.cpf,
-            sponsor_id: sponsorId,
+            sponsor_id: sponsorId, // Include sponsor_id in metadata
           },
         },
       });
@@ -75,6 +78,20 @@ export const useRegisterUser = () => {
 
       if (!authData.user) {
         throw new Error("Erro ao criar usuário");
+      }
+
+      // Update the profile with sponsor_id
+      if (sponsorId) {
+        console.log("Updating profile with sponsor ID:", sponsorId);
+        const { error: updateError } = await supabase
+          .from("profiles")
+          .update({ sponsor_id: sponsorId })
+          .eq("id", authData.user.id);
+
+        if (updateError) {
+          console.error("Error updating profile with sponsor:", updateError);
+          throw new Error("Erro ao vincular patrocinador");
+        }
       }
 
       console.log("User created successfully:", authData.user.id);
