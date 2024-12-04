@@ -32,7 +32,7 @@ export default function PublicStore() {
           .from("profiles")
           .select("id, full_name, custom_id")
           .or(`store_url.eq.${storeUrl},custom_id.eq.${storeUrl}`)
-          .maybeSingle();
+          .single();
 
         if (profileError) {
           console.error("Erro ao buscar perfil:", profileError);
@@ -77,7 +77,8 @@ export default function PublicStore() {
   const handleBuyClick = () => {
     if (storeOwner?.custom_id) {
       console.log("Redirecionando para registro com patrocinador:", storeOwner.custom_id);
-      navigate(`/client/register?sponsor=${encodeURIComponent(storeOwner.custom_id)}`);
+      // Removendo o encodeURIComponent para manter o custom_id original
+      navigate(`/client/register?sponsor=${storeOwner.custom_id}`);
     } else {
       console.error("Custom ID não encontrado para o dono da loja");
     }
