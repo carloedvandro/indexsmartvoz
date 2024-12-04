@@ -98,9 +98,6 @@ export default function ClientLogin() {
                   loading_button_label: "Entrando...",
                   password_input_placeholder: "Sua senha",
                   email_input_placeholder: "Seu e-mail",
-                  email_input_error: "E-mail inválido",
-                  password_input_error: "Senha incorreta",
-                  confirmation_text: "Verifique seu e-mail para o link de confirmação",
                 },
                 sign_up: {
                   link_text: "Registre-se",
