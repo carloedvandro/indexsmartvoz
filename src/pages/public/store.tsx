@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { ProductCard } from "@/components/store/ProductCard";
+import { ProductList } from "@/components/store/ProductList";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Card, CardContent } from "@/components/ui/card";
 
 type Product = {
   id: string;
@@ -28,95 +29,46 @@ export default function PublicStore() {
   const [storeOwner, setStoreOwner] = useState<StoreOwner | null>(null);
   const { storeUrl } = useParams();
   const { toast } = useToast();
-
-  const fetchStoreOwner = async (url: string): Promise<StoreOwner | null> => {
-    console.log("Buscando dono da loja com URL:", url);
-    try {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("id, full_name, custom_id")
-        .or(`store_url.eq."${url}",custom_id.eq."${url}"`)
-        .single();
-
-      if (error) {
-        console.error("Erro ao buscar dono da loja:", error);
-        throw error;
-      }
-
-      if (!data) {
-        console.log("Loja não encontrada para URL:", url);
-        toast({ 
-          title: "Loja não encontrada", 
-          description: "Não foi possível encontrar a loja especificada",
-          variant: "destructive" 
-        });
-        return null;
-      }
-
-      console.log("Dono da loja encontrado:", data);
-      return data as StoreOwner;
-    } catch (err) {
-      console.error("Erro ao buscar dono da loja:", err);
-      toast({ 
-        title: "Erro", 
-        description: "Não foi possível carregar a loja", 
-        variant: "destructive" 
-      });
-      return null;
-    }
-  };
-
-  const fetchProducts = async (ownerId: string): Promise<Product[]> => {
-    console.log("Buscando produtos para o dono:", ownerId);
-    try {
-      const { data, error } = await supabase
-        .from("store_products")
-        .select("*")
-        .eq("user_id", ownerId)
-        .order("order", { ascending: true });
-
-      if (error) {
-        console.error("Erro ao buscar produtos:", error);
-        throw error;
-      }
-
-      console.log("Produtos carregados:", data?.length || 0, "produtos");
-      return data || [];
-    } catch (err) {
-      console.error("Erro ao buscar produtos:", err);
-      toast({ 
-        title: "Erro", 
-        description: "Não foi possível carregar os produtos", 
-        variant: "destructive" 
-      });
-      return [];
-    }
-  };
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadStore = async () => {
-      if (!storeUrl) {
-        setIsLoading(false);
-        return;
-      }
+      if (!storeUrl) return;
 
       try {
-        console.log("Iniciando carregamento da loja com URL:", storeUrl);
-        
-        const owner = await fetchStoreOwner(storeUrl);
-        if (!owner) {
-          setIsLoading(false);
+        // Buscar o dono da loja
+        const { data: owner, error: ownerError } = await supabase
+          .from("profiles")
+          .select("id, full_name, custom_id")
+          .or(`store_url.eq.${storeUrl},custom_id.eq.${storeUrl}`)
+          .single();
+
+        if (ownerError || !owner) {
+          toast({
+            title: "Erro",
+            description: "Loja não encontrada",
+            variant: "destructive",
+          });
           return;
         }
 
         setStoreOwner(owner);
-        const storeProducts = await fetchProducts(owner.id);
-        setProducts(storeProducts);
+
+        // Buscar os produtos
+        const { data: productsData, error: productsError } = await supabase
+          .from("store_products")
+          .select("*")
+          .eq("user_id", owner.id)
+          .order("order", { ascending: true });
+
+        if (productsError) throw productsError;
+
+        setProducts(productsData || []);
       } catch (error) {
         console.error("Erro ao carregar a loja:", error);
         toast({
           title: "Erro",
-          description: "Ocorreu um erro ao carregar a loja",
+          description: "Não foi possível carregar a loja",
           variant: "destructive",
         });
       } finally {
@@ -129,7 +81,6 @@ export default function PublicStore() {
 
   const handleBuyClick = () => {
     if (!storeOwner?.custom_id) {
-      console.error("Custom ID não encontrado para o dono da loja");
       toast({
         title: "Erro",
         description: "Não foi possível processar a compra",
@@ -138,57 +89,55 @@ export default function PublicStore() {
       return;
     }
 
-    const registerUrl = `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id}`;
-    console.log("Redirecionando para:", registerUrl);
-    window.location.href = registerUrl;
+    window.location.href = `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id}`;
   };
 
   if (isLoading) {
     return (
-      <div className="h-screen w-full flex items-center justify-center">
-        <div>Carregando...</div>
+      <div className="container mx-auto p-4">
+        <div className="text-center">Carregando...</div>
       </div>
     );
   }
 
   if (!storeOwner) {
     return (
-      <div className="h-screen w-full flex items-center justify-center">
-        <div>Loja não encontrada</div>
+      <div className="container mx-auto p-4">
+        <Card>
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <p className="text-lg mb-4">Loja não encontrada</p>
+              <Button onClick={() => navigate(-1)}>Voltar</Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
 
   return (
-    <div className="h-screen w-full overflow-y-auto">
-      <div className="container mx-auto p-4 pb-16">
-        <div className="flex items-center gap-4 mb-6">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => window.history.back()}
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <h1 className="text-3xl font-bold">Loja de {storeOwner.full_name}</h1>
-        </div>
-        {products.length === 0 ? (
-          <div className="text-center">Nenhum produto disponível no momento.</div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onEdit={() => {}}
-                onDelete={() => {}}
-                onBuy={handleBuyClick}
-                isPublic
-              />
-            ))}
-          </div>
-        )}
+    <div className="container mx-auto p-4 space-y-6">
+      <div className="flex items-center gap-4">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft className="h-4 w-4" />
+        </Button>
+        <h1 className="text-2xl font-bold">Loja de {storeOwner.full_name}</h1>
       </div>
+
+      <ProductList
+        products={products}
+        isLoading={isLoading}
+        selectedProduct={null}
+        setSelectedProduct={() => {}}
+        onSubmit={() => {}}
+        onDelete={() => {}}
+        isManager={false}
+        onBuy={handleBuyClick}
+      />
     </div>
   );
 }
