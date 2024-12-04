@@ -17,7 +17,7 @@ export function useStoreProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
-  const { profile } = useProfile();
+  const { data: profile } = useProfile();
 
   const loadProducts = async () => {
     try {

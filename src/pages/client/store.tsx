@@ -9,7 +9,7 @@ import { useProfile } from "@/hooks/useProfile";
 
 export default function Store() {
   const { getSession } = useSession();
-  const { profile } = useProfile();
+  const { data: profile } = useProfile();
   const [isSessionLoaded, setIsSessionLoaded] = useState(false);
   const { products, isLoading, loadProducts } = useStoreProducts();
   const { 
