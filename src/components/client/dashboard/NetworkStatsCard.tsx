@@ -99,7 +99,7 @@ export const NetworkStatsCard = () => {
         <CardTitle>Estatísticas da Rede</CardTitle>
       </CardHeader>
       <CardContent className="pt-2">
-        <div className="pl-5 grid grid-cols-1 gap-8">
+        <div className="grid grid-cols-1 gap-8">
           <div className="h-[300px] w-full">
             <BarChartStats data={barData} />
           </div>
