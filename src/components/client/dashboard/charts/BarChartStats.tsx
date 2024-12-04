@@ -19,11 +19,11 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
   ];
 
   return (
-    <div className="h-full w-full">
+    <div className="relative w-full h-full">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart 
           data={data}
-          margin={{ top: 10, right: 30, left: 0, bottom: 5 }}
+          margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
           barGap={8}
           barSize={30}
         >

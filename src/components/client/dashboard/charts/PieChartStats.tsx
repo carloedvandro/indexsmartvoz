@@ -36,7 +36,7 @@ export const PieChartStats = ({ data }: PieChartStatsProps) => {
   };
 
   return (
-    <div className="h-full w-full">
+    <div className="relative w-full h-full">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
@@ -45,8 +45,8 @@ export const PieChartStats = ({ data }: PieChartStatsProps) => {
             cy="50%"
             labelLine={false}
             label={renderCustomizedLabel}
-            outerRadius={window.innerWidth < 768 ? 50 : 80}
-            innerRadius={window.innerWidth < 768 ? 25 : 40}
+            outerRadius="80%"
+            innerRadius="40%"
             paddingAngle={5}
             dataKey="value"
             isAnimationActive={true}
@@ -64,8 +64,11 @@ export const PieChartStats = ({ data }: PieChartStatsProps) => {
             ))}
           </Pie>
           <Legend 
+            verticalAlign="bottom"
+            align="center"
+            layout="horizontal"
             wrapperStyle={{
-              fontSize: window.innerWidth < 768 ? '10px' : '12px'
+              paddingTop: '20px'
             }}
           />
         </PieChart>

@@ -94,16 +94,16 @@ export const NetworkStatsCard = () => {
   ];
 
   return (
-    <Card>
-      <CardHeader className="pb-2 pl-5">
+    <Card className="h-full">
+      <CardHeader>
         <CardTitle>Estatísticas da Rede</CardTitle>
       </CardHeader>
-      <CardContent className="pt-2">
+      <CardContent>
         <div className="grid grid-cols-1 gap-8">
-          <div className="h-[300px] w-full">
+          <div className="aspect-[16/9] w-full">
             <BarChartStats data={barData} />
           </div>
-          <div className="h-[300px] w-full">
+          <div className="aspect-[16/9] w-full">
             <PieChartStats data={pieData} />
           </div>
         </div>
