@@ -44,7 +44,7 @@ export function ProductList({
               <ProductCard
                 product={product}
                 onEdit={() => setSelectedProduct(product)}
-                onDelete={onDelete}
+                onDelete={() => onDelete(product.id)}
                 isPublic={!isManager}
               />
             </div>

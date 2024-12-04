@@ -11,13 +11,14 @@ interface ProductCardProps {
     image_url: string | null;
     currency: string;
   };
-  onEdit: () => void;
-  onDelete: () => void;
+  onEdit: (product: any) => void;
+  onDelete: (id: string) => void;
   onBuy?: () => void;
   isPublic?: boolean;
+  isExample?: boolean;
 }
 
-export function ProductCard({ product, onEdit, onDelete, onBuy, isPublic }: ProductCardProps) {
+export function ProductCard({ product, onEdit, onDelete, onBuy, isPublic, isExample }: ProductCardProps) {
   return (
     <Card className="overflow-hidden">
       {product.image_url && (
@@ -47,10 +48,10 @@ export function ProductCard({ product, onEdit, onDelete, onBuy, isPublic }: Prod
           </Button>
         ) : (
           <>
-            <Button variant="outline" onClick={onEdit}>
+            <Button variant="outline" onClick={() => onEdit(product)}>
               Editar
             </Button>
-            <Button variant="destructive" onClick={onDelete}>
+            <Button variant="destructive" onClick={() => onDelete(product.id)}>
               Excluir
             </Button>
           </>
