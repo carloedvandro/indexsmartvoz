@@ -47,14 +47,21 @@ export function useStoreProducts() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("User not authenticated");
 
+      // Prepare updates with all required fields
       const updates = reorderedProducts.map((product) => ({
         id: product.id,
         order: product.order,
+        name: product.name,
+        price: product.price,
+        user_id: user.id,
+        description: product.description,
+        image_url: product.image_url,
+        currency: product.currency
       }));
 
       const { error } = await supabase
         .from("store_products")
-        .upsert(updates);
+        .upsert(updates, { onConflict: 'id' });
 
       if (error) throw error;
 

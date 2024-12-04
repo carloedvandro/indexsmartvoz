@@ -45,13 +45,29 @@ export function useProductActions(loadProducts: () => Promise<void>) {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("User not authenticated");
 
+      // Get the current max order for new products
+      let order = selectedProduct?.order;
+      if (!order) {
+        const { data: maxOrderProduct } = await supabase
+          .from("store_products")
+          .select("order")
+          .eq("user_id", user.id)
+          .order("order", { ascending: false })
+          .limit(1);
+        
+        order = maxOrderProduct && maxOrderProduct.length > 0 
+          ? (maxOrderProduct[0].order + 1) 
+          : 1;
+      }
+
       const productData = {
         name: formData.get("name") as string,
         description: formData.get("description") as string,
         price: parseFloat(formData.get("price") as string),
         image_url: imageUrl,
         user_id: user.id,
-        currency: "BRL"
+        currency: "BRL",
+        order: order
       };
 
       if (selectedProduct) {
