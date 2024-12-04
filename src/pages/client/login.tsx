@@ -39,7 +39,7 @@ export default function ClientLogin() {
           <img
             src="/lovable-uploads/5c77d143-7f3e-4121-ae56-dbc5a3779756.png"
             alt="Y-TECH Logo"
-            className="h-8 w-auto mb-12"
+            className="h-12 w-auto mb-12" // Increased height from h-8 to h-12
           />
           <Auth
             supabaseClient={supabase}
@@ -123,11 +123,6 @@ export default function ClientLogin() {
           }}
         />
         <div className="absolute inset-0 bg-black/50" />
-        <img
-          src="/lovable-uploads/5c77d143-7f3e-4121-ae56-dbc5a3779756.png"
-          alt="Y-TECH Logo"
-          className="absolute top-8 right-8 h-8 w-auto z-10"
-        />
       </div>
     </div>
   );
