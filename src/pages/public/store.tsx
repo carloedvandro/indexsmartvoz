@@ -33,15 +33,20 @@ export default function PublicStore() {
       try {
         console.log("Fetching store owner with storeUrl:", storeUrl);
         
-        // First try to find by store_url
-        let { data: storeOwnerData, error: storeUrlError } = await supabase
+        // Try to find by store_url first
+        const { data: storeUrlData, error: storeUrlError } = await supabase
           .from("profiles")
           .select("id, full_name, custom_id")
           .eq("store_url", storeUrl)
           .maybeSingle();
 
+        if (storeUrlError) {
+          console.error("Error fetching by store_url:", storeUrlError);
+          throw storeUrlError;
+        }
+
         // If not found by store_url, try custom_id
-        if (!storeOwnerData && !storeUrlError) {
+        if (!storeUrlData) {
           console.log("Store not found by store_url, trying custom_id");
           const { data: customIdData, error: customIdError } = await supabase
             .from("profiles")
@@ -54,21 +59,18 @@ export default function PublicStore() {
             throw customIdError;
           }
 
-          storeOwnerData = customIdData;
-        } else if (storeUrlError) {
-          console.error("Error fetching by store_url:", storeUrlError);
-          throw storeUrlError;
+          if (!customIdData) {
+            console.log("No owner found for storeUrl:", storeUrl);
+            setStoreOwner(null);
+            setIsLoading(false);
+            return;
+          }
+
+          setStoreOwner(customIdData);
+        } else {
+          setStoreOwner(storeUrlData);
         }
 
-        if (!storeOwnerData) {
-          console.log("No owner found for storeUrl:", storeUrl);
-          setStoreOwner(null);
-          setIsLoading(false);
-          return;
-        }
-
-        console.log("Setting store owner:", storeOwnerData);
-        setStoreOwner(storeOwnerData);
         await loadProducts();
       } catch (error) {
         console.error("Error loading store:", error);
