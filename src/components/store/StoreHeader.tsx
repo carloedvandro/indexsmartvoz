@@ -10,15 +10,16 @@ interface StoreHeaderProps {
   isLoading: boolean;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   selectedProduct: any;
+  isManager?: boolean;
 }
 
-export function StoreHeader({ isLoading, onSubmit, selectedProduct }: StoreHeaderProps) {
+export function StoreHeader({ isLoading, onSubmit, selectedProduct, isManager = false }: StoreHeaderProps) {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { data: profile } = useProfile();
   
-  const storeUrl = profile?.store_url 
-    ? `${window.location.origin}/store/${profile.store_url}`
+  const storeUrl = profile?.custom_id 
+    ? `${window.location.origin}/store/${profile.custom_id}`
     : null;
 
   const handleCopyLink = async () => {
@@ -48,19 +49,21 @@ export function StoreHeader({ isLoading, onSubmit, selectedProduct }: StoreHeade
           </Button>
           <h1 className="text-3xl font-bold">Minha Loja</h1>
         </div>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>
-              <PlusCircle className="mr-2" />
-              Adicionar Produto
-            </Button>
-          </DialogTrigger>
-          <ProductForm
-            selectedProduct={selectedProduct}
-            isLoading={isLoading}
-            onSubmit={onSubmit}
-          />
-        </Dialog>
+        {isManager && (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>
+                <PlusCircle className="mr-2" />
+                Adicionar Produto
+              </Button>
+            </DialogTrigger>
+            <ProductForm
+              selectedProduct={selectedProduct}
+              isLoading={isLoading}
+              onSubmit={onSubmit}
+            />
+          </Dialog>
+        )}
       </div>
 
       {storeUrl ? (
@@ -76,7 +79,7 @@ export function StoreHeader({ isLoading, onSubmit, selectedProduct }: StoreHeade
       ) : (
         <div className="p-4 bg-muted rounded-lg">
           <p className="text-sm text-muted-foreground">
-            Configure uma URL personalizada para sua loja nas configurações do seu perfil.
+            Configure um ID personalizado nas configurações do seu perfil para gerar o link da sua loja.
           </p>
         </div>
       )}
