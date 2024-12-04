@@ -24,8 +24,9 @@ export default function PublicStore() {
   useEffect(() => {
     const loadStore = async () => {
       try {
-        console.log("Buscando perfil com URL:", storeUrl);
+        console.log("Iniciando carregamento da loja com URL:", storeUrl);
         
+        // Buscar o perfil do dono da loja
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .select("id, full_name, custom_id")
@@ -36,46 +37,44 @@ export default function PublicStore() {
           console.error("Erro ao buscar perfil:", profileError);
           throw profileError;
         }
+
         if (!profileData) {
-          console.error("Loja não encontrada");
+          console.error("Loja não encontrada para URL:", storeUrl);
           throw new Error("Store not found");
         }
 
         console.log("Perfil encontrado:", profileData);
         setStoreOwner(profileData);
 
-        const { data: managerData, error: managerError } = await supabase
-          .from("profiles")
-          .select("id")
-          .eq("email", "yrwentechnology@gmail.com")
-          .single();
-
-        if (managerError) throw managerError;
-
+        // Buscar os produtos do gerente
         const { data: productsData, error: productsError } = await supabase
           .from("store_products")
           .select("*")
-          .eq("user_id", managerData.id)
           .order("order", { ascending: true });
 
-        if (productsError) throw productsError;
+        if (productsError) {
+          console.error("Erro ao buscar produtos:", productsError);
+          throw productsError;
+        }
+
+        console.log("Produtos carregados:", productsData?.length || 0);
         setProducts(productsData || []);
       } catch (error) {
-        console.error("Error loading store:", error);
+        console.error("Erro ao carregar a loja:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    loadStore();
+    if (storeUrl) {
+      loadStore();
+    }
   }, [storeUrl]);
 
   const handleBuyClick = () => {
     if (storeOwner?.custom_id) {
       console.log("Redirecionando para registro com patrocinador:", storeOwner.custom_id);
-      const url = `/client/register?sponsor=${storeOwner.custom_id}`;
-      console.log("URL de redirecionamento:", url);
-      window.location.href = url;
+      window.location.href = `/client/register?sponsor=${storeOwner.custom_id}`;
     } else {
       console.error("Custom ID não encontrado para o dono da loja");
     }
@@ -84,7 +83,7 @@ export default function PublicStore() {
   if (isLoading) {
     return (
       <div className="h-screen w-full overflow-y-auto">
-        <div className="container mx-auto p-4">Loading...</div>
+        <div className="container mx-auto p-4">Carregando...</div>
       </div>
     );
   }
@@ -92,7 +91,7 @@ export default function PublicStore() {
   if (!storeOwner) {
     return (
       <div className="h-screen w-full overflow-y-auto">
-        <div className="container mx-auto p-4">Store not found</div>
+        <div className="container mx-auto p-4">Loja não encontrada</div>
       </div>
     );
   }
