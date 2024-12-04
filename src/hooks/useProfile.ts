@@ -10,7 +10,7 @@ export const useProfile = () => {
     queryKey: ["profile"],
     queryFn: async () => {
       const session = await getSession();
-      if (!session) return null;
+      if (!session?.user) return null;
       
       return fetchProfile(session.user.id);
     },

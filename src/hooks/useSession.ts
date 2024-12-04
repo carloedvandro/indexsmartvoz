@@ -30,7 +30,7 @@ export const useSession = () => {
         return null;
       }
 
-      if (!session?.user) {
+      if (!session) {
         console.warn("No active session found");
         navigate("/client/login");
         return null;

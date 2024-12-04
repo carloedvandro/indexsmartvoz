@@ -19,15 +19,21 @@ export default function Store() {
   } = useProductActions(loadProducts);
 
   useEffect(() => {
-    const checkSession = async () => {
+    const initializeStore = async () => {
       const session = await getSession();
-      if (session) {
-        setIsSessionLoaded(true);
+      if (!session) {
+        return;
+      }
+      
+      setIsSessionLoaded(true);
+      try {
         await loadProducts();
+      } catch (error) {
+        console.error('Error loading products:', error);
       }
     };
     
-    checkSession();
+    initializeStore();
   }, []);
 
   if (!isSessionLoaded) {
