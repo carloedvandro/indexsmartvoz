@@ -53,10 +53,21 @@ export default function PublicStore() {
         }
 
         if (!ownerData) {
-          console.log("No owner found for storeUrl:", storeUrl);
-          setStoreOwner(null);
-          setIsLoading(false);
-          return;
+          // Try finding by custom_id if store_url doesn't match
+          const { data: customIdData, error: customIdError } = await supabase
+            .from("profiles")
+            .select("id, full_name, custom_id")
+            .eq("custom_id", storeUrl)
+            .maybeSingle();
+
+          if (customIdError || !customIdData) {
+            console.log("No owner found for storeUrl:", storeUrl);
+            setStoreOwner(null);
+            setIsLoading(false);
+            return;
+          }
+
+          ownerData = customIdData;
         }
 
         console.log("Setting store owner:", ownerData);
