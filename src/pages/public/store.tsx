@@ -33,45 +33,42 @@ export default function PublicStore() {
       try {
         console.log("Fetching store owner with storeUrl:", storeUrl);
         
-        const { data: ownerData, error: ownerError } = await supabase
+        // First try to find by store_url
+        let { data: storeOwnerData, error: storeUrlError } = await supabase
           .from("profiles")
           .select("id, full_name, custom_id")
           .eq("store_url", storeUrl)
           .maybeSingle();
 
-        console.log("Query result:", { ownerData, ownerError });
-
-        if (ownerError) {
-          console.error("Error fetching store owner:", ownerError);
-          toast({
-            title: "Erro",
-            description: "Erro ao carregar a loja",
-            variant: "destructive",
-          });
-          setIsLoading(false);
-          return;
-        }
-
-        if (!ownerData) {
-          // Try finding by custom_id if store_url doesn't match
+        // If not found by store_url, try custom_id
+        if (!storeOwnerData && !storeUrlError) {
+          console.log("Store not found by store_url, trying custom_id");
           const { data: customIdData, error: customIdError } = await supabase
             .from("profiles")
             .select("id, full_name, custom_id")
             .eq("custom_id", storeUrl)
             .maybeSingle();
 
-          if (customIdError || !customIdData) {
-            console.log("No owner found for storeUrl:", storeUrl);
-            setStoreOwner(null);
-            setIsLoading(false);
-            return;
+          if (customIdError) {
+            console.error("Error fetching by custom_id:", customIdError);
+            throw customIdError;
           }
 
-          ownerData = customIdData;
+          storeOwnerData = customIdData;
+        } else if (storeUrlError) {
+          console.error("Error fetching by store_url:", storeUrlError);
+          throw storeUrlError;
         }
 
-        console.log("Setting store owner:", ownerData);
-        setStoreOwner(ownerData);
+        if (!storeOwnerData) {
+          console.log("No owner found for storeUrl:", storeUrl);
+          setStoreOwner(null);
+          setIsLoading(false);
+          return;
+        }
+
+        console.log("Setting store owner:", storeOwnerData);
+        setStoreOwner(storeOwnerData);
         await loadProducts();
       } catch (error) {
         console.error("Error loading store:", error);
