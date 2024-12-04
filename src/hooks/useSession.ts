@@ -8,8 +8,8 @@ export const useSession = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_OUT') {
         navigate("/client/login");
       }
     });
@@ -26,7 +26,6 @@ export const useSession = () => {
       if (sessionError) {
         console.error("Session error:", sessionError);
         await supabase.auth.signOut();
-        navigate("/client/login");
         return null;
       }
 

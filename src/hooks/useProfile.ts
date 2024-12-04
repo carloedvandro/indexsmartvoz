@@ -16,6 +16,6 @@ export const useProfile = () => {
     },
     retry: 1,
     refetchOnWindowFocus: false,
-    enabled: true, // The session check is handled inside queryFn
+    enabled: true,
   });
 };
