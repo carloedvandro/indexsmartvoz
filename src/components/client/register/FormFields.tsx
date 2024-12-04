@@ -5,9 +5,10 @@ import { RegisterFormData } from "./RegisterSchema";
 
 interface FormFieldsProps {
   form: UseFormReturn<RegisterFormData>;
+  disableSponsor?: boolean;
 }
 
-export const FormFields = ({ form }: FormFieldsProps) => {
+export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
   return (
     <>
       <FormField
@@ -73,7 +74,7 @@ export const FormFields = ({ form }: FormFieldsProps) => {
           <FormItem>
             <FormLabel>ID Personalizado do Patrocinador</FormLabel>
             <FormControl>
-              <Input {...field} />
+              <Input {...field} disabled={disableSponsor} />
             </FormControl>
             <FormMessage />
           </FormItem>
