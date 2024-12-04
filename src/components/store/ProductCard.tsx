@@ -19,9 +19,12 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onEdit, onDelete, onBuy, isPublic, isExample }: ProductCardProps) {
-  const handleBuyClick = () => {
+  const handleBuyClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
     if (onBuy) {
-      console.log("Clicou em comprar, redirecionando...");
+      console.log("Clique no botão comprar detectado");
       onBuy();
     }
   };
@@ -51,7 +54,7 @@ export function ProductCard({ product, onEdit, onDelete, onBuy, isPublic, isExam
       <CardFooter className="flex gap-2">
         {isPublic ? (
           <Button 
-            onClick={handleBuyClick} 
+            onClick={handleBuyClick}
             className="w-full"
             type="button"
           >

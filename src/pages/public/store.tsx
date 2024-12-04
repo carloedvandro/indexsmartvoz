@@ -26,7 +26,6 @@ export default function PublicStore() {
       try {
         console.log("Iniciando carregamento da loja com URL:", storeUrl);
         
-        // Buscar o perfil do dono da loja por store_url ou custom_id
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .select("id, full_name, custom_id")
@@ -46,7 +45,6 @@ export default function PublicStore() {
         console.log("Perfil encontrado:", profileData);
         setStoreOwner(profileData);
 
-        // Buscar os produtos
         const { data: productsData, error: productsError } = await supabase
           .from("store_products")
           .select("*")
@@ -74,7 +72,9 @@ export default function PublicStore() {
   const handleBuyClick = () => {
     if (storeOwner?.custom_id) {
       console.log("Redirecionando para registro com patrocinador:", storeOwner.custom_id);
-      window.location.href = `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id}`;
+      const registerUrl = `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id}`;
+      console.log("URL de redirecionamento:", registerUrl);
+      window.location.href = registerUrl;
     } else {
       console.error("Custom ID não encontrado para o dono da loja");
     }
