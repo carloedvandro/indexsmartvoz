@@ -19,6 +19,13 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onEdit, onDelete, onBuy, isPublic, isExample }: ProductCardProps) {
+  const handleBuyClick = () => {
+    if (onBuy) {
+      console.log("Clicou em comprar, redirecionando...");
+      onBuy();
+    }
+  };
+
   return (
     <Card className="overflow-hidden">
       {product.image_url && (
@@ -44,7 +51,7 @@ export function ProductCard({ product, onEdit, onDelete, onBuy, isPublic, isExam
       <CardFooter className="flex gap-2">
         {isPublic ? (
           <Button 
-            onClick={onBuy} 
+            onClick={handleBuyClick} 
             className="w-full"
             type="button"
           >
