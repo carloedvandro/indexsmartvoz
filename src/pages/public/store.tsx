@@ -38,30 +38,28 @@ export default function PublicStore() {
           .from("profiles")
           .select("id, full_name, custom_id")
           .eq("store_url", storeUrl)
-          .limit(1)
-          .maybeSingle();
+          .single();
 
-        if (storeUrlError) {
+        if (storeUrlError && storeUrlError.code !== 'PGRST116') {
           console.error("Error fetching by store_url:", storeUrlError);
           throw storeUrlError;
         }
 
-        // If not found by store_url, try custom_id
-        if (!storeUrlData) {
+        // If not found by store_url or no data returned, try custom_id
+        if (!storeUrlData || storeUrlError?.code === 'PGRST116') {
           console.log("Not found by store_url, trying custom_id");
           const { data: customIdData, error: customIdError } = await supabase
             .from("profiles")
             .select("id, full_name, custom_id")
             .eq("custom_id", storeUrl)
-            .limit(1)
-            .maybeSingle();
+            .single();
 
-          if (customIdError) {
+          if (customIdError && customIdError.code !== 'PGRST116') {
             console.error("Error fetching by custom_id:", customIdError);
             throw customIdError;
           }
 
-          if (!customIdData) {
+          if (!customIdData || customIdError?.code === 'PGRST116') {
             console.log("No store owner found for:", storeUrl);
             setStoreOwner(null);
             setIsLoading(false);
