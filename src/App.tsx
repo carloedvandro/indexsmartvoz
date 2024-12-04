@@ -2,6 +2,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster";
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { Routes, Route } from 'react-router-dom';
+import Index from '@/pages/Index';
 import ClientDashboard from '@/pages/client/dashboard';
 import ClientLogin from '@/pages/client/login';
 import ClientRegister from '@/pages/client/register';
@@ -24,6 +25,7 @@ function App() {
     <Router>
       <Routes>
         {/* Public Routes */}
+        <Route path="/" element={<Index />} />
         <Route path="/client/login" element={<ClientLogin />} />
         <Route path="/client/register" element={<ClientRegister />} />
         <Route path="/client/reset-password" element={<ResetPassword />} />
