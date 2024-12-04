@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
@@ -29,6 +30,19 @@ export default function ClientLogin() {
     };
 
     checkSession();
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        navigate('/client/dashboard');
+      } else if (event === 'SIGNED_OUT') {
+        navigate('/client/login');
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [navigate]);
 
   return (
@@ -39,7 +53,7 @@ export default function ClientLogin() {
           <img
             src="/lovable-uploads/5c77d143-7f3e-4121-ae56-dbc5a3779756.png"
             alt="Y-TECH Logo"
-            className="h-12 w-auto mb-12" // Increased height from h-8 to h-12
+            className="h-12 w-auto mb-12"
           />
           <Auth
             supabaseClient={supabase}
@@ -84,6 +98,9 @@ export default function ClientLogin() {
                   loading_button_label: "Entrando...",
                   password_input_placeholder: "Sua senha",
                   email_input_placeholder: "Seu e-mail",
+                  email_input_error: "E-mail inválido",
+                  password_input_error: "Senha incorreta",
+                  confirmation_text: "Verifique seu e-mail para o link de confirmação",
                 },
                 sign_up: {
                   link_text: "Registre-se",
@@ -104,6 +121,14 @@ export default function ClientLogin() {
             theme="default"
             providers={[]}
             redirectTo={`${window.location.origin}/client/dashboard`}
+            onError={(error) => {
+              console.error('Auth error:', error);
+              if (error.message.includes('Invalid login credentials')) {
+                toast.error('E-mail ou senha incorretos');
+              } else {
+                toast.error('Erro ao fazer login. Tente novamente.');
+              }
+            }}
           />
         </div>
         <div className="mt-8 text-center text-sm text-gray-500">
