@@ -8,6 +8,7 @@ import { registerFormSchema } from "./register/RegisterSchema";
 import type { RegisterFormData } from "./register/RegisterSchema";
 import { FormFields } from "./register/FormFields";
 import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
 
 interface RegisterFormProps {
   onSubmit: (data: RegisterFormData) => Promise<void>;
@@ -30,7 +31,6 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
     },
   });
 
-  // Disable sponsor field if it comes from URL
   useEffect(() => {
     if (sponsorId) {
       form.setValue("sponsorCustomId", sponsorId);
@@ -39,32 +39,49 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
 
   const handleFormSubmit = async (data: RegisterFormData) => {
     try {
-      console.log("Form submitted with data:", { ...data, password: "[PROTECTED]" });
+      console.log("Iniciando submissão do formulário com dados:", {
+        ...data,
+        password: "[PROTEGIDO]",
+      });
+
       await onSubmit(data);
+      
+      console.log("Registro concluído com sucesso");
       toast({
-        title: "Formulário enviado",
-        description: "Seus dados foram enviados com sucesso!",
+        title: "Sucesso!",
+        description: "Sua conta foi criada com sucesso. Você será redirecionado em instantes.",
       });
     } catch (error: any) {
-      console.error("Error in form submission:", error);
+      console.error("Erro durante o registro:", error);
       toast({
-        title: "Erro no envio",
-        description: error.message || "Ocorreu um erro ao enviar o formulário",
+        title: "Erro no cadastro",
+        description: error.message || "Ocorreu um erro ao criar sua conta. Por favor, tente novamente.",
         variant: "destructive",
       });
+      throw error; // Re-throw to be handled by the form's error state
     }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-4">
+      <form 
+        onSubmit={form.handleSubmit(handleFormSubmit)} 
+        className="space-y-4"
+      >
         <FormFields form={form} disableSponsor={!!sponsorId} />
         <Button 
           type="submit" 
           className="w-full"
           disabled={form.formState.isSubmitting}
         >
-          {form.formState.isSubmitting ? "Criando conta..." : "Criar Conta"}
+          {form.formState.isSubmitting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Criando conta...
+            </>
+          ) : (
+            "Criar Conta"
+          )}
         </Button>
       </form>
     </Form>

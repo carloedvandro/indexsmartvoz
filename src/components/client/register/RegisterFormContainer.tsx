@@ -11,29 +11,30 @@ export const RegisterFormContainer = () => {
 
   const handleSubmit = async (values: RegisterFormData) => {
     try {
-      console.log("Starting registration with values:", { ...values, password: "[PROTECTED]" });
-      
-      await registerUser(values);
-      
-      toast({
-        title: "Sucesso!",
-        description: "Conta criada com sucesso! Você será redirecionado em instantes.",
+      console.log("Iniciando processo de registro com valores:", {
+        ...values,
+        password: "[PROTEGIDO]",
       });
 
+      await registerUser(values);
+
+      console.log("Registro concluído, redirecionando...");
+      toast({
+        title: "Conta criada!",
+        description: "Sua conta foi criada com sucesso. Redirecionando para o login...",
+      });
+
+      // Delay before redirect to ensure toast is visible
       setTimeout(() => {
         navigate("/client/login");
       }, 2000);
 
     } catch (error: any) {
-      console.error('Detailed registration error:', error);
+      console.error("Erro detalhado do registro:", error);
       
-      let errorMessage = "Ocorreu um erro ao criar sua conta. Por favor, tente novamente.";
-      
-      if (error.message) {
-        errorMessage = error.message;
-      } else if (error.error_description) {
-        errorMessage = error.error_description;
-      }
+      const errorMessage = error.message || 
+        error.error_description || 
+        "Ocorreu um erro ao criar sua conta. Por favor, tente novamente.";
 
       toast({
         title: "Erro no cadastro",
@@ -41,7 +42,7 @@ export const RegisterFormContainer = () => {
         variant: "destructive",
       });
 
-      throw error; // Re-throw to be caught by the form's error handler
+      throw error; // Re-throw to be handled by the form
     }
   };
 
@@ -58,6 +59,7 @@ export const RegisterFormContainer = () => {
       </div>
       <div className="text-center mt-4">
         <button
+          type="button"
           onClick={() => navigate("/client/login")}
           className="text-sm text-gray-600 hover:text-gray-900"
         >
