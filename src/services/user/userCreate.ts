@@ -27,7 +27,8 @@ export const createUser = async (data: CreateUserData) => {
   log("info", "Creating new user", { 
     email: data.email, 
     fullName: data.fullName,
-    customId: data.customId
+    customId: data.customId,
+    cpf: data.cpf // Log CPF
   });
 
   const { data: authData, error: signUpError } = await supabase.auth.signUp({
@@ -51,23 +52,25 @@ export const createUser = async (data: CreateUserData) => {
     throw new Error("Falha ao criar usuário");
   }
 
-  // Explicitly update profile with custom_id
+  // Explicitly update profile with custom_id and CPF
   const { error: updateError } = await supabase
     .from("profiles")
     .update({
       custom_id: data.customId,
       store_url: data.customId,
+      cpf: data.cpf
     })
     .eq("id", authData.user.id);
 
   if (updateError) {
-    log("error", "Error updating profile with custom_id", updateError);
-    throw new Error("Erro ao atualizar perfil com ID personalizado");
+    log("error", "Error updating profile with custom_id and CPF", updateError);
+    throw new Error("Erro ao atualizar perfil com ID personalizado e CPF");
   }
 
   log("info", "User created successfully", { 
     userId: authData.user.id,
-    customId: data.customId 
+    customId: data.customId,
+    cpf: data.cpf
   });
   
   return authData;

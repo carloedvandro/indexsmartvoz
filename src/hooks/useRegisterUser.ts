@@ -8,6 +8,7 @@ export const useRegisterUser = () => {
         ...values,
         password: "[PROTECTED]",
         customId: values.customId,
+        cpf: values.cpf // Log CPF value
       });
 
       // Check if email already exists
@@ -23,6 +24,7 @@ export const useRegisterUser = () => {
 
       // Check if CPF already exists
       if (values.cpf) {
+        console.log("Checking if CPF exists:", values.cpf);
         const { data: existingCPF } = await supabase
           .from("profiles")
           .select("id")
@@ -66,8 +68,12 @@ export const useRegisterUser = () => {
         console.log("Found sponsor ID:", sponsorId);
       }
 
-      // Create user with custom_id in metadata
-      console.log("Creating user with custom_id in metadata:", values.customId);
+      // Create user with custom_id and CPF in metadata
+      console.log("Creating user with metadata:", {
+        custom_id: values.customId,
+        cpf: values.cpf
+      });
+      
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -91,11 +97,12 @@ export const useRegisterUser = () => {
         throw new Error("Erro ao criar usuário");
       }
 
-      // Explicitly update profile with custom_id and other data
+      // Explicitly update profile with all data including CPF
       console.log("Updating profile with data:", {
         custom_id: values.customId,
         store_url: values.customId,
         sponsor_id: sponsorId,
+        cpf: values.cpf
       });
 
       const { error: updateError } = await supabase
@@ -104,6 +111,7 @@ export const useRegisterUser = () => {
           custom_id: values.customId,
           store_url: values.customId,
           sponsor_id: sponsorId,
+          cpf: values.cpf // Explicitly set CPF in profiles table
         })
         .eq("id", authData.user.id);
 
@@ -115,6 +123,7 @@ export const useRegisterUser = () => {
       console.log("User registration completed successfully:", {
         userId: authData.user.id,
         customId: values.customId,
+        cpf: values.cpf
       });
       
       return authData;
