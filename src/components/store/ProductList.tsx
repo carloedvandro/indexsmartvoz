@@ -20,7 +20,8 @@ interface ProductListProps {
   setSelectedProduct: (product: Product | null) => void;
   onDelete: (id: string) => void;
   isManager?: boolean;
-  onBuy?: () => void;
+  onBuy?: (referralLink: string) => void;
+  storeOwnerCustomId?: string;
 }
 
 export function ProductList({ 
@@ -32,6 +33,7 @@ export function ProductList({
   onDelete,
   isManager = false,
   onBuy,
+  storeOwnerCustomId,
 }: ProductListProps) {
   if (isLoading) {
     return <div className="text-center">Loading...</div>;
@@ -49,6 +51,7 @@ export function ProductList({
                 onDelete={() => onDelete(product.id)}
                 isPublic={!isManager}
                 onBuy={onBuy}
+                storeOwnerCustomId={storeOwnerCustomId}
               />
             </div>
           </DialogTrigger>

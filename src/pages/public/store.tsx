@@ -35,7 +35,6 @@ export default function PublicStore() {
       try {
         console.log("Fetching store owner with storeUrl:", storeUrl);
         
-        // Try to find by store_url or custom_id in a single query
         const { data, error } = await supabase
           .from("profiles")
           .select("id, full_name, custom_id")
@@ -92,6 +91,10 @@ export default function PublicStore() {
     }
   };
 
+  const handleBuy = (referralLink: string) => {
+    window.location.href = referralLink;
+  };
+
   if (isLoading || productsLoading) {
     return <LoadingState />;
   }
@@ -99,13 +102,6 @@ export default function PublicStore() {
   if (!storeOwner) {
     return <StoreNotFound />;
   }
-
-  const handleBuy = () => {
-    toast({
-      title: "Em breve!",
-      description: "A funcionalidade de compra estará disponível em breve.",
-    });
-  };
 
   return (
     <ScrollArea className="h-screen">
@@ -123,6 +119,7 @@ export default function PublicStore() {
               onDelete={() => {}}
               isManager={false}
               onBuy={handleBuy}
+              storeOwnerCustomId={storeOwner.custom_id || undefined}
             />
           </div>
 
