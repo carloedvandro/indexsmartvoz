@@ -31,32 +31,21 @@ export default function ClientLogin() {
 
     checkSession();
 
-    // Listen for auth state changes and errors
+    // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('Auth state changed:', event);
+      
       if (event === 'SIGNED_IN' && session) {
         navigate('/client/dashboard');
       } else if (event === 'SIGNED_OUT') {
         navigate('/client/login');
-      } else if (event === 'USER_DELETED') {
-        toast.error('Usuário não encontrado');
       } else if (event === 'PASSWORD_RECOVERY') {
         navigate('/client/reset-password');
       }
     });
 
-    // Listen for auth errors
-    const authListener = supabase.auth.onError((error) => {
-      console.error('Auth error:', error);
-      if (error.message.includes('Invalid login credentials')) {
-        toast.error('E-mail ou senha incorretos');
-      } else {
-        toast.error('Erro ao fazer login. Tente novamente.');
-      }
-    });
-
     return () => {
       subscription.unsubscribe();
-      authListener.data.subscription.unsubscribe();
     };
   }, [navigate]);
 
