@@ -2,7 +2,7 @@ import { RegisterFormContainer } from "@/components/client/register/RegisterForm
 
 export default function ClientRegister() {
   return (
-    <div className="min-h-screen w-full overflow-auto bg-gray-50">
+    <div className="min-h-screen w-full overflow-y-auto bg-gray-50">
       {/* Background container */}
       <div
         className="fixed inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-50"
@@ -16,7 +16,7 @@ export default function ClientRegister() {
       </div>
 
       {/* Content container */}
-      <div className="relative flex justify-center items-center min-h-screen py-8 px-4">
+      <div className="relative flex justify-center items-center py-8 px-4">
         <div className="w-full max-w-md bg-white shadow-xl rounded-xl py-6">
           <RegisterFormContainer />
         </div>
