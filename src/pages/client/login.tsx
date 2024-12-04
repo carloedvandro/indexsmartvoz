@@ -116,11 +116,17 @@ export default function ClientLogin() {
 
       {/* Right side - Background image */}
       <div className="hidden md:block flex-1 bg-[#004d31] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/lovable-uploads/b837a6d7-9b84-4d0d-bbe5-90cd8038957d.png')] bg-cover bg-center" />
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+          style={{
+            backgroundImage: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2000&q=80")'
+          }}
+        />
+        <div className="absolute inset-0 bg-black/50" />
         <img
           src="/lovable-uploads/5c77d143-7f3e-4121-ae56-dbc5a3779756.png"
           alt="Y-TECH Logo"
-          className="absolute top-8 right-8 h-8 w-auto"
+          className="absolute top-8 right-8 h-8 w-auto z-10"
         />
       </div>
     </div>
