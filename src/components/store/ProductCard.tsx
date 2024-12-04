@@ -42,7 +42,7 @@ export function ProductCard({ product, onEdit, onDelete, isExample, isPublic }: 
         <CardTitle className="text-xl mt-2">{product.name}</CardTitle>
       </CardHeader>
       <CardContent className="flex-grow">
-        <p className="text-gray-600 line-clamp-3">{product.description}</p>
+        <p className="text-gray-600 whitespace-pre-wrap">{product.description}</p>
         <p className="text-xl font-bold mt-4">{formatCurrency(product.price, product.currency)}</p>
       </CardContent>
       <CardFooter className="flex justify-end space-x-2 mt-auto p-4">
