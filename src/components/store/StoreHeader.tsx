@@ -19,7 +19,7 @@ export function StoreHeader({ isLoading, onSubmit, selectedProduct, isManager = 
   const { data: profile } = useProfile();
   
   const storeUrl = profile?.custom_id 
-    ? `${window.location.origin}/store/${profile.custom_id}`
+    ? `https://ytech.lovable.app/store/${profile.custom_id}`
     : null;
 
   const handleCopyLink = async () => {
