@@ -26,6 +26,7 @@ export const useSession = () => {
       if (sessionError) {
         console.error("Session error:", sessionError);
         await supabase.auth.signOut();
+        navigate("/client/login");
         return null;
       }
 

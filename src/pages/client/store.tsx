@@ -23,7 +23,7 @@ export default function Store() {
       const session = await getSession();
       if (session) {
         setIsSessionLoaded(true);
-        loadProducts();
+        await loadProducts();
       }
     };
     
