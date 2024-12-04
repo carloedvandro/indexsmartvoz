@@ -109,7 +109,7 @@ export default function ClientLogin() {
         <div className="mt-8 text-center text-sm text-gray-500">
           <span>Tecnologia por </span>
           <a href="https://wi.digital" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-            WI Digital
+            Yrwen Technology®
           </a>
         </div>
       </div>
