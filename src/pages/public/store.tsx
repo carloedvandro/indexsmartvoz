@@ -26,6 +26,7 @@ export default function PublicStore() {
     const loadStore = async () => {
       if (!storeUrl) {
         console.log("No storeUrl provided");
+        setIsLoading(false);
         return;
       }
 
@@ -36,29 +37,26 @@ export default function PublicStore() {
           .from("profiles")
           .select("id, full_name, custom_id")
           .eq("store_url", storeUrl)
-          .maybeSingle();
-
-        console.log("Query result:", { ownerData, ownerError });
+          .single();
 
         if (ownerError) {
-          console.error("Error fetching store owner:", ownerError);
-          toast({
-            title: "Erro",
-            description: "Loja não encontrada",
-            variant: "destructive",
-          });
-          return;
-        }
-
-        if (!ownerData) {
-          console.log("No owner found for storeUrl:", storeUrl);
+          if (ownerError.code === 'PGRST116') {
+            console.log("No store found for URL:", storeUrl);
+            setStoreOwner(null);
+          } else {
+            console.error("Error fetching store owner:", ownerError);
+            toast({
+              title: "Erro",
+              description: "Erro ao carregar a loja",
+              variant: "destructive",
+            });
+          }
+          setIsLoading(false);
           return;
         }
 
         console.log("Setting store owner:", ownerData);
         setStoreOwner(ownerData);
-        
-        // Após encontrar o dono da loja, carregamos os produtos
         await loadProducts();
       } catch (error) {
         console.error("Error loading store:", error);
