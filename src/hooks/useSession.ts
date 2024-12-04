@@ -8,8 +8,8 @@ export const useSession = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
-      if (event === 'SIGNED_OUT') {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT' || (!session && event !== 'INITIAL_SESSION')) {
         navigate("/client/login");
       }
     });
@@ -30,7 +30,7 @@ export const useSession = () => {
         return null;
       }
 
-      if (!session) {
+      if (!session?.user) {
         console.warn("No active session found");
         navigate("/client/login");
         return null;
