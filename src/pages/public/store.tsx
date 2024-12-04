@@ -35,7 +35,7 @@ export default function PublicStore() {
         const { data: ownerData, error: ownerError } = await supabase
           .from("profiles")
           .select("id, full_name, custom_id")
-          .or(`store_url.eq.${storeUrl}`)
+          .eq("store_url", storeUrl)
           .maybeSingle();
 
         console.log("Query result:", { ownerData, ownerError });
