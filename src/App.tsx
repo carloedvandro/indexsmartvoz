@@ -1,73 +1,58 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider } from "next-themes";
-import { Toaster } from "@/components/ui/sonner";
-import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Toaster } from "@/components/ui/toaster";
+import AdminLogin from "@/pages/admin/login";
+import AdminDashboard from "@/pages/admin/dashboard";
+import ClientLogin from "@/pages/client/login";
+import ClientDashboard from "@/pages/client/dashboard";
+import ClientRegister from "@/pages/client/register";
+import ClientResetPassword from "@/pages/client/reset-password";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
-// Admin pages
-import AdminDashboard from "./pages/admin/dashboard";
-import AdminLogin from "./pages/admin/login";
-import AdminNetwork from "./pages/admin/network";
-import AdminPlans from "./pages/admin/plans";
-import AdminUsers from "./pages/admin/users";
-
-// Client pages
-import ClientDashboard from "./pages/client/dashboard";
-import ClientLogin from "./pages/client/login";
-import ClientNetwork from "./pages/client/network";
-import ClientRegister from "./pages/client/register";
-import ClientNews from "./pages/client/news";
-import ClientCourses from "./pages/client/courses";
-import ClientEvents from "./pages/client/events";
-import ClientStore from "./pages/client/store";
-import ClientUpgrade from "./pages/client/upgrade";
-import PublicStore from "./pages/public/store";
-import Index from "./pages/Index";
-
-const queryClient = new QueryClient();
-
-function AppRoutes() {
-  return (
-    <div className="min-h-screen bg-background">
-      <Routes>
-        {/* Index route */}
-        <Route path="/" element={<Index />} />
-
-        {/* Admin routes */}
-        <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/network" element={<AdminNetwork />} />
-        <Route path="/admin/plans" element={<AdminPlans />} />
-        <Route path="/admin/users" element={<AdminUsers />} />
-
-        {/* Client routes */}
-        <Route path="/client/login" element={<ClientLogin />} />
-        <Route path="/client/dashboard" element={<ClientDashboard />} />
-        <Route path="/client/network" element={<ClientNetwork />} />
-        <Route path="/client/register" element={<ClientRegister />} />
-        <Route path="/client/news" element={<ClientNews />} />
-        <Route path="/client/courses" element={<ClientCourses />} />
-        <Route path="/client/events" element={<ClientEvents />} />
-        <Route path="/client/store" element={<ClientStore />} />
-        <Route path="/client/upgrade" element={<ClientUpgrade />} />
-
-        {/* Public routes */}
-        <Route path="/store/:storeUrl" element={<PublicStore />} />
-      </Routes>
-    </div>
-  );
-}
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <ClientLogin />,
+  },
+  {
+    path: "/admin/login",
+    element: <AdminLogin />,
+  },
+  {
+    path: "/admin/dashboard",
+    element: (
+      <ProtectedRoute>
+        <AdminDashboard />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/client/login",
+    element: <ClientLogin />,
+  },
+  {
+    path: "/client/register",
+    element: <ClientRegister />,
+  },
+  {
+    path: "/client/dashboard",
+    element: (
+      <ProtectedRoute>
+        <ClientDashboard />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/client/reset-password",
+    element: <ClientResetPassword />,
+  },
+]);
 
 function App() {
   return (
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-          <AppRoutes />
-          <Toaster />
-        </ThemeProvider>
-      </QueryClientProvider>
-    </BrowserRouter>
+    <>
+      <RouterProvider router={router} />
+      <Toaster />
+    </>
   );
 }
 
