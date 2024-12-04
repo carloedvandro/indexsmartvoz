@@ -10,6 +10,7 @@ type Product = {
   price: number;
   image_url: string | null;
   currency: string;
+  order: number;
 };
 
 export default function PublicStore() {
@@ -21,11 +22,11 @@ export default function PublicStore() {
   useEffect(() => {
     const loadStore = async () => {
       try {
-        // First get the store owner
+        // Primeiro, obtemos o dono da loja pelo custom_id
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .select("id, full_name")
-          .eq("store_url", storeUrl)
+          .eq("custom_id", storeUrl)
           .single();
 
         if (profileError) throw profileError;
@@ -33,11 +34,21 @@ export default function PublicStore() {
 
         setStoreOwner(profileData);
 
-        // Then get their products
+        // Então, obtemos os produtos do gerente
+        const { data: managerData, error: managerError } = await supabase
+          .from("profiles")
+          .select("id")
+          .eq("email", "yrwentechnology@gmail.com")
+          .single();
+
+        if (managerError) throw managerError;
+
+        // Buscamos os produtos do gerente
         const { data: productsData, error: productsError } = await supabase
           .from("store_products")
           .select("*")
-          .eq("user_id", profileData.id);
+          .eq("user_id", managerData.id)
+          .order("order", { ascending: true });
 
         if (productsError) throw productsError;
         setProducts(productsData || []);
