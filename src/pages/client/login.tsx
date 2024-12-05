@@ -113,7 +113,7 @@ export default function ClientLogin() {
                   email_input_placeholder: "Seu e-mail",
                 },
                 forgotten_password: {
-                  link_text: "Recuperar senha",
+                  link_text: "Esqueci minha senha",
                   button_label: "Enviar instruções",
                   confirmation_text: "Enviamos as instruções para seu e-mail",
                 },
@@ -123,7 +123,7 @@ export default function ClientLogin() {
             providers={[]}
             redirectTo={`${window.location.origin}/client/dashboard`}
             view="sign_in"
-            showLinks={false}
+            showLinks={true}
           />
         </div>
         <div className="mt-8 text-center text-sm text-gray-500">
