@@ -76,7 +76,7 @@ export default function PublicStore() {
     if (!storeOwner?.custom_id) return;
     
     try {
-      const referralLink = `${window.location.origin}/client/register?sponsor=${storeOwner.custom_id}`;
+      const referralLink = new URL(`/client/register?sponsor=${storeOwner.custom_id}`, window.location.origin).toString();
       await navigator.clipboard.writeText(referralLink);
       toast({
         title: "Link copiado!",
@@ -97,7 +97,7 @@ export default function PublicStore() {
 
   const handleGoToReferralLink = () => {
     if (!storeOwner?.custom_id) return;
-    const referralLink = `${window.location.origin}/client/register?sponsor=${storeOwner.custom_id}`;
+    const referralLink = new URL(`/client/register?sponsor=${storeOwner.custom_id}`, window.location.origin).toString();
     window.location.href = referralLink;
   };
 
@@ -110,7 +110,7 @@ export default function PublicStore() {
   }
 
   const referralLink = storeOwner.custom_id 
-    ? `${window.location.origin}/client/register?sponsor=${storeOwner.custom_id}`
+    ? new URL(`/client/register?sponsor=${storeOwner.custom_id}`, window.location.origin).toString()
     : "";
 
   return (
