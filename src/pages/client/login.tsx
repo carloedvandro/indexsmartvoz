@@ -104,7 +104,7 @@ export default function ClientLogin() {
                   email_input_placeholder: "Seu e-mail",
                 },
                 sign_up: {
-                  link_text: "Registre-se",
+                  link_text: "",
                   email_label: "E-mail",
                   password_label: "Senha",
                   button_label: "Registrar",
@@ -125,6 +125,10 @@ export default function ClientLogin() {
             view="sign_in"
             showLinks={true}
           />
+          <div className="mt-4 text-sm text-gray-600 text-center">
+            <p>Para se registrar, você precisa ter um patrocinador.</p>
+            <p>Entre em contato com a pessoa que te apresentou o negócio.</p>
+          </div>
         </div>
         <div className="mt-8 text-center text-sm text-gray-500">
           <span>Tecnologia por </span>
