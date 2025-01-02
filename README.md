@@ -162,7 +162,8 @@ npm run preview
 ## Suporte
 
 ### Contatos
-- Suporte Técnico: [email]
+- Suporte Técnico: yrwentechnology@gail.com
+- WhatsApp: +55 (11) 970492228
 - Documentação Supabase: https://supabase.com/docs
 - Documentação React: https://react.dev
 
@@ -195,4 +196,6 @@ Para contribuir com o projeto:
 5. Abra um Pull Request
 
 ---
-Desenvolvido com ❤️ pela equipe Y-TECH
+Desenvolvido pela equipe técnica da Yrwen Technology  
+CNPJ: 30.266.458/0001-58  
+© 2024 Yrwen Technology. Todos os direitos reservados.
