@@ -8,7 +8,13 @@ export default function Index() {
   const { t } = useTranslation();
 
   return (
-    <div className="fixed inset-0 w-full h-full flex flex-col items-center justify-center" style={{ backgroundColor: '#32004A' }}>
+    <div 
+      className="fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat" 
+      style={{ 
+        backgroundImage: 'url("https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvoztecnologico.png?t=2025-01-21T14%3A39%3A18.055Z")',
+        backgroundColor: '#32004A' // Fallback color while image loads
+      }}
+    >
       <WarpBackground 
         className="w-full h-full border-0 p-0"
         beamsPerSide={5}
