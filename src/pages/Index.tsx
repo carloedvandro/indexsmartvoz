@@ -8,12 +8,12 @@ export default function Index() {
   const { t } = useTranslation();
 
   return (
-    <div className="fixed inset-0 w-full h-full flex flex-col items-center justify-center">
+    <div className="fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-black">
       <WarpBackground 
         className="w-full h-full border-0 p-0"
         beamsPerSide={5}
         beamSize={8}
-        gridColor="rgba(255,255,255,0.2)"
+        gridColor="rgba(255,255,255,0.1)"
         perspective={150}
       >
         <motion.div
