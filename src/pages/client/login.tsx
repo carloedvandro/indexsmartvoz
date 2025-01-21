@@ -139,14 +139,14 @@ export default function ClientLogin() {
       </div>
 
       {/* Right side - Background image */}
-      <div className="hidden md:block flex-1 bg-[#004d31] relative overflow-hidden">
+      <div className="hidden md:block flex-1 bg-[#32004A] relative overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
           style={{
-            backgroundImage: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2000&q=80")'
+            backgroundImage: 'url("https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvoztecnologico.png?t=2025-01-21T14%3A39%3A18.055Z")'
           }}
         />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/30" />
       </div>
     </div>
   );
