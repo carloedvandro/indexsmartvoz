@@ -65,7 +65,7 @@ export default function ClientLogin() {
               theme: ThemeSupa,
               style: {
                 button: {
-                  background: '#004d31',
+                  background: '#9b87f5',
                   color: 'white',
                   borderRadius: '4px',
                 },
@@ -78,7 +78,7 @@ export default function ClientLogin() {
                   border: '1px solid #e2e8f0',
                 },
                 message: {
-                  color: '#004d31',
+                  color: '#9b87f5',
                 },
                 label: {
                   color: '#333333',
@@ -87,8 +87,8 @@ export default function ClientLogin() {
               variables: {
                 default: {
                   colors: {
-                    brand: '#004d31',
-                    brandAccent: '#00693e',
+                    brand: '#9b87f5',
+                    brandAccent: '#7E69AB',
                   },
                 },
               },
