@@ -108,7 +108,7 @@ export default function AdminLogin() {
           <div className="w-full flex justify-center">
             <div className="w-4/5">
               <img 
-                src="https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvozsorrindo.jpg" 
+                src="https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvozcolorwifi.jpg?t=2025-01-21T17%3A02%3A52.916Z" 
                 alt="Smartvoz Logo" 
                 className="w-full h-auto mb-6 sm:mb-12"
               />
