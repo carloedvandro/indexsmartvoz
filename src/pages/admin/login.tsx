@@ -175,7 +175,7 @@ export default function AdminLogin() {
       </div>
       {/* Right side - Background image */}
       <div 
-        className="hidden md:block flex-1 bg-[url('https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvozdeladocolor.jpg?t=2025-01-21T16%3A40%3A28.786Z')] bg-cover bg-center"
+        className="hidden md:block flex-1 bg-[url('https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvozparedeepessoas1.jpg?t=2025-01-21T16%3A50%3A20.958Z')] bg-cover bg-center"
       />
     </div>
   );
