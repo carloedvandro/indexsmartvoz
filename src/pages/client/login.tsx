@@ -55,9 +55,9 @@ export default function ClientLogin() {
       <div className="w-full md:w-[480px] bg-white p-8 flex flex-col">
         <div className="flex-1">
           <img
-            src="/lovable-uploads/5c77d143-7f3e-4121-ae56-dbc5a3779756.png"
+            src="https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvozcolorwifi.jpg?t=2025-01-21T17%3A02%3A52.916Z"
             alt="SMARTVOZ Logo"
-            className="h-12 w-auto mb-12"
+            className="h-16 w-auto mb-12"
           />
           <Auth
             supabaseClient={supabase}
