@@ -108,7 +108,7 @@ export default function AdminLogin() {
           <div className="w-full flex justify-center">
             <div className="w-4/5">
               <h1 className="text-secondary text-4xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-12 whitespace-nowrap text-center">
-                Y-TECH
+                SMARTVOZ
               </h1>
             </div>
           </div>
@@ -168,7 +168,7 @@ export default function AdminLogin() {
           <p>
             {t('technology_by')}{" "}
             <a href="#" className="underline">
-              Yrwen Technology<sup className="text-sm align-top">®</sup>
+              lovablebr.dev<sup className="text-sm align-top">®</sup>
             </a>
           </p>
         </div>

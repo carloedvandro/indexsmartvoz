@@ -56,7 +56,7 @@ export default function ClientLogin() {
         <div className="flex-1">
           <img
             src="/lovable-uploads/5c77d143-7f3e-4121-ae56-dbc5a3779756.png"
-            alt="Y-TECH Logo"
+            alt="SMARTVOZ Logo"
             className="h-12 w-auto mb-12"
           />
           <Auth
@@ -132,8 +132,8 @@ export default function ClientLogin() {
         </div>
         <div className="mt-8 text-center text-sm text-gray-500">
           <span>Tecnologia por </span>
-          <a href="https://wi.digital" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-            Yrwen Technology®
+          <a href="https://lovablebr.dev" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            lovablebr.dev®
           </a>
         </div>
       </div>
