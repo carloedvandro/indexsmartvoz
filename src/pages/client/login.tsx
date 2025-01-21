@@ -143,7 +143,7 @@ export default function ClientLogin() {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
           style={{
-            backgroundImage: 'url("https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvoztecnologico.png?t=2025-01-21T14%3A39%3A18.055Z")'
+            backgroundImage: 'url("https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvosnote.png?t=2025-01-21T14%3A51%3A43.810Z")'
           }}
         />
         <div className="absolute inset-0 bg-black/30" />
