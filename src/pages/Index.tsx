@@ -8,7 +8,7 @@ export default function Index() {
   const { t } = useTranslation();
 
   return (
-    <div className="fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-black">
+    <div className="fixed inset-0 w-full h-full flex flex-col items-center justify-center" style={{ backgroundColor: '#32004A' }}>
       <WarpBackground 
         className="w-full h-full border-0 p-0"
         beamsPerSide={5}
