@@ -107,9 +107,11 @@ export default function AdminLogin() {
         <div>
           <div className="w-full flex justify-center">
             <div className="w-4/5">
-              <h1 className="text-secondary text-4xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-12 whitespace-nowrap text-center">
-                SMARTVOZ
-              </h1>
+              <img 
+                src="https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvozsorrindo.jpg" 
+                alt="Smartvoz Logo" 
+                className="w-full h-auto mb-6 sm:mb-12"
+              />
             </div>
           </div>
           <h2 className="text-lg font-medium mb-8">{t('administration')}</h2>
