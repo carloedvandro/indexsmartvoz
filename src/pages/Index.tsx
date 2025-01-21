@@ -23,7 +23,7 @@ export default function Index() {
         >
           <div className="space-y-4">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white">
-              Bem vindo a Y-TECH Internet 5G
+              Bem vindo a Smartvoz
             </h1>
             <p className="text-lg text-gray-200">
               {t('choose_access')}
