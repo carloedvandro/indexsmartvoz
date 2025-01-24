@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { Mail, Lock } from "lucide-react";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
@@ -50,103 +51,152 @@ export default function ClientLogin() {
   }, [navigate]);
 
   return (
-    <div className="flex min-h-screen">
-      {/* Left side - Login form */}
-      <div className="w-full md:w-[480px] bg-white p-8 flex flex-col">
-        <div className="flex-1">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600/20 via-cyan-500/20 to-pink-500/20 relative overflow-hidden">
+      {/* Animated background circles */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -left-4 top-1/4 w-72 h-72 bg-purple-500/30 rounded-full filter blur-3xl animate-pulse"></div>
+        <div className="absolute right-1/4 bottom-1/4 w-96 h-96 bg-cyan-500/30 rounded-full filter blur-3xl animate-pulse delay-700"></div>
+        <div className="absolute left-1/3 top-1/2 w-80 h-80 bg-pink-500/30 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+      </div>
+
+      {/* Login container */}
+      <div className="w-full max-w-md p-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl relative z-10 mx-4">
+        {/* Logo and title */}
+        <div className="text-center mb-8">
           <img
             src="https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvozcolorwifi.jpg?t=2025-01-21T17%3A02%3A52.916Z"
             alt="SMARTVOZ Logo"
-            className="h-16 w-auto mb-12"
+            className="h-16 w-auto mx-auto mb-6"
           />
-          <Auth
-            supabaseClient={supabase}
-            appearance={{
-              theme: ThemeSupa,
-              style: {
-                button: {
-                  background: '#9b87f5',
-                  color: 'white',
-                  borderRadius: '4px',
-                },
-                anchor: {
-                  color: '#666666',
-                  textDecoration: 'none',
-                },
-                input: {
-                  borderRadius: '4px',
-                  border: '1px solid #e2e8f0',
-                },
-                message: {
-                  color: '#9b87f5',
-                },
-                label: {
-                  color: '#333333',
-                }
-              },
-              variables: {
-                default: {
-                  colors: {
-                    brand: '#9b87f5',
-                    brandAccent: '#7E69AB',
-                  },
-                },
-              },
-            }}
-            localization={{
-              variables: {
-                sign_in: {
-                  email_label: "Usuário ou E-mail",
-                  password_label: "Senha",
-                  button_label: "Entrar",
-                  loading_button_label: "Entrando...",
-                  password_input_placeholder: "Sua senha",
-                  email_input_placeholder: "Seu e-mail",
-                },
-                sign_up: {
-                  link_text: "",
-                  email_label: "E-mail",
-                  password_label: "Senha",
-                  button_label: "Registrar",
-                  loading_button_label: "Registrando...",
-                  password_input_placeholder: "Sua senha",
-                  email_input_placeholder: "Seu e-mail",
-                },
-                forgotten_password: {
-                  link_text: "Esqueci minha senha",
-                  button_label: "Enviar instruções",
-                  confirmation_text: "Enviamos as instruções para seu e-mail",
-                },
-              }
-            }}
-            theme="default"
-            providers={[]}
-            redirectTo={`${window.location.origin}/client/dashboard`}
-            view="sign_in"
-            showLinks={true}
-          />
-          <div className="mt-4 text-sm text-gray-600 text-center">
-            <p>Para se registrar, você precisa ter um patrocinador.</p>
-            <p>Entre em contato com a pessoa que te apresentou o negócio.</p>
-          </div>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+            Smartvoz
+          </h1>
         </div>
+
+        <Auth
+          supabaseClient={supabase}
+          appearance={{
+            theme: ThemeSupa,
+            style: {
+              button: {
+                background: '#6B21A8',
+                color: 'white',
+                borderRadius: '9999px',
+                padding: '0.75rem 1rem',
+                fontSize: '1rem',
+                fontWeight: '500',
+                width: '100%',
+                marginTop: '1rem',
+                transition: 'background-color 0.2s',
+                '&:hover': {
+                  background: '#581C87',
+                },
+              },
+              anchor: {
+                color: '#6B21A8',
+                textDecoration: 'none',
+                fontSize: '0.875rem',
+                '&:hover': {
+                  textDecoration: 'underline',
+                },
+              },
+              input: {
+                borderRadius: '0.5rem',
+                border: '1px solid #E2E8F0',
+                padding: '0.75rem 1rem 0.75rem 2.5rem',
+                fontSize: '1rem',
+                width: '100%',
+                backgroundColor: 'white',
+                '&:focus': {
+                  borderColor: '#6B21A8',
+                  boxShadow: '0 0 0 1px #6B21A8',
+                },
+              },
+              message: {
+                color: '#6B21A8',
+                marginTop: '0.5rem',
+                fontSize: '0.875rem',
+              },
+              label: {
+                color: '#1A1F2C',
+                fontSize: '0.875rem',
+                fontWeight: '500',
+                marginBottom: '0.5rem',
+              },
+              container: {
+                position: 'relative',
+              },
+            },
+            className: {
+              container: 'relative',
+              button: 'w-full rounded-full bg-purple-800 hover:bg-purple-900',
+              input: 'pl-10', // Adiciona espaço para o ícone
+              label: 'block text-sm font-medium text-gray-700 mb-1',
+              message: 'text-sm text-purple-600 mt-1',
+            },
+          }}
+          localization={{
+            variables: {
+              sign_in: {
+                email_label: "Email",
+                password_label: "Senha",
+                button_label: "Entrar",
+                loading_button_label: "Entrando...",
+                password_input_placeholder: "Sua senha",
+                email_input_placeholder: "Seu email",
+              },
+              sign_up: {
+                link_text: "",
+                email_label: "Email",
+                password_label: "Senha",
+                button_label: "Registrar",
+                loading_button_label: "Registrando...",
+                password_input_placeholder: "Sua senha",
+                email_input_placeholder: "Seu email",
+              },
+              forgotten_password: {
+                link_text: "Esqueceu sua senha?",
+                button_label: "Enviar instruções",
+                confirmation_text: "Enviamos as instruções para seu email",
+              },
+            }
+          }}
+          theme="default"
+          providers={[]}
+          redirectTo={`${window.location.origin}/client/dashboard`}
+          view="sign_in"
+          showLinks={true}
+        />
+
+        {/* Icons for inputs - Added via CSS pseudo-elements */}
+        <style>{`
+          .supabase-auth-ui_ui-input[type="email"] {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%236B21A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>');
+            background-repeat: no-repeat;
+            background-position: 12px center;
+            background-size: 20px;
+            padding-left: 40px !important;
+          }
+          .supabase-auth-ui_ui-input[type="password"] {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%236B21A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>');
+            background-repeat: no-repeat;
+            background-position: 12px center;
+            background-size: 20px;
+            padding-left: 40px !important;
+          }
+        `}</style>
+
+        <div className="mt-6 text-center text-sm text-gray-600">
+          <p>Para se registrar, você precisa ter um patrocinador.</p>
+          <p>Entre em contato com a pessoa que te apresentou o negócio.</p>
+        </div>
+
         <div className="mt-8 text-center text-sm text-gray-500">
           <span>Tecnologia por </span>
-          <a href="https://lovablebr.dev" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+          <a href="https://lovablebr.dev" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:underline">
             lovablebr.dev®
           </a>
         </div>
-      </div>
-
-      {/* Right side - Background image */}
-      <div className="hidden md:block flex-1 bg-[#32004A] relative overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
-          style={{
-            backgroundImage: 'url("https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvosnote.png?t=2025-01-21T14%3A51%3A43.810Z")'
-          }}
-        />
-        <div className="absolute inset-0 bg-black/30" />
       </div>
     </div>
   );
