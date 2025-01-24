@@ -1,9 +1,4 @@
-interface NetworkMember {
-  user: {
-    status: string;
-  };
-  children?: NetworkMember[];
-}
+import { NetworkMember } from "@/components/client/network/types";
 
 export const countMembersByStatus = (members: NetworkMember[]) => {
   let active = 0;
