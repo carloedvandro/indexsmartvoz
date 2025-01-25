@@ -3,12 +3,11 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { Mail, Lock } from "lucide-react";
+import { WarpBackground } from "@/components/ui/warp-background";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
 
   useEffect(() => {
     // Check if we're on a password recovery route
@@ -16,7 +15,6 @@ export default function ClientLogin() {
                               window.location.hash.includes('type=recovery');
 
     if (isPasswordRecovery) {
-      // Redirect recovery to the client password reset page
       navigate('/client/reset-password' + window.location.hash);
       return;
     }
@@ -50,122 +48,174 @@ export default function ClientLogin() {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white">
-      {/* Title with black text */}
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-black mb-12">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-white relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-white" />
+        <div className="bubble-animation">
+          {[...Array(10)].map((_, i) => (
+            <div
+              key={i}
+              className="bubble"
+              style={{
+                '--size': `${Math.random() * 4 + 2}rem`,
+                '--left': `${Math.random() * 100}%`,
+                '--delay': `${Math.random() * 5}s`,
+              } as React.CSSProperties}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-[500px] mx-4">
+        {/* Logo with rainbow animation */}
+        <h1 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-primary via-secondary to-accent bg-[length:200%_auto] animate-rainbow bg-clip-text text-transparent">
           Smartvoz
         </h1>
+
+        {/* Glass morphism card */}
+        <WarpBackground
+          className="backdrop-blur-md bg-white/80 shadow-xl rounded-2xl p-8"
+          beamsPerSide={3}
+          beamSize={5}
+          beamDuration={3}
+        >
+          <Auth
+            supabaseClient={supabase}
+            appearance={{
+              theme: ThemeSupa,
+              style: {
+                button: {
+                  background: 'linear-gradient(45deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%)',
+                  backgroundSize: '200% auto',
+                  color: 'white',
+                  borderRadius: '9999px',
+                  padding: '0.75rem 1rem',
+                  fontSize: '1rem',
+                  fontWeight: '500',
+                  width: '100%',
+                  marginTop: '1rem',
+                  transition: 'all 0.3s ease',
+                  animation: 'rainbow 3s ease infinite',
+                },
+                anchor: {
+                  color: '#000000',
+                  opacity: '0.9',
+                  textDecoration: 'none',
+                  fontSize: '0.875rem',
+                  transition: 'opacity 0.2s ease',
+                },
+                input: {
+                  borderRadius: '0.75rem',
+                  border: '1px solid rgba(0, 0, 0, 0.3)',
+                  padding: '0.75rem 1rem 0.75rem 2.5rem',
+                  fontSize: '1rem',
+                  width: '100%',
+                  backgroundColor: 'white',
+                  color: '#000000',
+                },
+                message: {
+                  color: '#000000',
+                  marginTop: '0.5rem',
+                  fontSize: '0.875rem',
+                },
+                label: {
+                  color: '#000000',
+                  opacity: '0.9',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  marginBottom: '0.5rem',
+                },
+                container: {
+                  position: 'relative',
+                },
+              },
+              className: {
+                container: 'relative space-y-4',
+                button: 'hover:bg-right transition-all duration-500 ease-in-out hover:shadow-lg',
+                input: 'pl-10 focus:border-gray-600 focus:ring-gray-600',
+                label: 'block text-sm font-medium mb-1',
+                message: 'text-sm mt-1',
+              },
+            }}
+            localization={{
+              variables: {
+                sign_in: {
+                  email_label: "Email",
+                  password_label: "Senha",
+                  button_label: "Entrar",
+                  loading_button_label: "Entrando...",
+                  password_input_placeholder: "Sua senha",
+                  email_input_placeholder: "Seu email",
+                },
+                sign_up: {
+                  link_text: "",
+                  email_label: "Email",
+                  password_label: "Senha",
+                  button_label: "Registrar",
+                  loading_button_label: "Registrando...",
+                  password_input_placeholder: "Sua senha",
+                  email_input_placeholder: "Seu email",
+                },
+                forgotten_password: {
+                  link_text: "Esqueceu sua senha?",
+                  button_label: "Enviar instruções",
+                  confirmation_text: "Enviamos as instruções para seu email",
+                },
+              }
+            }}
+            theme="default"
+            providers={[]}
+            redirectTo={`${window.location.origin}/client/dashboard`}
+            view="sign_in"
+            showLinks={true}
+          />
+        </WarpBackground>
       </div>
 
-      <div className="w-full max-w-[500px] mx-4">
-        <Auth
-          supabaseClient={supabase}
-          appearance={{
-            theme: ThemeSupa,
-            style: {
-              button: {
-                background: '#000000',
-                color: 'white',
-                borderRadius: '9999px',
-                padding: '0.75rem 1rem',
-                fontSize: '1rem',
-                fontWeight: '500',
-                width: '100%',
-                marginTop: '1rem',
-                transition: 'all 0.3s ease',
-              },
-              anchor: {
-                color: '#000000',
-                opacity: '0.9',
-                textDecoration: 'none',
-                fontSize: '0.875rem',
-                transition: 'opacity 0.2s ease',
-              },
-              input: {
-                borderRadius: '0.75rem',
-                border: '1px solid rgba(0, 0, 0, 0.3)',
-                padding: '0.75rem 1rem 0.75rem 2.5rem',
-                fontSize: '1rem',
-                width: '100%',
-                backgroundColor: 'white',
-                color: '#000000',
-              },
-              message: {
-                color: '#000000',
-                marginTop: '0.5rem',
-                fontSize: '0.875rem',
-              },
-              label: {
-                color: '#000000',
-                opacity: '0.9',
-                fontSize: '0.875rem',
-                fontWeight: '500',
-                marginBottom: '0.5rem',
-              },
-              container: {
-                position: 'relative',
-              },
-            },
-            className: {
-              container: 'relative space-y-4',
-              button: 'hover:opacity-90 transition-opacity',
-              input: 'pl-10 focus:border-gray-600 focus:ring-gray-600',
-              label: 'block text-sm font-medium mb-1',
-              message: 'text-sm mt-1',
-            },
-          }}
-          localization={{
-            variables: {
-              sign_in: {
-                email_label: "Email",
-                password_label: "Senha",
-                button_label: "Entrar",
-                loading_button_label: "Entrando...",
-                password_input_placeholder: "Sua senha",
-                email_input_placeholder: "Seu email",
-              },
-              sign_up: {
-                link_text: "",
-                email_label: "Email",
-                password_label: "Senha",
-                button_label: "Registrar",
-                loading_button_label: "Registrando...",
-                password_input_placeholder: "Sua senha",
-                email_input_placeholder: "Seu email",
-              },
-              forgotten_password: {
-                link_text: "Esqueceu sua senha?",
-                button_label: "Enviar instruções",
-                confirmation_text: "Enviamos as instruções para seu email",
-              },
-            }
-          }}
-          theme="default"
-          providers={[]}
-          redirectTo={`${window.location.origin}/client/dashboard`}
-          view="sign_in"
-          showLinks={true}
-        />
+      {/* Styles for bubbles */}
+      <style>{`
+        .bubble-animation {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+        
+        .bubble {
+          position: absolute;
+          left: var(--left);
+          bottom: -20%;
+          width: var(--size);
+          height: var(--size);
+          background: linear-gradient(45deg, var(--primary), var(--secondary));
+          border-radius: 50%;
+          opacity: 0.1;
+          animation: float 15s infinite linear;
+          animation-delay: var(--delay);
+        }
+        
+        @keyframes float {
+          0% {
+            transform: translateY(100vh) scale(0);
+            opacity: 0.1;
+          }
+          50% {
+            opacity: 0.3;
+          }
+          100% {
+            transform: translateY(-100vh) scale(1);
+            opacity: 0;
+          }
+        }
 
-        {/* Icons for inputs */}
-        <style>{`
-          .supabase-auth-ui_ui-input[type="email"] {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>');
-            background-repeat: no-repeat;
-            background-position: 12px center;
-            background-size: 20px;
-            padding-left: 40px !important;
-          }
-          .supabase-auth-ui_ui-input[type="password"] {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>');
-            background-repeat: no-repeat;
-            background-position: 12px center;
-            background-size: 20px;
-            padding-left: 40px !important;
-          }
-        `}</style>
-      </div>
+        @keyframes rainbow {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+      `}</style>
     </div>
   );
 }
