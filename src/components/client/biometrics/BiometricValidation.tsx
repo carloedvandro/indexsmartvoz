@@ -99,6 +99,48 @@ export function BiometricValidation() {
     navigate("/client/dashboard");
   };
 
+  const getStepIndicator = () => {
+    const steps = [
+      { id: "instructions", label: "Instruções" },
+      { id: "facial", label: "Foto do Rosto" },
+      { id: "document-front", label: "Documento Frente" },
+      { id: "document-back", label: "Documento Verso" },
+    ];
+
+    return (
+      <div className="flex justify-center mb-4">
+        {steps.map((s, index) => (
+          <div key={s.id} className="flex items-center">
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                step === s.id
+                  ? "bg-blue-500 text-white"
+                  : steps.indexOf(s) < steps.findIndex(x => x.id === step)
+                  ? "bg-green-500 text-white"
+                  : "bg-gray-200"
+              }`}
+            >
+              {steps.indexOf(s) < steps.findIndex(x => x.id === step) ? (
+                <CheckCircle className="w-5 h-5" />
+              ) : (
+                index + 1
+              )}
+            </div>
+            {index < steps.length - 1 && (
+              <div
+                className={`w-10 h-1 ${
+                  steps.indexOf(s) < steps.findIndex(x => x.id === step)
+                    ? "bg-green-500"
+                    : "bg-gray-200"
+                }`}
+              />
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-md">
@@ -118,6 +160,8 @@ export function BiometricValidation() {
             <X className="h-4 w-4" />
           </button>
         </DialogHeader>
+
+        {getStepIndicator()}
 
         <div className="flex flex-col items-center space-y-4 py-4">
           {step === "instructions" && (
