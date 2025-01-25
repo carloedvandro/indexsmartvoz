@@ -48,7 +48,7 @@ export default function ClientLogin() {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
+    <div className="min-h-screen flex items-center justify-center">
       <div className="w-full max-w-[500px] relative z-10 mx-4">
         {/* Title */}
         <div className="text-center mb-12">
@@ -73,9 +73,10 @@ export default function ClientLogin() {
                 marginTop: '1rem',
               },
               anchor: {
-                color: '#6B21A8',
+                color: '#000000',
                 textDecoration: 'none',
                 fontSize: '0.875rem',
+                fontWeight: '400',
               },
               input: {
                 borderRadius: '0.75rem',
@@ -104,33 +105,31 @@ export default function ClientLogin() {
               input: 'focus:border-purple-500 focus:ring-purple-500',
               label: 'block text-sm font-medium',
               message: 'text-sm',
-              anchor: 'text-black [&>span:last-child]:font-bold',
             },
           }}
           localization={{
             variables: {
               sign_in: {
-                email_label: t('sign_in.email_label'),
-                password_label: t('sign_in.password_label'),
-                button_label: t('sign_in.button_label'),
-                loading_button_label: t('sign_in.loading_button_label'),
-                password_input_placeholder: t('sign_in.password_input_placeholder'),
-                email_input_placeholder: t('sign_in.email_input_placeholder'),
-                link_text: t('sign_in.already_have_account'),
+                email_label: "Email",
+                password_label: "Senha",
+                button_label: "Entrar",
+                loading_button_label: "Entrando...",
+                password_input_placeholder: "Sua senha",
+                email_input_placeholder: "Seu email",
               },
               sign_up: {
-                link_text: t('forgot_password'),
-                email_label: t('email'),
-                password_label: t('password'),
-                button_label: t('sign_up'),
-                loading_button_label: t('signing_up'),
-                password_input_placeholder: t('sign_in.password_input_placeholder'),
-                email_input_placeholder: t('sign_in.email_input_placeholder'),
+                link_text: "Esqueceu sua senha?",
+                email_label: "Email",
+                password_label: "Senha",
+                button_label: "Registrar",
+                loading_button_label: "Registrando...",
+                password_input_placeholder: "Sua senha",
+                email_input_placeholder: "Seu email",
               },
               forgotten_password: {
-                link_text: t('create_account'),
-                button_label: t('reset_password'),
-                confirmation_text: t('check_email'),
+                link_text: "Não tem uma conta? Cadastre-se",
+                button_label: "Enviar instruções",
+                confirmation_text: "Enviamos as instruções para seu email",
               },
             }
           }}
