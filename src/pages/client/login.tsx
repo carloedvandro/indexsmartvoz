@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { RainbowButton } from "@/components/ui/rainbow-button";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
@@ -84,6 +85,22 @@ export default function ClientLogin() {
                 marginTop: '1rem',
                 transition: 'all 0.3s ease',
                 border: 'none',
+                position: 'relative',
+                overflow: 'hidden',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: '-20%',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: '60%',
+                  height: '20%',
+                  background: 'inherit',
+                  filter: 'blur(8px)',
+                  opacity: '0.7',
+                  zIndex: '-1',
+                  animation: 'rainbow var(--speed, 2s) infinite linear',
+                }
               },
               anchor: {
                 color: '#ffffff',
@@ -119,7 +136,7 @@ export default function ClientLogin() {
             },
             className: {
               container: 'relative space-y-4',
-              button: 'hover:opacity-90 transition-opacity',
+              button: 'hover:opacity-90 transition-opacity relative overflow-hidden',
               input: 'pl-10 focus:border-purple-600 focus:ring-purple-600',
               label: 'block text-sm font-medium mb-1',
               message: 'text-sm mt-1',
