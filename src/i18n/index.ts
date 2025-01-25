@@ -64,7 +64,8 @@ const resources = {
         "button_label": "Entrar",
         "loading_button_label": "Entrando...",
         "password_input_placeholder": "Digite sua senha",
-        "email_input_placeholder": "Digite seu email"
+        "email_input_placeholder": "Digite seu email",
+        "already_have_account": "Já tem uma conta? Entre aqui"
       }
     }
   },
@@ -84,7 +85,8 @@ const resources = {
         "button_label": "Sign in",
         "loading_button_label": "Signing in...",
         "password_input_placeholder": "Enter your password",
-        "email_input_placeholder": "Enter your email"
+        "email_input_placeholder": "Enter your email",
+        "already_have_account": "Already have an account? Sign in"
       }
     }
   }
