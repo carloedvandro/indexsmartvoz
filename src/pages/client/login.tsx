@@ -104,6 +104,7 @@ export default function ClientLogin() {
               input: 'focus:border-purple-500 focus:ring-purple-500',
               label: 'block text-sm font-medium',
               message: 'text-sm',
+              anchor: 'text-black [&:has(span)]:font-bold', // This targets "Cadastre-se" with bold and makes other links black
             },
           }}
           localization={{
