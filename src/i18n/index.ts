@@ -66,6 +66,12 @@ const resources = {
         "password_input_placeholder": "Digite sua senha",
         "email_input_placeholder": "Digite seu email",
         "already_have_account": "Já tem uma conta? Entre aqui"
+      },
+      "reset_password_form": {
+        "email_label": "Endereço de email",
+        "email_placeholder": "Seu endereço de email",
+        "submit_button": "Enviar instruções",
+        "success_message": "Instruções enviadas para seu email"
       }
     }
   },
@@ -87,6 +93,12 @@ const resources = {
         "password_input_placeholder": "Enter your password",
         "email_input_placeholder": "Enter your email",
         "already_have_account": "Already have an account? Sign in"
+      },
+      "reset_password_form": {
+        "email_label": "Email address",
+        "email_placeholder": "Your email address",
+        "submit_button": "Send instructions",
+        "success_message": "Instructions sent to your email"
       }
     }
   }
