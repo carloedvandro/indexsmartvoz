@@ -130,7 +130,7 @@ export default function ClientLogin() {
             className: {
               container: 'relative',
               button: 'w-full rounded-full bg-purple-800 hover:bg-purple-900',
-              input: 'pl-10', // Adiciona espaço para o ícone
+              input: 'pl-10',
               label: 'block text-sm font-medium text-gray-700 mb-1',
               message: 'text-sm text-purple-600 mt-1',
             },
@@ -185,18 +185,6 @@ export default function ClientLogin() {
             padding-left: 40px !important;
           }
         `}</style>
-
-        <div className="mt-6 text-center text-sm text-gray-600">
-          <p>Para se registrar, você precisa ter um patrocinador.</p>
-          <p>Entre em contato com a pessoa que te apresentou o negócio.</p>
-        </div>
-
-        <div className="mt-8 text-center text-sm text-gray-500">
-          <span>Tecnologia por </span>
-          <a href="https://lovablebr.dev" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:underline">
-            lovablebr.dev®
-          </a>
-        </div>
       </div>
     </div>
   );
