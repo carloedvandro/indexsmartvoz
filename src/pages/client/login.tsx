@@ -117,7 +117,7 @@ export default function ClientLogin() {
                 email_input_placeholder: "Seu email",
               },
               sign_up: {
-                link_text: "Cadastre-se",
+                link_text: "Não tem uma conta? Cadastre-se",
                 email_label: "Email",
                 password_label: "Senha",
                 button_label: "Registrar",
