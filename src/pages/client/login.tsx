@@ -48,7 +48,7 @@ export default function ClientLogin() {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
+    <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="w-full max-w-[500px] p-8 relative z-10 mx-4">
         {/* Title */}
         <div className="text-center mb-12">
@@ -79,12 +79,12 @@ export default function ClientLogin() {
               },
               input: {
                 borderRadius: '0.75rem',
-                border: '1px solid #E5E7EB',
+                border: '1px solid var(--border)',
                 padding: '0.75rem 1rem 0.75rem 2.5rem',
                 fontSize: '1rem',
                 width: '100%',
-                backgroundColor: 'white',
-                color: '#1F2937',
+                backgroundColor: 'var(--background)',
+                color: 'var(--foreground)',
               },
               message: {
                 color: '#6B21A8',
@@ -92,7 +92,7 @@ export default function ClientLogin() {
                 fontSize: '0.875rem',
               },
               label: {
-                color: '#1F2937',
+                color: 'var(--foreground)',
                 fontSize: '0.875rem',
                 fontWeight: '500',
                 marginBottom: '0.5rem',
