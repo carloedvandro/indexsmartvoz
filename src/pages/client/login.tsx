@@ -48,7 +48,7 @@ export default function ClientLogin() {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
+    <div className="min-h-screen flex items-center justify-center">
       <div className="w-full max-w-[500px] p-8 relative z-10 mx-4">
         {/* Title */}
         <div className="text-center mb-12">
@@ -73,9 +73,10 @@ export default function ClientLogin() {
                 marginTop: '1rem',
               },
               anchor: {
-                color: '#6B21A8',
+                color: '#000000',
                 textDecoration: 'none',
                 fontSize: '0.875rem',
+                fontWeight: '400',
               },
               input: {
                 borderRadius: '0.75rem',
