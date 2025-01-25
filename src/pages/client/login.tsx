@@ -51,16 +51,13 @@ export default function ClientLogin() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600/20 via-cyan-500/20 to-pink-500/20 relative overflow-hidden">
-      {/* Animated background circles */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -left-4 top-1/4 w-72 h-72 bg-purple-500/30 rounded-full filter blur-3xl animate-pulse"></div>
         <div className="absolute right-1/4 bottom-1/4 w-96 h-96 bg-cyan-500/30 rounded-full filter blur-3xl animate-pulse delay-700"></div>
         <div className="absolute left-1/3 top-1/2 w-80 h-80 bg-pink-500/30 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
       </div>
 
-      {/* Login container with glassmorphism effect */}
       <div className="w-full max-w-[500px] p-8 backdrop-blur-xl rounded-2xl shadow-xl relative z-10 mx-4">
-        {/* Title with rainbow gradient animation */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-[#FF3D00] via-[#5F0889] to-[#0052CC] bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:400%_auto] mb-12 flex justify-center items-center w-[200px] mx-auto">
             Smartvoz
@@ -86,21 +83,7 @@ export default function ClientLogin() {
                 transition: 'all 0.3s ease',
                 border: 'none',
                 position: 'relative',
-                overflow: 'hidden',
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: '-20%',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '60%',
-                  height: '20%',
-                  background: 'inherit',
-                  filter: 'blur(8px)',
-                  opacity: '0.7',
-                  zIndex: '-1',
-                  animation: 'rainbow var(--speed, 2s) infinite linear',
-                }
+                overflow: 'hidden'
               },
               anchor: {
                 color: '#ffffff',
@@ -136,7 +119,7 @@ export default function ClientLogin() {
             },
             className: {
               container: 'relative space-y-4',
-              button: 'hover:opacity-90 transition-opacity relative overflow-hidden',
+              button: 'hover:opacity-90 transition-opacity relative overflow-hidden rainbow-button',
               input: 'pl-10 focus:border-purple-600 focus:ring-purple-600',
               label: 'block text-sm font-medium mb-1',
               message: 'text-sm mt-1',
@@ -190,6 +173,21 @@ export default function ClientLogin() {
             background-position: 12px center;
             background-size: 20px;
             padding-left: 40px !important;
+          }
+
+          .rainbow-button::before {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 20%;
+            background: inherit;
+            filter: blur(8px);
+            opacity: 0.7;
+            z-index: -1;
+            animation: rainbow var(--speed, 2s) infinite linear;
           }
 
           @keyframes rainbow {
