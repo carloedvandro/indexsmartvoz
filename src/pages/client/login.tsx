@@ -1,9 +1,19 @@
 import { LoginForm } from "@/components/client/LoginForm";
 import { BiometricValidationFlow } from "@/components/client/biometrics/BiometricValidationFlow";
 import { useSession } from "@/hooks/useSession";
+import { useEffect, useState } from "react";
 
 export default function ClientLogin() {
-  const { session } = useSession();
+  const { getSession } = useSession();
+  const [session, setSession] = useState(null);
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const currentSession = await getSession();
+      setSession(currentSession);
+    };
+    checkSession();
+  }, [getSession]);
 
   return (
     <div className="h-screen w-screen overflow-y-auto bg-gray-50">
