@@ -62,7 +62,7 @@ export default function ClientLogin() {
       <div className="w-full max-w-[500px] p-8 bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl relative z-10 mx-4">
         {/* Title with rainbow gradient animation */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold animate-rainbow bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent text-center w-[200px] mx-auto drop-shadow">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-[#FF3D00] via-[#5F0889] to-[#0052CC] bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:400%_auto] mb-12 flex justify-center items-center w-[200px] mx-auto">
             Smartvoz
           </h1>
         </div>
@@ -180,7 +180,7 @@ export default function ClientLogin() {
           }
 
           .animate-rainbow {
-            background-size: 200% 200%;
+            background-size: 400% auto;
             animation: rainbow 3s ease infinite;
           }
         `}</style>
