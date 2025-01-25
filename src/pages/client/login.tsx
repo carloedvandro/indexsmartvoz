@@ -4,7 +4,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 import { Mail, Lock } from "lucide-react";
 
 export default function ClientLogin() {
@@ -59,11 +58,11 @@ export default function ClientLogin() {
         <div className="absolute left-1/3 top-1/2 w-80 h-80 bg-pink-500/30 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
       </div>
 
-      {/* Login container */}
-      <div className="w-full max-w-md p-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl relative z-10 mx-4">
-        {/* Title */}
+      {/* Login container with glassmorphism effect */}
+      <div className="w-full max-w-[500px] p-8 bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl relative z-10 mx-4">
+        {/* Title with rainbow gradient animation */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold animate-rainbow bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent text-center w-[200px] mx-auto drop-shadow">
             Smartvoz
           </h1>
         </div>
@@ -74,7 +73,7 @@ export default function ClientLogin() {
             theme: ThemeSupa,
             style: {
               button: {
-                background: '#6B21A8',
+                background: 'linear-gradient(to right, #6B21A8, #D946EF, #818CF8)',
                 color: 'white',
                 borderRadius: '9999px',
                 padding: '0.75rem 1rem',
@@ -82,20 +81,23 @@ export default function ClientLogin() {
                 fontWeight: '500',
                 width: '100%',
                 marginTop: '1rem',
-                transition: 'background-color 0.2s',
+                transition: 'all 0.3s ease',
               },
               anchor: {
-                color: '#6B21A8',
+                color: '#000000',
+                opacity: '0.7',
                 textDecoration: 'none',
                 fontSize: '0.875rem',
+                transition: 'opacity 0.2s ease',
               },
               input: {
-                borderRadius: '0.5rem',
-                border: '1px solid #E2E8F0',
+                borderRadius: '0.75rem',
+                border: '1px solid rgba(0, 0, 0, 0.3)',
                 padding: '0.75rem 1rem 0.75rem 2.5rem',
                 fontSize: '1rem',
                 width: '100%',
-                backgroundColor: 'white',
+                backgroundColor: 'transparent',
+                color: '#000000',
               },
               message: {
                 color: '#6B21A8',
@@ -103,7 +105,8 @@ export default function ClientLogin() {
                 fontSize: '0.875rem',
               },
               label: {
-                color: '#1A1F2C',
+                color: '#000000',
+                opacity: '0.7',
                 fontSize: '0.875rem',
                 fontWeight: '500',
                 marginBottom: '0.5rem',
@@ -113,9 +116,9 @@ export default function ClientLogin() {
               },
             },
             className: {
-              container: 'relative',
-              button: 'w-full rounded-full bg-purple-800 hover:bg-purple-900',
-              input: 'pl-10',
+              container: 'relative space-y-4',
+              button: 'hover:opacity-90 transition-opacity',
+              input: 'pl-10 focus:border-purple-600 focus:ring-purple-600',
               label: 'block text-sm font-medium text-gray-700 mb-1',
               message: 'text-sm text-purple-600 mt-1',
             },
@@ -156,18 +159,29 @@ export default function ClientLogin() {
         {/* Icons for inputs - Added via CSS pseudo-elements */}
         <style>{`
           .supabase-auth-ui_ui-input[type="email"] {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%236B21A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>');
             background-repeat: no-repeat;
             background-position: 12px center;
             background-size: 20px;
             padding-left: 40px !important;
           }
           .supabase-auth-ui_ui-input[type="password"] {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%236B21A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>');
             background-repeat: no-repeat;
             background-position: 12px center;
             background-size: 20px;
             padding-left: 40px !important;
+          }
+
+          @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+
+          .animate-rainbow {
+            background-size: 200% 200%;
+            animation: rainbow 3s ease infinite;
           }
         `}</style>
       </div>
