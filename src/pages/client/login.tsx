@@ -4,7 +4,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Mail, Lock } from "lucide-react";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
@@ -58,8 +57,8 @@ export default function ClientLogin() {
         <div className="absolute left-1/3 top-1/2 w-80 h-80 bg-pink-500/30 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
       </div>
 
-      {/* Login container with glassmorphism effect - removed white background */}
-      <div className="w-full max-w-[500px] p-8 backdrop-blur-xl bg-white/10 rounded-2xl shadow-xl relative z-10 mx-4">
+      {/* Login container with glassmorphism effect */}
+      <div className="w-full max-w-[500px] p-8 backdrop-blur-xl rounded-2xl shadow-xl relative z-10 mx-4">
         {/* Title with rainbow gradient animation */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-[#FF3D00] via-[#5F0889] to-[#0052CC] bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:400%_auto] mb-12 flex justify-center items-center w-[200px] mx-auto">
@@ -73,15 +72,18 @@ export default function ClientLogin() {
             theme: ThemeSupa,
             style: {
               button: {
-                background: 'linear-gradient(to right, #6B21A8, #D946EF, #818CF8)',
+                background: 'linear-gradient(90deg, hsl(var(--color-1)), hsl(var(--color-5)), hsl(var(--color-3)), hsl(var(--color-4)), hsl(var(--color-2)))',
+                backgroundSize: '200%',
+                animation: 'rainbow var(--speed, 2s) infinite linear',
                 color: 'white',
-                borderRadius: '9999px',
+                borderRadius: '12px',
                 padding: '0.75rem 1rem',
                 fontSize: '1rem',
                 fontWeight: '500',
                 width: '100%',
                 marginTop: '1rem',
                 transition: 'all 0.3s ease',
+                border: 'none',
               },
               anchor: {
                 color: '#ffffff',
@@ -134,7 +136,7 @@ export default function ClientLogin() {
                 email_input_placeholder: "Seu email",
               },
               sign_up: {
-                link_text: "",
+                link_text: "Não tem uma conta? Cadastre-se",
                 email_label: "Email",
                 password_label: "Senha",
                 button_label: "Registrar",
