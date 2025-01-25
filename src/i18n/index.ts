@@ -30,6 +30,8 @@ const resources = {
       "client_area": "Área do Cliente",
       "admin_area": "Área Administrativa",
       "forgot_password": "Esqueceu sua senha?",
+      "dont_have_account": "Não tem uma conta?",
+      "sign_up_link": "Cadastre-se",
       "reset_password": "Redefinir Senha",
       "reset_password_success": "Email enviado com sucesso",
       "reset_password_error": "Erro ao enviar email",
