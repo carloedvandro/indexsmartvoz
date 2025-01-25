@@ -63,14 +63,17 @@ export default function ClientLogin() {
             theme: ThemeSupa,
             style: {
               button: {
-                backgroundColor: '#6B21A8',
+                background: 'linear-gradient(90deg, hsl(var(--color-1)), hsl(var(--color-5)), hsl(var(--color-3)), hsl(var(--color-4)), hsl(var(--color-2)))',
+                backgroundSize: '200%',
+                animation: 'rainbow var(--speed, 2s) infinite linear',
                 color: 'white',
-                borderRadius: '9999px',
+                borderRadius: '0.75rem',
                 padding: '0.75rem 1rem',
                 fontSize: '1rem',
                 fontWeight: '500',
                 width: '100%',
                 marginTop: '1rem',
+                border: 'none',
               },
               anchor: {
                 color: '#6B21A8',
@@ -100,7 +103,7 @@ export default function ClientLogin() {
             },
             className: {
               container: 'space-y-4',
-              button: 'hover:bg-purple-700 transition-colors',
+              button: 'hover:opacity-90 transition-opacity',
               input: 'focus:border-purple-500 focus:ring-purple-500',
               label: 'block text-sm font-medium',
               message: 'text-sm',
