@@ -58,15 +58,14 @@ export default function ClientLogin() {
         <div className="absolute left-1/3 top-1/2 w-80 h-80 bg-pink-500/30 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
       </div>
 
-      {/* Login container with glassmorphism effect - removed white background */}
-      <div className="w-full max-w-[500px] p-8 backdrop-blur-xl bg-white/10 rounded-2xl shadow-xl relative z-10 mx-4">
-        {/* Title with rainbow gradient animation */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-[#FF3D00] via-[#5F0889] to-[#0052CC] bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:400%_auto] mb-12 flex justify-center items-center w-[200px] mx-auto">
-            Smartvoz
-          </h1>
-        </div>
+      {/* Title with rainbow gradient animation */}
+      <div className="text-center mb-8 relative z-10">
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-[#FF3D00] via-[#5F0889] to-[#0052CC] bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:400%_auto] mb-12 flex justify-center items-center w-[200px] mx-auto">
+          Smartvoz
+        </h1>
+      </div>
 
+      <div className="w-full max-w-[500px] mx-4 relative z-10">
         <Auth
           supabaseClient={supabase}
           appearance={{
