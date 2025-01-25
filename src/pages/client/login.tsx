@@ -48,7 +48,7 @@ export default function ClientLogin() {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="w-full max-w-[500px] p-8 relative z-10 mx-4">
         {/* Title */}
         <div className="text-center mb-12">
@@ -79,12 +79,12 @@ export default function ClientLogin() {
               },
               input: {
                 borderRadius: '0.75rem',
-                border: '1px solid var(--border)',
+                border: '1px solid #E5E7EB',
                 padding: '0.75rem 1rem 0.75rem 2.5rem',
                 fontSize: '1rem',
                 width: '100%',
-                backgroundColor: 'var(--background)',
-                color: 'var(--foreground)',
+                backgroundColor: 'white',
+                color: '#1F2937',
               },
               message: {
                 color: '#6B21A8',
@@ -92,7 +92,7 @@ export default function ClientLogin() {
                 fontSize: '0.875rem',
               },
               label: {
-                color: 'var(--foreground)',
+                color: '#1F2937',
                 fontSize: '0.875rem',
                 fontWeight: '500',
                 marginBottom: '0.5rem',
@@ -104,7 +104,6 @@ export default function ClientLogin() {
               input: 'focus:border-purple-500 focus:ring-purple-500',
               label: 'block text-sm font-medium',
               message: 'text-sm',
-              anchor: 'text-black [&:has(span)]:font-bold', // This targets "Cadastre-se" with bold and makes other links black
             },
           }}
           localization={{
