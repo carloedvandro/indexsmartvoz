@@ -48,8 +48,8 @@ export default function ClientLogin() {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-[500px] relative z-10 mx-4 border-2 border-dashed border-blue-300 rounded-lg bg-[#F8F9FE] p-8">
+    <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="w-full max-w-[500px] p-8 relative z-10 mx-4">
         {/* Title */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">
@@ -73,10 +73,9 @@ export default function ClientLogin() {
                 marginTop: '1rem',
               },
               anchor: {
-                color: '#000000',
+                color: '#6B21A8',
                 textDecoration: 'none',
                 fontSize: '0.875rem',
-                fontWeight: '400',
               },
               input: {
                 borderRadius: '0.75rem',
@@ -105,6 +104,7 @@ export default function ClientLogin() {
               input: 'focus:border-purple-500 focus:ring-purple-500',
               label: 'block text-sm font-medium',
               message: 'text-sm',
+              anchor: 'text-black [&>span:last-child]:font-bold',
             },
           }}
           localization={{
