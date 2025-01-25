@@ -61,13 +61,8 @@ export default function ClientLogin() {
 
       {/* Login container */}
       <div className="w-full max-w-md p-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl relative z-10 mx-4">
-        {/* Logo and title */}
+        {/* Title */}
         <div className="text-center mb-8">
-          <img
-            src="https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvozcolorwifi.jpg?t=2025-01-21T17%3A02%3A52.916Z"
-            alt="SMARTVOZ Logo"
-            className="h-16 w-auto mx-auto mb-6"
-          />
           <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
             Smartvoz
           </h1>
@@ -88,17 +83,11 @@ export default function ClientLogin() {
                 width: '100%',
                 marginTop: '1rem',
                 transition: 'background-color 0.2s',
-                '&:hover': {
-                  background: '#581C87',
-                },
               },
               anchor: {
                 color: '#6B21A8',
                 textDecoration: 'none',
                 fontSize: '0.875rem',
-                '&:hover': {
-                  textDecoration: 'underline',
-                },
               },
               input: {
                 borderRadius: '0.5rem',
@@ -107,10 +96,6 @@ export default function ClientLogin() {
                 fontSize: '1rem',
                 width: '100%',
                 backgroundColor: 'white',
-                '&:focus': {
-                  borderColor: '#6B21A8',
-                  boxShadow: '0 0 0 1px #6B21A8',
-                },
               },
               message: {
                 color: '#6B21A8',
