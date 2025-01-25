@@ -59,7 +59,7 @@ export default function ClientLogin() {
       </div>
 
       {/* Login container with glassmorphism effect */}
-      <div className="w-full max-w-[500px] p-8 bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl relative z-10 mx-4">
+      <div className="w-full max-w-[500px] p-8 bg-white/10 backdrop-blur-xl rounded-2xl shadow-xl relative z-10 mx-4">
         {/* Title with rainbow gradient animation */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-[#FF3D00] via-[#5F0889] to-[#0052CC] bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:400%_auto] mb-12 flex justify-center items-center w-[200px] mx-auto">
@@ -84,7 +84,7 @@ export default function ClientLogin() {
                 transition: 'all 0.3s ease',
               },
               anchor: {
-                color: '#000000',
+                color: '#ffffff',
                 opacity: '0.7',
                 textDecoration: 'none',
                 fontSize: '0.875rem',
@@ -92,20 +92,20 @@ export default function ClientLogin() {
               },
               input: {
                 borderRadius: '0.75rem',
-                border: '1px solid rgba(0, 0, 0, 0.3)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
                 padding: '0.75rem 1rem 0.75rem 2.5rem',
                 fontSize: '1rem',
                 width: '100%',
                 backgroundColor: 'transparent',
-                color: '#000000',
+                color: '#ffffff',
               },
               message: {
-                color: '#6B21A8',
+                color: '#D946EF',
                 marginTop: '0.5rem',
                 fontSize: '0.875rem',
               },
               label: {
-                color: '#000000',
+                color: '#ffffff',
                 opacity: '0.7',
                 fontSize: '0.875rem',
                 fontWeight: '500',
@@ -159,14 +159,14 @@ export default function ClientLogin() {
         {/* Icons for inputs - Added via CSS pseudo-elements */}
         <style>{`
           .supabase-auth-ui_ui-input[type="email"] {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>');
             background-repeat: no-repeat;
             background-position: 12px center;
             background-size: 20px;
             padding-left: 40px !important;
           }
           .supabase-auth-ui_ui-input[type="password"] {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>');
             background-repeat: no-repeat;
             background-position: 12px center;
             background-size: 20px;
