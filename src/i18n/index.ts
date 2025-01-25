@@ -65,7 +65,9 @@ const resources = {
         "loading_button_label": "Entrando...",
         "password_input_placeholder": "Digite sua senha",
         "email_input_placeholder": "Digite seu email",
-        "already_have_account": "Já tem uma conta? Entre aqui"
+        "already_have_account": "Já tem uma conta? Entre aqui",
+        "missing_email": "Email ou telefone não informado",
+        "anonymous_disabled": "Login anônimo está desabilitado"
       },
       "reset_password_form": {
         "email_label": "Endereço de email",
@@ -92,7 +94,9 @@ const resources = {
         "loading_button_label": "Signing in...",
         "password_input_placeholder": "Enter your password",
         "email_input_placeholder": "Enter your email",
-        "already_have_account": "Already have an account? Sign in"
+        "already_have_account": "Already have an account? Sign in",
+        "missing_email": "Missing email or phone",
+        "anonymous_disabled": "Anonymous sign-ins are disabled"
       },
       "reset_password_form": {
         "email_label": "Email address",
