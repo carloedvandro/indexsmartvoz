@@ -104,7 +104,6 @@ export default function ClientLogin() {
               input: 'focus:border-purple-500 focus:ring-purple-500',
               label: 'block text-sm font-medium',
               message: 'text-sm',
-              anchor: 'text-black [&>span:last-child]:font-bold',
             },
           }}
           localization={{
