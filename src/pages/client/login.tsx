@@ -107,12 +107,12 @@ export default function ClientLogin() {
           localization={{
             variables: {
               sign_in: {
-                email_label: "Email",
-                password_label: "Senha",
-                button_label: "Entrar",
-                loading_button_label: "Entrando...",
-                password_input_placeholder: "Sua senha",
-                email_input_placeholder: "Seu email",
+                email_label: t("sign_in.email_label"),
+                password_label: t("sign_in.password_label"),
+                button_label: t("enter"),
+                loading_button_label: t("entering"),
+                password_input_placeholder: t("sign_in.password_input_placeholder"),
+                email_input_placeholder: t("sign_in.email_input_placeholder"),
               },
               sign_up: {
                 email_label: "Email",
@@ -123,7 +123,7 @@ export default function ClientLogin() {
                 email_input_placeholder: "Seu email",
               },
               forgotten_password: {
-                link_text: "Esqueceu sua senha?",
+                link_text: t("forgot_password"),
                 button_label: "Enviar instruções",
                 confirmation_text: "Enviamos as instruções para seu email",
               },
