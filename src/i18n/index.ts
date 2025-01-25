@@ -71,9 +71,10 @@ const resources = {
       },
       "reset_password_form": {
         "email_label": "Endereço de email",
-        "email_placeholder": "Seu endereço de email",
-        "submit_button": "Enviar instruções",
-        "success_message": "Instruções enviadas para seu email"
+        "email_placeholder": "Digite seu endereço de email",
+        "submit_button": "Redefinir Senha",
+        "success_message": "Instruções enviadas para seu email",
+        "already_have_account": "Já tem uma conta? Entre aqui"
       }
     }
   },
@@ -101,8 +102,9 @@ const resources = {
       "reset_password_form": {
         "email_label": "Email address",
         "email_placeholder": "Your email address",
-        "submit_button": "Send instructions",
-        "success_message": "Instructions sent to your email"
+        "submit_button": "Reset Password",
+        "success_message": "Instructions sent to your email",
+        "already_have_account": "Already have an account? Sign in"
       }
     }
   }
