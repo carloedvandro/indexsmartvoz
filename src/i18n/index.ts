@@ -64,7 +64,16 @@ const resources = {
         "button_label": "Entrar",
         "loading_button_label": "Entrando...",
         "password_input_placeholder": "Digite sua senha",
-        "email_input_placeholder": "Digite seu email"
+        "email_input_placeholder": "Digite seu email",
+        "already_have_account": "Já tem uma conta? Entre aqui",
+        "missing_email": "Email ou telefone não informado",
+        "anonymous_disabled": "Login anônimo está desabilitado"
+      },
+      "reset_password_form": {
+        "email_label": "Endereço de email",
+        "email_placeholder": "Seu endereço de email",
+        "submit_button": "Enviar instruções",
+        "success_message": "Instruções enviadas para seu email"
       }
     }
   },
@@ -84,7 +93,16 @@ const resources = {
         "button_label": "Sign in",
         "loading_button_label": "Signing in...",
         "password_input_placeholder": "Enter your password",
-        "email_input_placeholder": "Enter your email"
+        "email_input_placeholder": "Enter your email",
+        "already_have_account": "Already have an account? Sign in",
+        "missing_email": "Missing email or phone",
+        "anonymous_disabled": "Anonymous sign-ins are disabled"
+      },
+      "reset_password_form": {
+        "email_label": "Email address",
+        "email_placeholder": "Your email address",
+        "submit_button": "Send instructions",
+        "success_message": "Instructions sent to your email"
       }
     }
   }
