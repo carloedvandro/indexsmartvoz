@@ -49,7 +49,7 @@ export default function ClientLogin() {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-[500px] p-8 relative z-10 mx-4">
+      <div className="w-full max-w-[500px] relative z-10 mx-4">
         {/* Title */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">
