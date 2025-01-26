@@ -9,8 +9,8 @@ import { Login } from "@/pages/auth/Login";
 import { Register } from "@/pages/auth/Register";
 import { ForgotPassword } from "@/pages/auth/ForgotPassword";
 import { ResetPassword } from "@/pages/auth/ResetPassword";
-import ClientDashboard from "@/pages/client/dashboard";
-import AdminDashboard from "@/pages/admin/dashboard";
+import ClientDashboard from "@/pages/client/Dashboard";
+import AdminDashboard from "@/pages/admin/Dashboard";
 import { BiometricValidation } from "@/components/client/biometrics/BiometricValidation";
 
 function App() {
