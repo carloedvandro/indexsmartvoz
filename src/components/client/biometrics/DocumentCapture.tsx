@@ -1,7 +1,7 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import Webcam from "react-webcam";
 import { Button } from "@/components/ui/button";
-import { Camera, RefreshCcw } from "lucide-react";
+import { Camera, RefreshCcw, Timer } from "lucide-react";
 
 interface DocumentCaptureProps {
   onCapture: (imageData: string) => void;
@@ -42,7 +42,8 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   };
 
   const startCountdown = useCallback(() => {
-    setCountdown(5); // Changed to 5 seconds
+    console.log("Starting countdown");
+    setCountdown(5);
     
     if (countdownInterval.current) {
       window.clearInterval(countdownInterval.current);
@@ -98,9 +99,11 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     const isNowAligned = averageBrightness > 100 && averageBrightness < 200;
     
     if (isNowAligned && !isAligned) {
+      console.log("Document aligned, starting countdown");
       setIsAligned(true);
       startCountdown();
     } else if (!isNowAligned && isAligned) {
+      console.log("Document misaligned, resetting");
       setIsAligned(false);
       setCountdown(null);
       if (countdownInterval.current) {
@@ -154,9 +157,12 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
               </svg>
               {countdown !== null && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-6xl font-bold text-white bg-black/50 w-24 h-24 rounded-full flex items-center justify-center">
-                    {countdown}
-                  </span>
+                  <div className="bg-black/50 w-24 h-24 rounded-full flex items-center justify-center">
+                    <Timer className="w-6 h-6 text-white absolute" />
+                    <span className="text-6xl font-bold text-white">
+                      {countdown}
+                    </span>
+                  </div>
                 </div>
               )}
             </div>
