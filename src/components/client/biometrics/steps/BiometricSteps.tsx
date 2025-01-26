@@ -94,14 +94,14 @@ export function BiometricSteps({ onClose, toast }: BiometricStepsProps) {
       if (updateError) throw updateError;
 
       setStep("complete");
-      toast({
+      toast.toast({
         title: "Validação enviada com sucesso!",
         description: "Suas imagens foram enviadas para análise. Em breve você receberá uma resposta.",
       });
 
     } catch (error: any) {
       console.error("Erro no processo de validação:", error);
-      toast({
+      toast.toast({
         title: "Erro no processo",
         description: "Ocorreu um erro ao processar suas imagens. Por favor, tente novamente.",
         variant: "destructive",

@@ -1,11 +1,11 @@
 import { CpfValidation } from "../CpfValidation";
 import { FacialCapture } from "../FacialCapture";
 import { DocumentCapture } from "../DocumentCapture";
-import { CameraTips } from "../steps/CameraTips";
-import { DocumentTips } from "../steps/DocumentTips";
-import { DocumentTypeSelector } from "../steps/DocumentTypeSelector";
-import { ProcessingStep } from "../steps/ProcessingStep";
-import { CompleteStep } from "../steps/CompleteStep";
+import { CameraTips } from "./CameraTips";
+import { DocumentTips } from "./DocumentTips";
+import { DocumentTypeSelector } from "./DocumentTypeSelector";
+import { ProcessingStep } from "./ProcessingStep";
+import { CompleteStep } from "./CompleteStep";
 
 interface StepContentProps {
   step: string;

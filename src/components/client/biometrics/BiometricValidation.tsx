@@ -4,11 +4,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useToast } from "@/hooks/use-toast";
 import { X } from "lucide-react";
 import { BiometricSteps } from "./steps/BiometricSteps";
-import { useSession } from "@/hooks/useSession";
 
 export function BiometricValidation() {
   const [open, setOpen] = useState(true);
-  const { toast } = useToast();
+  const toast = useToast();
   const navigate = useNavigate();
 
   const handleClose = () => {
