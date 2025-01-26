@@ -76,7 +76,7 @@ export default function ClientLogin() {
               input: {
                 borderRadius: '0.75rem',
                 border: '1px solid #E5E7EB',
-                padding: '0.75rem 1rem 0.75rem 2.5rem',
+                padding: '0.75rem 1rem',
                 fontSize: '1rem',
                 width: '100%',
                 backgroundColor: 'white',
@@ -120,7 +120,7 @@ export default function ClientLogin() {
           redirectTo={`${window.location.origin}/client/dashboard`}
           onlyThirdPartyProviders={false}
           magicLink={false}
-          showLinks={false}
+          showLinks={true}
           view="sign_in"
         />
       </div>
