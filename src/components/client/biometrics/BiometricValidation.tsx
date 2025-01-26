@@ -88,6 +88,8 @@ export function BiometricValidation({ onClose }: BiometricValidationProps) {
         .update({
           facial_validation_status: "pending",
           facial_validation_image: facialPath,
+          document_validated: true,
+          document_validation_date: new Date().toISOString()
         })
         .eq("id", session.user.id);
 
