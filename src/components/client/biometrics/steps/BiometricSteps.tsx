@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { useSession } from "@/hooks/useSession";
 import { supabase } from "@/integrations/supabase/client";
-import { CpfValidation } from "../CpfValidation";
-import { FacialCapture } from "../FacialCapture";
-import { DocumentCapture } from "../DocumentCapture";
 import { StepHeader } from "./StepHeader";
 import { StepContent } from "./StepContent";
-import type { Toast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 type Step = 
   | "cpf"
@@ -23,7 +20,7 @@ type DocumentType = "rg" | "cnh";
 
 interface BiometricStepsProps {
   onClose: () => void;
-  toast: Toast;
+  toast: ReturnType<typeof useToast>;
 }
 
 export function BiometricSteps({ onClose, toast }: BiometricStepsProps) {
