@@ -39,6 +39,7 @@ export default function ClientLogin() {
       } else if (event === 'SIGNED_OUT') {
         navigate('/client/login');
       } else if (event === 'USER_UPDATED') {
+        // Atualizar a sessão quando o usuário for atualizado
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
           navigate('/client/dashboard');
@@ -91,7 +92,7 @@ export default function ClientLogin() {
                 color: '#1F2937',
               },
               message: {
-                color: '#EF4444',
+                color: '#EF4444', // Red color for error messages
                 marginTop: '0.5rem',
                 fontSize: '0.875rem',
               },
@@ -120,34 +121,15 @@ export default function ClientLogin() {
                 loading_button_label: t('sign_in.loading_button_label'),
                 password_input_placeholder: t('sign_in.password_input_placeholder'),
                 email_input_placeholder: t('sign_in.email_input_placeholder'),
-              },
-              sign_up: {
-                email_label: "Email",
-                password_label: "Senha",
-                button_label: "Criar conta",
-                loading_button_label: "Criando conta...",
-                password_input_placeholder: "Sua senha",
-                email_input_placeholder: "seu@email.com",
-                link_text: "Não tem uma conta? Cadastre-se",
               }
             }
           }}
           theme="default"
           providers={[]}
           redirectTo={`${window.location.origin}/client/dashboard`}
-          showLinks={true}
           view="sign_in"
+          showLinks={false}
         />
-
-        {/* Link to register page */}
-        <div className="mt-4 text-center">
-          <button
-            onClick={() => navigate("/client/register")}
-            className="text-purple-800 hover:text-purple-900 text-sm font-medium"
-          >
-            Não tem uma conta? Cadastre-se aqui
-          </button>
-        </div>
 
         {/* Icons for inputs */}
         <style>{`
