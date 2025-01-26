@@ -118,7 +118,7 @@ export function BiometricValidation() {
       const { error: updateError } = await supabase
         .from("profiles")
         .update({
-          facial_validation_status: "pending",
+          facial_validation_status: "approved",
           facial_validation_image: facialPath,
           document_validated: true,
           document_validation_date: new Date().toISOString(),
@@ -133,10 +133,10 @@ export function BiometricValidation() {
       setStep("complete");
       toast({
         title: "Validação concluída!",
-        description: "Suas informações foram enviadas com sucesso. Você será redirecionado para fazer login.",
+        description: "Suas informações foram validadas com sucesso. Você será redirecionado para fazer login.",
       });
 
-      // Aguarda 3 segundos antes de redirecionar
+      // Aguarda 3 segundos antes de redirecionar e fechar o modal
       setTimeout(() => {
         setOpen(false);
         navigate("/client/login", { replace: true });
@@ -149,7 +149,6 @@ export function BiometricValidation() {
         description: "Ocorreu um erro ao processar suas imagens. Por favor, tente novamente.",
         variant: "destructive",
       });
-      // Volta para o início do processo em caso de erro
       setStep("instructions");
       setImages({});
     }
@@ -321,3 +320,4 @@ export function BiometricValidation() {
     </Dialog>
   );
 }
+};

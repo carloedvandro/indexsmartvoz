@@ -16,14 +16,13 @@ export const ProtectedRoute = () => {
       const session = await getSession();
       
       if (!session) {
-        // Determine which login page to redirect to based on the current path
         const isAdminRoute = location.pathname.startsWith('/admin');
         const loginPath = isAdminRoute ? '/admin/login' : '/client/login';
         navigate(loginPath, { replace: true });
         return;
       }
 
-      // Check if user needs biometric validation
+      // Verificar se o usuário precisa de validação biométrica
       const { data: profile } = await supabase
         .from('profiles')
         .select('facial_validation_status, document_validated')
@@ -32,16 +31,22 @@ export const ProtectedRoute = () => {
 
       console.log('Profile validation status:', profile);
 
-      // Only show biometric validation if:
-      // 1. Document is not validated OR
-      // 2. Facial validation is pending/not done
-      // AND user is not in admin routes
-      if (profile && 
-          (!profile.document_validated || 
-           (!profile.facial_validation_status || profile.facial_validation_status === 'pending')) &&
-          !location.pathname.startsWith('/admin')) {
+      // Mostrar validação biométrica apenas se:
+      // 1. O documento não foi validado OU
+      // 2. A validação facial está pendente/não feita
+      // E não estiver em rotas admin
+      const needsValidation = profile && 
+        (!profile.document_validated || 
+         !profile.facial_validation_status || 
+         profile.facial_validation_status === 'pending');
+
+      const isAdminRoute = location.pathname.startsWith('/admin');
+
+      if (needsValidation && !isAdminRoute) {
         console.log('User needs biometric validation');
         setNeedsBiometricValidation(true);
+        // Redirecionar para login se precisar de validação
+        navigate('/client/login', { replace: true });
       } else {
         console.log('User does not need biometric validation');
         setNeedsBiometricValidation(false);
