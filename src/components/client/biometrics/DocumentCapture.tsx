@@ -13,7 +13,6 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   const webcamRef = useRef<Webcam | null>(null);
   const [isAligned, setIsAligned] = useState(false);
   const [countdown, setCountdown] = useState<number | null>(null);
-  const countdownInterval = useRef<number | null>(null);
   const { toast } = useToast();
 
   const videoConstraints = {
@@ -39,43 +38,33 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   const retake = () => {
     setIsAligned(false);
     setCountdown(null);
-    if (countdownInterval.current) {
-      window.clearInterval(countdownInterval.current);
-      countdownInterval.current = null;
-    }
   };
 
   const startCountdown = useCallback(() => {
-    console.log("Starting countdown");
+    console.log("Iniciando contagem regressiva");
     setCountdown(3);
     
-    if (countdownInterval.current) {
-      window.clearInterval(countdownInterval.current);
-    }
-
-    countdownInterval.current = window.setInterval(() => {
-      setCountdown((prev) => {
-        console.log("Countdown value:", prev);
-        if (prev === null) return null;
-        if (prev <= 1) {
-          if (countdownInterval.current) {
-            window.clearInterval(countdownInterval.current);
-            countdownInterval.current = null;
-          }
-          capture();
-          return null;
-        }
-        return prev - 1;
-      });
+    let count = 3;
+    const timer = setInterval(() => {
+      count -= 1;
+      console.log("Contagem:", count);
+      
+      if (count <= 0) {
+        clearInterval(timer);
+        capture();
+        setCountdown(null);
+      } else {
+        setCountdown(count);
+      }
     }, 1000);
+
+    return () => clearInterval(timer);
   }, [capture]);
 
   const checkAlignment = useCallback(() => {
-    if (!webcamRef.current) return;
+    if (!webcamRef.current?.video) return;
     
     const video = webcamRef.current.video;
-    if (!video) return;
-
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     if (!context) return;
@@ -114,8 +103,8 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
       const edgeRatio = edges / totalPixels;
       const isNowAligned = edgeRatio > 0.03 && edgeRatio < 0.3;
       
-      if (isNowAligned && !isAligned) {
-        console.log("Document aligned, starting countdown");
+      if (isNowAligned && !isAligned && countdown === null) {
+        console.log("Documento detectado, iniciando contagem");
         setIsAligned(true);
         startCountdown();
         toast({
@@ -123,27 +112,18 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
           description: "Mantenha o documento parado para a captura",
         });
       } else if (!isNowAligned && isAligned) {
-        console.log("Document misaligned, resetting");
+        console.log("Documento desalinhado, reiniciando");
         setIsAligned(false);
         setCountdown(null);
-        if (countdownInterval.current) {
-          window.clearInterval(countdownInterval.current);
-          countdownInterval.current = null;
-        }
       }
     } catch (error) {
-      console.error("Error checking alignment:", error);
+      console.error("Erro ao verificar alinhamento:", error);
     }
-  }, [isAligned, startCountdown, toast]);
+  }, [isAligned, startCountdown, toast, countdown]);
 
   useEffect(() => {
-    const interval = setInterval(checkAlignment, 50);
-    return () => {
-      clearInterval(interval);
-      if (countdownInterval.current) {
-        clearInterval(countdownInterval.current);
-      }
-    };
+    const interval = setInterval(checkAlignment, 100);
+    return () => clearInterval(interval);
   }, [checkAlignment]);
 
   return (
