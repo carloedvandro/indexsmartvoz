@@ -12,25 +12,31 @@ export function CameraTips({ onNext }: CameraTipsProps) {
   return (
     <div className="space-y-6">
       <div className="text-center space-y-2">
-        <h3 className="text-lg font-semibold">Olá {profile?.full_name?.split(' ')[0]}</h3>
+        <h3 className="text-lg font-semibold">
+          Olá, {profile?.full_name?.split(' ')[0]}!
+        </h3>
         <p className="text-sm text-gray-500">
-          Verificamos que você esta realizando a contratação dos serviços da Vivo,
-          precisamos que realize a biometria
+          Vamos fazer uma foto sua para validar sua identidade
         </p>
       </div>
 
       <div className="flex justify-center">
-        <div className="w-32 h-32 bg-purple-100 rounded-full flex items-center justify-center">
-          <Camera className="h-16 w-16 text-purple-600" />
+        <img 
+          src="/lovable-uploads/945cb68b-0a00-4ebb-9a1a-3f6062f0673f.png" 
+          alt="Camera example"
+          className="w-48 h-48 object-contain"
+        />
+      </div>
+
+      <div className="space-y-4">
+        <div className="flex items-center gap-2 text-sm text-gray-600">
+          <Camera className="h-4 w-4" />
+          <span>Posicione seu rosto no centro da câmera</span>
         </div>
       </div>
 
-      <p className="text-sm text-gray-600 text-center">
-        A biometria é um processo de segurança da venda onde podemos validar a identidade do cliente.
-      </p>
-
       <Button onClick={onNext} className="w-full bg-purple-600 hover:bg-purple-700">
-        Avançar
+        Começar
       </Button>
     </div>
   );

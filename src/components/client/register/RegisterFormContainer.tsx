@@ -21,12 +21,12 @@ export const RegisterFormContainer = () => {
       console.log("Registration completed, redirecting...");
       toast({
         title: "Conta criada!",
-        description: "Sua conta foi criada com sucesso. Redirecionando para o login...",
+        description: "Sua conta foi criada com sucesso. Redirecionando para o dashboard...",
       });
 
-      // Delay before redirect to ensure toast is visible
+      // Redirect to dashboard after successful registration
       setTimeout(() => {
-        navigate("/client/login");
+        navigate("/client/dashboard");
       }, 2000);
 
     } catch (error: any) {

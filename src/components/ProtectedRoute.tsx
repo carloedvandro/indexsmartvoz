@@ -29,22 +29,23 @@ export const ProtectedRoute = () => {
         .eq('id', session.user.id)
         .single();
 
-      if (profile && (
+      const needsValidation = profile && (
         !profile.facial_validation_status || 
         profile.facial_validation_status === 'pending' ||
         !profile.document_validation_status ||
         profile.document_validation_status === 'pending'
-      )) {
-        setNeedsBiometricValidation(true);
-        // If biometric validation is needed, only allow access to the dashboard
-        if (location.pathname !== '/client/dashboard') {
-          navigate('/client/dashboard', { replace: true });
-        }
+      );
+
+      setNeedsBiometricValidation(needsValidation);
+
+      // If biometric validation is needed, only allow access to the dashboard
+      if (needsValidation && location.pathname !== '/client/dashboard') {
+        navigate('/client/dashboard', { replace: true });
       }
     };
 
     checkAuth();
-  }, [getSession, navigate, location]);
+  }, [getSession, navigate, location.pathname]);
 
   if (isLoading) {
     return <LoadingState />;
@@ -52,8 +53,8 @@ export const ProtectedRoute = () => {
 
   return (
     <>
-      <Outlet />
       {needsBiometricValidation && <BiometricValidation />}
+      <Outlet />
     </>
   );
 };
