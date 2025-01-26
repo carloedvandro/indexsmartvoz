@@ -16,7 +16,6 @@ export const ProtectedRoute = () => {
       const session = await getSession();
       
       if (!session) {
-        // Determine which login page to redirect to based on the current path
         const isAdminRoute = location.pathname.startsWith('/admin');
         const loginPath = isAdminRoute ? '/admin/login' : '/client/login';
         navigate(loginPath, { replace: true });
@@ -26,12 +25,21 @@ export const ProtectedRoute = () => {
       // Check if user needs biometric validation
       const { data: profile } = await supabase
         .from('profiles')
-        .select('facial_validation_status')
+        .select('facial_validation_status, document_validation_status')
         .eq('id', session.user.id)
         .single();
 
-      if (profile && (!profile.facial_validation_status || profile.facial_validation_status === 'pending')) {
+      if (profile && (
+        !profile.facial_validation_status || 
+        profile.facial_validation_status === 'pending' ||
+        !profile.document_validation_status ||
+        profile.document_validation_status === 'pending'
+      )) {
         setNeedsBiometricValidation(true);
+        // If biometric validation is needed, only allow access to the dashboard
+        if (location.pathname !== '/client/dashboard') {
+          navigate('/client/dashboard', { replace: true });
+        }
       }
     };
 

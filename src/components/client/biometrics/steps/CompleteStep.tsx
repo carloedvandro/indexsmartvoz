@@ -9,14 +9,15 @@ export function CompleteStep({ onClose }: CompleteStepProps) {
   return (
     <div className="text-center space-y-6">
       <div className="flex justify-center">
-        <CheckCircle className="h-16 w-16 text-green-500" />
+        <div className="w-32 h-32 bg-purple-600 rounded-full flex items-center justify-center">
+          <CheckCircle className="h-16 w-16 text-white" />
+        </div>
       </div>
       
       <div className="space-y-2">
-        <h3 className="text-lg font-semibold">Validação Enviada</h3>
+        <h3 className="text-lg font-semibold">Pronto!</h3>
         <p className="text-sm text-gray-500">
-          Suas imagens foram enviadas com sucesso e serão analisadas em breve.
-          Você receberá uma notificação quando o processo for concluído.
+          Após esses passos, seu processo terá sido concluído.
         </p>
       </div>
 

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { FileText, CreditCard } from "lucide-react";
+import { CreditCard, FileText } from "lucide-react";
 
 interface DocumentTypeSelectorProps {
   documentType: "rg" | "cnh";
