@@ -1,10 +1,7 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import Webcam from "react-webcam";
 import { Button } from "@/components/ui/button";
-import { RefreshCcw } from "lucide-react";
-import { CaptureGuide } from "./capture/CaptureGuide";
-import { CaptureStatus } from "./capture/CaptureStatus";
-import { checkDocumentAlignment } from "./capture/DocumentAlignment";
+import { Camera, RefreshCcw } from "lucide-react";
 
 interface DocumentCaptureProps {
   onCapture: (imageData: string) => void;
@@ -25,20 +22,27 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
       setCapturedImage(imageSrc);
       onCapture(imageSrc);
       setCountdown(null);
-      clearIntervals();
+      if (alignmentCheckInterval.current) {
+        window.clearInterval(alignmentCheckInterval.current);
+      }
+      if (countdownInterval.current) {
+        window.clearInterval(countdownInterval.current);
+      }
     }
-  }, [onCapture]);
+  }, [webcamRef, onCapture]);
 
-  const clearIntervals = () => {
-    if (alignmentCheckInterval.current) {
-      window.clearInterval(alignmentCheckInterval.current);
-    }
+  const retake = () => {
+    setCapturedImage(null);
+    setIsAligned(false);
+    setCountdown(null);
     if (countdownInterval.current) {
       window.clearInterval(countdownInterval.current);
     }
+    startAlignmentDetection();
   };
 
   const startCountdown = useCallback(() => {
+    console.log("Starting countdown");
     setCountdown(3);
     
     if (countdownInterval.current) {
@@ -47,9 +51,12 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     
     countdownInterval.current = window.setInterval(() => {
       setCountdown((prev) => {
+        console.log("Countdown value:", prev);
         if (prev === null) return null;
         if (prev <= 1) {
-          clearIntervals();
+          if (countdownInterval.current) {
+            window.clearInterval(countdownInterval.current);
+          }
           capture();
           return null;
         }
@@ -62,12 +69,62 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     const video = webcamRef.current?.video;
     if (!video) return;
 
-    const { isAligned: newIsAligned } = checkDocumentAlignment(video);
+    // Create a canvas to analyze the video frame
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    if (!context) return;
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0);
+
+    // Get the image data from 80% of the frame
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const sampleWidth = canvas.width * 0.8;
+    const sampleHeight = canvas.height * 0.8;
     
-    if (newIsAligned && !isAligned) {
+    const imageData = context.getImageData(
+      centerX - sampleWidth / 2,
+      centerY - sampleHeight / 2,
+      sampleWidth,
+      sampleHeight
+    );
+
+    // Calculate average brightness and contrast
+    let totalBrightness = 0;
+    let minBrightness = 255;
+    let maxBrightness = 0;
+
+    for (let i = 0; i < imageData.data.length; i += 4) {
+      const r = imageData.data[i];
+      const g = imageData.data[i + 1];
+      const b = imageData.data[i + 2];
+      const brightness = (r + g + b) / 3;
+      
+      totalBrightness += brightness;
+      minBrightness = Math.min(minBrightness, brightness);
+      maxBrightness = Math.max(maxBrightness, brightness);
+    }
+
+    const averageBrightness = totalBrightness / (sampleWidth * sampleHeight);
+    const contrast = maxBrightness - minBrightness;
+
+    // Document is considered aligned if there's good contrast and moderate brightness
+    const isNowAligned = contrast > 50 && averageBrightness > 80 && averageBrightness < 200;
+    
+    console.log("Alignment check:", { 
+      averageBrightness, 
+      contrast, 
+      isAligned: isNowAligned 
+    });
+
+    if (isNowAligned && !isAligned) {
+      console.log("Document aligned, starting countdown");
       setIsAligned(true);
       startCountdown();
-    } else if (!newIsAligned && isAligned) {
+    } else if (!isNowAligned && isAligned) {
+      console.log("Document misaligned, resetting");
       setIsAligned(false);
       setCountdown(null);
       if (countdownInterval.current) {
@@ -76,18 +133,24 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     }
   }, [isAligned, startCountdown]);
 
-  useEffect(() => {
+  const startAlignmentDetection = useCallback(() => {
+    if (alignmentCheckInterval.current) {
+      window.clearInterval(alignmentCheckInterval.current);
+    }
     alignmentCheckInterval.current = window.setInterval(checkAlignment, 200);
-    return clearIntervals;
   }, [checkAlignment]);
 
-  const retake = () => {
-    setCapturedImage(null);
-    setIsAligned(false);
-    setCountdown(null);
-    clearIntervals();
-    alignmentCheckInterval.current = window.setInterval(checkAlignment, 200);
-  };
+  useEffect(() => {
+    startAlignmentDetection();
+    return () => {
+      if (alignmentCheckInterval.current) {
+        window.clearInterval(alignmentCheckInterval.current);
+      }
+      if (countdownInterval.current) {
+        window.clearInterval(countdownInterval.current);
+      }
+    };
+  }, [startAlignmentDetection]);
 
   const videoConstraints = {
     width: 720,
@@ -100,11 +163,27 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
       <div className="relative w-[300px] h-[200px] mx-auto overflow-hidden rounded-lg">
         {!capturedImage ? (
           <>
-            <CaptureGuide 
-              isAligned={isAligned} 
-              countdown={countdown}
-              side={side}
-            />
+            <div className="absolute inset-0 z-10 pointer-events-none">
+              <svg className="w-full h-full">
+                <rect
+                  x="5%"
+                  y="5%"
+                  width="90%"
+                  height="90%"
+                  fill="none"
+                  stroke={isAligned ? "green" : "white"}
+                  strokeWidth="2"
+                  rx="4"
+                />
+              </svg>
+              {countdown !== null && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-8xl font-bold text-white bg-black/50 w-32 h-32 rounded-full flex items-center justify-center">
+                    {countdown}
+                  </span>
+                </div>
+              )}
+            </div>
             <Webcam
               audio={false}
               ref={webcamRef}
@@ -135,12 +214,21 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
         )}
       </div>
 
-      <CaptureStatus 
-        isAligned={isAligned}
-        countdown={countdown}
-        side={side}
-        isCaptured={!!capturedImage}
-      />
+      <p className="text-center text-sm text-gray-500">
+        {!capturedImage ? (
+          isAligned ? (
+            countdown !== null ? 
+              `Mantenha o documento parado. Capturando em ${countdown} segundos...` :
+              "Mantenha o documento parado..."
+          ) : (
+            side === "front" 
+              ? "Centralize a frente do documento no retângulo"
+              : "Agora centralize o verso do documento"
+          )
+        ) : (
+          "Clique em repetir caso a imagem não esteja legível"
+        )}
+      </p>
     </div>
   );
 }

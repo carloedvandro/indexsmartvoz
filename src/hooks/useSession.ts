@@ -1,35 +1,27 @@
-import { useState, useEffect } from 'react';
-import { Session } from '@supabase/supabase-js';
+import { useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import type { Session } from '@supabase/supabase-js';
 
 export const useSession = () => {
-  const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
+  const getSession = useCallback(async (): Promise<Session | null> => {
+    try {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      
+      if (error) {
+        console.error('Error fetching session:', error);
+        return null;
+      }
+      
+      return session;
+    } catch (error) {
+      console.error('Error in getSession:', error);
+      return null;
+    } finally {
       setIsLoading(false);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setIsLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    }
   }, []);
 
-  const getSession = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    return session;
-  };
-
-  return {
-    session,
-    isLoading,
-    getSession,
-  };
+  return { getSession, isLoading };
 };
