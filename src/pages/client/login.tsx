@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
@@ -37,6 +38,12 @@ export default function ClientLogin() {
         navigate('/client/dashboard');
       } else if (event === 'SIGNED_OUT') {
         navigate('/client/login');
+      } else if (event === 'USER_UPDATED') {
+        // Atualizar a sessão quando o usuário for atualizado
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          navigate('/client/dashboard');
+        }
       }
     });
 
@@ -122,6 +129,13 @@ export default function ClientLogin() {
           redirectTo={`${window.location.origin}/client/dashboard`}
           view="sign_in"
           showLinks={false}
+          onError={(error) => {
+            if (error.message.includes('Invalid login credentials')) {
+              toast.error('Email ou senha inválidos');
+            } else {
+              toast.error('Erro ao fazer login. Tente novamente.');
+            }
+          }}
         />
 
         {/* Icons for inputs */}
