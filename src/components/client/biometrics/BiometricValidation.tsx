@@ -43,7 +43,6 @@ export function BiometricValidation() {
           title: "Frente capturada com sucesso!",
           description: "Aguarde, em 5 segundos vamos capturar o verso do documento",
         });
-        // Adiciona um atraso de 5 segundos antes de mudar para a captura do verso
         setTimeout(() => {
           setStep("document-back");
           toast({
@@ -133,9 +132,15 @@ export function BiometricValidation() {
 
       setStep("complete");
       toast({
-        title: "Deu certo!",
-        description: "Nós confirmamos sua identidade e você já pode continuar sua jornada",
+        title: "Validação concluída!",
+        description: "Suas informações foram enviadas com sucesso. Você será redirecionado para fazer login.",
       });
+
+      // Aguarda 3 segundos antes de redirecionar
+      setTimeout(() => {
+        setOpen(false);
+        navigate("/client/login", { replace: true });
+      }, 3000);
 
     } catch (error: any) {
       console.error("Erro detalhado no processo de validação:", error);

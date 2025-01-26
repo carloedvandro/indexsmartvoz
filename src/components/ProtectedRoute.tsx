@@ -26,12 +26,25 @@ export const ProtectedRoute = () => {
       // Check if user needs biometric validation
       const { data: profile } = await supabase
         .from('profiles')
-        .select('facial_validation_status')
+        .select('facial_validation_status, document_validated')
         .eq('id', session.user.id)
         .single();
 
-      if (profile && (!profile.facial_validation_status || profile.facial_validation_status === 'pending')) {
+      console.log('Profile validation status:', profile);
+
+      // Only show biometric validation if:
+      // 1. Document is not validated OR
+      // 2. Facial validation is pending/not done
+      // AND user is not in admin routes
+      if (profile && 
+          (!profile.document_validated || 
+           (!profile.facial_validation_status || profile.facial_validation_status === 'pending')) &&
+          !location.pathname.startsWith('/admin')) {
+        console.log('User needs biometric validation');
         setNeedsBiometricValidation(true);
+      } else {
+        console.log('User does not need biometric validation');
+        setNeedsBiometricValidation(false);
       }
     };
 
