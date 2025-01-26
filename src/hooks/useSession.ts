@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
+import { Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
-import type { Session } from '@supabase/supabase-js';
 
 export const useSession = () => {
   const [session, setSession] = useState<Session | null>(null);
@@ -22,12 +22,14 @@ export const useSession = () => {
     return () => subscription.unsubscribe();
   }, []);
 
+  const getSession = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    return session;
+  };
+
   return {
     session,
     isLoading,
-    getSession: async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      return session;
-    },
+    getSession,
   };
 };
