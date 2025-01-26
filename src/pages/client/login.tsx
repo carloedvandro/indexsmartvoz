@@ -38,7 +38,7 @@ export default function ClientLogin() {
       }
 
       // Handle specific error events
-      if (event === 'USER_DELETED') {
+      if (event === 'DELETED_USER') {
         toast({
           title: "Erro",
           description: "Usuário não encontrado",
@@ -92,7 +92,7 @@ export default function ClientLogin() {
                 color: '#1F2937',
               },
               message: {
-                color: '#DC2626', // Red for error messages
+                color: '#DC2626',
                 marginTop: '0.5rem',
                 fontSize: '0.875rem',
               },
@@ -122,7 +122,6 @@ export default function ClientLogin() {
                 password_input_placeholder: "Digite sua senha",
                 email_input_placeholder: "Digite seu endereço de email",
                 link_text: "Já tem uma conta? Entre aqui",
-                error_message: "Credenciais inválidas",
               },
               sign_up: {
                 email_label: "Endereço de email",
@@ -132,7 +131,6 @@ export default function ClientLogin() {
                 password_input_placeholder: "Digite sua senha",
                 email_input_placeholder: "Digite seu endereço de email",
                 link_text: "Não tem uma conta? Cadastre-se",
-                error_message: "Email já cadastrado",
               },
               forgotten_password: {
                 email_label: "Endereço de email",
