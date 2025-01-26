@@ -20,7 +20,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     const imageSrc = webcamRef.current?.getScreenshot();
     if (imageSrc) {
       setCapturedImage(imageSrc);
-      onCapture(imageSrc); // Automatically confirm capture
+      onCapture(imageSrc);
       setCountdown(null);
       if (alignmentCheckInterval.current) {
         window.clearInterval(alignmentCheckInterval.current);
@@ -42,7 +42,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   };
 
   const startCountdown = useCallback(() => {
-    setCountdown(3);
+    setCountdown(5); // Changed to 5 seconds
     
     if (countdownInterval.current) {
       window.clearInterval(countdownInterval.current);
@@ -67,7 +67,6 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     const video = webcamRef.current?.video;
     if (!video) return;
 
-    // Create a canvas to analyze the video frame
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     if (!context) return;
@@ -76,10 +75,9 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     canvas.height = video.videoHeight;
     context.drawImage(video, 0, 0);
 
-    // Get the image data from the center of the frame
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
-    const sampleSize = 100; // Size of the area to check
+    const sampleSize = 100;
     
     const imageData = context.getImageData(
       centerX - sampleSize / 2,
@@ -88,7 +86,6 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
       sampleSize
     );
 
-    // Calculate average brightness in the center area
     let totalBrightness = 0;
     for (let i = 0; i < imageData.data.length; i += 4) {
       const r = imageData.data[i];
@@ -98,7 +95,6 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     }
     const averageBrightness = totalBrightness / (sampleSize * sampleSize);
 
-    // If the center area has good contrast (indicating a document)
     const isNowAligned = averageBrightness > 100 && averageBrightness < 200;
     
     if (isNowAligned && !isAligned) {
