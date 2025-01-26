@@ -152,7 +152,8 @@ export function BiometricValidation() {
 
   const handleClose = () => {
     setOpen(false);
-    navigate("/client/dashboard");
+    // Redireciona para a página de login após fechar o diálogo
+    navigate("/client/login");
   };
 
   const renderStepContent = () => {
