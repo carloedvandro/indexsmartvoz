@@ -47,9 +47,6 @@ export const RegisterFormContainer = () => {
 
   return (
     <div className="px-6 sm:px-5 py-6">
-      <h2 className="text-center text-2xl font-bold text-gray-900">
-        Criar nova conta
-      </h2>
       <p className="mt-2 text-center text-sm text-gray-600">
         Preencha os dados abaixo para criar sua conta
       </p>
