@@ -10,6 +10,7 @@ import { InstructionsStep } from "./steps/InstructionsStep";
 import { DocumentInstructionsStep } from "./steps/DocumentInstructionsStep";
 import { ProcessingStep } from "./steps/ProcessingStep";
 import { CompleteStep } from "./steps/CompleteStep";
+import { useNavigate } from "react-router-dom";
 
 type Step = 
   | "instructions" 
@@ -34,6 +35,7 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
   }>({});
   const { toast } = useToast();
   const { getSession } = useSession();
+  const navigate = useNavigate();
 
   const handleImageCapture = async (imageData: string, type: "facial" | "documentFront" | "documentBack") => {
     try {
@@ -109,6 +111,9 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
 
       if (backError) throw backError;
 
+      // Simular um tempo de processamento
+      await new Promise(resolve => setTimeout(resolve, 3000));
+
       // Atualizar status da validação no perfil
       const { error: updateError } = await supabase
         .from("profiles")
@@ -145,6 +150,8 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
     if (onComplete) {
       onComplete();
     }
+    // Redirecionar para a página de login após fechar o modal
+    navigate("/client/login", { replace: true });
   };
 
   const renderStepContent = () => {
