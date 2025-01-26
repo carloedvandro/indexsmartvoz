@@ -66,9 +66,9 @@ export default function LoginPage() {
 
   return (
     <div className="container relative min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-[350px] space-y-6">
+      <div className="w-full max-w-[350px] space-y-6 -mt-12">
         <div className="flex flex-col space-y-2 text-center">
-          <h1 className="text-2xl font-semibold tracking-tight">
+          <h1 className="w-[280px] mx-auto mb-12 text-5xl font-bold tracking-tight text-transparent bg-clip-text animate-rainbow bg-[length:200%] bg-gradient-to-r from-purple-400 via-purple-600 to-purple-800 hover:scale-105 transition-transform duration-300 shadow-[2px_2px_rgba(0,0,0,0.2)]">
             Smartvoz
           </h1>
           <p className="text-sm text-muted-foreground">
