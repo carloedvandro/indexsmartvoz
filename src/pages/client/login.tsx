@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Fingerprint, ArrowRight } from "lucide-react";
+import { Fingerprint } from "lucide-react";
 import { BiometricValidation } from "@/components/client/biometrics/BiometricValidation";
 import { useToast } from "@/hooks/use-toast";
 
@@ -17,42 +17,10 @@ export default function ClientLogin() {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check if we're on a password recovery route
-    const isPasswordRecovery = window.location.hash.includes('#access_token') && 
-                              window.location.hash.includes('type=recovery');
-
-    if (isPasswordRecovery) {
-      navigate('/client/reset-password' + window.location.hash);
-      return;
-    }
-
-    // Check for existing session and biometric validation
-    const checkSession = async () => {
+    const checkBiometricStatus = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        // Check if user has already completed biometric validation
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('facial_validation_status, document_validated')
-          .eq('id', session.user.id)
-          .single();
-
-        if (profile?.facial_validation_status === 'approved' && profile?.document_validated) {
-          navigate('/client/dashboard');
-        } else {
-          setShowBiometricModal(true);
-        }
-      }
-    };
-
-    checkSession();
-
-    // Listen for auth state changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log('Auth state changed:', event);
       
-      if (event === 'SIGNED_IN' && session) {
-        // Check biometric validation status when user signs in
+      if (session?.user) {
         const { data: profile } = await supabase
           .from('profiles')
           .select('facial_validation_status, document_validated')
@@ -60,17 +28,13 @@ export default function ClientLogin() {
           .single();
 
         if (profile?.facial_validation_status === 'approved' && profile?.document_validated) {
-          navigate('/client/dashboard');
-        } else {
-          setShowBiometricModal(true);
+          setShowLoginForm(true);
         }
       }
-    });
-
-    return () => {
-      subscription.unsubscribe();
     };
-  }, [navigate]);
+
+    checkBiometricStatus();
+  }, []);
 
   const handleBiometricComplete = () => {
     setShowBiometricModal(false);
@@ -109,8 +73,6 @@ export default function ClientLogin() {
             <div className="mb-4 flex items-center justify-center gap-2 text-sm text-gray-600">
               <Fingerprint className="w-4 h-4 text-green-500" />
               Validação biométrica concluída
-              <ArrowRight className="w-4 h-4" />
-              Faça seu login
             </div>
 
             <Auth
@@ -183,24 +145,6 @@ export default function ClientLogin() {
             />
           </>
         )}
-
-        {/* Icons for inputs */}
-        <style>{`
-          .supabase-auth-ui_ui-input[type="email"] {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%236B21A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>');
-            background-repeat: no-repeat;
-            background-position: 12px center;
-            background-size: 20px;
-            padding-left: 40px !important;
-          }
-          .supabase-auth-ui_ui-input[type="password"] {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%236B21A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>');
-            background-repeat: no-repeat;
-            background-position: 12px center;
-            background-size: 20px;
-            padding-left: 40px !important;
-          }
-        `}</style>
 
         {showBiometricModal && (
           <BiometricValidation 

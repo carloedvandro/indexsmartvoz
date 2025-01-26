@@ -17,6 +17,9 @@ export function ProcessingStep() {
             Por favor, não feche esta janela durante o processo de validação.
             Você será redirecionado automaticamente após a conclusão.
           </p>
+          <p className="text-sm text-purple-600 font-medium mt-2">
+            Tempo estimado de processamento: 2 minutos
+          </p>
         </div>
       </div>
     </div>
