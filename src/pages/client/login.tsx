@@ -116,7 +116,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="text-right">
+          <div className="text-center">
             <Link
               to="/client/reset-password"
               className="text-sm text-purple-600 hover:text-purple-700 hover:underline"
