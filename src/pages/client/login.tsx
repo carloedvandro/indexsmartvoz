@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthError } from "@supabase/supabase-js";
 import { AlertCircle, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { RainbowButton } from "@/components/ui/rainbow-button";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -125,19 +125,19 @@ export default function LoginPage() {
             </div>
           )}
 
-          <Button
+          <RainbowButton
             type="submit"
-            className="w-full bg-purple-600 hover:bg-purple-700"
+            className="w-full"
             disabled={isLoading}
           >
             {isLoading ? "Entrando..." : "Entrar"}
-          </Button>
+          </RainbowButton>
         </form>
 
         <div className="text-center text-sm text-black">
           Não tem uma conta? <Link
             to="/client/register"
-            className="font-bold text-purple-600 hover:text-purple-700"
+            className="font-bold text-black hover:text-gray-700"
           >
             Cadastre-se
           </Link>
