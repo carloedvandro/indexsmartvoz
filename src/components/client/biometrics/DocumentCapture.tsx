@@ -86,11 +86,11 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     if (isNowAligned && !isAligned) {
       setIsAligned(true);
       setCountdownActive(true);
-      // Start 5-second countdown before capture
+      // Start 3-second countdown before capture
       if (captureTimeout.current) {
         window.clearTimeout(captureTimeout.current);
       }
-      captureTimeout.current = window.setTimeout(capture, 5000);
+      captureTimeout.current = window.setTimeout(capture, 3000);
     } else if (!isNowAligned && isAligned) {
       setIsAligned(false);
       setCountdownActive(false);
@@ -185,7 +185,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
       <p className="text-center text-sm text-gray-500">
         {!capturedImage ? (
           isAligned ? (
-            "Mantenha o documento parado. Capturando em 5 segundos..."
+            "Mantenha o documento parado. Capturando em 3 segundos..."
           ) : (
             side === "front" 
               ? "Centralize a frente do documento no retângulo"
