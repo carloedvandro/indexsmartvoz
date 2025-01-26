@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { X, User, FileText, CheckCircle, Loader2, LightbulbIcon } from "lucide-react";
+import { X } from "lucide-react";
 import { FacialCapture } from "./FacialCapture";
 import { DocumentCapture } from "./DocumentCapture";
+import { InstructionsStep } from "./steps/InstructionsStep";
+import { ProcessingStep } from "./steps/ProcessingStep";
+import { CompleteStep } from "./steps/CompleteStep";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
 
@@ -112,6 +114,35 @@ export function BiometricValidation() {
     setOpen(false);
   };
 
+  const renderStep = () => {
+    switch (step) {
+      case "instructions":
+        return <InstructionsStep onContinue={() => setStep("facial")} />;
+      case "facial":
+        return <FacialCapture onCapture={(image) => handleImageCapture(image, "facial")} />;
+      case "document-front":
+        return (
+          <DocumentCapture
+            onCapture={(image) => handleImageCapture(image, "documentFront")}
+            side="front"
+          />
+        );
+      case "document-back":
+        return (
+          <DocumentCapture
+            onCapture={(image) => handleImageCapture(image, "documentBack")}
+            side="back"
+          />
+        );
+      case "processing":
+        return <ProcessingStep />;
+      case "complete":
+        return <CompleteStep onClose={handleClose} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-md">
@@ -133,109 +164,7 @@ export function BiometricValidation() {
         </DialogHeader>
 
         <div className="flex flex-col items-center space-y-4 py-4">
-          {step === "instructions" && (
-            <>
-              <div className="space-y-6 text-center">
-                <h3 className="text-lg font-semibold">Siga as instruções abaixo:</h3>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <p className="flex items-center gap-2 font-medium">
-                      <User className="h-5 w-5" />
-                      Deixe seu rosto visível
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Sem acessórios que encubram o rosto, como óculos, chapéus ou máscaras
-                    </p>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <p className="flex items-center gap-2 font-medium">
-                      <LightbulbIcon className="h-5 w-5" />
-                      Fique num lugar com boa iluminação
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Sem pessoas ou objetos ao fundo
-                    </p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <p className="flex items-center gap-2 font-medium">
-                      <FileText className="h-5 w-5" />
-                      Prepare seu documento
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Tenha em mãos seu documento de identificação (RG ou CNH)
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <Button 
-                onClick={() => setStep("facial")} 
-                className="w-full bg-purple-600 hover:bg-purple-700"
-              >
-                Continuar
-              </Button>
-            </>
-          )}
-
-          {step === "facial" && (
-            <FacialCapture onCapture={(image) => handleImageCapture(image, "facial")} />
-          )}
-
-          {step === "document-front" && (
-            <DocumentCapture
-              onCapture={(image) => handleImageCapture(image, "documentFront")}
-              side="front"
-            />
-          )}
-
-          {step === "document-back" && (
-            <DocumentCapture
-              onCapture={(image) => handleImageCapture(image, "documentBack")}
-              side="back"
-            />
-          )}
-
-          {step === "processing" && (
-            <div className="text-center space-y-4">
-              <div className="flex flex-col items-center gap-4">
-                <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center">
-                  <Loader2 className="h-8 w-8 animate-spin text-white" />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold">Aguarde!</h3>
-                  <p className="text-sm text-gray-500">
-                    Estamos analisando seus dados pra confirmar sua identidade
-                  </p>
-                  <p className="text-xs text-gray-400">
-                    Se fechar o app, você volta pro início da confirmação de identidade
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {step === "complete" && (
-            <div className="text-center space-y-6">
-              <div className="flex flex-col items-center gap-4">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                  <CheckCircle className="h-8 w-8 text-green-500" />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold">Deu certo!</h3>
-                  <p className="text-gray-600">
-                    Nós confirmamos sua identidade e você já pode continuar sua jornada
-                  </p>
-                </div>
-              </div>
-              <Button 
-                onClick={handleClose} 
-                className="w-full bg-purple-600 hover:bg-purple-700"
-              >
-                Continuar
-              </Button>
-            </div>
-          )}
+          {renderStep()}
         </div>
       </DialogContent>
     </Dialog>
