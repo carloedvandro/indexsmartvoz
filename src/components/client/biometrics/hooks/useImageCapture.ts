@@ -19,8 +19,14 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
   const handleImageCapture = async (imageData: string, type: ImageType) => {
     try {
       const session = await getSession();
+      
       if (!session?.user) {
-        throw new Error("Usuário não autenticado");
+        toast({
+          title: "Erro no processo",
+          description: "Por favor, faça login antes de iniciar a validação biométrica",
+          variant: "destructive",
+        });
+        return;
       }
 
       // Primeiro salvamos a imagem no estado
@@ -45,7 +51,12 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
 
         if (uploadError) {
           console.error("Erro no upload facial:", uploadError);
-          throw new Error("Erro ao fazer upload da imagem facial");
+          toast({
+            title: "Erro no upload",
+            description: "Não foi possível salvar a imagem facial. Por favor, tente novamente.",
+            variant: "destructive",
+          });
+          return;
         }
 
         console.log("Upload facial concluído com sucesso");

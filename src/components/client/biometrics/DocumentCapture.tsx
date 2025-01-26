@@ -107,19 +107,21 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
       const edgeRatio = edges / totalPixels;
       const isNowAligned = edgeRatio > 0.03 && edgeRatio < 0.3;
       
-      if (isNowAligned && !isAligned) {
+      if (isNowAligned) {
         setStableFrames(prev => prev + 1);
-        if (stableFrames >= 15) { // Aguarda 15 frames estáveis (aproximadamente 0.5 segundos)
-          console.log("Documento detectado e estável, iniciando contagem");
-          setIsAligned(true);
-          startCountdown();
-          toast({
-            title: "Documento detectado",
-            description: `Mantenha o ${side === 'front' ? 'frente' : 'verso'} do documento parado para a captura`,
-          });
+        if (stableFrames >= 30) { // Aumentado para 30 frames (1 segundo) para maior estabilidade
+          if (!isAligned) {
+            console.log("Documento detectado e estável, iniciando contagem");
+            setIsAligned(true);
+            startCountdown();
+            toast({
+              title: "Documento detectado",
+              description: `Mantenha o ${side === 'front' ? 'frente' : 'verso'} do documento parado para a captura`,
+            });
+          }
         }
-      } else if (!isNowAligned) {
-        if (isAligned || stableFrames > 0) {
+      } else {
+        if (stableFrames > 0 || isAligned) {
           console.log("Documento desalinhado, reiniciando");
           setIsAligned(false);
           setStableFrames(0);
