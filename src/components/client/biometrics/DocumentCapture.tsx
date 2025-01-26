@@ -68,7 +68,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
 
       <div className="flex justify-center gap-2">
         {!capturedImage ? (
-          <Button onClick={capture} className="gap-2">
+          <Button onClick={capture} className="gap-2 bg-purple-600 hover:bg-purple-700">
             <Camera className="h-4 w-4" />
             Capturar
           </Button>
@@ -78,7 +78,9 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
               <RefreshCcw className="h-4 w-4" />
               Repetir
             </Button>
-            <Button onClick={confirm}>Confirmar</Button>
+            <Button onClick={confirm} className="bg-purple-600 hover:bg-purple-700">
+              Confirmar
+            </Button>
           </>
         )}
       </div>
