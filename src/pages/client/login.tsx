@@ -3,11 +3,11 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { toast } = useToast();
 
   useEffect(() => {
     // Check if we're on a password recovery route
@@ -36,12 +36,21 @@ export default function ClientLogin() {
       if (event === 'SIGNED_IN' && session) {
         navigate('/client/dashboard');
       }
+
+      // Handle specific error events
+      if (event === 'USER_DELETED') {
+        toast({
+          title: "Erro",
+          description: "Usuário não encontrado",
+          variant: "destructive",
+        });
+      }
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [navigate]);
+  }, [navigate, toast]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
@@ -83,7 +92,7 @@ export default function ClientLogin() {
                 color: '#1F2937',
               },
               message: {
-                color: '#6B21A8',
+                color: '#DC2626', // Red for error messages
                 marginTop: '0.5rem',
                 fontSize: '0.875rem',
               },
@@ -112,6 +121,8 @@ export default function ClientLogin() {
                 loading_button_label: "Entrando...",
                 password_input_placeholder: "Digite sua senha",
                 email_input_placeholder: "Digite seu endereço de email",
+                link_text: "Já tem uma conta? Entre aqui",
+                error_message: "Credenciais inválidas",
               },
               sign_up: {
                 email_label: "Endereço de email",
@@ -121,6 +132,7 @@ export default function ClientLogin() {
                 password_input_placeholder: "Digite sua senha",
                 email_input_placeholder: "Digite seu endereço de email",
                 link_text: "Não tem uma conta? Cadastre-se",
+                error_message: "Email já cadastrado",
               },
               forgotten_password: {
                 email_label: "Endereço de email",
