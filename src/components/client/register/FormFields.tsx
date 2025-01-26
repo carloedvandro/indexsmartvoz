@@ -41,24 +41,6 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
 
       <FormField
         control={form.control}
-        name="whatsapp"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>WhatsApp</FormLabel>
-            <FormControl>
-              <Input 
-                type="tel" 
-                placeholder="Ex: 11999999999"
-                {...field} 
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={form.control}
         name="password"
         render={({ field }) => (
           <FormItem>

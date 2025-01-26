@@ -1,8 +1,7 @@
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useCallback } from "react";
 import Webcam from "react-webcam";
 import { Button } from "@/components/ui/button";
-import { Camera, RefreshCcw, Timer } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Camera, RefreshCcw } from "lucide-react";
 
 interface DocumentCaptureProps {
   onCapture: (imageData: string) => void;
@@ -10,170 +9,88 @@ interface DocumentCaptureProps {
 }
 
 export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
-  const webcamRef = useRef<Webcam | null>(null);
-  const [isAligned, setIsAligned] = useState(false);
-  const [countdown, setCountdown] = useState<number | null>(null);
-  const { toast } = useToast();
-
-  const videoConstraints = {
-    width: 1280,
-    height: 720,
-    facingMode: { exact: "environment" },
-  };
+  const webcamRef = useRef<Webcam>(null);
+  const [capturedImage, setCapturedImage] = useState<string | null>(null);
 
   const capture = useCallback(() => {
-    if (webcamRef.current) {
-      const imageSrc = webcamRef.current.getScreenshot();
-      if (imageSrc) {
-        console.log(`Capturing ${side} of document`);
-        onCapture(imageSrc);
-        toast({
-          title: "Imagem capturada com sucesso!",
-          description: `Lado ${side === 'front' ? 'frontal' : 'traseiro'} do documento foi capturado.`,
-        });
-      }
+    const imageSrc = webcamRef.current?.getScreenshot();
+    if (imageSrc) {
+      setCapturedImage(imageSrc);
     }
-  }, [onCapture, side, toast]);
+  }, [webcamRef]);
 
   const retake = () => {
-    setIsAligned(false);
-    setCountdown(null);
+    setCapturedImage(null);
   };
 
-  const startCountdown = useCallback(() => {
-    if (countdown !== null) return; // Prevent multiple countdowns
-    
-    console.log("Iniciando contagem regressiva");
-    setCountdown(3);
-    
-    const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev === null || prev <= 1) {
-          clearInterval(timer);
-          if (prev === 1) {
-            capture();
-          }
-          return null;
-        }
-        console.log("Contagem:", prev - 1);
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [capture, countdown]);
-
-  const checkAlignment = useCallback(() => {
-    if (!webcamRef.current?.video) return;
-    
-    const video = webcamRef.current.video;
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    if (!context) return;
-
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    context.drawImage(video, 0, 0);
-
-    try {
-      const centerX = canvas.width * 0.15;
-      const centerY = canvas.height * 0.15;
-      const centerWidth = canvas.width * 0.7;
-      const centerHeight = canvas.height * 0.7;
-      
-      const imageData = context.getImageData(centerX, centerY, centerWidth, centerHeight);
-      const data = imageData.data;
-      
-      let edges = 0;
-      let totalPixels = 0;
-      
-      for (let i = 0; i < data.length; i += 4) {
-        const r = data[i];
-        const g = data[i + 1];
-        const b = data[i + 2];
-        
-        const gray = (r + g + b) / 3;
-        if (i > 0) {
-          const prevGray = (data[i - 4] + data[i - 3] + data[i - 2]) / 3;
-          if (Math.abs(gray - prevGray) > 20) {
-            edges++;
-          }
-        }
-        totalPixels++;
-      }
-      
-      const edgeRatio = edges / totalPixels;
-      const isNowAligned = edgeRatio > 0.03 && edgeRatio < 0.3;
-      
-      if (isNowAligned && !isAligned && countdown === null) {
-        console.log("Documento detectado, iniciando contagem");
-        setIsAligned(true);
-        startCountdown();
-        toast({
-          title: "Documento detectado",
-          description: `Mantenha o ${side === 'front' ? 'frente' : 'verso'} do documento parado para a captura`,
-        });
-      } else if (!isNowAligned && isAligned) {
-        console.log("Documento desalinhado, reiniciando");
-        setIsAligned(false);
-        setCountdown(null);
-      }
-    } catch (error) {
-      console.error("Erro ao verificar alinhamento:", error);
+  const confirm = () => {
+    if (capturedImage) {
+      onCapture(capturedImage);
     }
-  }, [isAligned, startCountdown, toast, countdown, side]);
+  };
 
-  useEffect(() => {
-    const interval = setInterval(checkAlignment, 100);
-    return () => clearInterval(interval);
-  }, [checkAlignment]);
+  const videoConstraints = {
+    width: 720,
+    height: 480,
+    facingMode: "environment"
+  };
 
   return (
     <div className="space-y-4">
-      <div className="relative w-full h-[60vh]">
-        <Webcam
-          ref={webcamRef}
-          audio={false}
-          screenshotFormat="image/jpeg"
-          videoConstraints={videoConstraints}
-          className="w-full h-full object-cover rounded-lg"
-        />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div 
-            className={`
-              border-4 
-              ${isAligned ? 'border-green-500' : 'border-white'} 
-              w-[85%] 
-              h-[70%] 
-              rounded-lg
-              transition-colors
-              duration-300
-            `}
-          >
-            {countdown !== null && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="bg-black/50 w-24 h-24 rounded-full flex items-center justify-center">
-                  <Timer className="w-6 h-6 text-white absolute top-4" />
-                  <span className="text-6xl font-bold text-white">
-                    {countdown}
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+      <div className="relative w-[300px] h-[200px] mx-auto">
+        {!capturedImage ? (
+          <>
+            <div className="absolute inset-0 z-10 pointer-events-none">
+              <svg className="w-full h-full">
+                <rect
+                  x="5%"
+                  y="5%"
+                  width="90%"
+                  height="90%"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2"
+                />
+              </svg>
+            </div>
+            <Webcam
+              audio={false}
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              videoConstraints={videoConstraints}
+              className="rounded-lg"
+            />
+          </>
+        ) : (
+          <img src={capturedImage} alt="captured" className="rounded-lg" />
+        )}
       </div>
-      <div className="fixed bottom-4 left-0 right-0 px-4 z-50">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={retake}
-          className="w-full bg-white"
-        >
-          <RefreshCcw className="w-4 h-4 mr-2" />
-          Tentar novamente
-        </Button>
+
+      <div className="flex justify-center gap-2">
+        {!capturedImage ? (
+          <Button onClick={capture} className="gap-2 bg-purple-600 hover:bg-purple-700">
+            <Camera className="h-4 w-4" />
+            Capturar
+          </Button>
+        ) : (
+          <>
+            <Button variant="outline" onClick={retake} className="gap-2">
+              <RefreshCcw className="h-4 w-4" />
+              Repetir
+            </Button>
+            <Button onClick={confirm} className="bg-purple-600 hover:bg-purple-700">
+              Confirmar
+            </Button>
+          </>
+        )}
       </div>
+
+      <p className="text-center text-sm text-gray-500">
+        {side === "front" 
+          ? "Posicione a frente do documento dentro do retângulo"
+          : "Agora posicione o verso do documento"
+        }
+      </p>
     </div>
   );
 }

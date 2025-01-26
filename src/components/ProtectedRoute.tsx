@@ -16,6 +16,7 @@ export const ProtectedRoute = () => {
       const session = await getSession();
       
       if (!session) {
+        // Determine which login page to redirect to based on the current path
         const isAdminRoute = location.pathname.startsWith('/admin');
         const loginPath = isAdminRoute ? '/admin/login' : '/client/login';
         navigate(loginPath, { replace: true });
@@ -25,31 +26,12 @@ export const ProtectedRoute = () => {
       // Check if user needs biometric validation
       const { data: profile } = await supabase
         .from('profiles')
-        .select('facial_validation_status, document_validated')
+        .select('facial_validation_status')
         .eq('id', session.user.id)
         .single();
 
-      console.log('Profile validation status:', profile);
-
-      // Show biometric validation only if:
-      // 1. Document is not validated OR
-      // 2. Facial validation is pending/not done
-      // AND not on admin routes
-      const needsValidation = profile && 
-        (!profile.document_validated || 
-         !profile.facial_validation_status || 
-         profile.facial_validation_status === 'pending');
-
-      const isAdminRoute = location.pathname.startsWith('/admin');
-
-      if (needsValidation && !isAdminRoute) {
-        console.log('User needs biometric validation');
+      if (profile && (!profile.facial_validation_status || profile.facial_validation_status === 'pending')) {
         setNeedsBiometricValidation(true);
-        // Redirect to login if validation needed
-        navigate('/client/login', { replace: true });
-      } else {
-        console.log('User does not need biometric validation');
-        setNeedsBiometricValidation(false);
       }
     };
 

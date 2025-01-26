@@ -1,66 +1,122 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { X } from "lucide-react";
-import { BiometricValidationContent } from "./BiometricValidationContent";
-import { useImageCapture } from "./hooks/useImageCapture";
-import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
+import { X, User, FileText, CheckCircle, Loader2, LightbulbIcon } from "lucide-react";
+import { FacialCapture } from "./FacialCapture";
+import { DocumentCapture } from "./DocumentCapture";
+import { supabase } from "@/integrations/supabase/client";
+import { useSession } from "@/hooks/useSession";
 
-interface BiometricValidationProps {
-  onComplete?: () => void;
-}
+type Step = 
+  | "instructions" 
+  | "facial" 
+  | "document-front" 
+  | "document-back" 
+  | "processing" 
+  | "complete";
 
-export function BiometricValidation({ onComplete }: BiometricValidationProps) {
+export function BiometricValidation() {
   const [open, setOpen] = useState(true);
-  const [step, setStep] = useState("instructions");
+  const [step, setStep] = useState<Step>("instructions");
+  const [images, setImages] = useState<{
+    facial?: string;
+    documentFront?: string;
+    documentBack?: string;
+  }>({});
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { handleImageCapture } = useImageCapture(setStep);
+  const { getSession } = useSession();
+
+  const handleImageCapture = async (imageData: string, type: "facial" | "documentFront" | "documentBack") => {
+    setImages(prev => ({ ...prev, [type]: imageData }));
+    
+    if (type === "facial") {
+      setStep("document-front");
+    } else if (type === "documentFront") {
+      setStep("document-back");
+    } else if (type === "documentBack") {
+      setStep("processing");
+      await processValidation();
+    }
+  };
+
+  const processValidation = async () => {
+    try {
+      const session = await getSession();
+      if (!session?.user) {
+        throw new Error("Usuário não autenticado");
+      }
+
+      // Upload da imagem facial
+      const facialPath = `biometrics/${session.user.id}/facial.jpg`;
+      const { error: facialError } = await supabase.storage
+        .from("biometrics")
+        .upload(facialPath, images.facial!, { upsert: true });
+
+      if (facialError) throw facialError;
+
+      // Upload do documento frente
+      const frontPath = `biometrics/${session.user.id}/document-front.jpg`;
+      const { error: frontError } = await supabase.storage
+        .from("biometrics")
+        .upload(frontPath, images.documentFront!, { upsert: true });
+
+      if (frontError) throw frontError;
+
+      // Upload do documento verso
+      const backPath = `biometrics/${session.user.id}/document-back.jpg`;
+      const { error: backError } = await supabase.storage
+        .from("biometrics")
+        .upload(backPath, images.documentBack!, { upsert: true });
+
+      if (backError) throw backError;
+
+      // Atualizar status da validação no perfil
+      const { error: updateError } = await supabase
+        .from("profiles")
+        .update({
+          facial_validation_status: "pending",
+          facial_validation_image: facialPath,
+        })
+        .eq("id", session.user.id);
+
+      if (updateError) throw updateError;
+
+      setStep("complete");
+      toast({
+        title: "Validação enviada com sucesso!",
+        description: "Suas imagens foram enviadas para análise. Em breve você receberá uma resposta.",
+      });
+
+    } catch (error: any) {
+      console.error("Erro no processo de validação:", error);
+      toast({
+        title: "Erro no processo",
+        description: "Ocorreu um erro ao processar suas imagens. Por favor, tente novamente.",
+        variant: "destructive",
+      });
+    }
+  };
 
   const handleClose = () => {
     setOpen(false);
-    if (onComplete) {
-      onComplete();
-    }
-    
-    // Mostrar toast de redirecionamento
-    toast({
-      title: "Validação concluída!",
-      description: "Você será redirecionado para a página de login em 5 segundos.",
-    });
-
-    // Forçar redirecionamento para a página de login após 5 segundos
-    setTimeout(() => {
-      navigate('/client/login', { replace: true });
-    }, 5000);
-  };
-
-  const getStepTitle = () => {
-    switch (step) {
-      case "instructions":
-        return "Vamos confirmar a sua identidade";
-      case "facial":
-        return "Captura Facial";
-      case "document-instructions":
-        return "Documento - Instruções";
-      case "document-front":
-        return "Documento - Frente";
-      case "document-back":
-        return "Documento - Verso";
-      case "processing":
-        return "Processando sua validação";
-      case "complete":
-        return "Deu certo!";
-      default:
-        return "";
-    }
+    navigate("/client/dashboard");
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-center">{getStepTitle()}</DialogTitle>
+          <DialogTitle className="text-center">
+            {step === "instructions" && "Vamos confirmar a sua identidade"}
+            {step === "facial" && "Captura Facial"}
+            {step === "document-front" && "Documento - Frente"}
+            {step === "document-back" && "Documento - Verso"}
+            {step === "processing" && "Processando"}
+            {step === "complete" && "Deu certo!"}
+          </DialogTitle>
           <button
             onClick={handleClose}
             className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100"
@@ -70,12 +126,109 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
         </DialogHeader>
 
         <div className="flex flex-col items-center space-y-4 py-4">
-          <BiometricValidationContent
-            step={step}
-            onStepChange={setStep}
-            onImageCapture={handleImageCapture}
-            onClose={handleClose}
-          />
+          {step === "instructions" && (
+            <>
+              <div className="space-y-6 text-center">
+                <h3 className="text-lg font-semibold">Siga as instruções abaixo:</h3>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <p className="flex items-center gap-2 font-medium">
+                      <User className="h-5 w-5" />
+                      Deixe seu rosto visível
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Sem acessórios que encubram o rosto, como óculos, chapéus ou máscaras
+                    </p>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <p className="flex items-center gap-2 font-medium">
+                      <LightbulbIcon className="h-5 w-5" />
+                      Fique num lugar com boa iluminação
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Sem pessoas ou objetos ao fundo
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <p className="flex items-center gap-2 font-medium">
+                      <FileText className="h-5 w-5" />
+                      Prepare seu documento
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Tenha em mãos seu documento de identificação (RG ou CNH)
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <Button 
+                onClick={() => setStep("facial")} 
+                className="w-full bg-purple-600 hover:bg-purple-700"
+              >
+                Continuar
+              </Button>
+            </>
+          )}
+
+          {step === "facial" && (
+            <FacialCapture onCapture={(image) => handleImageCapture(image, "facial")} />
+          )}
+
+          {step === "document-front" && (
+            <DocumentCapture
+              onCapture={(image) => handleImageCapture(image, "documentFront")}
+              side="front"
+            />
+          )}
+
+          {step === "document-back" && (
+            <DocumentCapture
+              onCapture={(image) => handleImageCapture(image, "documentBack")}
+              side="back"
+            />
+          )}
+
+          {step === "processing" && (
+            <div className="text-center space-y-4">
+              <div className="flex flex-col items-center gap-4">
+                <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center">
+                  <Loader2 className="h-8 w-8 animate-spin text-white" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold">Aguarde!</h3>
+                  <p className="text-sm text-gray-500">
+                    Estamos analisando seus dados pra confirmar sua identidade
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    Se fechar o app, você volta pro início da confirmação de identidade
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {step === "complete" && (
+            <div className="text-center space-y-6">
+              <div className="flex flex-col items-center gap-4">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle className="h-8 w-8 text-green-500" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold">Deu certo!</h3>
+                  <p className="text-gray-600">
+                    Nós confirmamos sua identidade e você já pode continuar sua jornada
+                  </p>
+                </div>
+              </div>
+              <Button 
+                onClick={handleClose} 
+                className="w-full bg-purple-600 hover:bg-purple-700"
+              >
+                Continuar
+              </Button>
+            </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>
