@@ -7,12 +7,14 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Fingerprint, ArrowRight } from "lucide-react";
 import { BiometricValidation } from "@/components/client/biometrics/BiometricValidation";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [showBiometricModal, setShowBiometricModal] = useState(false);
   const [showLoginForm, setShowLoginForm] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     // Check if we're on a password recovery route
@@ -24,11 +26,22 @@ export default function ClientLogin() {
       return;
     }
 
-    // Check for existing session
+    // Check for existing session and biometric validation
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        navigate('/client/dashboard');
+        // Check if user has already completed biometric validation
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('facial_validation_status, document_validated')
+          .eq('id', session.user.id)
+          .single();
+
+        if (profile?.facial_validation_status === 'approved' && profile?.document_validated) {
+          navigate('/client/dashboard');
+        } else {
+          setShowBiometricModal(true);
+        }
       }
     };
 
@@ -39,14 +52,17 @@ export default function ClientLogin() {
       console.log('Auth state changed:', event);
       
       if (event === 'SIGNED_IN' && session) {
-        navigate('/client/dashboard');
-      } else if (event === 'SIGNED_OUT') {
-        setShowLoginForm(false);
-      } else if (event === 'USER_UPDATED') {
-        // Atualizar a sessão quando o usuário for atualizado
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session) {
+        // Check biometric validation status when user signs in
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('facial_validation_status, document_validated')
+          .eq('id', session.user.id)
+          .single();
+
+        if (profile?.facial_validation_status === 'approved' && profile?.document_validated) {
           navigate('/client/dashboard');
+        } else {
+          setShowBiometricModal(true);
         }
       }
     });
@@ -59,6 +75,10 @@ export default function ClientLogin() {
   const handleBiometricComplete = () => {
     setShowBiometricModal(false);
     setShowLoginForm(true);
+    toast({
+      title: "Validação concluída!",
+      description: "Agora você pode fazer login no sistema.",
+    });
   };
 
   return (
