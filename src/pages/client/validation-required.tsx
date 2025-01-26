@@ -6,6 +6,14 @@ import { AlertCircle, FileCheck, Camera } from "lucide-react";
 export default function ValidationRequired() {
   const navigate = useNavigate();
 
+  const handleDocumentValidation = () => {
+    navigate("/client/biometric-validation");
+  };
+
+  const handleBiometricValidation = () => {
+    navigate("/client/biometric-validation");
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl">
@@ -36,7 +44,7 @@ export default function ValidationRequired() {
                 <Button 
                   variant="outline" 
                   className="w-full"
-                  onClick={() => navigate("/client/document-validation")}
+                  onClick={handleDocumentValidation}
                 >
                   Validar Documentos
                 </Button>
@@ -59,7 +67,7 @@ export default function ValidationRequired() {
                 <Button 
                   variant="outline" 
                   className="w-full"
-                  onClick={() => navigate("/client/biometric-validation")}
+                  onClick={handleBiometricValidation}
                 >
                   Validar Biometria
                 </Button>
