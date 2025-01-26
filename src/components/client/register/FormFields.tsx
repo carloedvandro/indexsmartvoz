@@ -41,34 +41,6 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
 
       <FormField
         control={form.control}
-        name="email"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Email</FormLabel>
-            <FormControl>
-              <Input type="email" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={form.control}
-        name="password"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Senha</FormLabel>
-            <FormControl>
-              <Input type="password" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={form.control}
         name="cpf"
         render={({ field }) => (
           <FormItem>
@@ -89,6 +61,34 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
             <FormLabel>Data de Nascimento</FormLabel>
             <FormControl>
               <Input type="date" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="email"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Email</FormLabel>
+            <FormControl>
+              <Input type="email" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="password"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Senha</FormLabel>
+            <FormControl>
+              <Input type="password" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
