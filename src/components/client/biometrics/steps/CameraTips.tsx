@@ -1,11 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Camera } from "lucide-react";
+import { useProfile } from "@/hooks/useProfile";
 
 interface CameraTipsProps {
   onNext: () => void;
 }
 
 export function CameraTips({ onNext }: CameraTipsProps) {
+  const { data: profile } = useProfile();
+
   return (
     <div className="space-y-6">
       <div className="text-center space-y-2">
