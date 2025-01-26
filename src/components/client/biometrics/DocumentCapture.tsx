@@ -46,7 +46,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   };
 
   const startCountdown = useCallback(() => {
-    if (countdown !== null || !isAligned) return; // Prevent multiple countdowns and ensure document is aligned
+    if (countdown !== null || !isAligned) return;
     
     console.log("Starting countdown");
     setCountdown(3);
@@ -86,40 +86,43 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     context.drawImage(video, 0, 0);
 
     try {
-      // Get the center region of the frame where we expect the document
-      const centerX = canvas.width * 0.2;
-      const centerY = canvas.height * 0.2;
-      const centerWidth = canvas.width * 0.6;
-      const centerHeight = canvas.height * 0.6;
+      // Ajuste das dimensões para corresponder melhor ao tamanho do documento
+      const centerX = canvas.width * 0.15;  // Reduzido para 15% da margem
+      const centerY = canvas.height * 0.15; // Reduzido para 15% da margem
+      const centerWidth = canvas.width * 0.7;  // Aumentado para 70% da largura
+      const centerHeight = canvas.height * 0.7; // Aumentado para 70% da altura
       
       const imageData = context.getImageData(centerX, centerY, centerWidth, centerHeight);
       const data = imageData.data;
       
-      // Calculate edge detection in the center region
+      // Melhorar a detecção de bordas
       let edges = 0;
+      let totalPixels = 0;
+      
       for (let i = 0; i < data.length; i += 4) {
         const r = data[i];
         const g = data[i + 1];
         const b = data[i + 2];
         
-        // Convert to grayscale and check for significant changes in intensity
+        // Converter para escala de cinza e verificar mudanças significativas
         const gray = (r + g + b) / 3;
-        if (i > 0 && Math.abs(gray - ((data[i - 4] + data[i - 3] + data[i - 2]) / 3)) > 30) {
-          edges++;
+        if (i > 0) {
+          const prevGray = (data[i - 4] + data[i - 3] + data[i - 2]) / 3;
+          if (Math.abs(gray - prevGray) > 25) { // Reduzido o limiar para melhor detecção
+            edges++;
+          }
         }
+        totalPixels++;
       }
       
-      // Check if we have enough edges to indicate a document
-      const isNowAligned = edges > (data.length / 4) * 0.01;
+      // Ajuste do limiar de detecção
+      const edgeRatio = edges / totalPixels;
+      const isNowAligned = edgeRatio > 0.05 && edgeRatio < 0.2; // Ajuste dos limiares
       
       if (isNowAligned && !isAligned) {
         console.log("Document aligned, starting countdown");
         setIsAligned(true);
-        startCountdown(); // Start countdown immediately when document is detected
-        toast({
-          title: "Documento alinhado",
-          description: "Mantenha o documento parado para a captura automática",
-        });
+        startCountdown(); // Iniciar contagem quando documento é detectado
       } else if (!isNowAligned && isAligned) {
         console.log("Document misaligned, resetting");
         setIsAligned(false);
@@ -132,10 +135,10 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     } catch (error) {
       console.error("Error checking alignment:", error);
     }
-  }, [isAligned, startCountdown, toast]);
+  }, [isAligned, startCountdown]);
 
   useEffect(() => {
-    const interval = setInterval(checkAlignment, 500);
+    const interval = setInterval(checkAlignment, 200); // Aumentada a frequência de verificação
     return () => {
       clearInterval(interval);
       if (countdownInterval.current) {
@@ -155,7 +158,17 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
           className="w-full h-full object-cover rounded-lg"
         />
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className={`border-4 ${isAligned ? 'border-green-500' : 'border-white'} w-4/5 h-3/5 rounded-lg`}>
+          <div 
+            className={`
+              border-4 
+              ${isAligned ? 'border-green-500' : 'border-white'} 
+              w-[85%] 
+              h-[70%] 
+              rounded-lg
+              transition-colors
+              duration-300
+            `}
+          >
             {countdown !== null && (
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="bg-black/50 w-24 h-24 rounded-full flex items-center justify-center">
