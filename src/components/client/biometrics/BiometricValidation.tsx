@@ -31,7 +31,7 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
 
     // Forçar redirecionamento para a página de login após 5 segundos
     setTimeout(() => {
-      window.location.href = "/client/login";
+      navigate('/client/login', { replace: true });
     }, 5000);
   };
 

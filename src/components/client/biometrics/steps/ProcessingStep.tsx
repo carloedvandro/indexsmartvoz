@@ -10,11 +10,12 @@ export function ProcessingStep() {
         <div className="space-y-2">
           <h3 className="text-lg font-semibold">Aguarde!</h3>
           <p className="text-gray-600">
-            Estamos analisando seus dados para confirmar sua identidade.
+            Estamos processando e validando seus documentos.
             Este processo pode levar alguns minutos.
           </p>
           <p className="text-sm text-gray-500 mt-4">
             Por favor, não feche esta janela durante o processo de validação.
+            Você será redirecionado automaticamente após a conclusão.
           </p>
         </div>
       </div>
