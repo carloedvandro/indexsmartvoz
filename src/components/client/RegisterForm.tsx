@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { registerFormSchema } from "./register/RegisterSchema";
@@ -16,6 +16,7 @@ interface RegisterFormProps {
 
 export function RegisterForm({ onSubmit }: RegisterFormProps) {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const sponsorId = searchParams.get("sponsor");
   const { toast } = useToast();
 
@@ -24,6 +25,7 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
     defaultValues: {
       fullName: "",
       email: "",
+      whatsapp: "",
       password: "",
       cpf: "",
       sponsorCustomId: sponsorId || "",
@@ -51,8 +53,11 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
       console.log("Registration completed successfully");
       toast({
         title: "Sucesso!",
-        description: "Sua conta foi criada com sucesso. Você será redirecionado em instantes.",
+        description: "Sua conta foi criada. Agora vamos fazer a validação biométrica.",
       });
+
+      // Redirect to biometric validation after successful registration
+      navigate("/client/biometric-validation");
     } catch (error: any) {
       console.error("Registration error:", error);
       toast({

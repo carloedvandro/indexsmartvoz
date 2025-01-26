@@ -8,7 +8,7 @@ export const useRegisterUser = () => {
         ...values,
         password: "[PROTECTED]",
         customId: values.customId,
-        cpf: values.cpf // Log CPF value
+        cpf: values.cpf
       });
 
       // Check if email already exists
@@ -71,7 +71,8 @@ export const useRegisterUser = () => {
       // Create user with custom_id and CPF in metadata
       console.log("Creating user with metadata:", {
         custom_id: values.customId,
-        cpf: values.cpf
+        cpf: values.cpf,
+        whatsapp: values.whatsapp
       });
       
       const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -83,6 +84,7 @@ export const useRegisterUser = () => {
             custom_id: values.customId,
             cpf: values.cpf,
             sponsor_id: sponsorId,
+            whatsapp: values.whatsapp,
           },
         },
       });
@@ -97,12 +99,13 @@ export const useRegisterUser = () => {
         throw new Error("Erro ao criar usuário");
       }
 
-      // Explicitly update profile with all data including CPF
+      // Explicitly update profile with all data including CPF and WhatsApp
       console.log("Updating profile with data:", {
         custom_id: values.customId,
         store_url: values.customId,
         sponsor_id: sponsorId,
-        cpf: values.cpf
+        cpf: values.cpf,
+        mobile: values.whatsapp
       });
 
       const { error: updateError } = await supabase
@@ -111,7 +114,8 @@ export const useRegisterUser = () => {
           custom_id: values.customId,
           store_url: values.customId,
           sponsor_id: sponsorId,
-          cpf: values.cpf // Explicitly set CPF in profiles table
+          cpf: values.cpf,
+          mobile: values.whatsapp
         })
         .eq("id", authData.user.id);
 
@@ -123,7 +127,8 @@ export const useRegisterUser = () => {
       console.log("User registration completed successfully:", {
         userId: authData.user.id,
         customId: values.customId,
-        cpf: values.cpf
+        cpf: values.cpf,
+        whatsapp: values.whatsapp
       });
       
       return authData;
