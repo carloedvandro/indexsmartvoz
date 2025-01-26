@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
+import { RainbowButton } from "@/components/ui/rainbow-button";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
@@ -68,14 +68,7 @@ export default function ClientLogin() {
             theme: ThemeSupa,
             style: {
               button: {
-                backgroundColor: '#6B21A8',
-                color: 'white',
-                borderRadius: '9999px',
-                padding: '0.75rem 1rem',
-                fontSize: '1rem',
-                fontWeight: '500',
-                width: '100%',
-                marginTop: '1rem',
+                display: 'none', // Hide default button
               },
               anchor: {
                 color: '#6B21A8',
@@ -92,7 +85,7 @@ export default function ClientLogin() {
                 color: '#1F2937',
               },
               message: {
-                color: '#EF4444', // Red color for error messages
+                color: '#EF4444',
                 marginTop: '0.5rem',
                 fontSize: '0.875rem',
               },
@@ -128,8 +121,26 @@ export default function ClientLogin() {
           providers={[]}
           redirectTo={`${window.location.origin}/client/dashboard`}
           view="sign_in"
-          showLinks={false}
+          showLinks={true}
         />
+
+        <div className="mt-4">
+          <RainbowButton 
+            className="w-full"
+            onClick={() => {
+              const email = document.querySelector('input[type="email"]') as HTMLInputElement;
+              const password = document.querySelector('input[type="password"]') as HTMLInputElement;
+              if (email && password) {
+                supabase.auth.signInWithPassword({
+                  email: email.value,
+                  password: password.value,
+                });
+              }
+            }}
+          >
+            Entrar
+          </RainbowButton>
+        </div>
 
         {/* Icons for inputs */}
         <style>{`
