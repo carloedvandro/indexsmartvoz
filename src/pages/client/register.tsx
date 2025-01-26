@@ -16,8 +16,8 @@ export default function ClientRegister() {
       </div>
 
       {/* Content container */}
-      <div className="relative flex flex-col justify-center items-center min-h-screen py-8 px-4">
-        <div className="w-full max-w-md bg-white shadow-xl rounded-xl p-6">
+      <div className="relative flex flex-col justify-center items-center min-h-screen py-8 px-2">
+        <div className="w-full max-w-md bg-white shadow-xl rounded-xl">
           <RegisterFormContainer />
         </div>
       </div>
