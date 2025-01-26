@@ -19,7 +19,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   const videoConstraints = {
     width: 1280,
     height: 720,
-    facingMode: "user",
+    facingMode: { exact: "environment" }, // This forces the rear camera
   };
 
   const capture = useCallback(() => {
