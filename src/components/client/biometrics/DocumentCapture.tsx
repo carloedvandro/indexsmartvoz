@@ -46,7 +46,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   };
 
   const startCountdown = useCallback(() => {
-    if (countdown !== null) return; // Prevent multiple countdowns
+    if (countdown !== null || !isAligned) return; // Prevent multiple countdowns and ensure document is aligned
     
     console.log("Starting countdown");
     setCountdown(3);
@@ -69,7 +69,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
         return prev - 1;
       });
     }, 1000);
-  }, [capture, countdown]);
+  }, [capture, countdown, isAligned]);
 
   const checkAlignment = useCallback(() => {
     if (!webcamRef.current) return;
@@ -169,7 +169,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
           </div>
         </div>
       </div>
-      <div className="fixed bottom-4 left-0 right-0 px-4">
+      <div className="fixed bottom-4 left-0 right-0 px-4 z-50">
         <Button
           type="button"
           variant="outline"
