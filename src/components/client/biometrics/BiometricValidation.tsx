@@ -20,7 +20,8 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
     if (onComplete) {
       onComplete();
     }
-    navigate("/client/login", { replace: true });
+    // Forçar redirecionamento para a página de login
+    window.location.href = "/client/login";
   };
 
   const getStepTitle = () => {
@@ -29,6 +30,8 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
         return "Vamos confirmar a sua identidade";
       case "facial":
         return "Captura Facial";
+      case "document-instructions":
+        return "Documento - Instruções";
       case "document-front":
         return "Documento - Frente";
       case "document-back":
