@@ -41,25 +41,27 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   };
 
   const startCountdown = useCallback(() => {
+    if (countdown !== null) return; // Prevent multiple countdowns
+    
     console.log("Iniciando contagem regressiva");
     setCountdown(3);
     
-    let count = 3;
     const timer = setInterval(() => {
-      count -= 1;
-      console.log("Contagem:", count);
-      
-      if (count <= 0) {
-        clearInterval(timer);
-        capture();
-        setCountdown(null);
-      } else {
-        setCountdown(count);
-      }
+      setCountdown((prev) => {
+        if (prev === null || prev <= 1) {
+          clearInterval(timer);
+          if (prev === 1) {
+            capture();
+          }
+          return null;
+        }
+        console.log("Contagem:", prev - 1);
+        return prev - 1;
+      });
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [capture]);
+  }, [capture, countdown]);
 
   const checkAlignment = useCallback(() => {
     if (!webcamRef.current?.video) return;
@@ -109,7 +111,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
         startCountdown();
         toast({
           title: "Documento detectado",
-          description: "Mantenha o documento parado para a captura",
+          description: `Mantenha o ${side === 'front' ? 'frente' : 'verso'} do documento parado para a captura`,
         });
       } else if (!isNowAligned && isAligned) {
         console.log("Documento desalinhado, reiniciando");
@@ -119,7 +121,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     } catch (error) {
       console.error("Erro ao verificar alinhamento:", error);
     }
-  }, [isAligned, startCountdown, toast, countdown]);
+  }, [isAligned, startCountdown, toast, countdown, side]);
 
   useEffect(() => {
     const interval = setInterval(checkAlignment, 100);
