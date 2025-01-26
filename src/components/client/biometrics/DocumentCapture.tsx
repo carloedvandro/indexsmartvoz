@@ -46,7 +46,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   };
 
   const startCountdown = useCallback(() => {
-    if (countdown !== null || !isAligned) return;
+    if (countdown !== null) return;
     
     console.log("Starting countdown");
     setCountdown(3);
@@ -69,7 +69,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
         return prev - 1;
       });
     }, 1000);
-  }, [capture, countdown, isAligned]);
+  }, [capture, countdown]);
 
   const checkAlignment = useCallback(() => {
     if (!webcamRef.current) return;
@@ -86,16 +86,14 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     context.drawImage(video, 0, 0);
 
     try {
-      // Ajuste das dimensões para corresponder melhor ao tamanho do documento
-      const centerX = canvas.width * 0.15;  // Reduzido para 15% da margem
-      const centerY = canvas.height * 0.15; // Reduzido para 15% da margem
-      const centerWidth = canvas.width * 0.7;  // Aumentado para 70% da largura
-      const centerHeight = canvas.height * 0.7; // Aumentado para 70% da altura
+      const centerX = canvas.width * 0.15;
+      const centerY = canvas.height * 0.15;
+      const centerWidth = canvas.width * 0.7;
+      const centerHeight = canvas.height * 0.7;
       
       const imageData = context.getImageData(centerX, centerY, centerWidth, centerHeight);
       const data = imageData.data;
       
-      // Melhorar a detecção de bordas
       let edges = 0;
       let totalPixels = 0;
       
@@ -104,25 +102,27 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
         const g = data[i + 1];
         const b = data[i + 2];
         
-        // Converter para escala de cinza e verificar mudanças significativas
         const gray = (r + g + b) / 3;
         if (i > 0) {
           const prevGray = (data[i - 4] + data[i - 3] + data[i - 2]) / 3;
-          if (Math.abs(gray - prevGray) > 25) { // Reduzido o limiar para melhor detecção
+          if (Math.abs(gray - prevGray) > 20) { // Reduzido ainda mais o limiar
             edges++;
           }
         }
         totalPixels++;
       }
       
-      // Ajuste do limiar de detecção
       const edgeRatio = edges / totalPixels;
-      const isNowAligned = edgeRatio > 0.05 && edgeRatio < 0.2; // Ajuste dos limiares
+      const isNowAligned = edgeRatio > 0.03 && edgeRatio < 0.3; // Ajustados os limiares
       
       if (isNowAligned && !isAligned) {
         console.log("Document aligned, starting countdown");
         setIsAligned(true);
         startCountdown(); // Iniciar contagem quando documento é detectado
+        toast({
+          title: "Documento detectado",
+          description: "Mantenha o documento parado para a captura",
+        });
       } else if (!isNowAligned && isAligned) {
         console.log("Document misaligned, resetting");
         setIsAligned(false);
@@ -135,10 +135,10 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     } catch (error) {
       console.error("Error checking alignment:", error);
     }
-  }, [isAligned, startCountdown]);
+  }, [isAligned, startCountdown, toast]);
 
   useEffect(() => {
-    const interval = setInterval(checkAlignment, 200); // Aumentada a frequência de verificação
+    const interval = setInterval(checkAlignment, 100); // Aumentada ainda mais a frequência
     return () => {
       clearInterval(interval);
       if (countdownInterval.current) {
