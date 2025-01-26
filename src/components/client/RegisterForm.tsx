@@ -28,6 +28,7 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
       cpf: "",
       sponsorCustomId: sponsorId || "",
       customId: "",
+      birthDate: "",
     },
   });
 

@@ -13,12 +13,12 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
     <>
       <FormField
         control={form.control}
-        name="fullName"
+        name="email"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Nome Completo</FormLabel>
+            <FormLabel>Email</FormLabel>
             <FormControl>
-              <Input {...field} />
+              <Input type="email" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -27,12 +27,12 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
 
       <FormField
         control={form.control}
-        name="email"
+        name="fullName"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Email</FormLabel>
+            <FormLabel>Nome Completo</FormLabel>
             <FormControl>
-              <Input type="email" {...field} />
+              <Input {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -69,12 +69,12 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
 
       <FormField
         control={form.control}
-        name="sponsorCustomId"
+        name="customId"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>ID Personalizado do Patrocinador</FormLabel>
+            <FormLabel>Seu ID Personalizado</FormLabel>
             <FormControl>
-              <Input {...field} disabled={disableSponsor} />
+              <Input {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -83,12 +83,26 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
 
       <FormField
         control={form.control}
-        name="customId"
+        name="birthDate"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Seu ID Personalizado</FormLabel>
+            <FormLabel>Data de Nascimento</FormLabel>
             <FormControl>
-              <Input {...field} />
+              <Input type="date" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="sponsorCustomId"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>ID Personalizado do Patrocinador</FormLabel>
+            <FormControl>
+              <Input {...field} disabled={disableSponsor} />
             </FormControl>
             <FormMessage />
           </FormItem>
