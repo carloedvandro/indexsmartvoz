@@ -116,6 +116,15 @@ export default function LoginPage() {
             </div>
           </div>
 
+          <div className="text-right">
+            <Link
+              to="/client/reset-password"
+              className="text-sm text-purple-600 hover:text-purple-700 hover:underline"
+            >
+              Esqueceu sua senha?
+            </Link>
+          </div>
+
           {error && (
             <div className="text-red-500 text-sm">
               {error}
@@ -135,11 +144,6 @@ export default function LoginPage() {
           <div className="text-gray-700">
             Não tem uma conta? <Link to="/client/register" className="text-black font-semibold hover:underline">
               Cadastre-se
-            </Link>
-          </div>
-          <div>
-            <Link to="/client/reset-password" className="text-gray-700 hover:underline">
-              Esqueceu sua senha?
             </Link>
           </div>
         </div>
