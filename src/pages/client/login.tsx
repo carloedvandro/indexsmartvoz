@@ -119,7 +119,7 @@ export default function LoginPage() {
           <div className="text-center">
             <Link
               to="/client/reset-password"
-              className="text-sm text-purple-600 hover:text-purple-700 hover:underline"
+              className="text-sm text-black hover:text-gray-700 hover:underline"
             >
               Esqueceu sua senha?
             </Link>
