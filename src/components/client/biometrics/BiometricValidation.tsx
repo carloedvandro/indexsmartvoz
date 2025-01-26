@@ -32,28 +32,37 @@ export function BiometricValidation() {
   const { getSession } = useSession();
 
   const handleImageCapture = async (imageData: string, type: "facial" | "documentFront" | "documentBack") => {
-    setImages(prev => ({ ...prev, [type]: imageData }));
-    
-    if (type === "facial") {
-      setStep("document-instructions");
-    } else if (type === "documentFront") {
-      console.log("Front captured, moving to back in 5 seconds");
-      toast({
-        title: "Frente capturada com sucesso!",
-        description: "Aguarde, em 5 segundos vamos capturar o verso do documento",
-      });
-      // Adiciona um atraso de 5 segundos antes de mudar para a captura do verso
-      setTimeout(() => {
-        setStep("document-back");
+    try {
+      setImages(prev => ({ ...prev, [type]: imageData }));
+      
+      if (type === "facial") {
+        setStep("document-instructions");
+      } else if (type === "documentFront") {
+        console.log("Front captured, moving to back in 5 seconds");
         toast({
-          title: "Vamos lá!",
-          description: "Agora vamos capturar o verso do documento",
+          title: "Frente capturada com sucesso!",
+          description: "Aguarde, em 5 segundos vamos capturar o verso do documento",
         });
-      }, 5000);
-    } else if (type === "documentBack") {
-      console.log("Back captured, moving to processing");
-      setStep("processing");
-      await processValidation();
+        // Adiciona um atraso de 5 segundos antes de mudar para a captura do verso
+        setTimeout(() => {
+          setStep("document-back");
+          toast({
+            title: "Vamos lá!",
+            description: "Agora vamos capturar o verso do documento",
+          });
+        }, 5000);
+      } else if (type === "documentBack") {
+        console.log("Back captured, moving to processing");
+        setStep("processing");
+        await processValidation();
+      }
+    } catch (error) {
+      console.error("Erro na captura da imagem:", error);
+      toast({
+        title: "Erro na captura",
+        description: "Ocorreu um erro ao capturar a imagem. Por favor, tente novamente.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -68,25 +77,43 @@ export function BiometricValidation() {
       const facialPath = `biometrics/${session.user.id}/facial.jpg`;
       const { error: facialError } = await supabase.storage
         .from("biometrics")
-        .upload(facialPath, images.facial!, { upsert: true });
+        .upload(facialPath, images.facial!, {
+          contentType: 'image/jpeg',
+          upsert: true,
+        });
 
-      if (facialError) throw facialError;
+      if (facialError) {
+        console.error("Erro no upload facial:", facialError);
+        throw facialError;
+      }
 
       // Upload do documento frente
       const frontPath = `biometrics/${session.user.id}/document-front.jpg`;
       const { error: frontError } = await supabase.storage
         .from("biometrics")
-        .upload(frontPath, images.documentFront!, { upsert: true });
+        .upload(frontPath, images.documentFront!, {
+          contentType: 'image/jpeg',
+          upsert: true,
+        });
 
-      if (frontError) throw frontError;
+      if (frontError) {
+        console.error("Erro no upload do documento frente:", frontError);
+        throw frontError;
+      }
 
       // Upload do documento verso
       const backPath = `biometrics/${session.user.id}/document-back.jpg`;
       const { error: backError } = await supabase.storage
         .from("biometrics")
-        .upload(backPath, images.documentBack!, { upsert: true });
+        .upload(backPath, images.documentBack!, {
+          contentType: 'image/jpeg',
+          upsert: true,
+        });
 
-      if (backError) throw backError;
+      if (backError) {
+        console.error("Erro no upload do documento verso:", backError);
+        throw backError;
+      }
 
       // Atualizar status da validação no perfil
       const { error: updateError } = await supabase
@@ -99,7 +126,10 @@ export function BiometricValidation() {
         })
         .eq("id", session.user.id);
 
-      if (updateError) throw updateError;
+      if (updateError) {
+        console.error("Erro na atualização do perfil:", updateError);
+        throw updateError;
+      }
 
       setStep("complete");
       toast({
@@ -108,12 +138,15 @@ export function BiometricValidation() {
       });
 
     } catch (error: any) {
-      console.error("Erro no processo de validação:", error);
+      console.error("Erro detalhado no processo de validação:", error);
       toast({
         title: "Erro no processo",
         description: "Ocorreu um erro ao processar suas imagens. Por favor, tente novamente.",
         variant: "destructive",
       });
+      // Volta para o início do processo em caso de erro
+      setStep("instructions");
+      setImages({});
     }
   };
 
