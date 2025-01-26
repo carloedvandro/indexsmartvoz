@@ -37,12 +37,19 @@ export function BiometricValidation() {
     if (type === "facial") {
       setStep("document-instructions");
     } else if (type === "documentFront") {
-      console.log("Front captured, moving to back");
-      setStep("document-back");
+      console.log("Front captured, moving to back in 5 seconds");
       toast({
         title: "Frente capturada com sucesso!",
-        description: "Agora vamos capturar o verso do documento",
+        description: "Aguarde, em 5 segundos vamos capturar o verso do documento",
       });
+      // Adiciona um atraso de 5 segundos antes de mudar para a captura do verso
+      setTimeout(() => {
+        setStep("document-back");
+        toast({
+          title: "Vamos lá!",
+          description: "Agora vamos capturar o verso do documento",
+        });
+      }, 5000);
     } else if (type === "documentBack") {
       console.log("Back captured, moving to processing");
       setStep("processing");
