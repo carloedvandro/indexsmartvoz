@@ -68,12 +68,20 @@ export default function ClientLogin() {
             theme: ThemeSupa,
             style: {
               button: {
-                display: 'none', // Hide default button
+                display: 'none',
               },
               anchor: {
-                color: '#6B21A8',
+                color: '#5f0889',
                 textDecoration: 'none',
                 fontSize: '0.875rem',
+                textShadow: '1px 1px 2px rgba(95, 8, 137, 0.2)',
+                transition: 'all 0.3s ease',
+                transform: 'translateY(0)',
+                display: 'inline-block',
+                '&:hover': {
+                  transform: 'translateY(-2px)',
+                  textShadow: '2px 2px 4px rgba(95, 8, 137, 0.3)',
+                }
               },
               input: {
                 borderRadius: '0.75rem',
@@ -102,7 +110,7 @@ export default function ClientLogin() {
               input: 'focus:border-purple-500 focus:ring-purple-500',
               label: 'block text-sm font-medium',
               message: 'text-sm text-red-500',
-              anchor: 'text-black [&>span:last-child]:font-bold',
+              anchor: 'text-primary hover:text-primary/80 transition-all duration-300',
             },
           }}
           localization={{
@@ -157,6 +165,20 @@ export default function ClientLogin() {
             background-position: 12px center;
             background-size: 20px;
             padding-left: 40px !important;
+          }
+          
+          .supabase-auth-ui_ui-anchor {
+            background: linear-gradient(to bottom, transparent 50%, rgba(95, 8, 137, 0.1) 50%);
+            background-size: 100% 200%;
+            background-position: 0 0;
+            transition: all 0.3s ease;
+            padding: 2px 4px;
+            border-radius: 4px;
+          }
+          
+          .supabase-auth-ui_ui-anchor:hover {
+            background-position: 0 100%;
+            transform: translateY(-2px);
           }
         `}</style>
       </div>
