@@ -3,7 +3,7 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { RegisterFormData } from "./RegisterSchema";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface FormFieldsProps {
@@ -95,9 +95,11 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
             <FormLabel>Senha</FormLabel>
             <FormControl>
               <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
                 <Input 
                   type={showPassword ? "text" : "password"} 
                   {...field} 
+                  className="pl-10"
                 />
                 <Button
                   type="button"
@@ -127,9 +129,11 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
             <FormLabel>Confirmar Senha</FormLabel>
             <FormControl>
               <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
                 <Input 
                   type={showPasswordConfirmation ? "text" : "password"} 
                   {...field} 
+                  className="pl-10"
                 />
                 <Button
                   type="button"
