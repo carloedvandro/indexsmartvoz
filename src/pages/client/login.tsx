@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { RainbowButton } from "@/components/ui/rainbow-button";
+import { toast } from "sonner";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
@@ -68,16 +68,19 @@ export default function ClientLogin() {
             theme: ThemeSupa,
             style: {
               button: {
-                display: 'none',
+                backgroundColor: '#6B21A8',
+                color: 'white',
+                borderRadius: '9999px',
+                padding: '0.75rem 1rem',
+                fontSize: '1rem',
+                fontWeight: '500',
+                width: '100%',
+                marginTop: '1rem',
               },
               anchor: {
-                color: '#5f0889',
+                color: '#6B21A8',
                 textDecoration: 'none',
                 fontSize: '0.875rem',
-                textShadow: '1px 1px 2px rgba(95, 8, 137, 0.2)',
-                transition: 'all 0.3s ease',
-                transform: 'translateY(0)',
-                display: 'inline-block',
               },
               input: {
                 borderRadius: '0.75rem',
@@ -89,7 +92,7 @@ export default function ClientLogin() {
                 color: '#1F2937',
               },
               message: {
-                color: '#EF4444',
+                color: '#EF4444', // Red color for error messages
                 marginTop: '0.5rem',
                 fontSize: '0.875rem',
               },
@@ -106,7 +109,7 @@ export default function ClientLogin() {
               input: 'focus:border-purple-500 focus:ring-purple-500',
               label: 'block text-sm font-medium',
               message: 'text-sm text-red-500',
-              anchor: 'text-primary hover:text-primary/80 transition-all duration-300',
+              anchor: 'text-black [&>span:last-child]:font-bold',
             },
           }}
           localization={{
@@ -125,28 +128,8 @@ export default function ClientLogin() {
           providers={[]}
           redirectTo={`${window.location.origin}/client/dashboard`}
           view="sign_in"
-          showLinks={true}
+          showLinks={false}
         />
-
-        <div className="mt-4">
-          <button 
-            className="w-full bg-black text-white font-medium py-3 px-4 rounded-xl transition-all duration-300 relative overflow-hidden
-                     before:content-[''] before:absolute before:inset-0 before:bg-[#5f0889] before:opacity-0 before:transition-opacity hover:before:opacity-20
-                     after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-4/5 after:h-1/2 after:blur-xl after:bg-[#5f0889] after:opacity-30"
-            onClick={() => {
-              const email = document.querySelector('input[type="email"]') as HTMLInputElement;
-              const password = document.querySelector('input[type="password"]') as HTMLInputElement;
-              if (email && password) {
-                supabase.auth.signInWithPassword({
-                  email: email.value,
-                  password: password.value,
-                });
-              }
-            }}
-          >
-            Entrar
-          </button>
-        </div>
 
         {/* Icons for inputs */}
         <style>{`
@@ -163,20 +146,6 @@ export default function ClientLogin() {
             background-position: 12px center;
             background-size: 20px;
             padding-left: 40px !important;
-          }
-          
-          .supabase-auth-ui_ui-anchor {
-            background: linear-gradient(to bottom, transparent 50%, rgba(95, 8, 137, 0.1) 50%);
-            background-size: 100% 200%;
-            background-position: 0 0;
-            transition: all 0.3s ease;
-            padding: 2px 4px;
-            border-radius: 4px;
-          }
-          
-          .supabase-auth-ui_ui-anchor:hover {
-            background-position: 0 100%;
-            transform: translateY(-2px);
           }
         `}</style>
       </div>
