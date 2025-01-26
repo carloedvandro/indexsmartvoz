@@ -55,6 +55,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
 
     countdownInterval.current = window.setInterval(() => {
       setCountdown((prev) => {
+        console.log("Countdown value:", prev);
         if (prev === null) return null;
         if (prev <= 1) {
           if (countdownInterval.current) {
@@ -113,7 +114,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
       const edgeRatio = edges / totalPixels;
       const isNowAligned = edgeRatio > 0.03 && edgeRatio < 0.3;
       
-      if (isNowAligned && !isAligned && countdown === null) {
+      if (isNowAligned && !isAligned) {
         console.log("Document aligned, starting countdown");
         setIsAligned(true);
         startCountdown();
@@ -133,7 +134,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     } catch (error) {
       console.error("Error checking alignment:", error);
     }
-  }, [isAligned, startCountdown, toast, countdown]);
+  }, [isAligned, startCountdown, toast]);
 
   useEffect(() => {
     const interval = setInterval(checkAlignment, 50);
