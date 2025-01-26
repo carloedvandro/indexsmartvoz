@@ -19,7 +19,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   const videoConstraints = {
     width: 1280,
     height: 720,
-    facingMode: { exact: "environment" }, // This forces the rear camera
+    facingMode: { exact: "environment" },
   };
 
   const capture = useCallback(() => {
@@ -46,8 +46,10 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   };
 
   const startCountdown = useCallback(() => {
+    if (countdown !== null) return; // Prevent multiple countdowns
+    
     console.log("Starting countdown");
-    setCountdown(3); // Changed to 3 seconds as requested
+    setCountdown(3);
     
     if (countdownInterval.current) {
       window.clearInterval(countdownInterval.current);
@@ -67,7 +69,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
         return prev - 1;
       });
     }, 1000);
-  }, [capture]);
+  }, [capture, countdown]);
 
   const checkAlignment = useCallback(() => {
     if (!webcamRef.current) return;
@@ -108,12 +110,12 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
       }
       
       // Check if we have enough edges to indicate a document
-      const isNowAligned = edges > (data.length / 4) * 0.01; // Adjusted threshold
+      const isNowAligned = edges > (data.length / 4) * 0.01;
       
       if (isNowAligned && !isAligned) {
         console.log("Document aligned, starting countdown");
         setIsAligned(true);
-        startCountdown();
+        startCountdown(); // Start countdown immediately when document is detected
         toast({
           title: "Documento alinhado",
           description: "Mantenha o documento parado para a captura automática",
