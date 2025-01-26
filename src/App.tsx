@@ -19,6 +19,7 @@ import AdminPlans from '@/pages/admin/plans';
 import AdminUsers from '@/pages/admin/users';
 import PublicStore from '@/pages/public/store';
 import ResetPassword from '@/pages/client/reset-password';
+import ValidationRequired from '@/pages/client/validation-required';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/client/login" element={<ClientLogin />} />
         <Route path="/client/register" element={<ClientRegister />} />
         <Route path="/client/reset-password" element={<ResetPassword />} />
+        <Route path="/client/validation-required" element={<ValidationRequired />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/store/:storeUrl" element={<PublicStore />} />
 
