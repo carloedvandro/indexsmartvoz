@@ -17,7 +17,11 @@ type Step =
   | "processing" 
   | "complete";
 
-export function BiometricValidation() {
+interface BiometricValidationProps {
+  onClose: () => void;
+}
+
+export function BiometricValidation({ onClose }: BiometricValidationProps) {
   const [open, setOpen] = useState(true);
   const [step, setStep] = useState<Step>("instructions");
   const [images, setImages] = useState<{
@@ -28,6 +32,11 @@ export function BiometricValidation() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { getSession } = useSession();
+
+  const handleClose = () => {
+    setOpen(false);
+    onClose();
+  };
 
   const handleImageCapture = async (imageData: string, type: "facial" | "documentFront" | "documentBack") => {
     setImages(prev => ({ ...prev, [type]: imageData }));
@@ -98,11 +107,6 @@ export function BiometricValidation() {
         variant: "destructive",
       });
     }
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    navigate("/client/dashboard");
   };
 
   return (
