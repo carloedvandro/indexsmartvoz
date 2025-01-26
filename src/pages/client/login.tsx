@@ -37,8 +37,6 @@ export default function ClientLogin() {
         navigate('/client/dashboard');
       } else if (event === 'SIGNED_OUT') {
         navigate('/client/login');
-      } else if (event === 'PASSWORD_RECOVERY') {
-        navigate('/client/reset-password');
       }
     });
 
@@ -116,29 +114,14 @@ export default function ClientLogin() {
                 loading_button_label: t('sign_in.loading_button_label'),
                 password_input_placeholder: t('sign_in.password_input_placeholder'),
                 email_input_placeholder: t('sign_in.email_input_placeholder'),
-                link_text: t('sign_in.already_have_account'),
-              },
-              sign_up: {
-                link_text: t('forgot_password'),
-                email_label: t('email'),
-                password_label: t('password'),
-                button_label: t('sign_up'),
-                loading_button_label: t('signing_up'),
-                password_input_placeholder: t('sign_in.password_input_placeholder'),
-                email_input_placeholder: t('sign_in.email_input_placeholder'),
-              },
-              forgotten_password: {
-                link_text: t('create_account'),
-                button_label: t('reset_password'),
-                confirmation_text: t('check_email'),
-              },
+              }
             }
           }}
           theme="default"
           providers={[]}
           redirectTo={`${window.location.origin}/client/dashboard`}
           view="sign_in"
-          showLinks={true}
+          showLinks={false}
         />
 
         {/* Icons for inputs */}
