@@ -123,6 +123,15 @@ export default function LoginPage() {
           )}
 
           <div className="space-y-4">
+            <div className="flex justify-end">
+              <Link 
+                to="/client/reset-password" 
+                className="text-sm text-purple-600 hover:text-purple-700 hover:underline font-medium"
+              >
+                Esqueceu sua senha?
+              </Link>
+            </div>
+
             <RainbowButton
               type="submit"
               className="w-full !bg-purple-600 hover:!bg-purple-700"
@@ -135,11 +144,6 @@ export default function LoginPage() {
               <div className="text-gray-700 px-6">
                 Não tem uma conta? <Link to="/client/register" className="text-black font-semibold hover:underline">
                   Cadastre-se
-                </Link>
-              </div>
-              <div className="px-6">
-                <Link to="/client/reset-password" className="text-gray-700 hover:underline">
-                  Esqueceu sua senha?
                 </Link>
               </div>
             </div>
