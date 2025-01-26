@@ -92,7 +92,7 @@ export default function ClientLogin() {
                 color: '#1F2937',
               },
               message: {
-                color: '#6B21A8',
+                color: '#EF4444', // Red color for error messages
                 marginTop: '0.5rem',
                 fontSize: '0.875rem',
               },
@@ -108,7 +108,7 @@ export default function ClientLogin() {
               button: 'hover:bg-purple-700 transition-colors',
               input: 'focus:border-purple-500 focus:ring-purple-500',
               label: 'block text-sm font-medium',
-              message: 'text-sm',
+              message: 'text-sm text-red-500',
               anchor: 'text-black [&>span:last-child]:font-bold',
             },
           }}
