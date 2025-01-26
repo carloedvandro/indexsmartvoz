@@ -20,7 +20,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     const imageSrc = webcamRef.current?.getScreenshot();
     if (imageSrc) {
       setCapturedImage(imageSrc);
-      onCapture(imageSrc); // Automatically confirm capture
+      onCapture(imageSrc);
       setCountdown(null);
       if (alignmentCheckInterval.current) {
         window.clearInterval(alignmentCheckInterval.current);
@@ -42,6 +42,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   };
 
   const startCountdown = useCallback(() => {
+    console.log("Starting countdown");
     setCountdown(3);
     
     if (countdownInterval.current) {
@@ -50,6 +51,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     
     countdownInterval.current = window.setInterval(() => {
       setCountdown((prev) => {
+        console.log("Countdown value:", prev);
         if (prev === null) return null;
         if (prev <= 1) {
           if (countdownInterval.current) {
@@ -76,35 +78,53 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     canvas.height = video.videoHeight;
     context.drawImage(video, 0, 0);
 
-    // Get the image data from the center of the frame
+    // Get the image data from 80% of the frame
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
-    const sampleSize = 100; // Size of the area to check
+    const sampleWidth = canvas.width * 0.8;
+    const sampleHeight = canvas.height * 0.8;
     
     const imageData = context.getImageData(
-      centerX - sampleSize / 2,
-      centerY - sampleSize / 2,
-      sampleSize,
-      sampleSize
+      centerX - sampleWidth / 2,
+      centerY - sampleHeight / 2,
+      sampleWidth,
+      sampleHeight
     );
 
-    // Calculate average brightness in the center area
+    // Calculate average brightness and contrast
     let totalBrightness = 0;
+    let minBrightness = 255;
+    let maxBrightness = 0;
+
     for (let i = 0; i < imageData.data.length; i += 4) {
       const r = imageData.data[i];
       const g = imageData.data[i + 1];
       const b = imageData.data[i + 2];
-      totalBrightness += (r + g + b) / 3;
+      const brightness = (r + g + b) / 3;
+      
+      totalBrightness += brightness;
+      minBrightness = Math.min(minBrightness, brightness);
+      maxBrightness = Math.max(maxBrightness, brightness);
     }
-    const averageBrightness = totalBrightness / (sampleSize * sampleSize);
 
-    // If the center area has good contrast (indicating a document)
-    const isNowAligned = averageBrightness > 100 && averageBrightness < 200;
+    const averageBrightness = totalBrightness / (sampleWidth * sampleHeight);
+    const contrast = maxBrightness - minBrightness;
+
+    // Document is considered aligned if there's good contrast and moderate brightness
+    const isNowAligned = contrast > 50 && averageBrightness > 80 && averageBrightness < 200;
     
+    console.log("Alignment check:", { 
+      averageBrightness, 
+      contrast, 
+      isAligned: isNowAligned 
+    });
+
     if (isNowAligned && !isAligned) {
+      console.log("Document aligned, starting countdown");
       setIsAligned(true);
       startCountdown();
     } else if (!isNowAligned && isAligned) {
+      console.log("Document misaligned, resetting");
       setIsAligned(false);
       setCountdown(null);
       if (countdownInterval.current) {
@@ -158,7 +178,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
               </svg>
               {countdown !== null && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-6xl font-bold text-white bg-black/50 w-24 h-24 rounded-full flex items-center justify-center">
+                  <span className="text-8xl font-bold text-white bg-black/50 w-32 h-32 rounded-full flex items-center justify-center">
                     {countdown}
                   </span>
                 </div>
