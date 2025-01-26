@@ -129,13 +129,6 @@ export default function ClientLogin() {
           redirectTo={`${window.location.origin}/client/dashboard`}
           view="sign_in"
           showLinks={false}
-          onError={(error) => {
-            if (error.message.includes('Invalid login credentials')) {
-              toast.error('Email ou senha inválidos');
-            } else {
-              toast.error('Erro ao fazer login. Tente novamente.');
-            }
-          }}
         />
 
         {/* Icons for inputs */}
