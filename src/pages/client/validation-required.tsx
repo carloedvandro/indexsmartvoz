@@ -7,11 +7,11 @@ export default function ValidationRequired() {
   const navigate = useNavigate();
 
   const handleDocumentValidation = () => {
-    navigate("/client/document-validation");
+    navigate("/client/biometric-validation", { state: { initialStep: "document-front" } });
   };
 
   const handleBiometricValidation = () => {
-    navigate("/client/biometric-validation");
+    navigate("/client/biometric-validation", { state: { initialStep: "facial" } });
   };
 
   return (
@@ -42,8 +42,7 @@ export default function ValidationRequired() {
               </CardContent>
               <CardFooter>
                 <Button 
-                  variant="secondary"
-                  className="w-full"
+                  className="w-full bg-purple-600 hover:bg-purple-700"
                   onClick={handleDocumentValidation}
                 >
                   Validar Documentos
@@ -65,8 +64,7 @@ export default function ValidationRequired() {
               </CardContent>
               <CardFooter>
                 <Button 
-                  variant="secondary"
-                  className="w-full"
+                  className="w-full bg-purple-600 hover:bg-purple-700"
                   onClick={handleBiometricValidation}
                 >
                   Validar Biometria

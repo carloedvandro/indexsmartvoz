@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
@@ -18,8 +18,10 @@ type Step =
   | "complete";
 
 export function BiometricValidation() {
+  const location = useLocation();
+  const initialStep = location.state?.initialStep || "instructions";
   const [open, setOpen] = useState(true);
-  const [step, setStep] = useState<Step>("instructions");
+  const [step, setStep] = useState<Step>(initialStep);
   const [images, setImages] = useState<{
     facial?: string;
     documentFront?: string;
@@ -28,6 +30,12 @@ export function BiometricValidation() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { getSession } = useSession();
+
+  useEffect(() => {
+    if (!open) {
+      navigate("/client/dashboard");
+    }
+  }, [open, navigate]);
 
   const handleImageCapture = async (imageData: string, type: "facial" | "documentFront" | "documentBack") => {
     setImages(prev => ({ ...prev, [type]: imageData }));
@@ -102,7 +110,6 @@ export function BiometricValidation() {
 
   const handleClose = () => {
     setOpen(false);
-    navigate("/client/dashboard");
   };
 
   return (
