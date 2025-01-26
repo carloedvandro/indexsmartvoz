@@ -66,15 +66,18 @@ const resources = {
         "password_input_placeholder": "Digite sua senha",
         "email_input_placeholder": "Digite seu endereço de email",
         "already_have_account": "Já tem uma conta? Entre aqui",
-        "missing_email": "Email ou telefone não informado",
+        "missing_email": "Email não informado",
         "anonymous_disabled": "Login anônimo está desabilitado"
       },
       "reset_password_form": {
         "email_label": "Endereço de email",
         "email_placeholder": "Digite seu endereço de email",
-        "submit_button": "Redefinir Senha",
+        "submit_button": "Enviar instruções de recuperação",
+        "loading_button": "Enviando instruções...",
         "success_message": "Instruções enviadas para seu email",
-        "already_have_account": "Já tem uma conta? Entre aqui"
+        "already_have_account": "Já tem uma conta? Entre aqui",
+        "forgot_password": "Esqueceu sua senha?",
+        "create_account": "Não tem uma conta? Cadastre-se"
       }
     }
   },

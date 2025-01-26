@@ -106,19 +106,28 @@ export default function ClientLogin() {
           localization={{
             variables: {
               sign_in: {
-                email_label: t('sign_in.email_label'),
-                password_label: t('sign_in.password_label'),
-                button_label: t('sign_in.button_label'),
-                loading_button_label: t('sign_in.loading_button_label'),
-                password_input_placeholder: t('sign_in.password_input_placeholder'),
-                email_input_placeholder: t('sign_in.email_input_placeholder'),
+                email_label: "Endereço de email",
+                password_label: "Senha",
+                button_label: "Entrar",
+                loading_button_label: "Entrando...",
+                password_input_placeholder: "Digite sua senha",
+                email_input_placeholder: "Digite seu endereço de email",
+              },
+              sign_up: {
+                email_label: "Endereço de email",
+                password_label: "Senha",
+                button_label: "Cadastrar",
+                loading_button_label: "Cadastrando...",
+                password_input_placeholder: "Digite sua senha",
+                email_input_placeholder: "Digite seu endereço de email",
+                link_text: "Não tem uma conta? Cadastre-se",
               },
               forgotten_password: {
-                email_label: t('sign_in.email_label'),
-                button_label: 'Enviar instruções de recuperação',
-                loading_button_label: 'Enviando instruções...',
-                link_text: 'Esqueceu sua senha?',
-                confirmation_text: 'Verifique seu email para redefinir sua senha'
+                email_label: "Endereço de email",
+                button_label: "Enviar instruções de recuperação",
+                loading_button_label: "Enviando instruções...",
+                link_text: "Esqueceu sua senha?",
+                confirmation_text: "Verifique seu email para redefinir sua senha"
               }
             }
           }}
