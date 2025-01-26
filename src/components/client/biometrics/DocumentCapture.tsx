@@ -47,7 +47,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
 
   const startCountdown = useCallback(() => {
     console.log("Starting countdown");
-    setCountdown(5);
+    setCountdown(3); // Changed to 3 seconds as requested
     
     if (countdownInterval.current) {
       window.clearInterval(countdownInterval.current);
@@ -84,19 +84,31 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     context.drawImage(video, 0, 0);
 
     try {
-      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      // Get the center region of the frame where we expect the document
+      const centerX = canvas.width * 0.2;
+      const centerY = canvas.height * 0.2;
+      const centerWidth = canvas.width * 0.6;
+      const centerHeight = canvas.height * 0.6;
+      
+      const imageData = context.getImageData(centerX, centerY, centerWidth, centerHeight);
       const data = imageData.data;
       
-      let totalBrightness = 0;
+      // Calculate edge detection in the center region
+      let edges = 0;
       for (let i = 0; i < data.length; i += 4) {
         const r = data[i];
         const g = data[i + 1];
         const b = data[i + 2];
-        totalBrightness += (r + g + b) / 3;
+        
+        // Convert to grayscale and check for significant changes in intensity
+        const gray = (r + g + b) / 3;
+        if (i > 0 && Math.abs(gray - ((data[i - 4] + data[i - 3] + data[i - 2]) / 3)) > 30) {
+          edges++;
+        }
       }
       
-      const averageBrightness = totalBrightness / (data.length / 4);
-      const isNowAligned = averageBrightness > 100 && averageBrightness < 200;
+      // Check if we have enough edges to indicate a document
+      const isNowAligned = edges > (data.length / 4) * 0.01; // Adjusted threshold
       
       if (isNowAligned && !isAligned) {
         console.log("Document aligned, starting countdown");
@@ -132,29 +144,16 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
 
   return (
     <div className="space-y-4">
-      <div className="relative">
+      <div className="relative w-full h-[60vh]">
         <Webcam
           ref={webcamRef}
           audio={false}
           screenshotFormat="image/jpeg"
           videoConstraints={videoConstraints}
-          className="w-full rounded-lg"
+          className="w-full h-full object-cover rounded-lg"
         />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className={`border-4 ${isAligned ? 'border-green-500' : 'border-white'} w-4/5 h-3/5 rounded-lg`}>
-            <svg
-              className="w-full h-full"
-              viewBox="0 0 100 100"
-              preserveAspectRatio="none"
-            >
-              <path
-                d="M 0,0 L 100,0 L 100,100 L 0,100 Z"
-                fill="none"
-                strokeWidth="2"
-                stroke={isAligned ? '#22c55e' : 'white'}
-                vectorEffect="non-scaling-stroke"
-              />
-            </svg>
             {countdown !== null && (
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="bg-black/50 w-24 h-24 rounded-full flex items-center justify-center">
@@ -168,12 +167,12 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
           </div>
         </div>
       </div>
-      <div className="flex justify-center space-x-4">
+      <div className="fixed bottom-4 left-0 right-0 px-4">
         <Button
           type="button"
           variant="outline"
           onClick={retake}
-          className="w-full sm:w-auto"
+          className="w-full bg-white"
         >
           <RefreshCcw className="w-4 h-4 mr-2" />
           Tentar novamente
