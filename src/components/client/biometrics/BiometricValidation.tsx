@@ -20,10 +20,17 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
     if (onComplete) {
       onComplete();
     }
+    
+    // Mostrar toast de redirecionamento
+    toast({
+      title: "Redirecionando...",
+      description: "Você será redirecionado para a página de login em instantes.",
+    });
+
     // Forçar redirecionamento para a página de login após um breve delay
     setTimeout(() => {
       window.location.href = "/client/login";
-    }, 500);
+    }, 1500); // Delay de 1.5 segundos para mostrar o toast
   };
 
   const getStepTitle = () => {

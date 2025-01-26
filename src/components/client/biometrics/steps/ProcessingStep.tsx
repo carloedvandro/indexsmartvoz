@@ -8,9 +8,13 @@ export function ProcessingStep() {
           <Loader2 className="h-8 w-8 text-purple-500 animate-spin" />
         </div>
         <div className="space-y-2">
-          <h3 className="text-lg font-semibold">Processando...</h3>
+          <h3 className="text-lg font-semibold">Aguarde!</h3>
           <p className="text-gray-600">
-            Aguarde enquanto validamos suas informações. Isso pode levar alguns minutos.
+            Estamos analisando seus dados para confirmar sua identidade.
+            Este processo pode levar alguns minutos.
+          </p>
+          <p className="text-sm text-gray-500 mt-4">
+            Por favor, não feche esta janela durante o processo de validação.
           </p>
         </div>
       </div>

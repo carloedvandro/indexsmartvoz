@@ -47,6 +47,7 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
         description: "Ocorreu um erro ao capturar a imagem. Por favor, tente novamente.",
         variant: "destructive",
       });
+      onStepChange("instructions");
     }
   };
 
@@ -66,7 +67,9 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
           upsert: true,
         });
 
-      if (facialError) throw facialError;
+      if (facialError) {
+        throw new Error("Erro ao fazer upload da imagem facial");
+      }
 
       // Upload do documento frente
       const frontPath = `biometrics/${session.user.id}/document-front.jpg`;
@@ -77,7 +80,9 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
           upsert: true,
         });
 
-      if (frontError) throw frontError;
+      if (frontError) {
+        throw new Error("Erro ao fazer upload da frente do documento");
+      }
 
       // Upload do documento verso
       const backPath = `biometrics/${session.user.id}/document-back.jpg`;
@@ -88,7 +93,9 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
           upsert: true,
         });
 
-      if (backError) throw backError;
+      if (backError) {
+        throw new Error("Erro ao fazer upload do verso do documento");
+      }
 
       // Simular um tempo de processamento mais longo (3 minutos)
       await new Promise(resolve => setTimeout(resolve, 180000)); // 3 minutos
@@ -104,7 +111,9 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
         })
         .eq("id", session.user.id);
 
-      if (updateError) throw updateError;
+      if (updateError) {
+        throw new Error("Erro ao atualizar o status da validação");
+      }
 
       onStepChange("complete");
       toast({
@@ -116,7 +125,7 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
       console.error("Erro detalhado no processo de validação:", error);
       toast({
         title: "Erro no processo",
-        description: "Ocorreu um erro ao processar suas imagens. Por favor, tente novamente.",
+        description: error.message || "Ocorreu um erro ao processar suas imagens. Por favor, tente novamente.",
         variant: "destructive",
       });
       onStepChange("instructions");
