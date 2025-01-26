@@ -132,12 +132,12 @@ export default function LoginPage() {
         </form>
 
         <div className="space-y-3 text-center text-sm">
-          <div className="text-gray-700">
+          <div className="text-gray-700 px-6">
             Não tem uma conta? <Link to="/client/register" className="text-black font-semibold hover:underline">
               Cadastre-se
             </Link>
           </div>
-          <div>
+          <div className="px-6">
             <Link to="/client/reset-password" className="text-gray-700 hover:underline">
               Esqueceu sua senha?
             </Link>
