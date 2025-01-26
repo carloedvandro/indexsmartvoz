@@ -24,7 +24,6 @@ export const RegisterFormContainer = () => {
         description: "Sua conta foi criada com sucesso. Redirecionando para o dashboard...",
       });
 
-      // Redirect to dashboard after successful registration
       setTimeout(() => {
         navigate("/client/dashboard");
       }, 2000);
@@ -56,15 +55,6 @@ export const RegisterFormContainer = () => {
       </p>
       <div className="mt-6">
         <RegisterForm onSubmit={handleSubmit} />
-      </div>
-      <div className="text-center mt-4">
-        <button
-          type="button"
-          onClick={() => navigate("/client/login")}
-          className="text-sm text-gray-600 hover:text-gray-900"
-        >
-          Já tem uma conta? Faça login
-        </button>
       </div>
     </div>
   );

@@ -27,6 +27,20 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
 
       <FormField
         control={form.control}
+        name="customId"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Seu ID Personalizado</FormLabel>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
         name="email"
         render={({ field }) => (
           <FormItem>
@@ -59,20 +73,6 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
         render={({ field }) => (
           <FormItem>
             <FormLabel>CPF</FormLabel>
-            <FormControl>
-              <Input {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={form.control}
-        name="customId"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Seu ID Personalizado</FormLabel>
             <FormControl>
               <Input {...field} />
             </FormControl>
