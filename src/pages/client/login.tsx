@@ -78,7 +78,7 @@ export default function ClientLogin() {
                 transition: 'all 0.3s ease',
                 transform: 'translateY(0)',
                 display: 'inline-block',
-                '&:hover': {
+                ':hover': {
                   transform: 'translateY(-2px)',
                   textShadow: '2px 2px 4px rgba(95, 8, 137, 0.3)',
                 }
