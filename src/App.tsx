@@ -19,6 +19,7 @@ import AdminPlans from '@/pages/admin/plans';
 import AdminUsers from '@/pages/admin/users';
 import PublicStore from '@/pages/public/store';
 import ResetPassword from '@/pages/client/reset-password';
+import { BiometricValidation } from '@/components/client/biometrics/BiometricValidation';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/client/reset-password" element={<ResetPassword />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/store/:storeUrl" element={<PublicStore />} />
+        <Route path="/client/validation-required" element={<BiometricValidation />} />
 
         {/* Protected Client Routes */}
         <Route path="/client" element={<ProtectedRoute />}>
