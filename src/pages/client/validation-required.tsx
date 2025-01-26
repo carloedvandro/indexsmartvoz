@@ -7,7 +7,7 @@ export default function ValidationRequired() {
   const navigate = useNavigate();
 
   const handleDocumentValidation = () => {
-    navigate("/client/biometric-validation");
+    navigate("/client/document-validation");
   };
 
   const handleBiometricValidation = () => {
@@ -42,7 +42,7 @@ export default function ValidationRequired() {
               </CardContent>
               <CardFooter>
                 <Button 
-                  variant="outline" 
+                  variant="secondary"
                   className="w-full"
                   onClick={handleDocumentValidation}
                 >
@@ -65,7 +65,7 @@ export default function ValidationRequired() {
               </CardContent>
               <CardFooter>
                 <Button 
-                  variant="outline" 
+                  variant="secondary"
                   className="w-full"
                   onClick={handleBiometricValidation}
                 >
