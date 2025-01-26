@@ -12,12 +12,15 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   const webcamRef = useRef<Webcam>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [isAligned, setIsAligned] = useState(false);
+  const [countdownActive, setCountdownActive] = useState(false);
   const alignmentCheckInterval = useRef<number>();
+  const captureTimeout = useRef<number>();
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot();
     if (imageSrc) {
       setCapturedImage(imageSrc);
+      setCountdownActive(false);
       // Clear the interval when image is captured
       if (alignmentCheckInterval.current) {
         window.clearInterval(alignmentCheckInterval.current);
@@ -28,6 +31,10 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   const retake = () => {
     setCapturedImage(null);
     setIsAligned(false);
+    setCountdownActive(false);
+    if (captureTimeout.current) {
+      window.clearTimeout(captureTimeout.current);
+    }
     // Restart alignment detection
     startAlignmentDetection();
   };
@@ -78,10 +85,18 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     
     if (isNowAligned && !isAligned) {
       setIsAligned(true);
-      // Wait a short moment before capturing to ensure stability
-      setTimeout(capture, 500);
+      setCountdownActive(true);
+      // Start 5-second countdown before capture
+      if (captureTimeout.current) {
+        window.clearTimeout(captureTimeout.current);
+      }
+      captureTimeout.current = window.setTimeout(capture, 5000);
     } else if (!isNowAligned && isAligned) {
       setIsAligned(false);
+      setCountdownActive(false);
+      if (captureTimeout.current) {
+        window.clearTimeout(captureTimeout.current);
+      }
     }
   }, [capture, isAligned]);
 
@@ -97,6 +112,9 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     return () => {
       if (alignmentCheckInterval.current) {
         window.clearInterval(alignmentCheckInterval.current);
+      }
+      if (captureTimeout.current) {
+        window.clearTimeout(captureTimeout.current);
       }
     };
   }, [startAlignmentDetection]);
@@ -166,9 +184,13 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
 
       <p className="text-center text-sm text-gray-500">
         {!capturedImage ? (
-          side === "front" 
-            ? "Centralize a frente do documento no retângulo"
-            : "Agora centralize o verso do documento"
+          isAligned ? (
+            "Mantenha o documento parado. Capturando em 5 segundos..."
+          ) : (
+            side === "front" 
+              ? "Centralize a frente do documento no retângulo"
+              : "Agora centralize o verso do documento"
+          )
         ) : (
           "Verifique se a imagem está legível antes de confirmar"
         )}
