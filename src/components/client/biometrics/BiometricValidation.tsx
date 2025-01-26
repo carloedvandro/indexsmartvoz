@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -11,7 +11,9 @@ import { useSession } from "@/hooks/useSession";
 
 type Step = 
   | "instructions" 
+  | "facial-instructions"
   | "facial" 
+  | "document-instructions"
   | "document-front" 
   | "document-back" 
   | "processing" 
@@ -33,7 +35,7 @@ export function BiometricValidation() {
     setImages(prev => ({ ...prev, [type]: imageData }));
     
     if (type === "facial") {
-      setStep("document-front");
+      setStep("document-instructions");
     } else if (type === "documentFront") {
       setStep("document-back");
     } else if (type === "documentBack") {
@@ -79,6 +81,8 @@ export function BiometricValidation() {
         .update({
           facial_validation_status: "pending",
           facial_validation_image: facialPath,
+          document_validated: true,
+          document_validation_date: new Date().toISOString(),
         })
         .eq("id", session.user.id);
 
@@ -86,8 +90,8 @@ export function BiometricValidation() {
 
       setStep("complete");
       toast({
-        title: "Validação enviada com sucesso!",
-        description: "Suas imagens foram enviadas para análise. Em breve você receberá uma resposta.",
+        title: "Deu certo!",
+        description: "Nós confirmamos sua identidade e você já pode continuar sua jornada",
       });
 
     } catch (error: any) {
@@ -103,6 +107,139 @@ export function BiometricValidation() {
   const handleClose = () => {
     setOpen(false);
     navigate("/client/dashboard");
+  };
+
+  const renderStepContent = () => {
+    switch (step) {
+      case "instructions":
+        return (
+          <div className="space-y-6 text-center">
+            <h3 className="text-lg font-semibold">Siga as instruções abaixo:</h3>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <p className="flex items-center gap-2 font-medium">
+                  <User className="h-5 w-5" />
+                  Deixe seu rosto visível
+                </p>
+                <p className="text-sm text-gray-500">
+                  Sem acessórios que encubram o rosto, como óculos, chapéus ou máscaras
+                </p>
+              </div>
+              
+              <div className="space-y-2">
+                <p className="flex items-center gap-2 font-medium">
+                  <LightbulbIcon className="h-5 w-5" />
+                  Fique num lugar com boa iluminação
+                </p>
+                <p className="text-sm text-gray-500">
+                  Sem pessoas ou objetos ao fundo
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <p className="flex items-center gap-2 font-medium">
+                  <FileText className="h-5 w-5" />
+                  Prepare seu documento
+                </p>
+                <p className="text-sm text-gray-500">
+                  Tenha em mãos seu documento de identificação (RG ou CNH)
+                </p>
+              </div>
+            </div>
+            <Button 
+              onClick={() => setStep("facial")} 
+              className="w-full bg-purple-600 hover:bg-purple-700"
+            >
+              Continuar
+            </Button>
+          </div>
+        );
+
+      case "facial":
+        return (
+          <div className="space-y-4">
+            <p className="text-center text-gray-600">
+              Vamos tirar uma foto do seu rosto pra sua segurança no app
+            </p>
+            <FacialCapture onCapture={(image) => handleImageCapture(image, "facial")} />
+          </div>
+        );
+
+      case "document-instructions":
+        return (
+          <div className="space-y-6 text-center">
+            <h3 className="text-lg font-semibold">Agora, vamos fotografar seu documento</h3>
+            <p className="text-gray-600">
+              Prepare seu RG ou CNH para fotografar a frente e o verso
+            </p>
+            <Button 
+              onClick={() => setStep("document-front")} 
+              className="w-full bg-purple-600 hover:bg-purple-700"
+            >
+              Continuar
+            </Button>
+          </div>
+        );
+
+      case "document-front":
+        return (
+          <DocumentCapture
+            onCapture={(image) => handleImageCapture(image, "documentFront")}
+            side="front"
+          />
+        );
+
+      case "document-back":
+        return (
+          <DocumentCapture
+            onCapture={(image) => handleImageCapture(image, "documentBack")}
+            side="back"
+          />
+        );
+
+      case "processing":
+        return (
+          <div className="text-center space-y-4">
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-white" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-lg font-semibold">Aguarde!</h3>
+                <p className="text-sm text-gray-500">
+                  Estamos analisando seus dados pra confirmar sua identidade
+                </p>
+                <p className="text-xs text-gray-400">
+                  Se fechar o app, você volta pro início da confirmação de identidade
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+
+      case "complete":
+        return (
+          <div className="text-center space-y-6">
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                <CheckCircle className="h-8 w-8 text-green-500" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-lg font-semibold">Deu certo!</h3>
+                <p className="text-gray-600">
+                  Nós confirmamos sua identidade e você já pode continuar sua jornada
+                </p>
+              </div>
+            </div>
+            <Button 
+              onClick={handleClose} 
+              className="w-full bg-purple-600 hover:bg-purple-700"
+            >
+              Continuar
+            </Button>
+          </div>
+        );
+    }
   };
 
   return (
@@ -126,109 +263,7 @@ export function BiometricValidation() {
         </DialogHeader>
 
         <div className="flex flex-col items-center space-y-4 py-4">
-          {step === "instructions" && (
-            <>
-              <div className="space-y-6 text-center">
-                <h3 className="text-lg font-semibold">Siga as instruções abaixo:</h3>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <p className="flex items-center gap-2 font-medium">
-                      <User className="h-5 w-5" />
-                      Deixe seu rosto visível
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Sem acessórios que encubram o rosto, como óculos, chapéus ou máscaras
-                    </p>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <p className="flex items-center gap-2 font-medium">
-                      <LightbulbIcon className="h-5 w-5" />
-                      Fique num lugar com boa iluminação
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Sem pessoas ou objetos ao fundo
-                    </p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <p className="flex items-center gap-2 font-medium">
-                      <FileText className="h-5 w-5" />
-                      Prepare seu documento
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Tenha em mãos seu documento de identificação (RG ou CNH)
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <Button 
-                onClick={() => setStep("facial")} 
-                className="w-full bg-purple-600 hover:bg-purple-700"
-              >
-                Continuar
-              </Button>
-            </>
-          )}
-
-          {step === "facial" && (
-            <FacialCapture onCapture={(image) => handleImageCapture(image, "facial")} />
-          )}
-
-          {step === "document-front" && (
-            <DocumentCapture
-              onCapture={(image) => handleImageCapture(image, "documentFront")}
-              side="front"
-            />
-          )}
-
-          {step === "document-back" && (
-            <DocumentCapture
-              onCapture={(image) => handleImageCapture(image, "documentBack")}
-              side="back"
-            />
-          )}
-
-          {step === "processing" && (
-            <div className="text-center space-y-4">
-              <div className="flex flex-col items-center gap-4">
-                <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center">
-                  <Loader2 className="h-8 w-8 animate-spin text-white" />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold">Aguarde!</h3>
-                  <p className="text-sm text-gray-500">
-                    Estamos analisando seus dados pra confirmar sua identidade
-                  </p>
-                  <p className="text-xs text-gray-400">
-                    Se fechar o app, você volta pro início da confirmação de identidade
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {step === "complete" && (
-            <div className="text-center space-y-6">
-              <div className="flex flex-col items-center gap-4">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                  <CheckCircle className="h-8 w-8 text-green-500" />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold">Deu certo!</h3>
-                  <p className="text-gray-600">
-                    Nós confirmamos sua identidade e você já pode continuar sua jornada
-                  </p>
-                </div>
-              </div>
-              <Button 
-                onClick={handleClose} 
-                className="w-full bg-purple-600 hover:bg-purple-700"
-              >
-                Continuar
-              </Button>
-            </div>
-          )}
+          {renderStepContent()}
         </div>
       </DialogContent>
     </Dialog>
