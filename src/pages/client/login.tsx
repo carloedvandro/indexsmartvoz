@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthError } from "@supabase/supabase-js";
-import { AlertCircle, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { RainbowButton } from "@/components/ui/rainbow-button";
 
 export default function LoginPage() {
@@ -66,14 +66,11 @@ export default function LoginPage() {
 
   return (
     <div className="container relative min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-[350px] space-y-6 -mt-12">
+      <div className="w-full max-w-[350px] space-y-6">
         <div className="flex flex-col space-y-2 text-center">
-          <h1 className="w-[280px] mx-auto mb-12 text-5xl font-bold tracking-tight text-transparent bg-clip-text animate-rainbow bg-[length:200%] bg-gradient-to-r from-purple-400 via-purple-600 to-purple-800 hover:scale-105 transition-transform duration-300 shadow-[2px_2px_rgba(0,0,0,0.2)]">
+          <h1 className="text-5xl font-bold tracking-tight text-transparent bg-clip-text animate-rainbow bg-[length:200%] bg-gradient-to-r from-purple-400 via-purple-600 to-purple-800 hover:scale-105 transition-transform duration-300 shadow-[2px_2px_rgba(0,0,0,0.2)] mb-12">
             Smartvoz
           </h1>
-          <p className="text-sm text-muted-foreground">
-            Entre com seu email e senha para acessar sua conta
-          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -84,7 +81,7 @@ export default function LoginPage() {
               <Input
                 id="email"
                 type="email"
-                placeholder="nome@exemplo.com"
+                placeholder="seu@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="pl-10"
@@ -99,6 +96,7 @@ export default function LoginPage() {
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="pl-10"
@@ -119,28 +117,31 @@ export default function LoginPage() {
           </div>
 
           {error && (
-            <div className="flex items-center gap-2 text-red-500 text-sm">
-              <AlertCircle className="h-4 w-4" />
-              <span>{error}</span>
+            <div className="text-red-500 text-sm">
+              {error}
             </div>
           )}
 
           <RainbowButton
             type="submit"
-            className="w-full"
+            className="w-full !bg-purple-600 hover:!bg-purple-700"
             disabled={isLoading}
           >
             {isLoading ? "Entrando..." : "Entrar"}
           </RainbowButton>
         </form>
 
-        <div className="text-center text-sm text-black">
-          Não tem uma conta? <Link
-            to="/client/register"
-            className="font-bold text-black hover:text-gray-700"
-          >
-            Cadastre-se
-          </Link>
+        <div className="space-y-2 text-center text-sm">
+          <div className="text-gray-700">
+            Não tem uma conta? <Link to="/client/register" className="text-black font-semibold hover:underline">
+              Cadastre-se
+            </Link>
+          </div>
+          <div>
+            <Link to="/client/reset-password" className="text-gray-700 hover:underline">
+              Esqueceu sua senha?
+            </Link>
+          </div>
         </div>
       </div>
     </div>
