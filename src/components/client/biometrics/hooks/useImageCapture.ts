@@ -90,8 +90,8 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
 
       if (backError) throw backError;
 
-      // Simular um tempo de processamento
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      // Simular um tempo de processamento mais longo (3 minutos)
+      await new Promise(resolve => setTimeout(resolve, 180000)); // 3 minutos
 
       // Atualizar status da validação no perfil
       const { error: updateError } = await supabase

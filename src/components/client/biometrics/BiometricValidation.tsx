@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { BiometricValidationContent } from "./BiometricValidationContent";
 import { useImageCapture } from "./hooks/useImageCapture";
+import { useToast } from "@/hooks/use-toast";
 
 interface BiometricValidationProps {
   onComplete?: () => void;
@@ -12,7 +12,7 @@ interface BiometricValidationProps {
 export function BiometricValidation({ onComplete }: BiometricValidationProps) {
   const [open, setOpen] = useState(true);
   const [step, setStep] = useState("instructions");
-  const navigate = useNavigate();
+  const { toast } = useToast();
   const { handleImageCapture } = useImageCapture(setStep);
 
   const handleClose = () => {
@@ -20,8 +20,10 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
     if (onComplete) {
       onComplete();
     }
-    // Forçar redirecionamento para a página de login
-    window.location.href = "/client/login";
+    // Forçar redirecionamento para a página de login após um breve delay
+    setTimeout(() => {
+      window.location.href = "/client/login";
+    }, 500);
   };
 
   const getStepTitle = () => {
@@ -37,7 +39,7 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
       case "document-back":
         return "Documento - Verso";
       case "processing":
-        return "Processando";
+        return "Processando sua validação";
       case "complete":
         return "Deu certo!";
       default:
