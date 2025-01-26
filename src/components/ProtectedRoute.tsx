@@ -10,42 +10,59 @@ export const ProtectedRoute = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [needsBiometricValidation, setNeedsBiometricValidation] = useState(false);
+  const [isValidating, setIsValidating] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
-      const session = await getSession();
-      
-      if (!session) {
-        // Determine which login page to redirect to based on the current path
-        const isAdminRoute = location.pathname.startsWith('/admin');
-        const loginPath = isAdminRoute ? '/admin/login' : '/client/login';
-        navigate(loginPath, { replace: true });
-        return;
-      }
+      try {
+        const session = await getSession();
+        
+        if (!session) {
+          const isAdminRoute = location.pathname.startsWith('/admin');
+          const loginPath = isAdminRoute ? '/admin/login' : '/client/login';
+          navigate(loginPath, { replace: true });
+          return;
+        }
 
-      // Check if user needs biometric validation
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('facial_validation_status')
-        .eq('id', session.user.id)
-        .single();
+        // Verificar status da validação biométrica
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('facial_validation_status, document_validated')
+          .eq('id', session.user.id)
+          .single();
 
-      if (profile && (!profile.facial_validation_status || profile.facial_validation_status === 'pending')) {
-        setNeedsBiometricValidation(true);
+        const needsValidation = !profile?.document_validated || 
+          !profile?.facial_validation_status || 
+          profile.facial_validation_status === 'pending';
+
+        setNeedsBiometricValidation(needsValidation);
+
+        // Se precisar de validação e não estiver na tela de login/registro
+        if (needsValidation && 
+            !location.pathname.includes('/login') && 
+            !location.pathname.includes('/register')) {
+          // Redirecionar para uma página de validação pendente
+          navigate('/client/validation-required', { replace: true });
+        }
+
+        setIsValidating(false);
+      } catch (error) {
+        console.error('Error checking auth:', error);
+        setIsValidating(false);
       }
     };
 
     checkAuth();
   }, [getSession, navigate, location]);
 
-  if (isLoading) {
+  if (isLoading || isValidating) {
     return <LoadingState />;
   }
 
-  return (
-    <>
-      <Outlet />
-      {needsBiometricValidation && <BiometricValidation />}
-    </>
-  );
+  // Se precisar de validação biométrica, mostrar o modal
+  if (needsBiometricValidation) {
+    return <BiometricValidation />;
+  }
+
+  return <Outlet />;
 };
