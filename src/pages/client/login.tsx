@@ -1,14 +1,18 @@
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Fingerprint, ArrowRight } from "lucide-react";
+import { BiometricValidation } from "@/components/client/biometrics/BiometricValidation";
 
 export default function ClientLogin() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [showBiometricModal, setShowBiometricModal] = useState(false);
+  const [showLoginForm, setShowLoginForm] = useState(false);
 
   useEffect(() => {
     // Check if we're on a password recovery route
@@ -37,7 +41,7 @@ export default function ClientLogin() {
       if (event === 'SIGNED_IN' && session) {
         navigate('/client/dashboard');
       } else if (event === 'SIGNED_OUT') {
-        navigate('/client/login');
+        setShowLoginForm(false);
       } else if (event === 'USER_UPDATED') {
         // Atualizar a sessão quando o usuário for atualizado
         const { data: { session } } = await supabase.auth.getSession();
@@ -52,6 +56,11 @@ export default function ClientLogin() {
     };
   }, [navigate]);
 
+  const handleBiometricComplete = () => {
+    setShowBiometricModal(false);
+    setShowLoginForm(true);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="w-full max-w-[500px] relative z-10 mx-4">
@@ -62,74 +71,98 @@ export default function ClientLogin() {
           </h1>
         </div>
 
-        <Auth
-          supabaseClient={supabase}
-          appearance={{
-            theme: ThemeSupa,
-            style: {
-              button: {
-                backgroundColor: '#6B21A8',
-                color: 'white',
-                borderRadius: '9999px',
-                padding: '0.75rem 1rem',
-                fontSize: '1rem',
-                fontWeight: '500',
-                width: '100%',
-                marginTop: '1rem',
-              },
-              anchor: {
-                color: '#6B21A8',
-                textDecoration: 'none',
-                fontSize: '0.875rem',
-              },
-              input: {
-                borderRadius: '0.75rem',
-                border: '1px solid #E5E7EB',
-                padding: '0.75rem 1rem 0.75rem 2.5rem',
-                fontSize: '1rem',
-                width: '100%',
-                backgroundColor: 'white',
-                color: '#1F2937',
-              },
-              message: {
-                color: '#EF4444', // Red color for error messages
-                marginTop: '0.5rem',
-                fontSize: '0.875rem',
-              },
-              label: {
-                color: '#1F2937',
-                fontSize: '0.875rem',
-                fontWeight: '500',
-                marginBottom: '0.5rem',
-              },
-            },
-            className: {
-              container: 'space-y-4',
-              button: 'hover:bg-purple-700 transition-colors',
-              input: 'focus:border-purple-500 focus:ring-purple-500',
-              label: 'block text-sm font-medium',
-              message: 'text-sm text-red-500',
-              anchor: 'text-black [&>span:last-child]:font-bold',
-            },
-          }}
-          localization={{
-            variables: {
-              sign_in: {
-                email_label: t('sign_in.email_label'),
-                password_label: t('sign_in.password_label'),
-                button_label: t('sign_in.button_label'),
-                loading_button_label: t('sign_in.loading_button_label'),
-                password_input_placeholder: t('sign_in.password_input_placeholder'),
-                email_input_placeholder: t('sign_in.email_input_placeholder'),
-              }
-            }
-          }}
-          theme="default"
-          providers={[]}
-          redirectTo={`${window.location.origin}/client/dashboard`}
-          view="sign_in"
-          showLinks={false}
-        />
+        {!showLoginForm ? (
+          <div className="space-y-4">
+            <Button
+              onClick={() => setShowBiometricModal(true)}
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+            >
+              <Fingerprint className="w-5 h-5 mr-2" />
+              Iniciar Validação Biométrica
+            </Button>
+            <p className="text-sm text-center text-gray-500">
+              Para sua segurança, precisamos validar sua identidade antes de prosseguir
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="mb-4 flex items-center justify-center gap-2 text-sm text-gray-600">
+              <Fingerprint className="w-4 h-4 text-green-500" />
+              Validação biométrica concluída
+              <ArrowRight className="w-4 h-4" />
+              Faça seu login
+            </div>
+
+            <Auth
+              supabaseClient={supabase}
+              appearance={{
+                theme: ThemeSupa,
+                style: {
+                  button: {
+                    backgroundColor: '#6B21A8',
+                    color: 'white',
+                    borderRadius: '9999px',
+                    padding: '0.75rem 1rem',
+                    fontSize: '1rem',
+                    fontWeight: '500',
+                    width: '100%',
+                    marginTop: '1rem',
+                  },
+                  anchor: {
+                    color: '#6B21A8',
+                    textDecoration: 'none',
+                    fontSize: '0.875rem',
+                  },
+                  input: {
+                    borderRadius: '0.75rem',
+                    border: '1px solid #E5E7EB',
+                    padding: '0.75rem 1rem 0.75rem 2.5rem',
+                    fontSize: '1rem',
+                    width: '100%',
+                    backgroundColor: 'white',
+                    color: '#1F2937',
+                  },
+                  message: {
+                    color: '#EF4444',
+                    marginTop: '0.5rem',
+                    fontSize: '0.875rem',
+                  },
+                  label: {
+                    color: '#1F2937',
+                    fontSize: '0.875rem',
+                    fontWeight: '500',
+                    marginBottom: '0.5rem',
+                  },
+                },
+                className: {
+                  container: 'space-y-4',
+                  button: 'hover:bg-purple-700 transition-colors',
+                  input: 'focus:border-purple-500 focus:ring-purple-500',
+                  label: 'block text-sm font-medium',
+                  message: 'text-sm text-red-500',
+                  anchor: 'text-black [&>span:last-child]:font-bold',
+                },
+              }}
+              localization={{
+                variables: {
+                  sign_in: {
+                    email_label: t('sign_in.email_label'),
+                    password_label: t('sign_in.password_label'),
+                    button_label: t('sign_in.button_label'),
+                    loading_button_label: t('sign_in.loading_button_label'),
+                    password_input_placeholder: t('sign_in.password_input_placeholder'),
+                    email_input_placeholder: t('sign_in.email_input_placeholder'),
+                  }
+                }
+              }}
+              theme="default"
+              providers={[]}
+              redirectTo={`${window.location.origin}/client/dashboard`}
+              view="sign_in"
+              showLinks={false}
+            />
+          </>
+        )}
 
         {/* Icons for inputs */}
         <style>{`
@@ -148,6 +181,12 @@ export default function ClientLogin() {
             padding-left: 40px !important;
           }
         `}</style>
+
+        {showBiometricModal && (
+          <BiometricValidation 
+            onComplete={handleBiometricComplete}
+          />
+        )}
       </div>
     </div>
   );
