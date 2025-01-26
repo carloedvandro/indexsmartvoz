@@ -12,18 +12,21 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   const webcamRef = useRef<Webcam>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [isAligned, setIsAligned] = useState(false);
-  const [countdownActive, setCountdownActive] = useState(false);
+  const [countdown, setCountdown] = useState<number | null>(null);
   const alignmentCheckInterval = useRef<number>();
-  const captureTimeout = useRef<number>();
+  const countdownInterval = useRef<number>();
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot();
     if (imageSrc) {
       setCapturedImage(imageSrc);
-      setCountdownActive(false);
-      // Clear the interval when image is captured
+      setCountdown(null);
+      // Clear the intervals when image is captured
       if (alignmentCheckInterval.current) {
         window.clearInterval(alignmentCheckInterval.current);
+      }
+      if (countdownInterval.current) {
+        window.clearInterval(countdownInterval.current);
       }
     }
   }, [webcamRef]);
@@ -31,9 +34,9 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   const retake = () => {
     setCapturedImage(null);
     setIsAligned(false);
-    setCountdownActive(false);
-    if (captureTimeout.current) {
-      window.clearTimeout(captureTimeout.current);
+    setCountdown(null);
+    if (countdownInterval.current) {
+      window.clearInterval(countdownInterval.current);
     }
     // Restart alignment detection
     startAlignmentDetection();
@@ -44,6 +47,27 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
       onCapture(capturedImage);
     }
   };
+
+  const startCountdown = useCallback(() => {
+    setCountdown(3);
+    if (countdownInterval.current) {
+      window.clearInterval(countdownInterval.current);
+    }
+    
+    countdownInterval.current = window.setInterval(() => {
+      setCountdown((prev) => {
+        if (prev === null) return null;
+        if (prev <= 1) {
+          if (countdownInterval.current) {
+            window.clearInterval(countdownInterval.current);
+          }
+          capture();
+          return null;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  }, [capture]);
 
   const checkAlignment = useCallback(() => {
     const video = webcamRef.current?.video;
@@ -85,20 +109,15 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     
     if (isNowAligned && !isAligned) {
       setIsAligned(true);
-      setCountdownActive(true);
-      // Start 3-second countdown before capture
-      if (captureTimeout.current) {
-        window.clearTimeout(captureTimeout.current);
-      }
-      captureTimeout.current = window.setTimeout(capture, 3000);
+      startCountdown();
     } else if (!isNowAligned && isAligned) {
       setIsAligned(false);
-      setCountdownActive(false);
-      if (captureTimeout.current) {
-        window.clearTimeout(captureTimeout.current);
+      setCountdown(null);
+      if (countdownInterval.current) {
+        window.clearInterval(countdownInterval.current);
       }
     }
-  }, [capture, isAligned]);
+  }, [isAligned, startCountdown]);
 
   const startAlignmentDetection = useCallback(() => {
     if (alignmentCheckInterval.current) {
@@ -113,8 +132,8 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
       if (alignmentCheckInterval.current) {
         window.clearInterval(alignmentCheckInterval.current);
       }
-      if (captureTimeout.current) {
-        window.clearTimeout(captureTimeout.current);
+      if (countdownInterval.current) {
+        window.clearInterval(countdownInterval.current);
       }
     };
   }, [startAlignmentDetection]);
@@ -143,6 +162,13 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
                   rx="4"
                 />
               </svg>
+              {countdown !== null && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-4xl font-bold text-white bg-black/50 w-16 h-16 rounded-full flex items-center justify-center">
+                    {countdown}
+                  </span>
+                </div>
+              )}
             </div>
             <Webcam
               audio={false}
@@ -185,7 +211,9 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
       <p className="text-center text-sm text-gray-500">
         {!capturedImage ? (
           isAligned ? (
-            "Mantenha o documento parado. Capturando em 3 segundos..."
+            countdown !== null ? 
+              `Mantenha o documento parado. Capturando em ${countdown} segundos...` :
+              "Mantenha o documento parado..."
           ) : (
             side === "front" 
               ? "Centralize a frente do documento no retângulo"
