@@ -118,8 +118,13 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
       onStepChange("complete");
       toast({
         title: "Validação concluída!",
-        description: "Suas informações foram validadas com sucesso.",
+        description: "Suas informações foram validadas com sucesso. Redirecionando para o login...",
       });
+
+      // Forçar redirecionamento para a página de login após 5 segundos
+      setTimeout(() => {
+        window.location.href = "/client/login";
+      }, 5000);
 
     } catch (error: any) {
       console.error("Erro detalhado no processo de validação:", error);

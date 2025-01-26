@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 import { BiometricValidationContent } from "./BiometricValidationContent";
 import { useImageCapture } from "./hooks/useImageCapture";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface BiometricValidationProps {
   onComplete?: () => void;
@@ -13,6 +14,7 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
   const [open, setOpen] = useState(true);
   const [step, setStep] = useState("instructions");
   const { toast } = useToast();
+  const navigate = useNavigate();
   const { handleImageCapture } = useImageCapture(setStep);
 
   const handleClose = () => {
@@ -23,8 +25,8 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
     
     // Mostrar toast de redirecionamento
     toast({
-      title: "Redirecionando...",
-      description: "Você será redirecionado para a página de login em instantes.",
+      title: "Validação concluída!",
+      description: "Você será redirecionado para a página de login em 5 segundos.",
     });
 
     // Forçar redirecionamento para a página de login após 5 segundos
