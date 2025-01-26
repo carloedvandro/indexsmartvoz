@@ -38,7 +38,7 @@ export default function ClientLogin() {
       }
 
       // Handle specific error events
-      if (event === 'USER_DELETED') {
+      if (event === 'USER_DELETED' as any) {
         toast({
           title: "Erro",
           description: "Usuário não encontrado",
