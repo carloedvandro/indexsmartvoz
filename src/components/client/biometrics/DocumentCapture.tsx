@@ -1,7 +1,7 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import Webcam from "react-webcam";
 import { Button } from "@/components/ui/button";
-import { RefreshCcw, Timer } from "lucide-react";
+import { Camera, RefreshCcw, Timer } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface DocumentCaptureProps {
@@ -41,10 +41,10 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   };
 
   const startCountdown = useCallback(() => {
-    if (countdown !== null) return;
+    if (countdown !== null) return; // Prevent multiple countdowns
     
-    console.log("Iniciando contagem regressiva de 5 segundos");
-    setCountdown(5);
+    console.log("Iniciando contagem regressiva");
+    setCountdown(3);
     
     const timer = setInterval(() => {
       setCountdown((prev) => {
@@ -55,6 +55,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
           }
           return null;
         }
+        console.log("Contagem:", prev - 1);
         return prev - 1;
       });
     }, 1000);
@@ -62,7 +63,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     return () => clearInterval(timer);
   }, [capture, countdown]);
 
-  const checkDocumentAlignment = useCallback(() => {
+  const checkAlignment = useCallback(() => {
     if (!webcamRef.current?.video) return;
     
     const video = webcamRef.current.video;
@@ -75,7 +76,6 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     context.drawImage(video, 0, 0);
 
     try {
-      // Definir a área central onde esperamos encontrar o documento
       const centerX = canvas.width * 0.15;
       const centerY = canvas.height * 0.15;
       const centerWidth = canvas.width * 0.7;
@@ -86,29 +86,24 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
       
       let edges = 0;
       let totalPixels = 0;
-      let lastGray = 0;
       
-      // Melhorar a detecção de documentos analisando as bordas e contraste
       for (let i = 0; i < data.length; i += 4) {
         const r = data[i];
         const g = data[i + 1];
         const b = data[i + 2];
         
         const gray = (r + g + b) / 3;
-        
-        // Detectar mudanças bruscas de intensidade (bordas)
-        if (Math.abs(gray - lastGray) > 30) {
-          edges++;
+        if (i > 0) {
+          const prevGray = (data[i - 4] + data[i - 3] + data[i - 2]) / 3;
+          if (Math.abs(gray - prevGray) > 20) {
+            edges++;
+          }
         }
-        
-        lastGray = gray;
         totalPixels++;
       }
       
       const edgeRatio = edges / totalPixels;
-      
-      // Ajustar os limiares para melhor detecção de documentos
-      const isNowAligned = edgeRatio > 0.05 && edgeRatio < 0.2;
+      const isNowAligned = edgeRatio > 0.03 && edgeRatio < 0.3;
       
       if (isNowAligned && !isAligned && countdown === null) {
         console.log("Documento detectado, iniciando contagem");
@@ -116,7 +111,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
         startCountdown();
         toast({
           title: "Documento detectado",
-          description: `Mantenha o ${side === 'front' ? 'frente' : 'verso'} do documento parado para a captura automática`,
+          description: `Mantenha o ${side === 'front' ? 'frente' : 'verso'} do documento parado para a captura`,
         });
       } else if (!isNowAligned && isAligned) {
         console.log("Documento desalinhado, reiniciando");
@@ -129,9 +124,9 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   }, [isAligned, startCountdown, toast, countdown, side]);
 
   useEffect(() => {
-    const interval = setInterval(checkDocumentAlignment, 100);
+    const interval = setInterval(checkAlignment, 100);
     return () => clearInterval(interval);
-  }, [checkDocumentAlignment]);
+  }, [checkAlignment]);
 
   return (
     <div className="space-y-4">
