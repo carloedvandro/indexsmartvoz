@@ -22,16 +22,21 @@ export const ProtectedRoute = () => {
       }
 
       // Verificar se o usuário precisa validar documentos/biometria
-      const { data: profile } = await supabase
+      const { data: profile, error } = await supabase
         .from('profiles')
         .select('facial_validation_status, document_validated')
         .eq('id', session.user.id)
-        .single();
+        .maybeSingle();
 
-      if (profile && 
-          (!profile.document_validated || 
-           !profile.facial_validation_status || 
-           profile.facial_validation_status === 'pending')) {
+      if (error) {
+        console.error('Error fetching profile:', error);
+        return;
+      }
+
+      if (!profile || 
+          !profile.document_validated || 
+          !profile.facial_validation_status || 
+          profile.facial_validation_status === 'pending') {
         // Redirecionar para a página de validação se não estiver na rota de validação
         if (!location.pathname.includes('validation-required')) {
           navigate('/client/validation-required', { replace: true });
