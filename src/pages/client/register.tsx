@@ -3,16 +3,16 @@ import { RegisterFormContainer } from "@/components/client/register/RegisterForm
 export default function ClientRegister() {
   return (
     <div className="h-screen w-screen overflow-y-auto bg-gray-50">
-      {/* Background container */}
+      {/* Background container with animated gradient overlay */}
       <div
-        className="fixed inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        className="fixed inset-0 w-full h-full bg-cover bg-center bg-no-repeat before:content-[''] before:absolute before:inset-0 before:bg-gradient-to-br before:from-purple-500/30 before:via-primary/20 before:to-accent/30 before:animate-gradient"
         style={{
           backgroundImage:
             'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2000&q=80")',
         }}
       >
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black/30" />
+        {/* Dark overlay with reduced opacity */}
+        <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]" />
       </div>
 
       {/* Content container */}
