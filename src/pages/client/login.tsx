@@ -143,7 +143,7 @@ export default function LoginPage() {
         <div className="space-y-2 text-center text-sm">
           <div className="text-gray-700">
             Não tem uma conta? <Link to="/client/register" className="text-black font-semibold hover:underline">
-              Cadastre-se
+              Criar nova conta
             </Link>
           </div>
         </div>
