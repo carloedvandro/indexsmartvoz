@@ -46,8 +46,6 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   };
 
   const startCountdown = useCallback(() => {
-    if (countdown !== null) return;
-    
     console.log("Starting countdown");
     setCountdown(3);
     
@@ -69,7 +67,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
         return prev - 1;
       });
     }, 1000);
-  }, [capture, countdown]);
+  }, [capture]);
 
   const checkAlignment = useCallback(() => {
     if (!webcamRef.current) return;
@@ -105,7 +103,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
         const gray = (r + g + b) / 3;
         if (i > 0) {
           const prevGray = (data[i - 4] + data[i - 3] + data[i - 2]) / 3;
-          if (Math.abs(gray - prevGray) > 20) { // Reduzido ainda mais o limiar
+          if (Math.abs(gray - prevGray) > 20) {
             edges++;
           }
         }
@@ -113,12 +111,12 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
       }
       
       const edgeRatio = edges / totalPixels;
-      const isNowAligned = edgeRatio > 0.03 && edgeRatio < 0.3; // Ajustados os limiares
+      const isNowAligned = edgeRatio > 0.03 && edgeRatio < 0.3;
       
-      if (isNowAligned && !isAligned) {
+      if (isNowAligned && !isAligned && countdown === null) {
         console.log("Document aligned, starting countdown");
         setIsAligned(true);
-        startCountdown(); // Iniciar contagem quando documento é detectado
+        startCountdown();
         toast({
           title: "Documento detectado",
           description: "Mantenha o documento parado para a captura",
@@ -135,10 +133,10 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     } catch (error) {
       console.error("Error checking alignment:", error);
     }
-  }, [isAligned, startCountdown, toast]);
+  }, [isAligned, startCountdown, toast, countdown]);
 
   useEffect(() => {
-    const interval = setInterval(checkAlignment, 100); // Aumentada ainda mais a frequência
+    const interval = setInterval(checkAlignment, 50);
     return () => {
       clearInterval(interval);
       if (countdownInterval.current) {
