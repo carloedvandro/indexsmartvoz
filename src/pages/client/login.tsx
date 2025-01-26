@@ -78,10 +78,6 @@ export default function ClientLogin() {
                 transition: 'all 0.3s ease',
                 transform: 'translateY(0)',
                 display: 'inline-block',
-                ':hover': {
-                  transform: 'translateY(-2px)',
-                  textShadow: '2px 2px 4px rgba(95, 8, 137, 0.3)',
-                }
               },
               input: {
                 borderRadius: '0.75rem',
@@ -133,8 +129,10 @@ export default function ClientLogin() {
         />
 
         <div className="mt-4">
-          <RainbowButton 
-            className="w-full"
+          <button 
+            className="w-full bg-black text-white font-medium py-3 px-4 rounded-xl transition-all duration-300 relative overflow-hidden
+                     before:content-[''] before:absolute before:inset-0 before:bg-[#5f0889] before:opacity-0 before:transition-opacity hover:before:opacity-20
+                     after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-4/5 after:h-1/2 after:blur-xl after:bg-[#5f0889] after:opacity-30"
             onClick={() => {
               const email = document.querySelector('input[type="email"]') as HTMLInputElement;
               const password = document.querySelector('input[type="password"]') as HTMLInputElement;
@@ -147,7 +145,7 @@ export default function ClientLogin() {
             }}
           >
             Entrar
-          </RainbowButton>
+          </button>
         </div>
 
         {/* Icons for inputs */}
