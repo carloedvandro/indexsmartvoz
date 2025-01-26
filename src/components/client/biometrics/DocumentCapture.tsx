@@ -12,6 +12,7 @@ interface DocumentCaptureProps {
 export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   const webcamRef = useRef<Webcam | null>(null);
   const [isAligned, setIsAligned] = useState(false);
+  const [stableFrames, setStableFrames] = useState(0);
   const [countdown, setCountdown] = useState<number | null>(null);
   const { toast } = useToast();
 
@@ -37,11 +38,12 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
 
   const retake = () => {
     setIsAligned(false);
+    setStableFrames(0);
     setCountdown(null);
   };
 
   const startCountdown = useCallback(() => {
-    if (countdown !== null) return; // Prevent multiple countdowns
+    if (countdown !== null) return;
     
     console.log("Iniciando contagem regressiva");
     setCountdown(3);
@@ -105,26 +107,32 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
       const edgeRatio = edges / totalPixels;
       const isNowAligned = edgeRatio > 0.03 && edgeRatio < 0.3;
       
-      if (isNowAligned && !isAligned && countdown === null) {
-        console.log("Documento detectado, iniciando contagem");
-        setIsAligned(true);
-        startCountdown();
-        toast({
-          title: "Documento detectado",
-          description: `Mantenha o ${side === 'front' ? 'frente' : 'verso'} do documento parado para a captura`,
-        });
-      } else if (!isNowAligned && isAligned) {
-        console.log("Documento desalinhado, reiniciando");
-        setIsAligned(false);
-        setCountdown(null);
+      if (isNowAligned && !isAligned) {
+        setStableFrames(prev => prev + 1);
+        if (stableFrames >= 15) { // Aguarda 15 frames estáveis (aproximadamente 0.5 segundos)
+          console.log("Documento detectado e estável, iniciando contagem");
+          setIsAligned(true);
+          startCountdown();
+          toast({
+            title: "Documento detectado",
+            description: `Mantenha o ${side === 'front' ? 'frente' : 'verso'} do documento parado para a captura`,
+          });
+        }
+      } else if (!isNowAligned) {
+        if (isAligned || stableFrames > 0) {
+          console.log("Documento desalinhado, reiniciando");
+          setIsAligned(false);
+          setStableFrames(0);
+          setCountdown(null);
+        }
       }
     } catch (error) {
       console.error("Erro ao verificar alinhamento:", error);
     }
-  }, [isAligned, startCountdown, toast, countdown, side]);
+  }, [isAligned, startCountdown, toast, countdown, side, stableFrames]);
 
   useEffect(() => {
-    const interval = setInterval(checkAlignment, 100);
+    const interval = setInterval(checkAlignment, 33); // ~30fps
     return () => clearInterval(interval);
   }, [checkAlignment]);
 
