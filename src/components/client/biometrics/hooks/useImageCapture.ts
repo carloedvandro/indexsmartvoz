@@ -18,73 +18,33 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
 
   const handleImageCapture = async (imageData: string, type: ImageType) => {
     try {
-      const session = await getSession();
-      
-      if (!session?.user) {
-        toast({
-          title: "Erro no processo",
-          description: "Por favor, faça login antes de iniciar a validação biométrica",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      // Primeiro salvamos a imagem no estado
       setImages(prev => ({ ...prev, [type]: imageData }));
-
-      // Se for imagem facial, tentamos fazer o upload imediatamente
+      
       if (type === "facial") {
-        const facialPath = `biometrics/${session.user.id}/facial.jpg`;
-        
-        // Converter base64 para blob
-        const base64Data = imageData.split(',')[1];
-        const blob = await fetch(`data:image/jpeg;base64,${base64Data}`).then(res => res.blob());
-        
-        console.log("Iniciando upload da imagem facial...");
-        
-        const { error: uploadError } = await supabase.storage
-          .from("biometrics")
-          .upload(facialPath, blob, {
-            contentType: 'image/jpeg',
-            upsert: true,
-          });
-
-        if (uploadError) {
-          console.error("Erro no upload facial:", uploadError);
-          toast({
-            title: "Erro no upload",
-            description: "Não foi possível salvar a imagem facial. Por favor, tente novamente.",
-            variant: "destructive",
-          });
-          return;
-        }
-
-        console.log("Upload facial concluído com sucesso");
         onStepChange("document-instructions");
-        
-        toast({
-          title: "Imagem facial capturada com sucesso!",
-          description: "Agora vamos capturar seus documentos.",
-        });
       } else if (type === "documentFront") {
-        console.log("Frente do documento capturada");
+        console.log("Front captured, moving to back in 5 seconds");
         toast({
           title: "Frente capturada com sucesso!",
           description: "Aguarde, em 5 segundos vamos capturar o verso do documento",
         });
         setTimeout(() => {
           onStepChange("document-back");
+          toast({
+            title: "Vamos lá!",
+            description: "Agora vamos capturar o verso do documento",
+          });
         }, 5000);
       } else if (type === "documentBack") {
-        console.log("Verso do documento capturado, iniciando processamento");
+        console.log("Back captured, moving to processing");
         onStepChange("processing");
         await processValidation();
       }
-    } catch (error: any) {
-      console.error("Erro detalhado na captura:", error);
+    } catch (error) {
+      console.error("Erro na captura da imagem:", error);
       toast({
-        title: "Erro no processo",
-        description: error.message || "Ocorreu um erro ao processar sua imagem. Por favor, tente novamente.",
+        title: "Erro na captura",
+        description: "Ocorreu um erro ao capturar a imagem. Por favor, tente novamente.",
         variant: "destructive",
       });
       onStepChange("instructions");
@@ -98,19 +58,24 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
         throw new Error("Usuário não autenticado");
       }
 
-      // Upload dos documentos
-      const paths = {
-        documentFront: `biometrics/${session.user.id}/document-front.jpg`,
-        documentBack: `biometrics/${session.user.id}/document-back.jpg`
-      };
+      // Upload da imagem facial
+      const facialPath = `biometrics/${session.user.id}/facial.jpg`;
+      const { error: facialError } = await supabase.storage
+        .from("biometrics")
+        .upload(facialPath, images.facial!, {
+          contentType: 'image/jpeg',
+          upsert: true,
+        });
 
-      console.log("Iniciando upload dos documentos...");
+      if (facialError) {
+        throw new Error("Erro ao fazer upload da imagem facial");
+      }
 
       // Upload do documento frente
-      const frontBlob = await fetch(`data:image/jpeg;base64,${images.documentFront?.split(',')[1]}`).then(res => res.blob());
+      const frontPath = `biometrics/${session.user.id}/document-front.jpg`;
       const { error: frontError } = await supabase.storage
         .from("biometrics")
-        .upload(paths.documentFront, frontBlob, {
+        .upload(frontPath, images.documentFront!, {
           contentType: 'image/jpeg',
           upsert: true,
         });
@@ -120,10 +85,10 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
       }
 
       // Upload do documento verso
-      const backBlob = await fetch(`data:image/jpeg;base64,${images.documentBack?.split(',')[1]}`).then(res => res.blob());
+      const backPath = `biometrics/${session.user.id}/document-back.jpg`;
       const { error: backError } = await supabase.storage
         .from("biometrics")
-        .upload(paths.documentBack, backBlob, {
+        .upload(backPath, images.documentBack!, {
           contentType: 'image/jpeg',
           upsert: true,
         });
@@ -132,9 +97,7 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
         throw new Error("Erro ao fazer upload do verso do documento");
       }
 
-      console.log("Upload dos documentos concluído, iniciando processamento...");
-
-      // Simular tempo de processamento (2 minutos)
+      // Simular um tempo de processamento mais longo (2 minutos)
       toast({
         title: "Processando documentos",
         description: "Aguarde enquanto validamos seus documentos. Isso pode levar alguns minutos.",
@@ -142,12 +105,12 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
 
       await new Promise(resolve => setTimeout(resolve, 120000)); // 2 minutos
 
-      // Atualizar status da validação
+      // Atualizar status da validação no perfil
       const { error: updateError } = await supabase
         .from("profiles")
         .update({
           facial_validation_status: "approved",
-          facial_validation_image: paths.documentFront,
+          facial_validation_image: facialPath,
           document_validated: true,
           document_validation_date: new Date().toISOString(),
         })
@@ -160,13 +123,18 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
       onStepChange("complete");
       toast({
         title: "Validação concluída!",
-        description: "Suas informações foram validadas com sucesso.",
+        description: "Suas informações foram validadas com sucesso. Redirecionando para o login...",
       });
 
+      // Forçar redirecionamento para a página de login após 5 segundos
+      setTimeout(() => {
+        window.location.href = "/client/login";
+      }, 5000);
+
     } catch (error: any) {
-      console.error("Erro detalhado no processamento:", error);
+      console.error("Erro detalhado no processo de validação:", error);
       toast({
-        title: "Erro no processamento",
+        title: "Erro no processo",
         description: error.message || "Ocorreu um erro ao processar suas imagens. Por favor, tente novamente.",
         variant: "destructive",
       });
