@@ -1,16 +1,18 @@
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { X, User, FileText, CheckCircle, Loader2, LightbulbIcon } from "lucide-react";
+import { X } from "lucide-react";
 import { FacialCapture } from "./FacialCapture";
 import { DocumentCapture } from "./DocumentCapture";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
+import { InstructionsStep } from "./steps/InstructionsStep";
+import { DocumentInstructionsStep } from "./steps/DocumentInstructionsStep";
+import { ProcessingStep } from "./steps/ProcessingStep";
+import { CompleteStep } from "./steps/CompleteStep";
 
 type Step = 
   | "instructions" 
-  | "facial-instructions"
   | "facial" 
   | "document-instructions"
   | "document-front" 
@@ -83,10 +85,7 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
           upsert: true,
         });
 
-      if (facialError) {
-        console.error("Erro no upload facial:", facialError);
-        throw facialError;
-      }
+      if (facialError) throw facialError;
 
       // Upload do documento frente
       const frontPath = `biometrics/${session.user.id}/document-front.jpg`;
@@ -97,10 +96,7 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
           upsert: true,
         });
 
-      if (frontError) {
-        console.error("Erro no upload do documento frente:", frontError);
-        throw frontError;
-      }
+      if (frontError) throw frontError;
 
       // Upload do documento verso
       const backPath = `biometrics/${session.user.id}/document-back.jpg`;
@@ -111,10 +107,7 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
           upsert: true,
         });
 
-      if (backError) {
-        console.error("Erro no upload do documento verso:", backError);
-        throw backError;
-      }
+      if (backError) throw backError;
 
       // Atualizar status da validação no perfil
       const { error: updateError } = await supabase
@@ -127,24 +120,13 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
         })
         .eq("id", session.user.id);
 
-      if (updateError) {
-        console.error("Erro na atualização do perfil:", updateError);
-        throw updateError;
-      }
+      if (updateError) throw updateError;
 
       setStep("complete");
       toast({
         title: "Validação concluída!",
-        description: "Suas informações foram validadas com sucesso. Você será redirecionado para fazer login.",
+        description: "Suas informações foram validadas com sucesso.",
       });
-
-      // Aguarda 5 segundos antes de redirecionar e fechar o modal
-      setTimeout(() => {
-        setOpen(false);
-        if (onComplete) {
-          onComplete();
-        }
-      }, 5000);
 
     } catch (error: any) {
       console.error("Erro detalhado no processo de validação:", error);
@@ -160,53 +142,15 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
 
   const handleClose = () => {
     setOpen(false);
+    if (onComplete) {
+      onComplete();
+    }
   };
 
   const renderStepContent = () => {
     switch (step) {
       case "instructions":
-        return (
-          <div className="space-y-6 text-center">
-            <h3 className="text-lg font-semibold">Siga as instruções abaixo:</h3>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <p className="flex items-center gap-2 font-medium">
-                  <User className="h-5 w-5" />
-                  Deixe seu rosto visível
-                </p>
-                <p className="text-sm text-gray-500">
-                  Sem acessórios que encubram o rosto, como óculos, chapéus ou máscaras
-                </p>
-              </div>
-              
-              <div className="space-y-2">
-                <p className="flex items-center gap-2 font-medium">
-                  <LightbulbIcon className="h-5 w-5" />
-                  Fique num lugar com boa iluminação
-                </p>
-                <p className="text-sm text-gray-500">
-                  Sem pessoas ou objetos ao fundo
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <p className="flex items-center gap-2 font-medium">
-                  <FileText className="h-5 w-5" />
-                  Prepare seu documento
-                </p>
-                <p className="text-sm text-gray-500">
-                  Tenha em mãos seu documento de identificação (RG ou CNH)
-                </p>
-              </div>
-            </div>
-            <Button 
-              onClick={() => setStep("facial")} 
-              className="w-full bg-purple-600 hover:bg-purple-700"
-            >
-              Continuar
-            </Button>
-          </div>
-        );
+        return <InstructionsStep onContinue={() => setStep("facial")} />;
 
       case "facial":
         return (
@@ -219,20 +163,7 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
         );
 
       case "document-instructions":
-        return (
-          <div className="space-y-6 text-center">
-            <h3 className="text-lg font-semibold">Agora, vamos fotografar seu documento</h3>
-            <p className="text-gray-600">
-              Prepare seu RG ou CNH para fotografar a frente e o verso
-            </p>
-            <Button 
-              onClick={() => setStep("document-front")} 
-              className="w-full bg-purple-600 hover:bg-purple-700"
-            >
-              Continuar
-            </Button>
-          </div>
-        );
+        return <DocumentInstructionsStep onContinue={() => setStep("document-front")} />;
 
       case "document-front":
         return (
@@ -251,47 +182,10 @@ export function BiometricValidation({ onComplete }: BiometricValidationProps) {
         );
 
       case "processing":
-        return (
-          <div className="text-center space-y-4">
-            <div className="flex flex-col items-center gap-4">
-              <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center">
-                <Loader2 className="h-8 w-8 animate-spin text-white" />
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-lg font-semibold">Aguarde!</h3>
-                <p className="text-sm text-gray-500">
-                  Estamos analisando seus dados pra confirmar sua identidade
-                </p>
-                <p className="text-xs text-gray-400">
-                  Se fechar o app, você volta pro início da confirmação de identidade
-                </p>
-              </div>
-            </div>
-          </div>
-        );
+        return <ProcessingStep />;
 
       case "complete":
-        return (
-          <div className="text-center space-y-6">
-            <div className="flex flex-col items-center gap-4">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                <CheckCircle className="h-8 w-8 text-green-500" />
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-lg font-semibold">Deu certo!</h3>
-                <p className="text-gray-600">
-                  Nós confirmamos sua identidade e você já pode continuar sua jornada
-                </p>
-              </div>
-            </div>
-            <Button 
-              onClick={handleClose} 
-              className="w-full bg-purple-600 hover:bg-purple-700"
-            >
-              Continuar
-            </Button>
-          </div>
-        );
+        return <CompleteStep onClose={handleClose} />;
     }
   };
 
