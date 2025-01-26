@@ -25,6 +25,7 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
       fullName: "",
       email: "",
       password: "",
+      passwordConfirmation: "",
       cpf: "",
       sponsorCustomId: sponsorId || "",
       customId: "",
@@ -44,6 +45,7 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
       console.log("Starting form submission with data:", {
         ...data,
         password: "[PROTECTED]",
+        passwordConfirmation: "[PROTECTED]",
         sponsorCustomId: data.sponsorCustomId || "none",
       });
 

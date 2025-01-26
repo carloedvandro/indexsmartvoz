@@ -9,12 +9,16 @@ export const registerFormSchema = z.object({
     (password) => validatePasswordStrength(password).isValid,
     (password) => ({ message: validatePasswordStrength(password).message })
   ),
+  passwordConfirmation: z.string().min(1, "Confirmação de senha é obrigatória"),
   cpf: z.string().refine(validateCPF, "CPF inválido"),
   sponsorCustomId: z.string().min(1, "ID do patrocinador é obrigatório"),
   customId: z.string()
     .min(3, "ID personalizado deve ter pelo menos 3 caracteres")
     .regex(/^[a-zA-Z0-9]+$/, "ID personalizado deve conter apenas letras e números"),
   birthDate: z.string().min(1, "Data de nascimento é obrigatória"),
+}).refine((data) => data.password === data.passwordConfirmation, {
+  message: "As senhas não coincidem",
+  path: ["passwordConfirmation"],
 });
 
 export type RegisterFormData = z.infer<typeof registerFormSchema>;
