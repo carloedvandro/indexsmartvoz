@@ -32,12 +32,12 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
   const videoConstraints = {
     width: 720,
     height: 480,
-    facingMode: "environment"
+    facingMode: { exact: "environment" }
   };
 
   return (
     <div className="space-y-4">
-      <div className="relative w-[300px] h-[200px] mx-auto">
+      <div className="relative w-[300px] h-[200px] mx-auto overflow-hidden rounded-lg">
         {!capturedImage ? (
           <>
             <div className="absolute inset-0 z-10 pointer-events-none">
@@ -50,6 +50,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
                   fill="none"
                   stroke="white"
                   strokeWidth="2"
+                  rx="4"
                 />
               </svg>
             </div>
@@ -58,27 +59,41 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
               ref={webcamRef}
               screenshotFormat="image/jpeg"
               videoConstraints={videoConstraints}
-              className="rounded-lg"
+              className="w-full h-full object-cover"
             />
           </>
         ) : (
-          <img src={capturedImage} alt="captured" className="rounded-lg" />
+          <img 
+            src={capturedImage} 
+            alt="captured" 
+            className="w-full h-full object-cover rounded-lg"
+          />
         )}
       </div>
 
       <div className="flex justify-center gap-2">
         {!capturedImage ? (
-          <Button onClick={capture} className="gap-2 bg-purple-600 hover:bg-purple-700">
+          <Button 
+            onClick={capture} 
+            className="gap-2 bg-purple-600 hover:bg-purple-700"
+          >
             <Camera className="h-4 w-4" />
             Capturar
           </Button>
         ) : (
           <>
-            <Button variant="outline" onClick={retake} className="gap-2">
+            <Button 
+              variant="outline" 
+              onClick={retake} 
+              className="gap-2"
+            >
               <RefreshCcw className="h-4 w-4" />
               Repetir
             </Button>
-            <Button onClick={confirm} className="bg-purple-600 hover:bg-purple-700">
+            <Button 
+              onClick={confirm} 
+              className="bg-purple-600 hover:bg-purple-700"
+            >
               Confirmar
             </Button>
           </>
