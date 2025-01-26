@@ -8,7 +8,7 @@ import { BiometricSteps } from "./steps/BiometricSteps";
 export function BiometricValidation() {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const toastUtils = useToast();
 
   const handleClose = () => {
     setOpen(false);
@@ -30,7 +30,7 @@ export function BiometricValidation() {
           </button>
         </DialogHeader>
 
-        <BiometricSteps onClose={handleClose} toast={toast} />
+        <BiometricSteps onClose={handleClose} toast={toastUtils} />
       </DialogContent>
     </Dialog>
   );
