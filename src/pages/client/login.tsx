@@ -112,6 +112,13 @@ export default function ClientLogin() {
                 loading_button_label: t('sign_in.loading_button_label'),
                 password_input_placeholder: t('sign_in.password_input_placeholder'),
                 email_input_placeholder: t('sign_in.email_input_placeholder'),
+              },
+              forgotten_password: {
+                email_label: t('sign_in.email_label'),
+                button_label: 'Enviar instruções de recuperação',
+                loading_button_label: 'Enviando instruções...',
+                link_text: 'Esqueceu sua senha?',
+                confirmation_text: 'Verifique seu email para redefinir sua senha'
               }
             }
           }}
