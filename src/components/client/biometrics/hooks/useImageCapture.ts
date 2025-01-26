@@ -97,8 +97,8 @@ export const useImageCapture = (onStepChange: (step: string) => void) => {
         throw new Error("Erro ao fazer upload do verso do documento");
       }
 
-      // Simular um tempo de processamento mais longo (3 minutos)
-      await new Promise(resolve => setTimeout(resolve, 180000)); // 3 minutos
+      // Simular um tempo de processamento de 5 segundos
+      await new Promise(resolve => setTimeout(resolve, 5000));
 
       // Atualizar status da validação no perfil
       const { error: updateError } = await supabase
