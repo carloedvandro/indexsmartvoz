@@ -136,11 +136,11 @@ export function BiometricValidation() {
         description: "Suas informações foram validadas com sucesso. Você será redirecionado para fazer login.",
       });
 
-      // Aguarda 3 segundos antes de redirecionar e fechar o modal
+      // Aguarda 5 segundos antes de redirecionar e fechar o modal
       setTimeout(() => {
         setOpen(false);
         navigate("/client/login", { replace: true });
-      }, 3000);
+      }, 5000);
 
     } catch (error: any) {
       console.error("Erro detalhado no processo de validação:", error);
