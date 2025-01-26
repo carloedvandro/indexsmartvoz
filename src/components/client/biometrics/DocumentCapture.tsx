@@ -20,8 +20,8 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     const imageSrc = webcamRef.current?.getScreenshot();
     if (imageSrc) {
       setCapturedImage(imageSrc);
+      onCapture(imageSrc); // Automatically confirm capture
       setCountdown(null);
-      // Clear the intervals when image is captured
       if (alignmentCheckInterval.current) {
         window.clearInterval(alignmentCheckInterval.current);
       }
@@ -29,7 +29,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
         window.clearInterval(countdownInterval.current);
       }
     }
-  }, [webcamRef]);
+  }, [webcamRef, onCapture]);
 
   const retake = () => {
     setCapturedImage(null);
@@ -38,18 +38,12 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
     if (countdownInterval.current) {
       window.clearInterval(countdownInterval.current);
     }
-    // Restart alignment detection
     startAlignmentDetection();
-  };
-
-  const confirm = () => {
-    if (capturedImage) {
-      onCapture(capturedImage);
-    }
   };
 
   const startCountdown = useCallback(() => {
     setCountdown(3);
+    
     if (countdownInterval.current) {
       window.clearInterval(countdownInterval.current);
     }
@@ -164,7 +158,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
               </svg>
               {countdown !== null && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-4xl font-bold text-white bg-black/50 w-16 h-16 rounded-full flex items-center justify-center">
+                  <span className="text-6xl font-bold text-white bg-black/50 w-24 h-24 rounded-full flex items-center justify-center">
                     {countdown}
                   </span>
                 </div>
@@ -189,22 +183,14 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
 
       <div className="flex justify-center gap-2">
         {capturedImage && (
-          <>
-            <Button 
-              variant="outline" 
-              onClick={retake} 
-              className="gap-2"
-            >
-              <RefreshCcw className="h-4 w-4" />
-              Repetir
-            </Button>
-            <Button 
-              onClick={confirm} 
-              className="bg-purple-600 hover:bg-purple-700"
-            >
-              Confirmar
-            </Button>
-          </>
+          <Button 
+            variant="outline" 
+            onClick={retake} 
+            className="gap-2"
+          >
+            <RefreshCcw className="h-4 w-4" />
+            Repetir
+          </Button>
         )}
       </div>
 
@@ -220,7 +206,7 @@ export function DocumentCapture({ onCapture, side }: DocumentCaptureProps) {
               : "Agora centralize o verso do documento"
           )
         ) : (
-          "Verifique se a imagem está legível antes de confirmar"
+          "Clique em repetir caso a imagem não esteja legível"
         )}
       </p>
     </div>
