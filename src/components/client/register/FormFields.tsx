@@ -13,12 +13,12 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
     <>
       <FormField
         control={form.control}
-        name="email"
+        name="fullName"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Email</FormLabel>
+            <FormLabel>Nome Completo</FormLabel>
             <FormControl>
-              <Input type="email" {...field} />
+              <Input {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -27,12 +27,12 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
 
       <FormField
         control={form.control}
-        name="fullName"
+        name="email"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Nome Completo</FormLabel>
+            <FormLabel>Email</FormLabel>
             <FormControl>
-              <Input {...field} />
+              <Input type="email" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
