@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button";
 import { CreditCard, FileText } from "lucide-react";
 
 interface DocumentTypeSelectorProps {
-  documentType: "rg" | "cnh";
-  onSelect: (type: "rg" | "cnh") => void;
+  documentType: "rg" | "cnh" | "outro";
+  onSelect: (type: "rg" | "cnh" | "outro") => void;
 }
 
 export function DocumentTypeSelector({ documentType, onSelect }: DocumentTypeSelectorProps) {

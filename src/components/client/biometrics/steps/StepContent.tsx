@@ -43,10 +43,7 @@ export function StepContent({
         return (
           <DocumentTypeSelector
             documentType={documentType}
-            onSelect={(type) => {
-              onDocumentTypeSelect(type);
-              onImageCapture("", "documentFront");
-            }}
+            onSelect={onDocumentTypeSelect}
           />
         );
       case "document-front":
