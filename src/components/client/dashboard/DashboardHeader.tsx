@@ -138,7 +138,11 @@ export function DashboardHeader() {
           </p>
         </div>
         <div className="flex justify-end w-full gap-4">
-          <Button variant="ghost" onClick={handleLogout} className={`hidden md:inline-flex gap-2 ${isOpen ? "bg-[#5f0889] hover:bg-[#5f0889]/90 text-white" : ""}`}>
+          <Button 
+            variant="ghost" 
+            onClick={handleLogout} 
+            className={`hidden md:inline-flex gap-2 hover:bg-[#5f0889] hover:text-white ${isOpen ? "bg-[#5f0889] hover:bg-[#5f0889]/90 text-white" : ""}`}
+          >
             <LogOut className="w-4 h-4" />
             <span>Sair</span>
           </Button>
@@ -147,7 +151,7 @@ export function DashboardHeader() {
           <Button 
             variant="ghost" 
             onClick={() => setOpen(!isOpen)}
-            className={isOpen ? "bg-[#5f0889] hover:bg-[#5f0889]/90 text-white" : ""}
+            className={`hover:bg-[#5f0889] hover:text-white ${isOpen ? "bg-[#5f0889] hover:bg-[#5f0889]/90 text-white" : ""}`}
           >
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </Button>
@@ -185,7 +189,11 @@ export function DashboardHeader() {
                   </div>
                 </div>
               ))}
-              <Button variant="ghost" onClick={handleLogout} className={`justify-start gap-2 ${isOpen ? "bg-[#5f0889] hover:bg-[#5f0889]/90 text-white" : ""}`}>
+              <Button 
+                variant="ghost" 
+                onClick={handleLogout} 
+                className={`justify-start gap-2 hover:bg-[#5f0889] hover:text-white ${isOpen ? "bg-[#5f0889] hover:bg-[#5f0889]/90 text-white" : ""}`}
+              >
                 <LogOut className="w-4 h-4" />
                 <span>Sair</span>
               </Button>
