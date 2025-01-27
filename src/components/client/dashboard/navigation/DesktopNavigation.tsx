@@ -33,7 +33,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                   <NavigationMenuTrigger className="font-medium text-sm bg-transparent hover:bg-transparent hover:text-primary data-[state=open]:bg-transparent">
                     {item.title}
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent className="!w-[300px] p-4 bg-white">
+                  <NavigationMenuContent className="!w-[400px] p-4 bg-white">
                     <NavigationContent item={item} />
                   </NavigationMenuContent>
                 </>
