@@ -18,7 +18,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
       <Button 
         variant="ghost" 
         onClick={() => setOpen(!isOpen)}
-        className={`hover:bg-[#5f0889] hover:text-white ${isOpen ? "bg-[#5f0889] hover:bg-[#5f0889]/90 text-white" : ""}`}
+        className={`hover:text-primary ${isOpen ? "text-primary" : ""}`}
       >
         {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </Button>
@@ -30,7 +30,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                 {item.href ? (
                   <Link
                     to={item.href}
-                    className="flex justify-between items-center"
+                    className="flex justify-between items-center hover:text-primary"
                   >
                     <span className="text-lg">{item.title}</span>
                     <MoveRight className="w-4 h-4 stroke-1 text-muted-foreground" />
@@ -43,7 +43,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                         <Link
                           key={subItem.title}
                           to={subItem.href}
-                          className="flex justify-between items-center"
+                          className="flex justify-between items-center hover:text-primary"
                         >
                           <span className="text-muted-foreground">
                             {subItem.title}

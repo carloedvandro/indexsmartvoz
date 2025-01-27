@@ -93,13 +93,13 @@ export function DashboardHeader() {
                 <NavigationMenuItem key={item.title}>
                   {item.href ? (
                     <NavigationMenuLink asChild>
-                      <Button variant="ghost" asChild>
+                      <Button variant="link" className="text-foreground hover:text-primary" asChild>
                         <Link to={item.href}>{item.title}</Link>
                       </Button>
                     </NavigationMenuLink>
                   ) : (
                     <>
-                      <NavigationMenuTrigger className="font-medium text-sm">
+                      <NavigationMenuTrigger className="font-medium text-sm bg-transparent hover:bg-transparent hover:text-primary data-[state=open]:bg-transparent">
                         {item.title}
                       </NavigationMenuTrigger>
                       <NavigationMenuContent className="!w-[450px] p-4 bg-white">
