@@ -36,8 +36,20 @@ export const navigationItems: NavigationItem[] = [
     description: "Gerencie sua rede de afiliados",
     items: [
       {
-        title: "Visualizar Rede",
-        href: "/client/network",
+        title: "1° Nível",
+        href: "/client/network?level=1",
+      },
+      {
+        title: "2° Nível",
+        href: "/client/network?level=2",
+      },
+      {
+        title: "3° Nível",
+        href: "/client/network?level=3",
+      },
+      {
+        title: "4° Nível",
+        href: "/client/network?level=4",
       },
       {
         title: "Liderança",
