@@ -46,11 +46,11 @@ export const RegisterFormContainer = () => {
   };
 
   return (
-    <div className="px-6 sm:px-5 py-6">
-      <p className="mt-2 text-center text-sm text-gray-600 max-w-[80%] mx-auto">
+    <div className="px-6 sm:px-5 py-2">
+      <p className="mt-1 text-center text-sm text-gray-600 max-w-[80%] mx-auto">
         Preencha os dados abaixo para criar sua conta
       </p>
-      <div className="mt-6">
+      <div className="mt-4">
         <RegisterForm onSubmit={handleSubmit} />
       </div>
     </div>
