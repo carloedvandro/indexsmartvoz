@@ -18,7 +18,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
       <Button 
         variant="ghost" 
         onClick={() => setOpen(!isOpen)}
-        className="hover:text-primary"
+        className="hover:text-primary hover:bg-transparent"
       >
         {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </Button>
@@ -57,7 +57,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
             </div>
           ))}
           <div className="pl-2">
-            <LogoutButton onLogout={onLogout} className="w-full p-0 justify-start" />
+            <LogoutButton onLogout={onLogout} className="w-full p-0 justify-start hover:bg-transparent" />
           </div>
         </div>
       )}
