@@ -147,7 +147,7 @@ export function DashboardHeader() {
           <Button 
             variant="ghost" 
             onClick={() => setOpen(!isOpen)}
-            className="bg-[#5f0889] hover:bg-[#5f0889]/90 text-white"
+            className={isOpen ? "bg-[#5f0889] hover:bg-[#5f0889]/90 text-white" : ""}
           >
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </Button>
