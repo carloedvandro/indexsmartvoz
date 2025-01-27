@@ -61,8 +61,8 @@ export function DashboardHeader() {
           href: "/client/network",
         },
         {
-          title: "Planos",
-          href: "/client/upgrade",
+          title: "Liderança",
+          href: "/client/leadership",
         }
       ],
     },
