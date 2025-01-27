@@ -27,7 +27,7 @@ export function DashboardHeader() {
       href: "/client/dashboard",
     },
     {
-      title: "Loja",
+      title: "Atividades",
       description: "Gerencie sua loja virtual",
       items: [
         {
