@@ -34,6 +34,7 @@ type DockProps = {
   magnification?: number;
   spring?: SpringOptions;
 };
+
 type DockItemProps = {
   className?: string;
   children: React.ReactNode;
@@ -80,42 +81,34 @@ function Dock({
   distance = DEFAULT_DISTANCE,
   panelHeight = DEFAULT_PANEL_HEIGHT,
 }: DockProps) {
-  const mouseX = useMotionValue(Infinity);
+  const mouseY = useMotionValue(Infinity);
   const isHovered = useMotionValue(0);
 
   const maxHeight = useMemo(() => {
     return Math.max(DOCK_HEIGHT, magnification + magnification / 2 + 4);
   }, [magnification]);
 
-  const heightRow = useTransform(isHovered, [0, 1], [panelHeight, maxHeight]);
-  const height = useSpring(heightRow, spring);
-
   return (
     <motion.div
-      style={{
-        height: height,
-        scrollbarWidth: 'none',
-      }}
-      className='mx-2 flex max-w-full items-end overflow-x-auto'
+      className='flex flex-col max-h-full overflow-y-auto scrollbar-hide'
     >
       <motion.div
-        onMouseMove={({ pageX }) => {
+        onMouseMove={({ pageY }) => {
           isHovered.set(1);
-          mouseX.set(pageX);
+          mouseY.set(pageY);
         }}
         onMouseLeave={() => {
           isHovered.set(0);
-          mouseX.set(Infinity);
+          mouseY.set(Infinity);
         }}
         className={cn(
-          'mx-auto flex w-fit gap-4 rounded-2xl bg-gray-50 px-4 dark:bg-neutral-900',
+          'flex flex-col gap-4 py-4 px-2',
           className
         )}
-        style={{ height: panelHeight }}
         role='toolbar'
         aria-label='Application dock'
       >
-        <DockProvider value={{ mouseX, spring, distance, magnification }}>
+        <DockProvider value={{ mouseX: mouseY, spring, distance, magnification }}>
           {children}
         </DockProvider>
       </motion.div>
@@ -125,34 +118,32 @@ function Dock({
 
 function DockItem({ children, className }: DockItemProps) {
   const ref = useRef<HTMLDivElement>(null);
-
-  const { distance, magnification, mouseX, spring } = useDock();
-
+  const { distance, magnification, mouseX: mouseY, spring } = useDock();
   const isHovered = useMotionValue(0);
 
-  const mouseDistance = useTransform(mouseX, (val) => {
-    const domRect = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
-    return val - domRect.x - domRect.width / 2;
+  const mouseDistance = useTransform(mouseY, (val) => {
+    const domRect = ref.current?.getBoundingClientRect() ?? { y: 0, height: 0 };
+    return val - domRect.y - domRect.height / 2;
   });
 
-  const widthTransform = useTransform(
+  const heightTransform = useTransform(
     mouseDistance,
     [-distance, 0, distance],
     [40, magnification, 40]
   );
 
-  const width = useSpring(widthTransform, spring);
+  const height = useSpring(heightTransform, spring);
 
   return (
     <motion.div
       ref={ref}
-      style={{ width }}
+      style={{ height }}
       onHoverStart={() => isHovered.set(1)}
       onHoverEnd={() => isHovered.set(0)}
       onFocus={() => isHovered.set(1)}
       onBlur={() => isHovered.set(0)}
       className={cn(
-        'relative inline-flex items-center justify-center',
+        'relative inline-flex items-center justify-center w-12',
         className
       )}
       tabIndex={0}
@@ -160,7 +151,7 @@ function DockItem({ children, className }: DockItemProps) {
       aria-haspopup='true'
     >
       {Children.map(children, (child) =>
-        cloneElement(child as React.ReactElement, { width, isHovered })
+        cloneElement(child as React.ReactElement, { height, isHovered })
       )}
     </motion.div>
   );
@@ -203,14 +194,14 @@ function DockLabel({ children, className, ...rest }: DockLabelProps) {
 
 function DockIcon({ children, className, ...rest }: DockIconProps) {
   const restProps = rest as Record<string, unknown>;
-  const width = restProps['width'] as MotionValue<number>;
+  const height = restProps['height'] as MotionValue<number>;
 
-  const widthTransform = useTransform(width, (val) => val / 2);
+  const heightTransform = useTransform(height, (val) => val / 2);
 
   return (
     <motion.div
-      style={{ width: widthTransform }}
-      className={cn('flex items-center justify-center', className)}
+      style={{ height: heightTransform }}
+      className={cn('flex items-center justify-center w-full', className)}
     >
       {children}
     </motion.div>
