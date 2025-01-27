@@ -1,69 +1,31 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Tables } from "@/integrations/supabase/types";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import { ProfileAvatar } from "./profile/ProfileAvatar";
 import { ProfileStats } from "./profile/ProfileStats";
-
-type Profile = Tables<"profiles">;
+import { StoreUrlEditor } from "./profile/StoreUrlEditor";
+import { Tables } from "@/integrations/supabase/types";
 
 interface ProfileCardProps {
-  profile: Profile & { 
-    sponsor?: { 
-      id: string;
-      full_name: string | null;
-      email: string;
-      custom_id: string | null;
-    } | null;
-  };
+  profile: Tables<"profiles">;
 }
 
 export const ProfileCard = ({ profile }: ProfileCardProps) => {
-  if (!profile) {
-    return null;
-  }
-
-  const profileImage = "https://images.unsplash.com/photo-1649972904349-6e44c42644a7";
-  const isActive = profile?.status === 'active';
-
   return (
     <Card className="h-full">
-      <CardHeader className="flex flex-col items-center space-y-0.5 py-4 px-0">
-        <ProfileAvatar 
-          profileImage={profileImage}
-          fullName={profile?.full_name}
-          isActive={isActive}
-        />
-        <div className="text-center">
-          <h3 className="text-xl font-semibold">SMARTVOZ</h3>
-          <p className="text-sm text-muted-foreground break-all">{profile?.email || "Não informado"}</p>
-          <Badge 
-            className="mt-2" 
-            variant={isActive ? "default" : "destructive"}
-          >
-            {profile?.status === 'active' ? 'Ativo' : 'Pendente'}
-          </Badge>
+      <CardContent className="flex flex-col items-center space-y-4 pt-6">
+        <div className="flex flex-col items-center space-y-0.5 py-8 px-0">
+          <ProfileAvatar
+            profileImage={profile?.facial_validation_image || "/placeholder.svg"}
+            fullName={profile?.full_name}
+            isActive={profile?.status === "active"}
+          />
+          <h3 className="text-lg font-semibold">{profile?.full_name || "Sem nome"}</h3>
+          <p className="text-sm text-muted-foreground">{profile?.email}</p>
+          <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-red-100 text-red-800 capitalize">
+            {profile?.status || "Pendente"}
+          </span>
         </div>
-      </CardHeader>
-      <CardContent className="py-4 px-0">
-        <div className="space-y-4">
-          <ProfileStats profileId={profile.id} />
-          
-          <div className="space-y-2">
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground">Patrocinador</p>
-              <p className="font-medium">
-                {profile?.sponsor?.full_name || "Não possui"}
-                {profile?.sponsor?.custom_id && ` (ID: ${profile.sponsor.custom_id})`}
-              </p>
-            </div>
-            {profile?.custom_id && (
-              <div className="text-center">
-                <p className="text-sm text-muted-foreground">ID Personalizado</p>
-                <p className="font-medium">{profile.custom_id}</p>
-              </div>
-            )}
-          </div>
-        </div>
+        <ProfileStats profileId={profile?.id} />
+        <StoreUrlEditor profileId={profile?.id} initialStoreUrl={profile?.store_url || ""} />
       </CardContent>
     </Card>
   );
