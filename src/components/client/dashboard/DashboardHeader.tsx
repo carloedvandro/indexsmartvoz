@@ -1,72 +1,15 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { MoveRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "./components/Logo";
 import { LogoutButton } from "./components/LogoutButton";
 import { MobileMenu } from "./components/MobileMenu";
-import { NavigationItem } from "./types";
+import { DesktopNavigation } from "./navigation/DesktopNavigation";
+import { navigationItems } from "./navigation/NavigationItems";
 
 export function DashboardHeader() {
   const { toast } = useToast();
   const [isOpen, setOpen] = useState(false);
-
-  const navigationItems: NavigationItem[] = [
-    {
-      title: "Dashboard",
-      href: "/client/dashboard",
-    },
-    {
-      title: "Atividades",
-      description: "Gerencie suas atividades e acompanhe seu progresso",
-      items: [
-        {
-          title: "Para Você",
-          href: "/client/activities/personal",
-        },
-        {
-          title: "Para Empresas",
-          href: "/client/activities/business",
-        },
-        {
-          title: "Produtos",
-          href: "/client/activities/products",
-        },
-        {
-          title: "Serviços",
-          href: "/client/activities/services",
-        },
-        {
-          title: "Documentos",
-          href: "/client/activities/documents",
-        }
-      ],
-    },
-    {
-      title: "Rede",
-      description: "Gerencie sua rede de afiliados",
-      items: [
-        {
-          title: "Visualizar Rede",
-          href: "/client/network",
-        },
-        {
-          title: "Liderança",
-          href: "/client/leadership",
-        }
-      ],
-    },
-  ];
 
   const handleLogout = async () => {
     try {
@@ -102,52 +45,7 @@ export function DashboardHeader() {
   return (
     <header className="w-full bg-background border-b">
       <div className="container relative mx-auto min-h-16 flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center">
-        <div className="justify-start items-center gap-4 lg:flex hidden flex-row">
-          <NavigationMenu className="flex justify-start items-start">
-            <NavigationMenuList className="flex justify-start gap-4 flex-row">
-              {navigationItems.map((item) => (
-                <NavigationMenuItem key={item.title}>
-                  {item.href ? (
-                    <NavigationMenuLink asChild>
-                      <Button variant="link" className="text-foreground hover:text-primary" asChild>
-                        <Link to={item.href}>{item.title}</Link>
-                      </Button>
-                    </NavigationMenuLink>
-                  ) : (
-                    <>
-                      <NavigationMenuTrigger className="font-medium text-sm bg-transparent hover:bg-transparent hover:text-primary data-[state=open]:bg-transparent">
-                        {item.title}
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent className="!w-[450px] p-4 bg-white">
-                        <div className="flex flex-col gap-4">
-                          <div className="flex flex-col">
-                            <p className="text-base">{item.title}</p>
-                            <p className="text-muted-foreground text-sm">
-                              {item.description}
-                            </p>
-                          </div>
-                          <div className="flex flex-col text-sm">
-                            {item.items?.map((subItem) => (
-                              <NavigationMenuLink asChild key={subItem.title}>
-                                <Link
-                                  to={subItem.href}
-                                  className="flex flex-row justify-between items-center hover:bg-muted py-2 px-4 rounded"
-                                >
-                                  <span>{subItem.title}</span>
-                                  <MoveRight className="w-4 h-4 text-muted-foreground" />
-                                </Link>
-                              </NavigationMenuLink>
-                            ))}
-                          </div>
-                        </div>
-                      </NavigationMenuContent>
-                    </>
-                  )}
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
+        <DesktopNavigation navigationItems={navigationItems} />
         <div className="flex lg:justify-center -ml-4">
           <Logo />
         </div>
