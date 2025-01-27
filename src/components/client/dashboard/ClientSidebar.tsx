@@ -47,9 +47,9 @@ const menuItems = [
 export function ClientSidebar() {
   return (
     <>
-      <Sidebar className="w-48 border-r">
+      <Sidebar className="w-40 border-r">
         <SidebarHeader className="flex items-center justify-between p-4 bg-white">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-color-1 via-color-2 to-color-3 bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:200%_auto]">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-color-1 via-color-2 to-color-3 bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:200%_auto]">
             Smartvoz
           </h1>
           <SidebarTrigger className="md:hidden" />
@@ -63,7 +63,7 @@ export function ClientSidebar() {
                     <SidebarMenuButton asChild>
                       <Link to={item.path} className="flex items-center gap-2">
                         <item.icon className="h-4 w-4" />
-                        <span>{item.label}</span>
+                        <span className="text-sm">{item.label}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
