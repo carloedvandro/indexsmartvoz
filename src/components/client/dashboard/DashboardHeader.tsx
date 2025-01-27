@@ -51,25 +51,23 @@ export function DashboardHeader({ title = "Dashboard", subtitle, icon }: Dashboa
 
   return (
     <header className="w-full">
-      <div className="bg-white shadow border rounded-lg">
-        <div className="w-full px-24 flex justify-between items-center py-2">
-          <div className="flex items-center gap-2">
-            {icon}
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
-              {subtitle && (
-                <p className="text-sm text-muted-foreground">{subtitle}</p>
-              )}
-            </div>
+      <div className="bg-white shadow border rounded-lg flex justify-between items-center px-24 py-2">
+        <div className="flex items-center gap-2">
+          {icon}
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
+            {subtitle && (
+              <p className="text-sm text-muted-foreground">{subtitle}</p>
+            )}
           </div>
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
-          >
-            <LogOut className="w-5 h-5" />
-            <span>Sair</span>
-          </button>
         </div>
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+        >
+          <LogOut className="w-5 h-5" />
+          <span>Sair</span>
+        </button>
       </div>
     </header>
   );
