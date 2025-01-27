@@ -18,7 +18,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
       <Button 
         variant="ghost" 
         onClick={() => setOpen(!isOpen)}
-        className="hover:text-primary hover:bg-transparent"
+        className="hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent"
       >
         {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </Button>
@@ -30,7 +30,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                 {item.href ? (
                   <Link
                     to={item.href}
-                    className="flex items-center gap-2 hover:text-primary"
+                    className="flex items-center gap-2 hover:text-primary active:bg-transparent"
                   >
                     <span className="text-lg">{item.title}</span>
                     <MoveRight className="w-4 h-4 stroke-1 text-muted-foreground" />
@@ -43,7 +43,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                         <Link
                           key={subItem.title}
                           to={subItem.href}
-                          className="flex items-center gap-2 pl-4 hover:text-primary"
+                          className="flex items-center gap-2 pl-4 hover:text-primary active:bg-transparent"
                         >
                           <span className="text-muted-foreground">
                             {subItem.title}
@@ -57,7 +57,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
             </div>
           ))}
           <div className="pl-2">
-            <LogoutButton onLogout={onLogout} className="w-full p-0 justify-start hover:bg-transparent" />
+            <LogoutButton onLogout={onLogout} className="w-full p-0 justify-start hover:bg-transparent active:bg-transparent focus:bg-transparent" />
           </div>
         </div>
       )}
