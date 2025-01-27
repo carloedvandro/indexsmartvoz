@@ -192,7 +192,7 @@ export function DashboardHeader() {
               <Button 
                 variant="ghost" 
                 onClick={handleLogout} 
-                className={`justify-start gap-2 hover:bg-[#5f0889] hover:text-white ${isOpen ? "bg-[#5f0889] hover:bg-[#5f0889]/90 text-white" : ""}`}
+                className="w-full justify-start gap-2 hover:bg-[#5f0889] hover:text-white bg-[#5f0889] text-white"
               >
                 <LogOut className="w-4 h-4" />
                 <span>Sair</span>
