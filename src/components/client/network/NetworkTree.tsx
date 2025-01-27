@@ -38,38 +38,40 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }
 
   return (
-    <div className="flex flex-col w-full">
-      <div className="mb-4">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="md:col-span-1">
         <NetworkFilter
           selectedLevel={selectedLevel}
           onLevelChange={setSelectedLevel}
         />
       </div>
 
-      <ScrollArea className="h-[calc(100vh-220px)]">
-        <div className="pr-4">
-          <AnimatePresence>
-            {filteredData.length > 0 ? (
-              <div className="space-y-2">
-                {filteredData.map((member) => (
-                  <NetworkNode
-                    key={member.id}
-                    member={member}
-                    onToggle={toggleNode}
-                    expandedNodes={expandedNodes}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <p className="text-gray-500 text-sm">
-                  Nenhum membro encontrado em sua rede.
-                </p>
-              </div>
-            )}
-          </AnimatePresence>
-        </div>
-      </ScrollArea>
+      <div className="md:col-span-3">
+        <ScrollArea className="h-[calc(100vh-220px)]">
+          <div className="pr-4">
+            <AnimatePresence>
+              {filteredData.length > 0 ? (
+                <div className="space-y-2">
+                  {filteredData.map((member) => (
+                    <NetworkNode
+                      key={member.id}
+                      member={member}
+                      onToggle={toggleNode}
+                      expandedNodes={expandedNodes}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-gray-500 text-sm">
+                    Nenhum membro encontrado em sua rede.
+                  </p>
+                </div>
+              )}
+            </AnimatePresence>
+          </div>
+        </ScrollArea>
+      </div>
     </div>
   );
 };
