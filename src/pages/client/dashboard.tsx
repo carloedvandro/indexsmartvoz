@@ -7,8 +7,6 @@ import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
 import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
-import { ClientSidebar } from "@/components/client/dashboard/ClientSidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -28,9 +26,8 @@ export default function ClientDashboard() {
     return null;
   }
 
-  const dashboardLayout = (
+  return (
     <div className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden">
-      <ClientSidebar />
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
@@ -56,11 +53,5 @@ export default function ClientDashboard() {
         </div>
       </main>
     </div>
-  );
-
-  return (
-    <SidebarProvider defaultOpen={true}>
-      {dashboardLayout}
-    </SidebarProvider>
   );
 }
