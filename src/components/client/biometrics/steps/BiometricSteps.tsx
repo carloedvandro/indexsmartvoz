@@ -8,15 +8,16 @@ import { useToast } from "@/hooks/use-toast";
 type Step = 
   | "cpf"
   | "camera-tips"
+  | "facial-tips"
   | "facial"
+  | "facial-processing"
   | "document-tips"
   | "document-type"
   | "document-front"
-  | "document-back"
-  | "processing"
+  | "document-processing"
   | "complete";
 
-type DocumentType = "rg" | "cnh";
+type DocumentType = "rg" | "cnh" | "outro";
 
 interface BiometricStepsProps {
   onClose: () => void;
@@ -43,17 +44,15 @@ export function BiometricSteps({ onClose, toast }: BiometricStepsProps) {
     setImages(prev => ({ ...prev, [type]: imageData }));
     
     if (type === "facial") {
-      setStep("document-tips");
+      setStep("facial-processing");
+      setTimeout(() => {
+        setStep("document-tips");
+      }, 2000);
     } else if (type === "documentFront") {
-      if (documentType === "cnh") {
-        setStep("processing");
-        await processValidation();
-      } else {
-        setStep("document-back");
-      }
-    } else if (type === "documentBack") {
-      setStep("processing");
-      await processValidation();
+      setStep("document-processing");
+      setTimeout(() => {
+        processValidation();
+      }, 2000);
     }
   };
 
@@ -74,9 +73,6 @@ export function BiometricSteps({ onClose, toast }: BiometricStepsProps) {
 
       const facialPath = await uploadImage(images.facial!, "facial.jpg");
       const frontPath = await uploadImage(images.documentFront!, "document-front.jpg");
-      const backPath = documentType === "rg" 
-        ? await uploadImage(images.documentBack!, "document-back.jpg")
-        : null;
 
       const { error: updateError } = await supabase
         .from("profiles")
@@ -86,7 +82,6 @@ export function BiometricSteps({ onClose, toast }: BiometricStepsProps) {
           facial_validation_image: facialPath,
           document_type: documentType,
           document_front_image: frontPath,
-          document_back_image: backPath,
           document_validation_status: "pending",
         })
         .eq("id", session.user.id);

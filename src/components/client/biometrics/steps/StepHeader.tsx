@@ -6,31 +6,40 @@ export function StepHeader({ step }: StepHeaderProps) {
   const getTitle = () => {
     switch (step) {
       case "cpf":
-        return "Vamos confirmar sua identidade";
+        return "Validação Biométrica";
       case "camera-tips":
-        return "Prepare sua câmera";
+        return "Libere acesso à câmera";
+      case "facial-tips":
+        return "Dica para captura das imagens";
       case "facial":
-        return "Captura Facial";
+        return "Enquadre o rosto para captura de selfie";
+      case "facial-processing":
+        return "Imagem em análise";
       case "document-tips":
-        return "Prepare seu documento";
+        return "Dicas para captura de documento";
       case "document-type":
-        return "Selecione o documento";
+        return "Selecione o tipo de documento";
       case "document-front":
-        return "Documento - Frente";
-      case "document-back":
-        return "Documento - Verso";
-      case "processing":
-        return "Processando";
+        return "Enquadre o documento para captura";
+      case "document-processing":
+        return "Imagem em análise";
       case "complete":
-        return "Deu certo!";
+        return "Biometria Concluída!";
       default:
         return "";
     }
   };
 
   return (
-    <h2 className="text-lg font-semibold text-center">
-      {getTitle()}
-    </h2>
+    <div className="text-center space-y-2">
+      <h2 className="text-lg font-semibold">
+        {getTitle()}
+      </h2>
+      {step.includes("processing") && (
+        <p className="text-sm text-gray-500">
+          Aguarde um instante
+        </p>
+      )}
+    </div>
   );
 }

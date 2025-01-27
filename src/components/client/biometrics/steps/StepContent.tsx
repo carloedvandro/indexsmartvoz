@@ -6,13 +6,14 @@ import { DocumentTips } from "./DocumentTips";
 import { DocumentTypeSelector } from "./DocumentTypeSelector";
 import { ProcessingStep } from "./ProcessingStep";
 import { CompleteStep } from "./CompleteStep";
+import { FacialTips } from "./FacialTips";
 
 interface StepContentProps {
   step: string;
-  documentType: "rg" | "cnh";
+  documentType: "rg" | "cnh" | "outro";
   onCpfValidation: (cpf: string) => void;
   onImageCapture: (imageData: string, type: "facial" | "documentFront" | "documentBack") => void;
-  onDocumentTypeSelect: (type: "rg" | "cnh") => void;
+  onDocumentTypeSelect: (type: "rg" | "cnh" | "outro") => void;
   onClose: () => void;
 }
 
@@ -30,8 +31,12 @@ export function StepContent({
         return <CpfValidation onValidCpf={onCpfValidation} />;
       case "camera-tips":
         return <CameraTips onNext={() => onImageCapture("", "facial")} />;
+      case "facial-tips":
+        return <FacialTips onNext={() => onImageCapture("", "facial")} />;
       case "facial":
         return <FacialCapture onCapture={(image) => onImageCapture(image, "facial")} />;
+      case "facial-processing":
+        return <ProcessingStep />;
       case "document-tips":
         return <DocumentTips onNext={() => onDocumentTypeSelect("rg")} />;
       case "document-type":
@@ -51,14 +56,7 @@ export function StepContent({
             side="front"
           />
         );
-      case "document-back":
-        return (
-          <DocumentCapture
-            onCapture={(image) => onImageCapture(image, "documentBack")}
-            side="back"
-          />
-        );
-      case "processing":
+      case "document-processing":
         return <ProcessingStep />;
       case "complete":
         return <CompleteStep onClose={onClose} />;
