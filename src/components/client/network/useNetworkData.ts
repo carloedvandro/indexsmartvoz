@@ -16,7 +16,7 @@ export const useNetworkData = (userId: string) => {
           .from("network")
           .select("id")
           .eq("user_id", userId)
-          .single();
+          .maybeSingle();
 
         if (userNetworkError) {
           console.error("Error fetching user network:", userNetworkError);
@@ -56,7 +56,7 @@ export const useNetworkData = (userId: string) => {
               .from("profiles")
               .select("full_name, email, custom_id, status")
               .eq("id", member.user_id)
-              .single()
+              .maybeSingle()
           );
 
           try {
@@ -67,18 +67,20 @@ export const useNetworkData = (userId: string) => {
             
             allNetworkMembers.forEach((member, index) => {
               const profileData = profileResults[index].data;
-              membersMap.set(member.id, {
-                id: member.id,
-                level: 0,
-                parentId: member.parent_id,
-                user: {
-                  full_name: profileData?.full_name || null,
-                  email: profileData?.email || '',
-                  custom_id: profileData?.custom_id || null,
-                  status: profileData?.status || 'pending'
-                },
-                children: []
-              });
+              if (profileData) { // Só adiciona ao mapa se o perfil existir
+                membersMap.set(member.id, {
+                  id: member.id,
+                  level: 0,
+                  parentId: member.parent_id,
+                  user: {
+                    full_name: profileData?.full_name || null,
+                    email: profileData?.email || '',
+                    custom_id: profileData?.custom_id || null,
+                    status: profileData?.status || 'pending'
+                  },
+                  children: []
+                });
+              }
             });
 
             const calculateLevels = (memberId: string, currentLevel: number): boolean => {
@@ -89,7 +91,7 @@ export const useNetworkData = (userId: string) => {
               
               const childMembers = allNetworkMembers.filter(m => m.parent_id === memberId);
               childMembers.forEach(child => {
-                if (currentLevel < 4) {
+                if (currentLevel < 4 && membersMap.has(child.id)) {
                   calculateLevels(child.id, currentLevel + 1);
                 }
               });
@@ -99,7 +101,9 @@ export const useNetworkData = (userId: string) => {
 
             const rootMembers = allNetworkMembers.filter(member => member.parent_id === userNetwork.id);
             rootMembers.forEach(rootMember => {
-              calculateLevels(rootMember.id, 1);
+              if (membersMap.has(rootMember.id)) {
+                calculateLevels(rootMember.id, 1);
+              }
             });
 
             membersMap.forEach((member, id) => {
