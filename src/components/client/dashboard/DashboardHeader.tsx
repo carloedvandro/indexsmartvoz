@@ -28,11 +28,27 @@ export function DashboardHeader() {
     },
     {
       title: "Atividades",
-      description: "Gerencie sua loja virtual",
+      description: "Gerencie suas atividades e acompanhe seu progresso",
       items: [
         {
-          title: "Minha Loja",
-          href: "/client/store",
+          title: "Para Você",
+          href: "/client/activities/personal",
+        },
+        {
+          title: "Para Empresas",
+          href: "/client/activities/business",
+        },
+        {
+          title: "Produtos",
+          href: "/client/activities/products",
+        },
+        {
+          title: "Serviços",
+          href: "/client/activities/services",
+        },
+        {
+          title: "Documentos",
+          href: "/client/activities/documents",
         }
       ],
     },
