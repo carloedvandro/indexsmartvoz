@@ -59,25 +59,12 @@ const resources = {
         "blocked": "Bloqueado"
       },
       "sign_in": {
-        "email_label": "Endereço de email",
+        "email_label": "Email",
         "password_label": "Senha",
         "button_label": "Entrar",
         "loading_button_label": "Entrando...",
         "password_input_placeholder": "Digite sua senha",
-        "email_input_placeholder": "Digite seu endereço de email",
-        "already_have_account": "Já tem uma conta? Entre aqui",
-        "missing_email": "Email não informado",
-        "anonymous_disabled": "Login anônimo está desabilitado"
-      },
-      "reset_password_form": {
-        "email_label": "Endereço de email",
-        "email_placeholder": "Digite seu endereço de email",
-        "submit_button": "Enviar instruções de recuperação",
-        "loading_button": "Enviando instruções...",
-        "success_message": "Instruções enviadas para seu email",
-        "already_have_account": "Já tem uma conta? Entre aqui",
-        "forgot_password": "Esqueceu sua senha?",
-        "create_account": "Não tem uma conta? Cadastre-se"
+        "email_input_placeholder": "Digite seu email"
       }
     }
   },
@@ -92,22 +79,12 @@ const resources = {
       "reset_password": "Reset Password",
       "update_password": "Update Password",
       "sign_in": {
-        "email_label": "Email address",
+        "email_label": "Email",
         "password_label": "Password",
         "button_label": "Sign in",
         "loading_button_label": "Signing in...",
         "password_input_placeholder": "Enter your password",
-        "email_input_placeholder": "Enter your email address",
-        "already_have_account": "Already have an account? Sign in",
-        "missing_email": "Missing email or phone",
-        "anonymous_disabled": "Anonymous sign-ins are disabled"
-      },
-      "reset_password_form": {
-        "email_label": "Email address",
-        "email_placeholder": "Your email address",
-        "submit_button": "Reset Password",
-        "success_message": "Instructions sent to your email",
-        "already_have_account": "Already have an account? Sign in"
+        "email_input_placeholder": "Enter your email"
       }
     }
   }

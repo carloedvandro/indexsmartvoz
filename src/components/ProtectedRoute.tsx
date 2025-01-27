@@ -13,6 +13,7 @@ export const ProtectedRoute = () => {
       const session = await getSession();
       
       if (!session) {
+        // Determine which login page to redirect to based on the current path
         const isAdminRoute = location.pathname.startsWith('/admin');
         const loginPath = isAdminRoute ? '/admin/login' : '/client/login';
         navigate(loginPath, { replace: true });
@@ -20,7 +21,7 @@ export const ProtectedRoute = () => {
     };
 
     checkAuth();
-  }, [getSession, navigate, location.pathname]);
+  }, [getSession, navigate, location]);
 
   if (isLoading) {
     return <LoadingState />;

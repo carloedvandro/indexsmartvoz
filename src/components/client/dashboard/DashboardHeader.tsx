@@ -1,24 +1,28 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Logo } from "./components/Logo";
-import { LogoutButton } from "./components/LogoutButton";
-import { MobileMenu } from "./components/MobileMenu";
-import { DesktopNavigation } from "./navigation/DesktopNavigation";
-import { navigationItems } from "./navigation/NavigationItems";
 
-export function DashboardHeader() {
+interface DashboardHeaderProps {
+  title?: string;
+  subtitle?: string;
+  icon?: React.ReactNode;
+}
+
+export function DashboardHeader({ title = "Dashboard", subtitle, icon }: DashboardHeaderProps) {
+  const navigate = useNavigate();
   const { toast } = useToast();
-  const [isOpen, setOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
+      // Primeiro, limpa todos os dados da sessão do localStorage
       for (const key of Object.keys(localStorage)) {
         if (key.startsWith('sb-')) {
           localStorage.removeItem(key);
         }
       }
 
+      // Tenta fazer o logout no Supabase
       const { error } = await supabase.auth.signOut();
       if (error) {
         console.error("Erro ao fazer logout:", error);
@@ -30,7 +34,10 @@ export function DashboardHeader() {
         return;
       }
 
+      // Força uma pequena espera para garantir que tudo foi limpo
       await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Redireciona e força um reload completo da página
       window.location.replace("/client/login");
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
@@ -43,20 +50,25 @@ export function DashboardHeader() {
   };
 
   return (
-    <header className="w-full bg-background border-b">
-      <div className="container relative mx-auto min-h-16 flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center">
-        <DesktopNavigation navigationItems={navigationItems} />
-        <div className="flex lg:justify-center">
-          <Logo />
-        </div>
-        <div className="flex items-center justify-end gap-2 ml-auto">
-          <LogoutButton onLogout={handleLogout} className="hidden md:inline-flex" />
-          <MobileMenu 
-            isOpen={isOpen}
-            setOpen={setOpen}
-            navigationItems={navigationItems}
-            onLogout={handleLogout}
-          />
+    <header className="w-full">
+      <div className="bg-white shadow border rounded-lg">
+        <div className="w-full px-14 flex justify-between items-center py-2">
+          <div className="flex items-center gap-2">
+            {icon}
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
+              {subtitle && (
+                <p className="text-sm text-muted-foreground">{subtitle}</p>
+              )}
+            </div>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+          >
+            <LogOut className="w-5 h-5" />
+            <span>Sair</span>
+          </button>
         </div>
       </div>
     </header>
