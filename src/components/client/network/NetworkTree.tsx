@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { NetworkNode } from "./NetworkNode";
 import { NetworkFilter } from "./NetworkFilter";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNetworkData } from "./useNetworkData";
 import { useFilteredNetwork } from "./useFilteredNetwork";
+import { supabase } from "@/integrations/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface NetworkTreeProps {
   userId: string;
@@ -14,6 +16,48 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   const [selectedLevel, setSelectedLevel] = useState<string>("all");
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set());
   const { networkData, loading } = useNetworkData(userId);
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    // Subscribe to network changes
+    const channel = supabase
+      .channel('network-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'network'
+        },
+        () => {
+          console.log('Network data changed, invalidating query');
+          queryClient.invalidateQueries({ queryKey: ['networkData', userId] });
+        }
+      )
+      .subscribe();
+
+    // Subscribe to profile changes
+    const profilesChannel = supabase
+      .channel('profiles-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'profiles'
+        },
+        () => {
+          console.log('Profiles data changed, invalidating query');
+          queryClient.invalidateQueries({ queryKey: ['networkData', userId] });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+      supabase.removeChannel(profilesChannel);
+    };
+  }, [userId, queryClient]);
 
   const toggleNode = (nodeId: string) => {
     setExpandedNodes(prev => {

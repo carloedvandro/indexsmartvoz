@@ -2,13 +2,12 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { NetworkMember } from "./types";
 import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
 
 export const useNetworkData = (userId: string) => {
-  const [networkData, setNetworkData] = useState<NetworkMember[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchNetworkData = async () => {
+  const { data: networkData = [], isLoading: loading } = useQuery({
+    queryKey: ['networkData', userId],
+    queryFn: async () => {
       try {
         console.log("Fetching network data for user ID:", userId);
         
@@ -21,14 +20,12 @@ export const useNetworkData = (userId: string) => {
         if (userNetworkError) {
           console.error("Error fetching user network:", userNetworkError);
           toast.error("Error fetching network data");
-          setLoading(false);
-          return;
+          return [];
         }
 
         if (!userNetwork) {
           console.log("No network found for user");
-          setLoading(false);
-          return;
+          return [];
         }
 
         console.log("User network found:", userNetwork);
@@ -45,7 +42,7 @@ export const useNetworkData = (userId: string) => {
         if (error) {
           console.error("Error fetching network members:", error);
           toast.error("Error fetching network members");
-          return;
+          return [];
         }
 
         console.log("Raw network members data:", allNetworkMembers);
@@ -60,7 +57,7 @@ export const useNetworkData = (userId: string) => {
           if (profilesError) {
             console.error("Error fetching profiles:", profilesError);
             toast.error("Error fetching profiles");
-            return;
+            return [];
           }
 
           console.log("Profiles data:", profilesData);
@@ -129,20 +126,17 @@ export const useNetworkData = (userId: string) => {
           });
 
           console.log("Final network data:", finalRootMembers);
-          setNetworkData(finalRootMembers);
+          return finalRootMembers;
         }
+        return [];
       } catch (error) {
         console.error("Error in fetchNetworkData:", error);
         toast.error("Error fetching network data");
-      } finally {
-        setLoading(false);
+        return [];
       }
-    };
-
-    if (userId) {
-      fetchNetworkData();
-    }
-  }, [userId]);
+    },
+    refetchOnWindowFocus: false,
+  });
 
   return { networkData, loading };
 };
