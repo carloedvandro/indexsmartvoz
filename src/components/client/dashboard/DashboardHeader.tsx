@@ -27,6 +27,16 @@ export function DashboardHeader() {
       href: "/client/dashboard",
     },
     {
+      title: "Loja",
+      description: "Gerencie sua loja virtual",
+      items: [
+        {
+          title: "Minha Loja",
+          href: "/client/store",
+        }
+      ],
+    },
+    {
       title: "Rede",
       description: "Gerencie sua rede de afiliados",
       items: [
@@ -37,16 +47,6 @@ export function DashboardHeader() {
         {
           title: "Planos",
           href: "/client/upgrade",
-        }
-      ],
-    },
-    {
-      title: "Loja",
-      description: "Gerencie sua loja virtual",
-      items: [
-        {
-          title: "Minha Loja",
-          href: "/client/store",
         }
       ],
     },
