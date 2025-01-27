@@ -1,4 +1,4 @@
-import { Home } from "lucide-react";
+import { Header1 } from "@/components/ui/header";
 
 export interface DashboardHeaderProps {
   title?: string;
@@ -7,15 +7,5 @@ export interface DashboardHeaderProps {
 }
 
 export function DashboardHeader({ title, subtitle, icon }: DashboardHeaderProps) {
-  return (
-    <div className="flex items-center justify-between p-4 bg-white border-b">
-      <div className="flex items-center gap-2">
-        {icon || <Home className="h-5 w-5" />}
-        <div>
-          <h1 className="text-xl font-semibold">{title || "Dashboard"}</h1>
-          {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
-        </div>
-      </div>
-    </div>
-  );
+  return <Header1 />;
 }
