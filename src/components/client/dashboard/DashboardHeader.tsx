@@ -137,13 +137,15 @@ export function DashboardHeader() {
         <div className="flex lg:justify-center -ml-4">
           <Logo />
         </div>
-        <LogoutButton onLogout={handleLogout} className="hidden md:inline-flex ml-auto" />
-        <MobileMenu 
-          isOpen={isOpen}
-          setOpen={setOpen}
-          navigationItems={navigationItems}
-          onLogout={handleLogout}
-        />
+        <div className="flex items-center justify-end gap-2">
+          <LogoutButton onLogout={handleLogout} className="hidden md:inline-flex" />
+          <MobileMenu 
+            isOpen={isOpen}
+            setOpen={setOpen}
+            navigationItems={navigationItems}
+            onLogout={handleLogout}
+          />
+        </div>
       </div>
     </header>
   );
