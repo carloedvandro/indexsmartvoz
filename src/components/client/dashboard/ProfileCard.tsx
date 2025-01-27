@@ -11,8 +11,8 @@ interface ProfileCardProps {
 export const ProfileCard = ({ profile }: ProfileCardProps) => {
   return (
     <Card className="h-full">
-      <CardContent className="flex flex-col items-center space-y-4 pt-6">
-        <div className="flex flex-col items-center space-y-0.5 py-8 px-0">
+      <CardContent className="flex flex-col items-center space-y-4 pt-12">
+        <div className="flex flex-col items-center space-y-0.5 py-12 px-0">
           <ProfileAvatar
             profileImage={profile?.facial_validation_image || "/placeholder.svg"}
             fullName={profile?.full_name}
