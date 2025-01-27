@@ -57,7 +57,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
             </div>
           ))}
           <div className="pl-2">
-            <LogoutButton onLogout={onLogout} className="w-full justify-start" />
+            <LogoutButton onLogout={onLogout} className="w-full p-0 justify-start" />
           </div>
         </div>
       )}
