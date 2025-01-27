@@ -137,9 +137,7 @@ export function DashboardHeader() {
         <div className="flex lg:justify-center -ml-4">
           <Logo />
         </div>
-        <div className="flex justify-end w-full gap-4">
-          <LogoutButton onLogout={handleLogout} className="hidden md:inline-flex" />
-        </div>
+        <LogoutButton onLogout={handleLogout} className="hidden md:inline-flex ml-auto" />
         <MobileMenu 
           isOpen={isOpen}
           setOpen={setOpen}
