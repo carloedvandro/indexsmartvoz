@@ -40,12 +40,61 @@ export function FacialCapture({ onCapture }: FacialCaptureProps) {
         {!capturedImage ? (
           <>
             <div className="absolute inset-0 z-10 pointer-events-none">
+              {/* Guia de posicionamento */}
               <svg className="w-full h-full">
-                <ellipse
+                {/* Círculo externo */}
+                <circle
                   cx="50%"
                   cy="50%"
-                  rx="45%"
-                  ry="60%"
+                  r="45%"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeDasharray="5,5"
+                />
+                {/* Linhas de guia verticais */}
+                <line
+                  x1="50%"
+                  y1="10%"
+                  x2="50%"
+                  y2="90%"
+                  stroke="white"
+                  strokeWidth="1"
+                  strokeDasharray="5,5"
+                  opacity="0.5"
+                />
+                {/* Linhas de guia horizontais */}
+                <line
+                  x1="10%"
+                  y1="50%"
+                  x2="90%"
+                  y2="50%"
+                  stroke="white"
+                  strokeWidth="1"
+                  strokeDasharray="5,5"
+                  opacity="0.5"
+                />
+                {/* Marcadores de canto */}
+                <path
+                  d="M 30% 35% L 30% 30% L 35% 30%"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2"
+                />
+                <path
+                  d="M 70% 35% L 70% 30% L 65% 30%"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2"
+                />
+                <path
+                  d="M 30% 65% L 30% 70% L 35% 70%"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2"
+                />
+                <path
+                  d="M 70% 65% L 70% 70% L 65% 70%"
                   fill="none"
                   stroke="white"
                   strokeWidth="2"
@@ -85,9 +134,17 @@ export function FacialCapture({ onCapture }: FacialCaptureProps) {
       </div>
 
       {!capturedImage && (
-        <p className="text-center text-sm text-gray-500">
-          Posicione seu rosto dentro do círculo e clique em Capturar
-        </p>
+        <div className="space-y-2 text-center">
+          <p className="text-sm text-gray-500">
+            Posicione seu rosto dentro do círculo e mantenha:
+          </p>
+          <ul className="text-xs text-gray-500 space-y-1">
+            <li>• Rosto centralizado e bem iluminado</li>
+            <li>• Expressão neutra, olhos abertos</li>
+            <li>• Sem óculos ou acessórios</li>
+            <li>• Fundo claro e sem reflexos</li>
+          </ul>
+        </div>
       )}
     </div>
   );
