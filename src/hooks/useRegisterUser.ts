@@ -4,12 +4,7 @@ import { RegisterFormData } from "@/components/client/register/RegisterSchema";
 export const useRegisterUser = () => {
   const registerUser = async (values: RegisterFormData) => {
     try {
-      console.log("Starting registration with values:", {
-        ...values,
-        password: "[PROTECTED]",
-        customId: values.customId,
-        cpf: values.cpf // Log CPF value
-      });
+      console.log("Starting user registration process...");
 
       // Check if email already exists
       const { data: existingEmail } = await supabase
@@ -24,7 +19,6 @@ export const useRegisterUser = () => {
 
       // Check if CPF already exists
       if (values.cpf) {
-        console.log("Checking if CPF exists:", values.cpf);
         const { data: existingCPF } = await supabase
           .from("profiles")
           .select("id")
@@ -38,7 +32,6 @@ export const useRegisterUser = () => {
 
       // Check if custom ID already exists
       if (values.customId) {
-        console.log("Checking if custom ID exists:", values.customId);
         const { data: existingCustomId } = await supabase
           .from("profiles")
           .select("id")
@@ -68,12 +61,7 @@ export const useRegisterUser = () => {
         console.log("Found sponsor ID:", sponsorId);
       }
 
-      // Create user with custom_id and CPF in metadata
-      console.log("Creating user with metadata:", {
-        custom_id: values.customId,
-        cpf: values.cpf
-      });
-      
+      console.log("Creating user in Supabase Auth...");
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -97,22 +85,20 @@ export const useRegisterUser = () => {
         throw new Error("Erro ao criar usuário");
       }
 
-      // Explicitly update profile with all data including CPF
-      console.log("Updating profile with data:", {
-        custom_id: values.customId,
-        store_url: values.customId,
+      // Update the profile with sponsor_id and store_url
+      const updateData: any = {
         sponsor_id: sponsorId,
-        cpf: values.cpf
-      });
+      };
+      
+      // Set store_url to custom_id if it exists
+      if (values.customId) {
+        updateData.store_url = values.customId;
+      }
 
+      console.log("Updating profile with:", updateData);
       const { error: updateError } = await supabase
         .from("profiles")
-        .update({
-          custom_id: values.customId,
-          store_url: values.customId,
-          sponsor_id: sponsorId,
-          cpf: values.cpf // Explicitly set CPF in profiles table
-        })
+        .update(updateData)
         .eq("id", authData.user.id);
 
       if (updateError) {
@@ -120,12 +106,7 @@ export const useRegisterUser = () => {
         throw new Error("Erro ao atualizar perfil");
       }
 
-      console.log("User registration completed successfully:", {
-        userId: authData.user.id,
-        customId: values.customId,
-        cpf: values.cpf
-      });
-      
+      console.log("User created successfully:", authData.user.id);
       return authData;
 
     } catch (error: any) {

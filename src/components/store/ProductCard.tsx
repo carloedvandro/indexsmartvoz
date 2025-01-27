@@ -13,28 +13,19 @@ interface ProductCardProps {
   };
   onEdit: (product: any) => void;
   onDelete: (id: string) => void;
-  onBuy?: (referralLink: string) => void;
+  onBuy?: () => void;
   isPublic?: boolean;
   isExample?: boolean;
-  storeOwnerCustomId?: string;
 }
 
-export function ProductCard({ 
-  product, 
-  onEdit, 
-  onDelete, 
-  onBuy, 
-  isPublic, 
-  isExample,
-  storeOwnerCustomId 
-}: ProductCardProps) {
+export function ProductCard({ product, onEdit, onDelete, onBuy, isPublic, isExample }: ProductCardProps) {
   const handleBuyClick = (e: React.MouseEvent) => {
+    console.log("Clique no botão comprar detectado");
     e.preventDefault();
     e.stopPropagation();
     
-    if (onBuy && storeOwnerCustomId) {
-      const referralLink = `${window.location.origin}/client/register?sponsor=${storeOwnerCustomId}`;
-      onBuy(referralLink);
+    if (onBuy) {
+      onBuy();
     }
   };
 

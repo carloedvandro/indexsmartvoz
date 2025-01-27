@@ -1,201 +1,69 @@
-# Y-TECH - Sistema de Rede e Loja Virtual
+# Welcome to your Lovable project
 
-## Visão Geral
-Y-TECH é uma plataforma web fullstack desenvolvida para gerenciar uma rede de usuários com sistema de indicações, loja virtual e dashboard administrativo. O sistema permite o cadastro de usuários através de indicação, gerenciamento de produtos, visualização da rede e controle administrativo.
+## Project info
 
-## Stack Tecnológica
+**URL**: https://ytech.lovable.app/
 
-### Frontend
-- **Framework**: React 18 + TypeScript
-- **Build Tool**: Vite
-- **Estilização**: Tailwind CSS + shadcn/ui
-- **Estado**: TanStack Query (React Query)
-- **Roteamento**: React Router DOM
-- **Formulários**: React Hook Form + Zod
-- **Internacionalização**: i18next
-- **Notificações**: Sonner Toast
+## How can I edit this code?
 
-### Backend (Supabase)
-- **Banco de Dados**: PostgreSQL
-- **Autenticação**: Supabase Auth
-- **Storage**: Supabase Storage
-- **APIs**: Supabase Edge Functions
-- **Segurança**: Row Level Security (RLS)
+There are several ways of editing your application.
 
-## Estrutura do Sistema
+**Use Lovable**
 
-### Módulos Principais
-1. **Autenticação**
-   - Login via email/senha
-   - Recuperação de senha
-   - Registro por indicação
+Simply visit the [Lovable Project](https://ytech.lovable.app/) and start prompting.
 
-2. **Rede de Usuários**
-   - Visualização da rede em árvore
-   - Níveis de indicação (até 4 níveis)
-   - Filtros por nível
+Changes made via Lovable will be committed automatically to this repo.
 
-3. **Loja Virtual**
-   - Catálogo de produtos
-   - Gerenciamento de produtos
-   - Sistema de pedidos
+**Use your preferred IDE**
 
-4. **Área Administrativa**
-   - Gestão de usuários
-   - Controle de produtos
-   - Monitoramento da rede
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
-## Banco de Dados
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-### Tabelas Principais
-1. `profiles`
-   - Dados dos usuários
-   - Informações de contato
-   - Documentação (CPF/CNPJ)
+Follow these steps:
 
-2. `network`
-   - Estrutura da rede
-   - Níveis de indicação
-   - Relacionamentos entre usuários
+```sh
+# Step 1: Clone the repository using the project's Git URL.
+git clone <YOUR_GIT_URL>
 
-3. `store_products`
-   - Produtos
-   - Preços
-   - Imagens
+# Step 2: Navigate to the project directory.
+cd <YOUR_PROJECT_NAME>
 
-4. `store_orders`
-   - Pedidos
-   - Status
-   - Informações de compra
+# Step 3: Install the necessary dependencies.
+npm i
 
-## Instalação
-
-### Pré-requisitos
-- Node.js 18+
-- npm ou yarn
-- Conta no Supabase
-
-### Configuração do Ambiente
-
-1. Clone o repositório:
-```bash
-git clone <repository-url>
-cd y-tech
-```
-
-2. Instale as dependências:
-```bash
-npm install
-```
-
-3. Configure as variáveis de ambiente:
-Crie um arquivo `.env` na raiz do projeto:
-```env
-VITE_SUPABASE_URL=sua_url_supabase
-VITE_SUPABASE_ANON_KEY=sua_chave_anon
-```
-
-4. Inicie o servidor de desenvolvimento:
-```bash
+# Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
 
-### Configuração do Supabase
+**Edit a file directly in GitHub**
 
-1. Crie um novo projeto no Supabase
-2. Configure a autenticação:
-   - Habilite login por email/senha
-   - Configure templates de email
-   - Ajuste as políticas de redirecionamento
+- Navigate to the desired file(s).
+- Click the "Edit" button (pencil icon) at the top right of the file view.
+- Make your changes and commit the changes.
 
-3. Configure o Storage:
-   - Crie um bucket `product-images`
-   - Configure as políticas de acesso
+**Use GitHub Codespaces**
 
-4. Configure as políticas RLS:
-   - Implemente as políticas de segurança para cada tabela
-   - Teste os acessos com diferentes perfis
+- Navigate to the main page of your repository.
+- Click on the "Code" button (green button) near the top right.
+- Select the "Codespaces" tab.
+- Click on "New codespace" to launch a new Codespace environment.
+- Edit files directly within the Codespace and commit and push your changes once you're done.
 
-## Segurança
+## What technologies are used for this project?
 
-### Frontend
-- Validação de formulários
-- Proteção contra XSS
-- Sanitização de inputs
-- CORS configurado
+This project is built with .
 
-### Backend
-- Políticas RLS
-- Autenticação JWT
-- Validação de dados
-- Gerenciamento de secrets
+- Vite
+- TypeScript
+- React
+- shadcn-ui
+- Tailwind CSS
 
-## Manutenção
+## How can I deploy this project?
 
-### Monitoramento
-- Logs do frontend via console
-- Logs do backend via Supabase
-- Monitoramento de Edge Functions
+Simply open [Lovable](https://ytech.lovable.app/) and click on Share -> Publish.
 
-### Backups
-- Backup automático do PostgreSQL
-- Backup periódico recomendado
+## I want to use a custom domain - is that possible?
 
-## Deployment
-
-### Produção
-1. Build do projeto:
-```bash
-npm run build
-```
-
-2. Teste o build localmente:
-```bash
-npm run preview
-```
-
-3. Deploy:
-- Configure seu serviço de hosting preferido
-- Configure as variáveis de ambiente
-- Deploy dos arquivos estáticos
-
-## Suporte
-
-### Contatos
-- Suporte Técnico: yrwentechnology@gmail.com
-- WhatsApp: +55 (11) 970492228
-- Documentação Supabase: https://supabase.com/docs
-- Documentação React: https://react.dev
-
-### Troubleshooting Comum
-
-1. **Problemas de Autenticação**
-   - Verificar tokens
-   - Confirmar políticas RLS
-   - Validar configurações de email
-
-2. **Problemas de Upload**
-   - Verificar permissões do bucket
-   - Validar tamanho máximo de arquivo
-   - Confirmar tipos permitidos
-
-3. **Problemas de Rede**
-   - Verificar níveis máximos
-   - Validar relacionamentos
-   - Confirmar cálculos
-
-## Licença
-[Tipo de Licença]
-
-## Contribuição
-Para contribuir com o projeto:
-1. Fork o repositório
-2. Crie uma branch para sua feature
-3. Commit suas mudanças
-4. Push para a branch
-5. Abra um Pull Request
-
----
-Desenvolvido pela equipe técnica da Yrwen Technology  
-CNPJ: 30.266.458/0001-58  
-© 2024 Yrwen Technology. Todos os direitos reservados.
+We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
