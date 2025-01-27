@@ -50,8 +50,8 @@ export function ClientSidebar() {
       <Sidebar className="w-72 border-r">
         <SidebarHeader className="flex items-center justify-between p-4 bg-white">
           <img
-            src="https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvozcolorwifi.jpg?t=2025-01-21T17%3A02%3A52.916Z"
-            alt="SmartVoz Logo"
+            src="/lovable-uploads/dd13194a-ddb9-41f1-ac14-d4e483f9b1df.png"
+            alt="Y-TECH Logo"
             className="h-12 w-auto object-contain"
           />
           <SidebarTrigger className="md:hidden" />

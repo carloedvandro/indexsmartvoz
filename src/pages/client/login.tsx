@@ -1,143 +1,152 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+import { Auth } from "@supabase/auth-ui-react";
+import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
-import { AuthError } from "@supabase/supabase-js";
-import { AlertCircle } from "lucide-react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
-export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+export default function ClientLogin() {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const { t } = useTranslation();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
+  useEffect(() => {
+    // Check if we're on a password recovery route
+    const isPasswordRecovery = window.location.hash.includes('#access_token') && 
+                              window.location.hash.includes('type=recovery');
 
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      if (data.user) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("role")
-          .eq("id", data.user.id)
-          .single();
-
-        if (profile?.role === "client") {
-          navigate("/client/dashboard");
-        } else {
-          throw new Error("Unauthorized");
-        }
-      }
-    } catch (error) {
-      const authError = error as AuthError;
-
-      if (authError.message === "Invalid login credentials") {
-        setError("Email ou senha inválidos");
-      } else if (error === 'USER_DELETED' as any) {
-        toast({
-          title: "Erro",
-          description: "Usuário não encontrado",
-          variant: "destructive",
-        });
-      } else {
-        setError("Ocorreu um erro ao fazer login");
-      }
-    } finally {
-      setIsLoading(false);
+    if (isPasswordRecovery) {
+      // Redirect recovery to the client password reset page
+      navigate('/client/reset-password' + window.location.hash);
+      return;
     }
-  };
+
+    // Check for existing session
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate('/client/dashboard');
+      }
+    };
+
+    checkSession();
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('Auth state changed:', event);
+      
+      if (event === 'SIGNED_IN' && session) {
+        navigate('/client/dashboard');
+      } else if (event === 'SIGNED_OUT') {
+        navigate('/client/login');
+      } else if (event === 'PASSWORD_RECOVERY') {
+        navigate('/client/reset-password');
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [navigate]);
 
   return (
-    <div className="container relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-      <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
-        <div className="absolute inset-0 bg-purple-600" />
-        <div className="relative z-20 flex items-center text-lg font-medium">
-          <img src="/logo-white.svg" alt="Logo" className="h-8" />
+    <div className="flex min-h-screen">
+      {/* Left side - Login form */}
+      <div className="w-full md:w-[480px] bg-white p-8 flex flex-col">
+        <div className="flex-1">
+          <img
+            src="/lovable-uploads/5c77d143-7f3e-4121-ae56-dbc5a3779756.png"
+            alt="Y-TECH Logo"
+            className="h-12 w-auto mb-12"
+          />
+          <Auth
+            supabaseClient={supabase}
+            appearance={{
+              theme: ThemeSupa,
+              style: {
+                button: {
+                  background: '#004d31',
+                  color: 'white',
+                  borderRadius: '4px',
+                },
+                anchor: {
+                  color: '#666666',
+                  textDecoration: 'none',
+                },
+                input: {
+                  borderRadius: '4px',
+                  border: '1px solid #e2e8f0',
+                },
+                message: {
+                  color: '#004d31',
+                },
+                label: {
+                  color: '#333333',
+                }
+              },
+              variables: {
+                default: {
+                  colors: {
+                    brand: '#004d31',
+                    brandAccent: '#00693e',
+                  },
+                },
+              },
+            }}
+            localization={{
+              variables: {
+                sign_in: {
+                  email_label: "Usuário ou E-mail",
+                  password_label: "Senha",
+                  button_label: "Entrar",
+                  loading_button_label: "Entrando...",
+                  password_input_placeholder: "Sua senha",
+                  email_input_placeholder: "Seu e-mail",
+                },
+                sign_up: {
+                  link_text: "",
+                  email_label: "E-mail",
+                  password_label: "Senha",
+                  button_label: "Registrar",
+                  loading_button_label: "Registrando...",
+                  password_input_placeholder: "Sua senha",
+                  email_input_placeholder: "Seu e-mail",
+                },
+                forgotten_password: {
+                  link_text: "Esqueci minha senha",
+                  button_label: "Enviar instruções",
+                  confirmation_text: "Enviamos as instruções para seu e-mail",
+                },
+              }
+            }}
+            theme="default"
+            providers={[]}
+            redirectTo={`${window.location.origin}/client/dashboard`}
+            view="sign_in"
+            showLinks={true}
+          />
+          <div className="mt-4 text-sm text-gray-600 text-center">
+            <p>Para se registrar, você precisa ter um patrocinador.</p>
+            <p>Entre em contato com a pessoa que te apresentou o negócio.</p>
+          </div>
         </div>
-        <div className="relative z-20 mt-auto">
-          <blockquote className="space-y-2">
-            <p className="text-lg">
-              "Transforme seus sonhos em realidade com nossa plataforma de investimentos."
-            </p>
-            <footer className="text-sm">Sofia Davis</footer>
-          </blockquote>
+        <div className="mt-8 text-center text-sm text-gray-500">
+          <span>Tecnologia por </span>
+          <a href="https://wi.digital" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            Yrwen Technology®
+          </a>
         </div>
       </div>
-      <div className="lg:p-8">
-        <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-          <div className="flex flex-col space-y-2 text-center">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              Bem-vindo de volta
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Entre com seu email e senha para acessar sua conta
-            </p>
-          </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="nome@exemplo.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Senha</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-
-            {error && (
-              <div className="flex items-center gap-2 text-red-500 text-sm">
-                <AlertCircle className="h-4 w-4" />
-                <span>{error}</span>
-              </div>
-            )}
-
-            <Button
-              type="submit"
-              className="w-full bg-purple-600 hover:bg-purple-700"
-              disabled={isLoading}
-            >
-              {isLoading ? "Entrando..." : "Entrar"}
-            </Button>
-          </form>
-
-          <div className="text-center text-sm">
-            <Link
-              to="/client/register"
-              className="text-purple-600 hover:text-purple-700"
-            >
-              Não tem uma conta? Cadastre-se
-            </Link>
-          </div>
-        </div>
+      {/* Right side - Background image */}
+      <div className="hidden md:block flex-1 bg-[#004d31] relative overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+          style={{
+            backgroundImage: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2000&q=80")'
+          }}
+        />
+        <div className="absolute inset-0 bg-black/50" />
       </div>
     </div>
   );
