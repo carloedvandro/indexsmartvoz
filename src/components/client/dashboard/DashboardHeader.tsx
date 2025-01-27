@@ -141,9 +141,9 @@ export function DashboardHeader() {
           <Button 
             variant="ghost" 
             onClick={handleLogout} 
-            className={`hidden md:inline-flex gap-2 hover:bg-[#5f0889] hover:text-white ${isOpen ? "bg-[#5f0889] hover:bg-[#5f0889]/90 text-white" : ""}`}
+            className={`hidden md:inline-flex gap-2 hover:bg-[#5f0889] hover:text-white group ${isOpen ? "bg-[#5f0889] hover:bg-[#5f0889]/90 text-white" : ""}`}
           >
-            <LogOut className="w-4 h-4" />
+            <LogOut className="w-4 h-4 bg-gradient-to-r from-[#5f0889] to-[#9b87f5] bg-clip-text text-transparent transition-all duration-300 group-hover:translate-x-1" />
             <span>Sair</span>
           </Button>
         </div>
@@ -192,9 +192,9 @@ export function DashboardHeader() {
               <Button 
                 variant="ghost" 
                 onClick={handleLogout} 
-                className="w-full justify-start gap-2 hover:bg-[#5f0889] hover:text-white bg-[#5f0889] text-white"
+                className="w-full justify-start gap-2 hover:bg-[#5f0889] hover:text-white group"
               >
-                <LogOut className="w-4 h-4" />
+                <LogOut className="w-4 h-4 bg-gradient-to-r from-[#5f0889] to-[#9b87f5] bg-clip-text text-transparent transition-all duration-300 group-hover:translate-x-1" />
                 <span>Sair</span>
               </Button>
             </div>
