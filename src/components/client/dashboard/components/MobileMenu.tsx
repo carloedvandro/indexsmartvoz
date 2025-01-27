@@ -14,7 +14,7 @@ interface MobileMenuProps {
 
 export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: MobileMenuProps) => {
   return (
-    <div className="flex w-12 shrink lg:hidden items-end justify-end">
+    <div className="flex lg:hidden">
       <Button 
         variant="ghost" 
         onClick={() => setOpen(!isOpen)}
@@ -23,7 +23,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </Button>
       {isOpen && (
-        <div className="absolute top-16 border-t flex flex-col w-full right-0 bg-white shadow-lg py-4 container gap-8">
+        <div className="fixed top-16 left-0 right-0 border-t flex flex-col w-full bg-white shadow-lg py-4 container gap-8 z-50">
           {navigationItems.map((item) => (
             <div key={item.title}>
               <div className="flex flex-col gap-2">
@@ -61,4 +61,4 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
       )}
     </div>
   );
-};
+}
