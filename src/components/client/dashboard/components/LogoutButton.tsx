@@ -10,11 +10,11 @@ interface LogoutButtonProps {
 export const LogoutButton = ({ onLogout, className = "" }: LogoutButtonProps) => {
   return (
     <Button 
-      variant="ghost" 
+      variant="link" 
       onClick={onLogout} 
-      className={`gap-2 group ${className}`}
+      className={`gap-2 group text-[#5f0889] hover:text-[#9b87f5] hover:no-underline ${className}`}
     >
-      <LogOut className="w-4 h-4 bg-gradient-to-r from-[#5f0889] to-[#9b87f5] bg-clip-text text-transparent transition-all duration-300 group-hover:translate-x-1" />
+      <LogOut className="w-4 h-4 transition-all duration-300 group-hover:translate-x-1" />
       <span>Sair</span>
     </Button>
   );
