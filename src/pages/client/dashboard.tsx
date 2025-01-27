@@ -27,31 +27,27 @@ export default function ClientDashboard() {
   }
 
   return (
-    <div className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden">
-      <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <DashboardHeader />
-        <div className="flex-1 overflow-y-auto scrollbar-hide pb-8">
-          <div className="max-w-7xl mx-auto pt-4">
-            <div className="px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-              <div className="w-full">
-                <ProfileCard profile={profile} />
-              </div>
-              <div className="w-full">
-                <NetworkCard 
-                  networkStats={networkStats} 
-                  onClick={handleNetworkClick} 
-                />
-              </div>
-              <div className="w-full">
-                <PlansCard />
-              </div>
-            </div>
-            <div className="px-4">
-              <NetworkStatsCard />
-            </div>
+    <div className="min-h-screen bg-[#F8F9FE]">
+      <DashboardHeader />
+      <div className="container mx-auto px-4 py-8 space-y-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="w-full">
+            <ProfileCard profile={profile} />
+          </div>
+          <div className="w-full">
+            <NetworkCard 
+              networkStats={networkStats} 
+              onClick={handleNetworkClick} 
+            />
+          </div>
+          <div className="w-full">
+            <PlansCard />
           </div>
         </div>
-      </main>
+        <div className="w-full">
+          <NetworkStatsCard />
+        </div>
+      </div>
     </div>
   );
 }
