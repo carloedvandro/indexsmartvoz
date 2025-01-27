@@ -14,7 +14,7 @@ interface MobileMenuProps {
 
 export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: MobileMenuProps) => {
   return (
-    <div className="flex lg:hidden">
+    <div className="flex lg:hidden ml-auto">
       <Button 
         variant="ghost" 
         onClick={() => setOpen(!isOpen)}
