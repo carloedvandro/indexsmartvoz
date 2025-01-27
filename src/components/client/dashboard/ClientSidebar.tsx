@@ -49,10 +49,9 @@ export function ClientSidebar() {
     <>
       <Sidebar className="w-72 border-r">
         <SidebarHeader className="flex items-center justify-between p-4 bg-white">
-          <div className="flex items-center">
-            <span className="text-2xl font-bold text-[#0066FF]">Smart</span>
-            <span className="text-2xl font-bold text-[#FF0000]">Voz</span>
-          </div>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-color-1 via-color-2 to-color-3 bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:200%_auto]">
+            Smartvoz
+          </h1>
           <SidebarTrigger className="md:hidden" />
         </SidebarHeader>
         <SidebarContent className="bg-white">
