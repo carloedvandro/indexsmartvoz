@@ -24,13 +24,13 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
             <NavigationMenuItem key={item.title}>
               {item.href ? (
                 <NavigationMenuLink asChild>
-                  <Button variant="link" className="text-foreground hover:text-primary" asChild>
+                  <Button variant="link" className="text-foreground hover:text-primary text-left justify-start p-0 h-auto" asChild>
                     <Link to={item.href}>{item.title}</Link>
                   </Button>
                 </NavigationMenuLink>
               ) : (
                 <>
-                  <NavigationMenuTrigger className="font-medium text-sm bg-transparent hover:bg-transparent hover:text-primary data-[state=open]:bg-transparent">
+                  <NavigationMenuTrigger className="font-medium text-sm bg-transparent hover:bg-transparent hover:text-primary data-[state=open]:bg-transparent text-left justify-start p-0">
                     {item.title}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="!w-[380px] p-4 bg-white">

@@ -21,9 +21,9 @@ export const NavigationContent = ({ item }: NavigationContentProps) => {
           <NavigationMenuLink asChild key={subItem.title}>
             <Link
               to={subItem.href}
-              className="flex flex-row justify-between items-center hover:bg-muted py-2 px-4 rounded"
+              className="flex flex-row justify-between items-center hover:bg-muted py-2 px-4 rounded text-left"
             >
-              <span>{subItem.title}</span>
+              <span className="text-left">{subItem.title}</span>
               <MoveRight className="w-4 h-4 text-muted-foreground" />
             </Link>
           </NavigationMenuLink>
