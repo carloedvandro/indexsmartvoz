@@ -49,11 +49,10 @@ export function ClientSidebar() {
     <>
       <Sidebar className="w-72 border-r">
         <SidebarHeader className="flex items-center justify-between p-4 bg-white">
-          <img
-            src="/lovable-uploads/d3b2e890-ea6a-4925-a463-c59d482a3276.png"
-            alt="SmartVoz Logo"
-            className="h-12 w-auto object-contain"
-          />
+          <div className="flex items-center">
+            <span className="text-2xl font-bold text-[#0066FF]">Smart</span>
+            <span className="text-2xl font-bold text-[#FF0000]">Voz</span>
+          </div>
           <SidebarTrigger className="md:hidden" />
         </SidebarHeader>
         <SidebarContent className="bg-white">
