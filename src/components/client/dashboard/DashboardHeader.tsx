@@ -51,7 +51,7 @@ export function DashboardHeader({ title = "Dashboard", subtitle, icon }: Dashboa
 
   return (
     <header className="w-full">
-      <div className="bg-white shadow border rounded-lg flex justify-between items-center px-24 py-2">
+      <div className="bg-white shadow border rounded-lg flex justify-between items-center px-20 py-2">
         <div className="flex items-center gap-2">
           {icon}
           <div>
@@ -63,7 +63,7 @@ export function DashboardHeader({ title = "Dashboard", subtitle, icon }: Dashboa
         </div>
         <button
           onClick={handleLogout}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 pr-2"
         >
           <LogOut className="w-5 h-5" />
           <span>Sair</span>
