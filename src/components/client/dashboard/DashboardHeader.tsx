@@ -119,16 +119,14 @@ export function DashboardHeader() {
                         {item.title}
                       </NavigationMenuTrigger>
                       <NavigationMenuContent className="!w-[450px] p-4 bg-white">
-                        <div className="flex flex-col lg:grid grid-cols-2 gap-4">
-                          <div className="flex flex-col h-full justify-between">
-                            <div className="flex flex-col">
-                              <p className="text-base">{item.title}</p>
-                              <p className="text-muted-foreground text-sm">
-                                {item.description}
-                              </p>
-                            </div>
+                        <div className="flex flex-col gap-4">
+                          <div className="flex flex-col">
+                            <p className="text-base">{item.title}</p>
+                            <p className="text-muted-foreground text-sm">
+                              {item.description}
+                            </p>
                           </div>
-                          <div className="flex flex-col text-sm h-full justify-end">
+                          <div className="flex flex-col text-sm">
                             {item.items?.map((subItem) => (
                               <NavigationMenuLink asChild key={subItem.title}>
                                 <Link
