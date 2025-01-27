@@ -16,7 +16,7 @@ export const useNetworkData = (userId: string) => {
           .from("network")
           .select("id")
           .eq("user_id", userId)
-          .maybeSingle();
+          .single();
 
         if (userNetworkError) {
           console.error("Error fetching user network:", userNetworkError);
@@ -51,32 +51,13 @@ export const useNetworkData = (userId: string) => {
         console.log("Raw network members data:", allNetworkMembers);
 
         if (allNetworkMembers && allNetworkMembers.length > 0) {
-          const profilePromises = allNetworkMembers.map(async member => {
-            const { data: profileData, error: profileError } = await supabase
+          const profilePromises = allNetworkMembers.map(member => 
+            supabase
               .from("profiles")
               .select("full_name, email, custom_id, status")
               .eq("id", member.user_id)
-              .maybeSingle();
-              
-            if (profileError) {
-              console.error("Error fetching profile:", profileError);
-              return {
-                data: {
-                  full_name: null,
-                  email: "",
-                  custom_id: null,
-                  status: "pending"
-                }
-              };
-            }
-            
-            return { data: profileData || {
-              full_name: null,
-              email: "",
-              custom_id: null,
-              status: "pending"
-            }};
-          });
+              .single()
+          );
 
           try {
             const profileResults = await Promise.all(profilePromises);

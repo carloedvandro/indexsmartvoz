@@ -107,9 +107,11 @@ export default function AdminLogin() {
         <div>
           <div className="w-full flex justify-center">
             <div className="w-4/5">
-              <h1 className="text-secondary text-4xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-12 whitespace-nowrap text-center">
-                Y-TECH
-              </h1>
+              <img 
+                src="https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvozcolorwifi.jpg?t=2025-01-21T17%3A02%3A52.916Z" 
+                alt="Smartvoz Logo" 
+                className="w-full h-auto mb-6 sm:mb-12"
+              />
             </div>
           </div>
           <h2 className="text-lg font-medium mb-8">{t('administration')}</h2>
@@ -168,14 +170,14 @@ export default function AdminLogin() {
           <p>
             {t('technology_by')}{" "}
             <a href="#" className="underline">
-              Yrwen Technology<sup className="text-sm align-top">®</sup>
+              lovablebr.dev<sup className="text-sm align-top">®</sup>
             </a>
           </p>
         </div>
       </div>
       {/* Right side - Background image */}
       <div 
-        className="hidden md:block flex-1 bg-[#004d31] bg-[url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=4076')] bg-cover bg-center bg-blend-soft-light"
+        className="hidden md:block flex-1 bg-[url('https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvozparedeepessoas1.jpg?t=2025-01-21T16%3A50%3A20.958Z')] bg-cover bg-center"
       />
     </div>
   );

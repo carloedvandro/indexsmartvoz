@@ -134,11 +134,20 @@ export type Database = {
           cpf: string | null
           created_at: string
           custom_id: string | null
+          document_back_image: string | null
+          document_front_image: string | null
           document_id: string | null
+          document_type: string | null
           document_validated: boolean | null
           document_validation_date: string | null
+          document_validation_score: number | null
+          document_validation_status: string | null
           email: string
           external_id: string | null
+          facial_validation_date: string | null
+          facial_validation_image: string | null
+          facial_validation_score: number | null
+          facial_validation_status: string | null
           full_name: string | null
           gender: string | null
           graduation_type: string | null
@@ -172,11 +181,20 @@ export type Database = {
           cpf?: string | null
           created_at?: string
           custom_id?: string | null
+          document_back_image?: string | null
+          document_front_image?: string | null
           document_id?: string | null
+          document_type?: string | null
           document_validated?: boolean | null
           document_validation_date?: string | null
+          document_validation_score?: number | null
+          document_validation_status?: string | null
           email: string
           external_id?: string | null
+          facial_validation_date?: string | null
+          facial_validation_image?: string | null
+          facial_validation_score?: number | null
+          facial_validation_status?: string | null
           full_name?: string | null
           gender?: string | null
           graduation_type?: string | null
@@ -210,11 +228,20 @@ export type Database = {
           cpf?: string | null
           created_at?: string
           custom_id?: string | null
+          document_back_image?: string | null
+          document_front_image?: string | null
           document_id?: string | null
+          document_type?: string | null
           document_validated?: boolean | null
           document_validation_date?: string | null
+          document_validation_score?: number | null
+          document_validation_status?: string | null
           email?: string
           external_id?: string | null
+          facial_validation_date?: string | null
+          facial_validation_image?: string | null
+          facial_validation_score?: number | null
+          facial_validation_status?: string | null
           full_name?: string | null
           gender?: string | null
           graduation_type?: string | null

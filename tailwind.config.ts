@@ -25,11 +25,11 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#00ffa3",
-          foreground: "#004d31",
+          DEFAULT: "#D946EF",
+          foreground: "#ffffff",
         },
         secondary: {
-          DEFAULT: "#004d31",
+          DEFAULT: "#9b87f5",
           foreground: "#ffffff",
         },
         destructive: {
@@ -41,7 +41,7 @@ export default {
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "#9b87f5",
+          DEFAULT: "#6E59A5",
           foreground: "#ffffff",
         },
         card: {
@@ -68,10 +68,20 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        rainbow: {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        gradient: {
+          "0%, 100%": { opacity: "0.8" },
+          "50%": { opacity: "0.6" },
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "rainbow": "rainbow 3s ease infinite",
+        "gradient": "gradient 8s ease-in-out infinite",
       },
     },
   },

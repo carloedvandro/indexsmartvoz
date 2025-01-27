@@ -1,145 +1,142 @@
-import { useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { Auth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { useTranslation } from "react-i18next";
+import { supabase } from "@/integrations/supabase/client";
+import { AuthError } from "@supabase/supabase-js";
+import { AlertCircle } from "lucide-react";
 
-export default function ClientLogin() {
+export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { t } = useTranslation();
 
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        const { data: profile, error: profileError } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      if (data.user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", data.user.id)
           .single();
 
-        if (profileError) {
-          console.error('Profile fetch error:', profileError);
-          await supabase.auth.signOut();
-          toast({
-            title: t('error'),
-            description: t('login_error'),
-            variant: "destructive",
-          });
-          return;
-        }
-
-        if (profile) {
+        if (profile?.role === "client") {
           navigate("/client/dashboard");
+        } else {
+          throw new Error("Unauthorized");
         }
       }
-    };
+    } catch (error) {
+      const authError = error as AuthError;
 
-    checkSession();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN' && session?.user) {
-        const { data: profile, error: profileError } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single();
-
-        if (profileError) {
-          await supabase.auth.signOut();
-          toast({
-            title: t('error'),
-            description: t('login_error'),
-            variant: "destructive",
-          });
-          return;
-        }
-
-        if (profile) {
-          navigate("/client/dashboard");
-        }
+      if (authError.message === "Invalid login credentials") {
+        setError("Email ou senha inválidos");
+      } else if (error === 'USER_DELETED' as any) {
+        toast({
+          title: "Erro",
+          description: "Usuário não encontrado",
+          variant: "destructive",
+        });
+      } else {
+        setError("Ocorreu um erro ao fazer login");
       }
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [navigate, toast, t]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div className="fixed inset-0 w-full h-full">
-      <div 
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2000&q=80")',
-        }}
-      >
-        <div className="absolute inset-0 bg-black/50" />
-        
-        <div className="relative z-10 w-full h-full flex items-stretch">
-          <Card className="w-full max-w-md h-full rounded-none md:bg-white/95 sm:bg-white/10">
-            <CardHeader className="md:bg-transparent sm:bg-white/10">
-              <CardTitle className="text-2xl text-center">{t('client_area')}</CardTitle>
-            </CardHeader>
-            <CardContent className="md:bg-transparent sm:bg-white/10">
-              <Auth
-                supabaseClient={supabase}
-                appearance={{
-                  theme: ThemeSupa,
-                  variables: {
-                    default: {
-                      colors: {
-                        brand: '#00ffa3',
-                        brandAccent: '#004d31',
-                      },
-                    },
-                  },
-                  className: {
-                    anchor: 'text-gray-600 hover:text-gray-900',
-                    button: 'bg-[#00ffa3] hover:bg-[#004d31] text-white',
-                  },
-                }}
-                providers={[]}
-                redirectTo={`${window.location.origin}/client/dashboard`}
-                localization={{
-                  variables: {
-                    sign_in: {
-                      email_label: "Email",
-                      password_label: "Senha",
-                      button_label: "Entrar",
-                      loading_button_label: "Entrando...",
-                      password_input_placeholder: "Digite sua senha",
-                      email_input_placeholder: "Digite seu email",
-                    },
-                    forgotten_password: {
-                      email_label: "Email",
-                      button_label: "Enviar instruções",
-                      loading_button_label: "Enviando...",
-                      link_text: "Esqueceu sua senha?",
-                      confirmation_text: "Verifique seu email para redefinir sua senha",
-                    },
-                    sign_up: {
-                      link_text: "",
-                    },
-                  },
-                }}
-                view="sign_in"
+    <div className="container relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
+        <div className="absolute inset-0 bg-purple-600" />
+        <div className="relative z-20 flex items-center text-lg font-medium">
+          <img src="/logo-white.svg" alt="Logo" className="h-8" />
+        </div>
+        <div className="relative z-20 mt-auto">
+          <blockquote className="space-y-2">
+            <p className="text-lg">
+              "Transforme seus sonhos em realidade com nossa plataforma de investimentos."
+            </p>
+            <footer className="text-sm">Sofia Davis</footer>
+          </blockquote>
+        </div>
+      </div>
+      <div className="lg:p-8">
+        <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+          <div className="flex flex-col space-y-2 text-center">
+            <h1 className="text-2xl font-semibold tracking-tight">
+              Bem-vindo de volta
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Entre com seu email e senha para acessar sua conta
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="nome@exemplo.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
-              <div className="mt-4 text-center">
-                <span className="text-gray-600">Não tem uma conta? </span>
-                <Link 
-                  to="/client/register" 
-                  className="text-[#00ffa3] hover:text-[#004d31] font-medium"
-                >
-                  Cadastre-se
-                </Link>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Senha</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            {error && (
+              <div className="flex items-center gap-2 text-red-500 text-sm">
+                <AlertCircle className="h-4 w-4" />
+                <span>{error}</span>
               </div>
-            </CardContent>
-          </Card>
+            )}
+
+            <Button
+              type="submit"
+              className="w-full bg-purple-600 hover:bg-purple-700"
+              disabled={isLoading}
+            >
+              {isLoading ? "Entrando..." : "Entrar"}
+            </Button>
+          </form>
+
+          <div className="text-center text-sm">
+            <Link
+              to="/client/register"
+              className="text-purple-600 hover:text-purple-700"
+            >
+              Não tem uma conta? Cadastre-se
+            </Link>
+          </div>
         </div>
       </div>
     </div>

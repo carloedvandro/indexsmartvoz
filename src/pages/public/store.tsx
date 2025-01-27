@@ -1,194 +1,170 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { ProductCard } from "@/components/store/ProductCard";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { LoadingState } from "@/components/store/public/LoadingState";
+import { StoreNotFound } from "@/components/store/public/StoreNotFound";
+import { ProductList } from "@/components/store/ProductList";
+import { StoreHeader } from "@/components/store/public/StoreHeader";
 import { useToast } from "@/hooks/use-toast";
-
-type Product = {
-  id: string;
-  name: string;
-  description: string | null;
-  price: number;
-  image_url: string | null;
-  currency: string;
-  order: number;
-};
+import { useStoreProducts } from "@/components/store/hooks/useStoreProducts";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import { Copy, ArrowRight } from "lucide-react";
 
 type StoreOwner = {
   id: string;
   full_name: string;
-  custom_id: string;
+  custom_id: string | null;
 };
 
 export default function PublicStore() {
-  const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [storeOwner, setStoreOwner] = useState<StoreOwner | null>(null);
   const { storeUrl } = useParams();
   const { toast } = useToast();
-
-  const fetchStoreOwner = async (url: string): Promise<StoreOwner | null> => {
-    console.log("Buscando dono da loja com URL:", url);
-    try {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("id, full_name, custom_id")
-        .or(`store_url.eq."${url}",custom_id.eq."${url}"`)
-        .single();
-
-      if (error) {
-        console.error("Erro ao buscar dono da loja:", error);
-        throw error;
-      }
-
-      if (!data) {
-        console.log("Loja não encontrada para URL:", url);
-        toast({ 
-          title: "Loja não encontrada", 
-          description: "Não foi possível encontrar a loja especificada",
-          variant: "destructive" 
-        });
-        return null;
-      }
-
-      console.log("Dono da loja encontrado:", data);
-      return data as StoreOwner;
-    } catch (err) {
-      console.error("Erro ao buscar dono da loja:", err);
-      toast({ 
-        title: "Erro", 
-        description: "Não foi possível carregar a loja", 
-        variant: "destructive" 
-      });
-      return null;
-    }
-  };
-
-  const fetchProducts = async (ownerId: string): Promise<Product[]> => {
-    console.log("Buscando produtos para o dono:", ownerId);
-    try {
-      const { data, error } = await supabase
-        .from("store_products")
-        .select("*")
-        .eq("user_id", ownerId)
-        .order("order", { ascending: true });
-
-      if (error) {
-        console.error("Erro ao buscar produtos:", error);
-        throw error;
-      }
-
-      console.log("Produtos carregados:", data?.length || 0, "produtos");
-      return data || [];
-    } catch (err) {
-      console.error("Erro ao buscar produtos:", err);
-      toast({ 
-        title: "Erro", 
-        description: "Não foi possível carregar os produtos", 
-        variant: "destructive" 
-      });
-      return [];
-    }
-  };
+  const { products, isLoading: productsLoading, loadProducts } = useStoreProducts();
 
   useEffect(() => {
     const loadStore = async () => {
       if (!storeUrl) {
+        console.log("No storeUrl provided");
         setIsLoading(false);
         return;
       }
 
       try {
-        console.log("Iniciando carregamento da loja com URL:", storeUrl);
+        console.log("Fetching store owner with storeUrl:", storeUrl);
         
-        const owner = await fetchStoreOwner(storeUrl);
-        if (!owner) {
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("id, full_name, custom_id")
+          .or(`store_url.eq.${storeUrl},custom_id.eq.${storeUrl}`)
+          .limit(1)
+          .maybeSingle();
+
+        if (error) {
+          console.error("Error fetching store owner:", error);
+          throw error;
+        }
+
+        if (!data) {
+          console.log("No store owner found for:", storeUrl);
+          setStoreOwner(null);
           setIsLoading(false);
           return;
         }
 
-        setStoreOwner(owner);
-        const storeProducts = await fetchProducts(owner.id);
-        setProducts(storeProducts);
+        setStoreOwner(data);
+        await loadProducts();
       } catch (error) {
-        console.error("Erro ao carregar a loja:", error);
+        console.error("Error loading store:", error);
         toast({
           title: "Erro",
-          description: "Ocorreu um erro ao carregar a loja",
+          description: "Não foi possível carregar a loja",
           variant: "destructive",
         });
+        setStoreOwner(null);
       } finally {
         setIsLoading(false);
       }
     };
 
     loadStore();
-  }, [storeUrl, toast]);
+  }, [storeUrl, toast, loadProducts]);
 
-  const handleBuyClick = () => {
-    if (!storeOwner?.custom_id) {
-      console.error("Custom ID não encontrado para o dono da loja");
+  const handleCopyReferralLink = async () => {
+    if (!storeOwner?.custom_id) return;
+    
+    try {
+      const referralLink = new URL(`/client/register?sponsor=${storeOwner.custom_id}`, window.location.origin).toString();
+      await navigator.clipboard.writeText(referralLink);
+      toast({
+        title: "Link copiado!",
+        description: "O link de indicação foi copiado para a área de transferência.",
+      });
+    } catch (error) {
       toast({
         title: "Erro",
-        description: "Não foi possível processar a compra",
+        description: "Não foi possível copiar o link de indicação.",
         variant: "destructive",
       });
-      return;
     }
-
-    const registerUrl = `https://ytech.lovable.app/client/register?sponsor=${storeOwner.custom_id}`;
-    console.log("Redirecionando para:", registerUrl);
-    window.location.href = registerUrl;
   };
 
-  if (isLoading) {
-    return (
-      <div className="h-screen w-full flex items-center justify-center">
-        <div>Carregando...</div>
-      </div>
-    );
+  const handleBuy = (referralLink: string) => {
+    window.location.href = referralLink;
+  };
+
+  const handleGoToReferralLink = () => {
+    if (!storeOwner?.custom_id) return;
+    const referralLink = new URL(`/client/register?sponsor=${storeOwner.custom_id}`, window.location.origin).toString();
+    window.location.href = referralLink;
+  };
+
+  if (isLoading || productsLoading) {
+    return <LoadingState />;
   }
 
   if (!storeOwner) {
-    return (
-      <div className="h-screen w-full flex items-center justify-center">
-        <div>Loja não encontrada</div>
-      </div>
-    );
+    return <StoreNotFound />;
   }
 
+  const referralLink = storeOwner.custom_id 
+    ? new URL(`/client/register?sponsor=${storeOwner.custom_id}`, window.location.origin).toString()
+    : "";
+
   return (
-    <div className="h-screen w-full overflow-y-auto">
-      <div className="container mx-auto p-4 pb-16">
-        <div className="flex items-center gap-4 mb-6">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => window.history.back()}
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <h1 className="text-3xl font-bold">Loja de {storeOwner.full_name}</h1>
-        </div>
-        {products.length === 0 ? (
-          <div className="text-center">Nenhum produto disponível no momento.</div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onEdit={() => {}}
-                onDelete={() => {}}
-                onBuy={handleBuyClick}
-                isPublic
-              />
-            ))}
+    <ScrollArea className="h-screen">
+      <div className="container mx-auto p-4">
+        <div className="space-y-8">
+          <StoreHeader ownerName={storeOwner.full_name} />
+          
+          <div className="grid gap-8">
+            <ProductList
+              products={products}
+              isLoading={productsLoading}
+              onSubmit={() => {}}
+              selectedProduct={null}
+              setSelectedProduct={() => {}}
+              onDelete={() => {}}
+              isManager={false}
+              onBuy={handleBuy}
+              storeOwnerCustomId={storeOwner.custom_id || undefined}
+            />
           </div>
-        )}
+
+          <div className="mt-8 p-6 bg-card rounded-lg shadow">
+            <h2 className="text-xl font-semibold mb-4">Link de Indicação</h2>
+            <p className="text-muted-foreground mb-4">
+              Use o link abaixo para se cadastrar e fazer parte da nossa rede:
+            </p>
+            <div className="flex items-center gap-4">
+              <a 
+                href={referralLink}
+                className="flex-1 bg-muted p-4 rounded-lg break-all text-sm hover:bg-muted/80 transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {referralLink}
+              </a>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={handleCopyReferralLink}
+                className="shrink-0"
+              >
+                <Copy className="h-4 w-4" />
+              </Button>
+              <Button
+                onClick={handleGoToReferralLink}
+                className="shrink-0"
+              >
+                Ir <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </ScrollArea>
   );
 }
