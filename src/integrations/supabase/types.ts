@@ -364,6 +364,10 @@ export type Database = {
           level: number
         }[]
       }
+      rebuild_network_structure: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

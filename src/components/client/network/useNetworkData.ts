@@ -20,7 +20,7 @@ export const useNetworkData = (userId: string) => {
 
         if (userNetworkError) {
           console.error("Error fetching user network:", userNetworkError);
-          toast.error("Error fetching network data");
+          toast.error("Erro ao buscar dados da rede");
           setLoading(false);
           return;
         }
@@ -33,18 +33,15 @@ export const useNetworkData = (userId: string) => {
 
         console.log("User network found:", userNetwork);
 
+        // Buscar membros da rede usando a função get_all_network_members
         const { data: allNetworkMembers, error } = await supabase
-          .from("network")
-          .select(`
-            id,
-            level,
-            user_id,
-            parent_id
-          `);
+          .rpc('get_all_network_members', {
+            root_network_id: userNetwork.id
+          });
 
         if (error) {
           console.error("Error fetching network members:", error);
-          toast.error("Error fetching network members");
+          toast.error("Erro ao buscar membros da rede");
           return;
         }
 
@@ -54,7 +51,7 @@ export const useNetworkData = (userId: string) => {
           const profilePromises = allNetworkMembers.map(member => 
             supabase
               .from("profiles")
-              .select("full_name, email, custom_id, status")
+              .select("full_name, email, custom_id, status, graduation_type, registration_date")
               .eq("id", member.user_id)
               .maybeSingle()
           );
@@ -67,59 +64,37 @@ export const useNetworkData = (userId: string) => {
             
             allNetworkMembers.forEach((member, index) => {
               const profileData = profileResults[index].data;
-              if (profileData) { // Só adiciona ao mapa se o perfil existir
+              if (profileData) {
                 membersMap.set(member.id, {
                   id: member.id,
-                  level: 0,
-                  parentId: member.parent_id,
+                  user_id: member.user_id,
+                  parent_id: member.parent_id,
+                  level: member.level,
+                  children: [],
                   user: {
-                    full_name: profileData?.full_name || null,
-                    email: profileData?.email || '',
-                    custom_id: profileData?.custom_id || null,
-                    status: profileData?.status || 'pending'
-                  },
-                  children: []
+                    id: member.user_id,
+                    full_name: profileData.full_name || "Usuário",
+                    email: profileData.email || "",
+                    custom_id: profileData.custom_id || null,
+                    graduation_type: profileData.graduation_type || "0",
+                    registration_date: profileData.registration_date || new Date().toISOString(),
+                    status: profileData.status || "pending"
+                  }
                 });
               }
             });
 
-            const calculateLevels = (memberId: string, currentLevel: number): boolean => {
-              const member = membersMap.get(memberId);
-              if (!member || currentLevel > 4) return false;
-              
-              member.level = currentLevel;
-              
-              const childMembers = allNetworkMembers.filter(m => m.parent_id === memberId);
-              childMembers.forEach(child => {
-                if (currentLevel < 4 && membersMap.has(child.id)) {
-                  calculateLevels(child.id, currentLevel + 1);
-                }
-              });
-
-              return true;
-            };
-
-            const rootMembers = allNetworkMembers.filter(member => member.parent_id === userNetwork.id);
-            rootMembers.forEach(rootMember => {
-              if (membersMap.has(rootMember.id)) {
-                calculateLevels(rootMember.id, 1);
-              }
-            });
-
-            membersMap.forEach((member, id) => {
-              if (member.level === 0 || member.level > 4) {
-                membersMap.delete(id);
-              }
-            });
-
+            // Construir a árvore
             const finalRootMembers: NetworkMember[] = [];
             membersMap.forEach(member => {
-              if (member.parentId === userNetwork.id) {
+              if (!member.parent_id || !membersMap.has(member.parent_id)) {
                 finalRootMembers.push(member);
-              } else if (membersMap.has(member.parentId)) {
-                const parent = membersMap.get(member.parentId);
-                if (!parent.children) parent.children = [];
-                parent.children.push(member);
+              } else {
+                const parent = membersMap.get(member.parent_id);
+                if (parent) {
+                  if (!parent.children) parent.children = [];
+                  parent.children.push(member);
+                }
               }
             });
 
@@ -127,12 +102,12 @@ export const useNetworkData = (userId: string) => {
             setNetworkData(finalRootMembers);
           } catch (error) {
             console.error("Error processing profile data:", error);
-            toast.error("Error processing network data");
+            toast.error("Erro ao processar dados da rede");
           }
         }
       } catch (error) {
         console.error("Error in fetchNetworkData:", error);
-        toast.error("Error fetching network data");
+        toast.error("Erro ao buscar dados da rede");
       } finally {
         setLoading(false);
       }
