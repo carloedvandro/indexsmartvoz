@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 export function PlansCard() {
   return (
     <Card className="h-full">
-      <div className="p-6">
+      <div className="p-8">
         <h2 className="text-xl font-semibold mb-4">Planos</h2>
         <div className="space-y-4">
           <div className="flex justify-between items-center">
