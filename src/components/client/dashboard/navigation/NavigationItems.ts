@@ -42,6 +42,10 @@ export const navigationItems: NavigationItem[] = [
       {
         title: "Liderança",
         href: "/client/leadership",
+      },
+      {
+        title: "Matriz",
+        href: "/client/network?view=matrix",
       }
     ],
   },
