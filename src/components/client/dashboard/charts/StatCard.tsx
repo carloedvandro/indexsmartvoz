@@ -29,7 +29,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 export const StatCard = ({ title, value, data, color }: StatCardProps) => {
   return (
-    <div className="p-4">
+    <div className="p-6 w-full">
       <h3 className="text-sm font-medium text-gray-600">{title}</h3>
       <p className="text-2xl font-bold mt-2 text-gray-900">{value}</p>
       <div className="mt-4 h-[120px] w-full">
