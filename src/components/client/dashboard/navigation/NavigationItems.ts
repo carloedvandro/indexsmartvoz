@@ -1,4 +1,5 @@
 import { NavigationItem } from "../types";
+import { ShoppingCart } from "lucide-react";
 
 export const navigationItems: NavigationItem[] = [
   {
@@ -6,28 +7,20 @@ export const navigationItems: NavigationItem[] = [
     href: "/client/dashboard",
   },
   {
-    title: "Atividades",
-    description: "Gerencie suas atividades e acompanhe seu progresso",
+    title: "Loja Virtual",
+    description: "Gerencie seus produtos e acompanhe suas vendas",
     items: [
       {
-        title: "Para Você",
-        href: "/client/activities/personal",
+        title: "Minha Loja",
+        href: "/client/store",
       },
       {
-        title: "Para Empresas",
-        href: "/client/activities/business",
+        title: "Pedidos",
+        href: "/client/orders",
       },
       {
         title: "Produtos",
-        href: "/client/activities/products",
-      },
-      {
-        title: "Serviços",
-        href: "/client/activities/services",
-      },
-      {
-        title: "Documentos",
-        href: "/client/activities/documents",
+        href: "/client/products",
       }
     ],
   },
