@@ -3,6 +3,7 @@ import { useProfile } from "@/hooks/useProfile";
 import { supabase } from "@/integrations/supabase/client";
 import { BarChartStats } from "./charts/BarChartStats";
 import { PieChartStats } from "./charts/PieChartStats";
+import { CalendarStats } from "./charts/CalendarStats";
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNetworkData } from "@/components/client/network/useNetworkData";
@@ -71,6 +72,22 @@ export const NetworkStatsCard = () => {
             <div className="aspect-square w-full">
               <PieChartStats data={pieData} title="Total" value={65} />
             </div>
+          </div>
+          <div className="grid grid-cols-2 gap-6">
+            <div className="aspect-[16/9] w-full">
+              <BarChartStats data={barData} />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="aspect-square w-full">
+                <PieChartStats data={pieData} title="Conversão" value={78} />
+              </div>
+              <div className="aspect-square w-full">
+                <PieChartStats data={pieData} title="Retenção" value={92} />
+              </div>
+            </div>
+          </div>
+          <div className="w-full">
+            <CalendarStats />
           </div>
         </div>
       </CardContent>
