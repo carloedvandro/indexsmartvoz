@@ -47,7 +47,6 @@ export default function ClientDashboard() {
               </div>
             </div>
             <div className="px-8 pt-6 pb-8 space-y-6">
-              <NetworkStatsCard />
               <NetworkStatsCard title="Faturamento" />
             </div>
           </div>
