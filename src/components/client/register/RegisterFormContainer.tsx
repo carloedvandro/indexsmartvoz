@@ -21,12 +21,11 @@ export const RegisterFormContainer = () => {
       console.log("Registration completed, redirecting...");
       toast({
         title: "Conta criada!",
-        description: "Sua conta foi criada com sucesso. Redirecionando para o login...",
+        description: "Sua conta foi criada com sucesso. Redirecionando para o dashboard...",
       });
 
-      // Delay before redirect to ensure toast is visible
       setTimeout(() => {
-        navigate("/client/login");
+        navigate("/client/dashboard");
       }, 2000);
 
     } catch (error: any) {
@@ -47,24 +46,12 @@ export const RegisterFormContainer = () => {
   };
 
   return (
-    <div className="px-6">
-      <h2 className="text-center text-2xl font-bold text-gray-900">
-        Criar nova conta
-      </h2>
-      <p className="mt-2 text-center text-sm text-gray-600">
+    <div className="px-6 sm:px-5 py-2">
+      <p className="mt-1 text-center text-sm text-gray-600 max-w-[140%] mx-auto">
         Preencha os dados abaixo para criar sua conta
       </p>
-      <div className="mt-6">
+      <div className="mt-4">
         <RegisterForm onSubmit={handleSubmit} />
-      </div>
-      <div className="text-center mt-4">
-        <button
-          type="button"
-          onClick={() => navigate("/client/login")}
-          className="text-sm text-gray-600 hover:text-gray-900"
-        >
-          Já tem uma conta? Faça login
-        </button>
       </div>
     </div>
   );
