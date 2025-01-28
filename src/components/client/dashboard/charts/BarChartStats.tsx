@@ -24,11 +24,11 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
                 id={`gradient-${index}`}
                 x1="0"
                 y1="0"
-                x2="1"
-                y2="0"
+                x2="0"
+                y2="1"
               >
-                <stop offset="0%" stopColor="#2563eb" stopOpacity={0.9} />
-                <stop offset="100%" stopColor="#3b82f6" stopOpacity={0.9} />
+                <stop offset="0%" stopColor="#4F46E5" stopOpacity={0.9} />
+                <stop offset="100%" stopColor="#7C3AED" stopOpacity={0.9} />
               </linearGradient>
             ))}
           </defs>
@@ -54,23 +54,26 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
               backgroundColor: 'rgba(255, 255, 255, 0.95)',
               border: 'none',
               borderRadius: '8px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-              padding: '10px'
+              boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
+              padding: '12px'
             }}
             cursor={false}
           />
           <Bar 
             dataKey="value" 
-            radius={[6, 6, 0, 0]}
+            radius={[8, 8, 0, 0]}
           >
             {data.map((_, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={`url(#gradient-${index})`}
                 style={{
-                  filter: 'drop-shadow(4px 4px 8px rgba(0,0,0,0.3))',
+                  filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.2))',
                   transform: 'perspective(1000px) rotateX(10deg)',
+                  transformOrigin: 'bottom',
+                  transition: 'all 0.3s ease'
                 }}
+                className="hover:brightness-110"
               />
             ))}
           </Bar>

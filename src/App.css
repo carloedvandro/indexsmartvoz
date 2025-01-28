@@ -40,3 +40,22 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Adicionando estilos 3D para os gráficos */
+.recharts-wrapper {
+  perspective: 1000px;
+}
+
+.recharts-surface {
+  transform-style: preserve-3d;
+}
+
+.recharts-bar-rectangles {
+  transform: rotateX(10deg);
+  transform-origin: bottom;
+}
+
+.recharts-pie {
+  transform: rotateX(20deg);
+  transform-origin: center;
+}

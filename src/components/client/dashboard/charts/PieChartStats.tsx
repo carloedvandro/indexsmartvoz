@@ -9,7 +9,7 @@ interface PieChartStatsProps {
 }
 
 export const PieChartStats = ({ data }: PieChartStatsProps) => {
-  const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4'];
+  const COLORS = ['#4F46E5', '#7C3AED', '#EC4899', '#8B5CF6'];
 
   const renderCustomizedLabel = ({
     cx,
@@ -34,6 +34,10 @@ export const PieChartStats = ({ data }: PieChartStatsProps) => {
         textAnchor={x > cx ? 'start' : 'end'}
         dominantBaseline="central"
         className="text-sm font-bold"
+        style={{
+          filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))',
+          textShadow: '0 1px 2px rgba(0,0,0,0.1)'
+        }}
       >
         {`${(percent * 100).toFixed(0)}%`}
       </text>
@@ -66,7 +70,7 @@ export const PieChartStats = ({ data }: PieChartStatsProps) => {
             labelLine={true}
             label={renderCustomizedLabel}
             outerRadius="80%"
-            innerRadius="40%"
+            innerRadius="50%"
             paddingAngle={4}
             dataKey="value"
             isAnimationActive={true}
@@ -80,9 +84,12 @@ export const PieChartStats = ({ data }: PieChartStatsProps) => {
                 fill={`url(#pieGradient-${index})`}
                 stroke="none"
                 style={{
-                  filter: 'drop-shadow(4px 4px 8px rgba(0,0,0,0.2))',
-                  transform: 'translateZ(10px)',
+                  filter: 'drop-shadow(4px 8px 12px rgba(0,0,0,0.2))',
+                  transform: 'translateZ(10px) scale(1.02)',
+                  transformOrigin: 'center',
+                  transition: 'transform 0.3s ease'
                 }}
+                className="hover:scale-105"
               />
             ))}
           </Pie>
@@ -91,7 +98,8 @@ export const PieChartStats = ({ data }: PieChartStatsProps) => {
             align="center"
             layout="horizontal"
             wrapperStyle={{
-              paddingTop: '20px'
+              paddingTop: '20px',
+              filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
             }}
           />
         </PieChart>
