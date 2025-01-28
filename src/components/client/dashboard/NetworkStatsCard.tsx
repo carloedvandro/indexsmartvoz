@@ -82,6 +82,20 @@ export const NetworkStatsCard = () => {
 
   const revenueData = generateRevenueData();
 
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-2 border border-gray-200 rounded-lg shadow-sm">
+          <p className="text-sm text-gray-600">Data: {label}</p>
+          <p className="text-sm font-semibold text-gray-900">
+            {formatCurrency(payload[0].value)}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <Card className="h-full">
       <CardHeader>
@@ -113,6 +127,7 @@ export const NetworkStatsCard = () => {
                       tickLine={false}
                       axisLine={false}
                     />
+                    <Tooltip content={<CustomTooltip />} />
                     <Line
                       type="monotone"
                       dataKey="value"
