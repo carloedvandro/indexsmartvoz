@@ -143,7 +143,7 @@ export const NetworkStatsCard = () => {
         </div>
 
         {/* Gráfico de faturamento com altura reduzida e largura aumentada */}
-        <div className="bg-white p-6 rounded-lg border border-gray-100 max-w-[2000px] mx-auto w-full">
+        <div className="max-w-[2000px] mx-auto w-full">
           <h3 className="text-lg font-semibold mb-4">Faturamento</h3>
           <div className="h-[200px] w-full">
             <ResponsiveContainer width="100%" height="100%">
