@@ -60,9 +60,6 @@ export const NetworkStatsCard = () => {
           <div className="aspect-[16/9] w-full">
             <BarChartStats data={barData} />
           </div>
-          <div className="aspect-[16/9] w-full">
-            <BarChartStats data={barData} />
-          </div>
         </div>
       </CardContent>
     </Card>
