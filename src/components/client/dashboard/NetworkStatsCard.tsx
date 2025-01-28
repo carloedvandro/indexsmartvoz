@@ -1,18 +1,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useProfile } from "@/hooks/useProfile";
 import { supabase } from "@/integrations/supabase/client";
-import { BarChartStats } from "./charts/BarChartStats";
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNetworkData } from "@/components/client/network/useNetworkData";
-import { useChartData } from "@/hooks/useChartData";
 import { countMembersByStatus } from "@/utils/networkStats";
 
 export const NetworkStatsCard = () => {
   const { data: profile } = useProfile();
   const { networkData } = useNetworkData(profile?.id || '');
   const queryClient = useQueryClient();
-  const { barData } = useChartData();
 
   useEffect(() => {
     const channel = supabase
@@ -37,19 +34,6 @@ export const NetworkStatsCard = () => {
 
   const memberCounts = networkData ? countMembersByStatus(networkData) : { active: 0, pending: 0 };
 
-  const pieData = [
-    { 
-      name: "Ativos", 
-      value: memberCounts.active, 
-      color: "#33C3F0" 
-    },
-    { 
-      name: "Inativos", 
-      value: memberCounts.pending, 
-      color: "#D3E4FD" 
-    },
-  ];
-
   return (
     <Card className="h-full">
       <CardHeader>
@@ -57,8 +41,11 @@ export const NetworkStatsCard = () => {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 gap-8">
-          <div className="aspect-[16/9] w-full">
-            <BarChartStats data={barData} />
+          <div className="flex justify-center items-center p-4">
+            <div className="text-center">
+              <p className="text-lg font-semibold">Total de Membros</p>
+              <p className="text-3xl font-bold mt-2">{memberCounts.active + memberCounts.pending}</p>
+            </div>
           </div>
         </div>
       </CardContent>
