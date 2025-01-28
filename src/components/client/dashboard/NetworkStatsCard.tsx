@@ -86,8 +86,8 @@ export const NetworkStatsCard = () => {
       <CardHeader>
         <CardTitle>Estatísticas da Rede</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <CardContent className="space-y-8 -mx-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-4">
           {cardData.map((card, index) => (
             <StatCard
               key={index}
@@ -98,7 +98,9 @@ export const NetworkStatsCard = () => {
             />
           ))}
         </div>
-        <RevenueChart data={revenueData} />
+        <div className="px-4">
+          <RevenueChart data={revenueData} />
+        </div>
       </CardContent>
     </Card>
   );
