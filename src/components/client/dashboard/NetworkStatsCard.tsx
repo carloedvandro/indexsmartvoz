@@ -42,11 +42,9 @@ export const NetworkStatsCard = () => {
   return (
     <div className="space-y-8">
       <NetworkStatsHeader />
-      <div className="space-y-8">
+      <div className="space-y-8 px-8">
         <NetworkStatsGrid cardData={cardData} />
-        <div className="px-4">
-          <RevenueChart data={revenueData} />
-        </div>
+        <RevenueChart data={revenueData} />
       </div>
     </div>
   );
