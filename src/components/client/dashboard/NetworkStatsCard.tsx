@@ -42,12 +42,12 @@ export const NetworkStatsCard = () => {
     { 
       name: "Ativos", 
       value: memberCounts.active, 
-      color: "rgba(155, 135, 245, 0.8)" 
+      color: "#33C3F0" 
     },
     { 
       name: "Inativos", 
       value: memberCounts.pending, 
-      color: "rgba(217, 70, 239, 0.8)" 
+      color: "#D3E4FD" 
     },
   ];
 
@@ -61,8 +61,16 @@ export const NetworkStatsCard = () => {
           <div className="aspect-[16/9] w-full">
             <BarChartStats data={barData} />
           </div>
-          <div className="aspect-[16/9] w-full">
-            <PieChartStats data={pieData} />
+          <div className="grid grid-cols-3 gap-6">
+            <div className="aspect-square w-full">
+              <PieChartStats data={pieData} title="Ativos" value={75} />
+            </div>
+            <div className="aspect-square w-full">
+              <PieChartStats data={pieData} title="Inativos" value={82} />
+            </div>
+            <div className="aspect-square w-full">
+              <PieChartStats data={pieData} title="Total" value={65} />
+            </div>
           </div>
         </div>
       </CardContent>

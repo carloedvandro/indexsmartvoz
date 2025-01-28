@@ -1,4 +1,4 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts";
 
 interface BarChartStatsProps {
   data: Array<{ 
@@ -10,7 +10,7 @@ interface BarChartStatsProps {
 
 export const BarChartStats = ({ data }: BarChartStatsProps) => {
   return (
-    <div className="relative w-full h-full bg-white rounded-xl p-6 shadow-sm">
+    <div className="relative w-full h-full bg-white rounded-xl p-6">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart 
           data={data}
@@ -18,14 +18,14 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
         >
           <defs>
             <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="rgba(0, 182, 255, 0.8)" />
-              <stop offset="100%" stopColor="rgba(0, 182, 255, 0.2)" />
+              <stop offset="0%" stopColor="#33C3F0" stopOpacity={1} />
+              <stop offset="100%" stopColor="#D3E4FD" stopOpacity={0.8} />
             </linearGradient>
           </defs>
           <CartesianGrid 
             strokeDasharray="3 3" 
             vertical={false} 
-            stroke="rgba(0, 0, 0, 0.05)"
+            stroke="#f5f5f5"
           />
           <XAxis 
             dataKey="name" 
@@ -48,22 +48,15 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
               padding: '8px 12px'
             }}
-            cursor={false}
-            formatter={(value: number) => [`${value}`, '']}
+            cursor={{ fill: 'transparent' }}
           />
           <Bar 
             dataKey="value" 
             fill="url(#colorGradient)"
             radius={[20, 20, 0, 0]}
-            barSize={30}
-          >
-            {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                className="transition-all duration-300 hover:opacity-80"
-              />
-            ))}
-          </Bar>
+            barSize={6}
+            className="transition-all duration-300 hover:opacity-80"
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>
