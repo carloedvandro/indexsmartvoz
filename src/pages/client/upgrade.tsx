@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
 
 export default function ClientUpgrade() {
   const navigate = useNavigate();
@@ -18,163 +17,94 @@ export default function ClientUpgrade() {
         Voltar
       </button>
 
+      {/* Header */}
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold mb-4">Confira aqui as melhores ofertas para você</h1>
+        <p className="text-xl text-gray-600">
+          Tenha a melhor rede móvel com velocidade 5G no seu plano Smartvoz Pós
+        </p>
+      </div>
+
       {/* Plans grid */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {/* Plan 1 */}
-        <Card className="relative overflow-hidden">
-          <div className="bg-purple-700 text-white px-4 py-1 text-sm">
+        <Card className="relative overflow-hidden bg-gradient-to-br from-blue-900 to-purple-900 text-white">
+          <div className="bg-purple-600 text-white px-4 py-1 text-sm">
             SEM FIDELIDADE
           </div>
           <div className="p-6">
-            <h3 className="text-lg font-semibold text-gray-600">VIVO CONTROLE</h3>
             <div className="mt-2 mb-4">
-              <div className="text-4xl font-bold">14GB</div>
-              <div className="text-sm text-gray-600">8GB + 6GB de bônus¹</div>
+              <div className="text-6xl font-bold">110GB</div>
+              <div className="text-xl mt-2">Você + 1 Linha Adicional</div>
             </div>
-            <div className="space-y-2 text-sm text-purple-600">
-              <div>+ 5GB na Portabilidade²</div>
-              <div>+ 6 meses de Amazon Prime de cortesia³</div>
+            <div className="space-y-2 text-sm opacity-90">
+              <div>100GB + 10GB de bônus¹</div>
+              <div className="text-purple-300">+ 20GB de Portabilidade²</div>
+              <div>1 ano de Amazon Prime de Cortesia³</div>
             </div>
             <div className="mt-6 mb-4">
-              <div className="text-2xl font-bold">R$ 55,00 /mês</div>
+              <div className="text-3xl font-bold">R$ 124,99 /mês</div>
             </div>
-            <Button className="w-full bg-pink-600 hover:bg-pink-700">
+            <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
               Contratar
             </Button>
-            <div className="mt-6 border-t pt-4">
-              <div className="flex items-center justify-between">
-                <Switch id="social-media-1" />
-                <label htmlFor="social-media-1" className="flex-1 ml-3 text-sm text-gray-600">
-                  Adicione 8GB para suas redes sociais e vídeo por R$ 5
-                </label>
-              </div>
-              <div className="mt-3 flex gap-2">
-                <img src="/lovable-uploads/bfa9312d-ff2a-449b-8e42-ae90ad5d4939.png" alt="Social Media Icons" className="h-6" />
-              </div>
-            </div>
-            <div className="mt-4 text-sm">
-              <div>Apps ilimitados</div>
-              <div className="text-gray-600">Sem consumo do seu pacote de internet¹</div>
-            </div>
           </div>
         </Card>
 
         {/* Plan 2 */}
-        <Card className="relative overflow-hidden">
-          <div className="bg-purple-700 text-white px-4 py-1 text-sm">
+        <Card className="relative overflow-hidden bg-gradient-to-br from-blue-900 to-purple-900 text-white">
+          <div className="bg-purple-600 text-white px-4 py-1 text-sm">
             SEM FIDELIDADE
           </div>
           <div className="p-6">
-            <h3 className="text-lg font-semibold text-gray-600">VIVO CONTROLE</h3>
             <div className="mt-2 mb-4">
-              <div className="text-4xl font-bold">26GB</div>
-              <div className="text-sm text-gray-600">10GB + 6GB de bônus¹</div>
+              <div className="text-6xl font-bold">120GB</div>
+              <div className="text-xl mt-2">Você + 2 Linhas Adicionais</div>
             </div>
-            <div className="space-y-2 text-sm text-purple-600">
-              <div>+ 5GB na Portabilidade²</div>
-              <div>+ 6 meses de Amazon Prime de cortesia³</div>
+            <div className="space-y-2 text-sm opacity-90">
+              <div>100GB + 20GB de bônus²</div>
+              <div className="text-purple-300">+ 30GB de Portabilidade²</div>
+              <div>2 anos de Netflix de Cortesia³</div>
             </div>
             <div className="mt-6 mb-4">
-              <div className="text-2xl font-bold">R$ 75,00 /mês</div>
+              <div className="text-3xl font-bold">R$ 134,99 /mês</div>
             </div>
-            <Button className="w-full bg-pink-600 hover:bg-pink-700">
+            <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
               Contratar
             </Button>
-            <div className="mt-6 border-t pt-4">
-              <div className="flex items-center justify-between">
-                <Switch id="social-media-2" />
-                <label htmlFor="social-media-2" className="flex-1 ml-3 text-sm text-gray-600">
-                  Adicione 10GB para suas redes sociais e vídeo por R$ 5
-                </label>
-              </div>
-              <div className="mt-3 flex gap-2">
-                <img src="/lovable-uploads/bfa9312d-ff2a-449b-8e42-ae90ad5d4939.png" alt="Social Media Icons" className="h-6" />
-              </div>
-            </div>
-            <div className="mt-4 text-sm">
-              <div>Apps ilimitados</div>
-              <div className="text-gray-600">Sem consumo do seu pacote de internet¹</div>
-            </div>
           </div>
         </Card>
 
         {/* Plan 3 */}
-        <Card className="relative overflow-hidden">
-          <div className="bg-purple-700 text-white px-4 py-1 text-sm">
+        <Card className="relative overflow-hidden bg-gradient-to-br from-blue-900 to-purple-900 text-white">
+          <div className="bg-purple-600 text-white px-4 py-1 text-sm">
             SEM FIDELIDADE
           </div>
           <div className="p-6">
-            <h3 className="text-lg font-semibold text-gray-600">VIVO CONTROLE SAÚDE</h3>
             <div className="mt-2 mb-4">
-              <div className="text-4xl font-bold">26GB</div>
-              <div className="text-sm text-gray-600">10GB + 6GB de bônus¹</div>
+              <div className="text-6xl font-bold">140GB</div>
+              <div className="text-xl mt-2">Você + 3 Linhas Adicionais</div>
             </div>
-            <div className="space-y-2 text-sm text-purple-600">
-              <div>+ 5GB na Portabilidade²</div>
-              <div>+ 6 meses de Amazon Prime de cortesia³</div>
+            <div className="space-y-2 text-sm opacity-90">
+              <div>100GB + 40GB de bônus³</div>
+              <div className="text-purple-300">+ 50GB de Portabilidade²</div>
+              <div>3 anos de Streaming de Cortesia³</div>
             </div>
             <div className="mt-6 mb-4">
-              <div className="text-2xl font-bold">R$ 85,00 /mês</div>
+              <div className="text-3xl font-bold">R$ 144,99 /mês</div>
             </div>
-            <Button className="w-full bg-pink-600 hover:bg-pink-700">
+            <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
               Contratar
             </Button>
-            <div className="mt-6 border-t pt-4">
-              <div className="flex items-center justify-between">
-                <Switch id="social-media-3" />
-                <label htmlFor="social-media-3" className="flex-1 ml-3 text-sm text-gray-600">
-                  Adicione 10GB para suas redes sociais por R$ 5
-                </label>
-              </div>
-              <div className="mt-3 flex gap-2">
-                <img src="/lovable-uploads/bfa9312d-ff2a-449b-8e42-ae90ad5d4939.png" alt="Social Media Icons" className="h-6" />
-              </div>
-            </div>
-            <div className="mt-4 text-sm">
-              <div>Assinatura Vale Saúde Sempre inclusa</div>
-              <div className="text-gray-600">Consultas e exames com até 70% de desconto</div>
-            </div>
           </div>
         </Card>
+      </div>
 
-        {/* Plan 4 */}
-        <Card className="relative overflow-hidden">
-          <div className="bg-purple-700 text-white px-4 py-1 text-sm">
-            SEM FIDELIDADE
-          </div>
-          <div className="p-6">
-            <h3 className="text-lg font-semibold text-gray-600">VIVO CONTROLE EDUCAÇÃO</h3>
-            <div className="mt-2 mb-4">
-              <div className="text-4xl font-bold">26GB</div>
-              <div className="text-sm text-gray-600">10GB + 6GB de bônus¹</div>
-            </div>
-            <div className="space-y-2 text-sm text-purple-600">
-              <div>+ 5GB na Portabilidade²</div>
-              <div>+ 6 meses de Amazon Prime de cortesia³</div>
-            </div>
-            <div className="mt-6 mb-4">
-              <div className="text-2xl font-bold">R$ 85,00 /mês</div>
-            </div>
-            <Button className="w-full bg-pink-600 hover:bg-pink-700">
-              Contratar
-            </Button>
-            <div className="mt-6 border-t pt-4">
-              <div className="flex items-center justify-between">
-                <Switch id="social-media-4" />
-                <label htmlFor="social-media-4" className="flex-1 ml-3 text-sm text-gray-600">
-                  Adicione 10GB para suas redes sociais por R$ 5
-                </label>
-              </div>
-              <div className="mt-3 flex gap-2">
-                <img src="/lovable-uploads/bfa9312d-ff2a-449b-8e42-ae90ad5d4939.png" alt="Social Media Icons" className="h-6" />
-              </div>
-            </div>
-            <div className="mt-4 text-sm">
-              <div>Assinatura Vivae inclusa</div>
-              <div className="text-gray-600">Cursos online e certificados</div>
-            </div>
-          </div>
-        </Card>
+      {/* Notas de rodapé */}
+      <div className="mt-8 text-sm text-gray-500 space-y-1">
+        <p>¹ Bônus promocional válido por 12 meses</p>
+        <p>² GB extras exclusivos para clientes que realizarem portabilidade</p>
+        <p>³ Benefício válido conforme regras da operadora</p>
       </div>
     </div>
   );
