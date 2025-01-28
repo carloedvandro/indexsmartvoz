@@ -36,7 +36,6 @@ export const NetworkStatsCard = () => {
 
   const memberCounts = networkData ? countMembersByStatus(networkData) : { active: 0, pending: 0 };
 
-  // Dados simulados para os gráficos dos cards
   const generateChartData = (baseValue: number) => {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     return months.map((month, index) => ({
@@ -105,7 +104,7 @@ export const NetworkStatsCard = () => {
           {cardData.map((card, index) => (
             <div 
               key={index}
-              className="p-6 rounded-lg bg-white border border-gray-100 shadow-sm"
+              className="p-4"
             >
               <h3 className="text-sm font-medium text-gray-600">{card.title}</h3>
               <p className="text-2xl font-bold mt-2 text-gray-900">{card.value}</p>
@@ -142,7 +141,6 @@ export const NetworkStatsCard = () => {
           ))}
         </div>
 
-        {/* Gráfico de faturamento com altura reduzida e largura aumentada */}
         <div className="max-w-[2000px] mx-auto w-full">
           <h3 className="text-lg font-semibold mb-4">Faturamento</h3>
           <div className="h-[200px] w-full">
