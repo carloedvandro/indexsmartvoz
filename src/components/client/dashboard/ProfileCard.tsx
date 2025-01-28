@@ -27,7 +27,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
 
   return (
     <Card className="h-full">
-      <CardHeader className="flex flex-col items-center space-y-0.5 py-4 px-6">
+      <CardHeader className="flex flex-col items-center space-y-0.5 pt-2 pb-3 px-8">
         <ProfileAvatar 
           profileImage={profileImage}
           fullName={profile?.full_name}
@@ -44,7 +44,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
           </Badge>
         </div>
       </CardHeader>
-      <CardContent className="py-4 px-6">
+      <CardContent className="py-4 px-8">
         <div className="space-y-4">
           <ProfileStats profileId={profile.id} />
           
