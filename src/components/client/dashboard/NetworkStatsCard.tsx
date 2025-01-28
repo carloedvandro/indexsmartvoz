@@ -8,7 +8,11 @@ import { useNetworkData } from "@/components/client/network/useNetworkData";
 import { useChartData } from "@/hooks/useChartData";
 import { countMembersByStatus } from "@/utils/networkStats";
 
-export const NetworkStatsCard = () => {
+interface NetworkStatsCardProps {
+  title?: string;
+}
+
+export const NetworkStatsCard = ({ title = "Estatísticas da Rede" }: NetworkStatsCardProps) => {
   const { data: profile } = useProfile();
   const { networkData } = useNetworkData(profile?.id || '');
   const queryClient = useQueryClient();
@@ -53,7 +57,7 @@ export const NetworkStatsCard = () => {
   return (
     <Card className="h-full">
       <CardHeader>
-        <CardTitle>Estatísticas da Rede</CardTitle>
+        <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 gap-8">
