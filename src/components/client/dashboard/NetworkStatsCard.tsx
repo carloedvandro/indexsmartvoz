@@ -6,7 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useNetworkData } from "@/components/client/network/useNetworkData";
 import { countMembersByStatus } from "@/utils/networkStats";
 import { formatCurrency } from "@/utils/format";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Area, AreaChart, Tooltip } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 
 export const NetworkStatsCard = () => {
   const { data: profile } = useProfile();
@@ -36,7 +36,7 @@ export const NetworkStatsCard = () => {
 
   const memberCounts = networkData ? countMembersByStatus(networkData) : { active: 0, pending: 0 };
 
-  // Dados simulados para os gráficos dos cartões
+  // Dados simulados para os gráficos
   const generateChartData = (baseValue: number) => {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     return months.map((month, index) => ({
@@ -64,26 +64,6 @@ export const NetworkStatsCard = () => {
       data: generateChartData(210375),
       color: "#7B61FF"
     }
-  ];
-
-  // Dados simulados para o gráfico de faturamento
-  const revenueData = [
-    { date: '01/Jan', value: 1000 },
-    { date: '03/Jan', value: 1500 },
-    { date: '05/Jan', value: 3000 },
-    { date: '07/Jan', value: 1000 },
-    { date: '09/Jan', value: 2500 },
-    { date: '11/Jan', value: 1000 },
-    { date: '13/Jan', value: 2800 },
-    { date: '15/Jan', value: 1200 },
-    { date: '17/Jan', value: 10000 },
-    { date: '19/Jan', value: 500 },
-    { date: '21/Jan', value: 1500 },
-    { date: '23/Jan', value: 1200 },
-    { date: '25/Jan', value: 800 },
-    { date: '27/Jan', value: 1800 },
-    { date: '29/Jan', value: 1000 },
-    { date: '31/Jan', value: 500 },
   ];
 
   return (
@@ -130,57 +110,6 @@ export const NetworkStatsCard = () => {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Novo gráfico de faturamento */}
-        <div className="mt-8">
-          <h3 className="text-lg font-semibold mb-4">Faturamento</h3>
-          <div className="h-[400px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={revenueData}>
-                <defs>
-                  <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="#8884d8" stopOpacity={0.1}/>
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis 
-                  dataKey="date" 
-                  tick={{ fontSize: 12 }}
-                  stroke="#9CA3AF"
-                  tickLine={false}
-                  axisLine={false}
-                />
-                <YAxis 
-                  tick={{ fontSize: 12 }}
-                  stroke="#9CA3AF"
-                  tickLine={false}
-                  axisLine={false}
-                  tickFormatter={(value) => `R$ ${value}`}
-                />
-                <Tooltip 
-                  formatter={(value) => [`R$ ${value}`, 'Faturamento']}
-                  labelStyle={{ color: '#374151' }}
-                  contentStyle={{ 
-                    backgroundColor: 'white',
-                    border: '1px solid #E5E7EB',
-                    borderRadius: '6px'
-                  }}
-                />
-                <Area 
-                  type="monotone" 
-                  dataKey="value" 
-                  stroke="#7B61FF" 
-                  fillOpacity={1} 
-                  fill="url(#colorRevenue)"
-                  strokeWidth={2}
-                  dot={{ fill: '#7B61FF', strokeWidth: 0 }}
-                  activeDot={{ r: 6, fill: '#7B61FF' }}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
         </div>
       </CardContent>
     </Card>
