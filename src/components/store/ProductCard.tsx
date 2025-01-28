@@ -1,6 +1,7 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/utils/format";
+import { useToast } from "@/hooks/use-toast";
 
 interface ProductCardProps {
   product: {
@@ -28,6 +29,30 @@ export function ProductCard({
   isExample,
   storeOwnerCustomId 
 }: ProductCardProps) {
+  const { toast } = useToast();
+
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (window.confirm('Tem certeza que deseja excluir este produto?')) {
+      try {
+        await onDelete(product.id);
+        toast({
+          title: "Sucesso",
+          description: "Produto excluído com sucesso",
+        });
+      } catch (error) {
+        console.error('Error deleting product:', error);
+        toast({
+          title: "Erro",
+          description: "Não foi possível excluir o produto",
+          variant: "destructive",
+        });
+      }
+    }
+  };
+
   const handleBuyClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -74,7 +99,7 @@ export function ProductCard({
             <Button variant="outline" onClick={() => onEdit(product)}>
               Editar
             </Button>
-            <Button variant="destructive" onClick={() => onDelete(product.id)}>
+            <Button variant="destructive" onClick={handleDelete}>
               Excluir
             </Button>
           </>
