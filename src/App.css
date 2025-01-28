@@ -41,31 +41,34 @@
   color: #888;
 }
 
-/* Estilos 3D para os gráficos */
+/* Estilos modernos para os gráficos */
 .recharts-wrapper {
-  perspective: 1200px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-.recharts-surface {
-  transform-style: preserve-3d;
+.recharts-default-tooltip {
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  border: none !important;
+  background-color: white !important;
 }
 
-.recharts-bar-rectangles {
-  transform: rotateX(15deg);
-  transform-origin: bottom;
-  transition: transform 0.3s ease;
+.recharts-tooltip-label {
+  color: #64748b !important;
+  font-size: 12px !important;
 }
 
-.recharts-pie {
-  transform: rotateX(25deg);
-  transform-origin: center;
-  transition: transform 0.3s ease;
+.recharts-tooltip-item {
+  color: #334155 !important;
+  font-size: 14px !important;
 }
 
-.recharts-pie:hover {
-  transform: rotateX(20deg) scale(1.02);
+.recharts-legend-item-text {
+  color: #64748b !important;
+  font-size: 12px !important;
 }
 
-.recharts-bar-rectangles:hover {
-  transform: rotateX(12deg) translateY(-5px);
+.recharts-cartesian-axis-tick-value {
+  font-size: 12px !important;
+  fill: #94a3b8 !important;
 }

@@ -10,82 +10,58 @@ interface BarChartStatsProps {
 
 export const BarChartStats = ({ data }: BarChartStatsProps) => {
   return (
-    <div className="relative w-full h-full bg-gradient-to-b from-white to-gray-50 rounded-lg p-4">
+    <div className="relative w-full h-full bg-white rounded-xl p-6 shadow-sm">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart 
           data={data}
-          margin={{ top: 30, right: 30, left: 20, bottom: 30 }}
-          barSize={50}
+          margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
         >
           <defs>
-            {data.map((_, index) => (
-              <linearGradient
-                key={`gradient-${index}`}
-                id={`gradient-${index}`}
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
-              >
-                <stop offset="0%" stopColor="#2196F3" stopOpacity={1} />
-                <stop offset="100%" stopColor="#1976D2" stopOpacity={0.8} />
-              </linearGradient>
-            ))}
+            <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="rgba(0, 182, 255, 0.8)" />
+              <stop offset="100%" stopColor="rgba(0, 182, 255, 0.2)" />
+            </linearGradient>
           </defs>
           <CartesianGrid 
             strokeDasharray="3 3" 
             vertical={false} 
-            stroke="rgba(0, 0, 0, 0.1)"
+            stroke="rgba(0, 0, 0, 0.05)"
           />
           <XAxis 
             dataKey="name" 
             axisLine={false}
             tickLine={false}
-            tick={{ fill: '#666', fontSize: 12 }}
+            tick={{ fill: '#94a3b8', fontSize: 12 }}
             dy={10}
           />
           <YAxis 
             axisLine={false}
             tickLine={false}
-            tick={{ fill: '#666', fontSize: 12 }}
+            tick={{ fill: '#94a3b8', fontSize: 12 }}
             dx={-10}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: 'rgba(255, 255, 255, 0.95)',
+              backgroundColor: 'white',
               border: 'none',
               borderRadius: '8px',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
-              padding: '12px'
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              padding: '8px 12px'
             }}
             cursor={false}
-            formatter={(value: number) => [`${value}%`, 'Valor']}
+            formatter={(value: number) => [`${value}`, '']}
           />
           <Bar 
             dataKey="value" 
-            radius={[4, 4, 0, 0]}
+            fill="url(#colorGradient)"
+            radius={[20, 20, 0, 0]}
+            barSize={30}
           >
             {data.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={`url(#gradient-${index})`}
-                style={{
-                  filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.2))',
-                  transform: 'perspective(1000px) rotateX(10deg)',
-                  transformOrigin: 'bottom',
-                  cursor: 'pointer'
-                }}
-              >
-                <text
-                  x={0}
-                  y={-10}
-                  fill="#2196F3"
-                  textAnchor="middle"
-                  className="text-sm font-bold"
-                >
-                  {`${entry.value}%`}
-                </text>
-              </Cell>
+                className="transition-all duration-300 hover:opacity-80"
+              />
             ))}
           </Bar>
         </BarChart>

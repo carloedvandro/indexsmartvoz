@@ -1,4 +1,4 @@
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Sector } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 
 interface PieChartStatsProps {
   data: Array<{
@@ -9,60 +9,10 @@ interface PieChartStatsProps {
 }
 
 export const PieChartStats = ({ data }: PieChartStatsProps) => {
-  const COLORS = ['#FF5252', '#FF9800', '#9C27B0', '#2196F3'];
-
-  const renderActiveShape = (props: any) => {
-    const {
-      cx, cy, innerRadius, outerRadius, startAngle, endAngle,
-      fill, payload, percent, value
-    } = props;
-
-    return (
-      <g>
-        <Sector
-          cx={cx}
-          cy={cy}
-          innerRadius={innerRadius}
-          outerRadius={outerRadius + 8}
-          startAngle={startAngle}
-          endAngle={endAngle}
-          fill={fill}
-          style={{
-            filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))',
-            transform: 'translateZ(20px)',
-            transformOrigin: 'center'
-          }}
-        />
-        <text
-          x={cx}
-          y={cy - 8}
-          dy={8}
-          textAnchor="middle"
-          fill={fill}
-          className="text-lg font-bold"
-          style={{
-            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))',
-            textShadow: '0 1px 2px rgba(0,0,0,0.1)'
-          }}
-        >
-          {`${(percent * 100).toFixed(0)}%`}
-        </text>
-        <text
-          x={cx}
-          y={cy + 15}
-          dy={8}
-          textAnchor="middle"
-          fill="#666"
-          className="text-sm"
-        >
-          {payload.name}
-        </text>
-      </g>
-    );
-  };
+  const COLORS = ['#00B6FF', '#6366f1', '#0EA5E9'];
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-b from-white to-gray-50 rounded-lg p-4">
+    <div className="relative w-full h-full bg-white rounded-xl p-6 shadow-sm">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <defs>
@@ -75,8 +25,8 @@ export const PieChartStats = ({ data }: PieChartStatsProps) => {
                 x2="0"
                 y2="1"
               >
-                <stop offset="0%" stopColor={color} stopOpacity={1} />
-                <stop offset="100%" stopColor={color} stopOpacity={0.8} />
+                <stop offset="0%" stopColor={color} stopOpacity={0.8} />
+                <stop offset="100%" stopColor={color} stopOpacity={0.3} />
               </linearGradient>
             ))}
           </defs>
@@ -84,38 +34,39 @@ export const PieChartStats = ({ data }: PieChartStatsProps) => {
             data={data}
             cx="50%"
             cy="50%"
-            activeShape={renderActiveShape}
-            innerRadius="45%"
-            outerRadius="70%"
-            paddingAngle={4}
+            innerRadius={60}
+            outerRadius={80}
+            paddingAngle={5}
             dataKey="value"
-            isAnimationActive={true}
-            animationBegin={0}
-            animationDuration={800}
-            animationEasing="ease-out"
+            startAngle={90}
+            endAngle={-270}
           >
             {data.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={`url(#pieGradient-${index})`}
                 stroke="none"
-                style={{
-                  filter: 'drop-shadow(4px 8px 16px rgba(0,0,0,0.25))',
-                  transform: 'translateZ(10px)',
-                  transformOrigin: 'center',
-                  transition: 'transform 0.3s ease'
-                }}
-                className="hover:scale-105"
+                className="transition-all duration-300 hover:opacity-80"
               />
             ))}
           </Pie>
+          <Tooltip
+            contentStyle={{
+              backgroundColor: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              padding: '8px 12px'
+            }}
+            formatter={(value: number) => [`${value}%`, '']}
+          />
           <Legend
             verticalAlign="bottom"
             align="center"
-            layout="horizontal"
+            iconType="circle"
+            iconSize={8}
             wrapperStyle={{
-              paddingTop: '20px',
-              filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
+              paddingTop: '20px'
             }}
           />
         </PieChart>
