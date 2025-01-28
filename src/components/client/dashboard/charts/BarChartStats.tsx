@@ -9,29 +9,26 @@ interface BarChartStatsProps {
 }
 
 export const BarChartStats = ({ data }: BarChartStatsProps) => {
-  const barColors = [
-    "#9b87f5",
-    "#D946EF",
-    "#F97316",
-    "#00ffa3",
-    "#0EA5E9",
-    "#FF9F40"
-  ];
-
   return (
     <div className="relative w-full h-full">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart 
           data={data}
           margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-          barGap={8}
-          barSize={30}
+          barSize={40}
         >
           <defs>
-            {barColors.map((color, index) => (
-              <linearGradient id={`colorGradient-${index}`} key={index} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={color} stopOpacity={0.5} />
-                <stop offset="100%" stopColor={color} stopOpacity={0.3} />
+            {data.map((_, index) => (
+              <linearGradient
+                key={`gradient-${index}`}
+                id={`gradient-${index}`}
+                x1="0"
+                y1="0"
+                x2="1"
+                y2="0"
+              >
+                <stop offset="0%" stopColor="#2563eb" stopOpacity={0.9} />
+                <stop offset="100%" stopColor="#3b82f6" stopOpacity={0.9} />
               </linearGradient>
             ))}
           </defs>
@@ -51,7 +48,6 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
             axisLine={{ stroke: '#E0E0E0' }}
             tickLine={{ stroke: '#E0E0E0' }}
             tick={{ fill: '#666', fontSize: 12 }}
-            domain={[0, 'auto']}
           />
           <Tooltip
             contentStyle={{
@@ -61,21 +57,19 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
               padding: '10px'
             }}
-            labelStyle={{ color: '#666', fontWeight: 'bold', marginBottom: '5px' }}
-            itemStyle={{ color: '#333', padding: '2px 0' }}
-            cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
+            cursor={false}
           />
           <Bar 
             dataKey="value" 
             radius={[6, 6, 0, 0]}
           >
-            {data.map((entry, index) => (
-              <Cell 
-                key={`cell-${index}`} 
-                fill={`url(#colorGradient-${index % barColors.length})`}
+            {data.map((_, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={`url(#gradient-${index})`}
                 style={{
-                  filter: 'drop-shadow(3px 5px 8px rgba(0,0,0,0.2))',
-                  transition: 'all 0.3s ease',
+                  filter: 'drop-shadow(4px 4px 8px rgba(0,0,0,0.3))',
+                  transform: 'perspective(1000px) rotateX(10deg)',
                 }}
               />
             ))}
