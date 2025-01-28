@@ -40,20 +40,23 @@ export const NetworkStatsCard = () => {
     {
       title: "Ganhos Ativos",
       value: formatCurrency(130510),
-      gradient: "from-blue-400 via-indigo-500 to-purple-500",
-      chartHeight: "h-[40px]"
+      gradient: "from-[#00C6FB] via-[#786AFF] to-[#786AFF]",
+      chartHeight: "h-[40px]",
+      chartImage: "/lovable-uploads/053b2522-462f-4fa0-8e8d-f31bc07cce0e.png"
     },
     {
       title: "Ganhos Pendentes",
       value: formatCurrency(175035),
-      gradient: "from-purple-400 via-pink-500 to-purple-500",
-      chartHeight: "h-[50px]"
+      gradient: "from-[#38B6FF] via-[#5E60CE] to-[#5E60CE]",
+      chartHeight: "h-[50px]",
+      chartImage: "/lovable-uploads/053b2522-462f-4fa0-8e8d-f31bc07cce0e.png"
     },
     {
       title: "Total de Ganhos",
       value: formatCurrency(210375),
-      gradient: "from-cyan-400 via-blue-500 to-indigo-500",
-      chartHeight: "h-[45px]"
+      gradient: "from-[#00C6FB] via-[#7B61FF] to-[#7B61FF]",
+      chartHeight: "h-[45px]",
+      chartImage: "/lovable-uploads/053b2522-462f-4fa0-8e8d-f31bc07cce0e.png"
     }
   ];
 
@@ -75,12 +78,13 @@ export const NetworkStatsCard = () => {
                 <div 
                   className={`w-full bg-gradient-to-t from-white/20 to-white/5 rounded-lg ${card.chartHeight} transition-all duration-500 ease-in-out`}
                   style={{
-                    maskImage: 'url(/lovable-uploads/fdf35ca2-9301-40c4-b33e-9aa0a2c70bbf.png)',
-                    WebkitMaskImage: 'url(/lovable-uploads/fdf35ca2-9301-40c4-b33e-9aa0a2c70bbf.png)',
+                    maskImage: `url(${card.chartImage})`,
+                    WebkitMaskImage: `url(${card.chartImage})`,
                     maskSize: 'cover',
                     WebkitMaskSize: 'cover',
                     maskPosition: 'bottom',
-                    WebkitMaskPosition: 'bottom'
+                    WebkitMaskPosition: 'bottom',
+                    backgroundImage: `linear-gradient(to top, rgba(255,255,255,0.2), rgba(255,255,255,0.1))`,
                   }}
                 />
               </div>
