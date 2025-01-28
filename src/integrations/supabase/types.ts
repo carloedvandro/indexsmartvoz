@@ -123,11 +123,6 @@ export type Database = {
         Row: {
           address: string | null
           approval_date: string | null
-          biometric_validated: boolean | null
-          biometric_validation_attempts: number | null
-          biometric_validation_blocked: boolean | null
-          biometric_validation_blocked_until: string | null
-          biometric_validation_date: string | null
           birth_date: string | null
           block_date: string | null
           block_reason: string | null
@@ -166,11 +161,6 @@ export type Database = {
         Insert: {
           address?: string | null
           approval_date?: string | null
-          biometric_validated?: boolean | null
-          biometric_validation_attempts?: number | null
-          biometric_validation_blocked?: boolean | null
-          biometric_validation_blocked_until?: string | null
-          biometric_validation_date?: string | null
           birth_date?: string | null
           block_date?: string | null
           block_reason?: string | null
@@ -209,11 +199,6 @@ export type Database = {
         Update: {
           address?: string | null
           approval_date?: string | null
-          biometric_validated?: boolean | null
-          biometric_validation_attempts?: number | null
-          biometric_validation_blocked?: boolean | null
-          biometric_validation_blocked_until?: string | null
-          biometric_validation_date?: string | null
           birth_date?: string | null
           block_date?: string | null
           block_reason?: string | null
