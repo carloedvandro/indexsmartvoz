@@ -25,11 +25,11 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#00ffa3",
-          foreground: "#004d31",
+          DEFAULT: "#5f0889",
+          foreground: "#ffffff",
         },
         secondary: {
-          DEFAULT: "#004d31",
+          DEFAULT: "#9b87f5",
           foreground: "#ffffff",
         },
         destructive: {
@@ -41,7 +41,7 @@ export default {
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "#9b87f5",
+          DEFAULT: "#6E59A5",
           foreground: "#ffffff",
         },
         card: {
@@ -53,6 +53,11 @@ export default {
           foreground: "#1A1F2C",
           border: "#e2e8f0",
         },
+        "color-1": "hsl(var(--color-1))",
+        "color-2": "hsl(var(--color-2))",
+        "color-3": "hsl(var(--color-3))",
+        "color-4": "hsl(var(--color-4))",
+        "color-5": "hsl(var(--color-5))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -68,10 +73,20 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        rainbow: {
+          "0%": { "background-position": "0%" },
+          "100%": { "background-position": "200%" },
+        },
+        gradient: {
+          "0%, 100%": { opacity: "0.8" },
+          "50%": { opacity: "0.6" },
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "rainbow": "rainbow var(--speed, 2s) infinite linear",
+        "gradient": "gradient 8s ease-in-out infinite",
       },
     },
   },

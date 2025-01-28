@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "react-router-dom";
 import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
+import { RainbowButton } from "@/components/ui/rainbow-button";
 import { registerFormSchema } from "./register/RegisterSchema";
 import type { RegisterFormData } from "./register/RegisterSchema";
 import { FormFields } from "./register/FormFields";
@@ -25,9 +25,11 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
       fullName: "",
       email: "",
       password: "",
+      passwordConfirmation: "",
       cpf: "",
       sponsorCustomId: sponsorId || "",
       customId: "",
+      birthDate: "",
     },
   });
 
@@ -43,6 +45,7 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
       console.log("Starting form submission with data:", {
         ...data,
         password: "[PROTECTED]",
+        passwordConfirmation: "[PROTECTED]",
         sponsorCustomId: data.sponsorCustomId || "none",
       });
 
@@ -71,7 +74,7 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
         className="space-y-4"
       >
         <FormFields form={form} disableSponsor={!!sponsorId} />
-        <Button 
+        <RainbowButton 
           type="submit" 
           className="w-full"
           disabled={form.formState.isSubmitting}
@@ -84,7 +87,7 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
           ) : (
             "Criar Conta"
           )}
-        </Button>
+        </RainbowButton>
       </form>
     </Form>
   );
