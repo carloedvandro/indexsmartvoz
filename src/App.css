@@ -41,9 +41,9 @@
   color: #888;
 }
 
-/* Adicionando estilos 3D para os gráficos */
+/* Estilos 3D para os gráficos */
 .recharts-wrapper {
-  perspective: 1000px;
+  perspective: 1200px;
 }
 
 .recharts-surface {
@@ -51,11 +51,21 @@
 }
 
 .recharts-bar-rectangles {
-  transform: rotateX(10deg);
+  transform: rotateX(15deg);
   transform-origin: bottom;
+  transition: transform 0.3s ease;
 }
 
 .recharts-pie {
-  transform: rotateX(20deg);
+  transform: rotateX(25deg);
   transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.recharts-pie:hover {
+  transform: rotateX(20deg) scale(1.02);
+}
+
+.recharts-bar-rectangles:hover {
+  transform: rotateX(12deg) translateY(-5px);
 }

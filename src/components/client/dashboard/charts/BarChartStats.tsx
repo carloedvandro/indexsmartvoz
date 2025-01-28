@@ -10,12 +10,12 @@ interface BarChartStatsProps {
 
 export const BarChartStats = ({ data }: BarChartStatsProps) => {
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full bg-gradient-to-b from-white to-gray-50 rounded-lg p-4">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart 
           data={data}
-          margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-          barSize={40}
+          margin={{ top: 30, right: 30, left: 20, bottom: 30 }}
+          barSize={50}
         >
           <defs>
             {data.map((_, index) => (
@@ -27,43 +27,45 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
                 x2="0"
                 y2="1"
               >
-                <stop offset="0%" stopColor="#4F46E5" stopOpacity={0.9} />
-                <stop offset="100%" stopColor="#7C3AED" stopOpacity={0.9} />
+                <stop offset="0%" stopColor="#2196F3" stopOpacity={1} />
+                <stop offset="100%" stopColor="#1976D2" stopOpacity={0.8} />
               </linearGradient>
             ))}
           </defs>
           <CartesianGrid 
             strokeDasharray="3 3" 
             vertical={false} 
-            stroke="rgba(238, 238, 238, 0.3)"
+            stroke="rgba(0, 0, 0, 0.1)"
           />
           <XAxis 
             dataKey="name" 
-            axisLine={{ stroke: '#E0E0E0' }}
-            tickLine={{ stroke: '#E0E0E0' }}
+            axisLine={false}
+            tickLine={false}
             tick={{ fill: '#666', fontSize: 12 }}
-            padding={{ left: 20, right: 20 }}
+            dy={10}
           />
           <YAxis 
-            axisLine={{ stroke: '#E0E0E0' }}
-            tickLine={{ stroke: '#E0E0E0' }}
+            axisLine={false}
+            tickLine={false}
             tick={{ fill: '#666', fontSize: 12 }}
+            dx={-10}
           />
           <Tooltip
             contentStyle={{
               backgroundColor: 'rgba(255, 255, 255, 0.95)',
               border: 'none',
               borderRadius: '8px',
-              boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
               padding: '12px'
             }}
             cursor={false}
+            formatter={(value: number) => [`${value}%`, 'Valor']}
           />
           <Bar 
             dataKey="value" 
-            radius={[8, 8, 0, 0]}
+            radius={[4, 4, 0, 0]}
           >
-            {data.map((_, index) => (
+            {data.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={`url(#gradient-${index})`}
@@ -71,10 +73,19 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
                   filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.2))',
                   transform: 'perspective(1000px) rotateX(10deg)',
                   transformOrigin: 'bottom',
-                  transition: 'all 0.3s ease'
+                  cursor: 'pointer'
                 }}
-                className="hover:brightness-110"
-              />
+              >
+                <text
+                  x={0}
+                  y={-10}
+                  fill="#2196F3"
+                  textAnchor="middle"
+                  className="text-sm font-bold"
+                >
+                  {`${entry.value}%`}
+                </text>
+              </Cell>
             ))}
           </Bar>
         </BarChart>
