@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useProfile } from "@/hooks/useProfile";
 import { supabase } from "@/integrations/supabase/client";
 import { BarChartStats } from "./charts/BarChartStats";
-import { CalendarStats } from "./charts/CalendarStats";
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNetworkData } from "@/components/client/network/useNetworkData";
@@ -60,9 +59,6 @@ export const NetworkStatsCard = () => {
         <div className="grid grid-cols-1 gap-8">
           <div className="aspect-[16/9] w-full">
             <BarChartStats data={barData} />
-          </div>
-          <div className="w-full">
-            <CalendarStats />
           </div>
         </div>
       </CardContent>
