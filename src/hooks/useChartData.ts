@@ -1,25 +1,28 @@
 export const useChartData = () => {
   const generateInitialBarData = () => {
-    const data = [];
-    const today = new Date();
-    
-    const baseValues = [15, 18, 22, 25, 28, 32, 35, 38, 42, 45, 48, 52, 55, 58, 62];
-    
-    for (let i = 14; i >= 0; i--) {
-      const date = new Date(today);
-      date.setDate(date.getDate() - i);
-      
-      const randomVariation = Math.floor(Math.random() * 5);
-      const value = baseValues[14 - i] + randomVariation;
-      
-      data.push({
-        name: `Nov ${date.getDate()}`,
-        value: value,
-        previousValue: value - Math.floor(Math.random() * 8)
-      });
-    }
-    
-    return data;
+    const data = [
+      { name: '01/Jan', value: 1000 },
+      { name: '03/Jan', value: 1500 },
+      { name: '05/Jan', value: 3000 },
+      { name: '07/Jan', value: 1000 },
+      { name: '09/Jan', value: 2500 },
+      { name: '11/Jan', value: 1000 },
+      { name: '13/Jan', value: 10000 },
+      { name: '15/Jan', value: 500 },
+      { name: '17/Jan', value: 1500 },
+      { name: '19/Jan', value: 1000 },
+      { name: '21/Jan', value: 800 },
+      { name: '23/Jan', value: 1200 },
+      { name: '25/Jan', value: 1800 },
+      { name: '27/Jan', value: 900 },
+      { name: '29/Jan', value: 1000 },
+      { name: '31/Jan', value: 700 }
+    ];
+
+    return data.map(item => ({
+      ...item,
+      previousValue: Math.floor(item.value * 0.8)
+    }));
   };
 
   return {
