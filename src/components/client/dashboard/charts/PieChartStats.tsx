@@ -19,6 +19,12 @@ export const PieChartStats = ({ data, title, value }: PieChartStatsProps) => {
       </div>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
+          <defs>
+            <linearGradient id="pieGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#D6BCFA" stopOpacity={0.6} />
+              <stop offset="100%" stopColor="#D6BCFA" stopOpacity={0.1} />
+            </linearGradient>
+          </defs>
           <Pie
             data={data}
             cx="50%"
@@ -44,8 +50,8 @@ export const PieChartStats = ({ data, title, value }: PieChartStatsProps) => {
         <svg className="w-full h-full opacity-20">
           <defs>
             <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#33C3F0" stopOpacity="0.2" />
-              <stop offset="100%" stopColor="#33C3F0" stopOpacity="0" />
+              <stop offset="0%" stopColor="#D6BCFA" stopOpacity={0.6} />
+              <stop offset="100%" stopColor="#D6BCFA" stopOpacity={0.1} />
             </linearGradient>
           </defs>
           <path

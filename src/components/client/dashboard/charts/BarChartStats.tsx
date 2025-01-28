@@ -18,8 +18,8 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
         >
           <defs>
             <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#33C3F0" stopOpacity={1} />
-              <stop offset="100%" stopColor="#D3E4FD" stopOpacity={0.8} />
+              <stop offset="0%" stopColor="#D6BCFA" stopOpacity={0.6} />
+              <stop offset="100%" stopColor="#D6BCFA" stopOpacity={0.1} />
             </linearGradient>
           </defs>
           <CartesianGrid 
