@@ -15,9 +15,8 @@ export const generateRevenueData = () => {
   });
 
   return dates.map((date) => ({
-    date,
-    revenue: Math.floor(Math.random() * 10000),
-    projected: Math.floor(Math.random() * 12000)
+    name: date,
+    value: Math.floor(Math.random() * 10000)
   }));
 };
 

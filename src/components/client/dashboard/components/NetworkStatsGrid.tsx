@@ -12,16 +12,15 @@ interface NetworkStatsGridProps {
 
 export const NetworkStatsGrid = ({ cardData }: NetworkStatsGridProps) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-4">
       {cardData.map((card, index) => (
-        <div key={index} className="w-full">
-          <StatCard
-            title={card.title}
-            value={card.value}
-            data={card.data}
-            color={card.color}
-          />
-        </div>
+        <StatCard
+          key={index}
+          title={card.title}
+          value={card.value}
+          data={card.data}
+          color={card.color}
+        />
       ))}
     </div>
   );

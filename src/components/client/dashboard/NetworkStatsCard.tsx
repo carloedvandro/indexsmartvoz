@@ -1,3 +1,4 @@
+import { Card, CardContent } from "@/components/ui/card";
 import { useProfile } from "@/hooks/useProfile";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
@@ -40,12 +41,14 @@ export const NetworkStatsCard = () => {
   const revenueData = generateRevenueData();
 
   return (
-    <div className="space-y-8">
+    <Card className="h-full">
       <NetworkStatsHeader />
-      <div className="space-y-8 px-8">
+      <CardContent className="space-y-8 -mx-8">
         <NetworkStatsGrid cardData={cardData} />
-        <RevenueChart data={revenueData} />
-      </div>
-    </div>
+        <div className="px-4">
+          <RevenueChart data={revenueData} />
+        </div>
+      </CardContent>
+    </Card>
   );
 };
