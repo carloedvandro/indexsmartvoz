@@ -30,10 +30,10 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 export const StatCard = ({ title, value, data, color }: StatCardProps) => {
   return (
     <div className="w-full bg-white rounded-lg shadow-sm">
-      <div className="p-8">
+      <div className="p-10">
         <h3 className="text-sm font-medium text-gray-600">{title}</h3>
         <p className="text-2xl font-bold mt-2 text-gray-900">{value}</p>
-        <div className="mt-4 h-[120px]">
+        <div className="mt-6 h-[140px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
