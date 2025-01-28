@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useNetworkData } from "@/components/client/network/useNetworkData";
 import { countMembersByStatus } from "@/utils/networkStats";
 import { formatCurrency } from "@/utils/format";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 
 export const NetworkStatsCard = () => {
   const { data: profile } = useProfile();
@@ -35,28 +36,33 @@ export const NetworkStatsCard = () => {
 
   const memberCounts = networkData ? countMembersByStatus(networkData) : { active: 0, pending: 0 };
 
-  // Simulated values for demonstration - you can replace these with real data later
+  // Dados simulados para os gráficos
+  const generateChartData = (baseValue: number) => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return months.map((month, index) => ({
+      name: month,
+      value: Math.floor(baseValue * (1 + Math.sin(index / 2) * 0.5))
+    }));
+  };
+
   const cardData = [
     {
       title: "Ganhos Ativos",
       value: formatCurrency(130510),
-      gradient: "from-[#00C6FB] via-[#786AFF] to-[#786AFF]",
-      chartHeight: "h-[40px]",
-      chartImage: "/lovable-uploads/053b2522-462f-4fa0-8e8d-f31bc07cce0e.png"
+      data: generateChartData(130510),
+      color: "#786AFF"
     },
     {
       title: "Ganhos Pendentes",
       value: formatCurrency(175035),
-      gradient: "from-[#38B6FF] via-[#5E60CE] to-[#5E60CE]",
-      chartHeight: "h-[50px]",
-      chartImage: "/lovable-uploads/053b2522-462f-4fa0-8e8d-f31bc07cce0e.png"
+      data: generateChartData(175035),
+      color: "#5E60CE"
     },
     {
       title: "Total de Ganhos",
       value: formatCurrency(210375),
-      gradient: "from-[#00C6FB] via-[#7B61FF] to-[#7B61FF]",
-      chartHeight: "h-[45px]",
-      chartImage: "/lovable-uploads/053b2522-462f-4fa0-8e8d-f31bc07cce0e.png"
+      data: generateChartData(210375),
+      color: "#7B61FF"
     }
   ];
 
@@ -70,23 +76,37 @@ export const NetworkStatsCard = () => {
           {cardData.map((card, index) => (
             <div 
               key={index}
-              className={`p-6 rounded-lg bg-gradient-to-r ${card.gradient} text-white`}
+              className="p-6 rounded-lg bg-white border border-gray-100 shadow-sm"
             >
-              <h3 className="text-sm font-medium opacity-80">{card.title}</h3>
-              <p className="text-2xl font-bold mt-2">{card.value}</p>
-              <div className="mt-4 h-[60px] flex items-end overflow-hidden">
-                <div 
-                  className={`w-full bg-gradient-to-t from-white/20 to-white/5 rounded-lg ${card.chartHeight} transition-all duration-500 ease-in-out`}
-                  style={{
-                    maskImage: `url(${card.chartImage})`,
-                    WebkitMaskImage: `url(${card.chartImage})`,
-                    maskSize: 'cover',
-                    WebkitMaskSize: 'cover',
-                    maskPosition: 'bottom',
-                    WebkitMaskPosition: 'bottom',
-                    backgroundImage: `linear-gradient(to top, rgba(255,255,255,0.2), rgba(255,255,255,0.1))`,
-                  }}
-                />
+              <h3 className="text-sm font-medium text-gray-600">{card.title}</h3>
+              <p className="text-2xl font-bold mt-2 text-gray-900">{card.value}</p>
+              <div className="mt-4 h-[120px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={card.data}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <XAxis 
+                      dataKey="name" 
+                      tick={{ fontSize: 10 }}
+                      stroke="#9CA3AF"
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis 
+                      tick={{ fontSize: 10 }}
+                      stroke="#9CA3AF"
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="value"
+                      stroke={card.color}
+                      strokeWidth={2}
+                      dot={{ fill: card.color, strokeWidth: 0 }}
+                      activeDot={{ r: 6, fill: card.color }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
               </div>
             </div>
           ))}
