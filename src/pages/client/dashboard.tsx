@@ -32,7 +32,7 @@ export default function ClientDashboard() {
         <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           <div className="max-w-[1800px] mx-auto pt-8">
-            <div className="px-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="px-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="w-full">
                 <ProfileCard profile={profile} />
               </div>
@@ -46,7 +46,7 @@ export default function ClientDashboard() {
                 <PlansCard />
               </div>
             </div>
-            <div className="px-12 pt-6 pb-8">
+            <div className="px-16 pt-6 pb-8">
               <NetworkStatsCard />
             </div>
           </div>
