@@ -1,152 +1,152 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+import { Auth } from "@supabase/auth-ui-react";
+import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
-import { AuthError } from "@supabase/supabase-js";
-import { Mail, Lock, Eye, EyeOff } from "lucide-react";
-import { RainbowButton } from "@/components/ui/rainbow-button";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
-export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+export default function ClientLogin() {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const { t } = useTranslation();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
+  useEffect(() => {
+    // Check if we're on a password recovery route
+    const isPasswordRecovery = window.location.hash.includes('#access_token') && 
+                              window.location.hash.includes('type=recovery');
 
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      if (data.user) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("role")
-          .eq("id", data.user.id)
-          .single();
-
-        if (profile?.role === "client") {
-          navigate("/client/dashboard");
-        } else {
-          throw new Error("Unauthorized");
-        }
-      }
-    } catch (error) {
-      const authError = error as AuthError;
-
-      if (authError.message === "Invalid login credentials") {
-        setError("Email ou senha inválidos");
-      } else if (error === 'USER_DELETED' as any) {
-        toast({
-          title: "Erro",
-          description: "Usuário não encontrado",
-          variant: "destructive",
-        });
-      } else {
-        setError("Ocorreu um erro ao fazer login");
-      }
-    } finally {
-      setIsLoading(false);
+    if (isPasswordRecovery) {
+      // Redirect recovery to the client password reset page
+      navigate('/client/reset-password' + window.location.hash);
+      return;
     }
-  };
+
+    // Check for existing session
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate('/client/dashboard');
+      }
+    };
+
+    checkSession();
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('Auth state changed:', event);
+      
+      if (event === 'SIGNED_IN' && session) {
+        navigate('/client/dashboard');
+      } else if (event === 'SIGNED_OUT') {
+        navigate('/client/login');
+      } else if (event === 'PASSWORD_RECOVERY') {
+        navigate('/client/reset-password');
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [navigate]);
 
   return (
-    <div className="container relative min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-[350px] space-y-6">
-        <div className="flex flex-col space-y-2 text-center">
-          <h1 className="text-4xl font-black bg-gradient-to-r from-color-1 via-color-2 to-color-3 bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:200%_auto] -mt-16 mb-16">
-            Smartvoz
-          </h1>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
-              <Input
-                id="email"
-                type="email"
-                placeholder="seu@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="pl-10"
-                required
-              />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Senha</Label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
-              <Input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="pl-10"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-              >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </button>
-            </div>
-          </div>
-
-          <div className="text-center">
-            <Link
-              to="/client/reset-password"
-              className="text-sm text-black hover:text-gray-700 hover:underline"
-            >
-              Esqueceu sua senha?
-            </Link>
-          </div>
-
-          {error && (
-            <div className="text-red-500 text-sm">
-              {error}
-            </div>
-          )}
-
-          <RainbowButton
-            type="submit"
-            className="w-full !bg-purple-600 hover:!bg-purple-700"
-            disabled={isLoading}
-          >
-            {isLoading ? "Entrando..." : "Entrar"}
-          </RainbowButton>
-        </form>
-
-        <div className="space-y-2 text-center text-sm">
-          <div className="text-gray-700">
-            Não tem uma conta? <Link to="/client/register" className="text-black font-semibold hover:underline">
-              Criar nova conta
-            </Link>
+    <div className="flex min-h-screen">
+      {/* Left side - Login form */}
+      <div className="w-full md:w-[480px] bg-white p-8 flex flex-col">
+        <div className="flex-1">
+          <img
+            src="/lovable-uploads/5c77d143-7f3e-4121-ae56-dbc5a3779756.png"
+            alt="Y-TECH Logo"
+            className="h-12 w-auto mb-12"
+          />
+          <Auth
+            supabaseClient={supabase}
+            appearance={{
+              theme: ThemeSupa,
+              style: {
+                button: {
+                  background: '#004d31',
+                  color: 'white',
+                  borderRadius: '4px',
+                },
+                anchor: {
+                  color: '#666666',
+                  textDecoration: 'none',
+                },
+                input: {
+                  borderRadius: '4px',
+                  border: '1px solid #e2e8f0',
+                },
+                message: {
+                  color: '#004d31',
+                },
+                label: {
+                  color: '#333333',
+                }
+              },
+              variables: {
+                default: {
+                  colors: {
+                    brand: '#004d31',
+                    brandAccent: '#00693e',
+                  },
+                },
+              },
+            }}
+            localization={{
+              variables: {
+                sign_in: {
+                  email_label: "Usuário ou E-mail",
+                  password_label: "Senha",
+                  button_label: "Entrar",
+                  loading_button_label: "Entrando...",
+                  password_input_placeholder: "Sua senha",
+                  email_input_placeholder: "Seu e-mail",
+                },
+                sign_up: {
+                  link_text: "",
+                  email_label: "E-mail",
+                  password_label: "Senha",
+                  button_label: "Registrar",
+                  loading_button_label: "Registrando...",
+                  password_input_placeholder: "Sua senha",
+                  email_input_placeholder: "Seu e-mail",
+                },
+                forgotten_password: {
+                  link_text: "Esqueci minha senha",
+                  button_label: "Enviar instruções",
+                  confirmation_text: "Enviamos as instruções para seu e-mail",
+                },
+              }
+            }}
+            theme="default"
+            providers={[]}
+            redirectTo={`${window.location.origin}/client/dashboard`}
+            view="sign_in"
+            showLinks={true}
+          />
+          <div className="mt-4 text-sm text-gray-600 text-center">
+            <p>Para se registrar, você precisa ter um patrocinador.</p>
+            <p>Entre em contato com a pessoa que te apresentou o negócio.</p>
           </div>
         </div>
+        <div className="mt-8 text-center text-sm text-gray-500">
+          <span>Tecnologia por </span>
+          <a href="https://wi.digital" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            Yrwen Technology®
+          </a>
+        </div>
+      </div>
+
+      {/* Right side - Background image */}
+      <div className="hidden md:block flex-1 bg-[#004d31] relative overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+          style={{
+            backgroundImage: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2000&q=80")'
+          }}
+        />
+        <div className="absolute inset-0 bg-black/50" />
       </div>
     </div>
   );
