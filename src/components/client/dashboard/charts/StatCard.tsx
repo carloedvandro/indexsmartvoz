@@ -75,7 +75,30 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
         }}
       >
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
+          <LineChart 
+            data={data}
+            style={{
+              filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.1))"
+            }}
+          >
+            <defs>
+              <linearGradient id="rainbowGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#FF0000" />
+                <stop offset="16.67%" stopColor="#FF7F00" />
+                <stop offset="33.33%" stopColor="#FFFF00" />
+                <stop offset="50%" stopColor="#00FF00" />
+                <stop offset="66.67%" stopColor="#0000FF" />
+                <stop offset="83.33%" stopColor="#4B0082" />
+                <stop offset="100%" stopColor="#8F00FF" />
+              </linearGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis 
               dataKey="name" 
@@ -95,19 +118,23 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
             <Line
               type="monotone"
               dataKey="value"
-              stroke={color}
-              strokeWidth={2}
+              stroke="url(#rainbowGradient)"
+              strokeWidth={4}
               dot={{ 
                 fill: "#fff", 
                 stroke: color,
                 strokeWidth: 2,
-                r: 4
+                r: 4,
+                className: "transition-all duration-300 hover:r-6",
+                filter: "url(#glow)"
               }}
               activeDot={{ 
                 r: 6, 
                 fill: "#fff",
                 stroke: color,
-                strokeWidth: 3
+                strokeWidth: 3,
+                className: "animate-pulse",
+                filter: "url(#glow)"
               }}
               animationDuration={2000}
               animationBegin={600}
