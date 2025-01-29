@@ -20,63 +20,65 @@ const data = [
 
 export const NetworkLevelsChart = () => {
   return (
-    <div className="w-full space-y-4">
-      <CardHeader className="p-0">
+    <Card className="w-full">
+      <CardHeader>
         <CardTitle>Distribuição por Níveis</CardTitle>
       </CardHeader>
-      <div className="h-[250px] md:h-[270px] w-[150%] -ml-12 md:-ml-16">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={data}
-            margin={{
-              top: 20,
-              right: 20,
-              left: 10,
-              bottom: 5,
-            }}
-            barGap={0}
-            barCategoryGap={5}
-          >
-            <CartesianGrid strokeDasharray="3 3" opacity={0.05} />
-            <XAxis 
-              dataKey="nivel" 
-              fontSize={11}
-              angle={-45}
-              textAnchor="end"
-              height={40}
-              interval={0}
-              tickSize={2}
-              tickMargin={2}
-            />
-            <YAxis fontSize={12} />
-            <Tooltip 
-              contentStyle={{
-                backgroundColor: "white",
-                border: "none",
-                borderRadius: "8px",
-                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+      <CardContent>
+        <div className="h-[250px] md:h-[270px] w-[150%] -ml-12 md:-ml-16">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={data}
+              margin={{
+                top: 20,
+                right: 20,
+                left: 10,
+                bottom: 5,
               }}
-            />
-            <Legend />
-            <Bar
-              dataKey="ativos"
-              name="Ativos"
-              stackId="a"
-              fill="#10B981"
-              radius={[4, 4, 0, 0]}
-              barSize={25}
-            />
-            <Bar
-              dataKey="inativos"
-              name="Inativos"
-              stackId="a"
-              fill="#E5E7EB"
-              radius={[4, 4, 0, 0]}
-              barSize={25}
-            />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
+              barGap={0}
+              barCategoryGap={5}
+            >
+              <CartesianGrid strokeDasharray="3 3" opacity={0.05} />
+              <XAxis 
+                dataKey="nivel" 
+                fontSize={11}
+                angle={-45}
+                textAnchor="end"
+                height={40}
+                interval={0}
+                tickSize={2}
+                tickMargin={2}
+              />
+              <YAxis fontSize={12} />
+              <Tooltip 
+                contentStyle={{
+                  backgroundColor: "white",
+                  border: "none",
+                  borderRadius: "8px",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                }}
+              />
+              <Legend />
+              <Bar
+                dataKey="ativos"
+                name="Ativos"
+                stackId="a"
+                fill="#10B981"
+                radius={[4, 4, 0, 0]}
+                barSize={25}
+              />
+              <Bar
+                dataKey="inativos"
+                name="Inativos"
+                stackId="a"
+                fill="#E5E7EB"
+                radius={[4, 4, 0, 0]}
+                barSize={25}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
