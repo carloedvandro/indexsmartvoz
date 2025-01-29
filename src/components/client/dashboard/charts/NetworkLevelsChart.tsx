@@ -25,7 +25,7 @@ export const NetworkLevelsChart = () => {
         <CardTitle>Distribuição por Níveis</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-[250px] md:h-[270px] w-[150%] -ml-12 md:-ml-16">
+        <div className="h-[250px] md:h-[270px] w-[100%]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={data}
