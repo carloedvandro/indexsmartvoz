@@ -18,7 +18,10 @@ export const ExpenseDistributionCard = () => {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <CircularProgress percentage={item.percentage} color={item.color} />
+            <CircularProgress 
+              progress={item.percentage} 
+              className={`text-[${item.color}]`}
+            />
             <span className="text-sm font-medium text-center">{item.category}</span>
           </motion.div>
         ))}
