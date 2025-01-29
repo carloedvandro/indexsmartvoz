@@ -18,7 +18,7 @@ interface RevenueChartProps {
 export const RevenueChart = ({ data }: RevenueChartProps) => {
   return (
     <div className="space-y-4">
-      <CardHeader className="p-0">
+      <CardHeader className="p-0 pl-4">
         <CardTitle>Faturamento</CardTitle>
       </CardHeader>
       <div className="h-[200px]">
