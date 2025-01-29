@@ -7,7 +7,6 @@ import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
 import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
-import { LineGraph3D } from "@/components/client/dashboard/charts/LineGraph3D";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -47,17 +46,6 @@ export default function ClientDashboard() {
                 <PlansCard />
               </div>
             </div>
-            
-            {/* Adicionando o teste do Royal Pulse */}
-            <div className="px-6 pt-6">
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h3 className="text-lg font-semibold mb-4 text-gray-700">
-                  Royal Pulse - Visualização 3D
-                </h3>
-                <LineGraph3D variant="gradient2" />
-              </div>
-            </div>
-
             <div className="px-4 pt-6 pb-8">
               <NetworkStatsCard />
             </div>
