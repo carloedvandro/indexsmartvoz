@@ -49,8 +49,7 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
       }}
     >
       <motion.h3 
-        className="text-sm font-medium"
-        style={{ color: '#5f0889' }}
+        className="text-sm font-medium text-gray-600"
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
@@ -109,14 +108,18 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
               dataKey="value"
               stroke={color}
               strokeWidth={2}
-              dot={false}
+              dot={{ 
+                fill: "#fff", 
+                stroke: color,
+                strokeWidth: 2,
+                r: 4 
+              }}
               activeDot={{ 
-                r: 6,
-                fill: color,
-                className: "animate-pulse",
-                style: {
-                  filter: `drop-shadow(0 0 6px ${color})`
-                }
+                r: 6, 
+                fill: "#fff",
+                stroke: color,
+                strokeWidth: 2,
+                className: "animate-pulse"
               }}
               fill={`url(#gradient-${color})`}
               animationDuration={2000}
