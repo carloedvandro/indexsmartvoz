@@ -23,36 +23,34 @@ const CustomDot = (props: any) => {
   return (
     <g>
       <defs>
-        <radialGradient id="cascadeGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-          <stop offset="0%" stopColor="#6E59A5" stopOpacity={0.8} />
-          <stop offset="40%" stopColor="#6E59A5" stopOpacity={0.6} />
-          <stop offset="70%" stopColor="#6E59A5" stopOpacity={0.4} />
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        <radialGradient id="dotGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+          <stop offset="0%" stopColor="#6E59A5" stopOpacity={1} />
+          <stop offset="40%" stopColor="#6E59A5" stopOpacity={0.8} />
+          <stop offset="80%" stopColor="#6E59A5" stopOpacity={0.4} />
           <stop offset="100%" stopColor="#6E59A5" stopOpacity={0} />
         </radialGradient>
-        <filter id="cascade" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
-          <feColorMatrix
-            type="matrix"
-            values="1 0 0 0 0
-                    0 1 0 0 0
-                    0 0 1 0 0
-                    0 0 0 8 -4"
-          />
-        </filter>
       </defs>
       <circle
         cx={cx}
         cy={cy}
-        r="6"
-        fill="url(#cascadeGradient)"
+        r="8"
+        fill="url(#dotGradient)"
+        filter="url(#glow)"
         className="animate-pulse"
-        filter="url(#cascade)"
       />
       <circle
         cx={cx}
         cy={cy}
-        r="3"
+        r="4"
         fill="#6E59A5"
+        filter="url(#glow)"
         className="animate-ping"
       />
     </g>
@@ -160,7 +158,12 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               isAnimationActive={animationActive}
               animationDuration={2000}
               dot={<CustomDot />}
-              activeDot={{ r: 6, fill: "#6E59A5", filter: "url(#cascade)" }}
+              activeDot={{ 
+                r: 8, 
+                fill: "#6E59A5", 
+                filter: "url(#glow)",
+                className: "animate-pulse"
+              }}
             />
           </AreaChart>
         </ResponsiveContainer>
