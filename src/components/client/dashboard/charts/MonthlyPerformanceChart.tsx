@@ -16,12 +16,12 @@ export const MonthlyPerformanceChart = () => {
   return (
     <div className="w-full flex flex-col items-center max-w-[1800px] mx-auto">
       <ChartHeader title="Performance Mensal" />
-      <div className="h-[320px] w-full mt-6"> {/* Increased height and margin top further */}
+      <div className="h-[320px] w-full mt-6">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={monthlyData}
             margin={{
-              top: 40, // Increased top margin even more
+              top: 40,
               right: 10,
               left: 10,
               bottom: 20,
@@ -40,8 +40,8 @@ export const MonthlyPerformanceChart = () => {
               tickLine={false}
               axisLine={false}
               tickFormatter={(value) => `R$ ${value / 1000}k`}
-              width={55}
-              tick={{ dx: -2 }}
+              width={80}
+              tick={{ dx: -10 }}
               ticks={[0, 20000, 40000, 60000, 80000, 100000, 120000]}
               domain={[0, 120000]}
             />
