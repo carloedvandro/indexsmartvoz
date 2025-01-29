@@ -12,7 +12,7 @@ export const generateCardData = () => {
       title: "Ganhos Pendentes",
       value: formatCurrency(175035),
       data: generateMonthlyData(),
-      color: "#ff0000",
+      color: "#0EA5E9",
     },
     {
       title: "Total de Ganhos",
