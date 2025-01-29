@@ -38,7 +38,7 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
           rotate: [0, 360]
         }}
         transition={{
-          duration: 3,
+          duration: 6,
           repeat: Infinity,
           ease: "linear",
           repeatType: "loop"
