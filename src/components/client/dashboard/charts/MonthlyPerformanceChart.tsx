@@ -23,7 +23,7 @@ export const MonthlyPerformanceChart = () => {
             margin={{
               top: 40,
               right: 10,
-              left: 10,
+              left: 0,
               bottom: 20,
             }}
           >
