@@ -8,6 +8,7 @@ import { NetworkStatsHeader } from "./components/NetworkStatsHeader";
 import { NetworkStatsGrid } from "./components/NetworkStatsGrid";
 import { RevenueChart } from "./charts/RevenueChart";
 import { ExpenseDistributionCard } from "./charts/ExpenseDistributionCard";
+import { MonthlyPerformanceChart } from "./charts/MonthlyPerformanceChart";
 import { generateCardData, generateRevenueData } from "./utils/statsUtils";
 
 export const NetworkStatsCard = () => {
@@ -46,6 +47,7 @@ export const NetworkStatsCard = () => {
       <div className="w-full space-y-8 px-2 md:px-4">
         <NetworkStatsGrid cardData={cardData} />
         <ExpenseDistributionCard />
+        <MonthlyPerformanceChart />
         <div className="w-full max-w-[1800px] mx-auto">
           <RevenueChart data={revenueData} />
         </div>
