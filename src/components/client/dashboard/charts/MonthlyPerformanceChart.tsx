@@ -1,76 +1,81 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Bar,
-  BarChart,
-  Line,
-  LineChart,
+  ComposedChart,
   ResponsiveContainer,
-  Tooltip,
   XAxis,
   YAxis,
-  ComposedChart,
+  CartesianGrid,
+  Tooltip,
   Cell,
 } from "recharts";
-
-const data = [
-  { month: "JAN", value: 65000, trend: 45000 },
-  { month: "FEV", value: 72000, trend: 52000 },
-  { month: "MAR", value: 45000, trend: 48000 },
-  { month: "ABR", value: 85000, trend: 55000 },
-  { month: "MAI", value: 95000, trend: 65000 },
-  { month: "JUN", value: 102000, trend: 75000 },
-  { month: "JUL", value: 98000, trend: 82000 },
-  { month: "AGO", value: 88000, trend: 80000 },
-  { month: "SET", value: 72000, trend: 68000 },
-  { month: "OUT", value: 85000, trend: 71000 },
-  { month: "NOV", value: 95000, trend: 78000 },
-  { month: "DEZ", value: 112000, trend: 85000 },
-];
-
-const colors = [
-  "#4ade80",
-  "#4ade80",
-  "#d946ef",
-  "#d946ef",
-  "#ec4899",
-  "#f43f5e",
-  "#ef4444",
-  "#eab308",
-  "#3b82f6",
-  "#3b82f6",
-  "#6366f1",
-  "#7c3aed",
-];
+import { CardHeader, CardTitle } from "@/components/ui/card";
+import { formatCurrency } from "@/utils/format";
 
 export const MonthlyPerformanceChart = () => {
+  const data = [
+    { name: "Jan", value: 45000 },
+    { name: "Fev", value: 52000 },
+    { name: "Mar", value: 48000 },
+    { name: "Abr", value: 61000 },
+    { name: "Mai", value: 55000 },
+    { name: "Jun", value: 67000 },
+    { name: "Jul", value: 52000 },
+    { name: "Ago", value: 58000 },
+    { name: "Set", value: 63000 },
+    { name: "Out", value: 72000 },
+    { name: "Nov", value: 68000 },
+    { name: "Dez", value: 75000 },
+  ];
+
+  const colors = [
+    "#4F46E5", "#7C3AED", "#EC4899", "#F59E0B", "#10B981",
+    "#3B82F6", "#6366F1", "#8B5CF6", "#D946EF", "#F97316",
+    "#06B6D4", "#14B8A6"
+  ];
+
   return (
-    <div className="w-full space-y-4 rounded-lg p-6 mx-[-9mm]">
-      <CardHeader className="p-0 text-center">
+    <div className="w-full space-y-4">
+      <CardHeader className="p-0">
         <CardTitle className="text-2xl font-bold">Performance Mensal</CardTitle>
       </CardHeader>
       <div className="h-[280px] w-full bg-white rounded-lg p-4 border border-gray-200">
-        <style>
-          {`
-            @keyframes floatBar {
-              0%, 100% {
-                transform: translateY(0);
-              }
-              50% {
-                transform: translateY(-8px);
-              }
-            }
-          `}
-        </style>
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={data}
             margin={{
               top: 20,
-              right: 10,
-              left: 10,
-              bottom: 20,
+              right: 0,
+              bottom: 0,
+              left: 0,
             }}
           >
+            <CartesianGrid stroke="#f5f5f5" vertical={false} />
+            <XAxis
+              dataKey="name"
+              scale="band"
+              axisLine={false}
+              tickLine={false}
+              fontSize={12}
+              tickMargin={10}
+            />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              fontSize={12}
+              tickFormatter={(value) => formatCurrency(value)}
+              width={100}
+            />
+            <Tooltip
+              cursor={false}
+              contentStyle={{
+                background: "#ffffff",
+                border: "1px solid #e5e7eb",
+                borderRadius: "8px",
+                boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+              }}
+              formatter={(value: number) => [formatCurrency(value), "Valor"]}
+              labelFormatter={(label) => `Mês: ${label}`}
+            />
             <defs>
               {colors.map((color, index) => (
                 <linearGradient
@@ -81,57 +86,24 @@ export const MonthlyPerformanceChart = () => {
                   x2="0"
                   y2="1"
                 >
-                  <stop offset="0%" stopColor={color} stopOpacity={1} />
-                  <stop offset="100%" stopColor={color} stopOpacity={0.2} />
+                  <stop offset="0%" stopColor={color} stopOpacity={0.8} />
+                  <stop offset="100%" stopColor={color} stopOpacity={0.3} />
                 </linearGradient>
               ))}
             </defs>
-            <XAxis
-              dataKey="month"
-              stroke="#1f2937"
-              fontSize={12}
-              tickLine={false}
-              axisLine={false}
-            />
-            <YAxis
-              stroke="#1f2937"
-              fontSize={12}
-              tickLine={false}
-              axisLine={false}
-              tickFormatter={(value) => `R$ ${value / 1000}k`}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#ffffff",
-                border: "1px solid #e5e7eb",
-                borderRadius: "8px",
-                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                color: "#1f2937",
-              }}
-              formatter={(value: number) => [`R$ ${value.toLocaleString()}`, "Valor"]}
-              labelFormatter={(label) => `${label}`}
-            />
-            <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={35}>
-              {data.map((entry, index) => (
+            <Bar
+              dataKey="value"
+              barSize={40}
+              radius={[4, 4, 0, 0]}
+            >
+              {data.map((_, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={`url(#gradient-${index})`}
-                  style={{
-                    filter: "drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))",
-                    animation: `floatBar 3s ease-in-out infinite`,
-                    animationDelay: `${index * 0.2}s`,
-                  }}
+                  filter="drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))"
                 />
               ))}
             </Bar>
-            <Line
-              type="monotone"
-              dataKey="trend"
-              stroke="#1f2937"
-              strokeWidth={2}
-              dot={{ fill: "#1f2937", r: 4 }}
-              activeDot={{ r: 6, fill: "#1f2937" }}
-            />
           </ComposedChart>
         </ResponsiveContainer>
       </div>
