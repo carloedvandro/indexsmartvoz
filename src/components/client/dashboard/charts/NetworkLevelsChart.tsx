@@ -63,7 +63,7 @@ export const NetworkLevelsChart = () => {
                 dataKey="ativos"
                 name="Ativos"
                 stackId="a"
-                fill="#ff00d6"
+                fill="#0d00ff"
                 radius={[4, 4, 0, 0]}
                 barSize={25}
               />
