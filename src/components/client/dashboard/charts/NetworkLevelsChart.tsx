@@ -30,12 +30,12 @@ export const NetworkLevelsChart = () => {
             data={data}
             margin={{
               top: 20,
-              right: 30,
-              left: 20,
+              right: 20,
+              left: 10,
               bottom: 5,
             }}
-            barGap={2}
-            barCategoryGap={10}
+            barGap={0}
+            barCategoryGap={5}
           >
             <CartesianGrid strokeDasharray="3 3" opacity={0.05} />
             <XAxis 
@@ -43,10 +43,10 @@ export const NetworkLevelsChart = () => {
               fontSize={11}
               angle={-45}
               textAnchor="end"
-              height={50}
+              height={40}
               interval={0}
-              tickSize={3}
-              tickMargin={5}
+              tickSize={2}
+              tickMargin={2}
             />
             <YAxis fontSize={12} />
             <Tooltip 
@@ -64,7 +64,7 @@ export const NetworkLevelsChart = () => {
               stackId="a"
               fill="#10B981"
               radius={[4, 4, 0, 0]}
-              barSize={30}
+              barSize={25}
             />
             <Bar
               dataKey="inativos"
@@ -72,7 +72,7 @@ export const NetworkLevelsChart = () => {
               stackId="a"
               fill="#E5E7EB"
               radius={[4, 4, 0, 0]}
-              barSize={30}
+              barSize={25}
             />
           </BarChart>
         </ResponsiveContainer>
