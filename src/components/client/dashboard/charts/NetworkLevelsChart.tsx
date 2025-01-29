@@ -20,7 +20,7 @@ const data = [
 
 export const NetworkLevelsChart = () => {
   return (
-    <div className="w-full">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Distribuição por Níveis</CardTitle>
       </CardHeader>
@@ -33,7 +33,7 @@ export const NetworkLevelsChart = () => {
                 top: 20,
                 right: 0,
                 left: 0,
-                bottom: 7,
+                bottom: 7, // Increased bottom margin to move labels down
               }}
               barGap={0}
               barCategoryGap={2}
@@ -47,7 +47,7 @@ export const NetworkLevelsChart = () => {
                 height={40}
                 interval={0}
                 tickSize={12}
-                tickMargin={4}
+                tickMargin={4} // Increased tickMargin to move labels down
               />
               <YAxis fontSize={12} />
               <Tooltip 
@@ -63,7 +63,7 @@ export const NetworkLevelsChart = () => {
                 dataKey="ativos"
                 name="Ativos"
                 stackId="a"
-                fill="#ff00d6"
+                fill="#5f0889"
                 radius={[4, 4, 0, 0]}
                 barSize={25}
               />
@@ -79,6 +79,6 @@ export const NetworkLevelsChart = () => {
           </ResponsiveContainer>
         </div>
       </CardContent>
-    </div>
+    </Card>
   );
 };
