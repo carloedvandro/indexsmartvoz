@@ -35,7 +35,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 export const StatCard = ({ title, value, data, color }: StatCardProps) => {
   return (
     <motion.div 
-      className="p-4 rounded-xl bg-white shadow-lg transform-gpu perspective-1000"
+      className="p-4 rounded-xl bg-white shadow-lg transform-gpu perspective-1000 h-[300px]"
       initial={{ rotateX: 25, scale: 0.9, opacity: 0 }}
       animate={{ rotateX: 0, scale: 1, opacity: 1 }}
       transition={{ duration: 0.5, type: "spring" }}
@@ -65,7 +65,7 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
         {value}
       </motion.p>
       <motion.div 
-        className="mt-4 h-[120px] w-full"
+        className="mt-4 h-[200px] w-full"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.4 }}
@@ -90,16 +90,17 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis 
               dataKey="name" 
-              tick={{ fontSize: 10 }}
+              tick={{ fontSize: 12 }}
               stroke="#9CA3AF"
               tickLine={false}
               axisLine={false}
             />
             <YAxis 
-              tick={{ fontSize: 10 }}
+              tick={{ fontSize: 12 }}
               stroke="#9CA3AF"
               tickLine={false}
               axisLine={false}
+              width={60}
             />
             <Tooltip content={<CustomTooltip />} />
             <Line
