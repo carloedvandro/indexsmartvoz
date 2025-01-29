@@ -28,7 +28,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
             margin={{
               top: 20,
               right: 10,
-              left: 10,
+              left: 40,
               bottom: 0,
             }}
           >
@@ -51,6 +51,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               tickLine={false}
               axisLine={false}
               tickFormatter={(value) => `R$ ${value}`}
+              width={80}
             />
             <Tooltip />
             <Area
