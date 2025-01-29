@@ -6,7 +6,7 @@ interface ExpenseBarChartProps {
 }
 
 export const ExpenseBarChart = ({ data }: ExpenseBarChartProps) => (
-  <div className="h-[200px] mt-8 w-full min-w-[300px] sm:min-w-[400px] md:min-w-[500px]">
+  <div className="h-[200px] mt-8 w-full min-w-[300px] sm:min-w-[400px] md:min-w-[500px] px-8">
     <ResponsiveContainer width="100%" height="100%">
       <BarChart data={data} margin={{ top: 20, right: 10, left: 2, bottom: 5 }}>
         <XAxis 
