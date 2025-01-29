@@ -42,12 +42,12 @@ export const NetworkLevelsChart = () => {
               <XAxis 
                 dataKey="nivel" 
                 fontSize={11}
-                angle={-45}
-                textAnchor="end"
+                angle={0}
+                textAnchor="middle"
                 height={40}
                 interval={0}
                 tickSize={12}
-                tickMargin={4}
+                tickMargin={8}
               />
               <YAxis fontSize={12} />
               <Tooltip 
