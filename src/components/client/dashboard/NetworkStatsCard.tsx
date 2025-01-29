@@ -7,6 +7,7 @@ import { countMembersByStatus } from "@/utils/networkStats";
 import { NetworkStatsHeader } from "./components/NetworkStatsHeader";
 import { NetworkStatsGrid } from "./components/NetworkStatsGrid";
 import { RevenueChart } from "./charts/RevenueChart";
+import { ExpenseDistributionCard } from "./charts/ExpenseDistributionCard";
 import { generateCardData, generateRevenueData } from "./utils/statsUtils";
 
 export const NetworkStatsCard = () => {
@@ -44,6 +45,7 @@ export const NetworkStatsCard = () => {
       <NetworkStatsHeader />
       <div className="space-y-8 p-4">
         <NetworkStatsGrid cardData={cardData} />
+        <ExpenseDistributionCard />
         <div className="grid grid-cols-1 gap-6">
           <RevenueChart data={revenueData} />
         </div>
