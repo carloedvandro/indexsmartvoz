@@ -45,7 +45,7 @@ export const NetworkStatsCard = () => {
       <div className="space-y-8 p-4">
         <NetworkStatsGrid cardData={cardData} />
         <div className="grid grid-cols-1 gap-6">
-          <div className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
+          <div className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-200 mx-[-14mm]">
             <RevenueChart data={revenueData} />
           </div>
         </div>
