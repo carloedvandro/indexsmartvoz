@@ -120,13 +120,21 @@ export const StatCardChart = ({ data, color }: StatCardChartProps) => {
           animationDuration={2000}
           animationBegin={600}
           className="transition-all duration-500 hover:opacity-90 group"
-          onMouseEnter={(e) => {
-            const path = e.currentTarget;
-            path.style.fill = `url(#animated-gradient-${color})`;
+          onMouseEnter={(e: any) => {
+            if (e.target) {
+              const path = e.target.closest('path');
+              if (path) {
+                path.style.fill = `url(#animated-gradient-${color})`;
+              }
+            }
           }}
-          onMouseLeave={(e) => {
-            const path = e.currentTarget;
-            path.style.fill = `url(#gradient-${color})`;
+          onMouseLeave={(e: any) => {
+            if (e.target) {
+              const path = e.target.closest('path');
+              if (path) {
+                path.style.fill = `url(#gradient-${color})`;
+              }
+            }
           }}
         />
       </LineChart>
