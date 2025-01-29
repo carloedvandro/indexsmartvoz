@@ -82,10 +82,13 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
             }}
           >
             <defs>
-              <linearGradient id={`gradient-${color}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={color} stopOpacity={0.8}/>
-                <stop offset="100%" stopColor={color} stopOpacity={0.2}/>
-              </linearGradient>
+              <filter id={`glow-${color}`}>
+                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis 
@@ -112,16 +115,17 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
                 fill: "#fff", 
                 stroke: color,
                 strokeWidth: 2,
-                r: 4 
+                r: 4,
+                filter: `url(#glow-${color})`
               }}
               activeDot={{ 
                 r: 6, 
                 fill: "#fff",
                 stroke: color,
                 strokeWidth: 2,
+                filter: `url(#glow-${color})`,
                 className: "animate-pulse"
               }}
-              fill={`url(#gradient-${color})`}
               animationDuration={2000}
               animationBegin={600}
             />
