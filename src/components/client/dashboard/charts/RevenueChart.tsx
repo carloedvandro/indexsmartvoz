@@ -102,6 +102,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               strokeWidth={2}
               fillOpacity={1}
               fill="url(#colorGradient1)"
+              style={{ display: "none" }}
             />
             {/* Line Style 2 - Rainbow Gradient with Thicker Line */}
             <Area
@@ -111,7 +112,6 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               strokeWidth={3}
               fillOpacity={0.8}
               fill="url(#colorGradient2)"
-              style={{ display: "none" }}
             />
             {/* Line Style 3 - Neon with Dotted Line */}
             <Area
