@@ -6,7 +6,7 @@ interface CircularProgressProps {
 }
 
 export const CircularProgress = ({ percentage, color }: CircularProgressProps) => (
-  <div className="relative w-48 h-48">
+  <div className="relative w-32 h-32">
     <svg className="w-full h-full" viewBox="0 0 100 100">
       {/* Background circle */}
       <circle
@@ -35,10 +35,10 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
         }}
         initial={{ rotate: 0 }}
         animate={{
-          rotate: 360
+          rotate: [0, 360]
         }}
         transition={{
-          duration: 1,
+          duration: 3, // Increased from 1 to 3 seconds for slower animation
           repeat: Infinity,
           ease: "linear",
           repeatType: "loop"

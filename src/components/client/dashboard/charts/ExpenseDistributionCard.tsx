@@ -25,7 +25,7 @@ export const ExpenseDistributionCard = () => {
       </div>
 
       <div className="w-full max-w-[1800px] mx-auto px-4">
-        <ExpenseBarChart />
+        <ExpenseBarChart data={expenseData} />
       </div>
     </div>
   );
