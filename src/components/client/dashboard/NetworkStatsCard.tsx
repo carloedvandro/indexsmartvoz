@@ -41,12 +41,12 @@ export const NetworkStatsCard = () => {
   const revenueData = generateRevenueData();
 
   return (
-    <div className="h-full bg-[#F8F9FE] rounded-lg">
+    <div className="flex flex-col items-center w-full max-w-[1800px] mx-auto">
       <NetworkStatsHeader />
-      <div className="space-y-8 p-4">
+      <div className="w-full space-y-8 px-4 md:px-6 lg:px-8">
         <NetworkStatsGrid cardData={cardData} />
         <ExpenseDistributionCard />
-        <div className="grid grid-cols-1 gap-6">
+        <div className="w-full max-w-4xl mx-auto">
           <RevenueChart data={revenueData} />
         </div>
       </div>
