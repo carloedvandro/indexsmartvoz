@@ -21,18 +21,18 @@ const data = [
 export const NetworkLevelsChart = () => {
   return (
     <Card className="w-full col-span-2">
-      <CardHeader>
+      <CardHeader className="pb-0">
         <CardTitle>Distribuição por Níveis</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="h-[250px] md:h-[270px] w-[100%]">
+      <CardContent className="pl-0 md:pl-4">
+        <div className="h-[250px] md:h-[270px] w-[100%] -mt-4">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={data}
               margin={{
                 top: 20,
                 right: 0,
-                left: 0,
+                left: -25,
                 bottom: 7,
               }}
               barGap={0}
