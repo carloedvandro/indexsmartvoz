@@ -28,7 +28,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
             margin={{
               top: 20,
               right: 10,
-              left: 10,
+              left: -10, // Ajustado para mover o eixo Y mais para a esquerda
               bottom: 0,
             }}
           >
@@ -51,7 +51,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               tickLine={false}
               axisLine={false}
               tickFormatter={(value) => `R$ ${value}`}
-              width={80}
+              width={70} // Reduzido a largura do eixo Y
             />
             <Tooltip 
               contentStyle={{ 
