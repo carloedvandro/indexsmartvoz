@@ -43,8 +43,8 @@ const colors = [
 
 export const MonthlyPerformanceChart = () => {
   return (
-    <div className="w-full space-y-4 mx-auto max-w-[1800px]">
-      <div className="text-center">
+    <div className="w-full flex flex-col items-center max-w-[1800px] mx-auto">
+      <div className="text-center w-full">
         <h2 className="text-2xl font-bold">Performance Mensal</h2>
       </div>
       <div className="h-[280px] w-full">
