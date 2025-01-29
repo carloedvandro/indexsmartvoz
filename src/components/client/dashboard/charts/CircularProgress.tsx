@@ -6,7 +6,7 @@ interface CircularProgressProps {
 }
 
 export const CircularProgress = ({ percentage, color }: CircularProgressProps) => (
-  <div className="relative w-32 h-32"> {/* Increased from w-20 h-20 to w-32 h-32 */}
+  <div className="relative w-32 h-32">
     <svg className="w-full h-full" viewBox="0 0 100 100">
       {/* Background circle */}
       <circle
@@ -38,7 +38,7 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
           rotate: [0, 360]
         }}
         transition={{
-          duration: 2,
+          duration: 4, // Changed from 2 to 4 seconds
           repeat: Infinity,
           ease: "linear",
           repeatType: "loop"
@@ -46,7 +46,7 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
       />
     </svg>
     <div className="absolute inset-0 flex items-center justify-center">
-      <span className="text-2xl font-semibold">{percentage}%</span> {/* Increased from text-lg to text-2xl */}
+      <span className="text-2xl font-semibold">{percentage}%</span>
     </div>
   </div>
 );
