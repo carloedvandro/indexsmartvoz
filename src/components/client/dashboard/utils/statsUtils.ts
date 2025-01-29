@@ -47,15 +47,22 @@ const generateMonthlyData = () => {
 
 export const generateRevenueData = () => {
   const data = [];
-  const startDate = new Date(2024, 0, 1); // 1 de janeiro de 2024
+  const startDate = new Date(2024, 0, 1);
+  const baseValue = 5000;
+  let previousValue = baseValue;
 
   for (let i = 0; i < 31; i++) {
     const currentDate = new Date(startDate);
     currentDate.setDate(startDate.getDate() + i);
+    
+    // Gera um valor que varia suavemente em relação ao anterior
+    const variation = (Math.random() - 0.5) * 2000;
+    const newValue = Math.max(previousValue + variation, 1000);
+    previousValue = newValue;
 
     data.push({
       name: `${String(currentDate.getDate()).padStart(2, "0")} de jan.`,
-      value: Math.floor(Math.random() * 10000),
+      value: Math.floor(newValue),
     });
   }
 
