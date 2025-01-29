@@ -12,6 +12,8 @@ const data = [
   { month: 'Ago', atual: 72, receita: 75 },
   { month: 'Set', atual: 62, receita: 78 },
   { month: 'Out', atual: 68, receita: 62 },
+  { month: 'Nov', atual: 71, receita: 69 },
+  { month: 'Dez', atual: 73, receita: 71 }
 ];
 
 export const ExpenseBarChart = () => (
@@ -39,7 +41,9 @@ export const ExpenseBarChart = () => (
             boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
           }}
         />
-        <Legend />
+        <Legend 
+          formatter={(value) => <span style={{ color: '#000000', fontWeight: 'bold' }}>{value}</span>}
+        />
         <Bar
           dataKey="atual"
           name="Atual"
