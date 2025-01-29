@@ -24,7 +24,7 @@ export const NetworkLevelsChart = () => {
       <CardHeader>
         <CardTitle>Distribuição por Níveis</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pl-0 md:pl-6">
         <div className="h-[250px] md:h-[270px] w-[100%]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
@@ -32,7 +32,7 @@ export const NetworkLevelsChart = () => {
               margin={{
                 top: 20,
                 right: 0,
-                left: 0,
+                left: -20,
                 bottom: 7,
               }}
               barGap={0}
