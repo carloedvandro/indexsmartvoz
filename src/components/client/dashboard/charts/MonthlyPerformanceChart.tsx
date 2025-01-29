@@ -89,12 +89,12 @@ export const MonthlyPerformanceChart = () => {
             />
             <YAxis
               stroke="#1f2937"
-              fontSize={11}
+              fontSize={12}
               tickLine={false}
               axisLine={false}
               tickFormatter={(value) => `R$ ${value / 1000}k`}
               width={55}
-              tick={{ dx: 10, dy: 0 }}
+              tick={{ dx: 5, dy: 0 }}
               interval={0}
               tickCount={7}
               domain={[0, 120000]}
