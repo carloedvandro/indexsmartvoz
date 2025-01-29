@@ -8,71 +8,18 @@ import {
   YAxis,
   Cell,
 } from "recharts";
-
-const data = [
-  { month: "JAN", value: 65000, trend: 45000 },
-  { month: "FEV", value: 72000, trend: 52000 },
-  { month: "MAR", value: 45000, trend: 48000 },
-  { month: "ABR", value: 85000, trend: 55000 },
-  { month: "MAI", value: 95000, trend: 65000 },
-  { month: "JUN", value: 102000, trend: 75000 },
-  { month: "JUL", value: 98000, trend: 82000 },
-  { month: "AGO", value: 88000, trend: 80000 },
-  { month: "SET", value: 72000, trend: 68000 },
-  { month: "OUT", value: 85000, trend: 71000 },
-  { month: "NOV", value: 95000, trend: 78000 },
-  { month: "DEZ", value: 112000, trend: 85000 },
-];
-
-const colors = [
-  "#4ade80",
-  "#4ade80",
-  "#d946ef",
-  "#d946ef",
-  "#ec4899",
-  "#f43f5e",
-  "#ef4444",
-  "#eab308",
-  "#3b82f6",
-  "#3b82f6",
-  "#6366f1",
-  "#7c3aed",
-];
-
-const CustomBar = (props: any) => {
-  const { fill, x, y, width, height, index } = props;
-  const animationDelay = `${index * 0.2}s`;
-
-  return (
-    <g>
-      <rect
-        x={x}
-        y={y}
-        width={width}
-        height={height}
-        fill={fill}
-        style={{
-          filter: "drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))",
-          animation: `float 3s ease-in-out infinite`,
-          animationDelay,
-        }}
-        rx={4}
-        ry={4}
-      />
-    </g>
-  );
-};
+import { CustomBar } from "./components/CustomBar";
+import { monthlyData, chartColors } from "./data/chartData";
+import { ChartHeader } from "./components/ChartHeader";
 
 export const MonthlyPerformanceChart = () => {
   return (
     <div className="w-full flex flex-col items-center max-w-[1800px] mx-auto">
-      <div className="text-left w-full mt-4 px-4">
-        <h2 className="text-2xl font-bold">Performance Mensal</h2>
-      </div>
+      <ChartHeader title="Performance Mensal" />
       <div className="h-[280px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
-            data={data}
+            data={monthlyData}
             margin={{
               top: 20,
               right: 10,
@@ -95,7 +42,7 @@ export const MonthlyPerformanceChart = () => {
               tickFormatter={(value) => `R$ ${value / 1000}k`}
               width={55}
               tick={{ dx: -2 }}
-              ticks={[0, 20000, 40000, 60000, 80000, 100000, 120000]} // Define valores específicos para os ticks
+              ticks={[0, 20000, 40000, 60000, 80000, 100000, 120000]}
               domain={[0, 120000]}
             />
             <Tooltip
@@ -110,10 +57,10 @@ export const MonthlyPerformanceChart = () => {
               labelFormatter={(label) => `${label}`}
             />
             <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={40} shape={<CustomBar />}>
-              {data.map((entry, index) => (
+              {monthlyData.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={colors[index]}
+                  fill={chartColors[index]}
                 />
               ))}
             </Bar>
