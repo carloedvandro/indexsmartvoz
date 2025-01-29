@@ -48,13 +48,13 @@ export default function ClientDashboard() {
               </div>
             </div>
             
-            {/* Adicionando o teste do Emerald Flow */}
+            {/* Adicionando o teste do Royal Pulse */}
             <div className="px-6 pt-6">
               <div className="bg-white rounded-xl shadow-lg p-6">
                 <h3 className="text-lg font-semibold mb-4 text-gray-700">
-                  Emerald Flow - Visualização 3D
+                  Royal Pulse - Visualização 3D
                 </h3>
-                <LineGraph3D variant="gradient1" />
+                <LineGraph3D variant="gradient2" />
               </div>
             </div>
 
