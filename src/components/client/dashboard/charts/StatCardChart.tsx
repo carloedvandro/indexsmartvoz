@@ -46,6 +46,26 @@ export const StatCardChart = ({ data, color }: StatCardChartProps) => {
               floodOpacity="0.3"
             />
           </filter>
+
+          {/* Animated gradient for hover effect */}
+          <linearGradient id={`animated-gradient-${color}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={color} stopOpacity={0.8}>
+              <animate
+                attributeName="stop-opacity"
+                values="0.8;0.5;0.8"
+                dur="2s"
+                repeatCount="indefinite"
+              />
+            </stop>
+            <stop offset="100%" stopColor={color} stopOpacity={0.2}>
+              <animate
+                attributeName="stop-opacity"
+                values="0.2;0.1;0.2"
+                dur="2s"
+                repeatCount="indefinite"
+              />
+            </stop>
+          </linearGradient>
         </defs>
         
         <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -99,7 +119,15 @@ export const StatCardChart = ({ data, color }: StatCardChartProps) => {
           fill={`url(#gradient-${color})`}
           animationDuration={2000}
           animationBegin={600}
-          className="transition-all duration-500 hover:opacity-90"
+          className="transition-all duration-500 hover:opacity-90 group"
+          onMouseEnter={(e) => {
+            const path = e.currentTarget;
+            path.style.fill = `url(#animated-gradient-${color})`;
+          }}
+          onMouseLeave={(e) => {
+            const path = e.currentTarget;
+            path.style.fill = `url(#gradient-${color})`;
+          }}
         />
       </LineChart>
     </ResponsiveContainer>
