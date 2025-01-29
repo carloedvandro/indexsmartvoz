@@ -6,8 +6,8 @@ import { expenseData } from "./types";
 
 export const ExpenseDistributionCard = () => {
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-[1800px] mx-auto space-y-8">
-      <CardTitle className="text-2xl font-bold text-center">Produção por Nível</CardTitle>
+    <div className="flex flex-col items-center justify-center w-full max-w-[1800px] mx-auto space-y-8 bg-[#1a1a1a] p-6 rounded-xl">
+      <CardTitle className="text-2xl font-bold text-center text-white">Produção por Nível</CardTitle>
       
       <div className="grid grid-cols-2 md:grid-cols-4 gap-10 w-full max-w-[1800px] mx-auto px-4">
         {expenseData.map((item) => (
@@ -19,7 +19,7 @@ export const ExpenseDistributionCard = () => {
             transition={{ duration: 0.5 }}
           >
             <CircularProgress percentage={item.percentage} color={item.color} />
-            <span className="text-sm font-medium text-center">{item.category}</span>
+            <span className="text-sm font-medium text-center text-white">{item.category}</span>
           </motion.div>
         ))}
       </div>
