@@ -49,6 +49,18 @@ export const MonthlyPerformanceChart = () => {
         <CardTitle className="text-2xl font-bold">Performance Mensal</CardTitle>
       </CardHeader>
       <div className="h-[280px] w-full bg-white rounded-lg p-4 border border-gray-200">
+        <style>
+          {`
+            @keyframes floatBar {
+              0%, 100% {
+                transform: translateY(0);
+              }
+              50% {
+                transform: translateY(-8px);
+              }
+            }
+          `}
+        </style>
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={data}
@@ -104,7 +116,11 @@ export const MonthlyPerformanceChart = () => {
                 <Cell
                   key={`cell-${index}`}
                   fill={`url(#gradient-${index})`}
-                  filter="drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))"
+                  style={{
+                    filter: "drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))",
+                    animation: `floatBar 3s ease-in-out infinite`,
+                    animationDelay: `${index * 0.2}s`,
+                  }}
                 />
               ))}
             </Bar>
