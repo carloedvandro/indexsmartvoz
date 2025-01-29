@@ -133,6 +133,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               strokeWidth={2}
               fillOpacity={0.6}
               fill="url(#colorGradient4)"
+              style={{ display: "none" }}
             />
             {/* Line Style 5 - Deep Ocean with Double Line */}
             <Area
@@ -142,7 +143,6 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               strokeWidth={4}
               fillOpacity={0.5}
               fill="url(#colorGradient5)"
-              style={{ display: "none" }}
             />
           </AreaChart>
         </ResponsiveContainer>
