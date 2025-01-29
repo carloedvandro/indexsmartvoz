@@ -21,7 +21,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
       <CardHeader className="p-0 pl-4">
         <CardTitle>Faturamento</CardTitle>
       </CardHeader>
-      <div className="h-[300px]">
+      <div className="h-[280px]">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}
