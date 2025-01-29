@@ -116,7 +116,7 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
               stroke="#000000"
               tickLine={false}
               axisLine={false}
-              width={50}
+              width={40}
             />
             <Tooltip content={<CustomTooltip />} />
             <Line
