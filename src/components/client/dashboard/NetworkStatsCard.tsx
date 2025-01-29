@@ -48,10 +48,6 @@ export const NetworkStatsCard = () => {
         <div className="grid grid-cols-1 gap-6 px-0">
           <NetworkLevelsChart />
           <RevenueChartEffects data={revenueData} effect="wave" />
-          <RevenueChartEffects data={revenueData} effect="float" />
-          <RevenueChartEffects data={revenueData} effect="flip" />
-          <RevenueChartEffects data={revenueData} effect="tilt" />
-          <RevenueChartEffects data={revenueData} effect="pulse" />
         </div>
       </div>
     </div>
