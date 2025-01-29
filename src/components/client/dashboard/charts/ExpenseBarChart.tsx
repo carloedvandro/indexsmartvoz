@@ -1,5 +1,4 @@
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } from "recharts";
-import type { ExpenseData } from "./types";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
@@ -18,9 +17,9 @@ const initialData = [
   { month: 'Dez', atual: 73, receita: 71 }
 ];
 
-const CustomBar = (props: any) => {
+// Efeito 1: Bounce
+const BounceBar = (props: any) => {
   const { fill, x, y, width, height } = props;
-
   return (
     <motion.rect
       x={x}
@@ -30,16 +29,104 @@ const CustomBar = (props: any) => {
       ry={4}
       height={height}
       fill={fill}
-      initial={{ y: 0, height: 0 }}
-      animate={{ 
-        y: y,
-        height: height,
+      initial={{ y: 0 }}
+      animate={{ y: [0, -10, 0] }}
+      transition={{
+        duration: 1,
+        repeat: Infinity,
+        ease: "easeInOut"
       }}
+    />
+  );
+};
+
+// Efeito 2: Pulse
+const PulseBar = (props: any) => {
+  const { fill, x, y, width, height } = props;
+  return (
+    <motion.rect
+      x={x}
+      y={y}
+      width={width}
+      rx={4}
+      ry={4}
+      height={height}
+      fill={fill}
+      initial={{ opacity: 0.5 }}
+      animate={{ opacity: [0.5, 1, 0.5] }}
+      transition={{
+        duration: 1.5,
+        repeat: Infinity,
+        ease: "linear"
+      }}
+    />
+  );
+};
+
+// Efeito 3: Wave
+const WaveBar = (props: any) => {
+  const { fill, x, y, width, height } = props;
+  return (
+    <motion.rect
+      x={x}
+      y={y}
+      width={width}
+      rx={4}
+      ry={4}
+      height={height}
+      fill={fill}
+      initial={{ scaleY: 0.9 }}
+      animate={{ scaleY: [0.9, 1.1, 0.9] }}
+      transition={{
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }}
+    />
+  );
+};
+
+// Efeito 4: Glow
+const GlowBar = (props: any) => {
+  const { fill, x, y, width, height } = props;
+  return (
+    <motion.rect
+      x={x}
+      y={y}
+      width={width}
+      rx={4}
+      ry={4}
+      height={height}
+      fill={fill}
+      initial={{ filter: "brightness(1)" }}
+      animate={{ filter: ["brightness(1)", "brightness(1.5)", "brightness(1)"] }}
+      transition={{
+        duration: 1.2,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }}
+    />
+  );
+};
+
+// Efeito 5: Shake
+const ShakeBar = (props: any) => {
+  const { fill, x, y, width, height } = props;
+  return (
+    <motion.rect
+      x={x}
+      y={y}
+      width={width}
+      rx={4}
+      ry={4}
+      height={height}
+      fill={fill}
+      initial={{ x }}
+      animate={{ x: [x - 2, x + 2, x] }}
       transition={{
         duration: 0.5,
         repeat: Infinity,
-        repeatType: "reverse",
-        ease: "easeInOut"
+        ease: "linear"
       }}
     />
   );
@@ -47,9 +134,11 @@ const CustomBar = (props: any) => {
 
 export const ExpenseBarChart = () => {
   const [data, setData] = useState(initialData);
+  const [currentEffect, setCurrentEffect] = useState(0);
+  const effects = [BounceBar, PulseBar, WaveBar, GlowBar, ShakeBar];
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const dataInterval = setInterval(() => {
       setData(prevData => 
         prevData.map(item => ({
           ...item,
@@ -59,8 +148,17 @@ export const ExpenseBarChart = () => {
       );
     }, 2000);
 
-    return () => clearInterval(interval);
+    const effectInterval = setInterval(() => {
+      setCurrentEffect((prev) => (prev + 1) % effects.length);
+    }, 5000);
+
+    return () => {
+      clearInterval(dataInterval);
+      clearInterval(effectInterval);
+    };
   }, []);
+
+  const CurrentBarEffect = effects[currentEffect];
 
   return (
     <div className="h-[200px] mt-6 w-full min-w-[300px] sm:min-w-[400px] md:min-w-[500px]">
@@ -96,7 +194,7 @@ export const ExpenseBarChart = () => {
             fill="#5f0889"
             radius={[4, 4, 0, 0]}
             barSize={8}
-            shape={<CustomBar />}
+            shape={<CurrentBarEffect />}
           />
           <Bar
             dataKey="receita"
@@ -104,7 +202,7 @@ export const ExpenseBarChart = () => {
             fill="#0610ff"
             radius={[4, 4, 0, 0]}
             barSize={8}
-            shape={<CustomBar />}
+            shape={<CurrentBarEffect />}
           />
         </BarChart>
       </ResponsiveContainer>
