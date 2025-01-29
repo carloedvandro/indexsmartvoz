@@ -9,7 +9,7 @@ export const ExpenseDistributionCard = () => {
     <div className="flex flex-col items-center justify-center w-full max-w-[1800px] mx-auto space-y-8">
       <CardTitle className="text-2xl font-bold text-center">Produção por Nível</CardTitle>
       
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-[1800px] mx-auto px-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-10 w-full max-w-[1800px] mx-auto px-4">
         {expenseData.map((item) => (
           <motion.div
             key={item.category}
@@ -18,17 +18,14 @@ export const ExpenseDistributionCard = () => {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <CircularProgress 
-              progress={item.percentage} 
-              className={`text-[${item.color}]`}
-            />
+            <CircularProgress percentage={item.percentage} color={item.color} />
             <span className="text-sm font-medium text-center">{item.category}</span>
           </motion.div>
         ))}
       </div>
 
       <div className="w-full max-w-[1800px] mx-auto px-4">
-        <ExpenseBarChart />
+        <ExpenseBarChart data={expenseData} />
       </div>
     </div>
   );
