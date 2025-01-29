@@ -1,6 +1,5 @@
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
 import { motion } from 'framer-motion';
-import { StatCardHeader } from './StatCardHeader';
-import { StatCardChart } from './StatCardChart';
 
 interface StatCardProps {
   title: string;
@@ -11,6 +10,27 @@ interface StatCardProps {
   }>;
   color: string;
 }
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <motion.div 
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        className="bg-white/90 backdrop-blur-sm p-3 border border-gray-200 rounded-lg shadow-lg"
+      >
+        <p className="text-sm text-gray-600">Data: {label}</p>
+        <p className="text-sm font-semibold text-gray-900">
+          {new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+          }).format(payload[0].value)}
+        </p>
+      </motion.div>
+    );
+  }
+  return null;
+};
 
 export const StatCard = ({ title, value, data, color }: StatCardProps) => {
   return (
@@ -28,7 +48,22 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
         transformStyle: "preserve-3d",
       }}
     >
-      <StatCardHeader title={title} value={value} />
+      <motion.h3 
+        className="text-sm font-medium text-gray-600"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.2 }}
+      >
+        {title}
+      </motion.h3>
+      <motion.p 
+        className="text-2xl font-bold mt-2 text-gray-900"
+        initial={{ x: -20, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ delay: 0.3 }}
+      >
+        {value}
+      </motion.p>
       <motion.div 
         className="mt-4 h-[200px] w-full"
         initial={{ y: 20, opacity: 0 }}
@@ -39,7 +74,60 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
           filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.1))"
         }}
       >
-        <StatCardChart data={data} color={color} />
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart 
+            data={data}
+            style={{
+              filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.1))"
+            }}
+          >
+            <defs>
+              <linearGradient id={`gradient-${color}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={color} stopOpacity={0.8}/>
+                <stop offset="100%" stopColor={color} stopOpacity={0.2}/>
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <XAxis 
+              dataKey="name" 
+              tick={{ fontSize: 12 }}
+              stroke="#9CA3AF"
+              tickLine={false}
+              axisLine={false}
+            />
+            <YAxis 
+              tick={{ fontSize: 12 }}
+              stroke="#9CA3AF"
+              tickLine={false}
+              axisLine={false}
+              width={60}
+            />
+            <Tooltip content={<CustomTooltip />} />
+            <Line
+              type="monotone"
+              dataKey="value"
+              stroke={color}
+              strokeWidth={2}
+              dot={{ 
+                fill: "#fff", 
+                stroke: color,
+                strokeWidth: 2,
+                r: 4,
+                className: "transition-all duration-300 hover:r-6" // Efeito de hover nos pontos
+              }}
+              activeDot={{ 
+                r: 6, 
+                fill: "#fff",
+                stroke: color,
+                strokeWidth: 3,
+                className: "animate-pulse" // Efeito de pulsar no ponto ativo
+              }}
+              fill={`url(#gradient-${color})`}
+              animationDuration={2000}
+              animationBegin={600}
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </motion.div>
     </motion.div>
   );

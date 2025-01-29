@@ -80,10 +80,6 @@ export default {
         gradient: {
           "0%, 100%": { opacity: "0.8" },
           "50%": { opacity: "0.6" },
-        },
-        pulse: {
-          "0%, 100%": { transform: "scale(1)", opacity: "1" },
-          "50%": { transform: "scale(1.3)", opacity: "0.7" }
         }
       },
       animation: {
