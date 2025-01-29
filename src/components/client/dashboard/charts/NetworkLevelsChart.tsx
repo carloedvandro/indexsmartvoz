@@ -12,18 +12,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const data = [
   { nivel: "Nível 1", ativos: 8, inativos: 0 },
+  { nivel: "Nível 2", ativos: 12, inativos: 3 },
   { nivel: "Nível 3", ativos: 8, inativos: 56 },
+  { nivel: "Nível 4", ativos: 15, inativos: 25 },
   { nivel: "Nível 5", ativos: 19, inativos: 39 },
-  { nivel: "Nível 7", ativos: 26, inativos: 91 },
-  { nivel: "Nível 9", ativos: 32, inativos: 179 },
-  { nivel: "Nível 11", ativos: 88, inativos: 333 },
-  { nivel: "Nível 13", ativos: 133, inativos: 504 },
-  { nivel: "Nível 15", ativos: 237, inativos: 585 },
-  { nivel: "Nível 17", ativos: 217, inativos: 430 },
-  { nivel: "Nível 19", ativos: 182, inativos: 174 },
-  { nivel: "Nível 21", ativos: 86, inativos: 62 },
-  { nivel: "Nível 23", ativos: 58, inativos: 75 },
-  { nivel: "Nível 25", ativos: 6, inativos: 36 },
 ];
 
 export const NetworkLevelsChart = () => {
