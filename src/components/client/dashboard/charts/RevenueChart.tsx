@@ -18,45 +18,44 @@ interface RevenueChartProps {
 }
 
 const CustomDot = (props: any) => {
-  const { cx, cy, payload, index } = props;
-  const dotStyles = [
-    { // Glowing purple dot
-      className: "animate-pulse",
-      r: 4,
-      fill: "#6E59A5",
-      filter: "url(#glow)",
-    },
-    { // Diamond shape
-      className: "animate-bounce",
-      points: `${cx-4},${cy} ${cx},${cy-4} ${cx+4},${cy} ${cx},${cy+4}`,
-      fill: "#6E59A5",
-    },
-    { // Pulsing circle
-      className: "animate-ping",
-      r: 3,
-      fill: "#6E59A5",
-      opacity: 0.7,
-    },
-    { // Star shape
-      className: "animate-spin",
-      d: `M ${cx} ${cy-4} L ${cx+1} ${cy-1} L ${cx+4} ${cy-1} L ${cx+2} ${cy+1} L ${cx+3} ${cy+4} L ${cx} ${cy+2} L ${cx-3} ${cy+4} L ${cx-2} ${cy+1} L ${cx-4} ${cy-1} L ${cx-1} ${cy-1} Z`,
-      fill: "#6E59A5",
-    },
-    { // Ripple effect
-      className: "animate-gradient",
-      r: 4,
-      fill: "url(#rippleGradient)",
-    },
-  ];
+  const { cx, cy } = props;
 
-  const style = dotStyles[index % 5];
-
-  return style.points ? (
-    <polygon {...style} />
-  ) : style.d ? (
-    <path {...style} />
-  ) : (
-    <circle cx={cx} cy={cy} {...style} />
+  return (
+    <g>
+      <defs>
+        <radialGradient id="cascadeGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+          <stop offset="0%" stopColor="#6E59A5" stopOpacity={0.8} />
+          <stop offset="40%" stopColor="#6E59A5" stopOpacity={0.6} />
+          <stop offset="70%" stopColor="#6E59A5" stopOpacity={0.4} />
+          <stop offset="100%" stopColor="#6E59A5" stopOpacity={0} />
+        </radialGradient>
+        <filter id="cascade" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+          <feColorMatrix
+            type="matrix"
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 8 -4"
+          />
+        </filter>
+      </defs>
+      <circle
+        cx={cx}
+        cy={cy}
+        r="6"
+        fill="url(#cascadeGradient)"
+        className="animate-pulse"
+        filter="url(#cascade)"
+      />
+      <circle
+        cx={cx}
+        cy={cy}
+        r="3"
+        fill="#6E59A5"
+        className="animate-ping"
+      />
+    </g>
   );
 };
 
@@ -99,18 +98,6 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                 <stop offset="0%" stopColor="#6E59A5" stopOpacity={0.8} />
                 <stop offset="100%" stopColor="#6E59A5" stopOpacity={0.2} />
               </linearGradient>
-              <filter id="glow" height="300%" width="300%" x="-100%" y="-100%">
-                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                <feMerge>
-                  <feMergeNode in="coloredBlur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-              <radialGradient id="rippleGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                <stop offset="0%" stopColor="#6E59A5" stopOpacity={1} />
-                <stop offset="70%" stopColor="#6E59A5" stopOpacity={0.5} />
-                <stop offset="100%" stopColor="#6E59A5" stopOpacity={0} />
-              </radialGradient>
             </defs>
             <XAxis
               dataKey="name"
@@ -147,7 +134,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               isAnimationActive={animationActive}
               animationDuration={2000}
               dot={<CustomDot />}
-              activeDot={{ r: 6, fill: "#6E59A5", filter: "url(#glow)" }}
+              activeDot={{ r: 6, fill: "#6E59A5", filter: "url(#cascade)" }}
             />
           </AreaChart>
         </ResponsiveContainer>
