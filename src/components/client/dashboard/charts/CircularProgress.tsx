@@ -23,7 +23,7 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
         className="origin-center"
         strokeWidth="8"
         strokeLinecap="round"
-        stroke="#5f0889"
+        stroke="#0d00ff"
         fill="transparent"
         r="40"
         cx="50"

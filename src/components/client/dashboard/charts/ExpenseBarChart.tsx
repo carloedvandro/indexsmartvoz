@@ -17,7 +17,7 @@ const data = [
 ];
 
 export const ExpenseBarChart = () => (
-  <div className="h-[200px] mt-6 w-full min-w-[300px] sm:min-w-[400px] md:min-w-[500px]">
+  <div className="h-[200px] mt-12 w-full min-w-[300px] sm:min-w-[400px] md:min-w-[500px]">
     <ResponsiveContainer width="100%" height="100%">
       <BarChart data={data} margin={{ top: 20, right: 30, left: 2, bottom: 5 }}>
         <XAxis 
@@ -54,7 +54,7 @@ export const ExpenseBarChart = () => (
         <Bar
           dataKey="receita"
           name="Receita"
-          fill="#0610ff"
+          fill="#00ffba"
           radius={[4, 4, 0, 0]}
           barSize={8}
         />
