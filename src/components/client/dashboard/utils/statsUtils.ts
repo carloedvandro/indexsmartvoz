@@ -6,19 +6,19 @@ export const generateCardData = () => {
       title: "Ganhos Ativos",
       value: formatCurrency(130510),
       data: generateMonthlyData(),
-      color: "#5f0889",
+      color: "#4F46E5",
     },
     {
       title: "Ganhos Pendentes",
       value: formatCurrency(175035),
       data: generateMonthlyData(),
-      color: "#f20000",
+      color: "#0EA5E9",
     },
     {
       title: "Total de Ganhos",
       value: formatCurrency(210375),
       data: generateMonthlyData(),
-      color: "#03cc35",
+      color: "#10B981",
     },
   ];
 };

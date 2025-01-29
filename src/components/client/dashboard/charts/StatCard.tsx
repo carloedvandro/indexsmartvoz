@@ -32,38 +32,6 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-const CustomDot = (props: any) => {
-  const { cx, cy, stroke } = props;
-  
-  return (
-    <g>
-      <defs>
-        <filter id={`glow-${stroke}`}>
-          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-          <feMerge>
-            <feMergeNode in="coloredBlur"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-        <radialGradient id={`dotGradient-${stroke}`} cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-          <stop offset="0%" stopColor={stroke} stopOpacity={1} />
-          <stop offset="40%" stopColor={stroke} stopOpacity={0.8} />
-          <stop offset="80%" stopColor={stroke} stopOpacity={0.4} />
-          <stop offset="100%" stopColor={stroke} stopOpacity={0} />
-        </radialGradient>
-      </defs>
-      <circle
-        cx={cx}
-        cy={cy}
-        r="8"
-        fill={`url(#dotGradient-${stroke})`}
-        filter={`url(#glow-${stroke})`}
-        className="animate-pulse"
-      />
-    </g>
-  );
-};
-
 export const StatCard = ({ title, value, data, color }: StatCardProps) => {
   return (
     <motion.div 
@@ -118,32 +86,6 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
                 <stop offset="0%" stopColor={color} stopOpacity={0.8}/>
                 <stop offset="100%" stopColor={color} stopOpacity={0.2}/>
               </linearGradient>
-              <linearGradient id={`line-gradient-${color}`} x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor={color} stopOpacity={1}>
-                  <animate
-                    attributeName="offset"
-                    values="0;1"
-                    dur="2s"
-                    repeatCount="indefinite"
-                  />
-                </stop>
-                <stop offset="50%" stopColor={`${color}88`} stopOpacity={0.8}>
-                  <animate
-                    attributeName="offset"
-                    values="0;1"
-                    dur="2s"
-                    repeatCount="indefinite"
-                  />
-                </stop>
-                <stop offset="100%" stopColor={color} stopOpacity={0.2}>
-                  <animate
-                    attributeName="offset"
-                    values="0;1"
-                    dur="2s"
-                    repeatCount="indefinite"
-                  />
-                </stop>
-              </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis 
@@ -164,13 +106,19 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
             <Line
               type="monotone"
               dataKey="value"
-              stroke={`url(#line-gradient-${color})`}
-              strokeWidth={3}
-              dot={<CustomDot />}
+              stroke={color}
+              strokeWidth={2}
+              dot={{ 
+                fill: "#fff", 
+                stroke: color,
+                strokeWidth: 2,
+                r: 4 
+              }}
               activeDot={{ 
-                r: 8,
-                fill: `url(#dotGradient-${color})`,
-                filter: `url(#glow-${color})`,
+                r: 6, 
+                fill: "#fff",
+                stroke: color,
+                strokeWidth: 2,
                 className: "animate-pulse"
               }}
               fill={`url(#gradient-${color})`}

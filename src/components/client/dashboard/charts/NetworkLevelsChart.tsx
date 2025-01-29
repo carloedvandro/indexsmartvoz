@@ -66,14 +66,14 @@ export const NetworkLevelsChart = () => {
               <Bar
                 dataKey="ativos"
                 name="Ativos"
-                fill="#5f0889"
+                fill="#4ade80"
                 radius={[2, 2, 0, 0]}
                 barSize={16}
               />
               <Bar
                 dataKey="inativos"
                 name="Inativos"
-                fill="#ff3131"
+                fill="#e5e7eb"
                 radius={[2, 2, 0, 0]}
                 barSize={16}
               />
