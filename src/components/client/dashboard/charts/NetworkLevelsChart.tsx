@@ -34,6 +34,8 @@ export const NetworkLevelsChart = () => {
               left: 20,
               bottom: 5,
             }}
+            barGap={2}
+            barCategoryGap={10}
           >
             <CartesianGrid strokeDasharray="3 3" opacity={0.05} />
             <XAxis 
@@ -41,10 +43,10 @@ export const NetworkLevelsChart = () => {
               fontSize={11}
               angle={-45}
               textAnchor="end"
-              height={60}
+              height={50}
               interval={0}
-              tickSize={4}
-              tickMargin={8}
+              tickSize={3}
+              tickMargin={5}
             />
             <YAxis fontSize={12} />
             <Tooltip 
