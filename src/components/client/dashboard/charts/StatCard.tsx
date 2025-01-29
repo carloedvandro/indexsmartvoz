@@ -32,6 +32,48 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
+const CustomDot = (props: any) => {
+  const { cx, cy, payload, stroke } = props;
+  
+  return (
+    <g>
+      <defs>
+        <radialGradient id={`cascadeGradient-${stroke}`} cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+          <stop offset="0%" stopColor={stroke} stopOpacity={0.8} />
+          <stop offset="40%" stopColor={stroke} stopOpacity={0.6} />
+          <stop offset="70%" stopColor={stroke} stopOpacity={0.4} />
+          <stop offset="100%" stopColor={stroke} stopOpacity={0} />
+        </radialGradient>
+        <filter id={`cascade-${stroke}`} x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+          <feColorMatrix
+            type="matrix"
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 8 -4"
+          />
+        </filter>
+      </defs>
+      <circle
+        cx={cx}
+        cy={cy}
+        r="6"
+        fill={`url(#cascadeGradient-${stroke})`}
+        className="animate-pulse"
+        filter={`url(#cascade-${stroke})`}
+      />
+      <circle
+        cx={cx}
+        cy={cy}
+        r="3"
+        fill={stroke}
+        className="animate-ping"
+      />
+    </g>
+  );
+};
+
 export const StatCard = ({ title, value, data, color }: StatCardProps) => {
   return (
     <motion.div 
@@ -108,17 +150,11 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
               dataKey="value"
               stroke={color}
               strokeWidth={2}
-              dot={{ 
-                fill: "#fff", 
-                stroke: color,
-                strokeWidth: 2,
-                r: 4 
-              }}
+              dot={<CustomDot />}
               activeDot={{ 
                 r: 6, 
-                fill: "#fff",
-                stroke: color,
-                strokeWidth: 2,
+                fill: color,
+                filter: `url(#cascade-${color})`,
                 className: "animate-pulse"
               }}
               fill={`url(#gradient-${color})`}
