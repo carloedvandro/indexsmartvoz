@@ -11,9 +11,9 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const data = [
-  { nivel: "Nível 1", ativos: 3, inativos: 8 },
-  { nivel: "Nível 2", ativos: 0, inativos: 25 },
-  { nivel: "Nível 3", ativos: 0, inativos: 56 },
+  { nivel: "Nível 1", ativos: 10, inativos: 8 },
+  { nivel: "Nível 2", ativos: 7, inativos: 25 },
+  { nivel: "Nível 3", ativos: 5, inativos: 56 },
   { nivel: "Nível 4", ativos: 15, inativos: 70 },
   { nivel: "Nível 5", ativos: 4, inativos: 91 },
 ];
