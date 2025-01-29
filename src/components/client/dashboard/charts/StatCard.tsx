@@ -112,14 +112,15 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
                 fill: "#fff", 
                 stroke: color,
                 strokeWidth: 2,
-                r: 4 
+                r: 4,
+                className: "transition-all duration-300 hover:r-6" // Efeito de hover nos pontos
               }}
               activeDot={{ 
                 r: 6, 
                 fill: "#fff",
                 stroke: color,
-                strokeWidth: 2,
-                className: "animate-pulse"
+                strokeWidth: 3,
+                className: "animate-pulse" // Efeito de pulsar no ponto ativo
               }}
               fill={`url(#gradient-${color})`}
               animationDuration={2000}
