@@ -81,7 +81,7 @@ export const MonthlyPerformanceChart = () => {
                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
                 color: "#1f2937",
               }}
-              formatter={(value: number) => [`R$ ${value.toLocaleString()}`, "Valor"]}
+              formatter={(value: number) => [`R$ ${value.toLocaleString()}`]}
               labelFormatter={(label) => `${label}`}
             />
             <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={35}>
