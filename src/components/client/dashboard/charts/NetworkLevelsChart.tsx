@@ -36,7 +36,7 @@ export const NetworkLevelsChart = () => {
                 bottom: 5,
               }}
               barGap={0}
-              barCategoryGap={5}
+              barCategoryGap={2}
             >
               <CartesianGrid strokeDasharray="3 3" opacity={0.05} />
               <XAxis 
