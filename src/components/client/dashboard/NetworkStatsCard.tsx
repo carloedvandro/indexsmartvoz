@@ -25,7 +25,7 @@ export const NetworkStatsCard = () => {
           table: 'profiles'
         },
         () => {
-          queryClient.invalidateQueries({ queryKey: ['networkData', profile.id] });
+          queryClient.invalidateQueries({ queryKey: ['networkData', profile?.id] });
         }
       )
       .subscribe();
@@ -40,12 +40,12 @@ export const NetworkStatsCard = () => {
   const revenueData = generateRevenueData();
 
   return (
-    <div className="h-full">
+    <div className="h-full bg-[#F8F9FE] rounded-lg">
       <NetworkStatsHeader />
-      <div className="space-y-8">
+      <div className="space-y-8 p-4">
         <NetworkStatsGrid cardData={cardData} />
-        <div className="grid grid-cols-1 gap-6 px-2">
-          <div className="bg-white rounded-lg p-6 shadow-sm">
+        <div className="grid grid-cols-1 gap-6">
+          <div className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
             <RevenueChart data={revenueData} />
           </div>
         </div>
