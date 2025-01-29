@@ -9,6 +9,7 @@ import {
   XAxis,
   YAxis,
   ComposedChart,
+  Cell,
 } from "recharts";
 
 const data = [
@@ -83,12 +84,11 @@ export const MonthlyPerformanceChart = () => {
               formatter={(value: number) => [`R$ ${value.toLocaleString()}`, "Valor"]}
               labelFormatter={(label) => `${label}`}
             />
-            <Bar
-              dataKey="value"
-              radius={[4, 4, 0, 0]}
-              barSize={35}
-              fill={(entry, index) => colors[index % colors.length]}
-            />
+            <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={35}>
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+              ))}
+            </Bar>
             <Line
               type="monotone"
               dataKey="trend"
