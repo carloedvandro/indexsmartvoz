@@ -2,16 +2,16 @@ import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } fro
 import type { ExpenseData } from "./types";
 
 const data = [
-  { month: 'Jan', actual: 75, revenue: 65 },
-  { month: 'Feb', actual: 70, revenue: 72 },
-  { month: 'Mar', actual: 75, revenue: 68 },
-  { month: 'Apr', actual: 65, revenue: 75 },
-  { month: 'May', actual: 80, revenue: 62 },
-  { month: 'Jun', actual: 70, revenue: 48 },
-  { month: 'Jul', actual: 55, revenue: 70 },
-  { month: 'Aug', actual: 72, revenue: 75 },
-  { month: 'Sep', actual: 62, revenue: 78 },
-  { month: 'Oct', actual: 68, revenue: 62 },
+  { month: 'Jan', atual: 75, receita: 65 },
+  { month: 'Fev', atual: 70, receita: 72 },
+  { month: 'Mar', atual: 75, receita: 68 },
+  { month: 'Abr', atual: 65, receita: 75 },
+  { month: 'Mai', atual: 80, receita: 62 },
+  { month: 'Jun', atual: 70, receita: 48 },
+  { month: 'Jul', atual: 55, receita: 70 },
+  { month: 'Ago', atual: 72, receita: 75 },
+  { month: 'Set', atual: 62, receita: 78 },
+  { month: 'Out', atual: 68, receita: 62 },
 ];
 
 export const ExpenseBarChart = () => (
@@ -41,13 +41,15 @@ export const ExpenseBarChart = () => (
         />
         <Legend />
         <Bar
-          dataKey="actual"
+          dataKey="atual"
+          name="Atual"
           fill="#5f0889"
           radius={[4, 4, 0, 0]}
           barSize={8}
         />
         <Bar
-          dataKey="revenue"
+          dataKey="receita"
+          name="Receita"
           fill="#0ea5e9"
           radius={[4, 4, 0, 0]}
           barSize={8}
