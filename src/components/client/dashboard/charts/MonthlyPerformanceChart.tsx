@@ -10,9 +10,6 @@ import {
   YAxis,
   ComposedChart,
   Cell,
-  defs,
-  linearGradient,
-  stop,
 } from "recharts";
 
 const data = [
