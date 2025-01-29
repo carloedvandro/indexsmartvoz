@@ -17,7 +17,7 @@ interface RevenueChartProps {
 
 export const RevenueChart = ({ data }: RevenueChartProps) => {
   return (
-    <div className="space-y-8 rounded-lg p-6 mx-[-10mm]">
+    <div className="space-y-8 rounded-lg p-6 mx-[-9mm]">
       <CardHeader className="p-0 pl-4">
         <CardTitle className="text-2xl font-bold">Faturamento</CardTitle>
       </CardHeader>
@@ -28,7 +28,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
             margin={{
               top: 20,
               right: 10,
-              left: -9, // Ajustado para mover o eixo Y 1mm mais para a esquerda
+              left: -9,
               bottom: 0,
             }}
           >
