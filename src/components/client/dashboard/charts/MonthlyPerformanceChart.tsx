@@ -46,7 +46,7 @@ export const MonthlyPerformanceChart = () => {
   return (
     <div className="w-full space-y-4 rounded-lg p-6 mx-[-9mm]">
       <CardHeader className="p-0 text-center">
-        <CardTitle className="text-2xl font-bold">Performance Mensal</CardTitle>
+        <CardTitle className="text-2xl font-bold">Faturamento Mensal</CardTitle>
       </CardHeader>
       <div className="h-[280px] w-full bg-white rounded-lg p-4 border border-gray-200">
         <ResponsiveContainer width="100%" height="100%">
