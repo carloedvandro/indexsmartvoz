@@ -48,7 +48,7 @@ export const MonthlyPerformanceChart = () => {
       <CardHeader className="p-0 text-center">
         <CardTitle className="text-2xl font-bold">Performance Mensal</CardTitle>
       </CardHeader>
-      <div className="h-[280px] w-full bg-gray-900 rounded-lg p-4">
+      <div className="h-[280px] w-full bg-white rounded-lg p-4 border border-gray-200">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={data}
@@ -61,13 +61,13 @@ export const MonthlyPerformanceChart = () => {
           >
             <XAxis
               dataKey="month"
-              stroke="#ffffff"
+              stroke="#1f2937"
               fontSize={12}
               tickLine={false}
               axisLine={false}
             />
             <YAxis
-              stroke="#ffffff"
+              stroke="#1f2937"
               fontSize={12}
               tickLine={false}
               axisLine={false}
@@ -75,11 +75,11 @@ export const MonthlyPerformanceChart = () => {
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: "#1f2937",
-                border: "none",
+                backgroundColor: "#ffffff",
+                border: "1px solid #e5e7eb",
                 borderRadius: "8px",
-                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
-                color: "#ffffff",
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                color: "#1f2937",
               }}
               formatter={(value: number) => [`R$ ${value.toLocaleString()}`, "Valor"]}
               labelFormatter={(label) => `${label}`}
@@ -92,10 +92,10 @@ export const MonthlyPerformanceChart = () => {
             <Line
               type="monotone"
               dataKey="trend"
-              stroke="#ffffff"
+              stroke="#1f2937"
               strokeWidth={2}
-              dot={{ fill: "#ffffff", r: 4 }}
-              activeDot={{ r: 6, fill: "#ffffff" }}
+              dot={{ fill: "#1f2937", r: 4 }}
+              activeDot={{ r: 6, fill: "#1f2937" }}
             />
           </ComposedChart>
         </ResponsiveContainer>
