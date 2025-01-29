@@ -34,8 +34,8 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
           >
             <defs>
               <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#D6BCFA" stopOpacity={0.6} />
-                <stop offset="100%" stopColor="#D6BCFA" stopOpacity={0.1} />
+                <stop offset="0%" stopColor="#5f0889" stopOpacity={0.6} />
+                <stop offset="100%" stopColor="#5f0889" stopOpacity={0.1} />
               </linearGradient>
             </defs>
             <XAxis
@@ -64,7 +64,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
             <Area
               type="monotone"
               dataKey="value"
-              stroke="#D6BCFA"
+              stroke="#5f0889"
               strokeWidth={2}
               fillOpacity={1}
               fill="url(#colorGradient)"
