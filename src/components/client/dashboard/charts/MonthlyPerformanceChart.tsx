@@ -82,6 +82,14 @@ export const MonthlyPerformanceChart = () => {
               </filter>
               <style type="text/css">
                 {`
+                  @keyframes float {
+                    0% { transform: translateY(0px); }
+                    50% { transform: translateY(-5px); }
+                    100% { transform: translateY(0px); }
+                  }
+                  .bar-float {
+                    animation: float 3s ease-in-out infinite;
+                  }
                   @keyframes pulse {
                     0% { r: 4; opacity: 1; }
                     50% { r: 6; opacity: 0.5; }
@@ -123,8 +131,10 @@ export const MonthlyPerformanceChart = () => {
                 <Cell 
                   key={`cell-${index}`} 
                   fill={`url(#gradient-${index})`}
+                  className="bar-float"
                   style={{
                     filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.1))",
+                    animationDelay: `${index * 0.1}s`,
                   }}
                 />
               ))}
