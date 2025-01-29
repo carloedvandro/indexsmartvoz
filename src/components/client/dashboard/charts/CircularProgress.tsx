@@ -38,14 +38,14 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
           rotate: [0, 360]
         }}
         transition={{
-          duration: 3, // Increased from 1 to 3 seconds for slower animation
+          duration: 3,
           repeat: Infinity,
           ease: "linear",
           repeatType: "loop"
         }}
       />
     </svg>
-    <div className="absolute inset-0 flex items-center justify-center">
+    <div className="absolute inset-0 flex items-center justify-center mt-2">
       <span className="text-2xl font-semibold">{percentage}%</span>
     </div>
   </div>
