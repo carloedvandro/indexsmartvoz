@@ -1,7 +1,6 @@
 import { CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { CircularProgress } from "./CircularProgress";
-import { ExpenseBarChart } from "./ExpenseBarChart";
 import { expenseData } from "./types";
 
 export const ExpenseDistributionCard = () => {
@@ -25,8 +24,6 @@ export const ExpenseDistributionCard = () => {
           </motion.div>
         ))}
       </div>
-
-      <ExpenseBarChart data={expenseData} />
     </div>
   );
 };
