@@ -20,7 +20,7 @@ const data = [
 
 export const NetworkLevelsChart = () => {
   return (
-    <Card className="w-full col-span-2">
+    <Card className="w-full col-span-2 mx-0">
       <CardHeader>
         <CardTitle>Distribuição por Níveis</CardTitle>
       </CardHeader>
