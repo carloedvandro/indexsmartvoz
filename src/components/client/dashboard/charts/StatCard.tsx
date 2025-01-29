@@ -89,6 +89,18 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
                   <feMergeNode in="SourceGraphic"/>
                 </feMerge>
               </filter>
+              <style type="text/css">
+                {`
+                  @keyframes customPulse {
+                    0% { r: 4; opacity: 1; }
+                    50% { r: 8; opacity: 0.5; }
+                    100% { r: 4; opacity: 1; }
+                  }
+                  .custom-pulse {
+                    animation: customPulse 1.5s ease-in-out infinite;
+                  }
+                `}
+              </style>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis 
@@ -124,7 +136,7 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
                 stroke: color,
                 strokeWidth: 2,
                 filter: `url(#glow-${color})`,
-                className: "animate-pulse"
+                className: "custom-pulse"
               }}
               animationDuration={2000}
               animationBegin={600}
