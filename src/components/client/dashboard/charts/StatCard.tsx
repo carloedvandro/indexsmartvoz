@@ -86,18 +86,26 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
                 <stop offset="0%" stopColor={color} stopOpacity={0.8}/>
                 <stop offset="100%" stopColor={color} stopOpacity={0.2}/>
               </linearGradient>
+              {/* Efeito 1: Brilho (Glow) */}
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis 
               dataKey="name" 
               tick={{ fontSize: 12 }}
-              stroke="#9CA3AF"
+              stroke="#000000"
               tickLine={false}
               axisLine={false}
             />
             <YAxis 
               tick={{ fontSize: 12 }}
-              stroke="#9CA3AF"
+              stroke="#000000"
               tickLine={false}
               axisLine={false}
               width={60}
@@ -113,18 +121,29 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
                 stroke: color,
                 strokeWidth: 2,
                 r: 4,
-                className: "transition-all duration-300 hover:r-6" // Efeito de hover nos pontos
+                // Efeito 2: Hover com escala e transição suave
+                className: "transition-all duration-300 hover:scale-150 cursor-pointer",
+                filter: "url(#glow)" // Aplicando o efeito de brilho
               }}
               activeDot={{ 
                 r: 6, 
                 fill: "#fff",
                 stroke: color,
                 strokeWidth: 3,
-                className: "animate-pulse" // Efeito de pulsar no ponto ativo
+                // Efeito 3: Pulso no ponto ativo
+                className: "animate-[pulse_1.5s_ease-in-out_infinite]",
+                // Efeito 4: Sombra no ponto ativo
+                style: {
+                  filter: "drop-shadow(0 0 4px rgba(0,0,0,0.3))",
+                  transformOrigin: "center",
+                  transform: "scale(1.2)",
+                }
               }}
+              // Efeito 5: Preenchimento com gradiente animado
               fill={`url(#gradient-${color})`}
               animationDuration={2000}
               animationBegin={600}
+              className="transition-all duration-500 hover:opacity-90"
             />
           </LineChart>
         </ResponsiveContainer>
