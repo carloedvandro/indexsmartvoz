@@ -89,12 +89,14 @@ export const MonthlyPerformanceChart = () => {
             />
             <YAxis
               stroke="#1f2937"
-              fontSize={12}
+              fontSize={11}
               tickLine={false}
               axisLine={false}
               tickFormatter={(value) => `R$ ${value / 1000}k`}
-              width={60}
-              tick={{ dx: 12, dy: 4 }}
+              width={50}
+              tick={{ dx: 10, dy: 0 }}
+              interval={0}
+              tickCount={5}
             />
             <Tooltip
               contentStyle={{
