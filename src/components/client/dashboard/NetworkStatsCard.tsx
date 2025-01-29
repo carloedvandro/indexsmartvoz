@@ -44,13 +44,13 @@ export const NetworkStatsCard = () => {
     <div className="h-full">
       <NetworkStatsHeader />
       <div className="space-y-8">
-        <NetworkStatsGrid cardData={cardData} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 px-2">
           <NetworkLevelsChart />
           <div className="bg-white rounded-lg p-6 shadow-sm">
             <RevenueChart data={revenueData} />
           </div>
         </div>
+        <NetworkStatsGrid cardData={cardData} />
       </div>
     </div>
   );
