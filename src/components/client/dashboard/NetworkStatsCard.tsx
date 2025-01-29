@@ -37,27 +37,8 @@ export const NetworkStatsCard = () => {
   }, [profile?.id, queryClient]);
 
   const memberCounts = networkData ? countMembersByStatus(networkData) : { active: 0, pending: 0 };
-  const cardData = [
-    {
-      title: "Ganhos Ativos",
-      value: "R$ 0,00",
-      data: [],
-      color: "#4F46E5",
-    },
-    {
-      title: "Ganhos Pendentes", 
-      value: "R$ 0,00",
-      data: [],
-      color: "#0EA5E9",
-    },
-    {
-      title: "Total de Ganhos",
-      value: "R$ 0,00", 
-      data: [],
-      color: "#10B981",
-    }
-  ];
-  const revenueData = [];
+  const cardData = generateCardData();
+  const revenueData = generateRevenueData();
 
   return (
     <div className="h-full">
