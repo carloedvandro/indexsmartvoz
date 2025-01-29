@@ -108,10 +108,17 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
               dataKey="value"
               stroke={color}
               strokeWidth={2}
-              dot={{ fill: color, strokeWidth: 0, r: 4 }}
+              dot={{ 
+                fill: "#fff", 
+                stroke: color,
+                strokeWidth: 2,
+                r: 4 
+              }}
               activeDot={{ 
                 r: 6, 
-                fill: color,
+                fill: "#fff",
+                stroke: color,
+                strokeWidth: 2,
                 className: "animate-pulse"
               }}
               fill={`url(#gradient-${color})`}
