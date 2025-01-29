@@ -44,11 +44,11 @@ const colors = [
 
 export const MonthlyPerformanceChart = () => {
   return (
-    <div className="w-full space-y-4 rounded-lg p-6 mx-[-24mm]">
+    <div className="w-full space-y-4 p-6 flex flex-col items-center">
       <CardHeader className="p-0 text-center">
         <CardTitle className="text-2xl font-bold">Faturamento Mensal</CardTitle>
       </CardHeader>
-      <div className="h-[280px] w-full">
+      <div className="h-[280px] w-full max-w-[1200px]">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={data}
