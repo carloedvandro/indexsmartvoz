@@ -38,10 +38,13 @@ export const NetworkLevelsChart = () => {
             <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
             <XAxis 
               dataKey="nivel" 
-              fontSize={12}
+              fontSize={11}
               angle={-45}
               textAnchor="end"
-              height={80}
+              height={60}
+              interval={0}
+              tickSize={4}
+              tickMargin={8}
             />
             <YAxis fontSize={12} />
             <Tooltip 
@@ -59,6 +62,7 @@ export const NetworkLevelsChart = () => {
               stackId="a"
               fill="#10B981"
               radius={[4, 4, 0, 0]}
+              barSize={30}
             />
             <Bar
               dataKey="inativos"
@@ -66,6 +70,7 @@ export const NetworkLevelsChart = () => {
               stackId="a"
               fill="#E5E7EB"
               radius={[4, 4, 0, 0]}
+              barSize={30}
             />
           </BarChart>
         </ResponsiveContainer>
