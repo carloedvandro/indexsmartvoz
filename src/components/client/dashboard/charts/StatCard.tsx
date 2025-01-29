@@ -19,8 +19,8 @@ const CustomTooltip = ({ active, payload, label }: any) => {
         animate={{ scale: 1, opacity: 1 }}
         className="bg-white/90 backdrop-blur-sm p-3 border border-gray-200 rounded-lg shadow-lg"
       >
-        <p className="text-sm text-gray-600">Data: {label}</p>
-        <p className="text-sm font-semibold text-gray-900">
+        <p className="text-sm text-black">Data: {label}</p>
+        <p className="text-sm font-semibold text-black">
           {new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL'
@@ -49,7 +49,7 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
       }}
     >
       <motion.h3 
-        className="text-sm font-medium text-gray-600"
+        className="text-sm font-medium text-black"
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
@@ -57,7 +57,7 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
         {title}
       </motion.h3>
       <motion.p 
-        className="text-2xl font-bold mt-2 text-gray-900"
+        className="text-2xl font-bold mt-2 text-black"
         initial={{ x: -20, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.3 }}
@@ -93,14 +93,14 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis 
               dataKey="name" 
-              tick={{ fontSize: 12 }}
-              stroke="#9CA3AF"
+              tick={{ fontSize: 12, fill: "#000000" }}
+              stroke="#000000"
               tickLine={false}
               axisLine={false}
             />
             <YAxis 
-              tick={{ fontSize: 12 }}
-              stroke="#9CA3AF"
+              tick={{ fontSize: 12, fill: "#000000" }}
+              stroke="#000000"
               tickLine={false}
               axisLine={false}
               width={60}
