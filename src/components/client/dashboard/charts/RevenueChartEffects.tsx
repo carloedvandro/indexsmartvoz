@@ -21,8 +21,9 @@ interface RevenueChartProps {
   lineStyle?: "default" | "dashed" | "gradient" | "double" | "glow";
 }
 
-export const RevenueChartEffects = ({ data, effect, lineStyle = "default" }: RevenueChartProps) => {
+export const RevenueChartEffects = ({ data, effect, lineStyle = "glow" }: RevenueChartProps) => {
   const [animationActive, setAnimationActive] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,12 +34,13 @@ export const RevenueChartEffects = ({ data, effect, lineStyle = "default" }: Rev
     return () => clearInterval(interval);
   }, []);
 
-  const getEffectStyles = () => {
+  const getHoverEffect = () => {
     switch (effect) {
       case "wave":
         return {
-          animate: {
-            y: [0, -10, 0],
+          whileHover: {
+            rotateX: [0, 15, 0],
+            rotateY: [-5, 5, -5],
             transition: {
               duration: 2,
               repeat: Infinity,
@@ -48,44 +50,44 @@ export const RevenueChartEffects = ({ data, effect, lineStyle = "default" }: Rev
         };
       case "float":
         return {
-          animate: {
-            scale: [1, 1.02, 1],
+          whileHover: {
+            scale: 1.02,
+            rotateX: 10,
+            y: -10,
             transition: {
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut"
+              duration: 0.3,
+              ease: "easeOut"
             }
           }
         };
       case "flip":
         return {
-          animate: {
-            rotateX: [0, 360],
+          whileHover: {
+            rotateY: 180,
             transition: {
-              duration: 4,
-              repeat: Infinity,
+              duration: 0.6,
               ease: "easeInOut"
             }
           }
         };
       case "tilt":
         return {
-          animate: {
-            rotateY: [-5, 5, -5],
+          whileHover: {
+            rotateX: 20,
+            rotateY: isHovered ? 10 : -10,
             transition: {
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
+              duration: 0.3,
+              ease: "easeOut"
             }
           }
         };
       case "pulse":
         return {
-          animate: {
-            scale: [1, 1.05, 1],
-            opacity: [0.8, 1, 0.8],
+          whileHover: {
+            scale: [1, 1.02, 1],
+            rotateX: 15,
             transition: {
-              duration: 2,
+              duration: 1,
               repeat: Infinity,
               ease: "easeInOut"
             }
@@ -97,48 +99,27 @@ export const RevenueChartEffects = ({ data, effect, lineStyle = "default" }: Rev
   };
 
   const getLineStyle = () => {
-    switch (lineStyle) {
-      case "dashed":
-        return {
-          strokeDasharray: "5 5",
-          stroke: "#6E59A5",
-          strokeWidth: 3,
-        };
-      case "gradient":
-        return {
-          stroke: "url(#colorGradient)",
-          strokeWidth: 4,
-        };
-      case "double":
-        return {
-          stroke: "#6E59A5",
-          strokeWidth: 6,
-        };
-      case "glow":
-        return {
-          stroke: "#6E59A5",
-          strokeWidth: 3,
-          filter: "url(#glow)",
-        };
-      default:
-        return {
-          stroke: "#6E59A5",
-          strokeWidth: 3,
-        };
-    }
+    return {
+      stroke: "#6E59A5",
+      strokeWidth: 3,
+      filter: "url(#glow)",
+    };
   };
 
   return (
     <div className="space-y-8 transform-gpu perspective-1000 w-full max-w-[1600px] mx-auto">
       <CardHeader className="p-0 pl-4">
-        <CardTitle>Faturamento - Estilo {lineStyle}</CardTitle>
+        <CardTitle>Faturamento - Efeito {effect}</CardTitle>
       </CardHeader>
       <motion.div 
-        className="h-[280px] -mx-4 relative transform-gpu"
+        className="h-[280px] -mx-4 relative transform-gpu bg-white rounded-lg shadow-lg p-4"
         style={{
           transformStyle: "preserve-3d",
+          perspective: "1000px"
         }}
-        {...getEffectStyles()}
+        onHoverStart={() => setIsHovered(true)}
+        onHoverEnd={() => setIsHovered(false)}
+        {...getHoverEffect()}
       >
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
@@ -151,11 +132,6 @@ export const RevenueChartEffects = ({ data, effect, lineStyle = "default" }: Rev
             }}
           >
             <defs>
-              <linearGradient id="colorGradient" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#6E59A5" />
-                <stop offset="50%" stopColor="#9b87f5" />
-                <stop offset="100%" stopColor="#6E59A5" />
-              </linearGradient>
               <filter id="glow">
                 <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
                 <feMerge>
