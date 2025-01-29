@@ -31,14 +31,14 @@ export const NetworkLevelsChart = () => {
               data={data}
               margin={{
                 top: 20,
-                right: 20,
-                left: 10,
+                right: 0,
+                left: 0,
                 bottom: 5,
               }}
               barGap={0}
               barCategoryGap={2}
             >
-              <CartesianGrid strokeDasharray="3 3" opacity={0.05} />
+              <CartesianGrid strokeDasharray="3 3" opacity={0.05} horizontal={true} vertical={false} />
               <XAxis 
                 dataKey="nivel" 
                 fontSize={11}
