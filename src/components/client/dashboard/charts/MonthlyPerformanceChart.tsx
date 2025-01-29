@@ -40,8 +40,8 @@ export const MonthlyPerformanceChart = () => {
               tickLine={false}
               axisLine={false}
               tickFormatter={(value) => `R$ ${value / 1000}k`}
-              width={80}
-              tick={{ dx: -10 }}
+              width={90}
+              tick={{ dx: -15 }}
               ticks={[0, 20000, 40000, 60000, 80000, 100000, 120000]}
               domain={[0, 120000]}
             />
