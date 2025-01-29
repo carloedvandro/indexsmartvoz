@@ -60,6 +60,19 @@ export const MonthlyPerformanceChart = () => {
             }}
           >
             <defs>
+              {colors.map((color, index) => (
+                <linearGradient
+                  key={`gradient-${index}`}
+                  id={`gradient-${index}`}
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop offset="0%" stopColor={color} stopOpacity={1} />
+                  <stop offset="100%" stopColor={color} stopOpacity={0.6} />
+                </linearGradient>
+              ))}
               <filter id="glow">
                 <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
                 <feMerge>
@@ -107,7 +120,13 @@ export const MonthlyPerformanceChart = () => {
             />
             <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={35}>
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                <Cell 
+                  key={`cell-${index}`} 
+                  fill={`url(#gradient-${index})`}
+                  style={{
+                    filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.1))",
+                  }}
+                />
               ))}
             </Bar>
             <Line
