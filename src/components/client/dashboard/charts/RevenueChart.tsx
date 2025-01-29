@@ -6,6 +6,7 @@ import {
   Tooltip,
   XAxis,
   YAxis,
+  Dot,
 } from "recharts";
 import { useEffect, useState } from "react";
 
@@ -16,10 +17,52 @@ interface RevenueChartProps {
   }[];
 }
 
+const CustomDot = (props: any) => {
+  const { cx, cy, payload, index } = props;
+  const dotStyles = [
+    { // Glowing purple dot
+      className: "animate-pulse",
+      r: 4,
+      fill: "#6E59A5",
+      filter: "url(#glow)",
+    },
+    { // Diamond shape
+      className: "animate-bounce",
+      points: `${cx-4},${cy} ${cx},${cy-4} ${cx+4},${cy} ${cx},${cy+4}`,
+      fill: "#6E59A5",
+    },
+    { // Pulsing circle
+      className: "animate-ping",
+      r: 3,
+      fill: "#6E59A5",
+      opacity: 0.7,
+    },
+    { // Star shape
+      className: "animate-spin",
+      d: `M ${cx} ${cy-4} L ${cx+1} ${cy-1} L ${cx+4} ${cy-1} L ${cx+2} ${cy+1} L ${cx+3} ${cy+4} L ${cx} ${cy+2} L ${cx-3} ${cy+4} L ${cx-2} ${cy+1} L ${cx-4} ${cy-1} L ${cx-1} ${cy-1} Z`,
+      fill: "#6E59A5",
+    },
+    { // Ripple effect
+      className: "animate-gradient",
+      r: 4,
+      fill: "url(#rippleGradient)",
+    },
+  ];
+
+  const style = dotStyles[index % 5];
+
+  return style.points ? (
+    <polygon {...style} />
+  ) : style.d ? (
+    <path {...style} />
+  ) : (
+    <circle cx={cx} cy={cy} {...style} />
+  );
+};
+
 export const RevenueChart = ({ data }: RevenueChartProps) => {
   const [animationActive, setAnimationActive] = useState(true);
 
-  // Efeito para reativar a animação periodicamente
   useEffect(() => {
     const interval = setInterval(() => {
       setAnimationActive(false);
@@ -56,9 +99,18 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                 <stop offset="0%" stopColor="#6E59A5" stopOpacity={0.8} />
                 <stop offset="100%" stopColor="#6E59A5" stopOpacity={0.2} />
               </linearGradient>
-              <filter id="shadow">
-                <feDropShadow dx="0" dy="4" stdDeviation="4" floodOpacity="0.2" />
+              <filter id="glow" height="300%" width="300%" x="-100%" y="-100%">
+                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
               </filter>
+              <radialGradient id="rippleGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                <stop offset="0%" stopColor="#6E59A5" stopOpacity={1} />
+                <stop offset="70%" stopColor="#6E59A5" stopOpacity={0.5} />
+                <stop offset="100%" stopColor="#6E59A5" stopOpacity={0} />
+              </radialGradient>
             </defs>
             <XAxis
               dataKey="name"
@@ -94,7 +146,8 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               fill="url(#gradient)"
               isAnimationActive={animationActive}
               animationDuration={2000}
-              style={{ filter: "url(#shadow)" }}
+              dot={<CustomDot />}
+              activeDot={{ r: 6, fill: "#6E59A5", filter: "url(#glow)" }}
             />
           </AreaChart>
         </ResponsiveContainer>
