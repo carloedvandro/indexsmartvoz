@@ -1,44 +1,63 @@
 import { formatCurrency } from "@/utils/format";
 
-export const generateChartData = (baseValue: number) => {
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  return months.map((month, index) => ({
-    name: month,
-    value: Math.floor(baseValue * (1 + Math.sin(index / 2) * 0.5))
-  }));
-};
-
-export const generateRevenueData = () => {
-  const dates = Array.from({ length: 31 }, (_, i) => {
-    const date = new Date(2025, 0, i + 1);
-    return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
-  });
-
-  return dates.map((date) => ({
-    name: date,
-    value: Math.floor(Math.random() * 10000)
-  }));
-};
-
 export const generateCardData = () => {
   return [
     {
       title: "Ganhos Ativos",
       value: formatCurrency(130510),
-      data: generateChartData(130510),
-      color: "#786AFF"
+      data: generateMonthlyData(),
+      color: "#4F46E5",
     },
     {
       title: "Ganhos Pendentes",
       value: formatCurrency(175035),
-      data: generateChartData(175035),
-      color: "#5E60CE"
+      data: generateMonthlyData(),
+      color: "#0EA5E9",
     },
     {
       title: "Total de Ganhos",
       value: formatCurrency(210375),
-      data: generateChartData(210375),
-      color: "#7B61FF"
-    }
+      data: generateMonthlyData(),
+      color: "#10B981",
+    },
   ];
+};
+
+const generateMonthlyData = () => {
+  const months = [
+    "Jan",
+    "Fev",
+    "Mar",
+    "Abr",
+    "Mai",
+    "Jun",
+    "Jul",
+    "Ago",
+    "Set",
+    "Out",
+    "Nov",
+    "Dez",
+  ];
+
+  return months.map((name) => ({
+    name,
+    value: Math.floor(Math.random() * 100000),
+  }));
+};
+
+export const generateRevenueData = () => {
+  const data = [];
+  const startDate = new Date(2024, 0, 1); // 1 de janeiro de 2024
+
+  for (let i = 0; i < 31; i++) {
+    const currentDate = new Date(startDate);
+    currentDate.setDate(startDate.getDate() + i);
+
+    data.push({
+      name: `${String(currentDate.getDate()).padStart(2, "0")} de jan.`,
+      value: Math.floor(Math.random() * 10000),
+    });
+  }
+
+  return data;
 };
