@@ -33,7 +33,7 @@ export const NetworkLevelsChart = () => {
                 top: 20,
                 right: 0,
                 left: 0,
-                bottom: 5,
+                bottom: 7, // Increased bottom margin to move labels down
               }}
               barGap={0}
               barCategoryGap={2}
@@ -47,7 +47,7 @@ export const NetworkLevelsChart = () => {
                 height={40}
                 interval={0}
                 tickSize={12}
-                tickMargin={2}
+                tickMargin={4} // Increased tickMargin to move labels down
               />
               <YAxis fontSize={12} />
               <Tooltip 
