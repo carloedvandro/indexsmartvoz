@@ -57,7 +57,7 @@ export const ExpenseDistributionCard = () => {
   return (
     <div className="space-y-8 rounded-lg bg-white p-6 shadow-lg">
       <CardHeader className="p-0">
-        <CardTitle className="text-2xl font-bold">Distribuição de Despesas</CardTitle>
+        <CardTitle className="text-2xl font-bold">Produção por Nível</CardTitle>
       </CardHeader>
       
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
