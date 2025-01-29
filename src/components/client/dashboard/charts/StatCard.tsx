@@ -65,7 +65,7 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
         {value}
       </motion.p>
       <motion.div 
-        className="mt-4 h-[200px] w-full"
+        className="mt-4 h-[200px] w-full group"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.4 }}
@@ -76,6 +76,12 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
       >
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
+            <defs>
+              <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor={color} stopOpacity={0.8} className="transition-all duration-300 group-hover:stop-opacity-1"/>
+                <stop offset="95%" stopColor={color} stopOpacity={0.2} className="transition-all duration-300 group-hover:stop-opacity-0.4"/>
+              </linearGradient>
+            </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis 
               dataKey="name" 
@@ -97,11 +103,12 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
               dataKey="value"
               stroke={color}
               strokeWidth={2}
+              fill="url(#colorGradient)"
               dot={{ 
                 fill: "#fff", 
                 stroke: color,
                 strokeWidth: 2,
-                r: 4
+                r: 4,
               }}
               activeDot={{ 
                 r: 6, 
