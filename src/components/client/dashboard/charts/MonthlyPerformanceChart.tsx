@@ -48,7 +48,7 @@ export const MonthlyPerformanceChart = () => {
       <CardHeader className="p-0 text-center">
         <CardTitle className="text-2xl font-bold">Faturamento Mensal</CardTitle>
       </CardHeader>
-      <div className="h-[280px] w-full bg-white rounded-lg p-4 border border-gray-200">
+      <div className="h-[280px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={data}
