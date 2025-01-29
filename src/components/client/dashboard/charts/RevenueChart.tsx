@@ -28,7 +28,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
             margin={{
               top: 20,
               right: 10,
-              left: -8, // Ajustado para mover o eixo Y 2mm para a esquerda
+              left: -9, // Ajustado para mover o eixo Y 1mm mais para a esquerda
               bottom: 0,
             }}
           >
