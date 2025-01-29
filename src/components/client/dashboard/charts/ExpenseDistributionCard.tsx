@@ -30,7 +30,7 @@ const CircularProgress = ({ percentage, color }: { percentage: number; color: st
         cx="50"
         cy="50"
       />
-      <circle
+      <motion.circle
         className="transition-all duration-1000 ease-in-out"
         strokeWidth="8"
         strokeLinecap="round"
@@ -44,6 +44,14 @@ const CircularProgress = ({ percentage, color }: { percentage: number; color: st
           strokeDashoffset: `${2 * Math.PI * 40 * (1 - percentage / 100)}`,
           transform: 'rotate(-90deg)',
           transformOrigin: '50% 50%'
+        }}
+        animate={{
+          rotate: [0, 360],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: "linear"
         }}
       />
     </svg>
