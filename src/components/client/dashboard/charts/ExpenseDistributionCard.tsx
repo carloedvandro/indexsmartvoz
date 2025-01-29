@@ -1,7 +1,6 @@
 import { CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { CircularProgress } from "./CircularProgress";
-import { ExpenseBarChart } from "./ExpenseBarChart";
 import { expenseData } from "./types";
 
 export const ExpenseDistributionCard = () => {
@@ -22,10 +21,6 @@ export const ExpenseDistributionCard = () => {
             <span className="text-sm font-medium text-center">{item.category}</span>
           </motion.div>
         ))}
-      </div>
-
-      <div className="w-full max-w-[1800px] mx-auto px-4">
-        <ExpenseBarChart />
       </div>
     </div>
   );
