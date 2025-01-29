@@ -1,13 +1,11 @@
 import {
   Bar,
-  BarChart,
+  ComposedChart,
   Line,
-  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
-  ComposedChart,
   Cell,
 } from "recharts";
 
@@ -40,6 +38,30 @@ const colors = [
   "#6366f1",
   "#7c3aed",
 ];
+
+const CustomBar = (props: any) => {
+  const { fill, x, y, width, height, index } = props;
+  const animationDelay = `${index * 0.2}s`;
+
+  return (
+    <g>
+      <rect
+        x={x}
+        y={y}
+        width={width}
+        height={height}
+        fill={fill}
+        style={{
+          filter: "drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))",
+          animation: `float 3s ease-in-out infinite`,
+          animationDelay,
+        }}
+        rx={4}
+        ry={4}
+      />
+    </g>
+  );
+};
 
 export const MonthlyPerformanceChart = () => {
   return (
@@ -83,14 +105,11 @@ export const MonthlyPerformanceChart = () => {
               formatter={(value: number) => [`R$ ${value.toLocaleString()}`, "Valor"]}
               labelFormatter={(label) => `${label}`}
             />
-            <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={35}>
+            <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={35} shape={<CustomBar />}>
               {data.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={colors[index]}
-                  style={{
-                    filter: "drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))",
-                  }}
                 />
               ))}
             </Bar>
