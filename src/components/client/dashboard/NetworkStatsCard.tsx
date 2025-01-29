@@ -47,11 +47,7 @@ export const NetworkStatsCard = () => {
         <NetworkStatsGrid cardData={cardData} />
         <div className="grid grid-cols-1 gap-6 px-0">
           <NetworkLevelsChart />
-          <RevenueChartEffects data={revenueData} effect="wave" lineStyle="glow" />
-          <RevenueChartEffects data={revenueData} effect="float" lineStyle="glow" />
-          <RevenueChartEffects data={revenueData} effect="flip" lineStyle="glow" />
           <RevenueChartEffects data={revenueData} effect="tilt" lineStyle="glow" />
-          <RevenueChartEffects data={revenueData} effect="pulse" lineStyle="glow" />
         </div>
       </div>
     </div>
