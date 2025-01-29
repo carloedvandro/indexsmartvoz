@@ -43,10 +43,10 @@ export const NetworkStatsCard = () => {
   return (
     <div className="flex flex-col items-center w-full max-w-[1800px] mx-auto">
       <NetworkStatsHeader />
-      <div className="w-full space-y-8 px-4 md:px-6 lg:px-8">
+      <div className="w-full space-y-8 px-2 md:px-4">
         <NetworkStatsGrid cardData={cardData} />
         <ExpenseDistributionCard />
-        <div className="w-full max-w-4xl mx-auto">
+        <div className="w-full max-w-[1800px] mx-auto">
           <RevenueChart data={revenueData} />
         </div>
       </div>

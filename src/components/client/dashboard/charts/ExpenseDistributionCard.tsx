@@ -6,10 +6,10 @@ import { expenseData } from "./types";
 
 export const ExpenseDistributionCard = () => {
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-[1400px] mx-auto space-y-8">
+    <div className="flex flex-col items-center justify-center w-full max-w-[1800px] mx-auto space-y-8">
       <CardTitle className="text-2xl font-bold text-center">Produção por Nível</CardTitle>
       
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-10 w-full max-w-4xl mx-auto px-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-10 w-full max-w-[1800px] mx-auto px-4">
         {expenseData.map((item) => (
           <motion.div
             key={item.category}
@@ -24,7 +24,7 @@ export const ExpenseDistributionCard = () => {
         ))}
       </div>
 
-      <div className="w-full max-w-4xl mx-auto px-4">
+      <div className="w-full max-w-[1800px] mx-auto px-4">
         <ExpenseBarChart data={expenseData} />
       </div>
     </div>
