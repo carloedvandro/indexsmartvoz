@@ -63,10 +63,12 @@ export const StatCardChart = ({ data, color }: StatCardChartProps) => {
             stroke: color,
             strokeWidth: 2,
             r: 4,
-            className: "transition-all duration-300 hover:scale-150 cursor-pointer",
+            className: "transition-transform duration-500 ease-out hover:scale-[2.5] cursor-pointer",
             filter: "url(#glow)",
             style: {
-              filter: `drop-shadow(0 0 4px ${color})`
+              filter: `drop-shadow(0 0 4px ${color})`,
+              transformOrigin: "center",
+              willChange: "transform",
             }
           }}
           activeDot={{ 
@@ -79,6 +81,7 @@ export const StatCardChart = ({ data, color }: StatCardChartProps) => {
               filter: `drop-shadow(0 0 8px ${color})`,
               transformOrigin: "center",
               transform: "scale(1.2)",
+              willChange: "transform",
             }
           }}
           fill={`url(#gradient-${color})`}
