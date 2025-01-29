@@ -94,7 +94,7 @@ export const MonthlyPerformanceChart = () => {
               axisLine={false}
               tickFormatter={(value) => `R$ ${value / 1000}k`}
               width={60}
-              tick={{ dx: 12, dy: 4 }}
+              tick={{ dx: 10, dy: 4 }}
             />
             <Tooltip
               contentStyle={{
