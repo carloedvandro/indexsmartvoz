@@ -45,9 +45,9 @@ export const NetworkStatsCard = () => {
       <NetworkStatsHeader />
       <div className="space-y-8">
         <NetworkStatsGrid cardData={cardData} />
-        <div className="grid grid-cols-1 gap-6 px-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
           <NetworkLevelsChart />
-          <RevenueChartEffects data={revenueData} effect="tilt" lineStyle="glow" />
+          <NetworkLevelsChart />
         </div>
       </div>
     </div>
