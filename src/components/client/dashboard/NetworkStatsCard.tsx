@@ -6,8 +6,8 @@ import { useNetworkData } from "@/components/client/network/useNetworkData";
 import { countMembersByStatus } from "@/utils/networkStats";
 import { NetworkStatsHeader } from "./components/NetworkStatsHeader";
 import { NetworkStatsGrid } from "./components/NetworkStatsGrid";
-import { RevenueChart } from "./charts/RevenueChart";
 import { NetworkLevelsChart } from "./charts/NetworkLevelsChart";
+import { RevenueChartEffects } from "./charts/RevenueChartEffects";
 import { generateCardData, generateRevenueData } from "./utils/statsUtils";
 
 export const NetworkStatsCard = () => {
@@ -47,7 +47,11 @@ export const NetworkStatsCard = () => {
         <NetworkStatsGrid cardData={cardData} />
         <div className="grid grid-cols-1 gap-6 px-0">
           <NetworkLevelsChart />
-          <RevenueChart data={revenueData} />
+          <RevenueChartEffects data={revenueData} effect="wave" />
+          <RevenueChartEffects data={revenueData} effect="float" />
+          <RevenueChartEffects data={revenueData} effect="flip" />
+          <RevenueChartEffects data={revenueData} effect="tilt" />
+          <RevenueChartEffects data={revenueData} effect="pulse" />
         </div>
       </div>
     </div>
