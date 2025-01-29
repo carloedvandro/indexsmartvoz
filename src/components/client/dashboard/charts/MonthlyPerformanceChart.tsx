@@ -29,26 +29,26 @@ const data = [
 
 const colors = [
   "#4ade80", // green
-  "#6366f1", // indigo
+  "#4ade80", // green
+  "#d946ef", // purple
   "#d946ef", // purple
   "#ec4899", // pink
   "#f43f5e", // rose
   "#ef4444", // red
   "#eab308", // yellow
   "#3b82f6", // blue
-  "#8b5cf6", // purple
-  "#06b6d4", // cyan
-  "#10b981", // emerald
+  "#3b82f6", // blue
+  "#6366f1", // indigo
   "#7c3aed", // violet
 ];
 
 export const MonthlyPerformanceChart = () => {
   return (
-    <div className="w-full space-y-4 p-6 flex flex-col items-center">
+    <div className="w-full space-y-4 rounded-lg p-6 mx-[-9mm]">
       <CardHeader className="p-0 text-center">
-        <CardTitle className="text-2xl font-bold">Faturamento Mensal</CardTitle>
+        <CardTitle className="text-2xl font-bold">Performance Mensal</CardTitle>
       </CardHeader>
-      <div className="h-[280px] w-full max-w-[1700px]">
+      <div className="h-[280px] w-full bg-white rounded-lg p-4 border border-gray-200">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={data}
@@ -59,48 +59,6 @@ export const MonthlyPerformanceChart = () => {
               bottom: 20,
             }}
           >
-            <defs>
-              {colors.map((color, index) => (
-                <linearGradient
-                  key={`gradient-${index}`}
-                  id={`gradient-${index}`}
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
-                  <stop offset="0%" stopColor={color} stopOpacity={1} />
-                  <stop offset="100%" stopColor={color} stopOpacity={0.6} />
-                </linearGradient>
-              ))}
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                <feMerge>
-                  <feMergeNode in="coloredBlur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-              <style type="text/css">
-                {`
-                  @keyframes float {
-                    0% { transform: translateY(0px); }
-                    50% { transform: translateY(-5px); }
-                    100% { transform: translateY(0px); }
-                  }
-                  .bar-float {
-                    animation: float 3s ease-in-out infinite;
-                  }
-                  @keyframes pulse {
-                    0% { r: 4; opacity: 1; }
-                    50% { r: 6; opacity: 0.5; }
-                    100% { r: 4; opacity: 1; }
-                  }
-                  .dot-pulse {
-                    animation: pulse 1.5s ease-in-out infinite;
-                  }
-                `}
-              </style>
-            </defs>
             <XAxis
               dataKey="month"
               stroke="#1f2937"
@@ -123,20 +81,12 @@ export const MonthlyPerformanceChart = () => {
                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
                 color: "#1f2937",
               }}
-              formatter={(value: number) => [`R$ ${value.toLocaleString()}`]}
+              formatter={(value: number) => [`R$ ${value.toLocaleString()}`, "Valor"]}
               labelFormatter={(label) => `${label}`}
             />
             <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={35}>
               {data.map((entry, index) => (
-                <Cell 
-                  key={`cell-${index}`} 
-                  fill={`url(#gradient-${index})`}
-                  className="bar-float"
-                  style={{
-                    filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.1))",
-                    animationDelay: `${index * 0.1}s`,
-                  }}
-                />
+                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
               ))}
             </Bar>
             <Line
@@ -144,22 +94,8 @@ export const MonthlyPerformanceChart = () => {
               dataKey="trend"
               stroke="#1f2937"
               strokeWidth={2}
-              dot={{ 
-                r: 4,
-                fill: "#fff",
-                stroke: "#1f2937",
-                strokeWidth: 2,
-                className: "dot-pulse",
-                filter: "url(#glow)"
-              }}
-              activeDot={{ 
-                r: 6,
-                fill: "#fff",
-                stroke: "#1f2937",
-                strokeWidth: 2,
-                className: "dot-pulse",
-                filter: "url(#glow)"
-              }}
+              dot={{ fill: "#1f2937", r: 4 }}
+              activeDot={{ r: 6, fill: "#1f2937" }}
             />
           </ComposedChart>
         </ResponsiveContainer>

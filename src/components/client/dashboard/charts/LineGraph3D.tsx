@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'; // Added .js extension
 
+// Sample data points matching the curve pattern
 const dataPoints = [
   { x: 0, y: 0.5, z: 0 },
   { x: 1, y: 0.7, z: 0 },
@@ -14,7 +15,7 @@ const dataPoints = [
 ];
 
 interface LineGraph3DProps {
-  variant: 'gradient1' | 'gradient2' | 'gradient3' | 'gradient4' | 'gradient5';
+  variant: 'ribbon' | 'tube' | 'particles' | 'neon' | 'wave';
 }
 
 export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
@@ -66,59 +67,28 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
       dataPoints.map(point => new THREE.Vector3(point.x, point.y, point.z))
     );
 
-    // Gradient materials based on variant
-    const gradientMaterials = {
-      gradient1: {
-        colors: [0x4ade80, 0x22c55e], // Verde
-        name: "Emerald Flow"
-      },
-      gradient2: {
-        colors: [0xd946ef, 0x9333ea], // Roxo
-        name: "Royal Pulse"
-      },
-      gradient3: {
-        colors: [0xec4899, 0xbe185d], // Rosa
-        name: "Rose Wave"
-      },
-      gradient4: {
-        colors: [0x3b82f6, 0x1d4ed8], // Azul
-        name: "Ocean Drift"
-      },
-      gradient5: {
-        colors: [0xef4444, 0xb91c1c], // Vermelho
-        name: "Ruby Surge"
-      }
-    };
+    // Different visualizations based on variant
+    switch (variant) {
+      case 'ribbon':
+        createRibbon(scene, curve);
+        break;
+      case 'tube':
+        createTube(scene, curve);
+        break;
+      case 'particles':
+        createParticles(scene, curve);
+        break;
+      case 'neon':
+        createNeonLine(scene, curve);
+        break;
+      case 'wave':
+        createWave(scene, curve);
+        break;
+    }
 
-    const selectedGradient = gradientMaterials[variant];
-
-    // Create animated gradient material
-    const gradientTexture = new THREE.Texture(createGradientCanvas(selectedGradient.colors));
-    gradientTexture.needsUpdate = true;
-
-    const material = new THREE.MeshPhongMaterial({
-      map: gradientTexture,
-      transparent: true,
-      opacity: 0.8,
-      side: THREE.DoubleSide,
-    });
-
-    // Create geometry
-    const tubeGeometry = new THREE.TubeGeometry(curve, 100, 0.3, 20, false);
-    const tube = new THREE.Mesh(tubeGeometry, material);
-    scene.add(tube);
-
-    // Animation
-    let time = 0;
+    // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
-      time += 0.01;
-
-      // Animate gradient
-      tube.rotation.y = Math.sin(time) * 0.1;
-      tube.scale.y = 1 + Math.sin(time) * 0.1;
-
-      // Update controls and render
       controls.update();
       renderer.render(scene, camera);
     };
@@ -133,28 +103,134 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
     };
   }, [variant]);
 
-  // Helper function to create gradient canvas
-  const createGradientCanvas = (colors: number[]) => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 256;
-    canvas.height = 256;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return canvas;
+  // Visualization methods
+  const createRibbon = (scene: THREE.Scene, curve: THREE.CatmullRomCurve3) => {
+    const points = curve.getPoints(50);
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const material = new THREE.MeshPhongMaterial({
+      color: 0xD6BCFA,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.8,
+    });
 
-    const gradient = ctx.createLinearGradient(0, 0, 256, 256);
-    gradient.addColorStop(0, `#${colors[0].toString(16)}`);
-    gradient.addColorStop(1, `#${colors[1].toString(16)}`);
+    const ribbon = new THREE.Mesh(geometry, material);
+    scene.add(ribbon);
+  };
 
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 256, 256);
+  const createTube = (scene: THREE.Scene, curve: THREE.CatmullRomCurve3) => {
+    const geometry = new THREE.TubeGeometry(curve, 100, 0.1, 8, false);
+    const material = new THREE.MeshPhongMaterial({
+      color: 0xD6BCFA,
+      transparent: true,
+      opacity: 0.8,
+    });
 
-    return canvas;
+    const tube = new THREE.Mesh(geometry, material);
+    scene.add(tube);
+  };
+
+  const createParticles = (scene: THREE.Scene, curve: THREE.CatmullRomCurve3) => {
+    const points = curve.getPoints(200);
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    
+    const material = new THREE.PointsMaterial({
+      color: 0xD6BCFA,
+      size: 0.1,
+      transparent: true,
+      opacity: 0.8,
+    });
+
+    const particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+  };
+
+  const createNeonLine = (scene: THREE.Scene, curve: THREE.CatmullRomCurve3) => {
+    const points = curve.getPoints(50);
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    
+    const material = new THREE.LineBasicMaterial({
+      color: 0xD6BCFA,
+      linewidth: 2,
+    });
+
+    const line = new THREE.Line(geometry, material);
+    scene.add(line);
+
+    // Add glow effect
+    const glowMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        color: { value: new THREE.Color(0xD6BCFA) },
+      },
+      vertexShader: `
+        varying vec3 vNormal;
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 color;
+        varying vec3 vNormal;
+        void main() {
+          float intensity = pow(0.7 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 4.0);
+          gl_FragColor = vec4(color, 1.0) * intensity;
+        }
+      `,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+    });
+
+    const glowGeometry = new THREE.TubeGeometry(curve, 100, 0.2, 8, false);
+    const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
+    scene.add(glowMesh);
+  };
+
+  const createWave = (scene: THREE.Scene, curve: THREE.CatmullRomCurve3) => {
+    const points = curve.getPoints(50);
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    
+    const material = new THREE.LineBasicMaterial({
+      color: 0xD6BCFA,
+      linewidth: 2,
+    });
+
+    const line = new THREE.Line(geometry, material);
+    scene.add(line);
+
+    // Add animated wave effect
+    const waveGeometry = new THREE.PlaneGeometry(8, 2, 32, 32);
+    const waveMaterial = new THREE.MeshPhongMaterial({
+      color: 0xD6BCFA,
+      transparent: true,
+      opacity: 0.3,
+      side: THREE.DoubleSide,
+    });
+
+    const wave = new THREE.Mesh(waveGeometry, waveMaterial);
+    wave.rotation.x = Math.PI / 2;
+    wave.position.y = -0.5;
+    scene.add(wave);
+
+    // Animate vertices
+    const positions = waveGeometry.attributes.position.array;
+    let phase = 0;
+
+    function animateWave() {
+      phase += 0.1;
+      for (let i = 0; i < positions.length; i += 3) {
+        positions[i + 2] = Math.sin(phase + positions[i] / 2) * 0.3;
+      }
+      waveGeometry.attributes.position.needsUpdate = true;
+      requestAnimationFrame(animateWave);
+    }
+    animateWave();
   };
 
   return (
     <div 
       ref={containerRef} 
-      className="w-full h-[400px] rounded-xl overflow-hidden shadow-lg"
+      className="w-full h-[400px] rounded-xl overflow-hidden"
     />
   );
 };
