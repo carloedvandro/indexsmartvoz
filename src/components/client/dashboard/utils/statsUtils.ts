@@ -6,13 +6,13 @@ export const generateCardData = () => {
       title: "Ganhos Ativos",
       value: formatCurrency(130510),
       data: generateMonthlyData(),
-      color: "#4F46E5",  // Changed to blue
+      color: "#4F46E5",
     },
     {
       title: "Ganhos Pendentes",
       value: formatCurrency(175035),
       data: generateMonthlyData(),
-      color: "#ff0000",  // Changed to red
+      color: "#ff0000",
     },
     {
       title: "Total de Ganhos",
@@ -25,18 +25,8 @@ export const generateCardData = () => {
 
 const generateMonthlyData = () => {
   const months = [
-    "Jan",
-    "Fev",
-    "Mar",
-    "Abr",
-    "Mai",
-    "Jun",
-    "Jul",
-    "Ago",
-    "Set",
-    "Out",
-    "Nov",
-    "Dez",
+    "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
+    "Jul", "Ago", "Set", "Out", "Nov", "Dez",
   ];
 
   return months.map((name) => ({
@@ -47,22 +37,29 @@ const generateMonthlyData = () => {
 
 export const generateRevenueData = () => {
   const data = [];
-  const startDate = new Date(2024, 0, 1);
-  const baseValue = 5000;
-  let previousValue = baseValue;
+  const startDate = new Date();
+  startDate.setDate(1); // Primeiro dia do mês atual
+  const currentDate = new Date();
+  
+  let accumulatedValue = 0;
+  const dailyRevenues = new Map(); // Armazena os valores diários
 
-  for (let i = 0; i < 31; i++) {
-    const currentDate = new Date(startDate);
-    currentDate.setDate(startDate.getDate() + i);
+  // Gera valores diários aleatórios para o mês atual
+  for (let i = 0; i < currentDate.getDate(); i++) {
+    const date = new Date(startDate);
+    date.setDate(startDate.getDate() + i);
     
-    // Gera um valor que varia suavemente em relação ao anterior
-    const variation = (Math.random() - 0.5) * 2000;
-    const newValue = Math.max(previousValue + variation, 1000);
-    previousValue = newValue;
-
+    // Gera um valor diário entre 1000 e 5000
+    const dailyValue = Math.floor(Math.random() * 4000) + 1000;
+    dailyRevenues.set(date.getDate(), dailyValue);
+    
+    // Acumula o valor
+    accumulatedValue += dailyValue;
+    
     data.push({
-      name: `${String(currentDate.getDate()).padStart(2, "0")} de jan.`,
-      value: Math.floor(newValue),
+      name: `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}`,
+      value: accumulatedValue, // Valor acumulado até o dia
+      dailyValue: dailyValue, // Valor do dia específico
     });
   }
 
