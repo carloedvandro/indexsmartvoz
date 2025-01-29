@@ -40,13 +40,13 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
             </defs>
             <XAxis
               dataKey="name"
-              stroke="#888888"
+              stroke="#000000"
               fontSize={12}
               tickLine={false}
               axisLine={false}
             />
             <YAxis
-              stroke="#888888"
+              stroke="#000000"
               fontSize={12}
               tickLine={false}
               axisLine={false}
