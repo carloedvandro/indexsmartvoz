@@ -6,7 +6,7 @@ export const generateCardData = () => {
       title: "Ganhos Ativos",
       value: formatCurrency(130510),
       data: generateMonthlyData(),
-      color: "#4F46E5",
+      color: "#4F46E5",  // Changed to blue
     },
     {
       title: "Ganhos Pendentes",
