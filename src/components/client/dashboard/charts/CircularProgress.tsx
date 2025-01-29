@@ -18,7 +18,7 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
         cx="50"
         cy="50"
       />
-      {/* Animated progress circle */}
+      {/* Progress circle */}
       <motion.circle
         className="origin-center"
         strokeWidth="8"
@@ -31,14 +31,17 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
         style={{
           strokeDasharray: `${2 * Math.PI * 40}`,
           strokeDashoffset: `${2 * Math.PI * 40 * (1 - percentage / 100)}`,
+          transformOrigin: '50% 50%'
         }}
+        initial={{ rotate: 0 }}
         animate={{
-          rotate: 360,
+          rotate: [0, 360]
         }}
         transition={{
           duration: 2,
           repeat: Infinity,
-          ease: "linear"
+          ease: "linear",
+          repeatType: "loop"
         }}
       />
     </svg>
