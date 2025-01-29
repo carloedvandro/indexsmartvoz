@@ -1,4 +1,3 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { useProfile } from "@/hooks/useProfile";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
@@ -8,6 +7,7 @@ import { countMembersByStatus } from "@/utils/networkStats";
 import { NetworkStatsHeader } from "./components/NetworkStatsHeader";
 import { NetworkStatsGrid } from "./components/NetworkStatsGrid";
 import { RevenueChart } from "./charts/RevenueChart";
+import { NetworkLevelsChart } from "./charts/NetworkLevelsChart";
 import { generateCardData, generateRevenueData } from "./utils/statsUtils";
 
 export const NetworkStatsCard = () => {
@@ -47,6 +47,9 @@ export const NetworkStatsCard = () => {
         <NetworkStatsGrid cardData={cardData} />
         <div className="px-4">
           <RevenueChart data={revenueData} />
+        </div>
+        <div className="px-4">
+          <NetworkLevelsChart />
         </div>
       </div>
     </div>
