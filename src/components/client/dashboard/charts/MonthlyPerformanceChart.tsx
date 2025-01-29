@@ -93,10 +93,11 @@ export const MonthlyPerformanceChart = () => {
               tickLine={false}
               axisLine={false}
               tickFormatter={(value) => `R$ ${value / 1000}k`}
-              width={50}
+              width={55}
               tick={{ dx: 10, dy: 0 }}
               interval={0}
-              tickCount={5}
+              tickCount={7}
+              domain={[0, 120000]}
             />
             <Tooltip
               contentStyle={{
@@ -109,7 +110,7 @@ export const MonthlyPerformanceChart = () => {
               formatter={(value: number) => [`R$ ${value.toLocaleString()}`, "Valor"]}
               labelFormatter={(label) => `${label}`}
             />
-            <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={35} shape={<CustomBar />}>
+            <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={40} shape={<CustomBar />}>
               {data.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
