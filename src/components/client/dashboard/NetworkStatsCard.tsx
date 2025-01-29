@@ -47,10 +47,6 @@ export const NetworkStatsCard = () => {
         <NetworkStatsGrid cardData={cardData} />
         <div className="grid grid-cols-1 gap-6 px-0">
           <NetworkLevelsChart />
-          <RevenueChartEffects data={revenueData} effect="wave" lineStyle="default" />
-          <RevenueChartEffects data={revenueData} effect="wave" lineStyle="dashed" />
-          <RevenueChartEffects data={revenueData} effect="wave" lineStyle="gradient" />
-          <RevenueChartEffects data={revenueData} effect="wave" lineStyle="double" />
           <RevenueChartEffects data={revenueData} effect="wave" lineStyle="glow" />
         </div>
       </div>
