@@ -46,9 +46,7 @@ export const NetworkStatsCard = () => {
       <div className="space-y-8">
         <NetworkStatsGrid cardData={cardData} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 px-2">
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <NetworkLevelsChart />
-          </div>
+          <NetworkLevelsChart />
           <div className="bg-white rounded-lg p-6 shadow-sm">
             <RevenueChart data={revenueData} />
           </div>
