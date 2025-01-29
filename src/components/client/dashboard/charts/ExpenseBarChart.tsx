@@ -30,11 +30,22 @@ const BounceBar = (props: any) => {
       height={height}
       fill={fill}
       initial={{ y: 0 }}
-      animate={{ y: [0, -10, 0] }}
+      animate={{ 
+        y: [
+          y,           // posição inicial
+          y - 30,      // sobe alto
+          y,           // volta
+          y - 20,      // sobe médio
+          y,           // volta
+          y - 10,      // sobe baixo
+          y            // posição final
+        ]
+      }}
       transition={{
-        duration: 1,
+        duration: 2,
         repeat: Infinity,
-        ease: "easeInOut"
+        ease: [0.17, 0.67, 0.83, 0.67], // easing elástico
+        times: [0, 0.2, 0.4, 0.6, 0.8, 0.9, 1] // timing dos keyframes
       }}
     />
   );
