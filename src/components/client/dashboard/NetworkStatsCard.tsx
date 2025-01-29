@@ -45,11 +45,21 @@ export const NetworkStatsCard = () => {
       <NetworkStatsHeader />
       <div className="space-y-8">
         <NetworkStatsGrid cardData={cardData} />
-        <div className="px-4">
-          <NetworkLevelsChart />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="bg-white rounded-lg p-4 shadow-sm">
+            <NetworkLevelsChart />
+          </div>
+          <div className="bg-white rounded-lg p-4 shadow-sm">
+            <RevenueChart data={revenueData} />
+          </div>
         </div>
-        <div className="px-4">
-          <RevenueChart data={revenueData} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="bg-white rounded-lg p-4 shadow-sm">
+            <NetworkLevelsChart />
+          </div>
+          <div className="bg-white rounded-lg p-4 shadow-sm">
+            <RevenueChart data={revenueData} />
+          </div>
         </div>
       </div>
     </div>
