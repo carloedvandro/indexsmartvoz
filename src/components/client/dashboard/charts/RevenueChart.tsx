@@ -26,7 +26,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
           <AreaChart
             data={data}
             margin={{
-              top: 5,
+              top: 20,
               right: 10,
               left: 10,
               bottom: 0,
