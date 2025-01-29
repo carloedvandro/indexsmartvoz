@@ -46,10 +46,10 @@ export const NetworkStatsCard = () => {
       <div className="space-y-8">
         <NetworkStatsGrid cardData={cardData} />
         <div className="px-4">
-          <RevenueChart data={revenueData} />
+          <NetworkLevelsChart />
         </div>
         <div className="px-4">
-          <NetworkLevelsChart />
+          <RevenueChart data={revenueData} />
         </div>
       </div>
     </div>
