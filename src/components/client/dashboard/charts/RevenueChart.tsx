@@ -16,12 +16,6 @@ interface RevenueChartProps {
   }[];
 }
 
-// Definindo nossa própria interface para o timing da animação
-interface CustomAnimationTiming {
-  duration: number;
-  easing: string;
-}
-
 export const RevenueChart = ({ data }: RevenueChartProps) => {
   const [animationActive, setAnimationActive] = useState(true);
 
@@ -34,11 +28,6 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
 
     return () => clearInterval(interval);
   }, []);
-
-  const customAnimationTiming: CustomAnimationTiming = {
-    duration: 2000,
-    easing: "cubic-bezier(0.4, 0, 0.2, 1)",
-  };
 
   return (
     <div className="space-y-8 transform-gpu perspective-1000">
@@ -104,8 +93,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               fillOpacity={1}
               fill="url(#gradient)"
               isAnimationActive={animationActive}
-              animationDuration={customAnimationTiming.duration}
-              animationEasing={customAnimationTiming.easing}
+              animationDuration={2000}
               style={{ filter: "url(#shadow)" }}
             />
           </AreaChart>
