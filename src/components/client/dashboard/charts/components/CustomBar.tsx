@@ -1,13 +1,13 @@
 import { BarProps } from "recharts";
 
 interface CustomBarProps extends Omit<BarProps, "fill"> {
-  fill: string;
-  index: number;
+  fill?: string;
+  index?: number;
 }
 
 export const CustomBar = (props: CustomBarProps) => {
   const { fill, x, y, width, height, index } = props;
-  const animationDelay = `${index * 0.2}s`;
+  const animationDelay = index ? `${index * 0.2}s` : '0s';
 
   return (
     <g>

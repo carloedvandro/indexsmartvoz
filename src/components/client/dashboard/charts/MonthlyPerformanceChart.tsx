@@ -56,8 +56,8 @@ export const MonthlyPerformanceChart = () => {
               formatter={(value: number) => [`R$ ${value.toLocaleString()}`, "Valor"]}
               labelFormatter={(label) => `${label}`}
             />
-            <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={40} shape={<CustomBar />}>
-              {monthlyData.map((entry, index) => (
+            <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={40} shape={(props) => <CustomBar {...props} />}>
+              {monthlyData.map((_, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={chartColors[index]}
