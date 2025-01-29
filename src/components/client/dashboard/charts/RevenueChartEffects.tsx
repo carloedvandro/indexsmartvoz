@@ -112,7 +112,7 @@ export const RevenueChartEffects = ({ data, effect, lineStyle = "glow" }: Revenu
         <CardTitle>Faturamento - Efeito {effect}</CardTitle>
       </CardHeader>
       <motion.div 
-        className="h-[280px] -mx-4 relative transform-gpu bg-white rounded-lg shadow-lg p-4"
+        className="h-[280px] -mx-4 relative transform-gpu rounded-lg shadow-lg p-4 backdrop-blur-sm bg-white/5"
         style={{
           transformStyle: "preserve-3d",
           perspective: "1000px"
