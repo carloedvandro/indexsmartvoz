@@ -50,7 +50,7 @@ export const ExpenseBarChart = () => (
         <Bar
           dataKey="receita"
           name="Receita"
-          fill="#0ea5e9"
+          fill="#00d71c"
           radius={[4, 4, 0, 0]}
           barSize={8}
         />
