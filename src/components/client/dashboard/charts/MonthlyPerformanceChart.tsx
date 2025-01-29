@@ -66,7 +66,7 @@ const CustomBar = (props: any) => {
 export const MonthlyPerformanceChart = () => {
   return (
     <div className="w-full flex flex-col items-center max-w-[1800px] mx-auto">
-      <div className="text-center w-full">
+      <div className="text-center w-full mt-4">
         <h2 className="text-2xl font-bold">Performance Mensal</h2>
       </div>
       <div className="h-[280px] w-full">
