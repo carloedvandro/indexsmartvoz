@@ -11,7 +11,7 @@ export const ExpenseDistributionCard = () => {
         <CardTitle className="text-2xl font-bold">Produção por Nível</CardTitle>
       </CardHeader>
       
-      <div className="grid grid-cols-4 gap-4 px-8">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-10">
         {expenseData.map((item) => (
           <motion.div
             key={item.category}
