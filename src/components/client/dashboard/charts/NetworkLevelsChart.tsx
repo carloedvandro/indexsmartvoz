@@ -12,9 +12,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const data = [
   { nivel: "Nível 1", ativos: 10, inativos: 8 },
-  { nivel: "Nível 2", ativos: 7, inativos: 25 },
-  { nivel: "Nível 3", ativos: 5, inativos: 56 },
-  { nivel: "Nível 4", ativos: 15, inativos: 70 },
+  { nivel: "Nível 2", ativos: 100, inativos: 25 },
+  { nivel: "Nível 3", ativos: 1000, inativos: 56 },
+  { nivel: "Nível 4", ativos: 1000000, inativos: 70 },
   { nivel: "Nível 5", ativos: 4, inativos: 91 },
 ];
 
@@ -52,7 +52,7 @@ export const NetworkLevelsChart = () => {
               <YAxis 
                 fontSize={12}
                 tickCount={6}
-                domain={[0, 1000]}
+                domain={[0, 1000000]}
               />
               <Tooltip 
                 contentStyle={{
