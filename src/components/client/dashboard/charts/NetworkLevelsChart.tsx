@@ -35,7 +35,7 @@ export const NetworkLevelsChart = () => {
               bottom: 5,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
+            <CartesianGrid strokeDasharray="3 3" opacity={0.05} />
             <XAxis 
               dataKey="nivel" 
               fontSize={11}
