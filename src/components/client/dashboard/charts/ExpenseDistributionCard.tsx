@@ -6,12 +6,12 @@ import { expenseData } from "./types";
 
 export const ExpenseDistributionCard = () => {
   return (
-    <div className="space-y-8 rounded-lg bg-white p-8 shadow-lg w-full max-w-[1800px] mx-auto">
+    <div className="space-y-8 rounded-lg bg-white p-10 shadow-lg w-full max-w-[2400px] mx-auto">
       <CardHeader className="p-0">
         <CardTitle className="text-2xl font-bold">Produção por Nível</CardTitle>
       </CardHeader>
       
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-10">
         {expenseData.map((item) => (
           <motion.div
             key={item.category}
