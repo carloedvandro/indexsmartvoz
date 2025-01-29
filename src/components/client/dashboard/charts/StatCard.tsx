@@ -65,7 +65,7 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
         {value}
       </motion.p>
       <motion.div 
-        className="mt-4 h-[200px] w-full group"
+        className="mt-4 h-[200px] w-full"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.4 }}
@@ -75,11 +75,16 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
         }}
       >
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
+          <LineChart 
+            data={data}
+            style={{
+              filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.1))"
+            }}
+          >
             <defs>
-              <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={color} stopOpacity={0.8} className="transition-all duration-300 group-hover:stop-opacity-1"/>
-                <stop offset="95%" stopColor={color} stopOpacity={0.2} className="transition-all duration-300 group-hover:stop-opacity-0.4"/>
+              <linearGradient id={`gradient-${color}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={color} stopOpacity={0.8}/>
+                <stop offset="100%" stopColor={color} stopOpacity={0.2}/>
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -103,19 +108,22 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
               dataKey="value"
               stroke={color}
               strokeWidth={2}
-              fill="url(#colorGradient)"
               dot={{ 
                 fill: "#fff", 
                 stroke: color,
                 strokeWidth: 2,
-                r: 4,
+                r: 4 
               }}
               activeDot={{ 
                 r: 6, 
                 fill: "#fff",
                 stroke: color,
-                strokeWidth: 2
+                strokeWidth: 2,
+                className: "animate-pulse"
               }}
+              fill={`url(#gradient-${color})`}
+              animationDuration={2000}
+              animationBegin={600}
             />
           </LineChart>
         </ResponsiveContainer>
