@@ -59,6 +59,27 @@ export const MonthlyPerformanceChart = () => {
               bottom: 20,
             }}
           >
+            <defs>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+              <style type="text/css">
+                {`
+                  @keyframes pulse {
+                    0% { r: 4; opacity: 1; }
+                    50% { r: 6; opacity: 0.5; }
+                    100% { r: 4; opacity: 1; }
+                  }
+                  .dot-pulse {
+                    animation: pulse 1.5s ease-in-out infinite;
+                  }
+                `}
+              </style>
+            </defs>
             <XAxis
               dataKey="month"
               stroke="#1f2937"
@@ -94,8 +115,22 @@ export const MonthlyPerformanceChart = () => {
               dataKey="trend"
               stroke="#1f2937"
               strokeWidth={2}
-              dot={{ fill: "#1f2937", r: 4 }}
-              activeDot={{ r: 6, fill: "#1f2937" }}
+              dot={{ 
+                r: 4,
+                fill: "#fff",
+                stroke: "#1f2937",
+                strokeWidth: 2,
+                className: "dot-pulse",
+                filter: "url(#glow)"
+              }}
+              activeDot={{ 
+                r: 6,
+                fill: "#fff",
+                stroke: "#1f2937",
+                strokeWidth: 2,
+                className: "dot-pulse",
+                filter: "url(#glow)"
+              }}
             />
           </ComposedChart>
         </ResponsiveContainer>
