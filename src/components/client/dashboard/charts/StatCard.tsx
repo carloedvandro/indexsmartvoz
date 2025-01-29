@@ -60,14 +60,6 @@ const CustomDot = (props: any) => {
         filter={`url(#glow-${stroke})`}
         className="animate-pulse"
       />
-      <circle
-        cx={cx}
-        cy={cy}
-        r="4"
-        fill={stroke}
-        filter={`url(#glow-${stroke})`}
-        className="animate-ping"
-      />
     </g>
   );
 };
@@ -177,7 +169,7 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
               dot={<CustomDot />}
               activeDot={{ 
                 r: 8,
-                fill: color,
+                fill: `url(#dotGradient-${color})`,
                 filter: `url(#glow-${color})`,
                 className: "animate-pulse"
               }}

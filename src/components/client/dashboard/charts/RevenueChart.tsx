@@ -45,14 +45,6 @@ const CustomDot = (props: any) => {
         filter="url(#glow)"
         className="animate-pulse"
       />
-      <circle
-        cx={cx}
-        cy={cy}
-        r="4"
-        fill="#6E59A5"
-        filter="url(#glow)"
-        className="animate-ping"
-      />
     </g>
   );
 };
@@ -160,7 +152,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               dot={<CustomDot />}
               activeDot={{ 
                 r: 8, 
-                fill: "#6E59A5", 
+                fill: "url(#dotGradient)", 
                 filter: "url(#glow)",
                 className: "animate-pulse"
               }}
