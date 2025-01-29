@@ -29,16 +29,16 @@ const data = [
 
 const colors = [
   "#4ade80", // green
-  "#4ade80", // green
-  "#d946ef", // purple
+  "#6366f1", // indigo
   "#d946ef", // purple
   "#ec4899", // pink
   "#f43f5e", // rose
   "#ef4444", // red
   "#eab308", // yellow
   "#3b82f6", // blue
-  "#3b82f6", // blue
-  "#6366f1", // indigo
+  "#8b5cf6", // purple
+  "#06b6d4", // cyan
+  "#10b981", // emerald
   "#7c3aed", // violet
 ];
 
