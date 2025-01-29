@@ -23,7 +23,7 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
         className="origin-center"
         strokeWidth="8"
         strokeLinecap="round"
-        stroke={color}
+        stroke="#0d00ff"
         fill="transparent"
         r="40"
         cx="50"
@@ -38,7 +38,7 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
           rotate: [0, 360]
         }}
         transition={{
-          duration: 1, // Changed from 3 back to 1 second
+          duration: 1,
           repeat: Infinity,
           ease: "linear",
           repeatType: "loop"
