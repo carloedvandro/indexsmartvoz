@@ -20,7 +20,7 @@ const data = [
 
 export const NetworkLevelsChart = () => {
   return (
-    <Card className="w-full">
+    <div className="w-full">
       <CardHeader>
         <CardTitle>Distribuição por Níveis</CardTitle>
       </CardHeader>
@@ -79,6 +79,6 @@ export const NetworkLevelsChart = () => {
           </ResponsiveContainer>
         </div>
       </CardContent>
-    </Card>
+    </div>
   );
 };

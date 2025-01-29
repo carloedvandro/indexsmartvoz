@@ -1,4 +1,4 @@
-import { CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Area,
   AreaChart,
@@ -19,6 +19,7 @@ interface RevenueChartProps {
 export const RevenueChart = ({ data }: RevenueChartProps) => {
   const [animationActive, setAnimationActive] = useState(true);
 
+  // Efeito para reativar a animação periodicamente
   useEffect(() => {
     const interval = setInterval(() => {
       setAnimationActive(false);
@@ -29,12 +30,12 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
   }, []);
 
   return (
-    <div className="space-y-8 transform-gpu perspective-1000 w-full max-w-[1600px] mx-auto">
+    <div className="space-y-8 transform-gpu perspective-1000">
       <CardHeader className="p-0 pl-4">
         <CardTitle>Faturamento</CardTitle>
       </CardHeader>
       <div 
-        className="h-[280px] -mx-4 relative transform-gpu hover:scale-[1.02] transition-transform duration-300"
+        className="h-[280px] -mx-2 relative transform-gpu hover:scale-[1.02] transition-transform duration-300"
         style={{
           transform: "rotateX(5deg)",
           transformStyle: "preserve-3d",
@@ -45,8 +46,8 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
             data={data}
             margin={{
               top: 20,
-              right: 20,
-              left: 20,
+              right: 10,
+              left: 10,
               bottom: 0,
             }}
           >
