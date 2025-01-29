@@ -16,12 +16,12 @@ export const MonthlyPerformanceChart = () => {
   return (
     <div className="w-full flex flex-col items-center max-w-[1800px] mx-auto">
       <ChartHeader title="Performance Mensal" />
-      <div className="h-[300px] w-full mt-4"> {/* Increased height and added margin top */}
+      <div className="h-[320px] w-full mt-6"> {/* Increased height and margin top further */}
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={monthlyData}
             margin={{
-              top: 30, // Increased top margin
+              top: 40, // Increased top margin even more
               right: 10,
               left: 10,
               bottom: 20,
