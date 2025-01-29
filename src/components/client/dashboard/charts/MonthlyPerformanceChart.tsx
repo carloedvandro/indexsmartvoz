@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Bar,
   BarChart,
@@ -44,23 +43,11 @@ const colors = [
 
 export const MonthlyPerformanceChart = () => {
   return (
-    <div className="w-full space-y-4 rounded-lg p-6 mx-[-9mm]">
-      <CardHeader className="p-0 text-center">
-        <CardTitle className="text-2xl font-bold">Performance Mensal</CardTitle>
-      </CardHeader>
-      <div className="h-[280px] w-full bg-white rounded-lg p-4 border border-gray-200">
-        <style>
-          {`
-            @keyframes floatBar {
-              0%, 100% {
-                transform: translateY(0);
-              }
-              50% {
-                transform: translateY(-8px);
-              }
-            }
-          `}
-        </style>
+    <div className="w-full space-y-4 mx-auto max-w-[1800px]">
+      <div className="text-center">
+        <h2 className="text-2xl font-bold">Performance Mensal</h2>
+      </div>
+      <div className="h-[280px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={data}
@@ -71,21 +58,6 @@ export const MonthlyPerformanceChart = () => {
               bottom: 20,
             }}
           >
-            <defs>
-              {colors.map((color, index) => (
-                <linearGradient
-                  key={`gradient-${index}`}
-                  id={`gradient-${index}`}
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
-                  <stop offset="0%" stopColor={color} stopOpacity={1} />
-                  <stop offset="100%" stopColor={color} stopOpacity={0.2} />
-                </linearGradient>
-              ))}
-            </defs>
             <XAxis
               dataKey="month"
               stroke="#1f2937"
@@ -115,11 +87,9 @@ export const MonthlyPerformanceChart = () => {
               {data.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={`url(#gradient-${index})`}
+                  fill={colors[index]}
                   style={{
                     filter: "drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))",
-                    animation: `floatBar 3s ease-in-out infinite`,
-                    animationDelay: `${index * 0.2}s`,
                   }}
                 />
               ))}
