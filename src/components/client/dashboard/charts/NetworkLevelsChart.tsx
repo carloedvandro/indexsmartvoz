@@ -46,7 +46,7 @@ export const NetworkLevelsChart = () => {
                 textAnchor="end"
                 height={40}
                 interval={0}
-                tickSize={2}
+                tickSize={12}
                 tickMargin={2}
               />
               <YAxis fontSize={12} />
