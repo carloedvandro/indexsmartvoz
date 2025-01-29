@@ -11,15 +11,16 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const data = [
-  { nivel: "Nível 1", ativos: 0, inativos: 0 },
-  { nivel: "Nível 2", ativos: 10, inativos: 2 },
-  { nivel: "Nível 3", ativos: 100, inativos: 15 },
-  { nivel: "Nível 4", ativos: 10000, inativos: 1500 },
+  { nivel: "Nível 1", ativos: 8, inativos: 0 },
+  { nivel: "Nível 2", ativos: 12, inativos: 3 },
+  { nivel: "Nível 3", ativos: 8, inativos: 56 },
+  { nivel: "Nível 4", ativos: 15, inativos: 25 },
+  { nivel: "Nível 5", ativos: 19, inativos: 39 },
 ];
 
 export const NetworkLevelsChart = () => {
   return (
-    <Card className="w-full">
+    <Card className="w-full col-span-2">
       <CardHeader>
         <CardTitle>Distribuição por Níveis</CardTitle>
       </CardHeader>
@@ -30,29 +31,25 @@ export const NetworkLevelsChart = () => {
               data={data}
               margin={{
                 top: 20,
-                right: 30,
-                left: 20,
+                right: 0,
+                left: 0,
                 bottom: 7,
               }}
-              barGap={2}
-              barCategoryGap={4}
+              barGap={0}
+              barCategoryGap={2}
             >
-              <CartesianGrid strokeDasharray="3 3" opacity={0.1} horizontal={true} vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" opacity={0.05} horizontal={true} vertical={false} />
               <XAxis 
                 dataKey="nivel" 
                 fontSize={11}
                 angle={-45}
                 textAnchor="end"
-                height={60}
+                height={40}
                 interval={0}
-                tickSize={8}
-                tickMargin={5}
+                tickSize={12}
+                tickMargin={4}
               />
-              <YAxis 
-                fontSize={12}
-                tickCount={6}
-                domain={[0, 10000]}
-              />
+              <YAxis fontSize={12} />
               <Tooltip 
                 contentStyle={{
                   backgroundColor: "white",
@@ -60,22 +57,23 @@ export const NetworkLevelsChart = () => {
                   borderRadius: "8px",
                   boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
                 }}
-                cursor={false}
               />
               <Legend />
               <Bar
                 dataKey="ativos"
                 name="Ativos"
-                fill="#5f0889"
-                radius={[2, 2, 0, 0]}
-                barSize={16}
+                stackId="a"
+                fill="#ff00d6"
+                radius={[4, 4, 0, 0]}
+                barSize={25}
               />
               <Bar
                 dataKey="inativos"
                 name="Inativos"
-                fill="#ff3131"
-                radius={[2, 2, 0, 0]}
-                barSize={16}
+                stackId="a"
+                fill="#f70000"
+                radius={[4, 4, 0, 0]}
+                barSize={25}
               />
             </BarChart>
           </ResponsiveContainer>
