@@ -10,6 +10,9 @@ import {
   YAxis,
   ComposedChart,
   Cell,
+  defs,
+  linearGradient,
+  stop,
 } from "recharts";
 
 const data = [
@@ -28,18 +31,18 @@ const data = [
 ];
 
 const colors = [
-  "#4ade80", // green
-  "#4ade80", // green
-  "#d946ef", // purple
-  "#d946ef", // purple
-  "#ec4899", // pink
-  "#f43f5e", // rose
-  "#ef4444", // red
-  "#eab308", // yellow
-  "#3b82f6", // blue
-  "#3b82f6", // blue
-  "#6366f1", // indigo
-  "#7c3aed", // violet
+  "#4ade80",
+  "#4ade80",
+  "#d946ef",
+  "#d946ef",
+  "#ec4899",
+  "#f43f5e",
+  "#ef4444",
+  "#eab308",
+  "#3b82f6",
+  "#3b82f6",
+  "#6366f1",
+  "#7c3aed",
 ];
 
 export const MonthlyPerformanceChart = () => {
@@ -59,6 +62,21 @@ export const MonthlyPerformanceChart = () => {
               bottom: 20,
             }}
           >
+            <defs>
+              {colors.map((color, index) => (
+                <linearGradient
+                  key={`gradient-${index}`}
+                  id={`gradient-${index}`}
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop offset="0%" stopColor={color} stopOpacity={1} />
+                  <stop offset="100%" stopColor={color} stopOpacity={0.2} />
+                </linearGradient>
+              ))}
+            </defs>
             <XAxis
               dataKey="month"
               stroke="#1f2937"
@@ -86,7 +104,11 @@ export const MonthlyPerformanceChart = () => {
             />
             <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={35}>
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                <Cell
+                  key={`cell-${index}`}
+                  fill={`url(#gradient-${index})`}
+                  filter="drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))"
+                />
               ))}
             </Bar>
             <Line
