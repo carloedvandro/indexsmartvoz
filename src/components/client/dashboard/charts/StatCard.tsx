@@ -125,7 +125,6 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
                 stroke: color,
                 strokeWidth: 2,
                 r: 4,
-                className: "transition-all duration-300 hover:r-6",
                 filter: "url(#glow)"
               }}
               activeDot={{ 
@@ -133,8 +132,21 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
                 fill: "#fff",
                 stroke: color,
                 strokeWidth: 3,
-                className: "animate-pulse",
                 filter: "url(#glow)"
+              }}
+              onMouseEnter={(e) => {
+                const element = e?.target;
+                if (element && element.style) {
+                  element.style.transform = 'scale(1.2)';
+                  element.style.transition = 'transform 0.2s';
+                }
+              }}
+              onMouseLeave={(e) => {
+                const element = e?.target;
+                if (element && element.style) {
+                  element.style.transform = 'scale(1)';
+                  element.style.transition = 'transform 0.2s';
+                }
               }}
               animationDuration={2000}
               animationBegin={600}
