@@ -98,6 +98,32 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                 <stop offset="0%" stopColor="#6E59A5" stopOpacity={0.8} />
                 <stop offset="100%" stopColor="#6E59A5" stopOpacity={0.2} />
               </linearGradient>
+              <linearGradient id="line-gradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#6E59A5" stopOpacity={1}>
+                  <animate
+                    attributeName="offset"
+                    values="0;1"
+                    dur="2s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="50%" stopColor="#6E59A588" stopOpacity={0.8}>
+                  <animate
+                    attributeName="offset"
+                    values="0;1"
+                    dur="2s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="100%" stopColor="#6E59A5" stopOpacity={0.2}>
+                  <animate
+                    attributeName="offset"
+                    values="0;1"
+                    dur="2s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+              </linearGradient>
             </defs>
             <XAxis
               dataKey="name"
@@ -127,7 +153,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
             <Area
               type="monotone"
               dataKey="value"
-              stroke="#6E59A5"
+              stroke="url(#line-gradient)"
               strokeWidth={3}
               fillOpacity={1}
               fill="url(#gradient)"
