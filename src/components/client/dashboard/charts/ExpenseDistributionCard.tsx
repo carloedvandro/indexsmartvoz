@@ -6,7 +6,7 @@ import { expenseData } from "./types";
 
 export const ExpenseDistributionCard = () => {
   return (
-    <div className="space-y-8 rounded-lg bg-white p-12 px-24 shadow-lg w-full max-w-[3200px] mx-auto">
+    <div className="space-y-8 rounded-lg bg-white p-12 px-10 shadow-lg w-full max-w-[3200px] mx-auto">
       <CardHeader className="p-0">
         <CardTitle className="text-2xl font-bold">Produção por Nível</CardTitle>
       </CardHeader>
