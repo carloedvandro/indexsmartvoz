@@ -6,7 +6,7 @@ interface CircularProgressProps {
 }
 
 export const CircularProgress = ({ percentage, color }: CircularProgressProps) => (
-  <div className="relative w-36 h-36"> {/* Changed from w-32 h-32 to w-36 h-36 */}
+  <div className="relative w-36 h-36 mx-1"> {/* Added mx-1 for horizontal spacing */}
     <svg className="w-full h-full" viewBox="0 0 100 100">
       {/* Background circle */}
       <circle
