@@ -6,7 +6,6 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-  AnimationTiming,
 } from "recharts";
 import { useEffect, useState } from "react";
 
@@ -15,6 +14,12 @@ interface RevenueChartProps {
     name: string;
     value: number;
   }[];
+}
+
+// Definindo nossa própria interface para o timing da animação
+interface CustomAnimationTiming {
+  duration: number;
+  easing: string;
 }
 
 export const RevenueChart = ({ data }: RevenueChartProps) => {
@@ -30,7 +35,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
     return () => clearInterval(interval);
   }, []);
 
-  const CustomAnimationTiming: AnimationTiming = {
+  const customAnimationTiming: CustomAnimationTiming = {
     duration: 2000,
     easing: "cubic-bezier(0.4, 0, 0.2, 1)",
   };
@@ -99,8 +104,8 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               fillOpacity={1}
               fill="url(#gradient)"
               isAnimationActive={animationActive}
-              animationDuration={CustomAnimationTiming.duration}
-              animationEasing={CustomAnimationTiming.easing}
+              animationDuration={customAnimationTiming.duration}
+              animationEasing={customAnimationTiming.easing}
               style={{ filter: "url(#shadow)" }}
             />
           </AreaChart>
