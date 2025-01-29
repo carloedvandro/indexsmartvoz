@@ -24,7 +24,7 @@ export const StatCardChart = ({ data, color }: StatCardChartProps) => {
             <stop offset="100%" stopColor={color} stopOpacity={0.2}/>
           </linearGradient>
           
-          {/* Enhanced glow filter */}
+          {/* Enhanced glow filter with dynamic shadow */}
           <filter id="glow" height="300%" width="300%" x="-100%" y="-100%">
             <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
             <feFlood floodColor={color} floodOpacity="0.3" result="glowColor"/>
@@ -34,6 +34,17 @@ export const StatCardChart = ({ data, color }: StatCardChartProps) => {
               <feMergeNode in="softGlow"/>
               <feMergeNode in="SourceGraphic"/>
             </feMerge>
+          </filter>
+
+          {/* Dynamic shadow filter for active dot */}
+          <filter id="activeDotShadow" height="200%" width="200%" x="-50%" y="-50%">
+            <feDropShadow 
+              dx="0" 
+              dy="4" 
+              stdDeviation="4"
+              floodColor={color}
+              floodOpacity="0.3"
+            />
           </filter>
         </defs>
         
@@ -78,10 +89,11 @@ export const StatCardChart = ({ data, color }: StatCardChartProps) => {
             strokeWidth: 3,
             className: "animate-[pulse_1.5s_ease-in-out_infinite]",
             style: {
-              filter: `drop-shadow(0 0 8px ${color})`,
+              filter: `url(#activeDotShadow)`,
               transformOrigin: "center",
               transform: "scale(1.2)",
-              willChange: "transform",
+              willChange: "transform, filter",
+              transition: "filter 0.3s ease-out",
             }
           }}
           fill={`url(#gradient-${color})`}
