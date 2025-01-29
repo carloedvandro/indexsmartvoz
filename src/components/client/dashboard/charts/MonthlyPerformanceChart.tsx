@@ -13,29 +13,13 @@ import {
 } from "recharts";
 
 const data = [
-  { month: "JAN", value: 65000, trend: 45000 },
-  { month: "FEV", value: 72000, trend: 52000 },
-  { month: "MAR", value: 45000, trend: 48000 },
-  { month: "ABR", value: 85000, trend: 55000 },
-  { month: "MAI", value: 95000, trend: 65000 },
-  { month: "JUN", value: 102000, trend: 75000 },
-  { month: "JUL", value: 98000, trend: 82000 },
-  { month: "AGO", value: 88000, trend: 80000 },
-  { month: "SET", value: 72000, trend: 68000 },
-  { month: "OUT", value: 85000, trend: 71000 },
-  { month: "NOV", value: 95000, trend: 78000 },
-  { month: "DEZ", value: 112000, trend: 85000 },
+  { month: "SET", fullMonth: "SETEMBRO", value: 65000 },
+  { month: "OUT", fullMonth: "OUTUBRO", value: 72000 },
+  { month: "NOV", fullMonth: "NOVEMBRO", value: 85000 },
+  { month: "DEZ", fullMonth: "DEZEMBRO", value: 112000 },
 ];
 
 const colors = [
-  "#4ade80", // green
-  "#4ade80", // green
-  "#d946ef", // purple
-  "#d946ef", // purple
-  "#ec4899", // pink
-  "#f43f5e", // rose
-  "#ef4444", // red
-  "#eab308", // yellow
   "#3b82f6", // blue
   "#3b82f6", // blue
   "#6366f1", // indigo
@@ -82,7 +66,12 @@ export const MonthlyPerformanceChart = () => {
                 color: "#1f2937",
               }}
               formatter={(value: number) => [`R$ ${value.toLocaleString()}`, "Valor"]}
-              labelFormatter={(label) => `${label}`}
+              labelFormatter={(_, payload) => {
+                if (payload && payload[0]) {
+                  return payload[0].payload.fullMonth;
+                }
+                return "";
+              }}
             />
             <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={35}>
               {data.map((entry, index) => (
@@ -91,7 +80,7 @@ export const MonthlyPerformanceChart = () => {
             </Bar>
             <Line
               type="monotone"
-              dataKey="trend"
+              dataKey="value"
               stroke="#1f2937"
               strokeWidth={2}
               dot={{ fill: "#1f2937", r: 4 }}
