@@ -94,9 +94,8 @@ export const MonthlyPerformanceChart = () => {
               axisLine={false}
               tickFormatter={(value) => `R$ ${value / 1000}k`}
               width={55}
-              tick={{ dx: 5, dy: 0 }}
-              interval={0}
-              tickCount={7}
+              tick={{ dx: -2 }}
+              ticks={[0, 20000, 40000, 60000, 80000, 100000, 120000]} // Define valores específicos para os ticks
               domain={[0, 120000]}
             />
             <Tooltip
