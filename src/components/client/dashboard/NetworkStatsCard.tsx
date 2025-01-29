@@ -6,10 +6,9 @@ import { useNetworkData } from "@/components/client/network/useNetworkData";
 import { countMembersByStatus } from "@/utils/networkStats";
 import { NetworkStatsHeader } from "./components/NetworkStatsHeader";
 import { NetworkStatsGrid } from "./components/NetworkStatsGrid";
-import { RevenueChart } from "./charts/RevenueChart";
 import { ExpenseDistributionCard } from "./charts/ExpenseDistributionCard";
 import { MonthlyPerformanceChart } from "./charts/MonthlyPerformanceChart";
-import { generateCardData, generateRevenueData } from "./utils/statsUtils";
+import { generateCardData } from "./utils/statsUtils";
 
 export const NetworkStatsCard = () => {
   const { data: profile } = useProfile();
@@ -39,7 +38,6 @@ export const NetworkStatsCard = () => {
 
   const memberCounts = networkData ? countMembersByStatus(networkData) : { active: 0, pending: 0 };
   const cardData = generateCardData();
-  const revenueData = generateRevenueData();
 
   return (
     <div className="flex flex-col items-center w-full max-w-[1800px] mx-auto">
@@ -48,9 +46,6 @@ export const NetworkStatsCard = () => {
         <NetworkStatsGrid cardData={cardData} />
         <ExpenseDistributionCard />
         <MonthlyPerformanceChart />
-        <div className="w-full max-w-[1800px] mx-auto">
-          <RevenueChart data={revenueData} />
-        </div>
       </div>
     </div>
   );
