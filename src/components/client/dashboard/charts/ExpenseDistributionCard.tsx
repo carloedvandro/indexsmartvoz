@@ -1,4 +1,4 @@
-import { CardHeader, CardTitle } from "@/components/ui/card";
+import { CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { CircularProgress } from "./CircularProgress";
 import { ExpenseBarChart } from "./ExpenseBarChart";
@@ -7,9 +7,7 @@ import { expenseData } from "./types";
 export const ExpenseDistributionCard = () => {
   return (
     <div className="space-y-4 rounded-lg bg-white p-2 px-2 shadow-lg w-full max-w-[1200px] mx-auto">
-      <CardHeader className="p-0 -mt-2">
-        <CardTitle className="text-2xl font-bold">Produção por Nível</CardTitle>
-      </CardHeader>
+      <CardTitle className="text-2xl font-bold -mt-1">Produção por Nível</CardTitle>
       
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-10">
         {expenseData.map((item) => (
