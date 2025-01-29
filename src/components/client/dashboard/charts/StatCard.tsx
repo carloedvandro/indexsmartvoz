@@ -58,7 +58,7 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
       </motion.h3>
       <motion.p 
         className="text-2xl font-bold mt-2"
-        style={{ color: "#00d71c" }}
+        style={{ color: title === "Ganhos Pendentes" ? "#ff0000" : title === "Total de Ganhos" ? "#00d71c" : color }}
         initial={{ x: -20, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.3 }}

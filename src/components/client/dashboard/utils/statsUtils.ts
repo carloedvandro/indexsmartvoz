@@ -12,13 +12,13 @@ export const generateCardData = () => {
       title: "Ganhos Pendentes",
       value: formatCurrency(175035),
       data: generateMonthlyData(),
-      color: "#0EA5E9",
+      color: "#ff0000",  // Changed to red
     },
     {
       title: "Total de Ganhos",
       value: formatCurrency(210375),
       data: generateMonthlyData(),
-      color: "#10B981",
+      color: "#00d71c",
     },
   ];
 };
