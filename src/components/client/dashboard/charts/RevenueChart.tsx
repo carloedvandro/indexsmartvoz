@@ -21,14 +21,14 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
       <CardHeader className="p-0 pl-4">
         <CardTitle>Faturamento</CardTitle>
       </CardHeader>
-      <div className="h-[280px]">
+      <div className="h-[280px] -mx-4">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}
             margin={{
               top: 20,
               right: 10,
-              left: 30,
+              left: 40,
               bottom: 0,
             }}
           >
