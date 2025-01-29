@@ -6,16 +6,16 @@ import { expenseData } from "./types";
 
 export const ExpenseDistributionCard = () => {
   return (
-    <div className="space-y-8 rounded-lg bg-white p-6 shadow-lg">
+    <div className="space-y-8 rounded-lg bg-white p-8 shadow-lg w-full max-w-[1800px] mx-auto">
       <CardHeader className="p-0">
         <CardTitle className="text-2xl font-bold">Produção por Nível</CardTitle>
       </CardHeader>
       
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {expenseData.map((item) => (
           <motion.div
             key={item.category}
-            className="flex flex-col items-center space-y-2"
+            className="flex flex-col items-center space-y-4"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
