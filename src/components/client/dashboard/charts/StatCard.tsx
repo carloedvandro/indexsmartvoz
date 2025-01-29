@@ -33,7 +33,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 const CustomDot = (props: any) => {
-  const { cx, cy, payload, stroke } = props;
+  const { cx, cy, stroke } = props;
   
   return (
     <g>
@@ -128,6 +128,32 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
                 <stop offset="0%" stopColor={color} stopOpacity={0.8}/>
                 <stop offset="100%" stopColor={color} stopOpacity={0.2}/>
               </linearGradient>
+              <linearGradient id={`line-gradient-${color}`} x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor={color} stopOpacity={1}>
+                  <animate
+                    attributeName="offset"
+                    values="0;1"
+                    dur="2s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="50%" stopColor={`${color}88`} stopOpacity={0.8}>
+                  <animate
+                    attributeName="offset"
+                    values="0;1"
+                    dur="2s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="100%" stopColor={color} stopOpacity={0.2}>
+                  <animate
+                    attributeName="offset"
+                    values="0;1"
+                    dur="2s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+              </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis 
@@ -148,8 +174,8 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
             <Line
               type="monotone"
               dataKey="value"
-              stroke={color}
-              strokeWidth={2}
+              stroke={`url(#line-gradient-${color})`}
+              strokeWidth={3}
               dot={<CustomDot />}
               activeDot={{ 
                 r: 6, 
