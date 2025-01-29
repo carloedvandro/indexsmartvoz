@@ -8,6 +8,7 @@ interface CircularProgressProps {
 export const CircularProgress = ({ percentage, color }: CircularProgressProps) => (
   <div className="relative w-20 h-20">
     <svg className="w-full h-full" viewBox="0 0 100 100">
+      {/* Background circle */}
       <circle
         className="text-gray-200"
         strokeWidth="8"
@@ -17,8 +18,9 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
         cx="50"
         cy="50"
       />
+      {/* Animated progress circle */}
       <motion.circle
-        className="transition-all duration-1000 ease-in-out"
+        className="origin-center"
         strokeWidth="8"
         strokeLinecap="round"
         stroke={color}
@@ -29,14 +31,12 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
         style={{
           strokeDasharray: `${2 * Math.PI * 40}`,
           strokeDashoffset: `${2 * Math.PI * 40 * (1 - percentage / 100)}`,
-          transform: 'rotate(-90deg)',
-          transformOrigin: '50% 50%'
         }}
         animate={{
-          rotate: [0, 360],
+          rotate: 360,
         }}
         transition={{
-          duration: 3,
+          duration: 2,
           repeat: Infinity,
           ease: "linear"
         }}
