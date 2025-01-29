@@ -1,16 +1,27 @@
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } from "recharts";
 import type { ExpenseData } from "./types";
 
-interface ExpenseBarChartProps {
-  data: ExpenseData[];
-}
+const data = [
+  { month: 'Jan', atual: 75, receita: 65 },
+  { month: 'Fev', atual: 70, receita: 72 },
+  { month: 'Mar', atual: 75, receita: 68 },
+  { month: 'Abr', atual: 65, receita: 75 },
+  { month: 'Mai', atual: 80, receita: 62 },
+  { month: 'Jun', atual: 70, receita: 48 },
+  { month: 'Jul', atual: 55, receita: 70 },
+  { month: 'Ago', atual: 72, receita: 75 },
+  { month: 'Set', atual: 62, receita: 78 },
+  { month: 'Out', atual: 68, receita: 62 },
+  { month: 'Nov', atual: 71, receita: 69 },
+  { month: 'Dez', atual: 73, receita: 71 }
+];
 
-export const ExpenseBarChart = ({ data }: ExpenseBarChartProps) => (
-  <div className="h-[200px] mt-12 w-full min-w-[300px] sm:min-w-[400px] md:min-w-[500px]">
+export const ExpenseBarChart = () => (
+  <div className="h-[200px] mt-6 w-full min-w-[300px] sm:min-w-[400px] md:min-w-[500px]">
     <ResponsiveContainer width="100%" height="100%">
-      <BarChart data={data} margin={{ top: 20, right: 10, left: 2, bottom: 5 }}>
+      <BarChart data={data} margin={{ top: 20, right: 30, left: 2, bottom: 5 }}>
         <XAxis 
-          dataKey="category" 
+          dataKey="month" 
           tick={{ fontSize: 12, fill: "#000000" }}
           stroke="#000000"
           tickLine={false}
@@ -21,7 +32,6 @@ export const ExpenseBarChart = ({ data }: ExpenseBarChartProps) => (
           stroke="#000000"
           tickLine={false}
           axisLine={false}
-          tickFormatter={(value) => `${value}%`}
         />
         <Tooltip
           contentStyle={{
@@ -30,13 +40,23 @@ export const ExpenseBarChart = ({ data }: ExpenseBarChartProps) => (
             borderRadius: "8px",
             boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
           }}
-          formatter={(value: number) => [`${value}%`, "Percentual"]}
+        />
+        <Legend 
+          formatter={(value) => <span style={{ color: '#000000', fontWeight: 'bold' }}>{value}</span>}
         />
         <Bar
-          dataKey="percentage"
+          dataKey="atual"
+          name="Atual"
           fill="#5f0889"
           radius={[4, 4, 0, 0]}
-          barSize={30}
+          barSize={8}
+        />
+        <Bar
+          dataKey="receita"
+          name="Receita"
+          fill="#0610ff"
+          radius={[4, 4, 0, 0]}
+          barSize={8}
         />
       </BarChart>
     </ResponsiveContainer>
