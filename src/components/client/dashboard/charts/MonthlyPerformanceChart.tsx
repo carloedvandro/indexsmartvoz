@@ -21,7 +21,7 @@ export const MonthlyPerformanceChart = () => {
           <ComposedChart
             data={monthlyData}
             margin={{
-              top: 40,
+              top: 45,
               right: 10,
               left: 0,
               bottom: 20,
