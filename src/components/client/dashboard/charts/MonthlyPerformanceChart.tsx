@@ -28,9 +28,30 @@ export const MonthlyPerformanceChart = () => {
           >
             <defs>
               <linearGradient id="colorGradient" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#000000" />
-                <stop offset="50%" stopColor="#5f0889" />
-                <stop offset="100%" stopColor="#0610ff" />
+                <stop offset="0%" stopColor="#000000">
+                  <animate
+                    attributeName="offset"
+                    values="0;1;0"
+                    dur="4s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="50%" stopColor="#5f0889">
+                  <animate
+                    attributeName="offset"
+                    values="0.5;1.5;0.5"
+                    dur="4s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="100%" stopColor="#0610ff">
+                  <animate
+                    attributeName="offset"
+                    values="1;2;1"
+                    dur="4s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
               </linearGradient>
             </defs>
             <XAxis
