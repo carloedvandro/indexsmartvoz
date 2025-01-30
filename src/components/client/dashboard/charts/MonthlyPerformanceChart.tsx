@@ -27,6 +27,15 @@ export const MonthlyPerformanceChart = () => {
               bottom: 20,
             }}
           >
+            <defs>
+              <linearGradient id="colorGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="hsl(var(--color-1))" />
+                <stop offset="25%" stopColor="hsl(var(--color-2))" />
+                <stop offset="50%" stopColor="hsl(var(--color-3))" />
+                <stop offset="75%" stopColor="hsl(var(--color-4))" />
+                <stop offset="100%" stopColor="hsl(var(--color-5))" />
+              </linearGradient>
+            </defs>
             <XAxis
               dataKey="month"
               stroke="#1f2937"
@@ -56,14 +65,12 @@ export const MonthlyPerformanceChart = () => {
               formatter={(value: number) => [`R$ ${value.toLocaleString()}`, "Valor"]}
               labelFormatter={(label) => `${label}`}
             />
-            <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={40} shape={(props) => <CustomBar {...props} />}>
-              {monthlyData.map((_, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={chartColors[index]}
-                />
-              ))}
-            </Bar>
+            <Bar 
+              dataKey="value" 
+              radius={[4, 4, 0, 0]} 
+              barSize={40} 
+              shape={(props) => <CustomBar {...props} fill="url(#colorGradient)" />}
+            />
             <Line
               type="monotone"
               dataKey="trend"

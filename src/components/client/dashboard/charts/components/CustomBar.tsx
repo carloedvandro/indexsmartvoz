@@ -19,7 +19,7 @@ export const CustomBar = (props: CustomBarProps) => {
         fill={fill}
         style={{
           filter: "drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))",
-          animation: `float 3s ease-in-out infinite`,
+          animation: `float 3s ease-in-out infinite, rainbow var(--speed, 2s) infinite linear`,
           animationDelay,
         }}
         rx={4}
