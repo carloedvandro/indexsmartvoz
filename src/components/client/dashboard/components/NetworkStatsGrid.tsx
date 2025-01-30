@@ -11,7 +11,7 @@ interface NetworkStatsGridProps {
 
 export const NetworkStatsGrid = ({ cardData }: NetworkStatsGridProps) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mx-auto max-w-7xl px-4 mt-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mx-auto max-w-[1800px] px-4 mt-8">
       {cardData.map((card, index) => (
         <StatCard
           key={index}
