@@ -31,11 +31,15 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
         style={{
           strokeDasharray: `${2 * Math.PI * 40}`,
           strokeDashoffset: `${2 * Math.PI * 40 * (1 - percentage / 100)}`,
-          transformOrigin: '50% 50%'
+          transformOrigin: '50% 50%',
+          transform: 'rotate3d(1, 0.5, 0, 30deg)'
         }}
         initial={{ rotate: 0 }}
         animate={{
-          rotate: [0, 360]
+          rotate: [0, 360],
+          rotateX: [30, 30],
+          rotateY: [0, 360],
+          rotateZ: [15, 15]
         }}
         transition={{
           duration: 10,
