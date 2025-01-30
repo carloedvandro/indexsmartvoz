@@ -32,23 +32,47 @@ export const MonthlyPerformanceChart = () => {
                   <animate
                     attributeName="offset"
                     values="0;1;0"
-                    dur="4s"
+                    dur="6s"
                     repeatCount="indefinite"
                   />
                 </stop>
-                <stop offset="50%" stopColor="#5f0889">
+                <stop offset="20%" stopColor="#ff0000">
                   <animate
                     attributeName="offset"
-                    values="0.5;1.5;0.5"
-                    dur="4s"
+                    values="0.2;1.2;0.2"
+                    dur="6s"
                     repeatCount="indefinite"
                   />
                 </stop>
-                <stop offset="100%" stopColor="#0610ff">
+                <stop offset="40%" stopColor="#0610ff">
+                  <animate
+                    attributeName="offset"
+                    values="0.4;1.4;0.4"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="60%" stopColor="#5f0889">
+                  <animate
+                    attributeName="offset"
+                    values="0.6;1.6;0.6"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="80%" stopColor="#ff01de">
+                  <animate
+                    attributeName="offset"
+                    values="0.8;1.8;0.8"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="100%" stopColor="#01ff57">
                   <animate
                     attributeName="offset"
                     values="1;2;1"
-                    dur="4s"
+                    dur="6s"
                     repeatCount="indefinite"
                   />
                 </stop>
