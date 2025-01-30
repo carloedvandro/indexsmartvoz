@@ -6,24 +6,7 @@ interface CircularProgressProps {
 }
 
 export const CircularProgress = ({ percentage, color }: CircularProgressProps) => (
-  <motion.div 
-    className="relative w-36 h-36 mx-1"
-    animate={{
-      rotateX: [30, 30, 30],
-      rotateY: [0, 180, 360],
-      rotateZ: [15, 15, 15]
-    }}
-    transition={{
-      duration: 8,
-      ease: "linear",
-      repeat: Infinity,
-      repeatType: "loop"
-    }}
-    style={{
-      transformStyle: "preserve-3d",
-      perspective: "1000px"
-    }}
-  >
+  <div className="relative w-36 h-36 mx-1">
     <svg className="w-full h-full" viewBox="0 0 100 100">
       {/* Background circle */}
       <circle
@@ -50,18 +33,29 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
           strokeDashoffset: `${2 * Math.PI * 40 * (1 - percentage / 100)}`,
           transformOrigin: '50% 50%'
         }}
+        initial={{ rotate: 0 }}
+        animate={{
+          rotate: [0, 360]
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "linear",
+          repeatType: "loop"
+        }}
       />
       <defs>
         <linearGradient id={`gradient-${percentage}`} gradientTransform="rotate(90)">
           <stop offset="0%" stopColor={color} />
+          <stop offset="50%" stopColor="#9b87f5" />
           <stop offset="100%" stopColor={color} />
         </linearGradient>
       </defs>
     </svg>
     <div className="absolute inset-0 flex items-center justify-center">
-      <span className="text-2xl font-semibold">
+      <span className="text-2xl font-semibold bg-gradient-to-r from-color-1 via-color-2 to-color-3 bg-clip-text text-transparent animate-rainbow bg-[length:200%_auto]">
         {percentage}%
       </span>
     </div>
-  </motion.div>
+  </div>
 );
