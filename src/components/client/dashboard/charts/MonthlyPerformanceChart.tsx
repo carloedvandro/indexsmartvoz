@@ -7,8 +7,6 @@ import {
   XAxis,
   YAxis,
   Cell,
-  Gradient,
-  defs,
 } from "recharts";
 import { CustomBar } from "./components/CustomBar";
 import { monthlyData, chartColors } from "./data/chartData";
