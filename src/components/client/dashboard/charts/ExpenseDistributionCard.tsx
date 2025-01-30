@@ -1,7 +1,6 @@
 import { CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { CircularProgress } from "./CircularProgress";
-import { ClockComponent } from "./ClockComponent";
 import { expenseData } from "./types";
 
 export const ExpenseDistributionCard = () => {
@@ -22,14 +21,6 @@ export const ExpenseDistributionCard = () => {
             <span className="text-sm font-medium text-center">{item.category}</span>
           </motion.div>
         ))}
-        <motion.div
-          className="flex flex-col items-center justify-center space-y-4"
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <ClockComponent />
-        </motion.div>
       </div>
     </div>
   );
