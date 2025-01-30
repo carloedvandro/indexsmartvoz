@@ -20,7 +20,7 @@ export const ExpenseDistributionCard = () => {
             <CircularProgress 
               percentage={item.percentage} 
               color={item.color}
-              variant="tilt"
+              variant="flip"
             />
             <span className="text-sm font-medium text-center">{item.category}</span>
           </motion.div>

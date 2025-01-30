@@ -6,15 +6,15 @@ interface CircularProgressProps {
   variant?: "rotate3D" | "tilt" | "flip" | "pyramid" | "wave";
 }
 
-export const CircularProgress = ({ percentage, color, variant = "tilt" }: CircularProgressProps) => {
+export const CircularProgress = ({ percentage, color, variant = "flip" }: CircularProgressProps) => {
   const variants = {
-    tilt: {
+    flip: {
       transform: [
-        "perspective(1000px) rotateX(20deg) rotateY(0deg)",
-        "perspective(1000px) rotateX(20deg) rotateY(360deg)",
+        "perspective(1000px) rotateX(0deg)",
+        "perspective(1000px) rotateX(360deg)",
       ],
       transition: {
-        duration: 6,
+        duration: 4,
         repeat: Infinity,
         ease: "linear",
       }
