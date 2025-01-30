@@ -3,21 +3,27 @@ import { motion } from "framer-motion";
 import { CircularProgress } from "./CircularProgress";
 import { expenseData } from "./types";
 
+const variants = ["rotate3D", "tilt", "flip", "pyramid", "wave"] as const;
+
 export const ExpenseDistributionCard = () => {
   return (
     <div className="flex flex-col items-center justify-center w-full max-w-[1800px] mx-auto space-y-8">
       <CardTitle className="text-2xl font-bold text-left w-full px-4">Produção por Nível</CardTitle>
       
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-[1800px] mx-auto px-4 pt-6">
-        {expenseData.map((item) => (
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 w-full max-w-[1800px] mx-auto px-4 pt-6">
+        {expenseData.map((item, index) => (
           <motion.div
             key={item.category}
             className="flex flex-col items-center justify-center space-y-4"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            <CircularProgress percentage={item.percentage} color={item.color} />
+            <CircularProgress 
+              percentage={item.percentage} 
+              color={item.color} 
+              variant={variants[index % variants.length]}
+            />
             <span className="text-sm font-medium text-center">{item.category}</span>
           </motion.div>
         ))}
