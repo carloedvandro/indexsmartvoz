@@ -40,9 +40,9 @@ export const NetworkStatsCard = () => {
   const cardData = generateCardData();
 
   return (
-    <div className="flex flex-col items-center w-full max-w-[1800px] mx-auto">
+    <div className="w-full">
       <NetworkStatsHeader />
-      <div className="w-full space-y-8 px-2 md:px-4">
+      <div className="w-full space-y-8">
         <NetworkStatsGrid cardData={cardData} />
         <ExpenseDistributionCard />
         <MonthlyPerformanceChart />
