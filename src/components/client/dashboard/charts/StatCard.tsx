@@ -92,13 +92,22 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
               </filter>
               <style type="text/css">
                 {`
-                  @keyframes customPulse {
-                    0% { r: 4; opacity: 1; }
-                    50% { r: 8; opacity: 0.5; }
-                    100% { r: 4; opacity: 1; }
+                  @keyframes dotPulse {
+                    0% { 
+                      r: 4;
+                      filter: brightness(1);
+                    }
+                    50% { 
+                      r: 6;
+                      filter: brightness(1.5);
+                    }
+                    100% { 
+                      r: 4;
+                      filter: brightness(1);
+                    }
                   }
-                  .custom-pulse {
-                    animation: customPulse 1.5s ease-in-out infinite;
+                  .dot-pulse {
+                    animation: dotPulse 2s ease-in-out infinite;
                   }
                 `}
               </style>
@@ -129,6 +138,7 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
                 stroke: color,
                 strokeWidth: 2,
                 r: 4,
+                className: "dot-pulse",
                 filter: `url(#glow-${color})`
               }}
               activeDot={{ 
@@ -137,7 +147,7 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
                 stroke: color,
                 strokeWidth: 2,
                 filter: `url(#glow-${color})`,
-                className: "custom-pulse"
+                className: "dot-pulse"
               }}
               animationDuration={2000}
               animationBegin={600}
