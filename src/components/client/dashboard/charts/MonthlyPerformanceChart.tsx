@@ -6,10 +6,9 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-  Cell,
 } from "recharts";
 import { CustomBar } from "./components/CustomBar";
-import { monthlyData, chartColors } from "./data/chartData";
+import { monthlyData } from "./data/chartData";
 import { ChartHeader } from "./components/ChartHeader";
 
 export const MonthlyPerformanceChart = () => {
@@ -29,11 +28,11 @@ export const MonthlyPerformanceChart = () => {
           >
             <defs>
               <linearGradient id="colorGradient" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="hsl(var(--color-1))" />
-                <stop offset="25%" stopColor="hsl(var(--color-2))" />
-                <stop offset="50%" stopColor="hsl(var(--color-3))" />
-                <stop offset="75%" stopColor="hsl(var(--color-4))" />
-                <stop offset="100%" stopColor="hsl(var(--color-5))" />
+                <stop offset="0%" stopColor="hsl(var(--color-1))" /> {/* Vermelho vibrante */}
+                <stop offset="25%" stopColor="hsl(var(--color-2))" /> {/* Roxo */}
+                <stop offset="50%" stopColor="hsl(var(--color-3))" /> {/* Azul */}
+                <stop offset="75%" stopColor="hsl(var(--color-4))" /> {/* Azul claro */}
+                <stop offset="100%" stopColor="hsl(var(--color-5))" /> {/* Verde */}
               </linearGradient>
             </defs>
             <XAxis
