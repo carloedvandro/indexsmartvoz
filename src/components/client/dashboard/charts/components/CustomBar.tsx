@@ -18,7 +18,7 @@ export const CustomBar = (props: CustomBarProps) => {
       fill={fill}
       style={{
         filter: "drop-shadow(0px 2px 8px rgba(95, 8, 137, 0.3))",
-        animation: `flicker 3s ease-in-out infinite`,
+        animation: `moveGradient 3s ease-in-out infinite`,
         animationDelay,
         transformOrigin: "bottom",
       }}
@@ -27,7 +27,7 @@ export const CustomBar = (props: CustomBarProps) => {
     >
       <animate
         attributeName="height"
-        values={`${height * 0.95};${height};${height * 0.95}`}
+        values={`${height};${height * 1.02};${height}`}
         dur="3s"
         repeatCount="indefinite"
       />

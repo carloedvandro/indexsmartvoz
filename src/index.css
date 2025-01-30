@@ -13,6 +13,18 @@
   }
 }
 
+@keyframes moveGradient {
+  0% {
+    y: 100%;
+  }
+  50% {
+    y: 70%;
+  }
+  100% {
+    y: 100%;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

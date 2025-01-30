@@ -28,18 +28,11 @@ export const MonthlyPerformanceChart = () => {
           >
             <defs>
               <linearGradient id="colorGradient" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="#000000">
-                  <animate
-                    attributeName="stop-opacity"
-                    values="1;0.8;1"
-                    dur="3s"
-                    repeatCount="indefinite"
-                  />
-                </stop>
+                <stop offset="0%" stopColor="#000000" />
                 <stop offset="100%" stopColor="#5f0889">
                   <animate
-                    attributeName="stop-opacity"
-                    values="0.8;1;0.8"
+                    attributeName="y1"
+                    values="1;0.7;1"
                     dur="3s"
                     repeatCount="indefinite"
                   />
