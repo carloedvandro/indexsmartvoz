@@ -36,7 +36,31 @@ export const MonthlyPerformanceChart = () => {
                     repeatCount="indefinite"
                   />
                 </stop>
-                <stop offset="20%" stopColor="#ff0000">
+                <stop offset="5%" stopColor="#8E9196">
+                  <animate
+                    attributeName="offset"
+                    values="0.05;1.05;0.05"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="10%" stopColor="#9b87f5">
+                  <animate
+                    attributeName="offset"
+                    values="0.1;1.1;0.1"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="15%" stopColor="#7E69AB">
+                  <animate
+                    attributeName="offset"
+                    values="0.15;1.15;0.15"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="20%" stopColor="#6E59A5">
                   <animate
                     attributeName="offset"
                     values="0.2;1.2;0.2"
@@ -44,7 +68,31 @@ export const MonthlyPerformanceChart = () => {
                     repeatCount="indefinite"
                   />
                 </stop>
-                <stop offset="40%" stopColor="#0610ff">
+                <stop offset="25%" stopColor="#1A1F2C">
+                  <animate
+                    attributeName="offset"
+                    values="0.25;1.25;0.25"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="30%" stopColor="#D6BCFA">
+                  <animate
+                    attributeName="offset"
+                    values="0.3;1.3;0.3"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="35%" stopColor="#8B5CF6">
+                  <animate
+                    attributeName="offset"
+                    values="0.35;1.35;0.35"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="40%" stopColor="#D946EF">
                   <animate
                     attributeName="offset"
                     values="0.4;1.4;0.4"
@@ -52,10 +100,58 @@ export const MonthlyPerformanceChart = () => {
                     repeatCount="indefinite"
                   />
                 </stop>
-                <stop offset="60%" stopColor="#5f0889">
+                <stop offset="45%" stopColor="#F97316">
+                  <animate
+                    attributeName="offset"
+                    values="0.45;1.45;0.45"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="50%" stopColor="#0EA5E9">
+                  <animate
+                    attributeName="offset"
+                    values="0.5;1.5;0.5"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="55%" stopColor="#403E43">
+                  <animate
+                    attributeName="offset"
+                    values="0.55;1.55;0.55"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="60%" stopColor="#1EAEDB">
                   <animate
                     attributeName="offset"
                     values="0.6;1.6;0.6"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="65%" stopColor="#221F26">
+                  <animate
+                    attributeName="offset"
+                    values="0.65;1.65;0.65"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="70%" stopColor="#33C3F0">
+                  <animate
+                    attributeName="offset"
+                    values="0.7;1.7;0.7"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="75%" stopColor="#ea384c">
+                  <animate
+                    attributeName="offset"
+                    values="0.75;1.75;0.75"
                     dur="6s"
                     repeatCount="indefinite"
                   />
@@ -68,7 +164,31 @@ export const MonthlyPerformanceChart = () => {
                     repeatCount="indefinite"
                   />
                 </stop>
-                <stop offset="100%" stopColor="#01ff57">
+                <stop offset="85%" stopColor="#01ff57">
+                  <animate
+                    attributeName="offset"
+                    values="0.85;1.85;0.85"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="90%" stopColor="#0610ff">
+                  <animate
+                    attributeName="offset"
+                    values="0.9;1.9;0.9"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="95%" stopColor="#5f0889">
+                  <animate
+                    attributeName="offset"
+                    values="0.95;1.95;0.95"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="100%" stopColor="#000000">
                   <animate
                     attributeName="offset"
                     values="1;2;1"
@@ -93,8 +213,6 @@ export const MonthlyPerformanceChart = () => {
               tickFormatter={(value) => `R$ ${value / 1000}k`}
               width={90}
               tick={{ dx: -15 }}
-              ticks={[0, 20000, 40000, 60000, 80000, 100000, 120000]}
-              domain={[0, 120000]}
             />
             <Tooltip
               contentStyle={{
