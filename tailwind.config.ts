@@ -86,8 +86,9 @@ export default {
           "50%": { transform: "scale(1.3)" }
         },
         float: {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-10px)" }
+          "0%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+          "100%": { transform: "translateY(0)" }
         }
       },
       animation: {
