@@ -12,9 +12,9 @@ export const ExpenseDistributionCard = () => {
         {expenseData.map((item) => (
           <motion.div
             key={item.category}
-            className="flex flex-col items-center justify-center space-y-4"
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
+            className="flex flex-col items-center justify-center space-y-4 perspective-1000"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
             <CircularProgress percentage={item.percentage} color={item.color} />
@@ -24,4 +24,4 @@ export const ExpenseDistributionCard = () => {
       </div>
     </div>
   );
-};
+}
