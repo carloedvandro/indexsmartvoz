@@ -1,9 +1,21 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'; // Added .js extension
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-// Sample data points matching the curve pattern
-const dataPoints = [
+export interface DataPoint {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface LineGraph3DProps {
+  variant: 'ribbon' | 'tube' | 'particles' | 'neon' | 'wave';
+  data?: DataPoint[];
+  color?: string;
+}
+
+// Default data points if none provided
+const defaultDataPoints = [
   { x: 0, y: 0.5, z: 0 },
   { x: 1, y: 0.7, z: 0 },
   { x: 2, y: 0.9, z: 0 },
@@ -14,11 +26,11 @@ const dataPoints = [
   { x: 7, y: 0.5, z: 0 },
 ];
 
-interface LineGraph3DProps {
-  variant: 'ribbon' | 'tube' | 'particles' | 'neon' | 'wave';
-}
-
-export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
+export const LineGraph3D: React.FC<LineGraph3DProps> = ({ 
+  variant, 
+  data = defaultDataPoints,
+  color = '#D6BCFA'
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
@@ -64,7 +76,7 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
 
     // Create curve from data points
     const curve = new THREE.CatmullRomCurve3(
-      dataPoints.map(point => new THREE.Vector3(point.x, point.y, point.z))
+      data.map(point => new THREE.Vector3(point.x, point.y, point.z))
     );
 
     // Different visualizations based on variant
@@ -101,14 +113,14 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
       }
       scene.clear();
     };
-  }, [variant]);
+  }, [variant, data, color]);
 
   // Visualization methods
   const createRibbon = (scene: THREE.Scene, curve: THREE.CatmullRomCurve3) => {
     const points = curve.getPoints(50);
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     const material = new THREE.MeshPhongMaterial({
-      color: 0xD6BCFA,
+      color,
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.8,
@@ -121,7 +133,7 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
   const createTube = (scene: THREE.Scene, curve: THREE.CatmullRomCurve3) => {
     const geometry = new THREE.TubeGeometry(curve, 100, 0.1, 8, false);
     const material = new THREE.MeshPhongMaterial({
-      color: 0xD6BCFA,
+      color,
       transparent: true,
       opacity: 0.8,
     });
@@ -135,7 +147,7 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     
     const material = new THREE.PointsMaterial({
-      color: 0xD6BCFA,
+      color,
       size: 0.1,
       transparent: true,
       opacity: 0.8,
@@ -150,7 +162,7 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     
     const material = new THREE.LineBasicMaterial({
-      color: 0xD6BCFA,
+      color,
       linewidth: 2,
     });
 
@@ -160,7 +172,7 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
     // Add glow effect
     const glowMaterial = new THREE.ShaderMaterial({
       uniforms: {
-        color: { value: new THREE.Color(0xD6BCFA) },
+        color: { value: new THREE.Color(color) },
       },
       vertexShader: `
         varying vec3 vNormal;
@@ -191,7 +203,7 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     
     const material = new THREE.LineBasicMaterial({
-      color: 0xD6BCFA,
+      color,
       linewidth: 2,
     });
 
@@ -201,7 +213,7 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
     // Add animated wave effect
     const waveGeometry = new THREE.PlaneGeometry(8, 2, 32, 32);
     const waveMaterial = new THREE.MeshPhongMaterial({
-      color: 0xD6BCFA,
+      color,
       transparent: true,
       opacity: 0.3,
       side: THREE.DoubleSide,
