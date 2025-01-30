@@ -31,15 +31,11 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
         style={{
           strokeDasharray: `${2 * Math.PI * 40}`,
           strokeDashoffset: `${2 * Math.PI * 40 * (1 - percentage / 100)}`,
-          transformOrigin: '50% 50%',
-          transform: 'rotate3d(1, 0.5, 0, 30deg)'
+          transformOrigin: '50% 50%'
         }}
         initial={{ rotate: 0 }}
         animate={{
-          rotate: [0, 360],
-          rotateX: [30, 30],
-          rotateY: [0, 360],
-          rotateZ: [15, 15]
+          rotate: [0, 360]
         }}
         transition={{
           duration: 10,
@@ -57,15 +53,7 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
       </defs>
     </svg>
     <div className="absolute inset-0 flex items-center justify-center">
-      <span 
-        className="text-2xl font-semibold"
-        style={{
-          background: `linear-gradient(to right, #000000, #5f0889)`,
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text'
-        }}
-      >
+      <span className="text-2xl font-semibold bg-gradient-to-r from-color-1 via-color-2 to-color-3 bg-clip-text text-transparent animate-rainbow bg-[length:200%_auto]">
         {percentage}%
       </span>
     </div>
