@@ -20,9 +20,18 @@ export const CustomBar = (props: CustomBarProps) => {
         filter: "drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))",
         animation: `float 3s ease-in-out infinite`,
         animationDelay,
+        transform: "rotate(360deg)",
+        transformOrigin: "center",
       }}
       rx={4}
       ry={4}
-    />
+    >
+      <animate
+        attributeName="opacity"
+        values="0.7;1;0.7"
+        dur="3s"
+        repeatCount="indefinite"
+      />
+    </rect>
   );
 };

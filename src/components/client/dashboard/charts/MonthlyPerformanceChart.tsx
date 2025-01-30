@@ -27,7 +27,7 @@ export const MonthlyPerformanceChart = () => {
             }}
           >
             <defs>
-              <linearGradient id="colorGradient" x1="0" y1="0" x2="1" y2="0">
+              <linearGradient id="colorGradient" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0%" stopColor="#000000">
                   <animate
                     attributeName="offset"
