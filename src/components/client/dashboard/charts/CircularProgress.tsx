@@ -7,7 +7,7 @@ interface CircularProgressProps {
 }
 
 export const CircularProgress = ({ percentage, color, variant = 'rotate' }: CircularProgressProps) => {
-  // Animation variants
+  // Animation variants with proper typing
   const variants = {
     rotate: {
       rotate: [0, 360],
@@ -38,7 +38,7 @@ export const CircularProgress = ({ percentage, color, variant = 'rotate' }: Circ
       transition: {
         duration: 0.6,
         repeat: Infinity,
-        repeatType: "reverse",
+        repeatType: "mirror" as const,
         ease: "easeOut"
       }
     },
@@ -47,11 +47,11 @@ export const CircularProgress = ({ percentage, color, variant = 'rotate' }: Circ
       transition: {
         duration: 2,
         repeat: Infinity,
-        repeatType: "reverse",
+        repeatType: "mirror" as const,
         ease: "easeInOut"
       }
     }
-  };
+  } as const;
 
   return (
     <div className="relative w-36 h-36 mx-1">
@@ -81,12 +81,14 @@ export const CircularProgress = ({ percentage, color, variant = 'rotate' }: Circ
             strokeDashoffset: `${2 * Math.PI * 40 * (1 - percentage / 100)}`,
             transformOrigin: '50% 50%'
           }}
-          animate={variants[variant]}
+          animate={variant}
+          variants={variants}
         />
       </svg>
       <motion.div 
         className="absolute inset-0 flex items-center justify-center"
-        animate={variant === 'float' || variant === 'pulse' ? variants[variant] : undefined}
+        animate={variant}
+        variants={variants}
       >
         <span className="text-2xl font-semibold" style={{ color }}>
           {percentage}%
