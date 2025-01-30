@@ -1,59 +1,45 @@
 import {
   Bar,
-  ComposedChart,
-  Line,
+  BarChart,
+  CartesianGrid,
+  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
-import { CustomBar } from "./components/CustomBar";
-import { monthlyData } from "./data/chartData";
 import { ChartHeader } from "./components/ChartHeader";
+import { monthlyData } from "./data/chartData";
 
 export const MonthlyPerformanceChart = () => {
   return (
     <div className="w-full flex flex-col items-center max-w-[1800px] mx-auto">
       <ChartHeader title="Performance Mensal" />
-      <div className="h-[320px] w-full mt-6">
+      <div className="h-[320px] w-full mt-6 bg-white rounded-lg p-4">
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart
+          <BarChart
             data={monthlyData}
             margin={{
-              top: 45,
-              right: 10,
-              left: 0,
+              top: 20,
+              right: 30,
+              left: 20,
               bottom: 20,
             }}
           >
-            <defs>
-              <linearGradient id="colorGradient" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="#000000" />
-                <stop offset="100%" stopColor="#5f0889">
-                  <animate
-                    attributeName="y1"
-                    values="1;0.7;1"
-                    dur="3s"
-                    repeatCount="indefinite"
-                  />
-                </stop>
-              </linearGradient>
-            </defs>
-            <XAxis
-              dataKey="month"
-              stroke="#1f2937"
+            <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
+            <XAxis 
+              dataKey="month" 
+              stroke="#1f2937" 
               fontSize={12}
               tickLine={false}
-              axisLine={false}
+              axisLine={{ stroke: '#E5E7EB' }}
             />
             <YAxis
               stroke="#1f2937"
               fontSize={12}
               tickLine={false}
-              axisLine={false}
-              tickFormatter={(value) => `R$ ${value / 1000}k`}
-              width={90}
-              tick={{ dx: -15 }}
+              axisLine={{ stroke: '#E5E7EB' }}
+              tickFormatter={(value) => `${value}`}
             />
             <Tooltip
               contentStyle={{
@@ -61,26 +47,36 @@ export const MonthlyPerformanceChart = () => {
                 border: "1px solid #e5e7eb",
                 borderRadius: "8px",
                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                color: "#1f2937",
               }}
-              formatter={(value: number) => [`R$ ${value.toLocaleString()}`, "Valor"]}
-              labelFormatter={(label) => `${label}`}
+              cursor={{ fill: 'rgba(0, 0, 0, 0.04)' }}
             />
-            <Bar 
-              dataKey="value" 
-              radius={[4, 4, 0, 0]} 
-              barSize={40} 
-              shape={(props) => <CustomBar {...props} fill="url(#colorGradient)" />}
+            <Legend 
+              wrapperStyle={{
+                paddingTop: "20px"
+              }}
             />
-            <Line
-              type="monotone"
+            <Bar
+              dataKey="value"
+              name="Vendas"
+              fill="#F97316"
+              radius={[4, 4, 0, 0]}
+              barSize={8}
+            />
+            <Bar
               dataKey="trend"
-              stroke="#1f2937"
-              strokeWidth={2}
-              dot={{ fill: "#1f2937", r: 4 }}
-              activeDot={{ r: 6, fill: "#1f2937" }}
+              name="Comissões"
+              fill="#0EA5E9"
+              radius={[4, 4, 0, 0]}
+              barSize={8}
             />
-          </ComposedChart>
+            <Bar
+              dataKey="projected"
+              name="Projeção"
+              fill="#2563EB"
+              radius={[4, 4, 0, 0]}
+              barSize={8}
+            />
+          </BarChart>
         </ResponsiveContainer>
       </div>
     </div>
