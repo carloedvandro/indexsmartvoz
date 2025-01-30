@@ -16,7 +16,11 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
         <p className="text-2xl font-semibold mt-1 pl-1">{value}</p>
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-32">
-        <LineGraph3D data={data} color={color} />
+        <LineGraph3D 
+          data={data} 
+          color={color}
+          variant="neon"
+        />
       </div>
     </Card>
   );

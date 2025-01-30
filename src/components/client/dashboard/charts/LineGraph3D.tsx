@@ -1,24 +1,23 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'; // Added .js extension
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-// Sample data points matching the curve pattern
-const dataPoints = [
-  { x: 0, y: 0.5, z: 0 },
-  { x: 1, y: 0.7, z: 0 },
-  { x: 2, y: 0.9, z: 0 },
-  { x: 3, y: 0.8, z: 0 },
-  { x: 4, y: 0.6, z: 0 },
-  { x: 5, y: 0.4, z: 0 },
-  { x: 6, y: 0.3, z: 0 },
-  { x: 7, y: 0.5, z: 0 },
-];
-
-interface LineGraph3DProps {
-  variant: 'ribbon' | 'tube' | 'particles' | 'neon' | 'wave';
+interface DataPoint {
+  name: string;
+  value: number;
 }
 
-export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
+interface LineGraph3DProps {
+  variant?: 'ribbon' | 'tube' | 'particles' | 'neon' | 'wave';
+  data: DataPoint[];
+  color: string;
+}
+
+export const LineGraph3D: React.FC<LineGraph3DProps> = ({ 
+  variant = 'neon',
+  data,
+  color 
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
@@ -27,6 +26,13 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
 
   useEffect(() => {
     if (!containerRef.current) return;
+
+    // Convert input data to 3D points
+    const dataPoints = data.map((point, index) => ({
+      x: index,
+      y: point.value / Math.max(...data.map(d => d.value)), // Normalize values
+      z: 0
+    }));
 
     // Scene setup
     const scene = new THREE.Scene();
@@ -70,19 +76,19 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
     // Different visualizations based on variant
     switch (variant) {
       case 'ribbon':
-        createRibbon(scene, curve);
+        createRibbon(scene, curve, color);
         break;
       case 'tube':
-        createTube(scene, curve);
+        createTube(scene, curve, color);
         break;
       case 'particles':
-        createParticles(scene, curve);
+        createParticles(scene, curve, color);
         break;
       case 'neon':
-        createNeonLine(scene, curve);
+        createNeonLine(scene, curve, color);
         break;
       case 'wave':
-        createWave(scene, curve);
+        createWave(scene, curve, color);
         break;
     }
 
@@ -101,9 +107,8 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
       }
       scene.clear();
     };
-  }, [variant]);
+  }, [variant, data, color]);
 
-  // Visualization methods
   const createRibbon = (scene: THREE.Scene, curve: THREE.CatmullRomCurve3) => {
     const points = curve.getPoints(50);
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
