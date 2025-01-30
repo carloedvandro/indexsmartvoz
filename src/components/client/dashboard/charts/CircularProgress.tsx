@@ -20,10 +20,10 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
       />
       {/* Progress circle */}
       <motion.circle
-        className="origin-center animate-rainbow"
+        className="origin-center"
         strokeWidth="8"
         strokeLinecap="round"
-        stroke={`url(#gradient-${color.replace('#', '')})`}
+        stroke={color}
         fill="transparent"
         r="40"
         cx="50"
@@ -44,14 +44,6 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
           repeatType: "loop"
         }}
       />
-      {/* Gradient definitions */}
-      <defs>
-        <linearGradient id={`gradient-${color.replace('#', '')}`} x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" style={{ stopColor: color, stopOpacity: 1 }} />
-          <stop offset="50%" style={{ stopColor: color, stopOpacity: 0.6 }} />
-          <stop offset="100%" style={{ stopColor: color, stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
     </svg>
     <div className="absolute inset-0 flex items-center justify-center">
       <span className="text-2xl font-semibold">{percentage}%</span>

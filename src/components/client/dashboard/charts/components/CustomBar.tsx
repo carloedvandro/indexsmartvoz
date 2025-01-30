@@ -18,6 +18,7 @@ export const CustomBar = (props: CustomBarProps) => {
         height={height}
         fill={fill}
         style={{
+          filter: "drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))",
           animation: `float 3s ease-in-out infinite`,
           animationDelay,
         }}

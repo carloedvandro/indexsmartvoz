@@ -8,7 +8,7 @@ export const ExpenseDistributionCard = () => {
     <div className="flex flex-col items-center justify-center w-full max-w-[1800px] mx-auto space-y-8">
       <CardTitle className="text-2xl font-bold text-left w-full px-4">Produção por Nível</CardTitle>
       
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 w-full max-w-[1800px] mx-auto px-4 pt-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-[1800px] mx-auto px-4 pt-6">
         {expenseData.map((item) => (
           <motion.div
             key={item.category}

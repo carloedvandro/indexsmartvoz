@@ -27,21 +27,6 @@ export const MonthlyPerformanceChart = () => {
               bottom: 20,
             }}
           >
-            <defs>
-              {chartColors.map((color, index) => (
-                <linearGradient
-                  key={`gradient-${index}`}
-                  id={`gradient-${index}`}
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
-                  <stop offset="0%" stopColor={color} stopOpacity={1} />
-                  <stop offset="100%" stopColor={color} stopOpacity={0.6} />
-                </linearGradient>
-              ))}
-            </defs>
             <XAxis
               dataKey="month"
               stroke="#1f2937"
@@ -71,17 +56,11 @@ export const MonthlyPerformanceChart = () => {
               formatter={(value: number) => [`R$ ${value.toLocaleString()}`, "Valor"]}
               labelFormatter={(label) => `${label}`}
             />
-            <Bar 
-              dataKey="value" 
-              radius={[4, 4, 0, 0]} 
-              barSize={40} 
-              shape={(props) => <CustomBar {...props} />}
-            >
+            <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={40} shape={(props) => <CustomBar {...props} />}>
               {monthlyData.map((_, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={`url(#gradient-${index})`}
-                  filter="url(#shadow)"
+                  fill={chartColors[index]}
                 />
               ))}
             </Bar>
@@ -93,16 +72,6 @@ export const MonthlyPerformanceChart = () => {
               dot={{ fill: "#1f2937", r: 4 }}
               activeDot={{ r: 6, fill: "#1f2937" }}
             />
-            <defs>
-              <filter id="shadow" height="130%">
-                <feDropShadow 
-                  dx="0" 
-                  dy="2" 
-                  stdDeviation="2"
-                  floodOpacity="0.2"
-                />
-              </filter>
-            </defs>
           </ComposedChart>
         </ResponsiveContainer>
       </div>
