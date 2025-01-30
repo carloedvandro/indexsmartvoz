@@ -6,19 +6,8 @@ interface CircularProgressProps {
   variant?: "rotate3D" | "tilt" | "flip" | "pyramid" | "wave";
 }
 
-export const CircularProgress = ({ percentage, color, variant = "rotate3D" }: CircularProgressProps) => {
+export const CircularProgress = ({ percentage, color, variant = "tilt" }: CircularProgressProps) => {
   const variants = {
-    rotate3D: {
-      transform: [
-        "perspective(1000px) rotateX(0deg) rotateY(0deg)",
-        "perspective(1000px) rotateX(360deg) rotateY(360deg)",
-      ],
-      transition: {
-        duration: 8,
-        repeat: Infinity,
-        ease: "linear",
-      }
-    },
     tilt: {
       transform: [
         "perspective(1000px) rotateX(20deg) rotateY(0deg)",
@@ -28,40 +17,6 @@ export const CircularProgress = ({ percentage, color, variant = "rotate3D" }: Ci
         duration: 6,
         repeat: Infinity,
         ease: "linear",
-      }
-    },
-    flip: {
-      transform: [
-        "perspective(1000px) rotateX(0deg)",
-        "perspective(1000px) rotateX(360deg)",
-      ],
-      transition: {
-        duration: 4,
-        repeat: Infinity,
-        ease: "linear",
-      }
-    },
-    pyramid: {
-      transform: [
-        "perspective(1000px) rotateX(30deg) rotateY(0deg)",
-        "perspective(1000px) rotateX(30deg) rotateY(360deg)",
-      ],
-      transition: {
-        duration: 5,
-        repeat: Infinity,
-        ease: "linear",
-      }
-    },
-    wave: {
-      transform: [
-        "perspective(1000px) rotateX(10deg) rotateY(0deg) translateZ(0px)",
-        "perspective(1000px) rotateX(10deg) rotateY(180deg) translateZ(50px)",
-        "perspective(1000px) rotateX(10deg) rotateY(360deg) translateZ(0px)",
-      ],
-      transition: {
-        duration: 7,
-        repeat: Infinity,
-        ease: "easeInOut",
       }
     }
   };

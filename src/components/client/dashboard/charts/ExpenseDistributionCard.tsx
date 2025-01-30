@@ -3,8 +3,6 @@ import { motion } from "framer-motion";
 import { CircularProgress } from "./CircularProgress";
 import { expenseData } from "./types";
 
-const variants = ["rotate3D", "tilt", "flip", "pyramid", "wave"] as const;
-
 export const ExpenseDistributionCard = () => {
   return (
     <div className="flex flex-col items-center justify-center w-full max-w-[1800px] mx-auto space-y-8">
@@ -21,8 +19,8 @@ export const ExpenseDistributionCard = () => {
           >
             <CircularProgress 
               percentage={item.percentage} 
-              color={item.color} 
-              variant={variants[index % variants.length]}
+              color={item.color}
+              variant="tilt"
             />
             <span className="text-sm font-medium text-center">{item.category}</span>
           </motion.div>
