@@ -53,7 +53,7 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
       </defs>
     </svg>
     <div className="absolute inset-0 flex items-center justify-center">
-      <span className="text-2xl font-semibold bg-gradient-to-r from-color-1 via-color-2 to-color-3 bg-clip-text text-transparent animate-rainbow bg-[length:200%_auto]">
+      <span className="text-2xl font-semibold" style={{ color: "#5f0889" }}>
         {percentage}%
       </span>
     </div>
