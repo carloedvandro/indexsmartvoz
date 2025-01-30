@@ -15,7 +15,7 @@ export const MonthlyPerformanceChart = () => {
   return (
     <div className="w-full flex flex-col items-center max-w-[1800px] mx-auto">
       <ChartHeader title="Performance Mensal" />
-      <div className="h-[320px] w-full mt-6 transform perspective-1000">
+      <div className="h-[320px] w-full mt-6">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={monthlyData}
@@ -28,9 +28,9 @@ export const MonthlyPerformanceChart = () => {
           >
             <defs>
               <linearGradient id="colorGradient" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#000000" /> {/* Preto */}
-                <stop offset="50%" stopColor="#5f0889" /> {/* Roxo */}
-                <stop offset="100%" stopColor="#0610ff" /> {/* Azul */}
+                <stop offset="0%" stopColor="#000000" />
+                <stop offset="50%" stopColor="#5f0889" />
+                <stop offset="100%" stopColor="#0610ff" />
               </linearGradient>
             </defs>
             <XAxis
