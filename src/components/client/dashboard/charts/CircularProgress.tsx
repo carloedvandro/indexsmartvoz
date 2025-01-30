@@ -46,14 +46,14 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
       />
       <defs>
         <linearGradient id={`gradient-${percentage}`} gradientTransform="rotate(90)">
-          <stop offset="0%" stopColor="#000000" />
-          <stop offset="50%" stopColor="#5f0889" />
-          <stop offset="100%" stopColor="#000000" />
+          <stop offset="0%" stopColor={color} />
+          <stop offset="50%" stopColor="#9b87f5" />
+          <stop offset="100%" stopColor={color} />
         </linearGradient>
       </defs>
     </svg>
     <div className="absolute inset-0 flex items-center justify-center">
-      <span className="text-2xl font-semibold bg-gradient-to-r from-[#000000] via-[#5f0889] to-[#000000] bg-clip-text text-transparent animate-rainbow bg-[length:200%_auto]">
+      <span className="text-2xl font-semibold bg-gradient-to-r from-color-1 via-color-2 to-color-3 bg-clip-text text-transparent animate-rainbow bg-[length:200%_auto]">
         {percentage}%
       </span>
     </div>
