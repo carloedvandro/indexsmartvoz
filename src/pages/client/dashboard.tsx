@@ -4,6 +4,7 @@ import { RevenueChart } from "@/components/client/dashboard/charts/RevenueChart"
 import { DashboardHeader } from "@/components/client/dashboard/DashboardHeader";
 import { useProfile } from "@/hooks/useProfile";
 import { generateRevenueData } from "@/components/client/dashboard/utils/statsUtils";
+import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
 
 export default function ClientDashboard() {
   const { data: profile } = useProfile();
@@ -23,6 +24,7 @@ export default function ClientDashboard() {
         </div>
         <div className="grid grid-cols-1 gap-4">
           <RevenueChart data={revenueData} variant="minimal" />
+          <NetworkStatsCard />
         </div>
       </main>
     </div>
