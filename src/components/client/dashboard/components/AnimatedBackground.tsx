@@ -14,65 +14,61 @@ export function AnimatedBackground() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Create orbital particle systems
-    const particleCount = 2500;
-    const orbitCount = 4;
-    const particlesPerOrbit = particleCount / orbitCount;
-    const orbitRadii = [3, 5, 7, 9];
-    const orbitSpeeds = [0.001, 0.0008, 0.0006, 0.0004];
+    // Create particle systems
+    const particleCount = 2000;
+    const particlesPerSystem = particleCount / 2;
     
-    const particles: THREE.Points[] = [];
-    const particleGroups: THREE.Group[] = [];
-
     // Theme colors
     const colors = [
-      new THREE.Color('#5f0889'), // primary
-      new THREE.Color('#9b87f5'), // secondary
-      new THREE.Color('#6E59A5'), // accent
-      new THREE.Color('#8B5CF6')  // purple
+      new THREE.Color('#9b87f5'), // Primary Purple
+      new THREE.Color('#7E69AB'), // Secondary Purple
+      new THREE.Color('#6E59A5'), // Tertiary Purple
+      new THREE.Color('#8B5CF6')  // Vivid Purple
     ];
 
-    orbitRadii.forEach((radius, orbitIndex) => {
-      const positions = new Float32Array(particlesPerOrbit * 3);
-      const particleColors = new Float32Array(particlesPerOrbit * 3);
-      const orbitGroup = new THREE.Group();
+    const particleSystems: THREE.Points[] = [];
+    const particleGroups: THREE.Group[] = [];
 
-      // Create particles for this orbit
-      for (let i = 0; i < particlesPerOrbit; i++) {
-        const angle = (i / particlesPerOrbit) * Math.PI * 2;
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
-        const z = (Math.random() - 0.5) * 2;
+    // Create two particle systems with different behaviors
+    for (let i = 0; i < 2; i++) {
+      const positions = new Float32Array(particlesPerSystem * 3);
+      const colors = new Float32Array(particlesPerSystem * 3);
+      const group = new THREE.Group();
 
-        positions[i * 3] = x;
-        positions[i * 3 + 1] = y;
-        positions[i * 3 + 2] = z;
+      for (let j = 0; j < particlesPerSystem; j++) {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(Math.random() * 2 - 1);
+        const radius = 3 + Math.random() * 2;
 
-        const color = colors[orbitIndex];
-        particleColors[i * 3] = color.r;
-        particleColors[i * 3 + 1] = color.g;
-        particleColors[i * 3 + 2] = color.b;
+        positions[j * 3] = radius * Math.sin(phi) * Math.cos(theta);
+        positions[j * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+        positions[j * 3 + 2] = radius * Math.cos(phi);
+
+        const color = new THREE.Color().setHSL(0.75 + Math.random() * 0.1, 0.6, 0.6);
+        colors[j * 3] = color.r;
+        colors[j * 3 + 1] = color.g;
+        colors[j * 3 + 2] = color.b;
       }
 
       const geometry = new THREE.BufferGeometry();
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      geometry.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
       const material = new THREE.PointsMaterial({
-        size: 0.1,
+        size: 0.05,
         vertexColors: true,
         transparent: true,
-        opacity: 0.8,
+        opacity: 0.6,
         blending: THREE.AdditiveBlending,
         depthWrite: false
       });
 
       const particleSystem = new THREE.Points(geometry, material);
-      orbitGroup.add(particleSystem);
-      particles.push(particleSystem);
-      particleGroups.push(orbitGroup);
-      scene.add(orbitGroup);
-    });
+      group.add(particleSystem);
+      particleSystems.push(particleSystem);
+      particleGroups.push(group);
+      scene.add(group);
+    }
 
     // Mouse interaction
     const mouse = new THREE.Vector2();
@@ -82,36 +78,57 @@ export function AnimatedBackground() {
     const handleMouseMove = (event: MouseEvent) => {
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-      targetRotation.x = mouse.x * 0.3;
-      targetRotation.y = mouse.y * 0.2;
+      targetRotation.x = mouse.x * 0.2;
+      targetRotation.y = mouse.y * 0.1;
     };
 
     document.addEventListener('mousemove', handleMouseMove);
 
     // Position camera
-    camera.position.z = 20;
+    camera.position.z = 10;
 
     // Animation
     const animate = () => {
       requestAnimationFrame(animate);
 
       // Smooth rotation interpolation
-      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.05;
-      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.05;
+      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.03;
+      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.03;
 
-      // Rotate particle groups
+      // Rotate particle groups with different speeds
       particleGroups.forEach((group, index) => {
-        group.rotation.z += orbitSpeeds[index];
-        group.rotation.x = currentRotation.y;
-        group.rotation.y = currentRotation.x;
+        const speed = 0.0003 * (index + 1);
+        group.rotation.y += speed;
+        group.rotation.x = currentRotation.y * 0.5;
+        group.rotation.z = currentRotation.x * 0.5;
       });
 
       // Dynamic particle effects
-      const time = Date.now() * 0.001;
-      particles.forEach((particle, index) => {
-        const material = particle.material as THREE.PointsMaterial;
-        material.size = 0.1 + Math.sin(time + index) * 0.03;
-        material.opacity = 0.8 + Math.sin(time * 0.5 + index) * 0.2;
+      const time = Date.now() * 0.0005;
+      particleSystems.forEach((system, index) => {
+        const positions = system.geometry.attributes.position.array as Float32Array;
+        const colors = system.geometry.attributes.color.array as Float32Array;
+        
+        for (let i = 0; i < positions.length; i += 3) {
+          const x = positions[i];
+          const y = positions[i + 1];
+          const z = positions[i + 2];
+          
+          // Subtle position animation
+          positions[i] = x + Math.sin(time + x) * 0.01;
+          positions[i + 1] = y + Math.cos(time + y) * 0.01;
+          positions[i + 2] = z + Math.sin(time + z) * 0.01;
+          
+          // Color pulsation
+          const hue = 0.75 + Math.sin(time + i) * 0.05;
+          const color = new THREE.Color().setHSL(hue, 0.6, 0.6);
+          colors[i] = color.r;
+          colors[i + 1] = color.g;
+          colors[i + 2] = color.b;
+        }
+        
+        system.geometry.attributes.position.needsUpdate = true;
+        system.geometry.attributes.color.needsUpdate = true;
       });
 
       renderer.render(scene, camera);
