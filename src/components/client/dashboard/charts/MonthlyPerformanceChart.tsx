@@ -13,7 +13,7 @@ import { monthlyData } from "./data/chartData";
 
 export const MonthlyPerformanceChart = () => {
   return (
-    <div className="w-full flex flex-col items-center max-w-[3000px] mx-auto">
+    <div className="w-full flex flex-col items-center">
       <ChartHeader title="Performance Mensal" />
       <div className="h-[320px] w-full mt-12">
         <ResponsiveContainer width="100%" height="100%">
