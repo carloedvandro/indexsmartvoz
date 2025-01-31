@@ -23,7 +23,7 @@ export default function ClientDashboard() {
           </div>
         </div>
         <div className="grid grid-cols-1 gap-4">
-          <RevenueChart data={revenueData} variant="neon" />
+          <RevenueChart data={revenueData} variant="wave" />
           <NetworkStatsCard />
         </div>
       </main>
