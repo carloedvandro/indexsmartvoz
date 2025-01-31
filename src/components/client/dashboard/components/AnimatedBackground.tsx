@@ -14,80 +14,95 @@ export function AnimatedBackground() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Create grid material with custom shader
-    const gridMaterial = new THREE.ShaderMaterial({
+    // Create bubble material with custom shader
+    const bubbleMaterial = new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
-        uMouseX: { value: 0 },
-        uMouseY: { value: 0 }
+        uMouse: { value: new THREE.Vector2(0, 0) },
       },
       vertexShader: `
         uniform float uTime;
-        uniform float uMouseX;
-        uniform float uMouseY;
-        
+        varying vec2 vUv;
         varying vec3 vPosition;
         
         void main() {
-          vec3 pos = position;
+          vUv = uv;
+          vPosition = position;
           
-          // Add wave motion
-          float wave = sin(pos.x * 0.5 + uTime) * cos(pos.z * 0.5 + uTime) * 0.2;
+          // Add floating motion
+          vec3 pos = position;
+          float wave = sin(pos.x + uTime) * cos(pos.z + uTime) * 0.2;
           pos.y += wave;
           
-          // Mouse influence
-          float dist = distance(pos.xz, vec2(uMouseX, uMouseY) * 5.0);
-          float influence = smoothstep(2.0, 0.0, dist) * 0.5;
-          pos.y += influence;
-          
-          vPosition = pos;
-          
-          vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-          gl_Position = projectionMatrix * mvPosition;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         }
       `,
       fragmentShader: `
+        uniform float uTime;
+        varying vec2 vUv;
         varying vec3 vPosition;
         
         void main() {
-          // Grid effect
-          float grid = abs(fract(vPosition.x) - 0.5) + abs(fract(vPosition.z) - 0.5);
-          grid = smoothstep(0.9, 0.1, grid);
+          // Create gradient effect
+          vec2 center = vec2(0.5, 0.5);
+          float dist = distance(vUv, center);
           
-          // Gradient colors (purple theme)
-          vec3 color1 = vec3(0.608, 0.529, 0.961);  // #9b87f5
-          vec3 color2 = vec3(0.431, 0.349, 0.647);  // #6E59A5
-          vec3 finalColor = mix(color1, color2, vPosition.y * 0.5 + 0.5);
+          // Purple theme colors
+          vec3 color1 = vec3(0.608, 0.529, 0.961); // #9b87f5
+          vec3 color2 = vec3(0.431, 0.349, 0.647); // #6E59A5
+          vec3 color3 = vec3(0.839, 0.737, 0.980); // #D6BCFA
+          
+          // Animate colors
+          float t = sin(uTime * 0.5) * 0.5 + 0.5;
+          vec3 gradientColor = mix(
+            mix(color1, color2, t),
+            color3,
+            smoothstep(0.0, 0.8, dist)
+          );
           
           // Add glow effect
-          float glow = pow(grid, 2.0) * 0.8;
-          finalColor = mix(finalColor, vec3(1.0), glow);
+          float glow = 1.0 - smoothstep(0.0, 0.8, dist);
+          gradientColor += glow * 0.2;
           
-          gl_FragColor = vec4(finalColor, 0.7);
+          // Add transparency
+          float alpha = smoothstep(1.0, 0.2, dist);
+          
+          gl_FragColor = vec4(gradientColor, alpha * 0.7);
         }
       `,
       transparent: true,
-      wireframe: true,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
     });
 
-    // Create grid geometry
-    const gridGeometry = new THREE.PlaneGeometry(20, 20, 32, 32);
-    const grid = new THREE.Mesh(gridGeometry, gridMaterial);
-    grid.rotation.x = -Math.PI / 2;
-    scene.add(grid);
+    // Create multiple bubbles
+    const bubbles: THREE.Mesh[] = [];
+    const numBubbles = 15;
+
+    for (let i = 0; i < numBubbles; i++) {
+      const size = Math.random() * 2 + 1;
+      const geometry = new THREE.SphereGeometry(size, 32, 32);
+      const bubble = new THREE.Mesh(geometry, bubbleMaterial);
+      
+      // Random position
+      bubble.position.set(
+        (Math.random() - 0.5) * 20,
+        (Math.random() - 0.5) * 20,
+        (Math.random() - 0.5) * 20
+      );
+      
+      scene.add(bubble);
+      bubbles.push(bubble);
+    }
 
     // Position camera
-    camera.position.set(0, 5, 5);
-    camera.lookAt(0, 0, 0);
+    camera.position.z = 15;
 
     // Mouse movement
-    let mouseX = 0;
-    let mouseY = 0;
-
+    const mouse = new THREE.Vector2();
     const handleMouseMove = (event: MouseEvent) => {
-      mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-      mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      bubbleMaterial.uniforms.uMouse.value = mouse;
     };
 
     document.addEventListener('mousemove', handleMouseMove);
@@ -99,12 +114,15 @@ export function AnimatedBackground() {
       const elapsedTime = clock.getElapsedTime();
       
       // Update uniforms
-      gridMaterial.uniforms.uTime.value = elapsedTime * 0.5;
-      gridMaterial.uniforms.uMouseX.value += (mouseX - gridMaterial.uniforms.uMouseX.value) * 0.1;
-      gridMaterial.uniforms.uMouseY.value += (mouseY - gridMaterial.uniforms.uMouseY.value) * 0.1;
+      bubbleMaterial.uniforms.uTime.value = elapsedTime * 0.5;
       
-      // Rotate grid slightly
-      grid.rotation.z = Math.sin(elapsedTime * 0.1) * 0.1;
+      // Animate bubbles
+      bubbles.forEach((bubble, i) => {
+        const speed = 0.2 + (i % 3) * 0.1;
+        bubble.position.y = Math.sin(elapsedTime * speed + i) * 0.5;
+        bubble.rotation.z = Math.sin(elapsedTime * speed * 0.5) * 0.2;
+        bubble.rotation.x = Math.cos(elapsedTime * speed * 0.3) * 0.1;
+      });
 
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
