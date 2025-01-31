@@ -10,58 +10,73 @@ export function AnimatedBackground() {
     // Setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Particles
-    const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 1500;
-    const posArray = new Float32Array(particlesCount * 3);
-
-    for (let i = 0; i < particlesCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 5;
-    }
-
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-
-    // Material
-    const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.005,
+    // Create wave geometry
+    const geometry = new THREE.PlaneGeometry(20, 20, 100, 100);
+    const material = new THREE.MeshPhongMaterial({
       color: '#ad1cb0',
+      wireframe: true,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.3,
+      side: THREE.DoubleSide,
     });
 
-    // Mesh
-    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particlesMesh);
+    const waves = new THREE.Mesh(geometry, material);
+    waves.rotation.x = -Math.PI / 2;
+    scene.add(waves);
 
-    // Camera position
-    camera.position.z = 2;
+    // Add ambient light
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+
+    // Add directional light
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(0, 10, 5);
+    scene.add(directionalLight);
+
+    // Position camera
+    camera.position.set(0, 5, 5);
+    camera.lookAt(0, 0, 0);
 
     // Mouse movement
     let mouseX = 0;
     let mouseY = 0;
 
     const handleMouseMove = (event: MouseEvent) => {
-      mouseX = event.clientX / window.innerWidth - 0.5;
-      mouseY = event.clientY / window.innerHeight - 0.5;
+      mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+      mouseY = (event.clientY / window.innerHeight) * 2 - 1;
     };
 
     document.addEventListener('mousemove', handleMouseMove);
 
     // Animation
+    let frame = 0;
     const animate = () => {
       requestAnimationFrame(animate);
+      frame += 0.03;
 
-      particlesMesh.rotation.y += 0.001;
-      particlesMesh.rotation.x += 0.001;
-
-      // Smooth mouse follow
-      particlesMesh.rotation.x += mouseY * 0.1;
-      particlesMesh.rotation.y += mouseX * 0.1;
-
+      // Update vertices
+      const positions = geometry.attributes.position.array as Float32Array;
+      for (let i = 0; i < positions.length; i += 3) {
+        const x = positions[i];
+        const z = positions[i + 2];
+        
+        // Create wave effect
+        positions[i + 1] = 
+          Math.sin(frame + x) * 0.3 + // Base wave
+          Math.sin(frame + z) * 0.2 + // Cross wave
+          Math.sin(frame + mouseX * 2) * 0.1 + // Mouse X influence
+          Math.sin(frame + mouseY * 2) * 0.1; // Mouse Y influence
+      }
+      
+      geometry.attributes.position.needsUpdate = true;
+      
+      // Subtle rotation
+      waves.rotation.z += 0.001;
+      
       renderer.render(scene, camera);
     };
     animate();
@@ -89,7 +104,10 @@ export function AnimatedBackground() {
     <div 
       ref={containerRef} 
       className="fixed inset-0 -z-10 pointer-events-none"
-      style={{ background: 'linear-gradient(to bottom, #ffffff, #f8f9fe)' }}
+      style={{ 
+        background: 'linear-gradient(to bottom, #ffffff, #f8f9fe)',
+        opacity: 0.8 
+      }}
     />
   );
 }
