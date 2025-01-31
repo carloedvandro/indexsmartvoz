@@ -15,7 +15,7 @@ export const MonthlyPerformanceChart = () => {
   return (
     <div className="w-full flex flex-col items-center max-w-[1800px] mx-auto">
       <ChartHeader title="Performance Mensal" />
-      <div className="h-[320px] w-full mt-8 bg-white rounded-lg p-4">
+      <div className="h-[320px] w-full mt-6 bg-white rounded-lg p-4">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={monthlyData}
@@ -23,7 +23,7 @@ export const MonthlyPerformanceChart = () => {
               top: 20,
               right: 30,
               left: 20,
-              bottom: 55,
+              bottom: 20,
             }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
@@ -33,7 +33,6 @@ export const MonthlyPerformanceChart = () => {
               fontSize={12}
               tickLine={false}
               axisLine={{ stroke: '#E5E7EB' }}
-              dy={52}
             />
             <YAxis
               stroke="#1f2937"
@@ -41,7 +40,6 @@ export const MonthlyPerformanceChart = () => {
               tickLine={false}
               axisLine={{ stroke: '#E5E7EB' }}
               tickFormatter={(value) => `${value}`}
-              dx={-25}
             />
             <Tooltip
               contentStyle={{
@@ -54,7 +52,7 @@ export const MonthlyPerformanceChart = () => {
             />
             <Legend 
               wrapperStyle={{
-                paddingTop: "45px"
+                paddingTop: "20px"
               }}
             />
             <Bar
@@ -62,21 +60,21 @@ export const MonthlyPerformanceChart = () => {
               name="Vendas"
               fill="#F97316"
               radius={[4, 4, 0, 0]}
-              barSize={12}
+              barSize={8}
             />
             <Bar
               dataKey="trend"
               name="Comissões"
               fill="#0EA5E9"
               radius={[4, 4, 0, 0]}
-              barSize={12}
+              barSize={8}
             />
             <Bar
               dataKey="projected"
               name="Projeção"
               fill="#2563EB"
               radius={[4, 4, 0, 0]}
-              barSize={12}
+              barSize={8}
             />
           </BarChart>
         </ResponsiveContainer>
