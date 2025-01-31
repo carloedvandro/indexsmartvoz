@@ -74,8 +74,8 @@ export default {
           to: { height: "0" },
         },
         rainbow: {
-          "0%": { "background-position": "0%" },
-          "100%": { "background-position": "200%" },
+          "0%": { "background-position": "0% 100%" },
+          "100%": { "background-position": "0% 0%" },
         },
         gradient: {
           "0%, 100%": { opacity: "0.8" },
