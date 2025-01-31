@@ -23,7 +23,7 @@ export const MonthlyPerformanceChart = () => {
               top: 20,
               right: 30,
               left: 45,
-              bottom: 45,
+              bottom: 55,
             }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
@@ -33,7 +33,7 @@ export const MonthlyPerformanceChart = () => {
               fontSize={12}
               tickLine={false}
               axisLine={{ stroke: '#E5E7EB' }}
-              dy={46}
+              dy={52}
             />
             <YAxis
               stroke="#1f2937"
@@ -54,7 +54,7 @@ export const MonthlyPerformanceChart = () => {
             />
             <Legend 
               wrapperStyle={{
-                paddingTop: "35px"
+                paddingTop: "45px"
               }}
             />
             <Bar
