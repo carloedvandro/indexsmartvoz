@@ -14,7 +14,6 @@ export function AnimatedBackground() {
       alpha: true, 
       antialias: true 
     });
-    renderer.setClearColor(0x000000, 0); // Set clear color with 0 opacity
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
