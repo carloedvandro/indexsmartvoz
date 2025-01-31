@@ -14,32 +14,85 @@ export function AnimatedBackground() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Create wave geometry
-    const geometry = new THREE.PlaneGeometry(20, 20, 100, 100);
-    const material = new THREE.MeshPhongMaterial({
-      color: '#ad1cb0',
-      wireframe: true,
+    // Create tunnel geometry
+    const geometry = new THREE.CylinderGeometry(2, 2, 50, 32, 50, true);
+    geometry.scale(-1, 1, 1); // Invert the cylinder so we see the inside
+
+    // Create gradient texture
+    const canvas = document.createElement('canvas');
+    canvas.width = 1024;
+    canvas.height = 1024;
+    const context = canvas.getContext('2d')!;
+    const gradient = context.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, '#5f0889');
+    gradient.addColorStop(0.5, '#9b87f5');
+    gradient.addColorStop(1, '#6E59A5');
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(2, 4);
+
+    // Create material with custom shader
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        time: { value: 0 },
+        texture: { value: texture },
+        mouseX: { value: 0 },
+        mouseY: { value: 0 }
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        uniform float time;
+        uniform float mouseX;
+        uniform float mouseY;
+        
+        void main() {
+          vUv = uv;
+          vec3 pos = position;
+          
+          // Add wave effect
+          float wave = sin(pos.y * 0.2 + time) * 0.1;
+          pos.x += wave;
+          pos.z += wave;
+          
+          // Add mouse influence
+          pos.x += mouseX * 0.5;
+          pos.y += mouseY * 0.5;
+          
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform sampler2D texture;
+        uniform float time;
+        varying vec2 vUv;
+        
+        void main() {
+          vec2 uv = vUv;
+          uv.y += time * 0.1; // Scrolling effect
+          
+          vec4 color = texture2D(texture, uv);
+          
+          // Add pulse effect
+          float pulse = sin(time * 2.0) * 0.1 + 0.9;
+          color.rgb *= pulse;
+          
+          gl_FragColor = color;
+          gl_FragColor.a = 0.7; // Set transparency
+        }
+      `,
       transparent: true,
-      opacity: 0.3,
-      side: THREE.DoubleSide,
+      side: THREE.BackSide
     });
 
-    const waves = new THREE.Mesh(geometry, material);
-    waves.rotation.x = -Math.PI / 2;
-    scene.add(waves);
-
-    // Add ambient light
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-
-    // Add directional light
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(0, 10, 5);
-    scene.add(directionalLight);
+    const tunnel = new THREE.Mesh(geometry, material);
+    scene.add(tunnel);
 
     // Position camera
-    camera.position.set(0, 5, 5);
-    camera.lookAt(0, 0, 0);
+    camera.position.z = 5;
 
     // Mouse movement
     let mouseX = 0;
@@ -53,30 +106,17 @@ export function AnimatedBackground() {
     document.addEventListener('mousemove', handleMouseMove);
 
     // Animation
-    let frame = 0;
     const animate = () => {
       requestAnimationFrame(animate);
-      frame += 0.03;
 
-      // Update vertices
-      const positions = geometry.attributes.position.array as Float32Array;
-      for (let i = 0; i < positions.length; i += 3) {
-        const x = positions[i];
-        const z = positions[i + 2];
-        
-        // Create wave effect
-        positions[i + 1] = 
-          Math.sin(frame + x) * 0.3 + // Base wave
-          Math.sin(frame + z) * 0.2 + // Cross wave
-          Math.sin(frame + mouseX * 2) * 0.1 + // Mouse X influence
-          Math.sin(frame + mouseY * 2) * 0.1; // Mouse Y influence
-      }
-      
-      geometry.attributes.position.needsUpdate = true;
-      
-      // Subtle rotation
-      waves.rotation.z += 0.001;
-      
+      // Update uniforms
+      material.uniforms.time.value += 0.01;
+      material.uniforms.mouseX.value += (mouseX - material.uniforms.mouseX.value) * 0.05;
+      material.uniforms.mouseY.value += (mouseY - material.uniforms.mouseY.value) * 0.05;
+
+      // Rotate tunnel
+      tunnel.rotation.z += 0.001;
+
       renderer.render(scene, camera);
     };
     animate();
