@@ -14,8 +14,8 @@ export function AnimatedBackground() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Create tunnel material with custom shader
-    const tunnelMaterial = new THREE.ShaderMaterial({
+    // Create nebula material with custom shader
+    const nebulaMaterial = new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
         uMouse: { value: new THREE.Vector2(0, 0) },
@@ -31,9 +31,8 @@ export function AnimatedBackground() {
           
           // Add wave motion
           vec3 pos = position;
-          float wave = sin(pos.z * 0.5 + uTime) * 0.1;
-          pos.x += wave;
-          pos.y += wave;
+          float wave = sin(pos.x * 2.0 + uTime) * cos(pos.y * 2.0 + uTime) * 0.1;
+          pos.z += wave;
           
           gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         }
@@ -43,68 +42,81 @@ export function AnimatedBackground() {
         varying vec2 vUv;
         varying vec3 vPosition;
         
+        // Noise functions
+        float random(vec2 st) {
+          return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+        }
+        
+        vec2 rotate(vec2 v, float a) {
+          float s = sin(a);
+          float c = cos(a);
+          mat2 m = mat2(c, -s, s, c);
+          return m * v;
+        }
+        
         void main() {
-          // Create tunnel effect
+          // Create nebula effect
           vec2 center = vec2(0.5, 0.5);
           float dist = length(vUv - center);
           
-          // Purple theme colors
-          vec3 color1 = vec3(0.608, 0.529, 0.961); // #9b87f5
-          vec3 color2 = vec3(0.494, 0.349, 0.647); // #7E69AB
-          vec3 color3 = vec3(0.431, 0.349, 0.647); // #6E59A5
+          // Soft colors
+          vec3 color1 = vec3(0.898, 0.871, 1.000); // #E5DEFF
+          vec3 color2 = vec3(0.827, 0.412, 0.671); // #D369AB
+          vec3 color3 = vec3(0.608, 0.529, 0.961); // #9b87f5
           
-          // Animate colors
-          float t = sin(uTime * 0.5) * 0.5 + 0.5;
-          vec3 tunnelColor = mix(
-            mix(color1, color2, t),
+          // Time-based rotation
+          vec2 rotatedUv = rotate(vUv - center, uTime * 0.1) + center;
+          
+          // Create layers of noise
+          float noise1 = random(rotatedUv * 2.0 + uTime * 0.1);
+          float noise2 = random(rotatedUv * 4.0 - uTime * 0.2);
+          float noise3 = random(rotatedUv * 8.0 + uTime * 0.3);
+          
+          // Combine noise layers
+          float combinedNoise = (noise1 * 0.5 + noise2 * 0.3 + noise3 * 0.2);
+          
+          // Create nebula shape
+          float nebula = smoothstep(0.2, 0.8, combinedNoise);
+          
+          // Mix colors based on noise and position
+          vec3 finalColor = mix(
+            mix(color1, color2, nebula),
             color3,
-            smoothstep(0.0, 0.8, dist)
+            smoothstep(0.4, 0.6, dist + sin(uTime * 0.5) * 0.1)
           );
           
           // Add glow effect
           float glow = exp(-2.0 * dist);
-          tunnelColor += glow * 0.5;
+          finalColor += glow * 0.3;
           
-          // Add rings
-          float rings = sin(dist * 20.0 - uTime * 2.0) * 0.5 + 0.5;
-          tunnelColor += rings * 0.2;
+          // Add subtle pulsing
+          float pulse = sin(uTime * 0.5) * 0.1 + 0.9;
+          finalColor *= pulse;
           
-          // Add transparency for depth effect
-          float alpha = smoothstep(1.0, 0.2, dist);
+          // Set transparency for depth effect
+          float alpha = smoothstep(1.0, 0.2, dist) * 0.9;
           
-          gl_FragColor = vec4(tunnelColor, alpha * 0.9);
+          gl_FragColor = vec4(finalColor, alpha);
         }
       `,
       transparent: true,
       side: THREE.DoubleSide,
     });
 
-    // Create tunnel segments
-    const tunnelSegments: THREE.Mesh[] = [];
-    const numSegments = 20;
-    const segmentSpacing = 0.5;
-
-    for (let i = 0; i < numSegments; i++) {
-      const radius = 2 + Math.sin(i * 0.2) * 0.5;
-      const geometry = new THREE.TorusGeometry(radius, 0.2, 32, 64);
-      const segment = new THREE.Mesh(geometry, tunnelMaterial);
-      
-      segment.position.z = -i * segmentSpacing;
-      segment.rotation.z = i * 0.1;
-      
-      scene.add(segment);
-      tunnelSegments.push(segment);
-    }
+    // Create nebula plane
+    const planeGeometry = new THREE.PlaneGeometry(5, 5, 32, 32);
+    const nebula = new THREE.Mesh(planeGeometry, nebulaMaterial);
+    scene.add(nebula);
 
     // Position camera
-    camera.position.z = 5;
+    camera.position.z = 2.5;
 
     // Mouse movement
     const mouse = new THREE.Vector2();
     const handleMouseMove = (event: MouseEvent) => {
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-      tunnelMaterial.uniforms.uMouse.value = mouse;
+      nebulaMaterial.uniforms.uMouse.value = mouse;
     };
 
     document.addEventListener('mousemove', handleMouseMove);
@@ -116,23 +128,12 @@ export function AnimatedBackground() {
       const elapsedTime = clock.getElapsedTime();
       
       // Update uniforms
-      tunnelMaterial.uniforms.uTime.value = elapsedTime * 0.5;
+      nebulaMaterial.uniforms.uTime.value = elapsedTime * 0.5;
       
-      // Animate tunnel segments
-      tunnelSegments.forEach((segment, i) => {
-        segment.position.z += 0.02;
-        if (segment.position.z > 5) {
-          segment.position.z = -numSegments * segmentSpacing;
-        }
-        
-        segment.rotation.z = elapsedTime * 0.1 + i * 0.1;
-        segment.rotation.x = Math.sin(elapsedTime * 0.2 + i * 0.1) * 0.1;
-      });
-
-      // Camera movement
-      camera.position.x = Math.sin(elapsedTime * 0.5) * 0.5;
-      camera.position.y = Math.cos(elapsedTime * 0.5) * 0.5;
-      camera.lookAt(0, 0, -10);
+      // Subtle camera movement
+      camera.position.x = Math.sin(elapsedTime * 0.2) * 0.2;
+      camera.position.y = Math.cos(elapsedTime * 0.2) * 0.2;
+      camera.lookAt(0, 0, 0);
 
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
@@ -163,7 +164,7 @@ export function AnimatedBackground() {
       ref={containerRef} 
       className="fixed inset-0 -z-10 pointer-events-none"
       style={{ 
-        background: 'linear-gradient(to bottom, #1A1F2C, #2D3748)',
+        background: 'linear-gradient(to bottom, #E5DEFF, #D3E4FD)',
         opacity: 0.9 
       }}
     />
