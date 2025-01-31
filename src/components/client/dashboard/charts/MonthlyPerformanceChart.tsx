@@ -22,8 +22,8 @@ export const MonthlyPerformanceChart = () => {
             margin={{
               top: 20,
               right: 30,
-              left: 20,
-              bottom: 20,
+              left: 45,
+              bottom: 45,
             }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
@@ -33,6 +33,7 @@ export const MonthlyPerformanceChart = () => {
               fontSize={12}
               tickLine={false}
               axisLine={{ stroke: '#E5E7EB' }}
+              dy={46}
             />
             <YAxis
               stroke="#1f2937"
@@ -40,6 +41,7 @@ export const MonthlyPerformanceChart = () => {
               tickLine={false}
               axisLine={{ stroke: '#E5E7EB' }}
               tickFormatter={(value) => `${value}`}
+              dx={-25}
             />
             <Tooltip
               contentStyle={{
@@ -52,7 +54,7 @@ export const MonthlyPerformanceChart = () => {
             />
             <Legend 
               wrapperStyle={{
-                paddingTop: "20px"
+                paddingTop: "35px"
               }}
             />
             <Bar
@@ -60,21 +62,21 @@ export const MonthlyPerformanceChart = () => {
               name="Vendas"
               fill="#F97316"
               radius={[4, 4, 0, 0]}
-              barSize={8}
+              barSize={12}
             />
             <Bar
               dataKey="trend"
               name="Comissões"
               fill="#0EA5E9"
               radius={[4, 4, 0, 0]}
-              barSize={8}
+              barSize={12}
             />
             <Bar
               dataKey="projected"
               name="Projeção"
               fill="#2563EB"
               radius={[4, 4, 0, 0]}
-              barSize={8}
+              barSize={12}
             />
           </BarChart>
         </ResponsiveContainer>
