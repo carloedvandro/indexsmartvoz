@@ -10,7 +10,11 @@ export function AnimatedBackground() {
     // Setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const renderer = new THREE.WebGLRenderer({ 
+      alpha: true, 
+      antialias: true 
+    });
+    renderer.setClearColor(0x000000, 0); // Set clear color with 0 opacity
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
@@ -125,10 +129,6 @@ export function AnimatedBackground() {
     <div 
       ref={containerRef} 
       className="fixed inset-0 -z-10 pointer-events-none"
-      style={{ 
-        background: '#403E43',
-        opacity: 0.95 
-      }}
     />
   );
 }
