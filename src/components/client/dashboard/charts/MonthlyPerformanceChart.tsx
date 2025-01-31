@@ -66,21 +66,21 @@ export const MonthlyPerformanceChart = () => {
             <Bar
               dataKey="value"
               name="Vendas"
-              fill="#F97316"
+              fill="#5f0889"
               radius={[4, 4, 0, 0]}
               barSize={16}
             />
             <Bar
               dataKey="trend"
               name="Comissões"
-              fill="#0EA5E9"
+              fill="#000695"
               radius={[4, 4, 0, 0]}
               barSize={16}
             />
             <Bar
               dataKey="projected"
               name="Projeção"
-              fill="#2563EB"
+              fill="#0610ff"
               radius={[4, 4, 0, 0]}
               barSize={16}
             />
