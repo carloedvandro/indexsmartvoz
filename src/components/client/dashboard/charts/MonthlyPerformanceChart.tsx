@@ -28,9 +28,9 @@ export const MonthlyPerformanceChart = () => {
           >
             <defs>
               <linearGradient id="salesGradient" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="#ff0080" />
-                <stop offset="50%" stopColor="#8B5CF6" />
-                <stop offset="100%" stopColor="#ff0080" />
+                <stop offset="0%" stopColor="#ad1cb0" />
+                <stop offset="50%" stopColor="#d946ef" />
+                <stop offset="100%" stopColor="#ad1cb0" />
               </linearGradient>
               <linearGradient id="commissionsGradient" x1="0" y1="1" x2="0" y2="0">
                 <stop offset="0%" stopColor="#F97316" />
