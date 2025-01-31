@@ -14,7 +14,7 @@ import { monthlyData } from "./data/chartData";
 export const MonthlyPerformanceChart = () => {
   return (
     <>
-      <ChartHeader title="Faturamento Mensal" />
+      <ChartHeader title="Performance Mensal" />
       <div className="h-[320px] w-full mt-12">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
@@ -27,32 +27,20 @@ export const MonthlyPerformanceChart = () => {
             }}
           >
             <defs>
-              <linearGradient id="salesGradient" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="#1a1a1a" />
-                <stop offset="15%" stopColor="#1a1a1a" />
-                <stop offset="20%" stopColor="#3f0555" />
-                <stop offset="25%" stopColor="#4f0677" />
-                <stop offset="30%" stopColor="#6f09aa" />
-                <stop offset="35%" stopColor="#7a0ab1" />
-                <stop offset="100%" stopColor="#7a0ab1" />
+              <linearGradient id="salesGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#ff0080" />
+                <stop offset="50%" stopColor="#8B5CF6" />
+                <stop offset="100%" stopColor="#ff0080" />
               </linearGradient>
-              <linearGradient id="commissionsGradient" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="#1a1a1a" />
-                <stop offset="15%" stopColor="#1a1a1a" />
-                <stop offset="20%" stopColor="#3f0555" />
-                <stop offset="25%" stopColor="#4f0677" />
-                <stop offset="30%" stopColor="#6f09aa" />
-                <stop offset="35%" stopColor="#7a0ab1" />
-                <stop offset="100%" stopColor="#7a0ab1" />
+              <linearGradient id="commissionsGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#F97316" />
+                <stop offset="50%" stopColor="#fb923c" />
+                <stop offset="100%" stopColor="#F97316" />
               </linearGradient>
-              <linearGradient id="projectionGradient" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="#1a1a1a" />
-                <stop offset="15%" stopColor="#1a1a1a" />
-                <stop offset="20%" stopColor="#3f0555" />
-                <stop offset="25%" stopColor="#4f0677" />
-                <stop offset="30%" stopColor="#6f09aa" />
-                <stop offset="35%" stopColor="#7a0ab1" />
-                <stop offset="100%" stopColor="#7a0ab1" />
+              <linearGradient id="projectionGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#0FA0CE" />
+                <stop offset="50%" stopColor="#38bdf8" />
+                <stop offset="100%" stopColor="#0FA0CE" />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />

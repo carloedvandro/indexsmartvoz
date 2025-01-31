@@ -46,9 +46,9 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
       />
       <defs>
         <linearGradient id={`gradient-${percentage}`} gradientTransform="rotate(90)">
-          <stop offset="0%" stopColor="#5f0889" />
-          <stop offset="50%" stopColor="#5f0889" />
-          <stop offset="100%" stopColor="#5f0889" />
+          <stop offset="0%" stopColor={color} />
+          <stop offset="50%" stopColor="#9b87f5" />
+          <stop offset="100%" stopColor={color} />
         </linearGradient>
       </defs>
     </svg>
