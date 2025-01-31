@@ -75,7 +75,8 @@ export default {
         },
         rainbow: {
           "0%": { "background-position": "0% 100%" },
-          "100%": { "background-position": "0% 0%" },
+          "50%": { "background-position": "0% 0%" },
+          "100%": { "background-position": "0% 100%" },
         },
         gradient: {
           "0%, 100%": { opacity: "0.8" },
@@ -94,7 +95,7 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "rainbow": "rainbow var(--speed, 2s) infinite linear",
+        "rainbow": "rainbow 3s ease-in-out infinite",
         "gradient": "gradient 8s ease-in-out infinite",
         "pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "float": "float 3s ease-in-out infinite"
