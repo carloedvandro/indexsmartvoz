@@ -15,25 +15,26 @@ export function AnimatedBackground() {
     containerRef.current.appendChild(renderer.domElement);
 
     // Create particle systems
-    const particleCount = 3000;
-    const meteorCount = 15;
+    const particleCount = 2000;
+    const meteorCount = 25;
     
-    // Theme colors
+    // Theme colors with more vibrant options
     const colors = [
-      new THREE.Color('#9b87f5'), // Primary Purple
-      new THREE.Color('#7E69AB'), // Secondary Purple
-      new THREE.Color('#6E59A5'), // Tertiary Purple
-      new THREE.Color('#8B5CF6')  // Vivid Purple
+      new THREE.Color('#9333EA'), // Vivid Purple
+      new THREE.Color('#A855F7'), // Bright Purple
+      new THREE.Color('#6366F1'), // Indigo
+      new THREE.Color('#F472B6')  // Pink
     ];
 
-    // Star field
+    // Star field with larger particles
     const starGeometry = new THREE.BufferGeometry();
     const starPositions = new Float32Array(particleCount * 3);
     const starColors = new Float32Array(particleCount * 3);
+    const starSizes = new Float32Array(particleCount);
 
     for (let i = 0; i < particleCount; i++) {
       const i3 = i * 3;
-      const radius = 50;
+      const radius = 60;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(Math.random() * 2 - 1);
 
@@ -45,36 +46,41 @@ export function AnimatedBackground() {
       starColors[i3] = color.r;
       starColors[i3 + 1] = color.g;
       starColors[i3 + 2] = color.b;
+
+      // Varying star sizes
+      starSizes[i] = Math.random() * 0.2 + 0.1;
     }
 
     starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
     starGeometry.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
+    starGeometry.setAttribute('size', new THREE.BufferAttribute(starSizes, 1));
 
     const starMaterial = new THREE.PointsMaterial({
-      size: 0.1,
+      size: 0.15,
       vertexColors: true,
       transparent: true,
       opacity: 0.8,
-      blending: THREE.AdditiveBlending
+      blending: THREE.AdditiveBlending,
+      sizeAttenuation: true
     });
 
     const starField = new THREE.Points(starGeometry, starMaterial);
     scene.add(starField);
 
-    // Meteors
+    // Enhanced meteors with longer trails
     const meteors: THREE.Line[] = [];
     const meteorTrails: THREE.Line[] = [];
 
     for (let i = 0; i < meteorCount; i++) {
       const meteorGeometry = new THREE.BufferGeometry();
       const points = [];
-      const trailLength = 20;
+      const trailLength = 30; // Longer trails
       
       for (let j = 0; j < trailLength; j++) {
         points.push(new THREE.Vector3(
-          Math.random() * 100 - 50,
-          Math.random() * 100 - 50,
-          Math.random() * 100 - 50
+          Math.random() * 120 - 60,
+          Math.random() * 120 - 60,
+          Math.random() * 120 - 60
         ));
       }
       
@@ -83,19 +89,21 @@ export function AnimatedBackground() {
       const meteorMaterial = new THREE.LineBasicMaterial({
         color: colors[Math.floor(Math.random() * colors.length)],
         transparent: true,
-        opacity: 0.6
+        opacity: 0.8,
+        linewidth: 2
       });
       
       const meteor = new THREE.Line(meteorGeometry, meteorMaterial);
       meteors.push(meteor);
       scene.add(meteor);
 
-      // Trail effect
+      // Enhanced trail effect
       const trailGeometry = new THREE.BufferGeometry();
       const trailMaterial = new THREE.LineBasicMaterial({
         color: 0xffffff,
         transparent: true,
-        opacity: 0.2
+        opacity: 0.3,
+        linewidth: 1
       });
       
       const trail = new THREE.Line(trailGeometry, trailMaterial);
@@ -103,7 +111,7 @@ export function AnimatedBackground() {
       scene.add(trail);
     }
 
-    // Mouse interaction
+    // Enhanced mouse interaction
     const mouse = new THREE.Vector2();
     const targetRotation = new THREE.Vector2();
     let currentRotation = new THREE.Vector2();
@@ -111,42 +119,41 @@ export function AnimatedBackground() {
     const handleMouseMove = (event: MouseEvent) => {
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-      targetRotation.x = mouse.x * 0.3;
-      targetRotation.y = mouse.y * 0.2;
+      targetRotation.x = mouse.x * 0.5;
+      targetRotation.y = mouse.y * 0.3;
     };
 
     document.addEventListener('mousemove', handleMouseMove);
 
     // Position camera
-    camera.position.z = 30;
+    camera.position.z = 35;
 
-    // Animation
+    // Animation with enhanced meteor movement
     const animate = () => {
       requestAnimationFrame(animate);
 
       // Rotate star field
-      starField.rotation.y += 0.0005;
-      starField.rotation.x += 0.0002;
+      starField.rotation.y += 0.0003;
+      starField.rotation.x += 0.0001;
 
-      // Update meteors
+      // Update meteors with varying speeds
       meteors.forEach((meteor, index) => {
         const positions = meteor.geometry.attributes.position.array as Float32Array;
         const trail = meteorTrails[index];
         const trailPositions = [];
         
-        // Move meteor
+        // Enhanced meteor movement
         for (let i = 0; i < positions.length; i += 3) {
-          positions[i] -= 0.3; // Move in x direction
-          positions[i + 1] -= 0.2; // Move in y direction
+          positions[i] -= 0.4 + Math.random() * 0.2; // Varying x speed
+          positions[i + 1] -= 0.3 + Math.random() * 0.1; // Varying y speed
           
-          // Reset position when meteor goes out of view
-          if (positions[i] < -50) {
-            positions[i] = 50;
-            positions[i + 1] = Math.random() * 100 - 50;
-            positions[i + 2] = Math.random() * 100 - 50;
+          // Reset position with random entry points
+          if (positions[i] < -60) {
+            positions[i] = 60;
+            positions[i + 1] = Math.random() * 120 - 60;
+            positions[i + 2] = Math.random() * 120 - 60;
           }
           
-          // Add point to trail
           trailPositions.push(
             positions[i],
             positions[i + 1],
@@ -156,7 +163,7 @@ export function AnimatedBackground() {
         
         meteor.geometry.attributes.position.needsUpdate = true;
         
-        // Update trail
+        // Update trail with fade effect
         trail.geometry.setFromPoints(trailPositions.map((value, index) => 
           new THREE.Vector3(
             trailPositions[index * 3],
@@ -167,11 +174,11 @@ export function AnimatedBackground() {
       });
 
       // Smooth camera movement
-      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.05;
-      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.05;
+      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.03;
+      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.03;
       
-      camera.position.x = Math.sin(currentRotation.x) * 30;
-      camera.position.y = Math.sin(currentRotation.y) * 30;
+      camera.position.x = Math.sin(currentRotation.x) * 35;
+      camera.position.y = Math.sin(currentRotation.y) * 35;
       camera.lookAt(scene.position);
 
       renderer.render(scene, camera);
@@ -202,7 +209,7 @@ export function AnimatedBackground() {
       ref={containerRef} 
       className="fixed inset-0 -z-10 pointer-events-none"
       style={{ 
-        background: 'linear-gradient(to bottom, #1a1a2e, #16213e)',
+        background: 'linear-gradient(to bottom, #0F172A, #1E293B)',
         opacity: 0.9 
       }}
     />
