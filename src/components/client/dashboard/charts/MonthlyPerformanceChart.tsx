@@ -14,7 +14,7 @@ import { monthlyData } from "./data/chartData";
 export const MonthlyPerformanceChart = () => {
   return (
     <>
-      <ChartHeader title="Performance Mensal" />
+      <ChartHeader title="Faturamento Mensal" />
       <div className="h-[320px] w-full mt-12">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
@@ -26,6 +26,35 @@ export const MonthlyPerformanceChart = () => {
               bottom: 20,
             }}
           >
+            <defs>
+              <linearGradient id="salesGradient" x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0%" stopColor="#1a1a1a" />
+                <stop offset="15%" stopColor="#1a1a1a" />
+                <stop offset="20%" stopColor="#3f0555" />
+                <stop offset="25%" stopColor="#4f0677" />
+                <stop offset="30%" stopColor="#6f09aa" />
+                <stop offset="35%" stopColor="#7a0ab1" />
+                <stop offset="100%" stopColor="#7a0ab1" />
+              </linearGradient>
+              <linearGradient id="commissionsGradient" x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0%" stopColor="#1a1a1a" />
+                <stop offset="15%" stopColor="#1a1a1a" />
+                <stop offset="20%" stopColor="#3f0555" />
+                <stop offset="25%" stopColor="#4f0677" />
+                <stop offset="30%" stopColor="#6f09aa" />
+                <stop offset="35%" stopColor="#7a0ab1" />
+                <stop offset="100%" stopColor="#7a0ab1" />
+              </linearGradient>
+              <linearGradient id="projectionGradient" x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0%" stopColor="#1a1a1a" />
+                <stop offset="15%" stopColor="#1a1a1a" />
+                <stop offset="20%" stopColor="#3f0555" />
+                <stop offset="25%" stopColor="#4f0677" />
+                <stop offset="30%" stopColor="#6f09aa" />
+                <stop offset="35%" stopColor="#7a0ab1" />
+                <stop offset="100%" stopColor="#7a0ab1" />
+              </linearGradient>
+            </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
             <XAxis 
               dataKey="month" 
@@ -66,23 +95,26 @@ export const MonthlyPerformanceChart = () => {
             <Bar
               dataKey="value"
               name="Vendas"
-              fill="#5f0889"
+              fill="url(#salesGradient)"
               radius={[4, 4, 0, 0]}
               barSize={16}
+              className="animate-rainbow"
             />
             <Bar
               dataKey="trend"
               name="Comissões"
-              fill="#000695"
+              fill="url(#commissionsGradient)"
               radius={[4, 4, 0, 0]}
               barSize={16}
+              className="animate-rainbow"
             />
             <Bar
               dataKey="projected"
               name="Projeção"
-              fill="#0610ff"
+              fill="url(#projectionGradient)"
               radius={[4, 4, 0, 0]}
               barSize={16}
+              className="animate-rainbow"
             />
           </BarChart>
         </ResponsiveContainer>
