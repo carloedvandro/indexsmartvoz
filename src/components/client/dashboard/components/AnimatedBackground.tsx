@@ -14,97 +14,66 @@ export function AnimatedBackground() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Create tunnel geometry with more segments for smoother appearance
-    const geometry = new THREE.CylinderGeometry(3, 3, 80, 64, 64, true);
-    geometry.scale(-1, 1, 1); // Invert the cylinder
+    // Create particles
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 2000;
+    const posArray = new Float32Array(particlesCount * 3);
 
-    // Create dynamic gradient texture
-    const canvas = document.createElement('canvas');
-    canvas.width = 2048; // Higher resolution
-    canvas.height = 2048;
-    const context = canvas.getContext('2d')!;
-    const gradient = context.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, '#5f0889');
-    gradient.addColorStop(0.3, '#9b87f5');
-    gradient.addColorStop(0.6, '#6E59A5');
-    gradient.addColorStop(1, '#5f0889');
-    context.fillStyle = gradient;
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < particlesCount * 3; i++) {
+      posArray[i] = (Math.random() - 0.5) * 20; // Spread particles in space
+    }
 
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(4, 8); // More texture repetition
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
-    // Enhanced shader material
-    const material = new THREE.ShaderMaterial({
+    // Create material with custom shader
+    const particlesMaterial = new THREE.ShaderMaterial({
       uniforms: {
-        time: { value: 0 },
-        texture: { value: texture },
-        mouseX: { value: 0 },
-        mouseY: { value: 0 }
+        uTime: { value: 0 },
+        uMouseX: { value: 0 },
+        uMouseY: { value: 0 }
       },
       vertexShader: `
-        varying vec2 vUv;
-        varying vec3 vPosition;
-        uniform float time;
-        uniform float mouseX;
-        uniform float mouseY;
+        uniform float uTime;
+        uniform float uMouseX;
+        uniform float uMouseY;
         
         void main() {
-          vUv = uv;
-          vPosition = position;
-          
-          // Enhanced wave effect
-          float wave = sin(position.y * 0.1 + time) * 0.2;
-          wave += cos(position.x * 0.1 + time * 0.8) * 0.1;
-          
           vec3 pos = position;
-          pos.x += wave + mouseX * 0.5;
-          pos.z += wave + mouseY * 0.5;
           
-          // Spiral effect
-          float angle = time * 0.2;
-          pos.x += sin(pos.y * 0.2 + angle) * 0.3;
-          pos.z += cos(pos.y * 0.2 + angle) * 0.3;
+          // Add wave motion
+          float wave = sin(pos.x * 0.5 + uTime) * 0.2;
+          wave += cos(pos.y * 0.5 + uTime) * 0.2;
           
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+          // Mouse influence
+          float dist = distance(pos.xy, vec2(uMouseX, uMouseY));
+          float influence = smoothstep(2.0, 0.0, dist) * 0.5;
+          pos.z += wave + influence;
+          
+          vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+          gl_Position = projectionMatrix * mvPosition;
+          gl_PointSize = 2.0 * (300.0 / -mvPosition.z);
         }
       `,
       fragmentShader: `
-        uniform sampler2D texture;
-        uniform float time;
-        varying vec2 vUv;
-        varying vec3 vPosition;
-        
         void main() {
-          // Dynamic UV coordinates
-          vec2 uv = vUv;
-          uv.y += time * 0.15; // Faster scrolling
-          uv.x += sin(vPosition.y * 0.05 + time * 0.2) * 0.1;
+          float dist = length(gl_PointCoord - vec2(0.5));
+          float alpha = 1.0 - smoothstep(0.4, 0.5, dist);
           
-          vec4 color = texture2D(texture, uv);
+          // Gradient colors (purple theme)
+          vec3 color1 = vec3(0.373, 0.031, 0.537);  // #5f0889
+          vec3 color2 = vec3(0.608, 0.529, 0.961);  // #9b87f5
+          vec3 finalColor = mix(color1, color2, gl_FragCoord.y / 1000.0);
           
-          // Enhanced effects
-          float brightness = 1.0 + sin(time * 2.0) * 0.2;
-          float alpha = 0.8 + sin(vPosition.y * 0.1 + time) * 0.2;
-          
-          // Add sparkle effect
-          float sparkle = pow(sin(vPosition.y * 10.0 + time * 3.0) * 0.5 + 0.5, 2.0);
-          color.rgb += vec3(sparkle) * 0.3;
-          
-          // Pulse effect
-          color.rgb *= brightness;
-          
-          gl_FragColor = color;
-          gl_FragColor.a = alpha;
+          gl_FragColor = vec4(finalColor, alpha * 0.7);
         }
       `,
       transparent: true,
-      side: THREE.BackSide
+      depthWrite: false,
+      blending: THREE.AdditiveBlending
     });
 
-    const tunnel = new THREE.Mesh(geometry, material);
-    scene.add(tunnel);
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
 
     // Position camera
     camera.position.z = 5;
@@ -115,25 +84,28 @@ export function AnimatedBackground() {
 
     const handleMouseMove = (event: MouseEvent) => {
       mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-      mouseY = (event.clientY / window.innerHeight) * 2 - 1;
+      mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
     };
 
     document.addEventListener('mousemove', handleMouseMove);
 
     // Animation
+    const clock = new THREE.Clock();
+
     const animate = () => {
-      requestAnimationFrame(animate);
-
-      // Smooth uniform updates
-      material.uniforms.time.value += 0.015;
-      material.uniforms.mouseX.value += (mouseX - material.uniforms.mouseX.value) * 0.05;
-      material.uniforms.mouseY.value += (mouseY - material.uniforms.mouseY.value) * 0.05;
-
-      // Dynamic tunnel rotation
-      tunnel.rotation.z += 0.002;
-      tunnel.rotation.x = Math.sin(material.uniforms.time.value * 0.1) * 0.1;
+      const elapsedTime = clock.getElapsedTime();
+      
+      // Update uniforms
+      particlesMaterial.uniforms.uTime.value = elapsedTime * 0.5;
+      particlesMaterial.uniforms.uMouseX.value += (mouseX - particlesMaterial.uniforms.uMouseX.value) * 0.1;
+      particlesMaterial.uniforms.uMouseY.value += (mouseY - particlesMaterial.uniforms.uMouseY.value) * 0.1;
+      
+      // Rotate particles
+      particlesMesh.rotation.x = elapsedTime * 0.05;
+      particlesMesh.rotation.y = elapsedTime * 0.075;
 
       renderer.render(scene, camera);
+      requestAnimationFrame(animate);
     };
     animate();
 
