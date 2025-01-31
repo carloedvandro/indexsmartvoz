@@ -15,7 +15,7 @@ export function AnimatedBackground() {
     containerRef.current.appendChild(renderer.domElement);
 
     // Create particles
-    const particleCount = 1500; // Aumentado número de partículas
+    const particleCount = 1500;
     const positions = new Float32Array(particleCount * 3);
     const velocities = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
@@ -155,7 +155,6 @@ export function AnimatedBackground() {
 
     window.addEventListener('resize', handleResize);
 
-    // Cleanup
     return () => {
       if (containerRef.current) {
         containerRef.current.removeChild(renderer.domElement);
@@ -170,8 +169,8 @@ export function AnimatedBackground() {
       ref={containerRef} 
       className="fixed inset-0 -z-10 pointer-events-none"
       style={{ 
-        background: 'linear-gradient(135deg, #F5EDFF 0%, #E5F1FF 50%, #F0E6FF 100%)',
-        opacity: 0.9 
+        background: '#1A1F2C',
+        opacity: 0.95 
       }}
     />
   );
