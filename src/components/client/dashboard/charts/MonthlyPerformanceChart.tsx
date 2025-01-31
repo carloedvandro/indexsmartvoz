@@ -14,7 +14,7 @@ import { monthlyData } from "./data/chartData";
 export const MonthlyPerformanceChart = () => {
   return (
     <>
-      <ChartHeader title="Faturamento Mensal" />
+      <ChartHeader title="Performance Mensal" />
       <div className="h-[320px] w-full mt-12">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
@@ -26,45 +26,6 @@ export const MonthlyPerformanceChart = () => {
               bottom: 20,
             }}
           >
-            <defs>
-              <linearGradient id="salesGradient" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="#2a2a2a" />
-                <stop offset="15%" stopColor="#2a2a2a" />
-                <stop offset="20%" stopColor="#4f0666" />
-                <stop offset="25%" stopColor="#600788" />
-                <stop offset="30%" stopColor="#800abc" />
-                <stop offset="35%" stopColor="#910bc4" />
-                <stop offset="100%" stopColor="#910bc4" />
-              </linearGradient>
-              <linearGradient id="commissionsGradient" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="#2a2a2a" />
-                <stop offset="15%" stopColor="#2a2a2a" />
-                <stop offset="20%" stopColor="#4f0666" />
-                <stop offset="25%" stopColor="#600788" />
-                <stop offset="30%" stopColor="#800abc" />
-                <stop offset="35%" stopColor="#910bc4" />
-                <stop offset="100%" stopColor="#910bc4" />
-              </linearGradient>
-              <linearGradient id="projectionGradient" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="#2a2a2a" />
-                <stop offset="15%" stopColor="#2a2a2a" />
-                <stop offset="20%" stopColor="#4f0666" />
-                <stop offset="25%" stopColor="#600788" />
-                <stop offset="30%" stopColor="#800abc" />
-                <stop offset="35%" stopColor="#910bc4" />
-                <stop offset="100%" stopColor="#910bc4" />
-              </linearGradient>
-              <style type="text/css">
-                {`
-                  .custom-legend .recharts-legend-item-text {
-                    font-weight: bold;
-                  }
-                  .sales-legend { color: #5f0889 !important; }
-                  .commissions-legend { color: #000695 !important; }
-                  .projection-legend { color: #0610ff !important; }
-                `}
-              </style>
-            </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
             <XAxis 
               dataKey="month" 
@@ -101,38 +62,27 @@ export const MonthlyPerformanceChart = () => {
                 paddingTop: "20px",
                 fontWeight: 'bold'
               }}
-              className="custom-legend"
-              formatter={(value) => {
-                let className = '';
-                if (value === 'Vendas') className = 'sales-legend';
-                if (value === 'Comissões') className = 'commissions-legend';
-                if (value === 'Projeção') className = 'projection-legend';
-                return <span className={className}>{value}</span>;
-              }}
             />
             <Bar
               dataKey="value"
               name="Vendas"
-              fill="url(#salesGradient)"
+              fill="#5f0889"
               radius={[4, 4, 0, 0]}
               barSize={16}
-              className="animate-rainbow"
             />
             <Bar
               dataKey="trend"
               name="Comissões"
-              fill="url(#commissionsGradient)"
+              fill="#000695"
               radius={[4, 4, 0, 0]}
               barSize={16}
-              className="animate-rainbow"
             />
             <Bar
               dataKey="projected"
               name="Projeção"
-              fill="url(#projectionGradient)"
+              fill="#0610ff"
               radius={[4, 4, 0, 0]}
               barSize={16}
-              className="animate-rainbow"
             />
           </BarChart>
         </ResponsiveContainer>

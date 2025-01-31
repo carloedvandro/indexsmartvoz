@@ -4,8 +4,8 @@ interface ChartHeaderProps {
 
 export const ChartHeader = ({ title }: ChartHeaderProps) => {
   return (
-    <h3 className="text-2xl font-bold text-left w-full px-4 mt-12">
-      {title}
-    </h3>
+    <div className="text-left w-full mt-4 px-4">
+      <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
+    </div>
   );
 };

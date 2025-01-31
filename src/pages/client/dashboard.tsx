@@ -7,7 +7,6 @@ import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
 import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
-import { AnimatedBackground } from "@/components/client/dashboard/components/AnimatedBackground";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -28,8 +27,7 @@ export default function ClientDashboard() {
   }
 
   return (
-    <div className="flex h-screen w-full overflow-hidden">
-      <AnimatedBackground />
+    <div className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden">
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">

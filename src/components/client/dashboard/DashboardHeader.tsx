@@ -43,8 +43,7 @@ export function DashboardHeader() {
   };
 
   return (
-    <header className="w-full bg-background border-b relative">
-      <div className="absolute inset-0 animate-rainbow bg-[#5f0889] opacity-10" />
+    <header className="w-full bg-background border-b">
       <div className="container relative mx-auto min-h-16 flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center">
         <DesktopNavigation navigationItems={navigationItems} />
         <div className="flex lg:justify-center">
