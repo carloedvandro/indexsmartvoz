@@ -1,4 +1,3 @@
-import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
 import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { RevenueChart } from "@/components/client/dashboard/charts/RevenueChart";
@@ -24,7 +23,6 @@ export default function ClientDashboard() {
         </div>
         <div className="grid grid-cols-1 gap-4">
           <RevenueChart data={revenueData} variant="minimal" />
-          <NetworkStatsCard />
         </div>
       </main>
     </div>
