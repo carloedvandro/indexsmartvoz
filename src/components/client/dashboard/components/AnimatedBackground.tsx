@@ -31,7 +31,7 @@ export function AnimatedBackground() {
       velocities[i * 3 + 1] = (Math.random() - 0.5) * 0.02;
       velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.02;
 
-      // Color - using theme colors
+      // Color - usando cores do tema
       const colorChoice = Math.random();
       if (colorChoice < 0.3) {
         // Primary purple
