@@ -169,7 +169,7 @@ export function AnimatedBackground() {
       ref={containerRef} 
       className="fixed inset-0 -z-10 pointer-events-none"
       style={{ 
-        background: '#221F26',
+        background: '#403E43',
         opacity: 0.95 
       }}
     />
