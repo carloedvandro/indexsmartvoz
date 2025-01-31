@@ -51,8 +51,11 @@ export const MonthlyPerformanceChart = () => {
               cursor={{ fill: 'rgba(0, 0, 0, 0.04)' }}
             />
             <Legend 
+              align="right"
+              verticalAlign="middle"
+              layout="vertical"
               wrapperStyle={{
-                paddingTop: "20px"
+                paddingLeft: "20px"
               }}
             />
             <Bar
