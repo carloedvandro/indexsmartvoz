@@ -246,11 +246,6 @@ export const RevenueChart = ({ data, variant = 'gradient' }: RevenueChartProps) 
 
   return (
     <div className="space-y-8 bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-      <CardHeader className="p-0">
-        <CardTitle className="text-2xl font-bold text-center">
-          Faturamento Mensal
-        </CardTitle>
-      </CardHeader>
       <div className="h-[280px]">
         <ResponsiveContainer width="100%" height="100%">
           {renderChart()}
