@@ -1,53 +1,30 @@
-import { useNavigate } from "react-router-dom";
-import { useProfile } from "@/hooks/useProfile";
-import { useNetworkStats } from "@/hooks/useNetworkStats";
-import { LoadingState } from "@/components/client/dashboard/LoadingState";
-import { DashboardHeader } from "@/components/client/dashboard/DashboardHeader";
-import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
-import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
-import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
+import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
+import { PlansCard } from "@/components/client/dashboard/PlansCard";
+import { RevenueChart } from "@/components/client/dashboard/charts/RevenueChart";
+import { DashboardHeader } from "@/components/client/dashboard/DashboardHeader";
+import { useProfile } from "@/hooks/useProfile";
+import { generateRevenueData } from "@/components/client/dashboard/utils/statsUtils";
 
 export default function ClientDashboard() {
-  const navigate = useNavigate();
-  const { data: profile, isLoading: profileLoading, error: profileError } = useProfile();
-  const { data: networkStats, isLoading: networkLoading } = useNetworkStats(profile?.id);
-
-  const handleNetworkClick = () => {
-    navigate("/client/network");
-  };
-
-  if (profileLoading || networkLoading) {
-    return <LoadingState />;
-  }
-
-  if (profileError || !profile) {
-    navigate("/client/login");
-    return null;
-  }
+  const { data: profile } = useProfile();
+  const revenueData = generateRevenueData();
 
   return (
-    <div className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden">
-      <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <DashboardHeader />
-        <div className="flex-1 overflow-y-auto scrollbar-hide">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-6 pt-6">
-            <div className="w-full">
-              <ProfileCard profile={profile} />
-            </div>
-            <div className="w-full">
-              <NetworkCard 
-                networkStats={networkStats} 
-                onClick={handleNetworkClick} 
-              />
-            </div>
-            <div className="w-full">
-              <PlansCard />
-            </div>
+    <div className="min-h-screen bg-gray-50/40">
+      <DashboardHeader />
+      <main className="container mx-auto p-4 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+          <div className="md:col-span-4">
+            <ProfileCard profile={profile} />
           </div>
-          <div className="px-4 pt-6 pb-8">
-            <NetworkStatsCard />
+          <div className="md:col-span-8">
+            <PlansCard />
           </div>
+        </div>
+        <div className="grid grid-cols-1 gap-4">
+          <RevenueChart data={revenueData} variant="gradient" />
+          <NetworkStatsCard />
         </div>
       </main>
     </div>
