@@ -9,12 +9,6 @@ export const useNetworkData = (userId: string) => {
     queryKey: ['networkData', userId],
     queryFn: async () => {
       try {
-        // Add validation for userId
-        if (!userId) {
-          console.log("No user ID provided");
-          return [];
-        }
-
         console.log("Fetching network data for user ID:", userId);
         
         const { data: userNetwork, error: userNetworkError } = await supabase
@@ -141,7 +135,6 @@ export const useNetworkData = (userId: string) => {
         return [];
       }
     },
-    enabled: !!userId, // Only run the query if userId exists
     refetchOnWindowFocus: false,
   });
 
