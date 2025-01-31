@@ -28,19 +28,19 @@ export const MonthlyPerformanceChart = () => {
           >
             <defs>
               <linearGradient id="salesGradient" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="#ad1cb0" />
-                <stop offset="50%" stopColor="#d946ef" />
-                <stop offset="100%" stopColor="#ad1cb0" />
+                <stop offset="0%" stopColor="#5f0889" />
+                <stop offset="50%" stopColor="#7a0ab1" />
+                <stop offset="100%" stopColor="#5f0889" />
               </linearGradient>
               <linearGradient id="commissionsGradient" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="#F97316" />
-                <stop offset="50%" stopColor="#fb923c" />
-                <stop offset="100%" stopColor="#F97316" />
+                <stop offset="0%" stopColor="#5f0889" />
+                <stop offset="50%" stopColor="#7a0ab1" />
+                <stop offset="100%" stopColor="#5f0889" />
               </linearGradient>
               <linearGradient id="projectionGradient" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="#0FA0CE" />
-                <stop offset="50%" stopColor="#38bdf8" />
-                <stop offset="100%" stopColor="#0FA0CE" />
+                <stop offset="0%" stopColor="#5f0889" />
+                <stop offset="50%" stopColor="#7a0ab1" />
+                <stop offset="100%" stopColor="#5f0889" />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
