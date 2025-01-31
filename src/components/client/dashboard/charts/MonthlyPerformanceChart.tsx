@@ -54,6 +54,16 @@ export const MonthlyPerformanceChart = () => {
                 <stop offset="35%" stopColor="#910bc4" />
                 <stop offset="100%" stopColor="#910bc4" />
               </linearGradient>
+              <style type="text/css">
+                {`
+                  .custom-legend .recharts-legend-item-text {
+                    font-weight: bold;
+                  }
+                  .sales-legend { color: #5f0889 !important; }
+                  .commissions-legend { color: #000695 !important; }
+                  .projection-legend { color: #0610ff !important; }
+                `}
+              </style>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
             <XAxis 
@@ -90,6 +100,14 @@ export const MonthlyPerformanceChart = () => {
               wrapperStyle={{
                 paddingTop: "20px",
                 fontWeight: 'bold'
+              }}
+              className="custom-legend"
+              formatter={(value) => {
+                let className = '';
+                if (value === 'Vendas') className = 'sales-legend';
+                if (value === 'Comissões') className = 'commissions-legend';
+                if (value === 'Projeção') className = 'projection-legend';
+                return <span className={className}>{value}</span>;
               }}
             />
             <Bar
