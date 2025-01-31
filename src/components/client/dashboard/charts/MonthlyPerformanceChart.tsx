@@ -28,31 +28,31 @@ export const MonthlyPerformanceChart = () => {
           >
             <defs>
               <linearGradient id="salesGradient" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="#000000" />
-                <stop offset="15%" stopColor="#000000" />
-                <stop offset="20%" stopColor="#2f0444" />
-                <stop offset="25%" stopColor="#3f0566" />
-                <stop offset="30%" stopColor="#4f0677" />
-                <stop offset="35%" stopColor="#5f0889" />
-                <stop offset="100%" stopColor="#5f0889" />
+                <stop offset="0%" stopColor="#1a1a1a" />
+                <stop offset="15%" stopColor="#1a1a1a" />
+                <stop offset="20%" stopColor="#3f0555" />
+                <stop offset="25%" stopColor="#4f0677" />
+                <stop offset="30%" stopColor="#6f09aa" />
+                <stop offset="35%" stopColor="#7a0ab1" />
+                <stop offset="100%" stopColor="#7a0ab1" />
               </linearGradient>
               <linearGradient id="commissionsGradient" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="#000000" />
-                <stop offset="15%" stopColor="#000000" />
-                <stop offset="20%" stopColor="#2f0444" />
-                <stop offset="25%" stopColor="#3f0566" />
-                <stop offset="30%" stopColor="#4f0677" />
-                <stop offset="35%" stopColor="#5f0889" />
-                <stop offset="100%" stopColor="#5f0889" />
+                <stop offset="0%" stopColor="#1a1a1a" />
+                <stop offset="15%" stopColor="#1a1a1a" />
+                <stop offset="20%" stopColor="#3f0555" />
+                <stop offset="25%" stopColor="#4f0677" />
+                <stop offset="30%" stopColor="#6f09aa" />
+                <stop offset="35%" stopColor="#7a0ab1" />
+                <stop offset="100%" stopColor="#7a0ab1" />
               </linearGradient>
               <linearGradient id="projectionGradient" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor="#000000" />
-                <stop offset="15%" stopColor="#000000" />
-                <stop offset="20%" stopColor="#2f0444" />
-                <stop offset="25%" stopColor="#3f0566" />
-                <stop offset="30%" stopColor="#4f0677" />
-                <stop offset="35%" stopColor="#5f0889" />
-                <stop offset="100%" stopColor="#5f0889" />
+                <stop offset="0%" stopColor="#1a1a1a" />
+                <stop offset="15%" stopColor="#1a1a1a" />
+                <stop offset="20%" stopColor="#3f0555" />
+                <stop offset="25%" stopColor="#4f0677" />
+                <stop offset="30%" stopColor="#6f09aa" />
+                <stop offset="35%" stopColor="#7a0ab1" />
+                <stop offset="100%" stopColor="#7a0ab1" />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
