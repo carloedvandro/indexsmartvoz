@@ -14,8 +14,8 @@ export function AnimatedBackground() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Create bubble material with custom shader
-    const bubbleMaterial = new THREE.ShaderMaterial({
+    // Create tunnel material with custom shader
+    const tunnelMaterial = new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
         uMouse: { value: new THREE.Vector2(0, 0) },
@@ -29,9 +29,10 @@ export function AnimatedBackground() {
           vUv = uv;
           vPosition = position;
           
-          // Add floating motion
+          // Add wave motion
           vec3 pos = position;
-          float wave = sin(pos.x + uTime) * cos(pos.z + uTime) * 0.2;
+          float wave = sin(pos.z * 0.5 + uTime) * 0.1;
+          pos.x += wave;
           pos.y += wave;
           
           gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
@@ -43,66 +44,67 @@ export function AnimatedBackground() {
         varying vec3 vPosition;
         
         void main() {
-          // Create gradient effect
+          // Create tunnel effect
           vec2 center = vec2(0.5, 0.5);
-          float dist = distance(vUv, center);
+          float dist = length(vUv - center);
           
           // Purple theme colors
           vec3 color1 = vec3(0.608, 0.529, 0.961); // #9b87f5
-          vec3 color2 = vec3(0.431, 0.349, 0.647); // #6E59A5
-          vec3 color3 = vec3(0.839, 0.737, 0.980); // #D6BCFA
+          vec3 color2 = vec3(0.494, 0.349, 0.647); // #7E69AB
+          vec3 color3 = vec3(0.431, 0.349, 0.647); // #6E59A5
           
           // Animate colors
           float t = sin(uTime * 0.5) * 0.5 + 0.5;
-          vec3 gradientColor = mix(
+          vec3 tunnelColor = mix(
             mix(color1, color2, t),
             color3,
             smoothstep(0.0, 0.8, dist)
           );
           
           // Add glow effect
-          float glow = 1.0 - smoothstep(0.0, 0.8, dist);
-          gradientColor += glow * 0.2;
+          float glow = exp(-2.0 * dist);
+          tunnelColor += glow * 0.5;
           
-          // Add transparency
+          // Add rings
+          float rings = sin(dist * 20.0 - uTime * 2.0) * 0.5 + 0.5;
+          tunnelColor += rings * 0.2;
+          
+          // Add transparency for depth effect
           float alpha = smoothstep(1.0, 0.2, dist);
           
-          gl_FragColor = vec4(gradientColor, alpha * 0.7);
+          gl_FragColor = vec4(tunnelColor, alpha * 0.9);
         }
       `,
       transparent: true,
       side: THREE.DoubleSide,
     });
 
-    // Create multiple bubbles
-    const bubbles: THREE.Mesh[] = [];
-    const numBubbles = 15;
+    // Create tunnel segments
+    const tunnelSegments: THREE.Mesh[] = [];
+    const numSegments = 20;
+    const segmentSpacing = 0.5;
 
-    for (let i = 0; i < numBubbles; i++) {
-      const size = Math.random() * 2 + 1;
-      const geometry = new THREE.SphereGeometry(size, 32, 32);
-      const bubble = new THREE.Mesh(geometry, bubbleMaterial);
+    for (let i = 0; i < numSegments; i++) {
+      const radius = 2 + Math.sin(i * 0.2) * 0.5;
+      const geometry = new THREE.TorusGeometry(radius, 0.2, 32, 64);
+      const segment = new THREE.Mesh(geometry, tunnelMaterial);
       
-      // Random position
-      bubble.position.set(
-        (Math.random() - 0.5) * 20,
-        (Math.random() - 0.5) * 20,
-        (Math.random() - 0.5) * 20
-      );
+      segment.position.z = -i * segmentSpacing;
+      segment.rotation.z = i * 0.1;
       
-      scene.add(bubble);
-      bubbles.push(bubble);
+      scene.add(segment);
+      tunnelSegments.push(segment);
     }
 
     // Position camera
-    camera.position.z = 15;
+    camera.position.z = 5;
 
     // Mouse movement
     const mouse = new THREE.Vector2();
     const handleMouseMove = (event: MouseEvent) => {
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-      bubbleMaterial.uniforms.uMouse.value = mouse;
+      tunnelMaterial.uniforms.uMouse.value = mouse;
     };
 
     document.addEventListener('mousemove', handleMouseMove);
@@ -114,15 +116,23 @@ export function AnimatedBackground() {
       const elapsedTime = clock.getElapsedTime();
       
       // Update uniforms
-      bubbleMaterial.uniforms.uTime.value = elapsedTime * 0.5;
+      tunnelMaterial.uniforms.uTime.value = elapsedTime * 0.5;
       
-      // Animate bubbles
-      bubbles.forEach((bubble, i) => {
-        const speed = 0.2 + (i % 3) * 0.1;
-        bubble.position.y = Math.sin(elapsedTime * speed + i) * 0.5;
-        bubble.rotation.z = Math.sin(elapsedTime * speed * 0.5) * 0.2;
-        bubble.rotation.x = Math.cos(elapsedTime * speed * 0.3) * 0.1;
+      // Animate tunnel segments
+      tunnelSegments.forEach((segment, i) => {
+        segment.position.z += 0.02;
+        if (segment.position.z > 5) {
+          segment.position.z = -numSegments * segmentSpacing;
+        }
+        
+        segment.rotation.z = elapsedTime * 0.1 + i * 0.1;
+        segment.rotation.x = Math.sin(elapsedTime * 0.2 + i * 0.1) * 0.1;
       });
+
+      // Camera movement
+      camera.position.x = Math.sin(elapsedTime * 0.5) * 0.5;
+      camera.position.y = Math.cos(elapsedTime * 0.5) * 0.5;
+      camera.lookAt(0, 0, -10);
 
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
