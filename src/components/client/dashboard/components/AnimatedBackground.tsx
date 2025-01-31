@@ -14,19 +14,8 @@ export function AnimatedBackground() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Create particles
-    const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 2000;
-    const posArray = new Float32Array(particlesCount * 3);
-
-    for (let i = 0; i < particlesCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 20; // Spread particles in space
-    }
-
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-
-    // Create material with custom shader
-    const particlesMaterial = new THREE.ShaderMaterial({
+    // Create grid material with custom shader
+    const gridMaterial = new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
         uMouseX: { value: 0 },
@@ -37,46 +26,60 @@ export function AnimatedBackground() {
         uniform float uMouseX;
         uniform float uMouseY;
         
+        varying vec3 vPosition;
+        
         void main() {
           vec3 pos = position;
           
           // Add wave motion
-          float wave = sin(pos.x * 0.5 + uTime) * 0.2;
-          wave += cos(pos.y * 0.5 + uTime) * 0.2;
+          float wave = sin(pos.x * 0.5 + uTime) * cos(pos.z * 0.5 + uTime) * 0.2;
+          pos.y += wave;
           
           // Mouse influence
-          float dist = distance(pos.xy, vec2(uMouseX, uMouseY));
+          float dist = distance(pos.xz, vec2(uMouseX, uMouseY) * 5.0);
           float influence = smoothstep(2.0, 0.0, dist) * 0.5;
-          pos.z += wave + influence;
+          pos.y += influence;
+          
+          vPosition = pos;
           
           vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
           gl_Position = projectionMatrix * mvPosition;
-          gl_PointSize = 2.0 * (300.0 / -mvPosition.z);
         }
       `,
       fragmentShader: `
+        varying vec3 vPosition;
+        
         void main() {
-          float dist = length(gl_PointCoord - vec2(0.5));
-          float alpha = 1.0 - smoothstep(0.4, 0.5, dist);
+          // Grid effect
+          float grid = abs(fract(vPosition.x) - 0.5) + abs(fract(vPosition.z) - 0.5);
+          grid = smoothstep(0.9, 0.1, grid);
           
           // Gradient colors (purple theme)
-          vec3 color1 = vec3(0.373, 0.031, 0.537);  // #5f0889
-          vec3 color2 = vec3(0.608, 0.529, 0.961);  // #9b87f5
-          vec3 finalColor = mix(color1, color2, gl_FragCoord.y / 1000.0);
+          vec3 color1 = vec3(0.608, 0.529, 0.961);  // #9b87f5
+          vec3 color2 = vec3(0.431, 0.349, 0.647);  // #6E59A5
+          vec3 finalColor = mix(color1, color2, vPosition.y * 0.5 + 0.5);
           
-          gl_FragColor = vec4(finalColor, alpha * 0.7);
+          // Add glow effect
+          float glow = pow(grid, 2.0) * 0.8;
+          finalColor = mix(finalColor, vec3(1.0), glow);
+          
+          gl_FragColor = vec4(finalColor, 0.7);
         }
       `,
       transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending
+      wireframe: true,
+      side: THREE.DoubleSide
     });
 
-    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particlesMesh);
+    // Create grid geometry
+    const gridGeometry = new THREE.PlaneGeometry(20, 20, 32, 32);
+    const grid = new THREE.Mesh(gridGeometry, gridMaterial);
+    grid.rotation.x = -Math.PI / 2;
+    scene.add(grid);
 
     // Position camera
-    camera.position.z = 5;
+    camera.position.set(0, 5, 5);
+    camera.lookAt(0, 0, 0);
 
     // Mouse movement
     let mouseX = 0;
@@ -96,13 +99,12 @@ export function AnimatedBackground() {
       const elapsedTime = clock.getElapsedTime();
       
       // Update uniforms
-      particlesMaterial.uniforms.uTime.value = elapsedTime * 0.5;
-      particlesMaterial.uniforms.uMouseX.value += (mouseX - particlesMaterial.uniforms.uMouseX.value) * 0.1;
-      particlesMaterial.uniforms.uMouseY.value += (mouseY - particlesMaterial.uniforms.uMouseY.value) * 0.1;
+      gridMaterial.uniforms.uTime.value = elapsedTime * 0.5;
+      gridMaterial.uniforms.uMouseX.value += (mouseX - gridMaterial.uniforms.uMouseX.value) * 0.1;
+      gridMaterial.uniforms.uMouseY.value += (mouseY - gridMaterial.uniforms.uMouseY.value) * 0.1;
       
-      // Rotate particles
-      particlesMesh.rotation.x = elapsedTime * 0.05;
-      particlesMesh.rotation.y = elapsedTime * 0.075;
+      // Rotate grid slightly
+      grid.rotation.z = Math.sin(elapsedTime * 0.1) * 0.1;
 
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
@@ -133,8 +135,8 @@ export function AnimatedBackground() {
       ref={containerRef} 
       className="fixed inset-0 -z-10 pointer-events-none"
       style={{ 
-        background: 'linear-gradient(to bottom, #ffffff, #f8f9fe)',
-        opacity: 0.8 
+        background: 'linear-gradient(to bottom, #1A1F2C, #2D3748)',
+        opacity: 0.9 
       }}
     />
   );
