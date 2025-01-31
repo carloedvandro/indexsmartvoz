@@ -1,14 +1,11 @@
 import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
-import { RevenueChart } from "@/components/client/dashboard/charts/RevenueChart";
 import { DashboardHeader } from "@/components/client/dashboard/DashboardHeader";
 import { useProfile } from "@/hooks/useProfile";
-import { generateRevenueData } from "@/components/client/dashboard/utils/statsUtils";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
 
 export default function ClientDashboard() {
   const { data: profile } = useProfile();
-  const revenueData = generateRevenueData();
 
   return (
     <div className="min-h-screen bg-gray-50/40">
@@ -23,7 +20,6 @@ export default function ClientDashboard() {
           </div>
         </div>
         <div className="grid grid-cols-1 gap-4">
-          <RevenueChart data={revenueData} variant="gradient" />
           <NetworkStatsCard />
         </div>
       </main>
