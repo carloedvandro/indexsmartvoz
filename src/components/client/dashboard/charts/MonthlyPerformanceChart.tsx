@@ -33,6 +33,9 @@ export const MonthlyPerformanceChart = () => {
               fontSize={12}
               tickLine={false}
               axisLine={{ stroke: '#E5E7EB' }}
+              style={{
+                fontWeight: 'bold'
+              }}
             />
             <YAxis
               stroke="#1f2937"
@@ -40,6 +43,9 @@ export const MonthlyPerformanceChart = () => {
               tickLine={false}
               axisLine={{ stroke: '#E5E7EB' }}
               tickFormatter={(value) => `${value}`}
+              style={{
+                fontWeight: 'bold'
+              }}
             />
             <Tooltip
               contentStyle={{
@@ -47,12 +53,14 @@ export const MonthlyPerformanceChart = () => {
                 border: "1px solid #e5e7eb",
                 borderRadius: "8px",
                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                fontWeight: 'bold'
               }}
               cursor={{ fill: 'rgba(0, 0, 0, 0.04)' }}
             />
             <Legend 
               wrapperStyle={{
-                paddingTop: "20px"
+                paddingTop: "20px",
+                fontWeight: 'bold'
               }}
             />
             <Bar
