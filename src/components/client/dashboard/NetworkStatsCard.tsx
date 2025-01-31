@@ -40,13 +40,13 @@ export const NetworkStatsCard = () => {
   const cardData = generateCardData();
 
   return (
-    <div className="w-full">
+    <>
       <NetworkStatsHeader />
-      <div className="w-full space-y-8">
+      <div className="space-y-8">
         <NetworkStatsGrid cardData={cardData} />
         <ExpenseDistributionCard />
         <MonthlyPerformanceChart />
       </div>
-    </div>
+    </>
   );
 };
