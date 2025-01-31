@@ -139,25 +139,25 @@ export const MonthlyPerformanceChart = () => {
               type="monotone"
               dataKey="value"
               stroke="#5f0889"
-              strokeDasharray="5 5"
-              dot={{ fill: '#5f0889', r: 4 }}
+              dot={{ fill: '#5f0889', r: 4, strokeWidth: 2 }}
               activeDot={{ r: 6, fill: '#5f0889' }}
+              connectNulls
             />
             <Line
               type="monotone"
               dataKey="trend"
               stroke="#000695"
-              strokeDasharray="5 5"
-              dot={{ fill: '#000695', r: 4 }}
+              dot={{ fill: '#000695', r: 4, strokeWidth: 2 }}
               activeDot={{ r: 6, fill: '#000695' }}
+              connectNulls
             />
             <Line
               type="monotone"
               dataKey="projected"
               stroke="#0610ff"
-              strokeDasharray="5 5"
-              dot={{ fill: '#0610ff', r: 4 }}
+              dot={{ fill: '#0610ff', r: 4, strokeWidth: 2 }}
               activeDot={{ r: 6, fill: '#0610ff' }}
+              connectNulls
             />
           </ComposedChart>
         </ResponsiveContainer>
