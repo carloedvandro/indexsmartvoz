@@ -14,28 +14,28 @@ export function AnimatedBackground() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Create tunnel geometry
-    const geometry = new THREE.CylinderGeometry(2, 2, 50, 32, 50, true);
-    geometry.scale(-1, 1, 1); // Invert the cylinder so we see the inside
+    // Create tunnel geometry with more segments for smoother appearance
+    const geometry = new THREE.CylinderGeometry(3, 3, 80, 64, 64, true);
+    geometry.scale(-1, 1, 1); // Invert the cylinder
 
-    // Create gradient texture
+    // Create dynamic gradient texture
     const canvas = document.createElement('canvas');
-    canvas.width = 1024;
-    canvas.height = 1024;
+    canvas.width = 2048; // Higher resolution
+    canvas.height = 2048;
     const context = canvas.getContext('2d')!;
     const gradient = context.createLinearGradient(0, 0, 0, canvas.height);
     gradient.addColorStop(0, '#5f0889');
-    gradient.addColorStop(0.5, '#9b87f5');
-    gradient.addColorStop(1, '#6E59A5');
+    gradient.addColorStop(0.3, '#9b87f5');
+    gradient.addColorStop(0.6, '#6E59A5');
+    gradient.addColorStop(1, '#5f0889');
     context.fillStyle = gradient;
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     const texture = new THREE.CanvasTexture(canvas);
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(2, 4);
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(4, 8); // More texture repetition
 
-    // Create material with custom shader
+    // Enhanced shader material
     const material = new THREE.ShaderMaterial({
       uniforms: {
         time: { value: 0 },
@@ -45,22 +45,27 @@ export function AnimatedBackground() {
       },
       vertexShader: `
         varying vec2 vUv;
+        varying vec3 vPosition;
         uniform float time;
         uniform float mouseX;
         uniform float mouseY;
         
         void main() {
           vUv = uv;
+          vPosition = position;
+          
+          // Enhanced wave effect
+          float wave = sin(position.y * 0.1 + time) * 0.2;
+          wave += cos(position.x * 0.1 + time * 0.8) * 0.1;
+          
           vec3 pos = position;
+          pos.x += wave + mouseX * 0.5;
+          pos.z += wave + mouseY * 0.5;
           
-          // Add wave effect
-          float wave = sin(pos.y * 0.2 + time) * 0.1;
-          pos.x += wave;
-          pos.z += wave;
-          
-          // Add mouse influence
-          pos.x += mouseX * 0.5;
-          pos.y += mouseY * 0.5;
+          // Spiral effect
+          float angle = time * 0.2;
+          pos.x += sin(pos.y * 0.2 + angle) * 0.3;
+          pos.z += cos(pos.y * 0.2 + angle) * 0.3;
           
           gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         }
@@ -69,19 +74,29 @@ export function AnimatedBackground() {
         uniform sampler2D texture;
         uniform float time;
         varying vec2 vUv;
+        varying vec3 vPosition;
         
         void main() {
+          // Dynamic UV coordinates
           vec2 uv = vUv;
-          uv.y += time * 0.1; // Scrolling effect
+          uv.y += time * 0.15; // Faster scrolling
+          uv.x += sin(vPosition.y * 0.05 + time * 0.2) * 0.1;
           
           vec4 color = texture2D(texture, uv);
           
-          // Add pulse effect
-          float pulse = sin(time * 2.0) * 0.1 + 0.9;
-          color.rgb *= pulse;
+          // Enhanced effects
+          float brightness = 1.0 + sin(time * 2.0) * 0.2;
+          float alpha = 0.8 + sin(vPosition.y * 0.1 + time) * 0.2;
+          
+          // Add sparkle effect
+          float sparkle = pow(sin(vPosition.y * 10.0 + time * 3.0) * 0.5 + 0.5, 2.0);
+          color.rgb += vec3(sparkle) * 0.3;
+          
+          // Pulse effect
+          color.rgb *= brightness;
           
           gl_FragColor = color;
-          gl_FragColor.a = 0.7; // Set transparency
+          gl_FragColor.a = alpha;
         }
       `,
       transparent: true,
@@ -109,13 +124,14 @@ export function AnimatedBackground() {
     const animate = () => {
       requestAnimationFrame(animate);
 
-      // Update uniforms
-      material.uniforms.time.value += 0.01;
+      // Smooth uniform updates
+      material.uniforms.time.value += 0.015;
       material.uniforms.mouseX.value += (mouseX - material.uniforms.mouseX.value) * 0.05;
       material.uniforms.mouseY.value += (mouseY - material.uniforms.mouseY.value) * 0.05;
 
-      // Rotate tunnel
-      tunnel.rotation.z += 0.001;
+      // Dynamic tunnel rotation
+      tunnel.rotation.z += 0.002;
+      tunnel.rotation.x = Math.sin(material.uniforms.time.value * 0.1) * 0.1;
 
       renderer.render(scene, camera);
     };
