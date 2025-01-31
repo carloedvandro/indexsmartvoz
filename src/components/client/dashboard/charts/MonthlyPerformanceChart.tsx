@@ -14,7 +14,7 @@ import { monthlyData } from "./data/chartData";
 export const MonthlyPerformanceChart = () => {
   return (
     <>
-      <ChartHeader title="Performance Mensal" />
+      <ChartHeader title="Faturamento mensal" />
       <div className="h-[320px] w-full mt-12">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
