@@ -13,7 +13,7 @@ import { monthlyData } from "./data/chartData";
 
 export const MonthlyPerformanceChart = () => {
   return (
-    <div className="mt-16 w-full px-4">
+    <div className="mt-24 w-full px-4">
       <ChartHeader title="Performance Mensal" />
       <ResponsiveContainer width="100%" height={320}>
         <BarChart
@@ -59,21 +59,21 @@ export const MonthlyPerformanceChart = () => {
             name="Vendas"
             fill="#F97316"
             radius={[4, 4, 0, 0]}
-            barSize={8}
+            barSize={12}
           />
           <Bar
             dataKey="trend"
             name="Comissões"
             fill="#0EA5E9"
             radius={[4, 4, 0, 0]}
-            barSize={8}
+            barSize={12}
           />
           <Bar
             dataKey="projected"
             name="Projeção"
             fill="#2563EB"
             radius={[4, 4, 0, 0]}
-            barSize={8}
+            barSize={12}
           />
         </BarChart>
       </ResponsiveContainer>
