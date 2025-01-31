@@ -15,7 +15,7 @@ export function AnimatedBackground() {
     containerRef.current.appendChild(renderer.domElement);
 
     // Create orbital particle systems
-    const particleCount = 3000;
+    const particleCount = 3500;
     const orbitCount = 5;
     const particlesPerOrbit = particleCount / orbitCount;
     const orbitRadii = [3, 5, 7, 9, 11];
@@ -24,9 +24,9 @@ export function AnimatedBackground() {
     const particles: THREE.Points[] = [];
     const particleGroups: THREE.Group[] = [];
 
-    // Theme colors as THREE.Color objects
+    // Theme colors as THREE.Color objects with improved gradient
     const colors = [
-      new THREE.Color('#5f0889'), // primary
+      new THREE.Color('#5f0889').multiplyScalar(1.2), // primary (brightened)
       new THREE.Color('#9b87f5'), // secondary
       new THREE.Color('#6E59A5'), // accent
       new THREE.Color('#8B5CF6'), // purple
@@ -38,22 +38,24 @@ export function AnimatedBackground() {
       const particleColors = new Float32Array(particlesPerOrbit * 3);
       const orbitGroup = new THREE.Group();
 
-      // Create particles for this orbit
+      // Create particles for this orbit with improved distribution
       for (let i = 0; i < particlesPerOrbit; i++) {
         const angle = (i / particlesPerOrbit) * Math.PI * 2;
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
+        const variance = (Math.random() - 0.5) * 0.5; // Add some randomness
+        const x = Math.cos(angle) * (radius + variance);
+        const y = Math.sin(angle) * (radius + variance);
         const z = (Math.random() - 0.5) * 2;
 
         positions[i * 3] = x;
         positions[i * 3 + 1] = y;
         positions[i * 3 + 2] = z;
 
-        // Color gradient using THREE.Color
+        // Enhanced color gradient with smooth transitions
         const color = colors[orbitIndex];
-        particleColors[i * 3] = color.r;
-        particleColors[i * 3 + 1] = color.g;
-        particleColors[i * 3 + 2] = color.b;
+        const intensity = 0.8 + Math.random() * 0.4; // Random brightness variation
+        particleColors[i * 3] = color.r * intensity;
+        particleColors[i * 3 + 1] = color.g * intensity;
+        particleColors[i * 3 + 2] = color.b * intensity;
       }
 
       const geometry = new THREE.BufferGeometry();
@@ -61,12 +63,13 @@ export function AnimatedBackground() {
       geometry.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
 
       const material = new THREE.PointsMaterial({
-        size: 0.1,
+        size: 0.12,
         vertexColors: true,
         transparent: true,
-        opacity: 0.8,
+        opacity: 0.85,
         blending: THREE.AdditiveBlending,
-        depthWrite: false
+        depthWrite: false,
+        sizeAttenuation: true
       });
 
       const particleSystem = new THREE.Points(geometry, material);
@@ -76,16 +79,24 @@ export function AnimatedBackground() {
       scene.add(orbitGroup);
     });
 
-    // Mouse interaction
+    // Enhanced mouse interaction
     const mouse = new THREE.Vector2();
     const targetRotation = new THREE.Vector2();
     let currentRotation = new THREE.Vector2();
+    let isMouseMoving = false;
+    let mouseTimeout: NodeJS.Timeout;
     
     const handleMouseMove = (event: MouseEvent) => {
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-      targetRotation.x = mouse.x * 0.5;
-      targetRotation.y = mouse.y * 0.3;
+      targetRotation.x = mouse.x * 0.4;
+      targetRotation.y = mouse.y * 0.25;
+      
+      isMouseMoving = true;
+      clearTimeout(mouseTimeout);
+      mouseTimeout = setTimeout(() => {
+        isMouseMoving = false;
+      }, 100);
     };
 
     document.addEventListener('mousemove', handleMouseMove);
@@ -93,38 +104,48 @@ export function AnimatedBackground() {
     // Position camera
     camera.position.z = 20;
 
-    // Animation
+    // Animation with improved smoothness
     const animate = () => {
       requestAnimationFrame(animate);
 
-      // Smooth rotation interpolation
-      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.05;
-      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.05;
+      // Smooth rotation interpolation with damping
+      const dampingFactor = isMouseMoving ? 0.08 : 0.03;
+      currentRotation.x += (targetRotation.x - currentRotation.x) * dampingFactor;
+      currentRotation.y += (targetRotation.y - currentRotation.y) * dampingFactor;
 
-      // Rotate each orbit group with smooth mouse influence
+      // Rotate each orbit group with enhanced movement
       particleGroups.forEach((group, index) => {
         group.rotation.z += orbitSpeeds[index];
         group.rotation.x = currentRotation.y;
         group.rotation.y = currentRotation.x;
+        
+        // Add subtle floating motion
+        group.position.y = Math.sin(Date.now() * 0.001 + index) * 0.1;
       });
 
-      // Dynamic color pulsing
+      // Dynamic particle effects
       const time = Date.now() * 0.001;
       particles.forEach((particle, index) => {
         const material = particle.material as THREE.PointsMaterial;
-        material.size = 0.1 + Math.sin(time + index) * 0.05;
-        material.opacity = 0.6 + Math.sin(time * 0.5 + index) * 0.2;
+        // Smooth size pulsing
+        material.size = 0.12 + Math.sin(time * 0.8 + index) * 0.04;
+        // Gentle opacity variation
+        material.opacity = 0.85 + Math.sin(time * 0.4 + index) * 0.15;
       });
 
       renderer.render(scene, camera);
     };
     animate();
 
-    // Handle resize
+    // Improved resize handling with debounce
+    let resizeTimeout: NodeJS.Timeout;
     const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }, 100);
     };
 
     window.addEventListener('resize', handleResize);
@@ -136,6 +157,8 @@ export function AnimatedBackground() {
       }
       window.removeEventListener('resize', handleResize);
       document.removeEventListener('mousemove', handleMouseMove);
+      clearTimeout(mouseTimeout);
+      clearTimeout(resizeTimeout);
     };
   }, []);
 
