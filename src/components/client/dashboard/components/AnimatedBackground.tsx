@@ -14,101 +14,45 @@ export function AnimatedBackground() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Create particle systems
-    const particleCount = 2000;
-    const meteorCount = 25;
+    // Sound wave parameters
+    const waveCount = 50;
+    const waveSegments = 128;
+    const waves: THREE.Line[] = [];
+    const waveAmplitudes: number[] = [];
     
-    // Theme colors with more vibrant options
+    // Theme colors with sound wave aesthetics
     const colors = [
-      new THREE.Color('#9333EA'), // Vivid Purple
-      new THREE.Color('#A855F7'), // Bright Purple
+      new THREE.Color('#9333EA'), // Deep Purple
+      new THREE.Color('#A855F7'), // Medium Purple
       new THREE.Color('#6366F1'), // Indigo
       new THREE.Color('#F472B6')  // Pink
     ];
 
-    // Star field with larger particles
-    const starGeometry = new THREE.BufferGeometry();
-    const starPositions = new Float32Array(particleCount * 3);
-    const starColors = new Float32Array(particleCount * 3);
-    const starSizes = new Float32Array(particleCount);
-
-    for (let i = 0; i < particleCount; i++) {
-      const i3 = i * 3;
-      const radius = 60;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(Math.random() * 2 - 1);
-
-      starPositions[i3] = radius * Math.sin(phi) * Math.cos(theta);
-      starPositions[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-      starPositions[i3 + 2] = radius * Math.cos(phi);
-
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      starColors[i3] = color.r;
-      starColors[i3 + 1] = color.g;
-      starColors[i3 + 2] = color.b;
-
-      // Varying star sizes
-      starSizes[i] = Math.random() * 0.2 + 0.1;
-    }
-
-    starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-    starGeometry.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
-    starGeometry.setAttribute('size', new THREE.BufferAttribute(starSizes, 1));
-
-    const starMaterial = new THREE.PointsMaterial({
-      size: 0.15,
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.8,
-      blending: THREE.AdditiveBlending,
-      sizeAttenuation: true
-    });
-
-    const starField = new THREE.Points(starGeometry, starMaterial);
-    scene.add(starField);
-
-    // Enhanced meteors with longer trails
-    const meteors: THREE.Line[] = [];
-    const meteorTrails: THREE.Line[] = [];
-
-    for (let i = 0; i < meteorCount; i++) {
-      const meteorGeometry = new THREE.BufferGeometry();
-      const points = [];
-      const trailLength = 30; // Longer trails
+    // Create multiple sound waves
+    for (let i = 0; i < waveCount; i++) {
+      const waveGeometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(waveSegments * 3);
       
-      for (let j = 0; j < trailLength; j++) {
-        points.push(new THREE.Vector3(
-          Math.random() * 120 - 60,
-          Math.random() * 120 - 60,
-          Math.random() * 120 - 60
-        ));
+      for (let j = 0; j < waveSegments; j++) {
+        const x = (j / waveSegments) * 60 - 30;
+        positions[j * 3] = x;
+        positions[j * 3 + 1] = 0;
+        positions[j * 3 + 2] = i * 0.5 - 15;
       }
       
-      meteorGeometry.setFromPoints(points);
+      waveGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       
-      const meteorMaterial = new THREE.LineBasicMaterial({
-        color: colors[Math.floor(Math.random() * colors.length)],
+      const waveMaterial = new THREE.LineBasicMaterial({
+        color: colors[i % colors.length],
         transparent: true,
-        opacity: 0.8,
+        opacity: 0.6,
         linewidth: 2
       });
       
-      const meteor = new THREE.Line(meteorGeometry, meteorMaterial);
-      meteors.push(meteor);
-      scene.add(meteor);
-
-      // Enhanced trail effect
-      const trailGeometry = new THREE.BufferGeometry();
-      const trailMaterial = new THREE.LineBasicMaterial({
-        color: 0xffffff,
-        transparent: true,
-        opacity: 0.3,
-        linewidth: 1
-      });
-      
-      const trail = new THREE.Line(trailGeometry, trailMaterial);
-      meteorTrails.push(trail);
-      scene.add(trail);
+      const wave = new THREE.Line(waveGeometry, waveMaterial);
+      waves.push(wave);
+      waveAmplitudes.push(Math.random() * 2 + 1);
+      scene.add(wave);
     }
 
     // Enhanced mouse interaction
@@ -119,66 +63,42 @@ export function AnimatedBackground() {
     const handleMouseMove = (event: MouseEvent) => {
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-      targetRotation.x = mouse.x * 0.5;
-      targetRotation.y = mouse.y * 0.3;
+      targetRotation.x = mouse.x * 0.3;
+      targetRotation.y = mouse.y * 0.2;
     };
 
     document.addEventListener('mousemove', handleMouseMove);
 
     // Position camera
-    camera.position.z = 35;
+    camera.position.z = 30;
 
-    // Animation with enhanced meteor movement
+    // Animation with wave movement
     const animate = () => {
       requestAnimationFrame(animate);
 
-      // Rotate star field
-      starField.rotation.y += 0.0003;
-      starField.rotation.x += 0.0001;
-
-      // Update meteors with varying speeds
-      meteors.forEach((meteor, index) => {
-        const positions = meteor.geometry.attributes.position.array as Float32Array;
-        const trail = meteorTrails[index];
-        const trailPositions = [];
+      // Update waves with smooth animation
+      waves.forEach((wave, index) => {
+        const positions = wave.geometry.attributes.position.array as Float32Array;
+        const time = Date.now() * 0.001;
+        const amplitude = waveAmplitudes[index];
         
-        // Enhanced meteor movement
-        for (let i = 0; i < positions.length; i += 3) {
-          positions[i] -= 0.4 + Math.random() * 0.2; // Varying x speed
-          positions[i + 1] -= 0.3 + Math.random() * 0.1; // Varying y speed
-          
-          // Reset position with random entry points
-          if (positions[i] < -60) {
-            positions[i] = 60;
-            positions[i + 1] = Math.random() * 120 - 60;
-            positions[i + 2] = Math.random() * 120 - 60;
-          }
-          
-          trailPositions.push(
-            positions[i],
-            positions[i + 1],
-            positions[i + 2]
-          );
+        for (let i = 0; i < waveSegments; i++) {
+          const x = positions[i * 3];
+          positions[i * 3 + 1] = Math.sin(x * 0.2 + time + index * 0.5) * amplitude;
         }
         
-        meteor.geometry.attributes.position.needsUpdate = true;
+        wave.geometry.attributes.position.needsUpdate = true;
         
-        // Update trail with fade effect
-        trail.geometry.setFromPoints(trailPositions.map((value, index) => 
-          new THREE.Vector3(
-            trailPositions[index * 3],
-            trailPositions[index * 3 + 1],
-            trailPositions[index * 3 + 2]
-          )
-        ));
+        // Add subtle wave rotation
+        wave.rotation.y = Math.sin(time * 0.1) * 0.1;
       });
 
       // Smooth camera movement
       currentRotation.x += (targetRotation.x - currentRotation.x) * 0.03;
       currentRotation.y += (targetRotation.y - currentRotation.y) * 0.03;
       
-      camera.position.x = Math.sin(currentRotation.x) * 35;
-      camera.position.y = Math.sin(currentRotation.y) * 35;
+      camera.position.x = Math.sin(currentRotation.x) * 30;
+      camera.position.y = Math.sin(currentRotation.y) * 30;
       camera.lookAt(scene.position);
 
       renderer.render(scene, camera);
