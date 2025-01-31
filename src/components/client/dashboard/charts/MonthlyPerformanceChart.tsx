@@ -21,8 +21,8 @@ export const MonthlyPerformanceChart = () => {
           margin={{
             top: 30,
             right: 30,
-            left: 30,
-            bottom: 30,
+            left: 35,
+            bottom: 35,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
@@ -32,7 +32,7 @@ export const MonthlyPerformanceChart = () => {
             fontSize={12}
             tickLine={false}
             axisLine={{ stroke: '#E5E7EB' }}
-            dy={16}
+            dy={24}
           />
           <YAxis
             stroke="#1f2937"
@@ -40,7 +40,7 @@ export const MonthlyPerformanceChart = () => {
             tickLine={false}
             axisLine={{ stroke: '#E5E7EB' }}
             tickFormatter={(value) => `${value}`}
-            dx={-10}
+            dx={-15}
           />
           <Tooltip
             contentStyle={{
@@ -54,7 +54,7 @@ export const MonthlyPerformanceChart = () => {
           <Legend 
             wrapperStyle={{
               paddingTop: "20px",
-              marginTop: "20px"
+              marginTop: "25px"
             }}
           />
           <Bar
