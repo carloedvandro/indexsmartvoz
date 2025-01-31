@@ -1,13 +1,12 @@
 import {
   Bar,
+  BarChart,
   CartesianGrid,
   Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
-  Line,
-  ComposedChart,
 } from "recharts";
 import { ChartHeader } from "./components/ChartHeader";
 import { monthlyData } from "./data/chartData";
@@ -18,7 +17,7 @@ export const MonthlyPerformanceChart = () => {
       <ChartHeader title="Faturamento Mensal" />
       <div className="h-[320px] w-full mt-12">
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart
+          <BarChart
             data={monthlyData}
             margin={{
               top: 20,
@@ -135,31 +134,7 @@ export const MonthlyPerformanceChart = () => {
               barSize={16}
               className="animate-rainbow"
             />
-            <Line
-              type="monotone"
-              dataKey="value"
-              stroke="#5f0889"
-              dot={{ fill: '#5f0889', r: 4, strokeWidth: 2 }}
-              activeDot={{ r: 6, fill: '#5f0889' }}
-              connectNulls
-            />
-            <Line
-              type="monotone"
-              dataKey="trend"
-              stroke="#000695"
-              dot={{ fill: '#000695', r: 4, strokeWidth: 2 }}
-              activeDot={{ r: 6, fill: '#000695' }}
-              connectNulls
-            />
-            <Line
-              type="monotone"
-              dataKey="projected"
-              stroke="#0610ff"
-              dot={{ fill: '#0610ff', r: 4, strokeWidth: 2 }}
-              activeDot={{ r: 6, fill: '#0610ff' }}
-              connectNulls
-            />
-          </ComposedChart>
+          </BarChart>
         </ResponsiveContainer>
       </div>
     </>
