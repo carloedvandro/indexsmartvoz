@@ -103,16 +103,11 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
               </div>
 
               <div>
-                <div className="relative">
-                  <Input 
-                    placeholder="DDD" 
-                    maxLength={2} 
-                    className="bg-white pl-14" 
-                  />
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-600">
-                    DDD
-                  </span>
-                </div>
+                <Input 
+                  placeholder="DDD" 
+                  maxLength={2} 
+                  className="bg-white h-[52px]" 
+                />
               </div>
             </div>
 
