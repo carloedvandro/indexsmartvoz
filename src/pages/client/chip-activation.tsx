@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, Trash2 } from "lucide-react";
+import { ArrowLeft, Trash2, ScanLine } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
+import { BarcodeScanner } from "@/components/BarcodeScanner";
 
 export default function ClientChipActivation() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function ClientChipActivation() {
     barcode?: string;
   }>>([]);
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [currentBarcode, setCurrentBarcode] = useState("");
+  const [scanningIndex, setScanningIndex] = useState<number | null>(null);
 
   const handleContinue = () => {
     setCurrentStep(currentStep + 1);
@@ -41,8 +42,19 @@ export default function ClientChipActivation() {
     setSelectedLines(updatedLines);
   };
 
+  const startScanning = (index: number) => {
+    setScanningIndex(index);
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      {scanningIndex !== null && (
+        <BarcodeScanner
+          onResult={(result) => handleUpdateBarcode(scanningIndex, result)}
+          onClose={() => setScanningIndex(null)}
+        />
+      )}
+      
       <div className="container mx-auto p-4 pb-16 space-y-6">
         <div className="flex items-center gap-4">
           <Button
@@ -217,12 +229,23 @@ export default function ClientChipActivation() {
                             </Button>
                           </div>
                           
-                          <Input
-                            placeholder="Código de barras do SIM card"
-                            value={line.barcode || ""}
-                            onChange={(e) => handleUpdateBarcode(index, e.target.value)}
-                            className="mt-2"
-                          />
+                          <div className="relative">
+                            <Input
+                              placeholder="Código de barras do SIM card"
+                              value={line.barcode || ""}
+                              onChange={(e) => handleUpdateBarcode(index, e.target.value)}
+                              className="pr-10"
+                              readOnly
+                            />
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="absolute right-2 top-1/2 -translate-y-1/2"
+                              onClick={() => startScanning(index)}
+                            >
+                              <ScanLine className="h-4 w-4 text-[#8425af]" />
+                            </Button>
+                          </div>
                           <p className="text-sm text-gray-500">
                             O código de barras tem 20 números. {
                               line.barcode 
