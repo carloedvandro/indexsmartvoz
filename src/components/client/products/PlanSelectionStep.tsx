@@ -24,10 +24,9 @@ interface PlanSelectionStepProps {
 
 export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelectionStepProps) {
   const internetOptions = [
-    { value: "6GB", label: "6GB" },
-    { value: "15GB", label: "15GB" },
-    { value: "50GB", label: "50GB" },
-    { value: "100GB", label: "100GB" },
+    { value: "110GB", label: "100GB + 10GB" },
+    { value: "120GB", label: "100GB + 20GB" },
+    { value: "140GB", label: "120GB + 20GB" },
   ];
 
   const handleAddLine = () => {
@@ -36,7 +35,7 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
         ...selectedLines,
         {
           id: selectedLines.length + 1,
-          internet: "100GB",
+          internet: "110GB",
           type: "Nova Linha",
           ddd: "",
           price: 99.99,
