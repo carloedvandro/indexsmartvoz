@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
@@ -5,6 +6,11 @@ import { useNavigate } from "react-router-dom";
 
 export default function ClientChipActivation() {
   const navigate = useNavigate();
+  const [currentStep, setCurrentStep] = useState(1);
+
+  const handleContinue = () => {
+    setCurrentStep(2);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -20,45 +26,104 @@ export default function ClientChipActivation() {
           <h1 className="text-2xl font-bold">Ativação do Chip do Plano</h1>
         </div>
 
-        <Card>
-          <CardContent className="pt-6 space-y-8">
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <h2 className="text-xl font-semibold">Tenha os novos chips SIM cards com você</h2>
-                <p className="text-gray-600">
-                  Compre nas lojas Vivo, pela Central de Relacionamento ou via Gerente que atende sua empresa
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <h2 className="text-xl font-semibold">Vamos confirmar sua identidade</h2>
-                <p className="text-gray-600">
-                  Isso deixa o processo e seus dados ainda mais seguros
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <h2 className="text-xl font-semibold">Só coloque os chips SIM cards nos aparelhos quando concluir a troca</h2>
-                <p className="text-gray-600">
-                  Assim você tem certeza de que a linha da sua empresa já está vinculada ao novo chip SIM card
-                </p>
-              </div>
-
-              <div className="space-y-2 pt-4">
-                <h3 className="text-lg font-medium">Precisa trocar ou ativar o chip virtual eSIM?</h3>
-                <p className="text-gray-600">
-                  Clique em Voltar e procure pela linha. Depois, acesse Gerenciar linha e escolha Trocar pra eSIM ou Ativar eSIM
-                </p>
-              </div>
+        <div className="flex items-center justify-between mb-8 max-w-3xl mx-auto">
+          <div className="flex items-center flex-1">
+            <div className="w-8 h-8 rounded-full bg-[#8425af] text-white flex items-center justify-center">
+              1
             </div>
-
-            <div className="flex justify-end">
-              <Button className="bg-[#8425af] hover:bg-[#6c1e8f]">
-                Continuar
-              </Button>
+            <div className="flex-1 h-1 bg-[#8425af] mx-2" />
+          </div>
+          <div className="flex items-center flex-1">
+            <div className={`w-8 h-8 rounded-full ${currentStep >= 2 ? 'bg-[#8425af]' : 'bg-gray-200'} text-white flex items-center justify-center`}>
+              2
             </div>
-          </CardContent>
-        </Card>
+            <div className={`flex-1 h-1 ${currentStep >= 2 ? 'bg-[#8425af]' : 'bg-gray-200'} mx-2`} />
+          </div>
+          <div className={`w-8 h-8 rounded-full ${currentStep >= 3 ? 'bg-[#8425af]' : 'bg-gray-200'} text-white flex items-center justify-center`}>
+            3
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {currentStep === 1 && (
+            <Card>
+              <CardContent className="pt-6 space-y-8">
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <h2 className="text-xl font-semibold">Tenha os novos chips SIM cards com você</h2>
+                    <p className="text-gray-600">
+                      Compre nas lojas Vivo, pela Central de Relacionamento ou via Gerente que atende sua empresa
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h2 className="text-xl font-semibold">Vamos confirmar sua identidade</h2>
+                    <p className="text-gray-600">
+                      Isso deixa o processo e seus dados ainda mais seguros
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h2 className="text-xl font-semibold">Só coloque os chips SIM cards nos aparelhos quando concluir a troca</h2>
+                    <p className="text-gray-600">
+                      Assim você tem certeza de que a linha da sua empresa já está vinculada ao novo chip SIM card
+                    </p>
+                  </div>
+
+                  <div className="space-y-2 pt-4">
+                    <h3 className="text-lg font-medium">Precisa trocar ou ativar o chip virtual eSIM?</h3>
+                    <p className="text-gray-600">
+                      Clique em Voltar e procure pela linha. Depois, acesse Gerenciar linha e escolha Trocar pra eSIM ou Ativar eSIM
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex justify-end">
+                  <Button 
+                    className="bg-[#8425af] hover:bg-[#6c1e8f]"
+                    onClick={handleContinue}
+                  >
+                    Continuar
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {currentStep === 2 && (
+            <Card>
+              <CardContent className="pt-6 space-y-8">
+                <div className="space-y-6">
+                  <h2 className="text-2xl font-bold">Confira como você encontra o código de barras do SIM card</h2>
+                  
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold">COMO ENCONTRAR?</h3>
+                    <p className="text-gray-600">
+                      O código de barras está impresso no cartão do Vivo Chip, tem 20 números e começa com 8955, conforme o exemplo:
+                    </p>
+                    
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <img 
+                        src="/lovable-uploads/62cad4a3-236f-4561-b066-c0a118ab3b31.png" 
+                        alt="Exemplo de código de barras do SIM card"
+                        className="max-w-full h-auto"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-end">
+                  <Button 
+                    className="bg-[#8425af] hover:bg-[#6c1e8f]"
+                    onClick={() => setCurrentStep(3)}
+                  >
+                    Continuar
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
       </div>
     </div>
   );
