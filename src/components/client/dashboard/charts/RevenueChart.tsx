@@ -51,7 +51,7 @@ export const RevenueChart = ({ data = monthlyData }: RevenueChartProps) => {
           <Line
             type="monotone"
             dataKey="value"
-            name="Vendas"
+            name=""
             stroke="#8B5CF6"
             strokeWidth={3}
             dot={{ fill: "#8B5CF6", r: 4 }}
