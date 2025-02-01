@@ -42,7 +42,7 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
             <thead>
               <tr>
                 <th className="py-2">
-                  {showBarcodes ? "Linha" : "Plano"}
+                  {showBarcodes ? "ICCID" : "Plano"}
                 </th>
                 <th className="py-2">
                   {showBarcodes ? "Código de barras do SIM card" : "Valor"}
