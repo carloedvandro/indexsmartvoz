@@ -22,8 +22,8 @@ export default function ClientDashboard() {
             <PlansCard />
           </div>
         </div>
+        <RevenueChart data={revenueData} variant="gradient" />
         <div className="grid grid-cols-1 gap-4">
-          <RevenueChart data={revenueData} variant="gradient" />
           <NetworkStatsCard />
         </div>
       </main>
