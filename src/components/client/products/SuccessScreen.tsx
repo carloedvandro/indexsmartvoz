@@ -55,7 +55,7 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
                   <td className="py-2 flex items-center gap-2">
                     <Check className="text-green-400" size={16} />
                     {showBarcodes 
-                      ? `Linha ${line.ddd || ""}`
+                      ? `${line.ddd}`
                       : `${line.internet} - ${line.type}`
                     }
                   </td>
