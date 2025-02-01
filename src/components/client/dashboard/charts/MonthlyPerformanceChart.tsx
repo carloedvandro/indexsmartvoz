@@ -48,37 +48,39 @@ export const MonthlyPerformanceChart = () => {
             />
             <XAxis
               dataKey="month"
-              stroke="#ffffff"
+              stroke="#000000"
               fontSize={12}
               tickLine={false}
               axisLine={{ stroke: '#404040' }}
               style={{
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                fill: '#000000'
               }}
             />
             <YAxis
-              stroke="#ffffff"
+              stroke="#000000"
               fontSize={12}
               tickLine={false}
               axisLine={{ stroke: '#404040' }}
               style={{
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                fill: '#000000'
               }}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: "rgba(0, 0, 0, 0.8)",
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
                 border: "1px solid #404040",
                 borderRadius: "8px",
-                color: "#ffffff",
+                color: "#000000",
                 fontWeight: 'bold'
               }}
-              cursor={{ stroke: 'rgba(255, 255, 255, 0.2)' }}
+              cursor={{ stroke: 'rgba(0, 0, 0, 0.2)' }}
             />
             <Legend 
               wrapperStyle={{
                 paddingTop: "20px",
-                color: "#ffffff",
+                color: "#000000",
                 fontWeight: 'bold'
               }}
             />
