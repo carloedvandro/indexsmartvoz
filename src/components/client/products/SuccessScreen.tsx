@@ -25,7 +25,7 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
           <h2 className="text-3xl font-bold">Deu certo!</h2>
           <p className="text-2xl">
             {showBarcodes 
-              ? "Você solicitou a ativação dos chips"
+              ? "Você solicitou a ativação do chip"
               : "Você solicitou a contratação dos planos"
             }
           </p>
