@@ -29,7 +29,7 @@ export function MainContent({
 }: MainContentProps) {
   return (
     <Card className="md:col-span-2 max-w-4xl mx-auto w-full">
-      <CardContent className="pt-6 space-y-8">
+      <CardContent>
         {currentStep === 2 && (
           <OrderReviewStep selectedLines={selectedLines} />
         )}
@@ -48,7 +48,7 @@ export function MainContent({
           />
         )}
 
-        <div className="flex justify-between">
+        <div className="flex justify-between mt-6">
           <Button 
             className="bg-[#8425af] hover:bg-[#6c1e8f] ml-auto text-white"
             onClick={handleContinue}
