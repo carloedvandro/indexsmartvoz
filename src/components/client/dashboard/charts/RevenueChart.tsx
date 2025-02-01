@@ -38,8 +38,8 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
           >
             <defs>
               <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#5f0889" stopOpacity={0.6} />
-                <stop offset="100%" stopColor="#5f0889" stopOpacity={0.1} />
+                <stop offset="0%" stopColor="#9b87f5" stopOpacity={0.8} />
+                <stop offset="100%" stopColor="#9b87f5" stopOpacity={0.1} />
               </linearGradient>
             </defs>
             <XAxis
@@ -54,7 +54,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               fontSize={12}
               tickLine={false}
               axisLine={false}
-              tickFormatter={(value) => formatCurrency(value)}
+              tickFormatter={(value) => `R$ ${value.toLocaleString()}`}
               width={100}
             />
             <Tooltip 
@@ -66,16 +66,16 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               }}
               formatter={(value: number, name: string) => {
                 if (name === "value") {
-                  return [formatCurrency(value), "Total Acumulado"];
+                  return [`R$ ${value.toLocaleString()}`, "Total Acumulado"];
                 }
-                return [formatCurrency(value), "Valor do Dia"];
+                return [`R$ ${value.toLocaleString()}`, "Valor do Dia"];
               }}
               labelFormatter={(label) => `Dia ${label}`}
             />
             <Area
               type="monotone"
               dataKey="value"
-              stroke="#5f0889"
+              stroke="#9b87f5"
               strokeWidth={2}
               fillOpacity={1}
               fill="url(#colorGradient)"

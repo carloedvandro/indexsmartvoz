@@ -58,8 +58,8 @@ export const generateRevenueData = () => {
     
     data.push({
       name: `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}`,
-      value: accumulatedValue, // Valor acumulado até o dia
-      dailyValue: dailyValue, // Valor do dia específico
+      value: accumulatedValue,
+      dailyValue: dailyValue,
     });
   }
 
