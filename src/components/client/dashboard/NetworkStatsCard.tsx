@@ -35,14 +35,6 @@ const cardData = [
   },
 ];
 
-const glassVariants = [
-  "glass-effect-1",
-  "glass-effect-2",
-  "glass-effect-3",
-  "glass-effect-4",
-  "glass-effect-5",
-];
-
 export function NetworkStatsCard() {
   const { data: profile } = useProfile();
   const { data: networkStats } = useNetworkStats(profile?.id);
@@ -50,19 +42,9 @@ export function NetworkStatsCard() {
   return (
     <div className="space-y-8">
       <NetworkStatsHeader />
-      <div className="grid grid-cols-1 gap-8">
-        {glassVariants.map((variant, index) => (
-          <Card
-            key={variant}
-            className={`p-6 ${variant} transition-all duration-300 hover:shadow-xl`}
-          >
-            <h3 className="text-xl font-semibold mb-4">
-              Modelo de Vidro {index + 1}
-            </h3>
-            <NetworkStatsGrid cardData={cardData} />
-          </Card>
-        ))}
-      </div>
+      <Card className="p-6">
+        <NetworkStatsGrid cardData={cardData} />
+      </Card>
     </div>
   );
 }
