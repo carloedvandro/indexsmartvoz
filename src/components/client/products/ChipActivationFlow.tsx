@@ -105,7 +105,7 @@ export function ChipActivationFlow({
                       </div>
                     </div>
                     <p className="text-sm text-gray-600 px-4">
-                      O código de barras tem 20 números. {line.barcode ? '' : 'Faltam 20'}
+                      O código de barras tem 20 números.
                     </p>
                     {line.barcode && (
                       <div className="bg-gray-50 p-3 rounded mx-4">
