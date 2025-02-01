@@ -7,7 +7,7 @@ interface DDDInputProps {
 
 export function DDDInput({ ddd, onDDDChange }: DDDInputProps) {
   return (
-    <div className="flex flex-col relative mt-4">
+    <div className="flex flex-col relative">
       <span className="text-sm text-gray-600 absolute -top-6">DDD</span>
       <Input 
         placeholder="DDD" 

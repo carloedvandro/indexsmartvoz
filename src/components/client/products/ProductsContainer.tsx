@@ -6,7 +6,7 @@ interface ProductsContainerProps {
 
 export function ProductsContainer({ children }: ProductsContainerProps) {
   return (
-    <div className="min-h-screen bg-background scrollbar-hide">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto p-4 pb-16 space-y-6">
         {children}
       </div>

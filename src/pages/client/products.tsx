@@ -72,14 +72,7 @@ export default function ClientProducts() {
   };
 
   const handleBack = () => {
-    if (currentStep > 1) {
-      if (currentStep === 5) {
-        setShowChipActivation(false);
-        setCurrentStep(4);
-      } else {
-        setCurrentStep(currentStep - 1);
-      }
-    }
+    setCurrentStep(currentStep - 1);
   };
 
   const handleUnderstand = () => {

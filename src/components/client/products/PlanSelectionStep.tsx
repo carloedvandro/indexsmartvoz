@@ -57,7 +57,7 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
   const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div className="space-y-2">
         <h2 className="text-xl font-semibold">Personalize seu pedido</h2>
         <p className="text-gray-600">
@@ -65,8 +65,8 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
         </p>
       </div>
 
-      <div className="space-y-6">
-        <div className="grid grid-cols-2 gap-4 pt-4">
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
           <InternetSelector
             selectedInternet={selectedLines[0]?.internet || "110GB"}
             onInternetChange={handleInternetChange}

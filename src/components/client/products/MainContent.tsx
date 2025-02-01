@@ -4,7 +4,6 @@ import { OrderReviewStep } from "./OrderReviewStep";
 import { DueDateStep } from "./DueDateStep";
 import { ContractTermsStep } from "./ContractTermsStep";
 import { PlanSelectionStep } from "./PlanSelectionStep";
-import { useToast } from "@/hooks/use-toast";
 
 interface MainContentProps {
   currentStep: number;
@@ -29,22 +28,6 @@ export function MainContent({
   handleBack,
   handleContinue
 }: MainContentProps) {
-  const { toast } = useToast();
-
-  const validateAndContinue = () => {
-    if (currentStep === 1) {
-      if (!selectedLines[0]?.ddd) {
-        toast({
-          title: "Campo obrigatório",
-          description: "Por favor, preencha o DDD antes de continuar",
-          variant: "destructive",
-        });
-        return;
-      }
-    }
-    handleContinue();
-  };
-
   return (
     <Card className="md:col-span-2 max-w-4xl mx-auto w-full">
       <CardContent className="p-6">
@@ -74,17 +57,9 @@ export function MainContent({
         )}
 
         <div className="flex justify-between mt-6">
-          {currentStep > 1 && (
-            <Button 
-              className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
-              onClick={handleBack}
-            >
-              Voltar
-            </Button>
-          )}
           <Button 
             className="bg-[#8425af] hover:bg-[#6c1e8f] ml-auto text-white"
-            onClick={validateAndContinue}
+            onClick={handleContinue}
           >
             {currentStep === 4 ? 'Finalizar compra' : 'Continuar'}
           </Button>
