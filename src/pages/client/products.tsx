@@ -33,6 +33,8 @@ export default function ClientProducts() {
       setProtocol(protocolNumber);
       setShowChipActivation(true);
       setCurrentStep(4);
+    } else if (currentStep === 5) {
+      setCurrentStep(6);
     } else if (currentStep === 6) {
       setShowConfirmation(true);
     } else {
@@ -150,6 +152,28 @@ export default function ClientProducts() {
                           className="w-[90%] h-auto"
                         />
                       </div>
+                    </div>
+                  </div>
+                )}
+
+                {currentStep === 6 && (
+                  <div className="space-y-6">
+                    <h2 className="text-xl font-semibold">Escaneie o código de barras do chip</h2>
+                    <div className="space-y-4">
+                      {selectedLines.map((line, index) => (
+                        <div key={line.id} className="flex items-center justify-between p-4 border rounded-lg">
+                          <div>
+                            <p className="font-medium">{line.type}</p>
+                            <p className="text-sm text-gray-600">DDD {line.ddd}</p>
+                          </div>
+                          <Button
+                            onClick={() => startScanning(index)}
+                            className="bg-[#8425af] hover:bg-[#6c1e8f]"
+                          >
+                            {line.barcode ? 'Escanear novamente' : 'Escanear código'}
+                          </Button>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}
