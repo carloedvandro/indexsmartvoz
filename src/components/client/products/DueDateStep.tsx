@@ -7,7 +7,7 @@ interface DueDateStepProps {
 }
 
 export function DueDateStep({ selectedDueDate, onDueDateChange }: DueDateStepProps) {
-  const dueDates = [1, 6, 10, 17, 26, 29];
+  const dueDates = [2, 5, 7, 10, 15, 20, 25, 30];
 
   return (
     <div className="space-y-6">
@@ -15,7 +15,7 @@ export function DueDateStep({ selectedDueDate, onDueDateChange }: DueDateStepPro
         <h2 className="text-xl font-semibold">Escolha a data de vencimento da sua fatura:</h2>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {dueDates.map((date) => (
           <Card 
             key={date}
