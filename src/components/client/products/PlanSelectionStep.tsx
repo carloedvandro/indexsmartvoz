@@ -127,15 +127,6 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
             </div>
           </div>
         )}
-
-        {selectedLines.length < 5 && (
-          <Button
-            onClick={handleAddLine}
-            className="w-full bg-[#8425af] hover:bg-[#6c1e8f] text-white"
-          >
-            Adicionar nova linha
-          </Button>
-        )}
       </div>
     </div>
   );
