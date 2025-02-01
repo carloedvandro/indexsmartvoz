@@ -87,6 +87,7 @@ export const MonthlyPerformanceChart = () => {
             <Area
               type="monotone"
               dataKey="value"
+              name=""
               fill="url(#colorValue)"
               stroke="none"
             />
