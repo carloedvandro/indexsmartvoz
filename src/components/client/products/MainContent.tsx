@@ -65,12 +65,6 @@ export function MainContent({
               Voltar
             </Button>
           )}
-          <Button 
-            className="bg-[#8425af] hover:bg-[#6c1e8f] ml-auto text-white"
-            onClick={handleContinue}
-          >
-            {currentStep === 4 ? 'Finalizar compra' : 'Continuar'}
-          </Button>
         </div>
       </CardContent>
     </Card>
