@@ -94,8 +94,7 @@ export function ChipActivationFlow({
                     <div className="p-4 border rounded-lg">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="font-medium">{line.type}</p>
-                          <p className="text-sm text-gray-600">DDD {line.ddd}</p>
+                          <p className="font-medium">Código de barras do SIM card</p>
                         </div>
                         <Button
                           onClick={() => onStartScanning(index)}
