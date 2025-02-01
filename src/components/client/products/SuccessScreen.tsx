@@ -20,33 +20,33 @@ interface SuccessScreenProps {
 export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarcodes }: SuccessScreenProps) {
   return (
     <div className="min-h-screen bg-[#660099] text-white flex items-center justify-center p-4">
-      <div className="max-w-lg w-full space-y-8">
-        <div className="space-y-4 text-center">
-          <h2 className="text-3xl font-bold">Deu certo!</h2>
-          <p className="text-2xl">
-            Você solicitou a ativação do chip
+      <div className="max-w-lg w-full space-y-12">
+        <div className="space-y-6 text-center">
+          <h2 className="text-4xl font-bold">Deu certo!</h2>
+          <p className="text-3xl">
+            Você solicitou a troca de chips
           </p>
-          <p className="text-lg text-center">
-            O prazo do sistema para concluir ativação e o funcionamento da linha neste chip é de até 48 horas.
+          <p className="text-xl text-center px-4">
+            Você já pode colocar o novo chip no aparelho pra fazer ligações e usar a internet
           </p>
         </div>
 
-        <div className="bg-white/10 rounded-lg p-4">
+        <div className="bg-white/10 rounded-lg mx-4">
           <table className="w-full">
             <thead>
               <tr>
-                <th className="py-2 px-4 text-left w-1/4">ICCID</th>
-                <th className="py-2 px-4 text-left">Código de barras do SIM card</th>
+                <th className="py-3 px-6 text-left w-1/3">Linha</th>
+                <th className="py-3 px-6 text-left">Código de barras do SIM card</th>
               </tr>
             </thead>
             <tbody>
               {selectedLines.map((line) => (
                 <tr key={line.id}>
-                  <td className="py-2 px-4 flex items-center gap-2">
-                    <Check className="text-green-400" size={16} />
+                  <td className="py-3 px-6 flex items-center gap-2">
+                    <Check className="text-green-400" size={20} />
                     {line.ddd}
                   </td>
-                  <td className="py-2 px-4 font-mono">
+                  <td className="py-3 px-6 font-mono">
                     {line.barcode}
                   </td>
                 </tr>
@@ -55,12 +55,12 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
           </table>
         </div>
 
-        <p className="text-center text-sm">Protocolo {protocol}</p>
+        <div className="text-center">
+          <p className="mb-8 text-sm">Protocolo {protocol}</p>
 
-        <div className="flex justify-center">
           <Button
             onClick={onUnderstand}
-            className="bg-transparent hover:bg-white/10 text-white border border-white/30 rounded-lg px-8 py-3 min-w-[200px]"
+            className="bg-transparent hover:bg-white/10 text-white border border-white/30 rounded-lg px-12 py-4 text-lg min-w-[200px]"
           >
             Entendi
           </Button>
