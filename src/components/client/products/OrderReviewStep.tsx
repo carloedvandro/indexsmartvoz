@@ -28,7 +28,7 @@ export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
             <div className="flex justify-between items-center">
               <div>
                 <span className="font-medium">
-                  {line.id === 2 ? "Plano Smartvoz 110GB" : `Linha ${String(line.id).padStart(2, '0')}`}
+                  {line.id === 1 || line.id === 2 ? "Plano Smartvoz 110GB" : `Linha ${String(line.id).padStart(2, '0')}`}
                 </span>
                 <span className="text-gray-500 ml-2">{line.internet}</span>
               </div>
