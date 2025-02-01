@@ -37,8 +37,8 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
           >
             <defs>
               <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#9b87f5" stopOpacity={0.6} />
-                <stop offset="95%" stopColor="#9b87f5" stopOpacity={0.1} />
+                <stop offset="5%" stopColor="#4F46E5" stopOpacity={0.6} />
+                <stop offset="95%" stopColor="#4F46E5" stopOpacity={0.1} />
               </linearGradient>
             </defs>
             <XAxis
@@ -69,35 +69,19 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                 boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
                 padding: "8px 12px",
               }}
-              formatter={(value: number, name: string) => {
-                if (name === "value") {
-                  return [`R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`, "Total Acumulado"];
-                }
-                return [`R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`, "Valor do Dia"];
-              }}
+              formatter={(value: number) => [`R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`, "Total Acumulado"]}
               labelFormatter={(label) => `Dia ${label}`}
             />
             <Area
               type="monotone"
               dataKey="value"
-              stroke="#9b87f5"
+              stroke="#4F46E5"
               strokeWidth={2}
               fillOpacity={1}
               fill="url(#colorGradient)"
               name="value"
-              dot={{ stroke: '#9b87f5', strokeWidth: 1, fill: '#ffffff', r: 2 }}
-              activeDot={{ stroke: '#9b87f5', strokeWidth: 2, fill: '#ffffff', r: 4 }}
-            />
-            <Area
-              type="monotone"
-              dataKey="dailyValue"
-              stroke="#00d71c"
-              strokeWidth={1.5}
-              fillOpacity={0.15}
-              fill="#00d71c"
-              name="dailyValue"
-              dot={{ stroke: '#00d71c', strokeWidth: 1, fill: '#ffffff', r: 2 }}
-              activeDot={{ stroke: '#00d71c', strokeWidth: 2, fill: '#ffffff', r: 4 }}
+              dot={{ stroke: '#4F46E5', strokeWidth: 1, fill: '#ffffff', r: 2 }}
+              activeDot={{ stroke: '#4F46E5', strokeWidth: 2, fill: '#ffffff', r: 4 }}
             />
           </AreaChart>
         </ResponsiveContainer>
