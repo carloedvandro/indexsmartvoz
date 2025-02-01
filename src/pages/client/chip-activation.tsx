@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, Trash2, ScanLine } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { BarcodeScanner } from "@/components/BarcodeScanner";
+import { PageHeader, ActivationSteps } from "@/components/client/chip-activation/ActivationSteps";
+import { ConfirmationScreen } from "@/components/client/chip-activation/ConfirmationScreen";
+import { Trash2, ScanLine } from "lucide-react";
 
 export default function ClientChipActivation() {
-  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedLines, setSelectedLines] = useState<Array<{
     number: string;
@@ -15,13 +15,25 @@ export default function ClientChipActivation() {
   }>>([]);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [scanningIndex, setScanningIndex] = useState<number | null>(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [protocol] = useState(() => 
+    `2024${Math.floor(Math.random() * 1000000000)}`
+  );
 
   const handleContinue = () => {
-    setCurrentStep(currentStep + 1);
+    if (currentStep === 3) {
+      setShowConfirmation(true);
+    } else {
+      setCurrentStep(currentStep + 1);
+    }
   };
 
   const handleBack = () => {
-    setCurrentStep(currentStep - 1);
+    if (showConfirmation) {
+      setShowConfirmation(false);
+    } else {
+      setCurrentStep(currentStep - 1);
+    }
   };
 
   const handleAddLine = () => {
@@ -35,16 +47,24 @@ export default function ClientChipActivation() {
     const updatedLines = [...selectedLines];
     updatedLines[index] = { ...updatedLines[index], barcode };
     setSelectedLines(updatedLines);
+    setScanningIndex(null);
   };
 
   const handleRemoveLine = (index: number) => {
-    const updatedLines = selectedLines.filter((_, i) => i !== index);
-    setSelectedLines(updatedLines);
+    setSelectedLines(selectedLines.filter((_, i) => i !== index));
   };
 
-  const startScanning = (index: number) => {
-    setScanningIndex(index);
-  };
+  if (showConfirmation && selectedLines.length > 0) {
+    return (
+      <div className="container mx-auto p-4 pb-16 space-y-6">
+        <ConfirmationScreen 
+          phoneNumber={selectedLines[0].number}
+          barcode={selectedLines[0].barcode || ""}
+          protocol={protocol}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -56,124 +76,13 @@ export default function ClientChipActivation() {
       )}
       
       <div className="container mx-auto p-4 pb-16 space-y-6">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <h1 className="text-2xl font-bold">Ativação do Chip do Plano</h1>
-        </div>
-
-        <div className="flex items-center justify-between mb-8 max-w-3xl mx-auto">
-          <div className="flex items-center flex-1">
-            <div className="w-8 h-8 rounded-full bg-[#8425af] text-white flex items-center justify-center">
-              1
-            </div>
-            <div className="flex-1 h-1 bg-[#8425af] mx-2" />
-          </div>
-          <div className="flex items-center flex-1">
-            <div className={`w-8 h-8 rounded-full ${currentStep >= 2 ? 'bg-[#8425af]' : 'bg-gray-200'} text-white flex items-center justify-center`}>
-              2
-            </div>
-            <div className={`flex-1 h-1 ${currentStep >= 2 ? 'bg-[#8425af]' : 'bg-gray-200'} mx-2`} />
-          </div>
-          <div className={`w-8 h-8 rounded-full ${currentStep >= 3 ? 'bg-[#8425af]' : 'bg-gray-200'} text-white flex items-center justify-center`}>
-            3
-          </div>
-        </div>
+        <PageHeader />
+        <ActivationSteps />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {currentStep === 1 && (
-            <Card>
-              <CardContent className="pt-6 space-y-8">
-                <div className="space-y-6">
-                  <div className="space-y-2">
-                    <h2 className="text-xl font-semibold">Tenha os novos chips SIM cards com você</h2>
-                    <p className="text-gray-600">
-                      Compre nas lojas Vivo, pela Central de Relacionamento ou via Gerente que atende sua empresa
-                    </p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <h2 className="text-xl font-semibold">Vamos confirmar sua identidade</h2>
-                    <p className="text-gray-600">
-                      Isso deixa o processo e seus dados ainda mais seguros
-                    </p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <h2 className="text-xl font-semibold">Só coloque os chips SIM cards nos aparelhos quando concluir a troca</h2>
-                    <p className="text-gray-600">
-                      Assim você tem certeza de que a linha da sua empresa já está vinculada ao novo chip SIM card
-                    </p>
-                  </div>
-
-                  <div className="space-y-2 pt-4">
-                    <h3 className="text-lg font-medium">Precisa trocar ou ativar o chip virtual eSIM?</h3>
-                    <p className="text-gray-600">
-                      Clique em Voltar e procure pela linha. Depois, acesse Gerenciar linha e escolha Trocar pra eSIM ou Ativar eSIM
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex justify-end">
-                  <Button 
-                    className="bg-[#8425af] hover:bg-[#6c1e8f]"
-                    onClick={handleContinue}
-                  >
-                    Continuar
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {currentStep === 2 && (
-            <Card>
-              <CardContent className="pt-6 space-y-8">
-                <div className="space-y-6">
-                  <h2 className="text-2xl font-bold">Confira como você encontra o código de barras do SIM card</h2>
-                  
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">COMO ENCONTRAR?</h3>
-                    <p className="text-gray-600">
-                      O código de barras está impresso no cartão do Vivo Chip, tem 20 números e começa com 8955, conforme o exemplo:
-                    </p>
-                    
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <img 
-                        src="/lovable-uploads/f5d55154-a62e-475f-b8de-b65ac463b3fc.png" 
-                        alt="Exemplo de código de barras do SIM card"
-                        className="max-w-full h-auto"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex justify-end gap-4">
-                  <Button 
-                    variant="outline"
-                    onClick={handleBack}
-                  >
-                    Voltar
-                  </Button>
-                  <Button 
-                    className="bg-[#8425af] hover:bg-[#6c1e8f]"
-                    onClick={handleContinue}
-                  >
-                    Continuar
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {currentStep === 3 && (
-            <Card>
-              <CardContent className="pt-6 space-y-8">
+          <Card>
+            <CardContent className="pt-6 space-y-8">
+              {currentStep === 3 && (
                 <div className="space-y-6">
                   <h2 className="text-2xl font-bold">Você precisa trocar o chip de quais linhas?</h2>
                   
@@ -241,7 +150,7 @@ export default function ClientChipActivation() {
                               variant="ghost"
                               size="icon"
                               className="absolute right-2 top-1/2 -translate-y-1/2"
-                              onClick={() => startScanning(index)}
+                              onClick={() => setScanningIndex(index)}
                             >
                               <ScanLine className="h-4 w-4 text-[#8425af]" />
                             </Button>
@@ -258,25 +167,25 @@ export default function ClientChipActivation() {
                     </div>
                   </div>
                 </div>
+              )}
 
-                <div className="flex justify-between">
-                  <Button 
-                    variant="outline"
-                    onClick={handleBack}
-                  >
-                    Voltar
-                  </Button>
-                  <Button 
-                    className="bg-[#8425af] hover:bg-[#6c1e8f]"
-                    onClick={handleContinue}
-                    disabled={selectedLines.length === 0 || selectedLines.some(line => !line.barcode || line.barcode.length !== 20)}
-                  >
-                    Continuar
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )}
+              <div className="flex justify-between">
+                <Button 
+                  variant="outline"
+                  onClick={handleBack}
+                >
+                  Voltar
+                </Button>
+                <Button 
+                  className="bg-[#8425af] hover:bg-[#6c1e8f]"
+                  onClick={handleContinue}
+                  disabled={selectedLines.length === 0 || selectedLines.some(line => !line.barcode || line.barcode.length !== 20)}
+                >
+                  Continuar
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
