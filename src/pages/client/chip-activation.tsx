@@ -1,15 +1,19 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 
 export default function ClientChipActivation() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
-  const [selectedLines, setSelectedLines] = useState<string[]>([]);
+  const [selectedLines, setSelectedLines] = useState<Array<{
+    number: string;
+    barcode?: string;
+  }>>([]);
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [currentBarcode, setCurrentBarcode] = useState("");
 
   const handleContinue = () => {
     setCurrentStep(currentStep + 1);
@@ -21,9 +25,20 @@ export default function ClientChipActivation() {
 
   const handleAddLine = () => {
     if (phoneNumber && selectedLines.length < 10) {
-      setSelectedLines([...selectedLines, phoneNumber]);
+      setSelectedLines([...selectedLines, { number: phoneNumber }]);
       setPhoneNumber("");
     }
+  };
+
+  const handleUpdateBarcode = (index: number, barcode: string) => {
+    const updatedLines = [...selectedLines];
+    updatedLines[index] = { ...updatedLines[index], barcode };
+    setSelectedLines(updatedLines);
+  };
+
+  const handleRemoveLine = (index: number) => {
+    const updatedLines = selectedLines.filter((_, i) => i !== index);
+    setSelectedLines(updatedLines);
   };
 
   return (
@@ -168,7 +183,7 @@ export default function ClientChipActivation() {
                     
                     <div className="flex gap-2">
                       <Input
-                        placeholder="Número da linha com DDD"
+                        placeholder="Escolha o DDD"
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                       />
@@ -176,7 +191,7 @@ export default function ClientChipActivation() {
                         onClick={handleAddLine}
                         className="whitespace-nowrap bg-[#8425af] hover:bg-[#6c1e8f]"
                       >
-                        Selecionar linha
+                        Selecionar
                       </Button>
                     </div>
 
@@ -187,8 +202,34 @@ export default function ClientChipActivation() {
                       </div>
                       
                       {selectedLines.map((line, index) => (
-                        <div key={index} className="p-2 bg-gray-50 rounded">
-                          {line}
+                        <div key={index} className="space-y-2 p-4 bg-gray-50 rounded">
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <span className="font-medium">Linha {line.number}</span>
+                              <span className="text-gray-500 ml-4">Conta: {Math.random().toString().slice(2, 12)}</span>
+                            </div>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => handleRemoveLine(index)}
+                            >
+                              <Trash2 className="h-4 w-4 text-red-500" />
+                            </Button>
+                          </div>
+                          
+                          <Input
+                            placeholder="Código de barras do SIM card"
+                            value={line.barcode || ""}
+                            onChange={(e) => handleUpdateBarcode(index, e.target.value)}
+                            className="mt-2"
+                          />
+                          <p className="text-sm text-gray-500">
+                            O código de barras tem 20 números. {
+                              line.barcode 
+                                ? `Faltam ${20 - line.barcode.length}`
+                                : "Faltam 20"
+                            }
+                          </p>
                         </div>
                       ))}
                     </div>
@@ -205,7 +246,7 @@ export default function ClientChipActivation() {
                   <Button 
                     className="bg-[#8425af] hover:bg-[#6c1e8f]"
                     onClick={handleContinue}
-                    disabled={selectedLines.length === 0}
+                    disabled={selectedLines.length === 0 || selectedLines.some(line => !line.barcode || line.barcode.length !== 20)}
                   >
                     Continuar
                   </Button>
