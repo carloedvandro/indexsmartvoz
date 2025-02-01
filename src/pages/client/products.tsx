@@ -101,7 +101,7 @@ export default function ClientProducts() {
   }
 
   return (
-    <div className="min-h-screen bg-background scrollbar-hide">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto p-4 pb-16 space-y-6">
         <div className="flex items-center gap-4">
           <Button
