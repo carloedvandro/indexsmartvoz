@@ -8,21 +8,8 @@ import {
   YAxis,
 } from "recharts";
 import { ChartHeader } from "./components/ChartHeader";
-
-const monthlyData = [
-  { month: "JAN", percentage: 10, color: "#D81B60" },
-  { month: "FEB", percentage: 20, color: "#8E24AA" },
-  { month: "MAR", percentage: 15, color: "#5E35B1" },
-  { month: "APR", percentage: 25, color: "#3949AB" },
-  { month: "MAY", percentage: 30, color: "#1E88E5" },
-  { month: "JUN", percentage: 50, color: "#039BE5" },
-  { month: "JUL", percentage: 60, color: "#00ACC1" },
-  { month: "AUG", percentage: 70, color: "#00897B" },
-  { month: "SEP", percentage: 65, color: "#43A047" },
-  { month: "OCT", percentage: 80, color: "#FFB300" },
-  { month: "NOV", percentage: 90, color: "#FB8C00" },
-  { month: "DEC", percentage: 100, color: "#F4511E" },
-];
+import { monthlyData, chartColors } from "./data/chartData";
+import { formatCurrency } from "@/utils/format";
 
 export const MonthlyPerformanceChart = () => {
   return (
@@ -40,10 +27,10 @@ export const MonthlyPerformanceChart = () => {
             }}
           >
             <defs>
-              {monthlyData.map((entry, index) => (
+              {chartColors.map((color, index) => (
                 <linearGradient
                   key={`gradient-${index}`}
-                  id={`gradient-${entry.month}`}
+                  id={`gradient-${index}`}
                   x1="0"
                   y1="0"
                   x2="0"
@@ -51,12 +38,12 @@ export const MonthlyPerformanceChart = () => {
                 >
                   <stop
                     offset="0%"
-                    stopColor={entry.color}
+                    stopColor={color}
                     stopOpacity={0.8}
                   />
                   <stop
                     offset="100%"
-                    stopColor={entry.color}
+                    stopColor={color}
                     stopOpacity={0.2}
                   />
                 </linearGradient>
@@ -78,8 +65,7 @@ export const MonthlyPerformanceChart = () => {
               fontSize={12}
               tickLine={false}
               axisLine={{ stroke: '#E5E7EB' }}
-              tickFormatter={(value) => `${value}%`}
-              domain={[0, 100]}
+              tickFormatter={(value) => formatCurrency(value)}
               style={{
                 fontWeight: 'bold'
               }}
@@ -92,16 +78,38 @@ export const MonthlyPerformanceChart = () => {
                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
                 fontWeight: 'bold'
               }}
-              formatter={(value: number) => [`${value}%`, 'Performance']}
-              labelFormatter={(label) => `${label}`}
+              formatter={(value: number, name: string) => [
+                formatCurrency(value),
+                name === 'vendas' ? 'Vendas' :
+                name === 'comissoes' ? 'Comissões' :
+                'Projeção'
+              ]}
+              labelFormatter={(label) => label}
               cursor={{ stroke: '#e5e7eb', strokeWidth: 1 }}
             />
             <Area
               type="monotone"
-              dataKey="percentage"
-              stroke={monthlyData[0].color}
-              fill={`url(#gradient-${monthlyData[0].month})`}
+              dataKey="vendas"
+              stroke={chartColors[0]}
+              fill={`url(#gradient-0)`}
               strokeWidth={2}
+              name="Vendas"
+            />
+            <Area
+              type="monotone"
+              dataKey="comissoes"
+              stroke={chartColors[1]}
+              fill={`url(#gradient-1)`}
+              strokeWidth={2}
+              name="Comissões"
+            />
+            <Area
+              type="monotone"
+              dataKey="projecao"
+              stroke={chartColors[2]}
+              fill={`url(#gradient-2)`}
+              strokeWidth={2}
+              name="Projeção"
             />
           </AreaChart>
         </ResponsiveContainer>
