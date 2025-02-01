@@ -31,22 +31,24 @@ export default function ClientDashboard() {
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-6 pt-6">
-            <div className="w-full">
-              <ProfileCard profile={profile} />
+          <div className="max-w-[1800px] mx-auto pt-6">
+            <div className="px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="w-full">
+                <ProfileCard profile={profile} />
+              </div>
+              <div className="w-full">
+                <NetworkCard 
+                  networkStats={networkStats} 
+                  onClick={handleNetworkClick} 
+                />
+              </div>
+              <div className="w-full">
+                <PlansCard />
+              </div>
             </div>
-            <div className="w-full">
-              <NetworkCard 
-                networkStats={networkStats} 
-                onClick={handleNetworkClick} 
-              />
+            <div className="px-4 pt-6 pb-8">
+              <NetworkStatsCard />
             </div>
-            <div className="w-full">
-              <PlansCard />
-            </div>
-          </div>
-          <div className="px-4 pt-6 pb-8">
-            <NetworkStatsCard />
           </div>
         </div>
       </main>

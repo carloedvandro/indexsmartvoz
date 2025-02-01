@@ -1,23 +1,20 @@
 export const monthlyData = [
-  { month: "02 de jan.", vendas: 102000, comissoes: 75000, projecao: 65000 },
-  { month: "04 de jan.", vendas: 98000, comissoes: 70000, projecao: 62000 },
-  { month: "06 de jan.", vendas: 95000, comissoes: 68000, projecao: 60000 },
-  { month: "08 de jan.", vendas: 90000, comissoes: 65000, projecao: 58000 },
-  { month: "10 de jan.", vendas: 85000, comissoes: 62000, projecao: 55000 },
-  { month: "12 de jan.", vendas: 80000, comissoes: 58000, projecao: 52000 },
-  { month: "14 de jan.", vendas: 100000, comissoes: 72000, projecao: 63000 },
-  { month: "16 de jan.", vendas: 98000, comissoes: 70000, projecao: 62000 },
-  { month: "18 de jan.", vendas: 95000, comissoes: 68000, projecao: 60000 },
-  { month: "20 de jan.", vendas: 90000, comissoes: 65000, projecao: 58000 },
-  { month: "22 de jan.", vendas: 85000, comissoes: 62000, projecao: 55000 },
-  { month: "24 de jan.", vendas: 75000, comissoes: 55000, projecao: 50000 },
-  { month: "26 de jan.", vendas: 70000, comissoes: 52000, projecao: 48000 },
-  { month: "28 de jan.", vendas: 65000, comissoes: 48000, projecao: 45000 },
-  { month: "31 de jan.", vendas: 60000, comissoes: 45000, projecao: 42000 },
+  { month: "JAN", value: 65000, trend: 45000, projected: 35000 },
+  { month: "FEV", value: 72000, trend: 52000, projected: 42000 },
+  { month: "MAR", value: 45000, trend: 48000, projected: 38000 },
+  { month: "ABR", value: 85000, trend: 55000, projected: 45000 },
+  { month: "MAI", value: 95000, trend: 65000, projected: 55000 },
+  { month: "JUN", value: 102000, trend: 75000, projected: 65000 },
+  { month: "JUL", value: 98000, trend: 82000, projected: 72000 },
+  { month: "AGO", value: 88000, trend: 80000, projected: 70000 },
+  { month: "SET", value: 72000, trend: 68000, projected: 58000 },
+  { month: "OUT", value: 85000, trend: 71000, projected: 61000 },
+  { month: "NOV", value: 95000, trend: 78000, projected: 68000 },
+  { month: "DEZ", value: 112000, trend: 85000, projected: 75000 },
 ];
 
 export const chartColors = [
-  "#FF6B00", // Orange for Vendas
-  "#0EA5E9", // Blue for Comissões
-  "#2563EB", // Dark Blue for Projeção
+  "#F97316", // Orange for primary series
+  "#0EA5E9", // Teal for secondary series
+  "#2563EB", // Blue for tertiary series
 ];
