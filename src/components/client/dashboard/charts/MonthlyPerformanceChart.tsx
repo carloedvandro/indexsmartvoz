@@ -1,14 +1,12 @@
 import {
-  LineChart,
-  Line,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-  Area,
-  ComposedChart,
 } from "recharts";
 import { ChartHeader } from "./components/ChartHeader";
 import { monthlyData } from "./data/chartData";
@@ -19,7 +17,7 @@ export const MonthlyPerformanceChart = () => {
       <ChartHeader title="Performance Mensal" />
       <div className="h-[320px] w-full mt-12">
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart
+          <BarChart
             data={monthlyData}
             margin={{
               top: 20,
@@ -29,96 +27,84 @@ export const MonthlyPerformanceChart = () => {
             }}
           >
             <defs>
-              <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.3}/>
-                <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0}/>
+              <linearGradient id="salesGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#ff0080" />
+                <stop offset="50%" stopColor="#8B5CF6" />
+                <stop offset="100%" stopColor="#ff0080" />
               </linearGradient>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="2" result="coloredBlur" />
-                <feMerge>
-                  <feMergeNode in="coloredBlur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
+              <linearGradient id="commissionsGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#F97316" />
+                <stop offset="50%" stopColor="#fb923c" />
+                <stop offset="100%" stopColor="#F97316" />
+              </linearGradient>
+              <linearGradient id="projectionGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#0FA0CE" />
+                <stop offset="50%" stopColor="#38bdf8" />
+                <stop offset="100%" stopColor="#0FA0CE" />
+              </linearGradient>
             </defs>
-            <CartesianGrid 
-              strokeDasharray="3 3" 
-              stroke="#2d2d2d" 
-              vertical={false} 
-            />
-            <XAxis
-              dataKey="month"
-              stroke="#000000"
+            <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
+            <XAxis 
+              dataKey="month" 
+              stroke="#1f2937" 
               fontSize={12}
               tickLine={false}
-              axisLine={{ stroke: '#404040' }}
+              axisLine={{ stroke: '#E5E7EB' }}
               style={{
-                fontWeight: 'bold',
-                fill: '#000000'
+                fontWeight: 'bold'
               }}
             />
             <YAxis
-              stroke="#000000"
+              stroke="#1f2937"
               fontSize={12}
               tickLine={false}
-              axisLine={{ stroke: '#404040' }}
+              axisLine={{ stroke: '#E5E7EB' }}
+              tickFormatter={(value) => `${value}`}
               style={{
-                fontWeight: 'bold',
-                fill: '#000000'
+                fontWeight: 'bold'
               }}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: "rgba(255, 255, 255, 0.9)",
-                border: "1px solid #404040",
+                backgroundColor: "#ffffff",
+                border: "1px solid #e5e7eb",
                 borderRadius: "8px",
-                color: "#000000",
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
                 fontWeight: 'bold'
               }}
-              cursor={{ stroke: 'rgba(0, 0, 0, 0.2)' }}
+              cursor={{ fill: 'rgba(0, 0, 0, 0.04)' }}
             />
             <Legend 
               wrapperStyle={{
                 paddingTop: "20px",
-                color: "#000000",
                 fontWeight: 'bold'
               }}
             />
-            <Area
-              type="monotone"
-              dataKey="value"
-              name=""
-              fill="url(#colorValue)"
-              stroke="none"
-            />
-            <Line
-              type="monotone"
+            <Bar
               dataKey="value"
               name="Vendas"
-              stroke="#8B5CF6"
-              strokeWidth={3}
-              dot={{ fill: "#8B5CF6", r: 4 }}
-              filter="url(#glow)"
+              fill="url(#salesGradient)"
+              radius={[4, 4, 0, 0]}
+              barSize={16}
+              className="animate-rainbow"
             />
-            <Line
-              type="monotone"
+            <Bar
               dataKey="trend"
               name="Comissões"
-              stroke="#F97316"
-              strokeWidth={3}
-              dot={{ fill: "#F97316", r: 4 }}
-              filter="url(#glow)"
+              fill="url(#commissionsGradient)"
+              radius={[4, 4, 0, 0]}
+              barSize={16}
+              className="animate-rainbow"
             />
-            <Line
-              type="monotone"
+            <Bar
               dataKey="projected"
               name="Projeção"
-              stroke="#0EA5E9"
-              strokeWidth={3}
-              dot={{ fill: "#0EA5E9", r: 4 }}
-              filter="url(#glow)"
+              fill="url(#projectionGradient)"
+              radius={[4, 4, 0, 0]}
+              barSize={16}
+              className="animate-rainbow"
             />
-          </ComposedChart>
+          </BarChart>
         </ResponsiveContainer>
       </div>
     </>
