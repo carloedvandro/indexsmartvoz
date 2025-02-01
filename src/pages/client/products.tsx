@@ -108,7 +108,7 @@ export default function ClientProducts() {
               <div className={`flex-1 h-1 ${currentStep >= 5 ? 'bg-[#8425af]' : 'bg-gray-200'} mx-2`} />
             </div>
             <div className={`w-8 h-8 rounded-full ${currentStep >= 6 ? 'bg-[#8425af]' : 'bg-gray-200'} text-white flex items-center justify-center`}>
-                6
+              6
             </div>
           </div>
 
@@ -145,7 +145,7 @@ export default function ClientProducts() {
                       
                       <div className="bg-gray-50 p-4 rounded-lg">
                         <img 
-                          src="/lovable-uploads/f5d55154-a62e-475f-b8de-b65ac463b3fc.png" 
+                          src="/lovable-uploads/56082e79-b54d-4d20-b899-b44e7edec8d6.png" 
                           alt="Exemplo de código de barras do SIM card"
                           className="max-w-full h-auto"
                         />
