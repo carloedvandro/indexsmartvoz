@@ -77,14 +77,16 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
         {selectedLines.map((line) => (
           <div key={line.id} className="space-y-4 p-4 bg-gray-50 rounded-lg">
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm text-gray-600">Internet</label>
+              <div>
                 <Select 
                   value={line.internet}
                   onValueChange={(value) => handleInternetChange(value, line.id)}
                 >
                   <SelectTrigger className="bg-white">
-                    <SelectValue />
+                    <div className="flex flex-col items-start">
+                      <span className="text-sm text-gray-600">Internet</span>
+                      <SelectValue />
+                    </div>
                   </SelectTrigger>
                   <SelectContent className="bg-white">
                     {internetOptions.map((option) => (
@@ -100,9 +102,17 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm text-gray-600">DDD</label>
-                <Input placeholder="DDD" maxLength={2} className="bg-white" />
+              <div>
+                <div className="relative">
+                  <Input 
+                    placeholder="DDD" 
+                    maxLength={2} 
+                    className="bg-white pl-14" 
+                  />
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-600">
+                    DDD
+                  </span>
+                </div>
               </div>
             </div>
 
