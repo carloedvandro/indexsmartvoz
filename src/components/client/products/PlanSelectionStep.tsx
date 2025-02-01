@@ -1,0 +1,118 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+type Line = {
+  id: number;
+  internet: string;
+  type: string;
+  ddd: string;
+  price: number;
+};
+
+interface PlanSelectionStepProps {
+  selectedLines: Line[];
+  setSelectedLines: (lines: Line[]) => void;
+}
+
+export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelectionStepProps) {
+  const internetOptions = [
+    { value: "6GB", label: "6GB" },
+    { value: "15GB", label: "15GB" },
+    { value: "50GB", label: "50GB" },
+    { value: "100GB", label: "100GB" },
+  ];
+
+  const handleAddLine = () => {
+    if (selectedLines.length < 5) {
+      setSelectedLines([
+        ...selectedLines,
+        {
+          id: selectedLines.length + 1,
+          internet: "100GB",
+          type: "Nova Linha",
+          ddd: "",
+          price: 99.99,
+        },
+      ]);
+    }
+  };
+
+  const handleRemoveLine = (id: number) => {
+    setSelectedLines(selectedLines.filter(line => line.id !== id));
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <h2 className="text-xl font-semibold">Personalize seu pedido</h2>
+        <p className="text-gray-600">
+          Monte o plano ideal para a sua empresa. Você pode adicionar até 5 linhas personalizadas para a necessidade do seu negócio.
+        </p>
+      </div>
+
+      <div className="space-y-4">
+        {selectedLines.map((line) => (
+          <div key={line.id} className="space-y-4 p-4 bg-gray-50 rounded-lg">
+            <div className="flex justify-between items-center">
+              <span className="font-medium">LINHA {String(line.id).padStart(2, '0')}</span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleRemoveLine(line.id)}
+                className="text-red-500 hover:text-red-600"
+              >
+                Remover
+              </Button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm text-gray-600">Internet</label>
+                <Select defaultValue={line.internet}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {internetOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm text-gray-600">DDD</label>
+                <Input placeholder="DDD" maxLength={2} />
+              </div>
+            </div>
+
+            <div className="flex justify-between items-center text-sm">
+              <span className="text-gray-600">Valor da linha:</span>
+              <span className="font-medium">R$ {line.price.toFixed(2)}/mês</span>
+            </div>
+          </div>
+        ))}
+
+        {selectedLines.length < 5 && (
+          <Button
+            onClick={handleAddLine}
+            variant="outline"
+            className="w-full"
+          >
+            Adicionar nova linha
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+}
