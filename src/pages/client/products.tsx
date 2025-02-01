@@ -71,7 +71,7 @@ export default function ClientProducts() {
 
   if (showChipActivation) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background scrollbar-hide">
         {scanningIndex !== null && (
           <BarcodeScanner
             onResult={(result) => {
@@ -178,7 +178,7 @@ export default function ClientProducts() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background scrollbar-hide">
       <div className="container mx-auto p-4 pb-16 space-y-6">
         <div className="flex items-center gap-4">
           <Button
