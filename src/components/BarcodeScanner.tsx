@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useZxing } from "react-zxing";
+import { toast } from "sonner";
 
 interface BarcodeScannerProps {
   onResult: (result: string) => void;
@@ -9,22 +10,26 @@ interface BarcodeScannerProps {
 export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isScanning, setIsScanning] = useState(false);
 
-  const { ref, torch } = useZxing({
+  const { ref } = useZxing({
     onDecodeResult(result) {
       const text = result.getText();
       // Só aceita códigos com 20 dígitos que começam com 8955
       if (text.length === 20 && text.startsWith('8955')) {
+        setIsScanning(false);
         onResult(text);
         onClose();
       } else {
         setError("Código inválido. O código deve ter 20 dígitos e começar com 8955.");
+        toast.error("Código inválido. O código deve ter 20 dígitos e começar com 8955.");
         setTimeout(() => setError(null), 3000);
       }
     },
     onError(error) {
       console.error("Scanner error:", error);
       setError("Erro ao ler o código. Por favor, tente novamente.");
+      toast.error("Erro ao ler o código. Por favor, tente novamente.");
     },
     constraints: {
       video: {
@@ -34,27 +39,48 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       }
     },
     timeBetweenDecodingAttempts: 300,
+    paused: !isScanning
   });
 
   useEffect(() => {
-    // Solicitar permissão da câmera ao montar o componente
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(() => setHasPermission(true))
-      .catch(() => {
-        setHasPermission(false);
-        setError("Permissão da câmera negada. Por favor, permita o acesso à câmera.");
-      });
+    let mounted = true;
 
-    // Cleanup ao desmontar
-    return () => {
-      if (ref.current) {
-        const stream = ref.current.srcObject as MediaStream;
-        if (stream) {
-          stream.getTracks().forEach(track => track.stop());
+    const requestCameraPermission = async () => {
+      try {
+        await navigator.mediaDevices.getUserMedia({ video: true });
+        if (mounted) {
+          setHasPermission(true);
+          setIsScanning(true);
+        }
+      } catch (err) {
+        if (mounted) {
+          setHasPermission(false);
+          setError("Permissão da câmera negada. Por favor, permita o acesso à câmera.");
+          toast.error("Permissão da câmera negada. Por favor, permita o acesso à câmera.");
         }
       }
     };
+
+    requestCameraPermission();
+
+    return () => {
+      mounted = false;
+      if (ref.current) {
+        const stream = ref.current.srcObject as MediaStream;
+        if (stream) {
+          stream.getTracks().forEach(track => {
+            track.stop();
+          });
+        }
+      }
+      setIsScanning(false);
+    };
   }, []);
+
+  const handleClose = () => {
+    setIsScanning(false);
+    onClose();
+  };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -86,7 +112,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
                 Posicione o código de barras do chip dentro da área
               </p>
               <button
-                onClick={onClose}
+                onClick={handleClose}
                 className="text-[#8425af] font-medium"
               >
                 Cancelar
