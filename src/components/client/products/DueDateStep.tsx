@@ -15,7 +15,7 @@ export function DueDateStep({ selectedDueDate, onDueDateChange }: DueDateStepPro
         <h2 className="text-xl font-semibold">Escolha a data de vencimento da sua fatura:</h2>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {dueDates.map((date) => (
           <Card 
             key={date}
@@ -26,8 +26,8 @@ export function DueDateStep({ selectedDueDate, onDueDateChange }: DueDateStepPro
             }`}
             onClick={() => onDueDateChange(date)}
           >
-            <CardContent className="flex items-center justify-center p-6">
-              <span className="text-xl font-medium">{String(date).padStart(2, '0')}</span>
+            <CardContent className="flex items-center justify-center p-4">
+              <span className="text-lg font-medium">{String(date).padStart(2, '0')}</span>
             </CardContent>
           </Card>
         ))}
