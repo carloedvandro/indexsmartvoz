@@ -27,7 +27,7 @@ export default function ClientDashboard() {
   }
 
   return (
-    <div className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden">
+    <div className="flex h-screen w-full bg-gradient-to-br from-purple-50 via-white to-blue-50 overflow-hidden">
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
