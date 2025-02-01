@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -29,12 +28,12 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
     { value: "140GB", label: "140GB", price: 144.99 },
   ];
 
-  const handleAddLine = () => {
-    if (selectedLines.length < 5) {
+  // Initialize with one line if there are no lines
+  useState(() => {
+    if (selectedLines.length === 0) {
       setSelectedLines([
-        ...selectedLines,
         {
-          id: selectedLines.length + 1,
+          id: 1,
           internet: "110GB",
           type: "Nova Linha",
           ddd: "",
@@ -42,12 +41,12 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
         },
       ]);
     }
-  };
+  });
 
-  const handleInternetChange = (value: string, lineId: number) => {
+  const handleInternetChange = (value: string) => {
     const newPrice = internetOptions.find(option => option.value === value)?.price || 124.99;
     setSelectedLines(selectedLines.map(line => 
-      line.id === lineId 
+      line.id === 1 
         ? { ...line, internet: value, price: newPrice }
         : line
     ));
@@ -64,68 +63,64 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
         </p>
       </div>
 
-      {selectedLines.length === 0 && (
-        <Button
-          onClick={handleAddLine}
-          className="w-full bg-[#8425af] hover:bg-[#6c1e8f] text-white"
-        >
-          Adicionar nova linha
-        </Button>
-      )}
-
       <div className="space-y-4">
-        {selectedLines.map((line) => (
-          <div key={line.id} className="space-y-4 p-4 bg-gray-50 rounded-lg">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Select 
-                  value={line.internet}
-                  onValueChange={(value) => handleInternetChange(value, line.id)}
-                >
-                  <SelectTrigger className="bg-white">
-                    <div className="flex flex-col items-start">
-                      <span className="text-sm text-gray-600">Internet</span>
-                      <SelectValue />
-                    </div>
-                  </SelectTrigger>
-                  <SelectContent className="bg-white">
-                    {internetOptions.map((option) => (
-                      <SelectItem 
-                        key={option.value} 
-                        value={option.value} 
-                        className="hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
-                      >
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Select 
+              value={selectedLines[0]?.internet || "110GB"}
+              onValueChange={handleInternetChange}
+            >
+              <SelectTrigger className="bg-white h-[52px]">
+                <div className="flex flex-col items-start">
+                  <span className="text-sm text-gray-600">Internet</span>
+                  <SelectValue />
+                </div>
+              </SelectTrigger>
+              <SelectContent>
+                {internetOptions.map((option) => (
+                  <SelectItem 
+                    key={option.value} 
+                    value={option.value}
+                    className="hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
+                  >
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
-              <div>
-                <Input 
-                  placeholder="DDD" 
-                  maxLength={2} 
-                  className="bg-white h-[52px]" 
-                />
-              </div>
-            </div>
-
-            <div className="flex justify-between items-center text-sm">
-              <span className="text-gray-600">Valor da linha:</span>
-              <span className="font-medium">R$ {line.price.toFixed(2)}/mês</span>
+          <div>
+            <div className="flex flex-col">
+              <span className="text-sm text-gray-600">DDD</span>
+              <Input 
+                placeholder="DDD" 
+                maxLength={2} 
+                className="bg-white h-[52px]" 
+                value={selectedLines[0]?.ddd || ""}
+                onChange={(e) => {
+                  setSelectedLines(selectedLines.map(line => 
+                    line.id === 1 
+                      ? { ...line, ddd: e.target.value }
+                      : line
+                  ));
+                }}
+              />
             </div>
           </div>
-        ))}
+        </div>
 
-        {selectedLines.length > 0 && (
-          <div className="p-4 bg-purple-50 rounded-lg">
-            <div className="flex justify-between items-center font-medium">
-              <span>Total mensal:</span>
-              <span>R$ {totalPrice.toFixed(2)}/mês</span>
-            </div>
+        <div className="flex justify-between items-center text-sm">
+          <span className="text-gray-600">Valor da linha:</span>
+          <span className="font-medium">R$ {selectedLines[0]?.price.toFixed(2)}/mês</span>
+        </div>
+
+        <div className="p-4 bg-purple-50 rounded-lg">
+          <div className="flex justify-between items-center font-medium">
+            <span>Total mensal:</span>
+            <span>R$ {totalPrice.toFixed(2)}/mês</span>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

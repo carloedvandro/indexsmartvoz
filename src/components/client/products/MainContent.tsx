@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { OrderReviewStep } from "./OrderReviewStep";
 import { DueDateStep } from "./DueDateStep";
 import { ContractTermsStep } from "./ContractTermsStep";
+import { PlanSelectionStep } from "./PlanSelectionStep";
 
 interface MainContentProps {
   currentStep: number;
@@ -29,7 +30,14 @@ export function MainContent({
 }: MainContentProps) {
   return (
     <Card className="md:col-span-2 max-w-4xl mx-auto w-full">
-      <CardContent>
+      <CardContent className="p-6">
+        {currentStep === 1 && (
+          <PlanSelectionStep 
+            selectedLines={selectedLines}
+            setSelectedLines={setSelectedLines}
+          />
+        )}
+
         {currentStep === 2 && (
           <OrderReviewStep selectedLines={selectedLines} />
         )}
