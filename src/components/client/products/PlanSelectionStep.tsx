@@ -38,7 +38,7 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
           internet: "110GB",
           type: "Nova Linha",
           ddd: "",
-          price: 124.99, // Default price for 110GB plan
+          price: 124.99,
         },
       ]);
     }
@@ -95,7 +95,11 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
                   </SelectTrigger>
                   <SelectContent className="bg-white">
                     {internetOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value} className="hover:bg-gray-100">
+                      <SelectItem 
+                        key={option.value} 
+                        value={option.value} 
+                        className="hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
+                      >
                         {option.label}
                       </SelectItem>
                     ))}
