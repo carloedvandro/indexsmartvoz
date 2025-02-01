@@ -120,7 +120,7 @@ export default function ClientProducts() {
                     <div className="space-y-2">
                       <h2 className="text-xl font-semibold">Tenha os novos chips SIM cards com você</h2>
                       <p className="text-gray-600">
-                        Compre nas lojas Vivo, pela Central de Relacionamento ou via Gerente que atende sua empresa
+                        Compre o chip pré-pago sem cadastro nas lojas de qualquer comércio. Não pode comprar nas lojas Vivo.
                       </p>
                     </div>
 
