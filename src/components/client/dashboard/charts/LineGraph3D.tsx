@@ -1,21 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'; // Added .js extension
 
-export interface DataPoint {
-  x: number;
-  y: number;
-  z: number;
-}
-
-export interface LineGraph3DProps {
-  variant: 'ribbon' | 'tube' | 'particles' | 'neon' | 'wave';
-  data?: DataPoint[];
-  color?: string;
-}
-
-// Default data points if none provided
-const defaultDataPoints = [
+// Sample data points matching the curve pattern
+const dataPoints = [
   { x: 0, y: 0.5, z: 0 },
   { x: 1, y: 0.7, z: 0 },
   { x: 2, y: 0.9, z: 0 },
@@ -26,11 +14,11 @@ const defaultDataPoints = [
   { x: 7, y: 0.5, z: 0 },
 ];
 
-export const LineGraph3D: React.FC<LineGraph3DProps> = ({ 
-  variant, 
-  data = defaultDataPoints,
-  color = '#D6BCFA'
-}) => {
+interface LineGraph3DProps {
+  variant: 'ribbon' | 'tube' | 'particles' | 'neon' | 'wave';
+}
+
+export const LineGraph3D: React.FC<LineGraph3DProps> = ({ variant }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
@@ -76,7 +64,7 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({
 
     // Create curve from data points
     const curve = new THREE.CatmullRomCurve3(
-      data.map(point => new THREE.Vector3(point.x, point.y, point.z))
+      dataPoints.map(point => new THREE.Vector3(point.x, point.y, point.z))
     );
 
     // Different visualizations based on variant
@@ -113,14 +101,14 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({
       }
       scene.clear();
     };
-  }, [variant, data, color]);
+  }, [variant]);
 
   // Visualization methods
   const createRibbon = (scene: THREE.Scene, curve: THREE.CatmullRomCurve3) => {
     const points = curve.getPoints(50);
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     const material = new THREE.MeshPhongMaterial({
-      color,
+      color: 0xD6BCFA,
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.8,
@@ -133,7 +121,7 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({
   const createTube = (scene: THREE.Scene, curve: THREE.CatmullRomCurve3) => {
     const geometry = new THREE.TubeGeometry(curve, 100, 0.1, 8, false);
     const material = new THREE.MeshPhongMaterial({
-      color,
+      color: 0xD6BCFA,
       transparent: true,
       opacity: 0.8,
     });
@@ -147,7 +135,7 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     
     const material = new THREE.PointsMaterial({
-      color,
+      color: 0xD6BCFA,
       size: 0.1,
       transparent: true,
       opacity: 0.8,
@@ -162,7 +150,7 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     
     const material = new THREE.LineBasicMaterial({
-      color,
+      color: 0xD6BCFA,
       linewidth: 2,
     });
 
@@ -172,7 +160,7 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({
     // Add glow effect
     const glowMaterial = new THREE.ShaderMaterial({
       uniforms: {
-        color: { value: new THREE.Color(color) },
+        color: { value: new THREE.Color(0xD6BCFA) },
       },
       vertexShader: `
         varying vec3 vNormal;
@@ -203,7 +191,7 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     
     const material = new THREE.LineBasicMaterial({
-      color,
+      color: 0xD6BCFA,
       linewidth: 2,
     });
 
@@ -213,7 +201,7 @@ export const LineGraph3D: React.FC<LineGraph3DProps> = ({
     // Add animated wave effect
     const waveGeometry = new THREE.PlaneGeometry(8, 2, 32, 32);
     const waveMaterial = new THREE.MeshPhongMaterial({
-      color,
+      color: 0xD6BCFA,
       transparent: true,
       opacity: 0.3,
       side: THREE.DoubleSide,

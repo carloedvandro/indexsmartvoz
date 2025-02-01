@@ -6,7 +6,7 @@ interface CircularProgressProps {
 }
 
 export const CircularProgress = ({ percentage, color }: CircularProgressProps) => (
-  <div className="relative w-36 h-36 mx-1">
+  <div className="relative w-32 h-32">
     <svg className="w-full h-full" viewBox="0 0 100 100">
       {/* Background circle */}
       <circle
@@ -23,7 +23,7 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
         className="origin-center"
         strokeWidth="8"
         strokeLinecap="round"
-        stroke={`url(#gradient-${percentage})`}
+        stroke={color}
         fill="transparent"
         r="40"
         cx="50"
@@ -38,24 +38,15 @@ export const CircularProgress = ({ percentage, color }: CircularProgressProps) =
           rotate: [0, 360]
         }}
         transition={{
-          duration: 10,
+          duration: 3, // Increased from 1 to 3 seconds for slower animation
           repeat: Infinity,
           ease: "linear",
           repeatType: "loop"
         }}
       />
-      <defs>
-        <linearGradient id={`gradient-${percentage}`} gradientTransform="rotate(90)">
-          <stop offset="0%" stopColor={color} />
-          <stop offset="50%" stopColor="#9b87f5" />
-          <stop offset="100%" stopColor={color} />
-        </linearGradient>
-      </defs>
     </svg>
     <div className="absolute inset-0 flex items-center justify-center">
-      <span className="text-2xl font-semibold" style={{ color: "#5f0889" }}>
-        {percentage}%
-      </span>
+      <span className="text-2xl font-semibold">{percentage}%</span>
     </div>
   </div>
 );

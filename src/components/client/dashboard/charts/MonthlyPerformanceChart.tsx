@@ -1,82 +1,110 @@
 import {
   Bar,
   BarChart,
-  CartesianGrid,
-  Legend,
+  Line,
+  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
+  ComposedChart,
+  Cell,
 } from "recharts";
-import { ChartHeader } from "./components/ChartHeader";
-import { monthlyData } from "./data/chartData";
+
+const data = [
+  { month: "JAN", value: 65000, trend: 45000 },
+  { month: "FEV", value: 72000, trend: 52000 },
+  { month: "MAR", value: 45000, trend: 48000 },
+  { month: "ABR", value: 85000, trend: 55000 },
+  { month: "MAI", value: 95000, trend: 65000 },
+  { month: "JUN", value: 102000, trend: 75000 },
+  { month: "JUL", value: 98000, trend: 82000 },
+  { month: "AGO", value: 88000, trend: 80000 },
+  { month: "SET", value: 72000, trend: 68000 },
+  { month: "OUT", value: 85000, trend: 71000 },
+  { month: "NOV", value: 95000, trend: 78000 },
+  { month: "DEZ", value: 112000, trend: 85000 },
+];
+
+const colors = [
+  "#4ade80",
+  "#4ade80",
+  "#d946ef",
+  "#d946ef",
+  "#ec4899",
+  "#f43f5e",
+  "#ef4444",
+  "#eab308",
+  "#3b82f6",
+  "#3b82f6",
+  "#6366f1",
+  "#7c3aed",
+];
 
 export const MonthlyPerformanceChart = () => {
   return (
     <div className="w-full flex flex-col items-center max-w-[1800px] mx-auto">
-      <ChartHeader title="Performance Mensal" />
-      <ResponsiveContainer width="100%" height={320}>
-        <BarChart
-          data={monthlyData}
-          margin={{
-            top: 20,
-            right: 30,
-            left: 20,
-            bottom: 20,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
-          <XAxis 
-            dataKey="month" 
-            stroke="#1f2937" 
-            fontSize={12}
-            tickLine={false}
-            axisLine={{ stroke: '#E5E7EB' }}
-          />
-          <YAxis
-            stroke="#1f2937"
-            fontSize={12}
-            tickLine={false}
-            axisLine={{ stroke: '#E5E7EB' }}
-            tickFormatter={(value) => `${value}`}
-          />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: "#ffffff",
-              border: "1px solid #e5e7eb",
-              borderRadius: "8px",
-              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+      <div className="text-center w-full">
+        <h2 className="text-2xl font-bold">Performance Mensal</h2>
+      </div>
+      <div className="h-[280px] w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <ComposedChart
+            data={data}
+            margin={{
+              top: 20,
+              right: 10,
+              left: 10,
+              bottom: 20,
             }}
-            cursor={{ fill: 'rgba(0, 0, 0, 0.04)' }}
-          />
-          <Legend 
-            wrapperStyle={{
-              paddingTop: "20px"
-            }}
-          />
-          <Bar
-            dataKey="value"
-            name="Vendas"
-            fill="#F97316"
-            radius={[4, 4, 0, 0]}
-            barSize={8}
-          />
-          <Bar
-            dataKey="trend"
-            name="Comissões"
-            fill="#0EA5E9"
-            radius={[4, 4, 0, 0]}
-            barSize={8}
-          />
-          <Bar
-            dataKey="projected"
-            name="Projeção"
-            fill="#2563EB"
-            radius={[4, 4, 0, 0]}
-            barSize={8}
-          />
-        </BarChart>
-      </ResponsiveContainer>
+          >
+            <XAxis
+              dataKey="month"
+              stroke="#1f2937"
+              fontSize={12}
+              tickLine={false}
+              axisLine={false}
+            />
+            <YAxis
+              stroke="#1f2937"
+              fontSize={12}
+              tickLine={false}
+              axisLine={false}
+              tickFormatter={(value) => `R$ ${value / 1000}k`}
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#ffffff",
+                border: "1px solid #e5e7eb",
+                borderRadius: "8px",
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                color: "#1f2937",
+              }}
+              formatter={(value: number) => [`R$ ${value.toLocaleString()}`, "Valor"]}
+              labelFormatter={(label) => `${label}`}
+            />
+            <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={35}>
+              {data.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={colors[index]}
+                  style={{
+                    filter: "drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))",
+                  }}
+                />
+              ))}
+            </Bar>
+            <Line
+              type="monotone"
+              dataKey="trend"
+              stroke="#1f2937"
+              strokeWidth={2}
+              dot={{ fill: "#1f2937", r: 4 }}
+              activeDot={{ r: 6, fill: "#1f2937" }}
+            />
+          </ComposedChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };

@@ -35,7 +35,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 export const StatCard = ({ title, value, data, color }: StatCardProps) => {
   return (
     <motion.div 
-      className="transform-gpu perspective-1000 h-[300px]"
+      className="p-4 rounded-xl bg-white shadow-lg transform-gpu perspective-1000 h-[300px]"
       initial={{ rotateX: 25, scale: 0.9, opacity: 0 }}
       animate={{ rotateX: 0, scale: 1, opacity: 1 }}
       transition={{ duration: 0.5, type: "spring" }}
@@ -49,7 +49,7 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
       }}
     >
       <motion.h3 
-        className="text-sm font-medium text-black ml-0"
+        className="text-sm font-medium text-black ml-6"
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
@@ -57,7 +57,7 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
         {title}
       </motion.h3>
       <motion.p 
-        className="text-2xl font-bold mt-2 ml-0"
+        className="text-2xl font-bold mt-2 ml-6"
         style={{ color: title === "Ganhos Pendentes" ? "#ff0000" : title === "Total de Ganhos" ? "#00d71c" : color }}
         initial={{ x: -20, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -92,22 +92,13 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
               </filter>
               <style type="text/css">
                 {`
-                  @keyframes dotPulse {
-                    0% { 
-                      r: 4;
-                      filter: brightness(1);
-                    }
-                    50% { 
-                      r: 6;
-                      filter: brightness(1.5);
-                    }
-                    100% { 
-                      r: 4;
-                      filter: brightness(1);
-                    }
+                  @keyframes customPulse {
+                    0% { r: 4; opacity: 1; }
+                    50% { r: 8; opacity: 0.5; }
+                    100% { r: 4; opacity: 1; }
                   }
-                  .dot-pulse {
-                    animation: dotPulse 2s ease-in-out infinite;
+                  .custom-pulse {
+                    animation: customPulse 1.5s ease-in-out infinite;
                   }
                 `}
               </style>
@@ -125,7 +116,7 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
               stroke="#000000"
               tickLine={false}
               axisLine={false}
-              width={40}
+              width={60}
             />
             <Tooltip content={<CustomTooltip />} />
             <Line
@@ -138,7 +129,6 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
                 stroke: color,
                 strokeWidth: 2,
                 r: 4,
-                className: "dot-pulse",
                 filter: `url(#glow-${color})`
               }}
               activeDot={{ 
@@ -147,7 +137,7 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
                 stroke: color,
                 strokeWidth: 2,
                 filter: `url(#glow-${color})`,
-                className: "dot-pulse"
+                className: "custom-pulse"
               }}
               animationDuration={2000}
               animationBegin={600}
