@@ -3,13 +3,27 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Input } from "@/components/ui/input";
 
 export default function ClientChipActivation() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
+  const [selectedLines, setSelectedLines] = useState<string[]>([]);
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const handleContinue = () => {
-    setCurrentStep(2);
+    setCurrentStep(currentStep + 1);
+  };
+
+  const handleBack = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
+  const handleAddLine = () => {
+    if (phoneNumber && selectedLines.length < 10) {
+      setSelectedLines([...selectedLines, phoneNumber]);
+      setPhoneNumber("");
+    }
   };
 
   return (
@@ -112,10 +126,86 @@ export default function ClientChipActivation() {
                   </div>
                 </div>
 
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-4">
+                  <Button 
+                    variant="outline"
+                    onClick={handleBack}
+                  >
+                    Voltar
+                  </Button>
                   <Button 
                     className="bg-[#8425af] hover:bg-[#6c1e8f]"
-                    onClick={() => setCurrentStep(3)}
+                    onClick={handleContinue}
+                  >
+                    Continuar
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {currentStep === 3 && (
+            <Card>
+              <CardContent className="pt-6 space-y-8">
+                <div className="space-y-6">
+                  <h2 className="text-2xl font-bold">Você precisa trocar o chip de quais linhas?</h2>
+                  
+                  <div className="flex items-center justify-between text-sm text-gray-500">
+                    <span>Identidade</span>
+                    <span>SIM Card</span>
+                    <span>Linhas</span>
+                  </div>
+
+                  <div className="bg-gray-100 p-4 rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <span className="text-red-500">⚠️</span>
+                      <p className="text-sm">Não coloque o novo chip no aparelho antes de concluir a transferência</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <p className="font-medium">Dá pra buscar e selecionar até 10 linhas</p>
+                    
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="Número da linha com DDD"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                      />
+                      <Button 
+                        onClick={handleAddLine}
+                        className="whitespace-nowrap bg-[#8425af] hover:bg-[#6c1e8f]"
+                      >
+                        Selecionar linha
+                      </Button>
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">LINHAS SELECIONADAS</span>
+                        <span className="text-gray-600">{selectedLines.length} DE 10</span>
+                      </div>
+                      
+                      {selectedLines.map((line, index) => (
+                        <div key={index} className="p-2 bg-gray-50 rounded">
+                          {line}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-between">
+                  <Button 
+                    variant="outline"
+                    onClick={handleBack}
+                  >
+                    Voltar
+                  </Button>
+                  <Button 
+                    className="bg-[#8425af] hover:bg-[#6c1e8f]"
+                    onClick={handleContinue}
+                    disabled={selectedLines.length === 0}
                   >
                     Continuar
                   </Button>
