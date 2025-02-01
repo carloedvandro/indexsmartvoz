@@ -13,11 +13,12 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   const { ref } = useZxing({
     onDecodeResult(result) {
       const text = result.getText();
-      // Só aceita códigos com 20 dígitos que começam com 8955
+      // Aceita códigos com 20 dígitos que começam com 8955
       if (text.length === 20 && text.startsWith('8955')) {
+        console.log("Código válido detectado:", text);
         onResult(text);
-        onClose();
       } else {
+        console.log("Código inválido detectado:", text);
         setError("Código inválido. O código deve ter 20 dígitos e começar com 8955.");
         setTimeout(() => setError(null), 3000);
       }
@@ -34,7 +35,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         height: { ideal: 720 }
       }
     },
-    timeBetweenDecodingAttempts: 300,
+    timeBetweenDecodingAttempts: 500, // Aumentado para dar mais tempo entre tentativas
   });
 
   useEffect(() => {
@@ -63,25 +64,23 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
     setupCamera();
 
     return () => {
-      if (ref.current) {
+      if (ref.current?.srcObject) {
         const stream = ref.current.srcObject as MediaStream;
-        if (stream) {
-          stream.getTracks().forEach(track => track.stop());
-        }
+        stream.getTracks().forEach(track => track.stop());
       }
     };
   }, []);
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white p-4 rounded-lg w-[90%] max-w-[400px] mx-auto"> {/* Increased max-width */}
+      <div className="bg-white p-4 rounded-lg w-[90%] max-w-[400px] mx-auto">
         {hasPermission === false ? (
           <div className="text-center text-red-500 p-4">
             {error || "Por favor, permita o acesso à câmera para escanear o código."}
           </div>
         ) : (
           <>
-            <div className="relative aspect-[2/1]"> {/* Changed aspect ratio to be wider */}
+            <div className="relative aspect-[4/3]">
               <video 
                 ref={ref} 
                 className="absolute inset-0 w-full h-full object-cover rounded"
@@ -90,8 +89,8 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
               />
               <div className="absolute inset-0 border-2 border-[#8425af] rounded pointer-events-none">
                 <div className="absolute inset-x-0 top-1/2 h-0.5 bg-[#8425af]/30" />
-                <div className="absolute inset-y-0 left-1/6 w-0.5 bg-[#8425af]/30" /> {/* Adjusted guide lines */}
-                <div className="absolute inset-y-0 right-1/6 w-0.5 bg-[#8425af]/30" /> {/* Adjusted guide lines */}
+                <div className="absolute inset-y-0 left-1/4 w-0.5 bg-[#8425af]/30" />
+                <div className="absolute inset-y-0 right-1/4 w-0.5 bg-[#8425af]/30" />
               </div>
             </div>
             {error && (
