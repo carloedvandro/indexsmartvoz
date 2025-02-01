@@ -66,9 +66,8 @@ export function MainContent({
             </Button>
           )}
           <Button 
-            className="bg-[#8425af] hover:bg-[#6c1e8f] ml-auto"
+            className="bg-[#8425af] hover:bg-[#6c1e8f] ml-auto text-white"
             onClick={handleContinue}
-            disabled={selectedLines.length === 0}
           >
             {currentStep === 4 ? 'Finalizar compra' : 'Continuar'}
           </Button>
