@@ -7,6 +7,8 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
+  Area,
+  ComposedChart,
 } from "recharts";
 import { ChartHeader } from "./components/ChartHeader";
 import { monthlyData } from "./data/chartData";
@@ -17,7 +19,7 @@ export const MonthlyPerformanceChart = () => {
       <ChartHeader title="Performance Mensal" />
       <div className="h-[320px] w-full mt-12">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart
+          <ComposedChart
             data={monthlyData}
             margin={{
               top: 20,
@@ -27,6 +29,10 @@ export const MonthlyPerformanceChart = () => {
             }}
           >
             <defs>
+              <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.3}/>
+                <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0}/>
+              </linearGradient>
               <filter id="glow">
                 <feGaussianBlur stdDeviation="2" result="coloredBlur" />
                 <feMerge>
@@ -76,6 +82,12 @@ export const MonthlyPerformanceChart = () => {
                 fontWeight: 'bold'
               }}
             />
+            <Area
+              type="monotone"
+              dataKey="value"
+              fill="url(#colorValue)"
+              stroke="none"
+            />
             <Line
               type="monotone"
               dataKey="value"
@@ -103,7 +115,7 @@ export const MonthlyPerformanceChart = () => {
               dot={{ fill: "#0EA5E9", r: 4 }}
               filter="url(#glow)"
             />
-          </LineChart>
+          </ComposedChart>
         </ResponsiveContainer>
       </div>
     </>
