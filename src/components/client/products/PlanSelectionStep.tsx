@@ -72,7 +72,7 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
         {selectedLines.map((line) => (
           <div key={line.id} className="space-y-4 p-4 bg-gray-50 rounded-lg">
             <div className="flex justify-between items-center">
-              <span className="font-medium">LINHA {String(line.id).padStart(2, '0')}</span>
+              <span className="font-medium">DDD {String(line.id).padStart(2, '0')}</span>
               <Button
                 className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
                 size="sm"
