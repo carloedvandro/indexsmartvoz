@@ -48,6 +48,9 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               fontSize={12}
               tickLine={false}
               axisLine={false}
+              interval={0}
+              tickMargin={5}
+              height={30}
             />
             <YAxis
               stroke="#000000"
