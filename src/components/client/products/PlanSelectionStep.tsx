@@ -68,6 +68,15 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
         </p>
       </div>
 
+      {selectedLines.length === 0 && (
+        <Button
+          onClick={handleAddLine}
+          className="w-full bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+        >
+          Adicionar nova linha
+        </Button>
+      )}
+
       <div className="space-y-4">
         {selectedLines.map((line) => (
           <div key={line.id} className="space-y-4 p-4 bg-gray-50 rounded-lg">
@@ -126,15 +135,6 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
               <span>R$ {totalPrice.toFixed(2)}/mês</span>
             </div>
           </div>
-        )}
-
-        {selectedLines.length < 5 && (
-          <Button
-            onClick={handleAddLine}
-            className="w-full bg-[#8425af] hover:bg-[#6c1e8f] text-white"
-          >
-            Adicionar nova linha
-          </Button>
         )}
       </div>
     </div>
