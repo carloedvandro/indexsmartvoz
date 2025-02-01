@@ -9,7 +9,7 @@ export const navigationItems: NavigationItem[] = [
     title: "Loja Virtual",
     items: [
       {
-        title: "Planos",
+        title: "Plano Smartvoz",
         href: "/client/store",
       },
       {
