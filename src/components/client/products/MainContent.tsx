@@ -1,6 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PlanSelectionStep } from "./PlanSelectionStep";
 import { OrderReviewStep } from "./OrderReviewStep";
 import { DueDateStep } from "./DueDateStep";
 import { ContractTermsStep } from "./ContractTermsStep";
@@ -31,13 +30,6 @@ export function MainContent({
   return (
     <Card className="md:col-span-2 max-w-4xl mx-auto w-full">
       <CardContent className="pt-6 space-y-8">
-        {currentStep === 1 && (
-          <PlanSelectionStep
-            selectedLines={selectedLines}
-            setSelectedLines={setSelectedLines}
-          />
-        )}
-
         {currentStep === 2 && (
           <OrderReviewStep selectedLines={selectedLines} />
         )}
