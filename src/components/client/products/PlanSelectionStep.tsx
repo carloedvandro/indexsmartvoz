@@ -77,12 +77,12 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
               <div className="space-y-2">
                 <label className="text-sm text-gray-600">Internet</label>
                 <Select defaultValue={line.internet}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white">
                     {internetOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
+                      <SelectItem key={option.value} value={option.value} className="hover:bg-gray-100">
                         {option.label}
                       </SelectItem>
                     ))}
@@ -92,7 +92,7 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
 
               <div className="space-y-2">
                 <label className="text-sm text-gray-600">DDD</label>
-                <Input placeholder="DDD" maxLength={2} />
+                <Input placeholder="DDD" maxLength={2} className="bg-white" />
               </div>
             </div>
 
