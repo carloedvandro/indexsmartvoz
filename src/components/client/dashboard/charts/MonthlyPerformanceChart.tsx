@@ -10,34 +10,19 @@ import {
 import { ChartHeader } from "./components/ChartHeader";
 
 const monthlyData = [
-  { month: "JAN", percentage: 10 },
-  { month: "FEB", percentage: 20 },
-  { month: "MAR", percentage: 15 },
-  { month: "APR", percentage: 25 },
-  { month: "MAY", percentage: 30 },
-  { month: "JUN", percentage: 50 },
-  { month: "JUL", percentage: 60 },
-  { month: "AUG", percentage: 70 },
-  { month: "SEP", percentage: 65 },
-  { month: "OCT", percentage: 80 },
-  { month: "NOV", percentage: 90 },
-  { month: "DEC", percentage: 100 },
+  { month: "JAN", percentage: 10, color: "#D81B60" },
+  { month: "FEB", percentage: 20, color: "#8E24AA" },
+  { month: "MAR", percentage: 15, color: "#5E35B1" },
+  { month: "APR", percentage: 25, color: "#3949AB" },
+  { month: "MAY", percentage: 30, color: "#1E88E5" },
+  { month: "JUN", percentage: 50, color: "#039BE5" },
+  { month: "JUL", percentage: 60, color: "#00ACC1" },
+  { month: "AUG", percentage: 70, color: "#00897B" },
+  { month: "SEP", percentage: 65, color: "#43A047" },
+  { month: "OCT", percentage: 80, color: "#FFB300" },
+  { month: "NOV", percentage: 90, color: "#FB8C00" },
+  { month: "DEC", percentage: 100, color: "#F4511E" },
 ];
-
-const getGradientColor = (percentage: number) => {
-  const colors = [
-    { threshold: 20, color: "#9C27B0" },    // Purple for lower values
-    { threshold: 40, color: "#2196F3" },    // Blue
-    { threshold: 60, color: "#4CAF50" },    // Green
-    { threshold: 80, color: "#FFC107" },    // Yellow
-    { threshold: 100, color: "#FF5722" },   // Orange/Red for higher values
-  ];
-
-  for (const { threshold, color } of colors) {
-    if (percentage <= threshold) return color;
-  }
-  return colors[colors.length - 1].color;
-};
 
 export const MonthlyPerformanceChart = () => {
   return (
@@ -66,12 +51,12 @@ export const MonthlyPerformanceChart = () => {
                 >
                   <stop
                     offset="0%"
-                    stopColor={getGradientColor(entry.percentage)}
+                    stopColor={entry.color}
                     stopOpacity={0.8}
                   />
                   <stop
                     offset="100%"
-                    stopColor={getGradientColor(entry.percentage)}
+                    stopColor={entry.color}
                     stopOpacity={0.2}
                   />
                 </linearGradient>
@@ -109,12 +94,12 @@ export const MonthlyPerformanceChart = () => {
               }}
               formatter={(value: number) => [`${value}%`, 'Performance']}
               labelFormatter={(label) => `${label}`}
-              cursor={{ stroke: getGradientColor(50), strokeWidth: 1 }}
+              cursor={{ stroke: '#e5e7eb', strokeWidth: 1 }}
             />
             <Area
               type="monotone"
               dataKey="percentage"
-              stroke={getGradientColor(50)}
+              stroke={monthlyData[0].color}
               fill={`url(#gradient-${monthlyData[0].month})`}
               strokeWidth={2}
             />
