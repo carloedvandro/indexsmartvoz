@@ -11,9 +11,10 @@ import { monthlyData } from "./data/chartData";
 
 interface RevenueChartProps {
   data?: {
-    name: string;
+    month: string;
     value: number;
-    dailyValue: number;
+    trend: number;
+    projected: number;
   }[];
 }
 
