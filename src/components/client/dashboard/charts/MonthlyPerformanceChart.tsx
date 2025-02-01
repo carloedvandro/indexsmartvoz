@@ -68,14 +68,28 @@ export const MonthlyPerformanceChart = () => {
                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
                 fontWeight: 'bold'
               }}
-              formatter={(value: number) => [`R$ ${value.toLocaleString()}`, '']}
+              formatter={(value: number, name: string) => {
+                let label = "";
+                switch (name) {
+                  case "vendas":
+                    label = "Vendas";
+                    break;
+                  case "comissoes":
+                    label = "Comissões";
+                    break;
+                  case "projecao":
+                    label = "Projeção";
+                    break;
+                }
+                return [`${label} R$ ${value.toLocaleString()}`, ''];
+              }}
               labelFormatter={(label) => `${label}`}
               cursor={{ stroke: '#FF6B00', strokeWidth: 1 }}
             />
             <Area
               type="monotone"
               dataKey="vendas"
-              name="Vendas"
+              name="vendas"
               stroke="#FF6B00"
               fill="url(#vendasGradient)"
               strokeWidth={2}
@@ -83,7 +97,7 @@ export const MonthlyPerformanceChart = () => {
             <Area
               type="monotone"
               dataKey="comissoes"
-              name="Comissões"
+              name="comissoes"
               stroke="#0EA5E9"
               fill="url(#comissoesGradient)"
               strokeWidth={2}
@@ -91,7 +105,7 @@ export const MonthlyPerformanceChart = () => {
             <Area
               type="monotone"
               dataKey="projecao"
-              name="Projeção"
+              name="projecao"
               stroke="#2563EB"
               fill="url(#projecaoGradient)"
               strokeWidth={2}
