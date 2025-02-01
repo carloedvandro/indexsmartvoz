@@ -2,6 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BarcodeScanner } from "@/components/BarcodeScanner";
 import { useToast } from "@/hooks/use-toast";
+import { ActivationTypeSelector } from "./ActivationTypeSelector";
+import { ESIMActivationFlow } from "./ESIMActivationFlow";
+import { useState } from "react";
 
 type Line = {
   id: number;
@@ -34,6 +37,7 @@ export function ChipActivationFlow({
   onScanningClose,
 }: ChipActivationFlowProps) {
   const { toast } = useToast();
+  const [activationType, setActivationType] = useState<'sim' | 'esim' | null>(null);
 
   const handleScanResult = (index: number, barcode: string) => {
     console.log("Barcode scanned:", barcode);
@@ -44,6 +48,27 @@ export function ChipActivationFlow({
     });
     onScanningClose();
   };
+
+  if (currentStep === 4 && !activationType) {
+    return (
+      <Card className="md:col-span-2 max-w-4xl mx-auto w-full">
+        <CardContent className="pt-6 space-y-8">
+          <ActivationTypeSelector onSelect={setActivationType} />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (activationType === 'esim') {
+    return (
+      <ESIMActivationFlow
+        currentStep={currentStep - 4}
+        phoneNumber="(51) 99566-4831"
+        onBack={onBack}
+        onContinue={onContinue}
+      />
+    );
+  }
 
   return (
     <>
@@ -129,14 +154,14 @@ export function ChipActivationFlow({
 
           <div className="flex justify-between">
             <Button 
-              className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+              className="bg-[#660099] hover:bg-[#660099]/90 text-white"
               onClick={onBack}
               type="button"
             >
               Voltar
             </Button>
             <Button 
-              className="bg-[#8425af] hover:bg-[#6c1e8f]"
+              className="bg-[#660099] hover:bg-[#660099]/90"
               onClick={onContinue}
               disabled={currentStep === 6 && selectedLines.some(line => !line.barcode)}
               type="button"
