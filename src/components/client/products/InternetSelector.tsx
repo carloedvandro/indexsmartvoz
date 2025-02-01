@@ -31,7 +31,7 @@ export function InternetSelector({
           <SelectValue />
         </div>
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="bg-white">
         {internetOptions.map((option) => (
           <SelectItem 
             key={option.value} 
