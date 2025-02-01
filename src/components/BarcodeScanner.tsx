@@ -16,10 +16,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       }
     },
     constraints: {
-      // Aumenta a resolução para melhor leitura de códigos longos
-      width: 1280,
-      height: 720,
-      facingMode: "environment",
+      facingMode: { exact: "environment" }
     },
     timeBetweenDecodingAttempts: 300,
   });
