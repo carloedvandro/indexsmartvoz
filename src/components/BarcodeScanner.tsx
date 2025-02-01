@@ -28,9 +28,11 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       setTimeout(() => setError(null), 3000);
     },
     constraints: {
-      facingMode: "environment",
-      width: { ideal: 1280 },
-      height: { ideal: 720 }
+      video: {
+        facingMode: "environment",
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      }
     },
     timeBetweenDecodingAttempts: 300,
   });
