@@ -123,6 +123,7 @@ export function ChipActivationFlow({
             <Button 
               className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
               onClick={onBack}
+              type="button"
             >
               Voltar
             </Button>
@@ -130,6 +131,7 @@ export function ChipActivationFlow({
               className="bg-[#8425af] hover:bg-[#6c1e8f]"
               onClick={onContinue}
               disabled={currentStep === 6 && selectedLines.some(line => !line.barcode)}
+              type="button"
             >
               {currentStep === 6 ? 'Finalizar' : 'Continuar'}
             </Button>
