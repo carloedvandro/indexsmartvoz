@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BarcodeScanner } from "@/components/BarcodeScanner";
+import { useToast } from "@/hooks/use-toast";
 
 type Line = {
   id: number;
@@ -32,14 +33,23 @@ export function ChipActivationFlow({
   onUpdateBarcode,
   onScanningClose,
 }: ChipActivationFlowProps) {
+  const { toast } = useToast();
+
+  const handleScanResult = (index: number, barcode: string) => {
+    console.log("Barcode scanned:", barcode);
+    onUpdateBarcode(index, barcode);
+    toast({
+      title: "Código escaneado com sucesso",
+      description: "O código do chip foi registrado.",
+    });
+    onScanningClose();
+  };
+
   return (
     <>
       {scanningIndex !== null && (
         <BarcodeScanner
-          onResult={(result) => {
-            onUpdateBarcode(scanningIndex, result);
-            onScanningClose();
-          }}
+          onResult={(result) => handleScanResult(scanningIndex, result)}
           onClose={onScanningClose}
         />
       )}
@@ -95,6 +105,7 @@ export function ChipActivationFlow({
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="font-medium">Código de barras do SIM card</p>
+                          <p className="text-sm text-gray-500">Linha: {line.ddd}</p>
                         </div>
                         <Button
                           onClick={() => onStartScanning(index)}
@@ -104,11 +115,8 @@ export function ChipActivationFlow({
                         </Button>
                       </div>
                     </div>
-                    <p className="text-sm text-gray-600 px-4">
-                      O código de barras tem 20 números.
-                    </p>
                     {line.barcode && (
-                      <div className="bg-gray-50 p-3 rounded mx-4">
+                      <div className="bg-gray-50 p-3 rounded">
                         <p className="text-sm font-medium text-gray-700">Código escaneado:</p>
                         <p className="text-sm font-mono">{line.barcode}</p>
                       </div>
