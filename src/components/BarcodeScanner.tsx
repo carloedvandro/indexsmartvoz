@@ -31,11 +31,11 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
     constraints: {
       video: {
         facingMode: "environment",
-        width: { ideal: 1280 },
-        height: { ideal: 720 }
+        width: { ideal: 640 },
+        height: { ideal: 480 }
       }
     },
-    timeBetweenDecodingAttempts: 500, // Aumentado para dar mais tempo entre tentativas
+    timeBetweenDecodingAttempts: 500,
   });
 
   useEffect(() => {
@@ -44,8 +44,8 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         const stream = await navigator.mediaDevices.getUserMedia({ 
           video: { 
             facingMode: "environment",
-            width: { ideal: 1280 },
-            height: { ideal: 720 }
+            width: { ideal: 640 },
+            height: { ideal: 480 }
           } 
         });
         
@@ -73,14 +73,14 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white p-4 rounded-lg w-[90%] max-w-[400px] mx-auto">
+      <div className="bg-white p-4 rounded-lg w-[320px] mx-auto">
         {hasPermission === false ? (
           <div className="text-center text-red-500 p-4">
             {error || "Por favor, permita o acesso à câmera para escanear o código."}
           </div>
         ) : (
           <>
-            <div className="relative aspect-[4/3]">
+            <div className="relative w-[280px] h-[200px] mx-auto">
               <video 
                 ref={ref} 
                 className="absolute inset-0 w-full h-full object-cover rounded"
