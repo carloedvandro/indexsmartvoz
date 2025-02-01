@@ -24,9 +24,9 @@ interface PlanSelectionStepProps {
 
 export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelectionStepProps) {
   const internetOptions = [
-    { value: "110GB", label: "100GB + 10GB", price: 124.99 },
-    { value: "120GB", label: "100GB + 20GB", price: 134.99 },
-    { value: "140GB", label: "120GB + 20GB", price: 144.99 },
+    { value: "110GB", label: "110GB", price: 124.99 },
+    { value: "120GB", label: "120GB", price: 134.99 },
+    { value: "140GB", label: "140GB", price: 144.99 },
   ];
 
   const handleAddLine = () => {
