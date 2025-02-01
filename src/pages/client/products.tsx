@@ -1,16 +1,12 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { PlanSelectionStep } from "@/components/client/products/PlanSelectionStep";
-import { OrderReviewStep } from "@/components/client/products/OrderReviewStep";
-import { DueDateStep } from "@/components/client/products/DueDateStep";
-import { ContractTermsStep } from "@/components/client/products/ContractTermsStep";
-import { SuccessScreen } from "@/components/client/products/SuccessScreen";
 import { useToast } from "@/hooks/use-toast";
 import { ProgressBar } from "@/components/client/products/ProgressBar";
 import { ChipActivationFlow } from "@/components/client/products/ChipActivationFlow";
+import { SuccessScreen } from "@/components/client/products/SuccessScreen";
+import { ProductsHeader } from "@/components/client/products/ProductsHeader";
+import { ProductsContainer } from "@/components/client/products/ProductsContainer";
+import { MainContent } from "@/components/client/products/MainContent";
 
 type Line = {
   id: number;
@@ -101,89 +97,41 @@ export default function ClientProducts() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto p-4 pb-16 space-y-6">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <h1 className="text-2xl font-bold">
-            {showChipActivation ? "Ativação do Chip" : "Contratação de Planos"}
-          </h1>
-        </div>
+    <ProductsContainer>
+      <ProductsHeader />
+      
+      <ProgressBar 
+        currentStep={currentStep} 
+        totalSteps={showChipActivation ? 6 : 4}
+        showChipActivation={showChipActivation}
+      />
 
-        <ProgressBar 
-          currentStep={currentStep} 
-          totalSteps={showChipActivation ? 6 : 4}
-          showChipActivation={showChipActivation}
-        />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {showChipActivation ? (
-            <ChipActivationFlow
-              currentStep={currentStep}
-              selectedLines={selectedLines}
-              scanningIndex={scanningIndex}
-              onBack={handleBack}
-              onContinue={handleContinue}
-              onStartScanning={(index) => setScanningIndex(index)}
-              onUpdateBarcode={handleUpdateBarcode}
-              onScanningClose={() => setScanningIndex(null)}
-            />
-          ) : (
-            <Card className="md:col-span-2 max-w-4xl mx-auto w-full">
-              <CardContent className="pt-6 space-y-8">
-                {currentStep === 1 && (
-                  <PlanSelectionStep
-                    selectedLines={selectedLines}
-                    setSelectedLines={setSelectedLines}
-                  />
-                )}
-
-                {currentStep === 2 && (
-                  <OrderReviewStep selectedLines={selectedLines} />
-                )}
-
-                {currentStep === 3 && (
-                  <DueDateStep
-                    selectedDueDate={selectedDueDate}
-                    onDueDateChange={setSelectedDueDate}
-                  />
-                )}
-
-                {currentStep === 4 && (
-                  <ContractTermsStep
-                    acceptedTerms={acceptedTerms}
-                    onTermsChange={setAcceptedTerms}
-                  />
-                )}
-
-                <div className="flex justify-between">
-                  {currentStep > 1 && (
-                    <Button 
-                      className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
-                      onClick={handleBack}
-                    >
-                      Voltar
-                    </Button>
-                  )}
-                  <Button 
-                    className="bg-[#8425af] hover:bg-[#6c1e8f] ml-auto"
-                    onClick={handleContinue}
-                    disabled={selectedLines.length === 0}
-                  >
-                    {currentStep === 4 ? 'Finalizar compra' : 'Continuar'}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {showChipActivation ? (
+          <ChipActivationFlow
+            currentStep={currentStep}
+            selectedLines={selectedLines}
+            scanningIndex={scanningIndex}
+            onBack={handleBack}
+            onContinue={handleContinue}
+            onStartScanning={(index) => setScanningIndex(index)}
+            onUpdateBarcode={handleUpdateBarcode}
+            onScanningClose={() => setScanningIndex(null)}
+          />
+        ) : (
+          <MainContent
+            currentStep={currentStep}
+            selectedLines={selectedLines}
+            selectedDueDate={selectedDueDate}
+            acceptedTerms={acceptedTerms}
+            setSelectedLines={setSelectedLines}
+            setSelectedDueDate={setSelectedDueDate}
+            setAcceptedTerms={setAcceptedTerms}
+            handleBack={handleBack}
+            handleContinue={handleContinue}
+          />
+        )}
       </div>
-    </div>
+    </ProductsContainer>
   );
 }
