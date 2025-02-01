@@ -8,9 +8,20 @@ interface BarcodeScannerProps {
 export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   const { ref } = useZxing({
     onDecodeResult(result) {
-      onResult(result.getText());
-      onClose();
+      const text = result.getText();
+      // Só aceita códigos com 20 dígitos que começam com 8955
+      if (text.length === 20 && text.startsWith('8955')) {
+        onResult(text);
+        onClose();
+      }
     },
+    constraints: {
+      // Aumenta a resolução para melhor leitura de códigos longos
+      width: 1280,
+      height: 720,
+      facingMode: "environment",
+    },
+    timeBetweenDecodingAttempts: 300,
   });
 
   return (
