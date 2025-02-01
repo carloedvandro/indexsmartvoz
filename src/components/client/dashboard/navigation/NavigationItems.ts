@@ -14,7 +14,7 @@ export const navigationItems: NavigationItem[] = [
         href: "/client/store",
       },
       {
-        title: "Produtos",
+        title: "Processo de contratação",
         href: "/client/products",
       }
     ],
