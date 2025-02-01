@@ -195,7 +195,7 @@ export default function ClientProducts() {
 
                 <div className="flex justify-between">
                   <Button 
-                    variant="outline"
+                    className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
                     onClick={handleBack}
                   >
                     Voltar
@@ -267,7 +267,7 @@ export default function ClientProducts() {
               <div className="flex justify-between">
                 {currentStep > 1 && (
                   <Button 
-                    variant="outline"
+                    className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
                     onClick={handleBack}
                   >
                     Voltar
