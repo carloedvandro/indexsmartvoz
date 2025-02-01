@@ -24,9 +24,9 @@ interface PlanSelectionStepProps {
 
 export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelectionStepProps) {
   const internetOptions = [
-    { value: "110GB", label: "100GB + 10GB" },
-    { value: "120GB", label: "100GB + 20GB" },
-    { value: "140GB", label: "120GB + 20GB" },
+    { value: "110GB", label: "100GB + 10GB", price: 124.99 },
+    { value: "120GB", label: "100GB + 20GB", price: 134.99 },
+    { value: "140GB", label: "120GB + 20GB", price: 144.99 },
   ];
 
   const handleAddLine = () => {
@@ -38,7 +38,7 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
           internet: "110GB",
           type: "Nova Linha",
           ddd: "",
-          price: 99.99,
+          price: 124.99, // Default price for 110GB plan
         },
       ]);
     }
@@ -47,6 +47,17 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
   const handleRemoveLine = (id: number) => {
     setSelectedLines(selectedLines.filter(line => line.id !== id));
   };
+
+  const handleInternetChange = (value: string, lineId: number) => {
+    const newPrice = internetOptions.find(option => option.value === value)?.price || 124.99;
+    setSelectedLines(selectedLines.map(line => 
+      line.id === lineId 
+        ? { ...line, internet: value, price: newPrice }
+        : line
+    ));
+  };
+
+  const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
 
   return (
     <div className="space-y-6">
@@ -75,7 +86,10 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-sm text-gray-600">Internet</label>
-                <Select defaultValue={line.internet}>
+                <Select 
+                  value={line.internet}
+                  onValueChange={(value) => handleInternetChange(value, line.id)}
+                >
                   <SelectTrigger className="bg-white">
                     <SelectValue />
                   </SelectTrigger>
@@ -101,6 +115,15 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
             </div>
           </div>
         ))}
+
+        {selectedLines.length > 0 && (
+          <div className="p-4 bg-purple-50 rounded-lg">
+            <div className="flex justify-between items-center font-medium">
+              <span>Total mensal:</span>
+              <span>R$ {totalPrice.toFixed(2)}/mês</span>
+            </div>
+          </div>
+        )}
 
         {selectedLines.length < 5 && (
           <Button
