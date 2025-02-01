@@ -125,13 +125,6 @@ export default function ClientProducts() {
                     </div>
 
                     <div className="space-y-2">
-                      <h2 className="text-xl font-semibold">Vamos confirmar sua identidade</h2>
-                      <p className="text-gray-600">
-                        Isso deixa o processo e seus dados ainda mais seguros
-                      </p>
-                    </div>
-
-                    <div className="space-y-2">
                       <h2 className="text-xl font-semibold">Só coloque o chip SIM card no aparelho quando concluir a troca</h2>
                       <p className="text-gray-600">
                         Assim você tem certeza de que a linha já está vinculada ao novo chip SIM card
@@ -157,38 +150,6 @@ export default function ClientProducts() {
                           className="max-w-full h-auto"
                         />
                       </div>
-                    </div>
-                  </div>
-                )}
-
-                {currentStep === 6 && (
-                  <div className="space-y-6">
-                    <h2 className="text-2xl font-bold">Escaneie o código de barras dos chips</h2>
-                    
-                    <div className="space-y-4">
-                      {selectedLines.map((line, index) => (
-                        <div key={line.id} className="space-y-2 p-4 bg-gray-50 rounded">
-                          <div className="flex justify-between items-center">
-                            <div>
-                              <span className="font-medium">Linha {line.ddd || ""}</span>
-                            </div>
-                          </div>
-                          
-                          <div className="relative">
-                            <Button
-                              onClick={() => startScanning(index)}
-                              className="w-full bg-[#8425af] hover:bg-[#6c1e8f]"
-                            >
-                              {line.barcode ? "Código escaneado" : "Escanear código de barras"}
-                            </Button>
-                          </div>
-                          {line.barcode && (
-                            <p className="text-sm text-green-600">
-                              Código escaneado com sucesso!
-                            </p>
-                          )}
-                        </div>
-                      ))}
                     </div>
                   </div>
                 )}
