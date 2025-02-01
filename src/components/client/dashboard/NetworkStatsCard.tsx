@@ -7,7 +7,7 @@ import { countMembersByStatus } from "@/utils/networkStats";
 import { NetworkStatsHeader } from "./components/NetworkStatsHeader";
 import { NetworkStatsGrid } from "./components/NetworkStatsGrid";
 import { ExpenseDistributionCard } from "./charts/ExpenseDistributionCard";
-import { BarPerformanceChart } from "./charts/variations/BarPerformanceChart";
+import { LinePerformanceChart } from "./charts/variations/LinePerformanceChart";
 import { generateCardData } from "./utils/statsUtils";
 
 export const NetworkStatsCard = () => {
@@ -44,7 +44,7 @@ export const NetworkStatsCard = () => {
       <NetworkStatsHeader />
       <NetworkStatsGrid cardData={cardData} />
       <ExpenseDistributionCard />
-      <BarPerformanceChart />
+      <LinePerformanceChart />
     </>
   );
 };
