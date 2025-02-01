@@ -134,7 +134,7 @@ export default function ClientProducts() {
                     <div className="space-y-2">
                       <h2 className="text-xl font-semibold">Só coloque os chips SIM cards nos aparelhos quando concluir a troca</h2>
                       <p className="text-gray-600">
-                        Assim você tem certeza de que a linha da sua empresa já está vinculada ao novo chip SIM card
+                        Assim você tem certeza de que a linha já está vinculada ao novo chip SIM card
                       </p>
                     </div>
                   </div>
