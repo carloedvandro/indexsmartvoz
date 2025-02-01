@@ -8,7 +8,36 @@ import {
   YAxis,
 } from "recharts";
 import { ChartHeader } from "./components/ChartHeader";
-import { monthlyData } from "./data/chartData";
+
+const monthlyData = [
+  { month: "JAN", percentage: 10 },
+  { month: "FEB", percentage: 20 },
+  { month: "MAR", percentage: 15 },
+  { month: "APR", percentage: 25 },
+  { month: "MAY", percentage: 30 },
+  { month: "JUN", percentage: 50 },
+  { month: "JUL", percentage: 60 },
+  { month: "AUG", percentage: 70 },
+  { month: "SEP", percentage: 65 },
+  { month: "OCT", percentage: 80 },
+  { month: "NOV", percentage: 90 },
+  { month: "DEC", percentage: 100 },
+];
+
+const getGradientColor = (percentage: number) => {
+  const colors = [
+    { threshold: 20, color: "#9C27B0" },    // Purple for lower values
+    { threshold: 40, color: "#2196F3" },    // Blue
+    { threshold: 60, color: "#4CAF50" },    // Green
+    { threshold: 80, color: "#FFC107" },    // Yellow
+    { threshold: 100, color: "#FF5722" },   // Orange/Red for higher values
+  ];
+
+  for (const { threshold, color } of colors) {
+    if (percentage <= threshold) return color;
+  }
+  return colors[colors.length - 1].color;
+};
 
 export const MonthlyPerformanceChart = () => {
   return (
@@ -26,23 +55,32 @@ export const MonthlyPerformanceChart = () => {
             }}
           >
             <defs>
-              <linearGradient id="vendasGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#FF6B00" stopOpacity={0.4} />
-                <stop offset="100%" stopColor="#FF6B00" stopOpacity={0.1} />
-              </linearGradient>
-              <linearGradient id="comissoesGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#0EA5E9" stopOpacity={0.4} />
-                <stop offset="100%" stopColor="#0EA5E9" stopOpacity={0.1} />
-              </linearGradient>
-              <linearGradient id="projecaoGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#2563EB" stopOpacity={0.4} />
-                <stop offset="100%" stopColor="#2563EB" stopOpacity={0.1} />
-              </linearGradient>
+              {monthlyData.map((entry, index) => (
+                <linearGradient
+                  key={`gradient-${index}`}
+                  id={`gradient-${entry.month}`}
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop
+                    offset="0%"
+                    stopColor={getGradientColor(entry.percentage)}
+                    stopOpacity={0.8}
+                  />
+                  <stop
+                    offset="100%"
+                    stopColor={getGradientColor(entry.percentage)}
+                    stopOpacity={0.2}
+                  />
+                </linearGradient>
+              ))}
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
-            <XAxis 
-              dataKey="month" 
-              stroke="#1f2937" 
+            <XAxis
+              dataKey="month"
+              stroke="#1f2937"
               fontSize={12}
               tickLine={false}
               axisLine={{ stroke: '#E5E7EB' }}
@@ -55,7 +93,8 @@ export const MonthlyPerformanceChart = () => {
               fontSize={12}
               tickLine={false}
               axisLine={{ stroke: '#E5E7EB' }}
-              tickFormatter={(value) => `R$ ${value.toLocaleString()}`}
+              tickFormatter={(value) => `${value}%`}
+              domain={[0, 100]}
               style={{
                 fontWeight: 'bold'
               }}
@@ -68,46 +107,15 @@ export const MonthlyPerformanceChart = () => {
                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
                 fontWeight: 'bold'
               }}
-              formatter={(value: number, name: string) => {
-                let label = "";
-                switch (name) {
-                  case "vendas":
-                    label = "Vendas";
-                    break;
-                  case "comissoes":
-                    label = "Comissões";
-                    break;
-                  case "projecao":
-                    label = "Projeção";
-                    break;
-                }
-                return [`${label} R$ ${value.toLocaleString()}`, ''];
-              }}
+              formatter={(value: number) => [`${value}%`, 'Performance']}
               labelFormatter={(label) => `${label}`}
-              cursor={{ stroke: '#FF6B00', strokeWidth: 1 }}
+              cursor={{ stroke: getGradientColor(50), strokeWidth: 1 }}
             />
             <Area
               type="monotone"
-              dataKey="vendas"
-              name="vendas"
-              stroke="#FF6B00"
-              fill="url(#vendasGradient)"
-              strokeWidth={2}
-            />
-            <Area
-              type="monotone"
-              dataKey="comissoes"
-              name="comissoes"
-              stroke="#0EA5E9"
-              fill="url(#comissoesGradient)"
-              strokeWidth={2}
-            />
-            <Area
-              type="monotone"
-              dataKey="projecao"
-              name="projecao"
-              stroke="#2563EB"
-              fill="url(#projecaoGradient)"
+              dataKey="percentage"
+              stroke={(data: any) => getGradientColor(data.percentage)}
+              fill={(data: any) => `url(#gradient-${data.month})`}
               strokeWidth={2}
             />
           </AreaChart>
