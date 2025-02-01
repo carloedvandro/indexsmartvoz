@@ -74,14 +74,14 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white p-4 rounded-lg w-[90%] max-w-[320px] mx-auto">
+      <div className="bg-white p-4 rounded-lg w-[90%] max-w-[400px] mx-auto"> {/* Increased max-width */}
         {hasPermission === false ? (
           <div className="text-center text-red-500 p-4">
             {error || "Por favor, permita o acesso à câmera para escanear o código."}
           </div>
         ) : (
           <>
-            <div className="relative aspect-video">
+            <div className="relative aspect-[2/1]"> {/* Changed aspect ratio to be wider */}
               <video 
                 ref={ref} 
                 className="absolute inset-0 w-full h-full object-cover rounded"
@@ -90,8 +90,8 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
               />
               <div className="absolute inset-0 border-2 border-[#8425af] rounded pointer-events-none">
                 <div className="absolute inset-x-0 top-1/2 h-0.5 bg-[#8425af]/30" />
-                <div className="absolute inset-y-0 left-1/4 w-0.5 bg-[#8425af]/30" />
-                <div className="absolute inset-y-0 right-1/4 w-0.5 bg-[#8425af]/30" />
+                <div className="absolute inset-y-0 left-1/6 w-0.5 bg-[#8425af]/30" /> {/* Adjusted guide lines */}
+                <div className="absolute inset-y-0 right-1/6 w-0.5 bg-[#8425af]/30" /> {/* Adjusted guide lines */}
               </div>
             </div>
             {error && (
