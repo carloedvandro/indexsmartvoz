@@ -104,7 +104,7 @@ export default function ClientChipActivation() {
                     
                     <div className="bg-gray-50 p-4 rounded-lg">
                       <img 
-                        src="/lovable-uploads/62cad4a3-236f-4561-b066-c0a118ab3b31.png" 
+                        src="/lovable-uploads/f5d55154-a62e-475f-b8de-b65ac463b3fc.png" 
                         alt="Exemplo de código de barras do SIM card"
                         className="max-w-full h-auto"
                       />
