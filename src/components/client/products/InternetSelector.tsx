@@ -25,10 +25,10 @@ export function InternetSelector({
 }: InternetSelectorProps) {
   return (
     <Select value={selectedInternet} onValueChange={onInternetChange}>
-      <SelectTrigger className="bg-white h-[52px]">
+      <SelectTrigger className="bg-white h-[52px] relative">
         <div className="flex flex-col items-start">
-          <span className="text-sm text-gray-600">Internet</span>
-          <SelectValue />
+          <span className="text-sm text-gray-600 absolute -top-6 transition-all">Internet</span>
+          <SelectValue className="pt-1" />
         </div>
       </SelectTrigger>
       <SelectContent className="bg-white">
