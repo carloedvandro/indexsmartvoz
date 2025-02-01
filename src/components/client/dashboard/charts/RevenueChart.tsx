@@ -7,7 +7,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { formatCurrency } from "@/utils/format";
 
 interface RevenueChartProps {
   data: {
@@ -47,14 +46,16 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               stroke="#000000"
               fontSize={12}
               tickLine={false}
-              axisLine={false}
+              axisLine={true}
+              strokeWidth={1}
             />
             <YAxis
               stroke="#000000"
               fontSize={12}
               tickLine={false}
-              axisLine={false}
-              tickFormatter={(value) => `R$ ${value.toLocaleString()}`}
+              axisLine={true}
+              strokeWidth={1}
+              tickFormatter={(value) => `R$ ${value}`}
               width={100}
             />
             <Tooltip 
@@ -66,9 +67,9 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               }}
               formatter={(value: number, name: string) => {
                 if (name === "value") {
-                  return [`R$ ${value.toLocaleString()}`, "Total Acumulado"];
+                  return [`R$ ${value}`, "Total Acumulado"];
                 }
-                return [`R$ ${value.toLocaleString()}`, "Valor do Dia"];
+                return [`R$ ${value}`, "Valor do Dia"];
               }}
               labelFormatter={(label) => `Dia ${label}`}
             />
@@ -80,6 +81,8 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               fillOpacity={1}
               fill="url(#colorGradient)"
               name="value"
+              dot={{ stroke: '#9b87f5', strokeWidth: 2, fill: '#ffffff', r: 4 }}
+              activeDot={{ stroke: '#9b87f5', strokeWidth: 2, fill: '#ffffff', r: 6 }}
             />
             <Area
               type="monotone"
@@ -89,6 +92,8 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               fillOpacity={0.3}
               fill="#00d71c"
               name="dailyValue"
+              dot={{ stroke: '#00d71c', strokeWidth: 2, fill: '#ffffff', r: 4 }}
+              activeDot={{ stroke: '#00d71c', strokeWidth: 2, fill: '#ffffff', r: 6 }}
             />
           </AreaChart>
         </ResponsiveContainer>
