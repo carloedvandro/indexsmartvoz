@@ -1,20 +1,23 @@
 export const monthlyData = [
-  { month: "JAN", value: 65000, trend: 45000, projected: 35000 },
-  { month: "FEV", value: 72000, trend: 52000, projected: 42000 },
-  { month: "MAR", value: 45000, trend: 48000, projected: 38000 },
-  { month: "ABR", value: 85000, trend: 55000, projected: 45000 },
-  { month: "MAI", value: 95000, trend: 65000, projected: 55000 },
-  { month: "JUN", value: 102000, trend: 75000, projected: 65000 },
-  { month: "JUL", value: 98000, trend: 82000, projected: 72000 },
-  { month: "AGO", value: 88000, trend: 80000, projected: 70000 },
-  { month: "SET", value: 72000, trend: 68000, projected: 58000 },
-  { month: "OUT", value: 85000, trend: 71000, projected: 61000 },
-  { month: "NOV", value: 95000, trend: 78000, projected: 68000 },
-  { month: "DEZ", value: 112000, trend: 85000, projected: 75000 },
+  { month: "02 de jan.", value: 6000 },
+  { month: "04 de jan.", value: 5800 },
+  { month: "06 de jan.", value: 5500 },
+  { month: "08 de jan.", value: 5000 },
+  { month: "10 de jan.", value: 4500 },
+  { month: "12 de jan.", value: 4000 },
+  { month: "14 de jan.", value: 6000 },
+  { month: "16 de jan.", value: 5800 },
+  { month: "18 de jan.", value: 5500 },
+  { month: "20 de jan.", value: 5000 },
+  { month: "22 de jan.", value: 4500 },
+  { month: "24 de jan.", value: 3500 },
+  { month: "26 de jan.", value: 3000 },
+  { month: "28 de jan.", value: 2000 },
+  { month: "31 de jan.", value: 1500 },
 ];
 
 export const chartColors = [
-  "#F97316", // Orange for primary series
+  "#8B5CF6", // Purple for primary series
   "#0EA5E9", // Teal for secondary series
   "#2563EB", // Blue for tertiary series
 ];
