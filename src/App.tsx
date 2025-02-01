@@ -13,6 +13,7 @@ import ClientCourses from '@/pages/client/courses';
 import ClientNews from '@/pages/client/news';
 import ClientUpgrade from '@/pages/client/upgrade';
 import ClientChipActivation from '@/pages/client/chip-activation';
+import ClientProducts from '@/pages/client/products';
 import AdminDashboard from '@/pages/admin/dashboard';
 import AdminLogin from '@/pages/admin/login';
 import AdminNetwork from '@/pages/admin/network';
@@ -43,6 +44,7 @@ function App() {
           <Route path="news" element={<ClientNews />} />
           <Route path="upgrade" element={<ClientUpgrade />} />
           <Route path="chip-activation" element={<ClientChipActivation />} />
+          <Route path="products" element={<ClientProducts />} />
         </Route>
 
         {/* Protected Admin Routes */}
