@@ -44,10 +44,6 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
     }
   };
 
-  const handleRemoveLine = (id: number) => {
-    setSelectedLines(selectedLines.filter(line => line.id !== id));
-  };
-
   const handleInternetChange = (value: string, lineId: number) => {
     const newPrice = internetOptions.find(option => option.value === value)?.price || 124.99;
     setSelectedLines(selectedLines.map(line => 
@@ -82,13 +78,6 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
           <div key={line.id} className="space-y-4 p-4 bg-gray-50 rounded-lg">
             <div className="flex justify-between items-center">
               <span className="font-medium">LINHA {String(line.id).padStart(2, '0')}</span>
-              <Button
-                className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
-                size="sm"
-                onClick={() => handleRemoveLine(line.id)}
-              >
-                Remover
-              </Button>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
