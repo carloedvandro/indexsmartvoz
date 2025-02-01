@@ -118,7 +118,7 @@ export default function ClientProducts() {
                 {currentStep === 4 && (
                   <div className="space-y-6">
                     <div className="space-y-2">
-                      <h2 className="text-xl font-semibold">Tenha os novos chips SIM cards com você</h2>
+                      <h2 className="text-xl font-semibold">Tenha o novo chip SIM card com você</h2>
                       <p className="text-gray-600">
                         Compre o chip pré-pago sem cadastro nas lojas de qualquer comércio. Não pode comprar nas lojas Vivo.
                       </p>
