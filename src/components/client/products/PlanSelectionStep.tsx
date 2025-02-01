@@ -76,10 +76,6 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
       <div className="space-y-4">
         {selectedLines.map((line) => (
           <div key={line.id} className="space-y-4 p-4 bg-gray-50 rounded-lg">
-            <div className="flex justify-between items-center">
-              <span className="font-medium">{String(line.id).padStart(2, '0')}</span>
-            </div>
-
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-sm text-gray-600">Internet</label>
