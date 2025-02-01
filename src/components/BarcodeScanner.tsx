@@ -16,7 +16,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       }
     },
     constraints: {
-      facingMode: { exact: "environment" }
+      facingMode: "environment"
     },
     timeBetweenDecodingAttempts: 300,
   });
