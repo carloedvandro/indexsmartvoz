@@ -113,7 +113,7 @@ export default function ClientProducts() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
+            <Card className="md:col-span-2 max-w-4xl mx-auto w-full">
               <CardContent className="pt-6 space-y-8">
                 {currentStep === 4 && (
                   <div className="space-y-6">
@@ -143,11 +143,11 @@ export default function ClientProducts() {
                         O código de barras está impresso no cartão do Vivo Chip, tem 20 números e começa com 8955, conforme o exemplo:
                       </p>
                       
-                      <div className="bg-gray-50 p-4 rounded-lg">
+                      <div className="bg-gray-50 p-4 rounded-lg flex justify-center">
                         <img 
                           src="/lovable-uploads/56082e79-b54d-4d20-b899-b44e7edec8d6.png" 
                           alt="Exemplo de código de barras do SIM card"
-                          className="max-w-full h-auto"
+                          className="w-[90%] h-auto"
                         />
                       </div>
                     </div>
