@@ -54,7 +54,7 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
       <div className="space-y-2">
         <h2 className="text-xl font-semibold">Personalize seu pedido</h2>
         <p className="text-gray-600">
-          Monte o plano ideal para a sua empresa. Você pode adicionar até 5 linhas personalizadas para a necessidade do seu negócio.
+          Confira aqui as melhores ofertas para você, cliente Smatvoz.
         </p>
       </div>
 
