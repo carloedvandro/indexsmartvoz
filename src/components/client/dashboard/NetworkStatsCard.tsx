@@ -6,8 +6,6 @@ import { useNetworkData } from "@/components/client/network/useNetworkData";
 import { countMembersByStatus } from "@/utils/networkStats";
 import { NetworkStatsHeader } from "./components/NetworkStatsHeader";
 import { NetworkStatsGrid } from "./components/NetworkStatsGrid";
-import { RevenueChart } from "./charts/RevenueChart";
-import { DailyRevenueChart } from "./charts/DailyRevenueChart";
 import { ExpenseDistributionCard } from "./charts/ExpenseDistributionCard";
 import { MonthlyPerformanceChart } from "./charts/MonthlyPerformanceChart";
 import { generateCardData, generateRevenueData } from "./utils/statsUtils";
@@ -49,12 +47,6 @@ export const NetworkStatsCard = () => {
         <NetworkStatsGrid cardData={cardData} />
         <ExpenseDistributionCard />
         <MonthlyPerformanceChart />
-        <div className="w-full max-w-[1800px] mx-auto">
-          <RevenueChart data={revenueData} />
-        </div>
-        <div className="w-full max-w-[1800px] mx-auto bg-white rounded-lg shadow-sm p-6">
-          <DailyRevenueChart data={revenueData} />
-        </div>
       </div>
     </div>
   );
