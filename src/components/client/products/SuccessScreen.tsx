@@ -31,7 +31,7 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
           </p>
           <p className="text-lg">
             {showBarcodes 
-              ? "O prazo do sistema para concluir ativação e o funcionamento da linha neste chip é de até 48 horas."
+              ? "Você já pode colocar o novo chip no aparelho pra fazer e usar a internet"
               : "Em breve nossa equipe entrará em contato para finalizar sua contratação"
             }
           </p>
