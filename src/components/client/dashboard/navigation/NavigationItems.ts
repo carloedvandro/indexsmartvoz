@@ -15,11 +15,16 @@ export const navigationItems: NavigationItem[] = [
       },
       {
         title: "Pedidos",
-        href: "/client/orders",
-      },
-      {
-        title: "Ativação do Chip do Plano",
-        href: "/client/chip-activation",
+        items: [
+          {
+            title: "Meus Pedidos",
+            href: "/client/orders",
+          },
+          {
+            title: "Ativação do Chip do Plano",
+            href: "/client/chip-activation",
+          }
+        ]
       },
       {
         title: "Produtos",
