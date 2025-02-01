@@ -19,7 +19,7 @@ interface RevenueChartProps {
 
 export const RevenueChart = ({ data }: RevenueChartProps) => {
   return (
-    <div className="space-y-8 bg-white rounded-lg p-6 shadow-sm border border-gray-100">
+    <div className="space-y-8 bg-white rounded-lg p-6 shadow-sm border border-gray-100 mx-[-2rem]">
       <CardHeader className="p-0">
         <CardTitle className="text-2xl font-bold text-center">
           Faturamento Acumulado do Mês
@@ -31,8 +31,8 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
             data={data}
             margin={{
               top: 20,
-              right: 10,
-              left: 10,
+              right: 20,
+              left: 20,
               bottom: 0,
             }}
           >
