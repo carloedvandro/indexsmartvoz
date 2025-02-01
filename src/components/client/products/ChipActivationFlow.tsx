@@ -52,29 +52,61 @@ export function ChipActivationFlow({
     onScanningClose();
   };
 
+  const renderProgressBar = () => {
+    return (
+      <div className="flex items-center justify-between mb-8 max-w-3xl mx-auto">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <div key={index} className="flex items-center flex-1">
+            <div className={`w-8 h-8 rounded-full ${
+              currentStep >= index + 1 ? 'bg-[#8425af]' : 'bg-gray-200'
+            } text-white flex items-center justify-center font-medium`}>
+              {index + 1}
+            </div>
+            {index < 5 && (
+              <div className={`flex-1 h-1 ${
+                currentStep >= index + 2 ? 'bg-[#8425af]' : 'bg-gray-200'
+              } mx-2`} />
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   if (currentStep === 4 && !activationType) {
     return (
-      <Card className="md:col-span-2 max-w-4xl mx-auto w-full">
-        <CardContent className="pt-6 space-y-8">
-          <ActivationTypeSelector onSelect={setActivationType} />
-        </CardContent>
-      </Card>
+      <div className="w-full">
+        <h1 className="text-2xl font-bold mb-6">Contratação de Planos</h1>
+        {renderProgressBar()}
+        <Card className="md:col-span-2 max-w-4xl mx-auto w-full">
+          <CardContent className="pt-6 space-y-8">
+            <ActivationTypeSelector onSelect={setActivationType} />
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
   if (activationType === 'esim') {
     return (
-      <ESIMActivationFlow
-        currentStep={currentStep - 4}
-        phoneNumber="(51) 99566-4831"
-        onBack={onBack}
-        onContinue={onContinue}
-      />
+      <div className="w-full">
+        <h1 className="text-2xl font-bold mb-6">Contratação de Planos</h1>
+        {renderProgressBar()}
+        <ESIMActivationFlow
+          currentStep={currentStep - 4}
+          phoneNumber="(51) 99566-4831"
+          onBack={onBack}
+          onContinue={onContinue}
+        />
+      </div>
     );
   }
 
   return (
-    <>
+    <div className="w-full">
+      <h1 className="text-2xl font-bold mb-6">Contratação de Planos</h1>
+      {renderProgressBar()}
+      
       {scanningIndex !== null && (
         <BarcodeScanner
           onResult={(result) => handleScanResult(scanningIndex, result)}
@@ -93,21 +125,21 @@ export function ChipActivationFlow({
 
       <div className="flex justify-between mt-6">
         <Button 
-          className="bg-[#660099] hover:bg-[#660099]/90 text-white"
+          variant="default"
+          className="bg-[#660099] hover:bg-[#660099]/90 text-white rounded-md px-8"
           onClick={onBack}
-          type="button"
         >
           Voltar
         </Button>
         <Button 
-          className="bg-[#660099] hover:bg-[#660099]/90"
+          variant="default"
+          className="bg-[#9b87f5] hover:bg-[#9b87f5]/90 text-white rounded-md px-8"
           onClick={onContinue}
           disabled={currentStep === 6 && selectedLines.some(line => !line.barcode)}
-          type="button"
         >
           {currentStep === 6 ? 'Finalizar' : 'Continuar'}
         </Button>
       </div>
-    </>
+    </div>
   );
 }
