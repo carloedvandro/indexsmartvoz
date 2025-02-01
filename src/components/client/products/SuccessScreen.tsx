@@ -20,55 +20,34 @@ interface SuccessScreenProps {
 export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarcodes }: SuccessScreenProps) {
   return (
     <div className="min-h-screen bg-[#660099] text-white flex items-center justify-center p-4">
-      <div className="max-w-lg w-full space-y-6">
+      <div className="max-w-lg w-full space-y-8">
         <div className="space-y-4 text-center">
           <h2 className="text-3xl font-bold">Deu certo!</h2>
           <p className="text-2xl">
-            {showBarcodes 
-              ? "Você solicitou a ativação do chip"
-              : "Você solicitou a contratação dos planos"
-            }
+            Você solicitou a ativação do chip
           </p>
-          <p className="text-lg">
-            {showBarcodes 
-              ? "O prazo do sistema para concluir ativação e o funcionamento da linha neste chip é de até 48 horas."
-              : "Em breve nossa equipe entrará em contato para finalizar sua contratação"
-            }
+          <p className="text-lg text-center">
+            O prazo do sistema para concluir ativação e o funcionamento da linha neste chip é de até 48 horas.
           </p>
         </div>
 
         <div className="bg-white/10 rounded-lg p-4">
-          <table className="w-full text-left">
+          <table className="w-full">
             <thead>
-              <tr className="border-b border-white/20">
-                <th className="py-2 px-4 border-r border-white/20">
-                  {showBarcodes ? "DDD" : "Plano"}
-                </th>
-                <th className="py-2 px-4">
-                  {showBarcodes ? "Código de barras do SIM card" : "Valor"}
-                </th>
+              <tr>
+                <th className="py-2 px-4 text-left w-1/4">ICCID</th>
+                <th className="py-2 px-4 text-left">Código de barras do SIM card</th>
               </tr>
             </thead>
             <tbody>
               {selectedLines.map((line) => (
-                <tr key={line.id} className="border-t border-white/20">
-                  <td className="py-2 px-4 flex items-center gap-2 border-r border-white/20">
+                <tr key={line.id}>
+                  <td className="py-2 px-4 flex items-center gap-2">
                     <Check className="text-green-400" size={16} />
-                    {showBarcodes 
-                      ? `DDD ${line.ddd}`
-                      : `${line.internet} - ${line.type}`
-                    }
+                    {line.ddd}
                   </td>
-                  <td className="py-2 px-4 flex items-center">
-                    {showBarcodes 
-                      ? (
-                        <div className="flex flex-col">
-                          <span className="text-sm text-white/70">ICCID</span>
-                          <span className="font-mono tracking-wider">{line.barcode}</span>
-                        </div>
-                      )
-                      : `R$ ${line.price.toFixed(2)}/mês`
-                    }
+                  <td className="py-2 px-4 font-mono">
+                    {line.barcode}
                   </td>
                 </tr>
               ))}
@@ -81,7 +60,7 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
         <div className="flex justify-center">
           <Button
             onClick={onUnderstand}
-            className="bg-[#660099] hover:bg-[#660099]/90 text-white min-w-[200px] border border-white/30 rounded-lg"
+            className="bg-transparent hover:bg-white/10 text-white border border-white/30 rounded-lg px-8 py-3 min-w-[200px]"
           >
             Entendi
           </Button>
