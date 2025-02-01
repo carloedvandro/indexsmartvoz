@@ -91,7 +91,7 @@ export default function ClientProducts() {
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
-            <h1 className="text-2xl font-bold">Ativação do Chip do Plano</h1>
+            <h1 className="text-2xl font-bold">Ativação do Chip</h1>
           </div>
 
           <div className="flex items-center justify-between mb-8 max-w-3xl mx-auto">
