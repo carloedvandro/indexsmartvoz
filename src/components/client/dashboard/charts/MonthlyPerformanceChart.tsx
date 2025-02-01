@@ -114,8 +114,8 @@ export const MonthlyPerformanceChart = () => {
             <Area
               type="monotone"
               dataKey="percentage"
-              stroke={(data: any) => getGradientColor(data.percentage)}
-              fill={(data: any) => `url(#gradient-${data.month})`}
+              stroke={getGradientColor(50)}
+              fill={`url(#gradient-${monthlyData[0].month})`}
               strokeWidth={2}
             />
           </AreaChart>
