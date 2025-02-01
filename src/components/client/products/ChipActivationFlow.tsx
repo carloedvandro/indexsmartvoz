@@ -7,6 +7,7 @@ import { ESIMActivationFlow } from "./ESIMActivationFlow";
 import { SimCardInstructionsStep } from "./steps/SimCardInstructionsStep";
 import { BarcodeInstructionsStep } from "./steps/BarcodeInstructionsStep";
 import { BarcodeScanningStep } from "./steps/BarcodeScanningStep";
+import { ProgressBar } from "./ProgressBar";
 import { useState } from "react";
 
 type Line = {
@@ -52,32 +53,11 @@ export function ChipActivationFlow({
     onScanningClose();
   };
 
-  const renderProgressBar = () => {
-    return (
-      <div className="flex items-center justify-between mb-8 max-w-3xl mx-auto">
-        {Array.from({ length: 6 }).map((_, index) => (
-          <div key={index} className="flex items-center flex-1">
-            <div className={`w-8 h-8 rounded-full ${
-              currentStep >= index + 1 ? 'bg-[#8425af]' : 'bg-gray-200'
-            } text-white flex items-center justify-center font-medium`}>
-              {index + 1}
-            </div>
-            {index < 5 && (
-              <div className={`flex-1 h-1 ${
-                currentStep >= index + 2 ? 'bg-[#8425af]' : 'bg-gray-200'
-              } mx-2`} />
-            )}
-          </div>
-        ))}
-      </div>
-    );
-  };
-
   if (currentStep === 4 && !activationType) {
     return (
       <div className="w-full">
         <h1 className="text-2xl font-bold mb-6">Contratação de Planos</h1>
-        {renderProgressBar()}
+        <ProgressBar currentStep={currentStep} totalSteps={6} />
         <Card className="md:col-span-2 max-w-4xl mx-auto w-full">
           <CardContent className="pt-6 space-y-8">
             <ActivationTypeSelector onSelect={setActivationType} />
@@ -91,7 +71,7 @@ export function ChipActivationFlow({
     return (
       <div className="w-full">
         <h1 className="text-2xl font-bold mb-6">Contratação de Planos</h1>
-        {renderProgressBar()}
+        <ProgressBar currentStep={currentStep} totalSteps={6} />
         <ESIMActivationFlow
           currentStep={currentStep - 4}
           phoneNumber="(51) 99566-4831"
@@ -105,7 +85,7 @@ export function ChipActivationFlow({
   return (
     <div className="w-full">
       <h1 className="text-2xl font-bold mb-6">Contratação de Planos</h1>
-      {renderProgressBar()}
+      <ProgressBar currentStep={currentStep} totalSteps={6} />
       
       {scanningIndex !== null && (
         <BarcodeScanner
@@ -126,14 +106,14 @@ export function ChipActivationFlow({
       <div className="flex justify-between mt-6">
         <Button 
           variant="default"
-          className="bg-[#660099] hover:bg-[#660099]/90 text-white rounded-md px-8"
+          className="bg-[#8425af] hover:bg-[#8425af]/90 text-white rounded-full px-8 py-3"
           onClick={onBack}
         >
           Voltar
         </Button>
         <Button 
           variant="default"
-          className="bg-[#9b87f5] hover:bg-[#9b87f5]/90 text-white rounded-md px-8"
+          className="bg-[#9b87f5] hover:bg-[#9b87f5]/90 text-white rounded-full px-8 py-3"
           onClick={onContinue}
           disabled={currentStep === 6 && selectedLines.some(line => !line.barcode)}
         >

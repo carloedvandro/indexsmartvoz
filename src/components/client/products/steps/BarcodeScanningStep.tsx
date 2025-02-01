@@ -32,7 +32,7 @@ export function BarcodeScanningStep({ selectedLines, onStartScanning }: BarcodeS
                     </div>
                     <Button
                       onClick={() => onStartScanning(index)}
-                      className="bg-[#8425af] hover:bg-[#8425af]/90 text-white"
+                      className="bg-[#8425af] hover:bg-[#8425af]/90 text-white rounded-full px-6"
                     >
                       Escanear código
                     </Button>
