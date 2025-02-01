@@ -56,16 +56,14 @@ export function MainContent({
           />
         )}
 
-        {currentStep > 1 && (
-          <div className="flex justify-between">
-            <Button 
-              className="bg-[#8425af] hover:bg-[#6c1e8f] ml-auto text-white"
-              onClick={handleContinue}
-            >
-              {currentStep === 4 ? 'Finalizar compra' : 'Continuar'}
-            </Button>
-          </div>
-        )}
+        <div className="flex justify-between">
+          <Button 
+            className="bg-[#8425af] hover:bg-[#6c1e8f] ml-auto text-white"
+            onClick={handleContinue}
+          >
+            {currentStep === 4 ? 'Finalizar compra' : 'Continuar'}
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
