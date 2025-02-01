@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { SimCard } from "lucide-react";
+import { CreditCard } from "lucide-react";
 
 interface ActivationTypeSelectorProps {
   onSelect: (type: 'sim' | 'esim') => void;
@@ -13,7 +13,7 @@ export function ActivationTypeSelector({ onSelect }: ActivationTypeSelectorProps
         onClick={() => onSelect('esim')}
       >
         <div className="text-[#660099]">
-          <SimCard className="h-6 w-6" />
+          <CreditCard className="h-6 w-6" />
         </div>
         <span className="text-lg">Trocar o eSIM</span>
       </Card>
@@ -23,7 +23,7 @@ export function ActivationTypeSelector({ onSelect }: ActivationTypeSelectorProps
         onClick={() => onSelect('sim')}
       >
         <div className="text-[#660099]">
-          <SimCard className="h-6 w-6" />
+          <CreditCard className="h-6 w-6" />
         </div>
         <span className="text-lg">Trocar pra SIM card</span>
       </Card>
