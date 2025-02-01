@@ -8,6 +8,8 @@ interface ActivationTypeSelectorProps {
 export function ActivationTypeSelector({ onSelect }: ActivationTypeSelectorProps) {
   return (
     <div className="space-y-4">
+      <h2 className="text-2xl font-semibold mb-6">Escolha o tipo de ativação</h2>
+      
       <Card 
         className="p-4 cursor-pointer hover:bg-gray-50 transition-colors flex items-center gap-3"
         onClick={() => onSelect('esim')}
@@ -15,7 +17,10 @@ export function ActivationTypeSelector({ onSelect }: ActivationTypeSelectorProps
         <div className="text-[#660099]">
           <CreditCard className="h-6 w-6" />
         </div>
-        <span className="text-lg">Trocar o eSIM</span>
+        <div>
+          <span className="text-lg font-medium">Trocar o eSIM</span>
+          <p className="text-sm text-gray-600">Ative o chip virtual no seu celular</p>
+        </div>
       </Card>
 
       <Card 
@@ -25,7 +30,10 @@ export function ActivationTypeSelector({ onSelect }: ActivationTypeSelectorProps
         <div className="text-[#660099]">
           <CreditCard className="h-6 w-6" />
         </div>
-        <span className="text-lg">Trocar pra SIM card</span>
+        <div>
+          <span className="text-lg font-medium">Trocar pra SIM card</span>
+          <p className="text-sm text-gray-600">Ative o chip físico no seu celular</p>
+        </div>
       </Card>
     </div>
   );
