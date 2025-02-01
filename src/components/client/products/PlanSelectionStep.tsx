@@ -74,10 +74,9 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
             <div className="flex justify-between items-center">
               <span className="font-medium">LINHA {String(line.id).padStart(2, '0')}</span>
               <Button
-                variant="ghost"
+                className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
                 size="sm"
                 onClick={() => handleRemoveLine(line.id)}
-                className="text-red-500 hover:text-red-600"
               >
                 Remover
               </Button>
@@ -132,8 +131,7 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
         {selectedLines.length < 5 && (
           <Button
             onClick={handleAddLine}
-            variant="outline"
-            className="w-full"
+            className="w-full bg-[#8425af] hover:bg-[#6c1e8f] text-white"
           >
             Adicionar nova linha
           </Button>
