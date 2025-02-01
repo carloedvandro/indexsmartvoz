@@ -14,10 +14,6 @@ export const navigationItems: NavigationItem[] = [
         href: "/client/store",
       },
       {
-        title: "Ativação do Chip do Plano",
-        href: "/client/chip-activation",
-      },
-      {
         title: "Produtos",
         href: "/client/products",
       }
