@@ -1,12 +1,12 @@
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Legend,
-  ResponsiveContainer,
-  Tooltip,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
 } from "recharts";
 import { ChartHeader } from "./components/ChartHeader";
 import { monthlyData } from "./data/chartData";
@@ -17,7 +17,7 @@ export const MonthlyPerformanceChart = () => {
       <ChartHeader title="Performance Mensal" />
       <div className="h-[320px] w-full mt-12">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart
+          <LineChart
             data={monthlyData}
             margin={{
               top: 20,
@@ -27,84 +27,83 @@ export const MonthlyPerformanceChart = () => {
             }}
           >
             <defs>
-              <linearGradient id="salesGradient" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#ff0080" />
-                <stop offset="50%" stopColor="#8B5CF6" />
-                <stop offset="100%" stopColor="#ff0080" />
-              </linearGradient>
-              <linearGradient id="commissionsGradient" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#F97316" />
-                <stop offset="50%" stopColor="#fb923c" />
-                <stop offset="100%" stopColor="#F97316" />
-              </linearGradient>
-              <linearGradient id="projectionGradient" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#0FA0CE" />
-                <stop offset="50%" stopColor="#38bdf8" />
-                <stop offset="100%" stopColor="#0FA0CE" />
-              </linearGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+                <feMerge>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
-            <XAxis 
-              dataKey="month" 
-              stroke="#1f2937" 
+            <CartesianGrid 
+              strokeDasharray="3 3" 
+              stroke="#2d2d2d" 
+              vertical={false} 
+            />
+            <XAxis
+              dataKey="month"
+              stroke="#ffffff"
               fontSize={12}
               tickLine={false}
-              axisLine={{ stroke: '#E5E7EB' }}
+              axisLine={{ stroke: '#404040' }}
               style={{
                 fontWeight: 'bold'
               }}
             />
             <YAxis
-              stroke="#1f2937"
+              stroke="#ffffff"
               fontSize={12}
               tickLine={false}
-              axisLine={{ stroke: '#E5E7EB' }}
-              tickFormatter={(value) => `${value}`}
+              axisLine={{ stroke: '#404040' }}
               style={{
                 fontWeight: 'bold'
               }}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: "#ffffff",
-                border: "1px solid #e5e7eb",
+                backgroundColor: "rgba(0, 0, 0, 0.8)",
+                border: "1px solid #404040",
                 borderRadius: "8px",
-                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                color: "#ffffff",
                 fontWeight: 'bold'
               }}
-              cursor={{ fill: 'rgba(0, 0, 0, 0.04)' }}
+              cursor={{ stroke: 'rgba(255, 255, 255, 0.2)' }}
             />
             <Legend 
               wrapperStyle={{
                 paddingTop: "20px",
+                color: "#ffffff",
                 fontWeight: 'bold'
               }}
             />
-            <Bar
+            <Line
+              type="monotone"
               dataKey="value"
               name="Vendas"
-              fill="url(#salesGradient)"
-              radius={[4, 4, 0, 0]}
-              barSize={16}
-              className="animate-rainbow"
+              stroke="#8B5CF6"
+              strokeWidth={3}
+              dot={{ fill: "#8B5CF6", r: 4 }}
+              filter="url(#glow)"
             />
-            <Bar
+            <Line
+              type="monotone"
               dataKey="trend"
               name="Comissões"
-              fill="url(#commissionsGradient)"
-              radius={[4, 4, 0, 0]}
-              barSize={16}
-              className="animate-rainbow"
+              stroke="#F97316"
+              strokeWidth={3}
+              dot={{ fill: "#F97316", r: 4 }}
+              filter="url(#glow)"
             />
-            <Bar
+            <Line
+              type="monotone"
               dataKey="projected"
               name="Projeção"
-              fill="url(#projectionGradient)"
-              radius={[4, 4, 0, 0]}
-              barSize={16}
-              className="animate-rainbow"
+              stroke="#0EA5E9"
+              strokeWidth={3}
+              dot={{ fill: "#0EA5E9", r: 4 }}
+              filter="url(#glow)"
             />
-          </BarChart>
+          </LineChart>
         </ResponsiveContainer>
       </div>
     </>
