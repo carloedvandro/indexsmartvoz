@@ -9,7 +9,7 @@ export const navigationItems: NavigationItem[] = [
     title: "Loja Virtual",
     items: [
       {
-        title: "Minha Loja",
+        title: "Planos",
         href: "/client/store",
       },
       {
