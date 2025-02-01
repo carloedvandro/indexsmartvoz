@@ -1,13 +1,11 @@
 import {
   Bar,
-  BarChart,
+  ComposedChart,
   Line,
-  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
-  ComposedChart,
   Cell,
 } from "recharts";
 
@@ -88,9 +86,6 @@ export const MonthlyPerformanceChart = () => {
                 <Cell
                   key={`cell-${index}`}
                   fill={colors[index]}
-                  style={{
-                    filter: "drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))",
-                  }}
                 />
               ))}
             </Bar>
