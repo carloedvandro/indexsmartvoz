@@ -87,7 +87,7 @@ export function ChipActivationFlow({
 
           {currentStep === 6 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-semibold">Código de barras do SIM card</h2>
+              <h2 className="text-xl font-semibold">Escaneie o código de barra do chip</h2>
               <div className="space-y-4">
                 {selectedLines.map((line, index) => (
                   <div key={line.id} className="flex flex-col space-y-3">
