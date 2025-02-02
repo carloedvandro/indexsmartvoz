@@ -43,7 +43,7 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
               <thead>
                 <tr className="border-b border-white/20">
                   <th className="py-3 px-4">
-                    {showBarcodes ? "ICCID" : "Plano"}
+                    {showBarcodes ? "32" : "Plano"}
                   </th>
                   <th className="py-3 px-4">
                     {showBarcodes ? "Código de barras do SIM card" : "Valor"}
@@ -53,18 +53,28 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
               <tbody>
                 {selectedLines.map((line) => (
                   <tr key={line.id} className="border-t border-white/20">
-                    <td className="py-3 px-4 flex items-center gap-2">
-                      <Check className="text-green-400" size={16} />
-                      {showBarcodes 
-                        ? "32"
-                        : `${line.internet} - ${line.type}`
-                      }
+                    <td className="py-3 px-4">
+                      {showBarcodes ? (
+                        <div className="flex items-center gap-2">
+                          <Check className="text-green-400" size={16} />
+                          <span>32</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <Check className="text-green-400" size={16} />
+                          {`${line.internet} - ${line.type}`}
+                        </div>
+                      )}
                     </td>
                     <td className="py-3 px-4">
-                      {showBarcodes 
-                        ? line.barcode
-                        : `R$ ${line.price.toFixed(2)}/mês`
-                      }
+                      {showBarcodes ? (
+                        <div className="flex items-center gap-2">
+                          ICCID
+                          <span>{line.barcode}</span>
+                        </div>
+                      ) : (
+                        `R$ ${line.price.toFixed(2)}/mês`
+                      )}
                     </td>
                   </tr>
                 ))}
