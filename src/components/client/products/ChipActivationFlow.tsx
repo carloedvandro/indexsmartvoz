@@ -113,7 +113,7 @@ export function ChipActivationFlow({
                   <img 
                     src="/lovable-uploads/d69533d2-3f69-40d2-a116-76c824330a2a.png" 
                     alt="Exemplo de código de barras do chip"
-                    className="max-w-[300px] w-full"
+                    className="max-w-[400px] w-full" // Increased from 300px to 400px
                   />
                 </div>
               </div>
