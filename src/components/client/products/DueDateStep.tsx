@@ -15,7 +15,7 @@ export function DueDateStep({ selectedDueDate, onDueDateChange }: DueDateStepPro
         <h2 className="text-xl font-semibold">Escolha a melhor data de vencimento da sua fatura:</h2>
       </div>
 
-      <div className="max-w-xl mx-auto grid grid-cols-4 gap-x-12 gap-y-2">
+      <div className="max-w-xl mx-auto grid grid-cols-4 gap-x-12 gap-y-1">
         {dueDates.slice(0, 4).map((date) => (
           <Card 
             key={date}
