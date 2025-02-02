@@ -76,7 +76,7 @@ export function ChipActivationFlow({
 
           {currentStep === 5 && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold">Confira como você encontra o código de barras do SIM card</h2>
+              <h2 className="text-2xl font-medium">Confira como você encontra o código de barras do SIM card</h2>
               
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold">COMO ENCONTRAR?</h3>
@@ -169,6 +169,7 @@ export function ChipActivationFlow({
               {currentStep === 6 ? 'Finalizar' : 'Continuar'}
             </Button>
           </div>
+
         </CardContent>
       </Card>
     </>
