@@ -58,14 +58,14 @@ export function MainContent({
         )}
 
         {currentStep === 2 && (
-          <OrderReviewStep selectedLines={selectedLines} />
-        )}
-
-        {currentStep === 3 && (
           <DueDateStep
             selectedDueDate={selectedDueDate}
             onDueDateChange={setSelectedDueDate}
           />
+        )}
+
+        {currentStep === 3 && (
+          <OrderReviewStep selectedLines={selectedLines} />
         )}
 
         {currentStep === 4 && (
