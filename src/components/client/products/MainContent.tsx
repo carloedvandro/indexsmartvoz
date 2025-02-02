@@ -61,6 +61,12 @@ export function MainContent({
       return;
     }
 
+    if (currentStep === 3 && acceptedTerms) {
+      const protocolNumber = new Date().getTime().toString();
+      navigate("/client/dashboard");
+      return;
+    }
+
     handleContinue();
   };
 
