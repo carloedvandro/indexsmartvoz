@@ -15,11 +15,11 @@ export function DueDateStep({ selectedDueDate, onDueDateChange }: DueDateStepPro
         <h2 className="text-xl font-semibold">Escolha a melhor data de vencimento da sua fatura:</h2>
       </div>
 
-      <div className="max-w-xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-2">
+      <div className="max-w-xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-1">
         {dueDates.map((date) => (
           <Card 
             key={date}
-            className={`cursor-pointer transition-colors w-14 h-14 ${
+            className={`cursor-pointer transition-colors w-16 h-16 ${
               selectedDueDate === date 
                 ? 'bg-[#8425af] text-white' 
                 : 'bg-white hover:bg-gray-50'
