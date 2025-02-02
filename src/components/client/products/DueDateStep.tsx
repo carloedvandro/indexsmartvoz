@@ -16,18 +16,18 @@ export function DueDateStep({ selectedDueDate, onDueDateChange }: DueDateStepPro
         <h2 className="text-xl font-semibold">Escolha a melhor data de vencimento da sua fatura:</h2>
       </div>
 
-      <div className="max-w-xl mx-auto grid grid-cols-4 gap-x-6 gap-y-4">
+      <div className="max-w-xl mx-auto grid grid-cols-4 gap-x-0.5 gap-y-0.5">
         {dueDatesRow1.map((date) => (
           <Card 
             key={date}
-            className={`cursor-pointer transition-colors w-20 h-20 ${
+            className={`cursor-pointer transition-colors h-[72px] w-[72px] flex items-center justify-center ${
               selectedDueDate === date 
                 ? 'bg-[#8425af] text-white' 
                 : 'bg-white hover:bg-gray-50'
             }`}
             onClick={() => onDueDateChange(date)}
           >
-            <CardContent className="flex items-center justify-center h-full p-1">
+            <CardContent className="flex items-center justify-center h-full p-0">
               <span className="text-lg font-medium">{String(date).padStart(2, '0')}</span>
             </CardContent>
           </Card>
@@ -35,14 +35,14 @@ export function DueDateStep({ selectedDueDate, onDueDateChange }: DueDateStepPro
         {dueDatesRow2.map((date) => (
           <Card 
             key={date}
-            className={`cursor-pointer transition-colors w-20 h-20 ${
+            className={`cursor-pointer transition-colors h-[72px] w-[72px] flex items-center justify-center ${
               selectedDueDate === date 
                 ? 'bg-[#8425af] text-white' 
                 : 'bg-white hover:bg-gray-50'
             }`}
             onClick={() => onDueDateChange(date)}
           >
-            <CardContent className="flex items-center justify-center h-full p-1">
+            <CardContent className="flex items-center justify-center h-full p-0">
               <span className="text-lg font-medium">{String(date).padStart(2, '0')}</span>
             </CardContent>
           </Card>
