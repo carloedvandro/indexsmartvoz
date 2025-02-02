@@ -52,15 +52,6 @@ export function MainContent({
       }
     }
 
-    if (currentStep === 3 && !acceptedTerms) {
-      toast({
-        title: "Termos não aceitos",
-        description: "Você precisa aceitar os termos para continuar",
-        variant: "destructive",
-      });
-      return;
-    }
-
     handleContinue();
   };
 
@@ -99,7 +90,7 @@ export function MainContent({
             className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
             onClick={validateAndContinue}
           >
-            {currentStep === 3 ? 'Continuar' : 'Continuar'}
+            Continuar
           </Button>
         </div>
       </CardContent>

@@ -47,7 +47,7 @@ export default function ClientProducts() {
       return;
     }
 
-    if (currentStep === 4 && !acceptedTerms) {
+    if (currentStep === 3 && !acceptedTerms) {
       toast({
         title: "Erro",
         description: "Você precisa aceitar os termos para continuar",
@@ -56,28 +56,27 @@ export default function ClientProducts() {
       return;
     }
 
-    if (currentStep === 4 && acceptedTerms) {
+    // Se estiver no passo 3 e os termos foram aceitos, inicia o fluxo de ativação
+    if (currentStep === 3 && acceptedTerms) {
+      setShowChipActivation(true);
+      setCurrentStep(4);
+      return;
+    }
+
+    // Se estiver no fluxo de ativação e chegar ao último passo
+    if (currentStep === 6) {
       const protocolNumber = new Date().getTime().toString();
       setProtocol(protocolNumber);
-      setShowChipActivation(true);
-      setCurrentStep(5);
-    } else if (currentStep === 5) {
-      setCurrentStep(6);
-    } else if (currentStep === 6) {
       setShowConfirmation(true);
-    } else {
-      setCurrentStep(currentStep + 1);
+      return;
     }
+
+    setCurrentStep(currentStep + 1);
   };
 
   const handleBack = () => {
     if (currentStep > 1) {
-      if (currentStep === 5) {
-        setShowChipActivation(false);
-        setCurrentStep(4);
-      } else {
-        setCurrentStep(currentStep - 1);
-      }
+      setCurrentStep(currentStep - 1);
     }
   };
 
