@@ -72,3 +72,13 @@ select,
   padding-top: 2px !important;
   padding-bottom: 2px !important;
 }
+
+/* Hide scroll buttons when not needed */
+[data-radix-select-viewport] {
+  overflow-y: auto !important;
+}
+
+.radix-select-content [data-position="top"],
+.radix-select-content [data-position="bottom"] {
+  display: none;
+}
