@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useZxing } from "react-zxing";
+import { Button } from "./ui/button";
 
 interface BarcodeScannerProps {
   onResult: (result: string) => void;
@@ -9,6 +10,7 @@ interface BarcodeScannerProps {
 export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [lastScannedCode, setLastScannedCode] = useState<string | null>(null);
 
   const { ref } = useZxing({
     onDecodeResult(result) {
@@ -16,7 +18,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       // Aceita códigos com 20 dígitos que começam com 8955
       if (text.length === 20 && text.startsWith('8955')) {
         console.log("Código válido detectado:", text);
-        onResult(text);
+        setLastScannedCode(text);
       } else {
         console.log("Código inválido detectado:", text);
         setError("Código inválido. O código deve ter 20 dígitos e começar com 8955.");
@@ -35,7 +37,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         height: { ideal: 720 }
       }
     },
-    timeBetweenDecodingAttempts: 500, // Aumentado para dar mais tempo entre tentativas
+    timeBetweenDecodingAttempts: 500,
   });
 
   useEffect(() => {
@@ -71,6 +73,12 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
     };
   }, []);
 
+  const handleConfirm = () => {
+    if (lastScannedCode) {
+      onResult(lastScannedCode);
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white p-4 rounded-lg w-[90%] max-w-[400px] mx-auto">
@@ -98,16 +106,33 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
                 {error}
               </div>
             )}
+            {lastScannedCode && (
+              <div className="mt-4 p-3 bg-gray-50 rounded">
+                <p className="text-sm font-medium text-gray-700">Código escaneado:</p>
+                <p className="text-sm font-mono">{lastScannedCode}</p>
+              </div>
+            )}
             <div className="mt-4 text-center space-y-2">
               <p className="text-sm text-gray-600">
                 Posicione o código de barras do chip dentro da área
               </p>
-              <button
-                onClick={onClose}
-                className="text-[#8425af] font-medium"
-              >
-                Cancelar
-              </button>
+              <div className="flex justify-between mt-4">
+                <Button
+                  variant="outline"
+                  onClick={onClose}
+                  className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
+                >
+                  Cancelar
+                </Button>
+                {lastScannedCode && (
+                  <Button
+                    onClick={handleConfirm}
+                    className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+                  >
+                    Confirmar
+                  </Button>
+                )}
+              </div>
             </div>
           </>
         )}
