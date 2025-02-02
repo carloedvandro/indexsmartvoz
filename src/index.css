@@ -65,21 +65,3 @@ select,
   background-color: white !important;
   z-index: 50;
 }
-
-/* Adjust dropdown item height */
-[role="option"] {
-  padding-top: 4px !important;
-  padding-bottom: 4px !important;
-  min-height: 32px !important;
-  height: 32px !important;
-}
-
-/* Ensure dropdown items have white background */
-[role="option"],
-[role="option"]:hover {
-  background-color: white !important;
-}
-
-[role="option"][data-highlighted] {
-  background-color: #f3f4f6 !important;
-}
