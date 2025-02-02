@@ -108,6 +108,14 @@ export function ChipActivationFlow({
                     <span className="text-sm font-medium">Linhas</span>
                   </div>
                 </div>
+
+                <div className="mt-8 flex justify-center">
+                  <img 
+                    src="/lovable-uploads/d69533d2-3f69-40d2-a116-76c824330a2a.png" 
+                    alt="Exemplo de código de barras do chip"
+                    className="max-w-[300px] w-full"
+                  />
+                </div>
               </div>
             </div>
           )}
