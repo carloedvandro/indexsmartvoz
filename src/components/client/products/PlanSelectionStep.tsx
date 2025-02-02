@@ -71,7 +71,7 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
       </div>
 
       <div className="space-y-6">
-        <div className="grid grid-cols-2 gap-4 pt-4 max-w-md mx-auto">
+        <div className="grid grid-cols-2 gap-4 pt-2 max-w-md mx-auto">
           <InternetSelector
             selectedInternet={selectedLines[0]?.internet || "110GB"}
             onInternetChange={handleInternetChange}
