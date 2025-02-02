@@ -5,15 +5,6 @@ import { ChipInstructions } from "./chip-activation/ChipInstructions";
 import { BarcodeInstructions } from "./chip-activation/BarcodeInstructions";
 import { BarcodeScannerComponent } from "./chip-activation/BarcodeScanner";
 
-export type Line = {
-  id: number;
-  internet: string;
-  type: string;
-  ddd: string;
-  price: number;
-  barcode?: string;
-};
-
 interface ChipActivationFlowProps {
   currentStep: number;
   selectedLines: Line[];
@@ -24,6 +15,15 @@ interface ChipActivationFlowProps {
   onUpdateBarcode: (index: number, barcode: string) => void;
   onScanningClose: () => void;
 }
+
+export type Line = {
+  id: number;
+  internet: string;
+  type: string;
+  ddd: string;
+  price: number;
+  barcode?: string;
+};
 
 export function ChipActivationFlow({
   currentStep,
