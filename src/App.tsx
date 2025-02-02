@@ -2,6 +2,11 @@ import React from 'react';
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster";
 import { ProtectedRoute } from '@/components/ProtectedRoute';
+import { I18nextProvider } from 'react-i18next';
+import i18n from '@/i18n';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+// Import all your page components
 import Index from '@/pages/Index';
 import ClientDashboard from '@/pages/client/dashboard';
 import ClientLogin from '@/pages/client/login';
@@ -21,6 +26,8 @@ import AdminPlans from '@/pages/admin/plans';
 import AdminUsers from '@/pages/admin/users';
 import PublicStore from '@/pages/public/store';
 import ResetPassword from '@/pages/client/reset-password';
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -59,10 +66,12 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <>
-      <RouterProvider router={router} />
-      <Toaster />
-    </>
+    <QueryClientProvider client={queryClient}>
+      <I18nextProvider i18n={i18n}>
+        <RouterProvider router={router} />
+        <Toaster />
+      </I18nextProvider>
+    </QueryClientProvider>
   );
 }
 
