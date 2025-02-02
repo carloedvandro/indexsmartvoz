@@ -78,7 +78,12 @@ select,
   overflow-y: auto !important;
 }
 
-.radix-select-content [data-position="top"],
-.radix-select-content [data-position="bottom"] {
-  display: none;
+/* Hide scroll indicators completely */
+.select-scroll-button {
+  display: none !important;
+}
+
+[data-radix-select-viewport] [data-position="top"],
+[data-radix-select-viewport] [data-position="bottom"] {
+  display: none !important;
 }
