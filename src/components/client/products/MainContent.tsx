@@ -47,7 +47,7 @@ export function MainContent({
   };
 
   return (
-    <Card className="md:col-span-2 max-w-[360px] mx-auto w-full">
+    <Card className="md:col-span-2 max-w-[360px] mx-auto w-full bg-white">
       <CardContent className="p-6">
         {currentStep === 1 && (
           <PlanSelectionStep 

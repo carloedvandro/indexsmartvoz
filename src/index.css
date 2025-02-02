@@ -52,3 +52,16 @@
     --color-5: 259 94.4% 51.4%;
   }
 }
+
+/* Add styles for select dropdowns */
+select,
+.select,
+[role="listbox"] {
+  background-color: white !important;
+  z-index: 50;
+}
+
+.select-content {
+  background-color: white !important;
+  z-index: 50;
+}
