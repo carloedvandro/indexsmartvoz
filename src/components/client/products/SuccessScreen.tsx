@@ -37,67 +37,60 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
           </p>
         </div>
 
-        <div className="rounded-lg border border-white/30 p-[1px] bg-gradient-to-r from-white/20 via-white/10 to-white/20">
-          <div className="border border-white/20 rounded-lg overflow-hidden">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b border-white/20">
-                  <th className="py-3 px-4">
-                    {showBarcodes ? "DDD" : "Plano"}
-                  </th>
-                  <th className="py-3 px-4">
-                    {showBarcodes ? "Código de barras do SIM card" : "Valor"}
-                  </th>
+        <div className="border border-white/30 rounded-lg">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b border-white/20">
+                <th className="py-3 px-4">
+                  {showBarcodes ? "DDD" : "Plano"}
+                </th>
+                <th className="py-3 px-4">
+                  {showBarcodes ? "Código de barras do SIM card" : "Valor"}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {selectedLines.map((line) => (
+                <tr key={line.id} className="border-t border-white/20">
+                  <td className="py-3 px-4">
+                    {showBarcodes ? (
+                      <div className="flex items-center gap-2">
+                        <Check className="text-green-400" size={16} />
+                        <span>32</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <Check className="text-green-400" size={16} />
+                        {`${line.internet} - ${line.type}`}
+                      </div>
+                    )}
+                  </td>
+                  <td className="py-3 px-4">
+                    {showBarcodes ? (
+                      <div className="flex items-center gap-2">
+                        ICCID
+                        <span>{line.barcode}</span>
+                      </div>
+                    ) : (
+                      `R$ ${line.price.toFixed(2)}/mês`
+                    )}
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {selectedLines.map((line) => (
-                  <tr key={line.id} className="border-t border-white/20">
-                    <td className="py-3 px-4">
-                      {showBarcodes ? (
-                        <div className="flex items-center gap-2">
-                          <Check className="text-green-400" size={16} />
-                          <span>32</span>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2">
-                          <Check className="text-green-400" size={16} />
-                          {`${line.internet} - ${line.type}`}
-                        </div>
-                      )}
-                    </td>
-                    <td className="py-3 px-4">
-                      {showBarcodes ? (
-                        <div className="flex items-center gap-2">
-                          ICCID
-                          <span>{line.barcode}</span>
-                        </div>
-                      ) : (
-                        `R$ ${line.price.toFixed(2)}/mês`
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
 
         <p className="text-center text-sm">Protocolo {protocol}</p>
 
         <div className="flex justify-center">
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-white/20 via-white/10 to-white/20 rounded-lg p-[1px]">
-              <div className="absolute inset-0 rounded-lg" />
-            </div>
-            <Button
-              onClick={onUnderstand}
-              className="relative border border-white/30 hover:bg-white/10 text-white min-w-[200px] rounded-lg"
-              variant="ghost"
-            >
-              Entendi
-            </Button>
-          </div>
+          <Button
+            onClick={onUnderstand}
+            className="border border-white/30 hover:bg-white/10 text-white min-w-[200px] rounded-lg"
+            variant="ghost"
+          >
+            Entendi
+          </Button>
         </div>
       </div>
     </div>
