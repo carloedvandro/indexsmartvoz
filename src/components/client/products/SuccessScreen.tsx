@@ -37,7 +37,7 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
           </p>
         </div>
 
-        <div className="bg-white/10 rounded-lg p-4">
+        <div className="rounded-lg">
           <div className="border border-white/20 rounded-lg overflow-hidden">
             <table className="w-full text-left">
               <thead>
@@ -78,7 +78,8 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
         <div className="flex justify-center">
           <Button
             onClick={onUnderstand}
-            className="bg-white/20 hover:bg-white/30 text-white min-w-[200px]"
+            className="border border-white/20 hover:bg-white/10 text-white min-w-[200px]"
+            variant="ghost"
           >
             Entendi
           </Button>
