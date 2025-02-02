@@ -52,7 +52,11 @@ export function DDDInput({ ddd, onDDDChange }: DDDInputProps) {
         </SelectTrigger>
         <SelectContent>
           {ddds.map((dddOption) => (
-            <SelectItem key={dddOption} value={dddOption}>
+            <SelectItem 
+              key={dddOption} 
+              value={dddOption}
+              className="hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
+            >
               {dddOption}
             </SelectItem>
           ))}
