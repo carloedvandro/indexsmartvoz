@@ -106,32 +106,30 @@ export default function ClientProducts() {
     <ProductsContainer>
       <ProductsHeader />
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {showChipActivation ? (
-          <ChipActivationFlow
-            currentStep={currentStep}
-            selectedLines={selectedLines}
-            scanningIndex={scanningIndex}
-            onBack={handleBack}
-            onContinue={handleContinue}
-            onStartScanning={(index) => setScanningIndex(index)}
-            onUpdateBarcode={handleUpdateBarcode}
-            onScanningClose={() => setScanningIndex(null)}
-          />
-        ) : (
-          <MainContent
-            currentStep={currentStep}
-            selectedLines={selectedLines}
-            selectedDueDate={selectedDueDate}
-            acceptedTerms={acceptedTerms}
-            setSelectedLines={setSelectedLines}
-            setSelectedDueDate={setSelectedDueDate}
-            setAcceptedTerms={setAcceptedTerms}
-            handleBack={handleBack}
-            handleContinue={handleContinue}
-          />
-        )}
-      </div>
+      {showChipActivation ? (
+        <ChipActivationFlow
+          currentStep={currentStep}
+          selectedLines={selectedLines}
+          scanningIndex={scanningIndex}
+          onBack={handleBack}
+          onContinue={handleContinue}
+          onStartScanning={(index) => setScanningIndex(index)}
+          onUpdateBarcode={handleUpdateBarcode}
+          onScanningClose={() => setScanningIndex(null)}
+        />
+      ) : (
+        <MainContent
+          currentStep={currentStep}
+          selectedLines={selectedLines}
+          selectedDueDate={selectedDueDate}
+          acceptedTerms={acceptedTerms}
+          setSelectedLines={setSelectedLines}
+          setSelectedDueDate={setSelectedDueDate}
+          setAcceptedTerms={setAcceptedTerms}
+          handleBack={handleBack}
+          handleContinue={handleContinue}
+        />
+      )}
     </ProductsContainer>
   );
 }
