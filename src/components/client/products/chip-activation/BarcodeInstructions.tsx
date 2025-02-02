@@ -36,7 +36,7 @@ export function BarcodeInstructions() {
 
         <div className="mt-8 flex justify-center">
           <img 
-            src="/lovable-uploads/d69533d2-3f69-40d2-a116-76c824330a2a.png" 
+            src="/lovable-uploads/29cfe356-8703-4127-8c27-04f08c0a5ca5.png" 
             alt="Exemplo de código de barras do chip"
             className="max-w-[1000px] w-full"
           />
