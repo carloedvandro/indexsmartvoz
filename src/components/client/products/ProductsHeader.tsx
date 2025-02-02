@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export function ProductsHeader() {
@@ -7,9 +6,13 @@ export function ProductsHeader() {
 
   return (
     <div className="flex items-center gap-4">
-      <h1 className="text-2xl font-bold">
-        Contratação de Planos
-      </h1>
+      <Button 
+        variant="outline"
+        className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
+        onClick={() => navigate("/client/dashboard")}
+      >
+        Voltar
+      </Button>
     </div>
   );
 }
