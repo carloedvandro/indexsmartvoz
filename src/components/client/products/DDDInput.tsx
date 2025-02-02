@@ -50,12 +50,12 @@ export function DDDInput({ ddd, onDDDChange }: DDDInputProps) {
         <SelectTrigger className="bg-white h-[52px] pt-1">
           <SelectValue placeholder="Selecione o DDD" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="bg-white">
           {ddds.map((dddOption) => (
             <SelectItem 
               key={dddOption} 
               value={dddOption}
-              className="hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
+              className="h-7 px-2 py-0 hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
             >
               {dddOption}
             </SelectItem>

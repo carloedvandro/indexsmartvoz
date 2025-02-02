@@ -65,3 +65,10 @@ select,
   background-color: white !important;
   z-index: 50;
 }
+
+/* Custom styles for select items */
+[role="option"] {
+  min-height: 28px !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
