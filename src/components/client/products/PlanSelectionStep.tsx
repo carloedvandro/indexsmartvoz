@@ -76,7 +76,7 @@ export function PlanSelectionStep({
       </div>
 
       <div className="space-y-8">
-        <div className="grid grid-cols-2 gap-6 pt-4 max-w-md mx-auto">
+        <div className="grid grid-cols-2 gap-6 pt-4 w-full">
           <InternetSelector
             selectedInternet={selectedLines[0]?.internet || "110GB"}
             onInternetChange={handleInternetChange}
@@ -88,14 +88,14 @@ export function PlanSelectionStep({
           />
         </div>
 
-        <div className="flex flex-col items-center w-full mt-10">
+        <div className="flex flex-col w-full">
           <div className="mb-5">
             <h2 className="text-sm font-medium whitespace-nowrap">
               Escolha a melhor data de vencimento da sua fatura:
             </h2>
           </div>
 
-          <div className="w-full max-w-[400px]">
+          <div className="w-full">
             <div className="grid grid-cols-3 gap-3">
               {dueDates.map((date) => (
                 <Card 
