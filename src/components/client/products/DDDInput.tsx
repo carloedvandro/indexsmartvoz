@@ -47,10 +47,8 @@ export function DDDInput({ ddd, onDDDChange }: DDDInputProps) {
     <div className="flex flex-col relative mt-4">
       <span className="text-sm text-gray-600 absolute -top-6">DDD</span>
       <Select value={ddd} onValueChange={onDDDChange}>
-        <SelectTrigger className="bg-white h-[60px] pt-1" asChild>
-          <button className="w-full text-left px-3 py-2 rounded-md border border-input">
-            <SelectValue className="font-medium" placeholder="Selecione o DDD" />
-          </button>
+        <SelectTrigger className="bg-white h-[60px] pt-1">
+          <SelectValue className="font-medium" placeholder="Selecione o DDD" />
         </SelectTrigger>
         <SelectContent className="bg-white max-h-[200px] overflow-y-auto">
           {ddds.map((dddOption) => (
