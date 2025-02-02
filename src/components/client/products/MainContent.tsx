@@ -49,7 +49,7 @@ export function MainContent({
 
   return (
     <Card className="md:col-span-2 max-w-[360px] mx-auto w-full">
-      <CardContent className="p-6">
+      <CardContent>
         {currentStep === 1 && (
           <PlanSelectionStep 
             selectedLines={selectedLines}
