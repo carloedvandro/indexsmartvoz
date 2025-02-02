@@ -26,7 +26,7 @@ export function DueDateStep({ selectedDueDate, onDueDateChange }: DueDateStepPro
             }`}
             onClick={() => onDueDateChange(date)}
           >
-            <CardContent className="flex items-center justify-center px-2 py-1">
+            <CardContent className="flex items-center justify-center px-1 py-1">
               <span className="text-lg font-medium">{String(date).padStart(2, '0')}</span>
             </CardContent>
           </Card>
