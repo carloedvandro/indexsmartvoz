@@ -95,7 +95,7 @@ export function PlanSelectionStep({
             </h2>
           </div>
 
-          <div className="w-full max-w-[380px] px-2">
+          <div className="w-full">
             <div className="grid grid-cols-3 gap-3">
               {dueDates.map((date) => (
                 <Card 
