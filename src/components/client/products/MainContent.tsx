@@ -65,7 +65,7 @@ export function MainContent({
 
   return (
     <div className="md:col-span-2 max-w-[420px] w-full min-h-[500px]">
-      <div className="p-6">
+      <div className="p-6 mt-1">
         {currentStep === 1 && (
           <PlanSelectionStep 
             selectedLines={selectedLines}
