@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { OrderReviewStep } from "./OrderReviewStep";
+import { DueDateStep } from "./DueDateStep";
 import { ContractTermsStep } from "./ContractTermsStep";
 import { PlanSelectionStep } from "./PlanSelectionStep";
 import { useToast } from "@/hooks/use-toast";
@@ -48,7 +49,7 @@ export function MainContent({
 
   return (
     <Card className="md:col-span-2 max-w-[360px] mx-auto w-full">
-      <CardContent>
+      <CardContent className="p-6">
         {currentStep === 1 && (
           <PlanSelectionStep 
             selectedLines={selectedLines}
@@ -57,10 +58,17 @@ export function MainContent({
         )}
 
         {currentStep === 2 && (
-          <OrderReviewStep selectedLines={selectedLines} />
+          <DueDateStep
+            selectedDueDate={selectedDueDate}
+            onDueDateChange={setSelectedDueDate}
+          />
         )}
 
         {currentStep === 3 && (
+          <OrderReviewStep selectedLines={selectedLines} />
+        )}
+
+        {currentStep === 4 && (
           <ContractTermsStep
             acceptedTerms={acceptedTerms}
             onTermsChange={setAcceptedTerms}
@@ -79,7 +87,7 @@ export function MainContent({
             className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
             onClick={validateAndContinue}
           >
-            {currentStep === 3 ? 'Finalizar compra' : 'Continuar'}
+            {currentStep === 4 ? 'Finalizar compra' : 'Continuar'}
           </Button>
         </div>
       </CardContent>
