@@ -43,9 +43,9 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
               <thead>
                 <tr className="border-b border-white/20">
                   <th className="py-3 px-4">
-                    {showBarcodes ? "32" : "Plano"}
+                    {showBarcodes ? "ICCID" : "Plano"}
                   </th>
-                  <th className="py-3 px-4 tracking-[0.1cm]">
+                  <th className="py-3 px-4">
                     {showBarcodes ? "Código de barras do SIM card" : "Valor"}
                   </th>
                 </tr>
@@ -56,7 +56,7 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
                     <td className="py-3 px-4 flex items-center gap-2">
                       <Check className="text-green-400" size={16} />
                       {showBarcodes 
-                        ? "ICCID"
+                        ? "32"
                         : `${line.internet} - ${line.type}`
                       }
                     </td>
