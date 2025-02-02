@@ -12,7 +12,7 @@ export function DueDateStep({ selectedDueDate, onDueDateChange }: DueDateStepPro
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <h2 className="text-xl font-semibold">Escolha a data de vencimento da sua fatura:</h2>
+        <h2 className="text-xl font-semibold">Escolha a melhor data de vencimento da sua fatura:</h2>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
