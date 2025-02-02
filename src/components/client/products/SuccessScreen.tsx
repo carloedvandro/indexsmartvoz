@@ -19,7 +19,7 @@ interface SuccessScreenProps {
 
 export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarcodes }: SuccessScreenProps) {
   return (
-    <div className="min-h-screen bg-[#8425af] text-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#5f0889] text-white flex items-center justify-center p-4">
       <div className="max-w-lg w-full space-y-6">
         <div className="space-y-4 text-center">
           <h2 className="text-3xl font-bold">Deu certo!</h2>
