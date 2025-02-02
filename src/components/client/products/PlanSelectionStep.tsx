@@ -15,16 +15,22 @@ type Line = {
 interface PlanSelectionStepProps {
   selectedLines: Line[];
   setSelectedLines: (lines: Line[]) => void;
+  selectedDueDate: number | null;
+  setSelectedDueDate: (date: number) => void;
 }
 
-export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelectionStepProps) {
+export function PlanSelectionStep({ 
+  selectedLines, 
+  setSelectedLines,
+  selectedDueDate,
+  setSelectedDueDate 
+}: PlanSelectionStepProps) {
   const internetOptions = [
     { value: "110GB", label: "110GB", price: 124.99 },
     { value: "120GB", label: "120GB", price: 134.99 },
     { value: "140GB", label: "140GB", price: 144.99 },
   ];
 
-  const [selectedDueDate, setSelectedDueDate] = useState<number | null>(null);
   const dueDates = [1, 5, 7, 10, 15, 20];
 
   useState(() => {

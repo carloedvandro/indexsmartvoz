@@ -42,7 +42,25 @@ export function MainContent({
         });
         return;
       }
+      if (!selectedDueDate) {
+        toast({
+          title: "Erro",
+          description: "Selecione uma data de vencimento para continuar",
+          variant: "destructive",
+        });
+        return;
+      }
     }
+
+    if (currentStep === 3 && !acceptedTerms) {
+      toast({
+        title: "Termos não aceitos",
+        description: "Você precisa aceitar os termos para continuar",
+        variant: "destructive",
+      });
+      return;
+    }
+
     handleContinue();
   };
 
@@ -53,6 +71,8 @@ export function MainContent({
           <PlanSelectionStep 
             selectedLines={selectedLines}
             setSelectedLines={setSelectedLines}
+            selectedDueDate={selectedDueDate}
+            setSelectedDueDate={setSelectedDueDate}
           />
         )}
 
