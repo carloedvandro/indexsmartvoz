@@ -37,7 +37,7 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
           </p>
         </div>
 
-        <div className="rounded-lg">
+        <div className="rounded-lg border border-white/30 p-[1px] bg-gradient-to-r from-white/20 via-white/10 to-white/20">
           <div className="border border-white/20 rounded-lg overflow-hidden">
             <table className="w-full text-left">
               <thead>
@@ -76,13 +76,18 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
         <p className="text-center text-sm">Protocolo {protocol}</p>
 
         <div className="flex justify-center">
-          <Button
-            onClick={onUnderstand}
-            className="border border-white/20 hover:bg-white/10 text-white min-w-[200px]"
-            variant="ghost"
-          >
-            Entendi
-          </Button>
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-white/20 via-white/10 to-white/20 rounded-lg p-[1px]">
+              <div className="absolute inset-0 rounded-lg" />
+            </div>
+            <Button
+              onClick={onUnderstand}
+              className="relative border border-white/30 hover:bg-white/10 text-white min-w-[200px] rounded-lg"
+              variant="ghost"
+            >
+              Entendi
+            </Button>
+          </div>
         </div>
       </div>
     </div>
