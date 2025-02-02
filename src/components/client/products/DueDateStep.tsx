@@ -11,13 +11,13 @@ export function DueDateStep({ selectedDueDate, onDueDateChange }: DueDateStepPro
   const dueDatesRow2 = [15, 20, 25, 30];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full">
       <div className="space-y-2">
         <h2 className="text-xl font-semibold">Escolha a melhor data de vencimento da sua fatura:</h2>
       </div>
 
-      <div className="w-full flex justify-center">
-        <div className="grid grid-cols-4 gap-4 max-w-[320px]">
+      <div className="flex justify-center w-full">
+        <div className="grid grid-cols-4 gap-4 w-[320px]">
           {dueDatesRow1.map((date) => (
             <Card 
               key={date}
