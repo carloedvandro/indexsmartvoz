@@ -86,7 +86,7 @@ export function ChipActivationFlow({
                 
                 <div className="bg-gray-50 p-4 rounded-lg flex justify-center">
                   <img 
-                    src="/lovable-uploads/06e11f81-b8d8-4bd1-8412-e680efe9803f.png" 
+                    src="/lovable-uploads/945cb68b-0a00-4ebb-9a1a-3f6062f0673f.png" 
                     alt="Exemplo de código de barras do SIM card"
                     className="w-[90%] h-auto"
                   />
