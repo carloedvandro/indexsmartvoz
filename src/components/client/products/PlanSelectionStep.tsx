@@ -95,10 +95,10 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
               {dueDatesRow1.map((date) => (
                 <Card 
                   key={date}
-                  className={`cursor-pointer transition-colors h-16 flex items-center justify-center ${
+                  className={`cursor-pointer transition-colors h-12 flex items-center justify-center bg-white ${
                     selectedDueDate === date 
                       ? 'bg-[#8425af] text-white' 
-                      : 'bg-white hover:bg-gray-50'
+                      : 'hover:bg-[#8425af] hover:text-white'
                   }`}
                   onClick={() => setSelectedDueDate(date)}
                 >
@@ -110,10 +110,10 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
               {dueDatesRow2.map((date) => (
                 <Card 
                   key={date}
-                  className={`cursor-pointer transition-colors h-16 flex items-center justify-center ${
+                  className={`cursor-pointer transition-colors h-12 flex items-center justify-center bg-white ${
                     selectedDueDate === date 
                       ? 'bg-[#8425af] text-white' 
-                      : 'bg-white hover:bg-gray-50'
+                      : 'hover:bg-[#8425af] hover:text-white'
                   }`}
                   onClick={() => setSelectedDueDate(date)}
                 >
