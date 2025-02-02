@@ -40,11 +40,11 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
         <div className="bg-white/10 rounded-lg p-4">
           <table className="w-full text-left">
             <thead>
-              <tr className="border-b border-white/20">
-                <th className="py-2 px-4 border-r border-white/20">
+              <tr>
+                <th className="py-2">
                   {showBarcodes ? "ICCID" : "Plano"}
                 </th>
-                <th className="py-2 px-4">
+                <th className="py-2">
                   {showBarcodes ? "Código de barras do SIM card" : "Valor"}
                 </th>
               </tr>
@@ -52,14 +52,14 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
             <tbody>
               {selectedLines.map((line) => (
                 <tr key={line.id} className="border-t border-white/20">
-                  <td className="py-2 px-4 flex items-center gap-2 border-r border-white/20">
+                  <td className="py-2 flex items-center gap-2">
                     <Check className="text-green-400" size={16} />
                     {showBarcodes 
                       ? `${line.ddd}`
                       : `${line.internet} - ${line.type}`
                     }
                   </td>
-                  <td className="py-2 px-4">
+                  <td className="py-2">
                     {showBarcodes 
                       ? line.barcode
                       : `R$ ${line.price.toFixed(2)}/mês`
@@ -76,7 +76,7 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
         <div className="flex justify-center">
           <Button
             onClick={onUnderstand}
-            className="bg-[#8425af] hover:bg-[#8425af]/90 text-white min-w-[200px] border border-white/30"
+            className="bg-white/20 hover:bg-white/30 text-white min-w-[200px]"
           >
             Entendi
           </Button>
