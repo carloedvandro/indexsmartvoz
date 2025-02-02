@@ -5,6 +5,7 @@ import { DueDateStep } from "./DueDateStep";
 import { ContractTermsStep } from "./ContractTermsStep";
 import { PlanSelectionStep } from "./PlanSelectionStep";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface MainContentProps {
   currentStep: number;
@@ -30,6 +31,7 @@ export function MainContent({
   handleContinue
 }: MainContentProps) {
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const validateAndContinue = () => {
     if (currentStep === 1) {
@@ -74,17 +76,15 @@ export function MainContent({
         )}
 
         <div className="flex justify-between mt-6">
-          {currentStep > 1 && (
-            <Button 
-              variant="outline"
-              className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
-              onClick={handleBack}
-            >
-              Voltar
-            </Button>
-          )}
           <Button 
-            className="bg-[#8425af] hover:bg-[#6c1e8f] ml-auto text-white"
+            variant="outline"
+            className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
+            onClick={() => currentStep === 1 ? navigate("/client/dashboard") : handleBack()}
+          >
+            Voltar
+          </Button>
+          <Button 
+            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
             onClick={validateAndContinue}
           >
             {currentStep === 4 ? 'Finalizar compra' : 'Continuar'}
