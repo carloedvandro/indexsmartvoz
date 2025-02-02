@@ -63,8 +63,18 @@ export default function ClientProducts() {
       return;
     }
 
-    // Se estiver no fluxo de ativação e chegar ao último passo
+    // Verifica se todos os chips foram escaneados antes de finalizar
     if (currentStep === 6) {
+      const allChipsScanned = selectedLines.every(line => line.barcode);
+      if (!allChipsScanned) {
+        toast({
+          title: "Erro",
+          description: "Você precisa escanear todos os chips antes de finalizar",
+          variant: "destructive",
+        });
+        return;
+      }
+      
       const protocolNumber = new Date().getTime().toString();
       setProtocol(protocolNumber);
       setShowConfirmation(true);
@@ -88,6 +98,7 @@ export default function ClientProducts() {
     const updatedLines = [...selectedLines];
     updatedLines[index] = { ...updatedLines[index], barcode };
     setSelectedLines(updatedLines);
+    setScanningIndex(null);
   };
 
   if (showConfirmation) {
