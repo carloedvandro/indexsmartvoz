@@ -38,37 +38,39 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
         </div>
 
         <div className="bg-white/10 rounded-lg p-4">
-          <table className="w-full text-left">
-            <thead>
-              <tr>
-                <th className="py-2">
-                  {showBarcodes ? "ICCID" : "Plano"}
-                </th>
-                <th className="py-2">
-                  {showBarcodes ? "Código de barras do SIM card" : "Valor"}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {selectedLines.map((line) => (
-                <tr key={line.id} className="border-t border-white/20">
-                  <td className="py-2 flex items-center gap-2">
-                    <Check className="text-green-400" size={16} />
-                    {showBarcodes 
-                      ? `${line.ddd}`
-                      : `${line.internet} - ${line.type}`
-                    }
-                  </td>
-                  <td className="py-2">
-                    {showBarcodes 
-                      ? line.barcode
-                      : `R$ ${line.price.toFixed(2)}/mês`
-                    }
-                  </td>
+          <div className="border border-white/20 rounded-lg overflow-hidden">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b border-white/20">
+                  <th className="py-3 px-4">
+                    {showBarcodes ? "ICCID" : "Plano"}
+                  </th>
+                  <th className="py-3 px-4">
+                    {showBarcodes ? "Código de barras do SIM card" : "Valor"}
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {selectedLines.map((line) => (
+                  <tr key={line.id} className="border-t border-white/20">
+                    <td className="py-3 px-4 flex items-center gap-2">
+                      <Check className="text-green-400" size={16} />
+                      {showBarcodes 
+                        ? `${line.ddd}`
+                        : `${line.internet} - ${line.type}`
+                      }
+                    </td>
+                    <td className="py-3 px-4">
+                      {showBarcodes 
+                        ? line.barcode
+                        : `R$ ${line.price.toFixed(2)}/mês`
+                      }
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <p className="text-center text-sm">Protocolo {protocol}</p>
