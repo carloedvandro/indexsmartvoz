@@ -26,6 +26,7 @@ export default function ClientProducts() {
   const [protocol, setProtocol] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [scanningIndex, setScanningIndex] = useState<number | null>(null);
+  const [showChipActivation, setShowChipActivation] = useState(false);
 
   const handleContinue = () => {
     if (currentStep === 1 && selectedLines.length === 0) {
@@ -46,7 +47,7 @@ export default function ClientProducts() {
       return;
     }
 
-    if (currentStep === 3 && !acceptedTerms) {
+    if (currentStep === 4 && !acceptedTerms) {
       toast({
         title: "Erro",
         description: "Você precisa aceitar os termos para continuar",
@@ -55,37 +56,28 @@ export default function ClientProducts() {
       return;
     }
 
-    // Se estiver no passo 3 e os termos foram aceitos, inicia o fluxo de ativação
-    if (currentStep === 3 && acceptedTerms) {
-      setCurrentStep(4);
-      return;
-    }
-
-    // Verifica se todos os chips foram escaneados antes de finalizar
-    if (currentStep === 6) {
-      const allChipsScanned = selectedLines.every(line => line.barcode);
-      if (!allChipsScanned) {
-        toast({
-          title: "Erro",
-          description: "Você precisa escanear todos os chips antes de finalizar",
-          variant: "destructive",
-        });
-        return;
-      }
-      
-      // Gera o protocolo e mostra a tela de confirmação apenas quando todos os chips foram escaneados
+    if (currentStep === 4 && acceptedTerms) {
       const protocolNumber = new Date().getTime().toString();
       setProtocol(protocolNumber);
+      setShowChipActivation(true);
+      setCurrentStep(5);
+    } else if (currentStep === 5) {
+      setCurrentStep(6);
+    } else if (currentStep === 6) {
       setShowConfirmation(true);
-      return;
+    } else {
+      setCurrentStep(currentStep + 1);
     }
-
-    setCurrentStep(currentStep + 1);
   };
 
   const handleBack = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
+      if (currentStep === 5) {
+        setShowChipActivation(false);
+        setCurrentStep(4);
+      } else {
+        setCurrentStep(currentStep - 1);
+      }
     }
   };
 
@@ -97,7 +89,6 @@ export default function ClientProducts() {
     const updatedLines = [...selectedLines];
     updatedLines[index] = { ...updatedLines[index], barcode };
     setSelectedLines(updatedLines);
-    setScanningIndex(null);
   };
 
   if (showConfirmation) {
@@ -115,7 +106,18 @@ export default function ClientProducts() {
     <ProductsContainer>
       <ProductsHeader />
       
-      {currentStep <= 3 ? (
+      {showChipActivation ? (
+        <ChipActivationFlow
+          currentStep={currentStep}
+          selectedLines={selectedLines}
+          scanningIndex={scanningIndex}
+          onBack={handleBack}
+          onContinue={handleContinue}
+          onStartScanning={(index) => setScanningIndex(index)}
+          onUpdateBarcode={handleUpdateBarcode}
+          onScanningClose={() => setScanningIndex(null)}
+        />
+      ) : (
         <MainContent
           currentStep={currentStep}
           selectedLines={selectedLines}
@@ -126,17 +128,6 @@ export default function ClientProducts() {
           setAcceptedTerms={setAcceptedTerms}
           handleBack={handleBack}
           handleContinue={handleContinue}
-        />
-      ) : (
-        <ChipActivationFlow
-          currentStep={currentStep}
-          selectedLines={selectedLines}
-          scanningIndex={scanningIndex}
-          onBack={handleBack}
-          onContinue={handleContinue}
-          onStartScanning={(index) => setScanningIndex(index)}
-          onUpdateBarcode={handleUpdateBarcode}
-          onScanningClose={() => setScanningIndex(null)}
         />
       )}
     </ProductsContainer>
