@@ -90,7 +90,7 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
             </h2>
           </div>
 
-          <div className="w-full max-w-[320px] px-2">
+          <div className="w-full max-w-[360px] px-2">
             <div className="grid grid-cols-4 gap-2">
               {dueDatesRow1.map((date) => (
                 <Card 
