@@ -1,10 +1,9 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { OrderReviewStep } from "./OrderReviewStep";
 import { ContractTermsStep } from "./ContractTermsStep";
 import { PlanSelectionStep } from "./PlanSelectionStep";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 interface MainContentProps {
   currentStep: number;
@@ -65,8 +64,8 @@ export function MainContent({
   };
 
   return (
-    <Card className="md:col-span-2 max-w-[420px] w-full bg-white min-h-[500px]">
-      <CardContent className="p-6">
+    <div className="md:col-span-2 max-w-[420px] w-full min-h-[500px]">
+      <div className="p-6">
         {currentStep === 1 && (
           <PlanSelectionStep 
             selectedLines={selectedLines}
@@ -102,7 +101,7 @@ export function MainContent({
             {currentStep === 3 ? 'Continuar' : 'Continuar'}
           </Button>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
