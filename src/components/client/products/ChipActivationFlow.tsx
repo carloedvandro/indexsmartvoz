@@ -102,7 +102,9 @@ export function ChipActivationFlow({
                   <div className="flex-1 h-[2px] bg-gray-200"></div>
 
                   <div className="flex flex-col items-center space-y-2">
-                    <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">3</div>
+                    <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-gray-500"></div>
+                    </div>
                     <span className="text-sm font-medium text-gray-500">Linhas</span>
                   </div>
                 </div>
