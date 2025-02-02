@@ -42,6 +42,24 @@ export function BarcodeInstructions() {
           />
         </div>
       </div>
+
+      <div className="flex justify-between">
+        <Button 
+          variant="outline"
+          className="hover:bg-[#8425af] hover:text-white border-[#8425af] text-[#8425af]"
+          onClick={onBack}
+          type="button"
+        >
+          Voltar
+        </Button>
+        <Button 
+          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+          onClick={onContinue}
+          type="button"
+        >
+          Continuar
+        </Button>
+      </div>
     </div>
   );
 }
