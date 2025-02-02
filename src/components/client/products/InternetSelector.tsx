@@ -29,7 +29,7 @@ export function InternetSelector({
         <SelectTrigger className="bg-white h-[52px] relative">
           <div className="flex flex-col items-start">
             <span className="text-sm text-gray-600 absolute -top-6 transition-all">Internet</span>
-            <SelectValue className="pt-1" />
+            <SelectValue className="pt-1 font-medium" />
           </div>
         </SelectTrigger>
         <SelectContent className="bg-white">
