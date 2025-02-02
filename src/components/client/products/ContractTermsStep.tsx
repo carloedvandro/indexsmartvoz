@@ -40,7 +40,7 @@ export function ContractTermsStep({ acceptedTerms, onTermsChange }: ContractTerm
             htmlFor="terms" 
             className="text-sm text-gray-600 cursor-pointer"
           >
-            Aceito receber comunicações e ofertas da Vivo.
+            Aceito receber comunicações e ofertas da Smartvoz.
           </label>
         </div>
       </div>
