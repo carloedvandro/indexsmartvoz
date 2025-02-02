@@ -11,7 +11,7 @@ export function ScannerCamera({ videoRef, error }: ScannerCameraProps) {
     <div className="relative aspect-[4/3]">
       <video 
         ref={videoRef} 
-        className="absolute inset-0 w-full h-full object-cover rounded"
+        className="absolute inset-0 w-screen h-full object-cover"
         autoPlay
         playsInline
       />
