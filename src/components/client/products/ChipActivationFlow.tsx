@@ -86,26 +86,24 @@ export function ChipActivationFlow({
                 
                 <div className="flex items-center justify-between max-w-xl mx-auto relative">
                   <div className="flex flex-col items-center space-y-2">
-                    <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">✓</div>
-                    <span className="text-sm font-medium">Identidade</span>
+                    <div className="w-8 h-8 rounded-full bg-[#8425af] flex items-center justify-center text-white">✓</div>
+                    <span className="text-sm font-medium text-gray-700">Identidade</span>
                   </div>
 
-                  <div className="flex-1 h-[2px] bg-gray-200 relative">
-                    <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#8425af] border-2 border-white flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-white"></div>
-                    </div>
-                  </div>
+                  <div className="flex-1 h-[2px] bg-[#8425af]"></div>
 
                   <div className="flex flex-col items-center space-y-2">
-                    <div className="w-8 h-8 rounded-full bg-[#8425af] flex items-center justify-center text-white">2</div>
-                    <span className="text-sm font-medium">SIM Card</span>
+                    <div className="w-8 h-8 rounded-full bg-[#8425af] border-2 border-white flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-white"></div>
+                    </div>
+                    <span className="text-sm font-medium text-[#8425af]">SIM Card</span>
                   </div>
 
                   <div className="flex-1 h-[2px] bg-gray-200"></div>
 
                   <div className="flex flex-col items-center space-y-2">
                     <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">3</div>
-                    <span className="text-sm font-medium">Linhas</span>
+                    <span className="text-sm font-medium text-gray-500">Linhas</span>
                   </div>
                 </div>
 
