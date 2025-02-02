@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { InternetSelector } from "./InternetSelector";
-import { DDDInput } from "./DDDInput";
+import { PlanHeader } from "./plan-selection/PlanHeader";
+import { PlanDDDSelector } from "./plan-selection/PlanDDDSelector";
+import { DueDateSelector } from "./plan-selection/DueDateSelector";
 import { PriceSummary } from "./PriceSummary";
-import { Card, CardContent } from "@/components/ui/card";
 
 type Line = {
   id: number;
@@ -30,8 +30,6 @@ export function PlanSelectionStep({
     { value: "120GB", label: "120GB", price: 134.99 },
     { value: "140GB", label: "140GB", price: 144.99 },
   ];
-
-  const dueDates = [1, 5, 7, 10, 15, 20];
 
   useState(() => {
     if (selectedLines.length === 0) {
@@ -68,53 +66,21 @@ export function PlanSelectionStep({
 
   return (
     <div className="space-y-10 min-h-[400px] w-full max-w-[400px] mx-auto pt-2">
-      <div className="space-y-3">
-        <h2 className="text-xl font-semibold">Personalize seu pedido</h2>
-        <p className="text-gray-600">
-          Confira aqui as melhores ofertas para você, cliente Smatvoz.
-        </p>
-      </div>
+      <PlanHeader />
 
       <div className="space-y-8">
-        <div className="grid grid-cols-2 gap-6 pt-4 max-w-md mx-auto">
-          <InternetSelector
-            selectedInternet={selectedLines[0]?.internet || "110GB"}
-            onInternetChange={handleInternetChange}
-            internetOptions={internetOptions}
-          />
-          <DDDInput
-            ddd={selectedLines[0]?.ddd || ""}
-            onDDDChange={handleDDDChange}
-          />
-        </div>
+        <PlanDDDSelector
+          selectedInternet={selectedLines[0]?.internet || "110GB"}
+          onInternetChange={handleInternetChange}
+          ddd={selectedLines[0]?.ddd || ""}
+          onDDDChange={handleDDDChange}
+          internetOptions={internetOptions}
+        />
 
-        <div className="flex flex-col items-center w-full mt-10">
-          <div className="text-center mb-6">
-            <h2 className="text-base font-medium">
-              Escolha a melhor data de vencimento da sua fatura:
-            </h2>
-          </div>
-
-          <div className="w-full px-6">
-            <div className="grid grid-cols-3 gap-3">
-              {dueDates.map((date) => (
-                <Card 
-                  key={date}
-                  className={`cursor-pointer transition-colors h-12 flex items-center justify-center bg-white border-gray-200 ${
-                    selectedDueDate === date 
-                      ? 'bg-[#8425af] text-white border-[#8425af]' 
-                      : 'hover:bg-[#8425af] hover:text-white hover:border-[#8425af]'
-                  }`}
-                  onClick={() => setSelectedDueDate(date)}
-                >
-                  <CardContent className="flex items-center justify-center h-full p-0">
-                    <span className="text-lg font-medium">{String(date).padStart(2, '0')}</span>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
+        <DueDateSelector
+          selectedDueDate={selectedDueDate}
+          setSelectedDueDate={setSelectedDueDate}
+        />
 
         <PriceSummary
           linePrice={selectedLines[0]?.price || 0}
