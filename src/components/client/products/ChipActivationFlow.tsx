@@ -83,14 +83,6 @@ export function ChipActivationFlow({
                 <p className="text-gray-600">
                   O código de barras está impresso no cartão do Vivo Chip, tem 20 números e começa com 8955, conforme o exemplo:
                 </p>
-                
-                <div className="bg-gray-50 p-4 rounded-lg flex justify-center">
-                  <img 
-                    src="/lovable-uploads/56082e79-b54d-4d20-b899-b44e7edec8d6.png" 
-                    alt="Exemplo de código de barras do SIM card"
-                    className="w-[90%] h-auto"
-                  />
-                </div>
               </div>
             </div>
           )}
