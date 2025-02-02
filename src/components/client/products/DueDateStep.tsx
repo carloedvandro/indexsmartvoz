@@ -19,14 +19,14 @@ export function DueDateStep({ selectedDueDate, onDueDateChange }: DueDateStepPro
         {dueDates.map((date) => (
           <Card 
             key={date}
-            className={`cursor-pointer transition-colors ${
+            className={`cursor-pointer transition-colors w-14 h-14 ${
               selectedDueDate === date 
                 ? 'bg-[#8425af] text-white' 
                 : 'bg-white hover:bg-gray-50'
             }`}
             onClick={() => onDueDateChange(date)}
           >
-            <CardContent className="flex items-center justify-center p-0.5">
+            <CardContent className="flex items-center justify-center h-full p-0">
               <span className="text-lg font-medium">{String(date).padStart(2, '0')}</span>
             </CardContent>
           </Card>
