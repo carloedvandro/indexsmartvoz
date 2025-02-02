@@ -11,19 +11,19 @@ export function DueDateStep({ selectedDueDate, onDueDateChange }: DueDateStepPro
   const dueDatesRow2 = [15, 20, 25, 30];
 
   return (
-    <div className="flex flex-col items-center px-4 w-full max-w-md mx-auto">
-      <div className="text-center mb-8 w-full">
+    <div className="flex flex-col items-center w-full">
+      <div className="text-center mb-6 px-4">
         <h2 className="text-xl font-semibold">
           Escolha a melhor data de vencimento da sua fatura:
         </h2>
       </div>
 
-      <div className="w-full max-w-[320px]">
-        <div className="grid grid-cols-4 gap-4">
+      <div className="w-full px-4 sm:px-0 sm:w-[320px]">
+        <div className="grid grid-cols-4 gap-2 sm:gap-4">
           {dueDatesRow1.map((date) => (
             <Card 
               key={date}
-              className={`cursor-pointer transition-colors h-[72px] w-full flex items-center justify-center ${
+              className={`cursor-pointer transition-colors h-16 sm:h-[72px] flex items-center justify-center ${
                 selectedDueDate === date 
                   ? 'bg-[#8425af] text-white' 
                   : 'bg-white hover:bg-gray-50'
@@ -38,7 +38,7 @@ export function DueDateStep({ selectedDueDate, onDueDateChange }: DueDateStepPro
           {dueDatesRow2.map((date) => (
             <Card 
               key={date}
-              className={`cursor-pointer transition-colors h-[72px] w-full flex items-center justify-center ${
+              className={`cursor-pointer transition-colors h-16 sm:h-[72px] flex items-center justify-center ${
                 selectedDueDate === date 
                   ? 'bg-[#8425af] text-white' 
                   : 'bg-white hover:bg-gray-50'
