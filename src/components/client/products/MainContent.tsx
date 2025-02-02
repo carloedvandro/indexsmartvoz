@@ -1,9 +1,7 @@
-import { OrderReviewStep } from "./OrderReviewStep";
-import { ContractTermsStep } from "./ContractTermsStep";
-import { PlanSelectionStep } from "./PlanSelectionStep";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { NavigationButtons } from "./NavigationButtons";
+import { StepContent } from "./StepContent";
 
 interface MainContentProps {
   currentStep: number;
@@ -67,41 +65,21 @@ export function MainContent({
     <div className="w-full flex justify-center py-8">
       <div className="w-full max-w-[420px]">
         <div className="p-6 flex flex-col items-center justify-center">
-          {currentStep === 1 && (
-            <PlanSelectionStep 
-              selectedLines={selectedLines}
-              setSelectedLines={setSelectedLines}
-              selectedDueDate={selectedDueDate}
-              setSelectedDueDate={setSelectedDueDate}
-            />
-          )}
-
-          {currentStep === 2 && (
-            <OrderReviewStep selectedLines={selectedLines} />
-          )}
-
-          {currentStep === 3 && (
-            <ContractTermsStep
-              acceptedTerms={acceptedTerms}
-              onTermsChange={setAcceptedTerms}
-            />
-          )}
-
-          <div className="flex justify-between mt-6 w-full">
-            <Button 
-              variant="outline"
-              className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
-              onClick={() => currentStep === 1 ? navigate("/client/dashboard") : handleBack()}
-            >
-              Voltar
-            </Button>
-            <Button 
-              className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
-              onClick={validateAndContinue}
-            >
-              {currentStep === 3 ? 'Continuar' : 'Continuar'}
-            </Button>
-          </div>
+          <StepContent
+            currentStep={currentStep}
+            selectedLines={selectedLines}
+            selectedDueDate={selectedDueDate}
+            acceptedTerms={acceptedTerms}
+            setSelectedLines={setSelectedLines}
+            setSelectedDueDate={setSelectedDueDate}
+            setAcceptedTerms={setAcceptedTerms}
+          />
+          
+          <NavigationButtons
+            currentStep={currentStep}
+            handleBack={handleBack}
+            handleContinue={validateAndContinue}
+          />
         </div>
       </div>
     </div>
