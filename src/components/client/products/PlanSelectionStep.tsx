@@ -83,11 +83,6 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
           />
         </div>
 
-        <PriceSummary
-          linePrice={selectedLines[0]?.price || 0}
-          totalPrice={totalPrice}
-        />
-
         <div className="flex flex-col items-center w-full mt-8">
           <div className="text-center mb-4">
             <h2 className="text-xl font-semibold px-4">
@@ -130,6 +125,11 @@ export function PlanSelectionStep({ selectedLines, setSelectedLines }: PlanSelec
             </div>
           </div>
         </div>
+
+        <PriceSummary
+          linePrice={selectedLines[0]?.price || 0}
+          totalPrice={totalPrice}
+        />
       </div>
     </div>
   );
