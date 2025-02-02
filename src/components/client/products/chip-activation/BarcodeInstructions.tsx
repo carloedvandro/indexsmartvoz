@@ -1,4 +1,11 @@
-export function BarcodeInstructions() {
+import { Button } from "@/components/ui/button";
+
+interface BarcodeInstructionsProps {
+  onBack: () => void;
+  onContinue: () => void;
+}
+
+export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsProps) {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-medium">Confira como você encontra o código de barras do SIM card</h2>
