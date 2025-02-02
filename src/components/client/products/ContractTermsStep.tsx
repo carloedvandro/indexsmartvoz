@@ -19,13 +19,6 @@ export function ContractTermsStep({ acceptedTerms, onTermsChange }: ContractTerm
             href="#" 
             className="text-[#8425af] hover:underline"
           >
-            Termo de Permanência
-          </a>
-          <span className="text-gray-600"> e </span>
-          <a 
-            href="#" 
-            className="text-[#8425af] hover:underline"
-          >
             Termo de Serviço Móvel Pessoal.
           </a>
         </div>
