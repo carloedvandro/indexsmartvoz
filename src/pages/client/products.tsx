@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { ProgressBar } from "@/components/client/products/ProgressBar";
 import { ChipActivationFlow } from "@/components/client/products/ChipActivationFlow";
 import { SuccessScreen } from "@/components/client/products/SuccessScreen";
 import { ProductsHeader } from "@/components/client/products/ProductsHeader";
@@ -107,12 +106,6 @@ export default function ClientProducts() {
     <ProductsContainer>
       <ProductsHeader />
       
-      <ProgressBar 
-        currentStep={currentStep} 
-        totalSteps={showChipActivation ? 6 : 4}
-        showChipActivation={showChipActivation}
-      />
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {showChipActivation ? (
           <ChipActivationFlow
