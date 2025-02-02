@@ -61,12 +61,6 @@ export function MainContent({
       return;
     }
 
-    if (currentStep === 3 && acceptedTerms) {
-      const protocolNumber = new Date().getTime().toString();
-      navigate("/client/dashboard");
-      return;
-    }
-
     handleContinue();
   };
 
@@ -105,7 +99,7 @@ export function MainContent({
             className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
             onClick={validateAndContinue}
           >
-            {currentStep === 3 ? 'Finalizar compra' : 'Continuar'}
+            {currentStep === 3 ? 'Continuar' : 'Continuar'}
           </Button>
         </div>
       </CardContent>
