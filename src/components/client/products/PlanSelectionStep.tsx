@@ -67,16 +67,16 @@ export function PlanSelectionStep({
   const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
 
   return (
-    <div className="space-y-8">
-      <div className="space-y-2">
+    <div className="space-y-10 min-h-[450px] w-full max-w-[400px] mx-auto">
+      <div className="space-y-3">
         <h2 className="text-xl font-semibold">Personalize seu pedido</h2>
         <p className="text-gray-600">
           Confira aqui as melhores ofertas para você, cliente Smatvoz.
         </p>
       </div>
 
-      <div className="space-y-6">
-        <div className="grid grid-cols-2 gap-4 pt-2 max-w-md mx-auto">
+      <div className="space-y-8">
+        <div className="grid grid-cols-2 gap-6 pt-4 max-w-md mx-auto">
           <InternetSelector
             selectedInternet={selectedLines[0]?.internet || "110GB"}
             onInternetChange={handleInternetChange}
@@ -88,19 +88,19 @@ export function PlanSelectionStep({
           />
         </div>
 
-        <div className="flex flex-col items-center w-full mt-8">
-          <div className="text-center mb-4">
+        <div className="flex flex-col items-center w-full mt-10">
+          <div className="text-center mb-6">
             <h2 className="text-xl font-semibold px-4">
               Escolha a melhor data de vencimento da sua fatura:
             </h2>
           </div>
 
-          <div className="w-full max-w-[360px] px-2">
-            <div className="grid grid-cols-3 gap-2">
+          <div className="w-full max-w-[380px] px-2">
+            <div className="grid grid-cols-3 gap-3">
               {dueDates.map((date) => (
                 <Card 
                   key={date}
-                  className={`cursor-pointer transition-colors h-8 flex items-center justify-center bg-white border-gray-200 ${
+                  className={`cursor-pointer transition-colors h-10 flex items-center justify-center bg-white border-gray-200 ${
                     selectedDueDate === date 
                       ? 'bg-[#8425af] text-white border-[#8425af]' 
                       : 'hover:bg-[#8425af] hover:text-white hover:border-[#8425af]'
