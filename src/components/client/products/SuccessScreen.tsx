@@ -19,7 +19,7 @@ interface SuccessScreenProps {
 
 export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarcodes }: SuccessScreenProps) {
   return (
-    <div className="min-h-screen bg-[#660099] text-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#8425af] text-white flex items-center justify-center p-4">
       <div className="max-w-lg w-full space-y-6">
         <div className="space-y-4 text-center">
           <h2 className="text-3xl font-bold">Deu certo!</h2>
@@ -42,7 +42,7 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
             <thead>
               <tr className="border-b border-white/20">
                 <th className="py-2 px-4 border-r border-white/20">
-                  {showBarcodes ? "DDD" : "Plano"}
+                  {showBarcodes ? "ICCID" : "Plano"}
                 </th>
                 <th className="py-2 px-4">
                   {showBarcodes ? "Código de barras do SIM card" : "Valor"}
@@ -55,18 +55,13 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
                   <td className="py-2 px-4 flex items-center gap-2 border-r border-white/20">
                     <Check className="text-green-400" size={16} />
                     {showBarcodes 
-                      ? `DDD ${line.ddd}`
+                      ? `${line.ddd}`
                       : `${line.internet} - ${line.type}`
                     }
                   </td>
-                  <td className="py-2 px-4 flex items-center">
+                  <td className="py-2 px-4">
                     {showBarcodes 
-                      ? (
-                        <div className="flex flex-col">
-                          <span className="text-sm text-white/70">ICCID</span>
-                          <span className="font-mono tracking-wider">{line.barcode}</span>
-                        </div>
-                      )
+                      ? line.barcode
                       : `R$ ${line.price.toFixed(2)}/mês`
                     }
                   </td>
@@ -81,7 +76,7 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
         <div className="flex justify-center">
           <Button
             onClick={onUnderstand}
-            className="bg-[#660099] hover:bg-[#660099]/90 text-white min-w-[200px] border border-white/30 rounded-lg"
+            className="bg-[#8425af] hover:bg-[#8425af]/90 text-white min-w-[200px] border border-white/30"
           >
             Entendi
           </Button>
