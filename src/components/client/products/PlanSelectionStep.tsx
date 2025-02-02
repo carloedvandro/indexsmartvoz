@@ -100,7 +100,7 @@ export function PlanSelectionStep({
               {dueDates.map((date) => (
                 <Card 
                   key={date}
-                  className={`cursor-pointer transition-colors h-10 flex items-center justify-center bg-white border-gray-200 ${
+                  className={`cursor-pointer transition-colors h-12 flex items-center justify-center bg-white border-gray-200 ${
                     selectedDueDate === date 
                       ? 'bg-[#8425af] text-white border-[#8425af]' 
                       : 'hover:bg-[#8425af] hover:text-white hover:border-[#8425af]'
