@@ -65,7 +65,7 @@ export function MainContent({
 
   return (
     <div className="md:col-span-2 max-w-[420px] w-full min-h-[500px]">
-      <div className="p-6">
+      <div className="p-6 flex flex-col items-center justify-center">
         {currentStep === 1 && (
           <PlanSelectionStep 
             selectedLines={selectedLines}
@@ -86,7 +86,7 @@ export function MainContent({
           />
         )}
 
-        <div className="flex justify-between mt-6">
+        <div className="flex justify-between mt-6 w-full">
           <Button 
             variant="outline"
             className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
