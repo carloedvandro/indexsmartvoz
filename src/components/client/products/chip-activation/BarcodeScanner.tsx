@@ -1,5 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Line } from "../ChipActivationFlow";
+
+export interface Line {
+  id: string;
+  ddd: string;
+  barcode?: string;
+}
 
 interface BarcodeScannerProps {
   selectedLines: Line[];
