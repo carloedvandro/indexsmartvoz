@@ -26,7 +26,6 @@ export default function ClientProducts() {
   const [protocol, setProtocol] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [scanningIndex, setScanningIndex] = useState<number | null>(null);
-  const [showChipActivation, setShowChipActivation] = useState(false);
 
   const handleContinue = () => {
     if (currentStep === 1 && selectedLines.length === 0) {
@@ -58,7 +57,6 @@ export default function ClientProducts() {
 
     // Se estiver no passo 3 e os termos foram aceitos, inicia o fluxo de ativação
     if (currentStep === 3 && acceptedTerms) {
-      setShowChipActivation(true);
       setCurrentStep(4);
       return;
     }
@@ -75,6 +73,7 @@ export default function ClientProducts() {
         return;
       }
       
+      // Gera o protocolo e mostra a tela de confirmação apenas quando todos os chips foram escaneados
       const protocolNumber = new Date().getTime().toString();
       setProtocol(protocolNumber);
       setShowConfirmation(true);
@@ -116,18 +115,7 @@ export default function ClientProducts() {
     <ProductsContainer>
       <ProductsHeader />
       
-      {showChipActivation ? (
-        <ChipActivationFlow
-          currentStep={currentStep}
-          selectedLines={selectedLines}
-          scanningIndex={scanningIndex}
-          onBack={handleBack}
-          onContinue={handleContinue}
-          onStartScanning={(index) => setScanningIndex(index)}
-          onUpdateBarcode={handleUpdateBarcode}
-          onScanningClose={() => setScanningIndex(null)}
-        />
-      ) : (
+      {currentStep <= 3 ? (
         <MainContent
           currentStep={currentStep}
           selectedLines={selectedLines}
@@ -138,6 +126,17 @@ export default function ClientProducts() {
           setAcceptedTerms={setAcceptedTerms}
           handleBack={handleBack}
           handleContinue={handleContinue}
+        />
+      ) : (
+        <ChipActivationFlow
+          currentStep={currentStep}
+          selectedLines={selectedLines}
+          scanningIndex={scanningIndex}
+          onBack={handleBack}
+          onContinue={handleContinue}
+          onStartScanning={(index) => setScanningIndex(index)}
+          onUpdateBarcode={handleUpdateBarcode}
+          onScanningClose={() => setScanningIndex(null)}
         />
       )}
     </ProductsContainer>
