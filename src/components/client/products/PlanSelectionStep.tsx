@@ -67,7 +67,7 @@ export function PlanSelectionStep({
   const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
 
   return (
-    <div className="w-full max-w-[400px] mx-auto space-y-10 min-h-[400px] pt-2">
+    <div className="w-full space-y-10 min-h-[400px] pt-2">
       <div className="space-y-3">
         <h2 className="text-xl font-semibold">Personalize seu pedido</h2>
         <p className="text-gray-600">
@@ -90,7 +90,7 @@ export function PlanSelectionStep({
 
         <div className="flex flex-col w-full">
           <div className="mb-5">
-            <h2 className="text-sm font-medium whitespace-nowrap">
+            <h2 className="text-sm font-medium">
               Escolha a melhor data de vencimento da sua fatura:
             </h2>
           </div>
