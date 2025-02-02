@@ -5,15 +5,15 @@ export function BarcodeInstructions() {
       
       <div className="flex items-center justify-between max-w-xl mx-auto relative">
         <div className="flex flex-col items-center space-y-2">
-          <div className="w-8 h-8 rounded-full bg-[#8425af] flex items-center justify-center text-white">✓</div>
+          <div className="w-6 h-6 rounded-full bg-[#8425af] flex items-center justify-center text-white text-sm">✓</div>
           <span className="text-sm font-medium text-gray-700">Identidade</span>
         </div>
 
         <div className="flex-1 h-[2px] bg-[#8425af]"></div>
 
         <div className="flex flex-col items-center space-y-2">
-          <div className="w-8 h-8 rounded-full bg-[#8425af] border-2 border-white flex items-center justify-center">
-            <div className="w-2 h-2 rounded-full bg-white"></div>
+          <div className="w-6 h-6 rounded-full bg-[#8425af] border-2 border-white flex items-center justify-center">
+            <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
           </div>
           <span className="text-sm font-medium text-[#8425af]">SIM Card</span>
         </div>
@@ -21,8 +21,8 @@ export function BarcodeInstructions() {
         <div className="flex-1 h-[2px] bg-gray-200"></div>
 
         <div className="flex flex-col items-center space-y-2">
-          <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-            <div className="w-2 h-2 rounded-full bg-gray-500"></div>
+          <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">
+            <div className="w-1.5 h-1.5 rounded-full bg-gray-500"></div>
           </div>
           <span className="text-sm font-medium text-gray-500">Linhas</span>
         </div>
