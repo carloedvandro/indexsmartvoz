@@ -1,7 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { OrderReviewStep } from "./OrderReviewStep";
-import { DueDateStep } from "./DueDateStep";
 import { ContractTermsStep } from "./ContractTermsStep";
 import { PlanSelectionStep } from "./PlanSelectionStep";
 import { useToast } from "@/hooks/use-toast";
@@ -58,17 +57,10 @@ export function MainContent({
         )}
 
         {currentStep === 2 && (
-          <DueDateStep
-            selectedDueDate={selectedDueDate}
-            onDueDateChange={setSelectedDueDate}
-          />
-        )}
-
-        {currentStep === 3 && (
           <OrderReviewStep selectedLines={selectedLines} />
         )}
 
-        {currentStep === 4 && (
+        {currentStep === 3 && (
           <ContractTermsStep
             acceptedTerms={acceptedTerms}
             onTermsChange={setAcceptedTerms}
@@ -87,7 +79,7 @@ export function MainContent({
             className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
             onClick={validateAndContinue}
           >
-            {currentStep === 4 ? 'Finalizar compra' : 'Continuar'}
+            {currentStep === 3 ? 'Finalizar compra' : 'Continuar'}
           </Button>
         </div>
       </CardContent>
