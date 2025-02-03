@@ -31,7 +31,7 @@ export function ContractTermsStep({ acceptedTerms, onTermsChange }: ContractTerm
           />
           <label 
             htmlFor="terms" 
-            className="text-xs text-gray-600 cursor-pointer max-w-[280px]"
+            className="text-sm text-gray-600 cursor-pointer max-w-[290px]"
           >
             Aceito receber comunicações e ofertas da Smartvoz.
           </label>
