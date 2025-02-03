@@ -62,8 +62,8 @@ export function MainContent({
   };
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center px-4">
-      <div className="w-[95%] max-w-[440px]">
+    <div className="w-full min-h-screen flex items-center justify-center px-6">
+      <div className="w-full max-w-[500px]">
         <div className="p-6 flex flex-col items-center justify-center">
           <StepContent
             currentStep={currentStep}
