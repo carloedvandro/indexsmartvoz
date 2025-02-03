@@ -78,7 +78,7 @@ export function PlanSelectionStep({
         </p>
       </div>
 
-      <div className="space-y-6 max-w-2xl mx-auto">
+      <div className="space-y-4 max-w-2xl mx-auto">
         <div className="grid grid-cols-2 gap-4 pt-2">
           <div className="space-y-1">
             <span className="text-sm font-medium pl-1">Internet</span>
@@ -94,9 +94,9 @@ export function PlanSelectionStep({
           />
         </div>
 
-        <div className="flex flex-col items-center w-full">
+        <div className="flex flex-col items-center w-full mt-2">
           <div className="text-center mb-4">
-            <h2 className="text-xl font-semibold">
+            <h2 className="text-xl">
               Escolha a melhor data de vencimento da sua fatura:
             </h2>
           </div>
