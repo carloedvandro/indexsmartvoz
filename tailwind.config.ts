@@ -58,11 +58,14 @@ export default {
         "color-3": "hsl(var(--color-3))",
         "color-4": "hsl(var(--color-4))",
         "color-5": "hsl(var(--color-5))",
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        scanner: {
+          primary: "#8B5CF6",
+          secondary: "#D946EF",
+          accent: "#F97316",
+          highlight: "#0EA5E9",
+          core: "#1EAEDB",
+          glow: "#33C3F0",
+        }
       },
       keyframes: {
         "accordion-down": {
@@ -90,6 +93,23 @@ export default {
           "49%": { transform: "scaleX(1)", transformOrigin: "left" },
           "50%": { transform: "scaleX(1)", transformOrigin: "right" },
           "100%": { transform: "scaleX(0)", transformOrigin: "right" }
+        },
+        "hologram": {
+          "0%, 100%": { opacity: "0.8", transform: "translateY(0)" },
+          "50%": { opacity: "0.6", transform: "translateY(-2px)" }
+        },
+        "particle-flow": {
+          "0%": { transform: "translateY(0) scale(1)" },
+          "50%": { transform: "translateY(-10px) scale(1.1)" },
+          "100%": { transform: "translateY(-20px) scale(0)" }
+        },
+        "core-pulse": {
+          "0%, 100%": { transform: "scale(1)", opacity: "0.8" },
+          "50%": { transform: "scale(1.1)", opacity: "1" }
+        },
+        "scan-line": {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(100%)" }
         }
       },
       animation: {
@@ -98,7 +118,11 @@ export default {
         "rainbow": "rainbow var(--speed, 2s) infinite linear",
         "gradient": "gradient 8s ease-in-out infinite",
         "pulse-subtle": "pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "scanner-progress": "scanner-progress 2s linear infinite"
+        "scanner-progress": "scanner-progress 2s linear infinite",
+        "hologram": "hologram 2s ease-in-out infinite",
+        "particle-flow": "particle-flow 3s ease-out infinite",
+        "core-pulse": "core-pulse 2s ease-in-out infinite",
+        "scan-line": "scan-line 2s linear infinite"
       },
     },
   },
