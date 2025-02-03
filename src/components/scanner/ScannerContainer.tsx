@@ -29,7 +29,7 @@ export function ScannerContainer({
   };
 
   return (
-    <div className="w-full max-w-[320px] mx-auto">
+    <div className="w-full max-w-[340px] mx-auto">
       <div className="relative h-[10vh] flex items-center justify-center">
         <div className="absolute inset-0 flex items-center justify-center">
           <ScannerCamera
