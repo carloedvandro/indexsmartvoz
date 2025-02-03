@@ -7,9 +7,11 @@ interface ProductsContainerProps {
 
 export function ProductsContainer({ children }: ProductsContainerProps) {
   return (
-    <div className="relative min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
       <ParticlesBackground />
-      <div className="relative z-10">{children}</div>
+      <div className="relative z-10">
+        {children}
+      </div>
     </div>
   );
 }
