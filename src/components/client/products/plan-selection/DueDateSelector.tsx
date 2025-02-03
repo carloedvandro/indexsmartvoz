@@ -10,18 +10,18 @@ export function DueDateSelector({ selectedDueDate, setSelectedDueDate }: DueDate
 
   return (
     <div className="flex flex-col w-full">
-      <div className="mb-5">
+      <div className="mb-4">
         <h2 className="text-sm font-medium">
           Escolha a melhor data de vencimento da sua fatura:
         </h2>
       </div>
 
       <div className="w-full">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-2">
           {dueDates.map((date) => (
             <Card 
               key={date}
-              className={`cursor-pointer transition-colors h-12 flex items-center justify-center bg-white border-gray-200 ${
+              className={`cursor-pointer transition-colors h-11 flex items-center justify-center bg-white border-gray-200 ${
                 selectedDueDate === date 
                   ? 'bg-[#8425af] text-white border-[#8425af]' 
                   : 'hover:bg-[#8425af] hover:text-white hover:border-[#8425af]'
