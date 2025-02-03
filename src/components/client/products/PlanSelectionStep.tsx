@@ -79,15 +79,12 @@ export function PlanSelectionStep({
       </div>
 
       <div className="space-y-4 max-w-2xl mx-auto">
-        <div className="grid grid-cols-2 gap-4 pt-2">
-          <div className="space-y-1">
-            <span className="text-sm font-medium pl-1">Internet</span>
-            <InternetSelector
-              selectedInternet={selectedLines[0]?.internet || undefined}
-              onInternetChange={handleInternetChange}
-              internetOptions={internetOptions}
-            />
-          </div>
+        <div className="grid grid-cols-2 gap-4">
+          <InternetSelector
+            selectedInternet={selectedLines[0]?.internet || undefined}
+            onInternetChange={handleInternetChange}
+            internetOptions={internetOptions}
+          />
           <DDDInput
             ddd={selectedLines[0]?.ddd || ""}
             onDDDChange={handleDDDChange}

@@ -24,13 +24,11 @@ export function InternetSelector({
   internetOptions 
 }: InternetSelectorProps) {
   return (
-    <div className="mt-4">
+    <div>
+      <span className="text-sm font-medium mb-2 block">Internet</span>
       <Select value={selectedInternet} onValueChange={onInternetChange}>
-        <SelectTrigger className="bg-white h-[60px] relative">
-          <div className="flex flex-col items-start">
-            <span className="text-sm text-gray-600 absolute -top-6">Internet</span>
-            <SelectValue className="pt-1 font-medium" placeholder="Escolher o plano" />
-          </div>
+        <SelectTrigger className="bg-white h-[42px]">
+          <SelectValue placeholder="Escolher o plano" />
         </SelectTrigger>
         <SelectContent className="bg-white">
           {internetOptions.map((option) => (
