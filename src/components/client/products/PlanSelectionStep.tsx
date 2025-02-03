@@ -1,8 +1,15 @@
-import { useState } from "react";
-import { InternetSelector } from "./InternetSelector";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { DDDInput } from "./DDDInput";
+import { InternetSelector } from "./InternetSelector";
 import { PriceSummary } from "./PriceSummary";
-import { Card, CardContent } from "@/components/ui/card";
+
+interface PlanSelectionStepProps {
+  selectedLines: Line[];
+  setSelectedLines: (lines: Line[]) => void;
+  selectedDueDate: number | null;
+  setSelectedDueDate: (date: number) => void;
+}
 
 type Line = {
   id: number;
@@ -12,118 +19,101 @@ type Line = {
   price: number;
 };
 
-interface PlanSelectionStepProps {
-  selectedLines: Line[];
-  setSelectedLines: (lines: Line[]) => void;
-  selectedDueDate: number | null;
-  setSelectedDueDate: (date: number) => void;
-}
-
-export function PlanSelectionStep({ 
-  selectedLines, 
+export function PlanSelectionStep({
+  selectedLines,
   setSelectedLines,
   selectedDueDate,
-  setSelectedDueDate 
+  setSelectedDueDate,
 }: PlanSelectionStepProps) {
-  const internetOptions = [
-    { value: "110GB", label: "110GB", price: 114.99 },
-    { value: "120GB", label: "120GB", price: 124.99 },
-    { value: "130GB", label: "130GB", price: 134.99 },
-    { value: "140GB", label: "140GB", price: 144.99 },
-    { value: "150GB", label: "150GB", price: 154.99 },
-    { value: "160GB", label: "160GB", price: 164.99 },
-  ];
+  const [plans, setPlans] = useState<any[]>([]);
 
-  const dueDates = [1, 5, 7, 10, 15, 20];
+  useEffect(() => {
+    async function fetchPlans() {
+      try {
+        const { data, error } = await supabase
+          .from('network_plans')
+          .select('*')
+          .eq('active', true);
+        
+        if (error) {
+          console.error('Error fetching plans:', error);
+          return;
+        }
 
-  useState(() => {
-    if (selectedLines.length === 0) {
-      setSelectedLines([
-        {
-          id: 1,
-          internet: "",
-          type: "Nova Linha",
-          ddd: "",
-          price: 0,
-        },
-      ]);
+        if (data) {
+          setPlans(data);
+        }
+      } catch (error) {
+        console.error('Error fetching plans:', error);
+      }
     }
-  });
 
-  const handleInternetChange = (value: string) => {
-    const newPrice = internetOptions.find(option => option.value === value)?.price || 0;
-    setSelectedLines(selectedLines.map(line => 
-      line.id === 1 
-        ? { ...line, internet: value, price: newPrice }
-        : line
-    ));
+    fetchPlans();
+  }, []);
+
+  const addLine = () => {
+    const newLine: Line = {
+      id: selectedLines.length + 1,
+      internet: "",
+      type: "",
+      ddd: "",
+      price: 0,
+    };
+    setSelectedLines([...selectedLines, newLine]);
   };
 
-  const handleDDDChange = (value: string) => {
-    setSelectedLines(selectedLines.map(line => 
-      line.id === 1 
-        ? { ...line, ddd: value }
-        : line
-    ));
+  const removeLine = (id: number) => {
+    setSelectedLines(selectedLines.filter((line) => line.id !== id));
   };
 
-  const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
+  const updateLine = (id: number, field: keyof Line, value: string | number) => {
+    setSelectedLines(
+      selectedLines.map((line) =>
+        line.id === id ? { ...line, [field]: value } : line
+      )
+    );
+  };
 
   return (
-    <div className="space-y-8">
-      <div className="space-y-2">
-        <h2 className="text-xl font-semibold">Personalize seu pedido</h2>
-        <p className="text-gray-600">
-          Confira aqui as melhores ofertas para você, cliente Smatvoz.
-        </p>
+    <div className="space-y-6">
+      <div className="space-y-4">
+        {selectedLines.map((line) => (
+          <div key={line.id} className="space-y-4">
+            <InternetSelector
+              selectedInternet={line.internet}
+              onSelect={(value) => updateLine(line.id, "internet", value)}
+              plans={plans}
+            />
+            <DDDInput
+              selectedDDD={line.ddd}
+              onDDDChange={(value) => updateLine(line.id, "ddd", value)}
+            />
+            {selectedLines.length > 1 && (
+              <button
+                onClick={() => removeLine(line.id)}
+                className="text-red-500 text-sm hover:text-red-700"
+              >
+                Remover linha
+              </button>
+            )}
+          </div>
+        ))}
       </div>
 
-      <div className="space-y-4 max-w-2xl mx-auto">
-        <div className="grid grid-cols-2 gap-4">
-          <InternetSelector
-            selectedInternet={selectedLines[0]?.internet || undefined}
-            onInternetChange={handleInternetChange}
-            internetOptions={internetOptions}
-          />
-          <DDDInput
-            ddd={selectedLines[0]?.ddd || ""}
-            onDDDChange={handleDDDChange}
-          />
-        </div>
+      {selectedLines.length < 3 && (
+        <button
+          onClick={addLine}
+          className="text-[#8425af] hover:text-[#6c1e8f] text-sm"
+        >
+          + Adicionar outra linha
+        </button>
+      )}
 
-        <div className="flex flex-col items-center w-full -mt-4">
-          <div className="text-center mb-4">
-            <h2 className="text-xl">
-              Escolha a melhor data de vencimento da sua fatura:
-            </h2>
-          </div>
-
-          <div className="w-full px-4">
-            <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto">
-              {dueDates.map((date) => (
-                <Card 
-                  key={date}
-                  className={`cursor-pointer transition-colors h-8 flex items-center justify-center bg-white border-gray-200 ${
-                    selectedDueDate === date 
-                      ? 'bg-[#8425af] text-white border-[#8425af]' 
-                      : 'hover:bg-[#8425af] hover:text-white hover:border-[#8425af]'
-                  }`}
-                  onClick={() => setSelectedDueDate(date)}
-                >
-                  <CardContent className="flex items-center justify-center h-full p-0">
-                    <span className="text-lg font-medium">{String(date).padStart(2, '0')}</span>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <PriceSummary
-          linePrice={selectedLines[0]?.price || 0}
-          totalPrice={totalPrice}
-        />
-      </div>
+      <PriceSummary
+        selectedLines={selectedLines}
+        selectedDueDate={selectedDueDate}
+        setSelectedDueDate={setSelectedDueDate}
+      />
     </div>
   );
 }
