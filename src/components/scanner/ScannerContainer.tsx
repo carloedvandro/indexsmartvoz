@@ -30,7 +30,7 @@ export function ScannerContainer({
 
   return (
     <div className="w-full max-w-[420px] mx-auto">
-      <div className="relative h-[30vh] flex items-center justify-center">
+      <div className="relative h-[10vh] flex items-center justify-center">
         <div className="absolute inset-0 flex items-center justify-center">
           <ScannerCamera
             onValidCode={onValidCode}
