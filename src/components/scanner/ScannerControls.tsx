@@ -9,8 +9,12 @@ interface ScannerControlsProps {
 }
 
 export function ScannerControls({ onClose, onConfirm, showConfirm }: ScannerControlsProps) {
-  const handleButtonClick = (action: () => void) => {
-    beepSound.play();
+  const handleButtonClick = async (action: () => void) => {
+    try {
+      beepSound.play();
+    } catch (error) {
+      console.error('Error playing sound:', error);
+    }
     action();
   };
 

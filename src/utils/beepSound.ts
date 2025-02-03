@@ -1,23 +1,31 @@
-const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+// Criar o AudioContext apenas quando necessário para evitar problemas com o contexto
+let audioContext: AudioContext | null = null;
 
-// Criar um beep mais alto e claro
 const createBeep = () => {
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
-  
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-  
-  oscillator.type = 'sine';
-  oscillator.frequency.setValueAtTime(1000, audioContext.currentTime); // Frequência mais alta
-  gainNode.gain.setValueAtTime(1, audioContext.currentTime); // Volume máximo
-  
-  return {
-    play: () => {
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.1); // Duração do beep
+  const getAudioContext = () => {
+    if (!audioContext) {
+      audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
     }
+    return audioContext;
   };
+
+  const play = () => {
+    const context = getAudioContext();
+    const oscillator = context.createOscillator();
+    const gainNode = context.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(context.destination);
+    
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(1000, context.currentTime);
+    gainNode.gain.setValueAtTime(0.1, context.currentTime);
+    
+    oscillator.start(context.currentTime);
+    oscillator.stop(context.currentTime + 0.1);
+  };
+
+  return { play };
 };
 
 export const beepSound = createBeep();
