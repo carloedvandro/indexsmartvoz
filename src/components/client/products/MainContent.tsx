@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
 import { OrderReviewStep } from "./OrderReviewStep";
 import { ContractTermsStep } from "./ContractTermsStep";
 import { PlanSelectionStep } from "./PlanSelectionStep";
@@ -38,7 +38,7 @@ export function MainContent({
   });
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-transparent pt-48 relative">
+    <div className="flex flex-col items-center min-h-screen bg-transparent pt-32 relative">
       <ParticlesBackground />
       <div className="relative z-10 w-full max-w-[400px]">
         <CardContent className="p-0">
