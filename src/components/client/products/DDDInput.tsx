@@ -45,7 +45,7 @@ export function DDDInput({ ddd, onDDDChange }: DDDInputProps) {
 
   return (
     <div>
-      <span className="text-sm font-medium mb-2 block">DDD</span>
+      <span className="text-sm font-medium mb-1 block">DDD</span>
       <Select value={ddd} onValueChange={onDDDChange}>
         <SelectTrigger className="bg-white h-[42px]">
           <SelectValue placeholder="Selecione o DDD" />
