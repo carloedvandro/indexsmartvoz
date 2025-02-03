@@ -31,6 +31,7 @@ export function PlanSelectionStep({
     { value: "130GB", label: "130GB", price: 134.99 },
     { value: "140GB", label: "140GB", price: 144.99 },
     { value: "150GB", label: "150GB", price: 154.99 },
+    { value: "160GB", label: "160GB", price: 164.99 },
   ];
 
   const dueDates = [1, 5, 7, 10, 15, 20];
