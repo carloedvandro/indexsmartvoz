@@ -68,9 +68,20 @@ export function PlanSelectionStep({
 
   const updateLine = (id: number, field: keyof Line, value: string | number) => {
     setSelectedLines(
-      selectedLines.map((line) =>
-        line.id === id ? { ...line, [field]: value } : line
-      )
+      selectedLines.map((line) => {
+        if (line.id === id) {
+          if (field === 'internet') {
+            const selectedPlan = plans.find(p => p.code === value);
+            return { 
+              ...line, 
+              [field]: value,
+              price: selectedPlan ? selectedPlan.price : 0
+            };
+          }
+          return { ...line, [field]: value };
+        }
+        return line;
+      })
     );
   };
 
@@ -81,12 +92,13 @@ export function PlanSelectionStep({
           <div key={line.id} className="space-y-4">
             <InternetSelector
               selectedInternet={line.internet}
-              onSelect={(value) => updateLine(line.id, "internet", value)}
+              onInternetChange={(value) => updateLine(line.id, "internet", value)}
               plans={plans}
+              internetOptions={[]}
             />
             <DDDInput
-              selectedDDD={line.ddd}
-              onDDDChange={(value) => updateLine(line.id, "ddd", value)}
+              value={line.ddd}
+              onChange={(value) => updateLine(line.id, "ddd", value)}
             />
             {selectedLines.length > 1 && (
               <button
