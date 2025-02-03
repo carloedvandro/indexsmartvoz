@@ -4,33 +4,37 @@ export function ScannerOverlay() {
   return (
     <div className="absolute inset-0 flex items-center justify-center">
       <div className="relative w-full h-full">
-        {/* Moldura tecnológica com cantos angulares */}
+        {/* Moldura sólida empresarial */}
         <div className="absolute inset-0">
-          {/* Cantos superiores */}
-          <div className="absolute top-0 left-0 w-12 h-12 border-l-2 border-t-2 border-[#0EA5E9] rounded-tl transform -skew-x-12 animate-pulse" />
-          <div className="absolute top-0 right-0 w-12 h-12 border-r-2 border-t-2 border-[#0EA5E9] rounded-tr transform skew-x-12 animate-pulse" />
+          {/* Borda externa sólida */}
+          <div className="absolute inset-0 border-2 border-[#555555] rounded-lg" />
           
-          {/* Cantos inferiores */}
-          <div className="absolute bottom-0 left-0 w-12 h-12 border-l-2 border-b-2 border-[#0EA5E9] rounded-bl transform skew-x-12 animate-pulse" />
-          <div className="absolute bottom-0 right-0 w-12 h-12 border-r-2 border-b-2 border-[#0EA5E9] rounded-br transform -skew-x-12 animate-pulse" />
+          {/* Área de digitalização destacada */}
+          <div className="absolute inset-4 border border-[#8E9196] rounded bg-white/5">
+            {/* Cantos de destaque */}
+            <div className="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 border-[#333333]" />
+            <div className="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-[#333333]" />
+            <div className="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-[#333333]" />
+            <div className="absolute bottom-0 right-0 w-8 h-8 border-r-2 border-b-2 border-[#333333]" />
+          </div>
 
-          {/* Linhas de digitalização múltiplas */}
-          <div className="absolute left-0 w-full h-[1px] bg-[#0EA5E9] opacity-50 animate-scanner" 
-               style={{ top: '30%', animationDelay: '0s' }} />
-          <div className="absolute left-0 w-full h-[1px] bg-[#0EA5E9] opacity-50 animate-scanner" 
-               style={{ top: '45%', animationDelay: '0.2s' }} />
-          <div className="absolute left-0 w-full h-[1px] bg-[#0EA5E9] opacity-50 animate-scanner" 
-               style={{ top: '60%', animationDelay: '0.4s' }} />
+          {/* Indicadores de progresso */}
+          <div className="absolute inset-x-4 top-1/2 -translate-y-1/2">
+            {/* Barra de progresso principal */}
+            <div className="h-[2px] bg-[#C8C8C9]/20">
+              <div className="h-full w-full bg-[#8A898C] animate-scanner-progress" />
+            </div>
 
-          {/* Grade de digitalização */}
-          <div className="absolute inset-x-0 top-1/2 h-[1px] bg-[#0EA5E9]/20" />
-          <div className="absolute inset-y-0 left-1/4 w-[1px] bg-[#0EA5E9]/20" />
-          <div className="absolute inset-y-0 right-1/4 w-[1px] bg-[#0EA5E9]/20" />
+            {/* Linhas de guia */}
+            <div className="absolute inset-y-0 left-1/4 w-[1px] h-8 -translate-y-1/2 bg-[#8A898C]/30" />
+            <div className="absolute inset-y-0 right-1/4 w-[1px] h-8 -translate-y-1/2 bg-[#8A898C]/30" />
+          </div>
 
-          {/* Núcleo neon central */}
+          {/* Indicador central */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <div className="w-4 h-4 rounded-full bg-[#0EA5E9]/20 animate-pulse">
-              <div className="absolute inset-0 w-2 h-2 bg-[#0EA5E9] rounded-full left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
+            <div className="w-6 h-6">
+              <div className="absolute inset-0 border-2 border-[#555555] rounded-full animate-pulse-subtle" />
+              <div className="absolute inset-[6px] bg-[#8A898C] rounded-full" />
             </div>
           </div>
         </div>
