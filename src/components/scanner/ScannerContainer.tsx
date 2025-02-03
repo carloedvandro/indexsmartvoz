@@ -30,7 +30,7 @@ export function ScannerContainer({
 
   return (
     <div className="w-full max-w-[380px] mx-auto">
-      <div className="relative h-[10vh] flex items-center justify-center">
+      <div className={`relative ${lastScannedCode ? 'h-[60vh]' : 'h-[40vh]'} flex items-center justify-center`}>
         <div className="absolute inset-0 flex items-center justify-center">
           <ScannerCamera
             onValidCode={onValidCode}
@@ -42,11 +42,35 @@ export function ScannerContainer({
       
       <ScannerError error={error} />
       <ScannerResult code={lastScannedCode} />
-      <ScannerControls 
-        onClose={onClose}
-        onConfirm={handleConfirm}
-        showConfirm={!!lastScannedCode}
-      />
+      
+      {lastScannedCode ? (
+        <div className="flex justify-between mt-4">
+          <button
+            onClick={onClose}
+            className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-4 py-2 rounded"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={handleConfirm}
+            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-4 py-2 rounded"
+          >
+            Continuar
+          </button>
+        </div>
+      ) : (
+        <div className="mt-4 text-center space-y-2">
+          <p className="text-sm text-gray-600">
+            Posicione o código de barras do chip dentro da área
+          </p>
+          <button
+            onClick={onClose}
+            className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-4 py-2 rounded"
+          >
+            Cancelar
+          </button>
+        </div>
+      )}
     </div>
   );
 }
