@@ -10,7 +10,7 @@ export function DueDateSelector({ selectedDueDate, setSelectedDueDate }: DueDate
 
   return (
     <div className="w-full space-y-3">
-      <p className="text-gray-600 text-base text-center -mb-6 whitespace-nowrap">
+      <p className="text-gray-600 text-base text-center -mb-9 whitespace-nowrap">
         Escolha a melhor data de vencimento da sua fatura:
       </p>
 
