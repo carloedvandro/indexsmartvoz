@@ -2,7 +2,8 @@ import { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
-import { Card, CardContent } from "@/components/ui/card";
+import { Header } from "./plan-selection/Header";
+import { DueDateSelector } from "./plan-selection/DueDateSelector";
 
 type Line = {
   id: number;
@@ -30,8 +31,6 @@ export function PlanSelectionStep({
     { value: "120GB", label: "120GB", price: 134.99 },
     { value: "140GB", label: "140GB", price: 144.99 },
   ];
-
-  const dueDates = [1, 5, 7, 10, 15, 20];
 
   useState(() => {
     if (selectedLines.length === 0) {
@@ -68,12 +67,10 @@ export function PlanSelectionStep({
 
   return (
     <div className="w-full space-y-10 min-h-[400px] pt-2">
-      <div className="space-y-3">
-        <h2 className="text-xl font-semibold">Personalize seu pedido</h2>
-        <p className="text-gray-600">
-          Confira aqui as melhores ofertas para você, cliente Smatvoz.
-        </p>
-      </div>
+      <Header 
+        title="Personalize seu pedido"
+        description="Confira aqui as melhores ofertas para você, cliente Smatvoz."
+      />
 
       <div className="space-y-8">
         <div className="grid grid-cols-2 gap-6 pt-4 w-full">
@@ -88,33 +85,10 @@ export function PlanSelectionStep({
           />
         </div>
 
-        <div className="flex flex-col w-full">
-          <div className="mb-5">
-            <h2 className="text-sm font-medium">
-              Escolha a melhor data de vencimento da sua fatura:
-            </h2>
-          </div>
-
-          <div className="w-full">
-            <div className="grid grid-cols-3 gap-3">
-              {dueDates.map((date) => (
-                <Card 
-                  key={date}
-                  className={`cursor-pointer transition-colors h-12 flex items-center justify-center bg-white border-gray-200 ${
-                    selectedDueDate === date 
-                      ? 'bg-[#8425af] text-white border-[#8425af]' 
-                      : 'hover:bg-[#8425af] hover:text-white hover:border-[#8425af]'
-                  }`}
-                  onClick={() => setSelectedDueDate(date)}
-                >
-                  <CardContent className="flex items-center justify-center h-full p-0">
-                    <span className="text-lg font-medium">{String(date).padStart(2, '0')}</span>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
+        <DueDateSelector 
+          selectedDueDate={selectedDueDate}
+          setSelectedDueDate={setSelectedDueDate}
+        />
 
         <PriceSummary
           linePrice={selectedLines[0]?.price || 0}
