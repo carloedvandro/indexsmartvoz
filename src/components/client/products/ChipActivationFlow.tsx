@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { BarcodeScanner } from "@/components/BarcodeScanner";
 import { ChipInstructions } from "./chip-activation/ChipInstructions";
-import { BarcodeInstructions } from "./chip-activation/BarcodeInstructions";
 import { BarcodeScannerComponent } from "./chip-activation/BarcodeScanner";
 
 interface ChipActivationFlowProps {
