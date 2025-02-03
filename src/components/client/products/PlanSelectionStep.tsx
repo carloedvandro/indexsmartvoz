@@ -74,7 +74,7 @@ export function PlanSelectionStep({
             const selectedPlan = plans.find(p => p.code === value);
             return { 
               ...line, 
-              [field]: value,
+              [field]: String(value), // Ensure value is converted to string
               price: selectedPlan ? selectedPlan.price : 0
             };
           }
