@@ -9,8 +9,8 @@ export function DueDateSelector({ selectedDueDate, setSelectedDueDate }: DueDate
   const dueDates = [1, 5, 7, 10, 15, 20];
 
   return (
-    <div className="w-full space-y-2">
-      <p className="text-gray-600 text-base">
+    <div className="w-full space-y-4">
+      <p className="text-gray-600 text-base text-center">
         Escolha a data de vencimento da sua fatura:
       </p>
 
