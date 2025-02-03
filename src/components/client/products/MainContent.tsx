@@ -38,7 +38,7 @@ export function MainContent({
   });
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-transparent pt-16 relative">
+    <div className="flex flex-col items-center min-h-screen bg-transparent pt-8 relative">
       <ParticlesBackground />
       <div className="relative z-10 w-full max-w-[400px]">
         <CardContent className="p-0">
