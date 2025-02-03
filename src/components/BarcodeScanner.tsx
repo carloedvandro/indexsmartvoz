@@ -43,6 +43,13 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       }
     },
     timeBetweenDecodingAttempts: 500,
+    scanDelay: 500,
+    // Definir a área de escaneamento para corresponder ao tamanho do vídeo
+    viewfinderWidth: 240,
+    viewfinderHeight: 740,
+    // Centralizar a área de escaneamento
+    viewfinderBorderWidth: 2,
+    viewfinderBorderLength: 20,
   });
 
   useEffect(() => {
