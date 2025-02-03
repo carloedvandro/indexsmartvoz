@@ -18,19 +18,26 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
       }
     },
     onError: (error) => {
-      // Handle the unknown error type safely
       const errorMessage = error instanceof Error 
         ? error.message 
         : "Erro ao ler o código. Por favor, tente novamente.";
       onError(errorMessage);
     },
-    timeBetweenDecodingAttempts: 3000,
+    timeBetweenDecodingAttempts: 300, // Reduzido para escanear mais frequentemente
     constraints: {
       video: {
         facingMode: "environment",
+        aspectRatio: 4/3,
+        width: { ideal: 1280 },
+        height: { ideal: 960 }
       },
     },
   });
 
-  return <video ref={ref} className="w-full h-full object-cover" />;
+  return (
+    <video 
+      ref={ref} 
+      className="w-full h-full object-cover"
+    />
+  );
 }
