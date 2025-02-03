@@ -15,7 +15,6 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   const { ref } = useZxing({
     onDecodeResult(result) {
       const text = result.getText();
-      // Aceita códigos com 20 dígitos que começam com 8955
       if (text.length === 20 && text.startsWith('8955')) {
         console.log("Código válido detectado:", text);
         setLastScannedCode(text);
@@ -33,8 +32,8 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
     constraints: {
       video: {
         facingMode: "environment",
-        width: { ideal: 1280 },
-        height: { ideal: 720 }
+        width: { ideal: 640 },
+        height: { ideal: 480 }
       }
     },
     timeBetweenDecodingAttempts: 500,
@@ -46,8 +45,8 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         const stream = await navigator.mediaDevices.getUserMedia({ 
           video: { 
             facingMode: "environment",
-            width: { ideal: 1280 },
-            height: { ideal: 720 }
+            width: { ideal: 640 },
+            height: { ideal: 480 }
           } 
         });
         
@@ -81,7 +80,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white p-4 rounded-lg w-[90%] max-w-[400px] mx-auto">
+      <div className="bg-white p-4 rounded-lg w-[70%] max-w-[280px] mx-auto">
         {hasPermission === false ? (
           <div className="text-center text-red-500 p-4">
             {error || "Por favor, permita o acesso à câmera para escanear o código."}
