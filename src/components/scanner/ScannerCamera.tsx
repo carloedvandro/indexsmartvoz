@@ -8,9 +8,11 @@ interface ScannerCameraProps {
 
 export function ScannerCamera({ ref, hasPermission, onPermissionDenied }: ScannerCameraProps) {
   useEffect(() => {
+    let stream: MediaStream | null = null;
+
     async function setupCamera() {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ 
+        stream = await navigator.mediaDevices.getUserMedia({ 
           video: { 
             facingMode: "environment",
             width: { ideal: 240 },
@@ -18,7 +20,7 @@ export function ScannerCamera({ ref, hasPermission, onPermissionDenied }: Scanne
           } 
         });
         
-        if (ref.current) {
+        if (ref?.current) {
           ref.current.srcObject = stream;
         }
       } catch (err) {
@@ -30,12 +32,14 @@ export function ScannerCamera({ ref, hasPermission, onPermissionDenied }: Scanne
     setupCamera();
 
     return () => {
-      if (ref.current?.srcObject) {
-        const stream = ref.current.srcObject as MediaStream;
+      if (stream) {
         stream.getTracks().forEach(track => track.stop());
       }
+      if (ref?.current) {
+        ref.current.srcObject = null;
+      }
     };
-  }, []);
+  }, [ref, onPermissionDenied]);
 
   if (hasPermission === false) {
     return (
