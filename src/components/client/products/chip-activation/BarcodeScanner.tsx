@@ -17,7 +17,7 @@ export function BarcodeScannerComponent({ selectedLines, onStartScanning }: Barc
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium text-sm">Código de barras do SIM card</p>
-                  <p className="text-sm text-gray-500">DDD</p>
+                  <p className="text-sm text-gray-500">DDD {line.ddd}</p>
                 </div>
                 <Button
                   onClick={() => onStartScanning(index)}
