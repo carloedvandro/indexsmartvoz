@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
 import { useZxing } from "react-zxing";
-import { beepSound } from "../../utils/beepSound";
+import { beepSound } from "@/utils/beepSound";
 
 interface ScannerCameraProps {
   onValidCode: (code: string) => void;
@@ -9,67 +8,25 @@ interface ScannerCameraProps {
 
 export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
   const { ref } = useZxing({
-    onDecodeResult(result) {
-      const text = result.getText();
-      if (text.length === 20 && text.startsWith('8955')) {
-        console.log("Código válido detectado:", text);
-        onValidCode(text);
-        beepSound.play().catch(err => console.error("Erro ao tocar som:", err));
+    onDecodeResult: (result) => {
+      const code = result.getText();
+      if (code.length === 20 && code.startsWith("8955")) {
+        beepSound.play();
+        onValidCode(code);
       } else {
-        console.log("Código inválido detectado:", text);
-        onError("Código inválido. O código deve ter 20 dígitos e começar com 8955.");
+        onError("Código inválido. O código deve começar com 8955 e ter 20 dígitos.");
       }
     },
-    onError(error) {
-      console.error("Scanner error:", error);
-      onError("Erro ao ler o código. Por favor, tente novamente.");
+    onError: (error) => {
+      onError(error.message);
     },
+    timeBetweenDecodingAttempts: 3000,
     constraints: {
       video: {
         facingMode: "environment",
-        width: { ideal: 240 },
-        height: { ideal: 740 }
-      }
+      },
     },
-    timeBetweenDecodingAttempts: 500,
   });
 
-  useEffect(() => {
-    async function setupCamera() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-          video: { 
-            facingMode: "environment",
-            width: { ideal: 240 },
-            height: { ideal: 740 }
-          } 
-        });
-        
-        if (ref.current) {
-          ref.current.srcObject = stream;
-        }
-      } catch (err) {
-        console.error("Camera error:", err);
-        onError("Permissão da câmera negada. Por favor, permita o acesso à câmera.");
-      }
-    }
-
-    setupCamera();
-
-    return () => {
-      if (ref.current?.srcObject) {
-        const stream = ref.current.srcObject as MediaStream;
-        stream.getTracks().forEach(track => track.stop());
-      }
-    };
-  }, []);
-
-  return (
-    <video 
-      ref={ref} 
-      className="w-full h-[10vh] object-cover"
-      autoPlay
-      playsInline
-    />
-  );
+  return <video ref={ref} className="w-full h-full object-cover" />;
 }
