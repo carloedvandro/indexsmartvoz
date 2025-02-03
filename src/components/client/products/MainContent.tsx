@@ -38,10 +38,10 @@ export function MainContent({
   });
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-50/80 pt-32 relative">
+    <div className="flex flex-col items-center min-h-screen bg-transparent pt-32 relative">
       <ParticlesBackground />
-      <Card className="relative z-10 w-full max-w-[400px] shadow-none bg-transparent border-0">
-        <CardContent>
+      <div className="relative z-10 w-full max-w-[400px]">
+        <CardContent className="p-0">
           {currentStep === 1 && (
             <PlanSelectionStep 
               selectedLines={selectedLines}
@@ -68,7 +68,7 @@ export function MainContent({
             handleContinue={validateAndContinue}
           />
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }
