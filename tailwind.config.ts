@@ -59,6 +59,11 @@ export default {
         "color-4": "hsl(var(--color-4))",
         "color-5": "hsl(var(--color-5))",
       },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -76,9 +81,14 @@ export default {
           "0%, 100%": { opacity: "0.8" },
           "50%": { opacity: "0.6" },
         },
-        "scan-line": {
-          "0%": { transform: "translateY(-100%)" },
-          "100%": { transform: "translateY(100%)" }
+        pulse: {
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.3)" }
+        },
+        scanner: {
+          "0%": { top: "0%" },
+          "50%": { top: "97%" },
+          "100%": { top: "0%" }
         }
       },
       animation: {
@@ -86,7 +96,8 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         "rainbow": "rainbow var(--speed, 2s) infinite linear",
         "gradient": "gradient 8s ease-in-out infinite",
-        "scan-line": "scan-line 2s linear infinite"
+        "pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "scanner": "scanner 2s linear infinite"
       },
     },
   },
