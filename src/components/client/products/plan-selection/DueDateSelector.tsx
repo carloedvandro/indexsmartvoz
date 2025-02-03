@@ -10,8 +10,8 @@ export function DueDateSelector({ selectedDueDate, setSelectedDueDate }: DueDate
 
   return (
     <div className="flex flex-col w-full">
-      <div className="mb-4 flex items-center justify-center min-h-[40px]">
-        <h2 className="text-base font-medium w-full text-left">
+      <div className="mb-3 flex items-center min-h-[36px]">
+        <h2 className="text-base w-full text-left text-gray-600">
           Escolha a data de vencimento da sua fatura:
         </h2>
       </div>
