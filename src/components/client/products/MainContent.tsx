@@ -65,8 +65,8 @@ export function MainContent({
   };
 
   return (
-    <div className="flex justify-center items-start min-h-screen bg-gray-50 px-4">
-      <Card className="w-full max-w-[400px] mt-8 bg-white shadow-sm">
+    <div className="flex flex-col items-center justify-start min-h-[calc(100vh-64px)] bg-gray-50 px-4 py-8">
+      <Card className="w-full max-w-[400px] bg-white shadow-sm">
         <CardContent className="p-6">
           {currentStep === 1 && (
             <PlanSelectionStep 
