@@ -63,7 +63,7 @@ export function MainContent({
 
   return (
     <div className="w-full flex justify-center py-8">
-      <div className="w-[95%] max-w-[450px]">
+      <div className="w-[95%] max-w-[440px]">
         <div className="p-6 flex flex-col items-center justify-center">
           <StepContent
             currentStep={currentStep}
