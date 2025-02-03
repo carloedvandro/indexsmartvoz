@@ -4,23 +4,40 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { WarpBackground } from "@/components/ui/warp-background";
 
+// Array de gradientes para fácil troca
+const gradients = [
+  // Efeito 1: Roxo suave para rosa
+  "bg-gradient-to-br from-purple-500 via-pink-400 to-red-300",
+  
+  // Efeito 2: Azul profundo para ciano
+  "bg-gradient-to-r from-blue-700 via-blue-500 to-cyan-400",
+  
+  // Efeito 3: Verde esmeralda para turquesa
+  "bg-gradient-to-br from-emerald-500 via-teal-400 to-cyan-300",
+  
+  // Efeito 4: Dourado para laranja suave
+  "bg-gradient-to-r from-amber-400 via-orange-300 to-yellow-200",
+  
+  // Efeito 5: Rosa vibrante para roxo
+  "bg-gradient-to-br from-pink-600 via-purple-500 to-indigo-400"
+];
+
+// Escolha qual gradiente usar (0-4)
+const currentGradient = gradients[0];
+
 export default function Index() {
   const { t } = useTranslation();
 
   return (
     <div 
-      className="fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat" 
-      style={{ 
-        backgroundImage: 'url("https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvoztecnologico.png?t=2025-01-21T14%3A39%3A18.055Z")',
-        backgroundColor: '#32004A' // Fallback color while image loads
-      }}
+      className={`fixed inset-0 w-full h-full flex flex-col items-center justify-center ${currentGradient}`}
     >
       <WarpBackground 
         className="w-full h-full border-0 p-0"
-        beamsPerSide={5}
-        beamSize={8}
+        beamsPerSide={12}
+        beamSize={0.8}
         gridColor="rgba(255,255,255,0.1)"
-        perspective={150}
+        perspective={120}
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
