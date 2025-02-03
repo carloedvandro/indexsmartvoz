@@ -41,7 +41,7 @@ export function MainContent({
     <div className="flex flex-col items-center min-h-screen bg-gray-50/80 pt-24">
       <ParticlesBackground />
       <Card className="relative z-10 w-full max-w-[400px] shadow-none bg-transparent border-0">
-        <CardContent>
+        <CardContent className="scrollbar-hide">
           {currentStep === 1 && (
             <PlanSelectionStep 
               selectedLines={selectedLines}
