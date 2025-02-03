@@ -9,17 +9,18 @@ export default function Index() {
 
   return (
     <div 
-      className="fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat" 
+      className="fixed inset-0 w-full h-full flex flex-col items-center justify-center"
       style={{ 
-        backgroundImage: 'url("https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvoztecnologico.png?t=2025-01-21T14%3A39%3A18.055Z")',
-        backgroundColor: '#32004A' // Fallback color while image loads
+        background: 'linear-gradient(135deg, #E5DEFF 0%, #FFDEE2 100%)',
       }}
     >
       <WarpBackground 
         className="w-full h-full border-0 p-0"
-        beamsPerSide={5}
-        beamSize={8}
-        gridColor="rgba(255,255,255,0.1)"
+        beamsPerSide={12}
+        beamSize={0.8}
+        beamDelayMax={0.5}
+        beamDuration={0.8}
+        gridColor="rgba(255,255,255,0.3)"
         perspective={150}
       >
         <motion.div
@@ -28,10 +29,10 @@ export default function Index() {
           className="max-w-md w-full mx-auto space-y-12 text-center relative z-10 px-4 sm:px-0"
         >
           <div className="space-y-6">
-            <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-white">
+            <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-gray-900">
               Bem vindo a Smartvoz
             </h1>
-            <p className="text-xl text-gray-200">
+            <p className="text-xl text-gray-700">
               {t('choose_access')}
             </p>
           </div>
