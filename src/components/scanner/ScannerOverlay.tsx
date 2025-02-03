@@ -16,8 +16,7 @@ export function ScannerOverlay() {
         {/* Linha de scanner com animação */}
         <div className="absolute left-0 w-full h-0.5 bg-red-600 animate-scanner" />
         
-        {/* Linhas guia */}
-        <div className="absolute inset-x-0 top-1/2 h-0.5 bg-[#8425af]/30" />
+        {/* Linhas guia verticais */}
         <div className="absolute inset-y-0 left-1/4 w-0.5 bg-[#8425af]/30" />
         <div className="absolute inset-y-0 right-1/4 w-0.5 bg-[#8425af]/30" />
       </div>
