@@ -62,24 +62,22 @@ export function MainContent({
   };
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center">
-      <div className="w-full">
-        <StepContent
-          currentStep={currentStep}
-          selectedLines={selectedLines}
-          selectedDueDate={selectedDueDate}
-          acceptedTerms={acceptedTerms}
-          setSelectedLines={setSelectedLines}
-          setSelectedDueDate={setSelectedDueDate}
-          setAcceptedTerms={setAcceptedTerms}
-        />
-        
-        <NavigationButtons
-          currentStep={currentStep}
-          handleBack={handleBack}
-          handleContinue={validateAndContinue}
-        />
-      </div>
+    <div className="flex flex-col items-center">
+      <StepContent
+        currentStep={currentStep}
+        selectedLines={selectedLines}
+        selectedDueDate={selectedDueDate}
+        acceptedTerms={acceptedTerms}
+        setSelectedLines={setSelectedLines}
+        setSelectedDueDate={setSelectedDueDate}
+        setAcceptedTerms={setAcceptedTerms}
+      />
+      
+      <NavigationButtons
+        currentStep={currentStep}
+        handleBack={handleBack}
+        handleContinue={validateAndContinue}
+      />
     </div>
   );
 }
