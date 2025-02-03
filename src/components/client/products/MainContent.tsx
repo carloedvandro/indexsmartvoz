@@ -65,44 +65,46 @@ export function MainContent({
   };
 
   return (
-    <Card className="md:col-span-2 max-w-[360px] mx-auto w-full bg-white">
-      <CardContent className="p-6">
-        {currentStep === 1 && (
-          <PlanSelectionStep 
-            selectedLines={selectedLines}
-            setSelectedLines={setSelectedLines}
-            selectedDueDate={selectedDueDate}
-            setSelectedDueDate={setSelectedDueDate}
-          />
-        )}
+    <div className="flex justify-center items-start min-h-screen bg-gray-50 px-4">
+      <Card className="w-full max-w-[400px] mt-8 bg-white shadow-sm">
+        <CardContent className="p-6">
+          {currentStep === 1 && (
+            <PlanSelectionStep 
+              selectedLines={selectedLines}
+              setSelectedLines={setSelectedLines}
+              selectedDueDate={selectedDueDate}
+              setSelectedDueDate={setSelectedDueDate}
+            />
+          )}
 
-        {currentStep === 2 && (
-          <OrderReviewStep selectedLines={selectedLines} />
-        )}
+          {currentStep === 2 && (
+            <OrderReviewStep selectedLines={selectedLines} />
+          )}
 
-        {currentStep === 3 && (
-          <ContractTermsStep
-            acceptedTerms={acceptedTerms}
-            onTermsChange={setAcceptedTerms}
-          />
-        )}
+          {currentStep === 3 && (
+            <ContractTermsStep
+              acceptedTerms={acceptedTerms}
+              onTermsChange={setAcceptedTerms}
+            />
+          )}
 
-        <div className="flex justify-between mt-6">
-          <Button 
-            variant="outline"
-            className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
-            onClick={() => currentStep === 1 ? navigate("/client/dashboard") : handleBack()}
-          >
-            Voltar
-          </Button>
-          <Button 
-            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
-            onClick={validateAndContinue}
-          >
-            {currentStep === 3 ? 'Continuar' : 'Continuar'}
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+          <div className="flex justify-between mt-6">
+            <Button 
+              variant="outline"
+              className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
+              onClick={() => currentStep === 1 ? navigate("/client/dashboard") : handleBack()}
+            >
+              Voltar
+            </Button>
+            <Button 
+              className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+              onClick={validateAndContinue}
+            >
+              {currentStep === 3 ? 'Continuar' : 'Continuar'}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
