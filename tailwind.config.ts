@@ -81,14 +81,15 @@ export default {
           "0%, 100%": { opacity: "0.8" },
           "50%": { opacity: "0.6" },
         },
-        pulse: {
-          "0%, 100%": { transform: "scale(1)" },
-          "50%": { transform: "scale(1.3)" }
+        "pulse-subtle": {
+          "0%, 100%": { transform: "scale(1)", opacity: "0.8" },
+          "50%": { transform: "scale(1.05)", opacity: "0.6" }
         },
-        scanner: {
-          "0%": { top: "0%" },
-          "50%": { top: "97%" },
-          "100%": { top: "0%" }
+        "scanner-progress": {
+          "0%": { transform: "scaleX(0)", transformOrigin: "left" },
+          "49%": { transform: "scaleX(1)", transformOrigin: "left" },
+          "50%": { transform: "scaleX(1)", transformOrigin: "right" },
+          "100%": { transform: "scaleX(0)", transformOrigin: "right" }
         }
       },
       animation: {
@@ -96,8 +97,8 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         "rainbow": "rainbow var(--speed, 2s) infinite linear",
         "gradient": "gradient 8s ease-in-out infinite",
-        "pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "scanner": "scanner 2s linear infinite"
+        "pulse-subtle": "pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "scanner-progress": "scanner-progress 2s linear infinite"
       },
     },
   },
