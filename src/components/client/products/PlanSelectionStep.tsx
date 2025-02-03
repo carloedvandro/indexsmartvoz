@@ -38,17 +38,17 @@ export function PlanSelectionStep({
       setSelectedLines([
         {
           id: 1,
-          internet: "110GB",
+          internet: "",
           type: "Nova Linha",
           ddd: "",
-          price: 124.99,
+          price: 0,
         },
       ]);
     }
   });
 
   const handleInternetChange = (value: string) => {
-    const newPrice = internetOptions.find(option => option.value === value)?.price || 124.99;
+    const newPrice = internetOptions.find(option => option.value === value)?.price || 0;
     setSelectedLines(selectedLines.map(line => 
       line.id === 1 
         ? { ...line, internet: value, price: newPrice }
@@ -78,7 +78,7 @@ export function PlanSelectionStep({
       <div className="space-y-6">
         <div className="grid grid-cols-2 gap-4 pt-2 max-w-md mx-auto">
           <InternetSelector
-            selectedInternet={selectedLines[0]?.internet || "110GB"}
+            selectedInternet={selectedLines[0]?.internet || undefined}
             onInternetChange={handleInternetChange}
             internetOptions={internetOptions}
           />

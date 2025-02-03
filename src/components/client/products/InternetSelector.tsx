@@ -13,7 +13,7 @@ interface InternetOption {
 }
 
 interface InternetSelectorProps {
-  selectedInternet: string;
+  selectedInternet: string | undefined;
   onInternetChange: (value: string) => void;
   internetOptions: InternetOption[];
 }
