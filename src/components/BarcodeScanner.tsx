@@ -4,6 +4,7 @@ import { ScannerOverlay } from "./scanner/ScannerOverlay";
 import { ScannerError } from "./scanner/ScannerError";
 import { ScannerResult } from "./scanner/ScannerResult";
 import { ScannerControls } from "./scanner/ScannerControls";
+import { beepSound } from "../utils/beepSound";
 
 interface BarcodeScannerProps {
   onResult: (result: string) => void;
@@ -21,6 +22,8 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       if (text.length === 20 && text.startsWith('8955')) {
         console.log("Código válido detectado:", text);
         setLastScannedCode(text);
+        // Tocar o som de beep quando um código válido é detectado
+        beepSound.play().catch(err => console.error("Erro ao tocar som:", err));
       } else {
         console.log("Código inválido detectado:", text);
         setError("Código inválido. O código deve ter 20 dígitos e começar com 8955.");
