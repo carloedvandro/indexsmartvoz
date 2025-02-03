@@ -24,17 +24,24 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       if (text.length === 20 && text.startsWith('8955')) {
         console.log("Código válido detectado:", text);
         setLastScannedCode(text);
+        // Inicia o beep contínuo
         beepSound.play().catch(err => console.error("Erro ao tocar som:", err));
       } else {
         console.log("Código inválido detectado:", text);
         setError("Código inválido. O código deve ter 20 dígitos e começar com 8955.");
         setTimeout(() => setError(null), 3000);
+        // Para o beep se um código inválido for detectado
+        beepSound.pause();
+        beepSound.currentTime = 0;
       }
     },
     onError(error) {
       console.error("Scanner error:", error);
       setError("Erro ao ler o código. Por favor, tente novamente.");
       setTimeout(() => setError(null), 3000);
+      // Para o beep em caso de erro
+      beepSound.pause();
+      beepSound.currentTime = 0;
     },
     constraints: {
       video: {
@@ -48,8 +55,18 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
 
   const handleConfirm = () => {
     if (lastScannedCode) {
+      // Para o beep quando confirmar
+      beepSound.pause();
+      beepSound.currentTime = 0;
       onResult(lastScannedCode);
     }
+  };
+
+  const handleClose = () => {
+    // Para o beep quando fechar
+    beepSound.pause();
+    beepSound.currentTime = 0;
+    onClose();
   };
 
   return (
@@ -63,7 +80,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       <ScannerError error={error} />
       <ScannerResult code={lastScannedCode} />
       <ScannerControls 
-        onClose={onClose}
+        onClose={handleClose}
         onConfirm={handleConfirm}
         showConfirm={!!lastScannedCode}
       />
