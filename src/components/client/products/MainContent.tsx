@@ -21,44 +21,44 @@ interface MainContentProps {
 // Definindo as diferentes configurações de efeito
 const effects = [
   {
-    perspective: 250, // Aumentado para dar mais profundidade
-    beamsPerSide: 3, // Reduzido para mais espaçamento
-    beamSize: 8, // Aumentado para raios mais largos
-    beamDelayMax: 8, // Aumentado para movimento mais lento
-    beamDuration: 6, // Aumentado para movimento mais lento
-    gridColor: "rgba(63, 131, 248, 0.08)", // Azul mais suave
-  },
-  {
-    perspective: 200,
-    beamsPerSide: 3,
-    beamSize: 6,
-    beamDelayMax: 2,
-    beamDuration: 3,
-    gridColor: "rgba(155, 135, 245, 0.1)",
-  },
-  {
-    perspective: 100,
-    beamsPerSide: 5,
-    beamSize: 3,
-    beamDelayMax: 5,
-    beamDuration: 2,
-    gridColor: "rgba(110, 89, 165, 0.1)",
-  },
-  {
-    perspective: 180,
-    beamsPerSide: 2,
-    beamSize: 8,
-    beamDelayMax: 3,
-    beamDuration: 5,
-    gridColor: "rgba(95, 8, 137, 0.15)",
-  },
-  {
-    perspective: 120,
+    perspective: 150,
     beamsPerSide: 6,
     beamSize: 2,
     beamDelayMax: 2,
-    beamDuration: 3,
-    gridColor: "rgba(155, 135, 245, 0.12)",
+    beamDuration: 1.5,
+    gridColor: "rgba(255, 255, 255, 0.1)", // Efeito de estrelas brancas suaves
+  },
+  {
+    perspective: 120,
+    beamsPerSide: 8,
+    beamSize: 1,
+    beamDelayMax: 1,
+    beamDuration: 1,
+    gridColor: "rgba(147, 197, 253, 0.08)", // Efeito azul cintilante
+  },
+  {
+    perspective: 100,
+    beamsPerSide: 10,
+    beamSize: 1.5,
+    beamDelayMax: 3,
+    beamDuration: 2,
+    gridColor: "rgba(167, 139, 250, 0.1)", // Efeito roxo suave
+  },
+  {
+    perspective: 130,
+    beamsPerSide: 5,
+    beamSize: 3,
+    beamDelayMax: 1.5,
+    beamDuration: 1.2,
+    gridColor: "rgba(251, 191, 36, 0.06)", // Efeito dourado sutil
+  },
+  {
+    perspective: 140,
+    beamsPerSide: 7,
+    beamSize: 2,
+    beamDelayMax: 2.5,
+    beamDuration: 1.8,
+    gridColor: "rgba(239, 246, 255, 0.12)", // Efeito prateado brilhante
   },
 ];
 
