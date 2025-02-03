@@ -38,7 +38,7 @@ export function MainContent({
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-50 pt-32">
-      <Card className="w-full max-w-[400px] shadow-sm bg-transparent">
+      <Card className="w-full max-w-[400px] shadow-none bg-transparent border-0">
         <CardContent>
           {currentStep === 1 && (
             <PlanSelectionStep 
