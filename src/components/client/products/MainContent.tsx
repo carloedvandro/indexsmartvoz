@@ -30,11 +30,11 @@ const effects = [
   },
   {
     perspective: 120,
-    beamsPerSide: 8,
-    beamSize: 1,
-    beamDelayMax: 1,
-    beamDuration: 1,
-    gridColor: "rgba(147, 197, 253, 0.08)", // Efeito azul cintilante
+    beamsPerSide: 12, // Aumentado para mais estrelas
+    beamSize: 0.8, // Reduzido para estrelas menores
+    beamDelayMax: 0.5, // Reduzido para movimento mais rápido
+    beamDuration: 0.8, // Reduzido para movimento mais rápido
+    gridColor: "rgba(59, 130, 246, 0.15)", // Azul mais vibrante
   },
   {
     perspective: 100,
@@ -81,8 +81,8 @@ export function MainContent({
     handleContinue 
   });
 
-  // Usando o primeiro efeito como padrão - você pode trocar o índice (0-4) para testar diferentes efeitos
-  const currentEffect = effects[0];
+  // Usando o segundo efeito (índice 1) que tem estrelas azuis cintilantes rápidas
+  const currentEffect = effects[1];
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-50 pt-32">
