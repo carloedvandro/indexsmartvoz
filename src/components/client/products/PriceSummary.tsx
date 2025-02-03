@@ -1,18 +1,9 @@
 interface PriceSummaryProps {
-  selectedLines: Array<{
-    id: number;
-    internet: string;
-    type: string;
-    ddd: string;
-    price: number;
-  }>;
-  selectedDueDate: number | null;
-  setSelectedDueDate: (date: number) => void;
+  linePrice: number;
+  totalPrice: number;
 }
 
-export function PriceSummary({ selectedLines }: PriceSummaryProps) {
-  const totalPrice = selectedLines.reduce((acc, line) => acc + (line.price || 0), 0);
-
+export function PriceSummary({ linePrice, totalPrice }: PriceSummaryProps) {
   return (
     <>
       <div className="p-4 bg-purple-50 rounded-lg">

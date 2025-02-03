@@ -15,42 +15,29 @@ interface InternetOption {
 interface InternetSelectorProps {
   selectedInternet: string | undefined;
   onInternetChange: (value: string) => void;
-  onSelect?: (value: string) => void;
   internetOptions: InternetOption[];
-  plans?: any[];
 }
 
 export function InternetSelector({ 
   selectedInternet, 
-  onInternetChange,
-  onSelect,
-  internetOptions,
-  plans = [] 
+  onInternetChange, 
+  internetOptions 
 }: InternetSelectorProps) {
-  const handleChange = (value: string) => {
-    onInternetChange(value);
-    if (onSelect) {
-      onSelect(value);
-    }
-  };
-
-  const options = plans.length > 0 ? plans : internetOptions;
-
   return (
     <div>
       <span className="text-sm font-medium mb-1 block">Internet</span>
-      <Select value={selectedInternet} onValueChange={handleChange}>
+      <Select value={selectedInternet} onValueChange={onInternetChange}>
         <SelectTrigger className="bg-white h-[42px]">
           <SelectValue placeholder="Escolher o plano" />
         </SelectTrigger>
         <SelectContent className="bg-white">
-          {options.map((option) => (
+          {internetOptions.map((option) => (
             <SelectItem 
-              key={option.value || option.code} 
-              value={option.value || option.code}
+              key={option.value} 
+              value={option.value}
               className="hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
             >
-              {option.label || option.name}
+              {option.label}
             </SelectItem>
           ))}
         </SelectContent>

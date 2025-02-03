@@ -1,20 +1,67 @@
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 interface DDDInputProps {
-  value: string;
-  onChange: (value: string) => void;
+  ddd: string;
+  onDDDChange: (value: string) => void;
 }
 
-export function DDDInput({ value, onChange }: DDDInputProps) {
+export function DDDInput({ ddd, onDDDChange }: DDDInputProps) {
+  // Lista de DDDs do Brasil
+  const ddds = [
+    "11", "12", "13", "14", "15", "16", "17", "18", "19", // São Paulo
+    "21", "22", "24", // Rio de Janeiro
+    "27", "28", // Espírito Santo
+    "31", "32", "33", "34", "35", "37", "38", // Minas Gerais
+    "41", "42", "43", "44", "45", "46", // Paraná
+    "47", "48", "49", // Santa Catarina
+    "51", "53", "54", "55", // Rio Grande do Sul
+    "61", // Distrito Federal
+    "62", "64", // Goiás
+    "63", // Tocantins
+    "65", "66", // Mato Grosso
+    "67", // Mato Grosso do Sul
+    "68", // Acre
+    "69", // Rondônia
+    "71", "73", "74", "75", "77", // Bahia
+    "79", // Sergipe
+    "81", "87", // Pernambuco
+    "82", // Alagoas
+    "83", // Paraíba
+    "84", // Rio Grande do Norte
+    "85", "88", // Ceará
+    "86", "89", // Piauí
+    "91", "93", "94", // Pará
+    "92", "97", // Amazonas
+    "95", // Roraima
+    "96", // Amapá
+    "98", "99", // Maranhão
+  ];
+
   return (
     <div>
       <span className="text-sm font-medium mb-1 block">DDD</span>
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder="Digite o DDD"
-        className="w-full h-[42px] px-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8425af] focus:border-transparent"
-        maxLength={2}
-      />
+      <Select value={ddd} onValueChange={onDDDChange}>
+        <SelectTrigger className="bg-white h-[42px]">
+          <SelectValue placeholder="Selecione o DDD" />
+        </SelectTrigger>
+        <SelectContent className="bg-white max-h-[200px] overflow-y-auto">
+          {ddds.map((dddOption) => (
+            <SelectItem 
+              key={dddOption} 
+              value={dddOption}
+              className="hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
+            >
+              {dddOption}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 }
