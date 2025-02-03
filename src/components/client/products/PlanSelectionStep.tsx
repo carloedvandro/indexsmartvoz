@@ -75,8 +75,8 @@ export function PlanSelectionStep({
         </p>
       </div>
 
-      <div className="space-y-6">
-        <div className="grid grid-cols-2 gap-4 pt-2 max-w-2xl mx-auto">
+      <div className="space-y-6 max-w-2xl mx-auto">
+        <div className="grid grid-cols-2 gap-4 pt-2">
           <InternetSelector
             selectedInternet={selectedLines[0]?.internet || undefined}
             onInternetChange={handleInternetChange}
@@ -95,7 +95,7 @@ export function PlanSelectionStep({
             </h2>
           </div>
 
-          <div className="w-full max-w-xl px-2">
+          <div className="w-full px-2">
             <div className="grid grid-cols-3 gap-2">
               {dueDates.map((date) => (
                 <Card 
