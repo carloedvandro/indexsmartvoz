@@ -54,7 +54,7 @@ export function ScannerCamera({ ref, hasPermission, onPermissionDenied }: Scanne
       <div className="absolute inset-0 flex items-center justify-center">
         <video 
           ref={ref} 
-          className="w-full h-[8vh] object-cover"
+          className="w-full h-[10vh] object-cover"
           autoPlay
           playsInline
         />
