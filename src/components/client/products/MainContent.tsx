@@ -1,10 +1,9 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { OrderReviewStep } from "./OrderReviewStep";
 import { ContractTermsStep } from "./ContractTermsStep";
 import { PlanSelectionStep } from "./PlanSelectionStep";
-import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
+import { NavigationButtons } from "./NavigationButtons";
+import { useStepValidator } from "./StepValidator";
 
 interface MainContentProps {
   currentStep: number;
@@ -29,40 +28,13 @@ export function MainContent({
   handleBack,
   handleContinue
 }: MainContentProps) {
-  const { toast } = useToast();
-  const navigate = useNavigate();
-
-  const validateAndContinue = () => {
-    if (currentStep === 1) {
-      if (!selectedLines[0]?.ddd) {
-        toast({
-          title: "Campo obrigatório",
-          description: "Por favor, preencha o DDD antes de continuar",
-          variant: "destructive",
-        });
-        return;
-      }
-      if (!selectedDueDate) {
-        toast({
-          title: "Erro",
-          description: "Selecione uma data de vencimento para continuar",
-          variant: "destructive",
-        });
-        return;
-      }
-    }
-
-    if (currentStep === 3 && !acceptedTerms) {
-      toast({
-        title: "Termos não aceitos",
-        description: "Você precisa aceitar os termos para continuar",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    handleContinue();
-  };
+  const { validateAndContinue } = useStepValidator({ 
+    currentStep, 
+    selectedLines, 
+    selectedDueDate, 
+    acceptedTerms,
+    handleContinue 
+  });
 
   return (
     <div className="flex flex-col items-center min-h-[calc(100vh-64px)] bg-gray-50 pt-20">
@@ -88,21 +60,11 @@ export function MainContent({
             />
           )}
 
-          <div className="flex justify-between mt-6">
-            <Button 
-              variant="outline"
-              className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
-              onClick={() => currentStep === 1 ? navigate("/client/dashboard") : handleBack()}
-            >
-              Voltar
-            </Button>
-            <Button 
-              className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
-              onClick={validateAndContinue}
-            >
-              {currentStep === 3 ? 'Continuar' : 'Continuar'}
-            </Button>
-          </div>
+          <NavigationButtons 
+            currentStep={currentStep}
+            handleBack={handleBack}
+            handleContinue={validateAndContinue}
+          />
         </CardContent>
       </Card>
     </div>
