@@ -18,7 +18,6 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
       }
     },
     onError: (error) => {
-      // Handle the unknown error type safely
       const errorMessage = error instanceof Error 
         ? error.message 
         : "Erro ao ler o código. Por favor, tente novamente.";
@@ -28,9 +27,18 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
     constraints: {
       video: {
         facingMode: "environment",
+        aspectRatio: 1,
+        width: { ideal: 340 },
+        height: { ideal: 340 }
       },
     },
   });
 
-  return <video ref={ref} className="w-full h-full object-cover" />;
+  return (
+    <video 
+      ref={ref} 
+      className="w-full h-full object-cover transform-gpu" 
+      style={{ transform: 'scaleX(-1)' }}
+    />
+  );
 }
