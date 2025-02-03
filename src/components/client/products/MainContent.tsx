@@ -21,12 +21,12 @@ interface MainContentProps {
 // Definindo as diferentes configurações de efeito
 const effects = [
   {
-    perspective: 150,
-    beamsPerSide: 4,
-    beamSize: 4,
-    beamDelayMax: 4,
-    beamDuration: 4,
-    gridColor: "rgba(95, 8, 137, 0.1)",
+    perspective: 250, // Aumentado para dar mais profundidade
+    beamsPerSide: 3, // Reduzido para mais espaçamento
+    beamSize: 8, // Aumentado para raios mais largos
+    beamDelayMax: 8, // Aumentado para movimento mais lento
+    beamDuration: 6, // Aumentado para movimento mais lento
+    gridColor: "rgba(63, 131, 248, 0.08)", // Azul mais suave
   },
   {
     perspective: 200,
