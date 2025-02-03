@@ -93,13 +93,13 @@ export function PlanSelectionStep({
 
         <div className="flex flex-col items-center w-full mt-8">
           <div className="text-center mb-4">
-            <h2 className="text-xl font-semibold px-4">
+            <h2 className="text-xl font-semibold">
               Escolha a melhor data de vencimento da sua fatura:
             </h2>
           </div>
 
-          <div className="w-full px-2">
-            <div className="grid grid-cols-3 gap-2">
+          <div className="w-full px-4">
+            <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto">
               {dueDates.map((date) => (
                 <Card 
                   key={date}
