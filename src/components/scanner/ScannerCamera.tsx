@@ -23,13 +23,21 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
         : "Erro ao ler o código. Por favor, tente novamente.";
       onError(errorMessage);
     },
-    timeBetweenDecodingAttempts: 300, // Reduzido para escanear mais frequentemente
+    timeBetweenDecodingAttempts: 200, // Reduzido para escanear mais frequentemente
     constraints: {
       video: {
         facingMode: "environment",
         aspectRatio: 4/3,
         width: { ideal: 1280 },
-        height: { ideal: 960 }
+        height: { ideal: 960 },
+        // Aumentar a sensibilidade da câmera
+        advanced: [
+          {
+            exposureMode: "continuous",
+            focusMode: "continuous",
+            whiteBalanceMode: "continuous"
+          }
+        ]
       },
     },
   });
