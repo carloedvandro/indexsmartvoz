@@ -66,14 +66,14 @@ export function PlanSelectionStep({
   const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
 
   return (
-    <div className="w-[95%] space-y-8 min-h-[400px] pt-2">
+    <div className="w-[95%] space-y-6 min-h-[400px] pt-1">
       <Header 
         title="Personalize seu pedido"
         description="Confira aqui as melhores ofertas para você, cliente Smatvoz."
       />
 
       <div className="space-y-6">
-        <div className="grid grid-cols-2 gap-4 pt-3 w-full">
+        <div className="grid grid-cols-2 gap-4 pt-1 w-full">
           <InternetSelector
             selectedInternet={selectedLines[0]?.internet || ""}
             onInternetChange={handleInternetChange}
