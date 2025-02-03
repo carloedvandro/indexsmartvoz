@@ -44,8 +44,8 @@ export function ChipActivationFlow({
         />
       )}
       
-      <Card className="md:col-span-2 max-w-[360px] mx-auto w-full">
-        <CardContent className="pt-6 space-y-8">
+      <Card className="max-w-[320px] mx-auto w-full">
+        <CardContent className="pt-10 space-y-8">
           {currentStep === 4 && <ChipInstructions />}
           {currentStep === 5 && <BarcodeInstructions onBack={onBack} onContinue={onContinue} />}
           {currentStep === 6 && (
