@@ -82,13 +82,13 @@ export default {
           "50%": { opacity: "0.6" },
         },
         pulse: {
-          "0%, 100%": { transform: "scale(1)" },
-          "50%": { transform: "scale(1.3)" }
+          "0%, 100%": { transform: "scale(1)", opacity: "1" },
+          "50%": { transform: "scale(1.1)", opacity: "0.8" }
         },
         scanner: {
-          "0%": { top: "0%" },
-          "50%": { top: "97%" },
-          "100%": { top: "0%" }
+          "0%": { transform: "translateY(0%)" },
+          "50%": { transform: "translateY(97%)" },
+          "100%": { transform: "translateY(0%)" }
         }
       },
       animation: {
