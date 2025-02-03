@@ -91,9 +91,9 @@ export function PlanSelectionStep({
           />
         </div>
 
-        <div className="flex flex-col items-center w-full mt-4">
+        <div className="flex flex-col items-center w-full -mt-4">
           <div className="text-center mb-2">
-            <h2 className="text-xl font-semibold -mt-2">
+            <h2 className="text-xl font-semibold mt-2">
               Escolha a melhor data de vencimento da sua fatura:
             </h2>
           </div>
