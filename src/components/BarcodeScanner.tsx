@@ -1,11 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useZxing } from "react-zxing";
 import { ScannerOverlay } from "./scanner/ScannerOverlay";
 import { ScannerError } from "./scanner/ScannerError";
 import { ScannerResult } from "./scanner/ScannerResult";
 import { ScannerControls } from "./scanner/ScannerControls";
-import { ScannerCamera } from "./scanner/ScannerCamera";
-import { ScannerContainer } from "./scanner/ScannerContainer";
 import { beepSound } from "../utils/beepSound";
 
 interface BarcodeScannerProps {
@@ -24,24 +22,18 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       if (text.length === 20 && text.startsWith('8955')) {
         console.log("Código válido detectado:", text);
         setLastScannedCode(text);
-        // Inicia o beep contínuo
+        // Tocar o som de beep quando um código válido é detectado
         beepSound.play().catch(err => console.error("Erro ao tocar som:", err));
       } else {
         console.log("Código inválido detectado:", text);
         setError("Código inválido. O código deve ter 20 dígitos e começar com 8955.");
         setTimeout(() => setError(null), 3000);
-        // Para o beep se um código inválido for detectado
-        beepSound.pause();
-        beepSound.currentTime = 0;
       }
     },
     onError(error) {
       console.error("Scanner error:", error);
       setError("Erro ao ler o código. Por favor, tente novamente.");
       setTimeout(() => setError(null), 3000);
-      // Para o beep em caso de erro
-      beepSound.pause();
-      beepSound.currentTime = 0;
     },
     constraints: {
       video: {
@@ -53,37 +45,76 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
     timeBetweenDecodingAttempts: 500,
   });
 
+  useEffect(() => {
+    async function setupCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+          video: { 
+            facingMode: "environment",
+            width: { ideal: 240 },
+            height: { ideal: 740 }
+          } 
+        });
+        
+        if (ref.current) {
+          ref.current.srcObject = stream;
+        }
+        
+        setHasPermission(true);
+      } catch (err) {
+        console.error("Camera error:", err);
+        setHasPermission(false);
+        setError("Permissão da câmera negada. Por favor, permita o acesso à câmera.");
+      }
+    }
+
+    setupCamera();
+
+    return () => {
+      if (ref.current?.srcObject) {
+        const stream = ref.current.srcObject as MediaStream;
+        stream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, []);
+
   const handleConfirm = () => {
     if (lastScannedCode) {
-      // Para o beep quando confirmar
-      beepSound.pause();
-      beepSound.currentTime = 0;
       onResult(lastScannedCode);
     }
   };
 
-  const handleClose = () => {
-    // Para o beep quando fechar
-    beepSound.pause();
-    beepSound.currentTime = 0;
-    onClose();
-  };
-
   return (
-    <ScannerContainer>
-      <ScannerCamera 
-        ref={ref}
-        hasPermission={hasPermission}
-        onPermissionDenied={() => setHasPermission(false)}
-      />
-      <ScannerOverlay />
-      <ScannerError error={error} />
-      <ScannerResult code={lastScannedCode} />
-      <ScannerControls 
-        onClose={handleClose}
-        onConfirm={handleConfirm}
-        showConfirm={!!lastScannedCode}
-      />
-    </ScannerContainer>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white p-4 rounded-lg w-full max-w-[420px] mx-auto">
+        {hasPermission === false ? (
+          <div className="text-center text-red-500 p-4">
+            {error || "Por favor, permita o acesso à câmera para escanear o código."}
+          </div>
+        ) : (
+          <>
+            <div className="relative h-[30vh] flex items-center justify-center">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <video 
+                  ref={ref} 
+                  className="w-full h-[8vh] object-cover"
+                  autoPlay
+                  playsInline
+                />
+              </div>
+              <ScannerOverlay />
+            </div>
+            
+            <ScannerError error={error} />
+            <ScannerResult code={lastScannedCode} />
+            <ScannerControls 
+              onClose={onClose}
+              onConfirm={handleConfirm}
+              showConfirm={!!lastScannedCode}
+            />
+          </>
+        )}
+      </div>
+    </div>
   );
 }

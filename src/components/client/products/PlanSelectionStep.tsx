@@ -3,7 +3,6 @@ import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
 import { Card, CardContent } from "@/components/ui/card";
-import { playClickSound } from "@/utils/playSound";
 
 type Line = {
   id: number;
@@ -52,7 +51,6 @@ export function PlanSelectionStep({
   });
 
   const handleInternetChange = (value: string) => {
-    playClickSound();
     const newPrice = internetOptions.find(option => option.value === value)?.price || 0;
     setSelectedLines(selectedLines.map(line => 
       line.id === 1 
@@ -62,17 +60,11 @@ export function PlanSelectionStep({
   };
 
   const handleDDDChange = (value: string) => {
-    playClickSound();
     setSelectedLines(selectedLines.map(line => 
       line.id === 1 
         ? { ...line, ddd: value }
         : line
     ));
-  };
-
-  const handleDueDateClick = (date: number) => {
-    playClickSound();
-    setSelectedDueDate(date);
   };
 
   const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
@@ -116,7 +108,7 @@ export function PlanSelectionStep({
                       ? 'bg-[#8425af] text-white border-[#8425af]' 
                       : 'hover:bg-[#8425af] hover:text-white hover:border-[#8425af]'
                   }`}
-                  onClick={() => handleDueDateClick(date)}
+                  onClick={() => setSelectedDueDate(date)}
                 >
                   <CardContent className="flex items-center justify-center h-full p-0">
                     <span className="text-lg font-medium">{String(date).padStart(2, '0')}</span>

@@ -24,7 +24,7 @@ export function ScannerControls({ onClose, onConfirm, showConfirm }: ScannerCont
         {showConfirm && (
           <Button
             onClick={onConfirm}
-            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white animate-pulse"
+            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
           >
             Confirmar
           </Button>
