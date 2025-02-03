@@ -65,7 +65,7 @@ export function MainContent({
   };
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-[calc(100vh-64px)] bg-gray-50 px-4 py-12">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-64px)] bg-gray-50">
       <Card className="w-full max-w-[400px] shadow-sm bg-transparent">
         <CardContent>
           {currentStep === 1 && (
