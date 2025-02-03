@@ -4,6 +4,7 @@ import { ContractTermsStep } from "./ContractTermsStep";
 import { PlanSelectionStep } from "./PlanSelectionStep";
 import { NavigationButtons } from "./NavigationButtons";
 import { useStepValidator } from "./StepValidator";
+import { WarpBackground } from "@/components/ui/warp-background";
 
 interface MainContentProps {
   currentStep: number;
@@ -16,6 +17,50 @@ interface MainContentProps {
   handleBack: () => void;
   handleContinue: () => void;
 }
+
+// Definindo as diferentes configurações de efeito
+const effects = [
+  {
+    perspective: 150,
+    beamsPerSide: 4,
+    beamSize: 4,
+    beamDelayMax: 4,
+    beamDuration: 4,
+    gridColor: "rgba(95, 8, 137, 0.1)",
+  },
+  {
+    perspective: 200,
+    beamsPerSide: 3,
+    beamSize: 6,
+    beamDelayMax: 2,
+    beamDuration: 3,
+    gridColor: "rgba(155, 135, 245, 0.1)",
+  },
+  {
+    perspective: 100,
+    beamsPerSide: 5,
+    beamSize: 3,
+    beamDelayMax: 5,
+    beamDuration: 2,
+    gridColor: "rgba(110, 89, 165, 0.1)",
+  },
+  {
+    perspective: 180,
+    beamsPerSide: 2,
+    beamSize: 8,
+    beamDelayMax: 3,
+    beamDuration: 5,
+    gridColor: "rgba(95, 8, 137, 0.15)",
+  },
+  {
+    perspective: 120,
+    beamsPerSide: 6,
+    beamSize: 2,
+    beamDelayMax: 2,
+    beamDuration: 3,
+    gridColor: "rgba(155, 135, 245, 0.12)",
+  },
+];
 
 export function MainContent({
   currentStep,
@@ -36,37 +81,50 @@ export function MainContent({
     handleContinue 
   });
 
+  // Usando o primeiro efeito como padrão - você pode trocar o índice (0-4) para testar diferentes efeitos
+  const currentEffect = effects[0];
+
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-50 pt-32">
-      <Card className="w-full max-w-[400px] shadow-none bg-transparent border-0">
-        <CardContent>
-          {currentStep === 1 && (
-            <PlanSelectionStep 
-              selectedLines={selectedLines}
-              setSelectedLines={setSelectedLines}
-              selectedDueDate={selectedDueDate}
-              setSelectedDueDate={setSelectedDueDate}
+      <WarpBackground
+        className="w-full max-w-[400px]"
+        perspective={currentEffect.perspective}
+        beamsPerSide={currentEffect.beamsPerSide}
+        beamSize={currentEffect.beamSize}
+        beamDelayMax={currentEffect.beamDelayMax}
+        beamDuration={currentEffect.beamDuration}
+        gridColor={currentEffect.gridColor}
+      >
+        <Card className="w-full max-w-[400px] shadow-none bg-transparent border-0">
+          <CardContent>
+            {currentStep === 1 && (
+              <PlanSelectionStep 
+                selectedLines={selectedLines}
+                setSelectedLines={setSelectedLines}
+                selectedDueDate={selectedDueDate}
+                setSelectedDueDate={setSelectedDueDate}
+              />
+            )}
+
+            {currentStep === 2 && (
+              <OrderReviewStep selectedLines={selectedLines} />
+            )}
+
+            {currentStep === 3 && (
+              <ContractTermsStep
+                acceptedTerms={acceptedTerms}
+                onTermsChange={setAcceptedTerms}
+              />
+            )}
+
+            <NavigationButtons 
+              currentStep={currentStep}
+              handleBack={handleBack}
+              handleContinue={validateAndContinue}
             />
-          )}
-
-          {currentStep === 2 && (
-            <OrderReviewStep selectedLines={selectedLines} />
-          )}
-
-          {currentStep === 3 && (
-            <ContractTermsStep
-              acceptedTerms={acceptedTerms}
-              onTermsChange={setAcceptedTerms}
-            />
-          )}
-
-          <NavigationButtons 
-            currentStep={currentStep}
-            handleBack={handleBack}
-            handleContinue={validateAndContinue}
-          />
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </WarpBackground>
     </div>
   );
 }
