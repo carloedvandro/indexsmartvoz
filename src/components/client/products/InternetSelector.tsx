@@ -25,7 +25,7 @@ export function InternetSelector({
 }: InternetSelectorProps) {
   return (
     <div>
-      <span className="text-sm font-medium mb-1 block">Internet</span>
+      <span className="text-sm font-medium mb-2 block">Internet</span>
       <Select value={selectedInternet} onValueChange={onInternetChange}>
         <SelectTrigger className="bg-white h-[42px]">
           <SelectValue placeholder="Escolher o plano" />
