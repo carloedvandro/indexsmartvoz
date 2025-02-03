@@ -1,4 +1,3 @@
-import { CardContent } from "@/components/ui/card";
 import { OrderReviewStep } from "./OrderReviewStep";
 import { ContractTermsStep } from "./ContractTermsStep";
 import { PlanSelectionStep } from "./PlanSelectionStep";
