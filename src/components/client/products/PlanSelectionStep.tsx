@@ -66,7 +66,7 @@ export function PlanSelectionStep({
   const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
 
   return (
-    <div className="w-full space-y-8 min-h-[400px] pt-2">
+    <div className="w-[95%] space-y-8 min-h-[400px] pt-2">
       <Header 
         title="Personalize seu pedido"
         description="Confira aqui as melhores ofertas para você, cliente Smatvoz."
