@@ -29,14 +29,7 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
         facingMode: "environment",
         aspectRatio: 4/3,
         width: { ideal: 1280 },
-        height: { ideal: 960 },
-        // Usando configurações válidas do MediaTrackConstraints
-        advanced: [{
-          brightness: { ideal: 100 },
-          contrast: { ideal: 100 },
-          focus: { ideal: 100 },
-          whiteBalanceMode: "continuous"
-        }]
+        height: { ideal: 960 }
       },
     },
   });

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from "../ui/button";
+import { beepSound } from "@/utils/beepSound";
 
 interface ScannerControlsProps {
   onClose: () => void;
@@ -8,6 +9,11 @@ interface ScannerControlsProps {
 }
 
 export function ScannerControls({ onClose, onConfirm, showConfirm }: ScannerControlsProps) {
+  const handleButtonClick = (action: () => void) => {
+    beepSound.play();
+    action();
+  };
+
   return (
     <div className="mt-4 text-center space-y-2">
       <p className="text-sm text-gray-600">
@@ -16,14 +22,14 @@ export function ScannerControls({ onClose, onConfirm, showConfirm }: ScannerCont
       <div className="flex justify-between mt-4">
         <Button
           variant="outline"
-          onClick={onClose}
+          onClick={() => handleButtonClick(onClose)}
           className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
         >
           Cancelar
         </Button>
         {showConfirm && (
           <Button
-            onClick={onConfirm}
+            onClick={() => handleButtonClick(onConfirm)}
             className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
           >
             Confirmar
