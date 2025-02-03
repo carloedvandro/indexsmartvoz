@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { CardContent } from "@/components/ui/card";
 import { BarcodeScanner } from "@/components/BarcodeScanner";
 import { ChipInstructions } from "./chip-activation/ChipInstructions";
 import { BarcodeInstructions } from "./chip-activation/BarcodeInstructions";
@@ -44,7 +45,7 @@ export function ChipActivationFlow({
       )}
       
       <div className="md:col-span-2 max-w-[360px] mx-auto w-full bg-white rounded-lg">
-        <div className="p-6 space-y-8">
+        <CardContent className="pt-6 space-y-8">
           {currentStep === 4 && <ChipInstructions />}
           {currentStep === 5 && <BarcodeInstructions onBack={onBack} onContinue={onContinue} />}
           {currentStep === 6 && (
@@ -70,7 +71,7 @@ export function ChipActivationFlow({
               </div>
             </>
           )}
-        </div>
+        </CardContent>
       </div>
     </>
   );
