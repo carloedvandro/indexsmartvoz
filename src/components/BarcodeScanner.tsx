@@ -81,7 +81,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white p-4 rounded-lg w-[80%] max-w-[320px] mx-auto">
+      <div className="bg-white p-4 rounded-lg w-[90%] max-w-[400px] mx-auto">
         {hasPermission === false ? (
           <div className="text-center text-red-500 p-4">
             {error || "Por favor, permita o acesso à câmera para escanear o código."}
