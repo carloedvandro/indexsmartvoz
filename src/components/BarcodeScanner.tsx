@@ -90,7 +90,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           </div>
         ) : (
           <>
-            <div className="relative h-[30vh]">
+            <div className="relative h-[30vh] flex items-center justify-center">
               <video 
                 ref={ref} 
                 className="absolute inset-0 w-full h-[5vh] object-cover rounded"
