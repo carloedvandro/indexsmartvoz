@@ -28,13 +28,10 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
         : "Erro ao ler o código. Por favor, tente novamente.";
       onError(errorMessage);
     },
-    timeBetweenDecodingAttempts: 200, // Reduced from 1000ms to 200ms for faster scanning
+    timeBetweenDecodingAttempts: 1000,
     constraints: {
       video: {
         facingMode: "environment",
-        width: { ideal: 1280 },
-        height: { ideal: 720 },
-        aspectRatio: 1.777778,
       },
     },
     hints
