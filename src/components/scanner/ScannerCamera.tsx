@@ -1,5 +1,6 @@
 import { useZxing } from "react-zxing";
 import { beepSound } from "@/utils/beepSound";
+import { BarcodeFormat, DecodeHintType } from "@zxing/library";
 
 interface ScannerCameraProps {
   onValidCode: (code: string) => void;
@@ -7,6 +8,15 @@ interface ScannerCameraProps {
 }
 
 export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
+  const hints = new Map<DecodeHintType, unknown>();
+  hints.set(DecodeHintType.POSSIBLE_FORMATS, [
+    BarcodeFormat.CODE_128,
+    BarcodeFormat.EAN_13,
+    BarcodeFormat.EAN_8
+  ]);
+  hints.set(DecodeHintType.TRY_HARDER, true);
+  hints.set(DecodeHintType.ASSUME_CODE_39_CHECK_DIGIT, true);
+
   const { ref } = useZxing({
     onDecodeResult: (result) => {
       const code = result.getText();
@@ -23,20 +33,16 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
         : "Erro ao ler o código. Por favor, tente novamente.";
       onError(errorMessage);
     },
-    timeBetweenDecodingAttempts: 1000, // Reduzido para melhor resposta
+    timeBetweenDecodingAttempts: 1000,
     constraints: {
       video: {
         facingMode: "environment",
-        width: { ideal: 1280 }, // Aumentado para melhor qualidade
+        width: { ideal: 1280 },
         height: { ideal: 720 },
         aspectRatio: 1.777778,
       },
     },
-    hints: {
-      tryHarder: true, // Tenta mais intensamente ler o código
-      assumeCode39CheckDigit: true,
-      possibleFormats: ["CODE_128", "EAN_13", "EAN_8"], // Formatos comuns de códigos de barra
-    },
+    hints
   });
 
   return (
