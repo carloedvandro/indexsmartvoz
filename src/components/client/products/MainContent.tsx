@@ -38,10 +38,10 @@ export function MainContent({
   });
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-50/80 pt-24 overflow-y-auto scrollbar-hide">
+    <div className="flex flex-col items-center min-h-screen bg-gray-50/80 pt-24 overflow-hidden">
       <ParticlesBackground />
       <Card className="relative z-10 w-full max-w-[400px] shadow-none bg-transparent border-0">
-        <CardContent>
+        <CardContent className="overflow-y-auto overflow-x-hidden scrollbar-hide">
           {currentStep === 1 && (
             <PlanSelectionStep 
               selectedLines={selectedLines}
