@@ -41,34 +41,32 @@ export function MainContent({
     <div className="flex flex-col items-center min-h-screen bg-gray-50/80 pt-24 overflow-hidden">
       <ParticlesBackground />
       <Card className="relative z-10 w-full max-w-[400px] shadow-none bg-transparent border-0">
-        <CardContent className="!p-0 overflow-hidden">
-          <div className="h-full overflow-y-auto overflow-x-hidden scrollbar-hide">
-            {currentStep === 1 && (
-              <PlanSelectionStep 
-                selectedLines={selectedLines}
-                setSelectedLines={setSelectedLines}
-                selectedDueDate={selectedDueDate}
-                setSelectedDueDate={setSelectedDueDate}
-              />
-            )}
-
-            {currentStep === 2 && (
-              <OrderReviewStep selectedLines={selectedLines} />
-            )}
-
-            {currentStep === 3 && (
-              <ContractTermsStep
-                acceptedTerms={acceptedTerms}
-                onTermsChange={setAcceptedTerms}
-              />
-            )}
-
-            <NavigationButtons 
-              currentStep={currentStep}
-              handleBack={handleBack}
-              handleContinue={validateAndContinue}
+        <CardContent className="overflow-y-auto overflow-x-hidden scrollbar-hide">
+          {currentStep === 1 && (
+            <PlanSelectionStep 
+              selectedLines={selectedLines}
+              setSelectedLines={setSelectedLines}
+              selectedDueDate={selectedDueDate}
+              setSelectedDueDate={setSelectedDueDate}
             />
-          </div>
+          )}
+
+          {currentStep === 2 && (
+            <OrderReviewStep selectedLines={selectedLines} />
+          )}
+
+          {currentStep === 3 && (
+            <ContractTermsStep
+              acceptedTerms={acceptedTerms}
+              onTermsChange={setAcceptedTerms}
+            />
+          )}
+
+          <NavigationButtons 
+            currentStep={currentStep}
+            handleBack={handleBack}
+            handleContinue={validateAndContinue}
+          />
         </CardContent>
       </Card>
     </div>
