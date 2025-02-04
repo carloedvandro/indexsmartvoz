@@ -23,22 +23,26 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
         : "Erro ao ler o código. Por favor, tente novamente.";
       onError(errorMessage);
     },
-    timeBetweenDecodingAttempts: 3000,
+    timeBetweenDecodingAttempts: 1000, // Reduzido para melhor resposta
     constraints: {
       video: {
         facingMode: "environment",
-        aspectRatio: 1,
-        width: { ideal: 340 },
-        height: { ideal: 340 }
+        width: { ideal: 1280 }, // Aumentado para melhor qualidade
+        height: { ideal: 720 },
+        aspectRatio: 1.777778,
       },
+    },
+    hints: {
+      tryHarder: true, // Tenta mais intensamente ler o código
+      assumeCode39CheckDigit: true,
+      possibleFormats: ["CODE_128", "EAN_13", "EAN_8"], // Formatos comuns de códigos de barra
     },
   });
 
   return (
     <video 
       ref={ref} 
-      className="w-full h-full object-cover transform-gpu" 
-      style={{ transform: 'scaleX(-1)' }}
+      className="w-full h-full object-cover" 
     />
   );
 }
