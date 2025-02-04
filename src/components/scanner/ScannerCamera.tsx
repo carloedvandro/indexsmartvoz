@@ -16,7 +16,7 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
     onDecodeResult: (result) => {
       const code = result.getText();
       if (code.length === 20 && code.startsWith("8955")) {
-        beepSound.play();
+        beepSound.play().catch(console.error);
         onValidCode(code);
       } else {
         onError("Código inválido. O código deve começar com 8955 e ter 20 dígitos.");
@@ -28,7 +28,7 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
         : "Erro ao ler o código. Por favor, tente novamente.";
       onError(errorMessage);
     },
-    timeBetweenDecodingAttempts: 1000,
+    timeBetweenDecodingAttempts: 200, // Reduced from 1000ms to 200ms for faster scanning
     constraints: {
       video: {
         facingMode: "environment",
