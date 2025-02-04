@@ -1,6 +1,5 @@
 import { useZxing } from "react-zxing";
 import { beepSound } from "@/utils/beepSound";
-import { BarcodeFormat, DecodeHintType } from "@zxing/library";
 
 interface ScannerCameraProps {
   onValidCode: (code: string) => void;
@@ -8,10 +7,6 @@ interface ScannerCameraProps {
 }
 
 export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
-  const hints = new Map();
-  hints.set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.CODE_128, BarcodeFormat.EAN_13, BarcodeFormat.EAN_8]);
-  hints.set(DecodeHintType.TRY_HARDER, true);
-
   const { ref } = useZxing({
     onDecodeResult: (result) => {
       const code = result.getText();
@@ -28,22 +23,22 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
         : "Erro ao ler o código. Por favor, tente novamente.";
       onError(errorMessage);
     },
-    timeBetweenDecodingAttempts: 200,
+    timeBetweenDecodingAttempts: 3000,
     constraints: {
       video: {
         facingMode: "environment",
-        width: { ideal: 1280 },
-        height: { ideal: 720 },
-        aspectRatio: 1.777778,
+        aspectRatio: 1,
+        width: { ideal: 340 },
+        height: { ideal: 340 }
       },
     },
-    hints
   });
 
   return (
     <video 
       ref={ref} 
-      className="w-full h-full object-cover" 
+      className="w-full h-full object-cover transform-gpu" 
+      style={{ transform: 'scaleX(-1)' }}
     />
   );
 }

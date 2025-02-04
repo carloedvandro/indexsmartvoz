@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ScannerCamera } from './ScannerCamera';
 import { ScannerOverlay } from './ScannerOverlay';
 import { ScannerError } from './ScannerError';
@@ -22,19 +22,15 @@ export function ScannerContainer({
   onValidCode,
   onError
 }: ScannerContainerProps) {
-  useEffect(() => {
+  const handleConfirm = () => {
     if (lastScannedCode) {
-      const timer = setTimeout(() => {
-        onResult(lastScannedCode);
-      }, 1500);
-      
-      return () => clearTimeout(timer);
+      onResult(lastScannedCode);
     }
-  }, [lastScannedCode, onResult]);
+  };
 
   return (
     <div className="w-full max-w-[340px] mx-auto">
-      <div className="relative h-[60vh] flex items-center justify-center">
+      <div className="relative h-[10vh] flex items-center justify-center">
         <div className="absolute inset-0 flex items-center justify-center">
           <ScannerCamera
             onValidCode={onValidCode}
@@ -48,7 +44,7 @@ export function ScannerContainer({
       <ScannerResult code={lastScannedCode} />
       <ScannerControls 
         onClose={onClose}
-        onConfirm={() => lastScannedCode && onResult(lastScannedCode)}
+        onConfirm={handleConfirm}
         showConfirm={!!lastScannedCode}
       />
     </div>
