@@ -1,46 +1,53 @@
 import { useZxing } from "react-zxing";
 import { beepSound } from "@/utils/beepSound";
-import { BarcodeFormat, DecodeHintType } from "@zxing/library";
+import { ScannerOverlay } from "./ScannerOverlay";
+import { ScannerError } from "./ScannerError";
 
 interface ScannerCameraProps {
-  onValidCode: (code: string) => void;
+  onResult: (result: string) => void;
   onError: (error: string) => void;
+  isScanning: boolean;
 }
 
-export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
-  const hints = new Map();
-  hints.set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.CODE_128, BarcodeFormat.EAN_13, BarcodeFormat.EAN_8]);
-  hints.set(DecodeHintType.TRY_HARDER, true);
+export function ScannerCamera({ onResult, onError, isScanning }: ScannerCameraProps) {
+  const hints = new Map([
+    [2, true], // FORMAT_EAN_13
+    [3, true], // FORMAT_EAN_8
+    [4, true], // FORMAT_UPC_E
+  ]);
 
   const { ref } = useZxing({
-    onDecodeResult: (result) => {
-      const code = result.getText();
-      if (code.length === 20 && code.startsWith("8955")) {
-        beepSound.play().catch(console.error);
-        onValidCode(code);
-      } else {
-        onError("Código inválido. O código deve começar com 8955 e ter 20 dígitos.");
-      }
+    paused: !isScanning,
+    onResult(result) {
+      beepSound.play();
+      onResult(result.getText());
     },
-    onError: (error) => {
-      const errorMessage = error instanceof Error 
-        ? error.message 
+    onError(error) {
+      const errorMessage = error.message.includes("NotAllowedError")
+        ? "Permissão de câmera negada. Por favor, permita o acesso à câmera."
         : "Erro ao ler o código. Por favor, tente novamente.";
       onError(errorMessage);
     },
-    timeBetweenDecodingAttempts: 1000,
+    timeBetweenDecodingAttempts: 200,
     constraints: {
       video: {
         facingMode: "environment",
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
+        aspectRatio: 1.777778,
       },
     },
     hints
   });
 
   return (
-    <video 
-      ref={ref} 
-      className="w-full h-full object-cover" 
-    />
+    <div className="relative w-full">
+      <video
+        ref={ref}
+        className="w-full h-[400px] object-cover"
+      />
+      <ScannerOverlay />
+      <ScannerError />
+    </div>
   );
 }
