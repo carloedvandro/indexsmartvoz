@@ -70,7 +70,7 @@ export function PlanSelectionStep({
   const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
 
   return (
-    <div className="space-y-8 pt-2">
+    <div className="space-y-8 pt-4">
       <div className="space-y-2">
         <h2 className="text-xl font-semibold">Personalize seu pedido</h2>
         <p className="text-gray-600">
