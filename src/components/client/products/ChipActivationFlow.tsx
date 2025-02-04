@@ -34,7 +34,6 @@ export function ChipActivationFlow({
   onUpdateBarcode,
   onScanningClose,
 }: ChipActivationFlowProps) {
-  // Verifica se todos os chips têm código de barras escaneado
   const allChipsScanned = selectedLines.every((line) => line.barcode);
 
   return (
@@ -46,7 +45,7 @@ export function ChipActivationFlow({
         />
       )}
       
-      <div className="max-w-[360px] mx-auto w-full">
+      <div className="max-w-[340px] mx-auto w-full">
         <div className="pt-10 space-y-8 scrollbar-hide">
           {currentStep === 4 && <ChipInstructions />}
           {currentStep === 5 && <BarcodeInstructions onBack={onBack} onContinue={onContinue} />}
