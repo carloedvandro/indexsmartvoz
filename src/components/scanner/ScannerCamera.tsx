@@ -3,11 +3,11 @@ import { beepSound } from "@/utils/beepSound";
 import { BarcodeFormat, DecodeHintType } from "@zxing/library";
 
 interface ScannerCameraProps {
-  onResult: (code: string) => void;
+  onValidCode: (code: string) => void;
   onError: (error: string) => void;
 }
 
-export function ScannerCamera({ onResult, onError }: ScannerCameraProps) {
+export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
   const hints = new Map();
   hints.set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.CODE_128, BarcodeFormat.EAN_13, BarcodeFormat.EAN_8]);
   hints.set(DecodeHintType.TRY_HARDER, true);
@@ -17,7 +17,7 @@ export function ScannerCamera({ onResult, onError }: ScannerCameraProps) {
       const code = result.getText();
       if (code.length === 20 && code.startsWith("8955")) {
         beepSound.play();
-        onResult(code);
+        onValidCode(code);
       } else {
         onError("Código inválido. O código deve começar com 8955 e ter 20 dígitos.");
       }
@@ -28,7 +28,7 @@ export function ScannerCamera({ onResult, onError }: ScannerCameraProps) {
         : "Erro ao ler o código. Por favor, tente novamente.";
       onError(errorMessage);
     },
-    timeBetweenDecodingAttempts: 200,
+    timeBetweenDecodingAttempts: 1000,
     constraints: {
       video: {
         facingMode: "environment",
