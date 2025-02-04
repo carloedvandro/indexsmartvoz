@@ -24,7 +24,6 @@ export function ScannerContainer({
 }: ScannerContainerProps) {
   useEffect(() => {
     if (lastScannedCode) {
-      // Confirma automaticamente após 1.5 segundos
       const timer = setTimeout(() => {
         onResult(lastScannedCode);
       }, 1500);
@@ -35,10 +34,10 @@ export function ScannerContainer({
 
   return (
     <div className="w-full max-w-[340px] mx-auto">
-      <div className="relative h-[10vh] flex items-center justify-center">
+      <div className="relative h-[80vh] flex items-center justify-center">
         <div className="absolute inset-0 flex items-center justify-center">
           <ScannerCamera
-            onValidCode={onValidCode}
+            onResult={onValidCode}
             onError={onError}
           />
         </div>
