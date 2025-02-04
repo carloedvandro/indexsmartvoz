@@ -70,7 +70,7 @@ export function PlanSelectionStep({
   const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 pt-6">
       <div className="space-y-2">
         <h2 className="text-xl font-semibold">Personalize seu pedido</h2>
         <p className="text-gray-600">
@@ -78,7 +78,7 @@ export function PlanSelectionStep({
         </p>
       </div>
 
-      <div className="space-y-4 max-w-2xl mx-auto">
+      <div className="space-y-4 w-[calc(100%+13mm)] -mx-[6.5mm]">
         <div className="grid grid-cols-2 gap-4">
           <InternetSelector
             selectedInternet={selectedLines[0]?.internet || undefined}
@@ -99,7 +99,7 @@ export function PlanSelectionStep({
           </div>
 
           <div className="w-full px-4">
-            <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto">
+            <div className="grid grid-cols-3 gap-2 mx-auto">
               {dueDates.map((date) => (
                 <Card 
                   key={date}
