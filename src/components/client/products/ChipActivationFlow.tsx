@@ -34,6 +34,9 @@ export function ChipActivationFlow({
   onUpdateBarcode,
   onScanningClose,
 }: ChipActivationFlowProps) {
+  // Verifica se todos os chips têm código de barras escaneado
+  const allChipsScanned = selectedLines.every((line) => line.barcode);
+
   return (
     <>
       {scanningIndex !== null && (
@@ -62,8 +65,9 @@ export function ChipActivationFlow({
                   Voltar
                 </Button>
                 <Button 
-                  className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+                  className="bg-[#8425af] hover:bg-[#6c1e8f] text-white disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={onContinue}
+                  disabled={!allChipsScanned}
                 >
                   Continuar
                 </Button>
