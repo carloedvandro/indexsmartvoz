@@ -8,14 +8,9 @@ interface ScannerCameraProps {
 }
 
 export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
-  const hints = new Map<DecodeHintType, unknown>();
-  hints.set(DecodeHintType.POSSIBLE_FORMATS, [
-    BarcodeFormat.CODE_128,
-    BarcodeFormat.EAN_13,
-    BarcodeFormat.EAN_8
-  ]);
+  const hints = new Map();
+  hints.set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.CODE_128, BarcodeFormat.EAN_13, BarcodeFormat.EAN_8]);
   hints.set(DecodeHintType.TRY_HARDER, true);
-  hints.set(DecodeHintType.ASSUME_CODE_39_CHECK_DIGIT, true);
 
   const { ref } = useZxing({
     onDecodeResult: (result) => {
