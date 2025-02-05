@@ -1,6 +1,5 @@
 
 import { Button } from "@/components/ui/button";
-import { CreditCard, Wifi } from "lucide-react";
 
 interface ChipTypeSelectionProps {
   onSelectChipType: (type: 'physical' | 'esim') => void;
@@ -17,7 +16,6 @@ export function ChipTypeSelection({ onSelectChipType }: ChipTypeSelectionProps) 
           className="flex flex-col items-center gap-2 p-4 bg-white hover:bg-gray-50 border-2 border-[#8425af] text-[#8425af] w-[320px] mx-auto"
           variant="outline"
         >
-          <CreditCard size={24} />
           <p className="font-semibold text-sm">Trocar o SIM card</p>
           <p className="text-xs text-gray-600">Chip tradicional</p>
         </Button>
@@ -27,7 +25,6 @@ export function ChipTypeSelection({ onSelectChipType }: ChipTypeSelectionProps) 
           className="flex flex-col items-center gap-2 p-4 bg-white hover:bg-gray-50 border-2 border-[#8425af] text-[#8425af] w-[320px] mx-auto"
           variant="outline"
         >
-          <Wifi size={24} />
           <p className="font-semibold text-sm">Trocar pra eSIM</p>
           <p className="text-xs text-gray-600">Chip Virtual</p>
         </Button>
@@ -35,3 +32,4 @@ export function ChipTypeSelection({ onSelectChipType }: ChipTypeSelectionProps) 
     </div>
   );
 }
+
