@@ -30,7 +30,9 @@ export function BarcodeScannerComponent({ selectedLines, onStartScanning }: Barc
             {line.barcode && (
               <div className="bg-gray-50 p-3 rounded">
                 <p className="text-sm font-medium text-gray-700">Código escaneado:</p>
-                <p className="text-sm font-mono">{line.barcode}</p>
+                <p className="text-sm font-mono mt-1 p-2 border-2 border-[#8425af] rounded bg-white">
+                  {line.barcode}
+                </p>
               </div>
             )}
           </div>
