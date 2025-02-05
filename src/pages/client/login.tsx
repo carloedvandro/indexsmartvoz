@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { AuthError } from "@supabase/supabase-js";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { RainbowButton } from "@/components/ui/rainbow-button";
+import { motion } from "framer-motion";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -65,7 +66,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="container relative min-h-screen flex items-center justify-center">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="container relative min-h-screen flex items-center justify-center"
+    >
       <div className="w-full max-w-[350px] space-y-6">
         <div className="flex flex-col space-y-2 text-center">
           <h1 className="text-4xl font-black bg-gradient-to-r from-color-1 via-color-2 to-color-3 bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:200%_auto] -mt-16 mb-16">
@@ -148,6 +153,6 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
