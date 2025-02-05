@@ -65,22 +65,51 @@ export default function LoginPage() {
     }
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  };
+
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
       className="container relative min-h-screen flex items-center justify-center"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
     >
       <div className="w-full max-w-[350px] space-y-6">
-        <div className="flex flex-col space-y-2 text-center">
+        <motion.div 
+          className="flex flex-col space-y-2 text-center"
+          variants={itemVariants}
+        >
           <h1 className="text-4xl font-black bg-gradient-to-r from-color-1 via-color-2 to-color-3 bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:200%_auto] -mt-16 mb-16">
             Smartvoz
           </h1>
-        </div>
+        </motion.div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
+        <motion.form 
+          onSubmit={handleSubmit} 
+          className="space-y-6"
+          variants={containerVariants}
+        >
+          <motion.div className="space-y-2" variants={itemVariants}>
             <Label htmlFor="email">Email</Label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
@@ -94,8 +123,9 @@ export default function LoginPage() {
                 required
               />
             </div>
-          </div>
-          <div className="space-y-2">
+          </motion.div>
+
+          <motion.div className="space-y-2" variants={itemVariants}>
             <Label htmlFor="password">Senha</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
@@ -120,39 +150,47 @@ export default function LoginPage() {
                 )}
               </button>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="text-center">
+          <motion.div className="text-center" variants={itemVariants}>
             <Link
               to="/client/reset-password"
               className="text-sm text-black hover:text-gray-700 hover:underline"
             >
               Esqueceu sua senha?
             </Link>
-          </div>
+          </motion.div>
 
           {error && (
-            <div className="text-red-500 text-sm">
+            <motion.div 
+              className="text-red-500 text-sm"
+              variants={itemVariants}
+            >
               {error}
-            </div>
+            </motion.div>
           )}
 
-          <RainbowButton
-            type="submit"
-            className="w-full !bg-purple-600 hover:!bg-purple-700"
-            disabled={isLoading}
-          >
-            {isLoading ? "Entrando..." : "Entrar"}
-          </RainbowButton>
-        </form>
+          <motion.div variants={itemVariants}>
+            <RainbowButton
+              type="submit"
+              className="w-full !bg-purple-600 hover:!bg-purple-700"
+              disabled={isLoading}
+            >
+              {isLoading ? "Entrando..." : "Entrar"}
+            </RainbowButton>
+          </motion.div>
+        </motion.form>
 
-        <div className="space-y-2 text-center text-sm">
+        <motion.div 
+          className="space-y-2 text-center text-sm"
+          variants={itemVariants}
+        >
           <div className="text-gray-700">
             Não tem uma conta? <Link to="/client/register" className="text-black font-semibold hover:underline">
               Criar nova conta
             </Link>
           </div>
-        </div>
+        </motion.div>
       </div>
     </motion.div>
   );
