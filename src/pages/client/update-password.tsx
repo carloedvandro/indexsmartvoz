@@ -14,11 +14,17 @@ export default function UpdatePassword() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Verificar se o usuário chegou aqui através do link de redefinição
-    const hashParams = new URLSearchParams(window.location.hash.substring(1));
-    if (!hashParams.get("access_token")) {
-      navigate("/client/login");
-    }
+    const handleSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        if (!hashParams.get("access_token")) {
+          navigate("/client/login");
+        }
+      }
+    };
+
+    handleSession();
   }, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,7 +43,10 @@ export default function UpdatePassword() {
         description: "Sua senha foi atualizada com sucesso.",
       });
 
-      navigate("/client/login");
+      // Aguardar um pouco antes de redirecionar para garantir que o usuário veja a mensagem
+      setTimeout(() => {
+        navigate("/client/login");
+      }, 2000);
     } catch (error: any) {
       toast({
         title: "Erro ao atualizar senha",
