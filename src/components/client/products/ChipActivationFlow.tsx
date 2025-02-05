@@ -43,8 +43,8 @@ export function ChipActivationFlow({
         />
       )}
       
-      <div className="max-w-[320px] mx-auto w-full overflow-hidden">
-        <div className="pt-16 space-y-8">
+      <div className="w-full max-w-[320px] mx-auto overflow-hidden">
+        <div className="pt-8 space-y-6">
           {currentStep === 4 && <ChipInstructions />}
           {currentStep === 5 && <BarcodeInstructions onBack={onBack} onContinue={onContinue} />}
           {currentStep === 6 && (
@@ -53,16 +53,16 @@ export function ChipActivationFlow({
                 selectedLines={selectedLines}
                 onStartScanning={onStartScanning}
               />
-              <div className="flex justify-between mt-6">
+              <div className="flex justify-between mt-8 px-4">
                 <Button 
                   variant="outline" 
-                  className="bg-white border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-4 h-[42px] flex items-center"
+                  className="bg-white border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white w-[120px] h-[42px] flex items-center justify-center"
                   onClick={onBack}
                 >
                   Voltar
                 </Button>
                 <Button 
-                  className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-4 h-[42px] flex items-center"
+                  className="bg-[#8425af] hover:bg-[#6c1e8f] text-white w-[120px] h-[42px] flex items-center justify-center"
                   onClick={onContinue}
                 >
                   Continuar
