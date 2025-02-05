@@ -13,8 +13,12 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
     ref: videoRef,
   } = useZxing({
     onDecodeResult(result) {
-      onResult(result.getText());
-      onClose();
+      const barcode = result.getText();
+      // Só aceita códigos com exatamente 20 dígitos
+      if (barcode.length === 20 && /^\d+$/.test(barcode)) {
+        onResult(barcode);
+        onClose();
+      }
     },
     timeBetweenDecodingAttempts: 300,
   });
