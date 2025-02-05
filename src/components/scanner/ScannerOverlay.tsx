@@ -9,7 +9,7 @@ interface ScannerOverlayProps {
 export function ScannerOverlay({ laserStyle = "line" }: ScannerOverlayProps) {
   return (
     <div className="absolute inset-0 flex items-center justify-center">
-      <div className="relative w-[280px] h-[100px] border-2 border-[#8425af] rounded-lg">
+      <div className="relative w-[280px] h-[100px] border-2 border-[#8425af] rounded-lg bg-transparent">
         <div className="absolute left-0 w-full h-0.5 bg-red-600 animate-scanner" />
       </div>
     </div>
