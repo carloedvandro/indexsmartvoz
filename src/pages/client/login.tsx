@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -25,41 +26,55 @@ export default function LoginPage() {
     setError("");
 
     try {
+      console.log("Attempting login for:", email);
+      
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) {
+        console.error("Login error:", error);
         throw error;
       }
 
       if (data.user) {
-        const { data: profile } = await supabase
+        console.log("User authenticated, fetching profile");
+        const { data: profile, error: profileError } = await supabase
           .from("profiles")
           .select("role")
           .eq("id", data.user.id)
           .single();
 
-        if (profile?.role === "client") {
+        if (profileError) {
+          console.error("Profile fetch error:", profileError);
+          throw new Error("Erro ao carregar perfil do usuário");
+        }
+
+        console.log("User profile:", profile);
+
+        if (profile?.role === "admin") {
+          navigate("/admin/dashboard");
+        } else if (profile?.role === "client") {
           navigate("/client/dashboard");
         } else {
-          throw new Error("Unauthorized");
+          throw new Error("Perfil de usuário inválido");
         }
       }
     } catch (error) {
+      console.error("Login process error:", error);
       const authError = error as AuthError;
 
       if (authError.message === "Invalid login credentials") {
         setError("Email ou senha inválidos");
-      } else if (error === 'USER_DELETED' as any) {
+      } else if (authError.message?.includes("User not found") || error === 'USER_DELETED') {
         toast({
           title: "Erro",
           description: "Usuário não encontrado",
           variant: "destructive",
         });
       } else {
-        setError("Ocorreu um erro ao fazer login");
+        setError(authError.message || "Ocorreu um erro ao fazer login");
       }
     } finally {
       setIsLoading(false);
