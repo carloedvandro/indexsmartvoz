@@ -89,7 +89,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <audio ref={audioRef} src="/beep.mp3" />
-      <div className="bg-white p-4 rounded-lg w-[90%] max-w-[400px] mx-auto">
+      <div className="bg-white p-4 rounded-lg w-[400px] mx-auto">
         {hasPermission === false ? (
           <div className="text-center text-red-500 p-4">
             {error || "Por favor, permita o acesso à câmera para escanear o código."}
@@ -104,8 +104,8 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
                 playsInline
               />
               <div className="absolute inset-0 border-[3px] border-[#8425af] rounded-lg pointer-events-none">
-                {/* Linha de escaneamento vermelha animada */}
-                <div className="absolute inset-x-0 top-1/2 h-0.5 bg-red-500/70 animate-[scan_2s_ease-in-out_infinite]" />
+                {/* Linha de escaneamento vermelha animada - mais rápida agora */}
+                <div className="absolute inset-x-0 top-0 h-0.5 bg-red-500/70 animate-[scan_1s_linear_infinite]" />
                 {/* Linhas verticais roxas */}
                 <div className="absolute inset-y-0 left-1/4 w-0.5 bg-[#8425af]/30" />
                 <div className="absolute inset-y-0 right-1/4 w-0.5 bg-[#8425af]/30" />
