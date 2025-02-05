@@ -71,7 +71,7 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
   return (
     <video 
       ref={ref} 
-      className="w-full h-full object-cover"
+      className="w-full h-full object-cover opacity-0"
     />
   );
 }

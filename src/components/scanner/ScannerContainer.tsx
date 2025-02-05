@@ -32,7 +32,7 @@ export function ScannerContainer({
   }, [lastScannedCode, onResult]);
 
   return (
-    <div className="w-full max-w-[340px] mx-auto bg-transparent rounded-lg overflow-hidden">
+    <div className="w-full max-w-[340px] mx-auto">
       <h2 className="text-xl font-semibold text-center p-4 text-gray-800">
         Escaneie o código de barra do chip
       </h2>
