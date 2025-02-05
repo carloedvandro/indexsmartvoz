@@ -8,6 +8,7 @@ interface BarcodeScannerProps {
 
 export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const {
     ref: videoRef,
@@ -16,6 +17,12 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       const barcode = result.getText();
       // Só aceita códigos com exatamente 20 dígitos
       if (barcode.length === 20 && /^\d+$/.test(barcode)) {
+        // Toca o som de beep
+        if (audioRef.current) {
+          audioRef.current.play().catch(error => {
+            console.error("Erro ao tocar o som:", error);
+          });
+        }
         onResult(barcode);
         onClose();
       }
@@ -36,6 +43,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <audio ref={audioRef} src="/beep.mp3" />
       <div ref={overlayRef} className="relative p-4">
         <button
           onClick={onClose}
