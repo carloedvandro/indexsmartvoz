@@ -7,6 +7,7 @@ import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
 import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
+import { motion } from "framer-motion";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -27,31 +28,61 @@ export default function ClientDashboard() {
   }
 
   return (
-    <div className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden"
+    >
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           <div className="max-w-[1800px] mx-auto pt-6">
-            <div className="px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <div className="w-full">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+            >
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="w-full"
+              >
                 <ProfileCard profile={profile} />
-              </div>
-              <div className="w-full">
+              </motion.div>
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="w-full"
+              >
                 <NetworkCard 
                   networkStats={networkStats} 
                   onClick={handleNetworkClick} 
                 />
-              </div>
-              <div className="w-full">
+              </motion.div>
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="w-full"
+              >
                 <PlansCard />
-              </div>
-            </div>
-            <div className="px-4 pt-6 pb-8">
+              </motion.div>
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              className="px-4 pt-6 pb-8"
+            >
               <NetworkStatsCard />
-            </div>
+            </motion.div>
           </div>
         </div>
       </main>
-    </div>
+    </motion.div>
   );
 }
