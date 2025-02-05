@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
@@ -16,7 +17,7 @@ import {
   createUser, 
   updateProfile, 
   deleteUser,
-  resetPassword 
+  adminResetPassword 
 } from "./UserFormUtils";
 
 export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
@@ -34,10 +35,10 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const handleResetPassword = async () => {
     setIsResettingPassword(true);
     try {
-      await resetPassword(user.email);
+      await adminResetPassword(user.email);
       toast({
         title: "Sucesso",
-        description: "Email com nova senha enviado para o usuário",
+        description: "Email com instruções de redefinição de senha enviado para o usuário",
       });
     } catch (error) {
       console.error('Error:', error);
