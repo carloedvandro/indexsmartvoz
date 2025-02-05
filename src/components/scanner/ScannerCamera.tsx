@@ -63,7 +63,6 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
     <video 
       ref={ref} 
       className="w-full h-full object-cover"
-      style={{ transform: 'scaleX(-1)' }}
     />
   );
 }
