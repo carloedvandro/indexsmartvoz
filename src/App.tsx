@@ -2,8 +2,6 @@ import * as React from 'react';
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster";
 import { ProtectedRoute } from '@/components/ProtectedRoute';
-import { I18nextProvider } from 'react-i18next';
-import i18n from '@/i18n';
 import Index from '@/pages/Index';
 import ClientDashboard from '@/pages/client/dashboard';
 import ClientLogin from '@/pages/client/login';
@@ -61,12 +59,10 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <React.StrictMode>
-      <I18nextProvider i18n={i18n}>
-        <RouterProvider router={router} />
-        <Toaster />
-      </I18nextProvider>
-    </React.StrictMode>
+    <>
+      <RouterProvider router={router} />
+      <Toaster />
+    </>
   );
 }
 
