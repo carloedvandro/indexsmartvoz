@@ -8,7 +8,7 @@ interface ChipTypeSelectionProps {
 
 export function ChipTypeSelection({ onSelectChipType }: ChipTypeSelectionProps) {
   return (
-    <div className="flex flex-col items-center w-full max-w-[360px] mx-auto">
+    <div className="flex flex-col items-center w-full max-w-[350px] mx-auto">
       <h2 className="text-xl font-semibold text-center mb-8">Escolha o tipo de chip</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
@@ -39,4 +39,3 @@ export function ChipTypeSelection({ onSelectChipType }: ChipTypeSelectionProps) 
     </div>
   );
 }
-
