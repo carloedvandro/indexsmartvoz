@@ -25,7 +25,6 @@ export function ChipTypeSelection({ onSelectChipType }: ChipTypeSelectionProps) 
           variant="outline"
         >
           <p className="font-semibold text-sm">Trocar pra eSIM</p>
-          <p className="text-xs text-gray-600">Chip Virtual</p>
         </Button>
       </div>
     </div>
