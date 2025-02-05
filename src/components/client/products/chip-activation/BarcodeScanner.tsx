@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Line } from "../ChipActivationFlow";
 
@@ -8,8 +9,8 @@ interface BarcodeScannerProps {
 
 export function BarcodeScannerComponent({ selectedLines, onStartScanning }: BarcodeScannerProps) {
   return (
-    <div className="flex flex-col items-center w-full max-w-[340px] mx-auto">
-      <h2 className="text-lg font-semibold text-center mb-6">Escaneie o código de barra do chip</h2>
+    <div className="flex flex-col items-center w-full max-w-[400px] mx-auto">
+      <h2 className="text-lg font-semibold text-center mb-6 max-w-[300px]">Escaneie o código de barra do chip</h2>
       <div className="space-y-4 w-full">
         {selectedLines.map((line, index) => (
           <div key={line.id} className="flex flex-col space-y-3 w-full">
