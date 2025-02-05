@@ -104,11 +104,8 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
                 playsInline
               />
               <div className="absolute inset-0 border-[3px] border-[#8425af] rounded-lg pointer-events-none">
-                {/* Linha de escaneamento vermelha animada - mais rápida agora */}
-                <div className="absolute inset-x-0 top-0 h-0.5 bg-red-500/70 animate-[scan_1s_linear_infinite]" />
-                {/* Linhas verticais roxas */}
-                <div className="absolute inset-y-0 left-1/4 w-0.5 bg-[#8425af]/30" />
-                <div className="absolute inset-y-0 right-1/4 w-0.5 bg-[#8425af]/30" />
+                {/* Linha de laser vermelha horizontal fixa no meio */}
+                <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[2px] bg-red-600" />
               </div>
             </div>
             {error && (
