@@ -1,3 +1,4 @@
+
 import { StatCard } from "../charts/StatCard";
 
 interface NetworkStatsGridProps {
@@ -11,7 +12,7 @@ interface NetworkStatsGridProps {
 
 export const NetworkStatsGrid = ({ cardData }: NetworkStatsGridProps) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pr-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
       {cardData.map((card, index) => (
         <StatCard
           key={index}
