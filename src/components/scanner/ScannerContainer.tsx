@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ScannerCamera } from './ScannerCamera';
 import { ScannerOverlay } from './ScannerOverlay';
 import { ScannerError } from './ScannerError';
 import { ScannerResult } from './ScannerResult';
-import { ScannerControls } from './ScannerControls';
 
 interface ScannerContainerProps {
   onResult: (result: string) => void;
@@ -38,7 +37,7 @@ export function ScannerContainer({
         Escaneie o código de barra do chip
       </h2>
       
-      <div className="relative h-[300px] bg-black">
+      <div className="relative h-[300px]">
         <div className="absolute inset-0">
           <ScannerCamera
             onValidCode={onValidCode}
