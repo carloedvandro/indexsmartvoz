@@ -21,11 +21,17 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       // Só aceita códigos com exatamente 20 dígitos
       if (barcode.length === 20 && /^\d+$/.test(barcode)) {
         // Toca o som de beep com volume máximo
-        if (audioRef.current) {
-          audioRef.current.volume = 1.0; // Volume máximo
-          audioRef.current.play().catch(error => {
-            console.error("Erro ao tocar o som:", error);
-          });
+        const beepSound = audioRef.current;
+        if (beepSound) {
+          beepSound.volume = 1.0; // Volume máximo
+          beepSound.currentTime = 0; // Garante que o som começa do início
+          const playPromise = beepSound.play();
+          
+          if (playPromise !== undefined) {
+            playPromise.catch(error => {
+              console.error("Erro ao tocar o som:", error);
+            });
+          }
         }
         
         // Captura a posição atual da linha de scan
@@ -41,7 +47,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         // Pequeno delay antes de fechar para mostrar a linha fixa
         setTimeout(() => {
           onClose();
-        }, 1000);
+        }, 1500); // Aumentado para 1.5 segundos para dar tempo de ver e ouvir o feedback
       }
     },
     timeBetweenDecodingAttempts: 150,
@@ -58,9 +64,16 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
 
+  // Pre-carrega o som do beep
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.load();
+    }
+  }, []);
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <audio ref={audioRef} src="/beep.mp3" />
+      <audio ref={audioRef} src="/beep.mp3" preload="auto" />
       <div ref={overlayRef} className="relative p-4">
         <button
           onClick={onClose}
@@ -102,3 +115,4 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
     </div>
   );
 }
+
