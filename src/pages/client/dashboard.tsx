@@ -25,55 +25,30 @@ export default function ClientDashboard() {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+      transition={{ duration: 0.3 }}
       className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden"
     >
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           <div className="max-w-[1800px] mx-auto pt-6">
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
-              className="px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-            >
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, delay: 0.2 }}
-                className="w-full"
-              >
+            <div className="px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="w-full">
                 <ProfileCard profile={profile} />
-              </motion.div>
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, delay: 0.3 }}
-                className="w-full"
-              >
+              </div>
+              <div className="w-full">
                 <NetworkCard 
                   networkStats={networkStats} 
                   onClick={handleNetworkClick} 
                 />
-              </motion.div>
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, delay: 0.4 }}
-                className="w-full"
-              >
+              </div>
+              <div className="w-full">
                 <PlansCard />
-              </motion.div>
-            </motion.div>
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.5, ease: "easeOut" }}
-              className="px-4 pt-6 pb-8"
-            >
+              </div>
+            </div>
+            <div className="px-4 pt-6 pb-8">
               <NetworkStatsCard />
-            </motion.div>
+            </div>
           </div>
         </div>
       </main>
