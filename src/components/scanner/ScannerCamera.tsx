@@ -14,6 +14,8 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
   hints.set(DecodeHintType.CHARACTER_SET, "UTF-8");
   hints.set(DecodeHintType.ASSUME_CODE_39_CHECK_DIGIT, true);
   hints.set(DecodeHintType.PURE_BARCODE, true);
+  hints.set(DecodeHintType.ALSO_INVERTED, true); // Adiciona suporte para códigos invertidos
+  hints.set(DecodeHintType.ASSUME_GS1, false); // Desativa verificação GS1 para leitura mais rápida
 
   const { ref } = useZxing({
     onDecodeResult: (result) => {
@@ -31,17 +33,18 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
         : "Erro ao ler o código. Por favor, tente novamente.";
       onError(errorMessage);
     },
-    timeBetweenDecodingAttempts: 200,
+    timeBetweenDecodingAttempts: 100, // Reduzido para 100ms para leitura mais rápida
     constraints: {
       video: {
         facingMode: "environment",
         width: { ideal: 1280 },
         height: { ideal: 720 },
         aspectRatio: 1.777778,
-        frameRate: { ideal: 30, max: 60 }
+        frameRate: { ideal: 60, max: 120 } // Aumentado o frame rate para captura mais rápida
       },
     },
-    hints
+    hints,
+    timeBetweenScansMillis: 50 // Reduzido para 50ms para scanning mais rápido
   });
 
   return (
