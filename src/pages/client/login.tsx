@@ -26,7 +26,7 @@ export default function LoginPage() {
     setError("");
 
     try {
-      console.log("Attempting login for:", email);
+      console.log("Attempting client login for:", email);
       
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -53,13 +53,13 @@ export default function LoginPage() {
 
         console.log("User profile:", profile);
 
-        if (profile?.role === "admin") {
-          navigate("/admin/dashboard");
-        } else if (profile?.role === "client") {
-          navigate("/client/dashboard");
-        } else {
-          throw new Error("Perfil de usuário inválido");
+        if (profile?.role !== "client") {
+          // Se não for cliente, fazer logout e mostrar erro
+          await supabase.auth.signOut();
+          throw new Error("Área restrita para clientes. Use a área de administrador para acessar.");
         }
+
+        navigate("/client/dashboard");
       }
     } catch (error) {
       console.error("Login process error:", error);
