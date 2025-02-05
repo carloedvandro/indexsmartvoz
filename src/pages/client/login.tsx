@@ -8,6 +8,7 @@ import { AuthError } from "@supabase/supabase-js";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { RainbowButton } from "@/components/ui/rainbow-button";
 import { motion } from "framer-motion";
+import { ParticlesBackground } from "@/components/ui/particles-background";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -94,6 +95,8 @@ export default function LoginPage() {
       animate="visible"
       variants={containerVariants}
     >
+      <ParticlesBackground />
+      
       <div className="w-full max-w-[350px] space-y-6">
         <motion.div 
           className="flex flex-col space-y-2 text-center"
