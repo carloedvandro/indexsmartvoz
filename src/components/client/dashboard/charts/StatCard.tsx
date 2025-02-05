@@ -36,7 +36,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 export const StatCard = ({ title, value, data, color }: StatCardProps) => {
   return (
     <motion.div 
-      className="p-4 rounded-xl shadow-lg transform-gpu perspective-1000 h-[300px] backdrop-blur-sm border border-gray-200/20"
+      className="p-4 rounded-xl shadow-sm h-[300px] border border-gray-200/20"
       initial={{ rotateX: 25, scale: 0.9, opacity: 0 }}
       animate={{ rotateX: 0, scale: 1, opacity: 1 }}
       transition={{ duration: 0.5, type: "spring" }}
