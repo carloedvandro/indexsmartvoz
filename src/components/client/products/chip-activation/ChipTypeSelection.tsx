@@ -17,7 +17,6 @@ export function ChipTypeSelection({ onSelectChipType }: ChipTypeSelectionProps) 
           variant="outline"
         >
           <p className="font-semibold text-sm">Trocar o SIM card</p>
-          <p className="text-xs text-gray-600">Chip tradicional</p>
         </Button>
 
         <Button
@@ -32,4 +31,3 @@ export function ChipTypeSelection({ onSelectChipType }: ChipTypeSelectionProps) 
     </div>
   );
 }
-
