@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ScannerCamera } from './ScannerCamera';
 import { ScannerOverlay } from './ScannerOverlay';
 import { ScannerError } from './ScannerError';
@@ -22,11 +22,8 @@ export function ScannerContainer({
   onValidCode,
   onError
 }: ScannerContainerProps) {
-  const [isScanning, setIsScanning] = useState(true);
-
   useEffect(() => {
     if (lastScannedCode) {
-      setIsScanning(false);
       const timer = setTimeout(() => {
         onResult(lastScannedCode);
       }, 1500);
@@ -41,24 +38,17 @@ export function ScannerContainer({
         Escaneie o código de barra do chip
       </h2>
       
-      <div className="relative h-[200px] bg-black">
+      <div className="relative h-[300px] bg-black">
         <div className="absolute inset-0">
           <ScannerCamera
-            onValidCode={(code) => {
-              onValidCode(code);
-              setIsScanning(false);
-            }}
+            onValidCode={onValidCode}
             onError={onError}
           />
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-[280px] h-[80px] border-2 border-red-500 relative">
+          <div className="w-[280px] h-[100px] border-2 border-red-500 relative">
             <div className="absolute inset-0 flex items-center">
-              <div 
-                className={`w-full h-[2px] bg-red-500 ${
-                  isScanning ? 'animate-scanner' : 'top-1/2'
-                }`} 
-              />
+              <div className="w-full h-[2px] bg-red-500 animate-pulse" />
             </div>
           </div>
         </div>
@@ -66,7 +56,7 @@ export function ScannerContainer({
       
       <div className="p-4 space-y-4">
         <p className="text-sm text-gray-500 text-center">
-          Posicione o código de barras dentro da área destacada em vermelho
+          Posicione o código de barras do chip dentro da área destacada
         </p>
         
         <ScannerError error={error} />
