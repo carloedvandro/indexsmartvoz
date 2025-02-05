@@ -97,15 +97,19 @@ export function PlanSelectionStep({
           className="grid grid-cols-2 gap-4"
           variants={itemVariants}
         >
-          <InternetSelector
-            selectedInternet={selectedLines[0]?.internet || undefined}
-            onInternetChange={handleInternetChange}
-            internetOptions={internetOptions}
-          />
-          <DDDInput
-            ddd={selectedLines[0]?.ddd || ""}
-            onDDDChange={handleDDDChange}
-          />
+          <div className="w-full">
+            <InternetSelector
+              selectedInternet={selectedLines[0]?.internet || undefined}
+              onInternetChange={handleInternetChange}
+              internetOptions={internetOptions}
+            />
+          </div>
+          <div className="w-full">
+            <DDDInput
+              ddd={selectedLines[0]?.ddd || ""}
+              onDDDChange={handleDDDChange}
+            />
+          </div>
         </motion.div>
 
         <motion.div 
