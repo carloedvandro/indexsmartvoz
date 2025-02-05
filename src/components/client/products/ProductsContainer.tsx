@@ -10,7 +10,7 @@ export function ProductsContainer({ children }: ProductsContainerProps) {
   return (
     <>
       <ParticlesBackground />
-      <div className="relative z-10">{children}</div>
+      {children}
     </>
   );
 }
