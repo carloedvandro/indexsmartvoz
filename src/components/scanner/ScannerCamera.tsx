@@ -23,15 +23,13 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
   hints.set(DecodeHintType.TRY_HARDER, true);
   hints.set(DecodeHintType.CHARACTER_SET, "UTF-8");
   hints.set(DecodeHintType.PURE_BARCODE, false);
-  hints.set(DecodeHintType.ASSUME_CODE_39_CHECK_DIGIT, true);
 
   const { ref } = useZxing({
     onDecodeResult: (result) => {
       const code = result.getText();
-      console.log("Tentando ler código:", code);
+      console.log("Código detectado:", code);
       
       if (code.length >= 18 && code.length <= 22) {
-        console.log("Código com tamanho válido detectado:", code);
         if (code.includes("8955")) {
           console.log("Código válido encontrado:", code);
           beepSound.play();
@@ -43,27 +41,18 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
         onError("Código inválido. O código deve ter entre 18 e 22 dígitos.");
       }
     },
-    onError: (error: unknown) => {
-      const errorMessage = error instanceof Error 
-        ? error.message
-        : typeof error === 'string' 
-          ? error 
-          : "Erro ao ler o código. Por favor, tente novamente.";
-
-      if (!errorMessage.includes("No MultiFormat Readers were able to detect")) {
-        console.error("Erro de leitura:", errorMessage);
-        onError(errorMessage);
+    onError: (error) => {
+      // Ignora erros comuns de leitura que não afetam a funcionalidade
+      if (!error.toString().includes("No MultiFormat Readers were able to detect")) {
+        console.error("Erro de leitura:", error);
+        onError("Erro ao ler o código. Por favor, tente novamente.");
       }
     },
-    timeBetweenDecodingAttempts: 150,
+    timeBetweenDecodingAttempts: 200,
     constraints: {
       video: {
-        facingMode: "environment",
-        width: { min: 640, ideal: 1280, max: 1920 },
-        height: { min: 480, ideal: 720, max: 1080 },
-        aspectRatio: 1.777778,
-        frameRate: { min: 15, ideal: 30, max: 60 }
-      },
+        facingMode: "environment"
+      }
     },
     hints
   });
