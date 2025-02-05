@@ -59,8 +59,8 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
     constraints: {
       video: {
         facingMode: "environment",
-        width: { min: 480, ideal: 1080, max: 1920 },
-        height: { min: 360, ideal: 720, max: 1080 },
+        width: { min: 640, ideal: 1280, max: 1920 },
+        height: { min: 480, ideal: 720, max: 1080 },
         aspectRatio: 1.777778,
         frameRate: { min: 15, ideal: 30, max: 60 }
       },
