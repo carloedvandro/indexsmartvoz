@@ -1,7 +1,6 @@
 export function ScannerOverlay() {
   return (
     <div className="absolute inset-0 flex items-center justify-center">
-      {/* Container principal com borda e cantos */}
       <div className="relative w-full h-full border border-[#8425af] rounded-lg">
         {/* Cantos superiores */}
         <div className="absolute top-0 left-0 w-6 h-6 border-l border-t border-[#8425af]" />

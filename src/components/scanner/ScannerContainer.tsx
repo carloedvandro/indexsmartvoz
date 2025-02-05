@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScannerCamera } from './ScannerCamera';
 import { ScannerOverlay } from './ScannerOverlay';
 import { ScannerError } from './ScannerError';
@@ -22,8 +22,11 @@ export function ScannerContainer({
   onValidCode,
   onError
 }: ScannerContainerProps) {
+  const [isScanning, setIsScanning] = useState(true);
+
   useEffect(() => {
     if (lastScannedCode) {
+      setIsScanning(false);
       const timer = setTimeout(() => {
         onResult(lastScannedCode);
       }, 1500);
@@ -38,17 +41,24 @@ export function ScannerContainer({
         Escaneie o código de barra do chip
       </h2>
       
-      <div className="relative h-[100px] bg-black">
+      <div className="relative h-[200px] bg-black">
         <div className="absolute inset-0">
           <ScannerCamera
-            onValidCode={onValidCode}
+            onValidCode={(code) => {
+              onValidCode(code);
+              setIsScanning(false);
+            }}
             onError={onError}
           />
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-[280px] h-[80px] border-2 border-red-500 relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full h-[2px] bg-red-500 animate-pulse" />
+              <div 
+                className={`w-full h-[2px] bg-red-500 ${
+                  isScanning ? 'animate-scanner' : 'top-1/2'
+                }`} 
+              />
             </div>
           </div>
         </div>
