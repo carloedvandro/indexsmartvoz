@@ -24,10 +24,8 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
   // Configurações otimizadas para melhor leitura
   hints.set(DecodeHintType.TRY_HARDER, true);
   hints.set(DecodeHintType.CHARACTER_SET, "UTF-8");
-  hints.set(DecodeHintType.PURE_BARCODE, false); // Mudado para false para melhor detecção
+  hints.set(DecodeHintType.PURE_BARCODE, false);
   hints.set(DecodeHintType.ASSUME_CODE_39_CHECK_DIGIT, true);
-  hints.set(DecodeHintType.RELAXED_CODE_39_EXTENDED, true);
-  hints.set(DecodeHintType.TRY_HARDER_WITHOUT_ROTATION, true);
 
   const { ref } = useZxing({
     onDecodeResult: (result) => {
@@ -35,7 +33,7 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
       console.log("Tentando ler código:", code);
       
       // Validação mais flexível do código
-      if (code.length >= 18 && code.length <= 22) { // Aumentado o range de aceitação
+      if (code.length >= 18 && code.length <= 22) {
         console.log("Código com tamanho válido detectado:", code);
         if (code.includes("8955")) {
           console.log("Código válido encontrado:", code);
@@ -62,17 +60,14 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
         onError(errorMessage);
       }
     },
-    timeBetweenDecodingAttempts: 150, // Reduzido para leitura mais rápida
+    timeBetweenDecodingAttempts: 150,
     constraints: {
       video: {
         facingMode: "environment",
-        width: { min: 480, ideal: 1080, max: 1920 }, // Ajustado para melhor performance
+        width: { min: 480, ideal: 1080, max: 1920 },
         height: { min: 360, ideal: 720, max: 1080 },
         aspectRatio: 1.777778,
-        frameRate: { min: 15, ideal: 30, max: 60 }, // Aumentado range de fps
-        focusMode: "continuous", // Foco contínuo
-        brightness: { ideal: 100 }, // Otimização de brilho
-        contrast: { ideal: 100 }, // Otimização de contraste
+        frameRate: { min: 15, ideal: 30, max: 60 }
       },
     },
     hints
