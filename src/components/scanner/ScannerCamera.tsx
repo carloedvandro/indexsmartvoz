@@ -16,7 +16,7 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
     onDecodeResult: (result) => {
       const code = result.getText();
       if (code.length === 20 && code.startsWith("8955")) {
-        beepSound.play().catch(console.error);
+        beepSound.play();
         onValidCode(code);
       } else {
         onError("Código inválido. O código deve começar com 8955 e ter 20 dígitos.");
@@ -32,6 +32,9 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
     constraints: {
       video: {
         facingMode: "environment",
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
+        aspectRatio: 1.777778,
       },
     },
     hints
