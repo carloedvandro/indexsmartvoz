@@ -8,25 +8,48 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { UserFormTabs } from "./UserFormTabs";
 import { UserFormActions } from "./dialogs/UserFormActions";
 import { 
   checkExistingUser, 
   createUser, 
   updateProfile, 
-  deleteUser 
+  deleteUser,
+  resetPassword 
 } from "./UserFormUtils";
 
 export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isResettingPassword, setIsResettingPassword] = useState(false);
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       ...user,
       birth_date: user?.birth_date?.split('T')[0],
     },
   });
+
+  const handleResetPassword = async () => {
+    setIsResettingPassword(true);
+    try {
+      await resetPassword(user.email);
+      toast({
+        title: "Sucesso",
+        description: "Email com nova senha enviado para o usuário",
+      });
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        title: "Erro",
+        description: error.message || "Erro ao resetar senha",
+        variant: "destructive",
+      });
+    } finally {
+      setIsResettingPassword(false);
+    }
+  };
 
   const handleDelete = async () => {
     setIsDeleting(true);
@@ -109,6 +132,18 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
             watch={watch} 
             readOnly={!!user?.id}
           />
+          {user?.id && (
+            <div className="flex justify-start px-6">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleResetPassword}
+                disabled={isResettingPassword}
+              >
+                {isResettingPassword ? "Enviando..." : "Resetar Senha"}
+              </Button>
+            </div>
+          )}
           <DialogFooter>
             <UserFormActions
               userId={user?.id}
