@@ -111,8 +111,8 @@ export function PlanSelectionStep({
           className="flex flex-col items-center w-full mt-4"
           variants={itemVariants}
         >
-          <div className="text-center mb-4">
-            <h2 className="text-xl">
+          <div className="text-center mb-4 mt-2">
+            <h2 className="text-xl font-normal">
               Escolha a melhor data de vencimento da sua fatura:
             </h2>
           </div>
