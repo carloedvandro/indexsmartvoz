@@ -20,7 +20,7 @@ export function BarcodeScannerComponent({ selectedLines, onStartScanning }: Barc
                   <p className="text-sm text-gray-500">Linha: DDD {line.ddd}</p>
                   <Button
                     onClick={() => onStartScanning(index)}
-                    className="bg-[#8425af] hover:bg-[#6c1e8f] px-4 h-9 flex items-center"
+                    className="bg-[#8425af] hover:bg-[#6c1e8f] px-4 h-[42px] flex items-center"
                   >
                     {line.barcode ? 'Escanear novamente' : 'Escanear código'}
                   </Button>
