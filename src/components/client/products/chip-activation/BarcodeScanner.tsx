@@ -13,18 +13,18 @@ export function BarcodeScannerComponent({ selectedLines, onStartScanning }: Barc
       <div className="space-y-4">
         {selectedLines.map((line, index) => (
           <div key={line.id} className="flex flex-col space-y-3">
-            <div className="p-4 border rounded-lg w-[100%]">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-medium">Código de barras do SIM card</p>
+            <div className="p-6 border rounded-lg w-[100%]">
+              <div className="flex flex-col space-y-4">
+                <p className="font-medium">Código de barras do SIM card</p>
+                <div className="flex items-center justify-between">
                   <p className="text-sm text-gray-500">Linha: DDD {line.ddd}</p>
+                  <Button
+                    onClick={() => onStartScanning(index)}
+                    className="bg-[#8425af] hover:bg-[#6c1e8f]"
+                  >
+                    {line.barcode ? 'Escanear novamente' : 'Escanear código'}
+                  </Button>
                 </div>
-                <Button
-                  onClick={() => onStartScanning(index)}
-                  className="bg-[#8425af] hover:bg-[#6c1e8f]"
-                >
-                  {line.barcode ? 'Escanear novamente' : 'Escanear código'}
-                </Button>
               </div>
             </div>
             {line.barcode && (
