@@ -332,6 +332,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_set_user_password: {
+        Args: {
+          admin_user_id: string
+          target_user_id: string
+          new_password: string
+        }
+        Returns: undefined
+      }
       delete_user_and_profile: {
         Args: {
           user_id: string

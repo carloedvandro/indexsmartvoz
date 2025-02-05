@@ -10,6 +10,8 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { UserFormTabs } from "./UserFormTabs";
 import { UserFormActions } from "./dialogs/UserFormActions";
 import { 
@@ -17,7 +19,8 @@ import {
   createUser, 
   updateProfile, 
   deleteUser,
-  adminResetPassword 
+  adminResetPassword,
+  adminSetUserPassword 
 } from "./UserFormUtils";
 
 export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
@@ -25,6 +28,9 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isResettingPassword, setIsResettingPassword] = useState(false);
+  const [isSettingPassword, setIsSettingPassword] = useState(false);
+  const [showPasswordInput, setShowPasswordInput] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       ...user,
@@ -49,6 +55,37 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
       });
     } finally {
       setIsResettingPassword(false);
+    }
+  };
+
+  const handleSetPassword = async () => {
+    if (!newPassword) {
+      toast({
+        title: "Erro",
+        description: "Digite a nova senha",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSettingPassword(true);
+    try {
+      await adminSetUserPassword(user.id, newPassword);
+      toast({
+        title: "Sucesso",
+        description: "Senha alterada com sucesso",
+      });
+      setShowPasswordInput(false);
+      setNewPassword("");
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        title: "Erro",
+        description: error.message || "Erro ao definir nova senha",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSettingPassword(false);
     }
   };
 
@@ -134,15 +171,48 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
             readOnly={!!user?.id}
           />
           {user?.id && (
-            <div className="flex justify-start px-6">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handleResetPassword}
-                disabled={isResettingPassword}
-              >
-                {isResettingPassword ? "Enviando..." : "Resetar Senha"}
-              </Button>
+            <div className="flex flex-col gap-4 px-6">
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setShowPasswordInput(!showPasswordInput)}
+                  >
+                    Definir Nova Senha
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleResetPassword}
+                    disabled={isResettingPassword}
+                  >
+                    {isResettingPassword ? "Enviando..." : "Enviar Email de Reset"}
+                  </Button>
+                </div>
+                
+                {showPasswordInput && (
+                  <div className="flex gap-2 items-end">
+                    <div className="flex-1">
+                      <Label htmlFor="new-password">Nova Senha</Label>
+                      <Input
+                        id="new-password"
+                        type="password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        placeholder="Digite a nova senha"
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      onClick={handleSetPassword}
+                      disabled={isSettingPassword}
+                    >
+                      {isSettingPassword ? "Salvando..." : "Salvar Senha"}
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
           )}
           <DialogFooter>
