@@ -47,13 +47,14 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
         onError("Erro ao ler o código. Por favor, tente novamente.");
       }
     },
-    timeBetweenDecodingAttempts: 50, // Reduzido para 50ms para captura mais rápida
+    timeBetweenDecodingAttempts: 30, // Reduzido para 30ms para captura ainda mais rápida
     constraints: {
       video: {
         facingMode: "environment",
-        width: { ideal: 1280 },
-        height: { ideal: 720 },
-        frameRate: { ideal: 60 } // Aumentado para 60fps para melhor resposta
+        width: { ideal: 3840 }, // Aumentado para 4K
+        height: { ideal: 2160 },
+        frameRate: { ideal: 60 }, // Mantido em 60fps para melhor resposta
+        aspectRatio: 16/9
       }
     },
     hints
