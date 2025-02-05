@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -39,7 +38,7 @@ export default function Index() {
           </div>
 
           <div className="space-y-6 max-w-sm mx-auto">
-            <Link to="/client/login">
+            <Link to="/client/login" className="block">
               <Button 
                 className="w-full text-lg py-6 bg-primary hover:bg-primary/90 text-white"
                 size="lg"

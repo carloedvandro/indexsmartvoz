@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -87,15 +86,4 @@ select,
 [data-radix-select-viewport] [data-position="top"],
 [data-radix-select-viewport] [data-position="bottom"] {
   display: none !important;
-}
-
-/* Hide right scrollbar but keep scrolling functionality */
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
-}
-
-* {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }

@@ -7,7 +7,6 @@ import { BarcodeInstructions } from "./chip-activation/BarcodeInstructions";
 import { BarcodeScannerComponent } from "./chip-activation/BarcodeScanner";
 import { ChipTypeSelection } from "./chip-activation/ChipTypeSelection";
 import { EsimActivationFlow } from "./chip-activation/EsimActivationFlow";
-import { PhysicalChipActivation } from "./chip-activation/PhysicalChipActivation";
 
 interface ChipActivationFlowProps {
   currentStep: number;
@@ -40,6 +39,9 @@ export function ChipActivationFlow({
   onScanningClose,
 }: ChipActivationFlowProps) {
   const [chipType, setChipType] = useState<'physical' | 'esim' | null>(null);
+  
+  // Verifica se todos os códigos de barras foram escaneados
+  const allBarcodesScanned = selectedLines.every(line => line.barcode);
 
   const handleChipTypeSelect = (type: 'physical' | 'esim') => {
     setChipType(type);
@@ -49,6 +51,7 @@ export function ChipActivationFlow({
   };
 
   const handleEsimComplete = (imei: string, eid: string) => {
+    // Atualiza os códigos de barras com o formato específico para eSIM
     selectedLines.forEach((line, index) => {
       onUpdateBarcode(index, `ESIM-${imei}-${eid}-${line.ddd}`);
     });
@@ -71,17 +74,34 @@ export function ChipActivationFlow({
             chipType === null ? (
               <ChipTypeSelection onSelectChipType={handleChipTypeSelect} />
             ) : chipType === 'physical' ? (
-              <PhysicalChipActivation 
-                currentStep={currentStep}
-                selectedLines={selectedLines}
-                onBack={onBack}
-                onContinue={onContinue}
-                onStartScanning={onStartScanning}
-                allBarcodesScanned={selectedLines.every(line => line.barcode)}
-              />
+              <BarcodeInstructions onBack={onBack} onContinue={onContinue} />
             ) : (
               <EsimActivationFlow onComplete={handleEsimComplete} />
             )
+          )}
+          {currentStep === 6 && chipType === 'physical' && (
+            <div className="flex flex-col space-y-6">
+              <BarcodeScannerComponent
+                selectedLines={selectedLines}
+                onStartScanning={onStartScanning}
+              />
+              <div className="flex justify-between w-full">
+                <Button 
+                  variant="outline" 
+                  className="bg-white border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-4 h-[42px] flex items-center"
+                  onClick={onBack}
+                >
+                  Voltar
+                </Button>
+                <Button 
+                  className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-4 h-[42px] flex items-center"
+                  onClick={onContinue}
+                  disabled={!allBarcodesScanned}
+                >
+                  Continuar
+                </Button>
+              </div>
+            </div>
           )}
         </div>
       </div>

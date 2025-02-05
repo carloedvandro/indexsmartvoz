@@ -1,4 +1,3 @@
-
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface ContractTermsStepProps {
@@ -32,7 +31,7 @@ export function ContractTermsStep({ acceptedTerms, onTermsChange }: ContractTerm
           />
           <label 
             htmlFor="terms" 
-            className="text-sm text-gray-600 cursor-pointer max-w-[385px]"
+            className="text-sm text-gray-600 cursor-pointer"
           >
             Aceito receber comunicações e ofertas da Smartvoz.
           </label>
