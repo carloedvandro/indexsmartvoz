@@ -1,11 +1,12 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { Progress } from "@/components/ui/progress";
-import { AlertTriangle, HelpCircle } from "lucide-react";
+import { HelpCircle } from "lucide-react";
+import { StepIndicator } from "./esim-steps/StepIndicator";
+import { ActivationTypeStep } from "./esim-steps/ActivationTypeStep";
+import { SystemTypeStep } from "./esim-steps/SystemTypeStep";
+import { ImeiStep } from "./esim-steps/ImeiStep";
+import { EidStep } from "./esim-steps/EidStep";
 
 interface EsimActivationFlowProps {
   onComplete: (imei: string, eid: string) => void;
@@ -26,117 +27,36 @@ export function EsimActivationFlow({ onComplete }: EsimActivationFlowProps) {
     }
   };
 
-  const progressValue = (step / 4) * 100;
-
-  const renderStepIndicator = () => (
-    <div className="mb-8">
-      <h2 className="text-lg font-semibold mb-2">ATIVAÇÃO DE ESIM</h2>
-      <div className="flex items-center justify-between mb-2 text-sm">
-        <span>Identidade</span>
-        <span>Sistema</span>
-        <span>IMEI</span>
-        <span>EID</span>
-      </div>
-      <Progress value={progressValue} className="h-2" />
-    </div>
-  );
-
   return (
     <div className="w-full max-w-[400px] mx-auto space-y-6">
-      {renderStepIndicator()}
+      <StepIndicator step={step} />
 
       {step === 1 && (
-        <div className="space-y-6">
-          <h2 className="text-2xl font-semibold">Quem irá ativar a linha no eSIM?</h2>
-          <p className="text-gray-600">É preciso ter o celular com o eSIM em mãos pra ativar</p>
-          
-          <RadioGroup value={activationType} onValueChange={(value: 'self' | 'other') => setActivationType(value)}>
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="self" id="self" />
-                <Label htmlFor="self" className="font-semibold">Eu Mesmo (Gestor)</Label>
-              </div>
-              <p className="text-sm text-gray-600 ml-6">
-                Você informa os números de IMEI e EID do celular e ativa aqui pelo site
-              </p>
-
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="other" id="other" />
-                <Label htmlFor="other" className="font-semibold">Outra Pessoa (Colaborador)</Label>
-              </div>
-              <p className="text-sm text-gray-600 ml-6">
-                Você gera um código de acesso e envia ao seu colaborador. Ele entra no nosso site, informa os números de IMEI e EID do celular e faz a ativação
-              </p>
-            </div>
-          </RadioGroup>
-        </div>
+        <ActivationTypeStep 
+          activationType={activationType}
+          onTypeChange={(value) => setActivationType(value)}
+        />
       )}
 
       {step === 2 && (
-        <div className="space-y-6">
-          <h2 className="text-2xl font-semibold">Vamos começar escolhendo o sistema do celular que vai ter o eSIM ativado</h2>
-          
-          <div className="bg-gray-700 text-white p-4 rounded-lg flex items-start space-x-2">
-            <AlertTriangle className="h-5 w-5 mt-1 flex-shrink-0" />
-            <p className="text-sm">O aparelho precisa ter um eSIM pra ter o chip ativado</p>
-          </div>
-
-          <RadioGroup value={systemType} onValueChange={(value: 'android' | 'ios') => setSystemType(value)}>
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="android" id="android" />
-                <Label htmlFor="android">Android</Label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="ios" id="ios" />
-                <Label htmlFor="ios">iOS (iPhone)</Label>
-              </div>
-            </div>
-          </RadioGroup>
-        </div>
+        <SystemTypeStep 
+          systemType={systemType}
+          onSystemTypeChange={(value) => setSystemType(value)}
+        />
       )}
 
       {step === 3 && (
-        <div className="space-y-6">
-          <h2 className="text-2xl font-semibold">Agora você vai precisar informar o IMEI do celular que vai ter o eSIM ativado</h2>
-          
-          <img 
-            src="/lovable-uploads/9995b487-e538-4233-837f-ed73b70697da.png" 
-            alt="Como encontrar o IMEI"
-            className="w-full rounded-lg"
-          />
-
-          <div className="space-y-2">
-            <Input
-              placeholder="Digite o IMEI"
-              value={imei}
-              onChange={(e) => setImei(e.target.value)}
-              className="border-green-500 focus:ring-green-500"
-            />
-            <p className="text-sm text-gray-600">
-              É só ir nas configurações do aparelho e digitar IMEI no campo de busca. O número que você precisa vai estar em status como IMEI (eSIM)
-            </p>
-          </div>
-        </div>
+        <ImeiStep 
+          imei={imei}
+          onImeiChange={setImei}
+        />
       )}
 
       {step === 4 && (
-        <div className="space-y-6">
-          <h2 className="text-2xl font-semibold">Por fim, é só informar o EID do celular que você está ativando</h2>
-          
-          <div className="space-y-2">
-            <Input
-              placeholder="Digite o EID"
-              value={eid}
-              onChange={(e) => setEid(e.target.value)}
-              className="border-green-500 focus:ring-green-500"
-            />
-            <p className="text-sm text-gray-600">
-              É só ligar pra *#06# e procurar por EID. O número vai aparecer na tela do seu celular.
-            </p>
-          </div>
-        </div>
+        <EidStep 
+          eid={eid}
+          onEidChange={setEid}
+        />
       )}
 
       <div className="flex justify-between pt-4">
@@ -172,3 +92,4 @@ export function EsimActivationFlow({ onComplete }: EsimActivationFlowProps) {
     </div>
   );
 }
+
