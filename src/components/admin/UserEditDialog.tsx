@@ -39,6 +39,15 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   });
 
   const handleResetPassword = async () => {
+    if (!user?.email) {
+      toast({
+        title: "Erro",
+        description: "Email do usuário não encontrado",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsResettingPassword(true);
     try {
       await adminResetPassword(user.email);
@@ -46,6 +55,7 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
         title: "Sucesso",
         description: "Email com instruções de redefinição de senha enviado para o usuário",
       });
+      setShowPasswordInput(false);
     } catch (error) {
       console.error('Error:', error);
       toast({
@@ -68,6 +78,15 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
       return;
     }
 
+    if (!user?.id) {
+      toast({
+        title: "Erro",
+        description: "ID do usuário não encontrado",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSettingPassword(true);
     try {
       await adminSetUserPassword(user.id, newPassword);
@@ -77,7 +96,7 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
       });
       setShowPasswordInput(false);
       setNewPassword("");
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error:', error);
       toast({
         title: "Erro",

@@ -21,24 +21,31 @@ export const adminResetPassword = async (email: string) => {
 };
 
 export const adminSetUserPassword = async (userId: string, newPassword: string) => {
-  // Validate password strength
+  // Validate password strength first
   const validation = validatePasswordStrength(newPassword);
   if (!validation.isValid) {
     throw new Error(validation.message);
   }
 
+  // Get current admin's session
   const { data: { session } } = await supabase.auth.getSession();
   if (!session) {
     throw new Error("Não autenticado");
   }
 
-  const { error } = await supabase.rpc('admin_set_user_password', {
-    admin_user_id: session.user.id,
-    target_user_id: userId,
-    new_password: newPassword
-  });
+  try {
+    const { error } = await supabase.rpc('admin_set_user_password', {
+      admin_user_id: session.user.id,
+      target_user_id: userId,
+      new_password: newPassword
+    });
 
-  if (error) {
-    throw error;
+    if (error) {
+      console.error('Error in adminSetUserPassword:', error);
+      throw error;
+    }
+  } catch (error: any) {
+    console.error('Error in adminSetUserPassword:', error);
+    throw new Error(error.message || "Erro ao definir nova senha");
   }
 };
