@@ -31,7 +31,7 @@ export function InternetSelector({
         <SelectTrigger className="bg-white h-[42px]">
           <SelectValue placeholder="Escolher o plano" />
         </SelectTrigger>
-        <SelectContent className="bg-white max-h-[200px] overflow-y-auto">
+        <SelectContent position="popper" className="bg-white max-h-[200px] overflow-y-auto w-full">
           {internetOptions.map((option) => (
             <SelectItem 
               key={option.value} 
@@ -46,4 +46,3 @@ export function InternetSelector({
     </div>
   );
 }
-
