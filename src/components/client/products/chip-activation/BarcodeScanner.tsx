@@ -30,11 +30,13 @@ export function BarcodeScannerComponent({ selectedLines, onStartScanning }: Barc
             {line.barcode && (
               <div className="p-3 rounded w-full">
                 <p className="text-sm font-medium text-gray-700">Código escaneado:</p>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="text-sm font-medium text-gray-700">ICCID:</span>
-                  <p className="text-sm font-mono p-2 border border-[#e2e8f0] rounded bg-white min-w-[280px] flex-1">
-                    {line.barcode}
-                  </p>
+                <div className="flex flex-col gap-2 mt-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-gray-700">ICCID:</span>
+                    <p className="text-sm font-mono p-2 border border-[#e2e8f0] rounded bg-white w-full">
+                      {line.barcode}
+                    </p>
+                  </div>
                 </div>
               </div>
             )}
