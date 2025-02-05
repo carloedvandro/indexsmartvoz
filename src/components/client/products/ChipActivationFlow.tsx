@@ -56,7 +56,7 @@ export function ChipActivationFlow({
               <div className="flex justify-between mt-6">
                 <Button 
                   variant="outline" 
-                  className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
+                  className="bg-white border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
                   onClick={onBack}
                 >
                   Voltar
