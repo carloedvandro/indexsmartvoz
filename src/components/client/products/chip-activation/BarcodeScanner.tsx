@@ -13,7 +13,7 @@ export function BarcodeScannerComponent({ selectedLines, onStartScanning }: Barc
       <div className="space-y-4">
         {selectedLines.map((line, index) => (
           <div key={line.id} className="flex flex-col space-y-3">
-            <div className="p-4 bg-white border rounded-lg w-full">
+            <div className="p-4 border rounded-lg w-full">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">Código de barras do SIM card</p>
@@ -28,12 +28,12 @@ export function BarcodeScannerComponent({ selectedLines, onStartScanning }: Barc
               </div>
             </div>
             {line.barcode && (
-              <div className="px-4 py-3 bg-white rounded w-full">
+              <div className="px-4 py-3 rounded w-full">
                 <p className="text-sm font-medium text-gray-700">Código escaneado:</p>
                 <div className="flex flex-col gap-2 mt-1">
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-gray-700">ICCID:</span>
-                    <p className="text-lg font-mono p-2 bg-white border border-[#e2e8f0] rounded w-full">
+                    <p className="text-lg font-mono p-2 border border-[#e2e8f0] rounded w-full">
                       {line.barcode}
                     </p>
                   </div>
