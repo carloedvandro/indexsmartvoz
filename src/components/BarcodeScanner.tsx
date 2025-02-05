@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+
+import { useEffect, useRef, useState } from "react";
 import { useZxing } from "react-zxing";
 
 interface BarcodeScannerProps {
@@ -9,6 +10,8 @@ interface BarcodeScannerProps {
 export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const [lastScanPosition, setLastScanPosition] = useState<number | null>(null);
+  const [hasScanned, setHasScanned] = useState(false);
 
   const {
     ref: videoRef,
@@ -17,14 +20,28 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       const barcode = result.getText();
       // Só aceita códigos com exatamente 20 dígitos
       if (barcode.length === 20 && /^\d+$/.test(barcode)) {
-        // Toca o som de beep
+        // Toca o som de beep com volume máximo
         if (audioRef.current) {
+          audioRef.current.volume = 1.0; // Volume máximo
           audioRef.current.play().catch(error => {
             console.error("Erro ao tocar o som:", error);
           });
         }
+        
+        // Captura a posição atual da linha de scan
+        const scanLine = document.querySelector('.scan-line');
+        if (scanLine) {
+          const rect = scanLine.getBoundingClientRect();
+          setLastScanPosition(rect.top);
+        }
+        
+        setHasScanned(true);
         onResult(barcode);
-        onClose();
+        
+        // Pequeno delay antes de fechar para mostrar a linha fixa
+        setTimeout(() => {
+          onClose();
+        }, 1000);
       }
     },
     timeBetweenDecodingAttempts: 150,
@@ -72,11 +89,11 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           />
           <div className="absolute inset-0 border-2 border-[#8425af] rounded-lg" />
           <div 
-            className="absolute left-0 right-0 h-0.5 bg-red-500 animate-scan-line"
+            className={`absolute left-0 right-0 h-0.5 bg-red-500 scan-line ${!hasScanned ? 'animate-scan-line' : ''}`}
             style={{ 
               boxShadow: '0 0 4px rgba(255, 0, 0, 0.5)',
-              animation: 'scan-line 0.8s ease-in-out infinite',
-              top: '45%',
+              top: hasScanned && lastScanPosition ? `${lastScanPosition}px` : '45%',
+              animation: !hasScanned ? 'scan-line 0.8s ease-in-out infinite' : 'none',
               transform: 'translateY(-50%)'
             }}
           />
