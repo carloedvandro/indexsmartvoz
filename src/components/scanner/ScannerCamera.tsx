@@ -18,14 +18,12 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
     BarcodeFormat.UPC_A,
     BarcodeFormat.UPC_E,
     BarcodeFormat.CODABAR,
-    BarcodeFormat.ITF // Added ITF format for better industrial barcode support
+    BarcodeFormat.ITF
   ]);
 
   hints.set(DecodeHintType.TRY_HARDER, true);
   hints.set(DecodeHintType.CHARACTER_SET, "UTF-8");
-  hints.set(DecodeHintType.PURE_BARCODE, true); // Changed to true for better barcode focus
-  hints.set(DecodeHintType.ASSUME_CODE_39_CHECK_DIGIT, true); // Added for better check digit handling
-  hints.set(DecodeHintType.RELAXED_CODE_39_EXTENDED, true); // Added for more flexible Code 39 reading
+  hints.set(DecodeHintType.PURE_BARCODE, true);
 
   const { ref } = useZxing({
     onDecodeResult: (result) => {
@@ -48,14 +46,14 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
         onError("Erro ao ler o código. Por favor, tente novamente.");
       }
     },
-    timeBetweenDecodingAttempts: 150, // Increased to reduce CPU usage and improve stability
+    timeBetweenDecodingAttempts: 150,
     constraints: {
       video: {
         facingMode: "environment",
-        width: { min: 640, ideal: 1280, max: 1920 }, // Adjusted for better performance
+        width: { min: 640, ideal: 1280, max: 1920 },
         height: { min: 480, ideal: 720, max: 1080 },
-        frameRate: { ideal: 30 }, // Reduced to 30fps for better stability
-        aspectRatio: 4/3 // Changed to 4:3 for better barcode capture
+        frameRate: { ideal: 30 },
+        aspectRatio: 4/3
       }
     },
     hints
@@ -65,7 +63,7 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
     <video 
       ref={ref} 
       className="w-full h-full object-cover"
-      style={{ transform: 'scaleX(-1)' }} // Mirror the video for better user experience
+      style={{ transform: 'scaleX(-1)' }}
     />
   );
 }
