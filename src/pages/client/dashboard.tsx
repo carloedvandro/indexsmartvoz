@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
-import { LoadingState } from "@/components/client/dashboard/LoadingState";
 import { DashboardHeader } from "@/components/client/dashboard/DashboardHeader";
 import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
 import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
@@ -11,27 +10,22 @@ import { motion } from "framer-motion";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
-  const { data: profile, isLoading: profileLoading, error: profileError } = useProfile();
-  const { data: networkStats, isLoading: networkLoading } = useNetworkStats(profile?.id);
+  const { data: profile } = useProfile();
+  const { data: networkStats } = useNetworkStats(profile?.id);
 
   const handleNetworkClick = () => {
     navigate("/client/network");
   };
 
-  if (profileLoading || networkLoading) {
-    return <LoadingState />;
-  }
-
-  if (profileError || !profile) {
-    navigate("/client/login");
+  if (!profile) {
     return null;
   }
 
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
       className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden"
     >
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
@@ -39,23 +33,23 @@ export default function ClientDashboard() {
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           <div className="max-w-[1800px] mx-auto pt-6">
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
               className="px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
             >
               <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
                 className="w-full"
               >
                 <ProfileCard profile={profile} />
               </motion.div>
               <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.3 }}
                 className="w-full"
               >
                 <NetworkCard 
@@ -64,18 +58,18 @@ export default function ClientDashboard() {
                 />
               </motion.div>
               <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.4 }}
                 className="w-full"
               >
                 <PlansCard />
               </motion.div>
             </motion.div>
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.5, ease: "easeOut" }}
               className="px-4 pt-6 pb-8"
             >
               <NetworkStatsCard />
