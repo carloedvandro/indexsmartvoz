@@ -38,7 +38,7 @@ export function ScannerContainer({
         Escaneie o código de barra do chip
       </h2>
       
-      <div className="relative h-[300px] bg-black">
+      <div className="relative h-[600px] bg-black">
         <div className="absolute inset-0">
           <ScannerCamera
             onValidCode={onValidCode}
