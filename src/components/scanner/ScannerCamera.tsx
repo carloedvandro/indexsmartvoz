@@ -40,13 +40,17 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
         onError("Código inválido. O código deve ter entre 19 e 21 dígitos.");
       }
     },
-    onError: (error) => {
-      // Só logar erros reais, não tentativas de leitura
-      if (error.message && !error.message.includes("No MultiFormat Readers were able to detect")) {
-        console.error("Erro de leitura:", error);
-        const errorMessage = error instanceof Error 
-          ? error.message 
+    onError: (error: unknown) => {
+      // Verificação de tipo segura para o erro
+      const errorMessage = error instanceof Error && error.message 
+        ? error.message
+        : typeof error === 'string' 
+          ? error 
           : "Erro ao ler o código. Por favor, tente novamente.";
+
+      // Só logar erros reais, não tentativas de leitura
+      if (!errorMessage.includes("No MultiFormat Readers were able to detect")) {
+        console.error("Erro de leitura:", errorMessage);
         onError(errorMessage);
       }
     },
