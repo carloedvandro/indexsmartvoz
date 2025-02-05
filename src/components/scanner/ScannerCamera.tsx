@@ -14,8 +14,6 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
   hints.set(DecodeHintType.CHARACTER_SET, "UTF-8");
   hints.set(DecodeHintType.ASSUME_CODE_39_CHECK_DIGIT, true);
   hints.set(DecodeHintType.PURE_BARCODE, true);
-  hints.set(DecodeHintType.ALSO_INVERTED, true); // Adiciona suporte para códigos invertidos
-  hints.set(DecodeHintType.ASSUME_GS1, false); // Desativa verificação GS1 para leitura mais rápida
 
   const { ref } = useZxing({
     onDecodeResult: (result) => {
@@ -43,8 +41,7 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
         frameRate: { ideal: 60, max: 120 } // Aumentado o frame rate para captura mais rápida
       },
     },
-    hints,
-    timeBetweenScansMillis: 50 // Reduzido para 50ms para scanning mais rápido
+    hints
   });
 
   return (
