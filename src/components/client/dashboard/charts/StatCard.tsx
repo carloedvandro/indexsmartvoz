@@ -47,6 +47,8 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
       }}
       style={{
         transformStyle: "preserve-3d",
+        width: 'calc(100% - 20px)',
+        margin: '0 10px'
       }}
     >
       <motion.h3 
