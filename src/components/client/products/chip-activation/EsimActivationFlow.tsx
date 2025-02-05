@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { HelpCircle } from "lucide-react";
 import { StepIndicator } from "./esim-steps/StepIndicator";
 import { ActivationTypeStep } from "./esim-steps/ActivationTypeStep";
 import { SystemTypeStep } from "./esim-steps/SystemTypeStep";
@@ -68,28 +67,17 @@ export function EsimActivationFlow({ onComplete }: EsimActivationFlowProps) {
           Voltar
         </Button>
 
-        <div className="flex gap-4">
-          <Button
-            variant="link"
-            className="text-[#8425af]"
-          >
-            <HelpCircle className="w-4 h-4 mr-2" />
-            Preciso de ajuda
-          </Button>
-
-          <Button
-            onClick={handleContinue}
-            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
-            disabled={
-              (step === 3 && !imei) ||
-              (step === 4 && !eid)
-            }
-          >
-            Continuar
-          </Button>
-        </div>
+        <Button
+          onClick={handleContinue}
+          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+          disabled={
+            (step === 3 && !imei) ||
+            (step === 4 && !eid)
+          }
+        >
+          Continuar
+        </Button>
       </div>
     </div>
   );
 }
-
