@@ -20,7 +20,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         onClose();
       }
     },
-    timeBetweenDecodingAttempts: 300,
+    timeBetweenDecodingAttempts: 150, // Reduzido de 300ms para 150ms
   });
 
   useEffect(() => {
@@ -65,7 +65,12 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           <div className="absolute inset-0 border-2 border-[#8425af] rounded-lg" />
           <div 
             className="absolute left-0 right-0 h-0.5 bg-red-500 animate-scan-line"
-            style={{ boxShadow: '0 0 4px rgba(255, 0, 0, 0.5)' }}
+            style={{ 
+              boxShadow: '0 0 4px rgba(255, 0, 0, 0.5)',
+              animation: 'scan-line 0.8s ease-in-out infinite',
+              top: '45%', // Mantém o laser mais próximo do centro
+              transform: 'translateY(-50%)'
+            }}
           />
         </div>
       </div>

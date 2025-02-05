@@ -86,8 +86,8 @@ export default {
           "50%": { transform: "scale(1.3)" }
         },
         "scan-line": {
-          "0%": { top: "0%" },
-          "100%": { top: "100%" }
+          "0%": { top: "40%" },
+          "100%": { top: "50%" }
         }
       },
       animation: {
