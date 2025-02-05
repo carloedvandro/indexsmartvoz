@@ -33,7 +33,7 @@ export function BarcodeScannerComponent({ selectedLines, onStartScanning }: Barc
                 <div className="flex flex-col gap-2 mt-1">
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-gray-700">ICCID:</span>
-                    <p className="text-sm font-mono p-2 border border-[#e2e8f0] rounded bg-white w-full">
+                    <p className="text-lg font-mono p-2 bg-white border border-[#e2e8f0] rounded w-full">
                       {line.barcode}
                     </p>
                   </div>
