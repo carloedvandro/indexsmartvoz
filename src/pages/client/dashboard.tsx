@@ -6,6 +6,7 @@ import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
 import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
+import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 import { motion } from "framer-motion";
 
 export default function ClientDashboard() {
@@ -25,9 +26,10 @@ export default function ClientDashboard() {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden"
+      className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden relative"
     >
-      <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <ParticlesBackground />
+      <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
         <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           <div className="max-w-[1800px] mx-auto pt-6">
