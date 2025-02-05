@@ -18,7 +18,7 @@ export function ChipTypeSelection({ onSelectChipType }: ChipTypeSelectionProps) 
           variant="outline"
         >
           <CreditCard size={24} />
-          <p className="font-semibold text-sm">Sim card</p>
+          <p className="font-semibold text-sm">Trocar o SIM card</p>
           <p className="text-xs text-gray-600">Chip tradicional</p>
         </Button>
 
@@ -28,10 +28,11 @@ export function ChipTypeSelection({ onSelectChipType }: ChipTypeSelectionProps) 
           variant="outline"
         >
           <Wifi size={24} />
-          <p className="font-semibold text-sm">Esim</p>
+          <p className="font-semibold text-sm">Trocar pra eSIM</p>
           <p className="text-xs text-gray-600">Chip Virtual</p>
         </Button>
       </div>
     </div>
   );
 }
+
