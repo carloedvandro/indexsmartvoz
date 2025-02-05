@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster";
@@ -21,6 +22,7 @@ import AdminPlans from '@/pages/admin/plans';
 import AdminUsers from '@/pages/admin/users';
 import PublicStore from '@/pages/public/store';
 import ResetPassword from '@/pages/client/reset-password';
+import UpdatePassword from '@/pages/client/update-password';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,6 +32,7 @@ const router = createBrowserRouter(
       <Route path="/client/login" element={<ClientLogin />} />
       <Route path="/client/register" element={<ClientRegister />} />
       <Route path="/client/reset-password" element={<ResetPassword />} />
+      <Route path="/client/update-password" element={<UpdatePassword />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/store/:storeUrl" element={<PublicStore />} />
 
