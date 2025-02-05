@@ -11,9 +11,11 @@ interface SystemTypeStepProps {
 export function SystemTypeStep({ systemType, onSystemTypeChange }: SystemTypeStepProps) {
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-semibold">Vamos começar escolhendo o sistema do celular que vai ter o eSIM ativado</h2>
+      <h2 className="text-2xl font-semibold max-w-[400px] mx-auto">
+        Vamos começar escolhendo o sistema do celular que vai ter o eSIM ativado
+      </h2>
       
-      <div className="bg-gray-700 text-white p-4 rounded-lg flex items-start space-x-2">
+      <div className="bg-[#8425af] text-white p-4 rounded-lg flex items-start space-x-2">
         <AlertTriangle className="h-5 w-5 mt-1 flex-shrink-0" />
         <p className="text-sm">O aparelho precisa ter um eSIM pra ter o chip ativado</p>
       </div>
