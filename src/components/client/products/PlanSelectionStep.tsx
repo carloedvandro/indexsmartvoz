@@ -108,7 +108,7 @@ export function PlanSelectionStep({
         </motion.div>
 
         <motion.div 
-          className="flex flex-col items-center w-full -mt-4"
+          className="flex flex-col items-center w-full mt-4"
           variants={itemVariants}
         >
           <div className="text-center mb-4">
@@ -118,7 +118,7 @@ export function PlanSelectionStep({
           </div>
 
           <div className="w-full px-4">
-            <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto">
+            <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto mt-4">
               {dueDates.map((date) => (
                 <Card 
                   key={date}
