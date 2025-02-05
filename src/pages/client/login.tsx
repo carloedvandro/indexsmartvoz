@@ -53,12 +53,7 @@ export default function LoginPage() {
 
         console.log("User profile:", profile);
 
-        if (profile?.role !== "client") {
-          // Se não for cliente, fazer logout e mostrar erro
-          await supabase.auth.signOut();
-          throw new Error("Área restrita para clientes. Use a área de administrador para acessar.");
-        }
-
+        // Remove restrição de role, permitindo que admins acessem a área do cliente
         navigate("/client/dashboard");
       }
     } catch (error) {
