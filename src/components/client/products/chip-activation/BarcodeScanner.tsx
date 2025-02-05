@@ -8,12 +8,12 @@ interface BarcodeScannerProps {
 
 export function BarcodeScannerComponent({ selectedLines, onStartScanning }: BarcodeScannerProps) {
   return (
-    <div className="space-y-6 w-full max-w-[320px] mx-auto px-4">
+    <div className="space-y-6 w-full max-w-[320px] mx-auto">
       <h2 className="text-lg font-semibold text-center whitespace-nowrap mx-auto">Escaneie o código de barra do chip</h2>
       <div className="space-y-4">
         {selectedLines.map((line, index) => (
           <div key={line.id} className="flex flex-col space-y-3">
-            <div className="p-6 border rounded-lg w-[100%]">
+            <div className="p-6 border rounded-lg w-full">
               <div className="flex flex-col space-y-4">
                 <p className="font-medium">Código de barras do SIM card</p>
                 <div className="flex items-center justify-between">
@@ -28,7 +28,7 @@ export function BarcodeScannerComponent({ selectedLines, onStartScanning }: Barc
               </div>
             </div>
             {line.barcode && (
-              <div className="px-4 py-3 rounded w-[100%]">
+              <div className="py-3 w-full">
                 <p className="text-sm font-medium text-gray-700">Código escaneado:</p>
                 <div className="flex flex-col gap-2 mt-1">
                   <div className="flex items-center gap-2">

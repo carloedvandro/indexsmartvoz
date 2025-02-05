@@ -48,27 +48,27 @@ export function ChipActivationFlow({
           {currentStep === 4 && <ChipInstructions />}
           {currentStep === 5 && <BarcodeInstructions onBack={onBack} onContinue={onContinue} />}
           {currentStep === 6 && (
-            <>
+            <div className="flex flex-col space-y-6">
               <BarcodeScannerComponent
                 selectedLines={selectedLines}
                 onStartScanning={onStartScanning}
               />
-              <div className="flex justify-between mt-6">
+              <div className="flex justify-between w-full">
                 <Button 
                   variant="outline" 
-                  className="bg-white border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-4 h-9 flex items-center"
+                  className="bg-white border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-4 h-[42px] flex items-center"
                   onClick={onBack}
                 >
                   Voltar
                 </Button>
                 <Button 
-                  className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-4 h-9 flex items-center"
+                  className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-4 h-[42px] flex items-center"
                   onClick={onContinue}
                 >
                   Continuar
                 </Button>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>
