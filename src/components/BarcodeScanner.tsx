@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useZxing } from "react-zxing";
 import { Button } from "./ui/button";
 
@@ -11,6 +11,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [lastScannedCode, setLastScannedCode] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const { ref } = useZxing({
     onDecodeResult(result) {
@@ -19,6 +20,10 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       if (text.length === 20 && text.startsWith('8955')) {
         console.log("Código válido detectado:", text);
         setLastScannedCode(text);
+        // Toca o som de bip
+        if (audioRef.current) {
+          audioRef.current.play().catch(console.error);
+        }
       } else {
         console.log("Código inválido detectado:", text);
         setError("Código inválido. O código deve ter 20 dígitos e começar com 8955.");
@@ -81,6 +86,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <audio ref={audioRef} src="/beep.mp3" />
       <div className="bg-white p-4 rounded-lg w-[90%] max-w-[400px] mx-auto">
         {hasPermission === false ? (
           <div className="text-center text-red-500 p-4">
@@ -95,8 +101,10 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
                 autoPlay
                 playsInline
               />
-              <div className="absolute inset-0 border-2 border-[#8425af] rounded pointer-events-none">
-                <div className="absolute inset-x-0 top-1/2 h-0.5 bg-[#8425af]/30" />
+              <div className="absolute inset-0 border-[3px] border-[#8425af] rounded-lg pointer-events-none">
+                {/* Linha de escaneamento vermelha animada */}
+                <div className="absolute inset-x-0 top-1/2 h-0.5 bg-red-500/70 animate-[scan_2s_ease-in-out_infinite]" />
+                {/* Linhas verticais roxas */}
                 <div className="absolute inset-y-0 left-1/4 w-0.5 bg-[#8425af]/30" />
                 <div className="absolute inset-y-0 right-1/4 w-0.5 bg-[#8425af]/30" />
               </div>
