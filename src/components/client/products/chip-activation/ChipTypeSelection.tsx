@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Sim } from "lucide-react";
+import { Chip } from "lucide-react";
 
 interface ChipTypeSelectionProps {
   onSelectChipType: (type: 'physical' | 'esim') => void;
@@ -17,7 +17,7 @@ export function ChipTypeSelection({ onSelectChipType }: ChipTypeSelectionProps) 
           className="flex items-center gap-2 p-4 bg-white hover:bg-gray-50 border-2 border-[#8425af] text-[#8425af] w-[320px] mx-auto"
           variant="outline"
         >
-          <Sim className="w-4 h-4" />
+          <Chip className="w-4 h-4" />
           <p className="font-semibold text-sm">Trocar o SIM card</p>
         </Button>
 
@@ -32,3 +32,4 @@ export function ChipTypeSelection({ onSelectChipType }: ChipTypeSelectionProps) 
     </div>
   );
 }
+
