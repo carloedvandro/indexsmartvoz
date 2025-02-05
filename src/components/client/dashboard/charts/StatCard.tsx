@@ -1,3 +1,4 @@
+
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
 import { motion } from 'framer-motion';
 
@@ -35,7 +36,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 export const StatCard = ({ title, value, data, color }: StatCardProps) => {
   return (
     <motion.div 
-      className="p-4 rounded-xl bg-white shadow-lg transform-gpu perspective-1000 h-[300px]"
+      className="p-4 rounded-xl shadow-lg transform-gpu perspective-1000 h-[300px]"
       initial={{ rotateX: 25, scale: 0.9, opacity: 0 }}
       animate={{ rotateX: 0, scale: 1, opacity: 1 }}
       transition={{ duration: 0.5, type: "spring" }}
