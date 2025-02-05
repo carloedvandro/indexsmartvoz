@@ -9,7 +9,6 @@ interface ScannerCameraProps {
 
 export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
   const hints = new Map();
-  // Habilitando múltiplos formatos de código de barras para melhor detecção
   hints.set(DecodeHintType.POSSIBLE_FORMATS, [
     BarcodeFormat.CODE_128,
     BarcodeFormat.EAN_13,
@@ -21,7 +20,6 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
     BarcodeFormat.CODABAR
   ]);
 
-  // Configurações otimizadas para melhor leitura
   hints.set(DecodeHintType.TRY_HARDER, true);
   hints.set(DecodeHintType.CHARACTER_SET, "UTF-8");
   hints.set(DecodeHintType.PURE_BARCODE, false);
@@ -32,7 +30,6 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
       const code = result.getText();
       console.log("Tentando ler código:", code);
       
-      // Validação mais flexível do código
       if (code.length >= 18 && code.length <= 22) {
         console.log("Código com tamanho válido detectado:", code);
         if (code.includes("8955")) {
@@ -47,14 +44,12 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
       }
     },
     onError: (error: unknown) => {
-      // Verificação de tipo segura para o erro
       const errorMessage = error instanceof Error 
         ? error.message
         : typeof error === 'string' 
           ? error 
           : "Erro ao ler o código. Por favor, tente novamente.";
 
-      // Só logar erros reais, não tentativas de leitura
       if (!errorMessage.includes("No MultiFormat Readers were able to detect")) {
         console.error("Erro de leitura:", errorMessage);
         onError(errorMessage);
