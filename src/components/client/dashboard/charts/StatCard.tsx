@@ -73,37 +73,10 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
         transition={{ delay: 0.4 }}
         style={{
           transform: "translateZ(20px)",
-          filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.1))"
         }}
       >
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart 
-            data={data}
-            style={{
-              filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.1))"
-            }}
-          >
-            <defs>
-              <filter id={`glow-${color}`}>
-                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                <feMerge>
-                  <feMergeNode in="coloredBlur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-              <style type="text/css">
-                {`
-                  @keyframes customPulse {
-                    0% { r: 4; opacity: 1; }
-                    50% { r: 8; opacity: 0.5; }
-                    100% { r: 4; opacity: 1; }
-                  }
-                  .custom-pulse {
-                    animation: customPulse 1.5s ease-in-out infinite;
-                  }
-                `}
-              </style>
-            </defs>
+          <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis 
               dataKey="name" 
@@ -129,15 +102,13 @@ export const StatCard = ({ title, value, data, color }: StatCardProps) => {
                 fill: "#fff", 
                 stroke: color,
                 strokeWidth: 2,
-                r: 4,
-                filter: `url(#glow-${color})`
+                r: 4
               }}
               activeDot={{ 
                 r: 6, 
                 fill: "#fff",
                 stroke: color,
                 strokeWidth: 2,
-                filter: `url(#glow-${color})`,
                 className: "custom-pulse"
               }}
               animationDuration={2000}
