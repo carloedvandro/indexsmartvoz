@@ -10,31 +10,30 @@ interface ScannerCameraProps {
 
 export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
   const hints = new Map();
+  // Configurando apenas os formatos mais comuns para códigos de 20 dígitos
   hints.set(DecodeHintType.POSSIBLE_FORMATS, [
     BarcodeFormat.CODE_128,
     BarcodeFormat.EAN_13,
-    BarcodeFormat.EAN_8,
-    BarcodeFormat.QR_CODE,
-    BarcodeFormat.DATA_MATRIX,
-    BarcodeFormat.UPC_A,
-    BarcodeFormat.UPC_E,
-    BarcodeFormat.CODABAR,
-    BarcodeFormat.ITF
+    BarcodeFormat.ITF,
+    BarcodeFormat.CODE_39
   ]);
 
   hints.set(DecodeHintType.TRY_HARDER, true);
+  hints.set(DecodeHintType.ASSUME_GS1, true);
 
   const { ref } = useZxing({
     onDecodeResult: (result) => {
       const code = result.getText();
       console.log("Código detectado:", code);
       
-      if (code && code.length > 0) {
-        console.log("Código válido encontrado:", code);
+      // Validação específica para códigos de 20 dígitos
+      if (code && code.length === 20) {
+        console.log("Código válido de 20 dígitos encontrado:", code);
         beepSound.play();
         onValidCode(code);
       } else {
-        onError("Código inválido. Tente novamente.");
+        console.log("Código inválido - comprimento incorreto:", code.length);
+        onError("Código inválido. O código deve ter 20 dígitos.");
       }
     },
     onError: (error) => {
@@ -43,7 +42,7 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
         onError("Erro ao ler o código. Por favor, tente novamente.");
       }
     },
-    timeBetweenDecodingAttempts: 500,
+    timeBetweenDecodingAttempts: 300,
     constraints: {
       video: {
         facingMode: "environment",
