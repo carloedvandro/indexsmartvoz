@@ -7,7 +7,7 @@ interface BarcodeInstructionsProps {
 
 export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsProps) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 overflow-hidden">
       <h2 className="text-2xl font-medium">Confira como você encontra o código de barras do SIM card</h2>
       
       <div className="flex items-center justify-between max-w-xl mx-auto relative">
@@ -53,14 +53,14 @@ export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsP
       <div className="flex justify-between">
         <Button 
           variant="outline"
-          className="hover:bg-[#8425af] hover:text-white border-[#8425af] text-[#8425af]"
+          className="hover:bg-[#8425af] hover:text-white border-[#8425af] text-[#8425af] h-[42px]"
           onClick={onBack}
           type="button"
         >
           Voltar
         </Button>
         <Button 
-          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white h-[42px]"
           onClick={onContinue}
           type="button"
         >
