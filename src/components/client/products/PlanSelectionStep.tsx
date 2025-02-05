@@ -72,7 +72,7 @@ export function PlanSelectionStep({
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <h2 className="text-2xl font-bold">Personalize seu pedido</h2>
+        <h2 className="text-2xl font-medium">Personalize seu pedido</h2>
         <p className="text-gray-600">
           Confira aqui as melhores ofertas para você, cliente Smatvoz.
         </p>
