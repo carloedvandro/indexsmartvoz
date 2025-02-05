@@ -22,7 +22,9 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         setLastScannedCode(text);
         // Toca o som de bip
         if (audioRef.current) {
-          audioRef.current.play().catch(console.error);
+          audioRef.current.play().catch(error => {
+            console.error("Erro ao tocar o som:", error);
+          });
         }
       } else {
         console.log("Código inválido detectado:", text);
