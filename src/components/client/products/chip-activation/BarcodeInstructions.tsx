@@ -45,7 +45,7 @@ export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsP
           <img 
             src="/lovable-uploads/c1471528-92f5-409a-a0c9-a520defbecf5.png" 
             alt="Exemplo de código de barras do chip"
-            className="max-w-[1000px] w-full"
+            className="max-w-[1200px] w-full"
           />
         </div>
       </div>
