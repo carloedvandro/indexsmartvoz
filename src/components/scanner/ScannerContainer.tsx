@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScannerCamera } from './ScannerCamera';
 import { ScannerOverlay } from './ScannerOverlay';
 import { ScannerError } from './ScannerError';
@@ -22,6 +22,8 @@ export function ScannerContainer({
   onValidCode,
   onError
 }: ScannerContainerProps) {
+  const [currentLaserStyle, setCurrentLaserStyle] = useState<"line" | "cross" | "corners" | "frame" | "scanner">("line");
+
   useEffect(() => {
     if (lastScannedCode) {
       const timer = setTimeout(() => {
@@ -31,6 +33,13 @@ export function ScannerContainer({
       return () => clearTimeout(timer);
     }
   }, [lastScannedCode, onResult]);
+
+  const cycleLaserStyle = () => {
+    const styles: Array<"line" | "cross" | "corners" | "frame" | "scanner"> = ["line", "cross", "corners", "frame", "scanner"];
+    const currentIndex = styles.indexOf(currentLaserStyle);
+    const nextIndex = (currentIndex + 1) % styles.length;
+    setCurrentLaserStyle(styles[nextIndex]);
+  };
 
   return (
     <div className="w-full max-w-[340px] mx-auto bg-white rounded-lg overflow-hidden">
@@ -45,19 +54,20 @@ export function ScannerContainer({
             onError={onError}
           />
         </div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-[280px] h-[100px] border-2 border-red-500 relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full h-[2px] bg-red-500 animate-pulse" />
-            </div>
-          </div>
-        </div>
+        <ScannerOverlay laserStyle={currentLaserStyle} />
       </div>
       
       <div className="p-4 space-y-4">
         <p className="text-sm text-gray-500 text-center">
           Posicione o código de barras do chip dentro da área destacada
         </p>
+        
+        <button
+          onClick={cycleLaserStyle}
+          className="w-full px-4 py-2 text-sm bg-[#8425af] text-white rounded-lg hover:bg-[#6c1e8f]"
+        >
+          Trocar estilo do laser
+        </button>
         
         <ScannerError error={error} />
         <ScannerResult code={lastScannedCode} />
