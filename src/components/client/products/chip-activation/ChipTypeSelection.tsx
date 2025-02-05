@@ -14,7 +14,7 @@ export function ChipTypeSelection({ onSelectChipType }: ChipTypeSelectionProps) 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full mt-5">
         <Button
           onClick={() => onSelectChipType('physical')}
-          className="flex flex-col items-center gap-2 p-4 bg-white hover:bg-gray-50 border-2 border-[#8425af] text-[#8425af] w-[40px]"
+          className="flex flex-col items-center gap-2 p-4 bg-white hover:bg-gray-50 border-2 border-[#8425af] text-[#8425af] w-[80px]"
           variant="outline"
         >
           <CreditCard size={24} />
@@ -24,7 +24,7 @@ export function ChipTypeSelection({ onSelectChipType }: ChipTypeSelectionProps) 
 
         <Button
           onClick={() => onSelectChipType('esim')}
-          className="flex flex-col items-center gap-2 p-4 bg-white hover:bg-gray-50 border-2 border-[#8425af] text-[#8425af] w-[40px]"
+          className="flex flex-col items-center gap-2 p-4 bg-white hover:bg-gray-50 border-2 border-[#8425af] text-[#8425af] w-[80px]"
           variant="outline"
         >
           <Wifi size={24} />
@@ -35,4 +35,3 @@ export function ChipTypeSelection({ onSelectChipType }: ChipTypeSelectionProps) 
     </div>
   );
 }
-
