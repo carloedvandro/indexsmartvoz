@@ -38,7 +38,7 @@ export function ScannerContainer({
         Escaneie o código de barra do chip
       </h2>
       
-      <div className="relative h-[600px] bg-black">
+      <div className="relative h-[100px] bg-black">
         <div className="absolute inset-0">
           <ScannerCamera
             onValidCode={onValidCode}
@@ -46,7 +46,7 @@ export function ScannerContainer({
           />
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-[280px] h-[100px] border-2 border-red-500 relative">
+          <div className="w-[280px] h-[80px] border-2 border-red-500 relative">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full h-[2px] bg-red-500 animate-pulse" />
             </div>
@@ -56,7 +56,7 @@ export function ScannerContainer({
       
       <div className="p-4 space-y-4">
         <p className="text-sm text-gray-500 text-center">
-          Posicione o código de barras do chip dentro da área destacada
+          Posicione o código de barras dentro da área destacada em vermelho
         </p>
         
         <ScannerError error={error} />
