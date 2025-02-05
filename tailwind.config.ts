@@ -96,7 +96,7 @@ export default {
         "rainbow": "rainbow var(--speed, 2s) infinite linear",
         "gradient": "gradient 8s ease-in-out infinite",
         "pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "scan-line": "scan-line 1s ease-in-out infinite alternate"
+        "scan-line": "scan-line 0.5s ease-in-out infinite alternate"
       },
     },
   },

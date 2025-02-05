@@ -36,7 +36,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div ref={overlayRef} className="relative bg-white p-4 rounded-lg">
+      <div ref={overlayRef} className="relative p-4">
         <button
           onClick={onClose}
           className="absolute -top-2 -right-2 bg-white rounded-full p-1 shadow-lg"
