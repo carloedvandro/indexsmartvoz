@@ -80,7 +80,7 @@ export function PlanSelectionStep({
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6"> {/* Reduzido de space-y-8 para space-y-6 para mover 2mm para cima */}
       <motion.div 
         className="space-y-2"
         variants={itemVariants}
@@ -108,7 +108,7 @@ export function PlanSelectionStep({
         </motion.div>
 
         <motion.div 
-          className="flex flex-col items-center w-full mt-4"
+          className="flex flex-col items-center w-full mt-2" {/* Reduzido de mt-4 para mt-2 */}
           variants={itemVariants}
         >
           <div className="text-center mb-4 mt-2">
@@ -118,7 +118,7 @@ export function PlanSelectionStep({
           </div>
 
           <div className="w-full px-4">
-            <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto mt-4">
+            <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto mt-2"> {/* Reduzido de mt-4 para mt-2 */}
               {dueDates.map((date) => (
                 <Card 
                   key={date}
