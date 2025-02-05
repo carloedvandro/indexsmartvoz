@@ -97,7 +97,7 @@ export default function LoginPage() {
     >
       <ParticlesBackground />
       
-      <div className="w-full max-w-[350px] space-y-6">
+      <div className="w-full max-w-[350px] space-y-6 relative z-10">
         <motion.div 
           className="flex flex-col space-y-2 text-center"
           variants={itemVariants}
