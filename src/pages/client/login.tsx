@@ -67,8 +67,9 @@ export default function LoginPage() {
 
   return (
     <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className="container relative min-h-screen flex items-center justify-center"
     >
       <div className="w-full max-w-[350px] space-y-6">
