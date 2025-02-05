@@ -5,6 +5,7 @@ import { PlanSelectionStep } from "./PlanSelectionStep";
 import { NavigationButtons } from "./NavigationButtons";
 import { useStepValidator } from "./StepValidator";
 import { ParticlesBackground } from "./ParticlesBackground";
+import { motion } from "framer-motion";
 
 interface MainContentProps {
   currentStep: number;
@@ -37,38 +38,69 @@ export function MainContent({
     handleContinue 
   });
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-50/80 pt-32 relative">
+    <motion.div 
+      className="flex flex-col items-center min-h-screen bg-gray-50/80 pt-32 relative"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
       <ParticlesBackground />
       <Card className="relative z-10 w-full max-w-[400px] shadow-none bg-transparent border-0">
         <CardContent>
-          {currentStep === 1 && (
-            <PlanSelectionStep 
-              selectedLines={selectedLines}
-              setSelectedLines={setSelectedLines}
-              selectedDueDate={selectedDueDate}
-              setSelectedDueDate={setSelectedDueDate}
+          <motion.div variants={itemVariants}>
+            {currentStep === 1 && (
+              <PlanSelectionStep 
+                selectedLines={selectedLines}
+                setSelectedLines={setSelectedLines}
+                selectedDueDate={selectedDueDate}
+                setSelectedDueDate={setSelectedDueDate}
+              />
+            )}
+
+            {currentStep === 2 && (
+              <OrderReviewStep selectedLines={selectedLines} />
+            )}
+
+            {currentStep === 3 && (
+              <ContractTermsStep
+                acceptedTerms={acceptedTerms}
+                onTermsChange={setAcceptedTerms}
+              />
+            )}
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <NavigationButtons 
+              currentStep={currentStep}
+              handleBack={handleBack}
+              handleContinue={validateAndContinue}
             />
-          )}
-
-          {currentStep === 2 && (
-            <OrderReviewStep selectedLines={selectedLines} />
-          )}
-
-          {currentStep === 3 && (
-            <ContractTermsStep
-              acceptedTerms={acceptedTerms}
-              onTermsChange={setAcceptedTerms}
-            />
-          )}
-
-          <NavigationButtons 
-            currentStep={currentStep}
-            handleBack={handleBack}
-            handleContinue={validateAndContinue}
-          />
+          </motion.div>
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 }

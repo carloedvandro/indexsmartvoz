@@ -3,6 +3,7 @@ import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
 import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
 
 type Line = {
   id: number;
@@ -69,17 +70,32 @@ export function PlanSelectionStep({
 
   const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
 
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  };
+
   return (
     <div className="space-y-8">
-      <div className="space-y-2">
+      <motion.div 
+        className="space-y-2"
+        variants={itemVariants}
+      >
         <h2 className="text-2xl font-medium">Personalize seu pedido</h2>
         <p className="text-gray-600">
           Confira aqui as melhores ofertas para você, cliente Smatvoz.
         </p>
-      </div>
+      </motion.div>
 
       <div className="space-y-4 max-w-2xl mx-auto">
-        <div className="grid grid-cols-2 gap-4">
+        <motion.div 
+          className="grid grid-cols-2 gap-4"
+          variants={itemVariants}
+        >
           <InternetSelector
             selectedInternet={selectedLines[0]?.internet || undefined}
             onInternetChange={handleInternetChange}
@@ -89,9 +105,12 @@ export function PlanSelectionStep({
             ddd={selectedLines[0]?.ddd || ""}
             onDDDChange={handleDDDChange}
           />
-        </div>
+        </motion.div>
 
-        <div className="flex flex-col items-center w-full -mt-4">
+        <motion.div 
+          className="flex flex-col items-center w-full -mt-4"
+          variants={itemVariants}
+        >
           <div className="text-center mb-4">
             <h2 className="text-xl">
               Escolha a melhor data de vencimento da sua fatura:
@@ -117,12 +136,14 @@ export function PlanSelectionStep({
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <PriceSummary
-          linePrice={selectedLines[0]?.price || 0}
-          totalPrice={totalPrice}
-        />
+        <motion.div variants={itemVariants}>
+          <PriceSummary
+            linePrice={selectedLines[0]?.price || 0}
+            totalPrice={totalPrice}
+          />
+        </motion.div>
       </div>
     </div>
   );
