@@ -64,7 +64,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           />
           <div className="absolute inset-0 border-2 border-[#8425af] rounded-lg" />
           <div 
-            className="absolute left-0 right-0 h-0.5 bg-red-500 top-1/2 transform -translate-y-1/2"
+            className="absolute left-0 right-0 h-0.5 bg-red-500 animate-scan-line"
             style={{ boxShadow: '0 0 4px rgba(255, 0, 0, 0.5)' }}
           />
         </div>
