@@ -31,24 +31,23 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
         : "Erro ao ler o código. Por favor, tente novamente.";
       onError(errorMessage);
     },
-    timeBetweenDecodingAttempts: 200, // Reduzido de 1000ms para 200ms
+    timeBetweenDecodingAttempts: 200,
     constraints: {
       video: {
         facingMode: "environment",
-        width: { min: 640, ideal: 1280, max: 1920 },
-        height: { min: 480, ideal: 720, max: 1080 },
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
         aspectRatio: 1.777778,
-        frameRate: { ideal: 30, max: 60 } // Aumentado o frame rate
+        frameRate: { ideal: 30, max: 60 }
       },
     },
-    hints,
-    timeBetweenScansMillis: 100, // Reduzido o tempo entre scans
+    hints
   });
 
   return (
     <video 
       ref={ref} 
-      className="w-full h-[60vh] object-cover"
+      className="w-full h-full object-cover"
     />
   );
 }
