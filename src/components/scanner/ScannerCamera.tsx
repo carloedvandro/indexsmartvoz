@@ -42,16 +42,18 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
       }
     },
     onError: (error) => {
-      // Ignora erros comuns de leitura que não afetam a funcionalidade
       if (!error.toString().includes("No MultiFormat Readers were able to detect")) {
         console.error("Erro de leitura:", error);
         onError("Erro ao ler o código. Por favor, tente novamente.");
       }
     },
-    timeBetweenDecodingAttempts: 200,
+    timeBetweenDecodingAttempts: 50, // Reduzido para 50ms para captura mais rápida
     constraints: {
       video: {
-        facingMode: "environment"
+        facingMode: "environment",
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
+        frameRate: { ideal: 60 } // Aumentado para 60fps para melhor resposta
       }
     },
     hints
