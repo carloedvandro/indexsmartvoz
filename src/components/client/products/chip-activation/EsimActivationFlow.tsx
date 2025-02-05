@@ -27,7 +27,7 @@ export function EsimActivationFlow({ onComplete }: EsimActivationFlowProps) {
   };
 
   return (
-    <div className="w-full max-w-[400px] mx-auto space-y-6">
+    <div className="w-full max-w-[380px] mx-auto space-y-6">
       <StepIndicator step={step} />
 
       {step === 1 && (
