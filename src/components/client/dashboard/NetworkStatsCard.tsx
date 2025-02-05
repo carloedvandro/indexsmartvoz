@@ -42,11 +42,11 @@ export const NetworkStatsCard = () => {
   const revenueData = generateRevenueData();
 
   return (
-    <div className="space-y-8">
+    <>
       <NetworkStatsHeader />
       <NetworkStatsGrid cardData={cardData} />
       <ExpenseDistributionCard />
       <MonthlyPerformanceChart />
-    </div>
+    </>
   );
 };
