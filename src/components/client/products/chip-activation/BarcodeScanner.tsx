@@ -8,7 +8,7 @@ interface BarcodeScannerProps {
 
 export function BarcodeScannerComponent({ selectedLines, onStartScanning }: BarcodeScannerProps) {
   return (
-    <div className="flex flex-col items-center w-full max-w-[300px] mx-auto">
+    <div className="flex flex-col items-center w-full max-w-[340px] mx-auto">
       <h2 className="text-lg font-semibold text-center mb-6">Escaneie o código de barra do chip</h2>
       <div className="space-y-4 w-full">
         {selectedLines.map((line, index) => (
