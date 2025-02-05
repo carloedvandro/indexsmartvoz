@@ -25,3 +25,4 @@ export const NetworkStatsGrid = ({ cardData }: NetworkStatsGridProps) => {
     </div>
   );
 };
+
