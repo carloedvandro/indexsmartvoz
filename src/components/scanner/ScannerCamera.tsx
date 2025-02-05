@@ -51,8 +51,8 @@ export function ScannerCamera({ onValidCode, onError }: ScannerCameraProps) {
     constraints: {
       video: {
         facingMode: "environment",
-        width: { ideal: 3840 }, // Aumentado para 4K
-        height: { ideal: 2160 },
+        width: { ideal: 1920 }, // Full HD para melhor performance
+        height: { ideal: 1080 },
         frameRate: { ideal: 60 }, // Mantido em 60fps para melhor resposta
         aspectRatio: 16/9
       }
