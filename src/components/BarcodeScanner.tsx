@@ -68,7 +68,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         <div className="relative">
           <video
             ref={videoRef}
-            className="w-[350px] h-[100px] object-cover rounded-lg"
+            className="w-[340px] h-[100px] object-cover rounded-lg"
           />
           <div className="absolute inset-0 border-2 border-[#8425af] rounded-lg" />
           <div 
