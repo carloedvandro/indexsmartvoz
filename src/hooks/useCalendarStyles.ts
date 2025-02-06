@@ -18,6 +18,7 @@ export function useCalendarStyles() {
       const { data, error } = await supabase
         .from('calendar_styles')
         .select('*')
+        .eq('name', 'default')
         .single();
 
       if (error) throw error;
