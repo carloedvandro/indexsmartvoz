@@ -1,13 +1,11 @@
+
 import { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCalendarStyles } from "@/hooks/useCalendarStyles";
-import { ptBR } from "date-fns/locale";
-import { format, addMonths, subMonths } from "date-fns";
 
 type Line = {
   id: number;
@@ -31,7 +29,6 @@ export function PlanSelectionStep({
   setSelectedDueDate 
 }: PlanSelectionStepProps) {
   const { data: calendarStyle } = useCalendarStyles();
-  const [currentDate, setCurrentDate] = useState(new Date());
   
   const internetOptions = [
     { value: "Plano Gratuito", label: "Plano Gratuito", price: 0 },
@@ -43,8 +40,6 @@ export function PlanSelectionStep({
   ];
 
   const dueDates = [1, 5, 7, 10, 15, 20];
-  const currentMonth = format(currentDate, 'MMMM yyyy', { locale: ptBR });
-  const holidays = [1, 4, 18]; // Example holidays for demonstration
 
   useState(() => {
     if (selectedLines.length === 0) {
@@ -77,55 +72,8 @@ export function PlanSelectionStep({
     ));
   };
 
-  const handlePreviousMonth = () => {
-    setCurrentDate(prevDate => subMonths(prevDate, 1));
-  };
-
-  const handleNextMonth = () => {
-    setCurrentDate(prevDate => addMonths(prevDate, 1));
-  };
-
   const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
   const isFreePlan = selectedLines[0]?.internet === "Plano Gratuito";
-
-  const getDaysInMonth = () => {
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
-    const firstDay = new Date(year, month, 1).getDay();
-    const lastDay = new Date(year, month + 1, 0).getDate();
-    
-    const days = [];
-    // Add previous month days
-    const prevMonthLastDay = new Date(year, month, 0).getDate();
-    for (let i = firstDay - 1; i >= 0; i--) {
-      days.push({
-        date: prevMonthLastDay - i,
-        isPrevMonth: true
-      });
-    }
-    
-    // Add current month days
-    for (let i = 1; i <= lastDay; i++) {
-      days.push({
-        date: i,
-        isPrevMonth: false,
-        isHoliday: holidays.includes(i),
-        isSunday: new Date(year, month, i).getDay() === 0,
-        isSelectable: dueDates.includes(i)
-      });
-    }
-
-    // Add next month days to complete the grid
-    const remainingDays = 42 - days.length; // 6 rows × 7 days
-    for (let i = 1; i <= remainingDays; i++) {
-      days.push({
-        date: i,
-        isNextMonth: true
-      });
-    }
-
-    return days;
-  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -180,64 +128,33 @@ export function PlanSelectionStep({
             </h2>
           </div>
 
-          <div className="w-full">
-            <div className="bg-white rounded-lg p-4 shadow-sm">
-              <div className="flex items-center justify-between mb-6">
-                <button 
-                  onClick={handlePreviousMonth}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          <div className="w-full px-4">
+            <div className="grid grid-cols-3 gap-2 w-full mt-2">
+              {dueDates.map((date) => (
+                <Card 
+                  key={date}
+                  className={`cursor-pointer transition-colors h-8 flex items-center justify-center border-gray-200
+                    ${selectedDueDate === date 
+                      ? `bg-[${calendarStyle?.theme_color || '#0040FF'}] text-white border-[${calendarStyle?.theme_color || '#0040FF'}]`
+                      : `hover:bg-[${calendarStyle?.hover_color || '#0040FF'}] hover:text-white hover:border-[${calendarStyle?.hover_color || '#0040FF'}]`
+                    }`}
+                  style={{
+                    borderRadius: calendarStyle?.border_radius || '8px',
+                  }}
+                  onClick={() => setSelectedDueDate(date)}
                 >
-                  <ChevronLeft className="w-5 h-5 text-gray-600" />
-                </button>
-                <h3 className="text-lg font-medium capitalize">{currentMonth}</h3>
-                <button 
-                  onClick={handleNextMonth}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                >
-                  <ChevronRight className="w-5 h-5 text-gray-600" />
-                </button>
-              </div>
-              
-              <div className="grid grid-cols-7 gap-1 mb-4">
-                {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map((day, index) => (
-                  <div 
-                    key={index} 
-                    className={`text-center text-sm font-medium ${index === 0 ? 'text-[#ea384c]' : 'text-blue-600'}`}
-                  >
-                    {day}
-                  </div>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-7 gap-1">
-                {getDaysInMonth().map((day, index) => (
-                  <motion.div 
-                    key={index}
-                    whileHover={day.isSelectable && !day.isPrevMonth && !day.isNextMonth ? {
-                      scale: 1.1,
-                      rotateX: 10,
-                      rotateY: 10,
-                      transition: { duration: 0.2 }
-                    } : {}}
-                    className={`
-                      text-center py-2 text-sm select-none relative
-                      transform-gpu perspective-[1000px]
-                      ${day.isPrevMonth || day.isNextMonth ? 'text-gray-400' : 'text-gray-700'}
-                      ${day.isSelectable && !day.isPrevMonth && !day.isNextMonth ? 'cursor-pointer hover:bg-blue-50' : ''}
-                      ${selectedDueDate === day.date && !day.isPrevMonth && !day.isNextMonth ? 'bg-blue-600 text-white rounded-lg shadow-lg' : ''}
-                      ${(day.isSunday || day.isHoliday) && !day.isPrevMonth && !day.isNextMonth ? 'text-[#ea384c]' : ''}
-                      ${day.isSelectable && !day.isPrevMonth && !day.isNextMonth ? 'hover:shadow-xl transition-all duration-200' : ''}
-                    `}
-                    onClick={() => day.isSelectable && !day.isPrevMonth && !day.isNextMonth && setSelectedDueDate(day.date)}
-                    style={{
-                      transform: day.isSelectable && !day.isPrevMonth && !day.isNextMonth ? 
-                        'translateZ(20px)' : 'none'
-                    }}
-                  >
-                    {day.date}
-                  </motion.div>
-                ))}
-              </div>
+                  <CardContent className="flex items-center justify-center h-full p-0">
+                    <span 
+                      className="font-medium"
+                      style={{
+                        fontSize: calendarStyle?.date_font_size || '14px'
+                      }}
+                    >
+                      {String(date).padStart(2, '0')}
+                    </span>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
         </motion.div>
