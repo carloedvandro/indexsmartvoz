@@ -22,7 +22,7 @@ interface ProductFormProps {
 }
 
 export function ProductForm({ selectedProduct, isLoading, onSubmit }: ProductFormProps) {
-  const { data: plans, isLoading: isLoadingPlans } = useNetworkPlans();
+  const { data: plans = [], isLoading: isLoadingPlans } = useNetworkPlans();
 
   return (
     <DialogContent className="sm:max-w-[425px]">
@@ -55,20 +55,22 @@ export function ProductForm({ selectedProduct, isLoading, onSubmit }: ProductFor
             required
           />
         </div>
-        <div>
-          <Select name="plan_id" defaultValue={selectedProduct?.plan_id || undefined}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select a plan (optional)" />
-            </SelectTrigger>
-            <SelectContent>
-              {plans?.map((plan) => (
-                <SelectItem key={plan.id} value={plan.id}>
-                  {plan.name} - {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(plan.price)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        {!isLoadingPlans && plans.length > 0 && (
+          <div>
+            <Select name="plan_id" defaultValue={selectedProduct?.plan_id || undefined}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a plan (optional)" />
+              </SelectTrigger>
+              <SelectContent>
+                {plans.map((plan) => (
+                  <SelectItem key={plan.id} value={plan.id}>
+                    {plan.name} - {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(plan.price)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
         <div>
           <Input
             name="image"
