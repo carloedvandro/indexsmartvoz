@@ -122,197 +122,46 @@ export function PlanSelectionStep({
           className="flex flex-col items-center w-full mt-2"
           variants={itemVariants}
         >
-          <div className="text-center mb-4 mt-2 w-full">
+          <div className="text-center mb-4 mt-2">
             <h2 className="text-xl font-normal -mt-[5px]">
               Escolha a melhor data de vencimento da sua fatura:
             </h2>
           </div>
 
-          <div className="w-full px-4">
-            <div className="grid grid-cols-4 gap-2 w-full mt-2">
-              <Card 
-                className={`cursor-pointer transition-colors h-8 flex items-center justify-center border-gray-200
-                  ${selectedDueDate === 2 
-                    ? `bg-[${calendarStyle?.theme_color || '#0040FF'}] text-white border-[${calendarStyle?.theme_color || '#0040FF'}]`
-                    : `hover:bg-[${calendarStyle?.hover_color || '#0040FF'}] hover:text-white hover:border-[${calendarStyle?.hover_color || '#0040FF'}]`
-                  }`}
-                style={{
-                  borderRadius: calendarStyle?.border_radius || '8px',
-                }}
-                onClick={() => setSelectedDueDate(2)}
-              >
-                <CardContent className="flex items-center justify-center h-full p-0">
-                  <span 
-                    className="font-medium"
-                    style={{
-                      fontSize: calendarStyle?.date_font_size || '14px'
-                    }}
-                  >
-                    02
-                  </span>
-                </CardContent>
-              </Card>
-
-              <Card 
-                className={`cursor-pointer transition-colors h-8 flex items-center justify-center border-gray-200
-                  ${selectedDueDate === 5 
-                    ? `bg-[${calendarStyle?.theme_color || '#0040FF'}] text-white border-[${calendarStyle?.theme_color || '#0040FF'}]`
-                    : `hover:bg-[${calendarStyle?.hover_color || '#0040FF'}] hover:text-white hover:border-[${calendarStyle?.hover_color || '#0040FF'}]`
-                  }`}
-                style={{
-                  borderRadius: calendarStyle?.border_radius || '8px',
-                }}
-                onClick={() => setSelectedDueDate(5)}
-              >
-                <CardContent className="flex items-center justify-center h-full p-0">
-                  <span 
-                    className="font-medium"
-                    style={{
-                      fontSize: calendarStyle?.date_font_size || '14px'
-                    }}
-                  >
-                    05
-                  </span>
-                </CardContent>
-              </Card>
-
-              <Card 
-                className={`cursor-pointer transition-colors h-8 flex items-center justify-center border-gray-200
-                  ${selectedDueDate === 7 
-                    ? `bg-[${calendarStyle?.theme_color || '#0040FF'}] text-white border-[${calendarStyle?.theme_color || '#0040FF'}]`
-                    : `hover:bg-[${calendarStyle?.hover_color || '#0040FF'}] hover:text-white hover:border-[${calendarStyle?.hover_color || '#0040FF'}]`
-                  }`}
-                style={{
-                  borderRadius: calendarStyle?.border_radius || '8px',
-                }}
-                onClick={() => setSelectedDueDate(7)}
-              >
-                <CardContent className="flex items-center justify-center h-full p-0">
-                  <span 
-                    className="font-medium"
-                    style={{
-                      fontSize: calendarStyle?.date_font_size || '14px'
-                    }}
-                  >
-                    07
-                  </span>
-                </CardContent>
-              </Card>
-
-              <Card 
-                className={`cursor-pointer transition-colors h-8 flex items-center justify-center border-gray-200
-                  ${selectedDueDate === 10 
-                    ? `bg-[${calendarStyle?.theme_color || '#0040FF'}] text-white border-[${calendarStyle?.theme_color || '#0040FF'}]`
-                    : `hover:bg-[${calendarStyle?.hover_color || '#0040FF'}] hover:text-white hover:border-[${calendarStyle?.hover_color || '#0040FF'}]`
-                  }`}
-                style={{
-                  borderRadius: calendarStyle?.border_radius || '8px',
-                }}
-                onClick={() => setSelectedDueDate(10)}
-              >
-                <CardContent className="flex items-center justify-center h-full p-0">
-                  <span 
-                    className="font-medium"
-                    style={{
-                      fontSize: calendarStyle?.date_font_size || '14px'
-                    }}
-                  >
-                    10
-                  </span>
-                </CardContent>
-              </Card>
-
-              <Card 
-                className={`cursor-pointer transition-colors h-8 flex items-center justify-center border-gray-200
-                  ${selectedDueDate === 15 
-                    ? `bg-[${calendarStyle?.theme_color || '#0040FF'}] text-white border-[${calendarStyle?.theme_color || '#0040FF'}]`
-                    : `hover:bg-[${calendarStyle?.hover_color || '#0040FF'}] hover:text-white hover:border-[${calendarStyle?.hover_color || '#0040FF'}]`
-                  }`}
-                style={{
-                  borderRadius: calendarStyle?.border_radius || '8px',
-                }}
-                onClick={() => setSelectedDueDate(15)}
-              >
-                <CardContent className="flex items-center justify-center h-full p-0">
-                  <span 
-                    className="font-medium"
-                    style={{
-                      fontSize: calendarStyle?.date_font_size || '14px'
-                    }}
-                  >
-                    15
-                  </span>
-                </CardContent>
-              </Card>
-
-              <Card 
-                className={`cursor-pointer transition-colors h-8 flex items-center justify-center border-gray-200
-                  ${selectedDueDate === 20 
-                    ? `bg-[${calendarStyle?.theme_color || '#0040FF'}] text-white border-[${calendarStyle?.theme_color || '#0040FF'}]`
-                    : `hover:bg-[${calendarStyle?.hover_color || '#0040FF'}] hover:text-white hover:border-[${calendarStyle?.hover_color || '#0040FF'}]`
-                  }`}
-                style={{
-                  borderRadius: calendarStyle?.border_radius || '8px',
-                }}
-                onClick={() => setSelectedDueDate(20)}
-              >
-                <CardContent className="flex items-center justify-center h-full p-0">
-                  <span 
-                    className="font-medium"
-                    style={{
-                      fontSize: calendarStyle?.date_font_size || '14px'
-                    }}
-                  >
-                    20
-                  </span>
-                </CardContent>
-              </Card>
-
-              <Card 
-                className={`cursor-pointer transition-colors h-8 flex items-center justify-center border-gray-200
-                  ${selectedDueDate === 25 
-                    ? `bg-[${calendarStyle?.theme_color || '#0040FF'}] text-white border-[${calendarStyle?.theme_color || '#0040FF'}]`
-                    : `hover:bg-[${calendarStyle?.hover_color || '#0040FF'}] hover:text-white hover:border-[${calendarStyle?.hover_color || '#0040FF'}]`
-                  }`}
-                style={{
-                  borderRadius: calendarStyle?.border_radius || '8px',
-                }}
-                onClick={() => setSelectedDueDate(25)}
-              >
-                <CardContent className="flex items-center justify-center h-full p-0">
-                  <span 
-                    className="font-medium"
-                    style={{
-                      fontSize: calendarStyle?.date_font_size || '14px'
-                    }}
-                  >
-                    25
-                  </span>
-                </CardContent>
-              </Card>
-
-              <Card 
-                className={`cursor-pointer transition-colors h-8 flex items-center justify-center border-gray-200
-                  ${selectedDueDate === 30 
-                    ? `bg-[${calendarStyle?.theme_color || '#0040FF'}] text-white border-[${calendarStyle?.theme_color || '#0040FF'}]`
-                    : `hover:bg-[${calendarStyle?.hover_color || '#0040FF'}] hover:text-white hover:border-[${calendarStyle?.hover_color || '#0040FF'}]`
-                  }`}
-                style={{
-                  borderRadius: calendarStyle?.border_radius || '8px',
-                }}
-                onClick={() => setSelectedDueDate(30)}
-              >
-                <CardContent className="flex items-center justify-center h-full p-0">
-                  <span 
-                    className="font-medium"
-                    style={{
-                      fontSize: calendarStyle?.date_font_size || '14px'
-                    }}
-                  >
-                    30
-                  </span>
-                </CardContent>
-              </Card>
+          <div className="w-full px-4 max-w-[400px] mx-auto">
+            <div className="grid grid-cols-4 gap-4 w-full mt-2">
+              {[
+                [2, 5, 7, 10],
+                [15, 20, 25, 30]
+              ].map((row, rowIndex) => (
+                <React.Fragment key={rowIndex}>
+                  {row.map((date) => (
+                    <Card 
+                      key={date}
+                      className={`cursor-pointer transition-colors h-8 flex items-center justify-center border-gray-200
+                        ${selectedDueDate === date 
+                          ? `bg-[${calendarStyle?.theme_color || '#0040FF'}] text-white border-[${calendarStyle?.theme_color || '#0040FF'}]`
+                          : `hover:bg-[${calendarStyle?.hover_color || '#0040FF'}] hover:text-white hover:border-[${calendarStyle?.hover_color || '#0040FF'}]`
+                        }`}
+                      style={{
+                        borderRadius: calendarStyle?.border_radius || '8px',
+                      }}
+                      onClick={() => setSelectedDueDate(date)}
+                    >
+                      <CardContent className="flex items-center justify-center h-full p-0">
+                        <span 
+                          className="font-medium"
+                          style={{
+                            fontSize: calendarStyle?.date_font_size || '14px'
+                          }}
+                        >
+                          {date.toString().padStart(2, '0')}
+                        </span>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </React.Fragment>
+              ))}
             </div>
           </div>
         </motion.div>
