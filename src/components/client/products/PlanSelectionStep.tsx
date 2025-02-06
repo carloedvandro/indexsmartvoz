@@ -1,9 +1,14 @@
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { InternetSelector } from "./InternetSelector";
+import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
-import { DueDateCalendar } from "./calendar/DueDateCalendar";
-import { PlanSelectionForm } from "./plan/PlanSelectionForm";
+import { Card } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 type Line = {
   id: number;
@@ -33,21 +38,6 @@ export function PlanSelectionStep({
     { value: "130GB", label: "130GB", price: 129.99 },
     { value: "140GB", label: "140GB", price: 139.99 },
     { value: "150GB", label: "150GB", price: 149.99 },
-  ];
-
-  const ddds = [
-    "11", "12", "13", "14", "15", "16", "17", "18", "19",
-    "21", "22", "24", "27", "28",
-    "31", "32", "33", "34", "35", "37", "38",
-    "41", "42", "43", "44", "45", "46",
-    "47", "48", "49", "51", "53", "54", "55",
-    "61", "62", "64", "63", "65", "66",
-    "67", "68", "69",
-    "71", "73", "74", "75", "77",
-    "79", "81", "87", "82", "83", "84",
-    "85", "88", "86", "89",
-    "91", "93", "94", "92", "97",
-    "95", "96", "98", "99",
   ];
 
   const dueDates = [2, 5, 7, 9, 12, 15, 17, 19, 21, 25, 27, 30];
@@ -119,15 +109,25 @@ export function PlanSelectionStep({
       </motion.div>
 
       <div className="space-y-4 max-w-2xl mx-auto">
-        <motion.div variants={itemVariants}>
-          <PlanSelectionForm
-            selectedLines={selectedLines}
-            onInternetChange={handleInternetChange}
-            onDDDChange={handleDDDChange}
-            internetOptions={internetOptions}
-            ddds={ddds}
-            isFreePlan={isFreePlan}
-          />
+        <motion.div 
+          className="grid grid-cols-2 gap-4"
+          variants={itemVariants}
+        >
+          <div className="w-full">
+            <InternetSelector
+              selectedInternet={selectedLines[0]?.internet || undefined}
+              onInternetChange={handleInternetChange}
+              internetOptions={internetOptions}
+            />
+          </div>
+          {!isFreePlan && (
+            <div className="w-full">
+              <DDDInput
+                ddd={selectedLines[0]?.ddd || ""}
+                onDDDChange={handleDDDChange}
+              />
+            </div>
+          )}
         </motion.div>
 
         <motion.div 
@@ -140,12 +140,20 @@ export function PlanSelectionStep({
             </h2>
           </div>
 
-          <div className="w-full">
-            <DueDateCalendar
-              date={date}
-              onDateSelect={handleDateSelect}
-              dueDates={dueDates}
-              selectedStyle={null}
+          <div className="w-full flex justify-center">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={handleDateSelect}
+              locale={ptBR}
+              modifiers={{
+                available: (date) => dueDates.includes(date.getDate())
+              }}
+              modifiersClassNames={{
+                available: "bg-[#8425af] text-white hover:bg-[#8425af] hover:text-white"
+              }}
+              className="rounded-md border bg-white"
+              disabled={(date) => !dueDates.includes(date.getDate())}
             />
           </div>
         </motion.div>
@@ -160,3 +168,4 @@ export function PlanSelectionStep({
     </div>
   );
 }
+

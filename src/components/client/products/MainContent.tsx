@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { OrderReviewStep } from "./OrderReviewStep";
 import { ContractTermsStep } from "./ContractTermsStep";
@@ -71,31 +70,27 @@ export function MainContent({
       <ParticlesBackground />
       <Card className="relative z-10 w-full max-w-[400px] shadow-none bg-transparent border-0">
         <CardContent>
-          {currentStep === 1 && (
-            <motion.div variants={itemVariants}>
+          <motion.div variants={itemVariants}>
+            {currentStep === 1 && (
               <PlanSelectionStep 
                 selectedLines={selectedLines}
                 setSelectedLines={setSelectedLines}
                 selectedDueDate={selectedDueDate}
                 setSelectedDueDate={setSelectedDueDate}
               />
-            </motion.div>
-          )}
+            )}
 
-          {currentStep === 2 && (
-            <motion.div variants={itemVariants}>
+            {currentStep === 2 && (
               <OrderReviewStep selectedLines={selectedLines} />
-            </motion.div>
-          )}
+            )}
 
-          {currentStep === 3 && (
-            <motion.div variants={itemVariants}>
+            {currentStep === 3 && (
               <ContractTermsStep
                 acceptedTerms={acceptedTerms}
                 onTermsChange={setAcceptedTerms}
               />
-            </motion.div>
-          )}
+            )}
+          </motion.div>
 
           <motion.div variants={itemVariants}>
             <NavigationButtons 

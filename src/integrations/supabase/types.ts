@@ -9,36 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      calendar_styles: {
-        Row: {
-          border_radius: string
-          created_at: string
-          date_font_size: string
-          hover_color: string
-          id: string
-          name: string
-          theme_color: string
-        }
-        Insert: {
-          border_radius: string
-          created_at?: string
-          date_font_size: string
-          hover_color: string
-          id?: string
-          name: string
-          theme_color: string
-        }
-        Update: {
-          border_radius?: string
-          created_at?: string
-          date_font_size?: string
-          hover_color?: string
-          id?: string
-          name?: string
-          theme_color?: string
-        }
-        Relationships: []
-      }
       network: {
         Row: {
           created_at: string
