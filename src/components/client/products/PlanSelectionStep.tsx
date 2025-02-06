@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCalendarStyles } from "@/hooks/useCalendarStyles";
 import { ptBR } from "date-fns/locale";
-import { format } from "date-fns";
+import { format, addMonths, subMonths } from "date-fns";
 
 type Line = {
   id: number;
@@ -32,6 +32,7 @@ export function PlanSelectionStep({
   setSelectedDueDate 
 }: PlanSelectionStepProps) {
   const { data: calendarStyle } = useCalendarStyles();
+  const [currentDate, setCurrentDate] = useState(new Date());
   
   const internetOptions = [
     { value: "Plano Gratuito", label: "Plano Gratuito", price: 0 },
@@ -43,7 +44,6 @@ export function PlanSelectionStep({
   ];
 
   const dueDates = [1, 5, 7, 10, 15, 20];
-  const currentDate = new Date();
   const currentMonth = format(currentDate, 'MMMM yyyy', { locale: ptBR });
   const holidays = [1, 4, 18]; // Example holidays for demonstration
 
@@ -76,6 +76,14 @@ export function PlanSelectionStep({
         ? { ...line, ddd: value }
         : line
     ));
+  };
+
+  const handlePreviousMonth = () => {
+    setCurrentDate(prevDate => subMonths(prevDate, 1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentDate(prevDate => addMonths(prevDate, 1));
   };
 
   const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
@@ -176,11 +184,17 @@ export function PlanSelectionStep({
           <div className="w-full">
             <div className="bg-white rounded-lg p-4 shadow-sm">
               <div className="flex items-center justify-between mb-6">
-                <button className="p-2 hover:bg-gray-100 rounded-full">
+                <button 
+                  onClick={handlePreviousMonth}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                >
                   <ChevronLeft className="w-5 h-5 text-gray-600" />
                 </button>
                 <h3 className="text-lg font-medium capitalize">{currentMonth}</h3>
-                <button className="p-2 hover:bg-gray-100 rounded-full">
+                <button 
+                  onClick={handleNextMonth}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                >
                   <ChevronRight className="w-5 h-5 text-gray-600" />
                 </button>
               </div>
@@ -227,4 +241,3 @@ export function PlanSelectionStep({
     </div>
   );
 }
-
