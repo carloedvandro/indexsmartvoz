@@ -40,6 +40,9 @@ export function PlanSelectionStep({
   ];
 
   const dueDates = [1, 5, 7, 10, 15, 20];
+  const months = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+  const currentMonth = months[new Date().getMonth()];
+  const currentYear = new Date().getFullYear();
 
   useState(() => {
     if (selectedLines.length === 0) {
@@ -129,32 +132,45 @@ export function PlanSelectionStep({
           </div>
 
           <div className="w-full px-4">
-            <div className="grid grid-cols-3 gap-2 w-full mt-2">
-              {dueDates.map((date) => (
-                <Card 
-                  key={date}
-                  className={`cursor-pointer transition-colors h-8 flex items-center justify-center border-gray-200
-                    ${selectedDueDate === date 
-                      ? `bg-[${calendarStyle?.theme_color || '#0040FF'}] text-white border-[${calendarStyle?.theme_color || '#0040FF'}]`
-                      : `hover:bg-[${calendarStyle?.hover_color || '#0040FF'}] hover:text-white hover:border-[${calendarStyle?.hover_color || '#0040FF'}]`
-                    }`}
-                  style={{
-                    borderRadius: calendarStyle?.border_radius || '8px',
-                  }}
-                  onClick={() => setSelectedDueDate(date)}
-                >
-                  <CardContent className="flex items-center justify-center h-full p-0">
-                    <span 
-                      className="font-medium"
-                      style={{
-                        fontSize: calendarStyle?.date_font_size || '14px'
-                      }}
+            <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+              <div className="flex items-center justify-between mb-4">
+                <div className="text-2xl font-bold text-gray-700">{currentMonth}</div>
+                <div className="text-xl text-gray-500">{currentYear}</div>
+              </div>
+              
+              <div className="grid grid-cols-7 gap-1 mb-2">
+                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
+                  <div 
+                    key={index} 
+                    className="text-center text-sm font-medium text-gray-500"
+                  >
+                    {day}
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-7 gap-1">
+                {Array.from({ length: 35 }, (_, i) => {
+                  const date = i + 1;
+                  const isSelectable = dueDates.includes(date);
+                  if (date > 31) return <div key={i} />;
+                  
+                  return (
+                    <div 
+                      key={i}
+                      className={`
+                        text-center py-2 text-sm
+                        ${isSelectable ? 'cursor-pointer hover:bg-blue-50 rounded-full' : 'text-gray-300'}
+                        ${selectedDueDate === date ? 'bg-blue-500 text-white rounded-full' : ''}
+                        ${[2, 9, 16, 23].includes(date) ? 'text-red-500' : ''}
+                      `}
+                      onClick={() => isSelectable && setSelectedDueDate(date)}
                     >
-                      {String(date).padStart(2, '0')}
-                    </span>
-                  </CardContent>
-                </Card>
-              ))}
+                      {date}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </motion.div>
