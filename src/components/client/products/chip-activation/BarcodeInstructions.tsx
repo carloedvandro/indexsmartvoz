@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 
 interface BarcodeInstructionsProps {
@@ -43,7 +44,7 @@ export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsP
 
         <div className="mt-8 flex justify-center">
           <img 
-            src="/lovable-uploads/c1471528-92f5-409a-a0c9-a520defbecf5.png" 
+            src="/lovable-uploads/9a3d92e7-7fc7-464c-98cc-95a4428a2a00.png" 
             alt="Exemplo de código de barras do chip"
             className="max-w-[1200px] w-full"
           />
