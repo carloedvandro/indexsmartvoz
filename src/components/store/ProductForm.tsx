@@ -56,12 +56,11 @@ export function ProductForm({ selectedProduct, isLoading, onSubmit }: ProductFor
           />
         </div>
         <div>
-          <Select name="plan_id" defaultValue={selectedProduct?.plan_id || ""}>
+          <Select name="plan_id" defaultValue={selectedProduct?.plan_id || undefined}>
             <SelectTrigger>
               <SelectValue placeholder="Select a plan (optional)" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">No plan</SelectItem>
               {plans?.map((plan) => (
                 <SelectItem key={plan.id} value={plan.id}>
                   {plan.name} - {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(plan.price)}
