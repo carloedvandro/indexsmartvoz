@@ -26,17 +26,20 @@ export function DueDateCalendar({
         holiday: (date) => isSunday(date)
       }}
       modifiersClassNames={{
-        available: "bg-blue-600 text-white hover:bg-blue-700 hover:text-white",
-        holiday: "text-blue-600 font-medium"
+        available: "bg-blue-600 text-white hover:bg-blue-700 hover:text-white font-normal",
+        holiday: "text-blue-600 font-normal"
       }}
-      className="rounded-md border bg-white w-full p-4"
+      className="rounded-md border bg-white w-full"
       classNames={{
-        day_today: "text-center w-full",
-        day: "h-9 w-9 text-center p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 mx-auto",
-        head_cell: "text-muted-foreground rounded-md w-full font-normal text-[0.8rem] text-center",
-        cell: "h-9 w-9 text-center relative p-0 text-center justify-center items-center [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 text-center",
-        nav_button: "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 text-center",
-        table: "w-full border-collapse space-y-1 text-center",
+        day_today: "font-normal",
+        day: "h-10 w-10 p-0 font-normal aria-selected:opacity-100 hover:bg-gray-100 focus:bg-gray-100",
+        head_cell: "text-muted-foreground font-normal text-[0.8rem] w-10",
+        cell: "text-center h-10 w-10 p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+        nav_button: "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
+        table: "w-full border-collapse",
+        nav: "space-x-1 flex items-center justify-between px-1 pt-1 pb-3",
+        caption: "text-sm font-medium pt-1",
+        row: "flex w-full"
       }}
       disabled={(date) => !dueDates.includes(date.getDate())}
     />
