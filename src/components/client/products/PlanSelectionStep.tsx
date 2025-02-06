@@ -1,11 +1,13 @@
-
 import { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCalendarStyles } from "@/hooks/useCalendarStyles";
+import { ptBR } from "date-fns/locale";
+import { format } from "date-fns";
 
 type Line = {
   id: number;
@@ -40,9 +42,9 @@ export function PlanSelectionStep({
   ];
 
   const dueDates = [1, 5, 7, 10, 15, 20];
-  const months = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
-  const currentMonth = months[new Date().getMonth()];
-  const currentYear = new Date().getFullYear();
+  const currentDate = new Date();
+  const currentMonth = format(currentDate, 'MMMM yyyy', { locale: ptBR });
+  const holidays = [1, 4, 18]; // Example holidays for demonstration
 
   useState(() => {
     if (selectedLines.length === 0) {
@@ -77,6 +79,45 @@ export function PlanSelectionStep({
 
   const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
   const isFreePlan = selectedLines[0]?.internet === "Plano Gratuito";
+
+  const getDaysInMonth = () => {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    const firstDay = new Date(year, month, 1).getDay();
+    const lastDay = new Date(year, month + 1, 0).getDate();
+    
+    const days = [];
+    // Add previous month days
+    const prevMonthLastDay = new Date(year, month, 0).getDate();
+    for (let i = firstDay - 1; i >= 0; i--) {
+      days.push({
+        date: prevMonthLastDay - i,
+        isPrevMonth: true
+      });
+    }
+    
+    // Add current month days
+    for (let i = 1; i <= lastDay; i++) {
+      days.push({
+        date: i,
+        isPrevMonth: false,
+        isHoliday: holidays.includes(i),
+        isSunday: new Date(year, month, i).getDay() === 0,
+        isSelectable: dueDates.includes(i)
+      });
+    }
+
+    // Add next month days to complete the grid
+    const remainingDays = 42 - days.length; // 6 rows × 7 days
+    for (let i = 1; i <= remainingDays; i++) {
+      days.push({
+        date: i,
+        isNextMonth: true
+      });
+    }
+
+    return days;
+  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -132,17 +173,22 @@ export function PlanSelectionStep({
           </div>
 
           <div className="w-full px-4">
-            <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
-              <div className="flex items-center justify-between mb-4">
-                <div className="text-2xl font-bold text-gray-700">{currentMonth}</div>
-                <div className="text-xl text-gray-500">{currentYear}</div>
+            <div className="bg-white rounded-lg p-4 shadow-sm">
+              <div className="flex items-center justify-between mb-6">
+                <button className="p-2 hover:bg-gray-100 rounded-full">
+                  <ChevronLeft className="w-5 h-5 text-gray-600" />
+                </button>
+                <h3 className="text-lg font-medium capitalize">{currentMonth}</h3>
+                <button className="p-2 hover:bg-gray-100 rounded-full">
+                  <ChevronRight className="w-5 h-5 text-gray-600" />
+                </button>
               </div>
               
-              <div className="grid grid-cols-7 gap-1 mb-2">
-                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
+              <div className="grid grid-cols-7 gap-1 mb-4">
+                {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map((day, index) => (
                   <div 
                     key={index} 
-                    className="text-center text-sm font-medium text-gray-500"
+                    className={`text-center text-sm font-medium ${index === 0 ? 'text-[#ea384c]' : 'text-blue-600'}`}
                   >
                     {day}
                   </div>
@@ -150,26 +196,21 @@ export function PlanSelectionStep({
               </div>
 
               <div className="grid grid-cols-7 gap-1">
-                {Array.from({ length: 35 }, (_, i) => {
-                  const date = i + 1;
-                  const isSelectable = dueDates.includes(date);
-                  if (date > 31) return <div key={i} />;
-                  
-                  return (
-                    <div 
-                      key={i}
-                      className={`
-                        text-center py-2 text-sm
-                        ${isSelectable ? 'cursor-pointer hover:bg-blue-50 rounded-full' : 'text-gray-300'}
-                        ${selectedDueDate === date ? 'bg-blue-500 text-white rounded-full' : ''}
-                        ${[2, 9, 16, 23].includes(date) ? 'text-red-500' : ''}
-                      `}
-                      onClick={() => isSelectable && setSelectedDueDate(date)}
-                    >
-                      {date}
-                    </div>
-                  );
-                })}
+                {getDaysInMonth().map((day, index) => (
+                  <div 
+                    key={index}
+                    className={`
+                      text-center py-2 text-sm select-none
+                      ${day.isPrevMonth || day.isNextMonth ? 'text-gray-400' : 'text-gray-700'}
+                      ${day.isSelectable && !day.isPrevMonth && !day.isNextMonth ? 'cursor-pointer hover:bg-blue-50' : ''}
+                      ${selectedDueDate === day.date && !day.isPrevMonth && !day.isNextMonth ? 'bg-blue-600 text-white rounded-lg' : ''}
+                      ${(day.isSunday || day.isHoliday) && !day.isPrevMonth && !day.isNextMonth ? 'text-[#ea384c]' : ''}
+                    `}
+                    onClick={() => day.isSelectable && !day.isPrevMonth && !day.isNextMonth && setSelectedDueDate(day.date)}
+                  >
+                    {day.date}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
