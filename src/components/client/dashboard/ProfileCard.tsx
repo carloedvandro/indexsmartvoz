@@ -54,13 +54,13 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
               <p className="text-sm text-muted-foreground">Patrocinador</p>
               <p className="font-medium">
                 {profile?.sponsor?.full_name || "Não possui"}
-                {profile?.sponsor?.custom_id && ` (Smartvoz: ${profile.sponsor.custom_id})`}
+                {profile?.sponsor?.custom_id && ` (Empresa: ${profile.sponsor.custom_id})`}
               </p>
             </div>
             {profile?.custom_id && (
               <div className="text-center">
                 <p className="text-sm text-muted-foreground">ID Personalizado</p>
-                <p className="font-medium">Smartvoz: {profile.custom_id}</p>
+                <p className="font-medium">Empresa: {profile.custom_id}</p>
               </div>
             )}
           </div>
