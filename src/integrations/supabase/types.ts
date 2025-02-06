@@ -330,6 +330,7 @@ export type Database = {
           image_url: string | null
           name: string
           order: number
+          plan_id: string | null
           price: number
           updated_at: string
           user_id: string
@@ -342,6 +343,7 @@ export type Database = {
           image_url?: string | null
           name: string
           order: number
+          plan_id?: string | null
           price: number
           updated_at?: string
           user_id: string
@@ -354,11 +356,20 @@ export type Database = {
           image_url?: string | null
           name?: string
           order?: number
+          plan_id?: string | null
           price?: number
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "store_products_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "network_plans"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
