@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { OrderReviewStep } from "./OrderReviewStep";
 import { ContractTermsStep } from "./ContractTermsStep";
@@ -97,6 +98,7 @@ export function MainContent({
               currentStep={currentStep}
               handleBack={handleBack}
               handleContinue={validateAndContinue}
+              selectedDueDate={selectedDueDate}
             />
           </motion.div>
         </CardContent>

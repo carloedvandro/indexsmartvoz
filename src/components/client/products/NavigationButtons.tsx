@@ -1,18 +1,27 @@
+
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useCalendarStyles } from "@/hooks/useCalendarStyles";
 
 interface NavigationButtonsProps {
   currentStep: number;
   handleBack: () => void;
   handleContinue: () => void;
+  selectedDueDate?: number | null;
 }
 
 export function NavigationButtons({ 
   currentStep, 
   handleBack, 
-  handleContinue 
+  handleContinue,
+  selectedDueDate
 }: NavigationButtonsProps) {
   const navigate = useNavigate();
+  const { data: calendarStyle } = useCalendarStyles();
+
+  const continueButtonStyle = selectedDueDate 
+    ? { backgroundColor: calendarStyle?.theme_color || '#0040FF', borderColor: calendarStyle?.theme_color || '#0040FF' }
+    : {};
 
   return (
     <div className="flex justify-between mt-6">
@@ -24,10 +33,11 @@ export function NavigationButtons({
         Voltar
       </Button>
       <Button 
-        className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+        className="text-white hover:opacity-90"
+        style={continueButtonStyle}
         onClick={handleContinue}
       >
-        {currentStep === 3 ? 'Continuar' : 'Continuar'}
+        Continuar
       </Button>
     </div>
   );
