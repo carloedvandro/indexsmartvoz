@@ -28,12 +28,12 @@ export function PlanSelectionStep({
   setSelectedDueDate 
 }: PlanSelectionStepProps) {
   const internetOptions = [
-    { value: "110GB", label: "110GB", price: 119.99 },
-    { value: "120GB", label: "120GB", price: 129.99 },
-    { value: "130GB", label: "130GB", price: 139.99 },
-    { value: "140GB", label: "140GB", price: 149.99 },
-    { value: "150GB", label: "150GB", price: 159.99 },
-    { value: "160GB", label: "160GB", price: 169.99 },
+    { value: "Plano Gratuito", label: "Plano Gratuito", price: 0 },
+    { value: "110GB", label: "110GB", price: 109.99 },
+    { value: "120GB", label: "120GB", price: 119.99 },
+    { value: "130GB", label: "130GB", price: 129.99 },
+    { value: "140GB", label: "140GB", price: 139.99 },
+    { value: "150GB", label: "150GB", price: 149.99 },
   ];
 
   const dueDates = [1, 5, 7, 10, 15, 20];
