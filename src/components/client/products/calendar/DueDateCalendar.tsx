@@ -2,20 +2,18 @@
 import { Calendar } from "@/components/ui/calendar";
 import { ptBR } from "date-fns/locale";
 import { isSunday } from "date-fns";
-import { CalendarStyle } from "./CalendarStyleSelector";
 
 interface DueDateCalendarProps {
   date: Date | undefined;
   onDateSelect: (date: Date | undefined) => void;
   dueDates: number[];
-  selectedStyle: CalendarStyle | null;
+  selectedStyle: null;
 }
 
 export function DueDateCalendar({
   date,
   onDateSelect,
   dueDates,
-  selectedStyle
 }: DueDateCalendarProps) {
   return (
     <Calendar

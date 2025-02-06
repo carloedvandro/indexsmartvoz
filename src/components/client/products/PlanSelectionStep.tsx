@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { PriceSummary } from "./PriceSummary";
-import { CalendarStyleSelector, type CalendarStyle } from "./calendar/CalendarStyleSelector";
 import { DueDateCalendar } from "./calendar/DueDateCalendar";
 import { PlanSelectionForm } from "./plan/PlanSelectionForm";
 
@@ -53,7 +52,6 @@ export function PlanSelectionStep({
 
   const dueDates = [2, 5, 7, 9, 12, 15, 17, 19, 21, 25, 27, 30];
   const [date, setDate] = useState<Date | undefined>(undefined);
-  const [selectedStyle, setSelectedStyle] = useState<CalendarStyle | null>(null);
 
   useState(() => {
     if (selectedLines.length === 0) {
@@ -142,19 +140,12 @@ export function PlanSelectionStep({
             </h2>
           </div>
 
-          <div className="w-full mb-4">
-            <CalendarStyleSelector
-              selectedStyle={selectedStyle}
-              onStyleChange={setSelectedStyle}
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4 w-full">
+          <div className="w-full">
             <DueDateCalendar
               date={date}
               onDateSelect={handleDateSelect}
               dueDates={dueDates}
-              selectedStyle={selectedStyle}
+              selectedStyle={null}
             />
           </div>
         </motion.div>
