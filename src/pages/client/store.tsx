@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { StoreHeader } from "@/components/store/StoreHeader";
 import { ProductList } from "@/components/store/ProductList";
@@ -24,7 +25,7 @@ export default function Store() {
     handleDelete 
   } = useProductActions(loadProducts);
 
-  const isManager = profile?.email === 'yrwentechnology@gmail.com';
+  const isManager = profile?.role === 'admin';
 
   useEffect(() => {
     const initializeStore = async () => {

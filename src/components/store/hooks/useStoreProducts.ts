@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -24,8 +25,8 @@ export function useStoreProducts() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("User not authenticated");
 
-      // Se for o gerente, carrega os produtos dele
-      if (profile?.email === 'yrwentechnology@gmail.com') {
+      // Se for admin, carrega os produtos dele
+      if (profile?.role === 'admin') {
         const { data, error } = await supabase
           .from("store_products")
           .select("*")
@@ -35,19 +36,19 @@ export function useStoreProducts() {
         if (error) throw error;
         setProducts(data || []);
       } else {
-        // Para outros usuários, carrega os produtos do gerente
-        const { data: managerData, error: managerError } = await supabase
+        // Para outros usuários, carrega os produtos do admin
+        const { data: adminData, error: adminError } = await supabase
           .from("profiles")
           .select("id")
-          .eq("email", "yrwentechnology@gmail.com")
+          .eq("role", "admin")
           .single();
 
-        if (managerError) throw managerError;
+        if (adminError) throw adminError;
 
         const { data, error } = await supabase
           .from("store_products")
           .select("*")
-          .eq("user_id", managerData.id)
+          .eq("user_id", adminData.id)
           .order("order", { ascending: true });
 
         if (error) throw error;
