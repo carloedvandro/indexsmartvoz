@@ -20,15 +20,8 @@ export function ChipTypeSelection({ onSelectChipType }: ChipTypeSelectionProps) 
           <Microchip className="w-4 h-4" />
           <p className="font-semibold text-sm">Trocar o SIM card</p>
         </Button>
-
-        <Button
-          onClick={() => onSelectChipType('esim')}
-          className="flex flex-col items-center gap-2 p-4 bg-white hover:bg-gray-50 border-2 border-[#8425af] text-[#8425af] w-[320px] mx-auto"
-          variant="outline"
-        >
-          <p className="font-semibold text-sm">Trocar pra eSIM</p>
-        </Button>
       </div>
     </div>
   );
 }
+
