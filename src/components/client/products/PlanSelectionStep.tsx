@@ -56,7 +56,7 @@ export function PlanSelectionStep({
     const newPrice = internetOptions.find(option => option.value === value)?.price || 0;
     setSelectedLines(selectedLines.map(line => 
       line.id === 1 
-        ? { ...line, internet: value, price: newPrice }
+        ? { ...line, internet: value, price: newPrice, ddd: value === "Plano Gratuito" ? "00" : line.ddd }
         : line
     ));
   };
@@ -70,6 +70,7 @@ export function PlanSelectionStep({
   };
 
   const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
+  const isFreePlan = selectedLines[0]?.internet === "Plano Gratuito";
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -104,12 +105,14 @@ export function PlanSelectionStep({
               internetOptions={internetOptions}
             />
           </div>
-          <div className="w-full">
-            <DDDInput
-              ddd={selectedLines[0]?.ddd || ""}
-              onDDDChange={handleDDDChange}
-            />
-          </div>
+          {!isFreePlan && (
+            <div className="w-full">
+              <DDDInput
+                ddd={selectedLines[0]?.ddd || ""}
+                onDDDChange={handleDDDChange}
+              />
+            </div>
+          )}
         </motion.div>
 
         <motion.div 
