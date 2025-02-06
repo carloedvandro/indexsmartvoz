@@ -1,6 +1,6 @@
+
 import { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
-import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
@@ -8,6 +8,13 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Line = {
   id: number;
@@ -37,6 +44,36 @@ export function PlanSelectionStep({
     { value: "130GB", label: "130GB", price: 129.99 },
     { value: "140GB", label: "140GB", price: 139.99 },
     { value: "150GB", label: "150GB", price: 149.99 },
+  ];
+
+  const ddds = [
+    "11", "12", "13", "14", "15", "16", "17", "18", "19", // São Paulo
+    "21", "22", "24", // Rio de Janeiro
+    "27", "28", // Espírito Santo
+    "31", "32", "33", "34", "35", "37", "38", // Minas Gerais
+    "41", "42", "43", "44", "45", "46", // Paraná
+    "47", "48", "49", // Santa Catarina
+    "51", "53", "54", "55", // Rio Grande do Sul
+    "61", // Distrito Federal
+    "62", "64", // Goiás
+    "63", // Tocantins
+    "65", "66", // Mato Grosso
+    "67", // Mato Grosso do Sul
+    "68", // Acre
+    "69", // Rondônia
+    "71", "73", "74", "75", "77", // Bahia
+    "79", // Sergipe
+    "81", "87", // Pernambuco
+    "82", // Alagoas
+    "83", // Paraíba
+    "84", // Rio Grande do Norte
+    "85", "88", // Ceará
+    "86", "89", // Piauí
+    "91", "93", "94", // Pará
+    "92", "97", // Amazonas
+    "95", // Roraima
+    "96", // Amapá
+    "98", "99", // Maranhão
   ];
 
   const dueDates = [2, 5, 7, 9, 12, 15, 17, 19, 21, 25, 27, 30];
@@ -121,10 +158,23 @@ export function PlanSelectionStep({
           </div>
           {!isFreePlan && (
             <div className="w-full">
-              <DDDInput
-                ddd={selectedLines[0]?.ddd || ""}
-                onDDDChange={handleDDDChange}
-              />
+              <span className="text-sm font-medium mb-1 block">DDD</span>
+              <Select value={selectedLines[0]?.ddd || ""} onValueChange={handleDDDChange}>
+                <SelectTrigger className="bg-white h-[42px]">
+                  <SelectValue placeholder="DDD" />
+                </SelectTrigger>
+                <SelectContent position="popper" className="bg-white max-h-[178px] overflow-y-auto w-full">
+                  {ddds.map((dddOption) => (
+                    <SelectItem 
+                      key={dddOption} 
+                      value={dddOption}
+                      className="hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
+                    >
+                      {dddOption}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           )}
         </motion.div>
