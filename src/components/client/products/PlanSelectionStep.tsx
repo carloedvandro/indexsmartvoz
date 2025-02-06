@@ -85,7 +85,7 @@ export function PlanSelectionStep({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 -mt-[15px]">
       <motion.div 
         className="space-y-2"
         variants={itemVariants}
