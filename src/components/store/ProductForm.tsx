@@ -27,13 +27,13 @@ export function ProductForm({ selectedProduct, isLoading, onSubmit }: ProductFor
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>{selectedProduct ? "Edit Product" : "Add New Product"}</DialogTitle>
+        <DialogTitle>{selectedProduct ? "Editar Produto" : "Adicionar Novo Produto"}</DialogTitle>
       </DialogHeader>
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
           <Input
             name="name"
-            placeholder="Product Name"
+            placeholder="Nome do Produto"
             defaultValue={selectedProduct?.name}
             required
           />
@@ -41,7 +41,7 @@ export function ProductForm({ selectedProduct, isLoading, onSubmit }: ProductFor
         <div>
           <Textarea
             name="description"
-            placeholder="Product Description"
+            placeholder="Descrição do Produto"
             defaultValue={selectedProduct?.description || ""}
           />
         </div>
@@ -50,7 +50,7 @@ export function ProductForm({ selectedProduct, isLoading, onSubmit }: ProductFor
             name="price"
             type="number"
             step="0.01"
-            placeholder="Price"
+            placeholder="Preço"
             defaultValue={selectedProduct?.price}
             required
           />
@@ -59,7 +59,7 @@ export function ProductForm({ selectedProduct, isLoading, onSubmit }: ProductFor
           <div>
             <Select name="plan_id" defaultValue={selectedProduct?.plan_id || undefined}>
               <SelectTrigger>
-                <SelectValue placeholder="Select a plan (optional)" />
+                <SelectValue placeholder="Selecione um plano (opcional)" />
               </SelectTrigger>
               <SelectContent>
                 {plans.map((plan) => (
@@ -79,7 +79,7 @@ export function ProductForm({ selectedProduct, isLoading, onSubmit }: ProductFor
           />
         </div>
         <Button type="submit" disabled={isLoading || isLoadingPlans}>
-          {isLoading ? "Saving..." : "Save Product"}
+          {isLoading ? "Salvando..." : "Salvar Produto"}
         </Button>
       </form>
     </DialogContent>
