@@ -1,7 +1,10 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useNetworkPlans } from "@/hooks/useNetworkPlans";
 
 type Product = {
   id: string;
@@ -9,6 +12,7 @@ type Product = {
   description: string | null;
   price: number;
   image_url: string | null;
+  plan_id?: string | null;
 };
 
 interface ProductFormProps {
@@ -18,6 +22,8 @@ interface ProductFormProps {
 }
 
 export function ProductForm({ selectedProduct, isLoading, onSubmit }: ProductFormProps) {
+  const { data: plans, isLoading: isLoadingPlans } = useNetworkPlans();
+
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
@@ -50,13 +56,28 @@ export function ProductForm({ selectedProduct, isLoading, onSubmit }: ProductFor
           />
         </div>
         <div>
+          <Select name="plan_id" defaultValue={selectedProduct?.plan_id || ""}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select a plan (optional)" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">No plan</SelectItem>
+              {plans?.map((plan) => (
+                <SelectItem key={plan.id} value={plan.id}>
+                  {plan.name} - {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(plan.price)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
           <Input
             name="image"
             type="file"
             accept="image/*"
           />
         </div>
-        <Button type="submit" disabled={isLoading}>
+        <Button type="submit" disabled={isLoading || isLoadingPlans}>
           {isLoading ? "Saving..." : "Save Product"}
         </Button>
       </form>
