@@ -140,7 +140,7 @@ export function PlanSelectionStep({
             </h2>
           </div>
 
-          <div className="w-full flex justify-center">
+          <div className="w-full flex justify-center px-4">
             <Calendar
               mode="single"
               selected={date}
@@ -152,7 +152,7 @@ export function PlanSelectionStep({
               modifiersClassNames={{
                 available: "bg-[#8425af] text-white hover:bg-[#8425af] hover:text-white"
               }}
-              className="rounded-md border bg-white"
+              className="rounded-md border bg-white w-full"
               disabled={(date) => !dueDates.includes(date.getDate())}
             />
           </div>
