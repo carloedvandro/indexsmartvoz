@@ -28,10 +28,42 @@ export function DueDateCalendar({
         holiday: (date) => isSunday(date)
       }}
       modifiersClassNames={{
-        available: `bg-[${selectedStyle?.theme_color || '#9b87f5'}] text-white hover:bg-[${selectedStyle?.hover_color || '#7E69AB'}] hover:text-white shadow-md`,
-        holiday: "text-[#ea384c] font-bold"
+        available: "bg-blue-600 text-white hover:bg-blue-700 hover:text-white",
+        holiday: "text-blue-600 font-medium"
       }}
-      className="rounded-md border bg-white col-span-2 w-full max-w-lg mx-auto [&_.rdp]:p-0 [&_.rdp-months]:w-full [&_.rdp-month]:w-full [&_.rdp-cell]:p-0 [&_.rdp-head_cell]:p-2 [&_.rdp-head_cell]:text-sm [&_.rdp-head_cell:first-child]:text-[#ea384c] [&_.rdp-head_cell:first-child]:font-bold [&_.rdp-table]:w-full [&_.rdp-table]:border-collapse [&_.rdp-day]:w-10 [&_.rdp-day]:h-10 [&_.rdp-day]:rounded-[${selectedStyle?.border_radius || '0.5rem'}] [&_.rdp-day]:m-0.5 [&_.rdp-day_span]:text-[${selectedStyle?.date_font_size || '1rem'}] [&_.rdp-day_span]:font-medium [&_.rdp-tbody]:grid [&_.rdp-tbody]:grid-cols-7 [&_.rdp-tbody]:gap-0 [&_.rdp-tfoot]:hidden scrollbar-hide overflow-hidden"
+      className="rounded-md border bg-white col-span-2 w-full max-w-lg mx-auto p-4
+        [&_.rdp-months]:w-full 
+        [&_.rdp-month]:w-full 
+        [&_.rdp-table]:w-full 
+        [&_.rdp-cell]:p-0
+        [&_.rdp-head_cell]:p-2.5 
+        [&_.rdp-head_cell]:text-sm 
+        [&_.rdp-head_cell]:font-medium
+        [&_.rdp-head_cell:first-child]:text-blue-600
+        [&_.rdp-head_cell]:text-gray-600
+        [&_.rdp-day]:w-10 
+        [&_.rdp-day]:h-10
+        [&_.rdp-day]:text-center
+        [&_.rdp-day]:text-sm
+        [&_.rdp-day]:font-medium
+        [&_.rdp-day]:text-gray-600
+        [&_.rdp-day]:rounded-none
+        [&_.rdp-day_button]:w-full
+        [&_.rdp-day_button]:h-full
+        [&_.rdp-day_button]:font-medium
+        [&_.rdp-tbody]:grid 
+        [&_.rdp-tbody]:grid-cols-7 
+        [&_.rdp-tbody]:gap-0
+        [&_.rdp-tfoot]:hidden
+        [&_.rdp-nav_button]:hover:bg-transparent
+        [&_.rdp-nav_button]:focus:shadow-none
+        [&_.rdp-nav_button_previous]:text-gray-600
+        [&_.rdp-nav_button_next]:text-gray-600
+        [&_.rdp-caption]:mb-4
+        [&_.rdp-caption_label]:text-lg
+        [&_.rdp-caption_label]:font-medium
+        [&_.rdp-caption_label]:text-gray-800
+        scrollbar-hide overflow-hidden"
       disabled={(date) => !dueDates.includes(date.getDate())}
     />
   );
