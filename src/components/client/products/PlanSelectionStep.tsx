@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
@@ -172,7 +173,7 @@ export function PlanSelectionStep({
             </h2>
           </div>
 
-          <div className="w-full px-4">
+          <div className="w-full">
             <div className="bg-white rounded-lg p-4 shadow-sm">
               <div className="flex items-center justify-between mb-6">
                 <button className="p-2 hover:bg-gray-100 rounded-full">
@@ -226,3 +227,4 @@ export function PlanSelectionStep({
     </div>
   );
 }
+
