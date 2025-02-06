@@ -51,7 +51,7 @@ export function DDDInput({ ddd, onDDDChange }: DDDInputProps) {
         <SelectTrigger className="h-[42px] border-gray-200">
           <SelectValue placeholder="Selecione o DDD" />
         </SelectTrigger>
-        <SelectContent position="popper" className="max-h-[178px] overflow-y-auto w-full">
+        <SelectContent position="popper" className="max-h-[178px] overflow-y-auto w-full scrollbar-hide">
           {ddds.map((dddOption) => (
             <SelectItem 
               key={dddOption} 
