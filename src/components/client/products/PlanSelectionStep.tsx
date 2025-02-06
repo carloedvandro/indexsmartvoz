@@ -3,8 +3,12 @@ import { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 type Line = {
   id: number;
@@ -37,6 +41,7 @@ export function PlanSelectionStep({
   ];
 
   const dueDates = [2, 5, 7, 9, 12, 15, 17, 19, 21, 25, 27, 30];
+  const [date, setDate] = useState<Date | undefined>(undefined);
 
   useState(() => {
     if (selectedLines.length === 0) {
@@ -67,6 +72,16 @@ export function PlanSelectionStep({
         ? { ...line, ddd: value }
         : line
     ));
+  };
+
+  const handleDateSelect = (date: Date | undefined) => {
+    setDate(date);
+    if (date) {
+      const day = date.getDate();
+      if (dueDates.includes(day)) {
+        setSelectedDueDate(day);
+      }
+    }
   };
 
   const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
@@ -125,24 +140,21 @@ export function PlanSelectionStep({
             </h2>
           </div>
 
-          <div className="w-full px-4">
-            <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto mt-2">
-              {dueDates.map((date) => (
-                <Card 
-                  key={date}
-                  className={`cursor-pointer transition-colors h-8 flex items-center justify-center bg-white border-gray-200 ${
-                    selectedDueDate === date 
-                      ? 'bg-[#8425af] text-white border-[#8425af]' 
-                      : 'hover:bg-[#8425af] hover:text-white hover:border-[#8425af]'
-                  }`}
-                  onClick={() => setSelectedDueDate(date)}
-                >
-                  <CardContent className="flex items-center justify-center h-full p-0">
-                    <span className="text-lg font-medium">{String(date).padStart(2, '0')}</span>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+          <div className="w-full flex justify-center">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={handleDateSelect}
+              locale={ptBR}
+              modifiers={{
+                available: (date) => dueDates.includes(date.getDate())
+              }}
+              modifiersClassNames={{
+                available: "bg-[#8425af] text-white hover:bg-[#8425af] hover:text-white"
+              }}
+              className="rounded-md border bg-white"
+              disabled={(date) => !dueDates.includes(date.getDate())}
+            />
           </div>
         </motion.div>
 
@@ -156,3 +168,4 @@ export function PlanSelectionStep({
     </div>
   );
 }
+
