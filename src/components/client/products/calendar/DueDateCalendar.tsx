@@ -31,44 +31,7 @@ export function DueDateCalendar({
         available: "bg-blue-600 text-white hover:bg-blue-700 hover:text-white",
         holiday: "text-blue-600 font-medium"
       }}
-      className="rounded-md border bg-white col-span-2 w-full max-w-lg mx-auto p-3
-        [&_.rdp-months]:w-full
-        [&_.rdp-month]:w-full
-        [&_.rdp-table]:w-full
-        [&_.rdp-cell]:p-0
-        [&_.rdp-head_cell]:p-1
-        [&_.rdp-head_cell]:text-sm
-        [&_.rdp-head_cell]:font-medium
-        [&_.rdp-head_cell]:text-center
-        [&_.rdp-head_cell:first-child]:text-blue-600
-        [&_.rdp-head_cell]:text-gray-600
-        [&_.rdp-day]:w-12
-        [&_.rdp-day]:h-9
-        [&_.rdp-day]:text-center
-        [&_.rdp-day]:text-sm
-        [&_.rdp-day]:font-medium
-        [&_.rdp-day]:text-gray-600
-        [&_.rdp-day]:rounded-none
-        [&_.rdp-day]:mx-auto
-        [&_.rdp-day_button]:w-full
-        [&_.rdp-day_button]:h-full
-        [&_.rdp-day_button]:font-medium
-        [&_.rdp-day_button]:flex
-        [&_.rdp-day_button]:items-center
-        [&_.rdp-day_button]:justify-center
-        [&_.rdp-tbody]:grid
-        [&_.rdp-tbody]:grid-cols-7
-        [&_.rdp-tbody]:gap-0
-        [&_.rdp-tfoot]:hidden
-        [&_.rdp-nav_button]:hover:bg-transparent
-        [&_.rdp-nav_button]:focus:shadow-none
-        [&_.rdp-nav_button_previous]:text-gray-600
-        [&_.rdp-nav_button_next]:text-gray-600
-        [&_.rdp-caption]:mb-2
-        [&_.rdp-caption_label]:text-lg
-        [&_.rdp-caption_label]:font-medium
-        [&_.rdp-caption_label]:text-gray-800
-        scrollbar-hide overflow-hidden"
+      className="rounded-md border bg-white"
       disabled={(date) => !dueDates.includes(date.getDate())}
     />
   );
