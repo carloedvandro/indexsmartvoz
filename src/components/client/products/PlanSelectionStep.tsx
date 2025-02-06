@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
@@ -108,7 +107,7 @@ export function PlanSelectionStep({
         </p>
       </motion.div>
 
-      <div className="space-y-4 max-w-2xl mx-auto">
+      <div className="space-y-4">
         <motion.div 
           className="grid grid-cols-2 gap-4"
           variants={itemVariants}
@@ -134,13 +133,13 @@ export function PlanSelectionStep({
           className="flex flex-col items-center w-full mt-2"
           variants={itemVariants}
         >
-          <div className="text-center mb-4 mt-2">
-            <h2 className="text-xl font-normal -mt-[5px]">
+          <div className="text-center mb-4">
+            <h2 className="text-xl font-normal">
               Escolha a melhor data de vencimento da sua fatura:
             </h2>
           </div>
 
-          <div className="w-full flex justify-center">
+          <div className="w-full">
             <Calendar
               mode="single"
               selected={date}
@@ -152,7 +151,7 @@ export function PlanSelectionStep({
               modifiersClassNames={{
                 available: "bg-[#8425af] text-white hover:bg-[#8425af] hover:text-white"
               }}
-              className="rounded-md border bg-white"
+              className="rounded-md border w-full -mt-[20px] overflow-hidden"
               disabled={(date) => !dueDates.includes(date.getDate())}
             />
           </div>
@@ -168,4 +167,3 @@ export function PlanSelectionStep({
     </div>
   );
 }
-
