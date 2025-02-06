@@ -1,9 +1,10 @@
+
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { NetworkMember } from "./types";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 interface NetworkNodeProps {
@@ -23,8 +24,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
 
   // Format the registration date
   const formattedDate = member.user.registration_date 
-    ? format(new Date(member.user.registration_date), "dd/MM/yyyy", { locale: ptBR })
-    : "03/08/2015"; // Default date if none is provided
+    ? format(parseISO(member.user.registration_date), "dd/MM/yyyy", { locale: ptBR })
+    : null;
 
   // Calculate total network size recursively
   const calculateTotalTeamSize = (node: NetworkMember): number => {
@@ -114,10 +115,12 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                 <span>Graduação {member.user.graduation_type || "0"}</span>
               </div>
               
-              <div className="flex items-center gap-2 text-gray-600">
-                <Calendar className="h-4 w-4" />
-                <span>{formattedDate}</span>
-              </div>
+              {formattedDate && (
+                <div className="flex items-center gap-2 text-gray-600">
+                  <Calendar className="h-4 w-4" />
+                  <span>Cadastro: {formattedDate}</span>
+                </div>
+              )}
               
               <div className="flex items-center gap-2 text-gray-600">
                 <UserPlus2 className="h-4 w-4" />
