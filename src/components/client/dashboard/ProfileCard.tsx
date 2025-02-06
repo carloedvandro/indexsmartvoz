@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tables } from "@/integrations/supabase/types";
 import { Badge } from "@/components/ui/badge";
@@ -53,13 +54,13 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
               <p className="text-sm text-muted-foreground">Patrocinador</p>
               <p className="font-medium">
                 {profile?.sponsor?.full_name || "Não possui"}
-                {profile?.sponsor?.custom_id && ` (ID: ${profile.sponsor.custom_id})`}
+                {profile?.sponsor?.custom_id && ` (Smartvoz: ${profile.sponsor.custom_id})`}
               </p>
             </div>
             {profile?.custom_id && (
               <div className="text-center">
                 <p className="text-sm text-muted-foreground">ID Personalizado</p>
-                <p className="font-medium">{profile.custom_id}</p>
+                <p className="font-medium">Smartvoz: {profile.custom_id}</p>
               </div>
             )}
           </div>
