@@ -27,7 +27,7 @@ export function DueDateCalendar({
       }}
       modifiersClassNames={{
         available: "bg-blue-600 text-white hover:bg-blue-700 hover:text-white font-normal",
-        holiday: "text-blue-600 font-normal"
+        holiday: "text-[#ea384c] font-normal"
       }}
       className="rounded-md border bg-white w-full"
       classNames={{
@@ -38,8 +38,8 @@ export function DueDateCalendar({
         nav_button: "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
         table: "w-full border-collapse",
         nav: "space-x-1 flex items-center justify-between px-1 pt-1 pb-3",
-        caption: "text-sm font-medium pt-1",
-        row: "flex w-full"
+        caption: "text-lg font-medium pt-1 uppercase tracking-wide text-blue-500",
+        row: "flex w-full mt-2"
       }}
       disabled={(date) => !dueDates.includes(date.getDate())}
     />
