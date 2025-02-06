@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
@@ -212,19 +211,31 @@ export function PlanSelectionStep({
 
               <div className="grid grid-cols-7 gap-1">
                 {getDaysInMonth().map((day, index) => (
-                  <div 
+                  <motion.div 
                     key={index}
+                    whileHover={day.isSelectable && !day.isPrevMonth && !day.isNextMonth ? {
+                      scale: 1.1,
+                      rotateX: 10,
+                      rotateY: 10,
+                      transition: { duration: 0.2 }
+                    } : {}}
                     className={`
-                      text-center py-2 text-sm select-none
+                      text-center py-2 text-sm select-none relative
+                      transform-gpu perspective-[1000px]
                       ${day.isPrevMonth || day.isNextMonth ? 'text-gray-400' : 'text-gray-700'}
                       ${day.isSelectable && !day.isPrevMonth && !day.isNextMonth ? 'cursor-pointer hover:bg-blue-50' : ''}
-                      ${selectedDueDate === day.date && !day.isPrevMonth && !day.isNextMonth ? 'bg-blue-600 text-white rounded-lg' : ''}
+                      ${selectedDueDate === day.date && !day.isPrevMonth && !day.isNextMonth ? 'bg-blue-600 text-white rounded-lg shadow-lg' : ''}
                       ${(day.isSunday || day.isHoliday) && !day.isPrevMonth && !day.isNextMonth ? 'text-[#ea384c]' : ''}
+                      ${day.isSelectable && !day.isPrevMonth && !day.isNextMonth ? 'hover:shadow-xl transition-all duration-200' : ''}
                     `}
                     onClick={() => day.isSelectable && !day.isPrevMonth && !day.isNextMonth && setSelectedDueDate(day.date)}
+                    style={{
+                      transform: day.isSelectable && !day.isPrevMonth && !day.isNextMonth ? 
+                        'translateZ(20px)' : 'none'
+                    }}
                   >
                     {day.date}
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
