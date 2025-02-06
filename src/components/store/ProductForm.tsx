@@ -76,6 +76,7 @@ export function ProductForm({ selectedProduct, isLoading, onSubmit }: ProductFor
             name="image"
             type="file"
             accept="image/*"
+            className="cursor-pointer"
           />
         </div>
         <Button type="submit" disabled={isLoading || isLoadingPlans}>
