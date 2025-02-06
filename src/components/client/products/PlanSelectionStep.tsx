@@ -1,11 +1,12 @@
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
-import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { useCalendarStyles } from "@/hooks/useCalendarStyles";
+import { DueDateSelector } from "./DueDateSelector";
+import { PlanSelectionHeader } from "./PlanSelectionHeader";
 
 type Line = {
   id: number;
@@ -38,8 +39,6 @@ export function PlanSelectionStep({
     { value: "180GB", label: "180GB", price: 149.99 },
     { value: "200GB", label: "200GB", price: 159.99 },
   ];
-
-  const dueDates = [2, 5, 7, 10, 15, 20, 25, 30];
 
   useState(() => {
     if (selectedLines.length === 0) {
@@ -86,15 +85,7 @@ export function PlanSelectionStep({
 
   return (
     <div className="space-y-6 -mt-[15px]">
-      <motion.div 
-        className="space-y-2"
-        variants={itemVariants}
-      >
-        <h2 className="text-2xl font-medium">Personalize seu pedido</h2>
-        <p className="text-gray-600">
-          Confira aqui as melhores ofertas para você, cliente Smatvoz.
-        </p>
-      </motion.div>
+      <PlanSelectionHeader variants={itemVariants} />
 
       <div className="space-y-4 w-full">
         <motion.div 
@@ -119,51 +110,13 @@ export function PlanSelectionStep({
         </motion.div>
 
         <motion.div 
-          className="flex flex-col items-center w-full mt-2"
           variants={itemVariants}
         >
-          <div className="text-center mb-4 mt-2">
-            <h2 className="text-xl font-normal -mt-[5px]">
-              Escolha a melhor data de vencimento da sua fatura:
-            </h2>
-          </div>
-
-          <div className="w-full px-4 max-w-[400px] mx-auto">
-            <div className="grid grid-cols-4 gap-4 w-full mt-2">
-              {[
-                [2, 5, 7, 10],
-                [15, 20, 25, 30]
-              ].map((row, rowIndex) => (
-                <React.Fragment key={rowIndex}>
-                  {row.map((date) => (
-                    <Card 
-                      key={date}
-                      className={`cursor-pointer transition-colors h-8 flex items-center justify-center border-gray-200
-                        ${selectedDueDate === date 
-                          ? `bg-[${calendarStyle?.theme_color || '#0040FF'}] text-white border-[${calendarStyle?.theme_color || '#0040FF'}]`
-                          : `hover:bg-[${calendarStyle?.hover_color || '#0040FF'}] hover:text-white hover:border-[${calendarStyle?.hover_color || '#0040FF'}]`
-                        }`}
-                      style={{
-                        borderRadius: calendarStyle?.border_radius || '8px',
-                      }}
-                      onClick={() => setSelectedDueDate(date)}
-                    >
-                      <CardContent className="flex items-center justify-center h-full p-0">
-                        <span 
-                          className="font-medium"
-                          style={{
-                            fontSize: calendarStyle?.date_font_size || '14px'
-                          }}
-                        >
-                          {date.toString().padStart(2, '0')}
-                        </span>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </React.Fragment>
-              ))}
-            </div>
-          </div>
+          <DueDateSelector
+            selectedDueDate={selectedDueDate}
+            setSelectedDueDate={setSelectedDueDate}
+            calendarStyle={calendarStyle}
+          />
         </motion.div>
 
         <motion.div variants={itemVariants}>
