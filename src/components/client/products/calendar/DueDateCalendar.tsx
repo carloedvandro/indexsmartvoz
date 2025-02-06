@@ -32,8 +32,8 @@ export function DueDateCalendar({
       className="rounded-md border bg-white w-full"
       classNames={{
         day_today: "font-normal",
-        day: "h-10 w-10 p-0 font-normal text-black text-center aria-selected:opacity-100 hover:bg-gray-100 focus:bg-gray-100",
-        head_cell: "text-muted-foreground font-normal text-[0.8rem] w-10 text-center",
+        day: "h-10 w-10 p-0 font-normal text-black text-center flex items-center justify-center aria-selected:opacity-100 hover:bg-gray-100 focus:bg-gray-100",
+        head_cell: "text-muted-foreground font-normal text-[0.8rem] w-10 flex items-center justify-center",
         cell: "text-center h-10 w-10 p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
         nav_button: "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
         table: "w-full border-collapse",
@@ -45,3 +45,4 @@ export function DueDateCalendar({
     />
   );
 }
+
