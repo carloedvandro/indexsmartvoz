@@ -5,6 +5,7 @@ import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { useCalendarStyles } from "@/hooks/useCalendarStyles";
 
 type Line = {
   id: number;
@@ -27,6 +28,8 @@ export function PlanSelectionStep({
   selectedDueDate,
   setSelectedDueDate 
 }: PlanSelectionStepProps) {
+  const { data: calendarStyle } = useCalendarStyles();
+  
   const internetOptions = [
     { value: "Plano Gratuito", label: "Plano Gratuito", price: 0 },
     { value: "110GB", label: "110GB", price: 109.99 },
@@ -93,7 +96,7 @@ export function PlanSelectionStep({
         </p>
       </motion.div>
 
-      <div className="space-y-4 max-w-2xl mx-auto">
+      <div className="space-y-4 w-full">
         <motion.div 
           className="grid grid-cols-2 gap-4"
           variants={itemVariants}
@@ -119,26 +122,36 @@ export function PlanSelectionStep({
           className="flex flex-col items-center w-full mt-2"
           variants={itemVariants}
         >
-          <div className="text-center mb-4 mt-2">
+          <div className="text-center mb-4 mt-2 w-full">
             <h2 className="text-xl font-normal -mt-[5px]">
               Escolha a melhor data de vencimento da sua fatura:
             </h2>
           </div>
 
           <div className="w-full px-4">
-            <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto mt-2">
+            <div className="grid grid-cols-3 gap-2 w-full mt-2">
               {dueDates.map((date) => (
                 <Card 
                   key={date}
-                  className={`cursor-pointer transition-colors h-8 flex items-center justify-center bg-white border-gray-200 ${
-                    selectedDueDate === date 
-                      ? 'bg-[#8425af] text-white border-[#8425af]' 
-                      : 'hover:bg-[#8425af] hover:text-white hover:border-[#8425af]'
-                  }`}
+                  className={`cursor-pointer transition-colors h-8 flex items-center justify-center border-gray-200
+                    ${selectedDueDate === date 
+                      ? `bg-[${calendarStyle?.theme_color || '#0040FF'}] text-white border-[${calendarStyle?.theme_color || '#0040FF'}]`
+                      : `hover:bg-[${calendarStyle?.hover_color || '#0040FF'}] hover:text-white hover:border-[${calendarStyle?.hover_color || '#0040FF'}]`
+                    }`}
+                  style={{
+                    borderRadius: calendarStyle?.border_radius || '8px',
+                  }}
                   onClick={() => setSelectedDueDate(date)}
                 >
                   <CardContent className="flex items-center justify-center h-full p-0">
-                    <span className="text-lg font-medium">{String(date).padStart(2, '0')}</span>
+                    <span 
+                      className="font-medium"
+                      style={{
+                        fontSize: calendarStyle?.date_font_size || '14px'
+                      }}
+                    >
+                      {String(date).padStart(2, '0')}
+                    </span>
                   </CardContent>
                 </Card>
               ))}
