@@ -39,7 +39,7 @@ export function PlanSelectionStep({
     { value: "200GB", label: "200GB", price: 159.99 },
   ];
 
-  const dueDates = [1, 5, 7, 10, 15, 20];
+  const dueDates = [2, 5, 7, 10, 15, 20, 25, 30];
 
   useState(() => {
     if (selectedLines.length === 0) {
@@ -169,3 +169,4 @@ export function PlanSelectionStep({
     </div>
   );
 }
+
