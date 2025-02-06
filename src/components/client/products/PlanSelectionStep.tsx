@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
@@ -151,7 +152,7 @@ export function PlanSelectionStep({
               modifiersClassNames={{
                 available: "bg-[#8425af] text-white hover:bg-[#8425af] hover:text-white"
               }}
-              className="rounded-md border bg-white col-span-2 [&_.rdp-cell]:justify-center [&_.rdp-cell]:flex [&_.rdp-table]:w-full [&_.rdp-head_div]:justify-center [&_.rdp-head_div]:w-full [&_.rdp-caption]:justify-center [&_.rdp]:justify-center [&_.rdp-months]:w-full [&_.rdp-month]:w-full"
+              className="rounded-md border bg-white col-span-2 [&_.rdp-cell]:justify-center [&_.rdp-cell]:flex [&_.rdp-table]:w-full [&_.rdp-head_div]:justify-center [&_.rdp-head_div]:w-full [&_.rdp-caption]:justify-center [&_.rdp]:justify-center [&_.rdp-months]:w-full [&_.rdp-month]:w-full scrollbar-hide"
               disabled={(date) => !dueDates.includes(date.getDate())}
             />
           </div>
