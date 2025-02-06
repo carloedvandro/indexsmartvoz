@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
@@ -150,9 +149,9 @@ export function PlanSelectionStep({
                 available: (date) => dueDates.includes(date.getDate())
               }}
               modifiersClassNames={{
-                available: "bg-[#8425af] text-white hover:bg-[#8425af] hover:text-white"
+                available: "bg-[#9b87f5] text-white hover:bg-[#7E69AB] hover:text-white shadow-md"
               }}
-              className="rounded-md border bg-white col-span-2 [&_.rdp-cell]:justify-center [&_.rdp-cell]:flex [&_.rdp-table]:w-full [&_.rdp-head_div]:justify-center [&_.rdp-head_div]:w-full [&_.rdp-caption]:justify-center [&_.rdp]:justify-center [&_.rdp-months]:w-full [&_.rdp-month]:w-full scrollbar-hide"
+              className="rounded-md border bg-white col-span-2 [&_.rdp-cell]:justify-center [&_.rdp-cell]:flex [&_.rdp-table]:w-full [&_.rdp-head_div]:justify-center [&_.rdp-head_div]:w-full [&_.rdp-caption]:justify-center [&_.rdp]:justify-center [&_.rdp-months]:w-full [&_.rdp-month]:w-full [&_.rdp-day]:w-12 [&_.rdp-day]:h-12 [&_.rdp-day]:rounded-md [&_.rdp-day]:flex [&_.rdp-day]:items-center [&_.rdp-day]:justify-center [&_.rdp-cell]:p-0 [&_.rdp-tbody]:justify-center [&_.rdp-tbody]:grid [&_.rdp-tbody]:grid-cols-7 [&_.rdp-tbody]:gap-1 [&_.rdp-table]:grid [&_.rdp-table]:grid-cols-7 [&_.rdp-table]:gap-1 [&_.rdp-day_span]:text-lg [&_.rdp-day_span]:font-medium scrollbar-hide"
               disabled={(date) => !dueDates.includes(date.getDate())}
             />
           </div>
