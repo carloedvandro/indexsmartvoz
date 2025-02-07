@@ -28,13 +28,43 @@ export function ChangeSponsorDialog({
 }: ChangeSponsorDialogProps) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [newSponsorId, setNewSponsorId] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [selectedSponsor, setSelectedSponsor] = useState<any>(null);
 
-  const handleChangeSponsor = async () => {
-    if (!newSponsorId) {
+  const handleSearch = async () => {
+    if (!searchTerm) return;
+
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id, full_name, email")
+        .ilike("full_name", `%${searchTerm}%`)
+        .limit(5);
+
+      if (error) throw error;
+      setSearchResults(data || []);
+    } catch (error: any) {
+      console.error('Search error:', error);
       toast({
         title: "Erro",
-        description: "Digite o ID do novo patrocinador",
+        description: error.message || "Erro ao buscar usuários",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleSelectSponsor = (sponsor: any) => {
+    setSelectedSponsor(sponsor);
+    setSearchResults([]);
+    setSearchTerm(sponsor.full_name);
+  };
+
+  const handleChangeSponsor = async () => {
+    if (!selectedSponsor) {
+      toast({
+        title: "Erro",
+        description: "Selecione um novo patrocinador",
         variant: "destructive",
       });
       return;
@@ -51,7 +81,7 @@ export function ChangeSponsorDialog({
       const { error } = await supabase.rpc('move_user_and_network', {
         admin_user_id: session.user.id,
         user_to_move_id: user.id,
-        new_sponsor_id: newSponsorId
+        new_sponsor_id: selectedSponsor.id
       });
 
       if (error) throw error;
@@ -91,13 +121,36 @@ export function ChangeSponsorDialog({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="new-sponsor">ID do Novo Patrocinador</Label>
-            <Input
-              id="new-sponsor"
-              value={newSponsorId}
-              onChange={(e) => setNewSponsorId(e.target.value)}
-              placeholder="Digite o ID do novo patrocinador"
-            />
+            <Label htmlFor="new-sponsor">Buscar Novo Patrocinador</Label>
+            <div className="flex gap-2">
+              <Input
+                id="new-sponsor"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Digite o nome do novo patrocinador"
+              />
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={handleSearch}
+              >
+                Buscar
+              </Button>
+            </div>
+            {searchResults.length > 0 && (
+              <div className="mt-2 border rounded-md">
+                {searchResults.map((sponsor) => (
+                  <div
+                    key={sponsor.id}
+                    className="p-2 hover:bg-accent cursor-pointer flex flex-col border-b last:border-b-0"
+                    onClick={() => handleSelectSponsor(sponsor)}
+                  >
+                    <span className="font-medium">{sponsor.full_name}</span>
+                    <span className="text-sm text-muted-foreground">{sponsor.email}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
         <DialogFooter>
