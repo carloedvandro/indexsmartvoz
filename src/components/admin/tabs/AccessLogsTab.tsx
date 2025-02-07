@@ -40,7 +40,7 @@ export function AccessLogsTab({ userId }: { userId: string }) {
     if (passwordAction) {
       switch (passwordAction) {
         case 'reset':
-          return <Badge variant="warning">Redefinição de Senha</Badge>;
+          return <Badge variant="destructive">Redefinição de Senha</Badge>;
         case 'change':
           return <Badge variant="default">Alteração de Senha</Badge>;
         default:
@@ -50,7 +50,7 @@ export function AccessLogsTab({ userId }: { userId: string }) {
     
     switch (action) {
       case 'login':
-        return <Badge variant="success">Login</Badge>;
+        return <Badge variant="default">Login</Badge>;
       case 'logout':
         return <Badge variant="destructive">Logout</Badge>;
       default:
@@ -112,3 +112,4 @@ export function AccessLogsTab({ userId }: { userId: string }) {
     </div>
   );
 }
+
