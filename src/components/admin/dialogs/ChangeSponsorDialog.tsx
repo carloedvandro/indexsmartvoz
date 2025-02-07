@@ -118,6 +118,7 @@ export function ChangeSponsorDialog({
               id="current-sponsor"
               value={user?.sponsor?.full_name || "Sem patrocinador"}
               disabled
+              className="bg-muted"
             />
           </div>
           <div className="space-y-2">
