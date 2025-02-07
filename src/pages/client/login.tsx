@@ -1,6 +1,5 @@
 
 import { motion } from "framer-motion";
-import { ParticlesBackground } from "@/components/ui/particles-background";
 import { LoginHeader } from "@/components/client/login/LoginHeader";
 import { LoginForm } from "@/components/client/login/LoginForm";
 import { RegisterLink } from "@/components/client/login/RegisterLink";
@@ -14,8 +13,6 @@ export default function LoginPage() {
       animate="visible"
       variants={containerVariants}
     >
-      <ParticlesBackground />
-      
       <div className="w-full max-w-[350px] space-y-6 relative z-10">
         <LoginHeader itemVariants={itemVariants} />
         <LoginForm containerVariants={containerVariants} itemVariants={itemVariants} />
