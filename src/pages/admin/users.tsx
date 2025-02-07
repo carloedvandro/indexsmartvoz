@@ -76,7 +76,14 @@ export default function AdminUsers() {
 
       let query = supabase
         .from("profiles")
-        .select("*")
+        .select(`
+          *,
+          sponsor:sponsor_id (
+            id,
+            full_name,
+            email
+          )
+        `)
         .order("created_at", { ascending: false });
 
       if (filters.fullName) {
