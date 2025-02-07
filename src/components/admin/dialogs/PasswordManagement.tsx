@@ -40,7 +40,7 @@ export function PasswordManagement({
         title: "Sucesso",
         description: "Email com instruções de redefinição de senha enviado para o usuário",
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error:', error);
       toast({
         title: "Erro",

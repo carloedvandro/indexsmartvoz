@@ -48,7 +48,7 @@ export function useUserForm({ user, onUserUpdated, onOpenChange }: UseUserFormPr
       });
       onUserUpdated();
       onOpenChange(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error:', error);
       toast({
         title: "Erro",
@@ -101,7 +101,7 @@ export function useUserForm({ user, onUserUpdated, onOpenChange }: UseUserFormPr
       
       onUserUpdated();
       onOpenChange(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error:', error);
       toast({
         title: "Erro",
