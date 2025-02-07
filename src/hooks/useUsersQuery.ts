@@ -31,7 +31,8 @@ export function useUsersQuery(filters: UserFilters) {
           sponsor:profiles(
             id,
             full_name,
-            email
+            email,
+            initial_password
           )
         `)
         .order("created_at", { ascending: false });
