@@ -49,34 +49,67 @@ export const useNetworkStats = (userId: string | undefined) => {
       // Set the network ID
       stats.id = userNetwork.id;
 
-      // Get all network members using the get_all_network_members function
-      const { data: networkMembers, error: networkError } = await supabase
-        .rpc('get_all_network_members', {
-          root_network_id: userNetwork.id
-        });
+      // Then, get all network members that have this network ID as parent
+      const { data: directMembers, error: directError } = await supabase
+        .from("network")
+        .select()
+        .eq("parent_id", userNetwork.id);
 
-      if (networkError) {
-        console.error("Error fetching network members:", networkError);
-        throw networkError;
+      if (directError) {
+        console.error("Error fetching direct members:", directError);
+        throw directError;
       }
 
-      // Count members by level, ensuring no duplicates
-      const uniqueMembersByLevel = new Map<number, Set<string>>();
-      
-      networkMembers?.forEach(member => {
-        if (member.level >= 1 && member.level <= 4) {
-          if (!uniqueMembersByLevel.has(member.level)) {
-            uniqueMembersByLevel.set(member.level, new Set());
-          }
-          uniqueMembersByLevel.get(member.level)?.add(member.user_id);
-        }
-      });
+      // These are direct referrals (level 1)
+      stats.level1Count = directMembers?.length || 0;
 
-      // Set the counts from unique members at each level
-      stats.level1Count = uniqueMembersByLevel.get(1)?.size || 0;
-      stats.level2Count = uniqueMembersByLevel.get(2)?.size || 0;
-      stats.level3Count = uniqueMembersByLevel.get(3)?.size || 0;
-      stats.level4Count = uniqueMembersByLevel.get(4)?.size || 0;
+      // If we have direct members, get their referrals (level 2)
+      if (directMembers && directMembers.length > 0) {
+        const directMemberIds = directMembers.map(member => member.id);
+        const { data: level2Members, error: level2Error } = await supabase
+          .from("network")
+          .select()
+          .in("parent_id", directMemberIds);
+
+        if (level2Error) {
+          console.error("Error fetching level 2 members:", level2Error);
+          throw level2Error;
+        }
+
+        stats.level2Count = level2Members?.length || 0;
+
+        // Get level 3 members (referrals of level 2 members)
+        if (level2Members && level2Members.length > 0) {
+          const level2MemberIds = level2Members.map(member => member.id);
+          const { data: level3Members, error: level3Error } = await supabase
+            .from("network")
+            .select()
+            .in("parent_id", level2MemberIds);
+
+          if (level3Error) {
+            console.error("Error fetching level 3 members:", level3Error);
+            throw level3Error;
+          }
+
+          stats.level3Count = level3Members?.length || 0;
+
+          // Get level 4 members (referrals of level 3 members)
+          if (level3Members && level3Members.length > 0) {
+            const level3MemberIds = level3Members.map(member => member.id);
+            const { data: level4Members, error: level4Error } = await supabase
+              .from("network")
+              .select()
+              .in("parent_id", level3MemberIds);
+
+            if (level4Error) {
+              console.error("Error fetching level 4 members:", level4Error);
+              throw level4Error;
+            }
+
+            stats.level4Count = level4Members?.length || 0;
+          }
+        }
+      }
 
       console.log("Calculated network stats:", stats);
       return stats;
