@@ -31,7 +31,10 @@ export default function AdminLogin() {
             .eq("id", session.user.id)
             .single();
 
-          if (profileError) throw profileError;
+          if (profileError) {
+            console.error('Profile check error:', profileError);
+            return;
+          }
 
           if (profile?.role === "admin") {
             navigate("/admin/dashboard");
@@ -55,29 +58,57 @@ export default function AdminLogin() {
         password,
       });
 
-      if (authError) throw authError;
-
-      if (session?.user) {
-        const { data: profile, error: profileError } = await supabase
-          .from("profiles")
-          .select("role")
-          .eq("id", session.user.id)
-          .single();
-
-        if (profileError) throw profileError;
-
-        if (profile?.role === "admin") {
-          navigate("/admin/dashboard");
-        } else {
-          await supabase.auth.signOut();
-          toast({
-            title: t('login_error'),
-            description: t('check_credentials'),
-            variant: "destructive",
-          });
-        }
+      if (authError) {
+        console.error('Auth error:', authError);
+        toast({
+          title: t('login_error'),
+          description: t('check_credentials'),
+          variant: "destructive",
+        });
+        return;
       }
-    } catch (error: any) {
+
+      if (!session?.user) {
+        toast({
+          title: t('login_error'),
+          description: t('check_credentials'),
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", session.user.id)
+        .single();
+
+      if (profileError) {
+        console.error('Profile error:', profileError);
+        await supabase.auth.signOut();
+        toast({
+          title: t('login_error'),
+          description: t('check_credentials'),
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (profile?.role !== "admin") {
+        console.log('Non-admin access attempt:', profile);
+        await supabase.auth.signOut();
+        toast({
+          title: t('access_denied'),
+          description: t('admin_only'),
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Successfully logged in as admin
+      navigate("/admin/dashboard");
+      
+    } catch (error) {
       console.error('Login error:', error);
       toast({
         title: t('login_error'),
