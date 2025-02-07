@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,15 +10,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { UserSearchForm } from "@/components/admin/UserSearchForm";
 import { UsersTable } from "@/components/admin/UsersTable";
 import { UserEditDialog } from "@/components/admin/UserEditDialog";
-import { useToast } from "@/hooks/use-toast";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
+import { useUsersQuery } from "@/hooks/useUsersQuery";
+import { UsersHeader } from "@/components/admin/users/UsersHeader";
 
 export default function AdminUsers() {
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [selectedUser, setSelectedUser] = useState(null);
   const [filters, setFilters] = useState({
     externalId: "",
@@ -30,91 +30,10 @@ export default function AdminUsers() {
     cnpj: "",
   });
 
-  // Verificar autenticação e papel do usuário
-  useEffect(() => {
-    const checkAdmin = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        navigate("/admin/login");
-        return;
-      }
+  // Use the admin auth hook
+  useAdminAuth();
 
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", session.user.id)
-        .single();
-
-      if (profile?.role !== "admin") {
-        navigate("/admin/login");
-      }
-    };
-
-    checkAdmin();
-  }, [navigate]);
-
-  // Monitorar mudanças no estado da autenticação
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_OUT' || !session) {
-        navigate("/admin/login");
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [navigate]);
-
-  const { data: users, isLoading, refetch } = useQuery({
-    queryKey: ["users", filters],
-    queryFn: async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        navigate("/admin/login");
-        throw new Error("Não autenticado");
-      }
-
-      let query = supabase
-        .from("profiles")
-        .select(`
-          *,
-          sponsor:sponsor_id (
-            id,
-            full_name,
-            email
-          )
-        `)
-        .order("created_at", { ascending: false });
-
-      if (filters.fullName) {
-        query = query.ilike("full_name", `%${filters.fullName}%`);
-      }
-      if (filters.email) {
-        query = query.ilike("email", `%${filters.email}%`);
-      }
-      if (filters.status && filters.status !== "all") {
-        query = query.eq("status", filters.status);
-      }
-      if (filters.externalId) {
-        query = query.ilike("external_id", `%${filters.externalId}%`);
-      }
-      if (filters.documentId) {
-        query = query.ilike("document_id", `%${filters.documentId}%`);
-      }
-      if (filters.cnpj) {
-        query = query.ilike("cnpj", `%${filters.cnpj}%`);
-      }
-
-      const { data, error } = await query;
-      
-      if (error) {
-        console.error("Query error:", error);
-        throw error;
-      }
-      
-      return data;
-    },
-  });
+  const { data: users, isLoading, refetch } = useUsersQuery(filters);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -140,20 +59,7 @@ export default function AdminUsers() {
         <AdminSidebar />
         <main className="flex-1 p-4 md:p-8 overflow-auto">
           <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-              <div>
-                <h1 className="text-2xl font-bold">Usuários</h1>
-                <p className="text-muted-foreground">
-                  Gerencie os usuários do sistema
-                </p>
-              </div>
-              <div className="flex items-center gap-4">
-                <SidebarTrigger />
-                <Button variant="outline" onClick={handleLogout}>
-                  Sair
-                </Button>
-              </div>
-            </div>
+            <UsersHeader onLogout={handleLogout} />
 
             <Card className="mb-6">
               <CardHeader>
