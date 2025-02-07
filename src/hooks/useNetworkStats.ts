@@ -60,6 +60,8 @@ export const useNetworkStats = (userId: string | undefined) => {
         throw networkError;
       }
 
+      console.log("Raw network members data:", networkMembers);
+
       // Create Sets to store unique member IDs for each level
       const uniqueMembersByLevel = new Map<number, Set<string>>();
       
@@ -70,8 +72,12 @@ export const useNetworkStats = (userId: string | undefined) => {
 
       // Process each member and add to appropriate level Set
       networkMembers?.forEach(member => {
+        // Ensure we're only counting members from levels 1-4
         if (member.level >= 1 && member.level <= 4) {
-          uniqueMembersByLevel.get(member.level)?.add(member.user_id);
+          const memberSet = uniqueMembersByLevel.get(member.level);
+          if (memberSet) {
+            memberSet.add(member.user_id);
+          }
         }
       });
 
@@ -87,3 +93,4 @@ export const useNetworkStats = (userId: string | undefined) => {
     enabled: !!userId
   });
 };
+
