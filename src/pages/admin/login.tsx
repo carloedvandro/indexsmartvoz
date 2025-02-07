@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -21,17 +22,23 @@ export default function AdminLogin() {
 
   useEffect(() => {
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("role")
-          .eq("id", session.user.id)
-          .single();
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          const { data: profile, error: profileError } = await supabase
+            .from("profiles")
+            .select("role")
+            .eq("id", session.user.id)
+            .single();
 
-        if (profile?.role === "admin") {
-          navigate("/admin/dashboard");
+          if (profileError) throw profileError;
+
+          if (profile?.role === "admin") {
+            navigate("/admin/dashboard");
+          }
         }
+      } catch (error) {
+        console.error('Session check error:', error);
       }
     };
 
@@ -43,19 +50,21 @@ export default function AdminLogin() {
     setIsLoading(true);
 
     try {
-      const { data: { session }, error } = await supabase.auth.signInWithPassword({
+      const { data: { session }, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (error) throw error;
+      if (authError) throw authError;
 
       if (session?.user) {
-        const { data: profile } = await supabase
+        const { data: profile, error: profileError } = await supabase
           .from("profiles")
           .select("role")
           .eq("id", session.user.id)
           .single();
+
+        if (profileError) throw profileError;
 
         if (profile?.role === "admin") {
           navigate("/admin/dashboard");
@@ -69,6 +78,7 @@ export default function AdminLogin() {
         }
       }
     } catch (error: any) {
+      console.error('Login error:', error);
       toast({
         title: t('login_error'),
         description: t('check_credentials'),
@@ -76,27 +86,6 @@ export default function AdminLogin() {
       });
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleResetPassword = async (email: string) => {
-    try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/update-password`,
-      });
-      
-      if (error) throw error;
-      
-      toast({
-        title: "Email enviado",
-        description: "Verifique sua caixa de entrada para redefinir sua senha",
-      });
-    } catch (error: any) {
-      toast({
-        title: "Erro",
-        description: error.message,
-        variant: "destructive",
-      });
     }
   };
 
