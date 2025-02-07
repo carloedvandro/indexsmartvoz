@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
 
 export function AccessLogsTab({ userId }: { userId: string }) {
   const { data: logs, isLoading } = useQuery({
@@ -35,6 +36,43 @@ export function AccessLogsTab({ userId }: { userId: string }) {
     }));
   }, [logs]);
 
+  const getActionBadge = (action: string, passwordAction?: string | null) => {
+    if (passwordAction) {
+      switch (passwordAction) {
+        case 'reset':
+          return <Badge variant="warning">Redefinição de Senha</Badge>;
+        case 'change':
+          return <Badge variant="default">Alteração de Senha</Badge>;
+        default:
+          return <Badge variant="secondary">{passwordAction}</Badge>;
+      }
+    }
+    
+    switch (action) {
+      case 'login':
+        return <Badge variant="success">Login</Badge>;
+      case 'logout':
+        return <Badge variant="destructive">Logout</Badge>;
+      default:
+        return <Badge variant="secondary">{action}</Badge>;
+    }
+  };
+
+  const getActionDetails = (log: any) => {
+    if (log.password_action) {
+      const metadata = log.password_metadata || {};
+      return (
+        <div className="space-y-1">
+          {getActionBadge(log.action, log.password_action)}
+          {metadata.reason && (
+            <p className="text-sm text-muted-foreground">{metadata.reason}</p>
+          )}
+        </div>
+      );
+    }
+    return getActionBadge(log.action);
+  };
+
   if (isLoading) {
     return <div>Carregando logs...</div>;
   }
@@ -56,7 +94,7 @@ export function AccessLogsTab({ userId }: { userId: string }) {
             {formattedLogs?.map((log) => (
               <TableRow key={log.id}>
                 <TableCell>{log.created_at}</TableCell>
-                <TableCell>{log.action}</TableCell>
+                <TableCell>{getActionDetails(log)}</TableCell>
                 <TableCell>{log.ip_address}</TableCell>
                 <TableCell>{log.user_agent}</TableCell>
               </TableRow>
