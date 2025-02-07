@@ -53,6 +53,7 @@ export default function AdminLogin() {
     setIsLoading(true);
 
     try {
+      console.log('Attempting login for:', email);
       const { data: { session }, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -77,6 +78,7 @@ export default function AdminLogin() {
         return;
       }
 
+      console.log('Session obtained, checking admin role');
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("role")
@@ -94,6 +96,7 @@ export default function AdminLogin() {
         return;
       }
 
+      console.log('Profile role:', profile?.role);
       if (profile?.role !== "admin") {
         console.log('Non-admin access attempt:', profile);
         await supabase.auth.signOut();
@@ -106,6 +109,7 @@ export default function AdminLogin() {
       }
 
       // Successfully logged in as admin
+      console.log('Admin login successful, redirecting');
       navigate("/admin/dashboard");
       
     } catch (error) {
