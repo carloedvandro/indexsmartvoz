@@ -1,3 +1,4 @@
+
 import { ReactNode } from "react";
 import { ParticlesBackground } from "./ParticlesBackground";
 
@@ -13,3 +14,4 @@ export function ProductsContainer({ children }: ProductsContainerProps) {
     </div>
   );
 }
+

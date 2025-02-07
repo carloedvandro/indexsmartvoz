@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,6 +11,7 @@ import { useStoreProducts } from "@/components/store/hooks/useStoreProducts";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Copy, ArrowRight } from "lucide-react";
+import { ProductsContainer } from "@/components/client/products/ProductsContainer";
 
 type StoreOwner = {
   id: string;
@@ -114,57 +116,60 @@ export default function PublicStore() {
     : "";
 
   return (
-    <ScrollArea className="h-screen">
-      <div className="container mx-auto p-4">
-        <div className="space-y-8">
-          <StoreHeader ownerName={storeOwner.full_name} />
-          
-          <div className="grid gap-8">
-            <ProductList
-              products={products}
-              isLoading={productsLoading}
-              onSubmit={() => {}}
-              selectedProduct={null}
-              setSelectedProduct={() => {}}
-              onDelete={() => {}}
-              isManager={false}
-              onBuy={handleBuy}
-              storeOwnerCustomId={storeOwner.custom_id || undefined}
-            />
-          </div>
+    <ProductsContainer>
+      <ScrollArea className="h-screen">
+        <div className="container mx-auto p-4">
+          <div className="space-y-8">
+            <StoreHeader ownerName={storeOwner.full_name} />
+            
+            <div className="grid gap-8">
+              <ProductList
+                products={products}
+                isLoading={productsLoading}
+                onSubmit={() => {}}
+                selectedProduct={null}
+                setSelectedProduct={() => {}}
+                onDelete={() => {}}
+                isManager={false}
+                onBuy={handleBuy}
+                storeOwnerCustomId={storeOwner.custom_id || undefined}
+              />
+            </div>
 
-          <div className="mt-8 p-6 bg-card rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-4">Link de Indicação</h2>
-            <p className="text-muted-foreground mb-4">
-              Use o link abaixo para se cadastrar e fazer parte da nossa rede:
-            </p>
-            <div className="flex items-center gap-4">
-              <a 
-                href={referralLink}
-                className="flex-1 bg-muted p-4 rounded-lg break-all text-sm hover:bg-muted/80 transition-colors"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {referralLink}
-              </a>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={handleCopyReferralLink}
-                className="shrink-0"
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-              <Button
-                onClick={handleGoToReferralLink}
-                className="shrink-0"
-              >
-                Ir <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+            <div className="mt-8 p-6 bg-card rounded-lg shadow">
+              <h2 className="text-xl font-semibold mb-4">Link de Indicação</h2>
+              <p className="text-muted-foreground mb-4">
+                Use o link abaixo para se cadastrar e fazer parte da nossa rede:
+              </p>
+              <div className="flex items-center gap-4">
+                <a 
+                  href={referralLink}
+                  className="flex-1 bg-muted p-4 rounded-lg break-all text-sm hover:bg-muted/80 transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {referralLink}
+                </a>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handleCopyReferralLink}
+                  className="shrink-0"
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+                <Button
+                  onClick={handleGoToReferralLink}
+                  className="shrink-0"
+                >
+                  Ir <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </ScrollArea>
+      </ScrollArea>
+    </ProductsContainer>
   );
 }
+

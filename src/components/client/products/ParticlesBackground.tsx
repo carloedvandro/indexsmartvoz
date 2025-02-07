@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
@@ -111,3 +112,4 @@ export function ParticlesBackground() {
     <div ref={containerRef} className="fixed inset-0 pointer-events-none" />
   );
 }
+
