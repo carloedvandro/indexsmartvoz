@@ -58,27 +58,12 @@ export function AccessLogsTab({ userId }: { userId: string }) {
     }
   };
 
-  const getActionDetails = (log: any) => {
-    if (log.password_action) {
-      const metadata = log.password_metadata || {};
-      return (
-        <div className="space-y-1">
-          {getActionBadge(log.action, log.password_action)}
-          {metadata.reason && (
-            <p className="text-sm text-muted-foreground">{metadata.reason}</p>
-          )}
-        </div>
-      );
-    }
-    return getActionBadge(log.action);
-  };
-
   if (isLoading) {
-    return <div>Carregando logs...</div>;
+    return <div className="p-6">Carregando logs...</div>;
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 p-6">
       <h3 className="text-lg font-medium">Logs de Acesso ao Escritório</h3>
       <div className="border rounded-lg">
         <Table>
@@ -94,7 +79,7 @@ export function AccessLogsTab({ userId }: { userId: string }) {
             {formattedLogs?.map((log) => (
               <TableRow key={log.id}>
                 <TableCell>{log.created_at}</TableCell>
-                <TableCell>{getActionDetails(log)}</TableCell>
+                <TableCell>{getActionBadge(log.action, log.password_action)}</TableCell>
                 <TableCell>{log.ip_address}</TableCell>
                 <TableCell>{log.user_agent}</TableCell>
               </TableRow>
