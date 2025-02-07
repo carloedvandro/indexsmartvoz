@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { ProfileWithSponsor } from "@/types/profile";
 import { mapSponsor } from "@/utils/mappers/profileMapper";
@@ -7,7 +8,7 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
     .from("profiles")
     .select(`
       *,
-      sponsor:sponsor_id (
+      profiles!profiles_sponsor_id_fkey (
         id,
         full_name,
         email,
@@ -29,6 +30,6 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
 
   return {
     ...profileData,
-    sponsor: mapSponsor(profileData.sponsor),
+    sponsor: mapSponsor(profileData.profiles),
   } as ProfileWithSponsor;
 };
