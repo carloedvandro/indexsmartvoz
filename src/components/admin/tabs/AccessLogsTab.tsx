@@ -112,4 +112,3 @@ export function AccessLogsTab({ userId }: { userId: string }) {
     </div>
   );
 }
-
