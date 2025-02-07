@@ -23,9 +23,12 @@ export function useStoreProducts() {
   const loadProducts = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("User not authenticated");
+      if (!user) {
+        setProducts([]);
+        setIsLoading(false);
+        return;
+      }
 
-      // Se for admin, carrega os produtos dele
       if (profile?.role === 'admin') {
         const { data, error } = await supabase
           .from("store_products")
@@ -36,14 +39,16 @@ export function useStoreProducts() {
         if (error) throw error;
         setProducts(data || []);
       } else {
-        // Para outros usuários, carrega os produtos do admin
         const { data: adminData, error: adminError } = await supabase
           .from("profiles")
           .select("id")
           .eq("role", "admin")
           .single();
 
-        if (adminError) throw adminError;
+        if (adminError) {
+          setProducts([]);
+          return;
+        }
 
         const { data, error } = await supabase
           .from("store_products")
@@ -57,10 +62,11 @@ export function useStoreProducts() {
     } catch (error) {
       console.error("Error loading products:", error);
       toast({
-        title: "Error",
-        description: "Failed to load products",
+        title: "Erro",
+        description: "Não foi possível carregar os produtos",
         variant: "destructive",
       });
+      setProducts([]);
     } finally {
       setIsLoading(false);
     }

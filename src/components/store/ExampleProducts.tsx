@@ -1,6 +1,4 @@
 
-import { ProductCard } from "./ProductCard";
-
 interface ExampleProductsProps {
   setSelectedProduct: (product: any) => void;
   onDelete: (id: string) => void;
