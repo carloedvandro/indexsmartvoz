@@ -30,6 +30,7 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const [isResettingPassword, setIsResettingPassword] = useState(false);
   const [isSettingPassword, setIsSettingPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
+  const [initialPassword, setInitialPassword] = useState("");
   
   // Initialize form with user data
   const { register, handleSubmit, setValue, watch, reset } = useForm({
@@ -46,6 +47,7 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
         ...user,
         birth_date: user?.birth_date?.split('T')[0],
       });
+      setInitialPassword(user?.initial_password || "");
     }
   }, [user, reset]);
 
@@ -100,11 +102,17 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
     setIsSettingPassword(true);
     try {
       await adminSetUserPassword(user.id, newPassword);
+      // Update initial_password in profile
+      await updateProfile(user.id, {
+        ...user,
+        initial_password: newPassword
+      });
       toast({
         title: "Sucesso",
         description: "Senha alterada com sucesso",
       });
       setNewPassword("");
+      setInitialPassword(newPassword);
     } catch (error: any) {
       console.error('Error:', error);
       toast({
@@ -153,10 +161,18 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
           return;
         }
 
-        const authData = await createUser(data);
+        // Generate a random password if not provided
+        const password = newPassword || Math.random().toString(36).slice(-8);
+        
+        const authData = await createUser({
+          ...data,
+          password
+        });
+        
         await updateProfile(authData.user.id, {
           ...data,
           id: authData.user.id,
+          initial_password: password
         });
 
         toast({
@@ -201,6 +217,18 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
           {user?.id && (
             <div className="flex flex-col gap-4 px-6">
               <div className="flex flex-col gap-2">
+                {initialPassword && (
+                  <div className="flex flex-col gap-2 mb-4">
+                    <Label htmlFor="initial-password">Senha Inicial do Usuário</Label>
+                    <Input
+                      id="initial-password"
+                      type="text"
+                      value={initialPassword}
+                      readOnly
+                      className="bg-gray-100"
+                    />
+                  </div>
+                )}
                 <div className="flex gap-2">
                   <div className="flex-1">
                     <Label htmlFor="new-password">Nova Senha</Label>

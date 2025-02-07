@@ -220,6 +220,7 @@ export type Database = {
           gender: string | null
           graduation_type: string | null
           id: string
+          initial_password: string | null
           license_type: string | null
           mobile: string | null
           monthly_graduation: boolean | null
@@ -258,6 +259,7 @@ export type Database = {
           gender?: string | null
           graduation_type?: string | null
           id: string
+          initial_password?: string | null
           license_type?: string | null
           mobile?: string | null
           monthly_graduation?: boolean | null
@@ -296,6 +298,7 @@ export type Database = {
           gender?: string | null
           graduation_type?: string | null
           id?: string
+          initial_password?: string | null
           license_type?: string | null
           mobile?: string | null
           monthly_graduation?: boolean | null
