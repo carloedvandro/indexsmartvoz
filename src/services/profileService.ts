@@ -16,7 +16,7 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
       )
     `)
     .eq("id", userId)
-    .single();
+    .maybeSingle();
 
   if (profileError) {
     console.error("Error fetching profile:", profileError);
