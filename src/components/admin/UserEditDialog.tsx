@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -41,7 +41,7 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   });
 
   // Reset form when user changes
-  React.useEffect(() => {
+  useEffect(() => {
     if (user) {
       reset({
         ...user,
