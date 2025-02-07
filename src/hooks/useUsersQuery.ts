@@ -36,7 +36,14 @@ export function useUsersQuery(filters: UserFilters) {
             birth_date,
             document_id,
             phone,
-            mobile
+            mobile,
+            custom_id,
+            external_id,
+            person_type,
+            cnpj,
+            status,
+            created_at,
+            updated_at
           )
         `)
         .order("created_at", { ascending: false });

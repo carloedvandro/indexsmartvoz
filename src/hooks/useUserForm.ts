@@ -92,7 +92,10 @@ export function useUserForm({ user, onUserUpdated, onOpenChange }: UseUserFormPr
           description: "Usuário criado com sucesso",
         });
       } else {
-        await updateProfile(user.id, data);
+        await updateProfile(user.id, {
+          ...data,
+          initial_password: initialPassword
+        });
         toast({
           title: "Sucesso",
           description: "Usuário atualizado com sucesso",

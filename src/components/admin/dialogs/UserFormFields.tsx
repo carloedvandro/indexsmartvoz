@@ -29,13 +29,11 @@ export function UserFormFields({
         watch={watch}
         readOnly={readOnly}
       />
-      {user?.id && (
-        <PasswordManagement
-          user={user}
-          initialPassword={initialPassword}
-          setInitialPassword={setInitialPassword}
-        />
-      )}
+      <PasswordManagement
+        user={user}
+        initialPassword={initialPassword}
+        setInitialPassword={setInitialPassword}
+      />
     </div>
   );
 }
