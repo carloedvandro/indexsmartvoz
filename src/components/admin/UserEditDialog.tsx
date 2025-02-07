@@ -29,7 +29,6 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isResettingPassword, setIsResettingPassword] = useState(false);
   const [isSettingPassword, setIsSettingPassword] = useState(false);
-  const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   
   // Initialize form with user data
@@ -67,7 +66,6 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
         title: "Sucesso",
         description: "Email com instruções de redefinição de senha enviado para o usuário",
       });
-      setShowPasswordInput(false);
     } catch (error) {
       console.error('Error:', error);
       toast({
@@ -106,7 +104,6 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
         title: "Sucesso",
         description: "Senha alterada com sucesso",
       });
-      setShowPasswordInput(false);
       setNewPassword("");
     } catch (error: any) {
       console.error('Error:', error);
@@ -205,35 +202,17 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
             <div className="flex flex-col gap-4 px-6">
               <div className="flex flex-col gap-2">
                 <div className="flex gap-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => setShowPasswordInput(!showPasswordInput)}
-                  >
-                    Definir Nova Senha
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={handleResetPassword}
-                    disabled={isResettingPassword}
-                  >
-                    {isResettingPassword ? "Enviando..." : "Enviar Email de Reset"}
-                  </Button>
-                </div>
-                
-                {showPasswordInput && (
-                  <div className="flex gap-2 items-end">
-                    <div className="flex-1">
-                      <Label htmlFor="new-password">Nova Senha</Label>
-                      <Input
-                        id="new-password"
-                        type="password"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        placeholder="Digite a nova senha"
-                      />
-                    </div>
+                  <div className="flex-1">
+                    <Label htmlFor="new-password">Nova Senha</Label>
+                    <Input
+                      id="new-password"
+                      type="text"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="Digite a nova senha"
+                    />
+                  </div>
+                  <div className="flex gap-2 self-end">
                     <Button
                       type="button"
                       onClick={handleSetPassword}
@@ -241,8 +220,16 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
                     >
                       {isSettingPassword ? "Salvando..." : "Salvar Senha"}
                     </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={handleResetPassword}
+                      disabled={isResettingPassword}
+                    >
+                      {isResettingPassword ? "Enviando..." : "Enviar Email de Reset"}
+                    </Button>
                   </div>
-                )}
+                </div>
               </div>
             </div>
           )}
