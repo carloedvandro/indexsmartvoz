@@ -237,10 +237,12 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
           <DialogFooter>
             <UserFormActions
               userId={user?.id}
+              user={user}
               isLoading={isLoading}
               isDeleting={isDeleting}
               onDelete={handleDelete}
               onCancel={() => onOpenChange(false)}
+              onSuccess={onUserUpdated}
             />
           </DialogFooter>
         </form>

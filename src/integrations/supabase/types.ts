@@ -401,6 +401,14 @@ export type Database = {
           level: number
         }[]
       }
+      move_user_and_network: {
+        Args: {
+          admin_user_id: string
+          user_to_move_id: string
+          new_sponsor_id: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
