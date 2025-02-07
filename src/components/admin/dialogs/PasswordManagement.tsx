@@ -99,18 +99,32 @@ export function PasswordManagement({
   return (
     <div className="flex flex-col gap-4 px-6">
       <div className="flex flex-col gap-2">
-        {initialPassword && (
-          <div className="flex flex-col gap-2 mb-4">
-            <Label htmlFor="initial-password">Senha Inicial do Usuário</Label>
-            <Input
-              id="initial-password"
-              type="text"
-              value={initialPassword}
-              readOnly
-              className="bg-gray-100"
-            />
-          </div>
-        )}
+        <div className="flex flex-col gap-2 mb-4">
+          <Label>Senha do Usuário</Label>
+          {initialPassword ? (
+            <div className="flex items-center gap-2">
+              <Input
+                type="text"
+                value={initialPassword}
+                readOnly
+                className="bg-gray-100 font-medium text-base"
+              />
+              <Button
+                variant="outline"
+                onClick={() => {
+                  navigator.clipboard.writeText(initialPassword);
+                  toast({
+                    description: "Senha copiada para a área de transferência",
+                  });
+                }}
+              >
+                Copiar
+              </Button>
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">Nenhuma senha inicial definida</p>
+          )}
+        </div>
         <div className="flex gap-2">
           <div className="flex-1">
             <Label htmlFor="new-password">Nova Senha</Label>
