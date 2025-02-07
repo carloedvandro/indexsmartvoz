@@ -164,7 +164,7 @@ export function ChangeSponsorDialog({
           </Button>
           <Button 
             onClick={handleChangeSponsor}
-            disabled={isLoading}
+            disabled={isLoading || !selectedSponsor}
           >
             {isLoading ? "Alterando..." : "Alterar Patrocinador"}
           </Button>
