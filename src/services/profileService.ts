@@ -8,7 +8,7 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
     .from("profiles")
     .select(`
       *,
-      profiles!profiles_sponsor_id_fkey (
+      sponsor:profiles!profiles_sponsor_id_fkey (
         id,
         full_name,
         email,
@@ -30,6 +30,6 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
 
   return {
     ...profileData,
-    sponsor: mapSponsor(profileData.profiles),
+    sponsor: mapSponsor(profileData.sponsor),
   } as ProfileWithSponsor;
 };

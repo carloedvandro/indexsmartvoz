@@ -28,7 +28,7 @@ export function useUsersQuery(filters: UserFilters) {
         .from("profiles")
         .select(`
           *,
-          sponsor:sponsor_id (
+          sponsor:profiles!profiles_sponsor_id_fkey (
             id,
             full_name,
             email
