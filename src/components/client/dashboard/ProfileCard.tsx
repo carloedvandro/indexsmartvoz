@@ -53,7 +53,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
             <div className="text-center">
               <p className="text-sm text-muted-foreground">Patrocinador</p>
               <p className="font-medium">
-                {profile?.sponsor?.full_name || "Não possui"}
+                {profile?.sponsor?.full_name || "Smartvoz Company"}
                 {profile?.sponsor?.custom_id && ` (Empresa: ${profile.sponsor.custom_id})`}
               </p>
             </div>
