@@ -313,7 +313,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "profiles_sponsor_id_fkey"
+            foreignKeyName: "profiles_sponsor_fkey"
             columns: ["sponsor_id"]
             isOneToOne: false
             referencedRelation: "profiles"
