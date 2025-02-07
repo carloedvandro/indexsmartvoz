@@ -25,6 +25,11 @@ export function useUserForm({ user, onUserUpdated, onOpenChange }: UseUserFormPr
     defaultValues: {
       ...user,
       birth_date: user?.birth_date?.split('T')[0],
+      document_id: user?.document_id || "",
+      phone: user?.phone || "",
+      mobile: user?.mobile || "",
+      person_type: user?.person_type || "",
+      cnpj: user?.cnpj || "",
     },
   });
 
@@ -33,6 +38,11 @@ export function useUserForm({ user, onUserUpdated, onOpenChange }: UseUserFormPr
       reset({
         ...user,
         birth_date: user?.birth_date?.split('T')[0],
+        document_id: user?.document_id || "",
+        phone: user?.phone || "",
+        mobile: user?.mobile || "",
+        person_type: user?.person_type || "",
+        cnpj: user?.cnpj || "",
       });
       setInitialPassword(user?.initial_password || "");
     }

@@ -19,7 +19,8 @@ export function PersonalDataTab({ register, setValue, watch, readOnly = false })
           <Label>Nome Completo</Label>
           <Input 
             {...register("full_name")} 
-            placeholder="Digite o nome completo" 
+            placeholder="Digite o nome completo"
+            className="bg-background"
           />
         </div>
         <div className="space-y-2">
@@ -27,8 +28,9 @@ export function PersonalDataTab({ register, setValue, watch, readOnly = false })
           <Input 
             {...register("email")} 
             type="email" 
-            readOnly={readOnly} 
+            readOnly={readOnly}
             placeholder="Digite o email"
+            className="bg-background"
           />
         </div>
         <div className="space-y-2">
@@ -37,6 +39,7 @@ export function PersonalDataTab({ register, setValue, watch, readOnly = false })
             {...register("birth_date")} 
             type="date" 
             placeholder="dd/mm/aaaa"
+            className="bg-background"
           />
         </div>
         <div className="space-y-2">
@@ -45,7 +48,7 @@ export function PersonalDataTab({ register, setValue, watch, readOnly = false })
             onValueChange={(value) => setValue("person_type", value)}
             value={personType || ''}
           >
-            <SelectTrigger>
+            <SelectTrigger className="bg-background">
               <SelectValue placeholder="Selecione" />
             </SelectTrigger>
             <SelectContent>
@@ -59,6 +62,7 @@ export function PersonalDataTab({ register, setValue, watch, readOnly = false })
           <Input 
             {...register("document_id")} 
             placeholder="Digite o CPF"
+            className="bg-background"
           />
         </div>
         <div className="space-y-2">
@@ -66,6 +70,7 @@ export function PersonalDataTab({ register, setValue, watch, readOnly = false })
           <Input 
             {...register("cnpj")} 
             placeholder="Digite o CNPJ"
+            className="bg-background"
           />
         </div>
         <div className="space-y-2">
@@ -73,6 +78,15 @@ export function PersonalDataTab({ register, setValue, watch, readOnly = false })
           <Input 
             {...register("mobile")} 
             placeholder="Digite o celular"
+            className="bg-background"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label>Telefone</Label>
+          <Input 
+            {...register("phone")} 
+            placeholder="Digite o telefone"
+            className="bg-background"
           />
         </div>
       </div>
