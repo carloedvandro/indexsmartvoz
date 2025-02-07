@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -9,9 +9,8 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { UserFormTabs } from "./UserFormTabs";
+import { UserFormFields } from "./dialogs/UserFormFields";
 import { UserFormActions } from "./dialogs/UserFormActions";
-import { PasswordManagement } from "./dialogs/PasswordManagement";
 import { 
   checkExistingUser, 
   createUser, 
@@ -19,13 +18,24 @@ import {
   deleteUser,
 } from "./UserFormUtils";
 
-export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
+interface UserEditDialogProps {
+  user: any;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onUserUpdated: () => void;
+}
+
+export function UserEditDialog({ 
+  user, 
+  open, 
+  onOpenChange, 
+  onUserUpdated 
+}: UserEditDialogProps) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [initialPassword, setInitialPassword] = useState("");
   
-  // Initialize form with user data
   const { register, handleSubmit, setValue, watch, reset } = useForm({
     defaultValues: {
       ...user,
@@ -33,7 +43,6 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
     },
   });
 
-  // Reset form when user changes
   useEffect(() => {
     if (user) {
       reset({
@@ -80,7 +89,6 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
           return;
         }
 
-        // Generate a random password if not provided
         const password = Math.random().toString(36).slice(-8);
         
         const authData = await createUser({
@@ -127,19 +135,14 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
           <DialogTitle>{user?.id ? 'Editar Usuário' : 'Novo Usuário'}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(handleSave)} className="space-y-4">
-          <UserFormTabs 
-            register={register} 
-            setValue={setValue} 
-            watch={watch} 
-            readOnly={!!user?.id}
+          <UserFormFields
+            register={register}
+            setValue={setValue}
+            watch={watch}
+            user={user}
+            initialPassword={initialPassword}
+            setInitialPassword={setInitialPassword}
           />
-          {user?.id && (
-            <PasswordManagement
-              user={user}
-              initialPassword={initialPassword}
-              setInitialPassword={setInitialPassword}
-            />
-          )}
           <DialogFooter>
             <UserFormActions
               userId={user?.id}
