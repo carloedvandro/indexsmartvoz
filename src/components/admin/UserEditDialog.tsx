@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
@@ -31,12 +30,24 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const [isSettingPassword, setIsSettingPassword] = useState(false);
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [newPassword, setNewPassword] = useState("");
-  const { register, handleSubmit, setValue, watch } = useForm({
+  
+  // Initialize form with user data
+  const { register, handleSubmit, setValue, watch, reset } = useForm({
     defaultValues: {
       ...user,
       birth_date: user?.birth_date?.split('T')[0],
     },
   });
+
+  // Reset form when user changes
+  React.useEffect(() => {
+    if (user) {
+      reset({
+        ...user,
+        birth_date: user?.birth_date?.split('T')[0],
+      });
+    }
+  }, [user, reset]);
 
   const handleResetPassword = async () => {
     if (!user?.email) {
@@ -133,7 +144,7 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const handleSave = async (data) => {
     setIsLoading(true);
     try {
-      if (!user.id) {
+      if (!user?.id) {
         const existingUser = await checkExistingUser(data.email);
         if (existingUser) {
           toast({
