@@ -32,7 +32,11 @@ export function useUsersQuery(filters: UserFilters) {
             id,
             full_name,
             email,
-            initial_password
+            initial_password,
+            birth_date,
+            document_id,
+            phone,
+            mobile
           )
         `)
         .order("created_at", { ascending: false });

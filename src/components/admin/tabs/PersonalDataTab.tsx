@@ -68,6 +68,13 @@ export function PersonalDataTab({ register, setValue, watch, readOnly = false })
             placeholder="Digite o CNPJ"
           />
         </div>
+        <div className="space-y-2">
+          <Label>Celular</Label>
+          <Input 
+            {...register("mobile")} 
+            placeholder="Digite o celular"
+          />
+        </div>
       </div>
     </div>
   );
