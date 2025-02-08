@@ -5,10 +5,10 @@ import { useNetworkStats } from "@/hooks/useNetworkStats";
 import { DashboardHeader } from "@/components/client/dashboard/DashboardHeader";
 import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
 import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
-import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 import { CommissionsChart } from "@/components/client/dashboard/charts/CommissionsChart";
+import { NetworkLevelsChart } from "@/components/client/dashboard/charts/NetworkLevelsChart";
 import { motion } from "framer-motion";
 
 export default function ClientDashboard() {
@@ -46,13 +46,13 @@ export default function ClientDashboard() {
                 />
               </div>
               <div className="w-full">
-                <PlansCard />
+                <NetworkStatsCard />
               </div>
             </div>
-            <div className="px-6 py-4">
+            <div className="px-6 py-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
               <CommissionsChart />
+              <NetworkLevelsChart />
             </div>
-            <NetworkStatsCard />
           </div>
         </div>
       </main>

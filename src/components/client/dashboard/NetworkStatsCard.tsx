@@ -1,52 +1,76 @@
 
 import { useProfile } from "@/hooks/useProfile";
-import { supabase } from "@/integrations/supabase/client";
-import { useEffect } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { useNetworkData } from "@/components/client/network/useNetworkData";
-import { countMembersByStatus } from "@/utils/networkStats";
 import { NetworkStatsHeader } from "./components/NetworkStatsHeader";
 import { NetworkStatsGrid } from "./components/NetworkStatsGrid";
-import { ExpenseDistributionCard } from "./charts/ExpenseDistributionCard";
-import { MonthlyPerformanceChart } from "./charts/MonthlyPerformanceChart";
-import { generateCardData, generateRevenueData } from "./utils/statsUtils";
+import { Card } from "@/components/ui/card";
 
 export const NetworkStatsCard = () => {
   const { data: profile } = useProfile();
   const { networkData } = useNetworkData(profile?.id || '');
-  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const channel = supabase
-      .channel('profiles-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'profiles'
-        },
-        () => {
-          queryClient.invalidateQueries({ queryKey: ['networkData', profile?.id] });
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
+  const generateCardData = () => {
+    const levels = {
+      1: { active: 0, inactive: 0 },
+      2: { active: 0, inactive: 0 },
+      3: { active: 0, inactive: 0 },
+      4: { active: 0, inactive: 0 },
     };
-  }, [profile?.id, queryClient]);
 
-  const memberCounts = networkData ? countMembersByStatus(networkData) : { active: 0, pending: 0 };
+    const countMembers = (members) => {
+      members.forEach((member) => {
+        if (member.level >= 1 && member.level <= 4) {
+          if (member.user?.status?.toLowerCase() === "active") {
+            levels[member.level].active++;
+          } else {
+            levels[member.level].inactive++;
+          }
+        }
+
+        if (member.children?.length > 0) {
+          countMembers(member.children);
+        }
+      });
+    };
+
+    if (networkData) {
+      countMembers(networkData);
+    }
+
+    return [
+      {
+        title: "Nível 1",
+        value: levels[1].active + levels[1].inactive,
+        activeCount: levels[1].active,
+        inactiveCount: levels[1].inactive
+      },
+      {
+        title: "Nível 2",
+        value: levels[2].active + levels[2].inactive,
+        activeCount: levels[2].active,
+        inactiveCount: levels[2].inactive
+      },
+      {
+        title: "Nível 3",
+        value: levels[3].active + levels[3].inactive,
+        activeCount: levels[3].active,
+        inactiveCount: levels[3].inactive
+      },
+      {
+        title: "Nível 4",
+        value: levels[4].active + levels[4].inactive,
+        activeCount: levels[4].active,
+        inactiveCount: levels[4].inactive
+      }
+    ];
+  };
+
   const cardData = generateCardData();
-  const revenueData = generateRevenueData();
 
   return (
-    <>
+    <Card className="m-6">
       <NetworkStatsHeader />
       <NetworkStatsGrid cardData={cardData} />
-      <ExpenseDistributionCard />
-      <MonthlyPerformanceChart />
-    </>
+    </Card>
   );
 };
