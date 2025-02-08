@@ -51,16 +51,16 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
           
           <div className="space-y-2">
             <div className="text-center">
-              <p className="text-sm text-muted-foreground">Empresa</p>
+              <p className="text-sm text-muted-foreground">Patrocinador</p>
               <p className="font-medium">
-                {profile?.sponsor?.full_name || "Empresa"}
-                {profile?.sponsor?.custom_id && ` (${profile.sponsor.custom_id})`}
+                {profile?.sponsor?.full_name || "Smartvoz Company"}
+                {profile?.sponsor?.custom_id && ` (Empresa: ${profile.sponsor.custom_id})`}
               </p>
             </div>
             {profile?.custom_id && (
               <div className="text-center">
-                <p className="text-sm text-muted-foreground">Smartvoz</p>
-                <p className="font-medium">{profile.custom_id}</p>
+                <p className="text-sm text-muted-foreground">ID Personalizado</p>
+                <p className="font-medium">Empresa: {profile.custom_id}</p>
               </div>
             )}
           </div>
@@ -69,3 +69,4 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
     </Card>
   );
 };
+
