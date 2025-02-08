@@ -1,3 +1,4 @@
+
 import {
   Bar,
   BarChart,
@@ -9,16 +10,50 @@ import {
   YAxis,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-const data = [
-  { nivel: "Nível 1", ativos: 8, inativos: 0 },
-  { nivel: "Nível 2", ativos: 12, inativos: 3 },
-  { nivel: "Nível 3", ativos: 8, inativos: 56 },
-  { nivel: "Nível 4", ativos: 15, inativos: 25 },
-  { nivel: "Nível 5", ativos: 19, inativos: 39 },
-];
+import { useProfile } from "@/hooks/useProfile";
+import { useNetworkData } from "@/components/client/network/useNetworkData";
 
 export const NetworkLevelsChart = () => {
+  const { data: profile } = useProfile();
+  const { networkData } = useNetworkData(profile?.id || "");
+
+  // Processar os dados da rede para contar ativos e inativos por nível
+  const processNetworkData = () => {
+    const levels = {
+      1: { ativos: 0, inativos: 0 },
+      2: { ativos: 0, inativos: 0 },
+      3: { ativos: 0, inativos: 0 },
+      4: { ativos: 0, inativos: 0 },
+    };
+
+    const countMembers = (members) => {
+      members.forEach((member) => {
+        if (member.level >= 1 && member.level <= 4) {
+          if (member.user.status?.toLowerCase() === "ativo") {
+            levels[member.level].ativos++;
+          } else {
+            levels[member.level].inativos++;
+          }
+        }
+        if (member.children?.length > 0) {
+          countMembers(member.children);
+        }
+      });
+    };
+
+    if (networkData) {
+      countMembers(networkData);
+    }
+
+    return Object.entries(levels).map(([nivel, counts]) => ({
+      nivel: `Nível ${nivel}`,
+      ativos: counts.ativos,
+      inativos: counts.inativos,
+    }));
+  };
+
+  const data = processNetworkData();
+
   return (
     <Card className="w-full col-span-2">
       <CardHeader className="pb-0">
