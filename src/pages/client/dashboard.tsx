@@ -8,6 +8,7 @@ import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
+import { CommissionsChart } from "@/components/client/dashboard/charts/CommissionsChart";
 import { motion } from "framer-motion";
 
 export default function ClientDashboard() {
@@ -47,6 +48,9 @@ export default function ClientDashboard() {
               <div className="w-full">
                 <PlansCard />
               </div>
+            </div>
+            <div className="px-6 py-4">
+              <CommissionsChart />
             </div>
             <NetworkStatsCard />
           </div>

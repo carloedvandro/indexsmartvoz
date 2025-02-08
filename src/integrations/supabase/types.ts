@@ -84,6 +84,54 @@ export type Database = {
           },
         ]
       }
+      network_commission_history: {
+        Row: {
+          amount: number
+          created_at: string | null
+          id: string
+          level: number
+          paid: boolean | null
+          plan_id: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          id?: string
+          level: number
+          paid?: boolean | null
+          plan_id: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          id?: string
+          level?: number
+          paid?: boolean | null
+          plan_id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "network_commission_history_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "network_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "network_commission_history_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       network_plan_commissions: {
         Row: {
           commission_value: number
