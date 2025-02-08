@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -78,7 +79,7 @@ export default function AdminDashboard() {
                   <CardDescription>Gestão da rede multinível</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p>Em desenvolvimento...</p>
+                  <p className="text-muted-foreground">Em desenvolvimento...</p>
                 </CardContent>
               </Card>
 
@@ -88,7 +89,7 @@ export default function AdminDashboard() {
                   <CardDescription>Gestão de usuários do sistema</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p>Em desenvolvimento...</p>
+                  <p className="text-muted-foreground">Em desenvolvimento...</p>
                 </CardContent>
               </Card>
 
@@ -98,7 +99,7 @@ export default function AdminDashboard() {
                   <CardDescription>Relatórios e análises</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p>Em desenvolvimento...</p>
+                  <p className="text-muted-foreground">Em desenvolvimento...</p>
                 </CardContent>
               </Card>
             </div>

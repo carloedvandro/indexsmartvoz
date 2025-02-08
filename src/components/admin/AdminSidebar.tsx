@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import {
   Home,
@@ -6,6 +7,7 @@ import {
   FileText,
   HelpCircle,
   LogOut,
+  Network,
 } from "lucide-react";
 import {
   Sidebar,
@@ -21,8 +23,9 @@ import {
 
 const menuItems = [
   { icon: Home, label: "Dashboard", path: "/admin/dashboard" },
-  { icon: Settings, label: "Configurações", path: "/admin/settings" },
+  { icon: Network, label: "Rede", path: "/admin/network" },
   { icon: Users, label: "Usuários", path: "/admin/users" },
+  { icon: Settings, label: "Configurações", path: "/admin/settings" },
   { icon: FileText, label: "Relatórios", path: "/admin/reports" },
   { icon: HelpCircle, label: "Suporte", path: "/admin/support" },
   { icon: LogOut, label: "Sair", path: "/admin/logout" },
