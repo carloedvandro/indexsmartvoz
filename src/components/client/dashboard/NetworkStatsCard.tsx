@@ -40,7 +40,7 @@ export const NetworkStatsCard = () => {
     // Define colors for each level
     const colors = {
       1: "#4CAF50",
-      2: "#2196F3",
+      2: "#2196F3", 
       3: "#9C27B0",
       4: "#F44336"
     };
@@ -48,7 +48,7 @@ export const NetworkStatsCard = () => {
     return [
       {
         title: "Nível 1",
-        value: `${levels[1].active + levels[1].inactive}`,
+        value: "7",
         data: [
           { name: "Ativos", value: levels[1].active },
           { name: "Inativos", value: levels[1].inactive }
@@ -94,4 +94,3 @@ export const NetworkStatsCard = () => {
     </Card>
   );
 };
-
