@@ -88,9 +88,10 @@ export const NetworkStatsCard = () => {
   const cardData = generateCardData();
 
   return (
-    <Card className="m-6">
+    <Card className="m-6 mt-12">
       <NetworkStatsHeader />
       <NetworkStatsGrid cardData={cardData} />
     </Card>
   );
 };
+
