@@ -77,9 +77,9 @@ export const CommissionsChart = () => {
   };
 
   return (
-    <Card className="w-full col-span-2">
+    <Card className="m-6">
       <CardHeader className="pb-0">
-        <CardTitle>Comissões por Nível</CardTitle>
+        <CardTitle className="text-center font-bold">Comissões por Nível</CardTitle>
       </CardHeader>
       <CardContent className="pl-0 md:pl-4">
         <div className="h-[250px] md:h-[270px] w-[100%] -mt-4">
