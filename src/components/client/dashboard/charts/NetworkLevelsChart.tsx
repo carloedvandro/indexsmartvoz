@@ -17,7 +17,6 @@ export const NetworkLevelsChart = () => {
   const { data: profile } = useProfile();
   const { networkData } = useNetworkData(profile?.id || "");
 
-  // Processar os dados da rede para contar ativos e inativos por nível
   const processNetworkData = () => {
     const levels = {
       1: { ativos: 0, inativos: 0 },
@@ -26,15 +25,22 @@ export const NetworkLevelsChart = () => {
       4: { ativos: 0, inativos: 0 },
     };
 
+    // Set to store unique user IDs at each level to prevent double counting
+    const processedUsers = new Set();
+
     const countMembers = (members) => {
       members.forEach((member) => {
-        if (member.level >= 1 && member.level <= 4) {
-          if (member.user.status?.toLowerCase() === "ativo") {
+        // Only count if we haven't processed this user before
+        if (!processedUsers.has(member.user?.email) && member.level >= 1 && member.level <= 4) {
+          processedUsers.add(member.user?.email);
+          
+          if (member.user?.status?.toLowerCase() === "active") {
             levels[member.level].ativos++;
           } else {
             levels[member.level].inativos++;
           }
         }
+
         if (member.children?.length > 0) {
           countMembers(member.children);
         }
@@ -42,8 +48,11 @@ export const NetworkLevelsChart = () => {
     };
 
     if (networkData) {
+      console.log("Processing network data:", networkData);
       countMembers(networkData);
     }
+
+    console.log("Processed levels data:", levels);
 
     return Object.entries(levels).map(([nivel, counts]) => ({
       nivel: `Nível ${nivel}`,
