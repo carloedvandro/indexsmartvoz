@@ -1,4 +1,3 @@
-
 import { CardHeader, CardTitle } from "@/components/ui/card";
 
 export const NetworkStatsHeader = () => {
@@ -8,4 +7,3 @@ export const NetworkStatsHeader = () => {
     </CardHeader>
   );
 };
-
