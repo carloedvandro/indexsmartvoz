@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { ParticlesBackground } from "@/components/ui/particles-background";
+import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 import { LoginHeader } from "@/components/client/login/LoginHeader";
 import { LoginForm } from "@/components/client/login/LoginForm";
 import { RegisterLink } from "@/components/client/login/RegisterLink";
