@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -8,7 +7,10 @@ import { CaptureInstructions } from "@/components/client/register/facial-biometr
 import { DocumentVerification } from "@/components/client/register/facial-biometry/DocumentVerification";
 
 interface FacialBiometryFlowProps {
-  onComplete: () => void;
+  onComplete: (verificationData: {
+    facialVerification: boolean;
+    documentVerification: boolean;
+  }) => void;
   onBack: () => void;
 }
 
@@ -18,12 +20,21 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   const [currentStep, setCurrentStep] = useState<Step>('instructions');
   const [isCapturing, setIsCapturing] = useState(false);
   const { toast } = useToast();
+  const [verificationStatus, setVerificationStatus] = useState({
+    facialVerification: false,
+    documentVerification: false,
+  });
 
   const handleCaptureComplete = async () => {
     try {
       setIsCapturing(true);
       // Simulate facial biometry capture
       await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      setVerificationStatus(prev => ({
+        ...prev,
+        facialVerification: true
+      }));
       
       toast({
         title: "Biometria facial coletada",
@@ -45,20 +56,13 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
 
   const handleDocumentUploadComplete = async () => {
     try {
-      // Simulate document verification process
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      setVerificationStatus(prev => ({
+        ...prev,
+        documentVerification: true
+      }));
       
-      toast({
-        title: "Documentos enviados",
-        description: "Aguarde enquanto verificamos seus documentos...",
-      });
-
-      setCurrentStep('document-verification');
-      
-      // Simulate document verification
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      
-      onComplete();
+      // Complete the registration process
+      onComplete(verificationStatus);
     } catch (error) {
       console.error("Erro na verificação de documentos:", error);
       toast({
@@ -126,6 +130,10 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
             onComplete={handleDocumentUploadComplete}
             onBack={() => setCurrentStep('facial-capture')}
           />
+        );
+      case 'document-verification':
+        return (
+          <div>Verificando documentos...</div>
         );
       default:
         return null;

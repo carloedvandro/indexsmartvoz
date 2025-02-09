@@ -27,24 +27,25 @@ export const RegisterFormContainer = () => {
     } catch (error: any) {
       console.error("Detailed registration error:", error);
       
-      const errorMessage = error.message || 
-        error.error_description || 
-        "Ocorreu um erro ao criar sua conta. Por favor, tente novamente.";
-
       toast({
         title: "Erro no cadastro",
-        description: errorMessage,
+        description: error.message || "Ocorreu um erro ao criar sua conta. Por favor, tente novamente.",
         variant: "destructive",
       });
-
-      throw error;
     }
   };
 
-  const handleBiometryComplete = async () => {
+  const handleBiometryComplete = async (verificationData: { 
+    facialVerification: boolean;
+    documentVerification: boolean;
+  }) => {
     if (!formData) return;
 
     try {
+      if (!verificationData.facialVerification || !verificationData.documentVerification) {
+        throw new Error("É necessário completar a verificação facial e de documentos");
+      }
+
       await registerUser(formData);
 
       toast({
