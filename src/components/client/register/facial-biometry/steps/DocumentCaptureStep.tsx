@@ -22,8 +22,63 @@ export const DocumentCaptureStep = ({
   videoConstraints 
 }: DocumentCaptureStepProps) => {
   const [isCapturing, setIsCapturing] = useState(false);
+  const [documentDetected, setDocumentDetected] = useState(false);
   const webcamRef = useRef<Webcam>(null);
   const { toast } = useToast();
+
+  const checkForDocument = async (imageData: ImageData) => {
+    const data = imageData.data;
+    let edges = 0;
+    const width = imageData.width;
+    
+    // Check for strong edges in the image
+    for (let i = 0; i < data.length; i += 4) {
+      if (i % (width * 4) < (width - 1) * 4) {
+        const currentPixel = (data[i] + data[i + 1] + data[i + 2]) / 3;
+        const nextPixel = (data[i + 4] + data[i + 5] + data[i + 6]) / 3;
+        if (Math.abs(currentPixel - nextPixel) > 30) {
+          edges++;
+        }
+      }
+    }
+    
+    return edges > (width * imageData.height * 0.05); // Threshold for edge detection
+  };
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if (webcamRef.current && !isCapturing) {
+        const imageSrc = webcamRef.current.getScreenshot();
+        if (imageSrc) {
+          const img = new Image();
+          img.src = imageSrc;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+              ctx.drawImage(img, 0, 0);
+              const imageData = ctx.getImageData(
+                img.width * 0.1,
+                img.height * 0.1,
+                img.width * 0.8,
+                img.height * 0.8
+              );
+              checkForDocument(imageData).then(detected => {
+                setDocumentDetected(detected);
+                if (detected && !isCapturing) {
+                  handleDocumentCapture();
+                }
+              });
+            }
+          };
+        }
+      }
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, [isCapturing]);
 
   const handleDocumentCapture = async () => {
     if (!webcamRef.current || isCapturing) return;
@@ -101,9 +156,10 @@ export const DocumentCaptureStep = ({
           className="w-full h-full object-cover"
         />
         
-        {/* Document frame overlay */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="relative w-[85%] h-[80%] border-2 border-white border-opacity-50">
+          <div className={`relative w-[85%] h-[80%] border-2 ${
+            documentDetected ? 'border-green-500' : 'border-white'
+          } border-opacity-50 transition-colors duration-300`}>
             {/* Corner guides */}
             <div className="absolute left-0 top-0 w-8 h-2 bg-white"></div>
             <div className="absolute left-0 top-0 w-2 h-8 bg-white"></div>
@@ -117,24 +173,8 @@ export const DocumentCaptureStep = ({
             <div className="absolute right-0 bottom-0 w-8 h-2 bg-white"></div>
             <div className="absolute right-0 bottom-0 w-2 h-8 bg-white"></div>
 
-            {/* Center icon and text */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-              <div className="w-16 h-16 rounded-full bg-black bg-opacity-60 flex items-center justify-center mb-2">
-                <svg 
-                  className="w-8 h-8 text-white" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="2"
-                >
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="17 8 12 3 7 8" />
-                  <line x1="12" y1="3" x2="12" y2="15" />
-                </svg>
-              </div>
-              <div className="text-white text-sm">
-                Encaixe o Documento
-              </div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white text-sm">
+              Encaixe o Documento
             </div>
           </div>
         </div>
@@ -153,4 +193,3 @@ export const DocumentCaptureStep = ({
     </div>
   );
 };
-
