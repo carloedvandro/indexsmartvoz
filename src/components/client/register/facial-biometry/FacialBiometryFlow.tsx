@@ -1,12 +1,11 @@
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Camera, Clock, FileCheck, ArrowRight, IdCard } from "lucide-react";
 import { Steps } from "@/components/client/register/facial-biometry/Steps";
 import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
+import Webcam from "react-webcam";
 
 interface FacialBiometryFlowProps {
   onComplete: (verificationData: {
@@ -33,6 +32,8 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   const [cpfPrefix, setCpfPrefix] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedDocType, setSelectedDocType] = useState<'rg' | 'cnh' | null>(null);
+  const [cameraEnabled, setCameraEnabled] = useState(false);
+  const webcamRef = useRef<Webcam>(null);
   const { toast } = useToast();
 
   const handleCpfVerification = async () => {
@@ -55,9 +56,13 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
 
   const handleCameraAccess = async () => {
     try {
-      await navigator.mediaDevices.getUserMedia({ video: true });
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      setCameraEnabled(true);
       setCurrentStep('capture-instructions');
+      // Importante: liberar a stream após obter acesso
+      stream.getTracks().forEach(track => track.stop());
     } catch (error) {
+      console.error("Erro ao acessar câmera:", error);
       toast({
         title: "Erro de Acesso",
         description: "Por favor, permita o acesso à câmera para continuar.",
@@ -67,9 +72,20 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   };
 
   const handleFacialCapture = async () => {
-    await simulateProcessing();
-    setCurrentStep('facial-analysis');
-    setTimeout(() => setCurrentStep('document-instructions'), 2000);
+    if (webcamRef.current) {
+      const imageSrc = webcamRef.current.getScreenshot();
+      if (imageSrc) {
+        await simulateProcessing();
+        setCurrentStep('facial-analysis');
+        setTimeout(() => setCurrentStep('document-instructions'), 2000);
+      } else {
+        toast({
+          title: "Erro na Captura",
+          description: "Não foi possível capturar a imagem. Por favor, tente novamente.",
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   const handleDocumentTypeSelection = (type: 'rg' | 'cnh') => {
@@ -78,9 +94,20 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   };
 
   const handleDocumentCapture = async () => {
-    await simulateProcessing();
-    setCurrentStep('document-analysis');
-    setTimeout(() => setCurrentStep('completion'), 2000);
+    if (webcamRef.current) {
+      const imageSrc = webcamRef.current.getScreenshot();
+      if (imageSrc) {
+        await simulateProcessing();
+        setCurrentStep('document-analysis');
+        setTimeout(() => setCurrentStep('completion'), 2000);
+      } else {
+        toast({
+          title: "Erro na Captura",
+          description: "Não foi possível capturar a imagem do documento. Por favor, tente novamente.",
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   const handleCompletion = () => {
@@ -162,8 +189,13 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
           <div className="space-y-6 text-center">
             <h2 className="text-2xl font-semibold">Captura Facial</h2>
             <p className="text-gray-600">Centralize seu rosto</p>
-            <div className="w-64 h-64 mx-auto border-4 border-dashed border-purple-500 rounded-full flex items-center justify-center bg-gray-50">
-              <Camera className="w-24 h-24 text-gray-400" />
+            <div className="w-64 h-64 mx-auto overflow-hidden rounded-full">
+              <Webcam
+                ref={webcamRef}
+                audio={false}
+                screenshotFormat="image/jpeg"
+                className="w-full h-full object-cover"
+              />
             </div>
             <Button 
               onClick={handleFacialCapture}
@@ -243,8 +275,13 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
             <p className="text-gray-600">
               Enquadre seu {selectedDocType === 'rg' ? 'RG' : 'CNH'} dentro da área demarcada
             </p>
-            <div className="w-full max-w-sm mx-auto aspect-[4/3] border-2 border-dashed border-purple-500 rounded-lg flex items-center justify-center bg-gray-50">
-              <Camera className="w-24 h-24 text-gray-400" />
+            <div className="w-full max-w-sm mx-auto aspect-[4/3] overflow-hidden rounded-lg">
+              <Webcam
+                ref={webcamRef}
+                audio={false}
+                screenshotFormat="image/jpeg"
+                className="w-full h-full object-cover"
+              />
             </div>
             <Button
               onClick={handleDocumentCapture}
@@ -292,3 +329,4 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
     </div>
   );
 };
+
