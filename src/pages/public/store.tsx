@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { LoadingState } from "@/components/store/public/LoadingState";
 import { StoreNotFound } from "@/components/store/public/StoreNotFound";
@@ -24,6 +24,7 @@ export default function PublicStore() {
   const [storeOwner, setStoreOwner] = useState<StoreOwner | null>(null);
   const { storeUrl } = useParams();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const { products, isLoading: productsLoading, loadProducts } = useStoreProducts();
 
   useEffect(() => {
@@ -56,6 +57,12 @@ export default function PublicStore() {
           return;
         }
 
+        // Se encontrou o dono da loja e tem custom_id, redireciona direto para o registro
+        if (data.custom_id) {
+          navigate(`/client/register?sponsor=${data.custom_id}`);
+          return;
+        }
+
         setStoreOwner(data);
         await loadProducts();
       } catch (error) {
@@ -72,7 +79,7 @@ export default function PublicStore() {
     };
 
     loadStore();
-  }, [storeUrl, toast, loadProducts]);
+  }, [storeUrl, toast, loadProducts, navigate]);
 
   const handleCopyReferralLink = async () => {
     if (!storeOwner?.custom_id) return;
