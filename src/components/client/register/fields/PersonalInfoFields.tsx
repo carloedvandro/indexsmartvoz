@@ -18,7 +18,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
           <FormItem>
             <FormLabel>Nome Completo</FormLabel>
             <FormControl>
-              <Input {...field} />
+              <Input {...field} className="bg-transparent" />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -32,7 +32,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
           <FormItem>
             <FormLabel>Endereço de email</FormLabel>
             <FormControl>
-              <Input type="email" {...field} />
+              <Input type="email" {...field} className="bg-transparent" />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -46,7 +46,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
           <FormItem>
             <FormLabel>CPF</FormLabel>
             <FormControl>
-              <Input {...field} />
+              <Input {...field} className="bg-transparent" />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -61,7 +61,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
             <FormItem>
               <FormLabel>Data de Nascimento</FormLabel>
               <FormControl>
-                <Input type="date" {...field} />
+                <Input type="date" {...field} className="bg-transparent" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -75,7 +75,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
             <FormItem>
               <FormLabel>Seu ID Personalizado</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} className="bg-transparent" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -85,4 +85,3 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
     </>
   );
 };
-
