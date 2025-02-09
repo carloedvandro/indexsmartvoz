@@ -34,6 +34,20 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
 
       <FormField
         control={form.control}
+        name="email"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Email</FormLabel>
+            <FormControl>
+              <Input type="email" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
         name="customId"
         render={({ field }) => (
           <FormItem>
@@ -60,6 +74,36 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
         )}
       />
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="whatsapp"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>WhatsApp</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="(XX) XXXXX-XXXX" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="secondaryWhatsapp"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>WhatsApp Secundário (Opcional)</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="(XX) XXXXX-XXXX" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
       <FormField
         control={form.control}
         name="birthDate"
@@ -68,20 +112,6 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
             <FormLabel>Data de Nascimento</FormLabel>
             <FormControl>
               <Input type="date" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={form.control}
-        name="email"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Email</FormLabel>
-            <FormControl>
-              <Input type="email" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

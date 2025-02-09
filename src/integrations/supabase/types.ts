@@ -243,12 +243,14 @@ export type Database = {
           phone: string | null
           registration_date: string | null
           role: string
+          secondary_whatsapp: string | null
           sponsor_id: string | null
           state: string | null
           status: string | null
           store_url: string | null
           updated_at: string
           voucher: string | null
+          whatsapp: string | null
           zip_code: string | null
         }
         Insert: {
@@ -281,12 +283,14 @@ export type Database = {
           phone?: string | null
           registration_date?: string | null
           role?: string
+          secondary_whatsapp?: string | null
           sponsor_id?: string | null
           state?: string | null
           status?: string | null
           store_url?: string | null
           updated_at?: string
           voucher?: string | null
+          whatsapp?: string | null
           zip_code?: string | null
         }
         Update: {
@@ -319,12 +323,14 @@ export type Database = {
           phone?: string | null
           registration_date?: string | null
           role?: string
+          secondary_whatsapp?: string | null
           sponsor_id?: string | null
           state?: string | null
           status?: string | null
           store_url?: string | null
           updated_at?: string
           voucher?: string | null
+          whatsapp?: string | null
           zip_code?: string | null
         }
         Relationships: [
