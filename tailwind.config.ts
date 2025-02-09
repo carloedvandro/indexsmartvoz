@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 import { colors } from "./src/theme/colors";
 import { animations } from "./src/theme/animations";
@@ -18,8 +19,18 @@ export default {
     extend: {
       colors,
       borderRadius,
-      keyframes: animations.keyframes,
-      animation: animations.animation,
+      keyframes: {
+        ...animations.keyframes,
+        gradient: {
+          to: {
+            backgroundPosition: "var(--bg-size) 0",
+          },
+        },
+      },
+      animation: {
+        ...animations.animation,
+        gradient: "gradient 8s linear infinite",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
