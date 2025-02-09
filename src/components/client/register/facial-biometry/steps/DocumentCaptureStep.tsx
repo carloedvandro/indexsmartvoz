@@ -25,12 +25,13 @@ export const DocumentCaptureStep = ({
   const [isDocumentDetected, setIsDocumentDetected] = useState(false);
   const [lastCaptureTime, setLastCaptureTime] = useState(0);
   const [isVideoReady, setIsVideoReady] = useState(false);
+  const [isCapturing, setIsCapturing] = useState(false);
   const webcamRef = useRef<Webcam>(null);
   const { toast } = useToast();
-  const captureThrottleMs = 1000; // Minimum time between captures
+  const captureThrottleMs = 2000; // Aumentado para 2 segundos
 
   const checkDocumentPosition = useCallback(() => {
-    if (!webcamRef.current || !isVideoReady) return;
+    if (!webcamRef.current || !isVideoReady || isCapturing) return;
     
     const video = webcamRef.current.video;
     if (!video || !video.videoWidth || !video.videoHeight) return;
@@ -52,9 +53,10 @@ export const DocumentCaptureStep = ({
       Math.floor(video.videoHeight * 0.5)
     );
 
-    // Simple detection based on contrast and brightness
+    // Melhorada detecção baseada em contraste e brilho
     let totalBrightness = 0;
     let edgeCount = 0;
+    let previousBrightness = 0;
 
     for (let i = 0; i < centerRegion.data.length; i += 4) {
       const r = centerRegion.data[i];
@@ -66,13 +68,20 @@ export const DocumentCaptureStep = ({
       totalBrightness += brightness;
 
       // Check for edges (high contrast)
-      if (i > 0 && Math.abs(brightness - ((centerRegion.data[i - 4] + centerRegion.data[i - 3] + centerRegion.data[i - 2]) / 3)) > 30) {
-        edgeCount++;
+      if (i > 0) {
+        const brightnessDiff = Math.abs(brightness - previousBrightness);
+        if (brightnessDiff > 30) {
+          edgeCount++;
+        }
       }
+      previousBrightness = brightness;
     }
 
     const avgBrightness = totalBrightness / (centerRegion.data.length / 4);
-    const isDetected = avgBrightness > 50 && edgeCount > (centerRegion.data.length / 4) * 0.1;
+    const normalizedEdgeCount = edgeCount / (centerRegion.data.length / 4);
+    
+    // Ajustados os critérios de detecção
+    const isDetected = avgBrightness > 50 && normalizedEdgeCount > 0.15;
     
     setIsDocumentDetected(isDetected);
 
@@ -80,7 +89,7 @@ export const DocumentCaptureStep = ({
     if (isDetected && Date.now() - lastCaptureTime > captureThrottleMs) {
       handleDocumentCapture();
     }
-  }, [lastCaptureTime, isVideoReady]);
+  }, [lastCaptureTime, isVideoReady, isCapturing]);
 
   useEffect(() => {
     const interval = setInterval(checkDocumentPosition, 200);
@@ -88,21 +97,22 @@ export const DocumentCaptureStep = ({
   }, [checkDocumentPosition]);
 
   const handleDocumentCapture = async () => {
-    if (!webcamRef.current || !isDocumentDetected) return;
-
-    const imageSrc = webcamRef.current.getScreenshot();
-    if (!imageSrc) {
-      toast({
-        title: "Erro na Captura",
-        description: "Não foi possível capturar a imagem do documento. Por favor, tente novamente.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setLastCaptureTime(Date.now());
+    if (!webcamRef.current || !isDocumentDetected || isCapturing) return;
 
     try {
+      setIsCapturing(true);
+      const imageSrc = webcamRef.current.getScreenshot();
+      if (!imageSrc) {
+        toast({
+          title: "Erro na Captura",
+          description: "Não foi possível capturar a imagem do documento. Por favor, tente novamente.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setLastCaptureTime(Date.now());
+
       // Upload image to Supabase Storage
       const file = await fetch(imageSrc)
         .then(res => res.blob())
@@ -125,6 +135,11 @@ export const DocumentCaptureStep = ({
 
       if (dbError) throw dbError;
 
+      toast({
+        title: "Documento Capturado",
+        description: "Imagem do documento capturada com sucesso!",
+      });
+
       onNext(imageSrc);
     } catch (error) {
       console.error('Error saving document capture:', error);
@@ -133,6 +148,8 @@ export const DocumentCaptureStep = ({
         description: "Ocorreu um erro ao salvar a imagem do documento. Por favor, tente novamente.",
         variant: "destructive",
       });
+    } finally {
+      setIsCapturing(false);
     }
   };
 
@@ -149,7 +166,11 @@ export const DocumentCaptureStep = ({
         Alinhe seu {selectedDocType === 'rg' ? 'RG' : 'CNH'} dentro da área demarcada
       </p>
       <div className={`relative mx-auto ${isBackSide ? 'w-[300px] h-[400px]' : 'w-[400px] h-[300px]'}`}>
-        <div className={`absolute inset-0 border-2 ${isDocumentDetected ? 'border-green-500' : 'border-primary'} rounded-lg z-10 transition-colors duration-300`}></div>
+        <div 
+          className={`absolute inset-0 border-2 ${
+            isDocumentDetected ? 'border-green-500' : 'border-primary'
+          } rounded-lg z-10 transition-colors duration-300`}
+        />
         <Webcam
           ref={webcamRef}
           audio={false}
@@ -173,3 +194,4 @@ export const DocumentCaptureStep = ({
     </div>
   );
 };
+
