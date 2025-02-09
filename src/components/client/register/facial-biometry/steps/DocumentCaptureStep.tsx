@@ -25,6 +25,7 @@ export const DocumentCaptureStep = ({
   const [documentDetected, setDocumentDetected] = useState(false);
   const webcamRef = useRef<Webcam>(null);
   const { toast } = useToast();
+  const [captureAttempted, setCaptureAttempted] = useState(false);
 
   const checkForDocument = async (imageData: ImageData) => {
     const data = imageData.data;
@@ -44,9 +45,11 @@ export const DocumentCaptureStep = ({
     
     const threshold = width * imageData.height * 0.05;
     const isDocument = edges > threshold;
+    setDocumentDetected(isDocument);
     
-    if (isDocument && !isCapturing) {
-      handleDocumentCapture();
+    // Only auto-capture if document is detected and no capture has been attempted yet
+    if (isDocument && !isCapturing && !captureAttempted) {
+      await handleDocumentCapture();
     }
     
     return isDocument;
@@ -54,7 +57,7 @@ export const DocumentCaptureStep = ({
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      if (webcamRef.current && !isCapturing) {
+      if (webcamRef.current && !isCapturing && !captureAttempted) {
         const imageSrc = webcamRef.current.getScreenshot();
         if (imageSrc) {
           const img = new Image();
@@ -72,9 +75,7 @@ export const DocumentCaptureStep = ({
                 img.width * 0.8,
                 img.height * 0.8
               );
-              checkForDocument(imageData).then(detected => {
-                setDocumentDetected(detected);
-              });
+              checkForDocument(imageData);
             }
           };
         }
@@ -82,13 +83,15 @@ export const DocumentCaptureStep = ({
     }, 500);
 
     return () => clearInterval(interval);
-  }, [isCapturing]);
+  }, [isCapturing, captureAttempted]);
 
   const handleDocumentCapture = async () => {
     if (!webcamRef.current || isCapturing) return;
 
     try {
       setIsCapturing(true);
+      setCaptureAttempted(true);
+      
       const imageSrc = webcamRef.current.getScreenshot();
       if (!imageSrc) {
         toast({
@@ -99,27 +102,41 @@ export const DocumentCaptureStep = ({
         return;
       }
 
+      const user = (await supabase.auth.getUser()).data.user;
+      if (!user) {
+        toast({
+          title: "Erro de Autenticação",
+          description: "Usuário não está autenticado.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const file = await fetch(imageSrc)
         .then(res => res.blob())
         .then(blob => new File([blob], `document-${Date.now()}.jpg`, { type: 'image/jpeg' }));
 
+      const filePath = `${selectedDocType}/${isBackSide ? 'back' : 'front'}/${Date.now()}.jpg`;
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('documents')
-        .upload(`${selectedDocType}/${isBackSide ? 'back' : 'front'}/${Date.now()}.jpg`, file);
+        .upload(filePath, file);
 
       if (uploadError) {
+        console.error('Upload error:', uploadError);
         throw uploadError;
       }
 
       const { error: dbError } = await supabase
         .from('document_captures')
         .insert({
+          user_id: user.id,
           document_type: selectedDocType,
           side: isBackSide ? 'back' : 'front',
-          image_url: uploadData.path
+          image_url: filePath
         });
 
       if (dbError) {
+        console.error('Database error:', dbError);
         throw dbError;
       }
 
@@ -128,7 +145,11 @@ export const DocumentCaptureStep = ({
         description: "Imagem do documento capturada com sucesso!",
       });
 
-      onNext(imageSrc);
+      // Delay the onNext call slightly to ensure the user sees the success message
+      setTimeout(() => {
+        onNext(imageSrc);
+      }, 1000);
+
     } catch (error) {
       console.error('Error saving document capture:', error);
       toast({
@@ -136,9 +157,16 @@ export const DocumentCaptureStep = ({
         description: "Ocorreu um erro ao salvar a imagem do documento. Por favor, tente novamente.",
         variant: "destructive",
       });
+      setCaptureAttempted(false);
     } finally {
       setIsCapturing(false);
     }
+  };
+
+  const retryCapture = () => {
+    setCaptureAttempted(false);
+    setDocumentDetected(false);
+    setIsCapturing(false);
   };
 
   return (
@@ -182,20 +210,29 @@ export const DocumentCaptureStep = ({
             <div className="absolute right-0 bottom-0 w-2 h-8 bg-white"></div>
 
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white text-sm">
-              Encaixe o Documento
+              {documentDetected ? "Documento Detectado" : "Encaixe o Documento"}
             </div>
           </div>
         </div>
 
-        {/* Capture button */}
+        {/* Capture/Retry buttons */}
         <div className="absolute bottom-8 left-0 right-0 flex justify-center">
-          <button
-            onClick={handleDocumentCapture}
-            disabled={isCapturing}
-            className="w-16 h-16 rounded-full bg-white border-4 border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50"
-          >
-            <span className="sr-only">Capturar documento</span>
-          </button>
+          {captureAttempted ? (
+            <button
+              onClick={retryCapture}
+              className="px-6 py-2 bg-white rounded-full text-black font-medium hover:bg-gray-200 transition-colors"
+            >
+              Tentar Novamente
+            </button>
+          ) : (
+            <button
+              onClick={handleDocumentCapture}
+              disabled={isCapturing}
+              className="w-16 h-16 rounded-full bg-white border-4 border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50"
+            >
+              <span className="sr-only">Capturar documento</span>
+            </button>
+          )}
         </div>
       </div>
     </div>
