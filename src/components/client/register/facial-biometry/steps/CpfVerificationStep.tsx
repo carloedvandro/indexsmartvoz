@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 
 interface CpfVerificationStepProps {
   onNext: () => void;
@@ -15,7 +14,22 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
   const [isValidating, setIsValidating] = useState(false);
   const { toast } = useToast();
 
-  const handleCpfVerification = async () => {
+  // Get the CPF from session storage where it was saved during registration
+  const getRegisteredCpf = () => {
+    const registrationData = sessionStorage.getItem('registrationData');
+    if (!registrationData) {
+      return null;
+    }
+    try {
+      const data = JSON.parse(registrationData);
+      return data.cpf;
+    } catch (error) {
+      console.error('Error parsing registration data:', error);
+      return null;
+    }
+  };
+
+  const handleCpfVerification = () => {
     if (cpfPrefix.length !== 5) {
       toast({
         title: "CPF Inválido",
@@ -27,28 +41,19 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
 
     setIsValidating(true);
     try {
-      // Buscar o CPF do usuário logado
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        throw new Error("Usuário não encontrado");
-      }
-
-      const { data: profile, error: profileError } = await supabase
-        .from("profiles")
-        .select("cpf")
-        .eq("id", user.id)
-        .single();
-
-      if (profileError) {
-        throw profileError;
-      }
-
-      if (!profile.cpf) {
-        throw new Error("CPF não encontrado no cadastro");
+      const registeredCpf = getRegisteredCpf();
+      
+      if (!registeredCpf) {
+        toast({
+          title: "Erro na verificação",
+          description: "Dados do cadastro não encontrados. Por favor, preencha o formulário de cadastro primeiro.",
+          variant: "destructive",
+        });
+        return;
       }
 
       // Verificar se os primeiros 5 dígitos correspondem
-      const registeredPrefix = profile.cpf.substring(0, 5);
+      const registeredPrefix = registeredCpf.replace(/[^\d]/g, '').substring(0, 5);
       
       if (cpfPrefix !== registeredPrefix) {
         toast({
