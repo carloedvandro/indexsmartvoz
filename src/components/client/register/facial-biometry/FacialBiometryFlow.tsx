@@ -33,9 +33,16 @@ type Step =
   | 'document-analysis'
   | 'completion';
 
+interface CapturedImages {
+  facial?: string;
+  documentFront?: string;
+  documentBack?: string;
+}
+
 export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowProps) => {
   const [currentStep, setCurrentStep] = useState<Step>('cpf-verification');
   const [selectedDocType, setSelectedDocType] = useState<'rg' | 'cnh' | null>(null);
+  const [capturedImages, setCapturedImages] = useState<CapturedImages>({});
   const { videoConstraints, toggleCamera } = useCameraManagement();
 
   const handleDocumentTypeSelection = (type: 'rg' | 'cnh') => {
@@ -44,6 +51,10 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   };
 
   const handleCompletion = () => {
+    if (!capturedImages.facial || !capturedImages.documentFront || !capturedImages.documentBack) {
+      return;
+    }
+
     onComplete({
       facialVerification: true,
       documentVerification: true,
@@ -92,7 +103,8 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
       case 'facial-capture':
         return (
           <FacialCaptureStep
-            onNext={() => {
+            onNext={(imageSrc) => {
+              setCapturedImages(prev => ({ ...prev, facial: imageSrc }));
               setCurrentStep('facial-analysis');
               setTimeout(() => setCurrentStep('document-instructions'), 2000);
             }}
@@ -114,10 +126,12 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
       case 'document-back':
         return (
           <DocumentCaptureStep
-            onNext={() => {
+            onNext={(imageSrc) => {
               if (currentStep === 'document-front') {
+                setCapturedImages(prev => ({ ...prev, documentFront: imageSrc }));
                 setCurrentStep('document-back');
               } else {
+                setCapturedImages(prev => ({ ...prev, documentBack: imageSrc }));
                 setCurrentStep('document-analysis');
                 setTimeout(() => setCurrentStep('completion'), 2000);
               }

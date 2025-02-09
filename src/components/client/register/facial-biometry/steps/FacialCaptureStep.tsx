@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import Webcam from "react-webcam";
 
 interface FacialCaptureStepProps {
-  onNext: () => void;
+  onNext: (imageSrc: string) => void;
   videoConstraints: {
     width: number;
     height: number;
@@ -24,9 +24,19 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
       const imageSrc = webcamRef.current.getScreenshot();
       if (imageSrc) {
         setIsProcessing(true);
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        setIsProcessing(false);
-        onNext();
+        try {
+          // Simulate processing/validation of the facial image
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          onNext(imageSrc);
+        } catch (error) {
+          toast({
+            title: "Erro na Captura",
+            description: "Ocorreu um erro ao processar a imagem. Por favor, tente novamente.",
+            variant: "destructive",
+          });
+        } finally {
+          setIsProcessing(false);
+        }
       } else {
         toast({
           title: "Erro na Captura",
