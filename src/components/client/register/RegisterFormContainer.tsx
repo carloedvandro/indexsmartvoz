@@ -77,7 +77,7 @@ export const RegisterFormContainer = () => {
   };
 
   return (
-    <div className="px-6 sm:px-5 py-2">
+    <>
       {!showBiometry ? (
         <>
           <p className="mt-1 text-center text-sm text-gray-600 max-w-[140%] mx-auto">
@@ -93,6 +93,6 @@ export const RegisterFormContainer = () => {
           onBack={() => setShowBiometry(false)}
         />
       )}
-    </div>
+    </>
   );
 };
