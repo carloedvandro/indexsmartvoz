@@ -60,7 +60,7 @@ export default function ResetPassword() {
                   placeholder="seu@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 bg-transparent"
                   required
                 />
               </div>
