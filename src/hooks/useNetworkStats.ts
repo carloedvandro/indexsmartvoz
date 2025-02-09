@@ -62,7 +62,7 @@ export const useNetworkStats = (userId: string | undefined) => {
 
       console.log("Raw network members data:", networkMembers);
 
-      // Create Sets to store unique member IDs for each level
+      // Use Map to store unique members by their user_id for each level
       const uniqueMembersByLevel = new Map<number, Set<string>>();
       
       // Initialize Sets for each level
@@ -71,15 +71,17 @@ export const useNetworkStats = (userId: string | undefined) => {
       }
 
       // Process each member and add to appropriate level Set
-      networkMembers?.forEach(member => {
-        // Ensure we're only counting members from levels 1-4
-        if (member.level >= 1 && member.level <= 4 && member.user_id !== userId) {
-          const memberSet = uniqueMembersByLevel.get(member.level);
-          if (memberSet) {
-            memberSet.add(member.user_id);
+      if (networkMembers) {
+        networkMembers.forEach(member => {
+          // Only count members from levels 1-4 and exclude the current user
+          if (member.level >= 1 && member.level <= 4 && member.user_id !== userId) {
+            const memberSet = uniqueMembersByLevel.get(member.level);
+            if (memberSet) {
+              memberSet.add(member.user_id);
+            }
           }
-        }
-      });
+        });
+      }
 
       // Set the counts from unique members at each level
       stats.level1Count = uniqueMembersByLevel.get(1)?.size || 0;
@@ -87,7 +89,11 @@ export const useNetworkStats = (userId: string | undefined) => {
       stats.level3Count = uniqueMembersByLevel.get(3)?.size || 0;
       stats.level4Count = uniqueMembersByLevel.get(4)?.size || 0;
 
-      console.log("Calculated network stats:", stats);
+      console.log("Calculated network stats:", {
+        ...stats,
+        totalMembers: stats.level1Count + stats.level2Count + stats.level3Count + stats.level4Count
+      });
+
       return stats;
     },
     enabled: !!userId
