@@ -62,6 +62,23 @@ export const useNetworkStats = (userId: string | undefined) => {
 
       console.log("Raw network members data:", networkMembers);
 
+      // Get profiles for all network members to check their status
+      const memberUserIds = networkMembers?.map(member => member.user_id) || [];
+      const { data: profiles, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id, status')
+        .in('id', memberUserIds);
+
+      if (profilesError) {
+        console.error("Error fetching profiles:", profilesError);
+        throw profilesError;
+      }
+
+      // Create a map of user IDs to their status
+      const userStatuses = new Map(
+        profiles?.map(profile => [profile.id, profile.status]) || []
+      );
+
       // Use Map to store unique members by their user_id for each level
       const uniqueMembersByLevel = new Map<number, Set<string>>();
       
@@ -73,8 +90,17 @@ export const useNetworkStats = (userId: string | undefined) => {
       // Process each member and add to appropriate level Set
       if (networkMembers) {
         networkMembers.forEach(member => {
-          // Only count members from levels 1-4 and exclude the current user
-          if (member.level >= 1 && member.level <= 4 && member.user_id !== userId) {
+          // Only count members:
+          // 1. From levels 1-4
+          // 2. Excluding the current user
+          // 3. With status 'active' or 'ativo'
+          const memberStatus = userStatuses.get(member.user_id)?.toLowerCase();
+          const isActive = memberStatus === 'active' || memberStatus === 'ativo';
+          
+          if (member.level >= 1 && 
+              member.level <= 4 && 
+              member.user_id !== userId &&
+              isActive) {
             const memberSet = uniqueMembersByLevel.get(member.level);
             if (memberSet) {
               memberSet.add(member.user_id);
@@ -91,7 +117,8 @@ export const useNetworkStats = (userId: string | undefined) => {
 
       console.log("Calculated network stats:", {
         ...stats,
-        totalMembers: stats.level1Count + stats.level2Count + stats.level3Count + stats.level4Count
+        totalMembers: stats.level1Count + stats.level2Count + stats.level3Count + stats.level4Count,
+        level1Members: Array.from(uniqueMembersByLevel.get(1) || [])
       });
 
       return stats;
