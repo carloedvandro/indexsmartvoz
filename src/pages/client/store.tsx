@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { StoreHeader } from "@/components/store/StoreHeader";
 import { ProductList } from "@/components/store/ProductList";
@@ -92,4 +91,3 @@ export default function Store() {
     </div>
   );
 }
-
