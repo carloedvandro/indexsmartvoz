@@ -1,5 +1,5 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "react-router-dom";
@@ -19,6 +19,7 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
   const [searchParams] = useSearchParams();
   const sponsorId = searchParams.get("sponsor");
   const { toast } = useToast();
+  const [isPostSubmitDisabled, setIsPostSubmitDisabled] = useState(false);
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
@@ -57,6 +58,13 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
         title: "Sucesso!",
         description: "Agora vamos fazer sua verificação biométrica.",
       });
+
+      // Disable button for 5 seconds after successful submission
+      setIsPostSubmitDisabled(true);
+      setTimeout(() => {
+        setIsPostSubmitDisabled(false);
+      }, 5000);
+
     } catch (error: any) {
       console.error("Registration error:", error);
       toast({
@@ -78,7 +86,7 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
         <RainbowButton 
           type="submit" 
           className="w-full"
-          disabled={form.formState.isSubmitting}
+          disabled={form.formState.isSubmitting || isPostSubmitDisabled}
         >
           {form.formState.isSubmitting ? (
             <>
