@@ -9,3 +9,4 @@ export type CalendarStyle = {
   created_at: string;
   updated_at: string;
 };
+

@@ -9,39 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      calendar_styles: {
-        Row: {
-          border_radius: string
-          created_at: string | null
-          date_font_size: string
-          hover_color: string
-          id: string
-          name: string
-          theme_color: string
-          updated_at: string | null
-        }
-        Insert: {
-          border_radius: string
-          created_at?: string | null
-          date_font_size: string
-          hover_color: string
-          id?: string
-          name: string
-          theme_color: string
-          updated_at?: string | null
-        }
-        Update: {
-          border_radius?: string
-          created_at?: string | null
-          date_font_size?: string
-          hover_color?: string
-          id?: string
-          name?: string
-          theme_color?: string
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
       network: {
         Row: {
           created_at: string
@@ -87,36 +54,6 @@ export type Database = {
           },
         ]
       }
-      network_commission_history: {
-        Row: {
-          amount: number
-          created_at: string | null
-          id: string
-          level: number
-          paid: boolean | null
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          amount: number
-          created_at?: string | null
-          id?: string
-          level: number
-          paid?: boolean | null
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          amount?: number
-          created_at?: string | null
-          id?: string
-          level?: number
-          paid?: boolean | null
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: []
-      }
       network_plan_commissions: {
         Row: {
           commission_value: number
@@ -160,7 +97,6 @@ export type Database = {
           id: string
           name: string
           price: number
-          spillover_limit: number | null
           updated_at: string
         }
         Insert: {
@@ -170,7 +106,6 @@ export type Database = {
           id?: string
           name: string
           price: number
-          spillover_limit?: number | null
           updated_at?: string
         }
         Update: {
@@ -180,38 +115,7 @@ export type Database = {
           id?: string
           name?: string
           price?: number
-          spillover_limit?: number | null
           updated_at?: string
-        }
-        Relationships: []
-      }
-      office_access_logs: {
-        Row: {
-          action: string
-          created_at: string | null
-          id: string
-          ip_address: string | null
-          password_action: string | null
-          user_agent: string | null
-          user_id: string
-        }
-        Insert: {
-          action: string
-          created_at?: string | null
-          id?: string
-          ip_address?: string | null
-          password_action?: string | null
-          user_agent?: string | null
-          user_id: string
-        }
-        Update: {
-          action?: string
-          created_at?: string | null
-          id?: string
-          ip_address?: string | null
-          password_action?: string | null
-          user_agent?: string | null
-          user_id?: string
         }
         Relationships: []
       }
@@ -444,14 +348,6 @@ export type Database = {
           parent_id: string
           level: number
         }[]
-      }
-      move_user_and_network: {
-        Args: {
-          admin_user_id: string
-          user_to_move_id: string
-          new_sponsor_id: string
-        }
-        Returns: undefined
       }
     }
     Enums: {
