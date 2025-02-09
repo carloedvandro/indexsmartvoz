@@ -9,36 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      calendar_styles: {
-        Row: {
-          border_radius: string
-          created_at: string
-          date_font_size: string
-          hover_color: string
-          id: string
-          name: string
-          theme_color: string
-        }
-        Insert: {
-          border_radius: string
-          created_at?: string
-          date_font_size: string
-          hover_color: string
-          id?: string
-          name: string
-          theme_color: string
-        }
-        Update: {
-          border_radius?: string
-          created_at?: string
-          date_font_size?: string
-          hover_color?: string
-          id?: string
-          name?: string
-          theme_color?: string
-        }
-        Relationships: []
-      }
       network: {
         Row: {
           created_at: string
@@ -80,54 +50,6 @@ export type Database = {
             columns: ["plan_id"]
             isOneToOne: false
             referencedRelation: "network_plans"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      network_commission_history: {
-        Row: {
-          amount: number
-          created_at: string | null
-          id: string
-          level: number
-          paid: boolean | null
-          plan_id: string
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          amount: number
-          created_at?: string | null
-          id?: string
-          level: number
-          paid?: boolean | null
-          plan_id: string
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          amount?: number
-          created_at?: string | null
-          id?: string
-          level?: number
-          paid?: boolean | null
-          plan_id?: string
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "network_commission_history_plan_id_fkey"
-            columns: ["plan_id"]
-            isOneToOne: false
-            referencedRelation: "network_plans"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "network_commission_history_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -175,7 +97,6 @@ export type Database = {
           id: string
           name: string
           price: number
-          spillover_limit: number | null
           updated_at: string
         }
         Insert: {
@@ -185,7 +106,6 @@ export type Database = {
           id?: string
           name: string
           price: number
-          spillover_limit?: number | null
           updated_at?: string
         }
         Update: {
@@ -195,54 +115,9 @@ export type Database = {
           id?: string
           name?: string
           price?: number
-          spillover_limit?: number | null
           updated_at?: string
         }
         Relationships: []
-      }
-      office_access_logs: {
-        Row: {
-          action: string
-          created_at: string
-          id: string
-          ip_address: string | null
-          metadata: Json | null
-          password_action: string | null
-          password_metadata: Json | null
-          user_agent: string | null
-          user_id: string | null
-        }
-        Insert: {
-          action: string
-          created_at?: string
-          id?: string
-          ip_address?: string | null
-          metadata?: Json | null
-          password_action?: string | null
-          password_metadata?: Json | null
-          user_agent?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          action?: string
-          created_at?: string
-          id?: string
-          ip_address?: string | null
-          metadata?: Json | null
-          password_action?: string | null
-          password_metadata?: Json | null
-          user_agent?: string | null
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "office_access_logs_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       profiles: {
         Row: {
@@ -268,7 +143,6 @@ export type Database = {
           gender: string | null
           graduation_type: string | null
           id: string
-          initial_password: string | null
           license_type: string | null
           mobile: string | null
           monthly_graduation: boolean | null
@@ -307,7 +181,6 @@ export type Database = {
           gender?: string | null
           graduation_type?: string | null
           id: string
-          initial_password?: string | null
           license_type?: string | null
           mobile?: string | null
           monthly_graduation?: boolean | null
@@ -346,7 +219,6 @@ export type Database = {
           gender?: string | null
           graduation_type?: string | null
           id?: string
-          initial_password?: string | null
           license_type?: string | null
           mobile?: string | null
           monthly_graduation?: boolean | null
@@ -364,7 +236,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "profiles_sponsor_fkey"
+            foreignKeyName: "profiles_sponsor_id_fkey"
             columns: ["sponsor_id"]
             isOneToOne: false
             referencedRelation: "profiles"
@@ -425,7 +297,6 @@ export type Database = {
           image_url: string | null
           name: string
           order: number
-          plan_id: string | null
           price: number
           updated_at: string
           user_id: string
@@ -438,7 +309,6 @@ export type Database = {
           image_url?: string | null
           name: string
           order: number
-          plan_id?: string | null
           price: number
           updated_at?: string
           user_id: string
@@ -451,20 +321,11 @@ export type Database = {
           image_url?: string | null
           name?: string
           order?: number
-          plan_id?: string | null
           price?: number
           updated_at?: string
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "store_products_plan_id_fkey"
-            columns: ["plan_id"]
-            isOneToOne: false
-            referencedRelation: "network_plans"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
@@ -495,14 +356,6 @@ export type Database = {
           parent_id: string
           level: number
         }[]
-      }
-      move_user_and_network: {
-        Args: {
-          admin_user_id: string
-          user_to_move_id: string
-          new_sponsor_id: string
-        }
-        Returns: undefined
       }
     }
     Enums: {
