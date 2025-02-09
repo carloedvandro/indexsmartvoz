@@ -1,5 +1,10 @@
 
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1'
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+}
 
 const supabase = createClient(
   Deno.env.get('SUPABASE_URL') ?? '',
@@ -20,3 +25,4 @@ if (error) {
 } else {
   console.log('Bucket created successfully:', bucket);
 }
+
