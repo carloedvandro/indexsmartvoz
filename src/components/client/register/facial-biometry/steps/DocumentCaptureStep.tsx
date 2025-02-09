@@ -42,7 +42,14 @@ export const DocumentCaptureStep = ({
       }
     }
     
-    return edges > (width * imageData.height * 0.05); // Threshold for edge detection
+    const threshold = width * imageData.height * 0.05;
+    const isDocument = edges > threshold;
+    
+    if (isDocument && !isCapturing) {
+      handleDocumentCapture();
+    }
+    
+    return isDocument;
   };
 
   useEffect(() => {
@@ -67,9 +74,6 @@ export const DocumentCaptureStep = ({
               );
               checkForDocument(imageData).then(detected => {
                 setDocumentDetected(detected);
-                if (detected && !isCapturing) {
-                  handleDocumentCapture();
-                }
               });
             }
           };
@@ -103,7 +107,9 @@ export const DocumentCaptureStep = ({
         .from('documents')
         .upload(`${selectedDocType}/${isBackSide ? 'back' : 'front'}/${Date.now()}.jpg`, file);
 
-      if (uploadError) throw uploadError;
+      if (uploadError) {
+        throw uploadError;
+      }
 
       const { error: dbError } = await supabase
         .from('document_captures')
@@ -113,7 +119,9 @@ export const DocumentCaptureStep = ({
           image_url: uploadData.path
         });
 
-      if (dbError) throw dbError;
+      if (dbError) {
+        throw dbError;
+      }
 
       toast({
         title: "Documento Capturado",
