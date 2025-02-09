@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 interface VideoConstraints {
   width: number;
   height: number;
-  facingMode: "user" | "environment" | { ideal: "environment" };
+  facingMode: string; // Mudando para string para compatibilidade
 }
 
 export const useCameraManagement = (forceEnvironment?: boolean) => {
@@ -63,7 +63,7 @@ export const useCameraManagement = (forceEnvironment?: boolean) => {
   const videoConstraints: VideoConstraints = {
     width: 1280,
     height: 720,
-    facingMode: hasBackCamera ? { ideal: "environment" } : facingMode
+    facingMode: hasBackCamera ? "environment" : facingMode // Usando string diretamente ao invés de objeto
   };
 
   return {
