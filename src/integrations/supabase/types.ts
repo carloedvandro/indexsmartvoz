@@ -230,10 +230,12 @@ export type Database = {
           document_id: string | null
           document_validated: boolean | null
           document_validation_date: string | null
+          document_verification_status: string | null
           email: string
           external_id: string | null
           facial_biometry_date: string | null
           facial_biometry_status: string | null
+          facial_verification_status: string | null
           full_name: string | null
           gender: string | null
           graduation_type: string | null
@@ -272,10 +274,12 @@ export type Database = {
           document_id?: string | null
           document_validated?: boolean | null
           document_validation_date?: string | null
+          document_verification_status?: string | null
           email: string
           external_id?: string | null
           facial_biometry_date?: string | null
           facial_biometry_status?: string | null
+          facial_verification_status?: string | null
           full_name?: string | null
           gender?: string | null
           graduation_type?: string | null
@@ -314,10 +318,12 @@ export type Database = {
           document_id?: string | null
           document_validated?: boolean | null
           document_validation_date?: string | null
+          document_verification_status?: string | null
           email?: string
           external_id?: string | null
           facial_biometry_date?: string | null
           facial_biometry_status?: string | null
+          facial_verification_status?: string | null
           full_name?: string | null
           gender?: string | null
           graduation_type?: string | null

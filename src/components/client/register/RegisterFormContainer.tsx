@@ -48,21 +48,12 @@ export const RegisterFormContainer = () => {
       await registerUser(formData);
 
       toast({
-        title: "Verificação biométrica concluída",
-        description: "Agora vamos verificar seus documentos.",
+        title: "Cadastro concluído!",
+        description: "Sua conta foi criada com sucesso. Redirecionando para o dashboard...",
       });
 
-      // TODO: Implement document verification flow here
-      // For now, we'll just simulate it with a delay
       setTimeout(() => {
-        toast({
-          title: "Conta criada!",
-          description: "Sua conta foi criada com sucesso. Redirecionando para o dashboard...",
-        });
-
-        setTimeout(() => {
-          navigate("/client/dashboard");
-        }, 2000);
+        navigate("/client/dashboard");
       }, 2000);
     } catch (error: any) {
       console.error("Registration error after biometry:", error);

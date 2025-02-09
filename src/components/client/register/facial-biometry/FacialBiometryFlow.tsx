@@ -2,33 +2,35 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Camera } from "lucide-react";
+import { Loader2, Camera, FileCheck, ArrowRight } from "lucide-react";
+import { Steps } from "@/components/client/register/facial-biometry/Steps";
+import { CaptureInstructions } from "@/components/client/register/facial-biometry/CaptureInstructions";
+import { DocumentVerification } from "@/components/client/register/facial-biometry/DocumentVerification";
 
 interface FacialBiometryFlowProps {
   onComplete: () => void;
   onBack: () => void;
 }
 
+type Step = 'instructions' | 'facial-capture' | 'document-upload' | 'document-verification';
+
 export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowProps) => {
+  const [currentStep, setCurrentStep] = useState<Step>('instructions');
   const [isCapturing, setIsCapturing] = useState(false);
   const { toast } = useToast();
 
-  const handleCapture = async () => {
+  const handleCaptureComplete = async () => {
     try {
       setIsCapturing(true);
-      // TODO: Implement actual facial biometry capture
-      // This is just a simulation for now
+      // Simulate facial biometry capture
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       toast({
         title: "Biometria facial coletada",
-        description: "Aguarde enquanto verificamos sua identidade...",
+        description: "Por favor, prossiga com o envio dos documentos.",
       });
 
-      // Simulate verification process
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      onComplete();
+      setCurrentStep('document-upload');
     } catch (error) {
       console.error("Erro na captura biométrica:", error);
       toast({
@@ -41,45 +43,99 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
     }
   };
 
+  const handleDocumentUploadComplete = async () => {
+    try {
+      // Simulate document verification process
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      toast({
+        title: "Documentos enviados",
+        description: "Aguarde enquanto verificamos seus documentos...",
+      });
+
+      setCurrentStep('document-verification');
+      
+      // Simulate document verification
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
+      onComplete();
+    } catch (error) {
+      console.error("Erro na verificação de documentos:", error);
+      toast({
+        title: "Erro na verificação",
+        description: "Ocorreu um erro durante a verificação dos documentos. Por favor, tente novamente.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 'instructions':
+        return (
+          <CaptureInstructions 
+            onNext={() => setCurrentStep('facial-capture')}
+            onBack={onBack}
+          />
+        );
+      case 'facial-capture':
+        return (
+          <div className="space-y-6">
+            <div className="text-center">
+              <h2 className="text-2xl font-semibold mb-2">Verificação Biométrica</h2>
+              <p className="text-gray-600">
+                Posicione seu rosto no centro da câmera e mantenha-se imóvel.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center justify-center space-y-4">
+              <div className="w-64 h-64 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
+                <Camera className="w-24 h-24 text-gray-400" />
+              </div>
+
+              <div className="flex flex-col gap-2 w-full max-w-xs">
+                <Button
+                  onClick={handleCaptureComplete}
+                  disabled={isCapturing}
+                  className="w-full"
+                >
+                  {isCapturing ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Capturando...
+                    </>
+                  ) : (
+                    "Capturar Imagem"
+                  )}
+                </Button>
+                
+                <Button
+                  variant="outline"
+                  onClick={() => setCurrentStep('instructions')}
+                  disabled={isCapturing}
+                >
+                  Voltar
+                </Button>
+              </div>
+            </div>
+          </div>
+        );
+      case 'document-upload':
+        return (
+          <DocumentVerification
+            onComplete={handleDocumentUploadComplete}
+            onBack={() => setCurrentStep('facial-capture')}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="space-y-6">
-      <div className="text-center">
-        <h2 className="text-2xl font-semibold mb-2">Verificação Biométrica</h2>
-        <p className="text-gray-600">
-          Para finalizar seu cadastro, precisamos fazer uma verificação facial.
-        </p>
-      </div>
-
-      <div className="flex flex-col items-center justify-center space-y-4">
-        <div className="w-64 h-64 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
-          <Camera className="w-24 h-24 text-gray-400" />
-        </div>
-
-        <div className="flex flex-col gap-2 w-full max-w-xs">
-          <Button
-            onClick={handleCapture}
-            disabled={isCapturing}
-            className="w-full"
-          >
-            {isCapturing ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Capturando...
-              </>
-            ) : (
-              "Iniciar Verificação"
-            )}
-          </Button>
-          
-          <Button
-            variant="outline"
-            onClick={onBack}
-            disabled={isCapturing}
-          >
-            Voltar
-          </Button>
-        </div>
-      </div>
+    <div className="space-y-8">
+      <Steps currentStep={currentStep} />
+      {renderStep()}
     </div>
   );
 };
