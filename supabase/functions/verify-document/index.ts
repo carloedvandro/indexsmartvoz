@@ -1,10 +1,10 @@
 
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { performOCR, validateDocument } from './services/ocr-service.ts';
+import { performOCR } from './services/ocr-service.ts';
 import { 
   updateVerificationStatus, 
-  createVerificationEntry, 
+  createVerificationEntry,
   getProfileData,
   createDocumentVerification 
 } from './services/supabase-service.ts';
@@ -36,20 +36,19 @@ serve(async (req) => {
     const ocrText = await performOCR(imageBase64);
     console.log('OCR Result:', ocrText);
 
-    // Validate document
-    const validationResult = validateDocument(ocrText, profile);
-
-    if (!validationResult.success) {
+    // Validate document data against profile
+    if (!ocrText.toLowerCase().includes(profile.full_name.toLowerCase()) || 
+        !ocrText.includes(profile.cpf)) {
       await updateVerificationStatus(userId, 'document_ocr', 'failed', {
-        error: validationResult.message,
-        score: validationResult.score
+        error: 'Document data does not match profile information',
+        matchFound: false
       });
 
       return new Response(
         JSON.stringify({
           success: false,
           verified: false,
-          message: `${validationResult.message}. Por favor, certifique-se que o documento está legível e tente novamente.`
+          message: 'Os dados do documento não correspondem aos dados do cadastro. Por favor, verifique e tente novamente.'
         } as VerificationResponse),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
@@ -58,16 +57,11 @@ serve(async (req) => {
     // Update verification status and create document verification record
     await Promise.all([
       updateVerificationStatus(userId, 'document_ocr', 'verified', {
-        nameMatchScore: validationResult.nameMatchScore,
-        cpfMatch: validationResult.cpfMatch
+        matchFound: true
       }),
-      createDocumentVerification(
-        userId, 
-        documentType, 
-        profile.full_name, 
-        validationResult.extractedCPF,
-        { text: ocrText }
-      )
+      createDocumentVerification(userId, documentType, profile.full_name, profile.cpf, {
+        text: ocrText
+      })
     ]);
 
     return new Response(

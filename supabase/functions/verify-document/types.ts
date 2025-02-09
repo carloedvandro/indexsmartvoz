@@ -19,7 +19,5 @@ export interface ProfileData {
 
 export interface VerificationData {
   error?: string;
-  score?: number;
-  nameMatchScore?: number;
-  cpfMatch?: boolean;
+  matchFound?: boolean;
 }
