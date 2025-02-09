@@ -1,7 +1,7 @@
 
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Clock, RotateCw } from "lucide-react";
+import { Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Webcam from "react-webcam";
 
@@ -9,7 +9,6 @@ interface DocumentCaptureStepProps {
   onNext: (imageSrc: string) => void;
   selectedDocType: 'rg' | 'cnh';
   isBackSide?: boolean;
-  onToggleCamera: () => void;
   videoConstraints: {
     width: number;
     height: number;
@@ -21,7 +20,6 @@ export const DocumentCaptureStep = ({
   onNext, 
   selectedDocType, 
   isBackSide = false,
-  onToggleCamera,
   videoConstraints 
 }: DocumentCaptureStepProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -97,19 +95,11 @@ export const DocumentCaptureStep = ({
           </svg>
         </div>
       </div>
-      <div className="flex justify-center gap-4">
-        <Button 
-          onClick={onToggleCamera}
-          variant="outline"
-          className="flex-1 max-w-[120px]"
-        >
-          <RotateCw className="w-4 h-4 mr-2" />
-          Girar
-        </Button>
+      <div className="flex justify-center">
         <Button
           onClick={handleDocumentCapture}
           disabled={isProcessing}
-          className="flex-1"
+          className="w-full max-w-xs"
         >
           {isProcessing ? (
             <>

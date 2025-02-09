@@ -1,5 +1,5 @@
 
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 interface VideoConstraints {
   width: number;
@@ -8,21 +8,13 @@ interface VideoConstraints {
 }
 
 export const useCameraManagement = () => {
-  const [isFacingUser, setIsFacingUser] = useState(true);
-
   const videoConstraints: VideoConstraints = {
     width: 1280,
     height: 720,
-    facingMode: isFacingUser ? "user" : "environment"
+    facingMode: "user"
   };
 
-  const toggleCamera = useCallback(() => {
-    setIsFacingUser(prev => !prev);
-  }, []);
-
   return {
-    isFacingUser,
-    videoConstraints,
-    toggleCamera
+    videoConstraints
   };
 };

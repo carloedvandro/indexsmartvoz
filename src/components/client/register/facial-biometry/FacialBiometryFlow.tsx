@@ -43,7 +43,7 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   const [currentStep, setCurrentStep] = useState<Step>('cpf-verification');
   const [selectedDocType, setSelectedDocType] = useState<'rg' | 'cnh' | null>(null);
   const [capturedImages, setCapturedImages] = useState<CapturedImages>({});
-  const { videoConstraints, toggleCamera } = useCameraManagement();
+  const { videoConstraints } = useCameraManagement();
 
   const handleDocumentTypeSelection = (type: 'rg' | 'cnh') => {
     setSelectedDocType(type);
@@ -138,7 +138,6 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
             }}
             selectedDocType={selectedDocType!}
             isBackSide={currentStep === 'document-back'}
-            onToggleCamera={toggleCamera}
             videoConstraints={videoConstraints}
           />
         );
