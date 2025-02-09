@@ -37,23 +37,9 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
         name="email"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Email</FormLabel>
+            <FormLabel>Endereço de email</FormLabel>
             <FormControl>
               <Input type="email" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={form.control}
-        name="customId"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Seu ID Personalizado</FormLabel>
-            <FormControl>
-              <Input {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -66,6 +52,34 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
         render={({ field }) => (
           <FormItem>
             <FormLabel>CPF</FormLabel>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="birthDate"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Data de Nascimento</FormLabel>
+            <FormControl>
+              <Input type="date" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="customId"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Seu ID Personalizado</FormLabel>
             <FormControl>
               <Input {...field} />
             </FormControl>
@@ -94,7 +108,7 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
           name="secondaryWhatsapp"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>WhatsApp Secundário (Opcional)</FormLabel>
+              <FormLabel>Segundo Contato</FormLabel>
               <FormControl>
                 <Input {...field} placeholder="(XX) XXXXX-XXXX" />
               </FormControl>
@@ -103,20 +117,6 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
           )}
         />
       </div>
-
-      <FormField
-        control={form.control}
-        name="birthDate"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Data de Nascimento</FormLabel>
-            <FormControl>
-              <Input type="date" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormField
@@ -204,3 +204,4 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
     </>
   );
 };
+
