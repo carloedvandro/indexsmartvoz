@@ -1,3 +1,4 @@
+
 import {
   Select,
   SelectContent,
@@ -30,7 +31,7 @@ export function InternetSelector({
         <SelectTrigger className="bg-white h-[42px]">
           <SelectValue placeholder="Escolher o plano" />
         </SelectTrigger>
-        <SelectContent className="bg-white">
+        <SelectContent position="popper" className="bg-white max-h-[179px] overflow-y-auto w-full">
           {internetOptions.map((option) => (
             <SelectItem 
               key={option.value} 

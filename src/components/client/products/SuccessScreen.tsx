@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 
@@ -15,24 +16,29 @@ interface SuccessScreenProps {
   protocol: string;
   onUnderstand: () => void;
   showBarcodes?: boolean;
+  isEsim?: boolean;
 }
 
-export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarcodes }: SuccessScreenProps) {
+export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarcodes, isEsim }: SuccessScreenProps) {
   return (
     <div className="min-h-screen bg-[#5f0889] text-white flex items-center justify-center p-4">
       <div className="max-w-lg w-full space-y-6">
         <div className="space-y-4 text-center">
           <h2 className="text-3xl font-bold">Deu certo!</h2>
           <p className="text-2xl">
-            {showBarcodes 
-              ? "Você solicitou a ativação do chip"
-              : "Você solicitou a contratação dos planos"
+            {isEsim 
+              ? "Você solicitou a ativação do eSIM"
+              : showBarcodes 
+                ? "Você solicitou a ativação do chip"
+                : "Você solicitou a contratação dos planos"
             }
           </p>
           <p className="text-lg">
-            {showBarcodes 
-              ? "O prazo do sistema para concluir ativação e o funcionamento da linha neste chip é de até 48 horas."
-              : "Em breve nossa equipe entrará em contato para finalizar sua contratação"
+            {isEsim 
+              ? "Em breve você receberá um e-mail com as instruções para ativação do seu eSIM."
+              : showBarcodes 
+                ? "O prazo do sistema para concluir ativação e o funcionamento da linha neste chip é de até 48 horas."
+                : "Em breve nossa equipe entrará em contato para finalizar sua contratação"
             }
           </p>
         </div>
@@ -45,7 +51,7 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
                   {showBarcodes ? "DDD" : "Plano"}
                 </th>
                 <th className="py-3 px-4">
-                  {showBarcodes ? "Código de barras do SIM card" : "Valor"}
+                  {showBarcodes ? (isEsim ? "eSIM ID" : "Código de barras do SIM card") : "Valor"}
                 </th>
               </tr>
             </thead>
@@ -68,7 +74,7 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
                   <td className="py-3 px-4">
                     {showBarcodes ? (
                       <div className="flex items-center gap-2">
-                        ICCID
+                        {isEsim ? "ID" : "ICCID"}
                         <span>{line.barcode}</span>
                       </div>
                     ) : (

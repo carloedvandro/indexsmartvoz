@@ -5,6 +5,7 @@ import { PlanSelectionStep } from "./PlanSelectionStep";
 import { NavigationButtons } from "./NavigationButtons";
 import { useStepValidator } from "./StepValidator";
 import { ParticlesBackground } from "./ParticlesBackground";
+import { motion } from "framer-motion";
 
 interface MainContentProps {
   currentStep: number;
@@ -37,12 +38,39 @@ export function MainContent({
     handleContinue 
   });
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-50/80 pt-24 overflow-hidden">
+    <motion.div 
+      className="flex flex-col items-center min-h-screen bg-gray-50/80 pt-32 relative"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
       <ParticlesBackground />
       <Card className="relative z-10 w-full max-w-[400px] shadow-none bg-transparent border-0">
-        <CardContent className="!p-0 overflow-hidden">
-          <div className="h-full overflow-y-auto overflow-x-hidden scrollbar-hide">
+        <CardContent>
+          <motion.div variants={itemVariants}>
             {currentStep === 1 && (
               <PlanSelectionStep 
                 selectedLines={selectedLines}
@@ -62,15 +90,17 @@ export function MainContent({
                 onTermsChange={setAcceptedTerms}
               />
             )}
+          </motion.div>
 
+          <motion.div variants={itemVariants}>
             <NavigationButtons 
               currentStep={currentStep}
               handleBack={handleBack}
               handleContinue={validateAndContinue}
             />
-          </div>
+          </motion.div>
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 }

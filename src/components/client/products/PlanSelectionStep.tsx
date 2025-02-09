@@ -1,8 +1,10 @@
+
 import { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
 import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
 
 type Line = {
   id: number;
@@ -26,12 +28,12 @@ export function PlanSelectionStep({
   setSelectedDueDate 
 }: PlanSelectionStepProps) {
   const internetOptions = [
-    { value: "110GB", label: "110GB", price: 114.99 },
-    { value: "120GB", label: "120GB", price: 124.99 },
-    { value: "130GB", label: "130GB", price: 134.99 },
-    { value: "140GB", label: "140GB", price: 144.99 },
-    { value: "150GB", label: "150GB", price: 154.99 },
-    { value: "160GB", label: "160GB", price: 164.99 },
+    { value: "110GB", label: "110GB", price: 119.99 },
+    { value: "120GB", label: "120GB", price: 129.99 },
+    { value: "130GB", label: "130GB", price: 139.99 },
+    { value: "140GB", label: "140GB", price: 149.99 },
+    { value: "150GB", label: "150GB", price: 159.99 },
+    { value: "160GB", label: "160GB", price: 169.99 },
   ];
 
   const dueDates = [1, 5, 7, 10, 15, 20];
@@ -69,37 +71,59 @@ export function PlanSelectionStep({
 
   const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
 
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  };
+
   return (
-    <div className="space-y-8">
-      <div className="space-y-2">
-        <h2 className="text-xl font-semibold">Personalize seu pedido</h2>
+    <div className="space-y-6">
+      <motion.div 
+        className="space-y-2"
+        variants={itemVariants}
+      >
+        <h2 className="text-2xl font-medium">Personalize seu pedido</h2>
         <p className="text-gray-600">
           Confira aqui as melhores ofertas para você, cliente Smatvoz.
         </p>
-      </div>
+      </motion.div>
 
       <div className="space-y-4 max-w-2xl mx-auto">
-        <div className="grid grid-cols-2 gap-4">
-          <InternetSelector
-            selectedInternet={selectedLines[0]?.internet || undefined}
-            onInternetChange={handleInternetChange}
-            internetOptions={internetOptions}
-          />
-          <DDDInput
-            ddd={selectedLines[0]?.ddd || ""}
-            onDDDChange={handleDDDChange}
-          />
-        </div>
+        <motion.div 
+          className="grid grid-cols-2 gap-4"
+          variants={itemVariants}
+        >
+          <div className="w-full">
+            <InternetSelector
+              selectedInternet={selectedLines[0]?.internet || undefined}
+              onInternetChange={handleInternetChange}
+              internetOptions={internetOptions}
+            />
+          </div>
+          <div className="w-full">
+            <DDDInput
+              ddd={selectedLines[0]?.ddd || ""}
+              onDDDChange={handleDDDChange}
+            />
+          </div>
+        </motion.div>
 
-        <div className="flex flex-col items-center w-full -mt-4">
-          <div className="text-center mb-4">
-            <h2 className="text-xl">
+        <motion.div 
+          className="flex flex-col items-center w-full mt-2"
+          variants={itemVariants}
+        >
+          <div className="text-center mb-4 mt-2">
+            <h2 className="text-xl font-normal -mt-[5px]">
               Escolha a melhor data de vencimento da sua fatura:
             </h2>
           </div>
 
           <div className="w-full px-4">
-            <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto">
+            <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto mt-2">
               {dueDates.map((date) => (
                 <Card 
                   key={date}
@@ -117,12 +141,14 @@ export function PlanSelectionStep({
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <PriceSummary
-          linePrice={selectedLines[0]?.price || 0}
-          totalPrice={totalPrice}
-        />
+        <motion.div variants={itemVariants}>
+          <PriceSummary
+            linePrice={selectedLines[0]?.price || 0}
+            totalPrice={totalPrice}
+          />
+        </motion.div>
       </div>
     </div>
   );
