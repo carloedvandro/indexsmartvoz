@@ -7,11 +7,26 @@ interface StepsProps {
 
 export const Steps = ({ currentStep }: StepsProps) => {
   const steps = [
-    { id: 'instructions', label: 'Instruções' },
-    { id: 'facial-capture', label: 'Biometria Facial' },
-    { id: 'document-upload', label: 'Documentos' },
-    { id: 'document-verification', label: 'Verificação' },
+    { id: 'cpf-verification', label: 'CPF' },
+    { id: 'camera-access', label: 'Câmera' },
+    { id: 'capture-instructions', label: 'Instruções' },
+    { id: 'facial-capture', label: 'Selfie' },
+    { id: 'document-type', label: 'Documento' },
+    { id: 'completion', label: 'Conclusão' },
   ];
+
+  const getCurrentStepIndex = () => {
+    const specialSteps: Record<string, number> = {
+      'facial-analysis': 3,
+      'document-instructions': 4,
+      'document-capture': 4,
+      'document-analysis': 4,
+    };
+
+    return specialSteps[currentStep] ?? steps.findIndex(step => step.id === currentStep);
+  };
+
+  const currentStepIndex = getCurrentStepIndex();
 
   return (
     <div className="flex justify-center mb-8">
@@ -19,14 +34,12 @@ export const Steps = ({ currentStep }: StepsProps) => {
         {steps.map((step, index) => (
           <div key={step.id} className="flex items-center">
             <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 
-              ${currentStep === step.id 
+              ${currentStepIndex >= index
                 ? 'border-primary bg-primary text-white' 
-                : steps.indexOf({ id: currentStep, label: '' }) > index 
-                  ? 'border-primary bg-primary text-white'
-                  : 'border-gray-300 text-gray-500'
+                : 'border-gray-300 text-gray-500'
               }`}
             >
-              {steps.indexOf({ id: currentStep, label: '' }) > index ? (
+              {currentStepIndex > index ? (
                 <Check className="w-5 h-5" />
               ) : (
                 <span>{index + 1}</span>
