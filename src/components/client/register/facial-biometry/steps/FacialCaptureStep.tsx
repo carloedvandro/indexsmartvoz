@@ -100,6 +100,14 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
     }
   };
 
+  // Forçar o uso da câmera frontal
+  const updatedVideoConstraints = {
+    ...videoConstraints,
+    facingMode: "user",
+    width: { ideal: 1280 },
+    height: { ideal: 720 }
+  };
+
   return (
     <div className="space-y-6 text-center">
       <h2 className="text-2xl font-semibold">Captura Facial</h2>
@@ -113,10 +121,7 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
             ref={webcamRef}
             audio={false}
             screenshotFormat="image/jpeg"
-            videoConstraints={{
-              ...videoConstraints,
-              facingMode: "user"
-            }}
+            videoConstraints={updatedVideoConstraints}
             className="w-full h-full object-cover"
             mirrored={true}
           />
