@@ -14,6 +14,8 @@ export const useCameraManagement = (forceEnvironment?: boolean) => {
   useEffect(() => {
     const getDevices = async () => {
       try {
+        // Request camera permission first
+        await navigator.mediaDevices.getUserMedia({ video: true });
         const devices = await navigator.mediaDevices.enumerateDevices();
         const videoDevices = devices.filter(device => device.kind === 'videoinput');
         setAvailableDevices(videoDevices);

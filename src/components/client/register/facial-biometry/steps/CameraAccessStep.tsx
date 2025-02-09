@@ -19,7 +19,6 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
 
   const storeCameraCapabilities = async (capabilities: MediaTrackCapabilities) => {
     try {
-      // Convert MediaTrackCapabilities to a plain object for JSON compatibility
       const jsonCapabilities = JSON.parse(JSON.stringify(capabilities));
       
       const { error } = await supabase.from('camera_capabilities').insert([{
@@ -51,7 +50,16 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
         throw new Error("Camera API não suportada neste navegador");
       }
 
-      // Try to get all video devices first
+      // Try to get camera permission first without enumerating devices
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: {
+          ...videoConstraints,
+          facingMode: { ideal: "environment" }, // Prefer back camera on mobile
+        },
+        audio: false
+      });
+
+      // After getting permission, enumerate devices
       const devices = await navigator.mediaDevices.enumerateDevices();
       const videoDevices = devices.filter(device => device.kind === 'videoinput');
       
@@ -59,14 +67,6 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
         throw new Error("Nenhuma câmera encontrada no dispositivo");
       }
 
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: {
-          ...videoConstraints,
-          deviceId: videoDevices[0].deviceId
-        },
-        audio: false
-      });
-      
       // Test if we actually got a video track
       const videoTrack = stream.getVideoTracks()[0];
       if (!videoTrack) {
@@ -93,7 +93,7 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
       let errorMessage = "Por favor, permita o acesso à câmera para continuar.";
       
       if (error.name === "NotAllowedError") {
-        errorMessage = "Acesso à câmera foi negado. Por favor, permita o acesso nas configurações do seu navegador.";
+        errorMessage = "Acesso à câmera foi negado. Por favor, permita o acesso nas configurações do seu navegador/dispositivo.";
       } else if (error.name === "NotFoundError" || error.message.includes("Nenhuma câmera")) {
         errorMessage = "Nenhuma câmera encontrada no dispositivo.";
       } else if (error.name === "NotReadableError") {
