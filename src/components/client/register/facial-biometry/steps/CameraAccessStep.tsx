@@ -19,16 +19,16 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
 
   const storeCameraCapabilities = async (capabilities: MediaTrackCapabilities) => {
     try {
-      const { error } = await supabase.from('camera_capabilities').insert({
-        device_id: capabilities.deviceId,
-        facing_mode: capabilities.facingMode,
+      const { error } = await supabase.from('camera_capabilities').insert([{
+        device_id: capabilities.deviceId?.toString(),
+        facing_mode: capabilities.facingMode?.toString(),
         min_width: capabilities.width?.min,
         max_width: capabilities.width?.max,
         min_height: capabilities.height?.min,
         max_height: capabilities.height?.max,
         supported_constraints: capabilities,
         user_id: (await supabase.auth.getUser()).data.user?.id
-      });
+      }]);
 
       if (error) {
         console.error('Error storing camera capabilities:', error);
