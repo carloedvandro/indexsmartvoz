@@ -9,13 +9,14 @@ import { useSession } from "@/hooks/useSession";
 import { useProfile } from "@/hooks/useProfile";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 export default function Store() {
   const { getSession } = useSession();
   const { data: profile } = useProfile();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [isSessionLoaded, setIsSessionLoaded] = useState(false);
   const { products, isLoading, loadProducts } = useStoreProducts();
   const { 
@@ -27,8 +28,14 @@ export default function Store() {
   } = useProductActions(loadProducts);
 
   const isManager = profile?.role === 'admin';
+  const sponsorId = searchParams.get('sponsor');
 
   useEffect(() => {
+    if (sponsorId) {
+      navigate(`/client/register?sponsor=${sponsorId}`);
+      return;
+    }
+
     const initializeStore = async () => {
       const session = await getSession();
       if (!session) {
@@ -44,9 +51,9 @@ export default function Store() {
     };
     
     initializeStore();
-  }, []);
+  }, [sponsorId, navigate]);
 
-  if (!isSessionLoaded) {
+  if (!isSessionLoaded && !sponsorId) {
     return null;
   }
 
