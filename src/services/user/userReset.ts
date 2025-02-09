@@ -35,7 +35,7 @@ export const adminSetUserPassword = async (userId: string, newPassword: string) 
 
   try {
     const { error } = await supabase.rpc(
-      'admin_set_user_password' as never,
+      'admin_set_user_password',
       {
         admin_user_id: session.user.id,
         target_user_id: userId,
