@@ -19,14 +19,17 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
 
   const storeCameraCapabilities = async (capabilities: MediaTrackCapabilities) => {
     try {
+      // Convert MediaTrackCapabilities to a plain object for JSON compatibility
+      const jsonCapabilities = JSON.parse(JSON.stringify(capabilities));
+      
       const { error } = await supabase.from('camera_capabilities').insert([{
-        device_id: capabilities.deviceId?.toString(),
-        facing_mode: capabilities.facingMode?.toString(),
-        min_width: capabilities.width?.min,
-        max_width: capabilities.width?.max,
-        min_height: capabilities.height?.min,
-        max_height: capabilities.height?.max,
-        supported_constraints: capabilities,
+        device_id: capabilities.deviceId?.toString() || null,
+        facing_mode: capabilities.facingMode?.toString() || null,
+        min_width: capabilities.width?.min || null,
+        max_width: capabilities.width?.max || null,
+        min_height: capabilities.height?.min || null,
+        max_height: capabilities.height?.max || null,
+        supported_constraints: jsonCapabilities,
         user_id: (await supabase.auth.getUser()).data.user?.id
       }]);
 
