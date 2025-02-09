@@ -2,10 +2,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Camera, Upload, FileCheck } from "lucide-react";
+import { Loader2, Camera, Upload, FileCheck, AlertCircle } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
+import { Alert } from "@/components/ui/alert";
 
 interface DocumentVerificationProps {
   onComplete: () => void;
@@ -13,6 +14,11 @@ interface DocumentVerificationProps {
 }
 
 type DocumentType = 'rg' | 'cnh';
+
+type VerificationStatus = {
+  status: 'success' | 'error' | 'idle';
+  message: string;
+};
 
 export const DocumentVerification = ({ onComplete, onBack }: DocumentVerificationProps) => {
   const [isCapturing, setIsCapturing] = useState(false);
@@ -23,6 +29,10 @@ export const DocumentVerification = ({ onComplete, onBack }: DocumentVerificatio
   }>({});
   const { toast } = useToast();
   const [showCamera, setShowCamera] = useState(false);
+  const [verificationStatus, setVerificationStatus] = useState<VerificationStatus>({
+    status: 'idle',
+    message: ''
+  });
 
   const handleDocumentCapture = () => {
     if (!selectedDocType) {
@@ -38,6 +48,7 @@ export const DocumentVerification = ({ onComplete, onBack }: DocumentVerificatio
 
   const verifyDocumentData = async (file: File) => {
     try {
+      setVerificationStatus({ status: 'idle', message: '' });
       const { data: userData } = await supabase.auth.getUser();
       if (!userData.user) {
         throw new Error("Usuário não encontrado");
@@ -64,10 +75,18 @@ export const DocumentVerification = ({ onComplete, onBack }: DocumentVerificatio
 
       if (error) {
         console.error('Error verifying document:', error);
+        setVerificationStatus({
+          status: 'error',
+          message: 'Erro ao verificar documento: ' + error.message
+        });
         throw new Error(error.message);
       }
 
       if (!data.verified) {
+        setVerificationStatus({
+          status: 'error',
+          message: data.message
+        });
         toast({
           title: "Verificação falhou",
           description: data.message,
@@ -75,6 +94,11 @@ export const DocumentVerification = ({ onComplete, onBack }: DocumentVerificatio
         });
         return false;
       }
+
+      setVerificationStatus({
+        status: 'success',
+        message: 'Documento verificado com sucesso! Os dados correspondem ao cadastro.'
+      });
 
       toast({
         title: "Documento verificado",
@@ -84,6 +108,10 @@ export const DocumentVerification = ({ onComplete, onBack }: DocumentVerificatio
       return true;
     } catch (error: any) {
       console.error("Erro na verificação do documento:", error);
+      setVerificationStatus({
+        status: 'error',
+        message: error.message || "Ocorreu um erro ao verificar o documento."
+      });
       toast({
         title: "Erro na verificação",
         description: error.message || "Ocorreu um erro ao verificar o documento.",
@@ -185,6 +213,19 @@ export const DocumentVerification = ({ onComplete, onBack }: DocumentVerificatio
               <Label htmlFor="cnh">CNH</Label>
             </div>
           </RadioGroup>
+
+          {verificationStatus.status !== 'idle' && (
+            <Alert variant={verificationStatus.status === 'success' ? "default" : "destructive"} className="mb-4">
+              <div className="flex items-center gap-2">
+                {verificationStatus.status === 'success' ? (
+                  <FileCheck className="h-4 w-4" />
+                ) : (
+                  <AlertCircle className="h-4 w-4" />
+                )}
+                {verificationStatus.message}
+              </div>
+            </Alert>
+          )}
 
           {showCamera ? (
             <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center mb-4">
