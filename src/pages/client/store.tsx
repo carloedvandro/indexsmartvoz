@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { StoreHeader } from "@/components/store/StoreHeader";
 import { ProductList } from "@/components/store/ProductList";
@@ -8,7 +9,7 @@ import { useSession } from "@/hooks/useSession";
 import { useProfile } from "@/hooks/useProfile";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 export default function Store() {
@@ -87,6 +88,15 @@ export default function Store() {
             onDelete={handleDelete}
           />
         )}
+
+        <div className="mt-8 text-center">
+          <Link
+            to="/client/register"
+            className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
+          >
+            Criar Conta
+          </Link>
+        </div>
       </div>
     </div>
   );
