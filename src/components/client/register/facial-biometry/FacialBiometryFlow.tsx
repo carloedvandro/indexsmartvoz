@@ -1,6 +1,7 @@
 
-import { useState, useCallback } from "react";
-import { Clock } from "lucide-react";
+import { useState } from "react";
+import { Clock, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Steps } from "./Steps";
 import { CpfVerificationStep } from "./steps/CpfVerificationStep";
 import { CameraAccessStep } from "./steps/CameraAccessStep";
@@ -9,6 +10,7 @@ import { FacialCaptureStep } from "./steps/FacialCaptureStep";
 import { DocumentTypeStep } from "./steps/DocumentTypeStep";
 import { DocumentCaptureStep } from "./steps/DocumentCaptureStep";
 import { CompletionStep } from "./steps/CompletionStep";
+import { useCameraManagement } from "@/hooks/useCameraManagement";
 
 interface FacialBiometryFlowProps {
   onComplete: (verificationData: {
@@ -34,17 +36,7 @@ type Step =
 export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowProps) => {
   const [currentStep, setCurrentStep] = useState<Step>('cpf-verification');
   const [selectedDocType, setSelectedDocType] = useState<'rg' | 'cnh' | null>(null);
-  const [isFacingUser, setIsFacingUser] = useState(true);
-
-  const videoConstraints = {
-    width: 1280,
-    height: 720,
-    facingMode: isFacingUser ? "user" : "environment"
-  };
-
-  const toggleCamera = useCallback(() => {
-    setIsFacingUser(prev => !prev);
-  }, []);
+  const { videoConstraints, toggleCamera } = useCameraManagement();
 
   const handleDocumentTypeSelection = (type: 'rg' | 'cnh') => {
     setSelectedDocType(type);
