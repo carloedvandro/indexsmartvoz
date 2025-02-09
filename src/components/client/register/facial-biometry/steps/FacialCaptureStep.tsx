@@ -52,7 +52,7 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
       <h2 className="text-2xl font-semibold">Captura Facial</h2>
       <p className="text-gray-600">Posicione seu rosto dentro do círculo</p>
       <div className="relative w-64 h-64 mx-auto">
-        <div className="absolute inset-0 rounded-full border-4 border-dashed border-primary animate-pulse"></div>
+        <div className="absolute inset-0 rounded-full border-4 border-dashed border-primary/70 z-10"></div>
         <div className="w-full h-full overflow-hidden rounded-full">
           <Webcam
             ref={webcamRef}
@@ -62,36 +62,9 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="absolute inset-0 pointer-events-none">
-          <svg className="w-full h-full" viewBox="0 0 100 100">
-            <circle
-              cx="50"
-              cy="50"
-              r="48"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="0.5"
-              className="text-primary"
-            />
-            <line
-              x1="25"
-              y1="50"
-              x2="75"
-              y2="50"
-              stroke="currentColor"
-              strokeWidth="0.5"
-              className="text-primary"
-            />
-            <line
-              x1="50"
-              y1="25"
-              x2="50"
-              y2="75"
-              stroke="currentColor"
-              strokeWidth="0.5"
-              className="text-primary"
-            />
-          </svg>
+        <div className="absolute inset-0 z-20 pointer-events-none">
+          <div className="absolute left-1/2 top-[40%] bottom-[40%] w-[2px] bg-primary/70 -translate-x-1/2"></div>
+          <div className="absolute top-1/2 left-[40%] right-[40%] h-[2px] bg-primary/70 -translate-y-1/2"></div>
         </div>
       </div>
       <p className="text-sm text-gray-500">
@@ -100,7 +73,7 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
       <Button 
         onClick={handleFacialCapture}
         disabled={isProcessing}
-        className="w-full max-w-xs"
+        className="w-full max-w-xs bg-primary hover:bg-primary/90"
       >
         {isProcessing ? (
           <>
