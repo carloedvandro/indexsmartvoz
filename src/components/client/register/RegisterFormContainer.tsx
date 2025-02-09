@@ -77,7 +77,7 @@ export const RegisterFormContainer = () => {
   };
 
   return (
-    <div className="px-6 sm:px-5 py-2">
+    <div className="px-6 sm:px-5 py-2 bg-white">
       {!showBiometry ? (
         <>
           <p className="mt-1 text-center text-sm text-gray-600 max-w-[140%] mx-auto">
