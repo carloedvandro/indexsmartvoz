@@ -1,19 +1,27 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import { MovingBorder } from "./moving-border"
 
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, type, ...props }, ref) => {
     return (
-      <input
-        type={type}
-        className={cn(
-          "flex h-8 w-full rounded-md bg-transparent px-3 py-1 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9c40ff] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300 border border-input md:text-sm",
-          className
-        )}
-        ref={ref}
-        {...props}
-      />
+      <div className="relative">
+        <input
+          type={type}
+          className={cn(
+            "flex h-10 w-full rounded-md bg-transparent px-3 py-1 text-base transition-all border-transparent focus:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+            className
+          )}
+          ref={ref}
+          {...props}
+        />
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <MovingBorder rx="10%" ry="10%" duration={2000}>
+            <div className="h-20 w-20 opacity-[0.8] bg-[radial-gradient(var(--sky-500)_40%,transparent_60%)]" />
+          </MovingBorder>
+        </div>
+      </div>
     )
   }
 )
