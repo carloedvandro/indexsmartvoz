@@ -16,15 +16,17 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   const handleCapture = async () => {
     try {
       setIsCapturing(true);
-      // TODO: Implementar a captura da biometria facial
-      
-      // Simular um delay para demonstração
+      // TODO: Implement actual facial biometry capture
+      // This is just a simulation for now
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       toast({
-        title: "Biometria facial registrada",
-        description: "Sua verificação biométrica foi concluída com sucesso.",
+        title: "Biometria facial coletada",
+        description: "Aguarde enquanto verificamos sua identidade...",
       });
+
+      // Simulate verification process
+      await new Promise(resolve => setTimeout(resolve, 2000));
       
       onComplete();
     } catch (error) {
