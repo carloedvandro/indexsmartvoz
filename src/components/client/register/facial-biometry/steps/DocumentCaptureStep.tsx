@@ -1,7 +1,7 @@
 
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Clock } from "lucide-react";
+import { Clock, Camera } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Webcam from "react-webcam";
 
@@ -95,7 +95,7 @@ export const DocumentCaptureStep = ({
           </svg>
         </div>
       </div>
-      <div className="flex justify-center">
+      <div className="flex flex-col gap-4 items-center">
         <Button
           onClick={handleDocumentCapture}
           disabled={isProcessing}

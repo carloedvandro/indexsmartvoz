@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Clock, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -43,7 +42,8 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   const [currentStep, setCurrentStep] = useState<Step>('cpf-verification');
   const [selectedDocType, setSelectedDocType] = useState<'rg' | 'cnh' | null>(null);
   const [capturedImages, setCapturedImages] = useState<CapturedImages>({});
-  const { videoConstraints } = useCameraManagement();
+  const { videoConstraints: facialVideoConstraints } = useCameraManagement();
+  const { videoConstraints: documentVideoConstraints } = useCameraManagement(true);
 
   const handleDocumentTypeSelection = (type: 'rg' | 'cnh') => {
     setSelectedDocType(type);
@@ -108,7 +108,7 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
               setCurrentStep('facial-analysis');
               setTimeout(() => setCurrentStep('document-instructions'), 2000);
             }}
-            videoConstraints={videoConstraints}
+            videoConstraints={facialVideoConstraints}
           />
         );
       
@@ -138,7 +138,7 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
             }}
             selectedDocType={selectedDocType!}
             isBackSide={currentStep === 'document-back'}
-            videoConstraints={videoConstraints}
+            videoConstraints={documentVideoConstraints}
           />
         );
       
