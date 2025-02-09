@@ -38,15 +38,20 @@ serve(async (req) => {
 
     console.log('Retrieved profile data for comparison');
 
-    // Initialize Tesseract worker
+    // Initialize Tesseract worker with Portuguese language
     const worker = await createWorker('por');
     
     try {
-      // Recognize text from image
-      const result = await worker.recognize(`data:image/jpeg;base64,${imageBase64}`);
-      console.log('OCR Result:', result.data.text);
+      // Recognize text from image with higher quality settings
+      const result = await worker.recognize(`data:image/jpeg;base64,${imageBase64}`, {
+        tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,- ',
+        tessjs_create_pdf: '1',
+        tessjs_pdf_name: 'ocr_result',
+      });
+      
+      console.log('OCR Raw Result:', result.data.text);
 
-      // Normalize strings for comparison (remove spaces, special chars, etc)
+      // Normalize strings for comparison
       const normalizeString = (str: string) => 
         str.toLowerCase()
            .normalize('NFD')
@@ -58,32 +63,58 @@ serve(async (req) => {
 
       // Extract CPF pattern (11 digits)
       const cpfPattern = /\d{3}\.?\d{3}\.?\d{3}-?\d{2}/g;
-      const extractedCPF = result.data.text.match(cpfPattern)?.[0];
+      const extractedCPFs = result.data.text.match(cpfPattern);
 
-      if (!extractedCPF) {
+      if (!extractedCPFs || extractedCPFs.length === 0) {
         console.log('No CPF found in document');
         return new Response(
           JSON.stringify({
             success: false,
             verified: false,
-            message: 'CPF não encontrado no documento'
+            message: 'CPF não encontrado no documento. Por favor, certifique-se que o documento está legível e tente novamente.'
           }),
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
 
-      const normalizedExtractedCPF = normalizeString(extractedCPF);
+      // Validate if the extracted CPF matches the profile CPF
+      let cpfMatch = false;
+      for (const cpf of extractedCPFs) {
+        if (normalizeString(cpf) === normalizedProfileCPF) {
+          cpfMatch = true;
+          break;
+        }
+      }
 
-      // Search for the full name in the OCR text
-      const words = result.data.text.split('\n').join(' ').split(' ');
+      if (!cpfMatch) {
+        console.log('CPF mismatch:', {
+          extracted: extractedCPFs,
+          profile: normalizedProfileCPF
+        });
+        return new Response(
+          JSON.stringify({
+            success: false,
+            verified: false,
+            message: 'O CPF no documento não corresponde ao cadastro.'
+          }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+
+      // Search for the full name in the OCR text using more strict matching
+      const words = result.data.text
+        .split('\n')
+        .join(' ')
+        .split(' ')
+        .filter(word => word.length > 1); // Remove single characters
+
       let foundName = '';
       let maxMatchingWords = 0;
-
       const profileNameWords = profile.full_name.split(' ');
 
       // Try to find the longest sequence of matching words
       for (let i = 0; i < words.length; i++) {
-        for (let j = i; j < words.length; j++) {
+        for (let j = i; j < Math.min(i + profileNameWords.length + 2, words.length); j++) {
           const candidateName = words.slice(i, j + 1).join(' ');
           const normalizedCandidate = normalizeString(candidateName);
           
@@ -95,37 +126,30 @@ serve(async (req) => {
         }
       }
 
-      const nameMatch = maxMatchingWords >= profileNameWords.length * 0.7; // 70% match threshold
-      const cpfMatch = normalizedExtractedCPF === normalizedProfileCPF;
+      // Require at least 80% of name words to match
+      const nameMatch = maxMatchingWords >= Math.ceil(profileNameWords.length * 0.8);
 
       console.log('Verification results:', {
         nameMatch,
         cpfMatch,
         foundName,
-        extractedCPF,
         maxMatchingWords,
-        profileNameWords: profileNameWords.length
+        profileNameWords: profileNameWords.length,
+        requiredMatches: Math.ceil(profileNameWords.length * 0.8)
       });
 
-      if (!nameMatch || !cpfMatch) {
-        let errorDetails = [];
-        if (!nameMatch) errorDetails.push('O nome no documento não corresponde ao cadastro');
-        if (!cpfMatch) errorDetails.push('O CPF no documento não corresponde ao cadastro');
-        
-        const errorMessage = errorDetails.join('. ');
-        console.log('Verification failed:', errorMessage);
-        
+      if (!nameMatch) {
         return new Response(
           JSON.stringify({
             success: false,
             verified: false,
-            message: errorMessage
+            message: 'O nome no documento não corresponde ao cadastro. Por favor, certifique-se que o documento está legível e tente novamente.'
           }),
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
 
-      // Save verification result
+      // If we get here, both name and CPF matched
       const { error: verificationError } = await supabase
         .from('document_verifications')
         .insert({
@@ -133,7 +157,7 @@ serve(async (req) => {
           document_type: documentType,
           verification_status: 'completed',
           full_name: foundName,
-          cpf: extractedCPF,
+          cpf: extractedCPFs[0],
           manual_verification: false
         });
 
@@ -173,3 +197,4 @@ serve(async (req) => {
     );
   }
 });
+
