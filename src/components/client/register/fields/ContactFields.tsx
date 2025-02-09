@@ -1,7 +1,7 @@
 
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn, useWatch } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
 
 interface ContactFieldsProps {
@@ -9,6 +9,11 @@ interface ContactFieldsProps {
 }
 
 export const ContactFields = ({ form }: ContactFieldsProps) => {
+  const primaryWhatsapp = useWatch({
+    control: form.control,
+    name: "whatsapp",
+  });
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <FormField
@@ -32,7 +37,22 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
           <FormItem>
             <FormLabel>Segundo Contato</FormLabel>
             <FormControl>
-              <Input {...field} placeholder="(XX) XXXXX-XXXX" />
+              <Input 
+                {...field} 
+                placeholder="(XX) XXXXX-XXXX"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === primaryWhatsapp) {
+                    form.setError("secondaryWhatsapp", {
+                      type: "manual",
+                      message: "O segundo contato deve ser diferente do WhatsApp principal"
+                    });
+                  } else {
+                    form.clearErrors("secondaryWhatsapp");
+                  }
+                  field.onChange(e);
+                }}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -41,3 +61,4 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
     </div>
   );
 };
+

@@ -19,9 +19,22 @@ export const registerFormSchema = z.object({
   birthDate: z.string().min(1, "Data de nascimento é obrigatória"),
   whatsapp: z.string().min(11, "WhatsApp deve ter pelo menos 11 dígitos"),
   secondaryWhatsapp: z.string().optional(),
-}).refine((data) => data.password === data.passwordConfirmation, {
-  message: "As senhas não coincidem",
-  path: ["passwordConfirmation"],
-});
+}).refine(
+  (data) => data.password === data.passwordConfirmation,
+  {
+    message: "As senhas não coincidem",
+    path: ["passwordConfirmation"],
+  }
+).refine(
+  (data) => {
+    if (!data.secondaryWhatsapp) return true;
+    return data.whatsapp !== data.secondaryWhatsapp;
+  },
+  {
+    message: "O segundo contato deve ser diferente do WhatsApp principal",
+    path: ["secondaryWhatsapp"],
+  }
+);
 
 export type RegisterFormData = z.infer<typeof registerFormSchema>;
+
