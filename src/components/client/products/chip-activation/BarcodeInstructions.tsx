@@ -8,7 +8,7 @@ interface BarcodeInstructionsProps {
 export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsProps) {
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-medium">Confira como você encontra o código de barras do SIM card</h2>
+      <h2 className="text-2xl font-medium text-center w-[calc(100%+13mm)] -mx-[6.5mm]">Confira como você encontra o código de barras do SIM card</h2>
       
       <div className="flex items-center justify-between max-w-xl mx-auto relative">
         <div className="flex flex-col items-center space-y-2">
@@ -45,7 +45,7 @@ export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsP
           <img 
             src="/lovable-uploads/c1471528-92f5-409a-a0c9-a520defbecf5.png" 
             alt="Exemplo de código de barras do chip"
-            className="max-w-[1200px] w-full"
+            className="max-w-[1000px] w-full"
           />
         </div>
       </div>

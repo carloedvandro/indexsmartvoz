@@ -1,4 +1,3 @@
-
 export interface NetworkMember {
   id: string;
   user_id: string;

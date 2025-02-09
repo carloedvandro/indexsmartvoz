@@ -1,9 +1,8 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { resetPassword } from "@/services/user/userReset";
+import { supabase } from "@/integrations/supabase/client";
 import { Mail } from "lucide-react";
 import { RainbowButton } from "@/components/ui/rainbow-button";
 
@@ -17,7 +16,11 @@ export default function ResetPassword() {
     setLoading(true);
 
     try {
-      await resetPassword(email);
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/client/update-password`,
+      });
+
+      if (error) throw error;
 
       toast({
         title: "Email enviado",

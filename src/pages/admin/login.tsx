@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -22,26 +21,17 @@ export default function AdminLogin() {
 
   useEffect(() => {
     const checkSession = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session?.user) {
-          const { data: profile, error: profileError } = await supabase
-            .from("profiles")
-            .select("role")
-            .eq("id", session.user.id)
-            .single();
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", session.user.id)
+          .single();
 
-          if (profileError) {
-            console.error('Profile check error:', profileError);
-            return;
-          }
-
-          if (profile?.role === "admin") {
-            navigate("/admin/dashboard");
-          }
+        if (profile?.role === "admin") {
+          navigate("/admin/dashboard");
         }
-      } catch (error) {
-        console.error('Session check error:', error);
       }
     };
 
@@ -53,67 +43,32 @@ export default function AdminLogin() {
     setIsLoading(true);
 
     try {
-      console.log('Attempting login for:', email);
-      const { data: { session }, error: authError } = await supabase.auth.signInWithPassword({
+      const { data: { session }, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (authError) {
-        console.error('Auth error:', authError);
-        toast({
-          title: t('login_error'),
-          description: t('check_credentials'),
-          variant: "destructive",
-        });
-        return;
+      if (error) throw error;
+
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", session.user.id)
+          .single();
+
+        if (profile?.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          await supabase.auth.signOut();
+          toast({
+            title: t('login_error'),
+            description: t('check_credentials'),
+            variant: "destructive",
+          });
+        }
       }
-
-      if (!session?.user) {
-        toast({
-          title: t('login_error'),
-          description: t('check_credentials'),
-          variant: "destructive",
-        });
-        return;
-      }
-
-      console.log('Session obtained, checking admin role');
-      const { data: profile, error: profileError } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", session.user.id)
-        .single();
-
-      if (profileError) {
-        console.error('Profile error:', profileError);
-        await supabase.auth.signOut();
-        toast({
-          title: t('login_error'),
-          description: t('check_credentials'),
-          variant: "destructive",
-        });
-        return;
-      }
-
-      console.log('Profile role:', profile?.role);
-      if (profile?.role !== "admin") {
-        console.log('Non-admin access attempt:', profile);
-        await supabase.auth.signOut();
-        toast({
-          title: t('access_denied'),
-          description: t('admin_only'),
-          variant: "destructive",
-        });
-        return;
-      }
-
-      // Successfully logged in as admin
-      console.log('Admin login successful, redirecting');
-      navigate("/admin/dashboard");
-      
-    } catch (error) {
-      console.error('Login error:', error);
+    } catch (error: any) {
       toast({
         title: t('login_error'),
         description: t('check_credentials'),
@@ -121,6 +76,27 @@ export default function AdminLogin() {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (email: string) => {
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/update-password`,
+      });
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Email enviado",
+        description: "Verifique sua caixa de entrada para redefinir sua senha",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Erro",
+        description: error.message,
+        variant: "destructive",
+      });
     }
   };
 

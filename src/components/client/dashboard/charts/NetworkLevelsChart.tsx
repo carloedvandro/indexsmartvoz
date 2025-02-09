@@ -1,4 +1,3 @@
-
 import {
   Bar,
   BarChart,
@@ -10,59 +9,16 @@ import {
   YAxis,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useProfile } from "@/hooks/useProfile";
-import { useNetworkData } from "@/components/client/network/useNetworkData";
+
+const data = [
+  { nivel: "Nível 1", ativos: 8, inativos: 0 },
+  { nivel: "Nível 2", ativos: 12, inativos: 3 },
+  { nivel: "Nível 3", ativos: 8, inativos: 56 },
+  { nivel: "Nível 4", ativos: 15, inativos: 25 },
+  { nivel: "Nível 5", ativos: 19, inativos: 39 },
+];
 
 export const NetworkLevelsChart = () => {
-  const { data: profile } = useProfile();
-  const { networkData } = useNetworkData(profile?.id || "");
-
-  const processNetworkData = () => {
-    const levels = {
-      1: { ativos: 0, inativos: 0 },
-      2: { ativos: 0, inativos: 0 },
-      3: { ativos: 0, inativos: 0 },
-      4: { ativos: 0, inativos: 0 },
-    };
-
-    // Set to store unique user IDs at each level to prevent double counting
-    const processedUsers = new Set();
-
-    const countMembers = (members) => {
-      members.forEach((member) => {
-        // Only count if we haven't processed this user before
-        if (!processedUsers.has(member.user?.email) && member.level >= 1 && member.level <= 4) {
-          processedUsers.add(member.user?.email);
-          
-          if (member.user?.status?.toLowerCase() === "active") {
-            levels[member.level].ativos++;
-          } else {
-            levels[member.level].inativos++;
-          }
-        }
-
-        if (member.children?.length > 0) {
-          countMembers(member.children);
-        }
-      });
-    };
-
-    if (networkData) {
-      console.log("Processing network data:", networkData);
-      countMembers(networkData);
-    }
-
-    console.log("Processed levels data:", levels);
-
-    return Object.entries(levels).map(([nivel, counts]) => ({
-      nivel: `Nível ${nivel}`,
-      ativos: counts.ativos,
-      inativos: counts.inativos,
-    }));
-  };
-
-  const data = processNetworkData();
-
   return (
     <Card className="w-full col-span-2">
       <CardHeader className="pb-0">

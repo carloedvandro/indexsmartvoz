@@ -1,47 +1,29 @@
-
 import { Button } from "@/components/ui/button";
 import { DeleteUserConfirmation } from "./DeleteUserConfirmation";
-import { useState } from "react";
-import { ChangeSponsorDialog } from "./ChangeSponsorDialog";
 
 interface UserFormActionsProps {
   userId?: string;
-  user?: any;
   isLoading: boolean;
   isDeleting: boolean;
   onDelete: () => Promise<void>;
   onCancel: () => void;
-  onSuccess?: () => void;
 }
 
 export function UserFormActions({ 
   userId, 
-  user,
   isLoading, 
   isDeleting, 
   onDelete, 
-  onCancel,
-  onSuccess
+  onCancel 
 }: UserFormActionsProps) {
-  const [showChangeSponsor, setShowChangeSponsor] = useState(false);
-
   return (
     <div className="flex justify-between items-center w-full">
       <div className="flex gap-2">
         {userId && (
-          <>
-            <DeleteUserConfirmation
-              isDeleting={isDeleting}
-              onDelete={onDelete}
-            />
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setShowChangeSponsor(true)}
-            >
-              Alterar Patrocinador
-            </Button>
-          </>
+          <DeleteUserConfirmation
+            isDeleting={isDeleting}
+            onDelete={onDelete}
+          />
         )}
       </div>
       <div className="flex gap-2">
@@ -56,15 +38,6 @@ export function UserFormActions({
           {isLoading ? "Salvando..." : "Salvar"}
         </Button>
       </div>
-
-      {userId && (
-        <ChangeSponsorDialog
-          user={user}
-          open={showChangeSponsor}
-          onOpenChange={setShowChangeSponsor}
-          onSuccess={onSuccess}
-        />
-      )}
     </div>
   );
 }

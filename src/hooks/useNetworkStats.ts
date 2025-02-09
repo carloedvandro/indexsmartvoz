@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
@@ -22,7 +21,7 @@ export const useNetworkStats = (userId: string | undefined) => {
       console.log("Fetching network stats for user ID:", userId);
 
       const stats: NetworkStats = {
-        id: '', // Will be set below
+        id: '', // Será preenchido abaixo
         level1Count: 0,
         level2Count: 0,
         level3Count: 0,
@@ -49,106 +48,83 @@ export const useNetworkStats = (userId: string | undefined) => {
       // Set the network ID
       stats.id = userNetwork.id;
 
-      // Use RPC to get all network members
-      const { data: networkMembers, error: networkError } = await supabase
-        .rpc('get_all_network_members', {
-          root_network_id: userNetwork.id
-        });
+      // Then, get all network members that have this network ID as parent
+      const { data: networkData, error } = await supabase
+        .from("network")
+        .select(`
+          id,
+          level,
+          user_id,
+          parent_id
+        `)
+        .eq("parent_id", userNetwork.id);
 
-      if (networkError) {
-        console.error("Error fetching network members:", networkError);
-        throw networkError;
+      if (error) {
+        console.error("Error fetching network stats:", error);
+        throw error;
       }
 
-      console.log("Raw network members data:", networkMembers);
+      console.log("Network stats data received:", networkData);
 
-      // Get profiles for all network members to check their status
-      const memberUserIds = networkMembers?.map(member => member.user_id) || [];
-      
-      // Log member IDs for debugging
-      console.log("All member user IDs:", memberUserIds);
+      // Count members based on their actual level in relation to the current user
+      networkData?.forEach((member) => {
+        // Adjust the level count based on the direct relationship
+        // Since these are direct children of the current user's network,
+        // they are all level 1 (direct indicators)
+        stats.level1Count++;
+      });
 
-      const { data: profiles, error: profilesError } = await supabase
-        .from('profiles')
-        .select('id, status, email')  // Added email for debugging
-        .in('id', memberUserIds);
+      // Now get second level members (members whose parent is one of our direct members)
+      if (networkData && networkData.length > 0) {
+        const directMemberIds = networkData.map(member => member.id);
+        const { data: level2Data, error: level2Error } = await supabase
+          .from("network")
+          .select()
+          .in("parent_id", directMemberIds);
 
-      if (profilesError) {
-        console.error("Error fetching profiles:", profilesError);
-        throw profilesError;
-      }
+        if (level2Error) {
+          console.error("Error fetching level 2 stats:", level2Error);
+          throw level2Error;
+        }
 
-      // Log profiles for debugging
-      console.log("All profiles:", profiles);
+        if (level2Data) {
+          stats.level2Count = level2Data.length;
 
-      // Create a map of user IDs to their status and email
-      const userStatuses = new Map(
-        profiles?.map(profile => [profile.id, { 
-          status: profile.status,
-          email: profile.email 
-        }]) || []
-      );
+          // Get third level members
+          const level2MemberIds = level2Data.map(member => member.id);
+          const { data: level3Data, error: level3Error } = await supabase
+            .from("network")
+            .select()
+            .in("parent_id", level2MemberIds);
 
-      // Use Map to store unique members by their user_id for each level
-      const uniqueMembersByLevel = new Map<number, Set<string>>();
-      
-      // Initialize Sets for each level
-      for (let i = 1; i <= 4; i++) {
-        uniqueMembersByLevel.set(i, new Set<string>());
-      }
-
-      // Log level 1 members specifically
-      console.log("Processing level 1 members:");
-
-      // Process each member and add to appropriate level Set
-      if (networkMembers) {
-        networkMembers.forEach(member => {
-          const memberData = userStatuses.get(member.user_id);
-          const memberStatus = memberData?.status?.toLowerCase();
-          const isActive = memberStatus === 'active' || memberStatus === 'ativo';
-          
-          // Log each level 1 member for debugging
-          if (member.level === 1) {
-            console.log(`Level 1 member:`, {
-              userId: member.user_id,
-              email: memberData?.email,
-              status: memberStatus,
-              isActive: isActive
-            });
+          if (level3Error) {
+            console.error("Error fetching level 3 stats:", level3Error);
+            throw level3Error;
           }
 
-          if (member.level >= 1 && 
-              member.level <= 4 && 
-              member.user_id !== userId &&
-              isActive) {
-            const memberSet = uniqueMembersByLevel.get(member.level);
-            if (memberSet) {
-              memberSet.add(member.user_id);
+          if (level3Data) {
+            stats.level3Count = level3Data.length;
+
+            // Get fourth level members
+            const level3MemberIds = level3Data.map(member => member.id);
+            const { data: level4Data, error: level4Error } = await supabase
+              .from("network")
+              .select()
+              .in("parent_id", level3MemberIds);
+
+            if (level4Error) {
+              console.error("Error fetching level 4 stats:", level4Error);
+              throw level4Error;
+            }
+
+            if (level4Data) {
+              stats.level4Count = level4Data.length;
             }
           }
-        });
+        }
       }
 
-      // Log unique level 1 members
-      const level1Members = Array.from(uniqueMembersByLevel.get(1) || []);
-      console.log("Final unique level 1 members:", {
-        count: level1Members.length,
-        memberIds: level1Members,
-        memberEmails: level1Members.map(id => userStatuses.get(id)?.email)
-      });
-
-      // Set the counts from unique members at each level
-      stats.level1Count = uniqueMembersByLevel.get(1)?.size || 0;
-      stats.level2Count = uniqueMembersByLevel.get(2)?.size || 0;
-      stats.level3Count = uniqueMembersByLevel.get(3)?.size || 0;
-      stats.level4Count = uniqueMembersByLevel.get(4)?.size || 0;
-
-      console.log("Final network stats:", {
-        ...stats,
-        totalMembers: stats.level1Count + stats.level2Count + stats.level3Count + stats.level4Count,
-        level1MemberCount: stats.level1Count
-      });
-
+      console.log("Calculated network stats:", stats);
       return stats;
     },
     enabled: !!userId

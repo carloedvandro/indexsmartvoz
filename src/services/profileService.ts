@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { ProfileWithSponsor } from "@/types/profile";
 import { mapSponsor } from "@/utils/mappers/profileMapper";
@@ -8,7 +7,7 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
     .from("profiles")
     .select(`
       *,
-      sponsor:profiles(
+      sponsor:sponsor_id (
         id,
         full_name,
         email,
@@ -16,7 +15,7 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
       )
     `)
     .eq("id", userId)
-    .maybeSingle();
+    .single();
 
   if (profileError) {
     console.error("Error fetching profile:", profileError);

@@ -1,12 +1,8 @@
-
-import React, { useState } from "react";
+import { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
-import { motion } from "framer-motion";
-import { useCalendarStyles } from "@/hooks/useCalendarStyles";
-import { DueDateSelector } from "./DueDateSelector";
-import { PlanSelectionHeader } from "./PlanSelectionHeader";
+import { Card, CardContent } from "@/components/ui/card";
 
 type Line = {
   id: number;
@@ -29,15 +25,16 @@ export function PlanSelectionStep({
   selectedDueDate,
   setSelectedDueDate 
 }: PlanSelectionStepProps) {
-  const { data: calendarStyle } = useCalendarStyles();
-  
   const internetOptions = [
-    { value: "120GB", label: "120GB", price: 119.99 },
-    { value: "140GB", label: "140GB", price: 129.99 },
-    { value: "160GB", label: "160GB", price: 139.99 },
-    { value: "180GB", label: "180GB", price: 149.99 },
-    { value: "200GB", label: "200GB", price: 159.99 },
+    { value: "110GB", label: "110GB", price: 114.99 },
+    { value: "120GB", label: "120GB", price: 124.99 },
+    { value: "130GB", label: "130GB", price: 134.99 },
+    { value: "140GB", label: "140GB", price: 144.99 },
+    { value: "150GB", label: "150GB", price: 154.99 },
+    { value: "160GB", label: "160GB", price: 164.99 },
   ];
+
+  const dueDates = [1, 5, 7, 10, 15, 20];
 
   useState(() => {
     if (selectedLines.length === 0) {
@@ -72,55 +69,60 @@ export function PlanSelectionStep({
 
   const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.5, ease: "easeOut" }
-    }
-  };
-
   return (
-    <div className="space-y-6 -mt-[15px]">
-      <PlanSelectionHeader variants={itemVariants} />
+    <div className="space-y-8">
+      <div className="space-y-2">
+        <h2 className="text-xl font-semibold">Personalize seu pedido</h2>
+        <p className="text-gray-600">
+          Confira aqui as melhores ofertas para você, cliente Smatvoz.
+        </p>
+      </div>
 
-      <div className="space-y-4 w-full">
-        <motion.div 
-          className="grid grid-cols-2 gap-4"
-          variants={itemVariants}
-        >
-          <div className="w-full">
-            <InternetSelector
-              selectedInternet={selectedLines[0]?.internet || undefined}
-              onInternetChange={handleInternetChange}
-              internetOptions={internetOptions}
-            />
-          </div>
-          <div className="w-full">
-            <DDDInput
-              ddd={selectedLines[0]?.ddd || ""}
-              onDDDChange={handleDDDChange}
-            />
-          </div>
-        </motion.div>
-
-        <motion.div 
-          variants={itemVariants}
-        >
-          <DueDateSelector
-            selectedDueDate={selectedDueDate}
-            setSelectedDueDate={setSelectedDueDate}
-            calendarStyle={calendarStyle}
+      <div className="space-y-4 max-w-2xl mx-auto">
+        <div className="grid grid-cols-2 gap-4">
+          <InternetSelector
+            selectedInternet={selectedLines[0]?.internet || undefined}
+            onInternetChange={handleInternetChange}
+            internetOptions={internetOptions}
           />
-        </motion.div>
-
-        <motion.div variants={itemVariants}>
-          <PriceSummary
-            linePrice={selectedLines[0]?.price || 0}
-            totalPrice={totalPrice}
+          <DDDInput
+            ddd={selectedLines[0]?.ddd || ""}
+            onDDDChange={handleDDDChange}
           />
-        </motion.div>
+        </div>
+
+        <div className="flex flex-col items-center w-full -mt-4">
+          <div className="text-center mb-4">
+            <h2 className="text-xl">
+              Escolha a melhor data de vencimento da sua fatura:
+            </h2>
+          </div>
+
+          <div className="w-full px-4">
+            <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto">
+              {dueDates.map((date) => (
+                <Card 
+                  key={date}
+                  className={`cursor-pointer transition-colors h-8 flex items-center justify-center bg-white border-gray-200 ${
+                    selectedDueDate === date 
+                      ? 'bg-[#8425af] text-white border-[#8425af]' 
+                      : 'hover:bg-[#8425af] hover:text-white hover:border-[#8425af]'
+                  }`}
+                  onClick={() => setSelectedDueDate(date)}
+                >
+                  <CardContent className="flex items-center justify-center h-full p-0">
+                    <span className="text-lg font-medium">{String(date).padStart(2, '0')}</span>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <PriceSummary
+          linePrice={selectedLines[0]?.price || 0}
+          totalPrice={totalPrice}
+        />
       </div>
     </div>
   );
