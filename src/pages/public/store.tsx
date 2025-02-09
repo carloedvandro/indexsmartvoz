@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -138,7 +139,7 @@ export default function PublicStore() {
             <p className="text-muted-foreground mb-4">
               Use o link abaixo para se cadastrar e fazer parte da nossa rede:
             </p>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <a 
                 href={referralLink}
                 className="flex-1 bg-muted p-4 rounded-lg break-all text-sm hover:bg-muted/80 transition-colors"
@@ -147,20 +148,22 @@ export default function PublicStore() {
               >
                 {referralLink}
               </a>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={handleCopyReferralLink}
-                className="shrink-0"
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-              <Button
-                onClick={handleGoToReferralLink}
-                className="shrink-0"
-              >
-                Ir <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handleCopyReferralLink}
+                  className="shrink-0"
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+                <Button
+                  onClick={handleGoToReferralLink}
+                  className="shrink-0 w-full sm:w-auto"
+                >
+                  Cadastrar <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
