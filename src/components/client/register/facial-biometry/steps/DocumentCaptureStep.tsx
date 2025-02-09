@@ -24,15 +24,16 @@ export const DocumentCaptureStep = ({
 }: DocumentCaptureStepProps) => {
   const [isDocumentDetected, setIsDocumentDetected] = useState(false);
   const [lastCaptureTime, setLastCaptureTime] = useState(0);
+  const [isVideoReady, setIsVideoReady] = useState(false);
   const webcamRef = useRef<Webcam>(null);
   const { toast } = useToast();
   const captureThrottleMs = 1000; // Minimum time between captures
 
   const checkDocumentPosition = useCallback(() => {
-    if (!webcamRef.current) return;
+    if (!webcamRef.current || !isVideoReady) return;
     
     const video = webcamRef.current.video;
-    if (!video) return;
+    if (!video || !video.videoWidth || !video.videoHeight) return;
 
     // Create a canvas to analyze the video frame
     const canvas = document.createElement('canvas');
@@ -45,10 +46,10 @@ export const DocumentCaptureStep = ({
 
     // Get the image data from the center region
     const centerRegion = context.getImageData(
-      video.videoWidth * 0.25,
-      video.videoHeight * 0.25,
-      video.videoWidth * 0.5,
-      video.videoHeight * 0.5
+      Math.floor(video.videoWidth * 0.25),
+      Math.floor(video.videoHeight * 0.25),
+      Math.floor(video.videoWidth * 0.5),
+      Math.floor(video.videoHeight * 0.5)
     );
 
     // Simple detection based on contrast and brightness
@@ -79,7 +80,7 @@ export const DocumentCaptureStep = ({
     if (isDetected && Date.now() - lastCaptureTime > captureThrottleMs) {
       handleDocumentCapture();
     }
-  }, [lastCaptureTime]);
+  }, [lastCaptureTime, isVideoReady]);
 
   useEffect(() => {
     const interval = setInterval(checkDocumentPosition, 200);
@@ -135,6 +136,10 @@ export const DocumentCaptureStep = ({
     }
   };
 
+  const handleUserMedia = () => {
+    setIsVideoReady(true);
+  };
+
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-semibold text-center">
@@ -153,6 +158,7 @@ export const DocumentCaptureStep = ({
             ...videoConstraints,
             aspectRatio: isBackSide ? 3/4 : 4/3
           }}
+          onUserMedia={handleUserMedia}
           className="w-full h-full object-cover rounded-lg"
         />
         <div className="absolute inset-0 pointer-events-none z-20">
