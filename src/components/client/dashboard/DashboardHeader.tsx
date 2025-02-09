@@ -36,9 +36,6 @@ export function DashboardHeader() {
         return;
       }
 
-      // Clear session state
-      await supabase.auth.clearSession();
-
       // Small delay to ensure cleanup is complete
       await new Promise(resolve => setTimeout(resolve, 100));
 
