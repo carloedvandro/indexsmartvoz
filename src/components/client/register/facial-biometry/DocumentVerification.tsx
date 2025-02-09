@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, Camera, Upload, FileCheck } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { supabase } from "@/integrations/supabase/client";
 
 interface DocumentVerificationProps {
   onComplete: () => void;
@@ -35,12 +36,75 @@ export const DocumentVerification = ({ onComplete, onBack }: DocumentVerificatio
     setShowCamera(true);
   };
 
+  const verifyDocumentData = async (file: File) => {
+    try {
+      // Simulating document data extraction
+      // In a real implementation, this would use OCR or a document verification API
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData.user) {
+        throw new Error("Usuário não encontrado");
+      }
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("full_name, cpf")
+        .eq("id", userData.user.id)
+        .single();
+
+      if (!profile) {
+        throw new Error("Perfil não encontrado");
+      }
+
+      // Store verification attempt
+      const { error: verificationError } = await supabase
+        .from("document_verifications")
+        .insert({
+          user_id: userData.user.id,
+          document_type: selectedDocType,
+          full_name: profile.full_name,
+          cpf: profile.cpf,
+          verification_status: 'pending',
+          document_image_url: null // In a real implementation, we would upload the image and store the URL
+        });
+
+      if (verificationError) {
+        throw verificationError;
+      }
+
+      // For demo purposes, we'll simulate a successful verification
+      // In a real implementation, this would be handled by a proper document verification service
+      const simulatedMatch = true;
+
+      if (!simulatedMatch) {
+        toast({
+          title: "Verificação falhou",
+          description: "Os dados do documento não correspondem aos dados cadastrados.",
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      return true;
+    } catch (error: any) {
+      console.error("Erro na verificação do documento:", error);
+      toast({
+        title: "Erro na verificação",
+        description: error.message || "Ocorreu um erro ao verificar o documento.",
+        variant: "destructive",
+      });
+      return false;
+    }
+  };
+
   const handleCameraCapture = async (file: File) => {
-    setDocuments(prev => ({
-      ...prev,
-      identity: file
-    }));
-    setShowCamera(false);
+    const isValid = await verifyDocumentData(file);
+    if (isValid) {
+      setDocuments(prev => ({
+        ...prev,
+        identity: file
+      }));
+      setShowCamera(false);
+    }
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, type: 'proofOfAddress') => {
@@ -65,14 +129,42 @@ export const DocumentVerification = ({ onComplete, onBack }: DocumentVerificatio
 
     try {
       setIsCapturing(true);
-      // Simulate document verification process
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error("Usuário não encontrado");
+      }
+
+      // Update verification status
+      const { error: updateError } = await supabase
+        .from("document_verifications")
+        .update({ verification_status: 'completed' })
+        .eq('user_id', user.id)
+        .eq('verification_status', 'pending');
+
+      if (updateError) {
+        throw updateError;
+      }
+
+      // Update profile status
+      const { error: profileError } = await supabase
+        .from("profiles")
+        .update({ 
+          document_verification_status: 'completed',
+          document_validation_date: new Date().toISOString()
+        })
+        .eq('id', user.id);
+
+      if (profileError) {
+        throw profileError;
+      }
+
       onComplete();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Erro no upload:", error);
       toast({
         title: "Erro no upload",
-        description: "Ocorreu um erro ao enviar os documentos. Por favor, tente novamente.",
+        description: error.message || "Ocorreu um erro ao enviar os documentos. Por favor, tente novamente.",
         variant: "destructive",
       });
     } finally {

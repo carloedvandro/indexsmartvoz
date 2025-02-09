@@ -45,6 +45,59 @@ export type Database = {
         }
         Relationships: []
       }
+      document_verifications: {
+        Row: {
+          cpf: string
+          created_at: string | null
+          document_image_url: string | null
+          document_number: string | null
+          document_type: string
+          full_name: string
+          id: string
+          manual_verification: boolean | null
+          updated_at: string | null
+          user_id: string
+          verification_date: string | null
+          verification_status: string
+        }
+        Insert: {
+          cpf: string
+          created_at?: string | null
+          document_image_url?: string | null
+          document_number?: string | null
+          document_type: string
+          full_name: string
+          id?: string
+          manual_verification?: boolean | null
+          updated_at?: string | null
+          user_id: string
+          verification_date?: string | null
+          verification_status?: string
+        }
+        Update: {
+          cpf?: string
+          created_at?: string | null
+          document_image_url?: string | null
+          document_number?: string | null
+          document_type?: string
+          full_name?: string
+          id?: string
+          manual_verification?: boolean | null
+          updated_at?: string | null
+          user_id?: string
+          verification_date?: string | null
+          verification_status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_verifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       network: {
         Row: {
           created_at: string
