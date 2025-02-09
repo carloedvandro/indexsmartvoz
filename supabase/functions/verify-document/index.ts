@@ -17,7 +17,7 @@ serve(async (req) => {
   try {
     const { imageBase64, documentType, userId } = await req.json();
 
-    console.log('Starting document verification for user:', userId);
+    console.log('Starting enhanced document verification for user:', userId);
 
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
@@ -38,35 +38,58 @@ serve(async (req) => {
 
     console.log('Retrieved profile data for comparison');
 
+    // Create verification entry
+    const { error: verificationError } = await supabase
+      .from('user_verifications')
+      .insert({
+        user_id: userId,
+        verification_type: 'document_ocr',
+        status: 'pending',
+        attempt_count: 1,
+        last_attempt_at: new Date().toISOString(),
+      });
+
+    if (verificationError) {
+      console.error('Error creating verification entry:', verificationError);
+      throw new Error('Erro ao criar registro de verificação');
+    }
+
     // Initialize Tesseract worker with Portuguese language
     const worker = await createWorker('por');
     
     try {
-      // Recognize text from image with higher quality settings
+      // Enhanced OCR settings for better accuracy
       const result = await worker.recognize(`data:image/jpeg;base64,${imageBase64}`, {
         tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,- ',
         tessjs_create_pdf: '1',
         tessjs_pdf_name: 'ocr_result',
+        tessjs_create_hocr: '1',
+        tessedit_pageseg_mode: '1',
+        tessedit_ocr_engine_mode: '2',
       });
       
-      console.log('OCR Raw Result:', result.data.text);
+      console.log('Enhanced OCR Result:', result.data.text);
 
-      // Normalize strings for comparison
+      // Normalize strings for comparison with improved algorithm
       const normalizeString = (str: string) => 
         str.toLowerCase()
            .normalize('NFD')
            .replace(/[\u0300-\u036f]/g, '')
-           .replace(/[^a-z0-9]/g, '');
+           .replace(/[^a-z0-9]/g, '')
+           .trim();
 
       const normalizedProfileName = normalizeString(profile.full_name);
       const normalizedProfileCPF = normalizeString(profile.cpf);
 
-      // Extract CPF pattern (11 digits)
+      // Enhanced CPF pattern matching
       const cpfPattern = /\d{3}\.?\d{3}\.?\d{3}-?\d{2}/g;
       const extractedCPFs = result.data.text.match(cpfPattern);
 
       if (!extractedCPFs || extractedCPFs.length === 0) {
         console.log('No CPF found in document');
+        await updateVerificationStatus(supabase, userId, 'document_ocr', 'failed', {
+          error: 'CPF não encontrado no documento'
+        });
         return new Response(
           JSON.stringify({
             success: false,
@@ -77,7 +100,7 @@ serve(async (req) => {
         );
       }
 
-      // Validate if the extracted CPF matches the profile CPF
+      // Enhanced CPF validation with exact match requirement
       let cpfMatch = false;
       for (const cpf of extractedCPFs) {
         if (normalizeString(cpf) === normalizedProfileCPF) {
@@ -91,6 +114,9 @@ serve(async (req) => {
           extracted: extractedCPFs,
           profile: normalizedProfileCPF
         });
+        await updateVerificationStatus(supabase, userId, 'document_ocr', 'failed', {
+          error: 'CPF não corresponde'
+        });
         return new Response(
           JSON.stringify({
             success: false,
@@ -101,44 +127,50 @@ serve(async (req) => {
         );
       }
 
-      // Search for the full name in the OCR text using more strict matching
+      // Enhanced name matching algorithm
       const words = result.data.text
         .split('\n')
         .join(' ')
         .split(' ')
-        .filter(word => word.length > 1); // Remove single characters
+        .filter(word => word.length > 1) // Remove single characters
+        .map(word => normalizeString(word));
 
-      let foundName = '';
-      let maxMatchingWords = 0;
-      const profileNameWords = profile.full_name.split(' ');
+      const profileNameWords = normalizedProfileName.split(' ');
+      
+      // Calculate name match score using improved algorithm
+      let matchedWords = 0;
+      let foundNameParts: string[] = [];
 
-      // Try to find the longest sequence of matching words
-      for (let i = 0; i < words.length; i++) {
-        for (let j = i; j < Math.min(i + profileNameWords.length + 2, words.length); j++) {
-          const candidateName = words.slice(i, j + 1).join(' ');
-          const normalizedCandidate = normalizeString(candidateName);
-          
-          if (normalizedProfileName.includes(normalizedCandidate) && 
-              candidateName.split(' ').length > maxMatchingWords) {
-            foundName = candidateName;
-            maxMatchingWords = candidateName.split(' ').length;
-          }
+      for (const nameWord of profileNameWords) {
+        if (nameWord.length <= 2) continue; // Skip very short words
+        
+        const found = words.some(word => {
+          const similarity = calculateStringSimilarity(word, nameWord);
+          return similarity >= 0.85; // 85% similarity threshold
+        });
+        
+        if (found) {
+          matchedWords++;
+          foundNameParts.push(nameWord);
         }
       }
 
-      // Require at least 80% of name words to match
-      const nameMatch = maxMatchingWords >= Math.ceil(profileNameWords.length * 0.8);
+      const nameMatchScore = matchedWords / profileNameWords.filter(w => w.length > 2).length;
+      const nameMatchThreshold = 0.85; // Require 85% match
 
-      console.log('Verification results:', {
-        nameMatch,
-        cpfMatch,
-        foundName,
-        maxMatchingWords,
-        profileNameWords: profileNameWords.length,
-        requiredMatches: Math.ceil(profileNameWords.length * 0.8)
+      console.log('Name match analysis:', {
+        score: nameMatchScore,
+        threshold: nameMatchThreshold,
+        matchedWords,
+        totalWords: profileNameWords.length,
+        foundParts: foundNameParts
       });
 
-      if (!nameMatch) {
+      if (nameMatchScore < nameMatchThreshold) {
+        await updateVerificationStatus(supabase, userId, 'document_ocr', 'failed', {
+          error: 'Nome não corresponde',
+          score: nameMatchScore
+        });
         return new Response(
           JSON.stringify({
             success: false,
@@ -149,22 +181,24 @@ serve(async (req) => {
         );
       }
 
-      // If we get here, both name and CPF matched
-      const { error: verificationError } = await supabase
-        .from('document_verifications')
-        .insert({
-          user_id: userId,
-          document_type: documentType,
-          verification_status: 'completed',
-          full_name: foundName,
-          cpf: extractedCPFs[0],
-          manual_verification: false
-        });
-
-      if (verificationError) {
-        console.error('Error saving verification:', verificationError);
-        throw new Error('Erro ao salvar verificação');
-      }
+      // Update verification status and document verification record
+      await Promise.all([
+        updateVerificationStatus(supabase, userId, 'document_ocr', 'verified', {
+          nameMatchScore,
+          cpfMatch: true
+        }),
+        supabase
+          .from('document_verifications')
+          .insert({
+            user_id: userId,
+            document_type: documentType,
+            verification_status: 'completed',
+            full_name: profile.full_name,
+            cpf: extractedCPFs[0],
+            manual_verification: false,
+            background_check_status: 'pending'
+          })
+      ]);
 
       await worker.terminate();
 
@@ -198,3 +232,50 @@ serve(async (req) => {
   }
 });
 
+// Helper function to calculate string similarity using Levenshtein distance
+function calculateStringSimilarity(str1: string, str2: string): number {
+  const track = Array(str2.length + 1).fill(null).map(() =>
+    Array(str1.length + 1).fill(null));
+  for (let i = 0; i <= str1.length; i += 1) {
+    track[0][i] = i;
+  }
+  for (let j = 0; j <= str2.length; j += 1) {
+    track[j][0] = j;
+  }
+  for (let j = 1; j <= str2.length; j += 1) {
+    for (let i = 1; i <= str1.length; i += 1) {
+      const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
+      track[j][i] = Math.min(
+        track[j][i - 1] + 1,
+        track[j - 1][i] + 1,
+        track[j - 1][i - 1] + indicator
+      );
+    }
+  }
+  const distance = track[str2.length][str1.length];
+  return 1 - distance / Math.max(str1.length, str2.length);
+}
+
+// Helper function to update verification status
+async function updateVerificationStatus(
+  supabase: any,
+  userId: string,
+  verificationType: string,
+  status: string,
+  verificationData: any
+) {
+  const { error } = await supabase
+    .from('user_verifications')
+    .update({
+      status,
+      verification_data: verificationData,
+      verified_at: status === 'verified' ? new Date().toISOString() : null,
+      updated_at: new Date().toISOString()
+    })
+    .eq('user_id', userId)
+    .eq('verification_type', verificationType);
+
+  if (error) {
+    console.error('Error updating verification status:', error);
+  }
+}

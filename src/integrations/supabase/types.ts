@@ -47,6 +47,9 @@ export type Database = {
       }
       document_verifications: {
         Row: {
+          background_check_date: string | null
+          background_check_result: Json | null
+          background_check_status: string | null
           cpf: string
           created_at: string | null
           document_image_url: string | null
@@ -61,6 +64,9 @@ export type Database = {
           verification_status: string
         }
         Insert: {
+          background_check_date?: string | null
+          background_check_result?: Json | null
+          background_check_status?: string | null
           cpf: string
           created_at?: string | null
           document_image_url?: string | null
@@ -75,6 +81,9 @@ export type Database = {
           verification_status?: string
         }
         Update: {
+          background_check_date?: string | null
+          background_check_result?: Json | null
+          background_check_status?: string | null
           cpf?: string
           created_at?: string | null
           document_image_url?: string | null
@@ -285,7 +294,9 @@ export type Database = {
           document_validation_date: string | null
           document_verification_status: string | null
           email: string
+          email_verified: boolean | null
           external_id: string | null
+          face_match_verified: boolean | null
           facial_biometry_date: string | null
           facial_biometry_status: string | null
           facial_verification_status: string | null
@@ -293,11 +304,13 @@ export type Database = {
           gender: string | null
           graduation_type: string | null
           id: string
+          kba_verified: boolean | null
           license_type: string | null
           mobile: string | null
           monthly_graduation: boolean | null
           person_type: string | null
           phone: string | null
+          phone_verified: boolean | null
           registration_date: string | null
           role: string
           secondary_whatsapp: string | null
@@ -329,7 +342,9 @@ export type Database = {
           document_validation_date?: string | null
           document_verification_status?: string | null
           email: string
+          email_verified?: boolean | null
           external_id?: string | null
+          face_match_verified?: boolean | null
           facial_biometry_date?: string | null
           facial_biometry_status?: string | null
           facial_verification_status?: string | null
@@ -337,11 +352,13 @@ export type Database = {
           gender?: string | null
           graduation_type?: string | null
           id: string
+          kba_verified?: boolean | null
           license_type?: string | null
           mobile?: string | null
           monthly_graduation?: boolean | null
           person_type?: string | null
           phone?: string | null
+          phone_verified?: boolean | null
           registration_date?: string | null
           role?: string
           secondary_whatsapp?: string | null
@@ -373,7 +390,9 @@ export type Database = {
           document_validation_date?: string | null
           document_verification_status?: string | null
           email?: string
+          email_verified?: boolean | null
           external_id?: string | null
+          face_match_verified?: boolean | null
           facial_biometry_date?: string | null
           facial_biometry_status?: string | null
           facial_verification_status?: string | null
@@ -381,11 +400,13 @@ export type Database = {
           gender?: string | null
           graduation_type?: string | null
           id?: string
+          kba_verified?: boolean | null
           license_type?: string | null
           mobile?: string | null
           monthly_graduation?: boolean | null
           person_type?: string | null
           phone?: string | null
+          phone_verified?: boolean | null
           registration_date?: string | null
           role?: string
           secondary_whatsapp?: string | null
@@ -491,6 +512,45 @@ export type Database = {
         }
         Relationships: []
       }
+      user_verifications: {
+        Row: {
+          attempt_count: number | null
+          created_at: string | null
+          id: string
+          last_attempt_at: string | null
+          status: string
+          updated_at: string | null
+          user_id: string | null
+          verification_data: Json | null
+          verification_type: Database["public"]["Enums"]["verification_type"]
+          verified_at: string | null
+        }
+        Insert: {
+          attempt_count?: number | null
+          created_at?: string | null
+          id?: string
+          last_attempt_at?: string | null
+          status?: string
+          updated_at?: string | null
+          user_id?: string | null
+          verification_data?: Json | null
+          verification_type: Database["public"]["Enums"]["verification_type"]
+          verified_at?: string | null
+        }
+        Update: {
+          attempt_count?: number | null
+          created_at?: string | null
+          id?: string
+          last_attempt_at?: string | null
+          status?: string
+          updated_at?: string | null
+          user_id?: string | null
+          verification_data?: Json | null
+          verification_type?: Database["public"]["Enums"]["verification_type"]
+          verified_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -523,7 +583,14 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      verification_type:
+        | "document_ocr"
+        | "face_match"
+        | "email_verification"
+        | "phone_verification"
+        | "token_verification"
+        | "kba_quiz"
+        | "cpf_validation"
     }
     CompositeTypes: {
       [_ in never]: never
