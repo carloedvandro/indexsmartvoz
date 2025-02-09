@@ -9,8 +9,6 @@ interface PersonalInfoFieldsProps {
 }
 
 export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
-  const rainbowInputClass = "bg-transparent group relative inline-flex animate-rainbow cursor-text [background-clip:padding-box,border-box,border-box] [background-origin:border-box] [border:calc(0.08*1rem)_solid_transparent] focus-visible:outline-none focus-visible:ring-0 before:animate-rainbow before:bg-[linear-gradient(90deg,#F97316,#D946EF,#0EA5E9,#8B5CF6,#F97316)] focus:border-transparent focus-visible:border-transparent";
-
   return (
     <>
       <FormField
@@ -20,7 +18,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
           <FormItem>
             <FormLabel>Nome Completo</FormLabel>
             <FormControl>
-              <Input {...field} className={rainbowInputClass} />
+              <Input {...field} className="bg-transparent" />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -34,7 +32,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
           <FormItem>
             <FormLabel>Endereço de email</FormLabel>
             <FormControl>
-              <Input type="email" {...field} className={rainbowInputClass} />
+              <Input type="email" {...field} className="bg-transparent" />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -48,7 +46,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
           <FormItem>
             <FormLabel>CPF</FormLabel>
             <FormControl>
-              <Input {...field} className={rainbowInputClass} />
+              <Input {...field} className="bg-transparent" />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -63,7 +61,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
             <FormItem>
               <FormLabel>Data de Nascimento</FormLabel>
               <FormControl>
-                <Input type="date" {...field} className={rainbowInputClass} />
+                <Input type="date" {...field} className="bg-transparent" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -77,7 +75,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
             <FormItem>
               <FormLabel>Seu ID Personalizado</FormLabel>
               <FormControl>
-                <Input {...field} className={rainbowInputClass} />
+                <Input {...field} className="bg-transparent" />
               </FormControl>
               <FormMessage />
             </FormItem>
