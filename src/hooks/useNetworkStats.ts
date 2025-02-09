@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
@@ -21,7 +22,7 @@ export const useNetworkStats = (userId: string | undefined) => {
       console.log("Fetching network stats for user ID:", userId);
 
       const stats: NetworkStats = {
-        id: '', // Será preenchido abaixo
+        id: '', // Will be filled below
         level1Count: 0,
         level2Count: 0,
         level3Count: 0,
@@ -33,7 +34,7 @@ export const useNetworkStats = (userId: string | undefined) => {
         .from("network")
         .select("id")
         .eq("user_id", userId)
-        .single();
+        .maybeSingle();
 
       if (userNetworkError) {
         console.error("Error fetching user network:", userNetworkError);
