@@ -232,6 +232,8 @@ export type Database = {
           document_validation_date: string | null
           email: string
           external_id: string | null
+          facial_biometry_date: string | null
+          facial_biometry_status: string | null
           full_name: string | null
           gender: string | null
           graduation_type: string | null
@@ -272,6 +274,8 @@ export type Database = {
           document_validation_date?: string | null
           email: string
           external_id?: string | null
+          facial_biometry_date?: string | null
+          facial_biometry_status?: string | null
           full_name?: string | null
           gender?: string | null
           graduation_type?: string | null
@@ -312,6 +316,8 @@ export type Database = {
           document_validation_date?: string | null
           email?: string
           external_id?: string | null
+          facial_biometry_date?: string | null
+          facial_biometry_status?: string | null
           full_name?: string | null
           gender?: string | null
           graduation_type?: string | null
