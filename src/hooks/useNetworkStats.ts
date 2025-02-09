@@ -73,7 +73,7 @@ export const useNetworkStats = (userId: string | undefined) => {
       // Process each member and add to appropriate level Set
       networkMembers?.forEach(member => {
         // Ensure we're only counting members from levels 1-4
-        if (member.level >= 1 && member.level <= 4) {
+        if (member.level >= 1 && member.level <= 4 && member.user_id !== userId) {
           const memberSet = uniqueMembersByLevel.get(member.level);
           if (memberSet) {
             memberSet.add(member.user_id);
@@ -93,4 +93,3 @@ export const useNetworkStats = (userId: string | undefined) => {
     enabled: !!userId
   });
 };
-
