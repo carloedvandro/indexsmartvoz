@@ -53,33 +53,36 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
         )}
       />
 
-      <FormField
-        control={form.control}
-        name="birthDate"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Data de Nascimento</FormLabel>
-            <FormControl>
-              <Input type="date" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="birthDate"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Data de Nascimento</FormLabel>
+              <FormControl>
+                <Input type="date" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <FormField
-        control={form.control}
-        name="customId"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Seu ID Personalizado</FormLabel>
-            <FormControl>
-              <Input {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+        <FormField
+          control={form.control}
+          name="customId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Seu ID Personalizado</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
     </>
   );
 };
+
