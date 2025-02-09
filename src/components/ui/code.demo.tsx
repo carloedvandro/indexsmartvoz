@@ -1,24 +1,10 @@
-import { WarpBackground } from "@/components/ui/warp-background";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardTitle,
-} from "@/components/ui/card";
+
+import { RainbowButton } from "@/components/ui/rainbow-button";
 
 export function ExampleComponentDemo() {
   return (
-    <WarpBackground>
-      <Card className="w-80">
-        <CardContent className="flex flex-col gap-2 p-4">
-          <CardTitle>Congratulations on Your Promotion!</CardTitle>
-          <CardDescription>
-            Your hard work and dedication have paid off. We&apos;re thrilled to
-            see you take this next step in your career. Keep up the fantastic
-            work!
-          </CardDescription>
-        </CardContent>
-      </Card>
-    </WarpBackground>
+    <div className="flex min-h-[350px] w-full items-center justify-center bg-neutral-950">
+      <RainbowButton>Get Unlimited Access</RainbowButton>
+    </div>
   );
 }
