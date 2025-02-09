@@ -55,51 +55,39 @@ export const DocumentCaptureStep = ({
   };
 
   return (
-    <div className="space-y-6 text-center">
-      <h2 className="text-2xl font-semibold">
+    <div className="space-y-6">
+      <h2 className="text-2xl font-semibold text-center">
         Captura de Documento - {isBackSide ? 'Verso' : 'Frente'}
       </h2>
-      <p className="text-gray-600">
+      <p className="text-gray-600 text-center">
         Alinhe seu {selectedDocType === 'rg' ? 'RG' : 'CNH'} dentro da área demarcada
       </p>
-      <div className="relative w-full max-w-sm mx-auto aspect-[4/3]">
-        <div className="absolute inset-0 border-2 border-dashed border-primary animate-pulse rounded-lg"></div>
+      <div className={`relative mx-auto ${isBackSide ? 'w-[300px] h-[400px]' : 'w-[400px] h-[300px]'}`}>
+        <div className="absolute inset-0 border-2 border-primary border-dashed rounded-lg z-10"></div>
         <Webcam
           ref={webcamRef}
           audio={false}
           screenshotFormat="image/jpeg"
-          videoConstraints={videoConstraints}
+          videoConstraints={{
+            ...videoConstraints,
+            aspectRatio: isBackSide ? 3/4 : 4/3
+          }}
           className="w-full h-full object-cover rounded-lg"
         />
-        <div className="absolute inset-0 pointer-events-none">
-          <svg className="w-full h-full" viewBox="0 0 100 75">
-            <rect
-              x="5"
-              y="5"
-              width="90"
-              height="65"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="0.5"
-              className="text-primary"
-            />
-            <line
-              x1="5"
-              y1="37.5"
-              x2="95"
-              y2="37.5"
-              stroke="currentColor"
-              strokeWidth="0.5"
-              className="text-primary"
-            />
-          </svg>
+        <div className="absolute inset-0 pointer-events-none z-20">
+          <div className="absolute left-1/2 top-0 w-[2px] h-full bg-primary/30 -translate-x-1/2"></div>
+          <div className="absolute top-1/2 left-0 w-full h-[2px] bg-primary/30 -translate-y-1/2"></div>
+          <div className="absolute left-0 top-0 w-8 h-8 border-t-2 border-l-2 border-white"></div>
+          <div className="absolute right-0 top-0 w-8 h-8 border-t-2 border-r-2 border-white"></div>
+          <div className="absolute left-0 bottom-0 w-8 h-8 border-b-2 border-l-2 border-white"></div>
+          <div className="absolute right-0 bottom-0 w-8 h-8 border-b-2 border-r-2 border-white"></div>
         </div>
       </div>
       <div className="flex flex-col gap-4 items-center">
         <Button
           onClick={handleDocumentCapture}
           disabled={isProcessing}
-          className="w-full max-w-xs"
+          className="w-full max-w-xs bg-primary hover:bg-primary/90"
         >
           {isProcessing ? (
             <>
@@ -114,3 +102,4 @@ export const DocumentCaptureStep = ({
     </div>
   );
 };
+
