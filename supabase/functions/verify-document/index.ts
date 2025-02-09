@@ -20,7 +20,7 @@ serve(async (req) => {
 
     console.log('Starting document verification for user:', userId);
 
-    // Initialize Supabase client
+    // Get registration data from the session
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
@@ -52,7 +52,12 @@ serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: `You are a document verification assistant. Analyze the provided ${documentType.toUpperCase()} image and extract the following information EXACTLY as it appears: full name and CPF number. Return ONLY a JSON object with these fields. Be very strict with the comparison.`
+            content: `You are a strict document verification assistant. Analyze the provided ${documentType.toUpperCase()} image and extract the following information EXACTLY as it appears:
+            - full name
+            - CPF number
+            Format your response as a JSON object with these fields. Be VERY strict in your verification - the data must match EXACTLY.
+            If the image is blurry, incomplete, or you cannot read the information clearly, return an error.
+            If you cannot find both the full name and CPF, return an error.`
           },
           {
             role: 'user',
@@ -86,11 +91,19 @@ serve(async (req) => {
     let extractedData;
     try {
       extractedData = JSON.parse(aiResult.choices[0].message.content);
-      console.log('Extracted data:', extractedData);
-      console.log('Profile data:', profile);
+      console.log('Extracted data:', {
+        extracted_name: extractedData.full_name,
+        extracted_cpf: extractedData.cpf,
+        profile_name: profile.full_name,
+        profile_cpf: profile.cpf
+      });
     } catch (e) {
       console.error('Error parsing AI response:', e);
       throw new Error('Erro ao processar resposta da IA');
+    }
+
+    if (!extractedData.full_name || !extractedData.cpf) {
+      throw new Error('Não foi possível identificar nome completo e CPF no documento');
     }
 
     // Normalize strings for comparison (remove spaces, special chars, etc)
@@ -105,20 +118,36 @@ serve(async (req) => {
     const normalizedExtractedCPF = normalizeString(extractedData.cpf);
     const normalizedProfileCPF = normalizeString(profile.cpf);
 
-    console.log('Comparing normalized data:');
-    console.log('Names:', normalizedExtractedName, normalizedProfileName);
-    console.log('CPFs:', normalizedExtractedCPF, normalizedProfileCPF);
+    console.log('Comparing normalized data:', {
+      normalized_extracted_name: normalizedExtractedName,
+      normalized_profile_name: normalizedProfileName,
+      normalized_extracted_cpf: normalizedExtractedCPF,
+      normalized_profile_cpf: normalizedProfileCPF
+    });
 
     const nameMatch = normalizedExtractedName === normalizedProfileName;
     const cpfMatch = normalizedExtractedCPF === normalizedProfileCPF;
 
-    const isVerified = nameMatch && cpfMatch;
+    // Detailed validation results
+    console.log('Validation results:', {
+      nameMatch,
+      cpfMatch,
+      nameLength: {
+        extracted: normalizedExtractedName.length,
+        profile: normalizedProfileName.length
+      },
+      cpfLength: {
+        extracted: normalizedExtractedCPF.length,
+        profile: normalizedProfileCPF.length
+      }
+    });
 
-    if (!isVerified) {
-      let errorMessage = 'Dados do documento não correspondem ao cadastro: ';
-      if (!nameMatch) errorMessage += 'Nome não corresponde. ';
-      if (!cpfMatch) errorMessage += 'CPF não corresponde.';
+    if (!nameMatch || !cpfMatch) {
+      let errorDetails = [];
+      if (!nameMatch) errorDetails.push('O nome no documento não corresponde ao cadastro');
+      if (!cpfMatch) errorDetails.push('O CPF no documento não corresponde ao cadastro');
       
+      const errorMessage = errorDetails.join('. ');
       console.log('Verification failed:', errorMessage);
       
       return new Response(
@@ -131,13 +160,15 @@ serve(async (req) => {
       );
     }
 
+    console.log('Document verification successful');
+
     // Save verification result
     const { error: verificationError } = await supabase
       .from('document_verifications')
       .insert({
         user_id: userId,
         document_type: documentType,
-        verification_status: isVerified ? 'completed' : 'failed',
+        verification_status: 'completed',
         full_name: extractedData.full_name,
         cpf: extractedData.cpf,
         manual_verification: false
@@ -147,22 +178,6 @@ serve(async (req) => {
       console.error('Error saving verification:', verificationError);
       throw new Error('Erro ao salvar verificação');
     }
-
-    // Update profile verification status
-    const { error: updateError } = await supabase
-      .from('profiles')
-      .update({
-        document_verification_status: isVerified ? 'completed' : 'failed',
-        document_validation_date: new Date().toISOString()
-      })
-      .eq('id', userId);
-
-    if (updateError) {
-      console.error('Error updating profile:', updateError);
-      throw new Error('Erro ao atualizar status do perfil');
-    }
-
-    console.log('Verification completed successfully');
 
     return new Response(
       JSON.stringify({
