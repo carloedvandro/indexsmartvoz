@@ -45,6 +45,45 @@ export type Database = {
         }
         Relationships: []
       }
+      camera_capabilities: {
+        Row: {
+          created_at: string | null
+          device_id: string | null
+          facing_mode: string | null
+          id: string
+          max_height: number | null
+          max_width: number | null
+          min_height: number | null
+          min_width: number | null
+          supported_constraints: Json | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          device_id?: string | null
+          facing_mode?: string | null
+          id?: string
+          max_height?: number | null
+          max_width?: number | null
+          min_height?: number | null
+          min_width?: number | null
+          supported_constraints?: Json | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          device_id?: string | null
+          facing_mode?: string | null
+          id?: string
+          max_height?: number | null
+          max_width?: number | null
+          min_height?: number | null
+          min_width?: number | null
+          supported_constraints?: Json | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       document_captures: {
         Row: {
           created_at: string

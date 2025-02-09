@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface VideoConstraints {
   width: number;
@@ -9,6 +9,21 @@ interface VideoConstraints {
 
 export const useCameraManagement = (forceEnvironment?: boolean) => {
   const [facingMode, setFacingMode] = useState<"user" | "environment">(forceEnvironment ? "environment" : "user");
+  const [availableDevices, setAvailableDevices] = useState<MediaDeviceInfo[]>([]);
+
+  useEffect(() => {
+    const getDevices = async () => {
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter(device => device.kind === 'videoinput');
+        setAvailableDevices(videoDevices);
+      } catch (error) {
+        console.error('Error getting video devices:', error);
+      }
+    };
+
+    getDevices();
+  }, []);
 
   const toggleCamera = () => {
     setFacingMode(prev => prev === "user" ? "environment" : "user");
@@ -23,6 +38,7 @@ export const useCameraManagement = (forceEnvironment?: boolean) => {
   return {
     videoConstraints,
     toggleCamera,
-    facingMode
+    facingMode,
+    availableDevices
   };
 };
