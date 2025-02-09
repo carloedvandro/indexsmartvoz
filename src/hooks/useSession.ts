@@ -9,18 +9,34 @@ export const useSession = () => {
   const [session, setSession] = useState<Session | null>(null);
   const navigate = useNavigate();
 
+  const handleSessionError = useCallback(() => {
+    setSession(null);
+    // Clear any existing session
+    supabase.auth.signOut();
+    navigate('/client/login', { replace: true });
+  }, [navigate]);
+
   const getSession = useCallback(async (): Promise<Session | null> => {
     try {
       const { data: { session }, error } = await supabase.auth.getSession();
       
       if (error) {
         console.error('Error fetching session:', error);
-        navigate('/client/login', { replace: true });
+        handleSessionError();
         return null;
       }
       
       if (!session) {
-        navigate('/client/login', { replace: true });
+        handleSessionError();
+        return null;
+      }
+
+      // Verify the session is still valid
+      const { data: user, error: refreshError } = await supabase.auth.getUser();
+      
+      if (refreshError || !user) {
+        console.error('Error refreshing session:', refreshError);
+        handleSessionError();
         return null;
       }
 
@@ -28,30 +44,43 @@ export const useSession = () => {
       return session;
     } catch (error) {
       console.error('Error in getSession:', error);
-      navigate('/client/login', { replace: true });
+      handleSessionError();
       return null;
     } finally {
       setIsLoading(false);
     }
-  }, [navigate]);
+  }, [navigate, handleSessionError]);
 
   useEffect(() => {
     getSession();
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('Auth state changed:', event);
+      
+      if (event === 'TOKEN_REFRESHED' && !session) {
+        console.log('Token refresh failed');
+        handleSessionError();
+        return;
+      }
+
+      if (event === 'SIGNED_OUT') {
+        handleSessionError();
+        return;
+      }
+
       if (session) {
         setSession(session);
       } else {
-        setSession(null);
-        navigate('/client/login', { replace: true });
+        handleSessionError();
       }
+      
       setIsLoading(false);
     });
 
     return () => subscription.unsubscribe();
-  }, [getSession, navigate]);
+  }, [getSession, handleSessionError]);
 
   return { getSession, isLoading, session };
 };
