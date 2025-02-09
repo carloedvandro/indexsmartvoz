@@ -21,6 +21,13 @@ export const RegisterFormContainer = () => {
         password: "[PROTECTED]",
       });
 
+      // Save form data to session storage
+      sessionStorage.setItem('registrationData', JSON.stringify({
+        ...values,
+        password: undefined, // Don't store sensitive data
+        passwordConfirmation: undefined
+      }));
+
       setFormData(values);
       setShowBiometry(true);
 
@@ -47,6 +54,9 @@ export const RegisterFormContainer = () => {
       }
 
       await registerUser(formData);
+
+      // Clear session storage after successful registration
+      sessionStorage.removeItem('registrationData');
 
       toast({
         title: "Cadastro concluído!",
