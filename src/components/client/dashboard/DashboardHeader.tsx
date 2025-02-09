@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -13,13 +14,18 @@ export function DashboardHeader() {
 
   const handleLogout = async () => {
     try {
+      // Clear any Supabase-related items from localStorage
       for (const key of Object.keys(localStorage)) {
         if (key.startsWith('sb-')) {
           localStorage.removeItem(key);
         }
       }
 
-      const { error } = await supabase.auth.signOut();
+      // Sign out from Supabase
+      const { error } = await supabase.auth.signOut({
+        scope: 'local' // This ensures we only clear local session data
+      });
+
       if (error) {
         console.error("Erro ao fazer logout:", error);
         toast({
@@ -30,7 +36,13 @@ export function DashboardHeader() {
         return;
       }
 
+      // Clear session state
+      await supabase.auth.clearSession();
+
+      // Small delay to ensure cleanup is complete
       await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Redirect to login page
       window.location.replace("/client/login");
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
