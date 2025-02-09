@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { CalendarStyle } from "@/types/calendar";
 
+export { CalendarStyle };
+
 export const useCalendarStyles = () => {
   return useQuery<CalendarStyle[]>({
     queryKey: ["calendar_styles"],
