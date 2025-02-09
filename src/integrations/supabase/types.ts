@@ -58,6 +58,8 @@ export type Database = {
           full_name: string
           id: string
           manual_verification: boolean | null
+          ocr_service_response: Json | null
+          ocr_service_type: string | null
           updated_at: string | null
           user_id: string
           verification_date: string | null
@@ -75,6 +77,8 @@ export type Database = {
           full_name: string
           id?: string
           manual_verification?: boolean | null
+          ocr_service_response?: Json | null
+          ocr_service_type?: string | null
           updated_at?: string | null
           user_id: string
           verification_date?: string | null
@@ -92,6 +96,8 @@ export type Database = {
           full_name?: string
           id?: string
           manual_verification?: boolean | null
+          ocr_service_response?: Json | null
+          ocr_service_type?: string | null
           updated_at?: string | null
           user_id?: string
           verification_date?: string | null

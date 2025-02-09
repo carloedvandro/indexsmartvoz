@@ -65,7 +65,8 @@ export async function createDocumentVerification(
   userId: string,
   documentType: string,
   fullName: string,
-  cpf: string
+  cpf: string,
+  ocrResponse: any
 ) {
   const { error } = await supabase
     .from('document_verifications')
@@ -76,7 +77,9 @@ export async function createDocumentVerification(
       full_name: fullName,
       cpf: cpf,
       manual_verification: false,
-      background_check_status: 'pending'
+      background_check_status: 'pending',
+      ocr_service_response: ocrResponse,
+      ocr_service_type: 'ocr.space'
     });
 
   if (error) {

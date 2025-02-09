@@ -34,7 +34,7 @@ serve(async (req) => {
 
     // Perform OCR
     const ocrText = await performOCR(imageBase64);
-    console.log('Enhanced OCR Result:', ocrText);
+    console.log('OCR Result:', ocrText);
 
     // Validate document
     const validationResult = validateDocument(ocrText, profile);
@@ -61,7 +61,13 @@ serve(async (req) => {
         nameMatchScore: validationResult.nameMatchScore,
         cpfMatch: validationResult.cpfMatch
       }),
-      createDocumentVerification(userId, documentType, profile.full_name, validationResult.extractedCPF)
+      createDocumentVerification(
+        userId, 
+        documentType, 
+        profile.full_name, 
+        validationResult.extractedCPF,
+        { text: ocrText }
+      )
     ]);
 
     return new Response(
