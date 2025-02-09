@@ -64,9 +64,13 @@ export const useNetworkStats = (userId: string | undefined) => {
 
       // Get profiles for all network members to check their status
       const memberUserIds = networkMembers?.map(member => member.user_id) || [];
+      
+      // Log member IDs for debugging
+      console.log("All member user IDs:", memberUserIds);
+
       const { data: profiles, error: profilesError } = await supabase
         .from('profiles')
-        .select('id, status')
+        .select('id, status, email')  // Added email for debugging
         .in('id', memberUserIds);
 
       if (profilesError) {
@@ -74,9 +78,15 @@ export const useNetworkStats = (userId: string | undefined) => {
         throw profilesError;
       }
 
-      // Create a map of user IDs to their status
+      // Log profiles for debugging
+      console.log("All profiles:", profiles);
+
+      // Create a map of user IDs to their status and email
       const userStatuses = new Map(
-        profiles?.map(profile => [profile.id, profile.status]) || []
+        profiles?.map(profile => [profile.id, { 
+          status: profile.status,
+          email: profile.email 
+        }]) || []
       );
 
       // Use Map to store unique members by their user_id for each level
@@ -87,16 +97,26 @@ export const useNetworkStats = (userId: string | undefined) => {
         uniqueMembersByLevel.set(i, new Set<string>());
       }
 
+      // Log level 1 members specifically
+      console.log("Processing level 1 members:");
+
       // Process each member and add to appropriate level Set
       if (networkMembers) {
         networkMembers.forEach(member => {
-          // Only count members:
-          // 1. From levels 1-4
-          // 2. Excluding the current user
-          // 3. With status 'active' or 'ativo'
-          const memberStatus = userStatuses.get(member.user_id)?.toLowerCase();
+          const memberData = userStatuses.get(member.user_id);
+          const memberStatus = memberData?.status?.toLowerCase();
           const isActive = memberStatus === 'active' || memberStatus === 'ativo';
           
+          // Log each level 1 member for debugging
+          if (member.level === 1) {
+            console.log(`Level 1 member:`, {
+              userId: member.user_id,
+              email: memberData?.email,
+              status: memberStatus,
+              isActive: isActive
+            });
+          }
+
           if (member.level >= 1 && 
               member.level <= 4 && 
               member.user_id !== userId &&
@@ -109,16 +129,24 @@ export const useNetworkStats = (userId: string | undefined) => {
         });
       }
 
+      // Log unique level 1 members
+      const level1Members = Array.from(uniqueMembersByLevel.get(1) || []);
+      console.log("Final unique level 1 members:", {
+        count: level1Members.length,
+        memberIds: level1Members,
+        memberEmails: level1Members.map(id => userStatuses.get(id)?.email)
+      });
+
       // Set the counts from unique members at each level
       stats.level1Count = uniqueMembersByLevel.get(1)?.size || 0;
       stats.level2Count = uniqueMembersByLevel.get(2)?.size || 0;
       stats.level3Count = uniqueMembersByLevel.get(3)?.size || 0;
       stats.level4Count = uniqueMembersByLevel.get(4)?.size || 0;
 
-      console.log("Calculated network stats:", {
+      console.log("Final network stats:", {
         ...stats,
         totalMembers: stats.level1Count + stats.level2Count + stats.level3Count + stats.level4Count,
-        level1Members: Array.from(uniqueMembersByLevel.get(1) || [])
+        level1MemberCount: stats.level1Count
       });
 
       return stats;
