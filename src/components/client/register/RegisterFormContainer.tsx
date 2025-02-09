@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { RegisterForm } from "@/components/client/RegisterForm";
 import type { RegisterFormData } from "@/components/client/register/RegisterSchema";
