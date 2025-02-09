@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { DeleteUserConfirmation } from "./DeleteUserConfirmation";
 
@@ -42,4 +41,3 @@ export function UserFormActions({
     </div>
   );
 }
-

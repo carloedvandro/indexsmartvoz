@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -25,67 +24,42 @@ export default function LoginPage() {
     setError("");
 
     try {
-      console.log("Starting login process for:", email);
-
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
-        email: email.trim().toLowerCase(),
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
         password,
       });
 
-      if (signInError) {
-        console.error("Login error:", signInError);
-        throw signInError;
+      if (error) {
+        throw error;
       }
 
-      console.log("User authenticated successfully, fetching profile");
-
       if (data.user) {
-        const { data: profile, error: profileError } = await supabase
+        const { data: profile } = await supabase
           .from("profiles")
-          .select("role, status")
+          .select("role")
           .eq("id", data.user.id)
           .single();
 
-        if (profileError) {
-          console.error("Profile fetch error:", profileError);
-          throw new Error("Erro ao carregar perfil do usuário");
+        if (profile?.role === "client") {
+          navigate("/client/dashboard");
+        } else {
+          throw new Error("Unauthorized");
         }
-
-        if (!profile) {
-          throw new Error("Perfil não encontrado");
-        }
-
-        if (profile.status === 'inactive') {
-          throw new Error("Conta inativa. Entre em contato com o suporte.");
-        }
-
-        if (profile.role !== "client") {
-          throw new Error("Acesso não autorizado");
-        }
-
-        navigate("/client/dashboard");
       }
     } catch (error) {
-      console.error("Login process error:", error);
       const authError = error as AuthError;
 
-      if (authError?.message?.includes("Invalid login credentials")) {
+      if (authError.message === "Invalid login credentials") {
         setError("Email ou senha inválidos");
-      } else if (authError?.message?.includes("Email not confirmed")) {
-        setError("Email não confirmado. Verifique sua caixa de entrada.");
-      } else if (authError?.message?.includes("Too many requests")) {
-        setError("Muitas tentativas. Tente novamente em alguns minutos.");
-      } else if (authError?.message?.includes("Conta inativa")) {
-        setError("Conta inativa. Entre em contato com o suporte.");
+      } else if (error === 'USER_DELETED' as any) {
+        toast({
+          title: "Erro",
+          description: "Usuário não encontrado",
+          variant: "destructive",
+        });
       } else {
-        setError("Ocorreu um erro ao fazer login. Tente novamente.");
+        setError("Ocorreu um erro ao fazer login");
       }
-      
-      toast({
-        variant: "destructive",
-        title: "Erro no login",
-        description: error.message || "Ocorreu um erro ao fazer login",
-      });
     } finally {
       setIsLoading(false);
     }
@@ -154,7 +128,7 @@ export default function LoginPage() {
           </div>
 
           {error && (
-            <div className="text-red-500 text-sm text-center">
+            <div className="text-red-500 text-sm">
               {error}
             </div>
           )}
