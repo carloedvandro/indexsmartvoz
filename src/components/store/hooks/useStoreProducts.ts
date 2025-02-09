@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -22,10 +23,13 @@ export function useStoreProducts() {
   const loadProducts = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("User not authenticated");
+      if (!user) {
+        setProducts([]);
+        setIsLoading(false);
+        return;
+      }
 
-      // Se for o gerente, carrega os produtos dele
-      if (profile?.email === 'yrwentechnology@gmail.com') {
+      if (profile?.role === 'admin') {
         const { data, error } = await supabase
           .from("store_products")
           .select("*")
@@ -35,19 +39,21 @@ export function useStoreProducts() {
         if (error) throw error;
         setProducts(data || []);
       } else {
-        // Para outros usuários, carrega os produtos do gerente
-        const { data: managerData, error: managerError } = await supabase
+        const { data: adminData, error: adminError } = await supabase
           .from("profiles")
           .select("id")
-          .eq("email", "yrwentechnology@gmail.com")
+          .eq("role", "admin")
           .single();
 
-        if (managerError) throw managerError;
+        if (adminError) {
+          setProducts([]);
+          return;
+        }
 
         const { data, error } = await supabase
           .from("store_products")
           .select("*")
-          .eq("user_id", managerData.id)
+          .eq("user_id", adminData.id)
           .order("order", { ascending: true });
 
         if (error) throw error;
@@ -56,10 +62,11 @@ export function useStoreProducts() {
     } catch (error) {
       console.error("Error loading products:", error);
       toast({
-        title: "Error",
-        description: "Failed to load products",
+        title: "Erro",
+        description: "Não foi possível carregar os produtos",
         variant: "destructive",
       });
+      setProducts([]);
     } finally {
       setIsLoading(false);
     }

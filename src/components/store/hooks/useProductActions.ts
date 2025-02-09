@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -67,7 +68,8 @@ export function useProductActions(loadProducts: () => Promise<void>) {
         image_url: imageUrl,
         user_id: user.id,
         currency: "BRL",
-        order: order
+        order: order,
+        plan_id: (formData.get("plan_id") as string) || null
       };
 
       if (selectedProduct) {

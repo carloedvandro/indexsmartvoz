@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -28,7 +27,6 @@ export default function ClientProducts() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [scanningIndex, setScanningIndex] = useState<number | null>(null);
   const [showChipActivation, setShowChipActivation] = useState(false);
-  const [isEsim, setIsEsim] = useState(false);
 
   const handleContinue = () => {
     if (currentStep === 1 && selectedLines.length === 0) {
@@ -91,9 +89,6 @@ export default function ClientProducts() {
     const updatedLines = [...selectedLines];
     updatedLines[index] = { ...updatedLines[index], barcode };
     setSelectedLines(updatedLines);
-    if (barcode.startsWith('ESIM-')) {
-      setIsEsim(true);
-    }
   };
 
   if (showConfirmation) {
@@ -103,7 +98,6 @@ export default function ClientProducts() {
         protocol={protocol}
         onUnderstand={handleUnderstand}
         showBarcodes={true}
-        isEsim={isEsim}
       />
     );
   }

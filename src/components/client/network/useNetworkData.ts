@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { NetworkMember } from "./types";
@@ -51,7 +52,7 @@ export const useNetworkData = (userId: string) => {
           // Fetch all profiles in a single query
           const { data: profilesData, error: profilesError } = await supabase
             .from("profiles")
-            .select("id, full_name, email, custom_id, status")
+            .select("id, full_name, email, custom_id, status, registration_date")
             .in('id', allNetworkMembers.map(member => member.user_id));
 
           if (profilesError) {
@@ -80,7 +81,8 @@ export const useNetworkData = (userId: string) => {
                   full_name: profileData.full_name || null,
                   email: profileData.email || '',
                   custom_id: profileData.custom_id || null,
-                  status: profileData.status || 'pending'
+                  status: profileData.status || 'pending',
+                  registration_date: profileData.registration_date || null
                 },
                 children: []
               });
