@@ -2,13 +2,12 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1';
+import { createWorker } from 'https://esm.sh/tesseract.js@5.0.5';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
-
-const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -20,7 +19,6 @@ serve(async (req) => {
 
     console.log('Starting document verification for user:', userId);
 
-    // Get registration data from the session
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
@@ -40,153 +38,126 @@ serve(async (req) => {
 
     console.log('Retrieved profile data for comparison');
 
-    // Call OpenAI API to analyze the document
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${openAIApiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o',
-        messages: [
-          {
-            role: 'system',
-            content: `You are a strict document verification assistant. Analyze the provided ${documentType.toUpperCase()} image and extract the following information EXACTLY as it appears:
-            - full name
-            - CPF number
-            Format your response as a JSON object with these fields. Be VERY strict in your verification - the data must match EXACTLY.
-            If the image is blurry, incomplete, or you cannot read the information clearly, return an error.
-            If you cannot find both the full name and CPF, return an error.`
-          },
-          {
-            role: 'user',
-            content: [
-              {
-                type: 'image_url',
-                image_url: {
-                  url: `data:image/jpeg;base64,${imageBase64}`
-                }
-              }
-            ]
-          }
-        ],
-        max_tokens: 500,
-      }),
-    });
-
-    if (!response.ok) {
-      console.error('OpenAI API error:', await response.text());
-      throw new Error('Erro na análise do documento');
-    }
-
-    const aiResult = await response.json();
-    console.log('AI response received');
+    // Initialize Tesseract worker
+    const worker = await createWorker('por');
     
-    if (!aiResult.choices?.[0]?.message?.content) {
-      console.error('Invalid AI response format:', aiResult);
-      throw new Error('Formato de resposta inválido da IA');
-    }
-
-    let extractedData;
     try {
-      extractedData = JSON.parse(aiResult.choices[0].message.content);
-      console.log('Extracted data:', {
-        extracted_name: extractedData.full_name,
-        extracted_cpf: extractedData.cpf,
-        profile_name: profile.full_name,
-        profile_cpf: profile.cpf
-      });
-    } catch (e) {
-      console.error('Error parsing AI response:', e);
-      throw new Error('Erro ao processar resposta da IA');
-    }
+      // Recognize text from image
+      const result = await worker.recognize(`data:image/jpeg;base64,${imageBase64}`);
+      console.log('OCR Result:', result.data.text);
 
-    if (!extractedData.full_name || !extractedData.cpf) {
-      throw new Error('Não foi possível identificar nome completo e CPF no documento');
-    }
+      // Normalize strings for comparison (remove spaces, special chars, etc)
+      const normalizeString = (str: string) => 
+        str.toLowerCase()
+           .normalize('NFD')
+           .replace(/[\u0300-\u036f]/g, '')
+           .replace(/[^a-z0-9]/g, '');
 
-    // Normalize strings for comparison (remove spaces, special chars, etc)
-    const normalizeString = (str: string) => 
-      str.toLowerCase()
-         .normalize('NFD')
-         .replace(/[\u0300-\u036f]/g, '')
-         .replace(/[^a-z0-9]/g, '');
+      const normalizedProfileName = normalizeString(profile.full_name);
+      const normalizedProfileCPF = normalizeString(profile.cpf);
 
-    const normalizedExtractedName = normalizeString(extractedData.full_name);
-    const normalizedProfileName = normalizeString(profile.full_name);
-    const normalizedExtractedCPF = normalizeString(extractedData.cpf);
-    const normalizedProfileCPF = normalizeString(profile.cpf);
+      // Extract CPF pattern (11 digits)
+      const cpfPattern = /\d{3}\.?\d{3}\.?\d{3}-?\d{2}/g;
+      const extractedCPF = result.data.text.match(cpfPattern)?.[0];
 
-    console.log('Comparing normalized data:', {
-      normalized_extracted_name: normalizedExtractedName,
-      normalized_profile_name: normalizedProfileName,
-      normalized_extracted_cpf: normalizedExtractedCPF,
-      normalized_profile_cpf: normalizedProfileCPF
-    });
-
-    const nameMatch = normalizedExtractedName === normalizedProfileName;
-    const cpfMatch = normalizedExtractedCPF === normalizedProfileCPF;
-
-    // Detailed validation results
-    console.log('Validation results:', {
-      nameMatch,
-      cpfMatch,
-      nameLength: {
-        extracted: normalizedExtractedName.length,
-        profile: normalizedProfileName.length
-      },
-      cpfLength: {
-        extracted: normalizedExtractedCPF.length,
-        profile: normalizedProfileCPF.length
+      if (!extractedCPF) {
+        console.log('No CPF found in document');
+        return new Response(
+          JSON.stringify({
+            success: false,
+            verified: false,
+            message: 'CPF não encontrado no documento'
+          }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
       }
-    });
 
-    if (!nameMatch || !cpfMatch) {
-      let errorDetails = [];
-      if (!nameMatch) errorDetails.push('O nome no documento não corresponde ao cadastro');
-      if (!cpfMatch) errorDetails.push('O CPF no documento não corresponde ao cadastro');
-      
-      const errorMessage = errorDetails.join('. ');
-      console.log('Verification failed:', errorMessage);
-      
+      const normalizedExtractedCPF = normalizeString(extractedCPF);
+
+      // Search for the full name in the OCR text
+      const words = result.data.text.split('\n').join(' ').split(' ');
+      let foundName = '';
+      let maxMatchingWords = 0;
+
+      const profileNameWords = profile.full_name.split(' ');
+
+      // Try to find the longest sequence of matching words
+      for (let i = 0; i < words.length; i++) {
+        for (let j = i; j < words.length; j++) {
+          const candidateName = words.slice(i, j + 1).join(' ');
+          const normalizedCandidate = normalizeString(candidateName);
+          
+          if (normalizedProfileName.includes(normalizedCandidate) && 
+              candidateName.split(' ').length > maxMatchingWords) {
+            foundName = candidateName;
+            maxMatchingWords = candidateName.split(' ').length;
+          }
+        }
+      }
+
+      const nameMatch = maxMatchingWords >= profileNameWords.length * 0.7; // 70% match threshold
+      const cpfMatch = normalizedExtractedCPF === normalizedProfileCPF;
+
+      console.log('Verification results:', {
+        nameMatch,
+        cpfMatch,
+        foundName,
+        extractedCPF,
+        maxMatchingWords,
+        profileNameWords: profileNameWords.length
+      });
+
+      if (!nameMatch || !cpfMatch) {
+        let errorDetails = [];
+        if (!nameMatch) errorDetails.push('O nome no documento não corresponde ao cadastro');
+        if (!cpfMatch) errorDetails.push('O CPF no documento não corresponde ao cadastro');
+        
+        const errorMessage = errorDetails.join('. ');
+        console.log('Verification failed:', errorMessage);
+        
+        return new Response(
+          JSON.stringify({
+            success: false,
+            verified: false,
+            message: errorMessage
+          }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+
+      // Save verification result
+      const { error: verificationError } = await supabase
+        .from('document_verifications')
+        .insert({
+          user_id: userId,
+          document_type: documentType,
+          verification_status: 'completed',
+          full_name: foundName,
+          cpf: extractedCPF,
+          manual_verification: false
+        });
+
+      if (verificationError) {
+        console.error('Error saving verification:', verificationError);
+        throw new Error('Erro ao salvar verificação');
+      }
+
+      await worker.terminate();
+
       return new Response(
         JSON.stringify({
-          success: false,
-          verified: false,
-          message: errorMessage
+          success: true,
+          verified: true,
+          message: 'Documento verificado com sucesso'
         }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
+
+    } catch (error) {
+      console.error('Error in OCR processing:', error);
+      await worker.terminate();
+      throw error;
     }
-
-    console.log('Document verification successful');
-
-    // Save verification result
-    const { error: verificationError } = await supabase
-      .from('document_verifications')
-      .insert({
-        user_id: userId,
-        document_type: documentType,
-        verification_status: 'completed',
-        full_name: extractedData.full_name,
-        cpf: extractedData.cpf,
-        manual_verification: false
-      });
-
-    if (verificationError) {
-      console.error('Error saving verification:', verificationError);
-      throw new Error('Erro ao salvar verificação');
-    }
-
-    return new Response(
-      JSON.stringify({
-        success: true,
-        verified: true,
-        message: 'Documento verificado com sucesso'
-      }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
 
   } catch (error) {
     console.error('Error in verify-document function:', error);
