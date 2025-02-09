@@ -60,7 +60,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
             {profile?.custom_id && (
               <div className="text-center">
                 <p className="text-sm text-muted-foreground">ID Personalizado</p>
-                <p className="font-medium">Empresa: {profile.custom_id}</p>
+                <p className="font-medium">Empresa: Smartvoz</p>
               </div>
             )}
           </div>

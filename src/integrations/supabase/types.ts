@@ -11,6 +11,7 @@ export type Database = {
     Tables: {
       calendar_styles: {
         Row: {
+          active: boolean | null
           border_radius: string
           created_at: string
           date_font_size: string
@@ -18,8 +19,10 @@ export type Database = {
           id: string
           name: string
           theme_color: string
+          updated_at: string
         }
         Insert: {
+          active?: boolean | null
           border_radius: string
           created_at?: string
           date_font_size: string
@@ -27,8 +30,10 @@ export type Database = {
           id?: string
           name: string
           theme_color: string
+          updated_at?: string
         }
         Update: {
+          active?: boolean | null
           border_radius?: string
           created_at?: string
           date_font_size?: string
@@ -36,6 +41,7 @@ export type Database = {
           id?: string
           name?: string
           theme_color?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -83,6 +89,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      network_commission_history: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          paid: boolean | null
+          user_id: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          paid?: boolean | null
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          paid?: boolean | null
+          user_id?: string | null
+        }
+        Relationships: []
       }
       network_plan_commissions: {
         Row: {
@@ -149,6 +179,36 @@ export type Database = {
           price?: number
           spillover_limit?: number | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      office_access_logs: {
+        Row: {
+          action: string
+          created_at: string
+          id: string
+          ip_address: string | null
+          password_action: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          password_action?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          password_action?: string | null
+          user_agent?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -330,7 +390,6 @@ export type Database = {
           image_url: string | null
           name: string
           order: number
-          plan_id: string | null
           price: number
           updated_at: string
           user_id: string
@@ -343,7 +402,6 @@ export type Database = {
           image_url?: string | null
           name: string
           order: number
-          plan_id?: string | null
           price: number
           updated_at?: string
           user_id: string
@@ -356,34 +414,17 @@ export type Database = {
           image_url?: string | null
           name?: string
           order?: number
-          plan_id?: string | null
           price?: number
           updated_at?: string
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "store_products_plan_id_fkey"
-            columns: ["plan_id"]
-            isOneToOne: false
-            referencedRelation: "network_plans"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      admin_set_user_password: {
-        Args: {
-          admin_user_id: string
-          target_user_id: string
-          new_password: string
-        }
-        Returns: undefined
-      }
       delete_user_and_profile: {
         Args: {
           user_id: string
