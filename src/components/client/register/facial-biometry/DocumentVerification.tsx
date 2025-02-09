@@ -38,51 +38,48 @@ export const DocumentVerification = ({ onComplete, onBack }: DocumentVerificatio
 
   const verifyDocumentData = async (file: File) => {
     try {
-      // Simulating document data extraction
-      // In a real implementation, this would use OCR or a document verification API
       const { data: userData } = await supabase.auth.getUser();
       if (!userData.user) {
         throw new Error("Usuário não encontrado");
       }
 
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("full_name, cpf")
-        .eq("id", userData.user.id)
-        .single();
+      // Convert the image to base64
+      const base64Image = await new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64String = reader.result as string;
+          resolve(base64String.split(',')[1]);
+        };
+        reader.readAsDataURL(file);
+      });
 
-      if (!profile) {
-        throw new Error("Perfil não encontrado");
+      // Call the verify-document function
+      const { data, error } = await supabase.functions.invoke('verify-document', {
+        body: {
+          imageBase64: base64Image,
+          documentType: selectedDocType,
+          userId: userData.user.id
+        }
+      });
+
+      if (error) {
+        console.error('Error verifying document:', error);
+        throw new Error(error.message);
       }
 
-      // Store verification attempt
-      const { error: verificationError } = await supabase
-        .from("document_verifications")
-        .insert({
-          user_id: userData.user.id,
-          document_type: selectedDocType,
-          full_name: profile.full_name,
-          cpf: profile.cpf,
-          verification_status: 'pending',
-          document_image_url: null // In a real implementation, we would upload the image and store the URL
-        });
-
-      if (verificationError) {
-        throw verificationError;
-      }
-
-      // For demo purposes, we'll simulate a successful verification
-      // In a real implementation, this would be handled by a proper document verification service
-      const simulatedMatch = true;
-
-      if (!simulatedMatch) {
+      if (!data.verified) {
         toast({
           title: "Verificação falhou",
-          description: "Os dados do documento não correspondem aos dados cadastrados.",
+          description: data.message,
           variant: "destructive",
         });
         return false;
       }
+
+      toast({
+        title: "Documento verificado",
+        description: "Dados do documento verificados com sucesso.",
+      });
 
       return true;
     } catch (error: any) {
@@ -133,17 +130,6 @@ export const DocumentVerification = ({ onComplete, onBack }: DocumentVerificatio
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         throw new Error("Usuário não encontrado");
-      }
-
-      // Update verification status
-      const { error: updateError } = await supabase
-        .from("document_verifications")
-        .update({ verification_status: 'completed' })
-        .eq('user_id', user.id)
-        .eq('verification_status', 'pending');
-
-      if (updateError) {
-        throw updateError;
       }
 
       // Update profile status
