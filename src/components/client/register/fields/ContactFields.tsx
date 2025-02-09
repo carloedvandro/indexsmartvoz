@@ -23,7 +23,11 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
           <FormItem>
             <FormLabel>WhatsApp</FormLabel>
             <FormControl>
-              <Input {...field} placeholder="(00) 00000-0000" className="bg-transparent" />
+              <Input 
+                {...field} 
+                placeholder="(00) 00000-0000" 
+                className="bg-transparent transition-all duration-300 border-0 border-b-2 border-muted-foreground/30 rounded-none px-0 h-10 focus-visible:border-b-primary focus-visible:ring-0 focus-visible:ring-offset-0 hover:border-b-primary"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -40,7 +44,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
               <Input 
                 {...field} 
                 placeholder="(00) 00000-0000"
-                className="bg-transparent"
+                className="bg-transparent transition-all duration-300 border-0 border-b-2 border-muted-foreground/30 rounded-none px-0 h-10 focus-visible:border-b-primary focus-visible:ring-0 focus-visible:ring-offset-0 hover:border-b-primary"
                 onChange={(e) => {
                   const value = e.target.value;
                   if (value === primaryWhatsapp) {
