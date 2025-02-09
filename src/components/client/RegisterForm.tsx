@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -54,7 +55,7 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
       console.log("Registration completed successfully");
       toast({
         title: "Sucesso!",
-        description: "Sua conta foi criada com sucesso. Você será redirecionado em instantes.",
+        description: "Agora vamos fazer sua verificação biométrica.",
       });
     } catch (error: any) {
       console.error("Registration error:", error);
@@ -82,10 +83,10 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
           {form.formState.isSubmitting ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Criando conta...
+              Processando...
             </>
           ) : (
-            "Criar Conta"
+            "Continuar"
           )}
         </RainbowButton>
       </form>
