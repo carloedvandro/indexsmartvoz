@@ -1,8 +1,7 @@
-
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Camera, Clock, FileCheck, ArrowRight, IdCard } from "lucide-react";
+import { Camera, Clock, FileCheck, ArrowRight, IdCard, RotateCw } from "lucide-react";
 import { Steps } from "@/components/client/register/facial-biometry/Steps";
 import { Input } from "@/components/ui/input";
 import Webcam from "react-webcam";
@@ -23,7 +22,8 @@ type Step =
   | 'facial-analysis'
   | 'document-instructions'
   | 'document-type'
-  | 'document-capture'
+  | 'document-front'
+  | 'document-back'
   | 'document-analysis'
   | 'completion';
 
@@ -33,8 +33,19 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedDocType, setSelectedDocType] = useState<'rg' | 'cnh' | null>(null);
   const [cameraEnabled, setCameraEnabled] = useState(false);
+  const [isFacingUser, setIsFacingUser] = useState(true);
   const webcamRef = useRef<Webcam>(null);
   const { toast } = useToast();
+
+  const videoConstraints = {
+    width: 1280,
+    height: 720,
+    facingMode: isFacingUser ? "user" : "environment"
+  };
+
+  const toggleCamera = useCallback(() => {
+    setIsFacingUser(prev => !prev);
+  }, []);
 
   const handleCpfVerification = async () => {
     if (cpfPrefix.length !== 5) {
@@ -59,7 +70,6 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       setCameraEnabled(true);
       setCurrentStep('capture-instructions');
-      // Importante: liberar a stream após obter acesso
       stream.getTracks().forEach(track => track.stop());
     } catch (error) {
       console.error("Erro ao acessar câmera:", error);
@@ -90,7 +100,7 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
 
   const handleDocumentTypeSelection = (type: 'rg' | 'cnh') => {
     setSelectedDocType(type);
-    setCurrentStep('document-capture');
+    setCurrentStep('document-front');
   };
 
   const handleDocumentCapture = async () => {
@@ -98,8 +108,12 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
       const imageSrc = webcamRef.current.getScreenshot();
       if (imageSrc) {
         await simulateProcessing();
-        setCurrentStep('document-analysis');
-        setTimeout(() => setCurrentStep('completion'), 2000);
+        if (currentStep === 'document-front') {
+          setCurrentStep('document-back');
+        } else {
+          setCurrentStep('document-analysis');
+          setTimeout(() => setCurrentStep('completion'), 2000);
+        }
       } else {
         toast({
           title: "Erro na Captura",
@@ -188,15 +202,53 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
         return (
           <div className="space-y-6 text-center">
             <h2 className="text-2xl font-semibold">Captura Facial</h2>
-            <p className="text-gray-600">Centralize seu rosto</p>
-            <div className="w-64 h-64 mx-auto overflow-hidden rounded-full">
-              <Webcam
-                ref={webcamRef}
-                audio={false}
-                screenshotFormat="image/jpeg"
-                className="w-full h-full object-cover"
-              />
+            <p className="text-gray-600">Posicione seu rosto dentro do círculo</p>
+            <div className="relative w-64 h-64 mx-auto">
+              <div className="absolute inset-0 rounded-full border-4 border-dashed border-primary animate-pulse"></div>
+              <div className="w-full h-full overflow-hidden rounded-full">
+                <Webcam
+                  ref={webcamRef}
+                  audio={false}
+                  screenshotFormat="image/jpeg"
+                  videoConstraints={videoConstraints}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute inset-0 pointer-events-none">
+                <svg className="w-full h-full" viewBox="0 0 100 100">
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="48"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="0.5"
+                    className="text-primary"
+                  />
+                  <line
+                    x1="25"
+                    y1="50"
+                    x2="75"
+                    y2="50"
+                    stroke="currentColor"
+                    strokeWidth="0.5"
+                    className="text-primary"
+                  />
+                  <line
+                    x1="50"
+                    y1="25"
+                    x2="50"
+                    y2="75"
+                    stroke="currentColor"
+                    strokeWidth="0.5"
+                    className="text-primary"
+                  />
+                </svg>
+              </div>
             </div>
+            <p className="text-sm text-gray-500">
+              Mantenha uma distância adequada e certifique-se que seu rosto está bem iluminado
+            </p>
             <Button 
               onClick={handleFacialCapture}
               disabled={isProcessing}
@@ -268,35 +320,76 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
           </div>
         );
 
-      case 'document-capture':
+      case 'document-front':
+      case 'document-back':
         return (
           <div className="space-y-6 text-center">
-            <h2 className="text-2xl font-semibold">Captura de Documento</h2>
+            <h2 className="text-2xl font-semibold">
+              Captura de Documento - {currentStep === 'document-front' ? 'Frente' : 'Verso'}
+            </h2>
             <p className="text-gray-600">
-              Enquadre seu {selectedDocType === 'rg' ? 'RG' : 'CNH'} dentro da área demarcada
+              Alinhe seu {selectedDocType === 'rg' ? 'RG' : 'CNH'} dentro da área demarcada
             </p>
-            <div className="w-full max-w-sm mx-auto aspect-[4/3] overflow-hidden rounded-lg">
+            <div className="relative w-full max-w-sm mx-auto aspect-[4/3]">
+              <div className="absolute inset-0 border-2 border-dashed border-primary animate-pulse rounded-lg"></div>
               <Webcam
                 ref={webcamRef}
                 audio={false}
                 screenshotFormat="image/jpeg"
-                className="w-full h-full object-cover"
+                videoConstraints={{
+                  ...videoConstraints,
+                  facingMode: "environment"
+                }}
+                className="w-full h-full object-cover rounded-lg"
               />
+              <div className="absolute inset-0 pointer-events-none">
+                <svg className="w-full h-full" viewBox="0 0 100 75">
+                  <rect
+                    x="5"
+                    y="5"
+                    width="90"
+                    height="65"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="0.5"
+                    className="text-primary"
+                  />
+                  <line
+                    x1="5"
+                    y1="37.5"
+                    x2="95"
+                    y2="37.5"
+                    stroke="currentColor"
+                    strokeWidth="0.5"
+                    className="text-primary"
+                  />
+                </svg>
+              </div>
             </div>
-            <Button
-              onClick={handleDocumentCapture}
-              disabled={isProcessing}
-              className="w-full max-w-xs"
-            >
-              {isProcessing ? (
-                <>
-                  <Clock className="mr-2 animate-spin" />
-                  Processando...
-                </>
-              ) : (
-                "Capturar Documento"
-              )}
-            </Button>
+            <div className="flex justify-center gap-4">
+              <Button 
+                onClick={toggleCamera}
+                variant="outline"
+                className="flex-1 max-w-[120px]"
+              >
+                <RotateCw className="w-4 h-4 mr-2" />
+                Girar
+              </Button>
+              <Button
+                onClick={handleDocumentCapture}
+                disabled={isProcessing}
+                className="flex-1"
+              >
+                {isProcessing ? (
+                  <>
+                    <Clock className="mr-2 animate-spin" />
+                    Processando...
+                  </>
+                ) : (
+                  "Capturar"
+                )}
+              </Button>
+            </div>
           </div>
         );
 
@@ -329,4 +422,3 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
     </div>
   );
 };
-
