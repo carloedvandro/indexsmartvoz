@@ -15,10 +15,13 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
   const [showError, setShowError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const { videoConstraints } = useCameraManagement();
+  const { videoConstraints, hasBackCamera } = useCameraManagement(true);
 
   const storeCameraCapabilities = async (capabilities: MediaTrackCapabilities) => {
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
       const jsonCapabilities = JSON.parse(JSON.stringify(capabilities));
       
       const { error } = await supabase.from('camera_capabilities').insert([{
@@ -29,7 +32,7 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
         min_height: capabilities.height?.min || null,
         max_height: capabilities.height?.max || null,
         supported_constraints: jsonCapabilities,
-        user_id: (await supabase.auth.getUser()).data.user?.id
+        user_id: user.id
       }]);
 
       if (error) {
@@ -45,44 +48,40 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
       setIsLoading(true);
       setShowError(false);
       
-      // Check if getUserMedia is supported
       if (!navigator.mediaDevices?.getUserMedia) {
-        throw new Error("Camera API não suportada neste navegador");
+        throw new Error("Câmera não suportada neste navegador");
       }
 
-      // Try to get camera permission first without enumerating devices
-      const stream = await navigator.mediaDevices.getUserMedia({ 
+      // Try to get camera access with environment mode first
+      const constraints = {
         video: {
-          ...videoConstraints,
-          facingMode: { ideal: "environment" }, // Prefer back camera on mobile
+          facingMode: { ideal: "environment" },
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
         },
         audio: false
-      });
+      };
 
-      // After getting permission, enumerate devices
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const videoDevices = devices.filter(device => device.kind === 'videoinput');
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       
-      if (videoDevices.length === 0) {
-        throw new Error("Nenhuma câmera encontrada no dispositivo");
-      }
-
-      // Test if we actually got a video track
+      // Get video track capabilities
       const videoTrack = stream.getVideoTracks()[0];
       if (!videoTrack) {
         throw new Error("Não foi possível acessar a câmera");
       }
 
-      // Get and store camera capabilities
+      // Store camera capabilities
       const capabilities = videoTrack.getCapabilities();
       await storeCameraCapabilities(capabilities);
       
-      // Stop the stream immediately after getting permission
+      // Stop the stream after testing
       stream.getTracks().forEach(track => track.stop());
       
       toast({
         title: "Câmera liberada",
-        description: "Acesso à câmera concedido com sucesso.",
+        description: hasBackCamera 
+          ? "Câmera traseira acessada com sucesso."
+          : "Câmera frontal acessada com sucesso.",
       });
       
       onNext();
@@ -94,7 +93,7 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
       
       if (error.name === "NotAllowedError") {
         errorMessage = "Acesso à câmera foi negado. Por favor, permita o acesso nas configurações do seu navegador/dispositivo.";
-      } else if (error.name === "NotFoundError" || error.message.includes("Nenhuma câmera")) {
+      } else if (error.name === "NotFoundError") {
         errorMessage = "Nenhuma câmera encontrada no dispositivo.";
       } else if (error.name === "NotReadableError") {
         errorMessage = "A câmera pode estar sendo usada por outro aplicativo.";
