@@ -76,23 +76,19 @@ export const RegisterFormContainer = () => {
     }
   };
 
-  return (
-    <div className="px-6 sm:px-5 py-2">
-      {!showBiometry ? (
-        <>
-          <p className="mt-1 text-center text-sm text-gray-600 max-w-[140%] mx-auto">
-            Preencha os dados abaixo para criar sua conta
-          </p>
-          <div className="mt-4">
-            <RegisterForm onSubmit={handleSubmit} />
-          </div>
-        </>
-      ) : (
-        <FacialBiometryFlow 
-          onComplete={handleBiometryComplete}
-          onBack={() => setShowBiometry(false)}
-        />
-      )}
-    </div>
+  return !showBiometry ? (
+    <>
+      <p className="mt-1 text-center text-sm text-gray-600 max-w-[140%] mx-auto">
+        Preencha os dados abaixo para criar sua conta
+      </p>
+      <div className="mt-4">
+        <RegisterForm onSubmit={handleSubmit} />
+      </div>
+    </>
+  ) : (
+    <FacialBiometryFlow 
+      onComplete={handleBiometryComplete}
+      onBack={() => setShowBiometry(false)}
+    />
   );
 };
