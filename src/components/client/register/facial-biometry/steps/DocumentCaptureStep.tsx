@@ -102,7 +102,8 @@ export const DocumentCaptureStep = ({
         return;
       }
 
-      const user = (await supabase.auth.getUser()).data.user;
+      // Get user session
+      const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         toast({
           title: "Erro de Autenticação",
@@ -112,11 +113,14 @@ export const DocumentCaptureStep = ({
         return;
       }
 
-      const file = await fetch(imageSrc)
-        .then(res => res.blob())
-        .then(blob => new File([blob], `document-${Date.now()}.jpg`, { type: 'image/jpeg' }));
+      // Convert base64 to blob
+      const blob = await fetch(imageSrc).then(res => res.blob());
+      const file = new File([blob], `document-${Date.now()}.jpg`, { type: 'image/jpeg' });
 
-      const filePath = `${selectedDocType}/${isBackSide ? 'back' : 'front'}/${Date.now()}.jpg`;
+      // Create filepath
+      const filePath = `${user.id}/${selectedDocType}/${isBackSide ? 'back' : 'front'}/${Date.now()}.jpg`;
+
+      // Upload to Supabase Storage
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('documents')
         .upload(filePath, file);
@@ -126,6 +130,7 @@ export const DocumentCaptureStep = ({
         throw uploadError;
       }
 
+      // Insert record in document_captures table
       const { error: dbError } = await supabase
         .from('document_captures')
         .insert({
