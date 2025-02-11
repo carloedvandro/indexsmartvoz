@@ -179,6 +179,45 @@ export type Database = {
           },
         ]
       }
+      earnings_settings: {
+        Row: {
+          active_earnings_color: string
+          active_earnings_label: string
+          created_at: string
+          id: string
+          pending_earnings_color: string
+          pending_earnings_label: string
+          total_earnings_color: string
+          total_earnings_label: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          active_earnings_color?: string
+          active_earnings_label?: string
+          created_at?: string
+          id?: string
+          pending_earnings_color?: string
+          pending_earnings_label?: string
+          total_earnings_color?: string
+          total_earnings_label?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          active_earnings_color?: string
+          active_earnings_label?: string
+          created_at?: string
+          id?: string
+          pending_earnings_color?: string
+          pending_earnings_label?: string
+          total_earnings_color?: string
+          total_earnings_label?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       network: {
         Row: {
           created_at: string
