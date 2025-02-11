@@ -11,26 +11,35 @@ export type EarningsSettings = {
 };
 
 export const fetchEarningsSettings = async (): Promise<EarningsSettings> => {
+  const { data: session } = await supabase.auth.getSession();
+  
+  if (!session?.session?.user?.id) {
+    console.error('No user session found');
+    return getDefaultSettings();
+  }
+
   const { data: settings, error } = await supabase
     .from('earnings_settings')
     .select('*')
-    .single();
+    .eq('user_id', session.session.user.id)
+    .maybeSingle();
 
   if (error) {
     console.error('Error fetching earnings settings:', error);
-    // Return default values if there's an error
-    return {
-      active_earnings_label: 'Ganhos Ativos',
-      pending_earnings_label: 'Ganhos Pendentes',
-      total_earnings_label: 'Total de Ganhos',
-      active_earnings_color: '#4F46E5',
-      pending_earnings_color: '#ff0000',
-      total_earnings_color: '#00d71c'
-    };
+    return getDefaultSettings();
   }
 
-  return settings;
+  return settings || getDefaultSettings();
 };
+
+const getDefaultSettings = (): EarningsSettings => ({
+  active_earnings_label: 'Ganhos Ativos',
+  pending_earnings_label: 'Ganhos Pendentes',
+  total_earnings_label: 'Total de Ganhos',
+  active_earnings_color: '#4F46E5',
+  pending_earnings_color: '#ff0000',
+  total_earnings_color: '#00d71c'
+});
 
 export const generateCardData = async () => {
   const settings = await fetchEarningsSettings();
