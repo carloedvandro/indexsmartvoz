@@ -3,22 +3,45 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Info } from "lucide-react";
+import { validateDeviceIdentifier } from "@/services/esim/deviceValidationService";
+import { useToast } from "@/components/ui/use-toast";
 
 type EIDFormProps = {
   onSubmit: (eid: string) => void;
+  deviceType: 'android' | 'ios';
 };
 
-export function EIDForm({ onSubmit }: EIDFormProps) {
+export function EIDForm({ onSubmit, deviceType }: EIDFormProps) {
   const [eid, setEID] = useState("");
+  const [isValidEID, setIsValidEID] = useState(false);
+  const [isValidating, setIsValidating] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (eid.length === 32) {
-      onSubmit(eid);
+  const validateEID = async (value: string) => {
+    if (value.length === 32) {
+      setIsValidating(true);
+      const isValid = await validateDeviceIdentifier(deviceType, 'eid', value);
+      setIsValidEID(isValid);
+      setIsValidating(false);
+
+      if (!isValid) {
+        toast({
+          variant: "destructive",
+          title: "EID inválido",
+          description: "O número EID informado não é válido para este tipo de dispositivo."
+        });
+      }
+    } else {
+      setIsValidEID(false);
     }
   };
 
-  const isValidEID = eid.length === 32;
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isValidEID && !isValidating) {
+      onSubmit(eid);
+    }
+  };
 
   return (
     <div className="max-w-md mx-auto space-y-6">
@@ -33,9 +56,12 @@ export function EIDForm({ onSubmit }: EIDFormProps) {
           type="text"
           placeholder="Digite o EID"
           value={eid}
-          onChange={(e) => {
+          onChange={async (e) => {
             const value = e.target.value.replace(/[^0-9a-fA-F]/g, '');
-            if (value.length <= 32) setEID(value.toUpperCase());
+            if (value.length <= 32) {
+              setEID(value.toUpperCase());
+              await validateEID(value);
+            }
           }}
           className={`text-center text-lg rounded-lg ${
             isValidEID 
@@ -66,7 +92,7 @@ export function EIDForm({ onSubmit }: EIDFormProps) {
           <Button 
             type="submit"
             className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-6"
-            disabled={!isValidEID}
+            disabled={!isValidEID || isValidating}
           >
             Continuar
           </Button>

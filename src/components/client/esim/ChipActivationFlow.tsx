@@ -37,9 +37,9 @@ export function ESIMActivationFlow({
       case 2:
         return <DeviceSelector onSelect={onDeviceSelect} />;
       case 3:
-        return <IMEIForm onSubmit={onIMEISubmit} />;
+        return <IMEIForm onSubmit={onIMEISubmit} deviceType={activationData.device_type as 'android' | 'ios'} />;
       case 4:
-        return <EIDForm onSubmit={onEIDSubmit} />;
+        return <EIDForm onSubmit={onEIDSubmit} deviceType={activationData.device_type as 'android' | 'ios'} />;
       case 5:
         return <SuccessScreen data={activationData} />;
       default:

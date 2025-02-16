@@ -84,6 +84,33 @@ export type Database = {
         }
         Relationships: []
       }
+      device_identifiers: {
+        Row: {
+          created_at: string | null
+          device_type: string
+          eid_pattern: string
+          id: string
+          imei_pattern: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          device_type: string
+          eid_pattern: string
+          id?: string
+          imei_pattern: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          device_type?: string
+          eid_pattern?: string
+          id?: string
+          imei_pattern?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       document_captures: {
         Row: {
           created_at: string
@@ -733,6 +760,14 @@ export type Database = {
           parent_id: string
           level: number
         }[]
+      }
+      validate_device_identifier: {
+        Args: {
+          p_device_type: string
+          p_identifier_type: string
+          p_value: string
+        }
+        Returns: boolean
       }
     }
     Enums: {

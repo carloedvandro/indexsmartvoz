@@ -3,22 +3,45 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Info } from "lucide-react";
+import { validateDeviceIdentifier } from "@/services/esim/deviceValidationService";
+import { useToast } from "@/components/ui/use-toast";
 
 type IMEIFormProps = {
   onSubmit: (imei: string) => void;
+  deviceType: 'android' | 'ios';
 };
 
-export function IMEIForm({ onSubmit }: IMEIFormProps) {
+export function IMEIForm({ onSubmit, deviceType }: IMEIFormProps) {
   const [imei, setIMEI] = useState("");
+  const [isValidIMEI, setIsValidIMEI] = useState(false);
+  const [isValidating, setIsValidating] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (imei.length === 15) {
-      onSubmit(imei);
+  const validateIMEI = async (value: string) => {
+    if (value.length === 15) {
+      setIsValidating(true);
+      const isValid = await validateDeviceIdentifier(deviceType, 'imei', value);
+      setIsValidIMEI(isValid);
+      setIsValidating(false);
+
+      if (!isValid) {
+        toast({
+          variant: "destructive",
+          title: "IMEI inválido",
+          description: "O número IMEI informado não é válido para este tipo de dispositivo."
+        });
+      }
+    } else {
+      setIsValidIMEI(false);
     }
   };
 
-  const isValidIMEI = imei.length === 15;
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isValidIMEI && !isValidating) {
+      onSubmit(imei);
+    }
+  };
 
   return (
     <div className="max-w-md mx-auto space-y-6">
@@ -33,9 +56,12 @@ export function IMEIForm({ onSubmit }: IMEIFormProps) {
           type="text"
           placeholder="Digite o IMEI"
           value={imei}
-          onChange={(e) => {
+          onChange={async (e) => {
             const value = e.target.value.replace(/\D/g, '');
-            if (value.length <= 15) setIMEI(value);
+            if (value.length <= 15) {
+              setIMEI(value);
+              await validateIMEI(value);
+            }
           }}
           className={`text-center text-lg rounded-lg ${
             isValidIMEI 
@@ -66,7 +92,7 @@ export function IMEIForm({ onSubmit }: IMEIFormProps) {
           <Button 
             type="submit"
             className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-6"
-            disabled={!isValidIMEI}
+            disabled={!isValidIMEI || isValidating}
           >
             Continuar
           </Button>
