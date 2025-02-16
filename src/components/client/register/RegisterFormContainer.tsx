@@ -17,8 +17,8 @@ export const RegisterFormContainer = () => {
   };
 
   return (
-    <Card className="border-none bg-white/5 backdrop-blur-sm">
-      <CardContent className="p-6">
+    <Card className="border-none bg-transparent">
+      <CardContent className="p-0">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormFields form={form} />
