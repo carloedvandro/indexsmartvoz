@@ -16,25 +16,25 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
   });
 
   return (
-    <div className="grid grid-cols-2 gap-2">
+    <div className="grid grid-cols-2 gap-3">
       <FormField
         control={form.control}
         name="whatsapp"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>WhatsApp</FormLabel>
+            <FormLabel className="text-sm">WhatsApp</FormLabel>
             <FormControl>
               <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-3.5 w-3.5" />
                 <Input 
                   {...field} 
                   type="text"
                   placeholder="(00) 00000-0000" 
-                  className="pl-10"
+                  className="pl-9 text-sm h-9"
                 />
               </div>
             </FormControl>
-            <FormMessage />
+            <FormMessage className="text-xs" />
           </FormItem>
         )}
       />
@@ -44,15 +44,15 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
         name="secondaryWhatsapp"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Segundo Contato</FormLabel>
+            <FormLabel className="text-sm">Segundo Contato</FormLabel>
             <FormControl>
               <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-3.5 w-3.5" />
                 <Input 
                   {...field} 
                   type="text"
                   placeholder="(00) 00000-0000"
-                  className="pl-10"
+                  className="pl-9 text-sm h-9"
                   onChange={(e) => {
                     const value = e.target.value;
                     if (value === primaryWhatsapp) {
@@ -68,7 +68,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
                 />
               </div>
             </FormControl>
-            <FormMessage />
+            <FormMessage className="text-xs" />
           </FormItem>
         )}
       />
