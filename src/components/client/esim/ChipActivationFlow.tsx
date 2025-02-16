@@ -7,6 +7,7 @@ import { ActivationType } from "./ActivationType";
 import { IMEIForm } from "./IMEIForm";
 import { EIDForm } from "./EIDForm";
 import { SuccessScreen } from "./SuccessScreen";
+import { ESIMActivation } from "@/services/esim/esimActivationService";
 
 interface ESIMActivationFlowProps {
   currentStep: number;
@@ -16,6 +17,7 @@ interface ESIMActivationFlowProps {
   onTypeSelect: (type: 'self' | 'collaborator') => void;
   onIMEISubmit: (imei: string) => void;
   onEIDSubmit: (eid: string) => void;
+  activationData: Partial<ESIMActivation>;
 }
 
 export function ESIMActivationFlow({
@@ -25,7 +27,8 @@ export function ESIMActivationFlow({
   onDeviceSelect,
   onTypeSelect,
   onIMEISubmit,
-  onEIDSubmit
+  onEIDSubmit,
+  activationData
 }: ESIMActivationFlowProps) {
   const renderCurrentStep = () => {
     switch (currentStep) {
@@ -38,7 +41,7 @@ export function ESIMActivationFlow({
       case 4:
         return <EIDForm onSubmit={onEIDSubmit} />;
       case 5:
-        return <SuccessScreen />;
+        return <SuccessScreen data={activationData} />;
       default:
         return null;
     }

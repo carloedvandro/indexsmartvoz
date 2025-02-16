@@ -69,6 +69,7 @@ export default function ESIMActivationPage() {
       onDeviceSelect={handleDeviceSelect}
       onIMEISubmit={handleIMEISubmit}
       onEIDSubmit={handleEIDSubmit}
+      activationData={activationData}
     />
   );
 }
