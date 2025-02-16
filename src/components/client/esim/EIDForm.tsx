@@ -49,7 +49,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
 
   const getBorderColor = () => {
     if (eid.length !== 32) return '';
-    if (!hasBeenValidated) return 'ring-2 ring-green-500';
+    if (!hasBeenValidated) return 'ring-2 ring-[#8425af]';
     return isValidEID ? 'ring-2 ring-green-500' : 'ring-2 ring-red-500';
   };
 

@@ -49,7 +49,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
 
   const getBorderColor = () => {
     if (imei.length !== 15) return '';
-    if (!hasBeenValidated) return 'ring-2 ring-green-500';
+    if (!hasBeenValidated) return 'ring-2 ring-[#8425af]';
     return isValidIMEI ? 'ring-2 ring-green-500' : 'ring-2 ring-red-500';
   };
 
