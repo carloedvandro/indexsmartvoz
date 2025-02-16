@@ -13,7 +13,7 @@ export type ESIMActivation = {
   help_instructions?: {
     imei: string;
     eid: string;
-  };
+  } | null;
   created_at?: string;
   updated_at?: string;
 };
@@ -39,6 +39,7 @@ export const createESIMActivation = async (data: Omit<ESIMActivation, 'id' | 'us
     ...result,
     activation_type: result.activation_type as 'self' | 'collaborator',
     device_type: result.device_type as 'android' | 'ios',
+    help_instructions: result.help_instructions as { imei: string; eid: string; } | null
   };
 
   return typedResult;

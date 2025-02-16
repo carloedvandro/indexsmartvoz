@@ -20,6 +20,8 @@ export function IMEIForm({ onSubmit, instructions }: IMEIFormProps) {
     }
   };
 
+  const isValid = imei.length === 15;
+
   return (
     <div className="max-w-md mx-auto space-y-6">
       <h2 className="text-2xl font-semibold text-center">
@@ -48,7 +50,9 @@ export function IMEIForm({ onSubmit, instructions }: IMEIFormProps) {
             const value = e.target.value.replace(/\D/g, '');
             if (value.length <= 15) setIMEI(value);
           }}
-          className="text-center text-lg"
+          className={`text-center text-lg ${
+            isValid ? 'border-green-500 focus-visible:ring-green-500' : 'focus-visible:ring-[#9c40ff]'
+          }`}
           required
           pattern="\d{15}"
           title="O IMEI deve conter exatamente 15 dígitos"
@@ -57,7 +61,7 @@ export function IMEIForm({ onSubmit, instructions }: IMEIFormProps) {
         <Button 
           type="submit" 
           className="w-full bg-[#5f0889] hover:bg-[#4a0668]"
-          disabled={imei.length !== 15}
+          disabled={!isValid}
         >
           Continuar
         </Button>

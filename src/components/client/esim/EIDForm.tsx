@@ -20,6 +20,8 @@ export function EIDForm({ onSubmit, instructions }: EIDFormProps) {
     }
   };
 
+  const isValid = eid.length === 32;
+
   return (
     <div className="max-w-md mx-auto space-y-6">
       <h2 className="text-2xl font-semibold text-center">
@@ -48,7 +50,9 @@ export function EIDForm({ onSubmit, instructions }: EIDFormProps) {
             const value = e.target.value.replace(/[^0-9a-fA-F]/g, '');
             if (value.length <= 32) setEID(value.toUpperCase());
           }}
-          className="text-center text-lg"
+          className={`text-center text-lg ${
+            isValid ? 'border-green-500 focus-visible:ring-green-500' : 'focus-visible:ring-[#9c40ff]'
+          }`}
           required
           pattern="[0-9A-Fa-f]{32}"
           title="O EID deve conter exatamente 32 caracteres hexadecimais"
@@ -57,7 +61,7 @@ export function EIDForm({ onSubmit, instructions }: EIDFormProps) {
         <Button 
           type="submit" 
           className="w-full bg-[#5f0889] hover:bg-[#4a0668]"
-          disabled={eid.length !== 32}
+          disabled={!isValid}
         >
           Continuar
         </Button>
