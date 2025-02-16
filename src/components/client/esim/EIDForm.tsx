@@ -15,14 +15,12 @@ type EIDFormProps = {
 export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   const [eid, setEID] = useState("");
   const [isValidEID, setIsValidEID] = useState(false);
-  const [hasBeenValidated, setHasBeenValidated] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const { toast } = useToast();
 
   const validateEID = async (value: string) => {
     if (value.length === 32) {
       setIsValidating(true);
-      setHasBeenValidated(true);
       const isValid = await validateDeviceIdentifier(deviceType, 'eid', value);
       setIsValidEID(isValid);
       setIsValidating(false);
@@ -36,7 +34,6 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
       }
     } else {
       setIsValidEID(false);
-      setHasBeenValidated(false);
     }
   };
 
@@ -45,13 +42,6 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
     if (isValidEID && !isValidating) {
       onSubmit(eid);
     }
-  };
-
-  const getBorderColor = () => {
-    if (eid.length !== 32) return '';
-    if (isValidating) return 'ring-4 ring-[#8425af]';
-    if (!hasBeenValidated) return 'ring-4 ring-[#8425af]';
-    return isValidEID ? 'ring-4 ring-green-500' : 'ring-4 ring-red-500';
   };
 
   return (
@@ -74,12 +64,14 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
             const value = e.target.value.replace(/[^0-9a-fA-F]/g, '');
             if (value.length <= 32) {
               setEID(value.toUpperCase());
-              if (value.length === 32) {
-                await validateEID(value);
-              }
+              await validateEID(value);
             }
           }}
-          className={`text-center text-lg rounded-lg border-2 border-input focus:ring-2 focus:ring-[#8425af] ${getBorderColor()}`}
+          className={`text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
+            isValidEID || eid.length === 32
+              ? 'ring-2 ring-green-500' 
+              : ''
+          }`}
         />
 
         <p className="text-sm text-gray-600">

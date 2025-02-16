@@ -15,14 +15,12 @@ type IMEIFormProps = {
 export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   const [imei, setIMEI] = useState("");
   const [isValidIMEI, setIsValidIMEI] = useState(false);
-  const [hasBeenValidated, setHasBeenValidated] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const { toast } = useToast();
 
   const validateIMEI = async (value: string) => {
     if (value.length === 15) {
       setIsValidating(true);
-      setHasBeenValidated(true);
       const isValid = await validateDeviceIdentifier(deviceType, 'imei', value);
       setIsValidIMEI(isValid);
       setIsValidating(false);
@@ -36,7 +34,6 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
       }
     } else {
       setIsValidIMEI(false);
-      setHasBeenValidated(false);
     }
   };
 
@@ -45,13 +42,6 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
     if (isValidIMEI && !isValidating) {
       onSubmit(imei);
     }
-  };
-
-  const getBorderColor = () => {
-    if (imei.length !== 15) return '';
-    if (isValidating) return 'ring-4 ring-[#8425af]';
-    if (!hasBeenValidated) return 'ring-4 ring-[#8425af]';
-    return isValidIMEI ? 'ring-4 ring-green-500' : 'ring-4 ring-red-500';
   };
 
   return (
@@ -74,12 +64,14 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
             const value = e.target.value.replace(/\D/g, '');
             if (value.length <= 15) {
               setIMEI(value);
-              if (value.length === 15) {
-                await validateIMEI(value);
-              }
+              await validateIMEI(value);
             }
           }}
-          className={`text-center text-lg rounded-lg border-2 border-input focus:ring-2 focus:ring-[#8425af] ${getBorderColor()}`}
+          className={`text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
+            isValidIMEI || imei.length === 15
+              ? 'ring-2 ring-green-500' 
+              : ''
+          }`}
         />
 
         <p className="text-sm text-gray-600">
