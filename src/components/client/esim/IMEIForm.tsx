@@ -44,7 +44,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   };
 
   return (
-    <div className="max-w-md mx-auto space-y-6">
+    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-semibold">
           Digite o IMEI exato do celular que vai ter o eSIM ativado
@@ -54,7 +54,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="w-full space-y-6">
         <Input
           type="text"
           placeholder="Digite o IMEI"
@@ -66,7 +66,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
               await validateIMEI(value);
             }
           }}
-          className={`text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
+          className={`w-full text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
             isValidIMEI || imei.length === 15
               ? 'ring-2 ring-green-500' 
               : ''
@@ -77,18 +77,18 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           É só ir nas configurações do aparelho e digitar IMEI no campo de busca. O número que você precisa vai estar em status como IMEI (eSIM)
         </p>
 
-        <div className="flex justify-between items-center mt-8">
+        <div className="flex justify-between items-center w-full mt-8">
           <Button 
             type="button"
             variant="outline"
-            className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-8 py-3 rounded-lg"
+            className="w-[120px] border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg py-3"
             onClick={onBack}
           >
             Voltar
           </Button>
           <Button 
             type="submit"
-            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-8 py-3 rounded-lg"
+            className="w-[120px] bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3"
             disabled={!isValidIMEI || isValidating}
           >
             Continuar
