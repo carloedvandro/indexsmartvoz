@@ -15,6 +15,7 @@ type IMEIFormProps = {
 export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   const [imei, setIMEI] = useState("");
   const [isValidIMEI, setIsValidIMEI] = useState(false);
+  const [hasBeenValidated, setHasBeenValidated] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const { toast } = useToast();
 
@@ -23,6 +24,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
       setIsValidating(true);
       const isValid = await validateDeviceIdentifier(deviceType, 'imei', value);
       setIsValidIMEI(isValid);
+      setHasBeenValidated(true);
       setIsValidating(false);
 
       if (!isValid) {
@@ -34,6 +36,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
       }
     } else {
       setIsValidIMEI(false);
+      setHasBeenValidated(false);
     }
   };
 
@@ -42,6 +45,12 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
     if (isValidIMEI && !isValidating) {
       onSubmit(imei);
     }
+  };
+
+  const getBorderColor = () => {
+    if (imei.length !== 15) return '';
+    if (!hasBeenValidated) return 'ring-2 ring-green-500';
+    return isValidIMEI ? 'ring-2 ring-green-500' : 'ring-2 ring-red-500';
   };
 
   return (
@@ -69,13 +78,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
               }
             }
           }}
-          className={`text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
-            imei.length === 15
-              ? isValidIMEI 
-                ? 'ring-2 ring-green-500'
-                : 'ring-2 ring-red-500'
-              : ''
-          }`}
+          className={`text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${getBorderColor()}`}
         />
 
         <p className="text-sm text-gray-600">

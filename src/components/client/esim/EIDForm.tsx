@@ -15,6 +15,7 @@ type EIDFormProps = {
 export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   const [eid, setEID] = useState("");
   const [isValidEID, setIsValidEID] = useState(false);
+  const [hasBeenValidated, setHasBeenValidated] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const { toast } = useToast();
 
@@ -23,6 +24,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
       setIsValidating(true);
       const isValid = await validateDeviceIdentifier(deviceType, 'eid', value);
       setIsValidEID(isValid);
+      setHasBeenValidated(true);
       setIsValidating(false);
 
       if (!isValid) {
@@ -34,6 +36,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
       }
     } else {
       setIsValidEID(false);
+      setHasBeenValidated(false);
     }
   };
 
@@ -42,6 +45,12 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
     if (isValidEID && !isValidating) {
       onSubmit(eid);
     }
+  };
+
+  const getBorderColor = () => {
+    if (eid.length !== 32) return '';
+    if (!hasBeenValidated) return 'ring-2 ring-green-500';
+    return isValidEID ? 'ring-2 ring-green-500' : 'ring-2 ring-red-500';
   };
 
   return (
@@ -69,13 +78,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
               }
             }
           }}
-          className={`text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
-            eid.length === 32
-              ? isValidEID
-                ? 'ring-2 ring-green-500'
-                : 'ring-2 ring-red-500'
-              : ''
-          }`}
+          className={`text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${getBorderColor()}`}
         />
 
         <p className="text-sm text-gray-600">
