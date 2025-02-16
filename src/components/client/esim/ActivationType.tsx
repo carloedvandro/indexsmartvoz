@@ -9,23 +9,35 @@ type ActivationTypeProps = {
 export function ActivationType({ onSelect }: ActivationTypeProps) {
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-semibold text-center mb-8">
-        Selecione o tipo de ativação
-      </h2>
-      
-      <div className="max-w-sm mx-auto">
-        <Card
-          className="p-6 cursor-pointer hover:shadow-lg transition-shadow"
-          onClick={() => onSelect('self')}
-        >
-          <div className="flex flex-col items-center space-y-4">
-            <User className="w-12 h-12 text-[#5f0889]" />
-            <h3 className="text-xl font-medium">Para Mim</h3>
-            <p className="text-center text-gray-600">
-              Ativar eSIM no meu próprio dispositivo
-            </p>
-          </div>
-        </Card>
+      <div className="flex items-center justify-between text-sm text-gray-500">
+        <span>Identidade</span>
+        <span>eSIM</span>
+        <span>Linhas</span>
+      </div>
+
+      <div className="p-6 border rounded-lg w-full">
+        <div className="flex flex-col space-y-4">
+          <h2 className="text-2xl font-semibold text-center mb-4">
+            Selecione o tipo de ativação
+          </h2>
+          
+          <Card
+            className="p-6 cursor-pointer hover:shadow-lg transition-shadow border-[#8425af] hover:border-[#6c1e8f]"
+            onClick={() => onSelect('self')}
+          >
+            <div className="flex items-center gap-4">
+              <div className="bg-[#8425af]/10 p-3 rounded-full">
+                <User className="w-8 h-8 text-[#8425af]" />
+              </div>
+              <div>
+                <h3 className="text-lg font-medium">Para Mim</h3>
+                <p className="text-gray-600 text-sm">
+                  Ativar eSIM no meu próprio dispositivo
+                </p>
+              </div>
+            </div>
+          </Card>
+        </div>
       </div>
     </div>
   );
