@@ -1,36 +1,41 @@
 
 import { useState } from "react";
-import { 
-  ActivationType, 
-  DeviceSelector, 
-  StepIndicator, 
-  SuccessScreen,
-  IMEIForm,
-  EIDForm
-} from "@/components/client/esim";
+import { ESIMActivationFlow } from "@/components/client/esim/ChipActivationFlow";
 import { ESIMActivation, createESIMActivation } from "@/services/esim/esimActivationService";
 import { useToast } from "@/components/ui/use-toast";
-
-type Step = 'type' | 'device' | 'imei' | 'eid' | 'success';
+import { useNavigate } from "react-router-dom";
 
 export default function ESIMActivationPage() {
-  const [currentStep, setCurrentStep] = useState<Step>('type');
+  const [currentStep, setCurrentStep] = useState(1);
   const [activationData, setActivationData] = useState<Partial<ESIMActivation>>({});
   const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    if (currentStep === 1) {
+      navigate("/client/dashboard");
+    } else {
+      setCurrentStep(prev => prev - 1);
+    }
+  };
+
+  const handleContinue = () => {
+    setCurrentStep(prev => prev + 1);
+  };
 
   const handleTypeSelect = (type: 'self' | 'collaborator') => {
     setActivationData(prev => ({ ...prev, activation_type: type }));
-    setCurrentStep('device');
+    handleContinue();
   };
 
   const handleDeviceSelect = (device: 'android' | 'ios') => {
     setActivationData(prev => ({ ...prev, device_type: device }));
-    setCurrentStep('imei');
+    handleContinue();
   };
 
   const handleIMEISubmit = (imei: string) => {
     setActivationData(prev => ({ ...prev, imei }));
-    setCurrentStep('eid');
+    handleContinue();
   };
 
   const handleEIDSubmit = async (eid: string) => {
@@ -45,7 +50,7 @@ export default function ESIMActivationPage() {
       
       const result = await createESIMActivation(completeData);
       setActivationData(prev => ({ ...prev, ...result }));
-      setCurrentStep('success');
+      handleContinue();
     } catch (error) {
       toast({
         variant: "destructive",
@@ -56,42 +61,14 @@ export default function ESIMActivationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto p-4 pb-16 space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <StepIndicator currentStep={currentStep} />
-          </div>
-          
-          <div>
-            {currentStep === 'type' && (
-              <ActivationType onSelect={handleTypeSelect} />
-            )}
-            
-            {currentStep === 'device' && (
-              <DeviceSelector onSelect={handleDeviceSelect} />
-            )}
-
-            {currentStep === 'imei' && (
-              <IMEIForm 
-                onSubmit={handleIMEISubmit}
-                instructions={activationData.help_instructions?.imei}
-              />
-            )}
-
-            {currentStep === 'eid' && (
-              <EIDForm 
-                onSubmit={handleEIDSubmit}
-                instructions={activationData.help_instructions?.eid}
-              />
-            )}
-            
-            {currentStep === 'success' && (
-              <SuccessScreen data={activationData} />
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+    <ESIMActivationFlow
+      currentStep={currentStep}
+      onBack={handleBack}
+      onContinue={handleContinue}
+      onTypeSelect={handleTypeSelect}
+      onDeviceSelect={handleDeviceSelect}
+      onIMEISubmit={handleIMEISubmit}
+      onEIDSubmit={handleEIDSubmit}
+    />
   );
 }
