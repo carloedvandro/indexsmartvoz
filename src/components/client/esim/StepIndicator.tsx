@@ -10,8 +10,8 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
   const currentStepIndex = steps.findIndex(step => step.id === currentStep);
 
   return (
-    <div className="w-full relative pb-1">
-      <div className="text-center mb-1">
+    <div className="w-full relative pb-2">
+      <div className="text-center mb-2">
         <h1 className="text-xl font-semibold">Ativação do eSIM</h1>
       </div>
       
@@ -24,7 +24,7 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
               {step.title}
             </span>
             {index < steps.length - 1 && (
-              <div className={`absolute top-6 left-1/2 right-0 h-0.5 ${
+              <div className={`absolute top-7 left-1/2 right-0 h-1 ${
                 index < currentStepIndex ? 'bg-[#8425af]' : 'bg-gray-200'
               }`} />
             )}
@@ -32,7 +32,7 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
         ))}
       </div>
       
-      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-200">
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-200">
         <div 
           className="h-full bg-[#8425af] transition-all duration-300"
           style={{ 
