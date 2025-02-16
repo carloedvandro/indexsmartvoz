@@ -21,7 +21,7 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
 
       <div className="space-y-4">
         <div 
-          className="p-4 rounded-lg border border-gray-200 hover:border-[#8425af] cursor-pointer transition-all"
+          className="p-4 rounded-lg border border-[#8425af] hover:border-[#8425af] cursor-pointer transition-all"
           onClick={() => onSelect('self')}
         >
           <div className="flex items-start gap-3">

@@ -25,7 +25,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
 
       <div className="space-y-4 mt-4">
         <div 
-          className="p-4 rounded-lg border border-gray-200 hover:border-[#8425af] cursor-pointer transition-all"
+          className="p-4 rounded-lg border border-[#8425af] hover:border-[#8425af] cursor-pointer transition-all"
           onClick={() => onSelect('android')}
         >
           <div className="flex items-center gap-3">
