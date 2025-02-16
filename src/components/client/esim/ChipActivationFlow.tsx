@@ -78,7 +78,7 @@ export function ESIMActivationFlow({
     <main className="relative min-h-screen flex flex-col items-center justify-start py-12 gap-8 overflow-auto scrollbar-hide">
       <ParticlesBackground />
       <StepIndicator currentStep={getCurrentStepId()} />
-      <Card className="max-w-4xl w-full mx-4 bg-white/80 backdrop-blur-sm shadow-xl z-10">
+      <Card className="w-[90%] max-w-sm mx-auto bg-white/80 backdrop-blur-sm shadow-xl z-10">
         {renderCurrentStep()}
       </Card>
     </main>
