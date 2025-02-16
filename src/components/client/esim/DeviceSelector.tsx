@@ -79,13 +79,6 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
           Voltar
         </Button>
         <Button 
-          variant="link"
-          className="text-[#8425af]"
-        >
-          <Info className="w-4 h-4 mr-1" />
-          Preciso de ajuda
-        </Button>
-        <Button 
           onClick={() => onSelect(selectedDevice)}
           className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-6"
         >
