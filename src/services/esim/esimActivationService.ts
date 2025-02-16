@@ -10,9 +10,13 @@ export type ESIMActivation = {
   imei?: string;
   eid?: string;
   status: string;
+  help_instructions?: {
+    imei: string;
+    eid: string;
+  };
 };
 
-export const createESIMActivation = async (data: Omit<ESIMActivation, 'id' | 'user_id' | 'status'>) => {
+export const createESIMActivation = async (data: Omit<ESIMActivation, 'id' | 'user_id' | 'status' | 'help_instructions'>) => {
   const { data: session } = await supabase.auth.getSession();
   if (!session.session?.user) throw new Error('User not authenticated');
 
@@ -21,8 +25,9 @@ export const createESIMActivation = async (data: Omit<ESIMActivation, 'id' | 'us
     .insert({
       ...data,
       user_id: session.session.user.id,
+      status: 'pending'
     })
-    .select()
+    .select('*, help_instructions')
     .single();
 
   if (error) throw error;

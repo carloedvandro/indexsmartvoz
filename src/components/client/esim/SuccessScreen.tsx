@@ -30,6 +30,8 @@ export function SuccessScreen({ data }: SuccessScreenProps) {
           <p><strong>Tipo:</strong> {data.activation_type === 'self' ? 'Para Mim' : 'Para Colaborador'}</p>
           <p><strong>Número:</strong> {data.phone_number}</p>
           <p><strong>Dispositivo:</strong> {data.device_type === 'ios' ? 'iOS (iPhone)' : 'Android'}</p>
+          <p><strong>IMEI:</strong> {data.imei}</p>
+          <p><strong>EID:</strong> {data.eid}</p>
         </div>
       </div>
 

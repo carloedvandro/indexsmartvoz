@@ -5,6 +5,8 @@ const steps = [
   { id: 'type', title: 'Tipo de Ativação' },
   { id: 'phone', title: 'Número' },
   { id: 'device', title: 'Dispositivo' },
+  { id: 'imei', title: 'IMEI' },
+  { id: 'eid', title: 'EID' },
   { id: 'success', title: 'Conclusão' },
 ];
 
@@ -12,7 +14,7 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
   const currentStepIndex = steps.findIndex(step => step.id === currentStep);
 
   return (
-    <div className="flex items-center justify-center mb-8">
+    <div className="flex items-center justify-center mb-8 flex-wrap gap-y-4">
       {steps.map((step, index) => (
         <div key={step.id} className="flex items-center">
           <div className="flex flex-col items-center">
@@ -33,7 +35,7 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
           </div>
           {index < steps.length - 1 && (
             <div
-              className={`h-0.5 w-16 mx-2 ${
+              className={`h-0.5 w-12 mx-2 ${
                 index < currentStepIndex ? 'bg-[#5f0889]' : 'bg-gray-200'
               }`}
             />

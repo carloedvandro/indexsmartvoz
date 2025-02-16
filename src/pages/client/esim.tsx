@@ -1,14 +1,24 @@
 
 import { useState } from "react";
-import { ActivationType, DeviceSelector, PhoneForm, StepIndicator, SuccessScreen } from "@/components/client/esim";
+import { 
+  ActivationType, 
+  DeviceSelector, 
+  PhoneForm, 
+  StepIndicator, 
+  SuccessScreen,
+  IMEIForm,
+  EIDForm
+} from "@/components/client/esim";
 import { Card, CardContent } from "@/components/ui/card";
-import { ESIMActivation } from "@/services/esim/esimActivationService";
+import { ESIMActivation, createESIMActivation } from "@/services/esim/esimActivationService";
+import { useToast } from "@/components/ui/use-toast";
 
-type Step = 'type' | 'phone' | 'device' | 'success';
+type Step = 'type' | 'phone' | 'device' | 'imei' | 'eid' | 'success';
 
 export default function ESIMActivationPage() {
   const [currentStep, setCurrentStep] = useState<Step>('type');
   const [activationData, setActivationData] = useState<Partial<ESIMActivation>>({});
+  const { toast } = useToast();
 
   const handleTypeSelect = (type: 'self' | 'collaborator') => {
     setActivationData(prev => ({ ...prev, activation_type: type }));
@@ -22,7 +32,27 @@ export default function ESIMActivationPage() {
 
   const handleDeviceSelect = (device: 'android' | 'ios') => {
     setActivationData(prev => ({ ...prev, device_type: device }));
-    setCurrentStep('success');
+    setCurrentStep('imei');
+  };
+
+  const handleIMEISubmit = (imei: string) => {
+    setActivationData(prev => ({ ...prev, imei }));
+    setCurrentStep('eid');
+  };
+
+  const handleEIDSubmit = async (eid: string) => {
+    try {
+      const completeData = { ...activationData, eid } as Omit<ESIMActivation, 'id' | 'user_id' | 'status' | 'help_instructions'>;
+      const result = await createESIMActivation(completeData);
+      setActivationData(result);
+      setCurrentStep('success');
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Erro na ativação",
+        description: "Não foi possível completar a ativação do eSIM. Tente novamente.",
+      });
+    }
   };
 
   return (
@@ -42,6 +72,20 @@ export default function ESIMActivationPage() {
             
             {currentStep === 'device' && (
               <DeviceSelector onSelect={handleDeviceSelect} />
+            )}
+
+            {currentStep === 'imei' && (
+              <IMEIForm 
+                onSubmit={handleIMEISubmit}
+                instructions={activationData.help_instructions?.imei}
+              />
+            )}
+
+            {currentStep === 'eid' && (
+              <EIDForm 
+                onSubmit={handleEIDSubmit}
+                instructions={activationData.help_instructions?.eid}
+              />
             )}
             
             {currentStep === 'success' && (

@@ -224,6 +224,7 @@ export type Database = {
           created_at: string | null
           device_type: string | null
           eid: string | null
+          help_instructions: Json | null
           id: string
           imei: string | null
           phone_number: string | null
@@ -236,6 +237,7 @@ export type Database = {
           created_at?: string | null
           device_type?: string | null
           eid?: string | null
+          help_instructions?: Json | null
           id?: string
           imei?: string | null
           phone_number?: string | null
@@ -248,6 +250,7 @@ export type Database = {
           created_at?: string | null
           device_type?: string | null
           eid?: string | null
+          help_instructions?: Json | null
           id?: string
           imei?: string | null
           phone_number?: string | null
