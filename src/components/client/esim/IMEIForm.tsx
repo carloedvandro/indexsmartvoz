@@ -8,10 +8,11 @@ import { useToast } from "@/components/ui/use-toast";
 
 type IMEIFormProps = {
   onSubmit: (imei: string) => void;
+  onBack: () => void;
   deviceType: 'android' | 'ios';
 };
 
-export function IMEIForm({ onSubmit, deviceType }: IMEIFormProps) {
+export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   const [imei, setIMEI] = useState("");
   const [isValidIMEI, setIsValidIMEI] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
@@ -81,7 +82,7 @@ export function IMEIForm({ onSubmit, deviceType }: IMEIFormProps) {
           <Button 
             type="button"
             className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-6"
-            onClick={() => window.history.back()}
+            onClick={onBack}
           >
             Voltar
           </Button>

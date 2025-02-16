@@ -8,10 +8,11 @@ import { useToast } from "@/components/ui/use-toast";
 
 type EIDFormProps = {
   onSubmit: (eid: string) => void;
+  onBack: () => void;
   deviceType: 'android' | 'ios';
 };
 
-export function EIDForm({ onSubmit, deviceType }: EIDFormProps) {
+export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   const [eid, setEID] = useState("");
   const [isValidEID, setIsValidEID] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
@@ -81,7 +82,7 @@ export function EIDForm({ onSubmit, deviceType }: EIDFormProps) {
           <Button 
             type="button"
             className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-6"
-            onClick={() => window.history.back()}
+            onClick={onBack}
           >
             Voltar
           </Button>
