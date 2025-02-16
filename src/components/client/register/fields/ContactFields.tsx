@@ -4,17 +4,13 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
-import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 
 interface ContactFieldsProps {
   form: UseFormReturn<RegisterFormData>;
 }
 
 export const ContactFields = ({ form }: ContactFieldsProps) => {
-  const [showWhatsapp, setShowWhatsapp] = useState(false);
-  const [showSecondaryWhatsapp, setShowSecondaryWhatsapp] = useState(false);
-
   const primaryWhatsapp = useWatch({
     control: form.control,
     name: "whatsapp",
@@ -33,23 +29,10 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
                 <Input 
                   {...field} 
-                  type={showWhatsapp ? "text" : "password"}
+                  type="text"
                   placeholder="(00) 00000-0000" 
                   className="pl-10"
                 />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                  onClick={() => setShowWhatsapp(!showWhatsapp)}
-                >
-                  {showWhatsapp ? (
-                    <EyeOff className="h-4 w-4 text-gray-500" />
-                  ) : (
-                    <Eye className="h-4 w-4 text-gray-500" />
-                  )}
-                </Button>
               </div>
             </FormControl>
             <FormMessage />
@@ -68,7 +51,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
                 <Input 
                   {...field} 
-                  type={showSecondaryWhatsapp ? "text" : "password"}
+                  type="text"
                   placeholder="(00) 00000-0000"
                   className="pl-10"
                   onChange={(e) => {
@@ -84,19 +67,6 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
                     field.onChange(e);
                   }}
                 />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                  onClick={() => setShowSecondaryWhatsapp(!showSecondaryWhatsapp)}
-                >
-                  {showSecondaryWhatsapp ? (
-                    <EyeOff className="h-4 w-4 text-gray-500" />
-                  ) : (
-                    <Eye className="h-4 w-4 text-gray-500" />
-                  )}
-                </Button>
               </div>
             </FormControl>
             <FormMessage />
