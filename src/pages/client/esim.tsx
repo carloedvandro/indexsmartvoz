@@ -61,15 +61,17 @@ export default function ESIMActivationPage() {
   };
 
   return (
-    <ESIMActivationFlow
-      currentStep={currentStep}
-      onBack={handleBack}
-      onContinue={handleContinue}
-      onTypeSelect={handleTypeSelect}
-      onDeviceSelect={handleDeviceSelect}
-      onIMEISubmit={handleIMEISubmit}
-      onEIDSubmit={handleEIDSubmit}
-      activationData={activationData}
-    />
+    <div className="h-screen w-screen overflow-hidden">
+      <ESIMActivationFlow
+        currentStep={currentStep}
+        onBack={handleBack}
+        onContinue={handleContinue}
+        onTypeSelect={handleTypeSelect}
+        onDeviceSelect={handleDeviceSelect}
+        onIMEISubmit={handleIMEISubmit}
+        onEIDSubmit={handleEIDSubmit}
+        activationData={activationData}
+      />
+    </div>
   );
 }
