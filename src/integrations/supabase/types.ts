@@ -218,6 +218,45 @@ export type Database = {
         }
         Relationships: []
       }
+      esim_activations: {
+        Row: {
+          activation_type: string | null
+          created_at: string | null
+          device_type: string | null
+          eid: string | null
+          id: string
+          imei: string | null
+          phone_number: string | null
+          status: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          activation_type?: string | null
+          created_at?: string | null
+          device_type?: string | null
+          eid?: string | null
+          id?: string
+          imei?: string | null
+          phone_number?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          activation_type?: string | null
+          created_at?: string | null
+          device_type?: string | null
+          eid?: string | null
+          id?: string
+          imei?: string | null
+          phone_number?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       network: {
         Row: {
           created_at: string
