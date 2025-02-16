@@ -1,7 +1,6 @@
 
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Info, User } from "lucide-react";
+import { Info } from "lucide-react";
 
 type ActivationTypeProps = {
   onSelect: (type: 'self' | 'collaborator') => void;
@@ -9,7 +8,7 @@ type ActivationTypeProps = {
 
 export function ActivationType({ onSelect }: ActivationTypeProps) {
   return (
-    <div className="max-w-xl mx-auto space-y-6">
+    <div className="max-w-md mx-auto space-y-6">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-semibold">
           Quem irá ativar a linha no eSIM?
@@ -21,7 +20,7 @@ export function ActivationType({ onSelect }: ActivationTypeProps) {
 
       <div className="space-y-4">
         <div 
-          className="p-4 border rounded-lg cursor-pointer hover:border-[#9b87f5] group transition-all"
+          className="p-4 rounded-lg border border-gray-200 hover:border-[#8425af] cursor-pointer transition-all"
           onClick={() => onSelect('self')}
         >
           <div className="flex items-start gap-3">
@@ -29,12 +28,12 @@ export function ActivationType({ onSelect }: ActivationTypeProps) {
               type="radio"
               name="type"
               id="self"
-              className="mt-1 accent-[#9b87f5]"
+              className="mt-1 accent-[#8425af]"
               checked
               readOnly
             />
             <div>
-              <label htmlFor="self" className="text-lg font-medium block">
+              <label htmlFor="self" className="text-lg font-medium">
                 Eu Mesmo (Gestor)
               </label>
               <p className="text-gray-600 text-sm mt-1">
@@ -44,7 +43,7 @@ export function ActivationType({ onSelect }: ActivationTypeProps) {
           </div>
         </div>
 
-        <div className="p-4 border rounded-lg opacity-50">
+        <div className="p-4 rounded-lg border border-gray-200 opacity-50">
           <div className="flex items-start gap-3">
             <input
               type="radio"
@@ -54,7 +53,7 @@ export function ActivationType({ onSelect }: ActivationTypeProps) {
               disabled
             />
             <div>
-              <label htmlFor="collaborator" className="text-lg font-medium block">
+              <label htmlFor="collaborator" className="text-lg font-medium">
                 Outra Pessoa (Colaborador)
               </label>
               <p className="text-gray-600 text-sm mt-1">
@@ -68,22 +67,22 @@ export function ActivationType({ onSelect }: ActivationTypeProps) {
       <div className="flex justify-between items-center mt-8">
         <Button 
           variant="outline"
-          className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5] hover:text-white"
+          className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-6"
         >
           Voltar
         </Button>
         <Button 
-          onClick={() => onSelect('self')}
-          className="bg-[#9b87f5] hover:bg-[#8b77e5] text-white"
-        >
-          Continuar
-        </Button>
-        <Button 
           variant="link"
-          className="text-[#9b87f5]"
+          className="text-[#8425af]"
         >
           <Info className="w-4 h-4 mr-1" />
           Preciso de ajuda
+        </Button>
+        <Button 
+          onClick={() => onSelect('self')}
+          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-6"
+        >
+          Continuar
         </Button>
       </div>
     </div>

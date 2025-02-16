@@ -1,46 +1,45 @@
 
-import { Check } from "lucide-react";
-
 const steps = [
   { id: 'type', title: 'Identidade' },
-  { id: 'device', title: 'eSIM' },
-  { id: 'imei', title: 'Linhas' }
+  { id: 'device', title: 'Sistema' },
+  { id: 'imei', title: 'IMEI' },
+  { id: 'eid', title: 'EID' }
 ];
 
 export function StepIndicator({ currentStep }: { currentStep: string }) {
   const currentStepIndex = steps.findIndex(step => step.id === currentStep);
 
   return (
-    <div className="flex items-center justify-between max-w-xl mx-auto relative mb-8">
-      {steps.map((step, index) => (
-        <div key={step.id} className="flex flex-col items-center space-y-2">
-          <div
-            className={`w-6 h-6 rounded-full ${
-              index < currentStepIndex
-                ? 'bg-[#8425af] text-white flex items-center justify-center'
-                : index === currentStepIndex
-                ? 'bg-[#8425af] border-2 border-white flex items-center justify-center'
-                : 'bg-gray-200 flex items-center justify-center'
-            }`}
-          >
-            {index < currentStepIndex ? (
-              <Check className="w-4 h-4" />
-            ) : (
-              <div className="w-1.5 h-1.5 rounded-full bg-white" />
+    <div className="w-full relative pb-2">
+      <div className="text-center mb-2">
+        <h1 className="text-xl font-semibold">ATIVAÇÃO DE ESIM</h1>
+      </div>
+      
+      <div className="relative flex justify-between w-full">
+        {steps.map((step, index) => (
+          <div key={step.id} className="flex-1 text-center relative">
+            <span className={`text-sm ${
+              index === currentStepIndex ? 'text-[#8425af] font-medium' : 'text-gray-500'
+            }`}>
+              {step.title}
+            </span>
+            {index < steps.length - 1 && (
+              <div className={`absolute top-7 left-1/2 right-0 h-1 ${
+                index < currentStepIndex ? 'bg-[#8425af]' : 'bg-gray-200'
+              }`} />
             )}
           </div>
-          <span className={`text-sm font-medium ${
-            index === currentStepIndex ? 'text-[#8425af]' : 'text-gray-500'
-          }`}>
-            {step.title}
-          </span>
-          {index < steps.length - 1 && (
-            <div className={`absolute left-[calc(${(index + 1) * 50}% - 2rem)] right-[calc(${(index + 1) * 50}% - 2rem)] h-[2px] top-3 -z-10 ${
-              index < currentStepIndex ? 'bg-[#8425af]' : 'bg-gray-200'
-            }`} />
-          )}
-        </div>
-      ))}
+        ))}
+      </div>
+      
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-200">
+        <div 
+          className="h-full bg-[#8425af] transition-all duration-300"
+          style={{ 
+            width: `${((currentStepIndex + 1) / steps.length) * 100}%`,
+          }}
+        />
+      </div>
     </div>
   );
 }

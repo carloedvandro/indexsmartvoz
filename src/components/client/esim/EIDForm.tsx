@@ -35,7 +35,7 @@ export function EIDForm({ onSubmit }: EIDFormProps) {
             const value = e.target.value.replace(/[^0-9a-fA-F]/g, '');
             if (value.length <= 32) setEID(value.toUpperCase());
           }}
-          className="text-center text-lg border-gray-300 focus:border-[#9b87f5] focus:ring-[#9b87f5]"
+          className="text-center text-lg border-gray-200 focus:border-[#8425af] focus:ring-[#8425af] rounded-lg"
         />
 
         <p className="text-sm text-gray-600">
@@ -46,24 +46,23 @@ export function EIDForm({ onSubmit }: EIDFormProps) {
           <Button 
             type="button"
             variant="outline"
-            className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5] hover:text-white"
+            className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-6"
           >
             Voltar
           </Button>
           <Button 
-            type="submit"
-            className="bg-[#9b87f5] hover:bg-[#8b77e5] text-white"
-            disabled={eid.length !== 32}
-          >
-            Continuar
-          </Button>
-          <Button 
-            type="button"
             variant="link"
-            className="text-[#9b87f5]"
+            className="text-[#8425af]"
           >
             <Info className="w-4 h-4 mr-1" />
             Preciso de ajuda
+          </Button>
+          <Button 
+            type="submit"
+            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-6"
+            disabled={eid.length !== 32}
+          >
+            Continuar
           </Button>
         </div>
       </form>
