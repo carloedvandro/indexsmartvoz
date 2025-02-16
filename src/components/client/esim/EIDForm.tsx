@@ -67,10 +67,10 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
               await validateEID(value);
             }
           }}
-          className={`text-center text-lg rounded-lg ${
+          className={`text-center text-lg rounded-lg border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] ${
             isValidEID || eid.length === 32
-              ? 'border-green-500 focus:border-green-500 focus:ring-green-500 ring-green-500 ring-2 border-2' 
-              : 'border-gray-200 focus:border-[#8425af] focus:ring-[#8425af]'
+              ? 'ring-[#8425af] ring-2 border-2' 
+              : ''
           }`}
         />
 
@@ -81,7 +81,8 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
         <div className="flex justify-between items-center mt-8">
           <Button 
             type="button"
-            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-6"
+            variant="outline"
+            className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-6"
             onClick={onBack}
           >
             Voltar
