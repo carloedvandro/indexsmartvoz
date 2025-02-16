@@ -2,7 +2,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { RainbowButton } from "@/components/ui/rainbow-button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { FormFields } from "./FormFields";
 import { RegisterFormData, registerFormSchema } from "./RegisterSchema";
@@ -17,17 +16,13 @@ export const RegisterFormContainer = () => {
   };
 
   return (
-    <Card className="border-none bg-transparent">
-      <CardContent className="p-0">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormFields form={form} />
-            <RainbowButton type="submit" className="w-full">
-              Cadastrar
-            </RainbowButton>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <FormFields form={form} />
+        <RainbowButton type="submit" className="w-full">
+          Cadastrar
+        </RainbowButton>
+      </form>
+    </Form>
   );
 };
