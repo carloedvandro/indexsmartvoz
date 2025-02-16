@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,7 +48,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
 
   const getBorderColor = () => {
     if (imei.length !== 15) return '';
-    if (!hasBeenValidated) return 'ring-2 ring-[#8425af]';
+    if (!hasBeenValidated) return 'ring-4 ring-[#8425af]';
     return isValidIMEI ? 'ring-2 ring-green-500' : 'ring-2 ring-red-500';
   };
 
@@ -78,7 +77,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
               }
             }
           }}
-          className={`text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${getBorderColor()}`}
+          className={`text-center text-lg rounded-lg border-2 border-input focus:ring-2 focus:ring-[#8425af] ${getBorderColor()}`}
         />
 
         <p className="text-sm text-gray-600">
