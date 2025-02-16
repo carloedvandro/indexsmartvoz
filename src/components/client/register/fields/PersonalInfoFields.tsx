@@ -10,7 +10,7 @@ interface PersonalInfoFieldsProps {
 
 export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
   return (
-    <>
+    <div className="space-y-4">
       <FormField
         control={form.control}
         name="fullName"
@@ -53,7 +53,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
         )}
       />
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <FormField
           control={form.control}
           name="birthDate"
@@ -82,6 +82,6 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
           )}
         />
       </div>
-    </>
+    </div>
   );
 };

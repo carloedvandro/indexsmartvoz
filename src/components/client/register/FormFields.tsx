@@ -14,7 +14,7 @@ interface FormFieldsProps {
 
 export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
   return (
-    <>
+    <div className="space-y-4 w-full">
       <PersonalInfoFields form={form} />
       <ContactFields form={form} />
       <PasswordFields form={form} />
@@ -32,6 +32,6 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
           </FormItem>
         )}
       />
-    </>
+    </div>
   );
 };
