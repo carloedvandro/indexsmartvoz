@@ -1,12 +1,16 @@
 
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { User } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 type ActivationTypeProps = {
   onSelect: (type: 'self' | 'collaborator') => void;
 };
 
 export function ActivationType({ onSelect }: ActivationTypeProps) {
+  const navigate = useNavigate();
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between text-sm text-gray-500">
@@ -22,7 +26,7 @@ export function ActivationType({ onSelect }: ActivationTypeProps) {
           </h2>
           
           <Card
-            className="p-6 cursor-pointer hover:shadow-lg transition-shadow border-[#8425af] hover:border-[#6c1e8f]"
+            className="p-6 cursor-pointer hover:shadow-lg transition-shadow border-[#8425af]"
             onClick={() => onSelect('self')}
           >
             <div className="flex items-center gap-4">
@@ -37,6 +41,22 @@ export function ActivationType({ onSelect }: ActivationTypeProps) {
               </div>
             </div>
           </Card>
+
+          <div className="flex justify-between pt-4">
+            <Button 
+              variant="outline"
+              className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
+              onClick={() => navigate("/client/dashboard")}
+            >
+              Voltar
+            </Button>
+            <Button 
+              className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+              onClick={() => onSelect('self')}
+            >
+              Continuar
+            </Button>
+          </div>
         </div>
       </div>
     </div>
