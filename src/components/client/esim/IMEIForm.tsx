@@ -64,11 +64,13 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
             const value = e.target.value.replace(/\D/g, '');
             if (value.length <= 15) {
               setIMEI(value);
-              await validateIMEI(value);
+              if (value.length === 15) {
+                validateIMEI(value);
+              }
             }
           }}
           className={`text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
-            isValidIMEI || imei.length === 15
+            imei.length === 15
               ? 'ring-2 ring-green-500' 
               : ''
           }`}

@@ -64,11 +64,13 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
             const value = e.target.value.replace(/[^0-9a-fA-F]/g, '');
             if (value.length <= 32) {
               setEID(value.toUpperCase());
-              await validateEID(value);
+              if (value.length === 32) {
+                validateEID(value);
+              }
             }
           }}
           className={`text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
-            isValidEID || eid.length === 32
+            eid.length === 32
               ? 'ring-2 ring-green-500' 
               : ''
           }`}
