@@ -7,7 +7,7 @@ import { EIDForm } from "./EIDForm";
 import { SuccessScreen } from "./SuccessScreen";
 import { StepIndicator } from "./StepIndicator";
 import { ESIMActivation } from "@/services/esim/esimActivationService";
-import { WarpBackground } from "@/components/ui/warp-background";
+import { ParticlesBackground } from "@/components/ui/particles-background";
 
 type ESIMActivationFlowProps = {
   currentStep: number;
@@ -75,11 +75,12 @@ export function ESIMActivationFlow({
   };
 
   return (
-    <WarpBackground className="min-h-screen">
-      <div className="flex flex-col flex-1">
+    <div className="relative min-h-screen bg-gray-50">
+      <ParticlesBackground />
+      <div className="relative z-10 flex flex-col flex-1">
         <div className="py-4 px-6 text-center">
           <div className="container mx-auto">
-            <h1 className="text-xl font-semibold text-white">ATIVAÇÃO DE ESIM</h1>
+            <h1 className="text-xl font-semibold text-gray-900">ATIVAÇÃO DE ESIM</h1>
           </div>
         </div>
 
@@ -87,12 +88,12 @@ export function ESIMActivationFlow({
           <div className="grid grid-cols-1 gap-8">
             <StepIndicator currentStep={getCurrentStepId()} />
             
-            <Card className="bg-black/40 backdrop-blur-sm border-none shadow-xl">
+            <Card className="bg-white/80 backdrop-blur-sm shadow-xl">
               {renderCurrentStep()}
             </Card>
           </div>
         </div>
       </div>
-    </WarpBackground>
+    </div>
   );
 }
