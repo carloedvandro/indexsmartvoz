@@ -15,6 +15,7 @@ import ClientNews from '@/pages/client/news';
 import ClientUpgrade from '@/pages/client/upgrade';
 import ClientChipActivation from '@/pages/client/chip-activation';
 import ClientProducts from '@/pages/client/products';
+import ClientESIM from '@/pages/client/esim';
 import AdminDashboard from '@/pages/admin/dashboard';
 import AdminLogin from '@/pages/admin/login';
 import AdminNetwork from '@/pages/admin/network';
@@ -37,36 +38,37 @@ const router = createBrowserRouter(
       <Route path="/store/:storeUrl" element={<PublicStore />} />
 
       {/* Protected Client Routes */}
-      <Route path="/client" element={<ProtectedRoute />}>
-        <Route path="dashboard" element={<ClientDashboard />} />
-        <Route path="network" element={<ClientNetwork />} />
-        <Route path="store" element={<ClientStore />} />
-        <Route path="events" element={<ClientEvents />} />
-        <Route path="courses" element={<ClientCourses />} />
-        <Route path="news" element={<ClientNews />} />
-        <Route path="upgrade" element={<ClientUpgrade />} />
-        <Route path="chip-activation" element={<ClientChipActivation />} />
-        <Route path="products" element={<ClientProducts />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/client/dashboard" element={<ClientDashboard />} />
+        <Route path="/client/network" element={<ClientNetwork />} />
+        <Route path="/client/store" element={<ClientStore />} />
+        <Route path="/client/events" element={<ClientEvents />} />
+        <Route path="/client/courses" element={<ClientCourses />} />
+        <Route path="/client/news" element={<ClientNews />} />
+        <Route path="/client/upgrade" element={<ClientUpgrade />} />
+        <Route path="/client/chip-activation" element={<ClientChipActivation />} />
+        <Route path="/client/products" element={<ClientProducts />} />
+        <Route path="/client/esim" element={<ClientESIM />} />
       </Route>
 
       {/* Protected Admin Routes */}
-      <Route path="/admin" element={<ProtectedRoute />}>
-        <Route path="dashboard" element={<AdminDashboard />} />
-        <Route path="network" element={<AdminNetwork />} />
-        <Route path="plans" element={<AdminPlans />} />
-        <Route path="users" element={<AdminUsers />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/network" element={<AdminNetwork />} />
+        <Route path="/admin/plans" element={<AdminPlans />} />
+        <Route path="/admin/users" element={<AdminUsers />} />
       </Route>
     </Route>
   )
 );
 
-function App() {
+const App = () => {
   return (
-    <>
+    <React.StrictMode>
       <RouterProvider router={router} />
       <Toaster />
-    </>
+    </React.StrictMode>
   );
-}
+};
 
 export default App;

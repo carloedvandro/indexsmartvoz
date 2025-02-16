@@ -1,12 +1,8 @@
-
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { BarcodeScanner } from "@/components/BarcodeScanner";
 import { ChipInstructions } from "./chip-activation/ChipInstructions";
 import { BarcodeInstructions } from "./chip-activation/BarcodeInstructions";
 import { BarcodeScannerComponent } from "./chip-activation/BarcodeScanner";
-import { ChipTypeSelection } from "./chip-activation/ChipTypeSelection";
-import { EsimActivationFlow } from "./chip-activation/EsimActivationFlow";
 
 interface ChipActivationFlowProps {
   currentStep: number;
@@ -38,25 +34,8 @@ export function ChipActivationFlow({
   onUpdateBarcode,
   onScanningClose,
 }: ChipActivationFlowProps) {
-  const [chipType, setChipType] = useState<'physical' | 'esim' | null>(null);
-  
   // Verifica se todos os códigos de barras foram escaneados
   const allBarcodesScanned = selectedLines.every(line => line.barcode);
-
-  const handleChipTypeSelect = (type: 'physical' | 'esim') => {
-    setChipType(type);
-    if (type === 'physical') {
-      onContinue();
-    }
-  };
-
-  const handleEsimComplete = (imei: string, eid: string) => {
-    // Atualiza os códigos de barras com o formato específico para eSIM
-    selectedLines.forEach((line, index) => {
-      onUpdateBarcode(index, `ESIM-${imei}-${eid}-${line.ddd}`);
-    });
-    onContinue();
-  };
 
   return (
     <>
@@ -67,19 +46,11 @@ export function ChipActivationFlow({
         />
       )}
       
-      <div className="max-w-[400px] mx-auto w-full">
+      <div className="max-w-[340px] mx-auto w-full">
         <div className="pt-16 space-y-8">
           {currentStep === 4 && <ChipInstructions />}
-          {currentStep === 5 && (
-            chipType === null ? (
-              <ChipTypeSelection onSelectChipType={handleChipTypeSelect} />
-            ) : chipType === 'physical' ? (
-              <BarcodeInstructions onBack={onBack} onContinue={onContinue} />
-            ) : (
-              <EsimActivationFlow onComplete={handleEsimComplete} />
-            )
-          )}
-          {currentStep === 6 && chipType === 'physical' && (
+          {currentStep === 5 && <BarcodeInstructions onBack={onBack} onContinue={onContinue} />}
+          {currentStep === 6 && (
             <div className="flex flex-col space-y-6">
               <BarcodeScannerComponent
                 selectedLines={selectedLines}

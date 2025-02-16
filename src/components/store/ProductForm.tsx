@@ -1,7 +1,10 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useNetworkPlans } from "@/hooks/useNetworkPlans";
 
 type Product = {
   id: string;
@@ -9,6 +12,7 @@ type Product = {
   description: string | null;
   price: number;
   image_url: string | null;
+  plan_id?: string | null;
 };
 
 interface ProductFormProps {
@@ -18,16 +22,18 @@ interface ProductFormProps {
 }
 
 export function ProductForm({ selectedProduct, isLoading, onSubmit }: ProductFormProps) {
+  const { data: plans = [], isLoading: isLoadingPlans } = useNetworkPlans();
+
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>{selectedProduct ? "Edit Product" : "Add New Product"}</DialogTitle>
+        <DialogTitle>{selectedProduct ? "Editar Produto" : "Adicionar Novo Produto"}</DialogTitle>
       </DialogHeader>
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
           <Input
             name="name"
-            placeholder="Product Name"
+            placeholder="Nome do Produto"
             defaultValue={selectedProduct?.name}
             required
           />
@@ -35,7 +41,7 @@ export function ProductForm({ selectedProduct, isLoading, onSubmit }: ProductFor
         <div>
           <Textarea
             name="description"
-            placeholder="Product Description"
+            placeholder="Descrição do Produto"
             defaultValue={selectedProduct?.description || ""}
           />
         </div>
@@ -44,20 +50,37 @@ export function ProductForm({ selectedProduct, isLoading, onSubmit }: ProductFor
             name="price"
             type="number"
             step="0.01"
-            placeholder="Price"
+            placeholder="Preço"
             defaultValue={selectedProduct?.price}
             required
           />
         </div>
+        {!isLoadingPlans && plans.length > 0 && (
+          <div>
+            <Select name="plan_id" defaultValue={selectedProduct?.plan_id || undefined}>
+              <SelectTrigger>
+                <SelectValue placeholder="Selecione um plano (opcional)" />
+              </SelectTrigger>
+              <SelectContent>
+                {plans.map((plan) => (
+                  <SelectItem key={plan.id} value={plan.id}>
+                    {plan.name} - {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(plan.price)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
         <div>
           <Input
             name="image"
             type="file"
             accept="image/*"
+            className="cursor-pointer"
           />
         </div>
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? "Saving..." : "Save Product"}
+        <Button type="submit" disabled={isLoading || isLoadingPlans}>
+          {isLoading ? "Salvando..." : "Salvar Produto"}
         </Button>
       </form>
     </DialogContent>

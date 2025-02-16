@@ -1,3 +1,4 @@
+
 import { z } from "zod";
 import { validatePasswordStrength } from "@/utils/passwordValidation";
 import { validateCPF } from "@/utils/cpfValidation";
@@ -16,9 +17,24 @@ export const registerFormSchema = z.object({
     .min(3, "ID personalizado deve ter pelo menos 3 caracteres")
     .regex(/^[a-zA-Z0-9]+$/, "ID personalizado deve conter apenas letras e números"),
   birthDate: z.string().min(1, "Data de nascimento é obrigatória"),
-}).refine((data) => data.password === data.passwordConfirmation, {
-  message: "As senhas não coincidem",
-  path: ["passwordConfirmation"],
-});
+  whatsapp: z.string().min(11, "WhatsApp deve ter pelo menos 11 dígitos"),
+  secondaryWhatsapp: z.string().optional(),
+}).refine(
+  (data) => data.password === data.passwordConfirmation,
+  {
+    message: "As senhas não coincidem",
+    path: ["passwordConfirmation"],
+  }
+).refine(
+  (data) => {
+    if (!data.secondaryWhatsapp) return true;
+    return data.whatsapp !== data.secondaryWhatsapp;
+  },
+  {
+    message: "O segundo contato deve ser diferente do WhatsApp principal",
+    path: ["secondaryWhatsapp"],
+  }
+);
 
 export type RegisterFormData = z.infer<typeof registerFormSchema>;
+

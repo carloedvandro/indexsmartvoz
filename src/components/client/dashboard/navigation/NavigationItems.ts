@@ -1,3 +1,4 @@
+
 import { NavigationItem } from "../types";
 
 export const navigationItems: NavigationItem[] = [
@@ -13,8 +14,12 @@ export const navigationItems: NavigationItem[] = [
         href: "/client/store",
       },
       {
-        title: "Processo de Contratação",
+        title: "Processo de Ativação do SIM Card",
         href: "/client/products",
+      },
+      {
+        title: "Processo de Ativação do eSIM",
+        href: "/client/esim",
       }
     ],
   },

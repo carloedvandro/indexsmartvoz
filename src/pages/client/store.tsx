@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { StoreHeader } from "@/components/store/StoreHeader";
 import { ProductList } from "@/components/store/ProductList";
@@ -8,12 +9,14 @@ import { useSession } from "@/hooks/useSession";
 import { useProfile } from "@/hooks/useProfile";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
+import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 export default function Store() {
   const { getSession } = useSession();
   const { data: profile } = useProfile();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [isSessionLoaded, setIsSessionLoaded] = useState(false);
   const { products, isLoading, loadProducts } = useStoreProducts();
   const { 
@@ -24,9 +27,15 @@ export default function Store() {
     handleDelete 
   } = useProductActions(loadProducts);
 
-  const isManager = profile?.email === 'yrwentechnology@gmail.com';
+  const isManager = profile?.role === 'admin';
+  const sponsorId = searchParams.get('sponsor');
 
   useEffect(() => {
+    if (sponsorId) {
+      navigate(`/client/register?sponsor=${sponsorId}`);
+      return;
+    }
+
     const initializeStore = async () => {
       const session = await getSession();
       if (!session) {
@@ -42,15 +51,16 @@ export default function Store() {
     };
     
     initializeStore();
-  }, []);
+  }, [sponsorId, navigate]);
 
-  if (!isSessionLoaded) {
+  if (!isSessionLoaded && !sponsorId) {
     return null;
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto p-4 pb-16 space-y-6">
+    <div className="relative min-h-screen bg-background">
+      <ParticlesBackground />
+      <div className="relative z-10 container mx-auto p-4 pb-16 space-y-6">
         <div className="flex items-center gap-4">
           <Button
             variant="outline"
@@ -85,6 +95,15 @@ export default function Store() {
             onDelete={handleDelete}
           />
         )}
+
+        <div className="mt-8 text-center">
+          <Link
+            to="/client/register"
+            className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
+          >
+            Criar Conta
+          </Link>
+        </div>
       </div>
     </div>
   );
