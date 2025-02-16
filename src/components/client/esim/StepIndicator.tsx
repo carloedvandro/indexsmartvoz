@@ -12,7 +12,7 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
   return (
     <div className="w-full relative pb-2">
       <div className="text-center mb-2">
-        <h1 className="text-xl font-semibold">ATIVAÇÃO DE ESIM</h1>
+        <h1 className="text-xl font-semibold">Ativação do eSIM</h1>
       </div>
       
       <div className="relative flex justify-between w-full">
