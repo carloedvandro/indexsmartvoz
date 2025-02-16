@@ -28,7 +28,7 @@ export function InternetSelector({
     <div>
       <span className="text-sm font-medium mb-1 block">Internet</span>
       <Select value={selectedInternet} onValueChange={onInternetChange}>
-        <SelectTrigger className="bg-white h-[42px]">
+        <SelectTrigger className="bg-white h-[42px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af]">
           <SelectValue placeholder="Escolher o plano" />
         </SelectTrigger>
         <SelectContent position="popper" className="bg-white max-h-[179px] overflow-y-auto w-full">
