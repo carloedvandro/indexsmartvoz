@@ -69,7 +69,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
           }}
           className={`text-center text-lg rounded-lg border-2 border-[#8425af] focus:ring-2 focus:ring-[#8425af] hover:border-[#8425af] ${
             isValidEID || eid.length === 32
-              ? 'ring-2 ring-[#8425af]' 
+              ? 'border-2 border-[#8425af] ring-2 ring-[#8425af]' 
               : ''
           }`}
         />
