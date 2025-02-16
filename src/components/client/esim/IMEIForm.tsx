@@ -68,8 +68,8 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
             }
           }}
           className={`text-center text-lg rounded-lg ${
-            isValidIMEI
-              ? 'border-green-500 focus:border-green-500 focus:ring-green-500 ring-green-500 ring-1' 
+            isValidIMEI || imei.length === 15
+              ? 'border-green-500 focus:border-green-500 focus:ring-green-500 ring-green-500 ring-2 border-2' 
               : 'border-gray-200 focus:border-[#8425af] focus:ring-[#8425af]'
           }`}
         />
