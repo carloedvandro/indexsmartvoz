@@ -1,24 +1,26 @@
 
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { StepIndicator } from "./StepIndicator";
-import { DeviceSelector } from "./DeviceSelector";
 import { ActivationType } from "./ActivationType";
+import { DeviceSelector } from "./DeviceSelector";
 import { IMEIForm } from "./IMEIForm";
 import { EIDForm } from "./EIDForm";
 import { SuccessScreen } from "./SuccessScreen";
-import { ESIMActivation } from "@/services/esim/esimActivationService";
+import { StepIndicator } from "./StepIndicator";
 
-interface ESIMActivationFlowProps {
+type ESIMActivationFlowProps = {
   currentStep: number;
   onBack: () => void;
   onContinue: () => void;
-  onDeviceSelect: (device: 'android' | 'ios') => void;
-  onTypeSelect: (type: 'self' | 'collaborator') => void;
+  onDeviceSelect: (device: string) => void;
+  onTypeSelect: (type: string) => void;
   onIMEISubmit: (imei: string) => void;
   onEIDSubmit: (eid: string) => void;
-  activationData: Partial<ESIMActivation>;
-}
+  activationData: {
+    device_type?: string;
+    imei?: string;
+    eid?: string;
+  };
+};
 
 export function ESIMActivationFlow({
   currentStep,
