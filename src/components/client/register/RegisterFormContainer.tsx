@@ -80,7 +80,7 @@ export const RegisterFormContainer = () => {
     <>
       {!showBiometry ? (
         <>
-          <p className="mt-1 text-center text-sm text-gray-600 max-w-[140%] mx-auto">
+          <p className="mt-4 text-center text-sm text-gray-600 max-w-[140%] mx-auto">
             Preencha os dados abaixo para criar sua conta
           </p>
           <div className="mt-4">
