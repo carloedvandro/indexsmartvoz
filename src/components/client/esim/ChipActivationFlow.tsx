@@ -33,13 +33,25 @@ export function ESIMActivationFlow({
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 1:
-        return <ActivationType onSelect={onTypeSelect} />;
+        return <ActivationType onSelect={onTypeSelect} onBack={onBack} />;
       case 2:
-        return <DeviceSelector onSelect={onDeviceSelect} />;
+        return <DeviceSelector onSelect={onDeviceSelect} onBack={onBack} />;
       case 3:
-        return <IMEIForm onSubmit={onIMEISubmit} deviceType={activationData.device_type as 'android' | 'ios'} />;
+        return (
+          <IMEIForm 
+            onSubmit={onIMEISubmit} 
+            onBack={onBack}
+            deviceType={activationData.device_type as 'android' | 'ios'} 
+          />
+        );
       case 4:
-        return <EIDForm onSubmit={onEIDSubmit} deviceType={activationData.device_type as 'android' | 'ios'} />;
+        return (
+          <EIDForm 
+            onSubmit={onEIDSubmit} 
+            onBack={onBack}
+            deviceType={activationData.device_type as 'android' | 'ios'} 
+          />
+        );
       case 5:
         return <SuccessScreen data={activationData} />;
       default:
