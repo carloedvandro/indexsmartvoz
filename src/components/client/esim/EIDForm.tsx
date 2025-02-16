@@ -80,8 +80,7 @@ export function EIDForm({ onSubmit, deviceType }: EIDFormProps) {
         <div className="flex justify-between items-center mt-8">
           <Button 
             type="button"
-            variant="outline"
-            className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-6"
+            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-6"
             onClick={() => window.history.back()}
           >
             Voltar
