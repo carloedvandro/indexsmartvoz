@@ -27,8 +27,8 @@ export function EIDForm({ onSubmit, deviceType }: EIDFormProps) {
       if (!isValid) {
         toast({
           variant: "destructive",
-          title: "EID inválido",
-          description: "O número EID informado não é válido para este tipo de dispositivo."
+          title: "EID não autorizado",
+          description: "O EID informado não está na lista de dispositivos autorizados. Por favor, verifique se você digitou o número EID correto do seu dispositivo."
         });
       }
     } else {
@@ -47,8 +47,11 @@ export function EIDForm({ onSubmit, deviceType }: EIDFormProps) {
     <div className="max-w-md mx-auto space-y-6">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-semibold">
-          Por fim, é só informar o EID do celular que você está ativando
+          Digite o EID exato do celular que vai ter o eSIM ativado
         </h2>
+        <p className="text-sm text-gray-600">
+          O número precisa ser idêntico ao que aparece nas configurações do seu celular
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">

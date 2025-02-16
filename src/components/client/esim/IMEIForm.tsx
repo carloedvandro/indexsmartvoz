@@ -27,8 +27,8 @@ export function IMEIForm({ onSubmit, deviceType }: IMEIFormProps) {
       if (!isValid) {
         toast({
           variant: "destructive",
-          title: "IMEI inválido",
-          description: "O número IMEI informado não é válido para este tipo de dispositivo."
+          title: "IMEI não autorizado",
+          description: "O IMEI informado não está na lista de dispositivos autorizados. Por favor, verifique se você digitou o número IMEI correto do seu dispositivo."
         });
       }
     } else {
@@ -47,8 +47,11 @@ export function IMEIForm({ onSubmit, deviceType }: IMEIFormProps) {
     <div className="max-w-md mx-auto space-y-6">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-semibold">
-          Agora você vai precisar informar o IMEI do celular que vai ter o eSIM ativado
+          Digite o IMEI exato do celular que vai ter o eSIM ativado
         </h2>
+        <p className="text-sm text-gray-600">
+          O número precisa ser idêntico ao que aparece nas configurações do seu celular
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">

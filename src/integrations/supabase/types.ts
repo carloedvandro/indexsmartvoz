@@ -92,6 +92,8 @@ export type Database = {
           id: string
           imei_pattern: string
           updated_at: string | null
+          valid_eids: string[] | null
+          valid_imeis: string[] | null
         }
         Insert: {
           created_at?: string | null
@@ -100,6 +102,8 @@ export type Database = {
           id?: string
           imei_pattern: string
           updated_at?: string | null
+          valid_eids?: string[] | null
+          valid_imeis?: string[] | null
         }
         Update: {
           created_at?: string | null
@@ -108,6 +112,8 @@ export type Database = {
           id?: string
           imei_pattern?: string
           updated_at?: string | null
+          valid_eids?: string[] | null
+          valid_imeis?: string[] | null
         }
         Relationships: []
       }
