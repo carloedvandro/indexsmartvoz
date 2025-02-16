@@ -33,10 +33,6 @@ export function PlanSelectionStep({
   
   const internetOptions = [
     { value: "120GB", label: "120GB", price: 119.99 },
-    { value: "140GB", label: "140GB", price: 129.99 },
-    { value: "160GB", label: "160GB", price: 139.99 },
-    { value: "180GB", label: "180GB", price: 149.99 },
-    { value: "200GB", label: "200GB", price: 159.99 },
   ];
 
   useState(() => {
