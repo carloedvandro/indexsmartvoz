@@ -18,6 +18,8 @@ export function EIDForm({ onSubmit }: EIDFormProps) {
     }
   };
 
+  const isValidEID = eid.length === 32;
+
   return (
     <div className="max-w-md mx-auto space-y-6">
       <div className="text-center space-y-2">
@@ -35,7 +37,11 @@ export function EIDForm({ onSubmit }: EIDFormProps) {
             const value = e.target.value.replace(/[^0-9a-fA-F]/g, '');
             if (value.length <= 32) setEID(value.toUpperCase());
           }}
-          className="text-center text-lg border-gray-200 focus:border-[#8425af] focus:ring-[#8425af] rounded-lg"
+          className={`text-center text-lg rounded-lg ${
+            isValidEID 
+              ? 'border-green-500 focus:border-green-500 focus:ring-green-500' 
+              : 'border-gray-200 focus:border-[#8425af] focus:ring-[#8425af]'
+          }`}
         />
 
         <p className="text-sm text-gray-600">
@@ -60,7 +66,7 @@ export function EIDForm({ onSubmit }: EIDFormProps) {
           <Button 
             type="submit"
             className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-6"
-            disabled={eid.length !== 32}
+            disabled={!isValidEID}
           >
             Continuar
           </Button>
