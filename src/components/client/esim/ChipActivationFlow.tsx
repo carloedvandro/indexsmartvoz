@@ -74,7 +74,7 @@ export function ESIMActivationFlow({
   };
 
   return (
-    <main className="relative min-h-screen flex flex-col items-center justify-start py-12 gap-8 overflow-auto scrollbar-hide">
+    <main className="relative min-h-screen flex flex-col items-center justify-start py-12 gap-8 overflow-hidden">
       <ParticlesBackground />
       <StepIndicator currentStep={getCurrentStepId()} />
       {renderCurrentStep()}
