@@ -39,7 +39,7 @@ export default function ESIMActivationPage() {
       const completeData = {
         activation_type: activationData.activation_type!,
         device_type: activationData.device_type!,
-        phone_number: '+55', // Valor padrão já que não pedimos mais o número
+        phone_number: '+55',
         imei: activationData.imei,
         eid
       };
@@ -57,12 +57,12 @@ export default function ESIMActivationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container max-w-4xl mx-auto px-4">
-        <Card>
-          <CardContent className="p-6">
-            <StepIndicator currentStep={currentStep} />
-            
+    <div className="min-h-screen bg-[#8425af] py-8 overflow-x-hidden">
+      <div className="container mx-auto p-4 pb-16 space-y-6">
+        <div className="bg-white rounded-lg p-6">
+          <StepIndicator currentStep={currentStep} />
+          
+          <div className="mt-8">
             {currentStep === 'type' && (
               <ActivationType onSelect={handleTypeSelect} />
             )}
@@ -88,8 +88,8 @@ export default function ESIMActivationPage() {
             {currentStep === 'success' && (
               <SuccessScreen data={activationData} />
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -13,14 +13,14 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
   const currentStepIndex = steps.findIndex(step => step.id === currentStep);
 
   return (
-    <div className="flex items-center justify-center mb-8 flex-wrap gap-y-4">
-      {steps.map((step, index) => (
-        <div key={step.id} className="flex items-center">
-          <div className="flex flex-col items-center">
+    <div className="max-w-[340px] mx-auto w-full">
+      <div className="flex flex-col space-y-4">
+        {steps.map((step, index) => (
+          <div key={step.id} className="flex items-center gap-3">
             <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center ${
+              className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                 index <= currentStepIndex
-                  ? 'bg-[#5f0889] text-white'
+                  ? 'bg-[#8425af] text-white'
                   : 'bg-gray-200 text-gray-500'
               }`}
             >
@@ -30,17 +30,23 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
                 <span>{index + 1}</span>
               )}
             </div>
-            <span className="text-sm mt-2">{step.title}</span>
+            <div className="flex-1">
+              <span className={`text-sm ${
+                index <= currentStepIndex ? 'text-[#8425af] font-medium' : 'text-gray-500'
+              }`}>
+                {step.title}
+              </span>
+              {index < steps.length - 1 && (
+                <div
+                  className={`h-8 w-0.5 ml-[15px] mt-1 ${
+                    index < currentStepIndex ? 'bg-[#8425af]' : 'bg-gray-200'
+                  }`}
+                />
+              )}
+            </div>
           </div>
-          {index < steps.length - 1 && (
-            <div
-              className={`h-0.5 w-12 mx-2 ${
-                index < currentStepIndex ? 'bg-[#5f0889]' : 'bg-gray-200'
-              }`}
-            />
-          )}
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
