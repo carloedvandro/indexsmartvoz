@@ -4,9 +4,10 @@ import { Info } from "lucide-react";
 
 type ActivationTypeProps = {
   onSelect: (type: 'self' | 'collaborator') => void;
+  onBack: () => void;
 };
 
-export function ActivationType({ onSelect }: ActivationTypeProps) {
+export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
   return (
     <div className="max-w-md mx-auto space-y-6">
       <div className="text-center space-y-2">
@@ -68,6 +69,7 @@ export function ActivationType({ onSelect }: ActivationTypeProps) {
         <Button 
           variant="outline"
           className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-6"
+          onClick={onBack}
         >
           Voltar
         </Button>

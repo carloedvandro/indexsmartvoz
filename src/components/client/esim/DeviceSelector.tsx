@@ -4,9 +4,10 @@ import { Info } from "lucide-react";
 
 type DeviceSelectorProps = {
   onSelect: (device: 'android' | 'ios') => void;
+  onBack: () => void;
 };
 
-export function DeviceSelector({ onSelect }: DeviceSelectorProps) {
+export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
   return (
     <div className="max-w-md mx-auto space-y-6">
       <div className="text-center space-y-2">
@@ -64,6 +65,7 @@ export function DeviceSelector({ onSelect }: DeviceSelectorProps) {
         <Button 
           variant="outline"
           className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-6"
+          onClick={onBack}
         >
           Voltar
         </Button>
