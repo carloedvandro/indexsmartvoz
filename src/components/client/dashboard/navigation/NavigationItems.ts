@@ -14,11 +14,11 @@ export const navigationItems: NavigationItem[] = [
         href: "/client/store",
       },
       {
-        title: "Processo de Contratação do Sim Card",
+        title: "Processo de Ativação do SIM Card",
         href: "/client/products",
       },
       {
-        title: "Processo de Contratação do eSim",
+        title: "Processo de Ativação do eSIM",
         href: "/client/esim",
       }
     ],
