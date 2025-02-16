@@ -3,7 +3,6 @@ import { useState } from "react";
 import { 
   ActivationType, 
   DeviceSelector, 
-  PhoneForm, 
   StepIndicator, 
   SuccessScreen,
   IMEIForm,
@@ -13,7 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ESIMActivation, createESIMActivation } from "@/services/esim/esimActivationService";
 import { useToast } from "@/components/ui/use-toast";
 
-type Step = 'type' | 'phone' | 'device' | 'imei' | 'eid' | 'success';
+type Step = 'type' | 'device' | 'imei' | 'eid' | 'success';
 
 export default function ESIMActivationPage() {
   const [currentStep, setCurrentStep] = useState<Step>('type');
@@ -22,11 +21,6 @@ export default function ESIMActivationPage() {
 
   const handleTypeSelect = (type: 'self' | 'collaborator') => {
     setActivationData(prev => ({ ...prev, activation_type: type }));
-    setCurrentStep('phone');
-  };
-
-  const handlePhoneSubmit = (phone: string) => {
-    setActivationData(prev => ({ ...prev, phone_number: phone }));
     setCurrentStep('device');
   };
 
@@ -44,8 +38,8 @@ export default function ESIMActivationPage() {
     try {
       const completeData = {
         activation_type: activationData.activation_type!,
-        phone_number: activationData.phone_number!,
         device_type: activationData.device_type!,
+        phone_number: '+55', // Valor padrão já que não pedimos mais o número
         imei: activationData.imei,
         eid
       };
@@ -71,10 +65,6 @@ export default function ESIMActivationPage() {
             
             {currentStep === 'type' && (
               <ActivationType onSelect={handleTypeSelect} />
-            )}
-            
-            {currentStep === 'phone' && (
-              <PhoneForm onSubmit={handlePhoneSubmit} />
             )}
             
             {currentStep === 'device' && (

@@ -28,7 +28,6 @@ export function SuccessScreen({ data }: SuccessScreenProps) {
       <div className="bg-gray-50 p-4 rounded-lg max-w-sm mx-auto">
         <div className="space-y-2 text-left">
           <p><strong>Tipo:</strong> {data.activation_type === 'self' ? 'Para Mim' : 'Para Colaborador'}</p>
-          <p><strong>Número:</strong> {data.phone_number}</p>
           <p><strong>Dispositivo:</strong> {data.device_type === 'ios' ? 'iOS (iPhone)' : 'Android'}</p>
           <p><strong>IMEI:</strong> {data.imei}</p>
           <p><strong>EID:</strong> {data.eid}</p>

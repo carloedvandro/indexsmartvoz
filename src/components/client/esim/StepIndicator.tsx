@@ -3,7 +3,6 @@ import { Check } from "lucide-react";
 
 const steps = [
   { id: 'type', title: 'Tipo de Ativação' },
-  { id: 'phone', title: 'Número' },
   { id: 'device', title: 'Dispositivo' },
   { id: 'imei', title: 'IMEI' },
   { id: 'eid', title: 'EID' },
