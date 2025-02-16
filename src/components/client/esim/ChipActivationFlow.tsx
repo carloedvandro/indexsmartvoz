@@ -1,5 +1,4 @@
 
-import { Card } from "@/components/ui/card";
 import { ActivationType } from "./ActivationType";
 import { DeviceSelector } from "./DeviceSelector";
 import { IMEIForm } from "./IMEIForm";
@@ -78,9 +77,7 @@ export function ESIMActivationFlow({
     <main className="relative min-h-screen flex flex-col items-center justify-start py-12 gap-8 overflow-auto scrollbar-hide">
       <ParticlesBackground />
       <StepIndicator currentStep={getCurrentStepId()} />
-      <Card className="w-[90%] max-w-sm mx-auto shadow-xl z-10">
-        {renderCurrentStep()}
-      </Card>
+      {renderCurrentStep()}
     </main>
   );
 }
