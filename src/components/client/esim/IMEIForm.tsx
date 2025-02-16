@@ -67,7 +67,7 @@ export function IMEIForm({ onSubmit, deviceType }: IMEIFormProps) {
             }
           }}
           className={`text-center text-lg rounded-lg ${
-            isValidIMEI 
+            isValidIMEI || imei.length === 15
               ? 'border-green-500 focus:border-green-500 focus:ring-green-500' 
               : 'border-gray-200 focus:border-[#8425af] focus:ring-[#8425af]'
           }`}
@@ -82,6 +82,7 @@ export function IMEIForm({ onSubmit, deviceType }: IMEIFormProps) {
             type="button"
             variant="outline"
             className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-6"
+            onClick={() => window.history.back()}
           >
             Voltar
           </Button>
