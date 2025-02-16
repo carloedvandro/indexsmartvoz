@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Info } from "lucide-react";
 import { validateDeviceIdentifier } from "@/services/esim/deviceValidationService";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -82,21 +81,14 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
           <Button 
             type="button"
             variant="outline"
-            className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-6"
+            className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-8 py-3 rounded-lg"
             onClick={onBack}
           >
             Voltar
           </Button>
           <Button 
-            variant="link"
-            className="text-[#8425af]"
-          >
-            <Info className="w-4 h-4 mr-1" />
-            Preciso de ajuda
-          </Button>
-          <Button 
             type="submit"
-            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-6"
+            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-8 py-3 rounded-lg"
             disabled={!isValidEID || isValidating}
           >
             Continuar
