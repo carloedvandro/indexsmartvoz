@@ -1,7 +1,7 @@
 
 import { useProfile } from "@/hooks/useProfile";
 import { supabase } from "@/integrations/supabase/client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNetworkData } from "@/components/client/network/useNetworkData";
 import { countMembersByStatus } from "@/utils/networkStats";
@@ -15,16 +15,6 @@ export const NetworkStatsCard = () => {
   const { data: profile } = useProfile();
   const { networkData } = useNetworkData(profile?.id || '');
   const queryClient = useQueryClient();
-  const [cardData, setCardData] = useState<any[]>([]);
-
-  useEffect(() => {
-    const loadCardData = async () => {
-      const data = await generateCardData();
-      setCardData(data);
-    };
-    
-    loadCardData();
-  }, []);
 
   useEffect(() => {
     const channel = supabase
@@ -48,6 +38,7 @@ export const NetworkStatsCard = () => {
   }, [profile?.id, queryClient]);
 
   const memberCounts = networkData ? countMembersByStatus(networkData) : { active: 0, pending: 0 };
+  const cardData = generateCardData();
   const revenueData = generateRevenueData();
 
   return (

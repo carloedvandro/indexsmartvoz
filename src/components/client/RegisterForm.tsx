@@ -1,5 +1,4 @@
-
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "react-router-dom";
@@ -19,7 +18,6 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
   const [searchParams] = useSearchParams();
   const sponsorId = searchParams.get("sponsor");
   const { toast } = useToast();
-  const [isPostSubmitDisabled, setIsPostSubmitDisabled] = useState(false);
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
@@ -56,15 +54,8 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
       console.log("Registration completed successfully");
       toast({
         title: "Sucesso!",
-        description: "Agora vamos fazer sua verificação biométrica.",
+        description: "Sua conta foi criada com sucesso. Você será redirecionado em instantes.",
       });
-
-      // Disable button for 5 seconds after successful submission
-      setIsPostSubmitDisabled(true);
-      setTimeout(() => {
-        setIsPostSubmitDisabled(false);
-      }, 5000);
-
     } catch (error: any) {
       console.error("Registration error:", error);
       toast({
@@ -86,15 +77,15 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
         <RainbowButton 
           type="submit" 
           className="w-full"
-          disabled={form.formState.isSubmitting || isPostSubmitDisabled}
+          disabled={form.formState.isSubmitting}
         >
           {form.formState.isSubmitting ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Processando...
+              Criando conta...
             </>
           ) : (
-            "Continuar"
+            "Criar Conta"
           )}
         </RainbowButton>
       </form>

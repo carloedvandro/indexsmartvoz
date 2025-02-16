@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tables } from "@/integrations/supabase/types";
 import { Badge } from "@/components/ui/badge";
@@ -35,7 +34,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
           isActive={isActive}
         />
         <div className="text-center">
-          <h3 className="text-xl font-semibold">{profile?.full_name || "Nome não informado"}</h3>
+          <h3 className="text-xl font-semibold">SMARTVOZ</h3>
           <p className="text-sm text-muted-foreground break-all">{profile?.email || "Não informado"}</p>
           <Badge 
             className="mt-2" 
@@ -54,13 +53,13 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
               <p className="text-sm text-muted-foreground">Patrocinador</p>
               <p className="font-medium">
                 {profile?.sponsor?.full_name || "Não possui"}
-                {profile?.sponsor?.custom_id && ` (${profile.sponsor.custom_id})`}
+                {profile?.sponsor?.custom_id && ` (ID: ${profile.sponsor.custom_id})`}
               </p>
             </div>
             {profile?.custom_id && (
               <div className="text-center">
                 <p className="text-sm text-muted-foreground">ID Personalizado</p>
-                <p className="font-medium">Meu ID: {profile.custom_id}</p>
+                <p className="font-medium">{profile.custom_id}</p>
               </div>
             )}
           </div>
@@ -69,4 +68,3 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
     </Card>
   );
 };
-

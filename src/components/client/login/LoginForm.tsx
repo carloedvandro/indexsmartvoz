@@ -94,7 +94,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             placeholder="seu@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="pl-10 bg-transparent"
+            className="pl-10"
             required
           />
         </div>
@@ -110,7 +110,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="pl-10 bg-transparent"
+            className="pl-10"
             required
           />
           <button
