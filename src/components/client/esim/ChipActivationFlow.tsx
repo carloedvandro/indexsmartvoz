@@ -8,7 +8,6 @@ import { IMEIForm } from "./IMEIForm";
 import { EIDForm } from "./EIDForm";
 import { SuccessScreen } from "./SuccessScreen";
 import { ESIMActivation } from "@/services/esim/esimActivationService";
-import { ArrowLeft } from "lucide-react";
 
 interface ESIMActivationFlowProps {
   currentStep: number;
@@ -56,47 +55,30 @@ export function ESIMActivationFlow({
         return 'device';
       case 3:
         return 'imei';
+      case 4:
+        return 'eid';
       default:
         return 'type';
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Barra superior */}
-      <div className="bg-[#1A1F2C] text-white py-3 px-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="text-white hover:bg-white/10"
-            onClick={onBack}
-          >
-            <ArrowLeft className="h-4 w-4 mr-1" />
-            Saída
-          </Button>
+    <div className="min-h-screen bg-white">
+      <div className="flex flex-col flex-1">
+        <div className="py-4 px-6 text-center border-b">
+          <div className="container mx-auto">
+            <h1 className="text-xl font-semibold text-gray-900">ATIVAÇÃO DE ESIM</h1>
+          </div>
         </div>
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-medium">ATIVAÇÃO DE ESIM</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="text-white border-white/20 hover:bg-white/10"
-          >
-            Restaurar
-          </Button>
-        </div>
-      </div>
 
-      <div className="container mx-auto p-4 pb-16 space-y-6">
-        <div className="grid grid-cols-1 gap-6">
-          <StepIndicator currentStep={getCurrentStepId()} />
-          
-          <Card className="p-6">
-            {renderCurrentStep()}
-          </Card>
+        <div className="container mx-auto px-4 py-8 max-w-4xl">
+          <div className="grid grid-cols-1 gap-8">
+            <StepIndicator currentStep={getCurrentStepId()} />
+            
+            <Card className="p-8 shadow-sm border-0">
+              {renderCurrentStep()}
+            </Card>
+          </div>
         </div>
       </div>
     </div>
