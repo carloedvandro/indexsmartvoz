@@ -9,15 +9,15 @@ type ActivationTypeProps = {
 
 export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
   return (
-    <>
+    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto">
       <h2 className="text-2xl font-semibold text-center">
         Quem irá ativar a linha no eSIM?
       </h2>
-      <p className="text-gray-400 text-center">
+      <p className="text-gray-400 text-center mt-2">
         É preciso ter o celular com o eSIM em mãos pra ativar
       </p>
 
-      <div className="space-y-4">
+      <div className="space-y-4 mt-6">
         <div 
           className="p-4 rounded-lg border border-[#8425af] hover:border-[#8425af] cursor-pointer transition-all"
           onClick={() => onSelect('self')}
@@ -63,21 +63,21 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
         </div>
       </div>
 
-      <div className="flex justify-between w-full max-w-sm mx-auto mt-8">
+      <div className="flex justify-between mt-8">
         <Button 
           variant="outline"
-          className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg px-12 py-3"
+          className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg px-8 py-3"
           onClick={onBack}
         >
           Voltar
         </Button>
         <Button 
           onClick={() => onSelect('self')}
-          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg px-12 py-3"
+          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg px-8 py-3"
         >
           Continuar
         </Button>
       </div>
-    </>
+    </div>
   );
 }

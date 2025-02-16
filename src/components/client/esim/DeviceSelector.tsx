@@ -12,7 +12,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
   const [selectedDevice, setSelectedDevice] = useState<'android' | 'ios'>('android');
 
   return (
-    <div className="space-y-6">
+    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-semibold">
           Vamos começar escolhendo o sistema do celular que vai ter o eSIM ativado
@@ -73,14 +73,14 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
       <div className="flex justify-between items-center mt-8">
         <Button 
           variant="outline"
-          className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-6"
+          className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg px-8 py-3"
           onClick={onBack}
         >
           Voltar
         </Button>
         <Button 
           onClick={() => onSelect(selectedDevice)}
-          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-6"
+          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg px-8 py-3"
         >
           Continuar
         </Button>
