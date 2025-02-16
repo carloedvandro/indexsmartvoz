@@ -71,7 +71,9 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
           }}
           className={`text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
             eid.length === 32
-              ? 'ring-2 ring-green-500' 
+              ? isValidEID
+                ? 'ring-2 ring-green-500'
+                : 'ring-2 ring-red-500'
               : ''
           }`}
         />

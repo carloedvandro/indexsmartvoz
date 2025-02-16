@@ -71,7 +71,9 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           }}
           className={`text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
             imei.length === 15
-              ? 'ring-2 ring-green-500' 
+              ? isValidIMEI 
+                ? 'ring-2 ring-green-500'
+                : 'ring-2 ring-red-500'
               : ''
           }`}
         />
