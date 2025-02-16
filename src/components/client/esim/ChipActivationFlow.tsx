@@ -75,25 +75,13 @@ export function ESIMActivationFlow({
   };
 
   return (
-    <div className="relative min-h-screen bg-gray-50">
+    <main className="relative min-h-screen flex flex-col items-center justify-start py-12 gap-8">
       <ParticlesBackground />
-      <div className="relative z-10 flex flex-col flex-1">
-        <div className="py-4 px-6 text-center">
-          <div className="container mx-auto">
-            <h1 className="text-xl font-semibold text-gray-900">ATIVAÇÃO DE ESIM</h1>
-          </div>
-        </div>
-
-        <div className="container mx-auto px-4 py-8 max-w-4xl">
-          <div className="grid grid-cols-1 gap-8">
-            <StepIndicator currentStep={getCurrentStepId()} />
-            
-            <Card className="bg-white/80 backdrop-blur-sm shadow-xl">
-              {renderCurrentStep()}
-            </Card>
-          </div>
-        </div>
-      </div>
-    </div>
+      <h1 className="text-xl font-semibold text-gray-900 z-10">ATIVAÇÃO DE ESIM</h1>
+      <StepIndicator currentStep={getCurrentStepId()} />
+      <Card className="max-w-4xl w-full mx-4 bg-white/80 backdrop-blur-sm shadow-xl z-10">
+        {renderCurrentStep()}
+      </Card>
+    </main>
   );
 }
