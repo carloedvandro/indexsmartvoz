@@ -8,7 +8,6 @@ import {
   IMEIForm,
   EIDForm
 } from "@/components/client/esim";
-import { Card, CardContent } from "@/components/ui/card";
 import { ESIMActivation, createESIMActivation } from "@/services/esim/esimActivationService";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -57,12 +56,14 @@ export default function ESIMActivationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#8425af] py-8 overflow-x-hidden">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto p-4 pb-16 space-y-6">
-        <div className="bg-white rounded-lg p-6">
-          <StepIndicator currentStep={currentStep} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <StepIndicator currentStep={currentStep} />
+          </div>
           
-          <div className="mt-8">
+          <div>
             {currentStep === 'type' && (
               <ActivationType onSelect={handleTypeSelect} />
             )}
