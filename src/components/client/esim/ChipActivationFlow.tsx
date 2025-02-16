@@ -6,20 +6,17 @@ import { IMEIForm } from "./IMEIForm";
 import { EIDForm } from "./EIDForm";
 import { SuccessScreen } from "./SuccessScreen";
 import { StepIndicator } from "./StepIndicator";
+import { ESIMActivation } from "@/services/esim/esimActivationService";
 
 type ESIMActivationFlowProps = {
   currentStep: number;
   onBack: () => void;
   onContinue: () => void;
-  onDeviceSelect: (device: string) => void;
-  onTypeSelect: (type: string) => void;
+  onDeviceSelect: (device: 'android' | 'ios') => void;
+  onTypeSelect: (type: 'self' | 'collaborator') => void;
   onIMEISubmit: (imei: string) => void;
   onEIDSubmit: (eid: string) => void;
-  activationData: {
-    device_type?: string;
-    imei?: string;
-    eid?: string;
-  };
+  activationData: Partial<ESIMActivation>;
 };
 
 export function ESIMActivationFlow({
