@@ -9,15 +9,13 @@ type ActivationTypeProps = {
 
 export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
   return (
-    <div className="max-w-md mx-auto space-y-6">
-      <div className="text-center space-y-2">
-        <h2 className="text-2xl font-semibold">
-          Quem irá ativar a linha no eSIM?
-        </h2>
-        <p className="text-gray-600">
-          É preciso ter o celular com o eSIM em mãos pra ativar
-        </p>
-      </div>
+    <>
+      <h2 className="text-2xl font-semibold text-center">
+        Quem irá ativar a linha no eSIM?
+      </h2>
+      <p className="text-gray-400 text-center">
+        É preciso ter o celular com o eSIM em mãos pra ativar
+      </p>
 
       <div className="space-y-4">
         <div 
@@ -37,7 +35,7 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
               <label htmlFor="self" className="text-lg font-medium">
                 Eu Mesmo (Gestor)
               </label>
-              <p className="text-gray-600 text-sm mt-1">
+              <p className="text-gray-400 text-sm mt-1">
                 Você informa os números de IMEI e EID do celular e ativa aqui pelo site
               </p>
             </div>
@@ -57,7 +55,7 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
               <label htmlFor="collaborator" className="text-lg font-medium">
                 Outra Pessoa (Colaborador)
               </label>
-              <p className="text-gray-600 text-sm mt-1">
+              <p className="text-gray-400 text-sm mt-1">
                 Você gera um código de acesso e envia ao seu colaborador. Ele entra no nosso site, informa os números de IMEI e EID do celular e faz a ativação
               </p>
             </div>
@@ -87,6 +85,6 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
           Continuar
         </Button>
       </div>
-    </div>
+    </>
   );
 }
