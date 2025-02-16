@@ -42,9 +42,16 @@ export default function ESIMActivationPage() {
 
   const handleEIDSubmit = async (eid: string) => {
     try {
-      const completeData = { ...activationData, eid } as Omit<ESIMActivation, 'id' | 'user_id' | 'status' | 'help_instructions'>;
+      const completeData = {
+        activation_type: activationData.activation_type!,
+        phone_number: activationData.phone_number!,
+        device_type: activationData.device_type!,
+        imei: activationData.imei,
+        eid
+      };
+      
       const result = await createESIMActivation(completeData);
-      setActivationData(result);
+      setActivationData(prev => ({ ...prev, ...result }));
       setCurrentStep('success');
     } catch (error) {
       toast({

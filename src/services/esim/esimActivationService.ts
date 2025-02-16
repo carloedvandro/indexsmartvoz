@@ -14,9 +14,11 @@ export type ESIMActivation = {
     imei: string;
     eid: string;
   };
+  created_at?: string;
+  updated_at?: string;
 };
 
-export const createESIMActivation = async (data: Omit<ESIMActivation, 'id' | 'user_id' | 'status' | 'help_instructions'>) => {
+export const createESIMActivation = async (data: Omit<ESIMActivation, 'id' | 'user_id' | 'status' | 'help_instructions' | 'created_at' | 'updated_at'>) => {
   const { data: session } = await supabase.auth.getSession();
   if (!session.session?.user) throw new Error('User not authenticated');
 
@@ -31,5 +33,13 @@ export const createESIMActivation = async (data: Omit<ESIMActivation, 'id' | 'us
     .single();
 
   if (error) throw error;
-  return result;
+  
+  // Garantir que o tipo retornado corresponda ao ESIMActivation
+  const typedResult: ESIMActivation = {
+    ...result,
+    activation_type: result.activation_type as 'self' | 'collaborator',
+    device_type: result.device_type as 'android' | 'ios',
+  };
+
+  return typedResult;
 };
