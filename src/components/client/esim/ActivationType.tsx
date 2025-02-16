@@ -1,6 +1,6 @@
 
 import { Card } from "@/components/ui/card";
-import { Users, User } from "lucide-react";
+import { User } from "lucide-react";
 
 type ActivationTypeProps = {
   onSelect: (type: 'self' | 'collaborator') => void;
@@ -13,7 +13,7 @@ export function ActivationType({ onSelect }: ActivationTypeProps) {
         Selecione o tipo de ativação
       </h2>
       
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="max-w-sm mx-auto">
         <Card
           className="p-6 cursor-pointer hover:shadow-lg transition-shadow"
           onClick={() => onSelect('self')}
@@ -23,19 +23,6 @@ export function ActivationType({ onSelect }: ActivationTypeProps) {
             <h3 className="text-xl font-medium">Para Mim</h3>
             <p className="text-center text-gray-600">
               Ativar eSIM no meu próprio dispositivo
-            </p>
-          </div>
-        </Card>
-
-        <Card
-          className="p-6 cursor-pointer hover:shadow-lg transition-shadow"
-          onClick={() => onSelect('collaborator')}
-        >
-          <div className="flex flex-col items-center space-y-4">
-            <Users className="w-12 h-12 text-[#5f0889]" />
-            <h3 className="text-xl font-medium">Para Colaborador</h3>
-            <p className="text-center text-gray-600">
-              Ativar eSIM para outra pessoa
             </p>
           </div>
         </Card>
