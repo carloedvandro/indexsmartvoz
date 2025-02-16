@@ -77,7 +77,6 @@ export function ESIMActivationFlow({
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-start py-12 gap-8">
       <ParticlesBackground />
-      <h1 className="text-xl font-semibold text-gray-900 z-10">ATIVAÇÃO DE ESIM</h1>
       <StepIndicator currentStep={getCurrentStepId()} />
       <Card className="max-w-4xl w-full mx-4 bg-white/80 backdrop-blur-sm shadow-xl z-10">
         {renderCurrentStep()}
