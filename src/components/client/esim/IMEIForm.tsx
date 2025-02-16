@@ -35,7 +35,7 @@ export function IMEIForm({ onSubmit }: IMEIFormProps) {
             const value = e.target.value.replace(/\D/g, '');
             if (value.length <= 15) setIMEI(value);
           }}
-          className="text-center text-lg"
+          className="text-center text-lg border-gray-300 focus:border-[#9b87f5] focus:ring-[#9b87f5]"
         />
 
         <p className="text-sm text-gray-600">
@@ -46,13 +46,13 @@ export function IMEIForm({ onSubmit }: IMEIFormProps) {
           <Button 
             type="button"
             variant="outline"
-            className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
+            className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5] hover:text-white"
           >
             Voltar
           </Button>
           <Button 
             type="submit"
-            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+            className="bg-[#9b87f5] hover:bg-[#8b77e5] text-white"
             disabled={imei.length !== 15}
           >
             Continuar
@@ -60,7 +60,7 @@ export function IMEIForm({ onSubmit }: IMEIFormProps) {
           <Button 
             type="button"
             variant="link"
-            className="text-[#8425af]"
+            className="text-[#9b87f5]"
           >
             <Info className="w-4 h-4 mr-1" />
             Preciso de ajuda

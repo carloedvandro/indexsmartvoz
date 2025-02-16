@@ -1,7 +1,7 @@
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { User, Info } from "lucide-react";
+import { Info, User } from "lucide-react";
 
 type ActivationTypeProps = {
   onSelect: (type: 'self' | 'collaborator') => void;
@@ -21,7 +21,7 @@ export function ActivationType({ onSelect }: ActivationTypeProps) {
 
       <div className="space-y-4">
         <div 
-          className="p-4 border rounded-lg cursor-pointer hover:border-[#8425af] group"
+          className="p-4 border rounded-lg cursor-pointer hover:border-[#9b87f5] group transition-all"
           onClick={() => onSelect('self')}
         >
           <div className="flex items-start gap-3">
@@ -29,7 +29,7 @@ export function ActivationType({ onSelect }: ActivationTypeProps) {
               type="radio"
               name="type"
               id="self"
-              className="mt-1"
+              className="mt-1 accent-[#9b87f5]"
               checked
               readOnly
             />
@@ -68,19 +68,19 @@ export function ActivationType({ onSelect }: ActivationTypeProps) {
       <div className="flex justify-between items-center mt-8">
         <Button 
           variant="outline"
-          className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
+          className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5] hover:text-white"
         >
           Voltar
         </Button>
         <Button 
           onClick={() => onSelect('self')}
-          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+          className="bg-[#9b87f5] hover:bg-[#8b77e5] text-white"
         >
           Continuar
         </Button>
         <Button 
           variant="link"
-          className="text-[#8425af]"
+          className="text-[#9b87f5]"
         >
           <Info className="w-4 h-4 mr-1" />
           Preciso de ajuda

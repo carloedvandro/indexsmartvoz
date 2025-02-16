@@ -55,20 +55,30 @@ export function ESIMActivationFlow({
         return 'device';
       case 3:
         return 'imei';
+      case 4:
+        return 'eid';
       default:
         return 'type';
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto p-4 pb-16 space-y-6">
-        <div className="grid grid-cols-1 gap-6">
-          <StepIndicator currentStep={getCurrentStepId()} />
-          
-          <Card className="p-6">
-            {renderCurrentStep()}
-          </Card>
+    <div className="min-h-screen bg-white">
+      <div className="flex flex-col flex-1">
+        <div className="py-4 px-6 text-center border-b">
+          <div className="container mx-auto">
+            <h1 className="text-xl font-semibold text-gray-900">ATIVAÇÃO DE ESIM</h1>
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 py-8 max-w-4xl">
+          <div className="grid grid-cols-1 gap-8">
+            <StepIndicator currentStep={getCurrentStepId()} />
+            
+            <Card className="p-8 shadow-sm border border-gray-100">
+              {renderCurrentStep()}
+            </Card>
+          </div>
         </div>
       </div>
     </div>
