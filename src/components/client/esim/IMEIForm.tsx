@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,9 +22,9 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   const validateIMEI = async (value: string) => {
     if (value.length === 15) {
       setIsValidating(true);
+      setHasBeenValidated(true);
       const isValid = await validateDeviceIdentifier(deviceType, 'imei', value);
       setIsValidIMEI(isValid);
-      setHasBeenValidated(true);
       setIsValidating(false);
 
       if (!isValid) {
@@ -48,8 +49,9 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
 
   const getBorderColor = () => {
     if (imei.length !== 15) return '';
+    if (isValidating) return 'ring-4 ring-[#8425af]';
     if (!hasBeenValidated) return 'ring-4 ring-[#8425af]';
-    return isValidIMEI ? 'ring-2 ring-green-500' : 'ring-2 ring-red-500';
+    return isValidIMEI ? 'ring-4 ring-green-500' : 'ring-4 ring-red-500';
   };
 
   return (
@@ -73,7 +75,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
             if (value.length <= 15) {
               setIMEI(value);
               if (value.length === 15) {
-                validateIMEI(value);
+                await validateIMEI(value);
               }
             }
           }}

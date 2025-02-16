@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,9 +22,9 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   const validateEID = async (value: string) => {
     if (value.length === 32) {
       setIsValidating(true);
+      setHasBeenValidated(true);
       const isValid = await validateDeviceIdentifier(deviceType, 'eid', value);
       setIsValidEID(isValid);
-      setHasBeenValidated(true);
       setIsValidating(false);
 
       if (!isValid) {
@@ -48,8 +49,9 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
 
   const getBorderColor = () => {
     if (eid.length !== 32) return '';
+    if (isValidating) return 'ring-4 ring-[#8425af]';
     if (!hasBeenValidated) return 'ring-4 ring-[#8425af]';
-    return isValidEID ? 'ring-2 ring-green-500' : 'ring-2 ring-red-500';
+    return isValidEID ? 'ring-4 ring-green-500' : 'ring-4 ring-red-500';
   };
 
   return (
@@ -73,7 +75,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
             if (value.length <= 32) {
               setEID(value.toUpperCase());
               if (value.length === 32) {
-                validateEID(value);
+                await validateEID(value);
               }
             }
           }}
