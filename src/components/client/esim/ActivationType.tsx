@@ -1,57 +1,89 @@
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { User } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { User, Info } from "lucide-react";
 
 type ActivationTypeProps = {
   onSelect: (type: 'self' | 'collaborator') => void;
 };
 
 export function ActivationType({ onSelect }: ActivationTypeProps) {
-  const navigate = useNavigate();
-
   return (
-    <div className="max-w-xl mx-auto w-full space-y-6">
+    <div className="max-w-xl mx-auto space-y-6">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-semibold">
-          Personalize seu pedido
+          Quem irá ativar a linha no eSIM?
         </h2>
         <p className="text-gray-600">
-          Confira aqui as melhores ofertas para você, cliente Smartvoz.
+          É preciso ter o celular com o eSIM em mãos pra ativar
         </p>
       </div>
 
-      <Card
-        className="p-6 cursor-pointer hover:shadow-lg transition-shadow border-[#8425af]"
-        onClick={() => onSelect('self')}
-      >
-        <div className="flex items-center gap-4">
-          <div className="bg-[#8425af]/10 p-3 rounded-full">
-            <User className="w-8 h-8 text-[#8425af]" />
-          </div>
-          <div>
-            <h3 className="text-lg font-medium">Para Mim</h3>
-            <p className="text-gray-600 text-sm">
-              Ativar eSIM no meu próprio dispositivo
-            </p>
+      <div className="space-y-4">
+        <div 
+          className="p-4 border rounded-lg cursor-pointer hover:border-[#8425af] group"
+          onClick={() => onSelect('self')}
+        >
+          <div className="flex items-start gap-3">
+            <input
+              type="radio"
+              name="type"
+              id="self"
+              className="mt-1"
+              checked
+              readOnly
+            />
+            <div>
+              <label htmlFor="self" className="text-lg font-medium block">
+                Eu Mesmo (Gestor)
+              </label>
+              <p className="text-gray-600 text-sm mt-1">
+                Você informa os números de IMEI e EID do celular e ativa aqui pelo site
+              </p>
+            </div>
           </div>
         </div>
-      </Card>
 
-      <div className="flex justify-between">
+        <div className="p-4 border rounded-lg opacity-50">
+          <div className="flex items-start gap-3">
+            <input
+              type="radio"
+              name="type"
+              id="collaborator"
+              className="mt-1"
+              disabled
+            />
+            <div>
+              <label htmlFor="collaborator" className="text-lg font-medium block">
+                Outra Pessoa (Colaborador)
+              </label>
+              <p className="text-gray-600 text-sm mt-1">
+                Você gera um código de acesso e envia ao seu colaborador. Ele entra no nosso site, informa os números de IMEI e EID do celular e faz a ativação
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-between items-center mt-8">
         <Button 
           variant="outline"
           className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
-          onClick={() => navigate("/client/dashboard")}
         >
           Voltar
         </Button>
         <Button 
-          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
           onClick={() => onSelect('self')}
+          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
         >
           Continuar
+        </Button>
+        <Button 
+          variant="link"
+          className="text-[#8425af]"
+        >
+          <Info className="w-4 h-4 mr-1" />
+          Preciso de ajuda
         </Button>
       </div>
     </div>

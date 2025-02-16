@@ -2,15 +2,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
-import { Smartphone, Info } from "lucide-react";
+import { Info } from "lucide-react";
 
 type EIDFormProps = {
   onSubmit: (eid: string) => void;
-  instructions?: string;
 };
 
-export function EIDForm({ onSubmit, instructions }: EIDFormProps) {
+export function EIDForm({ onSubmit }: EIDFormProps) {
   const [eid, setEID] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -20,51 +18,54 @@ export function EIDForm({ onSubmit, instructions }: EIDFormProps) {
     }
   };
 
-  const isValid = eid.length === 32;
-
   return (
     <div className="max-w-md mx-auto space-y-6">
-      <h2 className="text-2xl font-semibold text-center">
-        Digite o EID do seu dispositivo
-      </h2>
-
-      {instructions && (
-        <Card className="p-4 bg-blue-50 border-blue-200">
-          <div className="flex gap-3">
-            <Info className="w-5 h-5 text-blue-500 flex-shrink-0 mt-1" />
-            <p className="text-sm text-blue-700">{instructions}</p>
-          </div>
-        </Card>
-      )}
-      
-      <div className="flex items-center justify-center">
-        <Smartphone className="w-32 h-32 text-[#5f0889]" />
+      <div className="text-center space-y-2">
+        <h2 className="text-2xl font-semibold">
+          Por fim, é só informar o EID do celular que você está ativando
+        </h2>
       </div>
-      
-      <form onSubmit={handleSubmit} className="space-y-4">
+
+      <form onSubmit={handleSubmit} className="space-y-6">
         <Input
           type="text"
-          placeholder="Digite o EID (32 caracteres)"
+          placeholder="Digite o EID"
           value={eid}
           onChange={(e) => {
             const value = e.target.value.replace(/[^0-9a-fA-F]/g, '');
             if (value.length <= 32) setEID(value.toUpperCase());
           }}
-          className={`text-center text-lg ${
-            isValid ? 'border-green-500 focus-visible:ring-green-500' : 'focus-visible:ring-[#9c40ff]'
-          }`}
-          required
-          pattern="[0-9A-Fa-f]{32}"
-          title="O EID deve conter exatamente 32 caracteres hexadecimais"
+          className="text-center text-lg"
         />
-        
-        <Button 
-          type="submit" 
-          className="w-full bg-[#5f0889] hover:bg-[#4a0668]"
-          disabled={!isValid}
-        >
-          Continuar
-        </Button>
+
+        <p className="text-sm text-gray-600">
+          É só ligar pra *#06# e procurar por EID. O número vai aparecer na tela do seu celular.
+        </p>
+
+        <div className="flex justify-between items-center mt-8">
+          <Button 
+            type="button"
+            variant="outline"
+            className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
+          >
+            Voltar
+          </Button>
+          <Button 
+            type="submit"
+            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+            disabled={eid.length !== 32}
+          >
+            Continuar
+          </Button>
+          <Button 
+            type="button"
+            variant="link"
+            className="text-[#8425af]"
+          >
+            <Info className="w-4 h-4 mr-1" />
+            Preciso de ajuda
+          </Button>
+        </div>
       </form>
     </div>
   );

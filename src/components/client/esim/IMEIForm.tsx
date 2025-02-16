@@ -2,15 +2,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
-import { Smartphone, Info } from "lucide-react";
+import { Info } from "lucide-react";
 
 type IMEIFormProps = {
   onSubmit: (imei: string) => void;
-  instructions?: string;
 };
 
-export function IMEIForm({ onSubmit, instructions }: IMEIFormProps) {
+export function IMEIForm({ onSubmit }: IMEIFormProps) {
   const [imei, setIMEI] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -20,51 +18,54 @@ export function IMEIForm({ onSubmit, instructions }: IMEIFormProps) {
     }
   };
 
-  const isValid = imei.length === 15;
-
   return (
     <div className="max-w-md mx-auto space-y-6">
-      <h2 className="text-2xl font-semibold text-center">
-        Digite o IMEI do seu dispositivo
-      </h2>
-
-      {instructions && (
-        <Card className="p-4 bg-blue-50 border-blue-200">
-          <div className="flex gap-3">
-            <Info className="w-5 h-5 text-blue-500 flex-shrink-0 mt-1" />
-            <p className="text-sm text-blue-700">{instructions}</p>
-          </div>
-        </Card>
-      )}
-      
-      <div className="flex items-center justify-center">
-        <Smartphone className="w-32 h-32 text-[#5f0889]" />
+      <div className="text-center space-y-2">
+        <h2 className="text-2xl font-semibold">
+          Agora você vai precisar informar o IMEI do celular que vai ter o eSIM ativado
+        </h2>
       </div>
-      
-      <form onSubmit={handleSubmit} className="space-y-4">
+
+      <form onSubmit={handleSubmit} className="space-y-6">
         <Input
           type="text"
-          placeholder="Digite o IMEI (15 dígitos)"
+          placeholder="Digite o IMEI"
           value={imei}
           onChange={(e) => {
             const value = e.target.value.replace(/\D/g, '');
             if (value.length <= 15) setIMEI(value);
           }}
-          className={`text-center text-lg ${
-            isValid ? 'border-green-500 focus-visible:ring-green-500' : 'focus-visible:ring-[#9c40ff]'
-          }`}
-          required
-          pattern="\d{15}"
-          title="O IMEI deve conter exatamente 15 dígitos"
+          className="text-center text-lg"
         />
-        
-        <Button 
-          type="submit" 
-          className="w-full bg-[#5f0889] hover:bg-[#4a0668]"
-          disabled={!isValid}
-        >
-          Continuar
-        </Button>
+
+        <p className="text-sm text-gray-600">
+          É só ir nas configurações do aparelho e digitar IMEI no campo de busca. O número que você precisa vai estar em status como IMEI (eSIM)
+        </p>
+
+        <div className="flex justify-between items-center mt-8">
+          <Button 
+            type="button"
+            variant="outline"
+            className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
+          >
+            Voltar
+          </Button>
+          <Button 
+            type="submit"
+            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+            disabled={imei.length !== 15}
+          >
+            Continuar
+          </Button>
+          <Button 
+            type="button"
+            variant="link"
+            className="text-[#8425af]"
+          >
+            <Info className="w-4 h-4 mr-1" />
+            Preciso de ajuda
+          </Button>
+        </div>
       </form>
     </div>
   );
