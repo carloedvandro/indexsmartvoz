@@ -16,6 +16,10 @@ export const navigationItems: NavigationItem[] = [
       {
         title: "Processo de Contratação do Sim Card",
         href: "/client/products",
+      },
+      {
+        title: "Processo de Contratação do eSim",
+        href: "/client/esim",
       }
     ],
   },
