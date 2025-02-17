@@ -15,15 +15,17 @@ type DeviceValidationResult = {
 };
 
 // Interface para tipar o retorno da função RPC
+interface DeviceInfo {
+  tac: string;
+  serialNumber: string;
+  checkDigit: string;
+}
+
 interface DeviceValidationResponse {
   is_valid: boolean;
   brand: string | null;
   model: string | null;
-  device_info: {
-    tac: string;
-    serialNumber: string;
-    checkDigit: string;
-  } | null;
+  device_info: DeviceInfo | null;
 }
 
 export const validateDeviceIdentifier = async (
@@ -49,7 +51,7 @@ export const validateDeviceIdentifier = async (
       return { isValid: false };
     }
 
-    const { data: deviceData, error } = await supabase.rpc<DeviceValidationResponse>('validate_device_identifier', {
+    const { data: deviceData, error } = await supabase.rpc<DeviceValidationResponse[]>('validate_device_identifier', {
       p_device_type: deviceType,
       p_identifier_type: identifierType,
       p_value: cleanValue
@@ -67,19 +69,20 @@ export const validateDeviceIdentifier = async (
       return { isValid: false };
     }
 
-    const isValid = deviceData[0]?.is_valid === true;
+    const device = deviceData[0];
+    const isValid = device.is_valid === true;
     console.log('Dispositivo é válido?', isValid);
 
-    if (isValid && deviceData[0].brand && deviceData[0].model) {
+    if (isValid && device.brand && device.model) {
       const result: DeviceValidationResult = {
         isValid: true,
         deviceInfo: {
-          brand: deviceData[0].brand,
-          model: deviceData[0].model,
-          specs: deviceData[0].device_info ? {
-            tac: deviceData[0].device_info.tac,
-            serialNumber: deviceData[0].device_info.serialNumber,
-            checkDigit: deviceData[0].device_info.checkDigit
+          brand: device.brand,
+          model: device.model,
+          specs: device.device_info ? {
+            tac: device.device_info.tac,
+            serialNumber: device.device_info.serialNumber,
+            checkDigit: device.device_info.checkDigit
           } : undefined
         }
       };
