@@ -14,6 +14,18 @@ type DeviceValidationResult = {
   };
 };
 
+// Interface para tipar o retorno da função RPC
+interface DeviceValidationResponse {
+  is_valid: boolean;
+  brand: string | null;
+  model: string | null;
+  device_info: {
+    tac: string;
+    serialNumber: string;
+    checkDigit: string;
+  } | null;
+}
+
 export const validateDeviceIdentifier = async (
   deviceType: 'android' | 'ios',
   identifierType: 'imei' | 'eid',
@@ -37,7 +49,7 @@ export const validateDeviceIdentifier = async (
       return { isValid: false };
     }
 
-    const { data: deviceData, error } = await supabase.rpc('validate_device_identifier', {
+    const { data: deviceData, error } = await supabase.rpc<DeviceValidationResponse>('validate_device_identifier', {
       p_device_type: deviceType,
       p_identifier_type: identifierType,
       p_value: cleanValue
