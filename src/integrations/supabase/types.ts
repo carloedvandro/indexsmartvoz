@@ -800,7 +800,11 @@ export type Database = {
           p_identifier_type: string
           p_value: string
         }
-        Returns: boolean
+        Returns: {
+          is_valid: boolean
+          brand: string
+          model: string
+        }[]
       }
       validate_esim_device: {
         Args: {
