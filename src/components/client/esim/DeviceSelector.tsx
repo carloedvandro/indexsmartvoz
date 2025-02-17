@@ -12,7 +12,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
   const [selectedDevice, setSelectedDevice] = useState<'android' | 'ios'>('android');
 
   return (
-    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6">
+    <div className="w-full max-w-[95%] md:max-w-[450px] mx-auto space-y-6">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-semibold">
           Vamos começar escolhendo o sistema do celular que vai ter o eSIM ativado
