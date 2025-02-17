@@ -14,6 +14,17 @@ type DeviceValidationResult = {
   };
 };
 
+type DeviceValidationResponse = {
+  is_valid: boolean;
+  brand: string;
+  model: string;
+  device_info: {
+    tac: string;
+    serialNumber: string;
+    checkDigit: string;
+  };
+};
+
 const validateImeiChecksum = (imei: string): boolean => {
   let sum = 0;
   const length = imei.length;
@@ -91,17 +102,24 @@ export const validateDeviceIdentifier = async (
       return { isValid: false };
     }
 
-    const [result] = data;
+    const [result] = data as DeviceValidationResponse[];
     if (!result.is_valid) {
       return { isValid: false };
     }
+
+    // Garantindo que o device_info está no formato correto
+    const deviceInfo = result.device_info && typeof result.device_info === 'object' ? {
+      tac: String(result.device_info.tac || ''),
+      serialNumber: String(result.device_info.serialNumber || ''),
+      checkDigit: String(result.device_info.checkDigit || '')
+    } : undefined;
 
     return {
       isValid: true,
       deviceInfo: {
         brand: result.brand || (deviceType === 'ios' ? 'Apple' : 'Android'),
         model: result.model || (deviceType === 'ios' ? 'iPhone' : 'Smartphone'),
-        specs: result.device_info
+        specs: deviceInfo
       }
     };
   } catch (error) {
