@@ -22,6 +22,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
     if (value.length === 15) {
       setIsValidating(true);
       const validation = await validateDeviceIdentifier(deviceType, 'imei', value);
+      console.log('IMEI validation result:', validation);
       setIsValidIMEI(validation.isValid);
       setDeviceInfo(validation.deviceInfo || null);
       setIsValidating(false);
