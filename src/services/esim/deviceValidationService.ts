@@ -25,7 +25,11 @@ interface DeviceValidationResponse {
   is_valid: boolean;
   brand: string | null;
   model: string | null;
-  device_info: DeviceInfo | null;
+  device_info: {
+    tac: string;
+    serialNumber: string;
+    checkDigit: string;
+  } | null;
 }
 
 interface ValidateDeviceParams {
@@ -75,7 +79,10 @@ export const validateDeviceIdentifier = async (
       return { isValid: false };
     }
 
-    const device = data[0] as DeviceValidationResponse;
+    // Primeiro convertemos para unknown e depois para o tipo correto
+    const rawDevice = data[0] as unknown;
+    const device = rawDevice as DeviceValidationResponse;
+    
     console.log('Device data:', device);
 
     if (device.is_valid && device.brand && device.model) {
