@@ -19,7 +19,6 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   const { toast } = useToast();
 
   const validateIMEI = async (value: string) => {
-    // Sempre valida a partir de 6 dígitos (tamanho do prefixo)
     if (value.length < 6) {
       setIsValidIMEI(false);
       setDeviceInfo(null);
@@ -28,14 +27,14 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
 
     setIsValidating(true);
     try {
+      console.log('Validando IMEI:', value); // Log para debug
       const validation = await validateDeviceIdentifier(deviceType, 'imei', value);
-      console.log('IMEI validation result:', validation);
+      console.log('Resultado da validação:', validation); // Log para debug
       
       if (validation.isValid && validation.deviceInfo) {
         setIsValidIMEI(true);
         setDeviceInfo(validation.deviceInfo);
         
-        // Só mostra o toast quando completar os 15 dígitos
         if (value.length === 15) {
           toast({
             title: "Dispositivo compatível com eSIM",
@@ -46,7 +45,6 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
         setIsValidIMEI(false);
         setDeviceInfo(null);
         
-        // Só mostra o toast de erro quando completar os 15 dígitos
         if (value.length === 15) {
           toast({
             variant: "destructive",
@@ -95,6 +93,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
               if (value.length <= 15) {
                 setIMEI(value);
                 if (value.length >= 6) {
+                  console.log('Iniciando validação para IMEI:', value); // Log para debug
                   await validateIMEI(value);
                 }
               }
