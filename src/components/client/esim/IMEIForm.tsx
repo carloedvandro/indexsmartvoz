@@ -21,6 +21,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   const validateIMEI = async (value: string) => {
     if (value.length === 15) {
       setIsValidating(true);
+      setDeviceInfo(null);
       const validation = await validateDeviceIdentifier(deviceType, 'imei', value);
       console.log('IMEI validation result:', validation);
       setIsValidIMEI(validation.isValid);
@@ -30,14 +31,14 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
       if (!validation.isValid) {
         toast({
           variant: "destructive",
-          title: "IMEI não autorizado",
+          title: "IMEI não compatível",
           description: deviceType === 'android' 
-            ? "O IMEI informado não corresponde a um dispositivo Android compatível com eSIM. Por favor, verifique se você selecionou o tipo de dispositivo correto."
-            : "O IMEI informado não corresponde a um iPhone compatível com eSIM. Por favor, verifique se você selecionou o tipo de dispositivo correto."
+            ? "O IMEI informado não corresponde a um dispositivo Android compatível com eSIM. Verifique se seu aparelho possui suporte a eSIM."
+            : "O IMEI informado não corresponde a um iPhone compatível com eSIM. Verifique se seu iPhone possui suporte a eSIM."
         });
       } else if (validation.deviceInfo) {
         toast({
-          title: "Dispositivo identificado",
+          title: "Dispositivo compatível com eSIM",
           description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
         });
       }
@@ -58,7 +59,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
     <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-semibold">
-          Digite o IMEI exato do celular que vai ter o eSIM ativado
+          Digite o IMEI do {deviceType === 'android' ? 'Android' : 'iPhone'} com eSIM
         </h2>
         <p className="text-black text-sm">
           O número precisa ser idêntico ao que aparece nas configurações do seu celular
@@ -66,23 +67,32 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
       </div>
 
       <form onSubmit={handleSubmit} className="w-full space-y-6">
-        <Input
-          type="text"
-          placeholder="Digite o IMEI"
-          value={imei}
-          onChange={async (e) => {
-            const value = e.target.value.replace(/\D/g, '');
-            if (value.length <= 15) {
-              setIMEI(value);
-              await validateIMEI(value);
-            }
-          }}
-          className={`w-full text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
-            isValidIMEI || imei.length === 15
-              ? 'ring-2 ring-green-500' 
-              : ''
-          }`}
-        />
+        <div className="space-y-2">
+          <Input
+            type="text"
+            placeholder="Digite o IMEI"
+            value={imei}
+            onChange={async (e) => {
+              const value = e.target.value.replace(/\D/g, '');
+              if (value.length <= 15) {
+                setIMEI(value);
+                if (value.length === 15) {
+                  await validateIMEI(value);
+                }
+              }
+            }}
+            className={`w-full text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
+              isValidIMEI 
+                ? 'ring-2 ring-green-500'
+                : imei.length === 15 
+                  ? 'ring-2 ring-red-500'
+                  : ''
+            }`}
+          />
+          <p className="text-xs text-gray-500 text-center">
+            {15 - imei.length} dígitos restantes
+          </p>
+        </div>
 
         {deviceInfo && (
           <div className="text-center p-4 bg-green-50 rounded-lg">
@@ -91,6 +101,14 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
             </p>
             <p className="text-sm text-green-600">
               Dispositivo compatível com eSIM
+            </p>
+          </div>
+        )}
+
+        {!deviceInfo && imei.length === 15 && !isValidating && (
+          <div className="text-center p-4 bg-red-50 rounded-lg">
+            <p className="text-sm text-red-600">
+              Este IMEI não corresponde a um dispositivo com suporte a eSIM
             </p>
           </div>
         )}
