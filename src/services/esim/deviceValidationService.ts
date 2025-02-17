@@ -17,14 +17,17 @@ export const validateDeviceIdentifier = async (
   console.log('Iniciando validação:', { deviceType, identifierType, value });
 
   try {
+    // Formatar o valor removendo espaços e caracteres especiais
+    const cleanValue = value.replace(/[^0-9a-fA-F]/g, '');
+
     // Validação do comprimento do IMEI
-    if (identifierType === 'imei' && value.length !== 15) {
+    if (identifierType === 'imei' && cleanValue.length !== 15) {
       console.log('IMEI inválido: comprimento incorreto');
       return { isValid: false };
     }
 
     // Validação do comprimento do EID
-    if (identifierType === 'eid' && value.length !== 32) {
+    if (identifierType === 'eid' && cleanValue.length !== 32) {
       console.log('EID inválido: comprimento incorreto');
       return { isValid: false };
     }
@@ -32,7 +35,7 @@ export const validateDeviceIdentifier = async (
     const { data: deviceData, error } = await supabase.rpc('validate_device_identifier', {
       p_device_type: deviceType,
       p_identifier_type: identifierType,
-      p_value: value
+      p_value: cleanValue
     });
 
     console.log('Resposta do banco:', deviceData);
