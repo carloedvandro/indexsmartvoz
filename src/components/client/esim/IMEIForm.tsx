@@ -19,8 +19,8 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   const { toast } = useToast();
 
   const validateIMEI = async (value: string) => {
-    // Só valida quando tiver 15 dígitos
-    if (value.length !== 15) {
+    // Só valida quando tiver pelo menos 6 dígitos (tamanho do prefixo)
+    if (value.length < 6) {
       setIsValidIMEI(false);
       setDeviceInfo(null);
       return;
@@ -34,20 +34,28 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
       if (validation.isValid && validation.deviceInfo) {
         setIsValidIMEI(true);
         setDeviceInfo(validation.deviceInfo);
-        toast({
-          title: "Dispositivo compatível com eSIM",
-          description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
-        });
+        
+        // Só mostra o toast quando completar os 15 dígitos
+        if (value.length === 15) {
+          toast({
+            title: "Dispositivo compatível com eSIM",
+            description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
+          });
+        }
       } else {
         setIsValidIMEI(false);
         setDeviceInfo(null);
-        toast({
-          variant: "destructive",
-          title: "IMEI não compatível",
-          description: deviceType === 'android' 
-            ? "O IMEI informado não corresponde a um dispositivo Android compatível com eSIM."
-            : "O IMEI informado não corresponde a um iPhone compatível com eSIM."
-        });
+        
+        // Só mostra o toast de erro quando completar os 15 dígitos
+        if (value.length === 15) {
+          toast({
+            variant: "destructive",
+            title: "IMEI não compatível",
+            description: deviceType === 'android' 
+              ? "O IMEI informado não corresponde a um dispositivo Android compatível com eSIM."
+              : "O IMEI informado não corresponde a um iPhone compatível com eSIM."
+          });
+        }
       }
     } catch (error) {
       console.error('Erro na validação:', error);
@@ -60,7 +68,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (isValidIMEI && !isValidating) {
+    if (isValidIMEI && !isValidating && imei.length === 15) {
       onSubmit(imei);
     }
   };
@@ -90,9 +98,9 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
               }
             }}
             className={`w-full text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
-              isValidIMEI 
+              deviceInfo && imei.length >= 6 
                 ? 'ring-2 ring-green-500'
-                : imei.length === 15 
+                : imei.length === 15 && !deviceInfo
                   ? 'ring-2 ring-red-500'
                   : ''
             }`}
@@ -102,13 +110,13 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           </p>
         </div>
 
-        {deviceInfo && imei.length === 15 && (
+        {deviceInfo && imei.length >= 6 && (
           <div className="text-center p-4 bg-green-50 rounded-lg">
             <p className="font-medium text-green-800">
               {deviceInfo.brand} {deviceInfo.model}
             </p>
             <p className="text-sm text-green-600">
-              Dispositivo compatível com eSIM
+              {imei.length === 15 ? "Dispositivo compatível com eSIM" : "Continue digitando o IMEI"}
             </p>
           </div>
         )}
@@ -137,7 +145,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           <Button 
             type="submit"
             className="w-[120px] bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3"
-            disabled={!isValidIMEI || isValidating}
+            disabled={!isValidIMEI || isValidating || imei.length !== 15}
           >
             Continuar
           </Button>
