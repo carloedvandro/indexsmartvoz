@@ -69,7 +69,7 @@ export const validateDeviceIdentifier = async (
       return { isValid: false };
     }
 
-    const device = deviceData[0];
+    const device = deviceData[0] as DeviceValidationResponse;
     const isValid = device.is_valid === true;
     console.log('Dispositivo é válido?', isValid);
 
