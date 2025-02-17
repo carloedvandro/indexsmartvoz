@@ -19,46 +19,42 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   const { toast } = useToast();
 
   const validateIMEI = async (value: string) => {
-    if (value.length < 6) {
-      setIsValidIMEI(false);
-      setDeviceInfo(null);
-      return;
-    }
-
     setIsValidating(true);
     try {
-      console.log('Validando IMEI:', value); // Log para debug
+      console.log('Validando IMEI:', value);
       const validation = await validateDeviceIdentifier(deviceType, 'imei', value);
-      console.log('Resultado da validação:', validation); // Log para debug
+      console.log('Resultado da validação:', validation);
       
       if (validation.isValid && validation.deviceInfo) {
         setIsValidIMEI(true);
         setDeviceInfo(validation.deviceInfo);
         
-        if (value.length === 15) {
-          toast({
-            title: "Dispositivo compatível com eSIM",
-            description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
-          });
-        }
+        toast({
+          title: "Dispositivo compatível com eSIM",
+          description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
+        });
       } else {
         setIsValidIMEI(false);
         setDeviceInfo(null);
         
-        if (value.length === 15) {
-          toast({
-            variant: "destructive",
-            title: "IMEI não compatível",
-            description: deviceType === 'android' 
-              ? "O IMEI informado não corresponde a um dispositivo Android compatível com eSIM."
-              : "O IMEI informado não corresponde a um iPhone compatível com eSIM."
-          });
-        }
+        toast({
+          variant: "destructive",
+          title: "IMEI não compatível",
+          description: deviceType === 'android' 
+            ? "O IMEI informado não corresponde a um dispositivo Android compatível com eSIM."
+            : "O IMEI informado não corresponde a um iPhone compatível com eSIM."
+        });
       }
     } catch (error) {
       console.error('Erro na validação:', error);
       setIsValidIMEI(false);
       setDeviceInfo(null);
+      
+      toast({
+        variant: "destructive",
+        title: "Erro na validação",
+        description: "Ocorreu um erro ao validar o IMEI. Por favor, tente novamente.",
+      });
     } finally {
       setIsValidating(false);
     }
@@ -92,18 +88,17 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
               const value = e.target.value.replace(/\D/g, '');
               if (value.length <= 15) {
                 setIMEI(value);
-                if (value.length >= 6) {
-                  console.log('Iniciando validação para IMEI:', value); // Log para debug
+                if (value.length === 15) {
                   await validateIMEI(value);
+                } else {
+                  setIsValidIMEI(false);
+                  setDeviceInfo(null);
                 }
               }
             }}
             className={`w-full text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
-              deviceInfo && imei.length >= 6 
-                ? 'ring-2 ring-green-500'
-                : imei.length === 15 && !deviceInfo
-                  ? 'ring-2 ring-red-500'
-                  : ''
+              deviceInfo ? 'ring-2 ring-green-500' : 
+              imei.length === 15 && !deviceInfo ? 'ring-2 ring-red-500' : ''
             }`}
           />
           <p className="text-xs text-gray-500 text-center">
@@ -111,13 +106,13 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           </p>
         </div>
 
-        {deviceInfo && imei.length >= 6 && (
+        {deviceInfo && (
           <div className="text-center p-4 bg-green-50 rounded-lg">
             <p className="font-medium text-green-800">
               {deviceInfo.brand} {deviceInfo.model}
             </p>
             <p className="text-sm text-green-600">
-              {imei.length === 15 ? "Dispositivo compatível com eSIM" : "Continue digitando o IMEI"}
+              Dispositivo compatível com eSIM
             </p>
           </div>
         )}

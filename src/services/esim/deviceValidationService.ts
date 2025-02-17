@@ -14,7 +14,7 @@ export const validateDeviceIdentifier = async (
   identifierType: 'imei' | 'eid',
   value: string
 ): Promise<DeviceValidationResult> => {
-  console.log('Validating device:', { deviceType, identifierType, value });
+  console.log('Validando dispositivo:', { deviceType, identifierType, value });
 
   try {
     const { data: deviceData, error } = await supabase.rpc('validate_device_identifier', {
@@ -23,7 +23,7 @@ export const validateDeviceIdentifier = async (
       p_value: value
     });
 
-    console.log('Validation result:', { deviceData, error });
+    console.log('Resultado da validação:', { deviceData, error });
 
     if (error) {
       console.error('Erro na validação:', error);
