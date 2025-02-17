@@ -19,32 +19,27 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   const { toast } = useToast();
 
   const validateIMEI = async (value: string) => {
-    if (value.length === 15) {
-      setIsValidating(true);
-      setDeviceInfo(null);
-      const validation = await validateDeviceIdentifier(deviceType, 'imei', value);
-      console.log('IMEI validation result:', validation);
-      setIsValidIMEI(validation.isValid);
-      setDeviceInfo(validation.deviceInfo || null);
-      setIsValidating(false);
+    setIsValidating(true);
+    setDeviceInfo(null);
+    const validation = await validateDeviceIdentifier(deviceType, 'imei', value);
+    console.log('IMEI validation result:', validation);
+    setIsValidIMEI(validation.isValid);
+    setDeviceInfo(validation.deviceInfo || null);
+    setIsValidating(false);
 
-      if (!validation.isValid) {
-        toast({
-          variant: "destructive",
-          title: "IMEI não compatível",
-          description: deviceType === 'android' 
-            ? "O IMEI informado não corresponde a um dispositivo Android compatível com eSIM. Verifique se seu aparelho possui suporte a eSIM."
-            : "O IMEI informado não corresponde a um iPhone compatível com eSIM. Verifique se seu iPhone possui suporte a eSIM."
-        });
-      } else if (validation.deviceInfo) {
-        toast({
-          title: "Dispositivo compatível com eSIM",
-          description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
-        });
-      }
-    } else {
-      setIsValidIMEI(false);
-      setDeviceInfo(null);
+    if (!validation.isValid) {
+      toast({
+        variant: "destructive",
+        title: "IMEI não compatível",
+        description: deviceType === 'android' 
+          ? "O IMEI informado não corresponde a um dispositivo Android compatível com eSIM. Verifique se seu aparelho possui suporte a eSIM."
+          : "O IMEI informado não corresponde a um iPhone compatível com eSIM. Verifique se seu iPhone possui suporte a eSIM."
+      });
+    } else if (validation.deviceInfo) {
+      toast({
+        title: "Dispositivo compatível com eSIM",
+        description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
+      });
     }
   };
 
@@ -76,9 +71,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
               const value = e.target.value.replace(/\D/g, '');
               if (value.length <= 15) {
                 setIMEI(value);
-                if (value.length === 15) {
-                  await validateIMEI(value);
-                }
+                await validateIMEI(value);
               }
             }}
             className={`w-full text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
