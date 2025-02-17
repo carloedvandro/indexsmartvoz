@@ -20,11 +20,11 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   const validateEID = async (value: string) => {
     if (value.length === 32) {
       setIsValidating(true);
-      const isValid = await validateDeviceIdentifier(deviceType, 'eid', value);
-      setIsValidEID(isValid);
+      const validation = await validateDeviceIdentifier(deviceType, 'eid', value);
+      setIsValidEID(validation.isValid);
       setIsValidating(false);
 
-      if (!isValid) {
+      if (!validation.isValid) {
         toast({
           variant: "destructive",
           title: "EID não autorizado",
