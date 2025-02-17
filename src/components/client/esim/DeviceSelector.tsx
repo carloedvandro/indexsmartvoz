@@ -14,7 +14,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
   return (
     <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-semibold max-w-[80%] mx-auto">
+        <h2 className="text-2xl font-semibold">
           Vamos começar escolhendo o sistema do celular que vai ter o eSIM ativado
         </h2>
       </div>
