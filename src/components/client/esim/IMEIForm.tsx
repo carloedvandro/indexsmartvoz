@@ -118,11 +118,14 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
 
         {deviceInfo && (
           <div className="text-center p-4 bg-green-50 rounded-lg space-y-2">
-            <h3 className="text-lg font-semibold text-green-800">
-              {deviceInfo.brand} {deviceInfo.model}
+            <h3 className="text-xl font-semibold text-green-800">
+              {deviceInfo.model}
             </h3>
+            <p className="text-base text-green-700">
+              {deviceInfo.brand} / {deviceInfo.specs?.tac}-{deviceInfo.specs?.serialNumber}
+            </p>
             {deviceInfo.specs && (
-              <div className="text-sm text-green-600 space-y-1">
+              <div className="text-sm text-green-600 space-y-1 mt-3">
                 <p>TAC: {deviceInfo.specs.tac}</p>
                 <p>Número de Série: {deviceInfo.specs.serialNumber}</p>
                 <p>Dígito Verificador: {deviceInfo.specs.checkDigit}</p>
