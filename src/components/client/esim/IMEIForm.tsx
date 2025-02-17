@@ -117,21 +117,22 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
         </div>
 
         {deviceInfo && (
-          <div className="text-center p-4 bg-green-50 rounded-lg space-y-2">
-            <h3 className="text-xl font-semibold text-green-800">
-              {deviceInfo.model}
-            </h3>
-            <p className="text-base text-green-700">
-              {deviceInfo.brand} / {deviceInfo.specs?.tac}-{deviceInfo.specs?.serialNumber}
-            </p>
-            {deviceInfo.specs && (
-              <div className="text-sm text-green-600 space-y-1 mt-3">
-                <p>TAC: {deviceInfo.specs.tac}</p>
-                <p>Número de Série: {deviceInfo.specs.serialNumber}</p>
-                <p>Dígito Verificador: {deviceInfo.specs.checkDigit}</p>
-              </div>
-            )}
-            <p className="text-sm text-green-600 font-medium mt-2">
+          <div className="text-center p-4 bg-green-50 rounded-lg space-y-3">
+            <div className="space-y-1">
+              <h3 className="text-xl font-semibold text-green-800">
+                {deviceType === 'android' ? 'Android Smartphone' : 'iPhone'}
+              </h3>
+              <p className="text-base text-green-700">
+                TAC: {deviceInfo.specs?.tac}
+              </p>
+              <p className="text-base text-green-700">
+                Número de Série: {deviceInfo.specs?.serialNumber}
+              </p>
+              <p className="text-base text-green-700">
+                Dígito Verificador: {deviceInfo.specs?.checkDigit}
+              </p>
+            </div>
+            <p className="text-base font-medium text-green-600">
               Dispositivo compatível com eSIM
             </p>
           </div>
