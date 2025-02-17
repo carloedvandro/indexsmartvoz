@@ -19,7 +19,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   const { toast } = useToast();
 
   const validateIMEI = async (value: string) => {
-    // Só valida quando tiver pelo menos 6 dígitos (tamanho do prefixo)
+    // Sempre valida a partir de 6 dígitos (tamanho do prefixo)
     if (value.length < 6) {
       setIsValidIMEI(false);
       setDeviceInfo(null);
@@ -94,7 +94,9 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
               const value = e.target.value.replace(/\D/g, '');
               if (value.length <= 15) {
                 setIMEI(value);
-                await validateIMEI(value);
+                if (value.length >= 6) {
+                  await validateIMEI(value);
+                }
               }
             }}
             className={`w-full text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
