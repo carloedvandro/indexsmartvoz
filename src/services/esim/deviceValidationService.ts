@@ -14,7 +14,6 @@ type DeviceValidationResult = {
   };
 };
 
-// Interface para tipar o retorno da função RPC
 interface DeviceInfo {
   tac: string;
   serialNumber: string;
@@ -79,22 +78,31 @@ export const validateDeviceIdentifier = async (
       return { isValid: false };
     }
 
-    // Primeiro convertemos para unknown e depois para o tipo correto
-    const rawDevice = data[0] as unknown;
-    const device = rawDevice as DeviceValidationResponse;
-    
-    console.log('Device data:', device);
+    const rawDevice = data[0] as unknown as DeviceValidationResponse;
+    console.log('Device data:', rawDevice);
 
-    if (device.is_valid && device.brand && device.model) {
+    // Determinar a marca e modelo com base no tipo de dispositivo
+    let deviceBrand = rawDevice.brand;
+    let deviceModel = rawDevice.model;
+
+    if (deviceType === 'ios' && (!deviceBrand || deviceBrand === 'Unknown')) {
+      deviceBrand = 'Apple';
+      deviceModel = 'iPhone';
+    } else if (deviceType === 'android' && (!deviceBrand || deviceBrand === 'Unknown')) {
+      deviceBrand = 'Android';
+      deviceModel = 'Smartphone';
+    }
+
+    if (rawDevice.is_valid) {
       const result: DeviceValidationResult = {
         isValid: true,
         deviceInfo: {
-          brand: device.brand,
-          model: device.model,
-          specs: device.device_info ? {
-            tac: device.device_info.tac,
-            serialNumber: device.device_info.serialNumber,
-            checkDigit: device.device_info.checkDigit
+          brand: deviceBrand || 'Dispositivo',
+          model: deviceModel || 'Compatível',
+          specs: rawDevice.device_info ? {
+            tac: rawDevice.device_info.tac,
+            serialNumber: rawDevice.device_info.serialNumber,
+            checkDigit: rawDevice.device_info.checkDigit
           } : undefined
         }
       };
