@@ -57,29 +57,28 @@ export const validateDeviceIdentifier = async (
       return { isValid: false };
     }
 
-    const { data: deviceData, error } = await supabase.rpc<DeviceValidationResponse[], ValidateDeviceParams>('validate_device_identifier', {
+    const { data, error } = await supabase.rpc('validate_device_identifier', {
       p_device_type: deviceType,
       p_identifier_type: identifierType,
       p_value: cleanValue
     });
 
-    console.log('Resposta do banco:', deviceData);
+    console.log('Resposta do banco:', data);
 
     if (error) {
       console.error('Erro na validação:', error);
       return { isValid: false };
     }
 
-    if (!deviceData || deviceData.length === 0) {
+    if (!data || !Array.isArray(data) || data.length === 0) {
       console.log('Nenhum dispositivo encontrado');
       return { isValid: false };
     }
 
-    const device = deviceData[0] as DeviceValidationResponse;
-    const isValid = device.is_valid === true;
-    console.log('Dispositivo é válido?', isValid);
+    const device = data[0] as DeviceValidationResponse;
+    console.log('Device data:', device);
 
-    if (isValid && device.brand && device.model) {
+    if (device.is_valid && device.brand && device.model) {
       const result: DeviceValidationResult = {
         isValid: true,
         deviceInfo: {
