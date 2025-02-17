@@ -49,7 +49,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
         <h2 className="text-2xl font-semibold">
           Digite o IMEI exato do celular que vai ter o eSIM ativado
         </h2>
-        <p className="text-sm text-gray-600">
+        <p className="text-black text-sm">
           O número precisa ser idêntico ao que aparece nas configurações do seu celular
         </p>
       </div>
@@ -73,7 +73,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           }`}
         />
 
-        <p className="text-sm text-gray-600">
+        <p className="text-black text-sm">
           É só ir nas configurações do aparelho e digitar IMEI no campo de busca. O número que você precisa vai estar em status como IMEI (eSIM)
         </p>
 
