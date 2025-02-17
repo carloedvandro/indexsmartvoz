@@ -17,8 +17,15 @@ export const validateDeviceIdentifier = async (
   console.log('Iniciando validação:', { deviceType, identifierType, value });
 
   try {
+    // Validação do comprimento do IMEI
     if (identifierType === 'imei' && value.length !== 15) {
       console.log('IMEI inválido: comprimento incorreto');
+      return { isValid: false };
+    }
+
+    // Validação do comprimento do EID
+    if (identifierType === 'eid' && value.length !== 32) {
+      console.log('EID inválido: comprimento incorreto');
       return { isValid: false };
     }
 

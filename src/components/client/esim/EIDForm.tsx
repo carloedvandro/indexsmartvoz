@@ -21,22 +21,39 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   const validateEID = async (value: string) => {
     if (value.length === 32) {
       setIsValidating(true);
-      const validation = await validateDeviceIdentifier(deviceType, 'eid', value);
-      setIsValidEID(validation.isValid);
-      setDeviceInfo(validation.deviceInfo || null);
-      setIsValidating(false);
-
-      if (!validation.isValid) {
+      try {
+        const validation = await validateDeviceIdentifier(deviceType, 'eid', value);
+        
+        if (validation.isValid && validation.deviceInfo) {
+          setIsValidEID(true);
+          setDeviceInfo(validation.deviceInfo);
+          
+          toast({
+            title: "Dispositivo identificado",
+            description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
+          });
+        } else {
+          setIsValidEID(false);
+          setDeviceInfo(null);
+          
+          toast({
+            variant: "destructive",
+            title: "EID não autorizado",
+            description: "O EID informado não corresponde a um dispositivo compatível com eSIM. Verifique se você digitou o número EID correto."
+          });
+        }
+      } catch (error) {
+        console.error('Erro na validação do EID:', error);
+        setIsValidEID(false);
+        setDeviceInfo(null);
+        
         toast({
           variant: "destructive",
-          title: "EID não autorizado",
-          description: "O EID informado não está na lista de dispositivos autorizados. Por favor, verifique se você digitou o número EID correto do seu dispositivo."
+          title: "Erro na validação",
+          description: "Ocorreu um erro ao validar o EID. Por favor, tente novamente.",
         });
-      } else if (validation.deviceInfo) {
-        toast({
-          title: "Dispositivo identificado",
-          description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
-        });
+      } finally {
+        setIsValidating(false);
       }
     } else {
       setIsValidEID(false);
@@ -75,9 +92,8 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
             }
           }}
           className={`w-full text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
-            isValidEID || eid.length === 32
-              ? 'ring-2 ring-green-500' 
-              : ''
+            deviceInfo ? 'ring-2 ring-green-500' : 
+            eid.length === 32 && !deviceInfo ? 'ring-2 ring-red-500' : ''
           }`}
         />
 
