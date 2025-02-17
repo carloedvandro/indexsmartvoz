@@ -43,7 +43,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
         });
       } else if (validation.deviceInfo) {
         toast({
-          title: "Dispositivo compatível com eSIM",
+          title: "Dispositivo detectado",
           description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
         });
       }
