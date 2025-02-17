@@ -31,7 +31,9 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
         toast({
           variant: "destructive",
           title: "IMEI não autorizado",
-          description: "O IMEI informado não corresponde a um dispositivo compatível com eSIM. Por favor, verifique se você digitou o número IMEI correto do seu dispositivo."
+          description: deviceType === 'android' 
+            ? "O IMEI informado não corresponde a um dispositivo Android compatível com eSIM. Por favor, verifique se você selecionou o tipo de dispositivo correto."
+            : "O IMEI informado não corresponde a um iPhone compatível com eSIM. Por favor, verifique se você selecionou o tipo de dispositivo correto."
         });
       } else if (validation.deviceInfo) {
         toast({
