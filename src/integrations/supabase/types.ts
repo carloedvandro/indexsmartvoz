@@ -84,6 +84,36 @@ export type Database = {
         }
         Relationships: []
       }
+      device_eid_patterns: {
+        Row: {
+          brand: string
+          created_at: string | null
+          device_type: string
+          eid_pattern: string
+          id: string
+          model: string
+          updated_at: string | null
+        }
+        Insert: {
+          brand: string
+          created_at?: string | null
+          device_type: string
+          eid_pattern: string
+          id?: string
+          model: string
+          updated_at?: string | null
+        }
+        Update: {
+          brand?: string
+          created_at?: string | null
+          device_type?: string
+          eid_pattern?: string
+          id?: string
+          model?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       device_identifiers: {
         Row: {
           created_at: string | null
