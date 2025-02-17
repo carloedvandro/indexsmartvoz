@@ -19,9 +19,11 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   const { toast } = useToast();
 
   const validateIMEI = async (value: string) => {
+    if (value.length !== 15) return;
+    
     setIsValidating(true);
     try {
-      console.log('Validando IMEI:', value);
+      console.log('Iniciando validação do IMEI:', value);
       const validation = await validateDeviceIdentifier(deviceType, 'imei', value);
       console.log('Resultado da validação:', validation);
       
