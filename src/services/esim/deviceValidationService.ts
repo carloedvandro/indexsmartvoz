@@ -29,10 +29,10 @@ export const validateDeviceIdentifier = async (
       return { isValid: false };
     }
 
-    const { data: deviceData, error } = await supabase.rpc('check_device_compatibility', {
-      p_brand: deviceType === 'ios' ? 'Apple' : 'Unknown', // Para iOS, sabemos que é Apple
-      p_model: 'iPhone', // Para iOS, todos são iPhone
-      p_device_type: deviceType
+    const { data: deviceData, error } = await supabase.rpc('validate_device_identifier', {
+      p_device_type: deviceType,
+      p_identifier_type: identifierType,
+      p_value: value
     });
 
     console.log('Resposta do banco:', deviceData);
@@ -42,22 +42,28 @@ export const validateDeviceIdentifier = async (
       return { isValid: false };
     }
 
-    if (!deviceData || !deviceData[0]?.is_compatible) {
-      console.log('Dispositivo não compatível');
+    if (!deviceData || deviceData.length === 0) {
+      console.log('Nenhum dispositivo encontrado');
       return { isValid: false };
     }
 
-    const result = {
-      isValid: true,
-      deviceInfo: {
-        brand: deviceData[0].device_brand,
-        model: deviceData[0].device_model
-      }
-    };
+    const isValid = deviceData[0]?.is_valid === true;
+    console.log('Dispositivo é válido?', isValid);
 
-    console.log('Retornando resultado positivo:', result);
-    return result;
+    if (isValid && deviceData[0].brand && deviceData[0].model) {
+      const result = {
+        isValid: true,
+        deviceInfo: {
+          brand: deviceData[0].brand,
+          model: deviceData[0].model
+        }
+      };
+      console.log('Retornando resultado positivo:', result);
+      return result;
+    }
 
+    console.log('Retornando resultado negativo');
+    return { isValid: false };
   } catch (error) {
     console.error('Erro inesperado na validação:', error);
     return { isValid: false };
