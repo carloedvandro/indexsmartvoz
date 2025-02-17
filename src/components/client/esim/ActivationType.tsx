@@ -36,7 +36,7 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
                 Eu Mesmo (Gestor)
               </label>
               <p className="text-gray-400 text-sm mt-1">
-                Você informa os números de IMEI e EID do celular e ativa aqui pelo site
+                Você informa os números de IMEI e EID do celular e solicita ativação e aguardar o prazo da habilitação do eSIM
               </p>
             </div>
           </div>
