@@ -15,6 +15,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   const [eid, setEID] = useState("");
   const [isValidEID, setIsValidEID] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
+  const [deviceInfo, setDeviceInfo] = useState<{ brand: string; model: string; } | null>(null);
   const { toast } = useToast();
 
   const validateEID = async (value: string) => {
@@ -22,6 +23,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
       setIsValidating(true);
       const validation = await validateDeviceIdentifier(deviceType, 'eid', value);
       setIsValidEID(validation.isValid);
+      setDeviceInfo(validation.deviceInfo || null);
       setIsValidating(false);
 
       if (!validation.isValid) {
@@ -30,9 +32,15 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
           title: "EID não autorizado",
           description: "O EID informado não está na lista de dispositivos autorizados. Por favor, verifique se você digitou o número EID correto do seu dispositivo."
         });
+      } else if (validation.deviceInfo) {
+        toast({
+          title: "Dispositivo identificado",
+          description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
+        });
       }
     } else {
       setIsValidEID(false);
+      setDeviceInfo(null);
     }
   };
 
@@ -72,6 +80,17 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
               : ''
           }`}
         />
+
+        {deviceInfo && (
+          <div className="text-center p-4 bg-green-50 rounded-lg">
+            <p className="font-medium text-green-800">
+              {deviceInfo.brand} {deviceInfo.model}
+            </p>
+            <p className="text-sm text-green-600">
+              Dispositivo compatível com eSIM
+            </p>
+          </div>
+        )}
 
         <p className="text-sm text-gray-600">
           É só ligar pra *#06# e procurar por EID. O número vai aparecer na tela do seu celular.
