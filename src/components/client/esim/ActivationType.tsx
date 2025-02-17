@@ -41,26 +41,6 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
             </div>
           </div>
         </div>
-
-        <div className="p-4 rounded-lg border border-gray-200 opacity-50">
-          <div className="flex items-start gap-3">
-            <input
-              type="radio"
-              name="type"
-              id="collaborator"
-              className="mt-1"
-              disabled
-            />
-            <div>
-              <label htmlFor="collaborator" className="text-lg font-medium">
-                Outra Pessoa (Colaborador)
-              </label>
-              <p className="text-gray-400 text-sm mt-1">
-                Você gera um código de acesso e envia ao seu colaborador. Ele entra no nosso site, informa os números de IMEI e EID do celular e faz a ativação
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div className="flex justify-between mt-8">
