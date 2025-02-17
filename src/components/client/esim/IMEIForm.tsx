@@ -30,8 +30,8 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
       const validation = await validateDeviceIdentifier(deviceType, 'imei', value);
       console.log('IMEI validation result:', validation);
       
-      setIsValidIMEI(validation.isValid);
-      if (validation.deviceInfo) {
+      if (validation.isValid && validation.deviceInfo) {
+        setIsValidIMEI(true);
         setDeviceInfo(validation.deviceInfo);
         
         if (value.length === 15) {
@@ -41,8 +41,10 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           });
         }
       } else {
+        setIsValidIMEI(false);
         setDeviceInfo(null);
-        if (value.length === 15) { // Corrigido aqui: 'a15' para '15'
+        
+        if (value.length === 15) {
           toast({
             variant: "destructive",
             title: "IMEI não compatível",
