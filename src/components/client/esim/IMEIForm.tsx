@@ -19,8 +19,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   const { toast } = useToast();
 
   const validateIMEI = async (value: string) => {
-    // Só valida quando tiver 15 dígitos
-    if (value.length !== 15) {
+    if (value.length < 6) {
       setIsValidIMEI(false);
       setDeviceInfo(null);
       return;
@@ -34,20 +33,28 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
       if (validation.isValid && validation.deviceInfo) {
         setIsValidIMEI(true);
         setDeviceInfo(validation.deviceInfo);
-        toast({
-          title: "Dispositivo compatível com eSIM",
-          description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
-        });
+        
+        // Só mostra o toast quando completar os 15 dígitos
+        if (value.length === 15) {
+          toast({
+            title: "Dispositivo compatível com eSIM",
+            description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
+          });
+        }
       } else {
         setIsValidIMEI(false);
         setDeviceInfo(null);
-        toast({
-          variant: "destructive",
-          title: "IMEI não compatível",
-          description: deviceType === 'android' 
-            ? "O IMEI informado não corresponde a um dispositivo Android compatível com eSIM."
-            : "O IMEI informado não corresponde a um iPhone compatível com eSIM."
-        });
+        
+        // Só mostra o toast de erro quando completar os 15 dígitos
+        if (value.length === 15) {
+          toast({
+            variant: "destructive",
+            title: "IMEI não compatível",
+            description: deviceType === 'android' 
+              ? "O IMEI informado não corresponde a um dispositivo Android compatível com eSIM."
+              : "O IMEI informado não corresponde a um iPhone compatível com eSIM."
+          });
+        }
       }
     } catch (error) {
       console.error('Erro na validação:', error);
@@ -102,7 +109,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           </p>
         </div>
 
-        {deviceInfo && imei.length === 15 && (
+        {deviceInfo && (
           <div className="text-center p-4 bg-green-50 rounded-lg">
             <p className="font-medium text-green-800">
               {deviceInfo.brand} {deviceInfo.model}
