@@ -15,7 +15,15 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   const [imei, setIMEI] = useState("");
   const [isValidIMEI, setIsValidIMEI] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
-  const [deviceInfo, setDeviceInfo] = useState<{ brand: string; model: string; } | null>(null);
+  const [deviceInfo, setDeviceInfo] = useState<{
+    brand: string;
+    model: string;
+    specs?: {
+      tac: string;
+      serialNumber: string;
+      checkDigit: string;
+    };
+  } | null>(null);
   const { toast } = useToast();
 
   const validateIMEI = async (value: string) => {
@@ -109,11 +117,18 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
         </div>
 
         {deviceInfo && (
-          <div className="text-center p-4 bg-green-50 rounded-lg">
+          <div className="text-center p-4 bg-green-50 rounded-lg space-y-2">
             <p className="font-medium text-green-800">
               {deviceInfo.brand} {deviceInfo.model}
             </p>
-            <p className="text-sm text-green-600">
+            {deviceInfo.specs && (
+              <div className="text-sm text-green-600 space-y-1">
+                <p>TAC: {deviceInfo.specs.tac}</p>
+                <p>Número de Série: {deviceInfo.specs.serialNumber}</p>
+                <p>Dígito Verificador: {deviceInfo.specs.checkDigit}</p>
+              </div>
+            )}
+            <p className="text-sm text-green-600 font-medium">
               Dispositivo compatível com eSIM
             </p>
           </div>

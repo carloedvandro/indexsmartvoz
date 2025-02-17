@@ -383,6 +383,48 @@ export type Database = {
         }
         Relationships: []
       }
+      imei_device_info: {
+        Row: {
+          brand: string | null
+          check_digit: string
+          device_specs: Json | null
+          device_type: string | null
+          id: number
+          imei: string
+          is_valid: boolean | null
+          last_updated: string | null
+          model: string | null
+          serial_number: string
+          tac: string
+        }
+        Insert: {
+          brand?: string | null
+          check_digit: string
+          device_specs?: Json | null
+          device_type?: string | null
+          id?: number
+          imei: string
+          is_valid?: boolean | null
+          last_updated?: string | null
+          model?: string | null
+          serial_number: string
+          tac: string
+        }
+        Update: {
+          brand?: string | null
+          check_digit?: string
+          device_specs?: Json | null
+          device_type?: string | null
+          id?: number
+          imei?: string
+          is_valid?: boolean | null
+          last_updated?: string | null
+          model?: string | null
+          serial_number?: string
+          tac?: string
+        }
+        Relationships: []
+      }
       network: {
         Row: {
           created_at: string
@@ -870,6 +912,19 @@ export type Database = {
           level: number
         }[]
       }
+      parse_imei: {
+        Args: {
+          p_imei: string
+        }
+        Returns: {
+          is_valid: boolean
+          tac: string
+          serial_number: string
+          check_digit: string
+          brand: string
+          model: string
+        }[]
+      }
       validate_device_identifier: {
         Args: {
           p_device_type: string
@@ -880,6 +935,7 @@ export type Database = {
           is_valid: boolean
           brand: string
           model: string
+          device_info: Json
         }[]
       }
       validate_esim_device: {

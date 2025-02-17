@@ -6,6 +6,11 @@ type DeviceValidationResult = {
   deviceInfo?: {
     brand: string;
     model: string;
+    specs?: {
+      tac: string;
+      serialNumber: string;
+      checkDigit: string;
+    };
   };
 };
 
@@ -54,11 +59,16 @@ export const validateDeviceIdentifier = async (
     console.log('Dispositivo é válido?', isValid);
 
     if (isValid && deviceData[0].brand && deviceData[0].model) {
-      const result = {
+      const result: DeviceValidationResult = {
         isValid: true,
         deviceInfo: {
           brand: deviceData[0].brand,
-          model: deviceData[0].model
+          model: deviceData[0].model,
+          specs: deviceData[0].device_info ? {
+            tac: deviceData[0].device_info.tac,
+            serialNumber: deviceData[0].device_info.serialNumber,
+            checkDigit: deviceData[0].device_info.checkDigit
+          } : undefined
         }
       };
       console.log('Retornando resultado positivo:', result);
