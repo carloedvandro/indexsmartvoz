@@ -28,6 +28,12 @@ interface DeviceValidationResponse {
   device_info: DeviceInfo | null;
 }
 
+interface ValidateDeviceParams {
+  p_device_type: 'android' | 'ios';
+  p_identifier_type: 'imei' | 'eid';
+  p_value: string;
+}
+
 export const validateDeviceIdentifier = async (
   deviceType: 'android' | 'ios',
   identifierType: 'imei' | 'eid',
@@ -51,7 +57,7 @@ export const validateDeviceIdentifier = async (
       return { isValid: false };
     }
 
-    const { data: deviceData, error } = await supabase.rpc<DeviceValidationResponse[]>('validate_device_identifier', {
+    const { data: deviceData, error } = await supabase.rpc<DeviceValidationResponse[], ValidateDeviceParams>('validate_device_identifier', {
       p_device_type: deviceType,
       p_identifier_type: identifierType,
       p_value: cleanValue
