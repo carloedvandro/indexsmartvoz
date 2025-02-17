@@ -14,28 +14,33 @@ type DeviceValidationResult = {
   };
 };
 
-interface DeviceInfo {
-  tac: string;
-  serialNumber: string;
-  checkDigit: string;
-}
+const validateImeiChecksum = (imei: string): boolean => {
+  let sum = 0;
+  const length = imei.length;
 
-interface DeviceValidationResponse {
-  is_valid: boolean;
-  brand: string | null;
-  model: string | null;
-  device_info: {
-    tac: string;
-    serialNumber: string;
-    checkDigit: string;
-  } | null;
-}
+  // O último dígito é o dígito verificador
+  const checkDigit = parseInt(imei.charAt(length - 1));
 
-interface ValidateDeviceParams {
-  p_device_type: 'android' | 'ios';
-  p_identifier_type: 'imei' | 'eid';
-  p_value: string;
-}
+  // Percorre os dígitos da direita para a esquerda, exceto o dígito verificador
+  for (let i = length - 2; i >= 0; i--) {
+    let digit = parseInt(imei.charAt(i));
+    
+    // Multiplica os dígitos alternados por 2
+    if ((length - 1 - i) % 2 === 1) {
+      digit *= 2;
+      // Se o resultado for maior que 9, soma os dígitos
+      if (digit > 9) {
+        digit = Math.floor(digit / 10) + (digit % 10);
+      }
+    }
+    sum += digit;
+  }
+
+  // Calcula o dígito verificador esperado
+  const expectedCheckDigit = (10 - (sum % 10)) % 10;
+
+  return checkDigit === expectedCheckDigit;
+};
 
 export const validateDeviceIdentifier = async (
   deviceType: 'android' | 'ios',
@@ -48,10 +53,18 @@ export const validateDeviceIdentifier = async (
     // Formatar o valor removendo espaços e caracteres especiais
     const cleanValue = value.replace(/[^0-9a-fA-F]/g, '');
 
-    // Validação do comprimento do IMEI
-    if (identifierType === 'imei' && cleanValue.length !== 15) {
-      console.log('IMEI inválido: comprimento incorreto');
-      return { isValid: false };
+    // Validação básica do IMEI
+    if (identifierType === 'imei') {
+      if (cleanValue.length !== 15) {
+        console.log('IMEI inválido: comprimento incorreto');
+        return { isValid: false };
+      }
+
+      // Validação do checksum do IMEI
+      if (!validateImeiChecksum(cleanValue)) {
+        console.log('IMEI inválido: checksum incorreto');
+        return { isValid: false };
+      }
     }
 
     // Validação do comprimento do EID
@@ -78,40 +91,19 @@ export const validateDeviceIdentifier = async (
       return { isValid: false };
     }
 
-    const rawDevice = data[0] as unknown as DeviceValidationResponse;
-    console.log('Device data:', rawDevice);
-
-    // Determinar a marca e modelo com base no tipo de dispositivo
-    let deviceBrand = rawDevice.brand;
-    let deviceModel = rawDevice.model;
-
-    if (deviceType === 'ios' && (!deviceBrand || deviceBrand === 'Unknown')) {
-      deviceBrand = 'Apple';
-      deviceModel = 'iPhone';
-    } else if (deviceType === 'android' && (!deviceBrand || deviceBrand === 'Unknown')) {
-      deviceBrand = 'Android';
-      deviceModel = 'Smartphone';
+    const [result] = data;
+    if (!result.is_valid) {
+      return { isValid: false };
     }
 
-    if (rawDevice.is_valid) {
-      const result: DeviceValidationResult = {
-        isValid: true,
-        deviceInfo: {
-          brand: deviceBrand || 'Dispositivo',
-          model: deviceModel || 'Compatível',
-          specs: rawDevice.device_info ? {
-            tac: rawDevice.device_info.tac,
-            serialNumber: rawDevice.device_info.serialNumber,
-            checkDigit: rawDevice.device_info.checkDigit
-          } : undefined
-        }
-      };
-      console.log('Retornando resultado positivo:', result);
-      return result;
-    }
-
-    console.log('Retornando resultado negativo');
-    return { isValid: false };
+    return {
+      isValid: true,
+      deviceInfo: {
+        brand: result.brand || (deviceType === 'ios' ? 'Apple' : 'Android'),
+        model: result.model || (deviceType === 'ios' ? 'iPhone' : 'Smartphone'),
+        specs: result.device_info
+      }
+    };
   } catch (error) {
     console.error('Erro inesperado na validação:', error);
     return { isValid: false };
