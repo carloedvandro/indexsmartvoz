@@ -15,24 +15,32 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   const [imei, setIMEI] = useState("");
   const [isValidIMEI, setIsValidIMEI] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
+  const [deviceInfo, setDeviceInfo] = useState<{ brand: string; model: string; } | null>(null);
   const { toast } = useToast();
 
   const validateIMEI = async (value: string) => {
     if (value.length === 15) {
       setIsValidating(true);
-      const isValid = await validateDeviceIdentifier(deviceType, 'imei', value);
-      setIsValidIMEI(isValid);
+      const validation = await validateDeviceIdentifier(deviceType, 'imei', value);
+      setIsValidIMEI(validation.isValid);
+      setDeviceInfo(validation.deviceInfo || null);
       setIsValidating(false);
 
-      if (!isValid) {
+      if (!validation.isValid) {
         toast({
           variant: "destructive",
           title: "IMEI não autorizado",
-          description: "O IMEI informado não está na lista de dispositivos autorizados. Por favor, verifique se você digitou o número IMEI correto do seu dispositivo."
+          description: "O IMEI informado não corresponde a um dispositivo compatível com eSIM. Por favor, verifique se você digitou o número IMEI correto do seu dispositivo."
+        });
+      } else if (validation.deviceInfo) {
+        toast({
+          title: "Dispositivo identificado",
+          description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
         });
       }
     } else {
       setIsValidIMEI(false);
+      setDeviceInfo(null);
     }
   };
 
@@ -72,6 +80,17 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
               : ''
           }`}
         />
+
+        {deviceInfo && (
+          <div className="text-center p-4 bg-green-50 rounded-lg">
+            <p className="font-medium text-green-800">
+              {deviceInfo.brand} {deviceInfo.model}
+            </p>
+            <p className="text-sm text-green-600">
+              Dispositivo compatível com eSIM
+            </p>
+          </div>
+        )}
 
         <p className="text-black text-sm">
           É só ir nas configurações do aparelho e digitar IMEI no campo de busca. O número que você precisa vai estar em status como IMEI (eSIM)

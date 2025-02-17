@@ -293,6 +293,33 @@ export type Database = {
         }
         Relationships: []
       }
+      esim_device_models: {
+        Row: {
+          brand: string
+          created_at: string | null
+          id: string
+          imei_prefix: string[]
+          model: string
+          updated_at: string | null
+        }
+        Insert: {
+          brand: string
+          created_at?: string | null
+          id?: string
+          imei_prefix?: string[]
+          model: string
+          updated_at?: string | null
+        }
+        Update: {
+          brand?: string
+          created_at?: string | null
+          id?: string
+          imei_prefix?: string[]
+          model?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       network: {
         Row: {
           created_at: string
@@ -774,6 +801,16 @@ export type Database = {
           p_value: string
         }
         Returns: boolean
+      }
+      validate_esim_device: {
+        Args: {
+          p_imei: string
+        }
+        Returns: {
+          is_valid: boolean
+          brand: string
+          model: string
+        }[]
       }
     }
     Enums: {
