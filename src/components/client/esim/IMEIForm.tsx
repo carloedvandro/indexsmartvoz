@@ -118,9 +118,9 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
 
         {deviceInfo && (
           <div className="text-center p-4 bg-green-50 rounded-lg space-y-2">
-            <p className="font-medium text-green-800">
+            <h3 className="text-lg font-semibold text-green-800">
               {deviceInfo.brand} {deviceInfo.model}
-            </p>
+            </h3>
             {deviceInfo.specs && (
               <div className="text-sm text-green-600 space-y-1">
                 <p>TAC: {deviceInfo.specs.tac}</p>
@@ -128,7 +128,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
                 <p>Dígito Verificador: {deviceInfo.specs.checkDigit}</p>
               </div>
             )}
-            <p className="text-sm text-green-600 font-medium">
+            <p className="text-sm text-green-600 font-medium mt-2">
               Dispositivo compatível com eSIM
             </p>
           </div>
