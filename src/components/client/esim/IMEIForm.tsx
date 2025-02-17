@@ -42,7 +42,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
         }
       } else {
         setDeviceInfo(null);
-        if (value.length === a15) {
+        if (value.length === 15) { // Corrigido aqui: 'a15' para '15'
           toast({
             variant: "destructive",
             title: "IMEI não compatível",
