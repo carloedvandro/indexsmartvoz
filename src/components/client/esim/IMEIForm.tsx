@@ -26,27 +26,38 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
     }
 
     setIsValidating(true);
-    const validation = await validateDeviceIdentifier(deviceType, 'imei', value);
-    console.log('IMEI validation result:', validation);
-    setIsValidIMEI(validation.isValid);
-    setDeviceInfo(validation.deviceInfo || null);
-    setIsValidating(false);
-
-    if (value.length === 15) {
-      if (!validation.isValid) {
-        toast({
-          variant: "destructive",
-          title: "IMEI não compatível",
-          description: deviceType === 'android' 
-            ? "O IMEI informado não corresponde a um dispositivo Android compatível com eSIM. Verifique se seu aparelho possui suporte a eSIM."
-            : "O IMEI informado não corresponde a um iPhone compatível com eSIM. Verifique se seu iPhone possui suporte a eSIM."
-        });
-      } else if (validation.deviceInfo) {
-        toast({
-          title: "Dispositivo detectado",
-          description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
-        });
+    try {
+      const validation = await validateDeviceIdentifier(deviceType, 'imei', value);
+      console.log('IMEI validation result:', validation);
+      
+      setIsValidIMEI(validation.isValid);
+      if (validation.deviceInfo) {
+        setDeviceInfo(validation.deviceInfo);
+        
+        if (value.length === 15) {
+          toast({
+            title: "Dispositivo compatível com eSIM",
+            description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
+          });
+        }
+      } else {
+        setDeviceInfo(null);
+        if (value.length === a15) {
+          toast({
+            variant: "destructive",
+            title: "IMEI não compatível",
+            description: deviceType === 'android' 
+              ? "O IMEI informado não corresponde a um dispositivo Android compatível com eSIM."
+              : "O IMEI informado não corresponde a um iPhone compatível com eSIM."
+          });
+        }
       }
+    } catch (error) {
+      console.error('Erro na validação:', error);
+      setIsValidIMEI(false);
+      setDeviceInfo(null);
+    } finally {
+      setIsValidating(false);
     }
   };
 

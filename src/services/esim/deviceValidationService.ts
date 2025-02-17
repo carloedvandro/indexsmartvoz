@@ -16,28 +16,33 @@ export const validateDeviceIdentifier = async (
 ): Promise<DeviceValidationResult> => {
   console.log('Validating device:', { deviceType, identifierType, value });
 
-  const { data: deviceData, error } = await supabase.rpc('validate_device_identifier', {
-    p_device_type: deviceType,
-    p_identifier_type: identifierType,
-    p_value: value
-  });
+  try {
+    const { data: deviceData, error } = await supabase.rpc('validate_device_identifier', {
+      p_device_type: deviceType,
+      p_identifier_type: identifierType,
+      p_value: value
+    });
 
-  console.log('Validation result:', { deviceData, error });
+    console.log('Validation result:', { deviceData, error });
 
-  if (error) {
+    if (error) {
+      console.error('Erro na validação:', error);
+      return { isValid: false };
+    }
+
+    if (deviceData?.[0]?.is_valid) {
+      return {
+        isValid: true,
+        deviceInfo: {
+          brand: deviceData[0].brand,
+          model: deviceData[0].model
+        }
+      };
+    }
+
+    return { isValid: false };
+  } catch (error) {
     console.error('Erro na validação:', error);
     return { isValid: false };
   }
-
-  if (deviceData?.[0]?.is_valid) {
-    return {
-      isValid: true,
-      deviceInfo: {
-        brand: deviceData[0].brand,
-        model: deviceData[0].model
-      }
-    };
-  }
-
-  return { isValid: false };
 };
