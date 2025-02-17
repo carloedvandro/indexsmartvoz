@@ -13,7 +13,7 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
       <h2 className="text-2xl font-semibold text-center">
         Quem irá ativar a linha no eSIM?
       </h2>
-      <p className="text-gray-400 text-center mt-2">
+      <p className="text-black text-center mt-2">
         É preciso ter o celular com o eSIM em mãos pra ativar
       </p>
 
@@ -35,7 +35,7 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
               <label htmlFor="self" className="text-lg font-medium">
                 Eu Mesmo (Gestor)
               </label>
-              <p className="text-gray-400 text-sm mt-1">
+              <p className="text-black text-sm mt-1">
                 Você informa os números de IMEI e EID do celular e solicita ativação e aguardar o prazo da habilitação do eSIM
               </p>
             </div>

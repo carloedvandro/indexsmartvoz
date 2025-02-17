@@ -19,7 +19,7 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
         {steps.map((step, index) => (
           <div key={step.id} className="flex-1 text-center relative">
             <span className={`text-sm ${
-              index === currentStepIndex ? 'text-[#8425af] font-medium' : 'text-gray-500'
+              index === currentStepIndex ? 'text-[#8425af] font-medium' : 'text-black'
             }`}>
               {step.title}
             </span>
