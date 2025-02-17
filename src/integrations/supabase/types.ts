@@ -323,6 +323,39 @@ export type Database = {
         }
         Relationships: []
       }
+      esim_compatible_devices: {
+        Row: {
+          brand: string
+          created_at: string | null
+          device_type: string
+          esim_support: boolean | null
+          id: string
+          model: string
+          release_year: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          brand: string
+          created_at?: string | null
+          device_type: string
+          esim_support?: boolean | null
+          id?: string
+          model: string
+          release_year?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          brand?: string
+          created_at?: string | null
+          device_type?: string
+          esim_support?: boolean | null
+          id?: string
+          model?: string
+          release_year?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       esim_device_models: {
         Row: {
           brand: string
@@ -806,6 +839,19 @@ export type Database = {
           new_password: string
         }
         Returns: undefined
+      }
+      check_device_compatibility: {
+        Args: {
+          p_brand: string
+          p_model: string
+          p_device_type: string
+        }
+        Returns: {
+          is_compatible: boolean
+          device_brand: string
+          device_model: string
+          release_year: number
+        }[]
       }
       delete_user_and_profile: {
         Args: {
