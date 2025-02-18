@@ -44,7 +44,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
         
         toast({
           title: "Dispositivo compatível com eSIM",
-          description: validation.deviceInfo.model,
+          description: validation.deviceInfo.specs?.marketName || validation.deviceInfo.model,
         });
       } else {
         setIsValidIMEI(false);
@@ -53,9 +53,9 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
         toast({
           variant: "destructive",
           title: "IMEI não compatível",
-          description: validation.error || (deviceType === 'android' 
+          description: deviceType === 'android' 
             ? "O IMEI informado não corresponde a um dispositivo Android compatível com eSIM."
-            : "O IMEI informado não corresponde a um iPhone compatível com eSIM.")
+            : "O IMEI informado não corresponde a um iPhone compatível com eSIM."
         });
       }
     } catch (error) {

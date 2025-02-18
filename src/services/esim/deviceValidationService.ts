@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { DeviceValidationResult, DeviceValidationResponse } from './types/deviceTypes';
 import { validateImeiChecksum, parseImei } from './utils/imeiUtils';
@@ -29,46 +28,27 @@ export const validateDeviceIdentifier = async (
       console.log('TAC completo:', tac);
       console.log('Device Type:', deviceType);
       
-      try {
-        const deviceDetails = getDeviceInfo(tac, deviceType);
-        console.log('Device Details:', deviceDetails);
+      const deviceDetails = getDeviceInfo(tac, deviceType);
+      console.log('Device Details:', deviceDetails);
 
-        const specs = {
-          tac: tac,
-          serialNumber: serialNumber,
-          checkDigit: checkDigit,
-          marketName: deviceDetails.model,
-          modelNumber: deviceDetails.modelNumber,
-          manufacturer: deviceDetails.brand
-        };
+      // Construir as especificações detalhadas do dispositivo
+      const specs = {
+        tac: tac,
+        serialNumber: serialNumber,
+        checkDigit: checkDigit,
+        marketName: deviceDetails.model,
+        modelNumber: deviceDetails.modelNumber,
+        manufacturer: deviceDetails.brand
+      };
 
-        return {
-          isValid: true,
-          deviceInfo: {
-            brand: deviceDetails.brand,
-            model: deviceDetails.model,
-            specs: specs
-          }
-        };
-      } catch (error) {
-        if (error instanceof Error) {
-          if (error.message === 'IMEI_NOT_IOS') {
-            console.log('IMEI não corresponde a um dispositivo iOS');
-            return { 
-              isValid: false,
-              error: 'Este IMEI não corresponde a um iPhone. Por favor, verifique se selecionou o tipo correto de dispositivo.'
-            };
-          }
-          if (error.message === 'IMEI_NOT_ANDROID') {
-            console.log('IMEI não corresponde a um dispositivo Android');
-            return { 
-              isValid: false,
-              error: 'Este IMEI não corresponde a um dispositivo Android. Por favor, verifique se selecionou o tipo correto de dispositivo.'
-            };
-          }
+      return {
+        isValid: true,
+        deviceInfo: {
+          brand: deviceDetails.brand,
+          model: deviceDetails.model,
+          specs: specs
         }
-        throw error;
-      }
+      };
     }
 
     if (identifierType === 'eid' && cleanValue.length !== 32) {

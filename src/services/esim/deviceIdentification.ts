@@ -2,21 +2,6 @@
 import { DeviceInfo } from './types/deviceTypes';
 import { androidModels, iphoneModels } from './data/deviceModels';
 
-export const isIOSIMEI = (tac: string): boolean => {
-  // Verifica se o TAC está na lista de modelos iPhone
-  return Object.keys(iphoneModels).some(key => tac.startsWith(key));
-};
-
-export const isAndroidIMEI = (tac: string): boolean => {
-  // Verifica se o TAC está na lista de modelos Android ou começa com padrões conhecidos de Android
-  if (Object.keys(androidModels).some(key => tac.startsWith(key))) {
-    return true;
-  }
-  
-  const tacPrefix = tac.substring(0, 3);
-  return tacPrefix === '351' || tacPrefix === '352' || tacPrefix === '353' || tacPrefix === '354';
-};
-
 export const identifyDeviceBrand = (tac: string): string => {
   const tacPrefix = tac.substring(0, 3);
   
@@ -30,29 +15,12 @@ export const identifyDeviceBrand = (tac: string): string => {
 };
 
 export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
-  console.log('Verificando TAC:', tac, 'para dispositivo tipo:', deviceType);
-  
-  // Primeiro, verifica se o IMEI corresponde ao tipo de dispositivo selecionado
   if (deviceType === 'ios') {
-    const isIos = isIOSIMEI(tac);
-    console.log('É iOS?', isIos);
-    if (!isIos) {
-      throw new Error('IMEI_NOT_IOS');
-    }
-  }
-  
-  if (deviceType === 'android') {
-    const isAndroid = isAndroidIMEI(tac);
-    console.log('É Android?', isAndroid);
-    if (!isAndroid) {
-      throw new Error('IMEI_NOT_ANDROID');
-    }
-  }
-
-  if (deviceType === 'ios') {
+    // Pegando os primeiros 8 dígitos do TAC para iPhone
     const prefix = tac.substring(0, 8);
     console.log('Procurando iPhone com TAC prefix:', prefix);
     
+    // Verificando se existe um modelo de iPhone com esse TAC
     const iPhoneModel = Object.entries(iphoneModels).find(([key]) => tac.startsWith(key));
     
     if (iPhoneModel) {
@@ -73,6 +41,7 @@ export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
     };
   }
 
+  // Lógica para Android
   const prefix = tac.substring(0, 8);
   console.log('Android TAC Prefix:', prefix);
   
