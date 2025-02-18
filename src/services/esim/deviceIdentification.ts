@@ -30,13 +30,23 @@ export const identifyDeviceBrand = (tac: string): string => {
 };
 
 export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
+  console.log('Verificando TAC:', tac, 'para dispositivo tipo:', deviceType);
+  
   // Primeiro, verifica se o IMEI corresponde ao tipo de dispositivo selecionado
-  if (deviceType === 'ios' && !isIOSIMEI(tac)) {
-    throw new Error('IMEI_NOT_IOS');
+  if (deviceType === 'ios') {
+    const isIos = isIOSIMEI(tac);
+    console.log('É iOS?', isIos);
+    if (!isIos) {
+      throw new Error('IMEI_NOT_IOS');
+    }
   }
   
-  if (deviceType === 'android' && !isAndroidIMEI(tac)) {
-    throw new Error('IMEI_NOT_ANDROID');
+  if (deviceType === 'android') {
+    const isAndroid = isAndroidIMEI(tac);
+    console.log('É Android?', isAndroid);
+    if (!isAndroid) {
+      throw new Error('IMEI_NOT_ANDROID');
+    }
   }
 
   if (deviceType === 'ios') {

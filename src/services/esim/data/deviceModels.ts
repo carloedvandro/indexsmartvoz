@@ -14,7 +14,7 @@ export const iphoneModels: { [key: string]: { model: string; modelNumber: string
   '35328126': { model: 'iPhone 12 Mini', modelNumber: 'A2176' },
   '35328127': { model: 'iPhone 11 Pro Max', modelNumber: 'A2161' },
   '35328128': { model: 'iPhone 11 Pro', modelNumber: 'A2160' },
-  '35328129': { model: 'iPhone 11', modelNumber: 'A2111' },
+  '35328129': { model: 'iPhone 11', modelNumber: 'A2111' }
 };
 
 export const androidModels: { [key: string]: { brand: string; model: string; modelNumber: string } } = {
@@ -37,5 +37,5 @@ export const androidModels: { [key: string]: { brand: string; model: string; mod
   // Nokia models
   '35801101': { brand: 'Nokia', model: 'X30 5G', modelNumber: 'TA-1460' },
   '35801102': { brand: 'Nokia', model: 'G60 5G', modelNumber: 'TA-1447' },
-  '35801103': { brand: 'Nokia', model: 'XR20', modelNumber: 'TA-1362' },
+  '35801103': { brand: 'Nokia', model: 'XR20', modelNumber: 'TA-1362' }
 };
