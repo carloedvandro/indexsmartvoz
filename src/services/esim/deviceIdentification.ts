@@ -17,27 +17,35 @@ export const identifyDeviceBrand = (tac: string): string => {
 export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
   if (deviceType === 'ios') {
     const prefix = tac.substring(0, 8);
+    console.log('iOS TAC Prefix:', prefix);
+    
     if (iphoneModels[prefix]) {
+      console.log('iPhone model found:', iphoneModels[prefix]);
       return {
         brand: 'Apple',
         model: iphoneModels[prefix].model,
         modelNumber: iphoneModels[prefix].modelNumber
       };
     }
-    return { brand: 'Apple', model: 'iPhone', modelNumber: tac };
+    
+    console.log('Generic iPhone');
+    return { 
+      brand: 'Apple', 
+      model: 'iPhone',
+      modelNumber: tac 
+    };
   }
 
   const prefix = tac.substring(0, 8);
-  console.log('TAC Prefix:', prefix);
-  console.log('Device Type:', deviceType);
+  console.log('Android TAC Prefix:', prefix);
   
   if (androidModels[prefix]) {
-    console.log('Modelo encontrado:', androidModels[prefix]);
+    console.log('Android model found:', androidModels[prefix]);
     return androidModels[prefix];
   }
 
   const brand = identifyDeviceBrand(tac);
-  console.log('Brand:', brand);
+  console.log('Generic Android Brand:', brand);
   
   return {
     brand,
