@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { DeviceValidationResult, DeviceValidationResponse } from './types/deviceTypes';
 import { validateImeiChecksum, parseImei } from './utils/imeiUtils';
@@ -31,19 +30,22 @@ export const validateDeviceIdentifier = async (
       const deviceDetails = getDeviceInfo(tac, deviceType);
       console.log('Device Details:', deviceDetails);
 
+      // Construir as especificações detalhadas do dispositivo
+      const specs = {
+        tac: tac,
+        serialNumber: serialNumber,
+        checkDigit: checkDigit,
+        marketName: `${deviceDetails.brand} / ${tac}`,
+        modelNumber: tac,
+        manufacturer: deviceDetails.brand
+      };
+
       return {
         isValid: true,
         deviceInfo: {
           brand: deviceDetails.brand,
           model: deviceDetails.model,
-          specs: {
-            tac,
-            serialNumber,
-            checkDigit,
-            marketName: deviceDetails.model,
-            modelNumber: deviceDetails.modelNumber,
-            manufacturer: deviceDetails.brand
-          }
+          specs: specs
         }
       };
     }

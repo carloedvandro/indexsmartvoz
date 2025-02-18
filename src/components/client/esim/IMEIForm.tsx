@@ -123,18 +123,18 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           <div className="text-center p-4 bg-green-50 rounded-lg space-y-3">
             <div className="space-y-1">
               <h3 className="text-xl font-semibold text-green-800">
-                {deviceInfo.specs?.marketName || deviceInfo.model}
+                {deviceInfo.model}
               </h3>
               <p className="text-base text-green-700">
-                {deviceInfo.brand} / {deviceInfo.specs?.modelNumber || deviceInfo.specs?.tac}
+                {deviceInfo.brand} / {deviceInfo.specs?.tac}
               </p>
             </div>
             <div className="space-y-1 mt-2">
               <p className="text-base text-green-700">
-                Fabricante: {deviceInfo.specs?.manufacturer || deviceInfo.brand}
+                Fabricante: {deviceInfo.specs?.manufacturer}
               </p>
               <p className="text-base text-green-700">
-                Modelo: {deviceInfo.specs?.modelNumber || deviceInfo.specs?.tac}
+                Modelo: {deviceInfo.specs?.modelNumber}
               </p>
               <p className="text-base text-green-700">
                 TAC: {deviceInfo.specs?.tac}
