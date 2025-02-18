@@ -25,7 +25,8 @@ export const validateDeviceIdentifier = async (
       }
 
       const { tac, serialNumber, checkDigit } = parseImei(cleanValue);
-      console.log('TAC:', tac);
+      console.log('TAC completo:', tac);
+      console.log('Device Type:', deviceType);
       
       const deviceDetails = getDeviceInfo(tac, deviceType);
       console.log('Device Details:', deviceDetails);
@@ -35,7 +36,7 @@ export const validateDeviceIdentifier = async (
         tac: tac,
         serialNumber: serialNumber,
         checkDigit: checkDigit,
-        marketName: `${deviceDetails.brand} / ${tac}`,
+        marketName: deviceDetails.model,
         modelNumber: deviceDetails.modelNumber,
         manufacturer: deviceDetails.brand
       };

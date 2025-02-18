@@ -16,19 +16,24 @@ export const identifyDeviceBrand = (tac: string): string => {
 
 export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
   if (deviceType === 'ios') {
+    // Pegando os primeiros 8 dígitos do TAC para iPhone
     const prefix = tac.substring(0, 8);
-    console.log('iOS TAC Prefix:', prefix);
+    console.log('Procurando iPhone com TAC prefix:', prefix);
     
-    if (iphoneModels[prefix]) {
-      console.log('iPhone model found:', iphoneModels[prefix]);
+    // Verificando se existe um modelo de iPhone com esse TAC
+    const iPhoneModel = Object.entries(iphoneModels).find(([key]) => tac.startsWith(key));
+    
+    if (iPhoneModel) {
+      const [_, modelInfo] = iPhoneModel;
+      console.log('Modelo iPhone encontrado:', modelInfo);
       return {
         brand: 'Apple',
-        model: iphoneModels[prefix].model,
-        modelNumber: iphoneModels[prefix].modelNumber
+        model: modelInfo.model,
+        modelNumber: modelInfo.modelNumber
       };
     }
     
-    console.log('Generic iPhone');
+    console.log('iPhone genérico');
     return { 
       brand: 'Apple', 
       model: 'iPhone',
@@ -36,6 +41,7 @@ export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
     };
   }
 
+  // Lógica para Android
   const prefix = tac.substring(0, 8);
   console.log('Android TAC Prefix:', prefix);
   
