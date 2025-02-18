@@ -34,25 +34,25 @@ const getDeviceInfo = (tac: string, deviceType: string): { brand: string; model:
   // iPhone models
   if (deviceType === 'ios') {
     const iphoneModels: { [key: string]: { model: string; modelNumber: string } } = {
-      '35672811': { model: 'iPhone 15 Pro Max', modelNumber: 'A2850' },
-      '35672812': { model: 'iPhone 15 Pro', modelNumber: 'A2848' },
-      '35672813': { model: 'iPhone 15 Plus', modelNumber: 'A2849' },
-      '35672814': { model: 'iPhone 15', modelNumber: 'A2847' },
-      '35672815': { model: 'iPhone 14 Pro Max', modelNumber: 'A2650' },
-      '35672816': { model: 'iPhone 14 Pro', modelNumber: 'A2649' },
-      '35672817': { model: 'iPhone 14 Plus', modelNumber: 'A2632' },
-      '35672818': { model: 'iPhone 14', modelNumber: 'A2631' },
-      '35672819': { model: 'iPhone 13 Pro Max', modelNumber: 'A2484' },
-      '35672820': { model: 'iPhone 13 Pro', modelNumber: 'A2483' },
-      '35672821': { model: 'iPhone 13', modelNumber: 'A2482' },
-      '35672822': { model: 'iPhone 13 Mini', modelNumber: 'A2481' },
-      '35672823': { model: 'iPhone 12 Pro Max', modelNumber: 'A2342' },
-      '35672824': { model: 'iPhone 12 Pro', modelNumber: 'A2341' },
-      '35672825': { model: 'iPhone 12', modelNumber: 'A2172' },
-      '35672826': { model: 'iPhone 12 Mini', modelNumber: 'A2176' },
-      '35672827': { model: 'iPhone 11 Pro Max', modelNumber: 'A2161' },
-      '35672828': { model: 'iPhone 11 Pro', modelNumber: 'A2160' },
-      '35672829': { model: 'iPhone 11', modelNumber: 'A2111' },
+      '35328111': { model: 'iPhone 15 Pro Max', modelNumber: 'A2850' },
+      '35328112': { model: 'iPhone 15 Pro', modelNumber: 'A2848' },
+      '35328113': { model: 'iPhone 15 Plus', modelNumber: 'A2849' },
+      '35328114': { model: 'iPhone 15', modelNumber: 'A2847' },
+      '35328115': { model: 'iPhone 14 Pro Max', modelNumber: 'A2650' },
+      '35328116': { model: 'iPhone 14 Pro', modelNumber: 'A2649' },
+      '35328117': { model: 'iPhone 14 Plus', modelNumber: 'A2632' },
+      '35328118': { model: 'iPhone 14', modelNumber: 'A2631' },
+      '35328119': { model: 'iPhone 13 Pro Max', modelNumber: 'A2484' },
+      '35328120': { model: 'iPhone 13 Pro', modelNumber: 'A2483' },
+      '35328121': { model: 'iPhone 13', modelNumber: 'A2482' },
+      '35328122': { model: 'iPhone 13 Mini', modelNumber: 'A2481' },
+      '35328123': { model: 'iPhone 12 Pro Max', modelNumber: 'A2342' },
+      '35328124': { model: 'iPhone 12 Pro', modelNumber: 'A2341' },
+      '35328125': { model: 'iPhone 12', modelNumber: 'A2172' },
+      '35328126': { model: 'iPhone 12 Mini', modelNumber: 'A2176' },
+      '35328127': { model: 'iPhone 11 Pro Max', modelNumber: 'A2161' },
+      '35328128': { model: 'iPhone 11 Pro', modelNumber: 'A2160' },
+      '35328129': { model: 'iPhone 11', modelNumber: 'A2111' },
     };
     
     const prefix = tac.substring(0, 8);
@@ -70,33 +70,37 @@ const getDeviceInfo = (tac: string, deviceType: string): { brand: string; model:
   // Android models
   const androidModels: { [key: string]: { brand: string; model: string; modelNumber: string } } = {
     // Samsung models
-    '35137181': { brand: 'Samsung', model: 'Galaxy S23 Ultra', modelNumber: 'SM-S918B' },
-    '35137182': { brand: 'Samsung', model: 'Galaxy S23+', modelNumber: 'SM-S916B' },
-    '35137183': { brand: 'Samsung', model: 'Galaxy S23', modelNumber: 'SM-S911B' },
-    '35580101': { brand: 'Samsung', model: 'Galaxy S22 Ultra', modelNumber: 'SM-S908B' },
-    '35580102': { brand: 'Samsung', model: 'Galaxy S22+', modelNumber: 'SM-S906B' },
-    '35580103': { brand: 'Samsung', model: 'Galaxy S22', modelNumber: 'SM-S901B' },
-    '35580104': { brand: 'Samsung', model: 'Galaxy Z Fold 5', modelNumber: 'SM-F946B' },
-    '35580105': { brand: 'Samsung', model: 'Galaxy Z Flip 5', modelNumber: 'SM-F731B' },
+    '35800881': { brand: 'Samsung', model: 'Galaxy S23 Ultra', modelNumber: 'SM-S918B' },
+    '35800882': { brand: 'Samsung', model: 'Galaxy S23+', modelNumber: 'SM-S916B' },
+    '35800883': { brand: 'Samsung', model: 'Galaxy S23', modelNumber: 'SM-S911B' },
+    '35800884': { brand: 'Samsung', model: 'Galaxy S22 Ultra', modelNumber: 'SM-S908B' },
+    '35800885': { brand: 'Samsung', model: 'Galaxy S22+', modelNumber: 'SM-S906B' },
+    '35800886': { brand: 'Samsung', model: 'Galaxy S22', modelNumber: 'SM-S901B' },
+    '35800887': { brand: 'Samsung', model: 'Galaxy Z Fold 5', modelNumber: 'SM-F946B' },
+    '35800888': { brand: 'Samsung', model: 'Galaxy Z Flip 5', modelNumber: 'SM-F731B' },
 
     // Motorola models
-    '35235101': { brand: 'Motorola', model: 'Edge 40 Pro', modelNumber: 'XT2301-4' },
-    '35235102': { brand: 'Motorola', model: 'Edge 40', modelNumber: 'XT2303-1' },
-    '35235103': { brand: 'Motorola', model: 'Edge 30 Ultra', modelNumber: 'XT2241-1' },
-    '35235104': { brand: 'Motorola', model: 'Edge 30 Pro', modelNumber: 'XT2201-1' },
+    '35800991': { brand: 'Motorola', model: 'Edge 40 Pro', modelNumber: 'XT2301-4' },
+    '35800992': { brand: 'Motorola', model: 'Edge 40', modelNumber: 'XT2303-1' },
+    '35800993': { brand: 'Motorola', model: 'Edge 30 Ultra', modelNumber: 'XT2241-1' },
+    '35800994': { brand: 'Motorola', model: 'Edge 30 Pro', modelNumber: 'XT2201-1' },
 
     // Nokia models
-    '35728101': { brand: 'Nokia', model: 'X30 5G', modelNumber: 'TA-1460' },
-    '35728102': { brand: 'Nokia', model: 'G60 5G', modelNumber: 'TA-1447' },
-    '35728103': { brand: 'Nokia', model: 'XR20', modelNumber: 'TA-1362' },
+    '35801101': { brand: 'Nokia', model: 'X30 5G', modelNumber: 'TA-1460' },
+    '35801102': { brand: 'Nokia', model: 'G60 5G', modelNumber: 'TA-1447' },
+    '35801103': { brand: 'Nokia', model: 'XR20', modelNumber: 'TA-1362' },
   };
 
   const prefix = tac.substring(0, 8);
+  console.log('TAC Prefix:', prefix);
+  console.log('Device Type:', deviceType);
+  
   if (androidModels[prefix]) {
+    console.log('Modelo encontrado:', androidModels[prefix]);
     return androidModels[prefix];
   }
 
-  // Default case if no specific model is found
+  console.log('Modelo não encontrado, usando padrão');
   return {
     brand: deviceType === 'ios' ? 'Apple' : 'Android',
     model: deviceType === 'ios' ? 'iPhone' : 'Smartphone',
@@ -149,7 +153,9 @@ export const validateDeviceIdentifier = async (
       const serialNumber = cleanValue.substring(8, 14);
       const checkDigit = cleanValue.substring(14);
       
+      console.log('TAC:', tac);
       const deviceDetails = getDeviceInfo(tac, deviceType);
+      console.log('Device Details:', deviceDetails);
 
       return {
         isValid: true,
