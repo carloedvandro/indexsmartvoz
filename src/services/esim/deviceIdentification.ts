@@ -3,15 +3,17 @@ import { DeviceInfo } from './types/deviceTypes';
 import { androidModels, iphoneModels } from './data/deviceModels';
 
 export const isIOSIMEI = (tac: string): boolean => {
-  // Verifica os prefixos dos modelos iPhone
-  const tacStart = tac.substring(0, 2);
-  return tacStart === '35' && Object.keys(iphoneModels).some(key => tac.startsWith(key));
+  const prefix = tac.substring(0, 6);
+  // Prefixos específicos para iPhones com eSIM
+  const iosPrefixes = ['353369', '353372', '353728', '353729', '353730', '358511'];
+  return iosPrefixes.includes(prefix);
 };
 
 export const isAndroidIMEI = (tac: string): boolean => {
-  // Verifica os prefixos dos modelos Android
-  const tacStart = tac.substring(0, 2);
-  return tacStart === '35' && Object.keys(androidModels).some(key => tac.startsWith(key));
+  const prefix = tac.substring(0, 6);
+  // Prefixos específicos para Android com eSIM
+  const androidPrefixes = ['354465', '354466', '358008', '358009'];
+  return androidPrefixes.includes(prefix);
 };
 
 export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
