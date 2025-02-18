@@ -3,31 +3,21 @@ import { DeviceInfo } from './types/deviceTypes';
 import { androidModels, iphoneModels } from './data/deviceModels';
 
 export const isIOSIMEI = (tac: string): boolean => {
-  // Primeiro, verifica se o IMEI começa com o padrão iOS (35)
-  if (!tac.startsWith('35')) return false;
-  
   // Verifica se o IMEI corresponde a algum modelo conhecido de iPhone
   const isKnownModel = Object.keys(iphoneModels).some(key => tac.startsWith(key));
   if (isKnownModel) return true;
   
-  // Se não for um modelo conhecido, verifica prefixos gerais de iPhone
-  const prefix = tac.substring(0, 6);
-  const iosPrefixes = ['353369', '353372', '353728', '353729', '353730', '358511'];
-  return iosPrefixes.includes(prefix);
+  // Se não for um modelo conhecido, assume que é válido se começar com 35
+  return tac.startsWith('35');
 };
 
 export const isAndroidIMEI = (tac: string): boolean => {
-  // Primeiro, verifica se o IMEI começa com o padrão Android (35)
-  if (!tac.startsWith('35')) return false;
-  
   // Verifica se o IMEI corresponde a algum modelo conhecido de Android
   const isKnownModel = Object.keys(androidModels).some(key => tac.startsWith(key));
   if (isKnownModel) return true;
   
-  // Se não for um modelo conhecido, verifica prefixos gerais de Android
-  const prefix = tac.substring(0, 6);
-  const androidPrefixes = ['354465', '354466', '358008', '358009'];
-  return androidPrefixes.includes(prefix);
+  // Se não for um modelo conhecido, assume que é válido se começar com 35
+  return tac.startsWith('35');
 };
 
 export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
