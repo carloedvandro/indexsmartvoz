@@ -10,6 +10,9 @@ type DeviceValidationResult = {
       tac: string;
       serialNumber: string;
       checkDigit: string;
+      marketName?: string;
+      modelNumber?: string;
+      manufacturer?: string;
     };
   };
 };
@@ -22,24 +25,21 @@ type DeviceValidationResponse = {
     tac: string;
     serialNumber: string;
     checkDigit: string;
+    marketName: string;
+    modelNumber: string;
+    manufacturer: string;
   };
 };
 
 const validateImeiChecksum = (imei: string): boolean => {
   let sum = 0;
   const length = imei.length;
-
-  // O último dígito é o dígito verificador
   const checkDigit = parseInt(imei.charAt(length - 1));
-
-  // Percorre os dígitos da direita para a esquerda, exceto o dígito verificador
+  
   for (let i = length - 2; i >= 0; i--) {
     let digit = parseInt(imei.charAt(i));
-    
-    // Multiplica os dígitos alternados por 2
     if ((length - 1 - i) % 2 === 1) {
       digit *= 2;
-      // Se o resultado for maior que 9, soma os dígitos
       if (digit > 9) {
         digit = Math.floor(digit / 10) + (digit % 10);
       }
@@ -47,9 +47,7 @@ const validateImeiChecksum = (imei: string): boolean => {
     sum += digit;
   }
 
-  // Calcula o dígito verificador esperado
   const expectedCheckDigit = (10 - (sum % 10)) % 10;
-
   return checkDigit === expectedCheckDigit;
 };
 
@@ -61,24 +59,20 @@ export const validateDeviceIdentifier = async (
   console.log('Iniciando validação:', { deviceType, identifierType, value });
 
   try {
-    // Formatar o valor removendo espaços e caracteres especiais
     const cleanValue = value.replace(/[^0-9a-fA-F]/g, '');
 
-    // Validação básica do IMEI
     if (identifierType === 'imei') {
       if (cleanValue.length !== 15) {
         console.log('IMEI inválido: comprimento incorreto');
         return { isValid: false };
       }
 
-      // Validação do checksum do IMEI
       if (!validateImeiChecksum(cleanValue)) {
         console.log('IMEI inválido: checksum incorreto');
         return { isValid: false };
       }
     }
 
-    // Validação do comprimento do EID
     if (identifierType === 'eid' && cleanValue.length !== 32) {
       console.log('EID inválido: comprimento incorreto');
       return { isValid: false };
@@ -107,11 +101,13 @@ export const validateDeviceIdentifier = async (
       return { isValid: false };
     }
 
-    // Garantindo que o device_info está no formato correto
     const deviceInfo = result.device_info && typeof result.device_info === 'object' ? {
       tac: String(result.device_info.tac || ''),
       serialNumber: String(result.device_info.serialNumber || ''),
-      checkDigit: String(result.device_info.checkDigit || '')
+      checkDigit: String(result.device_info.checkDigit || ''),
+      marketName: String(result.device_info.marketName || ''),
+      modelNumber: String(result.device_info.modelNumber || ''),
+      manufacturer: String(result.device_info.manufacturer || '')
     } : undefined;
 
     return {
