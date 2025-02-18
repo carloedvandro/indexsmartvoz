@@ -28,27 +28,46 @@ export const validateDeviceIdentifier = async (
       console.log('TAC completo:', tac);
       console.log('Device Type:', deviceType);
       
-      const deviceDetails = getDeviceInfo(tac, deviceType);
-      console.log('Device Details:', deviceDetails);
+      try {
+        const deviceDetails = getDeviceInfo(tac, deviceType);
+        console.log('Device Details:', deviceDetails);
 
-      // Construir as especificações detalhadas do dispositivo
-      const specs = {
-        tac: tac,
-        serialNumber: serialNumber,
-        checkDigit: checkDigit,
-        marketName: deviceDetails.model,
-        modelNumber: deviceDetails.modelNumber,
-        manufacturer: deviceDetails.brand
-      };
+        const specs = {
+          tac: tac,
+          serialNumber: serialNumber,
+          checkDigit: checkDigit,
+          marketName: deviceDetails.model,
+          modelNumber: deviceDetails.modelNumber,
+          manufacturer: deviceDetails.brand
+        };
 
-      return {
-        isValid: true,
-        deviceInfo: {
-          brand: deviceDetails.brand,
-          model: deviceDetails.model,
-          specs: specs
+        return {
+          isValid: true,
+          deviceInfo: {
+            brand: deviceDetails.brand,
+            model: deviceDetails.model,
+            specs: specs
+          }
+        };
+      } catch (error) {
+        if (error instanceof Error) {
+          if (error.message === 'IMEI_NOT_IOS') {
+            console.log('IMEI não corresponde a um dispositivo iOS');
+            return { 
+              isValid: false,
+              error: 'Este IMEI não corresponde a um iPhone. Por favor, verifique se selecionou o tipo correto de dispositivo.'
+            };
+          }
+          if (error.message === 'IMEI_NOT_ANDROID') {
+            console.log('IMEI não corresponde a um dispositivo Android');
+            return { 
+              isValid: false,
+              error: 'Este IMEI não corresponde a um dispositivo Android. Por favor, verifique se selecionou o tipo correto de dispositivo.'
+            };
+          }
         }
-      };
+        throw error;
+      }
     }
 
     if (identifierType === 'eid' && cleanValue.length !== 32) {
