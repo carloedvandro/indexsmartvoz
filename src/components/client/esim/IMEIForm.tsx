@@ -41,7 +41,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
         
         toast({
           title: "Dispositivo compatível com eSIM",
-          description: `${validation.deviceInfo.model} ${validation.deviceInfo.brand}`,
+          description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
         });
       } else {
         setIsValidIMEI(false);
@@ -120,7 +120,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           <div className="text-center p-4 bg-green-50 rounded-lg space-y-3">
             <div className="space-y-1">
               <h3 className="text-xl font-semibold text-green-800">
-                {deviceInfo.model} {deviceInfo.brand}
+                {deviceInfo.brand} {deviceInfo.model}
               </h3>
               <p className="text-base text-green-700">
                 {deviceInfo.brand} / {deviceInfo.specs?.tac}-{deviceInfo.specs?.serialNumber}
