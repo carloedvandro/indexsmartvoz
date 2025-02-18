@@ -36,7 +36,7 @@ export const validateDeviceIdentifier = async (
         serialNumber: serialNumber,
         checkDigit: checkDigit,
         marketName: `${deviceDetails.brand} / ${tac}`,
-        modelNumber: tac,
+        modelNumber: deviceDetails.modelNumber,
         manufacturer: deviceDetails.brand
       };
 
