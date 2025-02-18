@@ -2,40 +2,25 @@
 import { DeviceInfo } from './types/deviceTypes';
 import { androidModels, iphoneModels } from './data/deviceModels';
 
-export const isIOSIMEI = (tac: string): boolean => {
-  // Verifica se o IMEI corresponde a algum modelo conhecido de iPhone
-  const isKnownModel = Object.keys(iphoneModels).some(key => tac.startsWith(key));
-  if (isKnownModel) return true;
+export const identifyDeviceBrand = (tac: string): string => {
+  const tacPrefix = tac.substring(0, 3);
   
-  // Se não for um modelo conhecido, verifica os prefixos gerais da Apple
-  return tac.startsWith('35');
-};
-
-export const isAndroidIMEI = (tac: string): boolean => {
-  // Primeiro verifica se é um iPhone, se for, retorna falso
-  if (isIOSIMEI(tac)) return false;
+  if (tacPrefix === '351') {
+    if (tac.startsWith('35118')) return 'Samsung';
+    if (tac.startsWith('35120')) return 'Motorola';
+    if (tac.startsWith('35122')) return 'Nokia';
+  }
   
-  // Verifica se o IMEI corresponde a algum modelo conhecido de Android
-  const isKnownModel = Object.keys(androidModels).some(key => tac.startsWith(key));
-  if (isKnownModel) return true;
-  
-  // Se não for um modelo conhecido nem iPhone, assume que é Android
-  return tac.startsWith('35');
+  return 'Android';
 };
 
 export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
-  console.log('Verificando TAC:', tac, 'para dispositivo tipo:', deviceType);
-  
-  // Validação específica por tipo de dispositivo
   if (deviceType === 'ios') {
-    if (!isIOSIMEI(tac)) {
-      console.log('IMEI não é de um dispositivo iOS');
-      throw new Error('Este IMEI não pertence a um iPhone');
-    }
-    
+    // Pegando os primeiros 8 dígitos do TAC para iPhone
     const prefix = tac.substring(0, 8);
     console.log('Procurando iPhone com TAC prefix:', prefix);
     
+    // Verificando se existe um modelo de iPhone com esse TAC
     const iPhoneModel = Object.entries(iphoneModels).find(([key]) => tac.startsWith(key));
     
     if (iPhoneModel) {
@@ -56,27 +41,21 @@ export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
     };
   }
 
-  // Validação para Android
-  if (!isAndroidIMEI(tac)) {
-    console.log('IMEI não é de um dispositivo Android');
-    throw new Error('Este IMEI não pertence a um dispositivo Android');
-  }
-
+  // Lógica para Android
   const prefix = tac.substring(0, 8);
   console.log('Android TAC Prefix:', prefix);
   
-  const androidModel = Object.entries(androidModels).find(([key]) => tac.startsWith(key));
-  
-  if (androidModel) {
-    const [_, modelInfo] = androidModel;
-    console.log('Android model found:', modelInfo);
-    return modelInfo;
+  if (androidModels[prefix]) {
+    console.log('Android model found:', androidModels[prefix]);
+    return androidModels[prefix];
   }
 
-  console.log('Android genérico');
+  const brand = identifyDeviceBrand(tac);
+  console.log('Generic Android Brand:', brand);
+  
   return {
-    brand: 'Android',
-    model: 'Android Smartphone',
+    brand,
+    model: `${brand} Smartphone`,
     modelNumber: tac
   };
 };
