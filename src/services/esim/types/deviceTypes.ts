@@ -1,6 +1,7 @@
 
 export type DeviceValidationResult = {
   isValid: boolean;
+  error?: string;  // Adicionando a propriedade error como opcional
   deviceInfo?: {
     brand: string;
     model: string;

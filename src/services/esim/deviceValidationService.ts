@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { DeviceValidationResult, DeviceValidationResponse } from './types/deviceTypes';
 import { validateImeiChecksum, parseImei } from './utils/imeiUtils';
