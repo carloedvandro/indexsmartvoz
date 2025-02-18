@@ -7,8 +7,10 @@ export const isIOSIMEI = (tac: string): boolean => {
   const isKnownModel = Object.keys(iphoneModels).some(key => tac.startsWith(key));
   if (isKnownModel) return true;
   
-  // Se não for um modelo conhecido, assume que é válido se começar com 35
-  return tac.startsWith('35');
+  // Se não for um modelo conhecido, verifica os prefixos específicos de iPhone
+  const prefix = tac.substring(0, 6);
+  const iosPrefixes = ['353728', '353729', '358511'];
+  return iosPrefixes.includes(prefix);
 };
 
 export const isAndroidIMEI = (tac: string): boolean => {
@@ -16,8 +18,10 @@ export const isAndroidIMEI = (tac: string): boolean => {
   const isKnownModel = Object.keys(androidModels).some(key => tac.startsWith(key));
   if (isKnownModel) return true;
   
-  // Se não for um modelo conhecido, assume que é válido se começar com 35
-  return tac.startsWith('35');
+  // Se não for um modelo conhecido, verifica os prefixos específicos de Android
+  const prefix = tac.substring(0, 6);
+  const androidPrefixes = ['354465', '354466', '358008'];
+  return androidPrefixes.includes(prefix);
 };
 
 export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
