@@ -53,9 +53,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
         toast({
           variant: "destructive",
           title: "IMEI não compatível",
-          description: validation.error || (deviceType === 'android' 
-            ? "O IMEI informado não corresponde a um dispositivo Android compatível com eSIM."
-            : "O IMEI informado não corresponde a um iPhone compatível com eSIM.")
+          description: validation.error || "Este IMEI não corresponde a um dispositivo com suporte a eSIM"
         });
       }
     } catch (error) {
@@ -126,24 +124,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
                 {deviceInfo.model}
               </h3>
               <p className="text-base text-green-700">
-                {deviceInfo.brand} / {deviceInfo.specs?.tac}
-              </p>
-            </div>
-            <div className="space-y-1 mt-2">
-              <p className="text-base text-green-700">
-                Fabricante: {deviceInfo.specs?.manufacturer}
-              </p>
-              <p className="text-base text-green-700">
-                Modelo: {deviceInfo.specs?.modelNumber}
-              </p>
-              <p className="text-base text-green-700">
-                TAC: {deviceInfo.specs?.tac}
-              </p>
-              <p className="text-base text-green-700">
-                Número de Série: {deviceInfo.specs?.serialNumber}
-              </p>
-              <p className="text-base text-green-700">
-                Dígito Verificador: {deviceInfo.specs?.checkDigit}
+                {deviceInfo.brand} / {deviceInfo.specs?.modelNumber}
               </p>
             </div>
             <p className="text-base font-medium text-green-600">
