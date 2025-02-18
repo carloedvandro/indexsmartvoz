@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 
 type DeviceValidationResult = {
@@ -91,19 +92,34 @@ const getDeviceInfo = (tac: string, deviceType: string): { brand: string; model:
     '35801103': { brand: 'Nokia', model: 'XR20', modelNumber: 'TA-1362' },
   };
 
+  // Identify brand by TAC prefix
+  const tacPrefix = tac.substring(0, 3);
+  let brand = 'Android';
+  
+  if (tacPrefix === '351') {
+    if (tac.startsWith('35118')) {
+      brand = 'Samsung';
+    } else if (tac.startsWith('35120')) {
+      brand = 'Motorola';
+    } else if (tac.startsWith('35122')) {
+      brand = 'Nokia';
+    }
+  }
+
   const prefix = tac.substring(0, 8);
   console.log('TAC Prefix:', prefix);
   console.log('Device Type:', deviceType);
+  console.log('Brand:', brand);
   
   if (androidModels[prefix]) {
     console.log('Modelo encontrado:', androidModels[prefix]);
     return androidModels[prefix];
   }
 
-  console.log('Modelo não encontrado, usando padrão');
+  console.log('Modelo não encontrado, usando identificação por marca');
   return {
-    brand: deviceType === 'ios' ? 'Apple' : 'Android',
-    model: deviceType === 'ios' ? 'iPhone' : 'Smartphone',
+    brand: brand,
+    model: `${brand} Smartphone`,
     modelNumber: tac
   };
 };
