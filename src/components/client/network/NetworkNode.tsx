@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
+import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX, Signal } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { NetworkMember } from "./types";
@@ -76,7 +76,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                 )}
               </button>
             )}
-            <div className="relative">
+            <div className="relative flex flex-col items-center">
               <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
                 <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
                 <AvatarFallback>
@@ -88,6 +88,10 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                   isActive ? 'text-green-500' : 'text-red-500'
                 }`}
               />
+              <div className="flex items-center gap-1 mt-1">
+                <Signal className="h-3 w-3 text-gray-600" />
+                <span className="text-xs text-gray-600">Nvl. {member.user.graduation_type || "1"}</span>
+              </div>
             </div>
           </div>
           <div className="flex-1 min-w-0">
