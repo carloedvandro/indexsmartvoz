@@ -1,24 +1,39 @@
+
 import { NetworkMember } from "./types";
 
 export const useFilteredNetwork = (data: NetworkMember[], selectedLevel: string) => {
   if (!data) return [];
-  if (selectedLevel === "all") return data;
+  if (selectedLevel === "all") return data.map(member => ({
+    id: member.id,
+    full_name: member.user.full_name || '',
+    avatar_url: null,
+    level: member.level,
+    status: member.user.status || 'pending',
+    username: member.user.custom_id || '',
+    created_at: member.user.registration_date || new Date().toISOString(),
+    direct_members: 0,
+    team_members: 0
+  }));
   
   const level = parseInt(selectedLevel);
   
-  const filterByLevel = (members: NetworkMember[]): NetworkMember[] => {
-    return members.reduce<NetworkMember[]>((acc, member) => {
+  const filterByLevel = (members: NetworkMember[]) => {
+    return members.reduce<any[]>((acc, member) => {
       if (member.level === level) {
-        // Se encontrou um membro do nível desejado, adiciona ele sem filhos
         acc.push({
-          ...member,
-          children: [] // Remove os filhos quando encontra o nível desejado
+          id: member.id,
+          full_name: member.user.full_name || '',
+          avatar_url: null,
+          level: member.level,
+          status: member.user.status || 'pending',
+          username: member.user.custom_id || '',
+          created_at: member.user.registration_date || new Date().toISOString(),
+          direct_members: 0,
+          team_members: 0
         });
       } else if (member.children && member.children.length > 0) {
-        // Se tem filhos, procura nos filhos
         const filteredChildren = filterByLevel(member.children);
         if (filteredChildren.length > 0) {
-          // Se encontrou filhos no nível desejado, adiciona apenas os filhos filtrados
           acc.push(...filteredChildren);
         }
       }

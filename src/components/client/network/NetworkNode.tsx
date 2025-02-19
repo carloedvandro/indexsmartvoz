@@ -2,21 +2,20 @@
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-
-interface NetworkMember {
-  id: string;
-  full_name: string;
-  avatar_url: string | null;
-  level: number;
-  status: string;
-  username: string;
-  created_at: string;
-  direct_members: number;
-  team_members: number;
-}
+import { NetworkMember as NetworkMemberType } from "./types";
 
 interface NetworkNodeProps {
-  member: NetworkMember;
+  member: {
+    id: string;
+    full_name: string;
+    avatar_url: string | null;
+    level: number;
+    status: string;
+    username: string;
+    created_at: string;
+    direct_members: number;
+    team_members: number;
+  };
   onToggle: (id: string) => void;
   expandedNodes: Set<string>;
 }
