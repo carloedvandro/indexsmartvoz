@@ -21,7 +21,7 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
         <Button
           key={level.value}
           variant={selectedLevel === level.value ? "default" : "outline"}
-          className="w-full justify-between text-left px-4 mb-2 bg-transparent"
+          className="w-full justify-between text-left px-4 mb-2"
           onClick={() => onLevelChange(level.value)}
         >
           <span>{level.label}</span>
@@ -31,7 +31,7 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
       
       <Button
         variant={selectedLevel === "all" ? "default" : "outline"}
-        className="w-full justify-between text-left px-4 bg-transparent"
+        className="w-full justify-between text-left px-4"
         onClick={() => onLevelChange("all")}
       >
         <span>Todos os Níveis</span>
