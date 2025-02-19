@@ -49,14 +49,6 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
         width: `calc(100% - ${depth * 4}px)`
       }}
     >
-      {depth > 0 && (
-        <div 
-          className="absolute left-[-12px] top-1/2 w-3 h-px bg-gray-300"
-          style={{
-            transform: "translateY(-50%)"
-          }}
-        />
-      )}
       <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+2rem)] -ml-4">
         <div className="flex items-start gap-4 w-full">
           <div className="flex items-start gap-2">
