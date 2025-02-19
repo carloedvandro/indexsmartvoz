@@ -15,7 +15,7 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
         <h1 className="text-xl font-semibold -translate-y-6">Ativação do eSIM</h1>
       </div>
       
-      <div className="relative flex justify-between w-full px-4 translate-x-4">
+      <div className="relative flex justify-between w-full px-4 translate-x-3">
         {steps.map((step, index) => (
           <div key={step.id} className="flex-1 text-center relative">
             <span className={`text-sm ${
