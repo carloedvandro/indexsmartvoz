@@ -20,7 +20,7 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
       {levels.slice(0, 4).map((level) => (
         <Button
           key={level.value}
-          variant={selectedLevel === level.value ? "default" : "outline"}
+          variant={selectedLevel === level.value ? "default" : "ghost"}
           className="w-full justify-between text-left px-4 mb-2"
           onClick={() => onLevelChange(level.value)}
         >
@@ -30,7 +30,7 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
       ))}
       
       <Button
-        variant={selectedLevel === "all" ? "default" : "outline"}
+        variant={selectedLevel === "all" ? "default" : "ghost"}
         className="w-full justify-between text-left px-4"
         onClick={() => onLevelChange("all")}
       >
