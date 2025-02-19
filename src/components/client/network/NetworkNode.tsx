@@ -51,7 +51,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
     >
       {depth > 0 && (
         <div 
-          className="absolute left-[-12px] top-1/2 w-3 h-px bg-gray-300"
+          className="absolute left-[-12px] top-1/2 w-3 h-px bg-gray-200"
           style={{
             transform: "translateY(-50%)"
           }}
@@ -139,7 +139,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               key={child.id}
               member={child}
               depth={depth + 1}
-              onToggle={onToggle}
+              onToggle={toggleNode}
               expandedNodes={expandedNodes}
             />
           ))}
