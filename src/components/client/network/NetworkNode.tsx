@@ -43,7 +43,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative w-full"
+      className="relative w-full px-4"
       style={{ 
         marginLeft: `${depth * 4}px`,
         width: `calc(100% - ${depth * 4}px)`
@@ -131,7 +131,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               key={child.id}
               member={child}
               depth={depth + 1}
-              onToggle={toggleNode}
+              onToggle={onToggle}
               expandedNodes={expandedNodes}
             />
           ))}
