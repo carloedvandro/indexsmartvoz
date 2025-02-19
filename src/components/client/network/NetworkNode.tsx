@@ -95,8 +95,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                     <h3 className="text-base font-semibold text-black truncate">
                       {member.user.full_name || "Usuário"}
                     </h3>
-                    <span className={`text-xs px-2 py-0.5 rounded-full w-fit ${
-                      isActive ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+                    <span className={`text-xs px-2 py-0.5 w-fit ${
+                      isActive ? 'text-green-500' : 'text-red-500'
                     }`}>
                       {isActive ? 'Ativo' : 'Pendente'}
                     </span>
