@@ -88,7 +88,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                         isActive ? 'text-green-500' : 'text-red-500'
                       }`}
                     />
-                    <div className="absolute -bottom-1 -left-1 flex items-center gap-1 bg-white rounded-full px-1">
+                    <div className="absolute -top-1 -left-1 flex items-center gap-1 bg-white rounded-full px-1">
                       <Signal className="h-3 w-3 text-green-500" />
                       <span className="text-xs text-green-500 font-medium">Nvl. {member.user.graduation_type || "1"}</span>
                     </div>
