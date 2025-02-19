@@ -77,20 +77,22 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               </button>
             )}
             <div className="relative flex flex-col items-center">
-              <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
-                <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
-                <AvatarFallback>
-                  <Users className="h-6 w-6" />
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex items-center gap-1 mt-1">
-                <Signal className="h-3 w-3 text-green-500" />
-                <span className="text-xs text-green-500 font-medium">Nvl. {member.user.graduation_type || "1"}</span>
+              <div className="relative">
+                <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
+                  <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
+                  <AvatarFallback>
+                    <Users className="h-6 w-6" />
+                  </AvatarFallback>
+                </Avatar>
                 <StatusIcon 
-                  className={`h-4 w-4 rounded-full bg-white ${
+                  className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-white p-0.5 ${
                     isActive ? 'text-green-500' : 'text-red-500'
                   }`}
                 />
+              </div>
+              <div className="flex items-center gap-1 mt-1">
+                <Signal className="h-3 w-3 text-green-500" />
+                <span className="text-xs text-green-500 font-medium">Nvl. {member.user.graduation_type || "1"}</span>
               </div>
             </div>
           </div>
