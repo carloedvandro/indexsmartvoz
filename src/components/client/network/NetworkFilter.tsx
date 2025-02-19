@@ -16,15 +16,16 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
   ];
 
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="flex flex-col space-y-2 w-full">
       {levels.map((level) => (
         <Button
           key={level.value}
           variant={selectedLevel === level.value ? "default" : "outline"}
-          className="w-full justify-start text-left"
+          className="w-full justify-between text-left px-4"
           onClick={() => onLevelChange(level.value)}
         >
-          {level.label}
+          <span>{level.label}</span>
+          <span className="opacity-0">→</span>
         </Button>
       ))}
     </div>
