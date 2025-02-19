@@ -43,13 +43,13 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative w-full"
+      className="relative w-full px-4"
       style={{ 
-        marginLeft: `${depth * 16}px`,
-        width: `calc(100% - ${depth * 16}px)`
+        marginLeft: `${depth * 4}px`,
+        width: `calc(100% - ${depth * 4}px)`
       }}
     >
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow mx-4">
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-full">
         <div className="flex items-start gap-4 w-full">
           <div className="flex items-start gap-2">
             {hasChildren && (
