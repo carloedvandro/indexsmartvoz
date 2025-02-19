@@ -20,7 +20,7 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
           <div key={step.id} className="flex-1 text-center relative">
             <span className={`text-sm ${
               index === currentStepIndex ? 'text-[#8425af] font-medium' : 'text-black'
-            }`}>
+            } ${(step.id === 'device' || step.id === 'imei') ? 'ml-1.5' : ''}`}>
               {step.title}
             </span>
             {index < steps.length - 1 && (
