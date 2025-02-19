@@ -76,14 +76,12 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             <div className="w-full">
               <div className="flex items-start gap-4">
                 <div className="flex flex-col items-center">
-                  <div className="relative">
-                    <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
-                      <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
-                      <AvatarFallback>
-                        <Users className="h-6 w-6" />
-                      </AvatarFallback>
-                    </Avatar>
-                  </div>
+                  <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
+                    <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
+                    <AvatarFallback>
+                      <Users className="h-6 w-6" />
+                    </AvatarFallback>
+                  </Avatar>
                 </div>
 
                 <div className="flex-1 min-w-0">
