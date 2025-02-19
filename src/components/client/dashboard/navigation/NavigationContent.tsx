@@ -14,10 +14,7 @@ export const NavigationContent = ({ item }: NavigationContentProps) => {
       if (subItem.items) {
         return (
           <div key={subItem.title} className="space-y-2">
-            <p className="font-medium text-sm">{subItem.title}</p>
-            <div className="pl-2 space-y-1">
-              {renderItems(subItem.items)}
-            </div>
+            {renderItems(subItem.items)}
           </div>
         );
       }
@@ -38,12 +35,6 @@ export const NavigationContent = ({ item }: NavigationContentProps) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-col">
-        <p className="text-base">{item.title}</p>
-        <p className="text-muted-foreground text-sm">
-          {item.description}
-        </p>
-      </div>
       <div className="flex flex-col text-sm">
         {item.items && renderItems(item.items)}
       </div>
