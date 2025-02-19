@@ -58,7 +58,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
         />
       )}
       <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow overflow-visible" style={{ width: 'calc(100% + 8px)' }}>
-        <div className="flex items-start gap-4 w-full -ml-2">
+        <div className="flex items-start w-full">
           <div className="flex items-start gap-2 w-full">
             {hasChildren && (
               <button
@@ -91,7 +91,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                   </div>
                 </div>
 
-                <div className="flex-1 min-w-0 pr-2">
+                <div className="flex-1 min-w-0">
                   <div className="flex flex-col gap-1">
                     <h3 className="text-base font-semibold text-black truncate">
                       {member.user.full_name || "Usuário"}
