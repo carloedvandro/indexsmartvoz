@@ -17,7 +17,7 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
 
   return (
     <div className="flex flex-col space-y-2">
-      <div className="bg-gray-50">
+      <div>
         {levels.slice(0, 4).map((level) => (
           <Button
             key={level.value}
