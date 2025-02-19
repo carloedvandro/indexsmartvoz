@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { NetworkNode } from "./NetworkNode";
+import { FilteredNetworkNode } from "./FilteredNetworkNode";
 import { NetworkFilter } from "./NetworkFilter";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNetworkData } from "./useNetworkData";
@@ -100,12 +101,21 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
                   {filteredData.length > 0 ? (
                     <div className="space-y-2">
                       {filteredData.map((member) => (
-                        <NetworkNode
-                          key={member.id}
-                          member={member}
-                          onToggle={toggleNode}
-                          expandedNodes={expandedNodes}
-                        />
+                        selectedLevel === "all" ? (
+                          <NetworkNode
+                            key={member.id}
+                            member={member}
+                            onToggle={toggleNode}
+                            expandedNodes={expandedNodes}
+                          />
+                        ) : (
+                          <FilteredNetworkNode
+                            key={member.id}
+                            member={member}
+                            onToggle={toggleNode}
+                            expandedNodes={expandedNodes}
+                          />
+                        )
                       ))}
                     </div>
                   ) : (

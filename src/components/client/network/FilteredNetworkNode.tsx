@@ -7,14 +7,13 @@ import { NetworkMember } from "./types";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
-interface NetworkNodeProps {
+interface FilteredNetworkNodeProps {
   member: NetworkMember;
-  depth?: number;
   onToggle: (nodeId: string) => void;
   expandedNodes: Set<string>;
 }
 
-export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: NetworkNodeProps) => {
+export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: FilteredNetworkNodeProps) => {
   const hasChildren = member.children && member.children.length > 0;
   const isExpanded = expandedNodes.has(member.id);
   const isActive = member.user.status === 'active';
@@ -44,21 +43,9 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full"
-      style={{ 
-        marginLeft: `${depth * 12}px`,
-        width: `calc(100% - ${depth * 12}px)`
-      }}
     >
-      {depth > 0 && (
-        <div 
-          className="absolute left-[-12px] top-1/2 w-3 h-px bg-gray-300"
-          style={{
-            transform: "translateY(-50%)"
-          }}
-        />
-      )}
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+1rem)]">
-        <div className="flex items-start gap-4 w-full -ml-2">
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow">
+        <div className="flex items-start gap-4 w-full">
           <div className="flex items-start gap-2">
             {hasChildren && (
               <button
@@ -74,7 +61,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               </button>
             )}
             <div className="w-full">
-              <div className="flex items-start gap-4 -ml-1">
+              <div className="flex items-start gap-4">
                 <div className="flex flex-col items-center">
                   <div className="relative">
                     <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
@@ -105,7 +92,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                 </div>
               </div>
 
-              <div className="space-y-1 text-sm mt-2 -ml-1">
+              <div className="space-y-1 text-sm mt-2">
                 <div className="flex items-center gap-2 text-gray-600">
                   <GraduationCap className="h-4 w-4" />
                   <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
@@ -132,19 +119,6 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           </div>
         </div>
       </Card>
-      {hasChildren && isExpanded && (
-        <div className="mt-2 space-y-2 mb-2">
-          {member.children.map((child) => (
-            <NetworkNode
-              key={child.id}
-              member={child}
-              depth={depth + 1}
-              onToggle={onToggle}
-              expandedNodes={expandedNodes}
-            />
-          ))}
-        </div>
-      )}
     </motion.div>
   );
 };
