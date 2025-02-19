@@ -45,13 +45,13 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full"
       style={{ 
-        marginLeft: `${depth * 24}px`,
-        width: `calc(100% - ${depth * 24}px)`
+        marginLeft: `${depth * 16}px`,
+        width: `calc(100% - ${depth * 16}px)`
       }}
     >
       {depth > 0 && (
         <div 
-          className="absolute left-[-24px] top-1/2 w-6 h-px bg-gray-200"
+          className="absolute left-[-16px] top-1/2 w-4 h-px bg-gray-200"
           style={{
             transform: "translateY(-50%)"
           }}
