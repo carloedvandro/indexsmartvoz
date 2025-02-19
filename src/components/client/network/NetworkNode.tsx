@@ -74,7 +74,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               </button>
             )}
             <div className="w-full min-w-0">
-              <div className="flex items-start gap-4 -ml-1">
+              <div className="flex items-start gap-4">
                 <div className="flex flex-col items-center flex-shrink-0">
                   <div className="relative">
                     <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
