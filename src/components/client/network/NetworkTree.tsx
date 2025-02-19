@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { NetworkNode } from "./NetworkNode";
@@ -90,12 +89,10 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       <div className="relative z-0 flex-1 flex flex-col">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 flex-1">
           <div className="md:col-span-1">
-            <div className="sticky top-0 z-50 bg-background">
-              <NetworkFilter
-                selectedLevel={selectedLevel}
-                onLevelChange={setSelectedLevel}
-              />
-            </div>
+            <NetworkFilter
+              selectedLevel={selectedLevel}
+              onLevelChange={setSelectedLevel}
+            />
           </div>
 
           <div className="md:col-span-3">
