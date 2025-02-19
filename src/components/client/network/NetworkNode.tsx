@@ -139,7 +139,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               key={child.id}
               member={child}
               depth={depth + 1}
-              onToggle={toggleNode}
+              onToggle={onToggle}
               expandedNodes={expandedNodes}
             />
           ))}
