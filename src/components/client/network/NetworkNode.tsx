@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -103,7 +102,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                     </span>
                   </div>
 
-                  <div className="space-y-1 text-sm mt-2 -ml-4">
+                  <div className="space-y-1 text-sm mt-2 -ml-6">
                     <div className="flex items-center gap-1.5 text-black">
                       <GraduationCap className="h-4 w-4" style={{ color: '#660099' }} />
                       <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
