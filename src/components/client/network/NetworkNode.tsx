@@ -91,10 +91,34 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                 <Signal className="h-3 w-3 text-green-500" />
                 <span className="text-xs text-green-500 font-medium">Nvl. {member.user.graduation_type || "1"}</span>
               </div>
+
+              <div className="space-y-1 text-sm mt-2">
+                <div className="flex items-center gap-2 text-gray-600">
+                  <GraduationCap className="h-4 w-4" />
+                  <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
+                </div>
+                
+                {formattedDate && (
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Calendar className="h-4 w-4" />
+                    <span className="truncate">Cadastro: {formattedDate}</span>
+                  </div>
+                )}
+                
+                <div className="flex items-center gap-2 text-gray-600">
+                  <UserPlus2 className="h-4 w-4" />
+                  <span>Diretos: {member.children?.length || 0}</span>
+                </div>
+                
+                <div className="flex items-center gap-2 text-gray-600">
+                  <Users2 className="h-4 w-4" />
+                  <span>Equipe: {totalTeamSize}</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col flex-1 min-w-0">
+          <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-2">
               <h3 className="text-base font-semibold text-gray-900 truncate">
                 {member.user.full_name || "Usuário"}
@@ -104,30 +128,6 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               }`}>
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
-            </div>
-
-            <div className="space-y-1 text-sm">
-              <div className="flex items-center gap-2 text-gray-600">
-                <GraduationCap className="h-4 w-4" />
-                <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
-              </div>
-              
-              {formattedDate && (
-                <div className="flex items-center gap-2 text-gray-600">
-                  <Calendar className="h-4 w-4" />
-                  <span className="truncate">Cadastro: {formattedDate}</span>
-                </div>
-              )}
-              
-              <div className="flex items-center gap-2 text-gray-600">
-                <UserPlus2 className="h-4 w-4" />
-                <span>Diretos: {member.children?.length || 0}</span>
-              </div>
-              
-              <div className="flex items-center gap-2 text-gray-600">
-                <Users2 className="h-4 w-4" />
-                <span>Equipe: {totalTeamSize}</span>
-              </div>
             </div>
           </div>
         </div>
