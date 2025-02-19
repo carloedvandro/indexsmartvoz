@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX, Signal } from "lucide-react";
+import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { NetworkMember } from "./types";
@@ -80,10 +80,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                     <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
                       <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
                       <AvatarFallback>
-                        <div className="flex items-center gap-1">
-                          <Signal className="h-3 w-3 text-green-500" />
-                          <Users className="h-6 w-6" />
-                        </div>
+                        <Users className="h-6 w-6" />
                       </AvatarFallback>
                     </Avatar>
                     <StatusIcon 
