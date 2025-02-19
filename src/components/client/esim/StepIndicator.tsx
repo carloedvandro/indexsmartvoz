@@ -15,12 +15,12 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
         <h1 className="text-xl font-semibold -translate-y-6">Ativação do eSIM</h1>
       </div>
       
-      <div className="relative flex justify-between w-full px-8 mx-auto max-w-[90%]">
+      <div className="relative flex justify-between w-full px-16">
         {steps.map((step, index) => (
           <div key={step.id} className="flex-1 text-center relative">
-            <span className={`text-sm ${
+            <span className={`text-sm inline-block ${
               index === currentStepIndex ? 'text-[#8425af] font-medium' : 'text-black'
-            } ${(step.id === 'device' || step.id === 'imei') ? 'ml-8 -translate-x-4' : ''}`}>
+            }`}>
               {step.title}
             </span>
             {index < steps.length - 1 && (
