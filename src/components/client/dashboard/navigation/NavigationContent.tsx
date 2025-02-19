@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { MoveRight } from "lucide-react";
 import { NavigationMenuLink } from "@/components/ui/navigation-menu";
@@ -25,7 +26,7 @@ export const NavigationContent = ({ item }: NavigationContentProps) => {
         <NavigationMenuLink asChild key={subItem.title}>
           <Link
             to={subItem.href || "#"}
-            className="flex flex-row justify-between items-center hover:bg-muted py-2 px-4 rounded text-left"
+            className="flex flex-row justify-between items-center py-2 pl-0 pr-4 rounded text-left hover:bg-muted"
           >
             <span className="text-left">{subItem.title}</span>
             <MoveRight className="w-4 h-4 text-muted-foreground" />
