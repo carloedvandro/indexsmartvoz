@@ -16,7 +16,7 @@ const NETWORK_LEVELS = [
 
 export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterProps) => {
   return (
-    <div className="sticky top-[68px] z-10 bg-gray-50 py-4">
+    <div className="sticky top-0 z-10">
       {NETWORK_LEVELS.map((level) => (
         <Button
           key={level.value}
@@ -30,4 +30,4 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
       ))}
     </div>
   );
-};
+}
