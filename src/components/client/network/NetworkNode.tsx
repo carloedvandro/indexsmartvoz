@@ -45,8 +45,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full"
       style={{ 
-        marginLeft: `${depth * 4}px`,
-        width: `calc(100% - ${depth * 4}px)`
+        marginLeft: `${depth * 16}px`,
+        width: `calc(100% - ${depth * 16}px)`
       }}
     >
       <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow mx-4">
