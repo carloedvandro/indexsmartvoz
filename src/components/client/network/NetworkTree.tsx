@@ -97,7 +97,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           </div>
 
           <div className="md:col-span-3 h-[calc(100vh-100px)] overflow-y-auto">
-            <div className="p-4 -ml-8"> {/* Adicionado -ml-8 para mover todo conjunto para esquerda */}
+            <div className={`p-4 ${selectedLevel === "all" ? "-ml-8" : ""}`}>
               <AnimatePresence>
                 {filteredData.length > 0 ? (
                   <div className="space-y-2 pb-20">
