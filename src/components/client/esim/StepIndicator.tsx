@@ -19,15 +19,13 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
         {steps.map((step, index) => (
           <div key={step.id} className="flex-1 text-center relative">
             <span className={`text-sm ${
-              index === currentStepIndex ? 'text-[#8425af] font-medium' : 'text-black'
+              index <= currentStepIndex ? 'text-[#8425af] font-medium' : 'text-black'
             }`}>
               {step.title}
             </span>
-            {index === 0 && (
-              <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[#8425af]" />
-            )}
           </div>
         ))}
+        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[#8425af]" />
       </div>
     </div>
   );
