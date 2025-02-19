@@ -87,17 +87,17 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   return (
     <div className="relative h-full overflow-hidden">
       <ParticlesBackground />
-      <div className="relative z-10 h-full">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-full">
-          <div className="md:col-span-1 sticky top-0 z-20 bg-background">
+      <div className="relative h-full">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-full relative">
+          <div className="absolute inset-x-0 top-0 z-30 bg-background md:relative md:col-span-1">
             <NetworkFilter
               selectedLevel={selectedLevel}
               onLevelChange={setSelectedLevel}
             />
           </div>
 
-          <div className="md:col-span-3 h-[calc(100vh-68px)] overflow-y-auto -mt-4">
-            <div className="w-full pt-4">
+          <div className="md:col-span-3 h-[calc(100vh-68px)] overflow-y-auto pt-16 md:pt-0 md:-mt-4">
+            <div className="w-full">
               <AnimatePresence>
                 {filteredData.length > 0 ? (
                   <div className="space-y-2 pb-20">
