@@ -45,21 +45,21 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full"
       style={{ 
-        marginLeft: `${depth * 16}px`,
-        width: `calc(100% - ${depth * 16}px)`
+        marginLeft: `${depth * 12}px`,
+        width: `calc(100% - ${depth * 12}px)`
       }}
     >
       {depth > 0 && (
         <div 
-          className="absolute left-[-16px] top-1/2 w-4 h-px bg-gray-200"
+          className="absolute left-[-12px] top-1/2 w-3 h-px bg-gray-300"
           style={{
             transform: "translateY(-50%)"
           }}
         />
       )}
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-full">
-        <div className="flex items-start gap-4 w-full pl-2">
-          <div className="flex items-start gap-3">
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+1rem)]">
+        <div className="flex items-start gap-4 w-full -ml-2">
+          <div className="flex items-start gap-2">
             {hasChildren && (
               <button
                 onClick={() => onToggle(member.id)}
@@ -74,7 +74,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               </button>
             )}
             <div className="w-full">
-              <div className="flex items-start gap-4">
+              <div className="flex items-start gap-4 -ml-1">
                 <div className="flex flex-col items-center">
                   <div className="relative">
                     <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
@@ -83,18 +83,11 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                         <Users className="h-6 w-6" />
                       </AvatarFallback>
                     </Avatar>
-                    <div className="absolute -bottom-1 -right-1 flex items-center gap-1">
-                      <StatusIcon 
-                        className={`h-5 w-5 rounded-full bg-white p-0.5 ${
-                          isActive ? 'text-green-500' : 'text-red-500'
-                        }`}
-                      />
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${
-                        isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                      }`}>
-                        {isActive ? 'Ativo' : 'Pendente'}
-                      </span>
-                    </div>
+                    <StatusIcon 
+                      className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-white p-0.5 ${
+                        isActive ? 'text-green-500' : 'text-red-500'
+                      }`}
+                    />
                   </div>
                 </div>
 
@@ -103,11 +96,16 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                     <h3 className="text-base font-semibold text-black truncate">
                       {member.user.full_name || "Usuário"}
                     </h3>
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${
+                      isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                    }`}>
+                      {isActive ? 'Ativo' : 'Pendente'}
+                    </span>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-1 text-sm mt-2">
+              <div className="space-y-1 text-sm mt-2 -ml-1">
                 <div className="flex items-center gap-2 text-black">
                   <GraduationCap className="h-4 w-4" style={{ color: '#660099' }} />
                   <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
