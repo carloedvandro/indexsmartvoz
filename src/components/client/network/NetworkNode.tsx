@@ -132,7 +132,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
         </div>
       </Card>
       {hasChildren && isExpanded && (
-        <div className="mt-2 space-y-2">
+        <div className="mt-2 space-y-2 mb-2">
           {member.children.map((child) => (
             <NetworkNode
               key={child.id}
