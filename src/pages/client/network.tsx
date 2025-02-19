@@ -9,8 +9,8 @@ export default function NetworkPage() {
   const { data: profile } = useProfile();
 
   return (
-    <div className="min-h-screen bg-gray-50 scrollbar-hide overflow-y-auto">
-      <header className="bg-white shadow sticky top-0 z-10">
+    <div className="min-h-screen bg-gray-50 scrollbar-hide">
+      <header className="bg-white shadow sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center">
           <button
             onClick={() => navigate("/client/dashboard")}
@@ -22,7 +22,7 @@ export default function NetworkPage() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 h-[calc(100vh-68px)] overflow-y-auto">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {profile?.id && <NetworkTree userId={profile.id} />}
       </main>
     </div>
