@@ -3,39 +3,24 @@ import { DeviceInfo } from './types/deviceTypes';
 import { androidModels, iphoneModels } from './data/deviceModels';
 
 export const identifyDeviceBrand = (tac: string): string => {
-  // Verificando se é um iPhone conhecido
-  if (Object.keys(iphoneModels).some(key => tac.startsWith(key))) {
-    return 'Apple';
+  const tacPrefix = tac.substring(0, 3);
+  
+  if (tacPrefix === '351') {
+    if (tac.startsWith('35118')) return 'Samsung';
+    if (tac.startsWith('35120')) return 'Motorola';
+    if (tac.startsWith('35122')) return 'Nokia';
   }
   
-  // Verificando se é um Android conhecido
-  if (Object.keys(androidModels).some(key => tac.startsWith(key))) {
-    return 'Android';
-  }
-  
-  // Verificando prefixos específicos de fabricantes Android
-  const tacPrefix = tac.substring(0, 5);
-  if (tacPrefix === '35118') return 'Samsung';
-  if (tacPrefix === '35120') return 'Motorola';
-  if (tacPrefix === '35122') return 'Nokia';
-  
-  return 'Unknown';
+  return 'Android';
 };
 
 export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
-  const brand = identifyDeviceBrand(tac);
-  console.log('Identified brand:', brand);
-
   if (deviceType === 'ios') {
-    // Validação específica para iOS
-    if (brand !== 'Apple') {
-      console.log('IMEI não pertence a um iPhone');
-      throw new Error('Este IMEI não corresponde a um iPhone');
-    }
-    
+    // Pegando os primeiros 8 dígitos do TAC para iPhone
     const prefix = tac.substring(0, 8);
     console.log('Procurando iPhone com TAC prefix:', prefix);
     
+    // Verificando se existe um modelo de iPhone com esse TAC
     const iPhoneModel = Object.entries(iphoneModels).find(([key]) => tac.startsWith(key));
     
     if (iPhoneModel) {
@@ -56,17 +41,7 @@ export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
     };
   }
 
-  // Validação específica para Android
-  if (brand === 'Apple') {
-    console.log('IMEI pertence a um iPhone, não a um Android');
-    throw new Error('Este IMEI pertence a um iPhone, não a um dispositivo Android');
-  }
-  
-  if (brand === 'Unknown') {
-    console.log('IMEI não reconhecido como Android válido');
-    throw new Error('IMEI não reconhecido como um dispositivo Android válido');
-  }
-
+  // Lógica para Android
   const prefix = tac.substring(0, 8);
   console.log('Android TAC Prefix:', prefix);
   
@@ -75,7 +50,9 @@ export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
     return androidModels[prefix];
   }
 
+  const brand = identifyDeviceBrand(tac);
   console.log('Generic Android Brand:', brand);
+  
   return {
     brand,
     model: `${brand} Smartphone`,
