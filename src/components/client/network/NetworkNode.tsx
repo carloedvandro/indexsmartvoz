@@ -45,13 +45,13 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full"
       style={{ 
-        marginLeft: `${depth * 24}px`,
-        width: `calc(100% - ${depth * 24}px)`
+        marginLeft: `${depth * 16}px`,
+        width: `calc(100% - ${depth * 16}px)`
       }}
     >
       {depth > 0 && (
         <div 
-          className="absolute left-[-24px] top-1/2 w-6 h-px bg-gray-200"
+          className="absolute left-[-16px] top-1/2 w-4 h-px bg-gray-200"
           style={{
             transform: "translateY(-50%)"
           }}
@@ -83,11 +83,18 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                         <Users className="h-6 w-6" />
                       </AvatarFallback>
                     </Avatar>
-                    <StatusIcon 
-                      className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-white p-0.5 ${
-                        isActive ? 'text-green-500' : 'text-red-500'
-                      }`}
-                    />
+                    <div className="absolute -bottom-1 -right-1 flex items-center gap-1">
+                      <StatusIcon 
+                        className={`h-5 w-5 rounded-full bg-white p-0.5 ${
+                          isActive ? 'text-green-500' : 'text-red-500'
+                        }`}
+                      />
+                      <span className={`text-xs px-2 py-0.5 rounded-full ${
+                        isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                      }`}>
+                        {isActive ? 'Ativo' : 'Pendente'}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -96,11 +103,6 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                     <h3 className="text-base font-semibold text-black truncate">
                       {member.user.full_name || "Usuário"}
                     </h3>
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${
-                      isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                    }`}>
-                      {isActive ? 'Ativo' : 'Pendente'}
-                    </span>
                   </div>
                 </div>
               </div>
