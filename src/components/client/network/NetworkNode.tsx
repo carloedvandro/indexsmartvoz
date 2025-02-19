@@ -101,11 +101,6 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               <h3 className="text-base font-semibold text-gray-900">
                 {member.user.full_name || "Usuário"}
               </h3>
-              {member.user.custom_id && (
-                <span className="text-xs text-gray-500">
-                  ({member.user.custom_id})
-                </span>
-              )}
               <span className={`text-xs px-2 py-0.5 rounded-full ${
                 isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
               }`}>
@@ -116,7 +111,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             <div className="space-y-1 text-sm">
               <div className="flex items-center gap-2 text-gray-600">
                 <GraduationCap className="h-4 w-4" />
-                <span>Graduação {member.user.graduation_type || "0"}</span>
+                <span>Meu ID: {member.user.custom_id || "-"}</span>
               </div>
               
               {formattedDate && (
