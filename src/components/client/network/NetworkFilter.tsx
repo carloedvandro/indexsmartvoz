@@ -16,27 +16,25 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
   ];
 
   return (
-    <>
+    <div className="flex flex-col">
       {levels.slice(0, 4).map((level) => (
         <Button
           key={level.value}
           variant={selectedLevel === level.value ? "default" : "outline"}
-          className="w-full justify-between text-left px-4"
+          className="w-full justify-start px-4 rounded-none"
           onClick={() => onLevelChange(level.value)}
         >
-          <span>{level.label}</span>
-          <span className="opacity-0">→</span>
+          {level.label}
         </Button>
       ))}
       
       <Button
         variant={selectedLevel === "all" ? "default" : "outline"}
-        className="w-full justify-between text-left px-4"
+        className="w-full justify-start px-4 rounded-none bg-purple-700 text-white hover:bg-purple-800"
         onClick={() => onLevelChange("all")}
       >
-        <span>Todos os Níveis</span>
-        <span className="opacity-0">→</span>
+        Todos os Níveis
       </Button>
-    </>
+    </div>
   );
 };
