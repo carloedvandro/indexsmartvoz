@@ -44,7 +44,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       className="relative w-full"
     >
       <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+1rem)]">
-        <div className="flex items-start gap-4 w-full">
+        <div className="flex items-start gap-4 w-full -ml-2">
           <div className="flex items-start gap-2">
             {hasChildren && (
               <button
