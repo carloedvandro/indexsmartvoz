@@ -21,7 +21,6 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    // Subscribe to network changes
     const channel = supabase
       .channel('network-changes')
       .on(
@@ -38,7 +37,6 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       )
       .subscribe();
 
-    // Subscribe to profile changes
     const profilesChannel = supabase
       .channel('profiles-changes')
       .on(
@@ -84,10 +82,10 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }
 
   return (
-    <div className="relative h-full overflow-hidden scrollbar-hide">
+    <div className="relative h-full overflow-hidden">
       <ParticlesBackground />
-      <div className="relative z-0 h-full scrollbar-hide">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-full scrollbar-hide">
+      <div className="relative z-0 h-full">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-full">
           <div className="md:col-span-1">
             <NetworkFilter
               selectedLevel={selectedLevel}
@@ -95,9 +93,9 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
             />
           </div>
 
-          <div className="md:col-span-3 h-full scrollbar-hide">
-            <ScrollArea className="h-[calc(100vh-220px)] scrollbar-hide overflow-hidden">
-              <div className="pr-4 w-full scrollbar-hide">
+          <div className="md:col-span-3 h-full">
+            <ScrollArea className="h-[calc(100vh-220px)] scrollbar-hide">
+              <div className="pr-4 w-full">
                 <AnimatePresence>
                   {filteredData.length > 0 ? (
                     <div className="space-y-2">
