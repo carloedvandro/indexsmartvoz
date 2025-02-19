@@ -15,17 +15,30 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
         <h1 className="text-xl font-semibold -translate-y-6">Ativação do eSIM</h1>
       </div>
       
-      <div className="relative flex justify-between w-full px-32">
+      <div className="relative flex justify-between w-full px-16">
         {steps.map((step, index) => (
           <div key={step.id} className="flex-1 text-center relative">
-            <span className={`text-sm ${
-              index <= currentStepIndex ? 'text-[#8425af] font-medium' : 'text-black'
+            <span className={`text-sm inline-block ${
+              index === currentStepIndex ? 'text-[#8425af] font-medium' : 'text-black'
             }`}>
               {step.title}
             </span>
+            {index < steps.length - 1 && (
+              <div className={`absolute top-7 left-1/2 right-0 h-1 ${
+                index < currentStepIndex ? 'bg-[#8425af]' : 'bg-gray-200'
+              }`} />
+            )}
           </div>
         ))}
-        <div className="absolute bottom-0 left-32 right-32 h-0.5 bg-[#8425af]" />
+      </div>
+      
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-200">
+        <div 
+          className="h-full bg-[#8425af] transition-all duration-300"
+          style={{ 
+            width: `${((currentStepIndex + 1) / steps.length) * 100}%`,
+          }}
+        />
       </div>
     </div>
   );
