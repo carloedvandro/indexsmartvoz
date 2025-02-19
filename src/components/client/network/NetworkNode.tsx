@@ -19,12 +19,11 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const isExpanded = expandedNodes.has(member.id);
   const isActive = member.user.status === 'active';
   
-  // Placeholder image from Unsplash - using a professional looking photo
   const profileImage = "https://images.unsplash.com/photo-1649972904349-6e44c42644a7";
 
-  // Format the registration date
+  // Format the registration date with time
   const formattedDate = member.user.registration_date 
-    ? format(parseISO(member.user.registration_date), "dd/MM/yyyy", { locale: ptBR })
+    ? format(parseISO(member.user.registration_date), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })
     : null;
 
   // Calculate total network size recursively
@@ -39,7 +38,6 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   };
 
   const totalTeamSize = calculateTotalTeamSize(member);
-
   const StatusIcon = isActive ? UserCheck : UserX;
 
   return (
@@ -99,7 +97,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               </h3>
               {member.user.custom_id && (
                 <span className="text-xs text-gray-500">
-                  {member.user.custom_id}
+                  ({member.user.custom_id})
                 </span>
               )}
               <span className={`text-xs px-2 py-0.5 rounded-full ${
