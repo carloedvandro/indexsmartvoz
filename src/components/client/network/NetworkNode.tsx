@@ -74,7 +74,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               </button>
             )}
             <div className="w-full min-w-0">
-              <div className="flex items-start gap-2">
+              <div className="flex items-start">
                 <div className="flex flex-col items-center flex-shrink-0">
                   <div className="relative">
                     <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
@@ -91,7 +91,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                   </div>
                 </div>
 
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 -ml-2">
                   <div className="flex flex-col gap-1">
                     <h3 className="text-base font-semibold text-black truncate">
                       {member.user.full_name || "Usuário"}
