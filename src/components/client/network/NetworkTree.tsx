@@ -84,9 +84,9 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }
 
   return (
-    <div className="relative h-full overflow-hidden">
+    <div className="relative h-full overflow-hidden scrollbar-hide">
       <ParticlesBackground />
-      <div className="relative z-0 h-full">
+      <div className="relative z-0 h-full scrollbar-hide">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-full scrollbar-hide">
           <div className="md:col-span-1">
             <NetworkFilter
@@ -95,9 +95,9 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
             />
           </div>
 
-          <div className="md:col-span-3 h-full">
-            <ScrollArea className="h-[calc(100vh-220px)] scrollbar-hide overflow-y-auto">
-              <div className="pr-4 w-full">
+          <div className="md:col-span-3 h-full scrollbar-hide">
+            <ScrollArea className="h-[calc(100vh-220px)] scrollbar-hide">
+              <div className="pr-4 w-full scrollbar-hide">
                 <AnimatePresence>
                   {filteredData.length > 0 ? (
                     <div className="space-y-2">
