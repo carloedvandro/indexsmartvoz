@@ -45,12 +45,20 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full"
       style={{ 
-        marginLeft: `${depth * 4}px`,
-        width: `calc(100% - ${depth * 4}px)`
+        marginLeft: `${depth * 12}px`,
+        width: `calc(100% - ${depth * 12}px)`
       }}
     >
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+2rem)] -ml-4">
-        <div className="flex items-start gap-4 w-full">
+      {depth > 0 && (
+        <div 
+          className="absolute left-[-12px] top-1/2 w-3 h-px bg-gray-300"
+          style={{
+            transform: "translateY(-50%)"
+          }}
+        />
+      )}
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+1rem)]">
+        <div className="flex items-start gap-4 w-full -ml-2">
           <div className="flex items-start gap-2">
             {hasChildren && (
               <button
