@@ -58,7 +58,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
         />
       )}
       <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+1rem)]">
-        <div className="flex items-start gap-4 w-full -ml-2">
+        <div className="flex items-start gap-4 w-full px-2">
           <div className="flex items-start gap-2">
             {hasChildren && (
               <button
@@ -74,7 +74,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               </button>
             )}
             <div className="w-full">
-              <div className="flex items-start gap-4 -ml-1">
+              <div className="flex items-start gap-4">
                 <div className="flex flex-col items-center">
                   <div className="relative">
                     <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
@@ -105,7 +105,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                 </div>
               </div>
 
-              <div className="space-y-1 text-sm mt-2 -ml-1">
+              <div className="space-y-1 text-sm mt-2">
                 <div className="flex items-center gap-2 text-gray-600">
                   <GraduationCap className="h-4 w-4" />
                   <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
