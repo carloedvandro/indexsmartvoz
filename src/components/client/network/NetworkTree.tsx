@@ -97,7 +97,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
 
           <div className="md:col-span-3 h-full scrollbar-hide">
             <ScrollArea className="h-[calc(100vh-220px)] scrollbar-hide overflow-hidden">
-              <div className="pr-4 w-full flex justify-end scrollbar-hide">
+              <div className="w-full flex items-start scrollbar-hide">
                 <div className="w-[240px]">
                   <AnimatePresence>
                     {filteredData.length > 0 ? (
