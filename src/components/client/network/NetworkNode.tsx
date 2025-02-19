@@ -21,12 +21,10 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   
   const profileImage = "https://images.unsplash.com/photo-1649972904349-6e44c42644a7";
 
-  // Format the registration date with time
   const formattedDate = member.user.registration_date 
     ? format(parseISO(member.user.registration_date), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })
     : null;
 
-  // Calculate total network size recursively
   const calculateTotalTeamSize = (node: NetworkMember): number => {
     if (!node.children || node.children.length === 0) {
       return 0;
@@ -45,7 +43,6 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.3 }}
       className="relative"
       style={{ 
         marginLeft: `${depth * 12}px`,
@@ -60,7 +57,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           }}
         />
       )}
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow">
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[240px]">
         <div className="flex items-start gap-4">
           <div className="flex items-center gap-2">
             {hasChildren && (
@@ -98,7 +95,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-2">
-              <h3 className="text-base font-semibold text-gray-900">
+              <h3 className="text-base font-semibold text-gray-900 truncate">
                 {member.user.full_name || "Usuário"}
               </h3>
               <span className={`text-xs px-2 py-0.5 rounded-full ${
@@ -111,13 +108,13 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             <div className="space-y-1 text-sm">
               <div className="flex items-center gap-2 text-gray-600">
                 <GraduationCap className="h-4 w-4" />
-                <span>Meu ID: {member.user.custom_id || "-"}</span>
+                <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
               </div>
               
               {formattedDate && (
                 <div className="flex items-center gap-2 text-gray-600">
                   <Calendar className="h-4 w-4" />
-                  <span>Cadastro: {formattedDate}</span>
+                  <span className="truncate">Cadastro: {formattedDate}</span>
                 </div>
               )}
               
