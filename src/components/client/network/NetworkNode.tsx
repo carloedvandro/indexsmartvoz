@@ -45,8 +45,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full"
       style={{ 
-        marginLeft: `${depth * 20}px`,
-        width: `calc(100% - ${depth * 20}px)`
+        marginLeft: `${depth * 12}px`,
+        width: `calc(100% - ${depth * 12}px)`
       }}
     >
       {depth > 0 && (
