@@ -79,40 +79,40 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-2">
+                  <div className="flex flex-col">
                     <h3 className="text-base font-semibold text-black truncate">
                       {member.user.full_name || "Usuário"}
                     </h3>
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${
+                    <span className={`text-xs px-2 py-0.5 rounded-full w-fit ${
                       isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
                     }`}>
                       {isActive ? 'Ativo' : 'Pendente'}
                     </span>
                   </div>
-                </div>
-              </div>
 
-              <div className="space-y-1 text-sm mt-2">
-                <div className="flex items-center gap-2 text-black">
-                  <GraduationCap className="h-4 w-4" style={{ color: '#660099' }} />
-                  <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
-                </div>
-                
-                {formattedDate && (
-                  <div className="flex items-center gap-2 text-black">
-                    <Calendar className="h-4 w-4" style={{ color: '#660099' }} />
-                    <span className="truncate">Cadastro: {formattedDate}</span>
+                  <div className="space-y-1 text-sm mt-2">
+                    <div className="flex items-center gap-2 text-black">
+                      <GraduationCap className="h-4 w-4" style={{ color: '#660099' }} />
+                      <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
+                    </div>
+                    
+                    {formattedDate && (
+                      <div className="flex items-center gap-2 text-black">
+                        <Calendar className="h-4 w-4" style={{ color: '#660099' }} />
+                        <span className="truncate">Cadastro: {formattedDate}</span>
+                      </div>
+                    )}
+                    
+                    <div className="flex items-center gap-2 text-black">
+                      <UserPlus2 className="h-4 w-4" style={{ color: '#660099' }} />
+                      <span>Diretos: {member.children?.length || 0}</span>
+                    </div>
+                    
+                    <div className="flex items-center gap-2 text-black">
+                      <Users2 className="h-4 w-4" style={{ color: '#660099' }} />
+                      <span>Equipe: {totalTeamSize}</span>
+                    </div>
                   </div>
-                )}
-                
-                <div className="flex items-center gap-2 text-black">
-                  <UserPlus2 className="h-4 w-4" style={{ color: '#660099' }} />
-                  <span>Diretos: {member.children?.length || 0}</span>
-                </div>
-                
-                <div className="flex items-center gap-2 text-black">
-                  <Users2 className="h-4 w-4" style={{ color: '#660099' }} />
-                  <span>Equipe: {totalTeamSize}</span>
                 </div>
               </div>
             </div>
