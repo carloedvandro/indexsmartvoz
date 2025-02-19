@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useProfile } from "@/hooks/useProfile";
@@ -8,7 +9,7 @@ export default function NetworkPage() {
   const { data: profile } = useProfile();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 scrollbar-hide">
       <header className="bg-white shadow sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center">
           <button
@@ -21,7 +22,7 @@ export default function NetworkPage() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 scrollbar-hide">
         {profile?.id && <NetworkTree userId={profile.id} />}
       </main>
     </div>
