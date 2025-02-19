@@ -80,7 +80,10 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                     <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
                       <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
                       <AvatarFallback>
-                        <Users className="h-6 w-6" />
+                        <div className="flex items-center gap-1">
+                          <Signal className="h-3 w-3 text-green-500" />
+                          <Users className="h-6 w-6" />
+                        </div>
                       </AvatarFallback>
                     </Avatar>
                     <StatusIcon 
@@ -89,7 +92,6 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                       }`}
                     />
                     <div className="absolute -top-1 -left-1 flex items-center gap-1 bg-white rounded-full px-1">
-                      <Signal className="h-3 w-3 text-green-500" />
                       <span className="text-xs text-green-500 font-medium">Nvl. {member.user.graduation_type || "1"}</span>
                     </div>
                   </div>
