@@ -102,7 +102,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                     </span>
                   </div>
 
-                  <div className="space-y-1 text-sm mt-4 -ml-8">
+                  <div className="space-y-1 text-sm mt-6 -ml-8">
                     <div className="flex items-center gap-1.5 text-black">
                       <GraduationCap className="h-4 w-4" style={{ color: '#660099' }} />
                       <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
