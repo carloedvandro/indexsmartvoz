@@ -86,7 +86,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   return (
     <div className="relative">
       <ParticlesBackground />
-      <div className="relative z-10">
+      <div className="relative z-0">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="md:col-span-1">
             <NetworkFilter
@@ -125,4 +125,4 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       </div>
     </div>
   );
-};
+}
