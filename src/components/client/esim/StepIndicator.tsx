@@ -15,16 +15,16 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
         <h1 className="text-xl font-semibold -translate-y-6">Ativação do eSIM</h1>
       </div>
       
-      <div className="relative flex justify-between w-full px-16">
+      <div className="relative flex w-full px-24">
         {steps.map((step, index) => (
-          <div key={step.id} className="flex-1 text-center relative">
-            <span className={`text-sm inline-block ${
+          <div key={step.id} className="flex-1 relative">
+            <span className={`text-sm absolute ${index === 0 ? 'left-0' : index === steps.length - 1 ? 'right-0' : 'left-1/2 -translate-x-1/2'} ${
               index === currentStepIndex ? 'text-[#8425af] font-medium' : 'text-black'
             }`}>
               {step.title}
             </span>
             {index < steps.length - 1 && (
-              <div className={`absolute top-7 left-1/2 right-0 h-1 ${
+              <div className={`absolute top-7 left-0 right-0 h-1 ${
                 index < currentStepIndex ? 'bg-[#8425af]' : 'bg-gray-200'
               }`} />
             )}
