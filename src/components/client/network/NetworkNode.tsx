@@ -43,7 +43,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative"
+      className="relative w-full"
       style={{ 
         marginLeft: `${depth * 12}px`,
         width: `calc(100% - ${depth * 12}px)`
@@ -58,7 +58,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
         />
       )}
       <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-full">
-        <div className="flex items-start gap-4">
+        <div className="flex items-start gap-4 w-full">
           <div className="flex items-start gap-2">
             {hasChildren && (
               <button
@@ -73,7 +73,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                 )}
               </button>
             )}
-            <div>
+            <div className="w-full">
               <div className="flex items-start gap-4">
                 <div className="flex flex-col items-center">
                   <div className="relative">
@@ -105,30 +105,30 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                       {isActive ? 'Ativo' : 'Pendente'}
                     </span>
                   </div>
-                </div>
-              </div>
 
-              <div className="space-y-1 text-sm mt-2">
-                <div className="flex items-center gap-2 text-gray-600">
-                  <GraduationCap className="h-4 w-4" />
-                  <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
-                </div>
-                
-                {formattedDate && (
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <Calendar className="h-4 w-4" />
-                    <span className="truncate">Cadastro: {formattedDate}</span>
+                  <div className="space-y-1 text-sm mt-2">
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <GraduationCap className="h-4 w-4" />
+                      <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
+                    </div>
+                    
+                    {formattedDate && (
+                      <div className="flex items-center gap-2 text-gray-600">
+                        <Calendar className="h-4 w-4" />
+                        <span className="truncate">Cadastro: {formattedDate}</span>
+                      </div>
+                    )}
+                    
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <UserPlus2 className="h-4 w-4" />
+                      <span>Diretos: {member.children?.length || 0}</span>
+                    </div>
+                    
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <Users2 className="h-4 w-4" />
+                      <span>Equipe: {totalTeamSize}</span>
+                    </div>
                   </div>
-                )}
-                
-                <div className="flex items-center gap-2 text-gray-600">
-                  <UserPlus2 className="h-4 w-4" />
-                  <span>Diretos: {member.children?.length || 0}</span>
-                </div>
-                
-                <div className="flex items-center gap-2 text-gray-600">
-                  <Users2 className="h-4 w-4" />
-                  <span>Equipe: {totalTeamSize}</span>
                 </div>
               </div>
             </div>
