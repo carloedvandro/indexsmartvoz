@@ -90,10 +90,31 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       <div className="relative z-0 flex-1 flex flex-col">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 flex-1">
           <div className="md:col-span-1 sticky top-0 z-10 bg-gray-50 h-fit">
-            <NetworkFilter
-              selectedLevel={selectedLevel}
-              onLevelChange={setSelectedLevel}
-            />
+            <div className="h-[calc(100vh-200px)] flex flex-col">
+              <div className="flex-1 overflow-y-auto">
+                <div className="space-y-0">
+                  {[1, 2, 3, 4].map((level) => (
+                    <button
+                      key={level}
+                      onClick={() => setSelectedLevel(level.toString())}
+                      className={`w-full text-left px-4 py-2 border-0 ${
+                        selectedLevel === level.toString()
+                          ? "bg-primary text-white"
+                          : "bg-white hover:bg-gray-50"
+                      }`}
+                    >
+                      {level}° Nível
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <button
+                onClick={() => setSelectedLevel("all")}
+                className={`w-full text-left px-4 py-2 border-0 bg-[#660099] text-white hover:bg-[#4B0082] sticky bottom-0`}
+              >
+                Todos os Níveis
+              </button>
+            </div>
           </div>
 
           <div className="md:col-span-3 min-h-0 flex-1">
