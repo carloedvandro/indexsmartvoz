@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -87,9 +88,6 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                         isActive ? 'text-green-500' : 'text-red-500'
                       }`}
                     />
-                    <div className="absolute -top-1 -left-1 flex items-center gap-1 bg-white rounded-full px-1">
-                      <span className="text-xs text-green-500 font-medium">{member.user.graduation_type || "1"}</span>
-                    </div>
                   </div>
                 </div>
 
