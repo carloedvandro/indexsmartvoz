@@ -3,8 +3,11 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, ChevronDown, ChevronRight, Phone } from "lucide-react";
 import { formatCurrency } from "@/utils/format";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export const PlanOverview = () => {
+  const navigate = useNavigate();
   const planData = {
     type: "Controle",
     number: "(99) 99999-9999",
@@ -20,19 +23,52 @@ export const PlanOverview = () => {
     }
   };
 
+  const handlePlanDetails = () => {
+    toast.info("Abrindo detalhes do plano...");
+    // Navegação para detalhes do plano
+    navigate("/client/plan-details");
+  };
+
+  const handleChangePlan = () => {
+    toast.info("Iniciando troca de plano...");
+    // Navegação para página de troca de plano
+    navigate("/client/products");
+  };
+
+  const handleAdditionalPackages = () => {
+    toast.info("Acessando pacotes adicionais...");
+    // Navegação para pacotes adicionais
+    navigate("/client/packages");
+  };
+
+  const handlePayNow = () => {
+    toast.info("Redirecionando para pagamento...");
+    // Navegação para página de pagamento
+    navigate("/client/payment");
+  };
+
+  const handleViewBills = () => {
+    toast.info("Abrindo faturas...");
+    // Navegação para página de faturas
+    navigate("/client/bills");
+  };
+
   return (
     <Card className="overflow-hidden">
       <div className="bg-[#8425af] text-white p-4">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xl">Meu plano</span>
-          <RefreshCw className="h-5 w-5" />
+          <RefreshCw className="h-5 w-5 cursor-pointer hover:rotate-180 transition-transform duration-500" onClick={() => toast.success("Dados atualizados!")} />
         </div>
-        <div className="flex items-center gap-2 bg-[#6c1e8f] rounded p-2">
+        <button 
+          className="flex items-center gap-2 bg-[#6c1e8f] rounded p-2 w-full hover:bg-[#5c1a7a] transition-colors"
+          onClick={() => toast.info("Selecionando linha...")}
+        >
           <Phone className="h-4 w-4" />
           <span>{planData.type}</span>
           <ChevronDown className="h-4 w-4" />
           <span className="text-sm text-gray-300">{planData.number}</span>
-        </div>
+        </button>
       </div>
 
       <div className="p-4">
@@ -72,15 +108,24 @@ export const PlanOverview = () => {
         </div>
 
         <div className="grid grid-cols-3 gap-2 mb-6">
-          <button className="flex flex-col items-center p-3 border rounded">
+          <button 
+            className="flex flex-col items-center p-3 border rounded hover:bg-gray-50 transition-colors"
+            onClick={handlePlanDetails}
+          >
             <Phone className="h-5 w-5 text-gray-600 mb-1" />
             <span className="text-xs">Detalhe do plano</span>
           </button>
-          <button className="flex flex-col items-center p-3 border rounded">
+          <button 
+            className="flex flex-col items-center p-3 border rounded hover:bg-gray-50 transition-colors"
+            onClick={handleChangePlan}
+          >
             <RefreshCw className="h-5 w-5 text-gray-600 mb-1" />
             <span className="text-xs">Trocar de plano</span>
           </button>
-          <button className="flex flex-col items-center p-3 border rounded">
+          <button 
+            className="flex flex-col items-center p-3 border rounded hover:bg-gray-50 transition-colors"
+            onClick={handleAdditionalPackages}
+          >
             <ChevronRight className="h-5 w-5 text-gray-600 mb-1" />
             <span className="text-xs">Pacotes adicionais</span>
           </button>
@@ -95,10 +140,17 @@ export const PlanOverview = () => {
             <p className="text-xl font-semibold">{formatCurrency(planData.billing.amount)}</p>
           </div>
           <div className="flex justify-between">
-            <Button className="bg-[#8425af] hover:bg-[#6c1e8f] text-white">
+            <Button 
+              className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+              onClick={handlePayNow}
+            >
               Pagar agora
             </Button>
-            <Button variant="link" className="text-[#8425af]">
+            <Button 
+              variant="link" 
+              className="text-[#8425af]"
+              onClick={handleViewBills}
+            >
               Ver faturas
             </Button>
           </div>
