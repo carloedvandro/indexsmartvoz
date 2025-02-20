@@ -1,9 +1,15 @@
-import { useEffect } from 'react';
+
+import { useEffect, ReactNode } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useSession } from '@/hooks/useSession';
 import { LoadingState } from '@/components/client/dashboard/LoadingState';
 
-export const ProtectedRoute = () => {
+interface ProtectedRouteProps {
+  children?: ReactNode;
+  allowedRoles?: string[];
+}
+
+export const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
   const { getSession, isLoading } = useSession();
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,5 +32,5 @@ export const ProtectedRoute = () => {
     return <LoadingState />;
   }
 
-  return <Outlet />;
+  return children || <Outlet />;
 };
