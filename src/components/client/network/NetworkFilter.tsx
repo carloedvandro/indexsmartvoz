@@ -30,4 +30,4 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
       ))}
     </div>
   );
-}
+};
