@@ -56,7 +56,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           }}
         />
       )}
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-full">
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+1rem)]">
         <div className="flex items-start gap-4 w-full -ml-2">
           <div className="flex items-start gap-2">
             {hasChildren && (
@@ -132,7 +132,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
         </div>
       </Card>
       {hasChildren && isExpanded && (
-        <div className="mt-2 space-y-2 mb-2 w-full">
+        <div className="mt-2 space-y-2 mb-2">
           {member.children.map((child) => (
             <NetworkNode
               key={child.id}

@@ -96,11 +96,11 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           </div>
 
           <div className="md:col-span-3 h-[calc(100vh-150px)] overflow-hidden">
-            <ScrollArea className="h-full w-full pr-4">
-              <div className="pb-8 pr-4">
+            <ScrollArea className="h-full pr-4">
+              <div className="flex flex-col-reverse pb-8">
                 <AnimatePresence>
                   {filteredData.length > 0 ? (
-                    <div className="space-y-2 w-full">
+                    <div className="space-y-2">
                       {filteredData.map((member) => (
                         selectedLevel === "all" ? (
                           <NetworkNode
