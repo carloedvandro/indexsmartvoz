@@ -1,64 +1,65 @@
-
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import {
+  Home,
+  Settings,
+  Users,
+  FileText,
+  HelpCircle,
+  LogOut,
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
-  SidebarFooter,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
-import {
-  Users,
-  Database,
-  Phone,
-  Network,
-} from "lucide-react";
+
+const menuItems = [
+  { icon: Home, label: "Dashboard", path: "/admin/dashboard" },
+  { icon: Settings, label: "Configurações", path: "/admin/settings" },
+  { icon: Users, label: "Usuários", path: "/admin/users" },
+  { icon: FileText, label: "Relatórios", path: "/admin/reports" },
+  { icon: HelpCircle, label: "Suporte", path: "/admin/support" },
+  { icon: LogOut, label: "Sair", path: "/admin/logout" },
+];
 
 export function AdminSidebar() {
-  const navigate = useNavigate();
-
   return (
-    <Sidebar>
-      <SidebarHeader>
-        <div className="px-2 py-4">
-          <h2 className="text-lg font-semibold">Painel Admin</h2>
-        </div>
+    <Sidebar className="bg-sidebar border-r border-sidebar-border">
+      <SidebarHeader className="flex items-center justify-between p-4 border-b border-sidebar-border bg-sidebar">
+        <img
+          src="/lovable-uploads/dd13194a-ddb9-41f1-ac14-d4e483f9b1df.png"
+          alt="Y-TECH Logo"
+          className="h-12 w-auto object-contain"
+        />
+        <SidebarTrigger className="md:hidden" />
       </SidebarHeader>
-      <SidebarContent>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton onClick={() => navigate("/admin/users")}>
-              <Users />
-              <span>Usuários</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton onClick={() => navigate("/admin/network")}>
-              <Network />
-              <span>Rede</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton onClick={() => navigate("/admin/plans")}>
-              <Database />
-              <span>Planos</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton onClick={() => navigate("/admin/phone-lines")}>
-              <Phone />
-              <span>Linhas</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+      <SidebarContent className="bg-sidebar">
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {menuItems.map((item) => (
+                <SidebarMenuItem key={item.label}>
+                  <SidebarMenuButton asChild>
+                    <Link 
+                      to={item.path} 
+                      className="flex items-center gap-2 text-sidebar-foreground hover:text-primary transition-colors"
+                    >
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <div className="px-2 py-4">
-          <span className="text-xs text-gray-500">Admin v1.0</span>
-        </div>
-      </SidebarFooter>
     </Sidebar>
   );
 }
