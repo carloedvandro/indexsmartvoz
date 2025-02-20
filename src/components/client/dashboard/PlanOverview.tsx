@@ -1,11 +1,10 @@
-
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, ChevronDown, ChevronRight, Phone } from "lucide-react";
 import { formatCurrency } from "@/utils/format";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { UsageChart } from "./components/UsageChart";
 import { VerificationDialogs } from "./components/VerificationDialogs";
 import { useDataUsage } from "./hooks/useDataUsage";
@@ -16,6 +15,7 @@ import { useSession } from "@/hooks/useSession";
 export const PlanOverview = () => {
   const navigate = useNavigate();
   const { getSession } = useSession();
+  const [userId, setUserId] = useState<string | null>(null);
 
   const {
     isPhoneDialogOpen,
@@ -40,17 +40,47 @@ export const PlanOverview = () => {
   useEffect(() => {
     const initSession = async () => {
       const session = await getSession();
-      const { dataUsage: initialUsage, refreshData: initialRefresh } = useDataUsage(session?.user?.id, isVerified);
-      return { session, initialUsage, initialRefresh };
+      if (session?.user) {
+        setUserId(session.user.id);
+      }
     };
     initSession();
-  }, [getSession, isVerified]);
+  }, [getSession]);
 
-  const { dataUsage, refreshData } = useDataUsage(null, isVerified);
+  const { dataUsage, refreshData } = useDataUsage(userId, isVerified);
 
   useEffect(() => {
     loadPhoneVerification();
   }, []);
+
+  const getUsageInfo = () => {
+    if (dataUsage.bonusTotal > 0) {
+      return (
+        <>
+          <div className="text-2xl font-semibold text-[#8425af]">
+            {dataUsage.used} GB
+            <span className="text-sm text-gray-500"> + {dataUsage.bonusUsed} GB bônus</span>
+          </div>
+          <div className="text-sm text-gray-500">
+            de {dataUsage.total} GB
+            {dataUsage.bonusTotal > 0 && ` + ${dataUsage.bonusTotal} GB bônus`}
+          </div>
+          {dataUsage.bonusExpiration && (
+            <div className="text-xs text-orange-600">
+              Bônus expira em {new Date(dataUsage.bonusExpiration).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
+            </div>
+          )}
+        </>
+      );
+    }
+
+    return (
+      <>
+        <div className="text-2xl font-semibold text-[#8425af]">{dataUsage.used} GB</div>
+        <div className="text-sm text-gray-500">de {dataUsage.total} GB</div>
+      </>
+    );
+  };
 
   const planData: PlanData = {
     type: dataUsage.activePlanName || "Controle",
@@ -104,35 +134,6 @@ export const PlanOverview = () => {
   const handleViewBills = () => {
     toast.info("Abrindo faturas...");
     navigate("/client/bills");
-  };
-
-  const getUsageInfo = () => {
-    if (dataUsage.bonusTotal > 0) {
-      return (
-        <>
-          <div className="text-2xl font-semibold text-[#8425af]">
-            {planData.internetUsage.used} GB
-            <span className="text-sm text-gray-500"> + {dataUsage.bonusUsed} GB bônus</span>
-          </div>
-          <div className="text-sm text-gray-500">
-            de {planData.internetUsage.total} GB
-            {dataUsage.bonusTotal > 0 && ` + ${dataUsage.bonusTotal} GB bônus`}
-          </div>
-          {dataUsage.bonusExpiration && (
-            <div className="text-xs text-orange-600">
-              Bônus expira em {planData.internetUsage.bonusExpiration}
-            </div>
-          )}
-        </>
-      );
-    }
-
-    return (
-      <>
-        <div className="text-2xl font-semibold text-[#8425af]">{planData.internetUsage.used} GB</div>
-        <div className="text-sm text-gray-500">de {planData.internetUsage.total} GB</div>
-      </>
-    );
   };
 
   return (
