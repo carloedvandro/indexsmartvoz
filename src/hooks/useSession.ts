@@ -1,10 +1,9 @@
-
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import type { Session } from '@supabase/supabase-js';
 
 export const useSession = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getSession = useCallback(async (): Promise<Session | null> => {
     try {

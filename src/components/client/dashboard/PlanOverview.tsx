@@ -1,163 +1,508 @@
-import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { RefreshCw, ChevronDown, ChevronRight } from "lucide-react";
+import { RefreshCw, ChevronDown, ChevronRight, Phone } from "lucide-react";
 import { formatCurrency } from "@/utils/format";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { UsageInfoDisplay } from "./components/UsageInfoDisplay";
-import { DataUsageChart } from "./components/DataUsageChart";
-import { PhoneLineManager } from "./components/PhoneLineManager";
-import { useDataUsage } from "./hooks/useDataUsage";
-import type { PlanData } from "./types/dataUsage";
+import { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { supabase } from "@/integrations/supabase/client";
+
+interface DataUsageState {
+  used: number;
+  total: number;
+  percentage: number;
+  bonusUsed: number;
+  bonusTotal: number;
+  bonusPercentage: number;
+  bonusExpiration: Date | null;
+  planRenewalDate: Date | null;
+  activePlanName: string;
+  activePlanCode: string;
+}
 
 export const PlanOverview = () => {
   const navigate = useNavigate();
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [planData, setPlanData] = useState<PlanData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
+  const [isPhoneDialogOpen, setIsPhoneDialogOpen] = useState(false);
+  const [isVerificationDialogOpen, setIsVerificationDialogOpen] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
+  const [isVerified, setIsVerified] = useState(false);
+  const [dataUsage, setDataUsage] = useState<DataUsageState>({
+    used: 0,
+    total: 15,
+    percentage: 0,
+    bonusUsed: 0,
+    bonusTotal: 0,
+    bonusPercentage: 0,
+    bonusExpiration: null,
+    planRenewalDate: null,
+    activePlanName: "",
+    activePlanCode: ""
+  });
 
-  const { dataUsage, isLoading: isUsageLoading, error: usageError } = useDataUsage();
-
-  useEffect(() => {
-    const fetchPlanData = async () => {
-      setIsLoading(true);
-      try {
-        // Simulate fetching plan data
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        setPlanData({
-          planName: "Plano Premium",
-          price: 99.90,
-          renewalDate: new Date(),
-          dataLimit: 50,
-          dataUsed: 25,
-          voiceMinutes: "Ilimitado",
-          sms: "Ilimitado",
-        });
-      } catch (error) {
-        console.error("Failed to fetch plan data:", error);
-        toast.error("Failed to load plan data.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPlanData();
-  }, []);
-
-  const handleRenewPlan = () => {
-    toast.success("Plano renovado com sucesso!");
+  const planData = {
+    type: dataUsage.activePlanName || "Controle",
+    code: dataUsage.activePlanCode,
+    number: phoneNumber || "(00) 00000-0000",
+    internetUsage: {
+      used: dataUsage.used,
+      total: dataUsage.total,
+      bonusUsed: dataUsage.bonusUsed,
+      bonusTotal: dataUsage.bonusTotal,
+      renewalDate: dataUsage.planRenewalDate 
+        ? new Date(dataUsage.planRenewalDate).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
+        : "15/set",
+      bonusExpiration: dataUsage.bonusExpiration
+        ? new Date(dataUsage.bonusExpiration).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
+        : null
+    },
+    billing: {
+      amount: 50.99,
+      dueDate: "15/out",
+      status: "paga"
+    }
   };
 
-  const handleUpgradePlan = () => {
-    navigate("/client/upgrade");
+  const sendVerificationSMS = async (phoneNumber: string, code: string) => {
+    try {
+      console.log(`Enviando SMS para ${phoneNumber} com o código: ${code}`);
+      toast.success(`Código de verificação enviado para ${phoneNumber}`);
+      return true;
+    } catch (error) {
+      console.error('Erro ao enviar SMS:', error);
+      toast.error('Erro ao enviar código de verificação');
+      return false;
+    }
+  };
+
+  const loadDataUsage = async (userId: string) => {
+    console.log("Carregando dados de uso para usuário:", userId);
+    const { data: usage, error } = await supabase
+      .from("data_usage")
+      .select()
+      .eq("user_id", userId)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Erro ao carregar dados de uso:", error);
+      return;
+    }
+
+    if (usage) {
+      console.log("Dados de uso encontrados:", usage);
+      setDataUsage({
+        used: Number((Number(usage.usage_mb) / 1024).toFixed(2)),
+        total: Number(usage.total_package_mb) / 1024,
+        percentage: (Number(usage.usage_mb) / Number(usage.total_package_mb)) * 100,
+        bonusUsed: Number((Number(usage.bonus_usage_mb) / 1024).toFixed(2)),
+        bonusTotal: Number(usage.bonus_package_mb) / 1024,
+        bonusPercentage: usage.bonus_package_mb > 0 
+          ? (Number(usage.bonus_usage_mb) / Number(usage.bonus_package_mb)) * 100 
+          : 0,
+        bonusExpiration: usage.bonus_expiration_date ? new Date(usage.bonus_expiration_date) : null,
+        planRenewalDate: usage.plan_renewal_date ? new Date(usage.plan_renewal_date) : null,
+        activePlanName: usage.active_plan_name || "",
+        activePlanCode: usage.active_plan_code || ""
+      });
+    } else {
+      console.log("Nenhum dado de uso encontrado para o usuário");
+    }
+  };
+
+  const loadPhoneVerification = async () => {
+    console.log("Carregando verificação de telefone");
+    const { data: session } = await supabase.auth.getSession();
+    if (!session?.session?.user) {
+      console.log("Nenhuma sessão encontrada");
+      return;
+    }
+
+    const { data: verification, error } = await supabase
+      .from("phone_verifications")
+      .select()
+      .eq("user_id", session.session.user.id)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Erro ao carregar verificação:", error);
+      return;
+    }
+
+    if (verification) {
+      console.log("Verificação encontrada:", verification);
+      setPhoneNumber(verification.phone_number);
+      setIsVerified(verification.verified);
+      
+      if (verification.verified) {
+        await loadDataUsage(session.session.user.id);
+      }
+    } else {
+      console.log("Nenhuma verificação encontrada");
+    }
+  };
+
+  useEffect(() => {
+    console.log("Inicializando componente");
+    loadPhoneVerification();
+  }, []);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+
+    if (isVerified) {
+      console.log("Iniciando monitoramento de uso");
+      const startMonitoring = async () => {
+        const { data: session } = await supabase.auth.getSession();
+        if (!session?.session?.user) return;
+
+        interval = setInterval(async () => {
+          await loadDataUsage(session.session.user.id);
+        }, 5000);
+      };
+
+      startMonitoring();
+    }
+
+    return () => {
+      if (interval) {
+        console.log("Limpando intervalo de monitoramento");
+        clearInterval(interval);
+      }
+    };
+  }, [isVerified]);
+
+  const handlePhoneNumberSubmit = async () => {
+    if (!phoneNumber.match(/^\(\d{2}\) \d{5}-\d{4}$/)) {
+      toast.error("Número de telefone inválido");
+      return;
+    }
+
+    const { data: session } = await supabase.auth.getSession();
+    if (!session?.session?.user) return;
+
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    
+    const smsSent = await sendVerificationSMS(phoneNumber, verificationCode);
+    
+    if (!smsSent) {
+      toast.error("Erro ao enviar SMS de verificação");
+      return;
+    }
+
+    const { error } = await supabase
+      .from("phone_verifications")
+      .upsert({
+        user_id: session.session.user.id,
+        phone_number: phoneNumber,
+        verification_code: verificationCode,
+        verified: false
+      });
+
+    if (error) {
+      toast.error("Erro ao registrar número");
+      return;
+    }
+
+    setIsPhoneDialogOpen(false);
+    setIsVerificationDialogOpen(true);
+  };
+
+  const handleVerificationSubmit = async () => {
+    const { data: session } = await supabase.auth.getSession();
+    if (!session?.session?.user) return;
+
+    const { data: verification } = await supabase
+      .from("phone_verifications")
+      .select()
+      .eq("user_id", session.session.user.id)
+      .maybeSingle();
+
+    if (verification?.verification_code === verificationCode) {
+      await supabase
+        .from("phone_verifications")
+        .update({
+          verified: true
+        })
+        .eq("user_id", session.session.user.id);
+
+      const { data: existingUsage } = await supabase
+        .from("data_usage")
+        .select()
+        .eq("user_id", session.session.user.id)
+        .maybeSingle();
+
+      if (!existingUsage) {
+        await supabase
+          .from("data_usage")
+          .insert([{
+            user_id: session.session.user.id,
+            phone_number: phoneNumber,
+            usage_mb: 0,
+            total_package_mb: 15360,
+            active_plan_name: "Controle 15GB",
+            active_plan_code: "CTRL15",
+            bonus_package_mb: 5120,
+            bonus_usage_mb: 0,
+            bonus_expiration_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+            plan_renewal_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+          }]);
+      }
+
+      setIsVerified(true);
+      setIsVerificationDialogOpen(false);
+      toast.success("Número verificado com sucesso!");
+      
+      await loadDataUsage(session.session.user.id);
+    } else {
+      toast.error("Código de verificação inválido");
+    }
+  };
+
+  const handleNumberClick = () => {
+    if (!isVerified) {
+      setIsPhoneDialogOpen(true);
+    }
+  };
+
+  const handlePlanDetails = () => {
+    toast.info("Abrindo detalhes do plano...");
+    navigate("/client/plan-details");
+  };
+
+  const handleChangePlan = () => {
+    toast.info("Iniciando troca de plano...");
+    navigate("/client/products");
+  };
+
+  const handleAdditionalPackages = () => {
+    toast.info("Acessando pacotes adicionais...");
+    navigate("/client/packages");
+  };
+
+  const handlePayNow = () => {
+    toast.info("Redirecionando para pagamento...");
+    navigate("/client/payment");
+  };
+
+  const handleViewBills = () => {
+    toast.info("Abrindo faturas...");
+    navigate("/client/bills");
+  };
+
+  const getUsageInfo = () => {
+    if (dataUsage.bonusTotal > 0) {
+      return (
+        <>
+          <div className="text-2xl font-semibold text-[#8425af]">
+            {planData.internetUsage.used} GB
+            <span className="text-sm text-gray-500"> + {dataUsage.bonusUsed} GB bônus</span>
+          </div>
+          <div className="text-sm text-gray-500">
+            de {planData.internetUsage.total} GB
+            {dataUsage.bonusTotal > 0 && ` + ${dataUsage.bonusTotal} GB bônus`}
+          </div>
+          {dataUsage.bonusExpiration && (
+            <div className="text-xs text-orange-600">
+              Bônus expira em {planData.internetUsage.bonusExpiration}
+            </div>
+          )}
+        </>
+      );
+    }
+
+    return (
+      <>
+        <div className="text-2xl font-semibold text-[#8425af]">{planData.internetUsage.used} GB</div>
+        <div className="text-sm text-gray-500">de {planData.internetUsage.total} GB</div>
+      </>
+    );
   };
 
   return (
     <>
-      <Card className="overflow-hidden mb-6">
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">Visão Geral do Plano</h2>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsExpanded(!isExpanded)}
-            >
-              {isExpanded ? (
-                <>
-                  Menos detalhes <ChevronDown className="ml-2 h-4 w-4" />
-                </>
-              ) : (
-                <>
-                  Mais detalhes <ChevronRight className="ml-2 h-4 w-4" />
-                </>
-              )}
-            </Button>
+      <Card className="overflow-hidden">
+        <div className="bg-[#8425af] text-white p-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xl">Meu plano</span>
+            <RefreshCw 
+              className="h-5 w-5 cursor-pointer hover:rotate-180 transition-transform duration-500" 
+              onClick={() => {
+                toast.success("Dados atualizados!");
+                loadPhoneVerification();
+              }} 
+            />
+          </div>
+          <button 
+            className="flex items-center gap-2 bg-[#6c1e8f] rounded p-2 w-full hover:bg-[#5c1a7a] transition-colors"
+            onClick={handleNumberClick}
+          >
+            <Phone className="h-4 w-4" />
+            <span>{planData.type}</span>
+            {planData.code && <span className="text-xs bg-[#8425af] px-2 py-1 rounded">{planData.code}</span>}
+            <ChevronDown className="h-4 w-4" />
+            <span className="text-sm text-gray-300">{planData.number}</span>
+          </button>
+        </div>
+
+        <div className="p-4">
+          <div className="flex flex-col items-center mb-6">
+            <div className="relative w-32 h-32">
+              <svg className="transform -rotate-90 w-32 h-32">
+                <circle
+                  cx="64"
+                  cy="64"
+                  r="56"
+                  stroke="#e5e7eb"
+                  strokeWidth="8"
+                  fill="none"
+                />
+                <circle
+                  cx="64"
+                  cy="64"
+                  r="56"
+                  stroke="#8425af"
+                  strokeWidth="8"
+                  fill="none"
+                  strokeDasharray="351.86"
+                  strokeDashoffset={351.86 * (1 - dataUsage.percentage / 100)}
+                />
+                {dataUsage.bonusTotal > 0 && (
+                  <circle
+                    cx="64"
+                    cy="64"
+                    r="48"
+                    stroke="#e5e7eb"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                )}
+                {dataUsage.bonusTotal > 0 && (
+                  <circle
+                    cx="64"
+                    cy="64"
+                    r="48"
+                    stroke="#ff6b6b"
+                    strokeWidth="4"
+                    fill="none"
+                    strokeDasharray="301.59"
+                    strokeDashoffset={301.59 * (1 - dataUsage.bonusPercentage / 100)}
+                  />
+                )}
+              </svg>
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                {getUsageInfo()}
+              </div>
+            </div>
+            <p className="text-gray-600 mt-2">
+              Internet pra usar como quiser
+            </p>
+            <p className="text-sm text-gray-500">
+              Renova em {planData.internetUsage.renewalDate}
+            </p>
           </div>
 
-          {isLoading ? (
-            <div className="text-center">
-              <RefreshCw className="inline-block h-6 w-6 animate-spin mb-2" />
-              <p>Carregando informações do plano...</p>
-            </div>
-          ) : planData ? (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <h3 className="text-lg font-medium">
-                    {planData.planName}
-                  </h3>
-                  <p className="text-gray-500">
-                    Próxima renovação:{" "}
-                    {planData.renewalDate.toLocaleDateString()}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <h4 className="text-2xl font-bold">
-                    {formatCurrency(planData.price)}
-                  </h4>
-                  <Button size="sm" onClick={handleRenewPlan}>
-                    Renovar Plano
-                  </Button>
-                </div>
+          <div className="grid grid-cols-3 gap-2 mb-6">
+            <button 
+              className="flex flex-col items-center p-3 border rounded hover:bg-gray-50 transition-colors"
+              onClick={handlePlanDetails}
+            >
+              <Phone className="h-5 w-5 text-gray-600 mb-1" />
+              <span className="text-xs">Detalhe do plano</span>
+            </button>
+            <button 
+              className="flex flex-col items-center p-3 border rounded hover:bg-gray-50 transition-colors"
+              onClick={handleChangePlan}
+            >
+              <RefreshCw className="h-5 w-5 text-gray-600 mb-1" />
+              <span className="text-xs">Trocar de plano</span>
+            </button>
+            <button 
+              className="flex flex-col items-center p-3 border rounded hover:bg-gray-50 transition-colors"
+              onClick={handleAdditionalPackages}
+            >
+              <ChevronRight className="h-5 w-5 text-gray-600 mb-1" />
+              <span className="text-xs">Pacotes adicionais</span>
+            </button>
+          </div>
+
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <div className="flex justify-between items-center mb-4">
+              <div>
+                <p className="text-sm text-green-600">Fatura {planData.billing.status}</p>
+                <p className="text-sm text-gray-500">Vence em {planData.billing.dueDate}</p>
               </div>
-
-              <DataUsageChart dataUsage={dataUsage} />
-
-              <div className="mt-4">
-                <UsageInfoDisplay
-                  label="Dados"
-                  used={planData.dataUsed}
-                  limit={planData.dataLimit}
-                  unit="GB"
-                />
-                <UsageInfoDisplay
-                  label="Minutos de Voz"
-                  used={0}
-                  limit={planData.voiceMinutes === "Ilimitado" ? Infinity : 0}
-                  unit=""
-                  isUnlimited={planData.voiceMinutes === "Ilimitado"}
-                />
-                <UsageInfoDisplay
-                  label="SMS"
-                  used={0}
-                  limit={planData.sms === "Ilimitado" ? Infinity : 0}
-                  unit=""
-                  isUnlimited={planData.sms === "Ilimitado"}
-                />
-              </div>
-
-              {isExpanded && (
-                <div className="mt-6 border-t pt-4">
-                  <h4 className="text-lg font-medium mb-2">
-                    Detalhes Adicionais
-                  </h4>
-                  <p className="text-gray-600">
-                    Aqui estão alguns detalhes adicionais sobre o seu plano atual.
-                  </p>
-                  <Button
-                    className="mt-4 bg-[#8425af] hover:bg-[#6c1e8f] text-white"
-                    onClick={handleUpgradePlan}
-                  >
-                    Fazer Upgrade do Plano
-                  </Button>
-                </div>
-              )}
-            </>
-          ) : (
-            <div className="text-center">
-              <p>
-                Não foi possível carregar as informações do seu plano. Por favor,
-                tente novamente mais tarde.
-              </p>
+              <p className="text-xl font-semibold">{formatCurrency(planData.billing.amount)}</p>
             </div>
-          )}
+            <div className="flex justify-between">
+              <Button 
+                className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+                onClick={handlePayNow}
+              >
+                Pagar agora
+              </Button>
+              <Button 
+                variant="link" 
+                className="text-[#8425af]"
+                onClick={handleViewBills}
+              >
+                Ver faturas
+              </Button>
+            </div>
+          </div>
         </div>
       </Card>
-      
-      <PhoneLineManager />
+
+      <Dialog open={isPhoneDialogOpen} onOpenChange={setIsPhoneDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Digite seu número de telefone</DialogTitle>
+          </DialogHeader>
+          <Input
+            placeholder="(00) 00000-0000"
+            value={phoneNumber}
+            onChange={(e) => {
+              let value = e.target.value.replace(/\D/g, '');
+              if (value.length <= 11) {
+                value = value.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+                setPhoneNumber(value);
+              }
+            }}
+          />
+          <DialogFooter>
+            <Button onClick={() => setIsPhoneDialogOpen(false)}>Cancelar</Button>
+            <Button onClick={handlePhoneNumberSubmit} className="bg-[#8425af] hover:bg-[#6c1e8f] text-white">
+              Enviar código
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isVerificationDialogOpen} onOpenChange={setIsVerificationDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Digite o código de verificação</DialogTitle>
+          </DialogHeader>
+          <Input
+            placeholder="000000"
+            value={verificationCode}
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, '');
+              if (value.length <= 6) {
+                setVerificationCode(value);
+              }
+            }}
+            maxLength={6}
+          />
+          <DialogFooter>
+            <Button onClick={() => setIsVerificationDialogOpen(false)}>Cancelar</Button>
+            <Button onClick={handleVerificationSubmit} className="bg-[#8425af] hover:bg-[#6c1e8f] text-white">
+              Verificar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

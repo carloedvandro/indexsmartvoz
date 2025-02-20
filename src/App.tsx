@@ -1,5 +1,5 @@
 
-import React from 'react';
+import * as React from 'react';
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster";
 import { ProtectedRoute } from '@/components/ProtectedRoute';
@@ -64,10 +64,10 @@ const router = createBrowserRouter(
 
 const App = () => {
   return (
-    <>
+    <React.StrictMode>
       <RouterProvider router={router} />
       <Toaster />
-    </>
+    </React.StrictMode>
   );
 };
 
