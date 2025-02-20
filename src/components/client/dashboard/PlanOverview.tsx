@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, ChevronDown, ChevronRight, Phone } from "lucide-react";
@@ -9,6 +10,12 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 
+interface DataUsageState {
+  used: number;
+  total: number;
+  percentage: number;
+}
+
 export const PlanOverview = () => {
   const navigate = useNavigate();
   const [isPhoneDialogOpen, setIsPhoneDialogOpen] = useState(false);
@@ -16,11 +23,7 @@ export const PlanOverview = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
   const [isVerified, setIsVerified] = useState(false);
-  const [dataUsage, setDataUsage] = useState<{
-    used: number;
-    total: number;
-    percentage: number;
-  }>({
+  const [dataUsage, setDataUsage] = useState<DataUsageState>({
     used: 0,
     total: 15,
     percentage: 0
@@ -44,7 +47,8 @@ export const PlanOverview = () => {
   useEffect(() => {
     loadPhoneVerification();
     if (isVerified) {
-      startDataUsageMonitoring();
+      const cleanup = startDataUsageMonitoring();
+      return () => cleanup();
     }
   }, [isVerified]);
 
@@ -53,9 +57,9 @@ export const PlanOverview = () => {
     if (!session?.session?.user) return;
 
     const { data: verification } = await supabase
-      .from('phone_verifications')
-      .select('phone_number, verified')
-      .eq('user_id', session.session.user.id)
+      .from("phone_verifications")
+      .select()
+      .eq("user_id", session.session.user.id)
       .single();
 
     if (verification) {
@@ -65,16 +69,16 @@ export const PlanOverview = () => {
   };
 
   const startDataUsageMonitoring = async () => {
-    const interval = setInterval(async () => {
-      const { data: session } = await supabase.auth.getSession();
-      if (!session?.session?.user) return;
+    const { data: session } = await supabase.auth.getSession();
+    if (!session?.session?.user) return () => {};
 
+    const interval = setInterval(async () => {
       const randomUsage = Math.random() * 0.1;
       
       const { data: usage } = await supabase
-        .from('data_usage')
-        .select('usage_mb, total_package_mb')
-        .eq('user_id', session.session.user.id)
+        .from("data_usage")
+        .select()
+        .eq("user_id", session.session.user.id)
         .single();
 
       if (usage) {
@@ -82,9 +86,11 @@ export const PlanOverview = () => {
         const percentage = (newUsage / Number(usage.total_package_mb)) * 100;
 
         await supabase
-          .from('data_usage')
-          .update({ usage_mb: newUsage })
-          .eq('user_id', session.session.user.id);
+          .from("data_usage")
+          .update({
+            usage_mb: newUsage,
+          })
+          .eq("user_id", session.session.user.id);
 
         setDataUsage({
           used: Number((newUsage / 1024).toFixed(2)),
@@ -95,9 +101,11 @@ export const PlanOverview = () => {
         if (percentage >= 100 && !usage.notification_sent) {
           toast.error("Você atingiu 100% da sua franquia de dados!");
           await supabase
-            .from('data_usage')
-            .update({ notification_sent: true })
-            .eq('user_id', session.session.user.id);
+            .from("data_usage")
+            .update({
+              notification_sent: true
+            })
+            .eq("user_id", session.session.user.id);
         }
       }
     }, 5000);
@@ -117,7 +125,7 @@ export const PlanOverview = () => {
     const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
     const { error } = await supabase
-      .from('phone_verifications')
+      .from("phone_verifications")
       .insert({
         user_id: session.session.user.id,
         phone_number: phoneNumber,
@@ -141,19 +149,21 @@ export const PlanOverview = () => {
     if (!session?.session?.user) return;
 
     const { data: verification } = await supabase
-      .from('phone_verifications')
-      .select('verification_code')
-      .eq('user_id', session.session.user.id)
+      .from("phone_verifications")
+      .select()
+      .eq("user_id", session.session.user.id)
       .single();
 
     if (verification?.verification_code === verificationCode) {
       await supabase
-        .from('phone_verifications')
-        .update({ verified: true })
-        .eq('user_id', session.session.user.id);
+        .from("phone_verifications")
+        .update({
+          verified: true
+        })
+        .eq("user_id", session.session.user.id);
 
       await supabase
-        .from('data_usage')
+        .from("data_usage")
         .insert({
           user_id: session.session.user.id,
           phone_number: phoneNumber,

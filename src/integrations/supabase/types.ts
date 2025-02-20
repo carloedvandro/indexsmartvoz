@@ -84,6 +84,39 @@ export type Database = {
         }
         Relationships: []
       }
+      data_usage: {
+        Row: {
+          created_at: string
+          id: string
+          last_updated: string
+          notification_sent: boolean | null
+          phone_number: string
+          total_package_mb: number
+          usage_mb: number
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_updated?: string
+          notification_sent?: boolean | null
+          phone_number: string
+          total_package_mb?: number
+          usage_mb?: number
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_updated?: string
+          notification_sent?: boolean | null
+          phone_number?: string
+          total_package_mb?: number
+          usage_mb?: number
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       device_eid_patterns: {
         Row: {
           brand: string
@@ -589,6 +622,36 @@ export type Database = {
           password_action?: string | null
           user_agent?: string | null
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      phone_verifications: {
+        Row: {
+          created_at: string
+          id: string
+          phone_number: string
+          updated_at: string
+          user_id: string | null
+          verification_code: string | null
+          verified: boolean | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          phone_number: string
+          updated_at?: string
+          user_id?: string | null
+          verification_code?: string | null
+          verified?: boolean | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          phone_number?: string
+          updated_at?: string
+          user_id?: string | null
+          verification_code?: string | null
+          verified?: boolean | null
         }
         Relationships: []
       }
