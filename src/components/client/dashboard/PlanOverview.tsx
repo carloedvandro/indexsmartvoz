@@ -1,7 +1,5 @@
+
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { RefreshCw, ChevronDown, ChevronRight, Phone } from "lucide-react";
-import { formatCurrency } from "@/utils/format";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
@@ -11,6 +9,10 @@ import { useDataUsage } from "./hooks/useDataUsage";
 import { usePhoneVerification } from "./hooks/usePhoneVerification";
 import { PlanData } from "./types/dataUsage";
 import { useSession } from "@/hooks/useSession";
+import { PlanHeader } from "./components/PlanHeader";
+import { ActionButtons } from "./components/ActionButtons";
+import { BillingSection } from "./components/BillingSection";
+import { UsageInfo } from "./components/UsageInfo";
 
 export const PlanOverview = () => {
   const navigate = useNavigate();
@@ -52,35 +54,6 @@ export const PlanOverview = () => {
   useEffect(() => {
     loadPhoneVerification();
   }, []);
-
-  const getUsageInfo = () => {
-    if (dataUsage.bonusTotal > 0) {
-      return (
-        <>
-          <div className="text-2xl font-semibold text-[#8425af]">
-            {dataUsage.used} GB
-            <span className="text-sm text-gray-500"> + {dataUsage.bonusUsed} GB bônus</span>
-          </div>
-          <div className="text-sm text-gray-500">
-            de {dataUsage.total} GB
-            {dataUsage.bonusTotal > 0 && ` + ${dataUsage.bonusTotal} GB bônus`}
-          </div>
-          {dataUsage.bonusExpiration && (
-            <div className="text-xs text-orange-600">
-              Bônus expira em {new Date(dataUsage.bonusExpiration).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
-            </div>
-          )}
-        </>
-      );
-    }
-
-    return (
-      <>
-        <div className="text-2xl font-semibold text-[#8425af]">{dataUsage.used} GB</div>
-        <div className="text-sm text-gray-500">de {dataUsage.total} GB</div>
-      </>
-    );
-  };
 
   const planData: PlanData = {
     type: dataUsage.activePlanName || "Controle",
@@ -139,28 +112,28 @@ export const PlanOverview = () => {
   return (
     <>
       <Card className="overflow-hidden">
-        <div className="bg-[#8425af] text-white p-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xl">Meu plano</span>
-            <RefreshCw 
-              className="h-5 w-5 cursor-pointer hover:rotate-180 transition-transform duration-500" 
-              onClick={refreshData} 
-            />
-          </div>
-          <button 
-            className="flex items-center gap-2 bg-[#6c1e8f] rounded p-2 w-full hover:bg-[#5c1a7a] transition-colors"
-            onClick={handleNumberClick}
-          >
-            <Phone className="h-4 w-4" />
-            <span>{planData.type}</span>
-            {planData.code && <span className="text-xs bg-[#8425af] px-2 py-1 rounded">{planData.code}</span>}
-            <ChevronDown className="h-4 w-4" />
-            <span className="text-sm text-gray-300">{planData.number}</span>
-          </button>
-        </div>
+        <PlanHeader
+          planType={planData.type}
+          planCode={planData.code}
+          phoneNumber={planData.number}
+          onRefresh={refreshData}
+          onNumberClick={handleNumberClick}
+        />
 
         <div className="p-4">
-          <UsageChart dataUsage={dataUsage} getUsageInfo={getUsageInfo} />
+          <UsageChart 
+            dataUsage={dataUsage} 
+            getUsageInfo={() => (
+              <UsageInfo
+                used={dataUsage.used}
+                total={dataUsage.total}
+                bonusUsed={dataUsage.bonusUsed}
+                bonusTotal={dataUsage.bonusTotal}
+                bonusExpiration={dataUsage.bonusExpiration}
+              />
+            )}
+          />
+          
           <p className="text-gray-600 mt-2 text-center">
             Internet pra usar como quiser
           </p>
@@ -168,54 +141,19 @@ export const PlanOverview = () => {
             Renova em {planData.internetUsage.renewalDate}
           </p>
 
-          <div className="grid grid-cols-3 gap-2 mb-6 mt-6">
-            <button 
-              className="flex flex-col items-center p-3 border rounded hover:bg-gray-50 transition-colors"
-              onClick={handlePlanDetails}
-            >
-              <Phone className="h-5 w-5 text-gray-600 mb-1" />
-              <span className="text-xs">Detalhe do plano</span>
-            </button>
-            <button 
-              className="flex flex-col items-center p-3 border rounded hover:bg-gray-50 transition-colors"
-              onClick={handleChangePlan}
-            >
-              <RefreshCw className="h-5 w-5 text-gray-600 mb-1" />
-              <span className="text-xs">Trocar de plano</span>
-            </button>
-            <button 
-              className="flex flex-col items-center p-3 border rounded hover:bg-gray-50 transition-colors"
-              onClick={handleAdditionalPackages}
-            >
-              <ChevronRight className="h-5 w-5 text-gray-600 mb-1" />
-              <span className="text-xs">Pacotes adicionais</span>
-            </button>
-          </div>
+          <ActionButtons
+            onPlanDetails={handlePlanDetails}
+            onChangePlan={handleChangePlan}
+            onAdditionalPackages={handleAdditionalPackages}
+          />
 
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <div>
-                <p className="text-sm text-green-600">Fatura {planData.billing.status}</p>
-                <p className="text-sm text-gray-500">Vence em {planData.billing.dueDate}</p>
-              </div>
-              <p className="text-xl font-semibold">{formatCurrency(planData.billing.amount)}</p>
-            </div>
-            <div className="flex justify-between">
-              <Button 
-                className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
-                onClick={handlePayNow}
-              >
-                Pagar agora
-              </Button>
-              <Button 
-                variant="link" 
-                className="text-[#8425af]"
-                onClick={handleViewBills}
-              >
-                Ver faturas
-              </Button>
-            </div>
-          </div>
+          <BillingSection
+            amount={planData.billing.amount}
+            dueDate={planData.billing.dueDate}
+            status={planData.billing.status}
+            onPayNow={handlePayNow}
+            onViewBills={handleViewBills}
+          />
         </div>
       </Card>
 
