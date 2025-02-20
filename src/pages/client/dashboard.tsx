@@ -8,7 +8,7 @@ import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
-import { InternetUsageFlow } from "@/components/client/dashboard/InternetUsageFlow";
+import { InternetUsageSteps } from "@/components/client/dashboard/InternetUsageSteps";
 import { motion } from "framer-motion";
 
 export default function ClientDashboard() {
@@ -50,7 +50,7 @@ export default function ClientDashboard() {
               </div>
             </div>
             <div className="px-6 mt-6">
-              <InternetUsageFlow />
+              <InternetUsageSteps />
             </div>
             <NetworkStatsCard />
           </div>
