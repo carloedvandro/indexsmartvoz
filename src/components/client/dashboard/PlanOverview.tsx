@@ -77,50 +77,21 @@ export const PlanOverview = () => {
     }
   };
 
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    
-    const init = async () => {
-      await loadPhoneVerification();
-    };
-
-    init();
-
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-  }, []);
-
-  const loadPhoneVerification = async () => {
-    const { data: session } = await supabase.auth.getSession();
-    if (!session?.session?.user) return;
-
-    const { data: verification } = await supabase
-      .from("phone_verifications")
-      .select()
-      .eq("user_id", session.session.user.id)
-      .maybeSingle();
-
-    if (verification) {
-      setPhoneNumber(verification.phone_number);
-      setIsVerified(verification.verified);
-      
-      if (verification.verified) {
-        await loadDataUsage(session.session.user.id);
-      }
-    }
-  };
-
   const loadDataUsage = async (userId: string) => {
-    const { data: usage } = await supabase
+    console.log("Carregando dados de uso para usuário:", userId);
+    const { data: usage, error } = await supabase
       .from("data_usage")
       .select()
       .eq("user_id", userId)
       .maybeSingle();
 
+    if (error) {
+      console.error("Erro ao carregar dados de uso:", error);
+      return;
+    }
+
     if (usage) {
+      console.log("Dados de uso encontrados:", usage);
       setDataUsage({
         used: Number((Number(usage.usage_mb) / 1024).toFixed(2)),
         total: Number(usage.total_package_mb) / 1024,
@@ -135,49 +106,68 @@ export const PlanOverview = () => {
         activePlanName: usage.active_plan_name || "",
         activePlanCode: usage.active_plan_code || ""
       });
+    } else {
+      console.log("Nenhum dado de uso encontrado para o usuário");
+    }
+  };
+
+  const loadPhoneVerification = async () => {
+    console.log("Carregando verificação de telefone");
+    const { data: session } = await supabase.auth.getSession();
+    if (!session?.session?.user) {
+      console.log("Nenhuma sessão encontrada");
+      return;
+    }
+
+    const { data: verification, error } = await supabase
+      .from("phone_verifications")
+      .select()
+      .eq("user_id", session.session.user.id)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Erro ao carregar verificação:", error);
+      return;
+    }
+
+    if (verification) {
+      console.log("Verificação encontrada:", verification);
+      setPhoneNumber(verification.phone_number);
+      setIsVerified(verification.verified);
+      
+      if (verification.verified) {
+        await loadDataUsage(session.session.user.id);
+      }
+    } else {
+      console.log("Nenhuma verificação encontrada");
     }
   };
 
   useEffect(() => {
+    console.log("Inicializando componente");
+    loadPhoneVerification();
+  }, []);
+
+  useEffect(() => {
     let interval: NodeJS.Timeout;
 
-    const startMonitoring = async () => {
-      if (isVerified) {
+    if (isVerified) {
+      console.log("Iniciando monitoramento de uso");
+      const startMonitoring = async () => {
         const { data: session } = await supabase.auth.getSession();
         if (!session?.session?.user) return;
 
-        await loadDataUsage(session.session.user.id);
-
         interval = setInterval(async () => {
-          const randomUsage = Math.random() * 0.1;
-          
-          const { data: currentUsage } = await supabase
-            .from("data_usage")
-            .select()
-            .eq("user_id", session.session.user.id)
-            .maybeSingle();
-
-          if (currentUsage) {
-            const newUsage = Number(currentUsage.usage_mb) + randomUsage;
-            
-            await supabase
-              .from("data_usage")
-              .update({
-                usage_mb: newUsage,
-                last_updated: new Date().toISOString()
-              })
-              .eq("user_id", session.session.user.id);
-
-            await loadDataUsage(session.session.user.id);
-          }
+          await loadDataUsage(session.session.user.id);
         }, 5000);
-      }
-    };
+      };
 
-    startMonitoring();
+      startMonitoring();
+    }
 
     return () => {
       if (interval) {
+        console.log("Limpando intervalo de monitoramento");
         clearInterval(interval);
       }
     };
