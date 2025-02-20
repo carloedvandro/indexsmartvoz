@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -28,12 +28,17 @@ export const PhoneVerification: React.FC<PhoneVerificationProps> = ({
   loadDataUsage
 }) => {
   const [verificationCode, setVerificationCode] = useState("");
+  const [lastGeneratedCode, setLastGeneratedCode] = useState("");
 
   const sendVerificationSMS = async (phoneNumber: string, code: string) => {
     try {
       console.log(`Enviando SMS para ${phoneNumber} com o código: ${code}`);
+      // Simulando envio de SMS
       await new Promise(resolve => setTimeout(resolve, 1000));
-      toast.success(`Código de verificação enviado para ${phoneNumber}. Use: ${code}`);
+      setLastGeneratedCode(code); // Salvando o código para exibição
+      toast.success(`Código de verificação: ${code}`, {
+        duration: 10000 // Aumentando duração do toast para 10 segundos
+      });
       return true;
     } catch (error) {
       console.error('Erro ao enviar SMS:', error);
@@ -82,7 +87,6 @@ export const PhoneVerification: React.FC<PhoneVerificationProps> = ({
 
       setIsPhoneDialogOpen(false);
       setIsVerificationDialogOpen(true);
-      toast.info("Digite o código recebido por SMS para verificar seu número");
     } catch (error) {
       console.error("Erro ao processar verificação:", error);
       toast.error("Erro ao processar verificação. Tente novamente.");
@@ -144,6 +148,9 @@ export const PhoneVerification: React.FC<PhoneVerificationProps> = ({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Digite seu número de telefone</DialogTitle>
+            <DialogDescription>
+              Digite seu número no formato (00) 00000-0000
+            </DialogDescription>
           </DialogHeader>
           <Input
             placeholder="(00) 00000-0000"
@@ -169,6 +176,13 @@ export const PhoneVerification: React.FC<PhoneVerificationProps> = ({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Digite o código de verificação</DialogTitle>
+            <DialogDescription>
+              {lastGeneratedCode && (
+                <div className="mt-2 p-2 bg-gray-100 rounded">
+                  Código gerado: <span className="font-bold text-[#8425af]">{lastGeneratedCode}</span>
+                </div>
+              )}
+            </DialogDescription>
           </DialogHeader>
           <Input
             placeholder="000000"
