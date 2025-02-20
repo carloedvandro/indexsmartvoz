@@ -5,45 +5,45 @@ import { RefreshCw, ChevronDown, ChevronRight, Phone } from "lucide-react";
 import { formatCurrency } from "@/utils/format";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-
-interface DataUsageState {
-  used: number;
-  total: number;
-  percentage: number;
-  bonusUsed: number;
-  bonusTotal: number;
-  bonusPercentage: number;
-  bonusExpiration: Date | null;
-  planRenewalDate: Date | null;
-  activePlanName: string;
-  activePlanCode: string;
-}
+import { UsageChart } from "./components/UsageChart";
+import { VerificationDialogs } from "./components/VerificationDialogs";
+import { useDataUsage } from "./hooks/useDataUsage";
+import { usePhoneVerification } from "./hooks/usePhoneVerification";
+import { PlanData } from "./types/dataUsage";
 
 export const PlanOverview = () => {
   const navigate = useNavigate();
-  const [isPhoneDialogOpen, setIsPhoneDialogOpen] = useState(false);
-  const [isVerificationDialogOpen, setIsVerificationDialogOpen] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [verificationCode, setVerificationCode] = useState("");
-  const [isVerified, setIsVerified] = useState(false);
-  const [dataUsage, setDataUsage] = useState<DataUsageState>({
-    used: 0,
-    total: 15,
-    percentage: 0,
-    bonusUsed: 0,
-    bonusTotal: 0,
-    bonusPercentage: 0,
-    bonusExpiration: null,
-    planRenewalDate: null,
-    activePlanName: "",
-    activePlanCode: ""
+
+  const {
+    isPhoneDialogOpen,
+    setIsPhoneDialogOpen,
+    isVerificationDialogOpen,
+    setIsVerificationDialogOpen,
+    phoneNumber,
+    setPhoneNumber,
+    verificationCode,
+    setVerificationCode,
+    isVerified,
+    loadPhoneVerification,
+    handlePhoneNumberSubmit,
+    handleVerificationSubmit
+  } = usePhoneVerification(async () => {
+    const { data: session } = await supabase.auth.getSession();
+    if (session?.session?.user) {
+      await loadDataUsage(session.session.user.id);
+    }
   });
 
-  const planData = {
+  const { data: session } = supabase.auth.getSession();
+  const { dataUsage, refreshData } = useDataUsage(session?.session?.user?.id, isVerified);
+
+  useEffect(() => {
+    loadPhoneVerification();
+  }, []);
+
+  const planData: PlanData = {
     type: dataUsage.activePlanName || "Controle",
     code: dataUsage.activePlanCode,
     number: phoneNumber || "(00) 00000-0000",
@@ -63,201 +63,6 @@ export const PlanOverview = () => {
       amount: 50.99,
       dueDate: "15/out",
       status: "paga"
-    }
-  };
-
-  const sendVerificationSMS = async (phoneNumber: string, code: string) => {
-    try {
-      console.log(`Enviando SMS para ${phoneNumber} com o código: ${code}`);
-      toast.success(`Código de verificação enviado para ${phoneNumber}`);
-      return true;
-    } catch (error) {
-      console.error('Erro ao enviar SMS:', error);
-      toast.error('Erro ao enviar código de verificação');
-      return false;
-    }
-  };
-
-  const loadDataUsage = async (userId: string) => {
-    console.log("Carregando dados de uso para usuário:", userId);
-    const { data: usage, error } = await supabase
-      .from("data_usage")
-      .select()
-      .eq("user_id", userId)
-      .maybeSingle();
-
-    if (error) {
-      console.error("Erro ao carregar dados de uso:", error);
-      return;
-    }
-
-    if (usage) {
-      console.log("Dados de uso encontrados:", usage);
-      setDataUsage({
-        used: Number((Number(usage.usage_mb) / 1024).toFixed(2)),
-        total: Number(usage.total_package_mb) / 1024,
-        percentage: (Number(usage.usage_mb) / Number(usage.total_package_mb)) * 100,
-        bonusUsed: Number((Number(usage.bonus_usage_mb) / 1024).toFixed(2)),
-        bonusTotal: Number(usage.bonus_package_mb) / 1024,
-        bonusPercentage: usage.bonus_package_mb > 0 
-          ? (Number(usage.bonus_usage_mb) / Number(usage.bonus_package_mb)) * 100 
-          : 0,
-        bonusExpiration: usage.bonus_expiration_date ? new Date(usage.bonus_expiration_date) : null,
-        planRenewalDate: usage.plan_renewal_date ? new Date(usage.plan_renewal_date) : null,
-        activePlanName: usage.active_plan_name || "",
-        activePlanCode: usage.active_plan_code || ""
-      });
-    } else {
-      console.log("Nenhum dado de uso encontrado para o usuário");
-    }
-  };
-
-  const loadPhoneVerification = async () => {
-    console.log("Carregando verificação de telefone");
-    const { data: session } = await supabase.auth.getSession();
-    if (!session?.session?.user) {
-      console.log("Nenhuma sessão encontrada");
-      return;
-    }
-
-    const { data: verification, error } = await supabase
-      .from("phone_verifications")
-      .select()
-      .eq("user_id", session.session.user.id)
-      .maybeSingle();
-
-    if (error) {
-      console.error("Erro ao carregar verificação:", error);
-      return;
-    }
-
-    if (verification) {
-      console.log("Verificação encontrada:", verification);
-      setPhoneNumber(verification.phone_number);
-      setIsVerified(verification.verified);
-      
-      if (verification.verified) {
-        await loadDataUsage(session.session.user.id);
-      }
-    } else {
-      console.log("Nenhuma verificação encontrada");
-    }
-  };
-
-  useEffect(() => {
-    console.log("Inicializando componente");
-    loadPhoneVerification();
-  }, []);
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-
-    if (isVerified) {
-      console.log("Iniciando monitoramento de uso");
-      const startMonitoring = async () => {
-        const { data: session } = await supabase.auth.getSession();
-        if (!session?.session?.user) return;
-
-        interval = setInterval(async () => {
-          await loadDataUsage(session.session.user.id);
-        }, 5000);
-      };
-
-      startMonitoring();
-    }
-
-    return () => {
-      if (interval) {
-        console.log("Limpando intervalo de monitoramento");
-        clearInterval(interval);
-      }
-    };
-  }, [isVerified]);
-
-  const handlePhoneNumberSubmit = async () => {
-    if (!phoneNumber.match(/^\(\d{2}\) \d{5}-\d{4}$/)) {
-      toast.error("Número de telefone inválido");
-      return;
-    }
-
-    const { data: session } = await supabase.auth.getSession();
-    if (!session?.session?.user) return;
-
-    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-    
-    const smsSent = await sendVerificationSMS(phoneNumber, verificationCode);
-    
-    if (!smsSent) {
-      toast.error("Erro ao enviar SMS de verificação");
-      return;
-    }
-
-    const { error } = await supabase
-      .from("phone_verifications")
-      .upsert({
-        user_id: session.session.user.id,
-        phone_number: phoneNumber,
-        verification_code: verificationCode,
-        verified: false
-      });
-
-    if (error) {
-      toast.error("Erro ao registrar número");
-      return;
-    }
-
-    setIsPhoneDialogOpen(false);
-    setIsVerificationDialogOpen(true);
-  };
-
-  const handleVerificationSubmit = async () => {
-    const { data: session } = await supabase.auth.getSession();
-    if (!session?.session?.user) return;
-
-    const { data: verification } = await supabase
-      .from("phone_verifications")
-      .select()
-      .eq("user_id", session.session.user.id)
-      .maybeSingle();
-
-    if (verification?.verification_code === verificationCode) {
-      await supabase
-        .from("phone_verifications")
-        .update({
-          verified: true
-        })
-        .eq("user_id", session.session.user.id);
-
-      const { data: existingUsage } = await supabase
-        .from("data_usage")
-        .select()
-        .eq("user_id", session.session.user.id)
-        .maybeSingle();
-
-      if (!existingUsage) {
-        await supabase
-          .from("data_usage")
-          .insert([{
-            user_id: session.session.user.id,
-            phone_number: phoneNumber,
-            usage_mb: 0,
-            total_package_mb: 15360,
-            active_plan_name: "Controle 15GB",
-            active_plan_code: "CTRL15",
-            bonus_package_mb: 5120,
-            bonus_usage_mb: 0,
-            bonus_expiration_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-            plan_renewal_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-          }]);
-      }
-
-      setIsVerified(true);
-      setIsVerificationDialogOpen(false);
-      toast.success("Número verificado com sucesso!");
-      
-      await loadDataUsage(session.session.user.id);
-    } else {
-      toast.error("Código de verificação inválido");
     }
   };
 
@@ -329,10 +134,7 @@ export const PlanOverview = () => {
             <span className="text-xl">Meu plano</span>
             <RefreshCw 
               className="h-5 w-5 cursor-pointer hover:rotate-180 transition-transform duration-500" 
-              onClick={() => {
-                toast.success("Dados atualizados!");
-                loadPhoneVerification();
-              }} 
+              onClick={refreshData} 
             />
           </div>
           <button 
@@ -348,63 +150,15 @@ export const PlanOverview = () => {
         </div>
 
         <div className="p-4">
-          <div className="flex flex-col items-center mb-6">
-            <div className="relative w-32 h-32">
-              <svg className="transform -rotate-90 w-32 h-32">
-                <circle
-                  cx="64"
-                  cy="64"
-                  r="56"
-                  stroke="#e5e7eb"
-                  strokeWidth="8"
-                  fill="none"
-                />
-                <circle
-                  cx="64"
-                  cy="64"
-                  r="56"
-                  stroke="#8425af"
-                  strokeWidth="8"
-                  fill="none"
-                  strokeDasharray="351.86"
-                  strokeDashoffset={351.86 * (1 - dataUsage.percentage / 100)}
-                />
-                {dataUsage.bonusTotal > 0 && (
-                  <circle
-                    cx="64"
-                    cy="64"
-                    r="48"
-                    stroke="#e5e7eb"
-                    strokeWidth="4"
-                    fill="none"
-                  />
-                )}
-                {dataUsage.bonusTotal > 0 && (
-                  <circle
-                    cx="64"
-                    cy="64"
-                    r="48"
-                    stroke="#ff6b6b"
-                    strokeWidth="4"
-                    fill="none"
-                    strokeDasharray="301.59"
-                    strokeDashoffset={301.59 * (1 - dataUsage.bonusPercentage / 100)}
-                  />
-                )}
-              </svg>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-                {getUsageInfo()}
-              </div>
-            </div>
-            <p className="text-gray-600 mt-2">
-              Internet pra usar como quiser
-            </p>
-            <p className="text-sm text-gray-500">
-              Renova em {planData.internetUsage.renewalDate}
-            </p>
-          </div>
+          <UsageChart dataUsage={dataUsage} getUsageInfo={getUsageInfo} />
+          <p className="text-gray-600 mt-2 text-center">
+            Internet pra usar como quiser
+          </p>
+          <p className="text-sm text-gray-500 text-center">
+            Renova em {planData.internetUsage.renewalDate}
+          </p>
 
-          <div className="grid grid-cols-3 gap-2 mb-6">
+          <div className="grid grid-cols-3 gap-2 mb-6 mt-6">
             <button 
               className="flex flex-col items-center p-3 border rounded hover:bg-gray-50 transition-colors"
               onClick={handlePlanDetails}
@@ -455,56 +209,18 @@ export const PlanOverview = () => {
         </div>
       </Card>
 
-      <Dialog open={isPhoneDialogOpen} onOpenChange={setIsPhoneDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Digite seu número de telefone</DialogTitle>
-          </DialogHeader>
-          <Input
-            placeholder="(00) 00000-0000"
-            value={phoneNumber}
-            onChange={(e) => {
-              let value = e.target.value.replace(/\D/g, '');
-              if (value.length <= 11) {
-                value = value.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
-                setPhoneNumber(value);
-              }
-            }}
-          />
-          <DialogFooter>
-            <Button onClick={() => setIsPhoneDialogOpen(false)}>Cancelar</Button>
-            <Button onClick={handlePhoneNumberSubmit} className="bg-[#8425af] hover:bg-[#6c1e8f] text-white">
-              Enviar código
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={isVerificationDialogOpen} onOpenChange={setIsVerificationDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Digite o código de verificação</DialogTitle>
-          </DialogHeader>
-          <Input
-            placeholder="000000"
-            value={verificationCode}
-            onChange={(e) => {
-              const value = e.target.value.replace(/\D/g, '');
-              if (value.length <= 6) {
-                setVerificationCode(value);
-              }
-            }}
-            maxLength={6}
-          />
-          <DialogFooter>
-            <Button onClick={() => setIsVerificationDialogOpen(false)}>Cancelar</Button>
-            <Button onClick={handleVerificationSubmit} className="bg-[#8425af] hover:bg-[#6c1e8f] text-white">
-              Verificar
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <VerificationDialogs
+        isPhoneDialogOpen={isPhoneDialogOpen}
+        setIsPhoneDialogOpen={setIsPhoneDialogOpen}
+        isVerificationDialogOpen={isVerificationDialogOpen}
+        setIsVerificationDialogOpen={setIsVerificationDialogOpen}
+        phoneNumber={phoneNumber}
+        setPhoneNumber={setPhoneNumber}
+        verificationCode={verificationCode}
+        setVerificationCode={setVerificationCode}
+        handlePhoneNumberSubmit={handlePhoneNumberSubmit}
+        handleVerificationSubmit={handleVerificationSubmit}
+      />
     </>
   );
 };
-
