@@ -82,9 +82,6 @@ export const PlanOverview = () => {
     
     const init = async () => {
       await loadPhoneVerification();
-      if (isVerified) {
-        await startDataUsageMonitoring();
-      }
     };
 
     init();
@@ -94,7 +91,7 @@ export const PlanOverview = () => {
         clearInterval(interval);
       }
     };
-  }, [isVerified]);
+  }, []);
 
   const loadPhoneVerification = async () => {
     const { data: session } = await supabase.auth.getSession();
@@ -109,92 +106,82 @@ export const PlanOverview = () => {
     if (verification) {
       setPhoneNumber(verification.phone_number);
       setIsVerified(verification.verified);
+      
+      if (verification.verified) {
+        await loadDataUsage(session.session.user.id);
+      }
     }
   };
 
-  const startDataUsageMonitoring = async () => {
-    const { data: session } = await supabase.auth.getSession();
-    if (!session?.session?.user) return;
-
+  const loadDataUsage = async (userId: string) => {
     const { data: usage } = await supabase
       .from("data_usage")
       .select()
-      .eq("user_id", session.session.user.id)
+      .eq("user_id", userId)
       .maybeSingle();
 
-    if (!usage) {
-      const { error } = await supabase
-        .from("data_usage")
-        .insert([{
-          user_id: session.session.user.id,
-          phone_number: phoneNumber,
-          usage_mb: 0,
-          total_package_mb: 15360, // 15GB em MB
-          active_plan_name: "Controle 15GB",
-          active_plan_code: "CTRL15",
-          bonus_package_mb: 5120, // 5GB de bônus
-          bonus_usage_mb: 0,
-          bonus_expiration_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 dias
-          plan_renewal_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 dias
-        }]);
-
-      if (error) {
-        console.error('Erro ao criar registro de uso:', error);
-        return;
-      }
+    if (usage) {
+      setDataUsage({
+        used: Number((Number(usage.usage_mb) / 1024).toFixed(2)),
+        total: Number(usage.total_package_mb) / 1024,
+        percentage: (Number(usage.usage_mb) / Number(usage.total_package_mb)) * 100,
+        bonusUsed: Number((Number(usage.bonus_usage_mb) / 1024).toFixed(2)),
+        bonusTotal: Number(usage.bonus_package_mb) / 1024,
+        bonusPercentage: usage.bonus_package_mb > 0 
+          ? (Number(usage.bonus_usage_mb) / Number(usage.bonus_package_mb)) * 100 
+          : 0,
+        bonusExpiration: usage.bonus_expiration_date ? new Date(usage.bonus_expiration_date) : null,
+        planRenewalDate: usage.plan_renewal_date ? new Date(usage.plan_renewal_date) : null,
+        activePlanName: usage.active_plan_name || "",
+        activePlanCode: usage.active_plan_code || ""
+      });
     }
-
-    const interval = setInterval(async () => {
-      const randomUsage = Math.random() * 0.1;
-      
-      const { data: currentUsage } = await supabase
-        .from("data_usage")
-        .select()
-        .eq("user_id", session.session.user.id)
-        .maybeSingle();
-
-      if (currentUsage) {
-        const newUsage = Number(currentUsage.usage_mb) + randomUsage;
-        const percentage = (newUsage / Number(currentUsage.total_package_mb)) * 100;
-        const bonusPercentage = currentUsage.bonus_package_mb > 0 
-          ? (Number(currentUsage.bonus_usage_mb) / Number(currentUsage.bonus_package_mb)) * 100
-          : 0;
-
-        await supabase
-          .from("data_usage")
-          .update({
-            usage_mb: newUsage,
-            last_updated: new Date().toISOString()
-          })
-          .eq("user_id", session.session.user.id);
-
-        setDataUsage({
-          used: Number((newUsage / 1024).toFixed(2)),
-          total: Number(currentUsage.total_package_mb) / 1024,
-          percentage,
-          bonusUsed: Number((Number(currentUsage.bonus_usage_mb) / 1024).toFixed(2)),
-          bonusTotal: Number(currentUsage.bonus_package_mb) / 1024,
-          bonusPercentage,
-          bonusExpiration: currentUsage.bonus_expiration_date ? new Date(currentUsage.bonus_expiration_date) : null,
-          planRenewalDate: currentUsage.plan_renewal_date ? new Date(currentUsage.plan_renewal_date) : null,
-          activePlanName: currentUsage.active_plan_name || "",
-          activePlanCode: currentUsage.active_plan_code || ""
-        });
-
-        if (percentage >= 100 && bonusPercentage >= 100 && !currentUsage.notification_sent) {
-          toast.error("Você atingiu 100% da sua franquia de dados e do bônus!");
-          await supabase
-            .from("data_usage")
-            .update({
-              notification_sent: true
-            })
-            .eq("user_id", session.session.user.id);
-        }
-      }
-    }, 5000);
-
-    return interval;
   };
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+
+    const startMonitoring = async () => {
+      if (isVerified) {
+        const { data: session } = await supabase.auth.getSession();
+        if (!session?.session?.user) return;
+
+        await loadDataUsage(session.session.user.id);
+
+        interval = setInterval(async () => {
+          const randomUsage = Math.random() * 0.1;
+          
+          const { data: currentUsage } = await supabase
+            .from("data_usage")
+            .select()
+            .eq("user_id", session.session.user.id)
+            .maybeSingle();
+
+          if (currentUsage) {
+            const newUsage = Number(currentUsage.usage_mb) + randomUsage;
+            
+            await supabase
+              .from("data_usage")
+              .update({
+                usage_mb: newUsage,
+                last_updated: new Date().toISOString()
+              })
+              .eq("user_id", session.session.user.id);
+
+            await loadDataUsage(session.session.user.id);
+          }
+        }, 5000);
+      }
+    };
+
+    startMonitoring();
+
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [isVerified]);
 
   const handlePhoneNumberSubmit = async () => {
     if (!phoneNumber.match(/^\(\d{2}\) \d{5}-\d{4}$/)) {
@@ -250,11 +237,34 @@ export const PlanOverview = () => {
         })
         .eq("user_id", session.session.user.id);
 
+      const { data: existingUsage } = await supabase
+        .from("data_usage")
+        .select()
+        .eq("user_id", session.session.user.id)
+        .maybeSingle();
+
+      if (!existingUsage) {
+        await supabase
+          .from("data_usage")
+          .insert([{
+            user_id: session.session.user.id,
+            phone_number: phoneNumber,
+            usage_mb: 0,
+            total_package_mb: 15360,
+            active_plan_name: "Controle 15GB",
+            active_plan_code: "CTRL15",
+            bonus_package_mb: 5120,
+            bonus_usage_mb: 0,
+            bonus_expiration_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+            plan_renewal_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+          }]);
+      }
+
       setIsVerified(true);
       setIsVerificationDialogOpen(false);
       toast.success("Número verificado com sucesso!");
       
-      startDataUsageMonitoring();
+      await loadDataUsage(session.session.user.id);
     } else {
       toast.error("Código de verificação inválido");
     }
