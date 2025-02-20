@@ -46,20 +46,10 @@ export const PlanOverview = () => {
 
   useEffect(() => {
     loadPhoneVerification();
-    let cleanup: (() => void) | undefined;
-    
     if (isVerified) {
-      const setupMonitoring = async () => {
-        cleanup = await startDataUsageMonitoring();
-      };
-      setupMonitoring();
+      const cleanup = startDataUsageMonitoring();
+      return () => cleanup();
     }
-
-    return () => {
-      if (cleanup) {
-        cleanup();
-      }
-    };
   }, [isVerified]);
 
   const loadPhoneVerification = async () => {
