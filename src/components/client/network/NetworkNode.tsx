@@ -92,7 +92,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex flex-col -ml-2">
+                  <div className="flex flex-col -ml-3">
                     <h3 className="text-base font-semibold text-black truncate">
                       {member.user.full_name || "Usuário"}
                     </h3>
