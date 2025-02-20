@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, ChevronDown, ChevronRight, Phone } from "lucide-react";
@@ -14,6 +13,13 @@ interface DataUsageState {
   used: number;
   total: number;
   percentage: number;
+  bonusUsed: number;
+  bonusTotal: number;
+  bonusPercentage: number;
+  bonusExpiration: Date | null;
+  planRenewalDate: Date | null;
+  activePlanName: string;
+  activePlanCode: string;
 }
 
 export const PlanOverview = () => {
@@ -26,16 +32,31 @@ export const PlanOverview = () => {
   const [dataUsage, setDataUsage] = useState<DataUsageState>({
     used: 0,
     total: 15,
-    percentage: 0
+    percentage: 0,
+    bonusUsed: 0,
+    bonusTotal: 0,
+    bonusPercentage: 0,
+    bonusExpiration: null,
+    planRenewalDate: null,
+    activePlanName: "",
+    activePlanCode: ""
   });
 
   const planData = {
-    type: "Controle",
+    type: dataUsage.activePlanName || "Controle",
+    code: dataUsage.activePlanCode,
     number: phoneNumber || "(00) 00000-0000",
     internetUsage: {
       used: dataUsage.used,
       total: dataUsage.total,
-      renewalDate: "15/set"
+      bonusUsed: dataUsage.bonusUsed,
+      bonusTotal: dataUsage.bonusTotal,
+      renewalDate: dataUsage.planRenewalDate 
+        ? new Date(dataUsage.planRenewalDate).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
+        : "15/set",
+      bonusExpiration: dataUsage.bonusExpiration
+        ? new Date(dataUsage.bonusExpiration).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
+        : null
     },
     billing: {
       amount: 50.99,
@@ -96,7 +117,13 @@ export const PlanOverview = () => {
           user_id: session.session.user.id,
           phone_number: phoneNumber,
           usage_mb: 0,
-          total_package_mb: 15360 // 15GB em MB
+          total_package_mb: 15360, // 15GB em MB
+          active_plan_name: "Controle 15GB",
+          active_plan_code: "CTRL15",
+          bonus_package_mb: 5120, // 5GB de bônus
+          bonus_usage_mb: 0,
+          bonus_expiration_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 dias
+          plan_renewal_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 dias
         });
     }
 
@@ -112,6 +139,9 @@ export const PlanOverview = () => {
       if (currentUsage) {
         const newUsage = Number(currentUsage.usage_mb) + randomUsage;
         const percentage = (newUsage / Number(currentUsage.total_package_mb)) * 100;
+        const bonusPercentage = currentUsage.bonus_package_mb > 0 
+          ? (Number(currentUsage.bonus_usage_mb) / Number(currentUsage.bonus_package_mb)) * 100
+          : 0;
 
         await supabase
           .from("data_usage")
@@ -124,11 +154,18 @@ export const PlanOverview = () => {
         setDataUsage({
           used: Number((newUsage / 1024).toFixed(2)),
           total: Number(currentUsage.total_package_mb) / 1024,
-          percentage
+          percentage,
+          bonusUsed: Number(currentUsage.bonus_usage_mb / 1024).toFixed(2),
+          bonusTotal: Number(currentUsage.bonus_package_mb / 1024),
+          bonusPercentage,
+          bonusExpiration: currentUsage.bonus_expiration_date ? new Date(currentUsage.bonus_expiration_date) : null,
+          planRenewalDate: currentUsage.plan_renewal_date ? new Date(currentUsage.plan_renewal_date) : null,
+          activePlanName: currentUsage.active_plan_name || "",
+          activePlanCode: currentUsage.active_plan_code || ""
         });
 
-        if (percentage >= 100 && !currentUsage.notification_sent) {
-          toast.error("Você atingiu 100% da sua franquia de dados!");
+        if (percentage >= 100 && bonusPercentage >= 100 && !currentUsage.notification_sent) {
+          toast.error("Você atingiu 100% da sua franquia de dados e do bônus!");
           await supabase
             .from("data_usage")
             .update({
@@ -195,7 +232,6 @@ export const PlanOverview = () => {
       setIsVerificationDialogOpen(false);
       toast.success("Número verificado com sucesso!");
       
-      // Iniciar monitoramento após verificação
       startDataUsageMonitoring();
     } else {
       toast.error("Código de verificação inválido");
@@ -233,6 +269,35 @@ export const PlanOverview = () => {
     navigate("/client/bills");
   };
 
+  const getUsageInfo = () => {
+    if (dataUsage.bonusTotal > 0) {
+      return (
+        <>
+          <div className="text-2xl font-semibold text-[#8425af]">
+            {planData.internetUsage.used} GB
+            <span className="text-sm text-gray-500"> + {dataUsage.bonusUsed} GB bônus</span>
+          </div>
+          <div className="text-sm text-gray-500">
+            de {planData.internetUsage.total} GB
+            {dataUsage.bonusTotal > 0 && ` + ${dataUsage.bonusTotal} GB bônus`}
+          </div>
+          {dataUsage.bonusExpiration && (
+            <div className="text-xs text-orange-600">
+              Bônus expira em {planData.internetUsage.bonusExpiration}
+            </div>
+          )}
+        </>
+      );
+    }
+
+    return (
+      <>
+        <div className="text-2xl font-semibold text-[#8425af]">{planData.internetUsage.used} GB</div>
+        <div className="text-sm text-gray-500">de {planData.internetUsage.total} GB</div>
+      </>
+    );
+  };
+
   return (
     <>
       <Card className="overflow-hidden">
@@ -253,6 +318,7 @@ export const PlanOverview = () => {
           >
             <Phone className="h-4 w-4" />
             <span>{planData.type}</span>
+            {planData.code && <span className="text-xs bg-[#8425af] px-2 py-1 rounded">{planData.code}</span>}
             <ChevronDown className="h-4 w-4" />
             <span className="text-sm text-gray-300">{planData.number}</span>
           </button>
@@ -278,12 +344,33 @@ export const PlanOverview = () => {
                   strokeWidth="8"
                   fill="none"
                   strokeDasharray="351.86"
-                  strokeDashoffset={351.86 * (1 - planData.internetUsage.used / planData.internetUsage.total)}
+                  strokeDashoffset={351.86 * (1 - dataUsage.percentage / 100)}
                 />
+                {dataUsage.bonusTotal > 0 && (
+                  <circle
+                    cx="64"
+                    cy="64"
+                    r="48"
+                    stroke="#e5e7eb"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                )}
+                {dataUsage.bonusTotal > 0 && (
+                  <circle
+                    cx="64"
+                    cy="64"
+                    r="48"
+                    stroke="#ff6b6b"
+                    strokeWidth="4"
+                    fill="none"
+                    strokeDasharray="301.59"
+                    strokeDashoffset={301.59 * (1 - dataUsage.bonusPercentage / 100)}
+                  />
+                )}
               </svg>
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-                <div className="text-2xl font-semibold text-[#8425af]">{planData.internetUsage.used} GB</div>
-                <div className="text-sm text-gray-500">de {planData.internetUsage.total} GB</div>
+                {getUsageInfo()}
               </div>
             </div>
             <p className="text-gray-600 mt-2">

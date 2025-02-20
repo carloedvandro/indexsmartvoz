@@ -86,31 +86,49 @@ export type Database = {
       }
       data_usage: {
         Row: {
+          active_plan_code: string | null
+          active_plan_name: string | null
+          bonus_expiration_date: string | null
+          bonus_package_mb: number | null
+          bonus_usage_mb: number | null
           created_at: string
           id: string
           last_updated: string
           notification_sent: boolean | null
           phone_number: string
+          plan_renewal_date: string | null
           total_package_mb: number
           usage_mb: number
           user_id: string | null
         }
         Insert: {
+          active_plan_code?: string | null
+          active_plan_name?: string | null
+          bonus_expiration_date?: string | null
+          bonus_package_mb?: number | null
+          bonus_usage_mb?: number | null
           created_at?: string
           id?: string
           last_updated?: string
           notification_sent?: boolean | null
           phone_number: string
+          plan_renewal_date?: string | null
           total_package_mb?: number
           usage_mb?: number
           user_id?: string | null
         }
         Update: {
+          active_plan_code?: string | null
+          active_plan_name?: string | null
+          bonus_expiration_date?: string | null
+          bonus_package_mb?: number | null
+          bonus_usage_mb?: number | null
           created_at?: string
           id?: string
           last_updated?: string
           notification_sent?: boolean | null
           phone_number?: string
+          plan_renewal_date?: string | null
           total_package_mb?: number
           usage_mb?: number
           user_id?: string | null
