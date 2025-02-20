@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -48,7 +49,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
         width: `calc(100% - ${depth * 12}px)`
       }}
     >
-      {depth > 0 && (
+      {depth > 1 && (
         <div 
           className="absolute left-[-12px] top-1/2 w-3 h-px bg-gray-300"
           style={{
@@ -56,13 +57,13 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           }}
         />
       )}
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+1rem)]">
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow overflow-visible" style={{ width: 'calc(100% + 8px)' }}>
         <div className="flex items-start gap-4 w-full -ml-2">
-          <div className="flex items-start gap-2">
+          <div className="flex items-start gap-2 w-full">
             {hasChildren && (
               <button
                 onClick={() => onToggle(member.id)}
-                className="p-1 hover:bg-gray-100 rounded-full"
+                className="p-1 hover:bg-gray-100 rounded-full flex-shrink-0"
                 aria-label={isExpanded ? "Recolher" : "Expandir"}
               >
                 {isExpanded ? (
@@ -72,9 +73,9 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                 )}
               </button>
             )}
-            <div className="w-full">
+            <div className="w-full min-w-0">
               <div className="flex items-start gap-4 -ml-1">
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center flex-shrink-0">
                   <div className="relative">
                     <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
                       <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
@@ -90,38 +91,38 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                   </div>
                 </div>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex flex-col">
+                <div className="flex-1 min-w-0 pr-2">
+                  <div className="flex flex-col gap-1">
                     <h3 className="text-base font-semibold text-black truncate">
                       {member.user.full_name || "Usuário"}
                     </h3>
-                    <span className={`text-xs py-0.5 w-fit ${
-                      isActive ? 'text-green-500' : 'text-red-500'
+                    <span className={`text-xs px-2 py-0.5 rounded-full w-fit ${
+                      isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
                     }`}>
                       {isActive ? 'Ativo' : 'Pendente'}
                     </span>
                   </div>
 
-                  <div className="space-y-1 text-sm mt-6 -ml-8">
-                    <div className="flex items-center gap-1.5 text-black">
-                      <GraduationCap className="h-4 w-4" style={{ color: '#660099' }} />
+                  <div className="space-y-1 text-sm mt-2">
+                    <div className="flex items-center gap-2 text-black">
+                      <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
                       <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
                     </div>
                     
                     {formattedDate && (
-                      <div className="flex items-center gap-1.5 text-black">
-                        <Calendar className="h-4 w-4" style={{ color: '#660099' }} />
+                      <div className="flex items-center gap-2 text-black">
+                        <Calendar className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
                         <span className="truncate">Cadastro: {formattedDate}</span>
                       </div>
                     )}
                     
-                    <div className="flex items-center gap-1.5 text-black">
-                      <UserPlus2 className="h-4 w-4" style={{ color: '#660099' }} />
+                    <div className="flex items-center gap-2 text-black">
+                      <UserPlus2 className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
                       <span>Diretos: {member.children?.length || 0}</span>
                     </div>
                     
-                    <div className="flex items-center gap-1.5 text-black">
-                      <Users2 className="h-4 w-4" style={{ color: '#660099' }} />
+                    <div className="flex items-center gap-2 text-black">
+                      <Users2 className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
                       <span>Equipe: {totalTeamSize}</span>
                     </div>
                   </div>
