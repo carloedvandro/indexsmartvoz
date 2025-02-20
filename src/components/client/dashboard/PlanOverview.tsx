@@ -45,11 +45,22 @@ export const PlanOverview = () => {
   };
 
   useEffect(() => {
-    loadPhoneVerification();
-    if (isVerified) {
-      const cleanup = startDataUsageMonitoring();
-      return () => cleanup();
-    }
+    let interval: NodeJS.Timeout;
+    
+    const init = async () => {
+      await loadPhoneVerification();
+      if (isVerified) {
+        await startDataUsageMonitoring();
+      }
+    };
+
+    init();
+
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, [isVerified]);
 
   const loadPhoneVerification = async () => {
@@ -60,7 +71,7 @@ export const PlanOverview = () => {
       .from("phone_verifications")
       .select()
       .eq("user_id", session.session.user.id)
-      .single();
+      .maybeSingle();
 
     if (verification) {
       setPhoneNumber(verification.phone_number);
@@ -70,35 +81,53 @@ export const PlanOverview = () => {
 
   const startDataUsageMonitoring = async () => {
     const { data: session } = await supabase.auth.getSession();
-    if (!session?.session?.user) return () => {};
+    if (!session?.session?.user) return;
+
+    const { data: usage } = await supabase
+      .from("data_usage")
+      .select()
+      .eq("user_id", session.session.user.id)
+      .maybeSingle();
+
+    if (!usage) {
+      await supabase
+        .from("data_usage")
+        .insert({
+          user_id: session.session.user.id,
+          phone_number: phoneNumber,
+          usage_mb: 0,
+          total_package_mb: 15360 // 15GB em MB
+        });
+    }
 
     const interval = setInterval(async () => {
       const randomUsage = Math.random() * 0.1;
       
-      const { data: usage } = await supabase
+      const { data: currentUsage } = await supabase
         .from("data_usage")
         .select()
         .eq("user_id", session.session.user.id)
-        .single();
+        .maybeSingle();
 
-      if (usage) {
-        const newUsage = Number(usage.usage_mb) + randomUsage;
-        const percentage = (newUsage / Number(usage.total_package_mb)) * 100;
+      if (currentUsage) {
+        const newUsage = Number(currentUsage.usage_mb) + randomUsage;
+        const percentage = (newUsage / Number(currentUsage.total_package_mb)) * 100;
 
         await supabase
           .from("data_usage")
           .update({
             usage_mb: newUsage,
+            last_updated: new Date().toISOString()
           })
           .eq("user_id", session.session.user.id);
 
         setDataUsage({
           used: Number((newUsage / 1024).toFixed(2)),
-          total: Number(usage.total_package_mb) / 1024,
+          total: Number(currentUsage.total_package_mb) / 1024,
           percentage
         });
 
-        if (percentage >= 100 && !usage.notification_sent) {
+        if (percentage >= 100 && !currentUsage.notification_sent) {
           toast.error("Você atingiu 100% da sua franquia de dados!");
           await supabase
             .from("data_usage")
@@ -110,7 +139,7 @@ export const PlanOverview = () => {
       }
     }, 5000);
 
-    return () => clearInterval(interval);
+    return interval;
   };
 
   const handlePhoneNumberSubmit = async () => {
@@ -152,7 +181,7 @@ export const PlanOverview = () => {
       .from("phone_verifications")
       .select()
       .eq("user_id", session.session.user.id)
-      .single();
+      .maybeSingle();
 
     if (verification?.verification_code === verificationCode) {
       await supabase
@@ -162,17 +191,12 @@ export const PlanOverview = () => {
         })
         .eq("user_id", session.session.user.id);
 
-      await supabase
-        .from("data_usage")
-        .insert({
-          user_id: session.session.user.id,
-          phone_number: phoneNumber,
-          usage_mb: 0
-        });
-
       setIsVerified(true);
       setIsVerificationDialogOpen(false);
       toast.success("Número verificado com sucesso!");
+      
+      // Iniciar monitoramento após verificação
+      startDataUsageMonitoring();
     } else {
       toast.error("Código de verificação inválido");
     }
