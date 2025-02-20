@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, ChevronDown, ChevronRight, Phone } from "lucide-react";
@@ -12,9 +11,11 @@ import { VerificationDialogs } from "./components/VerificationDialogs";
 import { useDataUsage } from "./hooks/useDataUsage";
 import { usePhoneVerification } from "./hooks/usePhoneVerification";
 import { PlanData } from "./types/dataUsage";
+import { useSession } from "@/hooks/useSession";
 
 export const PlanOverview = () => {
   const navigate = useNavigate();
+  const { getSession } = useSession();
 
   const {
     isPhoneDialogOpen,
@@ -30,14 +31,14 @@ export const PlanOverview = () => {
     handlePhoneNumberSubmit,
     handleVerificationSubmit
   } = usePhoneVerification(async () => {
-    const { data: session } = await supabase.auth.getSession();
-    if (session?.session?.user) {
-      await loadDataUsage(session.session.user.id);
+    const session = await getSession();
+    if (session?.user) {
+      refreshData();
     }
   });
 
-  const { data: session } = supabase.auth.getSession();
-  const { dataUsage, refreshData } = useDataUsage(session?.session?.user?.id, isVerified);
+  const session = await getSession();
+  const { dataUsage, refreshData } = useDataUsage(session?.user?.id, isVerified);
 
   useEffect(() => {
     loadPhoneVerification();
