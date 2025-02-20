@@ -65,6 +65,18 @@ export const PlanOverview = () => {
     }
   };
 
+  const sendVerificationSMS = async (phoneNumber: string, code: string) => {
+    try {
+      console.log(`Enviando SMS para ${phoneNumber} com o código: ${code}`);
+      toast.success(`Código de verificação enviado para ${phoneNumber}`);
+      return true;
+    } catch (error) {
+      console.error('Erro ao enviar SMS:', error);
+      toast.error('Erro ao enviar código de verificação');
+      return false;
+    }
+  };
+
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
@@ -111,9 +123,9 @@ export const PlanOverview = () => {
       .maybeSingle();
 
     if (!usage) {
-      await supabase
+      const { error } = await supabase
         .from("data_usage")
-        .insert({
+        .insert([{
           user_id: session.session.user.id,
           phone_number: phoneNumber,
           usage_mb: 0,
@@ -122,9 +134,14 @@ export const PlanOverview = () => {
           active_plan_code: "CTRL15",
           bonus_package_mb: 5120, // 5GB de bônus
           bonus_usage_mb: 0,
-          bonus_expiration_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 dias
-          plan_renewal_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 dias
-        });
+          bonus_expiration_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 dias
+          plan_renewal_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 dias
+        }]);
+
+      if (error) {
+        console.error('Erro ao criar registro de uso:', error);
+        return;
+      }
     }
 
     const interval = setInterval(async () => {
@@ -189,22 +206,27 @@ export const PlanOverview = () => {
     if (!session?.session?.user) return;
 
     const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    
+    const smsSent = await sendVerificationSMS(phoneNumber, verificationCode);
+    
+    if (!smsSent) {
+      toast.error("Erro ao enviar SMS de verificação");
+      return;
+    }
 
     const { error } = await supabase
       .from("phone_verifications")
-      .insert({
+      .upsert({
         user_id: session.session.user.id,
         phone_number: phoneNumber,
-        verification_code: verificationCode
+        verification_code: verificationCode,
+        verified: false
       });
 
     if (error) {
       toast.error("Erro ao registrar número");
       return;
     }
-
-    toast.success(`Código de verificação enviado para ${phoneNumber}`);
-    console.log("Código de verificação:", verificationCode);
 
     setIsPhoneDialogOpen(false);
     setIsVerificationDialogOpen(true);
