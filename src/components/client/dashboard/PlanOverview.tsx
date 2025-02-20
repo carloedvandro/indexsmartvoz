@@ -68,11 +68,16 @@ export const PlanOverview = () => {
   const sendVerificationSMS = async (phoneNumber: string, code: string) => {
     try {
       console.log(`Enviando SMS para ${phoneNumber} com o código: ${code}`);
-      toast.success(`Código de verificação enviado para ${phoneNumber}`);
+      
+      // Lógica real de envio de SMS aqui
+      // Por enquanto, vamos simular o envio do SMS com um delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      toast.success(`Código de verificação enviado para ${phoneNumber}. Use: ${code}`);
       return true;
     } catch (error) {
       console.error('Erro ao enviar SMS:', error);
-      toast.error('Erro ao enviar código de verificação');
+      toast.error('Erro ao enviar código de verificação. Tente novamente.');
       return false;
     }
   };
@@ -180,33 +185,44 @@ export const PlanOverview = () => {
     }
 
     const { data: session } = await supabase.auth.getSession();
-    if (!session?.session?.user) return;
+    if (!session?.session?.user) {
+      toast.error("Sessão não encontrada. Faça login novamente.");
+      return;
+    }
 
     const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    console.log("Código gerado:", verificationCode); // Para debug
     
     const smsSent = await sendVerificationSMS(phoneNumber, verificationCode);
     
     if (!smsSent) {
-      toast.error("Erro ao enviar SMS de verificação");
+      toast.error("Erro ao enviar SMS. Tente novamente.");
       return;
     }
 
-    const { error } = await supabase
-      .from("phone_verifications")
-      .upsert({
-        user_id: session.session.user.id,
-        phone_number: phoneNumber,
-        verification_code: verificationCode,
-        verified: false
-      });
+    try {
+      const { error } = await supabase
+        .from("phone_verifications")
+        .upsert({
+          user_id: session.session.user.id,
+          phone_number: phoneNumber,
+          verification_code: verificationCode,
+          verified: false
+        });
 
-    if (error) {
-      toast.error("Erro ao registrar número");
-      return;
+      if (error) {
+        console.error("Erro ao registrar verificação:", error);
+        toast.error("Erro ao registrar número. Tente novamente.");
+        return;
+      }
+
+      setIsPhoneDialogOpen(false);
+      setIsVerificationDialogOpen(true);
+      toast.info("Digite o código recebido por SMS para verificar seu número");
+    } catch (error) {
+      console.error("Erro ao processar verificação:", error);
+      toast.error("Erro ao processar verificação. Tente novamente.");
     }
-
-    setIsPhoneDialogOpen(false);
-    setIsVerificationDialogOpen(true);
   };
 
   const handleVerificationSubmit = async () => {
