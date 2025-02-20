@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, ChevronDown, ChevronRight, Phone } from "lucide-react";
@@ -5,7 +6,6 @@ import { formatCurrency } from "@/utils/format";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { UsageChart } from "./components/UsageChart";
 import { VerificationDialogs } from "./components/VerificationDialogs";
 import { useDataUsage } from "./hooks/useDataUsage";
@@ -37,8 +37,16 @@ export const PlanOverview = () => {
     }
   });
 
-  const session = await getSession();
-  const { dataUsage, refreshData } = useDataUsage(session?.user?.id, isVerified);
+  useEffect(() => {
+    const initSession = async () => {
+      const session = await getSession();
+      const { dataUsage: initialUsage, refreshData: initialRefresh } = useDataUsage(session?.user?.id, isVerified);
+      return { session, initialUsage, initialRefresh };
+    };
+    initSession();
+  }, [getSession, isVerified]);
+
+  const { dataUsage, refreshData } = useDataUsage(null, isVerified);
 
   useEffect(() => {
     loadPhoneVerification();
