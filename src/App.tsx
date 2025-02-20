@@ -24,72 +24,20 @@ function App() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/admin/login" element={<AdminLogin />} />
-        <Route
-          path="/admin/users"
-          element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-              <AdminUsers />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/network"
-          element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-              <AdminNetwork />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/plans"
-          element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-              <AdminPlans />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/phone-lines"
-          element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-              <AdminPhoneLines />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/admin" element={<ProtectedRoute />}>
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="network" element={<AdminNetwork />} />
+          <Route path="plans" element={<AdminPlans />} />
+          <Route path="phone-lines" element={<AdminPhoneLines />} />
+        </Route>
         <Route path="/client/login" element={<ClientLogin />} />
         <Route path="/client/register" element={<ClientRegister />} />
-        <Route
-          path="/client/dashboard"
-          element={
-            <ProtectedRoute allowedRoles={["client"]}>
-              <ClientDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/client/products"
-          element={
-            <ProtectedRoute allowedRoles={["client"]}>
-              <ClientProducts />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/client/network"
-          element={
-            <ProtectedRoute allowedRoles={["client"]}>
-              <ClientNetwork />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/client/store"
-          element={
-            <ProtectedRoute allowedRoles={["client"]}>
-              <ClientStore />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/client" element={<ProtectedRoute />}>
+          <Route path="dashboard" element={<ClientDashboard />} />
+          <Route path="products" element={<ClientProducts />} />
+          <Route path="network" element={<ClientNetwork />} />
+          <Route path="store" element={<ClientStore />} />
+        </Route>
         <Route path="/store/:storeUrl" element={<PublicStore />} />
       </Routes>
       <Toaster />
