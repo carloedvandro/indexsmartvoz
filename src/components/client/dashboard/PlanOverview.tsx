@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { RefreshCw, ChevronDown, ChevronRight, Phone } from "lucide-react";
+import { RefreshCw, ChevronDown, ChevronRight } from "lucide-react";
 import { formatCurrency } from "@/utils/format";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { UsageInfoDisplay } from "./components/UsageInfoDisplay";
-import { PhoneVerification } from "./components/PhoneVerification";
 import { DataUsageChart } from "./components/DataUsageChart";
 import { PhoneLineManager } from "./components/PhoneLineManager";
 import { useDataUsage } from "./hooks/useDataUsage";
@@ -54,10 +52,6 @@ export const PlanOverview = () => {
 
   const handleUpgradePlan = () => {
     navigate("/client/upgrade");
-  };
-
-  const handlePhoneVerificationSuccess = () => {
-    setIsPhoneVerified(true);
   };
 
   return (

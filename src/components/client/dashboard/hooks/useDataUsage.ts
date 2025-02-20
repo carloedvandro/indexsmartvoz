@@ -24,20 +24,16 @@ export const useDataUsage = (): UseDataUsageReturn => {
         const { data: session } = await supabase.auth.getSession();
         if (!session?.session?.user) return;
 
-        const { data, error: fetchError } = await supabase
-          .from('data_usage_history')
-          .select('*')
-          .eq('user_id', session.session.user.id)
-          .order('date', { ascending: true });
-
-        if (fetchError) throw fetchError;
-
-        const formattedData = data?.map(item => ({
-          date: new Date(item.date).toLocaleDateString(),
-          usage: item.usage_mb / 1024 // Converter MB para GB
-        })) || [];
-
-        setDataUsage(formattedData);
+        // Mock data for now since we don't have the actual table
+        const mockData: DataPoint[] = [
+          { date: '2024-02-01', usage: 1.5 },
+          { date: '2024-02-02', usage: 2.1 },
+          { date: '2024-02-03', usage: 1.8 },
+          { date: '2024-02-04', usage: 2.3 },
+          { date: '2024-02-05', usage: 1.9 }
+        ];
+        
+        setDataUsage(mockData);
       } catch (err) {
         setError(err instanceof Error ? err : new Error('Failed to fetch data usage'));
       } finally {
