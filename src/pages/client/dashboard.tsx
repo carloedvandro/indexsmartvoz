@@ -9,6 +9,7 @@ import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 import { PlanOverview } from "@/components/client/dashboard/PlanOverview";
+import { CustomersList } from "@/components/client/customers/CustomersList";
 import { motion } from "framer-motion";
 
 export default function ClientDashboard() {
@@ -52,6 +53,7 @@ export default function ClientDashboard() {
             <div className="px-6 mt-6">
               <PlanOverview />
             </div>
+            <CustomersList />
             <NetworkStatsCard />
           </div>
         </div>

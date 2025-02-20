@@ -84,6 +84,51 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_lines: {
+        Row: {
+          cpf: string | null
+          created_at: string
+          customer_name: string
+          data_limit: number | null
+          data_used: number | null
+          email: string | null
+          id: string
+          phone_number: string
+          plan_name: string | null
+          status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cpf?: string | null
+          created_at?: string
+          customer_name: string
+          data_limit?: number | null
+          data_used?: number | null
+          email?: string | null
+          id?: string
+          phone_number: string
+          plan_name?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cpf?: string | null
+          created_at?: string
+          customer_name?: string
+          data_limit?: number | null
+          data_used?: number | null
+          email?: string | null
+          id?: string
+          phone_number?: string
+          plan_name?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       data_usage: {
         Row: {
           active_plan_code: string | null
