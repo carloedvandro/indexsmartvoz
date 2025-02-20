@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { NetworkNode } from "./NetworkNode";
@@ -32,8 +33,8 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           schema: 'public',
           table: 'network'
         },
-        () => {
-          console.log('Network data changed, invalidating query');
+        (payload) => {
+          console.log('Network data changed:', payload);
           queryClient.invalidateQueries({ queryKey: ['networkData', userId] });
         }
       )
@@ -48,8 +49,8 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           schema: 'public',
           table: 'profiles'
         },
-        () => {
-          console.log('Profiles data changed, invalidating query');
+        (payload) => {
+          console.log('Profiles data changed:', payload);
           queryClient.invalidateQueries({ queryKey: ['networkData', userId] });
         }
       )
@@ -62,6 +63,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }, [userId, queryClient]);
 
   const toggleNode = (nodeId: string) => {
+    console.log('Toggling node:', nodeId);
     setExpandedNodes(prev => {
       const newSet = new Set(prev);
       if (newSet.has(nodeId)) {
@@ -95,11 +97,11 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
             />
           </div>
 
-          <div className="md:col-span-3 h-[calc(100vh-150px)] overflow-hidden flex flex-col-reverse">
+          <div className="md:col-span-3 h-[calc(100vh-150px)] overflow-hidden flex flex-col">
             <ScrollArea className="h-full pr-4">
               <div className="pb-8">
-                <AnimatePresence>
-                  {filteredData.length > 0 ? (
+                <AnimatePresence mode="wait">
+                  {filteredData && filteredData.length > 0 ? (
                     <div className="space-y-2">
                       {filteredData.map((member) => (
                         selectedLevel === "all" ? (
