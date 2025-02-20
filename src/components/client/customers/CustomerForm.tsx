@@ -14,6 +14,15 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
+import { useProfile } from '@/hooks/useProfile';
+
+interface CustomerFormData {
+  customer_name: string;
+  phone_number: string;
+  cpf?: string;
+  email?: string;
+  plan_name?: string;
+}
 
 interface CustomerFormProps {
   onSuccess?: () => void;
@@ -22,8 +31,9 @@ interface CustomerFormProps {
 export const CustomerForm = ({ onSuccess }: CustomerFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
+  const { data: profile } = useProfile();
   
-  const form = useForm({
+  const form = useForm<CustomerFormData>({
     defaultValues: {
       customer_name: '',
       phone_number: '',
@@ -33,12 +43,27 @@ export const CustomerForm = ({ onSuccess }: CustomerFormProps) => {
     },
   });
 
-  const onSubmit = async (values: Record<string, string>) => {
+  const onSubmit = async (values: CustomerFormData) => {
+    if (!profile?.id) {
+      toast({
+        title: 'Erro',
+        description: 'Usuário não autenticado',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     try {
       setIsLoading(true);
       const { error } = await supabase
         .from('customer_lines')
-        .insert([values]);
+        .insert([{
+          ...values,
+          user_id: profile.id,
+          status: 'active',
+          data_limit: 0,
+          data_used: 0,
+        }]);
 
       if (error) throw error;
 
