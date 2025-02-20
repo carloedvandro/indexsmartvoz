@@ -9,7 +9,6 @@ import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 import { motion } from "framer-motion";
-import { InternetUsageCard } from "@/components/client/dashboard/InternetUsageCard";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -48,9 +47,6 @@ export default function ClientDashboard() {
               <div className="w-full">
                 <PlansCard />
               </div>
-            </div>
-            <div className="px-6 mt-6">
-              <InternetUsageCard />
             </div>
             <NetworkStatsCard />
           </div>
