@@ -44,7 +44,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full"
     >
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+1rem)]">
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+3rem)]">
         <div className="flex items-start gap-4 w-full">
           <div className="flex items-start gap-2">
             {hasChildren && (
@@ -122,4 +122,3 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     </motion.div>
   );
 };
-
