@@ -93,10 +93,10 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
 
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-col -ml-2.5">
-                    <h3 className="text-base font-semibold text-black truncate">
+                    <h3 className="text-base font-semibold text-black truncate mb-1">
                       {member.user.full_name || "Usuário"}
                     </h3>
-                    <span className={`text-xs py-0.5 mt-0.5 w-fit ${
+                    <span className={`text-xs py-0.5 w-fit ${
                       isActive ? 'text-green-500' : 'text-red-500'
                     }`}>
                       {isActive ? 'Ativo' : 'Pendente'}
