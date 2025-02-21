@@ -89,7 +89,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
     <div className="relative min-h-[calc(100vh-68px)] flex flex-col">
       <ParticlesBackground />
       <div className="relative z-0 flex-1 flex flex-col">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 flex-1">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 flex-1">
           <div className="md:col-span-1">
             <NetworkFilter
               selectedLevel={selectedLevel}
@@ -97,9 +97,9 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
             />
           </div>
 
-          <div className="md:col-span-3 h-[calc(100vh-150px)] overflow-hidden flex flex-col">
-            <ScrollArea className="flex-1 w-full pr-4">
-              <div className="pb-8">
+          <div className="md:col-span-4 h-[calc(100vh-150px)] overflow-hidden flex flex-col">
+            <ScrollArea className="flex-1 w-full pr-8">
+              <div className="pb-8 pl-8">
                 <AnimatePresence mode="wait">
                   {filteredData && filteredData.length > 0 ? (
                     <div className="space-y-2">
