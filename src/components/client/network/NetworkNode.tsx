@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -37,13 +38,6 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const totalTeamSize = calculateTotalTeamSize(member);
   const StatusIcon = isActive ? UserCheck : UserX;
 
-  // Função para determinar o marginLeft com base na profundidade
-  const getMarginLeft = (depth: number) => {
-    if (depth === 1) return "-24px"; // João de Deus
-    if (depth === 2) return "-48px"; // Vania Lucia - ajustado para alinhar corretamente
-    return "0";
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -51,8 +45,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full"
       style={{ 
-        paddingLeft: `${depth * 24}px`,
-        marginLeft: getMarginLeft(depth)
+        paddingLeft: depth > 0 ? '24px' : '0px',
       }}
     >
       {depth > 0 && (
