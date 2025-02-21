@@ -50,7 +50,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative w-full"
+      className="relative w-[calc(100%+2rem)]"
       style={{ 
         paddingLeft: `${depth * 24}px`,
         marginLeft: getMarginLeft(depth)
