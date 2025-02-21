@@ -40,8 +40,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
 
   // Função para determinar o marginLeft com base na profundidade
   const getMarginLeft = (depth: number) => {
-    if (depth === 1) return "-24px"; // João de Deus - aumentado para -24px
-    if (depth === 2) return "-24px"; // Vania Lucia - aumentado para -24px
+    if (depth === 1) return "-32px"; // João de Deus - aumentado para -32px
+    if (depth === 2) return "-32px"; // Vania Lucia - aumentado para -32px
     return "0";
   };
 
