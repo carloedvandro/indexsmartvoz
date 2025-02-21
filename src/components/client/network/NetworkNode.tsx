@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -40,8 +39,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
 
   // Função para determinar o marginLeft com base na profundidade
   const getMarginLeft = (depth: number) => {
-    if (depth === 1) return "-24px"; // João de Deus - volta para -24px
-    if (depth === 2) return "-40px"; // Vania Lucia - aumentado para -40px
+    if (depth === 1) return "-24px"; // João de Deus
+    if (depth === 2) return "-48px"; // Vania Lucia - ajustado para alinhar corretamente
     return "0";
   };
 
@@ -50,7 +49,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative"
+      className="relative w-full"
       style={{ 
         paddingLeft: `${depth * 24}px`,
         marginLeft: getMarginLeft(depth)
@@ -64,7 +63,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           }}
         />
       )}
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+24px)]">
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-full">
         <div className="flex items-start gap-4 w-full -ml-2">
           <div className="flex items-start gap-4">
             {hasChildren && (
