@@ -21,7 +21,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   const profileImage = "https://images.unsplash.com/photo-1649972904349-6e44c42644a7";
 
   const formattedDate = member.user.registration_date 
-    ? format(parseISO(member.user.registration_date), "dd/MM/yyyy 'às' HH:mm'h'", { locale: ptBR })
+    ? format(parseISO(member.user.registration_date), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })
     : null;
 
   const calculateTotalTeamSize = (node: NetworkMember): number => {
@@ -44,7 +44,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full"
     >
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+5rem)]">
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+1rem)]">
         <div className="flex items-start gap-4 w-full">
           <div className="flex items-start gap-2">
             {hasChildren && (
@@ -79,40 +79,40 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex flex-col">
+                  <div className="flex items-center gap-2 mb-2">
                     <h3 className="text-base font-semibold text-black truncate">
                       {member.user.full_name || "Usuário"}
                     </h3>
-                    <span className={`text-xs py-0.5 w-fit ${
-                      isActive ? 'text-green-500' : 'text-red-500'
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${
+                      isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
                     }`}>
                       {isActive ? 'Ativo' : 'Pendente'}
                     </span>
                   </div>
+                </div>
+              </div>
 
-                  <div className="space-y-1 text-sm mt-6 -ml-8">
-                    <div className="flex items-center gap-1.5 text-black">
-                      <GraduationCap className="h-4 w-4" style={{ color: '#660099' }} />
-                      <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
-                    </div>
-                    
-                    {formattedDate && (
-                      <div className="flex items-center gap-1.5 text-black">
-                        <Calendar className="h-4 w-4" style={{ color: '#660099' }} />
-                        <span className="truncate">Solicitação: {formattedDate}</span>
-                      </div>
-                    )}
-                    
-                    <div className="flex items-center gap-1.5 text-black">
-                      <UserPlus2 className="h-4 w-4" style={{ color: '#660099' }} />
-                      <span>Diretos: {member.children?.length || 0}</span>
-                    </div>
-                    
-                    <div className="flex items-center gap-1.5 text-black">
-                      <Users2 className="h-4 w-4" style={{ color: '#660099' }} />
-                      <span>Equipe: {totalTeamSize}</span>
-                    </div>
+              <div className="space-y-1 text-sm mt-2">
+                <div className="flex items-center gap-2 text-black">
+                  <GraduationCap className="h-4 w-4" style={{ color: '#660099' }} />
+                  <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
+                </div>
+                
+                {formattedDate && (
+                  <div className="flex items-center gap-2 text-black">
+                    <Calendar className="h-4 w-4" style={{ color: '#660099' }} />
+                    <span className="truncate">Cadastro: {formattedDate}</span>
                   </div>
+                )}
+                
+                <div className="flex items-center gap-2 text-black">
+                  <UserPlus2 className="h-4 w-4" style={{ color: '#660099' }} />
+                  <span>Diretos: {member.children?.length || 0}</span>
+                </div>
+                
+                <div className="flex items-center gap-2 text-black">
+                  <Users2 className="h-4 w-4" style={{ color: '#660099' }} />
+                  <span>Equipe: {totalTeamSize}</span>
                 </div>
               </div>
             </div>
