@@ -43,7 +43,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative"
+      className="relative w-[calc(100%-2rem)]"
       style={{ 
         paddingLeft: depth > 0 ? '24px' : '0px',
       }}
