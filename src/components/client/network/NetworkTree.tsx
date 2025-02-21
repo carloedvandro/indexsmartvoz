@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { NetworkNode } from "./NetworkNode";
+import { FilteredNetworkNode } from "./FilteredNetworkNode";
 import { NetworkFilter } from "./NetworkFilter";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNetworkData } from "./useNetworkData";
@@ -9,6 +10,7 @@ import { useFilteredNetwork } from "./useFilteredNetwork";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { ParticlesBackground } from "../products/ParticlesBackground";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface NetworkTreeProps {
   userId: string;
@@ -19,6 +21,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set());
   const { networkData, loading } = useNetworkData(userId);
   const queryClient = useQueryClient();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const channel = supabase
@@ -30,8 +33,8 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           schema: 'public',
           table: 'network'
         },
-        () => {
-          console.log('Network data changed, invalidating query');
+        (payload) => {
+          console.log('Network data changed:', payload);
           queryClient.invalidateQueries({ queryKey: ['networkData', userId] });
         }
       )
@@ -46,8 +49,8 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           schema: 'public',
           table: 'profiles'
         },
-        () => {
-          console.log('Profiles data changed, invalidating query');
+        (payload) => {
+          console.log('Profiles data changed:', payload);
           queryClient.invalidateQueries({ queryKey: ['networkData', userId] });
         }
       )
@@ -60,6 +63,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }, [userId, queryClient]);
 
   const toggleNode = (nodeId: string) => {
+    console.log('Toggling node:', nodeId);
     setExpandedNodes(prev => {
       const newSet = new Set(prev);
       if (newSet.has(nodeId)) {
@@ -82,10 +86,10 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }
 
   return (
-    <div className="relative h-full overflow-hidden">
+    <div className="relative min-h-[calc(100vh-68px)] flex flex-col">
       <ParticlesBackground />
-      <div className="relative z-0 h-full">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-full">
+      <div className="relative z-0 flex-1 flex flex-col">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 flex-1">
           <div className="md:col-span-1">
             <NetworkFilter
               selectedLevel={selectedLevel}
@@ -93,19 +97,28 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
             />
           </div>
 
-          <div className="md:col-span-3 h-full">
-            <ScrollArea className="h-[calc(100vh-220px)] scrollbar-hide">
-              <div className="pr-4 w-full pb-8">
-                <AnimatePresence>
-                  {filteredData.length > 0 ? (
+          <div className="md:col-span-3 h-[calc(100vh-150px)] overflow-hidden flex flex-col">
+            <ScrollArea className="flex-1 w-full">
+              <div className="pb-8 pr-4">
+                <AnimatePresence mode="wait">
+                  {filteredData && filteredData.length > 0 ? (
                     <div className="space-y-2">
                       {filteredData.map((member) => (
-                        <NetworkNode
-                          key={member.id}
-                          member={member}
-                          onToggle={toggleNode}
-                          expandedNodes={expandedNodes}
-                        />
+                        selectedLevel === "all" ? (
+                          <NetworkNode
+                            key={member.id}
+                            member={member}
+                            onToggle={toggleNode}
+                            expandedNodes={expandedNodes}
+                          />
+                        ) : (
+                          <FilteredNetworkNode
+                            key={member.id}
+                            member={member}
+                            onToggle={toggleNode}
+                            expandedNodes={expandedNodes}
+                          />
+                        )
                       ))}
                     </div>
                   ) : (
@@ -123,4 +136,5 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       </div>
     </div>
   );
-}
+};
+
