@@ -140,3 +140,4 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
     </motion.div>
   );
 };
+
