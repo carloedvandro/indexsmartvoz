@@ -43,7 +43,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative w-full"
+      className="relative"
       style={{ 
         paddingLeft: depth > 0 ? '24px' : '0px',
       }}
@@ -56,8 +56,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           }}
         />
       )}
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-full">
-        <div className="flex items-start w-full">
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow">
+        <div className="flex items-start">
           {hasChildren && (
             <button
               onClick={() => onToggle(member.id)}
@@ -72,7 +72,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             </button>
           )}
           
-          <div className="flex items-start gap-4 flex-1">
+          <div className="flex items-start gap-4">
             <div className="relative">
               <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
                 <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
@@ -87,7 +87,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               />
             </div>
 
-            <div className="flex-1 min-w-0">
+            <div className="min-w-0">
               <h3 className="text-base font-semibold text-black truncate">
                 {member.user.full_name || "Usuário"}
               </h3>
