@@ -75,7 +75,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             )}
             <div className="w-full">
               <div className="flex items-start gap-4">
-                <div className="flex flex-col items-center -ml-3">
+                <div className="flex flex-col items-center -ml-4">
                   <div className="relative">
                     <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
                       <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
