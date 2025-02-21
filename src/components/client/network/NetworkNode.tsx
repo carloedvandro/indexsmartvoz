@@ -38,9 +38,10 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const totalTeamSize = calculateTotalTeamSize(member);
   const StatusIcon = isActive ? UserCheck : UserX;
 
+  // Função para determinar o marginLeft com base na profundidade
   const getMarginLeft = (depth: number) => {
-    if (depth === 1) return "-24px";
-    if (depth === 2) return "-48px";
+    if (depth === 1) return "-24px"; // João de Deus
+    if (depth === 2) return "-48px"; // Vania Lucia - ajustado para alinhar corretamente
     return "0";
   };
 

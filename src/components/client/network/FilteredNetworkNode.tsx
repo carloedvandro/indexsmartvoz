@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -42,15 +41,15 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative w-[calc(100%+16rem)] -ml-8"
+      className="relative w-full"
     >
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-full overflow-hidden rounded-lg">
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+1rem)]">
         <div className="flex items-start gap-4 w-full">
-          <div className="flex items-start gap-4 w-full">
+          <div className="flex items-start gap-2">
             {hasChildren && (
               <button
                 onClick={() => onToggle(member.id)}
-                className="p-1 hover:bg-gray-100 rounded-full -mt-1"
+                className="p-1 hover:bg-gray-100 rounded-full"
                 aria-label={isExpanded ? "Recolher" : "Expandir"}
               >
                 {isExpanded ? (
@@ -80,17 +79,17 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
 
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-col">
-                    <h3 className="text-base font-semibold text-black truncate mb-2">
+                    <h3 className="text-base font-semibold text-black truncate">
                       {member.user.full_name || "Usuário"}
                     </h3>
-                    <span className={`text-xs py-0.5 w-fit font-semibold ${
+                    <span className={`text-xs py-0.5 w-fit ${
                       isActive ? 'text-green-500' : 'text-red-500'
                     }`}>
                       {isActive ? 'Ativo' : 'Pendente'}
                     </span>
                   </div>
 
-                  <div className="space-y-1 text-sm mt-6">
+                  <div className="space-y-1 text-sm mt-6 -ml-8">
                     <div className="flex items-center gap-1.5 text-black">
                       <GraduationCap className="h-4 w-4" style={{ color: '#660099' }} />
                       <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
