@@ -42,7 +42,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative w-[calc(100%+2rem)]"
+      className="relative w-[calc(100%+4rem)]"
     >
       <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-full rounded-lg">
         <div className="flex items-start gap-4 w-full">
