@@ -46,7 +46,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       className="relative"
       style={{ 
         paddingLeft: `${depth * 24}px`,
-        marginLeft: "-8px" // Movendo 2mm para a esquerda
+        marginLeft: depth > 0 ? "-8px" : "0" // Aplica marginLeft apenas para cards filhos
       }}
     >
       {depth > 0 && (
