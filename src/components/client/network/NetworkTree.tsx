@@ -98,8 +98,8 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           </div>
 
           <div className="md:col-span-3 h-[calc(100vh-150px)] overflow-hidden flex flex-col">
-            <ScrollArea className="flex-1 w-full">
-              <div className="pb-8 pr-4">
+            <ScrollArea className="flex-1 w-full pr-4">
+              <div className="pb-8">
                 <AnimatePresence mode="wait">
                   {filteredData && filteredData.length > 0 ? (
                     <div className="space-y-2">
