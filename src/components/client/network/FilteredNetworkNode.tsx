@@ -45,8 +45,8 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       className="relative w-[calc(100%+2rem)]"
     >
       <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-full rounded-lg">
-        <div className="flex items-start gap-4 w-full -ml-2">
-          <div className="flex items-start gap-2">
+        <div className="flex items-start gap-4 w-full">
+          <div className="flex items-start gap-4">
             {hasChildren && (
               <button
                 onClick={() => onToggle(member.id)}
@@ -62,7 +62,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
             )}
             <div className="w-full">
               <div className="flex items-start gap-4">
-                <div className="flex flex-col items-center -ml-4">
+                <div className="flex flex-col items-center">
                   <div className="relative">
                     <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
                       <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
@@ -90,7 +90,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
                     </span>
                   </div>
 
-                  <div className="space-y-1 text-sm mt-6 -ml-8">
+                  <div className="space-y-1 text-sm mt-6">
                     <div className="flex items-center gap-1.5 text-black">
                       <GraduationCap className="h-4 w-4" style={{ color: '#660099' }} />
                       <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
