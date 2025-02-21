@@ -38,6 +38,13 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const totalTeamSize = calculateTotalTeamSize(member);
   const StatusIcon = isActive ? UserCheck : UserX;
 
+  // Função para determinar o marginLeft com base na profundidade
+  const getMarginLeft = (depth: number) => {
+    if (depth === 1) return "-16px"; // João de Deus
+    if (depth === 2) return "-16px"; // Vania Lucia
+    return "0";
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -46,7 +53,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       className="relative"
       style={{ 
         paddingLeft: `${depth * 24}px`,
-        marginLeft: depth === 1 ? "-16px" : "0" // Aumentei o deslocamento para -16px
+        marginLeft: getMarginLeft(depth)
       }}
     >
       {depth > 0 && (
