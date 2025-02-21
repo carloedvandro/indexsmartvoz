@@ -59,11 +59,11 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       )}
       <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+1rem)]">
         <div className="flex items-start gap-4 w-full -ml-2">
-          <div className="flex items-start gap-2">
+          <div className="flex items-start gap-4">
             {hasChildren && (
               <button
                 onClick={() => onToggle(member.id)}
-                className="p-1 hover:bg-gray-100 rounded-full"
+                className="p-1 hover:bg-gray-100 rounded-full -ml-2"
                 aria-label={isExpanded ? "Recolher" : "Expandir"}
               >
                 {isExpanded ? (
