@@ -42,15 +42,15 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative w-[calc(100%+4rem)]"
+      className="relative w-[calc(100%+8rem)] -ml-4"
     >
       <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-full rounded-lg">
         <div className="flex items-start gap-4 w-full">
-          <div className="flex items-start gap-4">
+          <div className="flex items-start gap-4 w-full">
             {hasChildren && (
               <button
                 onClick={() => onToggle(member.id)}
-                className="p-1 hover:bg-gray-100 rounded-full -ml-1.5 -mt-1"
+                className="p-1 hover:bg-gray-100 rounded-full -mt-1"
                 aria-label={isExpanded ? "Recolher" : "Expandir"}
               >
                 {isExpanded ? (
@@ -79,7 +79,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex flex-col -ml-2.5">
+                  <div className="flex flex-col">
                     <h3 className="text-base font-semibold text-black truncate mb-2">
                       {member.user.full_name || "Usuário"}
                     </h3>
