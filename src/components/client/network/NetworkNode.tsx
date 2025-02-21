@@ -57,7 +57,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           }}
         />
       )}
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+1rem)]">
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+1.25rem)]">
         <div className="flex items-start gap-4 w-full -ml-2">
           <div className="flex items-start gap-4">
             {hasChildren && (
