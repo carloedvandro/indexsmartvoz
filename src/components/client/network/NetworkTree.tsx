@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { NetworkNode } from "./NetworkNode";
@@ -33,8 +32,8 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           schema: 'public',
           table: 'network'
         },
-        (payload) => {
-          console.log('Network data changed:', payload);
+        () => {
+          console.log('Network data changed, invalidating query');
           queryClient.invalidateQueries({ queryKey: ['networkData', userId] });
         }
       )
@@ -49,8 +48,8 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           schema: 'public',
           table: 'profiles'
         },
-        (payload) => {
-          console.log('Profiles data changed:', payload);
+        () => {
+          console.log('Profiles data changed, invalidating query');
           queryClient.invalidateQueries({ queryKey: ['networkData', userId] });
         }
       )
@@ -63,7 +62,6 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }, [userId, queryClient]);
 
   const toggleNode = (nodeId: string) => {
-    console.log('Toggling node:', nodeId);
     setExpandedNodes(prev => {
       const newSet = new Set(prev);
       if (newSet.has(nodeId)) {
@@ -97,11 +95,11 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
             />
           </div>
 
-          <div className="md:col-span-3 h-[calc(100vh-150px)] overflow-hidden flex flex-col">
-            <ScrollArea className="flex-1 w-full">
+          <div className="md:col-span-3">
+            <ScrollArea className="h-[calc(100vh-150px)]">
               <div className="pb-8 pr-4">
-                <AnimatePresence mode="wait">
-                  {filteredData && filteredData.length > 0 ? (
+                <AnimatePresence>
+                  {filteredData.length > 0 ? (
                     <div className="space-y-2">
                       {filteredData.map((member) => (
                         selectedLevel === "all" ? (
@@ -137,4 +135,3 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
     </div>
   );
 };
-
