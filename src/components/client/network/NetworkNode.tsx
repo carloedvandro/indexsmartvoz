@@ -43,26 +43,26 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative w-full"
+      className="relative"
       style={{ 
-        paddingLeft: depth > 0 ? '24px' : '0px',
+        paddingLeft: `${depth * 24}px`,
       }}
     >
       {depth > 0 && (
         <div 
-          className="absolute left-0 top-1/2 w-6 h-px bg-gray-300"
+          className="absolute left-[8px] top-1/2 w-3 h-px bg-gray-300"
           style={{
             transform: "translateY(-50%)"
           }}
         />
       )}
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-full">
-        <div className="flex items-start gap-4 w-full">
-          <div className="flex items-start gap-4 w-full">
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+24px)]">
+        <div className="flex items-start gap-4 w-full -ml-2">
+          <div className="flex items-start gap-4">
             {hasChildren && (
               <button
                 onClick={() => onToggle(member.id)}
-                className="p-1 hover:bg-gray-100 rounded-full"
+                className="p-1 hover:bg-gray-100 rounded-full -ml-1.5 -mt-1"
                 aria-label={isExpanded ? "Recolher" : "Expandir"}
               >
                 {isExpanded ? (
@@ -74,7 +74,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             )}
             <div className="w-full">
               <div className="flex items-start gap-4">
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center -ml-4">
                   <div className="relative">
                     <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
                       <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
@@ -91,7 +91,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex flex-col">
+                  <div className="flex flex-col -ml-2.5">
                     <h3 className="text-base font-semibold text-black truncate mb-2">
                       {member.user.full_name || "Usuário"}
                     </h3>
@@ -102,7 +102,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                     </span>
                   </div>
 
-                  <div className="space-y-1 text-sm mt-6">
+                  <div className="space-y-1 text-sm mt-6 -ml-8">
                     <div className="flex items-center gap-1.5 text-black">
                       <GraduationCap className="h-4 w-4" style={{ color: '#660099' }} />
                       <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
