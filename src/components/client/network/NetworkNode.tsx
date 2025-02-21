@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -56,7 +57,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           }}
         />
       )}
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+2rem)]">
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-full">
         <div className="flex items-start gap-4 w-full -ml-2">
           <div className="flex items-start gap-4">
             {hasChildren && (
