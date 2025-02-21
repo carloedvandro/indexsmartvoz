@@ -84,6 +84,102 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_lines: {
+        Row: {
+          cpf: string | null
+          created_at: string
+          customer_name: string
+          data_limit: number | null
+          data_used: number | null
+          email: string | null
+          id: string
+          phone_number: string
+          plan_name: string | null
+          status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cpf?: string | null
+          created_at?: string
+          customer_name: string
+          data_limit?: number | null
+          data_used?: number | null
+          email?: string | null
+          id?: string
+          phone_number: string
+          plan_name?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cpf?: string | null
+          created_at?: string
+          customer_name?: string
+          data_limit?: number | null
+          data_used?: number | null
+          email?: string | null
+          id?: string
+          phone_number?: string
+          plan_name?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      data_usage: {
+        Row: {
+          active_plan_code: string | null
+          active_plan_name: string | null
+          bonus_expiration_date: string | null
+          bonus_package_mb: number | null
+          bonus_usage_mb: number | null
+          created_at: string
+          id: string
+          last_updated: string
+          notification_sent: boolean | null
+          phone_number: string
+          plan_renewal_date: string | null
+          total_package_mb: number
+          usage_mb: number
+          user_id: string | null
+        }
+        Insert: {
+          active_plan_code?: string | null
+          active_plan_name?: string | null
+          bonus_expiration_date?: string | null
+          bonus_package_mb?: number | null
+          bonus_usage_mb?: number | null
+          created_at?: string
+          id?: string
+          last_updated?: string
+          notification_sent?: boolean | null
+          phone_number: string
+          plan_renewal_date?: string | null
+          total_package_mb?: number
+          usage_mb?: number
+          user_id?: string | null
+        }
+        Update: {
+          active_plan_code?: string | null
+          active_plan_name?: string | null
+          bonus_expiration_date?: string | null
+          bonus_package_mb?: number | null
+          bonus_usage_mb?: number | null
+          created_at?: string
+          id?: string
+          last_updated?: string
+          notification_sent?: boolean | null
+          phone_number?: string
+          plan_renewal_date?: string | null
+          total_package_mb?: number
+          usage_mb?: number
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       device_eid_patterns: {
         Row: {
           brand: string
@@ -592,6 +688,99 @@ export type Database = {
         }
         Relationships: []
       }
+      phone_lines: {
+        Row: {
+          bonus_data: number | null
+          bonus_expiration: string | null
+          bonus_used: number | null
+          client_document: string | null
+          client_email: string | null
+          client_name: string
+          created_at: string
+          data_limit: number
+          data_used: number
+          id: string
+          notes: string | null
+          owner_id: string
+          phone_number: string
+          plan_code: string
+          plan_name: string
+          plan_renewal_date: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          bonus_data?: number | null
+          bonus_expiration?: string | null
+          bonus_used?: number | null
+          client_document?: string | null
+          client_email?: string | null
+          client_name: string
+          created_at?: string
+          data_limit?: number
+          data_used?: number
+          id?: string
+          notes?: string | null
+          owner_id: string
+          phone_number: string
+          plan_code: string
+          plan_name: string
+          plan_renewal_date?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          bonus_data?: number | null
+          bonus_expiration?: string | null
+          bonus_used?: number | null
+          client_document?: string | null
+          client_email?: string | null
+          client_name?: string
+          created_at?: string
+          data_limit?: number
+          data_used?: number
+          id?: string
+          notes?: string | null
+          owner_id?: string
+          phone_number?: string
+          plan_code?: string
+          plan_name?: string
+          plan_renewal_date?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      phone_verifications: {
+        Row: {
+          created_at: string
+          id: string
+          phone_number: string
+          updated_at: string
+          user_id: string | null
+          verification_code: string | null
+          verified: boolean | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          phone_number: string
+          updated_at?: string
+          user_id?: string | null
+          verification_code?: string | null
+          verified?: boolean | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          phone_number?: string
+          updated_at?: string
+          user_id?: string | null
+          verification_code?: string | null
+          verified?: boolean | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           address: string | null
@@ -829,6 +1018,41 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      usage_history: {
+        Row: {
+          bonus_used: number | null
+          created_at: string
+          data_used: number
+          id: string
+          phone_line_id: string | null
+          recorded_at: string
+        }
+        Insert: {
+          bonus_used?: number | null
+          created_at?: string
+          data_used: number
+          id?: string
+          phone_line_id?: string | null
+          recorded_at?: string
+        }
+        Update: {
+          bonus_used?: number | null
+          created_at?: string
+          data_used?: number
+          id?: string
+          phone_line_id?: string | null
+          recorded_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "usage_history_phone_line_id_fkey"
+            columns: ["phone_line_id"]
+            isOneToOne: false
+            referencedRelation: "phone_lines"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_verifications: {
         Row: {
