@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { NetworkNode } from "./NetworkNode";
@@ -98,38 +97,36 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           </div>
 
           <div className="md:col-span-3 h-[calc(100vh-150px)] overflow-hidden flex flex-col">
-            <ScrollArea className="flex-1 w-full pr-4">
-              <div className="pb-8">
-                <AnimatePresence mode="wait">
-                  {filteredData && filteredData.length > 0 ? (
-                    <div className="space-y-2">
-                      {filteredData.map((member) => (
-                        selectedLevel === "all" ? (
-                          <NetworkNode
-                            key={member.id}
-                            member={member}
-                            onToggle={toggleNode}
-                            expandedNodes={expandedNodes}
-                          />
-                        ) : (
-                          <FilteredNetworkNode
-                            key={member.id}
-                            member={member}
-                            onToggle={toggleNode}
-                            expandedNodes={expandedNodes}
-                          />
-                        )
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center py-8">
-                      <p className="text-gray-500 text-sm">
-                        Nenhum membro encontrado em sua rede.
-                      </p>
-                    </div>
-                  )}
-                </AnimatePresence>
-              </div>
+            <ScrollArea className="flex-1 w-full">
+              <AnimatePresence mode="wait">
+                {filteredData && filteredData.length > 0 ? (
+                  <div className="space-y-2">
+                    {filteredData.map((member) => (
+                      selectedLevel === "all" ? (
+                        <NetworkNode
+                          key={member.id}
+                          member={member}
+                          onToggle={toggleNode}
+                          expandedNodes={expandedNodes}
+                        />
+                      ) : (
+                        <FilteredNetworkNode
+                          key={member.id}
+                          member={member}
+                          onToggle={toggleNode}
+                          expandedNodes={expandedNodes}
+                        />
+                      )
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-gray-500 text-sm">
+                      Nenhum membro encontrado em sua rede.
+                    </p>
+                  </div>
+                )}
+              </AnimatePresence>
             </ScrollArea>
           </div>
         </div>
