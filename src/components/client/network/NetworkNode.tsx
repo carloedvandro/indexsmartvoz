@@ -46,7 +46,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       className="relative"
       style={{ 
         paddingLeft: `${depth * 24}px`,
-        marginLeft: depth === 1 ? "-12px" : "0" // Aplica marginLeft apenas para o primeiro nível de profundidade (João de Deus)
+        marginLeft: depth === 1 ? "-16px" : "0" // Aumentei o deslocamento para -16px
       }}
     >
       {depth > 0 && (
