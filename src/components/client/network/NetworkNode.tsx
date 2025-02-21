@@ -22,7 +22,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const profileImage = "https://images.unsplash.com/photo-1649972904349-6e44c42644a7";
 
   const formattedDate = member.user.registration_date 
-    ? format(parseISO(member.user.registration_date), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })
+    ? format(parseISO(member.user.registration_date), "dd/MM/yyyy 'às' HH:mm'h'", { locale: ptBR })
     : null;
 
   const calculateTotalTeamSize = (node: NetworkMember): number => {
@@ -43,89 +43,81 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative w-full"
+      className="relative w-[calc(100%-2rem)]"
       style={{ 
-        marginLeft: `${depth * 12}px`,
-        width: `calc(100% - ${depth * 12}px)`
+        paddingLeft: depth > 0 ? '24px' : '0px',
       }}
     >
       {depth > 0 && (
         <div 
-          className="absolute left-[-12px] top-1/2 w-3 h-px bg-gray-300"
+          className="absolute left-[8px] top-1/2 w-3 h-px bg-gray-300"
           style={{
             transform: "translateY(-50%)"
           }}
         />
       )}
-      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow w-[calc(100%+1rem)]">
-        <div className="flex items-start gap-4 w-full -ml-2">
-          <div className="flex items-start gap-2">
-            {hasChildren && (
-              <button
-                onClick={() => onToggle(member.id)}
-                className="p-1 hover:bg-gray-100 rounded-full"
-                aria-label={isExpanded ? "Recolher" : "Expandir"}
-              >
-                {isExpanded ? (
-                  <ChevronDown className="h-4 w-4 text-gray-500" />
-                ) : (
-                  <ChevronRight className="h-4 w-4 text-gray-500" />
-                )}
-              </button>
-            )}
-            <div className="w-full">
-              <div className="flex items-start gap-4 -ml-1">
-                <div className="flex flex-col items-center">
-                  <div className="relative">
-                    <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
-                      <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
-                      <AvatarFallback>
-                        <Users className="h-6 w-6" />
-                      </AvatarFallback>
-                    </Avatar>
-                    <StatusIcon 
-                      className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-white p-0.5 ${
-                        isActive ? 'text-green-500' : 'text-red-500'
-                      }`}
-                    />
-                  </div>
+      <Card className="p-4 bg-white shadow-sm hover:shadow-md transition-shadow">
+        <div className="flex items-start">
+          {hasChildren && (
+            <button
+              onClick={() => onToggle(member.id)}
+              className="p-1 hover:bg-gray-100 rounded-full mt-2 mr-2"
+              aria-label={isExpanded ? "Recolher" : "Expandir"}
+            >
+              {isExpanded ? (
+                <ChevronDown className="h-4 w-4 text-gray-500" />
+              ) : (
+                <ChevronRight className="h-4 w-4 text-gray-500" />
+              )}
+            </button>
+          )}
+          
+          <div className="flex items-start gap-4">
+            <div className="relative">
+              <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
+                <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
+                <AvatarFallback>
+                  <Users className="h-6 w-6" />
+                </AvatarFallback>
+              </Avatar>
+              <StatusIcon 
+                className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-white p-0.5 ${
+                  isActive ? 'text-green-500' : 'text-red-500'
+                }`}
+              />
+            </div>
+
+            <div className="min-w-0">
+              <h3 className="text-base font-semibold text-black truncate">
+                {member.user.full_name || "Usuário"}
+              </h3>
+              <span className={`text-xs py-0.5 w-fit font-semibold ${
+                isActive ? 'text-green-500' : 'text-red-500'
+              }`}>
+                {isActive ? 'Ativo' : 'Pendente'}
+              </span>
+
+              <div className="space-y-2 text-sm mt-4">
+                <div className="flex items-center gap-2 text-black">
+                  <GraduationCap className="h-4 w-4" style={{ color: '#660099' }} />
+                  <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
                 </div>
-
-                <div className="flex-1 min-w-0">
-                  <div className="flex flex-col gap-1">
-                    <h3 className="text-base font-semibold text-black truncate">
-                      {member.user.full_name || "Usuário"}
-                    </h3>
-                    <span className={`text-xs px-2 py-0.5 rounded-full w-fit ${
-                      isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                    }`}>
-                      {isActive ? 'Ativo' : 'Pendente'}
-                    </span>
+                
+                {formattedDate && (
+                  <div className="flex items-center gap-2 text-black">
+                    <Calendar className="h-4 w-4" style={{ color: '#660099' }} />
+                    <span className="truncate">Solicitação: {formattedDate}</span>
                   </div>
-
-                  <div className="space-y-1 text-sm mt-2 -ml-1">
-                    <div className="flex items-center gap-2 text-black">
-                      <GraduationCap className="h-4 w-4" style={{ color: '#660099' }} />
-                      <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
-                    </div>
-                    
-                    {formattedDate && (
-                      <div className="flex items-center gap-2 text-black">
-                        <Calendar className="h-4 w-4" style={{ color: '#660099' }} />
-                        <span className="truncate">Cadastro: {formattedDate}</span>
-                      </div>
-                    )}
-                    
-                    <div className="flex items-center gap-2 text-black">
-                      <UserPlus2 className="h-4 w-4" style={{ color: '#660099' }} />
-                      <span>Diretos: {member.children?.length || 0}</span>
-                    </div>
-                    
-                    <div className="flex items-center gap-2 text-black">
-                      <Users2 className="h-4 w-4" style={{ color: '#660099' }} />
-                      <span>Equipe: {totalTeamSize}</span>
-                    </div>
-                  </div>
+                )}
+                
+                <div className="flex items-center gap-2 text-black">
+                  <UserPlus2 className="h-4 w-4" style={{ color: '#660099' }} />
+                  <span>Diretos: {member.children?.length || 0}</span>
+                </div>
+                
+                <div className="flex items-center gap-2 text-black">
+                  <Users2 className="h-4 w-4" style={{ color: '#660099' }} />
+                  <span>Equipe: {totalTeamSize}</span>
                 </div>
               </div>
             </div>
