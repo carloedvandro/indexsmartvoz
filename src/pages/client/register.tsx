@@ -1,6 +1,7 @@
 
 import { RegisterFormContainer } from "@/components/client/register/RegisterFormContainer";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function ClientRegister() {
   return (
@@ -14,6 +15,7 @@ export default function ClientRegister() {
           <RegisterFormContainer />
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }
