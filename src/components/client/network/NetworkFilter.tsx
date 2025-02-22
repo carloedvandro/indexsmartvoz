@@ -21,7 +21,7 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
         <Button
           key={level.value}
           variant="outline"
-          className={`w-full justify-between text-left px-4 py-3 rounded-lg transition-all ${
+          className={`w-full justify-between text-left px-4 py-3 rounded-lg transition-all hover:bg-transparent ${
             level.value === 'all' 
               ? selectedLevel === level.value 
                 ? "bg-[#8425af] hover:bg-[#6c1e8f] text-white"
