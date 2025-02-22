@@ -16,15 +16,19 @@ const NETWORK_LEVELS = [
 
 export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterProps) => {
   return (
-    <div className="sticky top-20 z-10">
+    <div className="sticky top-20 z-10 space-y-2">
       {NETWORK_LEVELS.map((level) => (
         <Button
           key={level.value}
           variant={selectedLevel === level.value ? "default" : "outline"}
-          className={`w-full justify-between text-left px-4 mb-2 rounded-lg overflow-hidden ${
-            selectedLevel === level.value 
-              ? "bg-[#5f0889] hover:bg-[#4a0668]" 
-              : "hover:bg-[#5f0889] hover:text-white"
+          className={`w-full justify-between text-left px-4 py-3 rounded-lg transition-all ${
+            level.value === 'all' 
+              ? selectedLevel === level.value 
+                ? "bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+                : "border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
+              : selectedLevel === level.value 
+                ? "border border-[#8425af] bg-[#8425af]/5 text-[#8425af]"
+                : "border border-gray-200 hover:border-[#8425af] hover:bg-[#8425af]/5 hover:text-[#8425af]"
           }`}
           onClick={() => onLevelChange(level.value)}
         >
