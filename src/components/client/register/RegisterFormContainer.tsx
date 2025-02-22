@@ -19,7 +19,7 @@ export const RegisterFormContainer = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormFields form={form} />
-        <RainbowButton type="submit" className="w-full">
+        <RainbowButton type="submit" className="w-full !bg-[#5f0889] hover:!bg-[#4a0668]">
           Cadastrar
         </RainbowButton>
       </form>
