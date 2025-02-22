@@ -45,7 +45,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       className={`relative w-full ${depth > 0 ? 'mt-10' : ''}`}
       style={{ 
         marginLeft: depth === 0 ? '-3px' : '5px',
-        width: `calc(100% - ${depth === 0 ? -3 : 5}px)`
+        width: `calc(100% - ${depth === 0 ? -3 : 5}px)`,
+        marginTop: '3mm'
       }}
     >
       <div className="flex items-start gap-2 w-full">
@@ -90,7 +91,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               </span>
             </div>
 
-            <div className="space-y-1 text-sm mt-2" style={{ marginTop: '6mm' }}>
+            <div className="space-y-1 text-sm mt-2">
               <div className="flex items-center gap-2 text-black">
                 <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
                 <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>

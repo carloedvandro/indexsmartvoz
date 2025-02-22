@@ -15,15 +15,19 @@ const NETWORK_LEVELS = [
 ] as const;
 
 export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterProps) => {
-  return NETWORK_LEVELS.map((level) => (
-    <Button
-      key={level.value}
-      variant={selectedLevel === level.value ? "default" : "outline"}
-      className="w-full justify-between text-left px-4 mb-2 rounded-lg overflow-hidden"
-      onClick={() => onLevelChange(level.value)}
-    >
-      <span>{level.label}</span>
-      <span className="opacity-0">→</span>
-    </Button>
-  ));
+  return (
+    <div className="sticky top-0 z-10">
+      {NETWORK_LEVELS.map((level) => (
+        <Button
+          key={level.value}
+          variant={selectedLevel === level.value ? "default" : "outline"}
+          className="w-full justify-between text-left px-4 mb-2 rounded-lg overflow-hidden"
+          onClick={() => onLevelChange(level.value)}
+        >
+          <span>{level.label}</span>
+          <span className="opacity-0">→</span>
+        </Button>
+      ))}
+    </div>
+  );
 }
