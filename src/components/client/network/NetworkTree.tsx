@@ -89,8 +89,8 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       <ParticlesBackground />
       <div className="relative z-0">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="md:col-span-1 relative">
-            <div className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm">
+          <div className="md:col-span-1">
+            <div className="sticky top-0 z-50">
               <NetworkFilter
                 selectedLevel={selectedLevel}
                 onLevelChange={setSelectedLevel}
