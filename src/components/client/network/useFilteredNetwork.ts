@@ -1,31 +1,42 @@
+
 import { NetworkMember } from "./types";
 
 export const useFilteredNetwork = (data: NetworkMember[], selectedLevel: string) => {
   if (!data) return [];
-  if (selectedLevel === "all") return data;
+  
+  // Se for "all", retorna a estrutura completa sem filtragem
+  if (selectedLevel === "all") {
+    console.log("Retornando todos os níveis:", data);
+    return data;
+  }
   
   const level = parseInt(selectedLevel);
   
-  const filterByLevel = (members: NetworkMember[]): NetworkMember[] => {
+  const filterByLevel = (members: NetworkMember[], currentLevel: number = 1): NetworkMember[] => {
+    if (!members || members.length === 0) return [];
+    
+    if (currentLevel === level) {
+      return members.map(member => ({
+        ...member,
+        children: [] // Remove os filhos quando encontra o nível desejado
+      }));
+    }
+    
     return members.reduce<NetworkMember[]>((acc, member) => {
-      if (member.level === level) {
-        // Se encontrou um membro do nível desejado, adiciona ele sem filhos
+      const filteredChildren = filterByLevel(member.children || [], currentLevel + 1);
+      
+      if (filteredChildren.length > 0) {
         acc.push({
           ...member,
-          children: [] // Remove os filhos quando encontra o nível desejado
+          children: filteredChildren
         });
-      } else if (member.children && member.children.length > 0) {
-        // Se tem filhos, procura nos filhos
-        const filteredChildren = filterByLevel(member.children);
-        if (filteredChildren.length > 0) {
-          // Se encontrou filhos no nível desejado, adiciona apenas os filhos filtrados
-          acc.push(...filteredChildren);
-        }
       }
       
       return acc;
     }, []);
   };
 
-  return filterByLevel(data);
+  const filteredData = filterByLevel(data);
+  console.log("Dados filtrados:", filteredData);
+  return filteredData;
 };
