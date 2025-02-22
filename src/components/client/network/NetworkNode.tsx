@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { RotateCw, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -48,7 +47,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
         width: `calc(100% - ${depth === 0 ? -3 : 5}px)`
       }}
     >
-      <div className="flex items-start gap-2 w-full">
+      <div className="flex items-start gap-2 w-full" style={{ marginTop: '2mm' }}>
         {hasChildren && (
           <button
             onClick={() => onToggle(member.id)}
@@ -63,7 +62,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           </button>
         )}
         
-        <div className="flex items-start gap-3 flex-1" style={{ marginLeft: '-4mm', marginTop: '2mm' }}>
+        <div className="flex items-start gap-3 flex-1" style={{ marginLeft: '-4mm' }}>
           <div className="relative">
             <Avatar className={`h-14 w-14 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
               <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
