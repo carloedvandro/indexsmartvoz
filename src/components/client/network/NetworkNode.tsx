@@ -79,18 +79,18 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           </div>
 
           <div className="flex-1 min-w-0">
-            <div className="flex flex-col gap-1">
+            <div className="flex items-start gap-1">
               <h3 className="text-base font-semibold text-black truncate">
                 {member.user.full_name || "Usuário"}
               </h3>
-              <span className={`text-xs font-semibold ${
+              <span className={`text-xs px-2 py-0.5 rounded-full mt-2 ${
                 isActive ? 'text-green-600' : 'text-red-600'
               }`}>
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
             </div>
 
-            <div className="space-y-1 text-sm mt-2" style={{ marginTop: '6mm' }}>
+            <div className="space-y-1 text-sm" style={{ marginTop: '6mm' }}>
               <div className="flex items-center gap-2 text-black">
                 <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
                 <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
