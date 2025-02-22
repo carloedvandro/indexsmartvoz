@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { NetworkNode } from "./NetworkNode";
@@ -97,7 +98,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
 
           <div className="md:col-span-3">
             <ScrollArea className="h-[calc(100vh-150px)]">
-              <div className="pb-8 pr-4">
+              <div className="pr-4">
                 <AnimatePresence>
                   {filteredData.length > 0 ? (
                     <div className="space-y-2">
@@ -134,4 +135,4 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       </div>
     </div>
   );
-};
+}
