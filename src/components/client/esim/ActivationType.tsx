@@ -1,6 +1,5 @@
 
 import { Button } from "@/components/ui/button";
-import { Info } from "lucide-react";
 
 type ActivationTypeProps = {
   onSelect: (type: 'self' | 'collaborator') => void;
@@ -9,54 +8,42 @@ type ActivationTypeProps = {
 
 export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
   return (
-    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto">
-      <h2 className="text-2xl font-semibold text-center">
-        Quem irá ativar a linha no eSIM?
-      </h2>
-      <p className="text-black text-center mt-2">
-        É preciso ter o celular com o eSIM em mãos pra ativar
-      </p>
-
-      <div className="space-y-4 mt-6">
-        <div 
-          className="p-4 rounded-lg border border-[#8425af] hover:border-[#8425af] cursor-pointer transition-all"
-          onClick={() => onSelect('self')}
-        >
-          <div className="flex items-start gap-3">
-            <input
-              type="radio"
-              name="type"
-              id="self"
-              className="mt-1 accent-[#8425af]"
-              checked
-              readOnly
-            />
-            <div>
-              <label htmlFor="self" className="text-lg font-medium">
-                Eu Mesmo (Gestor)
-              </label>
-              <p className="text-black text-sm mt-1">
-                Você informa os números de IMEI e EID do celular e solicita ativação e aguardar o prazo da habilitação do eSIM
-              </p>
-            </div>
-          </div>
-        </div>
+    <div className="w-full max-w-[85%] md:max-w-[420px] mx-auto space-y-6">
+      <div className="text-center space-y-2">
+        <h2 className="text-2xl font-semibold">Para quem será ativado o eSIM?</h2>
       </div>
 
-      <div className="flex justify-between mt-8">
+      <div className="space-y-4">
+        <button
+          onClick={() => onSelect('self')}
+          className="w-full p-4 rounded-lg border border-gray-200 hover:border-[#8425af] hover:bg-[#8425af]/5 transition-all"
+        >
+          <div className="text-left">
+            <h3 className="text-lg font-medium">Para mim mesmo</h3>
+            <p className="text-sm text-gray-500">Ativar o eSIM no meu celular</p>
+          </div>
+        </button>
+
+        <button
+          onClick={() => onSelect('collaborator')}
+          className="w-full p-4 rounded-lg border border-gray-200 hover:border-[#8425af] hover:bg-[#8425af]/5 transition-all"
+        >
+          <div className="text-left">
+            <h3 className="text-lg font-medium">Para um colaborador</h3>
+            <p className="text-sm text-gray-500">Ativar o eSIM no celular de outra pessoa</p>
+          </div>
+        </button>
+      </div>
+
+      <div className="flex justify-between items-center mt-8">
         <Button 
           variant="outline"
-          className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg px-8 py-3"
+          className="w-[120px] border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg py-3"
           onClick={onBack}
         >
           Voltar
         </Button>
-        <Button 
-          onClick={() => onSelect('self')}
-          className="bg-[#5f0889] hover:bg-[#4a0668] text-white rounded-lg px-8 py-3"
-        >
-          Continuar
-        </Button>
+        <div className="w-[120px]" /> {/* Spacer to maintain layout */}
       </div>
     </div>
   );
