@@ -52,7 +52,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
         {hasChildren && (
           <button
             onClick={() => onToggle(member.id)}
-            className="p-1 hover:bg-gray-100 rounded-full flex-shrink-0 mt-3"
+            className="p-1 hover:text-primary rounded-full flex-shrink-0 mt-3"
             aria-label={isExpanded ? "Recolher" : "Expandir"}
           >
             {isExpanded ? (
