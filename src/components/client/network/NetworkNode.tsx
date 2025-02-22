@@ -45,11 +45,10 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       className={`relative w-full ${depth > 0 ? 'mt-10' : ''}`}
       style={{ 
         marginLeft: depth === 0 ? '-3px' : '5px',
-        width: `calc(100% - ${depth === 0 ? -3 : 5}px)`,
-        marginTop: '4mm'
+        width: `calc(100% - ${depth === 0 ? -3 : 5}px)`
       }}
     >
-      <div className="flex items-start gap-2 w-full">
+      <div className="flex items-start gap-2 w-full" style={{ marginTop: '2mm' }}>
         {hasChildren && (
           <button
             onClick={() => onToggle(member.id)}
