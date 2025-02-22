@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { RotateCw, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
+import { RotateCw, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX, Signal } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { NetworkMember } from "./types";
 import { format, parseISO } from "date-fns";
@@ -76,6 +76,10 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                 isActive ? 'text-green-500' : 'text-red-500'
               }`}
             />
+            <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 flex items-center flex-col">
+              <Signal className="h-4 w-4" style={{ color: '#660099' }} />
+              <span className="text-xs font-medium" style={{ color: '#660099' }}>Nvl. 1</span>
+            </div>
           </div>
 
           <div className="flex-1 min-w-0">
