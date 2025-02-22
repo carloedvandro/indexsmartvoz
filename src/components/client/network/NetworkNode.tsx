@@ -71,10 +71,15 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const StatusIcon = isActive ? UserCheck : UserX;
   const currentLevel = depth + 1;
 
-  // Aplica o alinhamento à direita apenas para níveis específicos
-  const isSecondLevel = depth === 1;
-  const marginAdjustment = isSecondLevel ? 'auto' : (depth === 0 ? '-3px' : '5px');
-  const widthAdjustment = isSecondLevel ? '98%' : `calc(100% - ${depth === 0 ? -3 : 5}px)`;
+  // Identificar se é o nó da Vania Lucia (usando o ID do usuário 'vania')
+  const isVaniaNode = member.user.custom_id === 'vania';
+  
+  // Ajustar o alinhamento especificamente para o nó da Vania
+  const style = {
+    marginLeft: isVaniaNode ? 'auto' : (depth === 0 ? '-3px' : '5px'),
+    width: isVaniaNode ? '98%' : `calc(100% - ${depth === 0 ? -3 : 5}px)`,
+    marginRight: isVaniaNode ? '0' : 'auto'
+  };
 
   return (
     <motion.div
@@ -82,10 +87,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       className={`relative w-full ${depth > 0 ? 'mt-10' : ''}`}
-      style={{ 
-        marginLeft: marginAdjustment,
-        width: widthAdjustment
-      }}
+      style={style}
     >
       <div className="flex items-start gap-2 w-full">
         {hasChildren && (
