@@ -28,8 +28,10 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
 
       <div className="space-y-4 mt-4">
         <div 
-          className={`p-4 rounded-lg border hover:border-[#8425af] cursor-pointer transition-all ${
-            selectedDevice === 'android' ? 'border-[#8425af]' : 'border-gray-200'
+          className={`p-4 rounded-lg border cursor-pointer transition-all ${
+            selectedDevice === 'android' 
+              ? 'border-[#8425af] bg-[#8425af]/5' 
+              : 'border-gray-200 hover:border-[#8425af] hover:bg-[#8425af]/5'
           }`}
           onClick={() => setSelectedDevice('android')}
         >
@@ -49,8 +51,10 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
         </div>
 
         <div 
-          className={`p-4 rounded-lg border hover:border-[#8425af] cursor-pointer transition-all ${
-            selectedDevice === 'ios' ? 'border-[#8425af]' : 'border-gray-200'
+          className={`p-4 rounded-lg border cursor-pointer transition-all ${
+            selectedDevice === 'ios' 
+              ? 'border-[#8425af] bg-[#8425af]/5' 
+              : 'border-gray-200 hover:border-[#8425af] hover:bg-[#8425af]/5'
           }`}
           onClick={() => setSelectedDevice('ios')}
         >
@@ -73,14 +77,14 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
       <div className="flex justify-between items-center mt-8">
         <Button 
           variant="outline"
-          className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg px-8 py-3"
+          className="w-[120px] border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg py-3"
           onClick={onBack}
         >
           Voltar
         </Button>
         <Button 
           onClick={() => onSelect(selectedDevice)}
-          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg px-8 py-3"
+          className="w-[120px] bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3"
         >
           Continuar
         </Button>
