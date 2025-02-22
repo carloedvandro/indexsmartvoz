@@ -75,10 +75,10 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const isVaniaTree = member.user.custom_id === 'vania' || 
                      (member.parent_id && member.user.custom_id?.startsWith('vania-'));
   
+  // Ajuste para alinhar com a Maria
   const style = {
-    marginLeft: member.user.custom_id === 'vania' ? '15%' : (depth === 0 ? '-3px' : '5px'),
-    width: member.user.custom_id === 'vania' ? '85%' : `calc(100% - ${depth === 0 ? -3 : 5}px)`,
-    marginRight: member.user.custom_id === 'vania' ? '0' : 'auto'
+    marginLeft: member.user.custom_id === 'vania' ? '28px' : (depth === 0 ? '-3px' : '5px'),
+    width: `calc(100% - ${depth === 0 ? -3 : 5}px)`,
   };
 
   return (
@@ -164,7 +164,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
         </div>
       </div>
       {hasChildren && isExpanded && (
-        <div className={`mt-2 space-y-2 mb-2 ${isVaniaTree ? 'ml-[15%]' : ''}`}>
+        <div className={`mt-2 space-y-2 mb-2 ${isVaniaTree ? 'ml-[28px]' : ''}`}>
           {member.children.map((child) => (
             <NetworkNode
               key={child.id}
