@@ -85,12 +85,12 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }
 
   return (
-    <div className="relative min-h-[calc(100vh-68px)]">
+    <div className="fixed inset-0 pt-[68px]">
       <ParticlesBackground />
-      <div className="relative">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="md:col-span-1">
-            <div className="sticky top-0 z-[999] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/95">
+      <div className="relative h-full">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-full">
+          <div className="md:col-span-1 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/95">
+            <div className="p-4">
               <NetworkFilter
                 selectedLevel={selectedLevel}
                 onLevelChange={setSelectedLevel}
@@ -99,11 +99,11 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           </div>
 
           <div className="md:col-span-3">
-            <div className="relative z-0">
-              <ScrollArea className="h-[calc(100vh-150px)]">
+            <div className="relative z-0 h-full">
+              <ScrollArea className="h-full">
                 <AnimatePresence>
                   {filteredData.length > 0 ? (
-                    <div className="space-y-2">
+                    <div className="space-y-2 p-4">
                       {filteredData.map((member) => (
                         selectedLevel === "all" ? (
                           <NetworkNode
