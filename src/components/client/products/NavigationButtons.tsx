@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -25,7 +24,7 @@ export function NavigationButtons({
         Voltar
       </Button>
       <Button 
-        className="bg-[#8425af] hover:bg-[#8425af] text-white"
+        className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
         onClick={handleContinue}
       >
         {currentStep === 3 ? 'Continuar' : 'Continuar'}

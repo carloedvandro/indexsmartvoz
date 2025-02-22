@@ -46,14 +46,14 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
       <div className="flex justify-between mt-8">
         <Button 
           variant="outline"
-          className="border-[#8425af]/95 text-[#8425af]/95 hover:bg-[#8425af]/95 hover:text-white rounded-lg px-8 py-3"
+          className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg px-8 py-3"
           onClick={onBack}
         >
           Voltar
         </Button>
         <Button 
           onClick={() => onSelect('self')}
-          className="bg-[#8425af]/95 hover:bg-[#8425af]/95 text-white rounded-lg px-8 py-3"
+          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg px-8 py-3"
         >
           Continuar
         </Button>
