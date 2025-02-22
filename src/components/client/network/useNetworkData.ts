@@ -31,14 +31,9 @@ export const useNetworkData = (userId: string) => {
 
         console.log("User network found:", userNetwork);
 
+        // Busca todos os membros da rede usando a função get_all_network_members
         const { data: allNetworkMembers, error } = await supabase
-          .from("network")
-          .select(`
-            id,
-            level,
-            user_id,
-            parent_id
-          `);
+          .rpc('get_all_network_members', { root_network_id: userNetwork.id });
 
         if (error) {
           console.error("Error fetching network members:", error);
@@ -75,7 +70,7 @@ export const useNetworkData = (userId: string) => {
             if (profileData) { // Only add member if profile data exists
               membersMap.set(member.id, {
                 id: member.id,
-                level: 0,
+                level: member.level,
                 parentId: member.parent_id,
                 user: {
                   full_name: profileData.full_name || null,
@@ -89,37 +84,11 @@ export const useNetworkData = (userId: string) => {
             }
           });
 
-          const calculateLevels = (memberId: string, currentLevel: number): boolean => {
-            const member = membersMap.get(memberId);
-            if (!member || currentLevel > 4) return false;
-            
-            member.level = currentLevel;
-            
-            const childMembers = allNetworkMembers.filter(m => m.parent_id === memberId);
-            childMembers.forEach(child => {
-              if (currentLevel < 4) {
-                calculateLevels(child.id, currentLevel + 1);
-              }
-            });
-
-            return true;
-          };
-
-          const rootMembers = allNetworkMembers.filter(member => member.parent_id === userNetwork.id);
-          rootMembers.forEach(rootMember => {
-            calculateLevels(rootMember.id, 1);
-          });
-
+          // Build the tree structure
+          const rootMembers: NetworkMember[] = [];
           membersMap.forEach((member, id) => {
-            if (member.level === 0 || member.level > 4) {
-              membersMap.delete(id);
-            }
-          });
-
-          const finalRootMembers: NetworkMember[] = [];
-          membersMap.forEach(member => {
             if (member.parentId === userNetwork.id) {
-              finalRootMembers.push(member);
+              rootMembers.push(member);
             } else if (membersMap.has(member.parentId)) {
               const parent = membersMap.get(member.parentId);
               if (!parent.children) parent.children = [];
@@ -127,8 +96,8 @@ export const useNetworkData = (userId: string) => {
             }
           });
 
-          console.log("Final network data:", finalRootMembers);
-          return finalRootMembers;
+          console.log("Final network data:", rootMembers);
+          return rootMembers;
         }
         return [];
       } catch (error) {
