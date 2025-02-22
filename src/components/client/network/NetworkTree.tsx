@@ -89,44 +89,46 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       <ParticlesBackground />
       <div className="relative z-0">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="md:col-span-1">
-            <NetworkFilter
-              selectedLevel={selectedLevel}
-              onLevelChange={setSelectedLevel}
-            />
+          <div className="md:col-span-1 relative">
+            <div className="sticky top-0 z-20 bg-white pb-2">
+              <NetworkFilter
+                selectedLevel={selectedLevel}
+                onLevelChange={setSelectedLevel}
+              />
+            </div>
           </div>
 
           <div className="md:col-span-3">
             <ScrollArea className="h-[calc(100vh-150px)]">
-                <AnimatePresence>
-                  {filteredData.length > 0 ? (
-                    <div className="space-y-2">
-                      {filteredData.map((member) => (
-                        selectedLevel === "all" ? (
-                          <NetworkNode
-                            key={member.id}
-                            member={member}
-                            onToggle={toggleNode}
-                            expandedNodes={expandedNodes}
-                          />
-                        ) : (
-                          <FilteredNetworkNode
-                            key={member.id}
-                            member={member}
-                            onToggle={toggleNode}
-                            expandedNodes={expandedNodes}
-                          />
-                        )
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center py-8">
-                      <p className="text-gray-500 text-sm">
-                        Nenhum membro encontrado em sua rede.
-                      </p>
-                    </div>
-                  )}
-                </AnimatePresence>
+              <AnimatePresence>
+                {filteredData.length > 0 ? (
+                  <div className="space-y-2">
+                    {filteredData.map((member) => (
+                      selectedLevel === "all" ? (
+                        <NetworkNode
+                          key={member.id}
+                          member={member}
+                          onToggle={toggleNode}
+                          expandedNodes={expandedNodes}
+                        />
+                      ) : (
+                        <FilteredNetworkNode
+                          key={member.id}
+                          member={member}
+                          onToggle={toggleNode}
+                          expandedNodes={expandedNodes}
+                        />
+                      )
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-gray-500 text-sm">
+                      Nenhum membro encontrado em sua rede.
+                    </p>
+                  </div>
+                )}
+              </AnimatePresence>
             </ScrollArea>
           </div>
         </div>
