@@ -48,19 +48,11 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
         width: `calc(100% - ${depth * 12}px)`
       }}
     >
-      {depth > 1 && (
-        <div 
-          className="absolute left-[-12px] top-1/2 w-3 h-px bg-gray-300"
-          style={{
-            transform: "translateY(-50%)"
-          }}
-        />
-      )}
       <div className="flex items-start gap-4 w-full">
         {hasChildren && (
           <button
             onClick={() => onToggle(member.id)}
-            className="p-1 hover:bg-gray-100 rounded-full flex-shrink-0"
+            className="p-1 hover:bg-gray-100 rounded-full flex-shrink-0 mt-3"
             aria-label={isExpanded ? "Recolher" : "Expandir"}
           >
             {isExpanded ? (
@@ -71,21 +63,19 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           </button>
         )}
         
-        <div className="flex items-start gap-2 flex-1">
-          <div className="flex flex-col items-center flex-shrink-0">
-            <div className="relative">
-              <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
-                <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
-                <AvatarFallback>
-                  <Users className="h-6 w-6" />
-                </AvatarFallback>
-              </Avatar>
-              <StatusIcon 
-                className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-white p-0.5 ${
-                  isActive ? 'text-green-500' : 'text-red-500'
-                }`}
-              />
-            </div>
+        <div className="flex items-start gap-4 flex-1">
+          <div className="relative">
+            <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
+              <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
+              <AvatarFallback>
+                <Users className="h-6 w-6" />
+              </AvatarFallback>
+            </Avatar>
+            <StatusIcon 
+              className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-white p-0.5 ${
+                isActive ? 'text-green-500' : 'text-red-500'
+              }`}
+            />
           </div>
 
           <div className="flex-1 min-w-0">
