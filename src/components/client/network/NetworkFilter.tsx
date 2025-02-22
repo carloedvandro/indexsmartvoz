@@ -16,7 +16,7 @@ const NETWORK_LEVELS = [
 
 export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterProps) => {
   return (
-    <div className="sticky top-0 z-10">
+    <div className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 fixed md:sticky top-20 z-50 w-full md:w-auto max-w-[300px] p-4 border-b md:border-none">
       {NETWORK_LEVELS.map((level) => (
         <Button
           key={level.value}
