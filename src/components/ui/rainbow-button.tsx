@@ -18,11 +18,11 @@ export function RainbowButton({
         // before styles - removed blur effect
         "before:absolute before:bottom-[-20%] before:left-1/2 before:z-0 before:h-1/5 before:w-3/5 before:-translate-x-1/2 before:animate-rainbow before:bg-[linear-gradient(90deg,hsl(var(--color-1)),hsl(var(--color-5)),hsl(var(--color-3)),hsl(var(--color-4)),hsl(var(--color-2)))] before:bg-[length:200%] before:opacity-0",
 
-        // light mode colors with adjusted opacity
-        "bg-[linear-gradient(rgba(95,8,137,0.8),rgba(95,8,137,0.8)),linear-gradient(rgba(95,8,137,0.8)_50%,rgba(95,8,137,0.7)_80%,rgba(95,8,137,0)),linear-gradient(90deg,hsl(var(--color-1)),hsl(var(--color-5)),hsl(var(--color-3)),hsl(var(--color-4)),hsl(var(--color-2)))]",
+        // light mode colors
+        "bg-[linear-gradient(#5f0889,#5f0889),linear-gradient(#5f0889_50%,#5f0889_80%,rgba(95,8,137,0)),linear-gradient(90deg,hsl(var(--color-1)),hsl(var(--color-5)),hsl(var(--color-3)),hsl(var(--color-4)),hsl(var(--color-2)))]",
 
         // dark mode colors
-        "dark:bg-[linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,0.8)),linear-gradient(rgba(255,255,255,0.8)_50%,rgba(255,255,255,0.6)_80%,rgba(0,0,0,0)),linear-gradient(90deg,hsl(var(--color-1)),hsl(var(--color-5)),hsl(var(--color-3)),hsl(var(--color-4)),hsl(var(--color-2)))]",
+        "dark:bg-[linear-gradient(#fff,#fff),linear-gradient(#fff_50%,rgba(255,255,255,0.6)_80%,rgba(0,0,0,0)),linear-gradient(90deg,hsl(var(--color-1)),hsl(var(--color-5)),hsl(var(--color-3)),hsl(var(--color-4)),hsl(var(--color-2)))]",
 
         className,
       )}
