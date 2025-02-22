@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { RotateCw, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -6,7 +5,6 @@ import { NetworkMember } from "./types";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
-// Componente personalizado do ícone de sinal com animação
 const AnimatedSignal = () => {
   const bars = [
     { height: "20%", delay: 0 },
@@ -71,11 +69,9 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const StatusIcon = isActive ? UserCheck : UserX;
   const currentLevel = depth + 1;
 
-  // Identificar todo o conjunto da Vania (ela e seus subordinados)
   const isVaniaTree = member.user.custom_id === 'vania' || 
                      (member.parent_id && member.user.custom_id?.startsWith('vania-'));
   
-  // Ajuste para alinhar com a Maria
   const style = {
     marginLeft: member.user.custom_id === 'vania' ? '25.5px' : (depth === 0 ? '-3px' : '5px'),
     width: `calc(100% - ${depth === 0 ? -3 : 5}px)`,
@@ -93,13 +89,13 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
         {hasChildren && (
           <button
             onClick={() => onToggle(member.id)}
-            className="p-1 hover:text-primary rounded-full flex-shrink-0"
+            className="p-1 hover:text-primary rounded-full flex-shrink-0 bg-[#660099]/80 hover:bg-[#660099]/90"
             style={{ marginTop: '4mm', marginLeft: '-0.5mm' }}
             aria-label={isExpanded ? "Recolher" : "Expandir"}
           >
             <RotateCw 
               className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
-              style={{ color: '#660099' }}
+              style={{ color: 'white' }}
             />
           </button>
         )}
