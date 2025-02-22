@@ -85,7 +85,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               </h3>
               <span className={`text-xs font-semibold ${
                 isActive ? 'text-green-600' : 'text-red-600'
-              }`} style={{ marginTop: '3.5mm' }}>
+              }`} style={{ marginTop: '3.7mm' }}>
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
             </div>
