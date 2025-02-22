@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { AppleIcon, AndroidIcon } from "lucide-react";
+import { Apple, Android } from "lucide-react";
 
 type DeviceSelectorProps = {
   onSelect: (device: 'android' | 'ios') => void;
@@ -17,7 +17,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
           onClick={() => onSelect('ios')}
           className="p-6 border border-[#8425af]/95 rounded-lg hover:bg-gray-50 transition-colors flex flex-col items-center gap-4"
         >
-          <AppleIcon className="w-12 h-12" />
+          <Apple className="w-12 h-12" />
           <span className="font-medium">iOS (iPhone)</span>
         </button>
 
@@ -25,7 +25,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
           onClick={() => onSelect('android')}
           className="p-6 border border-[#8425af]/95 rounded-lg hover:bg-gray-50 transition-colors flex flex-col items-center gap-4"
         >
-          <AndroidIcon className="w-12 h-12" />
+          <Android className="w-12 h-12" />
           <span className="font-medium">Android</span>
         </button>
       </div>

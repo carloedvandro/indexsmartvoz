@@ -1,7 +1,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { RainbowButton } from "@/components/ui/rainbow-button";
+import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { FormFields } from "./FormFields";
 import { RegisterFormData, registerFormSchema } from "./RegisterSchema";
