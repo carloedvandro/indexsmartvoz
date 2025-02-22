@@ -57,7 +57,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             aria-label={isExpanded ? "Recolher" : "Expandir"}
           >
             <RotateCw 
-              className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+              className={`h-5 w-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
               style={{ color: '#660099' }}
             />
           </button>
@@ -90,27 +90,27 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               </span>
             </div>
 
-            <div className="space-y-1 text-sm" style={{ marginTop: '6mm' }}>
+            <div className="space-y-2 text-sm" style={{ marginTop: '6mm' }}>
               <div className="flex items-center gap-2 text-black">
-                <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
-                <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
+                <GraduationCap className="h-5 w-5 flex-shrink-0" style={{ color: '#660099' }} />
+                <span className="truncate text-base">Meu ID: {member.user.custom_id || "-"}</span>
               </div>
               
               {formattedDate && (
                 <div className="flex items-center gap-2 text-black">
-                  <Calendar className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
-                  <span className="truncate">Cadastro: {formattedDate}</span>
+                  <Calendar className="h-5 w-5 flex-shrink-0" style={{ color: '#660099' }} />
+                  <span className="truncate text-base">Cadastro: {formattedDate}</span>
                 </div>
               )}
               
               <div className="flex items-center gap-2 text-black">
-                <UserPlus2 className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
-                <span>Diretos: {member.children?.length || 0}</span>
+                <UserPlus2 className="h-5 w-5 flex-shrink-0" style={{ color: '#660099' }} />
+                <span className="text-base">Diretos: {member.children?.length || 0}</span>
               </div>
               
               <div className="flex items-center gap-2 text-black">
-                <Users2 className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
-                <span>Equipe: {totalTeamSize}</span>
+                <Users2 className="h-5 w-5 flex-shrink-0" style={{ color: '#660099' }} />
+                <span className="text-base">Equipe: {totalTeamSize}</span>
               </div>
             </div>
           </div>
