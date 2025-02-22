@@ -91,24 +91,24 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             </div>
 
             <div className="space-y-1 text-sm mt-4">
-              <div className="flex items-center gap-2 text-black" style={{ marginTop: '2mm' }}>
+              <div className="flex items-center gap-2 text-black" style={{ marginTop: '4mm' }}>
                 <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
                 <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
               </div>
               
               {formattedDate && (
-                <div className="flex items-center gap-2 text-black" style={{ marginTop: '2mm' }}>
+                <div className="flex items-center gap-2 text-black" style={{ marginTop: '4mm' }}>
                   <Calendar className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
                   <span className="truncate">Cadastro: {formattedDate}</span>
                 </div>
               )}
               
-              <div className="flex items-center gap-2 text-black" style={{ marginTop: '2mm' }}>
+              <div className="flex items-center gap-2 text-black" style={{ marginTop: '4mm' }}>
                 <UserPlus2 className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
                 <span>Diretos: {member.children?.length || 0}</span>
               </div>
               
-              <div className="flex items-center gap-2 text-black" style={{ marginTop: '2mm' }}>
+              <div className="flex items-center gap-2 text-black" style={{ marginTop: '4mm' }}>
                 <Users2 className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
                 <span>Equipe: {totalTeamSize}</span>
               </div>
