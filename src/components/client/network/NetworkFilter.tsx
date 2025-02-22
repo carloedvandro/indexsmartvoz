@@ -27,8 +27,8 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
                 ? "bg-[#8425af] hover:bg-[#6c1e8f] text-white"
                 : "border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
               : selectedLevel === level.value 
-                ? "border border-[#8425af] bg-[#8425af]/5 text-[#8425af]"
-                : "border border-gray-200 hover:border-[#8425af] hover:bg-[#8425af]/5 hover:text-[#8425af]"
+                ? "border border-[#8425af] text-[#8425af] bg-white"
+                : "border border-gray-200 hover:border-[#8425af] hover:bg-white hover:text-[#8425af]"
           }`}
           onClick={() => onLevelChange(level.value)}
         >
