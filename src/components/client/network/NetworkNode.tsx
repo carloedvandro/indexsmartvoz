@@ -53,7 +53,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           <button
             onClick={() => onToggle(member.id)}
             className="p-1 hover:text-primary rounded-full flex-shrink-0"
-            style={{ marginTop: '4mm', marginLeft: '-0.5mm' }}
+            style={{ marginTop: '4mm', marginLeft: '-1mm' }}
             aria-label={isExpanded ? "Recolher" : "Expandir"}
           >
             <RotateCw 
