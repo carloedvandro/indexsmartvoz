@@ -63,18 +63,16 @@ export const RegisterFormContainer = () => {
   };
 
   return (
-    <div className="w-full">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormFields form={form} />
-          <RainbowButton 
-            type="submit" 
-            className="w-full !bg-[#5f0889]/90 backdrop-blur-sm hover:!bg-[#4a0668]/90 shadow-lg"
-          >
-            Cadastrar
-          </RainbowButton>
-        </form>
-      </Form>
-    </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <FormFields form={form} />
+        <RainbowButton 
+          type="submit" 
+          className="w-full !bg-[#5f0889]/90 backdrop-blur-sm hover:!bg-[#4a0668]/90 shadow-lg"
+        >
+          Cadastrar
+        </RainbowButton>
+      </form>
+    </Form>
   );
 };
