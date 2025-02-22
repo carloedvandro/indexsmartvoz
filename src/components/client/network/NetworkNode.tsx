@@ -63,7 +63,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           </button>
         )}
         
-        <div className="flex items-start gap-3 flex-1">
+        <div className="flex items-start gap-3 flex-1" style={{ marginLeft: '-4mm', marginTop: '2mm' }}>
           <div className="relative">
             <Avatar className={`h-14 w-14 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
               <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
