@@ -13,14 +13,18 @@ export function RainbowButton({
   return (
     <button
       className={cn(
-        "group relative inline-flex h-11 cursor-pointer items-center justify-center rounded-xl px-8 py-2 font-medium text-white",
-        "bg-[#5f0889] bg-opacity-90 hover:bg-[#4a0668] hover:bg-opacity-90",
-        "backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)]",
+        "group relative inline-flex h-11 cursor-pointer items-center justify-center rounded-xl px-8 py-2 font-medium",
+        "text-white bg-[#8425af] bg-opacity-95",
+        "hover:bg-[#7a1ea6] hover:bg-opacity-95",
+        "shadow-[0_0_20px_rgba(132,37,175,0.3)]",
         "transition-all duration-300 ease-out border-none",
-        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8425af]",
         "disabled:pointer-events-none disabled:opacity-50",
         className
       )}
+      style={{
+        backgroundImage: "linear-gradient(to bottom, rgba(132,37,175,0.95), rgba(132,37,175,0.9))"
+      }}
       {...props}
     >
       {children}
