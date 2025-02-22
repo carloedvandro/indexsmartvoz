@@ -78,7 +78,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   // Ajuste para alinhar diferentes membros
   const style = {
     marginLeft: member.user.custom_id === 'vania' 
-      ? '25.6px' 
+      ? '25.5px' 
       : member.user.custom_id === 'joao' 
         ? '2mm'
         : (depth === 0 ? '-3px' : '5px'),
