@@ -2,7 +2,6 @@
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card } from "@/components/ui/card";
 import { NetworkMember } from "./types";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -57,7 +56,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           }}
         />
       )}
-      <Card className="shadow-sm hover:shadow-md transition-shadow overflow-visible bg-transparent border-0" style={{ width: 'calc(100% + 8px)' }}>
+      <div className="flex items-start gap-4 w-full">
         {hasChildren && (
           <button
             onClick={() => onToggle(member.id)}
@@ -72,7 +71,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           </button>
         )}
         
-        <div className="flex items-start gap-2">
+        <div className="flex items-start gap-2 flex-1">
           <div className="flex flex-col items-center flex-shrink-0">
             <div className="relative">
               <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
@@ -89,7 +88,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             </div>
           </div>
 
-          <div className="flex-1 min-w-0 pr-2">
+          <div className="flex-1 min-w-0">
             <div className="flex flex-col gap-1">
               <h3 className="text-base font-semibold text-black truncate">
                 {member.user.full_name || "Usuário"}
@@ -126,7 +125,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             </div>
           </div>
         </div>
-      </Card>
+      </div>
       {hasChildren && isExpanded && (
         <div className="mt-2 space-y-2 mb-2">
           {member.children.map((child) => (
