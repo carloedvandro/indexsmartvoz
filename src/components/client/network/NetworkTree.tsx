@@ -90,7 +90,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       <div className="relative">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="md:col-span-1">
-            <div className="sticky top-0 z-[51] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/95">
+            <div className="sticky top-0 z-[999] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/95">
               <NetworkFilter
                 selectedLevel={selectedLevel}
                 onLevelChange={setSelectedLevel}
@@ -99,7 +99,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           </div>
 
           <div className="md:col-span-3">
-            <div className="relative z-[50]">
+            <div className="relative z-0">
               <ScrollArea className="h-[calc(100vh-150px)]">
                 <AnimatePresence>
                   {filteredData.length > 0 ? (
