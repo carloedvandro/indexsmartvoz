@@ -71,14 +71,14 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const StatusIcon = isActive ? UserCheck : UserX;
   const currentLevel = depth + 1;
 
-  // Identificar se é o nó da Vania Lucia (usando o ID do usuário 'vania')
-  const isVaniaNode = member.user.custom_id === 'vania';
+  // Identificar todo o conjunto da Vania (ela e seus subordinados)
+  const isVaniaTree = member.user.custom_id === 'vania' || 
+                     (member.parent_id && member.user.custom_id?.startsWith('vania-'));
   
-  // Ajustar o alinhamento especificamente para o nó da Vania
   const style = {
-    marginLeft: isVaniaNode ? 'auto' : (depth === 0 ? '-3px' : '5px'),
-    width: isVaniaNode ? '98%' : `calc(100% - ${depth === 0 ? -3 : 5}px)`,
-    marginRight: isVaniaNode ? '0' : 'auto'
+    marginLeft: member.user.custom_id === 'vania' ? 'auto' : (depth === 0 ? '-3px' : '5px'),
+    width: member.user.custom_id === 'vania' ? '50%' : `calc(100% - ${depth === 0 ? -3 : 5}px)`,
+    marginRight: member.user.custom_id === 'vania' ? '0' : 'auto'
   };
 
   return (
@@ -164,7 +164,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
         </div>
       </div>
       {hasChildren && isExpanded && (
-        <div className="mt-2 space-y-2 mb-2">
+        <div className={`mt-2 space-y-2 mb-2 ${isVaniaTree ? 'ml-auto' : ''}`}>
           {member.children.map((child) => (
             <NetworkNode
               key={child.id}
