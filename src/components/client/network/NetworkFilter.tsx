@@ -23,8 +23,8 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
           variant={selectedLevel === level.value ? "default" : "outline"}
           className={`w-full justify-between text-left px-4 mb-2 rounded-lg overflow-hidden ${
             selectedLevel === level.value 
-              ? "hover:bg-[#7a1eab] bg-[#5f0889]" 
-              : "bg-[#5f0889] text-white hover:bg-[#7a1eab]"
+              ? "bg-[#5f0889] hover:bg-[#4a0668]" 
+              : "hover:bg-[#5f0889] hover:text-white"
           }`}
           onClick={() => onLevelChange(level.value)}
         >
