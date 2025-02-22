@@ -78,7 +78,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             />
             <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
               <Signal className="h-3.5 w-3.5 inline-block align-middle" style={{ color: '#660099', marginRight: '2mm' }} />
-              <span className="text-[10px] font-medium align-middle" style={{ color: '#660099' }}>Nvl. 1</span>
+              <span className="text-xs font-medium align-middle" style={{ color: '#660099' }}>Nvl. 1</span>
             </div>
           </div>
 
