@@ -20,15 +20,15 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
       {NETWORK_LEVELS.map((level) => (
         <Button
           key={level.value}
-          variant={selectedLevel === level.value ? "default" : "outline"}
+          variant="outline"
           className={`w-full justify-between text-left px-4 py-3 rounded-lg transition-all ${
             level.value === 'all' 
               ? selectedLevel === level.value 
                 ? "bg-[#8425af] hover:bg-[#6c1e8f] text-white"
                 : "border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
               : selectedLevel === level.value 
-                ? "border border-[#8425af] text-[#8425af] bg-white"
-                : "border border-gray-200 hover:border-[#8425af] hover:bg-white hover:text-[#8425af]"
+                ? "border border-[#8425af] text-[#8425af] bg-transparent"
+                : "border border-gray-200 hover:border-[#8425af] hover:text-[#8425af]"
           }`}
           onClick={() => onLevelChange(level.value)}
         >
