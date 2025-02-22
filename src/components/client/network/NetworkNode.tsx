@@ -75,9 +75,13 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const isVaniaTree = member.user.custom_id === 'vania' || 
                      (member.parent_id && member.user.custom_id?.startsWith('vania-'));
   
-  // Ajuste para alinhar com a Maria
+  // Ajuste para alinhar diferentes membros
   const style = {
-    marginLeft: member.user.custom_id === 'vania' ? '25.6px' : (depth === 0 ? '-3px' : '5px'),
+    marginLeft: member.user.custom_id === 'vania' 
+      ? '25.6px' 
+      : member.user.custom_id === 'joao' 
+        ? '2mm'
+        : (depth === 0 ? '-3px' : '5px'),
     width: `calc(100% - ${depth === 0 ? -3 : 5}px)`,
   };
 
