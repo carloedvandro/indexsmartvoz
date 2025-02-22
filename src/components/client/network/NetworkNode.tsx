@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { RotateCw, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX, Signal } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -76,11 +75,9 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                 isActive ? 'text-green-500' : 'text-red-500'
               }`}
             />
-            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2">
-              <div className="flex items-center gap-1">
-                <Signal className="h-3.5 w-3.5" style={{ color: '#660099' }} />
-                <span className="text-[10px] font-medium" style={{ color: '#660099' }}>Nvl. 1</span>
-              </div>
+            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
+              <Signal className="h-3.5 w-3.5 inline-block align-middle" style={{ color: '#660099' }} />
+              <span className="text-[10px] font-medium align-middle" style={{ color: '#660099' }}>Nvl. 1</span>
             </div>
           </div>
 
