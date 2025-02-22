@@ -19,7 +19,7 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
 
       <div className="space-y-4 mt-6">
         <div 
-          className="p-4 rounded-lg border border-[#8425af] hover:border-[#8425af] cursor-pointer transition-all"
+          className="p-4 rounded-lg border border-[#8425af] hover:border-[#8425af] hover:bg-[#8425af]/5 cursor-pointer transition-all"
           onClick={() => onSelect('self')}
         >
           <div className="flex items-start gap-3">
@@ -46,14 +46,14 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
       <div className="flex justify-between mt-8">
         <Button 
           variant="outline"
-          className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg px-8 py-3"
+          className="w-[120px] border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg py-3"
           onClick={onBack}
         >
           Voltar
         </Button>
         <Button 
           onClick={() => onSelect('self')}
-          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg px-8 py-3"
+          className="w-[120px] bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3"
         >
           Continuar
         </Button>
