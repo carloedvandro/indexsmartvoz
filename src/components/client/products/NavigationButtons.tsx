@@ -19,13 +19,13 @@ export function NavigationButtons({
     <div className="flex justify-between mt-6">
       <Button 
         variant="outline"
-        className="border-[#8425af]/80 text-[#8425af]/80 hover:bg-[#8425af]/80 hover:text-white"
+        className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
         onClick={() => currentStep === 1 ? navigate("/client/dashboard") : handleBack()}
       >
         Voltar
       </Button>
       <Button 
-        className="bg-[#8425af]/80 hover:bg-[#8425af]/90 text-white"
+        className="bg-[#8425af] hover:bg-[#8425af] text-white"
         onClick={handleContinue}
       >
         {currentStep === 3 ? 'Continuar' : 'Continuar'}

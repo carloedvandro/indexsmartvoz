@@ -13,7 +13,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
     <Button
       variant="link"
       onClick={onLogout}
-      className={cn("text-foreground/80 hover:text-primary/80 hover:bg-transparent active:bg-transparent focus:bg-transparent gap-2 p-0", className)}
+      className={cn("text-foreground hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent gap-2 p-0", className)}
     >
       <LogOut className="w-4 h-4" />
       <span>Sair</span>
