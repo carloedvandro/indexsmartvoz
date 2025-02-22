@@ -76,9 +76,11 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                 isActive ? 'text-green-500' : 'text-red-500'
               }`}
             />
-            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center flex-col gap-0.5">
-              <Signal className="h-3.5 w-3.5" style={{ color: '#660099' }} />
-              <span className="text-[10px] font-medium" style={{ color: '#660099' }}>Nvl. 1</span>
+            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2">
+              <div className="relative flex items-center justify-center">
+                <Signal className="h-3.5 w-3.5 absolute" style={{ color: '#660099' }} />
+                <span className="text-[10px] font-medium relative z-10" style={{ color: '#660099' }}>Nvl. 1</span>
+              </div>
             </div>
           </div>
 
