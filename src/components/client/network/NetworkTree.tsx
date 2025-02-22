@@ -33,8 +33,8 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           schema: 'public',
           table: 'network'
         },
-        (payload) => {
-          console.log('Network data changed:', payload);
+        () => {
+          console.log('Network data changed, invalidating query');
           queryClient.invalidateQueries({ queryKey: ['networkData', userId] });
         }
       )
@@ -49,8 +49,8 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           schema: 'public',
           table: 'profiles'
         },
-        (payload) => {
-          console.log('Profiles data changed:', payload);
+        () => {
+          console.log('Profiles data changed, invalidating query');
           queryClient.invalidateQueries({ queryKey: ['networkData', userId] });
         }
       )
@@ -63,7 +63,6 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }, [userId, queryClient]);
 
   const toggleNode = (nodeId: string) => {
-    console.log('Toggling node:', nodeId);
     setExpandedNodes(prev => {
       const newSet = new Set(prev);
       if (newSet.has(nodeId)) {
@@ -86,10 +85,10 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }
 
   return (
-    <div className="relative min-h-[calc(100vh-68px)] flex flex-col">
+    <div className="relative min-h-[calc(100vh-68px)]">
       <ParticlesBackground />
-      <div className="relative z-0 flex-1 flex flex-col">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 flex-1">
+      <div className="relative z-0">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="md:col-span-1">
             <NetworkFilter
               selectedLevel={selectedLevel}
@@ -97,11 +96,10 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
             />
           </div>
 
-          <div className="md:col-span-3 h-[calc(100vh-150px)] overflow-hidden flex flex-col">
-            <ScrollArea className="h-full pr-4">
-              <div className="pb-8">
-                <AnimatePresence mode="wait">
-                  {filteredData && filteredData.length > 0 ? (
+          <div className="md:col-span-3">
+            <ScrollArea className="h-[calc(100vh-150px)]">
+                <AnimatePresence>
+                  {filteredData.length > 0 ? (
                     <div className="space-y-2">
                       {filteredData.map((member) => (
                         selectedLevel === "all" ? (
@@ -129,11 +127,10 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
                     </div>
                   )}
                 </AnimatePresence>
-              </div>
             </ScrollArea>
           </div>
         </div>
       </div>
     </div>
   );
-};
+}
