@@ -90,7 +90,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       <div className="relative h-full">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-full">
           <div className="md:col-span-1">
-            <div className="fixed bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/95 z-50 p-4 w-[calc(100%/4-12px)]">
+            <div className="fixed bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/95 z-50 p-4 w-[300px]">
               <NetworkFilter
                 selectedLevel={selectedLevel}
                 onLevelChange={setSelectedLevel}
