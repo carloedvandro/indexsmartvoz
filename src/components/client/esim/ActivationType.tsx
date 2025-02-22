@@ -53,7 +53,7 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
         </Button>
         <Button 
           onClick={() => onSelect('self')}
-          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg px-8 py-3"
+          className="bg-[#5f0889] hover:bg-[#4a0668] text-white rounded-lg px-8 py-3"
         >
           Continuar
         </Button>
