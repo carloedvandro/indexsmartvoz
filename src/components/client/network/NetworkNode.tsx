@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
+import { RotateCw, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { NetworkMember } from "./types";
 import { format, parseISO } from "date-fns";
@@ -55,11 +55,9 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             className="p-1 hover:text-primary rounded-full flex-shrink-0 mt-3"
             aria-label={isExpanded ? "Recolher" : "Expandir"}
           >
-            {isExpanded ? (
-              <ChevronDown className="h-4 w-4 text-gray-500" />
-            ) : (
-              <ChevronRight className="h-4 w-4 text-gray-500" />
-            )}
+            <RotateCw 
+              className={`h-4 w-4 text-gray-500 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+            />
           </button>
         )}
         
