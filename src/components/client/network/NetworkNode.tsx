@@ -112,7 +112,9 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             />
             <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap flex items-center gap-2">
               <AnimatedSignal />
-              <span className="text-xs font-medium" style={{ color: '#660099', transform: 'translateY(0.5mm)' }}>Nvl. {currentLevel}</span>
+              <span className="text-xs" style={{ color: '#660099', transform: 'translateY(0.5mm)' }}>
+                Nvl. <span className="font-semibold">{currentLevel}</span>
+              </span>
             </div>
           </div>
 
