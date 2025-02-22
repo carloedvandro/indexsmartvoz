@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { RotateCw, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -5,6 +6,7 @@ import { NetworkMember } from "./types";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
+// Componente personalizado do ícone de sinal com animação
 const AnimatedSignal = () => {
   const bars = [
     { height: "20%", delay: 0 },
@@ -69,15 +71,16 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const StatusIcon = isActive ? UserCheck : UserX;
   const currentLevel = depth + 1;
 
+  // Não limitar a profundidade máxima
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className={`relative w-full ${depth > 0 ? 'mt-4' : ''}`}
+      className={`relative w-full ${depth > 0 ? 'mt-10' : ''}`}
       style={{ 
-        marginLeft: '0px',
-        width: '100%'
+        marginLeft: depth === 0 ? '-3px' : '5px',
+        width: `calc(100% - ${depth === 0 ? -3 : 5}px)`
       }}
     >
       <div className="flex items-start gap-2 w-full">
@@ -85,7 +88,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           <button
             onClick={() => onToggle(member.id)}
             className="p-1 hover:text-primary rounded-full flex-shrink-0"
-            style={{ marginTop: '4mm' }}
+            style={{ marginTop: '4mm', marginLeft: '-0.5mm' }}
             aria-label={isExpanded ? "Recolher" : "Expandir"}
           >
             <RotateCw 
