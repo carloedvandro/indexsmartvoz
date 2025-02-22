@@ -71,7 +71,11 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const StatusIcon = isActive ? UserCheck : UserX;
   const currentLevel = depth + 1;
 
-  // Não limitar a profundidade máxima
+  // Aplica o alinhamento à direita apenas para níveis específicos
+  const isSecondLevel = depth === 1;
+  const marginAdjustment = isSecondLevel ? 'auto' : (depth === 0 ? '-3px' : '5px');
+  const widthAdjustment = isSecondLevel ? '98%' : `calc(100% - ${depth === 0 ? -3 : 5}px)`;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -79,8 +83,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       exit={{ opacity: 0, y: -20 }}
       className={`relative w-full ${depth > 0 ? 'mt-10' : ''}`}
       style={{ 
-        marginLeft: depth === 0 ? '-3px' : '5px',
-        width: `calc(100% - ${depth === 0 ? -3 : 5}px)`
+        marginLeft: marginAdjustment,
+        width: widthAdjustment
       }}
     >
       <div className="flex items-start gap-2 w-full">
