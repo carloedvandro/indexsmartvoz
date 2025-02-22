@@ -71,6 +71,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const StatusIcon = isActive ? UserCheck : UserX;
   const currentLevel = depth + 1;
 
+  // Não limitar a profundidade máxima
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
