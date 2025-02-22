@@ -52,11 +52,13 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
         {hasChildren && (
           <button
             onClick={() => onToggle(member.id)}
-            className="p-1 hover:text-primary rounded-full flex-shrink-0 mt-3"
+            className="p-1 hover:text-primary rounded-full flex-shrink-0"
+            style={{ marginTop: '-4mm' }}
             aria-label={isExpanded ? "Recolher" : "Expandir"}
           >
             <RotateCw 
-              className={`h-4 w-4 text-gray-500 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+              className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+              style={{ color: '#660099' }}
             />
           </button>
         )}
