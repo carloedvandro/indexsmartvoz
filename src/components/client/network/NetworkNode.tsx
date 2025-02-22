@@ -44,8 +44,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       exit={{ opacity: 0, y: -20 }}
       className={`relative w-full ${depth > 0 ? 'mt-10' : ''}`}
       style={{ 
-        marginLeft: depth === 0 ? '0' : '44px',
-        width: `calc(100% - ${depth === 0 ? 0 : 44}px)`
+        marginLeft: depth === 0 ? '0' : '32px',
+        width: `calc(100% - ${depth === 0 ? 0 : 32}px)`
       }}
     >
       <div className="flex items-start gap-2 w-full">
