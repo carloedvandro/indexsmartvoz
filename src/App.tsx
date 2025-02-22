@@ -21,6 +21,7 @@ import AdminLogin from '@/pages/admin/login';
 import AdminNetwork from '@/pages/admin/network';
 import AdminPlans from '@/pages/admin/plans';
 import AdminUsers from '@/pages/admin/users';
+import AdminCustomers from '@/pages/admin/customers';
 import PublicStore from '@/pages/public/store';
 import ResetPassword from '@/pages/client/reset-password';
 import UpdatePassword from '@/pages/client/update-password';
@@ -57,6 +58,7 @@ const router = createBrowserRouter(
         <Route path="/admin/network" element={<AdminNetwork />} />
         <Route path="/admin/plans" element={<AdminPlans />} />
         <Route path="/admin/users" element={<AdminUsers />} />
+        <Route path="/admin/customers" element={<AdminCustomers />} />
       </Route>
     </Route>
   )
