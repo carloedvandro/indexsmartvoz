@@ -46,7 +46,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       style={{ 
         marginLeft: depth === 0 ? '-3px' : '5px',
         width: `calc(100% - ${depth === 0 ? -3 : 5}px)`,
-        marginTop: '2mm'
+        marginTop: '4mm'
       }}
     >
       <div className="flex items-start gap-2 w-full">
