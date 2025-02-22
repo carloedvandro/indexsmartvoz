@@ -44,11 +44,11 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full"
       style={{ 
-        marginLeft: `${depth * 12}px`,
-        width: `calc(100% - ${depth * 12}px)`
+        marginLeft: `${depth * 8}px`,
+        width: `calc(100% - ${depth * 8}px)`
       }}
     >
-      <div className="flex items-start gap-4 w-full">
+      <div className="flex items-start gap-2 w-full">
         {hasChildren && (
           <button
             onClick={() => onToggle(member.id)}
@@ -63,7 +63,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           </button>
         )}
         
-        <div className="flex items-start gap-4 flex-1">
+        <div className="flex items-start gap-3 flex-1">
           <div className="relative">
             <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
               <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
