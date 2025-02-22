@@ -23,7 +23,7 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
           variant="outline"
           className={`w-full justify-between text-left px-4 py-3 rounded-lg transition-all bg-transparent hover:bg-transparent ${
             level.value === 'all' 
-              ? "bg-[#8425af] text-white hover:bg-[#8425af]"
+              ? "bg-[#5f0889] text-white hover:bg-[#5f0889]"
               : selectedLevel === level.value 
                 ? "border border-[#8425af] text-[#8425af]"
                 : "border border-gray-200 hover:border-[#8425af] hover:text-[#8425af]"
