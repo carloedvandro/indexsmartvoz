@@ -76,8 +76,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                      (member.parent_id && member.user.custom_id?.startsWith('vania-'));
   
   const style = {
-    marginLeft: member.user.custom_id === 'vania' ? 'auto' : (depth === 0 ? '-3px' : '5px'),
-    width: member.user.custom_id === 'vania' ? '50%' : `calc(100% - ${depth === 0 ? -3 : 5}px)`,
+    marginLeft: member.user.custom_id === 'vania' ? '15%' : (depth === 0 ? '-3px' : '5px'),
+    width: member.user.custom_id === 'vania' ? '85%' : `calc(100% - ${depth === 0 ? -3 : 5}px)`,
     marginRight: member.user.custom_id === 'vania' ? '0' : 'auto'
   };
 
@@ -164,7 +164,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
         </div>
       </div>
       {hasChildren && isExpanded && (
-        <div className={`mt-2 space-y-2 mb-2 ${isVaniaTree ? 'ml-auto' : ''}`}>
+        <div className={`mt-2 space-y-2 mb-2 ${isVaniaTree ? 'ml-[15%]' : ''}`}>
           {member.children.map((child) => (
             <NetworkNode
               key={child.id}
