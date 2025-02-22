@@ -77,11 +77,11 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
             </div>
 
             <div className="flex-1 min-w-0">
-              <div className="flex items-start gap-2">
+              <div className="flex items-center gap-2 mb-2">
                 <h3 className="text-base font-semibold text-black truncate">
                   {member.user.full_name || "Usuário"}
                 </h3>
-                <span className={`text-xs px-2 py-0.5 rounded-full mt-2 ${
+                <span className={`text-xs px-2 py-0.5 rounded-full ${
                   isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
                 }`}>
                   {isActive ? 'Ativo' : 'Pendente'}
