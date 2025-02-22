@@ -71,13 +71,19 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const StatusIcon = isActive ? UserCheck : UserX;
   const currentLevel = depth + 1;
 
-  // Identificar todo o conjunto da Vania (ela e seus subordinados)
+  // Identificar conjunto específico do Rui Barbosa
+  const isRuiTree = member.user.full_name === 'Rui Barbosa' || 
+                    (member.parent_id && member.user.custom_id?.startsWith('rui-'));
+  
+  // Identificar todo o conjunto da Vania
   const isVaniaTree = member.user.custom_id === 'vania' || 
                      (member.parent_id && member.user.custom_id?.startsWith('vania-'));
   
-  // Ajuste para alinhar com a Maria
+  // Ajuste de marginLeft para mover o conjunto do Rui Barbosa
   const style = {
-    marginLeft: member.user.custom_id === 'vania' ? '25.5px' : (depth === 0 ? '-3px' : '5px'),
+    marginLeft: isRuiTree ? '27.5px' : // 2mm a mais para o conjunto do Rui
+                member.user.custom_id === 'vania' ? '25.5px' :
+                (depth === 0 ? '-3px' : '5px'),
     width: `calc(100% - ${depth === 0 ? -3 : 5}px)`,
   };
 
