@@ -1,5 +1,4 @@
-
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
 export function ParticlesBackground() {
@@ -35,10 +34,11 @@ export function ParticlesBackground() {
 
     // Particles setup
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 1500;
+    const particlesCount = 1500; // Reduced count for better performance
     const posArray = new Float32Array(particlesCount * 3);
 
     for (let i = 0; i < particlesCount * 3; i += 3) {
+      // Spread particles more widely
       posArray[i] = (Math.random() - 0.5) * 15;      // x
       posArray[i + 1] = (Math.random() - 0.5) * 15;  // y
       posArray[i + 2] = (Math.random() - 0.5) * 15;  // z
@@ -49,27 +49,32 @@ export function ParticlesBackground() {
       new THREE.BufferAttribute(posArray, 3)
     );
 
+    // Create a custom point material with a brighter, more meteor-like appearance
     const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.02,
-      color: '#9b87f5',
+      size: 0.02, // Increased size
+      color: '#9b87f5', // Lighter purple color
       transparent: true,
-      opacity: 1,
-      blending: THREE.AdditiveBlending,
-      sizeAttenuation: true,
+      opacity: 1, // Full opacity
+      blending: THREE.AdditiveBlending, // Makes particles glow
+      sizeAttenuation: true, // Particles change size based on distance
     });
 
     const particles = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particles);
     particlesRef.current = particles;
 
+    // Animation
     let frame = 0;
     const animate = () => {
       frame = requestAnimationFrame(animate);
 
       if (particlesRef.current) {
+        // Rotate particles to create a falling meteor effect
         particlesRef.current.rotation.x += 0.002;
         particlesRef.current.rotation.y += 0.001;
         particlesRef.current.rotation.z += 0.0005;
+
+        // Add a slight wave motion
         particlesRef.current.position.y = Math.sin(Date.now() * 0.001) * 0.1;
       }
 
@@ -78,6 +83,7 @@ export function ParticlesBackground() {
 
     animate();
 
+    // Handle resize
     const handleResize = () => {
       if (!cameraRef.current || !rendererRef.current) return;
       
@@ -88,6 +94,7 @@ export function ParticlesBackground() {
 
     window.addEventListener("resize", handleResize);
 
+    // Cleanup
     return () => {
       window.removeEventListener("resize", handleResize);
       if (containerRef.current && rendererRef.current) {

@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthError } from "@supabase/supabase-js";
-import { Mail, Lock } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { RainbowButton } from "@/components/ui/rainbow-button";
 import { motion } from "framer-motion";
 
@@ -18,6 +18,7 @@ interface LoginFormProps {
 export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -93,7 +94,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             placeholder="seu@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="pl-10"
+            className="pl-10 bg-transparent"
             required
           />
         </div>
@@ -105,13 +106,24 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
           <Input
             id="password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="pl-10"
+            className="pl-10 bg-transparent"
             required
           />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+          >
+            {showPassword ? (
+              <EyeOff className="h-4 w-4" />
+            ) : (
+              <Eye className="h-4 w-4" />
+            )}
+          </button>
         </div>
       </motion.div>
 
@@ -136,7 +148,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       <motion.div variants={itemVariants}>
         <RainbowButton
           type="submit"
-          className="w-full"
+          className="w-full !bg-[#5f0889] hover:!bg-[#4a0668]"
           disabled={isLoading}
         >
           {isLoading ? "Entrando..." : "Entrar"}
