@@ -8,16 +8,16 @@ import { Carousel3D } from "@/components/client/dashboard/Carousel3D";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
 import { useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 
 export default function ClientDashboard() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { data: profile } = useProfile();
   const { data: networkStats } = useNetworkStats(profile?.id);
 
   const handleNetworkClick = useCallback(() => {
-    router.push('/client/network');
-  }, [router]);
+    navigate('/client/network');
+  }, [navigate]);
 
   return (
     <div className="container mx-auto p-4 space-y-6">
