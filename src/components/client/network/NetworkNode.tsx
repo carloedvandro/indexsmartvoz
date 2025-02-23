@@ -84,8 +84,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   
   const style = {
     marginLeft: isDavidForgat ? '-9px' : // David mantém a margem original
-                isCarolinaTree ? '-15px' : // Carolina mais à esquerda
-                isRubensTree ? '15px' : // Rubens mais à direita
+                isCarolinaTree ? '4mm' : // Carolina 4mm para direita
+                isRubensTree ? '2mm' : // Rubens 2mm para direita
                 depth === 2 ? '8px' : 
                 isRuiTree ? '10px' : 
                 member.user.custom_id === 'vania' ? '25.5px' :
