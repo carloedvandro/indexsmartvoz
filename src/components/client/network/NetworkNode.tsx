@@ -75,15 +75,22 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   
   const isVaniaTree = member.user.custom_id === 'vania' || 
                      (member.parent_id && member.user.custom_id?.startsWith('vania-'));
-  
+
   const isDavidForgat = member.user.full_name === 'David Forgat';
+  
+  // Corrigindo o nome para "Bezzera" com "zz"
   const isCarolinaTree = member.user.full_name?.trim() === 'Carolina Bezzera e Silva';
+  
   const isRubensTree = member.user.full_name === 'Rubens Valin';
   
+  // Adicionando console.log para debug
+  console.log('Nome do usuário:', member.user.full_name);
+  console.log('É Carolina?', isCarolinaTree);
+  
   const style = {
-    marginLeft: isDavidForgat ? '-9px' : 
-                isCarolinaTree ? '29mm' : 
-                isRubensTree ? '5.5mm' : 
+    marginLeft: isDavidForgat ? '-9px' : // David mantém a margem original
+                isCarolinaTree ? '29mm' : // Carolina 29mm para direita
+                isRubensTree ? '5.5mm' : // Rubens 5.5mm para direita
                 depth === 2 ? '8px' : 
                 isRuiTree ? '10px' : 
                 member.user.custom_id === 'vania' ? '25.5px' :
@@ -91,89 +98,37 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
     width: `calc(100% - ${depth === 0 ? -3 : 5}px)`,
   };
 
-  const nodeVariants = {
-    initial: {
-      opacity: 0,
-      y: 50,
-      scale: 0.95
-    },
-    animate: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        ease: "backOut"
-      }
-    },
-    exit: {
-      opacity: 0,
-      y: -50,
-      scale: 0.95,
-      transition: {
-        duration: 0.3
-      }
-    }
-  };
-
-  const childrenVariants = {
-    initial: { opacity: 0, height: 0 },
-    animate: { 
-      opacity: 1,
-      height: "auto",
-      transition: {
-        duration: 0.3,
-        staggerChildren: 0.1
-      }
-    },
-    exit: {
-      opacity: 0,
-      height: 0,
-      transition: {
-        duration: 0.3
-      }
-    }
-  };
-
   return (
     <motion.div
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={nodeVariants}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
       className={`relative w-full ${depth > 0 ? 'mt-10' : ''}`}
       style={style}
     >
       <div className="flex items-start gap-2 w-full">
         {hasChildren && (
-          <motion.button
+          <button
             onClick={() => onToggle(member.id)}
             className="p-1 hover:text-primary rounded-full flex-shrink-0"
             style={{ marginTop: '4mm', marginLeft: '-0.5mm' }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
             aria-label={isExpanded ? "Recolher" : "Expandir"}
           >
             <RotateCw 
               className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
               style={{ color: '#660099' }}
             />
-          </motion.button>
+          </button>
         )}
         
         <div className="flex items-start gap-3 flex-1">
           <div className="relative">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              <Avatar className={`h-14 w-14 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
-                <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
-                <AvatarFallback>
-                  <Users className="h-8 w-8" />
-                </AvatarFallback>
-              </Avatar>
-            </motion.div>
+            <Avatar className={`h-14 w-14 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
+              <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
+              <AvatarFallback>
+                <Users className="h-8 w-8" />
+              </AvatarFallback>
+            </Avatar>
             <StatusIcon 
               className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-white p-0.5 ${
                 isActive ? 'text-green-500' : 'text-red-500'
@@ -188,13 +143,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           </div>
 
           <div className="flex-1 min-w-0">
-            <motion.div 
-              className="flex flex-col gap-1" 
-              style={{ marginTop: '4mm' }}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
+            <div className="flex flex-col gap-1" style={{ marginTop: '4mm' }}>
               <h3 className="text-base font-semibold text-black truncate">
                 {member.user.full_name || "Usuário"}
               </h3>
@@ -203,15 +152,9 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               }`}>
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
-            </motion.div>
+            </div>
 
-            <motion.div 
-              className="space-y-1 text-sm" 
-              style={{ marginTop: '8mm' }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
+            <div className="space-y-1 text-sm" style={{ marginTop: '8mm' }}>
               <div className="flex items-center gap-2 text-black">
                 <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
                 <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
@@ -233,18 +176,13 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                 <Users2 className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
                 <span>Equipe: {totalTeamSize}</span>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
-      {hasChildren && (
-        <motion.div
-          initial="initial"
-          animate={isExpanded ? "animate" : "initial"}
-          variants={childrenVariants}
-          className={`mt-2 space-y-2 mb-2 overflow-hidden ${isVaniaTree ? 'ml-[25.5px]' : ''}`}
-        >
-          {isExpanded && member.children.map((child) => (
+      {hasChildren && isExpanded && (
+        <div className={`mt-2 space-y-2 mb-2 ${isVaniaTree ? 'ml-[25.5px]' : ''}`}>
+          {member.children.map((child) => (
             <NetworkNode
               key={child.id}
               member={child}
@@ -253,9 +191,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               expandedNodes={expandedNodes}
             />
           ))}
-        </motion.div>
+        </div>
       )}
     </motion.div>
   );
 };
-
