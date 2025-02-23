@@ -84,7 +84,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   
   // Ajuste de marginLeft para garantir alinhamento consistente no terceiro nível
   const style = {
-    marginLeft: isDavidForgat ? '4px' : // Margem específica para David Forgat
+    marginLeft: isDavidForgat ? '2px' : // Margem específica para David Forgat (reduzida em 2mm)
                 depth === 2 ? '8px' : // Prioridade para o terceiro nível
                 isRuiTree ? '10px' : // depois verifica se é do conjunto do Rui
                 member.user.custom_id === 'vania' ? '25.5px' :
