@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { RotateCw, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -6,7 +5,6 @@ import { NetworkMember } from "./types";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
-// Componente personalizado do ícone de sinal com animação
 const AnimatedSignal = () => {
   const bars = [
     { height: "20%", delay: 0 },
@@ -71,26 +69,18 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const StatusIcon = isActive ? UserCheck : UserX;
   const currentLevel = depth + 1;
 
-  // Identificar conjunto específico do Rui Barbosa
   const isRuiTree = member.user.full_name === 'Rui Barbosa' || 
                     (member.parent_id && member.user.custom_id?.startsWith('rui-'));
   
-  // Identificar todo o conjunto da Vania
   const isVaniaTree = member.user.custom_id === 'vania' || 
                      (member.parent_id && member.user.custom_id?.startsWith('vania-'));
 
-  // Identificar David Forgat
   const isDavidForgat = member.user.full_name === 'David Forgat';
   
-  // Identificar Carolina Bezerra e Silva
-  const isCarolinaTree = member.user.full_name === 'Carolina Bezerra e Silva' ||
-                        (member.parent_id && member.user.custom_id?.startsWith('carolina-'));
+  const isCarolinaTree = member.user.full_name === 'Carolina Bezerra e Silva';
 
-  // Identificar Rubens Valin
-  const isRubensTree = member.user.full_name === 'Rubens Valin' ||
-                      (member.parent_id && member.user.custom_id?.startsWith('rubens-'));
+  const isRubensTree = member.user.full_name === 'Rubens Valin';
   
-  // Ajuste de marginLeft para garantir alinhamento consistente no terceiro nível
   const style = {
     marginLeft: isDavidForgat || isCarolinaTree || isRubensTree ? '-9px' : // Mesma margem para David, Carolina e Rubens
                 depth === 2 ? '8px' : // Prioridade para o terceiro nível
