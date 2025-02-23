@@ -5,8 +5,8 @@ import { useState, useEffect } from "react";
 const cards = [
   {
     id: 1,
-    title: "Soluções Inteligentes",
-    content: "Inovação em cada detalhe",
+    title: "Conectividade Total",
+    content: "Sempre conectado",
   },
   {
     id: 2,
@@ -15,8 +15,8 @@ const cards = [
   },
   {
     id: 3,
-    title: "Conectividade Total",
-    content: "Sempre conectado",
+    title: "Soluções Inteligentes",
+    content: "Inovação em cada detalhe",
   },
 ];
 
@@ -32,15 +32,16 @@ export function Carousel3D() {
   }, []);
 
   return (
-    <div className="relative h-[400px] w-full bg-gradient-to-b from-blue-950 to-black overflow-hidden">
-      {/* Efeito de luz azul */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl" />
+    <div className="relative h-[500px] w-full bg-[#070B1A] overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px]" />
       
       <div className="relative w-full h-full flex items-center justify-center perspective-1000">
         {cards.map((card, index) => {
           const offset = ((index - currentIndex) % cards.length);
-          const rotate = offset * 45;
-          const translateZ = Math.abs(offset) * -100;
+          const rotate = offset * 60; // Aumentado para 60 graus
+          const translateZ = Math.abs(offset) * -200; // Aumentado para -200
 
           return (
             <motion.div
@@ -51,23 +52,34 @@ export function Carousel3D() {
                 opacity: Math.abs(offset) > 1 ? 0 : 1,
               }}
               transition={{
-                duration: 0.6,
-                ease: "easeOut",
+                duration: 0.8,
+                ease: [0.4, 0.0, 0.2, 1], // Easing customizado
               }}
-              className="absolute w-[300px] h-[400px] rounded-[2rem] bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm border border-white/10 p-6 shadow-xl"
+              className="absolute w-[400px] h-[500px] rounded-[3rem] bg-gradient-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.5)] overflow-hidden"
               style={{
                 transformStyle: "preserve-3d",
+                transform: `perspective(1000px) rotateY(${rotate}deg) translateZ(${translateZ}px)`,
               }}
             >
-              {/* Linha luminosa azul */}
-              <div className="absolute top-1/2 left-0 w-full h-[2px] bg-blue-500/50 blur-sm" />
+              {/* Efeito de reflexo superior */}
+              <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent h-1/2 pointer-events-none" />
               
-              <div className="relative z-10 h-full flex flex-col justify-between text-white">
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+              {/* Linha de brilho horizontal */}
+              <div className="absolute top-1/2 left-0 w-full h-[1px] bg-blue-400/30 blur-[2px]" />
+              
+              {/* Conteúdo */}
+              <div className="relative z-10 h-full flex flex-col justify-between p-10">
+                <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600">
                   {card.title}
                 </h3>
-                <p className="text-blue-200/80">{card.content}</p>
+                <p className="text-lg text-blue-200/90 font-light">
+                  {card.content}
+                </p>
               </div>
+
+              {/* Efeito de brilho nos cantos */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-[50px] rounded-full" />
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/10 blur-[50px] rounded-full" />
             </motion.div>
           );
         })}
