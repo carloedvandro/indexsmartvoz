@@ -5,8 +5,20 @@ import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
 import { Carousel3D } from "@/components/client/dashboard/Carousel3D";
+import { useProfile } from "@/hooks/useProfile";
+import { useNetworkStats } from "@/hooks/useNetworkStats";
+import { useCallback } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ClientDashboard() {
+  const router = useRouter();
+  const { data: profile } = useProfile();
+  const { data: networkStats } = useNetworkStats(profile?.id);
+
+  const handleNetworkClick = useCallback(() => {
+    router.push('/client/network');
+  }, [router]);
+
   return (
     <div className="container mx-auto p-4 space-y-6">
       <DashboardHeader />
@@ -17,8 +29,16 @@ export default function ClientDashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ProfileCard />
-        <NetworkCard />
+        <ProfileCard profile={profile} />
+        <NetworkCard 
+          networkStats={networkStats || {
+            level1Count: 0,
+            level2Count: 0,
+            level3Count: 0,
+            level4Count: 0
+          }}
+          onClick={handleNetworkClick}
+        />
         <NetworkStatsCard />
         <PlansCard />
       </div>
