@@ -82,9 +82,17 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   // Identificar David Forgat
   const isDavidForgat = member.user.full_name === 'David Forgat';
   
+  // Identificar Carolina Bezerra e Silva
+  const isCarolinaTree = member.user.full_name === 'Carolina Bezerra e Silva' ||
+                        (member.parent_id && member.user.custom_id?.startsWith('carolina-'));
+
+  // Identificar Rubens Valin
+  const isRubensTree = member.user.full_name === 'Rubens Valin' ||
+                      (member.parent_id && member.user.custom_id?.startsWith('rubens-'));
+  
   // Ajuste de marginLeft para garantir alinhamento consistente no terceiro nível
   const style = {
-    marginLeft: isDavidForgat ? '-9px' : // Margem específica para David Forgat (reduzida em mais 0.5mm)
+    marginLeft: isDavidForgat || isCarolinaTree || isRubensTree ? '-9px' : // Mesma margem para David, Carolina e Rubens
                 depth === 2 ? '8px' : // Prioridade para o terceiro nível
                 isRuiTree ? '10px' : // depois verifica se é do conjunto do Rui
                 member.user.custom_id === 'vania' ? '25.5px' :
