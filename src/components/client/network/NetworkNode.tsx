@@ -78,8 +78,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
 
   const isDavidForgat = member.user.full_name === 'David Forgat';
   
-  // Ajustando a verificação para incluir o nome completo exato
-  const isCarolinaTree = member.user.full_name?.trim() === 'Carolina Bezerra e Silva';
+  // Corrigindo o nome para "Bezzera" com "zz"
+  const isCarolinaTree = member.user.full_name?.trim() === 'Carolina Bezzera e Silva';
   
   const isRubensTree = member.user.full_name === 'Rubens Valin';
   
@@ -89,7 +89,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   
   const style = {
     marginLeft: isDavidForgat ? '-9px' : // David mantém a margem original
-                isCarolinaTree ? '29mm' : // Carolina 29mm para direita (aumentando 4mm)
+                isCarolinaTree ? '29mm' : // Carolina 29mm para direita
                 isRubensTree ? '5.5mm' : // Rubens 5.5mm para direita
                 depth === 2 ? '8px' : 
                 isRuiTree ? '10px' : 
