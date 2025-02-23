@@ -8,6 +8,7 @@ import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
+import { Carousel3D } from "@/components/client/dashboard/Carousel3D";
 import { motion } from "framer-motion";
 
 export default function ClientDashboard() {
@@ -34,6 +35,11 @@ export default function ClientDashboard() {
         <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           <div className="max-w-[1800px] mx-auto pt-6">
+            {/* Nova seção do Carousel3D */}
+            <div className="px-6 mb-6">
+              <Carousel3D />
+            </div>
+            
             <div className="px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="w-full">
                 <ProfileCard profile={profile} />
