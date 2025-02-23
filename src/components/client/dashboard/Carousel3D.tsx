@@ -61,14 +61,16 @@ export function Carousel3D() {
       <div className="relative w-full h-full flex items-center justify-center perspective-1000">
         {cards.map((card, index) => {
           const offset = ((index - currentIndex) % cards.length);
-          const rotate = offset * 60;
+          const rotate = offset * 120; // Aumentado para 120 graus para formar um triângulo
           const translateZ = Math.abs(offset) * -200;
+          const rotateX = offset === 0 ? 0 : 30; // Inclinar cards não ativos
 
           return (
             <motion.div
               key={card.id}
               animate={{
                 rotateY: rotate,
+                rotateX,
                 translateZ,
                 opacity: Math.abs(offset) > 1 ? 0 : 1,
               }}
@@ -76,10 +78,11 @@ export function Carousel3D() {
                 duration: 0.8,
                 ease: [0.4, 0.0, 0.2, 1],
               }}
-              className="absolute w-[400px] h-[500px] rounded-[3rem] bg-gradient-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.5)] overflow-hidden"
+              className="absolute w-[400px] h-[500px] rounded-[3rem] bg-gradient-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.5)] overflow-hidden transform-gpu"
               style={{
                 transformStyle: "preserve-3d",
-                transform: `perspective(1000px) rotateY(${rotate}deg) translateZ(${translateZ}px)`,
+                transform: `perspective(1000px) rotateY(${rotate}deg) rotateX(${rotateX}deg) translateZ(${translateZ}px)`,
+                clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" // Forma de diamante
               }}
             >
               {/* Efeito de reflexo holográfico */}
