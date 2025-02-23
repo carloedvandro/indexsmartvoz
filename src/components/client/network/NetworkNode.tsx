@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { RotateCw, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -78,13 +79,15 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const isDavidForgat = member.user.full_name === 'David Forgat';
   
   const isCarolinaTree = member.user.full_name === 'Carolina Bezerra e Silva';
-
+  
   const isRubensTree = member.user.full_name === 'Rubens Valin';
   
   const style = {
-    marginLeft: isDavidForgat || isCarolinaTree || isRubensTree ? '-9px' : // Mesma margem para David, Carolina e Rubens
-                depth === 2 ? '8px' : // Prioridade para o terceiro nível
-                isRuiTree ? '10px' : // depois verifica se é do conjunto do Rui
+    marginLeft: isDavidForgat ? '-9px' : // David mantém a margem original
+                isCarolinaTree ? '-15px' : // Carolina mais à esquerda
+                isRubensTree ? '15px' : // Rubens mais à direita
+                depth === 2 ? '8px' : 
+                isRuiTree ? '10px' : 
                 member.user.custom_id === 'vania' ? '25.5px' :
                 (depth === 0 ? '-3px' : '5px'),
     width: `calc(100% - ${depth === 0 ? -3 : 5}px)`,
