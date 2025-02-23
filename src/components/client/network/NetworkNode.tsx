@@ -79,10 +79,10 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const isVaniaTree = member.user.custom_id === 'vania' || 
                      (member.parent_id && member.user.custom_id?.startsWith('vania-'));
   
-  // Ajuste de marginLeft para mover o conjunto do Rui Barbosa e terceiro nível
+  // Ajuste de marginLeft para garantir alinhamento consistente no terceiro nível
   const style = {
-    marginLeft: isRuiTree ? '10px' : // margem do conjunto do Rui
-                depth === 2 ? '8px' : // margem para o terceiro nível
+    marginLeft: depth === 2 ? '8px' : // Prioridade para o terceiro nível
+                isRuiTree ? '10px' : // depois verifica se é do conjunto do Rui
                 member.user.custom_id === 'vania' ? '25.5px' :
                 (depth === 0 ? '-3px' : '5px'),
     width: `calc(100% - ${depth === 0 ? -3 : 5}px)`,
