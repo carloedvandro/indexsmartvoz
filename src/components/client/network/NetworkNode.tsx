@@ -78,10 +78,14 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   // Identificar todo o conjunto da Vania
   const isVaniaTree = member.user.custom_id === 'vania' || 
                      (member.parent_id && member.user.custom_id?.startsWith('vania-'));
+
+  // Identificar David Forgat
+  const isDavidForgat = member.user.full_name === 'David Forgat';
   
   // Ajuste de marginLeft para garantir alinhamento consistente no terceiro nível
   const style = {
-    marginLeft: depth === 2 ? '8px' : // Prioridade para o terceiro nível
+    marginLeft: isDavidForgat ? '4px' : // Margem específica para David Forgat
+                depth === 2 ? '8px' : // Prioridade para o terceiro nível
                 isRuiTree ? '10px' : // depois verifica se é do conjunto do Rui
                 member.user.custom_id === 'vania' ? '25.5px' :
                 (depth === 0 ? '-3px' : '5px'),
