@@ -81,7 +81,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   
   // Ajuste de marginLeft para mover o conjunto do Rui Barbosa
   const style = {
-    marginLeft: isRuiTree ? '11px' : // reduzindo a margem do conjunto do Rui
+    marginLeft: isRuiTree ? '10px' : // reduzindo a margem do conjunto do Rui
                 member.user.custom_id === 'vania' ? '25.5px' :
                 (depth === 0 ? '-3px' : '5px'),
     width: `calc(100% - ${depth === 0 ? -3 : 5}px)`,
