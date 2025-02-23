@@ -78,9 +78,14 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
 
   const isDavidForgat = member.user.full_name === 'David Forgat';
   
-  const isCarolinaTree = member.user.full_name === 'Carolina Bezerra e Silva';
+  // Ajustando a verificação para incluir o nome completo exato
+  const isCarolinaTree = member.user.full_name?.trim() === 'Carolina Bezerra e Silva';
   
   const isRubensTree = member.user.full_name === 'Rubens Valin';
+  
+  // Adicionando console.log para debug
+  console.log('Nome do usuário:', member.user.full_name);
+  console.log('É Carolina?', isCarolinaTree);
   
   const style = {
     marginLeft: isDavidForgat ? '-9px' : // David mantém a margem original
