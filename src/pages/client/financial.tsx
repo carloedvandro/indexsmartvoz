@@ -36,7 +36,6 @@ export default function Financial() {
 
   const handleFilter = () => {
     console.log("Filtering with:", { month: selectedMonth, year: selectedYear });
-    // Aqui você pode implementar a lógica de filtro
   };
 
   return (
@@ -131,7 +130,7 @@ export default function Financial() {
                   <span className="text-gray-700">Total de saldo</span>
                   <span className="text-red-500 font-bold">bloqueado</span>
                 </div>
-                <div className="flex items-baseline gap-1 ml-8">
+                <div className="flex items-baseline gap-1 -mr-2">
                   <span className="text-gray-500">R$</span>
                   <span className="text-gray-900 text-lg font-medium">0,00</span>
                 </div>
