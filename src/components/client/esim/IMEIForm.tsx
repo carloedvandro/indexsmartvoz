@@ -93,27 +93,32 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
 
       <form onSubmit={handleSubmit} className="w-full space-y-6">
         <div className="space-y-2">
-          <Input
-            type="text"
-            placeholder="Digite o IMEI"
-            value={imei}
-            onChange={async (e) => {
-              const value = e.target.value.replace(/\D/g, '');
-              if (value.length <= 15) {
-                setIMEI(value);
-                if (value.length === 15) {
-                  await validateIMEI(value);
-                } else {
-                  setIsValidIMEI(false);
-                  setDeviceInfo(null);
+          <div className={`ring-1 ring-[#8425af] rounded-lg ${
+            deviceInfo ? 'ring-green-500' : 
+            imei.length === 15 && !deviceInfo ? 'ring-red-500' : ''
+          }`}>
+            <Input
+              type="text"
+              placeholder="Digite o IMEI"
+              value={imei}
+              onChange={async (e) => {
+                const value = e.target.value.replace(/\D/g, '');
+                if (value.length <= 15) {
+                  setIMEI(value);
+                  if (value.length === 15) {
+                    await validateIMEI(value);
+                  } else {
+                    setIsValidIMEI(false);
+                    setDeviceInfo(null);
+                  }
                 }
-              }
-            }}
-            className={`w-full text-center text-lg rounded-lg border-2 border-[#8425af] focus:outline-none focus:border-[#8425af] ${
-              deviceInfo ? 'border-green-500' : 
-              imei.length === 15 && !deviceInfo ? 'border-red-500' : ''
-            }`}
-          />
+              }}
+              className={`w-full text-center text-lg rounded-[6px] border border-[#8425af] focus:outline-none focus:border-[#8425af] ${
+                deviceInfo ? 'border-green-500' : 
+                imei.length === 15 && !deviceInfo ? 'border-red-500' : ''
+              }`}
+            />
+          </div>
           <p className="text-xs text-gray-500 text-center">
             {15 - imei.length} dígitos restantes
           </p>
