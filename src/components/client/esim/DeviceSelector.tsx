@@ -44,7 +44,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
               checked={selectedDevice === 'android'}
               onChange={() => setSelectedDevice('android')}
             />
-            <label htmlFor="android" className={`text-lg font-medium ${selectedDevice === 'android' ? 'text-[#8425af]' : ''}`}>
+            <label htmlFor="android" className="text-lg font-medium text-black">
               Android
             </label>
           </div>
@@ -67,7 +67,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
               checked={selectedDevice === 'ios'}
               onChange={() => setSelectedDevice('ios')}
             />
-            <label htmlFor="ios" className={`text-lg font-medium ${selectedDevice === 'ios' ? 'text-[#8425af]' : ''}`}>
+            <label htmlFor="ios" className="text-lg font-medium text-black">
               iOS (iPhone)
             </label>
           </div>
