@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -47,7 +46,7 @@ export default function Financial() {
   };
 
   return (
-    <div className="max-w-[540px] mx-auto p-6 mt-[60px]">
+    <div className="max-w-[530px] mx-auto p-6 mt-[60px]">
       <h1 className="text-2xl font-semibold text-gray-800 mb-6">Financeiro</h1>
       <h2 className="text-xl font-semibold mb-6 text-gray-900">Resumo</h2>
 
