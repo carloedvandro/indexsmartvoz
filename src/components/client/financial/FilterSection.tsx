@@ -2,6 +2,7 @@
 import { Filter } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 interface FilterSectionProps {
   selectedMonth: string;
@@ -27,14 +28,17 @@ export function FilterSection({
   };
 
   return (
-    <div className="border rounded-lg bg-white">
-      <div className="py-2 px-4 border-b bg-gray-50">
+    <div className="border rounded-lg bg-white relative overflow-hidden">
+      <div className="absolute inset-0">
+        <ParticlesBackground />
+      </div>
+      <div className="py-2 px-4 border-b bg-gray-50 relative z-10">
         <div className="flex items-center gap-2">
           <Filter className="w-4 h-4 text-[#5f0889]" />
           <span className="text-sm font-medium text-gray-900">Filtros</span>
         </div>
       </div>
-      <div className="p-4">
+      <div className="p-4 relative z-10">
         <div className="grid grid-cols-6 gap-4 mb-6">
           <div className="col-span-3">
             <label className="block text-sm font-medium text-gray-900 mb-1">Mês</label>
