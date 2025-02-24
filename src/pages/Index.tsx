@@ -4,21 +4,8 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { WarpBackground } from "@/components/ui/warp-background";
-import { I18nextProvider } from "react-i18next";
-import i18n from "@/i18n";
-import React from "react";
 
 export default function Index() {
-  return (
-    <React.StrictMode>
-      <I18nextProvider i18n={i18n}>
-        <IndexContent />
-      </I18nextProvider>
-    </React.StrictMode>
-  );
-}
-
-function IndexContent() {
   const { t } = useTranslation();
 
   return (
