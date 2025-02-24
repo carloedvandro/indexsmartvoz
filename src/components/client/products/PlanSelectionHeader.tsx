@@ -19,7 +19,7 @@ export function PlanSelectionHeader({ variants }: PlanSelectionHeaderProps) {
       className="space-y-2 max-w-[500px]"
       variants={variants}
     >
-      <h2 className="text-2xl font-medium">Personalize seu pedido</h2>
+      <h2 className="text-3xl font-medium">Personalize seu pedido</h2>
       <p className="text-gray-600">
         Confira aqui as melhores ofertas para você, cliente Smatvoz.
       </p>
