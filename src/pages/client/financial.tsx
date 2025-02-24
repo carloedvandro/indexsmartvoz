@@ -5,9 +5,39 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { DollarSign, Filter } from "lucide-react";
 import { formatCurrency } from "@/utils/format";
+import { useState } from "react";
 
 export default function Financial() {
   const navigate = useNavigate();
+  const [selectedMonth, setSelectedMonth] = useState("2");
+  const [selectedYear, setSelectedYear] = useState("2025");
+
+  const months = [
+    { value: "1", label: "Janeiro" },
+    { value: "2", label: "Fevereiro" },
+    { value: "3", label: "Março" },
+    { value: "4", label: "Abril" },
+    { value: "5", label: "Maio" },
+    { value: "6", label: "Junho" },
+    { value: "7", label: "Julho" },
+    { value: "8", label: "Agosto" },
+    { value: "9", label: "Setembro" },
+    { value: "10", label: "Outubro" },
+    { value: "11", label: "Novembro" },
+    { value: "12", label: "Dezembro" }
+  ];
+
+  const years = [
+    { value: "2023", label: "2023" },
+    { value: "2024", label: "2024" },
+    { value: "2025", label: "2025" },
+    { value: "2026", label: "2026" }
+  ];
+
+  const handleFilter = () => {
+    console.log("Filtering with:", { month: selectedMonth, year: selectedYear });
+    // Aqui você pode implementar a lógica de filtro
+  };
 
   return (
     <div className="min-h-screen bg-[#F8F9FE] p-6">
@@ -39,28 +69,45 @@ export default function Financial() {
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm text-gray-600 mb-1">Mês</label>
-                <Select defaultValue="2">
-                  <SelectTrigger>
-                    <SelectValue>Fevereiro</SelectValue>
+                <Select 
+                  defaultValue={selectedMonth}
+                  onValueChange={setSelectedMonth}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="2">Fevereiro</SelectItem>
+                    {months.map((month) => (
+                      <SelectItem key={month.value} value={month.value}>
+                        {month.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
               <div>
                 <label className="block text-sm text-gray-600 mb-1">Ano</label>
-                <Select defaultValue="2025">
-                  <SelectTrigger>
-                    <SelectValue>2025</SelectValue>
+                <Select 
+                  defaultValue={selectedYear}
+                  onValueChange={setSelectedYear}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="2025">2025</SelectItem>
+                    {years.map((year) => (
+                      <SelectItem key={year.value} value={year.value}>
+                        {year.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
               <div className="flex items-end">
-                <Button className="bg-[#00A3D3] hover:bg-[#0089B3] text-white w-full">
+                <Button 
+                  className="bg-[#00A3D3] hover:bg-[#0089B3] text-white w-full"
+                  onClick={handleFilter}
+                >
                   Filtrar
                 </Button>
               </div>
@@ -71,7 +118,9 @@ export default function Financial() {
         <div className="grid grid-cols-1 gap-4">
           <Card className="p-4 border rounded-lg">
             <div className="flex justify-between items-center">
-              <span className="text-gray-700 text-sm">Total de bônus recebido em Fevereiro/2025</span>
+              <span className="text-gray-700 text-sm">
+                Total de bônus recebido em {months.find(m => m.value === selectedMonth)?.label}/{selectedYear}
+              </span>
               <div className="flex items-center gap-1">
                 <span className="text-gray-700 text-sm">R$</span>
                 <span className="text-gray-900 font-medium">42.576,22</span>
