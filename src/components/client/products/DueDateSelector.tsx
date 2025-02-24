@@ -34,13 +34,13 @@ export function DueDateSelector({
               {row.map((date) => (
                 <Card 
                   key={date}
-                  className={`cursor-pointer transition-all duration-200 h-8 flex items-center justify-center shadow-sm
+                  className={`cursor-pointer transition-all duration-200 h-8 flex items-center justify-center
                     ${selectedDueDate === date 
-                      ? 'bg-[#9b87f5] text-white ring-2 ring-[#9b87f5] ring-offset-2'
-                      : 'bg-white hover:bg-[#9b87f5] hover:text-white ring-1 ring-[#9b87f5] hover:ring-2 hover:ring-offset-2'
+                      ? 'border-2 border-[#9b87f5] bg-[#9b87f5] text-white'
+                      : 'border border-[#9b87f5] hover:border-2 hover:border-[#9b87f5] hover:bg-[#9b87f5] hover:text-white'
                     }`}
                   style={{
-                    borderRadius: calendarStyle?.border_radius || '20px',
+                    borderRadius: calendarStyle?.border_radius || '8px',
                   }}
                   onClick={() => setSelectedDueDate(date)}
                 >
