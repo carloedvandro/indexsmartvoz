@@ -34,10 +34,10 @@ export function DueDateSelector({
               {row.map((date) => (
                 <Card 
                   key={date}
-                  className={`cursor-pointer transition-all duration-200 h-8 flex items-center justify-center
+                  className={`cursor-pointer transition-all duration-200 h-8 flex items-center justify-center shadow-none
                     ${selectedDueDate === date 
-                      ? 'border-2 border-[#8425af] bg-white focus:ring-[#8425af] hover:border-[#8425af]'
-                      : 'border border-[#8425af] hover:border-[#8425af] focus:ring-[#8425af]'
+                      ? 'border-[1.5px] border-[#8425af] bg-white focus:ring-0'
+                      : 'border border-[#8425af] hover:border-[#8425af] focus:ring-0'
                     }`}
                   style={{
                     borderRadius: calendarStyle?.border_radius || '8px',
