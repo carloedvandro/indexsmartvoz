@@ -140,7 +140,7 @@ export default function Financial() {
           <div className="flex justify-between items-center">
             <span className="text-gray-900 font-medium">Saldo disponível</span>
             <div className="flex items-center gap-1">
-              <span className="text-gray-700 text-sm">R$</span>
+              <span className="text-gray-500">R$</span>
               <span className="text-gray-500">5.000,01</span>
             </div>
           </div>
