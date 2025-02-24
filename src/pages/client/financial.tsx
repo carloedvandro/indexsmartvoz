@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -45,14 +44,14 @@ export default function Financial() {
 
       <div className="mb-6 border rounded-lg">
         <div className="py-2 px-4 border-b bg-gray-50">
-          <div className="flex items-center gap-2 text-gray-700">
-            <Filter className="w-4 h-4" />
-            <span className="text-sm font-medium">Filtros</span>
+          <div className="flex items-center gap-2">
+            <Filter className="w-4 h-4 text-gray-900" />
+            <span className="text-sm font-medium text-gray-900">Filtros</span>
           </div>
         </div>
         <div className="grid grid-cols-6 gap-4 p-4">
           <div className="col-span-3">
-            <label className="block text-sm font-medium text-gray-600 mb-1">Mês</label>
+            <label className="block text-sm font-medium text-gray-900 mb-1">Mês</label>
             <Select 
               defaultValue={selectedMonth}
               onValueChange={setSelectedMonth}
@@ -74,7 +73,7 @@ export default function Financial() {
             </Select>
           </div>
           <div className="col-span-3">
-            <label className="block text-sm font-medium text-gray-600 mb-1">Ano</label>
+            <label className="block text-sm font-medium text-gray-900 mb-1">Ano</label>
             <Select 
               defaultValue={selectedYear}
               onValueChange={setSelectedYear}
@@ -111,7 +110,7 @@ export default function Financial() {
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2">
               <div className="flex flex-col">
-                <div className="text-gray-700 font-medium text-[15px] whitespace-nowrap">
+                <div className="text-gray-900 font-medium text-[15px] whitespace-nowrap">
                   Total de bônus recebido em {months.find(m => m.value === selectedMonth)?.label}/{selectedYear}
                 </div>
                 <div className="flex items-center gap-1 self-end mt-2">
@@ -123,7 +122,7 @@ export default function Financial() {
             <div className="h-[1px] bg-gray-200 w-full"></div>
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-1">
-                <span className="text-gray-700 font-medium">Total de saldo</span>
+                <span className="text-gray-900 font-medium">Total de saldo</span>
                 <span className="text-red-500 font-medium">bloqueado</span>
               </div>
               <div className="flex items-baseline gap-1">
