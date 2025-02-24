@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -93,32 +92,30 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
 
       <form onSubmit={handleSubmit} className="w-full space-y-6">
         <div className="space-y-2">
-          <div className={`p-[1px] rounded-lg ${
-            deviceInfo ? 'bg-green-500' : 
-            imei.length === 15 && !deviceInfo ? 'bg-red-500' : 'bg-[#8425af]'
-          }`}>
-            <Input
-              type="text"
-              placeholder="Digite o IMEI"
-              value={imei}
-              onChange={async (e) => {
-                const value = e.target.value.replace(/\D/g, '');
-                if (value.length <= 15) {
-                  setIMEI(value);
-                  if (value.length === 15) {
-                    await validateIMEI(value);
-                  } else {
-                    setIsValidIMEI(false);
-                    setDeviceInfo(null);
-                  }
+          <Input
+            type="text"
+            placeholder="Digite o IMEI"
+            value={imei}
+            onChange={async (e) => {
+              const value = e.target.value.replace(/\D/g, '');
+              if (value.length <= 15) {
+                setIMEI(value);
+                if (value.length === 15) {
+                  await validateIMEI(value);
+                } else {
+                  setIsValidIMEI(false);
+                  setDeviceInfo(null);
                 }
-              }}
-              className={`w-full text-center text-lg rounded-[6px] border border-white bg-white ${
-                deviceInfo ? 'border-green-500' : 
-                imei.length === 15 && !deviceInfo ? 'border-red-500' : 'border-white'
-              }`}
-            />
-          </div>
+              }
+            }}
+            className={`w-full text-center text-lg rounded-lg border ${
+              deviceInfo 
+                ? 'border-green-500 text-green-700' 
+                : imei.length === 15 && !deviceInfo 
+                ? 'border-red-500 text-red-700' 
+                : 'border-[#8425af] text-black'
+            }`}
+          />
           <p className="text-xs text-gray-500 text-center">
             {15 - imei.length} dígitos restantes
           </p>
