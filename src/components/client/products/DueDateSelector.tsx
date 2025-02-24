@@ -36,7 +36,7 @@ export function DueDateSelector({
                   key={date}
                   className={`cursor-pointer transition-all duration-200 h-8 flex items-center justify-center shadow-none relative
                     ${selectedDueDate === date 
-                      ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-white before:absolute before:inset-[1px] before:border before:border-[#8425af]/20 before:rounded-[7px]'
+                      ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-white before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px]'
                       : 'border border-[#8425af] hover:border-[#8425af]'
                     }`}
                   style={{
