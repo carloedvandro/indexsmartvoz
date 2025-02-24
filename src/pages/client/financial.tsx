@@ -2,8 +2,8 @@
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Select } from "@/components/ui/select";
-import { DollarSign } from "lucide-react";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { DollarSign, Filter } from "lucide-react";
 import { formatCurrency } from "@/utils/format";
 
 export default function Financial() {
@@ -26,51 +26,80 @@ export default function Financial() {
           </div>
         </div>
 
-        <Card className="p-6 bg-white">
+        <Card className="p-6 bg-white shadow-sm">
           <h2 className="text-xl font-semibold mb-6 text-gray-700">Resumo</h2>
-          
-          <div className="bg-gray-50 p-4 rounded-lg mb-6">
-            <h3 className="text-sm font-medium text-gray-600 mb-3">Filtros</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">Mês</label>
-                <Select>
-                  <option value="2">Fevereiro</option>
-                </Select>
+
+          <div className="mb-6 border rounded-lg">
+            <div className="p-4 border-b bg-gray-50">
+              <div className="flex items-center gap-2 text-gray-700">
+                <Filter className="w-4 h-4" />
+                <span className="text-sm font-medium">Filtros</span>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">Ano</label>
-                <Select>
-                  <option value="2025">2025</option>
-                </Select>
-              </div>
-              <div className="flex items-end">
-                <Button className="bg-[#00A3D3] hover:bg-[#0089B3]">
-                  Filtrar
-                </Button>
+            </div>
+            <div className="p-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Mês</label>
+                  <Select defaultValue="2">
+                    <SelectTrigger>
+                      <SelectValue>Fevereiro</SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="2">Fevereiro</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Ano</label>
+                  <Select defaultValue="2025">
+                    <SelectTrigger>
+                      <SelectValue>2025</SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="2025">2025</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex items-end">
+                  <Button className="bg-[#00A3D3] hover:bg-[#0089B3] text-white w-[100px]">
+                    Filtrar
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
 
           <div className="space-y-4">
-            <div className="p-4 border rounded-lg">
+            <div className="p-4 bg-white border rounded-lg">
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">Total de bônus recebido em Fevereiro/2025</span>
-                <span className="font-semibold">{formatCurrency(42576.22)}</span>
+                <span className="text-gray-700">Total de bônus recebido em Fevereiro/2025</span>
+                <div className="flex items-center">
+                  <span className="text-gray-700">R$</span>
+                  <span className="text-gray-900 font-medium ml-1">42.576,22</span>
+                </div>
               </div>
             </div>
 
-            <div className="p-4 border rounded-lg">
+            <div className="p-4 bg-white border rounded-lg">
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">Total de saldo <span className="text-red-500">bloqueado</span></span>
-                <span className="font-semibold">{formatCurrency(0)}</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-gray-700">Total de saldo</span>
+                  <span className="text-red-500 font-medium">bloqueado</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="text-gray-700">R$</span>
+                  <span className="text-gray-900 font-medium ml-1">0,00</span>
+                </div>
               </div>
             </div>
 
-            <div className="p-4 border-2 border-green-500 rounded-lg">
+            <div className="p-4 bg-white border-2 border-green-500 rounded-lg">
               <div className="flex justify-between items-center">
-                <span className="text-gray-800 font-medium">Saldo disponível</span>
-                <span className="font-semibold text-lg">{formatCurrency(5000.01)}</span>
+                <span className="text-gray-900 font-medium">Saldo disponível</span>
+                <div className="flex items-center">
+                  <span className="text-gray-700">R$</span>
+                  <span className="text-gray-900 font-medium ml-1">5.000,01</span>
+                </div>
               </div>
             </div>
           </div>
