@@ -109,9 +109,9 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
                 }
               }
             }}
-            className={`w-full text-center text-lg rounded-lg border border-[#8425af] focus:outline-none focus:ring-[#8425af] focus:ring-1 ${
-              deviceInfo ? 'ring-1 ring-green-500 border-green-500' : 
-              imei.length === 15 && !deviceInfo ? 'ring-1 ring-red-500 border-red-500' : ''
+            className={`w-full text-center text-lg rounded-lg border-2 border-[#8425af] focus:outline-none focus:border-[#8425af] ${
+              deviceInfo ? 'border-green-500' : 
+              imei.length === 15 && !deviceInfo ? 'border-red-500' : ''
             }`}
           />
           <p className="text-xs text-gray-500 text-center">
