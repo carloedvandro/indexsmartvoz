@@ -28,14 +28,17 @@ export function FilterSection({
   };
 
   return (
-    <div className="border rounded-lg bg-white">
-      <div className="py-2 px-4 border-b bg-gray-50">
+    <div className="border rounded-lg bg-white relative overflow-hidden">
+      <div className="absolute inset-0">
+        <ParticlesBackground />
+      </div>
+      <div className="py-2 px-4 border-b bg-gray-50 relative z-10">
         <div className="flex items-center gap-2">
           <Filter className="w-4 h-4 text-[#5f0889]" />
           <span className="text-sm font-medium text-gray-900">Filtros</span>
         </div>
       </div>
-      <div className="p-4">
+      <div className="p-4 relative z-10">
         <div className="grid grid-cols-6 gap-4 mb-6">
           <div className="col-span-3">
             <label className="block text-sm font-medium text-gray-900 mb-1">Mês</label>
@@ -77,20 +80,13 @@ export function FilterSection({
           </div>
         </div>
         <div className="flex justify-between gap-4">
-          <div className="relative overflow-hidden rounded-lg">
-            <div className="absolute inset-0">
-              <ParticlesBackground />
-            </div>
-            <div className="relative z-10">
-              <Button
-                variant="outline"
-                onClick={handleBack}
-                className="w-[120px] border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white"
-              >
-                Voltar
-              </Button>
-            </div>
-          </div>
+          <Button
+            variant="outline"
+            onClick={handleBack}
+            className="w-[120px] border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white"
+          >
+            Voltar
+          </Button>
           <Button 
             onClick={onFilter}
             className="w-[120px] bg-[#5f0889] hover:bg-[#5f0889]/90 text-white"
