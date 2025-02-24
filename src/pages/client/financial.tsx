@@ -11,7 +11,7 @@ export default function Financial() {
 
   return (
     <div className="min-h-screen bg-[#F8F9FE] p-6">
-      <div className="max-w-[1200px] mx-auto">
+      <div className="max-w-[800px] mx-auto">
         <div className="flex items-center gap-4 mb-6">
           <Button 
             variant="ghost"
@@ -37,7 +37,7 @@ export default function Financial() {
               </div>
             </div>
             <div className="p-4">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm text-gray-600 mb-1">Mês</label>
                   <Select defaultValue="2">
@@ -61,7 +61,7 @@ export default function Financial() {
                   </Select>
                 </div>
                 <div className="flex items-end">
-                  <Button className="bg-[#00A3D3] hover:bg-[#0089B3] text-white w-[100px]">
+                  <Button className="bg-[#00A3D3] hover:bg-[#0089B3] text-white">
                     Filtrar
                   </Button>
                 </div>
@@ -69,36 +69,36 @@ export default function Financial() {
             </div>
           </div>
 
-          <div className="space-y-4">
-            <div className="p-4 bg-white border rounded-lg">
+          <div className="space-y-3">
+            <div className="p-3 bg-white border rounded-lg">
               <div className="flex justify-between items-center">
                 <span className="text-gray-700">Total de bônus recebido em Fevereiro/2025</span>
-                <div className="flex items-center">
+                <div className="flex items-center gap-1">
                   <span className="text-gray-700">R$</span>
-                  <span className="text-gray-900 font-medium ml-1">42.576,22</span>
+                  <span className="text-gray-900">42.576,22</span>
                 </div>
               </div>
             </div>
 
-            <div className="p-4 bg-white border rounded-lg">
+            <div className="p-3 bg-white border rounded-lg">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-1">
                   <span className="text-gray-700">Total de saldo</span>
-                  <span className="text-red-500 font-medium">bloqueado</span>
+                  <span className="text-red-500">bloqueado</span>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center gap-1">
                   <span className="text-gray-700">R$</span>
-                  <span className="text-gray-900 font-medium ml-1">0,00</span>
+                  <span className="text-gray-900">0,00</span>
                 </div>
               </div>
             </div>
 
-            <div className="p-4 bg-white border-2 border-green-500 rounded-lg">
+            <div className="p-3 bg-white border border-green-500 rounded-lg">
               <div className="flex justify-between items-center">
-                <span className="text-gray-900 font-medium">Saldo disponível</span>
-                <div className="flex items-center">
+                <span className="text-gray-900">Saldo disponível</span>
+                <div className="flex items-center gap-1">
                   <span className="text-gray-700">R$</span>
-                  <span className="text-gray-900 font-medium ml-1">5.000,01</span>
+                  <span className="text-gray-900">5.000,01</span>
                 </div>
               </div>
             </div>
