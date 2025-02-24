@@ -32,8 +32,8 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
               readOnly
             />
             <div>
-              <label htmlFor="self" className="text-lg font-medium text-[#8425af]">
-                Eu Mesmo (Gestor)
+              <label htmlFor="self" className="text-lg font-medium text-black">
+                Eu Mesmo (Titular)
               </label>
               <p className="text-black text-sm mt-1">
                 Você informa os números de IMEI e EID do celular e solicita ativação e aguardar o prazo da habilitação do eSIM
