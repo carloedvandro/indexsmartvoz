@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -40,12 +41,12 @@ export default function Financial() {
   return (
     <div className="max-w-[550px] mx-auto p-6 mt-[60px]">
       <h1 className="text-2xl font-semibold text-gray-800 mb-6">Financeiro</h1>
-      <h2 className="text-xl font-semibold mb-6 text-gray-700">Resumo</h2>
+      <h2 className="text-xl font-semibold mb-6 text-gray-900">Resumo</h2>
 
       <div className="mb-6 border rounded-lg">
         <div className="py-2 px-4 border-b bg-gray-50">
           <div className="flex items-center gap-2">
-            <Filter className="w-4 h-4 text-gray-900" />
+            <Filter className="w-4 h-4 text-[#5f0889]" />
             <span className="text-sm font-medium text-gray-900">Filtros</span>
           </div>
         </div>
