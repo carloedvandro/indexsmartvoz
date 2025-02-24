@@ -126,10 +126,7 @@ export default function Financial() {
             </div>
             <div className="h-[1px] bg-gray-200 w-full"></div>
             <div className="flex justify-between items-center">
-              <div className="flex items-center gap-1">
-                <span className="text-gray-700">Total de saldo</span>
-                <span className="text-red-500 font-bold">bloqueado</span>
-              </div>
+              <span className="text-gray-700">Total de saldo</span>
               <div className="flex items-baseline gap-1">
                 <span className="text-gray-500">R$</span>
                 <span className="text-gray-900 text-lg font-medium">0,00</span>
