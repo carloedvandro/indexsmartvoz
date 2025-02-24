@@ -126,14 +126,16 @@ export default function Financial() {
           <Card className="p-4 border rounded-lg bg-white">
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-700 pr-4">
-                    Total de bônus recebido em {months.find(m => m.value === selectedMonth)?.label}/{selectedYear}
-                  </span>
-                </div>
-                <div className="flex items-baseline gap-1 justify-end">
-                  <span className="text-gray-500">R$</span>
-                  <span className="text-gray-900 text-lg font-medium">42.576,22</span>
+                <div className="flex justify-between items-baseline">
+                  <div className="flex-1">
+                    <span className="text-gray-700 inline-block whitespace-nowrap">
+                      Total de bônus recebido em {months.find(m => m.value === selectedMonth)?.label}/{selectedYear}
+                    </span>
+                  </div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-gray-500">R$</span>
+                    <span className="text-gray-900 text-lg font-medium">42.576,22</span>
+                  </div>
                 </div>
               </div>
               <div className="h-[1px] bg-gray-200 w-full"></div>
