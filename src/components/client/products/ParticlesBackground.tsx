@@ -1,113 +1,86 @@
-import { useEffect, useRef } from "react";
-import * as THREE from "three";
+
+import { useCallback } from "react";
+import Particles from "react-particles";
+import type { Engine } from "tsparticles-engine";
+import { loadSlim } from "tsparticles-slim";
 
 export function ParticlesBackground() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const sceneRef = useRef<THREE.Scene | null>(null);
-  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
-  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-  const particlesRef = useRef<THREE.Points | null>(null);
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    // Scene setup
-    const scene = new THREE.Scene();
-    sceneRef.current = scene;
-
-    // Camera setup
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
-    camera.position.z = 5;
-    cameraRef.current = camera;
-
-    // Renderer setup
-    const renderer = new THREE.WebGLRenderer({ alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000, 0);
-    containerRef.current.appendChild(renderer.domElement);
-    rendererRef.current = renderer;
-
-    // Particles setup
-    const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 1500; // Reduced count for better performance
-    const posArray = new Float32Array(particlesCount * 3);
-
-    for (let i = 0; i < particlesCount * 3; i += 3) {
-      // Spread particles more widely
-      posArray[i] = (Math.random() - 0.5) * 15;      // x
-      posArray[i + 1] = (Math.random() - 0.5) * 15;  // y
-      posArray[i + 2] = (Math.random() - 0.5) * 15;  // z
-    }
-
-    particlesGeometry.setAttribute(
-      "position",
-      new THREE.BufferAttribute(posArray, 3)
-    );
-
-    // Create a custom point material with a brighter, more meteor-like appearance
-    const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.02, // Increased size
-      color: '#9b87f5', // Lighter purple color
-      transparent: true,
-      opacity: 1, // Full opacity
-      blending: THREE.AdditiveBlending, // Makes particles glow
-      sizeAttenuation: true, // Particles change size based on distance
-    });
-
-    const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particles);
-    particlesRef.current = particles;
-
-    // Animation
-    let frame = 0;
-    const animate = () => {
-      frame = requestAnimationFrame(animate);
-
-      if (particlesRef.current) {
-        // Rotate particles to create a falling meteor effect
-        particlesRef.current.rotation.x += 0.002;
-        particlesRef.current.rotation.y += 0.001;
-        particlesRef.current.rotation.z += 0.0005;
-
-        // Add a slight wave motion
-        particlesRef.current.position.y = Math.sin(Date.now() * 0.001) * 0.1;
-      }
-
-      renderer.render(scene, camera);
-    };
-
-    animate();
-
-    // Handle resize
-    const handleResize = () => {
-      if (!cameraRef.current || !rendererRef.current) return;
-      
-      cameraRef.current.aspect = window.innerWidth / window.innerHeight;
-      cameraRef.current.updateProjectionMatrix();
-      rendererRef.current.setSize(window.innerWidth, window.innerHeight);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      if (containerRef.current && rendererRef.current) {
-        containerRef.current.removeChild(rendererRef.current.domElement);
-      }
-      cancelAnimationFrame(frame);
-      scene.remove(particles);
-      particlesGeometry.dispose();
-      particlesMaterial.dispose();
-    };
+  const particlesInit = useCallback(async (engine: Engine) => {
+    await loadSlim(engine);
   }, []);
 
   return (
-    <div ref={containerRef} className="fixed inset-0 pointer-events-none" />
+    <Particles
+      id="tsparticles"
+      init={particlesInit}
+      options={{
+        background: {
+          color: {
+            value: "#ffffff",
+          },
+        },
+        fpsLimit: 120,
+        interactivity: {
+          events: {
+            onClick: {
+              enable: true,
+              mode: "push",
+            },
+            onHover: {
+              enable: true,
+              mode: "repulse",
+            },
+          },
+          modes: {
+            push: {
+              quantity: 4,
+            },
+            repulse: {
+              distance: 200,
+              duration: 0.4,
+            },
+          },
+        },
+        particles: {
+          color: {
+            value: "#6b21a8",
+          },
+          links: {
+            color: "#6b21a8",
+            distance: 150,
+            enable: true,
+            opacity: 0.5,
+            width: 1,
+          },
+          move: {
+            direction: "none",
+            enable: true,
+            outModes: {
+              default: "bounce",
+            },
+            random: false,
+            speed: 3,
+            straight: false,
+          },
+          number: {
+            density: {
+              enable: true,
+              area: 800,
+            },
+            value: 80,
+          },
+          opacity: {
+            value: 0.5,
+          },
+          shape: {
+            type: "circle",
+          },
+          size: {
+            value: { min: 1, max: 5 },
+          },
+        },
+        detectRetina: true,
+      }}
+    />
   );
 }
