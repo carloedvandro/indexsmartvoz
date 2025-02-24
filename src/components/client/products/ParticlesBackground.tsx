@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
@@ -35,14 +34,14 @@ export function ParticlesBackground() {
 
     // Particles setup
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 2500; // Aumentado o número de partículas
+    const particlesCount = 1500; // Reduced count for better performance
     const posArray = new Float32Array(particlesCount * 3);
 
     for (let i = 0; i < particlesCount * 3; i += 3) {
-      // Espalhando as partículas em uma área maior
-      posArray[i] = (Math.random() - 0.5) * 20;      // x
-      posArray[i + 1] = (Math.random() - 0.5) * 20;  // y
-      posArray[i + 2] = (Math.random() - 0.5) * 20;  // z
+      // Spread particles more widely
+      posArray[i] = (Math.random() - 0.5) * 15;      // x
+      posArray[i + 1] = (Math.random() - 0.5) * 15;  // y
+      posArray[i + 2] = (Math.random() - 0.5) * 15;  // z
     }
 
     particlesGeometry.setAttribute(
@@ -50,14 +49,14 @@ export function ParticlesBackground() {
       new THREE.BufferAttribute(posArray, 3)
     );
 
-    // Material com aparência mais brilhante e cores ajustadas
+    // Create a custom point material with a brighter, more meteor-like appearance
     const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.03, // Tamanho aumentado
-      color: '#9c2dcf', // Cor roxa mais clara para combinar com os cards
+      size: 0.02, // Increased size
+      color: '#9b87f5', // Lighter purple color
       transparent: true,
-      opacity: 0.8, // Maior opacidade
-      blending: THREE.AdditiveBlending,
-      sizeAttenuation: true,
+      opacity: 1, // Full opacity
+      blending: THREE.AdditiveBlending, // Makes particles glow
+      sizeAttenuation: true, // Particles change size based on distance
     });
 
     const particles = new THREE.Points(particlesGeometry, particlesMaterial);
@@ -70,13 +69,13 @@ export function ParticlesBackground() {
       frame = requestAnimationFrame(animate);
 
       if (particlesRef.current) {
-        // Rotação mais lenta para um efeito mais suave
-        particlesRef.current.rotation.x += 0.0005;
-        particlesRef.current.rotation.y += 0.0003;
-        particlesRef.current.rotation.z += 0.0002;
+        // Rotate particles to create a falling meteor effect
+        particlesRef.current.rotation.x += 0.002;
+        particlesRef.current.rotation.y += 0.001;
+        particlesRef.current.rotation.z += 0.0005;
 
-        // Movimento ondulante mais pronunciado
-        particlesRef.current.position.y = Math.sin(Date.now() * 0.0005) * 0.2;
+        // Add a slight wave motion
+        particlesRef.current.position.y = Math.sin(Date.now() * 0.001) * 0.1;
       }
 
       renderer.render(scene, camera);
