@@ -29,11 +29,8 @@ export const navigationItems: NavigationItem[] = [
       {
         title: "Minha Rede",
         href: "/client/network",
-      },
-      {
-        title: "Matriz Fechada",
-        href: "/client/matrix",
       }
     ],
   },
 ];
+
