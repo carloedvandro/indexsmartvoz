@@ -65,7 +65,7 @@ export default function Financial() {
                   <SelectItem 
                     key={month.value} 
                     value={month.value}
-                    className="hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white"
+                    className="hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
                   >
                     {month.label}
                   </SelectItem>
@@ -87,7 +87,7 @@ export default function Financial() {
                   <SelectItem 
                     key={year.value} 
                     value={year.value}
-                    className="hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white"
+                    className="hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
                   >
                     {year.label}
                   </SelectItem>
