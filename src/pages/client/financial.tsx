@@ -49,6 +49,7 @@ export default function Financial() {
 
   return (
     <div className="relative min-h-screen">
+      <ParticlesBackground />
       <div className="max-w-[530px] mx-auto p-6 mt-[60px] relative z-10">
         <h1 className="text-2xl font-semibold text-gray-800 mb-6">Financeiro</h1>
         <h2 className="text-xl font-semibold mb-6 text-gray-900">Resumo</h2>
@@ -106,17 +107,12 @@ export default function Financial() {
               </Select>
             </div>
             <div className="col-span-6">
-              <div className="relative h-10 rounded-md overflow-hidden">
-                <div className="absolute inset-0">
-                  <ParticlesBackground />
-                </div>
-                <Button 
-                  className="bg-[#5f0889] hover:bg-[#4a0669] text-white w-full h-full relative z-10"
-                  onClick={handleFilter}
-                >
-                  Filtrar
-                </Button>
-              </div>
+              <Button 
+                className="bg-[#5f0889] hover:bg-[#4a0669] text-white w-full"
+                onClick={handleFilter}
+              >
+                Filtrar
+              </Button>
             </div>
           </div>
         </div>
