@@ -39,7 +39,7 @@ export default function Financial() {
   };
 
   return (
-    <div className="max-w-[760px] mx-auto p-6 mt-[60px]">
+    <div className="max-w-[700px] mx-auto p-6 mt-[60px]">
       <h1 className="text-2xl font-semibold text-gray-800 mb-6">FINANCEIRO</h1>
       <h2 className="text-xl font-semibold mb-6 text-gray-700">Resumo</h2>
 
