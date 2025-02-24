@@ -38,9 +38,9 @@ export default function ClientDashboard() {
           <div className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
             <div className="px-6 mb-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="p-6 bg-[#7BC043]/20 text-[#7BC043] rounded-lg">
+                <Card className="p-6 bg-[#8425af]/20 text-[#8425af] rounded-lg">
                   <div className="flex items-center space-x-4">
-                    <div className="p-3 bg-[#7BC043]/20 rounded-full">
+                    <div className="p-3 bg-[#8425af]/20 rounded-full">
                       <DollarSign className="w-6 h-6" />
                     </div>
                     <div>
@@ -50,9 +50,9 @@ export default function ClientDashboard() {
                   </div>
                 </Card>
 
-                <Card className="p-6 bg-[#FFB84D]/20 text-[#FFB84D] rounded-lg">
+                <Card className="p-6 bg-[#8425af]/20 text-[#8425af] rounded-lg">
                   <div className="flex items-center space-x-4">
-                    <div className="p-3 bg-[#FFB84D]/20 rounded-full">
+                    <div className="p-3 bg-[#8425af]/20 rounded-full">
                       <LineChart className="w-6 h-6" />
                     </div>
                     <div>
@@ -62,9 +62,9 @@ export default function ClientDashboard() {
                   </div>
                 </Card>
 
-                <Card className="p-6 bg-[#45B6FE]/20 text-[#45B6FE] rounded-lg">
+                <Card className="p-6 bg-[#8425af]/20 text-[#8425af] rounded-lg">
                   <div className="flex items-center space-x-4">
-                    <div className="p-3 bg-[#45B6FE]/20 rounded-full">
+                    <div className="p-3 bg-[#8425af]/20 rounded-full">
                       <TrendingUp className="w-6 h-6" />
                     </div>
                     <div>
