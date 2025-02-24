@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -116,11 +117,11 @@ export default function Financial() {
         <Card className="p-4 border rounded-lg bg-white">
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2">
-              <div className="flex flex-col">
+              <div className="flex justify-between items-center">
                 <div className="text-gray-900 font-medium text-[15px] whitespace-nowrap">
                   Total de bônus recebido em {months.find(m => m.value === selectedMonth)?.label}/{selectedYear}
                 </div>
-                <div className="flex items-center gap-1 self-end mt-2">
+                <div className="flex items-center gap-1">
                   <span className="text-gray-500">R$</span>
                   <span className="text-gray-500">42.576,22</span>
                 </div>
