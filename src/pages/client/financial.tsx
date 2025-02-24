@@ -52,7 +52,7 @@ export default function Financial() {
         </div>
         <div className="p-4 bg-white">
           <div className="grid grid-cols-3 gap-4">
-            <div>
+            <div className="col-span-2">
               <label className="block text-sm text-gray-600 mb-1">Mês</label>
               <Select 
                 defaultValue={selectedMonth}
@@ -61,7 +61,7 @@ export default function Financial() {
                 <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white">
+                <SelectContent className="bg-white min-w-[160px]">
                   {months.map((month) => (
                     <SelectItem 
                       key={month.value} 
@@ -96,7 +96,7 @@ export default function Financial() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex items-end">
+            <div className="col-span-3">
               <Button 
                 className="bg-[#5f0889] hover:bg-[#4a0669] text-white w-full"
                 onClick={handleFilter}
