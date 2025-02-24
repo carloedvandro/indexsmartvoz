@@ -115,34 +115,36 @@ export default function Financial() {
           </div>
         </div>
 
-        <div className="space-y-4">
-          <Card className="p-6 bg-white shadow-sm">
-            <div className="flex justify-between items-center">
-              <div className="flex flex-col">
-                <span className="text-base text-gray-700">
-                  Total de bônus recebido em {months.find(m => m.value === selectedMonth)?.label} /{' '}
-                </span>
-                <span className="text-base text-gray-700">{selectedYear}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="text-gray-700">R$</span>
-                <span className="text-gray-900 text-xl font-medium">42.576,22</span>
-              </div>
+        <div className="grid grid-cols-1 gap-4 bg-white rounded-lg p-4">
+          <div className="flex justify-between items-center border-b pb-4">
+            <div className="flex items-baseline gap-1">
+              <span className="text-gray-700">Total de bônus recebido em {months.find(m => m.value === selectedMonth)?.label} /</span>
+              <span className="text-gray-700">{selectedYear}</span>
             </div>
-          </Card>
+            <div className="flex items-baseline gap-1">
+              <span className="text-gray-700">R$</span>
+              <span className="text-gray-900 text-lg font-medium">42.576,22</span>
+            </div>
+          </div>
 
-          <Card className="p-6 bg-white shadow-sm">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-1">
-                <span className="text-base text-gray-700">Total de saldo</span>
-                <span className="text-red-500">bloqueado</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="text-gray-700">R$</span>
-                <span className="text-gray-900 text-xl font-medium">0,00</span>
-              </div>
+          <div className="flex justify-between items-center border-b pb-4">
+            <div className="flex items-center gap-1">
+              <span className="text-gray-700">Total de saldo</span>
+              <span className="text-red-500">bloqueado</span>
             </div>
-          </Card>
+            <div className="flex items-baseline gap-1">
+              <span className="text-gray-700">R$</span>
+              <span className="text-gray-900 text-lg font-medium">0,00</span>
+            </div>
+          </div>
+
+          <div className="flex justify-between items-center py-2">
+            <span className="text-gray-900 font-medium text-lg">Saldo disponível</span>
+            <div className="flex items-baseline gap-1">
+              <span className="text-gray-700">R$</span>
+              <span className="text-gray-900 text-lg font-medium">5.000,01</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
