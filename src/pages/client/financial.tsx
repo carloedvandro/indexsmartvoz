@@ -72,10 +72,10 @@ export default function Financial() {
                   defaultValue={selectedMonth}
                   onValueChange={setSelectedMonth}
                 >
-                  <SelectTrigger className="w-full bg-[#5f0889] text-white hover:bg-[#4a0669] focus:ring-[#4a0669]">
+                  <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white">
                     {months.map((month) => (
                       <SelectItem 
                         key={month.value} 
@@ -94,10 +94,10 @@ export default function Financial() {
                   defaultValue={selectedYear}
                   onValueChange={setSelectedYear}
                 >
-                  <SelectTrigger className="w-full bg-[#5f0889] text-white hover:bg-[#4a0669] focus:ring-[#4a0669]">
+                  <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white">
                     {years.map((year) => (
                       <SelectItem 
                         key={year.value} 
