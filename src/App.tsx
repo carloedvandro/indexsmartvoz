@@ -24,6 +24,7 @@ import AdminUsers from '@/pages/admin/users';
 import PublicStore from '@/pages/public/store';
 import ResetPassword from '@/pages/client/reset-password';
 import UpdatePassword from '@/pages/client/update-password';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -62,11 +63,16 @@ const router = createBrowserRouter(
   )
 );
 
+// Create a client
+const queryClient = new QueryClient();
+
 const App = () => {
   return (
     <React.StrictMode>
-      <RouterProvider router={router} />
-      <Toaster />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <Toaster />
+      </QueryClientProvider>
     </React.StrictMode>
   );
 };
