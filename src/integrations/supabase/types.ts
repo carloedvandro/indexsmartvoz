@@ -1125,6 +1125,12 @@ export type Database = {
         }
         Returns: undefined
       }
+      delete_user_and_related_data: {
+        Args: {
+          user_id: string
+        }
+        Returns: undefined
+      }
       get_all_network_members: {
         Args: {
           root_network_id: string
