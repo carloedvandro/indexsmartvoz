@@ -93,9 +93,9 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
 
       <form onSubmit={handleSubmit} className="w-full space-y-6">
         <div className="space-y-2">
-          <div className={`ring-1 ring-[#8425af] rounded-lg ${
-            deviceInfo ? 'ring-green-500' : 
-            imei.length === 15 && !deviceInfo ? 'ring-red-500' : ''
+          <div className={`p-[1px] rounded-lg ${
+            deviceInfo ? 'bg-green-500' : 
+            imei.length === 15 && !deviceInfo ? 'bg-red-500' : 'bg-[#8425af]'
           }`}>
             <Input
               type="text"
@@ -113,9 +113,9 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
                   }
                 }
               }}
-              className={`w-full text-center text-lg rounded-[6px] border border-[#8425af] focus:outline-none focus:border-[#8425af] ${
+              className={`w-full text-center text-lg rounded-[6px] border border-white bg-white ${
                 deviceInfo ? 'border-green-500' : 
-                imei.length === 15 && !deviceInfo ? 'border-red-500' : ''
+                imei.length === 15 && !deviceInfo ? 'border-red-500' : 'border-white'
               }`}
             />
           </div>
