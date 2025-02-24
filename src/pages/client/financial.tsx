@@ -121,7 +121,7 @@ export default function Financial() {
               <span className="text-gray-700 -mt-10 -ml-8">
                 Total de bônus recebido em {months.find(m => m.value === selectedMonth)?.label}/{selectedYear}
               </span>
-              <div className="flex items-baseline gap-1 justify-end -mt-6 -mr-4">
+              <div className="flex items-baseline gap-1 justify-end -mt-6 -mr-8">
                 <span className="text-gray-500">R$</span>
                 <span className="text-gray-900 text-lg font-medium">42.576,22</span>
               </div>
