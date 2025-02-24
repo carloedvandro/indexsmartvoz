@@ -47,29 +47,33 @@ export default function Financial() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="h-screen overflow-hidden flex flex-col">
       <FinancialHeader />
 
-      <div className="max-w-[530px] mx-auto mt-[110px]">
-        <FilterSection
-          selectedMonth={selectedMonth}
-          selectedYear={selectedYear}
-          months={months}
-          years={years}
-          onMonthChange={setSelectedMonth}
-          onYearChange={setSelectedYear}
-          onFilter={handleFilter}
-        />
-
-        <div className="px-6">
-          {showFinancialData && (
-            <BalanceCards
+      <div className="flex-1 mt-16">
+        <div className="max-w-[530px] mx-auto h-full flex flex-col">
+          <div className="p-6">
+            <FilterSection
               selectedMonth={selectedMonth}
               selectedYear={selectedYear}
               months={months}
-              onCardClick={() => setShowBalanceDialog(true)}
+              years={years}
+              onMonthChange={setSelectedMonth}
+              onYearChange={setSelectedYear}
+              onFilter={handleFilter}
             />
-          )}
+          </div>
+
+          <div className="px-6 flex-1">
+            {showFinancialData && (
+              <BalanceCards
+                selectedMonth={selectedMonth}
+                selectedYear={selectedYear}
+                months={months}
+                onCardClick={() => setShowBalanceDialog(true)}
+              />
+            )}
+          </div>
         </div>
       </div>
 
