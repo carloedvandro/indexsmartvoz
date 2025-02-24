@@ -118,7 +118,7 @@ export default function Financial() {
                 </div>
                 <div className="flex items-baseline gap-1">
                   <span className="text-gray-500">R$</span>
-                  <span className="text-gray-900 text-lg font-medium">42.576,22</span>
+                  <span className="text-gray-900 text-lg">42.576,22</span>
                 </div>
               </div>
             </div>
@@ -130,7 +130,7 @@ export default function Financial() {
               </div>
               <div className="flex items-baseline gap-1">
                 <span className="text-gray-500">R$</span>
-                <span className="text-gray-900 text-lg font-medium">0,00</span>
+                <span className="text-gray-900 text-lg">0,00</span>
               </div>
             </div>
           </div>
@@ -141,7 +141,7 @@ export default function Financial() {
             <span className="text-gray-900 font-medium">Saldo disponível</span>
             <div className="flex items-center gap-1">
               <span className="text-gray-700 text-sm">R$</span>
-              <span className="text-gray-900 font-medium">5.000,01</span>
+              <span className="text-gray-900">5.000,01</span>
             </div>
           </div>
         </Card>
