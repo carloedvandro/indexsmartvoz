@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -108,7 +109,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
                 }
               }
             }}
-            className={`w-full text-center text-lg rounded-lg border ${
+            className={`w-full text-center text-lg rounded-lg border focus:border-[#8425af] focus:ring-1 focus:ring-[#8425af] ${
               deviceInfo 
                 ? 'border-green-500 text-green-700' 
                 : imei.length === 15 && !deviceInfo 
