@@ -29,7 +29,7 @@ export default function ClientDashboard() {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="flex h-screen w-full overflow-hidden relative"
+      className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden relative"
     >
       <ParticlesBackground />
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
@@ -38,9 +38,9 @@ export default function ClientDashboard() {
           <div className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
             <div className="px-6 mb-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="p-6 bg-black/30 border-0 backdrop-blur-md rounded-lg text-white">
+                <Card className="p-6 bg-[#7BC043] text-white rounded-lg">
                   <div className="flex items-center space-x-4">
-                    <div className="p-3 bg-white/10 rounded-full">
+                    <div className="p-3 bg-white/20 rounded-full">
                       <DollarSign className="w-6 h-6" />
                     </div>
                     <div>
@@ -50,9 +50,9 @@ export default function ClientDashboard() {
                   </div>
                 </Card>
 
-                <Card className="p-6 bg-black/30 border-0 backdrop-blur-md rounded-lg text-white">
+                <Card className="p-6 bg-[#FFB84D] text-white rounded-lg">
                   <div className="flex items-center space-x-4">
-                    <div className="p-3 bg-white/10 rounded-full">
+                    <div className="p-3 bg-white/20 rounded-full">
                       <LineChart className="w-6 h-6" />
                     </div>
                     <div>
@@ -62,9 +62,9 @@ export default function ClientDashboard() {
                   </div>
                 </Card>
 
-                <Card className="p-6 bg-black/30 border-0 backdrop-blur-md rounded-lg text-white">
+                <Card className="p-6 bg-[#45B6FE] text-white rounded-lg">
                   <div className="flex items-center space-x-4">
-                    <div className="p-3 bg-white/10 rounded-full">
+                    <div className="p-3 bg-white/20 rounded-full">
                       <TrendingUp className="w-6 h-6" />
                     </div>
                     <div>
