@@ -24,9 +24,6 @@ import AdminUsers from '@/pages/admin/users';
 import PublicStore from '@/pages/public/store';
 import ResetPassword from '@/pages/client/reset-password';
 import UpdatePassword from '@/pages/client/update-password';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { I18nextProvider } from 'react-i18next';
-import i18n from '@/i18n';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -65,23 +62,12 @@ const router = createBrowserRouter(
   )
 );
 
-// Create a client
-const queryClient = new QueryClient();
-
-function AppContent() {
-  return (
-    <RouterProvider router={router} />
-  );
-}
-
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <I18nextProvider i18n={i18n}>
-        <AppContent />
-        <Toaster />
-      </I18nextProvider>
-    </QueryClientProvider>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+      <Toaster />
+    </React.StrictMode>
   );
 };
 
