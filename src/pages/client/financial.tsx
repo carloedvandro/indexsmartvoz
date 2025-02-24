@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -136,10 +137,10 @@ export default function Financial() {
         <Card className="relative p-4 border border-gray-200 rounded-lg overflow-hidden">
           <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#16a34a]" />
           <div className="flex justify-between items-center">
-            <span className="text-gray-900 font-medium">Saldo disponível</span>
+            <span className="text-[#16a34a] font-medium">Saldo disponível</span>
             <div className="flex items-center gap-1">
-              <span className="text-gray-500">R$</span>
-              <span className="text-gray-500">5.000,01</span>
+              <span className="text-[#16a34a]">R$</span>
+              <span className="text-[#16a34a]">5.000,01</span>
             </div>
           </div>
         </Card>
