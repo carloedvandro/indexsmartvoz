@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -118,14 +117,12 @@ export default function Financial() {
         <div className="grid grid-cols-1 gap-4">
           <Card className="p-12 border rounded-lg bg-white">
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-gray-700 -mt-10 -ml-8">
-                  Total de bônus recebido em {months.find(m => m.value === selectedMonth)?.label}/{selectedYear}
-                </span>
-                <div className="flex items-baseline gap-1 ml-32">
-                  <span className="text-gray-500">R$</span>
-                  <span className="text-gray-900 text-lg font-medium">42.576,22</span>
-                </div>
+              <span className="text-gray-700 -mt-10 -ml-8">
+                Total de bônus recebido em {months.find(m => m.value === selectedMonth)?.label}/{selectedYear}
+              </span>
+              <div className="flex items-baseline gap-1 ml-32 -mt-6">
+                <span className="text-gray-500">R$</span>
+                <span className="text-gray-900 text-lg font-medium">42.576,22</span>
               </div>
               <div className="h-[1px] bg-gray-200 w-full"></div>
               <div className="flex justify-between items-center pt-3">
