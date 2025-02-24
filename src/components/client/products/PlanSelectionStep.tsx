@@ -33,7 +33,7 @@ export function PlanSelectionStep({
   
   const internetOptions = [
     { value: "FREE", label: "Plano Gratuito", price: 0 },
-    { value: "120GB", label: "120GB", price: 119.99 },
+    { value: "120GB", label: "Essencial 120GB", price: 119.99 },
   ];
 
   useState(() => {
