@@ -28,10 +28,10 @@ export default function Financial() {
   ];
 
   const years = [
-    { value: "2023", label: "2023" },
-    { value: "2024", label: "2024" },
+    { value: "2026", label: "2026" },
     { value: "2025", label: "2025" },
-    { value: "2026", label: "2026" }
+    { value: "2024", label: "2024" },
+    { value: "2023", label: "2023" }
   ];
 
   const handleFilter = () => {
@@ -94,7 +94,7 @@ export default function Financial() {
                   defaultValue={selectedYear}
                   onValueChange={setSelectedYear}
                 >
-                  <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900">
+                  <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 pl-3">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="bg-white">
