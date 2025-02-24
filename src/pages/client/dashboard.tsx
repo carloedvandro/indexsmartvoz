@@ -33,7 +33,7 @@ export default function ClientDashboard() {
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
         <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
-          <div className="max-w-[1800px] mx-auto pt-16"> {/* Alterado de pt-6 para pt-16 (40px) */}
+          <div className="max-w-[1800px] mx-auto pt-24"> {/* Alterado de pt-16 para pt-24 (96px) */}
             <div className="px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="w-full">
                 <ProfileCard profile={profile} />
