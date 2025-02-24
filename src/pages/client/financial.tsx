@@ -50,7 +50,7 @@ export default function Financial() {
     <div className="h-screen overflow-hidden flex flex-col">
       <FinancialHeader />
 
-      <div className="flex-1 mt-16">
+      <div className="flex-1 mt-[66px]">
         <div className="max-w-[530px] mx-auto h-full flex flex-col">
           <div className="p-6">
             <FilterSection
