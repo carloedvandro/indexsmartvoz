@@ -19,7 +19,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
         </h2>
       </div>
 
-      <div className="bg-[#212529] text-white rounded-lg p-4 flex items-center gap-2">
+      <div className="bg-black/30 backdrop-blur-md text-white rounded-lg p-4 flex items-center gap-2">
         <Info className="w-5 h-5" />
         <p className="text-sm">
           O aparelho precisa ter um eSIM pra ter o chip ativado
