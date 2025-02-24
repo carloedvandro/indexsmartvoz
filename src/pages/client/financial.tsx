@@ -116,7 +116,7 @@ export default function Financial() {
         </div>
 
         <div className="grid grid-cols-1 gap-4">
-          <Card className="p-12 border rounded-lg bg-white">
+          <Card>
             <div className="flex flex-col gap-1">
               <span className="text-gray-700 -mt-10 -ml-8">
                 Total de bônus recebido em {months.find(m => m.value === selectedMonth)?.label}/{selectedYear}
@@ -131,7 +131,7 @@ export default function Financial() {
                   <span className="text-gray-700">Total de saldo</span>
                   <span className="text-red-500 font-bold">bloqueado</span>
                 </div>
-                <div className="flex items-baseline gap-1 ml-20 pl-8">
+                <div className="flex items-baseline gap-1 mr-24">
                   <span className="text-gray-500">R$</span>
                   <span className="text-gray-900 text-lg font-medium">0,00</span>
                 </div>
