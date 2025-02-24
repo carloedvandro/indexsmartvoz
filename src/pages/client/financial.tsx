@@ -142,12 +142,12 @@ export default function Financial() {
         </Card>
 
         <Card className="relative p-4 border border-gray-200 rounded-lg overflow-hidden">
-          <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#017020]" />
+          <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#02951e]" />
           <div className="flex justify-between items-center">
-            <span className="text-[#017020] font-medium">Saldo disponível</span>
+            <span className="text-[#02951e] font-medium">Saldo disponível</span>
             <div className="flex items-center gap-1">
-              <span className="text-[#017020]">R$</span>
-              <span className="text-[#017020]">5.000,01</span>
+              <span className="text-[#02951e]">R$</span>
+              <span className="text-[#02951e]">5.000,01</span>
             </div>
           </div>
         </Card>
