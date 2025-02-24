@@ -32,6 +32,13 @@ export function InternetSelector({
           <SelectValue placeholder="Escolher o plano" />
         </SelectTrigger>
         <SelectContent position="popper" className="bg-white max-h-[179px] overflow-y-auto w-full">
+          <SelectItem 
+            key="FREE_PLAN"
+            value="FREE"
+            className="hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
+          >
+            Plano Gratuito
+          </SelectItem>
           {internetOptions.map((option) => (
             <SelectItem 
               key={option.value} 

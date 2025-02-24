@@ -32,6 +32,7 @@ export function PlanSelectionStep({
   const { data: calendarStyle } = useCalendarStyles();
   
   const internetOptions = [
+    { value: "FREE", label: "Plano Gratuito", price: 0 },
     { value: "120GB", label: "120GB", price: 119.99 },
   ];
 
@@ -101,9 +102,7 @@ export function PlanSelectionStep({
           </div>
         </motion.div>
 
-        <motion.div 
-          variants={itemVariants}
-        >
+        <motion.div variants={itemVariants}>
           <DueDateSelector
             selectedDueDate={selectedDueDate}
             setSelectedDueDate={setSelectedDueDate}
