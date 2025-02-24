@@ -28,9 +28,11 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
 
       <div className="space-y-4 mt-4">
         <div 
-          className={`p-4 rounded-lg border hover:border-[#8425af] cursor-pointer transition-all ${
-            selectedDevice === 'android' ? 'border-[#8425af]' : 'border-gray-200'
-          }`}
+          className={`p-4 rounded-lg border transition-all cursor-pointer relative hover:bg-transparent
+            ${selectedDevice === 'android' 
+              ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px]'
+              : 'border-gray-200 hover:border-[#8425af]'
+            }`}
           onClick={() => setSelectedDevice('android')}
         >
           <div className="flex items-center gap-3">
@@ -42,16 +44,18 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
               checked={selectedDevice === 'android'}
               onChange={() => setSelectedDevice('android')}
             />
-            <label htmlFor="android" className="text-lg font-medium">
+            <label htmlFor="android" className={`text-lg font-medium ${selectedDevice === 'android' ? 'text-[#8425af]' : ''}`}>
               Android
             </label>
           </div>
         </div>
 
         <div 
-          className={`p-4 rounded-lg border hover:border-[#8425af] cursor-pointer transition-all ${
-            selectedDevice === 'ios' ? 'border-[#8425af]' : 'border-gray-200'
-          }`}
+          className={`p-4 rounded-lg border transition-all cursor-pointer relative hover:bg-transparent
+            ${selectedDevice === 'ios' 
+              ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px]'
+              : 'border-gray-200 hover:border-[#8425af]'
+            }`}
           onClick={() => setSelectedDevice('ios')}
         >
           <div className="flex items-center gap-3">
@@ -63,7 +67,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
               checked={selectedDevice === 'ios'}
               onChange={() => setSelectedDevice('ios')}
             />
-            <label htmlFor="ios" className="text-lg font-medium">
+            <label htmlFor="ios" className={`text-lg font-medium ${selectedDevice === 'ios' ? 'text-[#8425af]' : ''}`}>
               iOS (iPhone)
             </label>
           </div>

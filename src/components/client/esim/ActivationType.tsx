@@ -19,7 +19,7 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
 
       <div className="space-y-4 mt-6">
         <div 
-          className="p-4 rounded-lg border border-[#8425af] hover:border-[#8425af] hover:bg-[#8425af]/5 cursor-pointer transition-all"
+          className="p-4 rounded-lg transition-all cursor-pointer relative hover:bg-transparent ring-2 ring-[#8425af] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px]"
           onClick={() => onSelect('self')}
         >
           <div className="flex items-start gap-3">
@@ -32,7 +32,7 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
               readOnly
             />
             <div>
-              <label htmlFor="self" className="text-lg font-medium">
+              <label htmlFor="self" className="text-lg font-medium text-[#8425af]">
                 Eu Mesmo (Gestor)
               </label>
               <p className="text-black text-sm mt-1">
