@@ -27,12 +27,12 @@ export default function Financial() {
     { value: "12", label: "Dezembro" }
   ];
 
-  const years = [
-    { value: "2023", label: "2023" },
-    { value: "2024", label: "2024" },
-    { value: "2025", label: "2025" },
-    { value: "2026", label: "2026" }
-  ];
+  // Gerando anos de 2017 até o ano atual + 1
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear - 2017 + 2 }, (_, index) => {
+    const year = (2017 + index).toString();
+    return { value: year, label: year };
+  });
 
   const handleFilter = () => {
     console.log("Filtering with:", { month: selectedMonth, year: selectedYear });
@@ -105,7 +105,7 @@ export default function Financial() {
               </div>
               <div className="flex items-end">
                 <Button 
-                  className="bg-[#00A3D3] hover:bg-[#0089B3] text-white w-full"
+                  className="bg-[#5f0889] hover:bg-[#4a0669] text-white w-full"
                   onClick={handleFilter}
                 >
                   Filtrar
