@@ -50,9 +50,9 @@ export default function Financial() {
     <div className="h-screen overflow-hidden flex flex-col">
       <FinancialHeader />
 
-      <div className="flex-1 mt-[66px]">
+      <div className="flex-1">
         <div className="max-w-[530px] mx-auto h-full flex flex-col">
-          <div className="pt-[50px] p-6">
+          <div className="mt-[116px] p-6">
             <FilterSection
               selectedMonth={selectedMonth}
               selectedYear={selectedYear}
