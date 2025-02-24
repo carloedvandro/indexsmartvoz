@@ -36,8 +36,8 @@ export function DueDateSelector({
                   key={date}
                   className={`cursor-pointer transition-all duration-200 h-8 flex items-center justify-center
                     ${selectedDueDate === date 
-                      ? 'border-2 border-[#9b87f5] bg-[#9b87f5] text-white'
-                      : 'border border-[#9b87f5] hover:border-2 hover:border-[#9b87f5] hover:bg-[#9b87f5] hover:text-white'
+                      ? 'border border-[#8425af] bg-white focus:ring-[#8425af] hover:border-[#8425af]'
+                      : 'border border-[#8425af] hover:border-[#8425af] focus:ring-[#8425af]'
                     }`}
                   style={{
                     borderRadius: calendarStyle?.border_radius || '8px',
@@ -46,7 +46,7 @@ export function DueDateSelector({
                 >
                   <CardContent className="flex items-center justify-center h-full p-0">
                     <span 
-                      className="font-medium"
+                      className={`font-medium ${selectedDueDate === date ? 'text-[#8425af]' : ''}`}
                       style={{
                         fontSize: calendarStyle?.date_font_size || '14px'
                       }}
