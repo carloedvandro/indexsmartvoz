@@ -102,10 +102,6 @@ export default function Financial() {
             </div>
           </Card>
         </div>
-
-        <div className="mt-8 text-center text-sm text-gray-500">
-          Tecnologia por WI Digital
-        </div>
       </div>
     </div>
   );
