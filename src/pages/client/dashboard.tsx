@@ -38,9 +38,9 @@ export default function ClientDashboard() {
           <div className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
             <div className="px-6 mb-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="p-6 backdrop-blur-md bg-[#7BC043]/10 text-[#7BC043] rounded-lg border-0 shadow-lg">
+                <Card className="p-6 backdrop-blur-md bg-white/5 text-[#7BC043] rounded-lg border-0 shadow-lg">
                   <div className="flex items-center space-x-4">
-                    <div className="p-3 bg-[#7BC043]/20 rounded-full backdrop-blur-sm">
+                    <div className="p-3 bg-[#7BC043]/10 rounded-full backdrop-blur-sm">
                       <DollarSign className="w-6 h-6" />
                     </div>
                     <div>
@@ -50,9 +50,9 @@ export default function ClientDashboard() {
                   </div>
                 </Card>
 
-                <Card className="p-6 backdrop-blur-md bg-[#FFB84D]/10 text-[#FFB84D] rounded-lg border-0 shadow-lg">
+                <Card className="p-6 backdrop-blur-md bg-white/5 text-[#FFB84D] rounded-lg border-0 shadow-lg">
                   <div className="flex items-center space-x-4">
-                    <div className="p-3 bg-[#FFB84D]/20 rounded-full backdrop-blur-sm">
+                    <div className="p-3 bg-[#FFB84D]/10 rounded-full backdrop-blur-sm">
                       <LineChart className="w-6 h-6" />
                     </div>
                     <div>
@@ -62,9 +62,9 @@ export default function ClientDashboard() {
                   </div>
                 </Card>
 
-                <Card className="p-6 backdrop-blur-md bg-[#45B6FE]/10 text-[#45B6FE] rounded-lg border-0 shadow-lg">
+                <Card className="p-6 backdrop-blur-md bg-white/5 text-[#45B6FE] rounded-lg border-0 shadow-lg">
                   <div className="flex items-center space-x-4">
-                    <div className="p-3 bg-[#45B6FE]/20 rounded-full backdrop-blur-sm">
+                    <div className="p-3 bg-[#45B6FE]/10 rounded-full backdrop-blur-sm">
                       <TrendingUp className="w-6 h-6" />
                     </div>
                     <div>
