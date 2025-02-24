@@ -1,60 +1,73 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users } from "lucide-react";
+import { NetworkStats } from "@/hooks/useNetworkStats";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
+import { RotatingCube } from "../network/RotatingCube";
 
 interface NetworkCardProps {
-  networkStats: {
-    level1Count: number;
-    level2Count: number;
-    level3Count: number;
-    level4Count: number;
-  };
-  onClick: () => void;
+  networkStats?: NetworkStats;
+  onClick?: () => void;
 }
 
 export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
-  const totalMembers = 
-    (networkStats?.level1Count || 0) + 
-    (networkStats?.level2Count || 0) + 
-    (networkStats?.level3Count || 0) + 
-    (networkStats?.level4Count || 0);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      navigate("/client/network");
+    }
+  };
 
   return (
     <Card 
-      className="h-full cursor-pointer hover:shadow-lg transition-shadow"
-      onClick={onClick}
+      className="cursor-pointer hover:shadow-lg transition-shadow"
+      onClick={handleClick}
     >
-      <CardHeader className="pb-2 space-y-0 py-4">
-        <CardTitle className="text-center flex items-center justify-center gap-2">
-          <Users className="h-5 w-5" />
-          Minha Rede
-        </CardTitle>
-        <p className="text-center text-muted-foreground text-sm">
-          Total de Indicados: {totalMembers}
-        </p>
+      <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+        <div className="flex items-center gap-2">
+          <RotatingCube size={40} />
+          <h2 className="text-2xl font-bold">Minha Rede</h2>
+        </div>
       </CardHeader>
-      <CardContent className="py-4">
+      <CardContent>
+        <p className="text-sm text-muted-foreground mb-4">
+          Total de Indicados: {networkStats?.totalMembers || 0}
+        </p>
+
         <div className="grid grid-cols-2 gap-4">
-          <div className="p-4 bg-red-50 rounded-lg text-center">
-            <p className="text-sm text-red-600 font-medium">Nível 1</p>
-            <p className="text-2xl font-bold text-red-700">{networkStats?.level1Count || 0}</p>
-            <p className="text-xs text-red-600">Indicados Diretos</p>
-          </div>
-          <div className="p-4 bg-green-50 rounded-lg text-center">
-            <p className="text-sm text-green-600 font-medium">Nível 2</p>
-            <p className="text-2xl font-bold text-green-700">{networkStats?.level2Count || 0}</p>
-            <p className="text-xs text-green-600">Indicados Indiretos</p>
-          </div>
-          <div className="p-4 bg-purple-50 rounded-lg text-center">
-            <p className="text-sm text-purple-600 font-medium">Nível 3</p>
-            <p className="text-2xl font-bold text-purple-700">{networkStats?.level3Count || 0}</p>
-            <p className="text-xs text-purple-600">Indicados Indiretos</p>
-          </div>
-          <div className="p-4 bg-orange-50 rounded-lg text-center">
-            <p className="text-sm text-orange-600 font-medium">Nível 4</p>
-            <p className="text-2xl font-bold text-orange-700">{networkStats?.level4Count || 0}</p>
-            <p className="text-xs text-orange-600">Indicados Indiretos</p>
-          </div>
+          {[1, 2, 3, 4].map((level) => {
+            const indicateText = level === 1 ? "Diretos" : "Indiretos";
+            const levelColor = 
+              level === 1 ? "rgb(255, 235, 235)" : 
+              level === 2 ? "rgb(235, 255, 235)" :
+              level === 3 ? "rgb(245, 235, 255)" :
+              "rgb(255, 245, 235)";
+            const textColor = 
+              level === 1 ? "rgb(239, 68, 68)" : 
+              level === 2 ? "rgb(34, 197, 94)" :
+              level === 3 ? "rgb(168, 85, 247)" :
+              "rgb(249, 115, 22)";
+
+            return (
+              <div
+                key={level}
+                className="p-4 rounded-lg"
+                style={{ backgroundColor: levelColor }}
+              >
+                <h3 className="font-semibold mb-1" style={{ color: textColor }}>
+                  Nível {level}
+                </h3>
+                <p className="text-2xl font-bold mb-1">
+                  {networkStats?.[`level${level}Count`] || 0}
+                </p>
+                <p className="text-sm text-gray-600">
+                  Indicados {indicateText}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </CardContent>
     </Card>
