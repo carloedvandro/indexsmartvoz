@@ -72,12 +72,16 @@ export default function Financial() {
                   defaultValue={selectedMonth}
                   onValueChange={setSelectedMonth}
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full bg-[#5f0889] text-white hover:bg-[#4a0669] focus:ring-[#4a0669]">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     {months.map((month) => (
-                      <SelectItem key={month.value} value={month.value}>
+                      <SelectItem 
+                        key={month.value} 
+                        value={month.value}
+                        className="hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white"
+                      >
                         {month.label}
                       </SelectItem>
                     ))}
@@ -90,12 +94,16 @@ export default function Financial() {
                   defaultValue={selectedYear}
                   onValueChange={setSelectedYear}
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full bg-[#5f0889] text-white hover:bg-[#4a0669] focus:ring-[#4a0669]">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     {years.map((year) => (
-                      <SelectItem key={year.value} value={year.value}>
+                      <SelectItem 
+                        key={year.value} 
+                        value={year.value}
+                        className="hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white"
+                      >
                         {year.label}
                       </SelectItem>
                     ))}
