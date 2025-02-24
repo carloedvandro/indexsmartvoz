@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
-import { FileDollar } from "lucide-react";
+import { DollarSign } from "lucide-react";
 import { formatCurrency } from "@/utils/format";
 
 export default function Financial() {
@@ -21,7 +21,7 @@ export default function Financial() {
             Voltar
           </Button>
           <div className="flex items-center gap-2">
-            <FileDollar className="w-6 h-6 text-[#5f0889]" />
+            <DollarSign className="w-6 h-6 text-[#5f0889]" />
             <h1 className="text-2xl font-semibold text-gray-800">FINANCEIRO</h1>
           </div>
         </div>
