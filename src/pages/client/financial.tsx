@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -106,16 +105,14 @@ export default function Financial() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="col-span-6 relative overflow-hidden">
-              <div className="relative z-10">
-                <Button 
-                  className="bg-[#5f0889] hover:bg-[#4a0669] text-white w-full"
-                  onClick={handleFilter}
-                >
-                  Filtrar
-                </Button>
-              </div>
-              <div className="absolute inset-0">
+            <div className="col-span-6 relative h-10">
+              <Button 
+                className="bg-[#5f0889] hover:bg-[#4a0669] text-white w-full relative z-10"
+                onClick={handleFilter}
+              >
+                Filtrar
+              </Button>
+              <div className="absolute inset-0 z-0">
                 <ParticlesBackground />
               </div>
             </div>
