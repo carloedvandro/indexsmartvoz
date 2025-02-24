@@ -1,9 +1,8 @@
-
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { DollarSign, Filter } from "lucide-react";
+import { Filter } from "lucide-react";
 import { formatCurrency } from "@/utils/format";
 import { useState } from "react";
 
@@ -41,20 +40,7 @@ export default function Financial() {
   return (
     <div className="min-h-screen bg-[#F8F9FE] p-6">
       <div className="max-w-[800px] mx-auto">
-        <div className="flex items-center gap-4 mb-6">
-          <Button 
-            variant="ghost"
-            onClick={() => navigate("/client/dashboard")}
-            className="text-gray-600"
-          >
-            Voltar
-          </Button>
-          <div className="flex items-center gap-2">
-            <DollarSign className="w-6 h-6 text-[#5f0889]" />
-            <h1 className="text-2xl font-semibold text-gray-800">FINANCEIRO</h1>
-          </div>
-        </div>
-
+        <h1 className="text-2xl font-semibold text-gray-800 mb-6">FINANCEIRO</h1>
         <h2 className="text-xl font-semibold mb-6 text-gray-700">Resumo</h2>
 
         <div className="mb-6 border rounded-lg">
