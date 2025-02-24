@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -63,7 +62,7 @@ export default function Financial() {
         </div>
       </div>
 
-      <div className="max-w-[530px] mx-auto p-6 mt-[80px]">
+      <div className="max-w-[530px] mx-auto p-6 mt-[110px]">
         <div className="mb-6 border rounded-lg bg-white">
           <div className="py-2 px-4 border-b bg-gray-50">
             <div className="flex items-center gap-2">
