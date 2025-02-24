@@ -61,7 +61,7 @@ export default function Financial() {
                   </Select>
                 </div>
                 <div className="flex items-end">
-                  <Button className="bg-[#00A3D3] hover:bg-[#0089B3] text-white">
+                  <Button className="bg-[#00A3D3] hover:bg-[#0089B3] text-white w-full">
                     Filtrar
                   </Button>
                 </div>
@@ -69,39 +69,39 @@ export default function Financial() {
             </div>
           </div>
 
-          <div className="space-y-3">
-            <div className="p-3 bg-white border rounded-lg">
+          <div className="grid grid-cols-1 gap-4">
+            <Card className="p-4 border rounded-lg">
               <div className="flex justify-between items-center">
-                <span className="text-gray-700">Total de bônus recebido em Fevereiro/2025</span>
+                <span className="text-gray-700 text-sm">Total de bônus recebido em Fevereiro/2025</span>
                 <div className="flex items-center gap-1">
-                  <span className="text-gray-700">R$</span>
-                  <span className="text-gray-900">42.576,22</span>
+                  <span className="text-gray-700 text-sm">R$</span>
+                  <span className="text-gray-900 font-medium">42.576,22</span>
                 </div>
               </div>
-            </div>
+            </Card>
 
-            <div className="p-3 bg-white border rounded-lg">
+            <Card className="p-4 border rounded-lg">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-1">
-                  <span className="text-gray-700">Total de saldo</span>
-                  <span className="text-red-500">bloqueado</span>
+                  <span className="text-gray-700 text-sm">Total de saldo</span>
+                  <span className="text-red-500 text-sm">bloqueado</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <span className="text-gray-700">R$</span>
-                  <span className="text-gray-900">0,00</span>
+                  <span className="text-gray-700 text-sm">R$</span>
+                  <span className="text-gray-900 font-medium">0,00</span>
                 </div>
               </div>
-            </div>
+            </Card>
 
-            <div className="p-3 bg-white border border-green-500 rounded-lg">
+            <Card className="p-4 border-2 border-green-500 rounded-lg">
               <div className="flex justify-between items-center">
-                <span className="text-gray-900">Saldo disponível</span>
+                <span className="text-gray-900 font-medium">Saldo disponível</span>
                 <div className="flex items-center gap-1">
-                  <span className="text-gray-700">R$</span>
-                  <span className="text-gray-900">5.000,01</span>
+                  <span className="text-gray-700 text-sm">R$</span>
+                  <span className="text-gray-900 font-medium">5.000,01</span>
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
 
           <div className="mt-8 text-center text-sm text-gray-500">
