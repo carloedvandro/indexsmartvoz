@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -130,10 +129,6 @@ export default function Financial() {
                 <div className="flex items-center gap-1 -ml-8">
                   <span className="text-gray-700">Total de saldo</span>
                   <span className="text-red-500 font-bold">bloqueado</span>
-                </div>
-                <div className="flex items-baseline gap-1 ml-8">
-                  <span className="text-gray-500">R$</span>
-                  <span className="text-gray-900 text-lg font-medium">0,00</span>
                 </div>
               </div>
             </div>
