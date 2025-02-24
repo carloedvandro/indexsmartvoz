@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -50,8 +51,8 @@ export default function Financial() {
           </div>
         </div>
         <div className="p-4 bg-white">
-          <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-2">
+          <div className="grid grid-cols-5 gap-4">
+            <div className="col-span-3">
               <label className="block text-sm text-gray-600 mb-1">Mês</label>
               <Select 
                 defaultValue={selectedMonth}
@@ -73,7 +74,7 @@ export default function Financial() {
                 </SelectContent>
               </Select>
             </div>
-            <div>
+            <div className="col-span-2">
               <label className="block text-sm text-gray-600 mb-1">Ano</label>
               <Select 
                 defaultValue={selectedYear}
@@ -95,7 +96,7 @@ export default function Financial() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="col-span-3">
+            <div className="col-span-5">
               <Button 
                 className="bg-[#5f0889] hover:bg-[#4a0669] text-white w-full"
                 onClick={handleFilter}
