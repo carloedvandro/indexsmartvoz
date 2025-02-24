@@ -108,7 +108,7 @@ export default function Financial() {
             </div>
             <div className="col-span-6">
               <Button 
-                className="bg-[#5f0889] hover:bg-[#4a0669] text-white w-full"
+                className="bg-[#5f0889] hover:bg-[#5f0889] text-white w-full"
                 onClick={handleFilter}
               >
                 Filtrar
