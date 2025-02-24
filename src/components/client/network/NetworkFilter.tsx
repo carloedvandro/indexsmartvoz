@@ -21,13 +21,13 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
         <Button
           key={level.value}
           variant="outline"
-          className={`w-full justify-between text-left px-4 py-3 rounded-lg transition-all bg-transparent hover:bg-transparent ${
-            level.value === 'all' 
-              ? "bg-[#5f0889] text-white hover:bg-[#5f0889]"
-              : selectedLevel === level.value 
-                ? "border border-[#8425af] text-[#8425af]"
-                : "border border-gray-200 hover:border-[#8425af] hover:text-[#8425af]"
-          }`}
+          className={`w-full justify-between text-left px-4 py-3 rounded-lg transition-all relative
+            ${level.value === selectedLevel && level.value !== 'all'
+              ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-white before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px] text-[#8425af]'
+              : level.value === 'all'
+                ? "bg-[#5f0889] text-white hover:bg-[#5f0889]"
+                : "border border-[#8425af] hover:border-[#8425af] hover:text-[#8425af]"
+            }`}
           onClick={() => onLevelChange(level.value)}
         >
           <span>{level.label}</span>
