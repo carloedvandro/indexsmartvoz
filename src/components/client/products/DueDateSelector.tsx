@@ -36,8 +36,8 @@ export function DueDateSelector({
                   key={date}
                   className={`cursor-pointer transition-all duration-200 h-8 flex items-center justify-center shadow-none
                     ${selectedDueDate === date 
-                      ? 'border-[1.5px] border-[#8425af] bg-white focus:ring-0'
-                      : 'border border-[#8425af] hover:border-[#8425af] focus:ring-0'
+                      ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-white'
+                      : 'border border-[#8425af] hover:border-[#8425af]'
                     }`}
                   style={{
                     borderRadius: calendarStyle?.border_radius || '8px',
