@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -51,7 +52,7 @@ export default function Financial() {
         </div>
         <div className="grid grid-cols-6 gap-4 p-4">
           <div className="col-span-3">
-            <label className="block text-sm text-gray-600 mb-1">Mês</label>
+            <label className="block text-sm font-medium text-gray-600 mb-1">Mês</label>
             <Select 
               defaultValue={selectedMonth}
               onValueChange={setSelectedMonth}
@@ -73,7 +74,7 @@ export default function Financial() {
             </Select>
           </div>
           <div className="col-span-3">
-            <label className="block text-sm text-gray-600 mb-1">Ano</label>
+            <label className="block text-sm font-medium text-gray-600 mb-1">Ano</label>
             <Select 
               defaultValue={selectedYear}
               onValueChange={setSelectedYear}
@@ -111,7 +112,7 @@ export default function Financial() {
             <div className="flex flex-col gap-2">
               <div className="flex justify-between items-baseline">
                 <div className="flex-1">
-                  <span className="text-gray-700 inline-block whitespace-nowrap">
+                  <span className="text-gray-700 font-medium inline-block whitespace-nowrap">
                     Total de bônus recebido em {months.find(m => m.value === selectedMonth)?.label}/{selectedYear}
                   </span>
                 </div>
@@ -124,7 +125,7 @@ export default function Financial() {
             <div className="h-[1px] bg-gray-200 w-full"></div>
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-1">
-                <span className="text-gray-700">Total de saldo</span>
+                <span className="text-gray-700 font-medium">Total de saldo</span>
                 <span className="text-red-500 font-bold">bloqueado</span>
               </div>
               <div className="flex items-baseline gap-1">
