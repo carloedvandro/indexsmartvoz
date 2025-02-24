@@ -38,33 +38,39 @@ export default function ClientDashboard() {
           <div className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
             <div className="px-6 mb-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="p-6 bg-black/80 text-white rounded-xl flex items-center gap-4">
-                  <div className="p-4 bg-white/10 rounded-full">
-                    <DollarSign className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="text-base opacity-80">Saldo Disponível</p>
-                    <p className="text-2xl font-medium">R$ 5.000,01</p>
-                  </div>
-                </Card>
-
-                <Card className="p-6 bg-black/80 text-white rounded-xl flex items-center gap-4">
-                  <div className="p-4 bg-white/10 rounded-full">
-                    <LineChart className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="text-base opacity-80">Ganhos até hoje</p>
-                    <p className="text-2xl font-medium">R$ 42.576,22</p>
+                <Card className="p-6 bg-[#7BC043] text-white rounded-lg">
+                  <div className="flex items-center space-x-4">
+                    <div className="p-3 bg-white/20 rounded-full">
+                      <DollarSign className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <p className="text-sm opacity-90">Saldo Disponível</p>
+                      <p className="text-2xl font-semibold">R$ 5.000,01</p>
+                    </div>
                   </div>
                 </Card>
 
-                <Card className="p-6 bg-black/80 text-white rounded-xl flex items-center gap-4">
-                  <div className="p-4 bg-white/10 rounded-full">
-                    <TrendingUp className="w-6 h-6" />
+                <Card className="p-6 bg-[#FFB84D] text-white rounded-lg">
+                  <div className="flex items-center space-x-4">
+                    <div className="p-3 bg-white/20 rounded-full">
+                      <LineChart className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <p className="text-sm opacity-90">Ganhos até hoje</p>
+                      <p className="text-2xl font-semibold">R$ 42.576,22</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-base opacity-80">Previsão de Ganhos</p>
-                    <p className="text-2xl font-medium">R$ 0,00</p>
+                </Card>
+
+                <Card className="p-6 bg-[#45B6FE] text-white rounded-lg">
+                  <div className="flex items-center space-x-4">
+                    <div className="p-3 bg-white/20 rounded-full">
+                      <TrendingUp className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <p className="text-sm opacity-90">Previsão de Ganhos</p>
+                      <p className="text-2xl font-semibold">R$ 0,00</p>
+                    </div>
                   </div>
                 </Card>
               </div>
