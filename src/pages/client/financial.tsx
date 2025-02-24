@@ -51,8 +51,8 @@ export default function Financial() {
           </div>
         </div>
         <div className="p-4 bg-white">
-          <div className="grid grid-cols-7 gap-4">
-            <div className="col-span-4">
+          <div className="grid grid-cols-6 gap-4">
+            <div className="col-span-3">
               <label className="block text-sm text-gray-600 mb-1">Mês</label>
               <Select 
                 defaultValue={selectedMonth}
@@ -96,7 +96,7 @@ export default function Financial() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="col-span-7">
+            <div className="col-span-6">
               <Button 
                 className="bg-[#5f0889] hover:bg-[#4a0669] text-white w-full"
                 onClick={handleFilter}
