@@ -109,13 +109,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
                 }
               }
             }}
-            className={`w-full text-center text-lg rounded-lg border focus:border-[#8425af] focus:ring-1 focus:ring-[#8425af] ${
-              deviceInfo 
-                ? 'border-green-500 text-green-700' 
-                : imei.length === 15 && !deviceInfo 
-                ? 'border-red-500 text-red-700' 
-                : 'border-[#8425af] text-black'
-            }`}
+            className="w-full text-center text-lg rounded-lg border border-[#8425af] focus:outline-none focus:ring-0 focus:border-[#8425af] hover:border-[#8425af]"
           />
           <p className="text-xs text-gray-500 text-center">
             {15 - imei.length} dígitos restantes
