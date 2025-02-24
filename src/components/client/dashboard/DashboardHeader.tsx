@@ -44,7 +44,7 @@ export function DashboardHeader() {
   };
 
   return (
-    <header className="fixed w-full bg-black/20 backdrop-blur-[12px] border-b border-white/5 z-50">
+    <header className="w-full bg-black/30 backdrop-blur-md border-b border-white/10">
       <div className="container relative mx-auto min-h-16 flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center">
         <DesktopNavigation navigationItems={navigationItems} />
         <div className="flex lg:justify-center">
