@@ -92,7 +92,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
       </div>
 
       <form onSubmit={handleSubmit} className="w-full space-y-6">
-        <div className="space-y-2">
+        <div className="space-y-2 relative">
           <Input
             type="text"
             placeholder="Digite o IMEI"
@@ -109,9 +109,9 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
                 }
               }
             }}
-            className={`w-full text-center text-lg rounded-lg border border-[#8425af] focus:ring-1 focus:ring-[#8425af] focus:border-[#8425af] ${
-              deviceInfo ? 'ring-1 ring-green-500 border-green-500' : 
-              imei.length === 15 && !deviceInfo ? 'ring-1 ring-red-500 border-red-500' : ''
+            className={`w-full text-center text-lg rounded-lg ring-2 ring-[#8425af] border-none focus:ring-2 focus:ring-[#8425af] ${
+              deviceInfo ? 'ring-2 ring-green-500' : 
+              imei.length === 15 && !deviceInfo ? 'ring-2 ring-red-500' : 'ring-[#8425af]'
             }`}
           />
           <p className="text-xs text-gray-500 text-center">
