@@ -35,7 +35,7 @@ export default function ClientDashboard() {
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
         <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
-          <div className="max-w-[1800px] mx-auto pt-24 -mt-[60px]">
+          <div className="max-w-[1800px] mx-auto pt-24 -mt-[70px]">
             <div className="px-6 mb-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card className="p-6 bg-[#7BC043] text-white rounded-lg">
