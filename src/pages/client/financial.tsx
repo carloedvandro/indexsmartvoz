@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -50,60 +49,58 @@ export default function Financial() {
             <span className="text-sm font-medium">Filtros</span>
           </div>
         </div>
-        <div className="p-4 bg-white">
-          <div className="grid grid-cols-6 gap-4">
-            <div className="col-span-3">
-              <label className="block text-sm text-gray-600 mb-1">Mês</label>
-              <Select 
-                defaultValue={selectedMonth}
-                onValueChange={setSelectedMonth}
-              >
-                <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-white">
-                  {months.map((month) => (
-                    <SelectItem 
-                      key={month.value} 
-                      value={month.value}
-                      className="hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white"
-                    >
-                      {month.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="col-span-3">
-              <label className="block text-sm text-gray-600 mb-1">Ano</label>
-              <Select 
-                defaultValue={selectedYear}
-                onValueChange={setSelectedYear}
-              >
-                <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 pl-3">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-white">
-                  {years.map((year) => (
-                    <SelectItem 
-                      key={year.value} 
-                      value={year.value}
-                      className="hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white"
-                    >
-                      {year.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="col-span-6">
-              <Button 
-                className="bg-[#5f0889] hover:bg-[#4a0669] text-white w-full"
-                onClick={handleFilter}
-              >
-                Filtrar
-              </Button>
-            </div>
+        <div className="grid grid-cols-6 gap-4 p-4">
+          <div className="col-span-3">
+            <label className="block text-sm text-gray-600 mb-1">Mês</label>
+            <Select 
+              defaultValue={selectedMonth}
+              onValueChange={setSelectedMonth}
+            >
+              <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-white">
+                {months.map((month) => (
+                  <SelectItem 
+                    key={month.value} 
+                    value={month.value}
+                    className="hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white"
+                  >
+                    {month.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="col-span-3">
+            <label className="block text-sm text-gray-600 mb-1">Ano</label>
+            <Select 
+              defaultValue={selectedYear}
+              onValueChange={setSelectedYear}
+            >
+              <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 pl-3">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-white">
+                {years.map((year) => (
+                  <SelectItem 
+                    key={year.value} 
+                    value={year.value}
+                    className="hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white"
+                  >
+                    {year.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="col-span-6">
+            <Button 
+              className="bg-[#5f0889] hover:bg-[#4a0669] text-white w-full"
+              onClick={handleFilter}
+            >
+              Filtrar
+            </Button>
           </div>
         </div>
       </div>
