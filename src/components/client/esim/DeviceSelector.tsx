@@ -31,7 +31,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
           className={`p-4 rounded-lg border transition-all cursor-pointer relative hover:bg-transparent
             ${selectedDevice === 'android' 
               ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px]'
-              : 'border-gray-200 hover:border-[#8425af]'
+              : 'border-[#8425af] hover:border-[#8425af]'
             }`}
           onClick={() => setSelectedDevice('android')}
         >
@@ -54,7 +54,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
           className={`p-4 rounded-lg border transition-all cursor-pointer relative hover:bg-transparent
             ${selectedDevice === 'ios' 
               ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px]'
-              : 'border-gray-200 hover:border-[#8425af]'
+              : 'border-[#8425af] hover:border-[#8425af]'
             }`}
           onClick={() => setSelectedDevice('ios')}
         >
