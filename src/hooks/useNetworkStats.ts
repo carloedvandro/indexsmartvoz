@@ -2,13 +2,12 @@
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
-export interface NetworkStats {
+interface NetworkStats {
   id: string;
   level1Count: number;
   level2Count: number;
   level3Count: number;
   level4Count: number;
-  totalMembers?: number;
 }
 
 export const useNetworkStats = (userId: string | undefined) => {
@@ -125,9 +124,6 @@ export const useNetworkStats = (userId: string | undefined) => {
           }
         }
       }
-
-      // Calculate total members
-      stats.totalMembers = stats.level1Count + stats.level2Count + stats.level3Count + stats.level4Count;
 
       console.log("Calculated network stats:", stats);
       return stats;
