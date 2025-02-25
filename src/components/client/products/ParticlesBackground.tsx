@@ -35,14 +35,14 @@ export function ParticlesBackground() {
 
     // Particles setup
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 800; // Aumentado de 500 para 800
+    const particlesCount = 1200; // Aumentado de 800 para 1200
     const posArray = new Float32Array(particlesCount * 3);
 
     for (let i = 0; i < particlesCount * 3; i += 3) {
-      // Área ajustada para as partículas
-      posArray[i] = (Math.random() - 0.5) * 8;      // x (ajustado para 8)
-      posArray[i + 1] = (Math.random() - 0.5) * 8;  // y (ajustado para 8)
-      posArray[i + 2] = (Math.random() - 0.5) * 8;  // z (ajustado para 8)
+      // Área mantida em 8 para as partículas
+      posArray[i] = (Math.random() - 0.5) * 8;      // x
+      posArray[i + 1] = (Math.random() - 0.5) * 8;  // y
+      posArray[i + 2] = (Math.random() - 0.5) * 8;  // z
     }
 
     particlesGeometry.setAttribute(
@@ -51,7 +51,7 @@ export function ParticlesBackground() {
     );
 
     const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.015, // Aumentado de 0.01 para 0.015
+      size: 0.03, // Aumentado de 0.015 para 0.03
       color: '#9b87f5',
       transparent: true,
       opacity: 1,
@@ -69,11 +69,11 @@ export function ParticlesBackground() {
       frame = requestAnimationFrame(animate);
 
       if (particlesRef.current) {
-        particlesRef.current.rotation.x += 0.0015; // Ajustado para 0.0015
-        particlesRef.current.rotation.y += 0.001;  // Ajustado para 0.001
-        particlesRef.current.rotation.z += 0.0005; // Ajustado para 0.0005
+        particlesRef.current.rotation.x += 0.0015; // Mantido para movimento suave
+        particlesRef.current.rotation.y += 0.001;  // Mantido para movimento suave
+        particlesRef.current.rotation.z += 0.0005; // Mantido para movimento suave
 
-        // Ajustada a amplitude da onda
+        // Mantida a amplitude da onda para movimento visível
         particlesRef.current.position.y = Math.sin(Date.now() * 0.001) * 0.08;
       }
 
