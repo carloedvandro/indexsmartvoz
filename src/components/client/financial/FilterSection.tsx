@@ -2,7 +2,6 @@
 import { Filter } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 interface FilterSectionProps {
   selectedMonth: string;
@@ -84,19 +83,12 @@ export function FilterSection({
           >
             Voltar
           </Button>
-          <div className="relative overflow-hidden rounded-lg">
-            <div className="absolute inset-0">
-              <ParticlesBackground />
-            </div>
-            <div className="relative z-10">
-              <Button 
-                onClick={onFilter}
-                className="w-[120px] bg-[#5f0889] hover:bg-[#5f0889]/90 text-white"
-              >
-                Filtrar
-              </Button>
-            </div>
-          </div>
+          <Button 
+            onClick={onFilter}
+            className="w-[120px] bg-[#5f0889] hover:bg-[#5f0889]/90 text-white"
+          >
+            Filtrar
+          </Button>
         </div>
       </div>
     </div>
