@@ -17,11 +17,20 @@ export function useParticlesAnimation(
     const config = particleConfigs[style];
     const particlesGeometry = new THREE.BufferGeometry();
     const posArray = new Float32Array(config.count * 3);
+    const velocityArray = new Float32Array(config.count);
 
     for (let i = 0; i < config.count * 3; i += 3) {
-      posArray[i] = (Math.random() - 0.5) * config.spread;
-      posArray[i + 1] = (Math.random() - 0.5) * config.spread;
-      posArray[i + 2] = (Math.random() - 0.5) * config.spread;
+      if (style === 'matrix') {
+        // Distribui as partículas em uma grade mais organizada para o efeito matrix
+        posArray[i] = (Math.random() - 0.5) * config.spread;     // X
+        posArray[i + 1] = Math.random() * config.spread * 2;     // Y (altura)
+        posArray[i + 2] = (Math.random() - 0.5) * (config.spread / 2); // Z (mais próximo)
+        velocityArray[i / 3] = Math.random() * 0.02 + 0.01; // Velocidade individual
+      } else {
+        posArray[i] = (Math.random() - 0.5) * config.spread;
+        posArray[i + 1] = (Math.random() - 0.5) * config.spread;
+        posArray[i + 2] = (Math.random() - 0.5) * config.spread;
+      }
     }
 
     particlesGeometry.setAttribute(
@@ -47,11 +56,28 @@ export function useParticlesAnimation(
 
       if (particlesRef.current) {
         switch (style) {
+          case "matrix":
+            const positions = particlesRef.current.geometry.attributes.position.array;
+            for (let i = 0; i < positions.length; i += 3) {
+              // Move cada partícula para baixo com sua velocidade individual
+              positions[i + 1] -= velocityArray[i / 3];
+              
+              // Quando a partícula chega ao fundo, reseta para o topo
+              if (positions[i + 1] < -config.spread) {
+                positions[i + 1] = config.spread;
+                // Varia levemente a posição X e Z ao resetar
+                positions[i] = (Math.random() - 0.5) * config.spread;
+                positions[i + 2] = (Math.random() - 0.5) * (config.spread / 2);
+              }
+            }
+            particlesRef.current.geometry.attributes.position.needsUpdate = true;
+            break;
+
           case "fireflies":
             particlesRef.current.rotation.y += 0.0005;
             particlesRef.current.position.y = Math.sin(Date.now() * 0.001) * 0.3;
-            const positions = particlesRef.current.geometry.attributes.position.array;
-            for (let i = 0; i < positions.length; i += 3) {
+            const firefliesPositions = particlesRef.current.geometry.attributes.position.array;
+            for (let i = 0; i < firefliesPositions.length; i += 3) {
               const time = Date.now() * 0.001;
               const offset = i * 0.1;
               particlesMaterial.opacity = 0.3 + Math.sin(time + offset) * 0.3;
@@ -66,11 +92,6 @@ export function useParticlesAnimation(
           case "snow":
             particlesRef.current.rotation.y += 0.0002;
             particlesRef.current.position.y = (Math.sin(Date.now() * 0.0005) * 0.5) - 0.5;
-            break;
-
-          case "matrix":
-            particlesRef.current.rotation.y += 0.0005;
-            particlesRef.current.position.y = Math.sin(Date.now() * 0.0003) * 0.3;
             break;
 
           default:
