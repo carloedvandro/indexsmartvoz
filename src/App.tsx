@@ -66,10 +66,10 @@ const router = createBrowserRouter(
 
 const App = () => {
   return (
-    <>
+    <React.StrictMode>
       <RouterProvider router={router} />
       <Toaster />
-    </>
+    </React.StrictMode>
   );
 };
 
