@@ -6,7 +6,6 @@ import { FormFields } from "./FormFields";
 import { RegisterFormData, registerFormSchema } from "./RegisterSchema";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 export const RegisterFormContainer = () => {
   const navigate = useNavigate();
@@ -39,27 +38,21 @@ export const RegisterFormContainer = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormFields form={form} />
         <div className="flex justify-between mt-6 gap-4">
-          <div className="relative">
-            <ParticlesBackground />
-            <Button
-              type="button"
-              variant="outline"
-              className="relative z-10 w-28 border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
-              onClick={handleBack}
-            >
-              Voltar
-            </Button>
-          </div>
+          <Button
+            type="button"
+            variant="outline"
+            className="relative z-10 w-28 border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
+            onClick={handleBack}
+          >
+            Voltar
+          </Button>
           
-          <div className="relative">
-            <ParticlesBackground />
-            <Button 
-              type="submit"
-              className="relative z-10 w-28 bg-[#8425af] hover:bg-[#6c1e8f] text-white"
-            >
-              Cadastrar
-            </Button>
-          </div>
+          <Button 
+            type="submit"
+            className="relative z-10 w-28 bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+          >
+            Cadastrar
+          </Button>
         </div>
       </form>
     </Form>
