@@ -35,14 +35,14 @@ export function ParticlesBackground() {
 
     // Particles setup
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 1400; // Aumentado de 1200 para 1400
+    const particlesCount = 500; // Reduzido de 1500 para 500
     const posArray = new Float32Array(particlesCount * 3);
 
     for (let i = 0; i < particlesCount * 3; i += 3) {
-      // Área reduzida de 8 para 4 em todos os eixos
-      posArray[i] = (Math.random() - 0.5) * 4;      // x
-      posArray[i + 1] = (Math.random() - 0.5) * 4;  // y
-      posArray[i + 2] = (Math.random() - 0.5) * 4;  // z
+      // Área reduzida para as partículas
+      posArray[i] = (Math.random() - 0.5) * 5;      // x (reduzido de 15 para 5)
+      posArray[i + 1] = (Math.random() - 0.5) * 5;  // y (reduzido de 15 para 5)
+      posArray[i + 2] = (Math.random() - 0.5) * 5;  // z (reduzido de 15 para 5)
     }
 
     particlesGeometry.setAttribute(
@@ -51,7 +51,7 @@ export function ParticlesBackground() {
     );
 
     const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.01, // Reduzido de 0.03 para 0.01
+      size: 0.01, // Reduzido de 0.02 para 0.01
       color: '#9b87f5',
       transparent: true,
       opacity: 1,
@@ -69,12 +69,12 @@ export function ParticlesBackground() {
       frame = requestAnimationFrame(animate);
 
       if (particlesRef.current) {
-        particlesRef.current.rotation.x += 0.0008; // Reduzido para movimento mais suave
-        particlesRef.current.rotation.y += 0.0005; // Reduzido para movimento mais suave
-        particlesRef.current.rotation.z += 0.0003; // Reduzido para movimento mais suave
+        particlesRef.current.rotation.x += 0.001; // Reduzido de 0.002 para 0.001
+        particlesRef.current.rotation.y += 0.0005; // Reduzido de 0.001 para 0.0005
+        particlesRef.current.rotation.z += 0.00025; // Reduzido de 0.0005 para 0.00025
 
-        // Reduzida a amplitude da onda para movimento mais suave
-        particlesRef.current.position.y = Math.sin(Date.now() * 0.0008) * 0.05;
+        // Reduzido a amplitude da onda
+        particlesRef.current.position.y = Math.sin(Date.now() * 0.001) * 0.05;
       }
 
       renderer.render(scene, camera);
