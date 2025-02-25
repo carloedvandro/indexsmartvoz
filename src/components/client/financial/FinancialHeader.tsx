@@ -3,7 +3,7 @@ import { ParticlesBackground } from "@/components/client/products/ParticlesBackg
 
 export function FinancialHeader() {
   return (
-    <div className="fixed top-0 left-0 right-0 h-16 bg-[#1A1F2C] border-b border-white/10 z-50 relative overflow-hidden">
+    <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-50 relative overflow-hidden">
       <div className="absolute inset-0">
         <ParticlesBackground />
       </div>
