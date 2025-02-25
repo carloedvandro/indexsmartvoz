@@ -76,27 +76,25 @@ export function FilterSection({
             </Select>
           </div>
         </div>
-        <div className="flex justify-between gap-4">
-          <div className="relative overflow-hidden rounded-lg">
-            <div className="absolute inset-0">
-              <ParticlesBackground />
-            </div>
-            <div className="relative z-10">
-              <Button
-                variant="outline"
-                onClick={handleBack}
-                className="w-[120px] border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white"
-              >
-                Voltar
-              </Button>
-            </div>
+        <div className="relative overflow-hidden rounded-lg">
+          <div className="absolute inset-0">
+            <ParticlesBackground />
           </div>
-          <Button 
-            onClick={onFilter}
-            className="w-[120px] bg-[#5f0889] hover:bg-[#5f0889]/90 text-white"
-          >
-            Filtrar
-          </Button>
+          <div className="flex justify-between gap-4 relative z-10 p-4">
+            <Button
+              variant="outline"
+              onClick={handleBack}
+              className="w-[120px] border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white"
+            >
+              Voltar
+            </Button>
+            <Button 
+              onClick={onFilter}
+              className="w-[120px] bg-[#5f0889] hover:bg-[#5f0889]/90 text-white"
+            >
+              Filtrar
+            </Button>
+          </div>
         </div>
       </div>
     </div>
