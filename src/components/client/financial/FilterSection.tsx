@@ -40,10 +40,10 @@ export function FilterSection({
           <div className="col-span-3">
             <label className="block text-sm font-medium text-gray-900 mb-1">Mês</label>
             <Select defaultValue={selectedMonth} onValueChange={onMonthChange}>
-              <SelectTrigger className="w-full !bg-white text-gray-900 border-gray-300">
+              <SelectTrigger className="w-full bg-white text-gray-900 border-gray-300">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="!bg-white">
+              <SelectContent>
                 {months.map((month) => (
                   <SelectItem 
                     key={month.value} 
@@ -59,10 +59,10 @@ export function FilterSection({
           <div className="col-span-3">
             <label className="block text-sm font-medium text-gray-900 mb-1">Ano</label>
             <Select defaultValue={selectedYear} onValueChange={onYearChange}>
-              <SelectTrigger className="w-full !bg-white text-gray-900 border-gray-300">
+              <SelectTrigger className="w-full bg-white text-gray-900 border-gray-300">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="!bg-white">
+              <SelectContent>
                 {years.map((year) => (
                   <SelectItem 
                     key={year.value} 
