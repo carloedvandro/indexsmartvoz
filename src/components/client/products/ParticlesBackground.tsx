@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
@@ -34,14 +35,14 @@ export function ParticlesBackground() {
 
     // Particles setup
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 1500; // Reduced count for better performance
+    const particlesCount = 1600; // Aumentado de 1400 para 1600
     const posArray = new Float32Array(particlesCount * 3);
 
     for (let i = 0; i < particlesCount * 3; i += 3) {
-      // Spread particles more widely
-      posArray[i] = (Math.random() - 0.5) * 15;      // x
-      posArray[i + 1] = (Math.random() - 0.5) * 15;  // y
-      posArray[i + 2] = (Math.random() - 0.5) * 15;  // z
+      // Área reduzida de 4 para 2 em todos os eixos
+      posArray[i] = (Math.random() - 0.5) * 2;      // x
+      posArray[i + 1] = (Math.random() - 0.5) * 2;  // y
+      posArray[i + 2] = (Math.random() - 0.5) * 2;  // z
     }
 
     particlesGeometry.setAttribute(
@@ -49,14 +50,13 @@ export function ParticlesBackground() {
       new THREE.BufferAttribute(posArray, 3)
     );
 
-    // Create a custom point material with a brighter, more meteor-like appearance
     const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.02, // Increased size
-      color: '#9b87f5', // Lighter purple color
+      size: 0.01,
+      color: '#9b87f5',
       transparent: true,
-      opacity: 1, // Full opacity
-      blending: THREE.AdditiveBlending, // Makes particles glow
-      sizeAttenuation: true, // Particles change size based on distance
+      opacity: 1,
+      blending: THREE.AdditiveBlending,
+      sizeAttenuation: true,
     });
 
     const particles = new THREE.Points(particlesGeometry, particlesMaterial);
@@ -69,13 +69,11 @@ export function ParticlesBackground() {
       frame = requestAnimationFrame(animate);
 
       if (particlesRef.current) {
-        // Rotate particles to create a falling meteor effect
-        particlesRef.current.rotation.x += 0.002;
-        particlesRef.current.rotation.y += 0.001;
-        particlesRef.current.rotation.z += 0.0005;
+        particlesRef.current.rotation.x += 0.0008;
+        particlesRef.current.rotation.y += 0.0005;
+        particlesRef.current.rotation.z += 0.0003;
 
-        // Add a slight wave motion
-        particlesRef.current.position.y = Math.sin(Date.now() * 0.001) * 0.1;
+        particlesRef.current.position.y = Math.sin(Date.now() * 0.0008) * 0.05;
       }
 
       renderer.render(scene, camera);
