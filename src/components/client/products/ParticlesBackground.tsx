@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
@@ -44,23 +43,6 @@ export function ParticlesBackground({ style = "default" }: ParticlesBackgroundPr
     let posArray;
 
     switch (style) {
-      case "stars":
-        particlesCount = 2000;
-        posArray = new Float32Array(particlesCount * 3);
-        for (let i = 0; i < particlesCount * 3; i += 3) {
-          posArray[i] = (Math.random() - 0.5) * 20;
-          posArray[i + 1] = (Math.random() - 0.5) * 20;
-          posArray[i + 2] = (Math.random() - 0.5) * 20;
-        }
-        particlesMaterial = new THREE.PointsMaterial({
-          size: 0.005,
-          color: '#ffffff',
-          transparent: true,
-          opacity: 0.8,
-          blending: THREE.AdditiveBlending,
-        });
-        break;
-
       case "fireflies":
         particlesCount = 100;
         posArray = new Float32Array(particlesCount * 3);
@@ -74,6 +56,23 @@ export function ParticlesBackground({ style = "default" }: ParticlesBackgroundPr
           color: '#ffaa00',
           transparent: true,
           opacity: 0.6,
+          blending: THREE.AdditiveBlending,
+        });
+        break;
+
+      case "stars":
+        particlesCount = 2000;
+        posArray = new Float32Array(particlesCount * 3);
+        for (let i = 0; i < particlesCount * 3; i += 3) {
+          posArray[i] = (Math.random() - 0.5) * 20;
+          posArray[i + 1] = (Math.random() - 0.5) * 20;
+          posArray[i + 2] = (Math.random() - 0.5) * 20;
+        }
+        particlesMaterial = new THREE.PointsMaterial({
+          size: 0.005,
+          color: '#ffffff',
+          transparent: true,
+          opacity: 0.8,
           blending: THREE.AdditiveBlending,
         });
         break;
@@ -145,22 +144,32 @@ export function ParticlesBackground({ style = "default" }: ParticlesBackgroundPr
 
       if (particlesRef.current) {
         switch (style) {
+          case "fireflies":
+            particlesRef.current.rotation.y += 0.0005;
+            particlesRef.current.position.y = Math.sin(Date.now() * 0.001) * 0.3;
+            const positions = particlesRef.current.geometry.attributes.position.array;
+            for (let i = 0; i < positions.length; i += 3) {
+              const time = Date.now() * 0.001;
+              const offset = i * 0.1;
+              particlesMaterial.opacity = 0.3 + Math.sin(time + offset) * 0.3;
+            }
+            break;
+
           case "stars":
             particlesRef.current.rotation.x += 0.0001;
             particlesRef.current.rotation.y += 0.0001;
             break;
-          case "fireflies":
-            particlesRef.current.rotation.y += 0.001;
-            particlesRef.current.position.y = Math.sin(Date.now() * 0.001) * 0.2;
-            break;
+
           case "snow":
             particlesRef.current.rotation.y += 0.0002;
             particlesRef.current.position.y = (Math.sin(Date.now() * 0.0005) * 0.5) - 0.5;
             break;
+
           case "matrix":
             particlesRef.current.rotation.y += 0.0005;
             particlesRef.current.position.y = Math.sin(Date.now() * 0.0003) * 0.3;
             break;
+
           default:
             particlesRef.current.rotation.x += 0.002;
             particlesRef.current.rotation.y += 0.001;
