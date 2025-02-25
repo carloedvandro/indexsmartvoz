@@ -28,7 +28,7 @@ export function FilterSection({
   };
 
   return (
-    <div className="border rounded-lg bg-white relative overflow-hidden mt-[160px] w-[430px] mx-auto">
+    <div className="border rounded-lg bg-white relative overflow-hidden">
       <div className="absolute inset-0">
         <ParticlesBackground />
       </div>
