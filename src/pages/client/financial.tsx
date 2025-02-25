@@ -61,14 +61,16 @@ export default function Financial() {
             onFilter={handleFilter}
           />
 
-          {showFinancialData && (
-            <BalanceCards
-              selectedMonth={selectedMonth}
-              selectedYear={selectedYear}
-              months={months}
-              onCardClick={() => setShowBalanceDialog(true)}
-            />
-          )}
+          <div className="px-6 flex-1">
+            {showFinancialData && (
+              <BalanceCards
+                selectedMonth={selectedMonth}
+                selectedYear={selectedYear}
+                months={months}
+                onCardClick={() => setShowBalanceDialog(true)}
+              />
+            )}
+          </div>
         </div>
       </div>
 
