@@ -49,17 +49,20 @@ export default function Financial() {
   return (
     <div className="h-screen overflow-hidden flex flex-col">
       <FinancialHeader />
+
       <div className="flex-1">
         <div className="max-w-[530px] mx-auto h-full flex flex-col">
-          <FilterSection
-            selectedMonth={selectedMonth}
-            selectedYear={selectedYear}
-            months={months}
-            years={years}
-            onMonthChange={setSelectedMonth}
-            onYearChange={setSelectedYear}
-            onFilter={handleFilter}
-          />
+          <div className="mt-[146px] p-6">
+            <FilterSection
+              selectedMonth={selectedMonth}
+              selectedYear={selectedYear}
+              months={months}
+              years={years}
+              onMonthChange={setSelectedMonth}
+              onYearChange={setSelectedYear}
+              onFilter={handleFilter}
+            />
+          </div>
 
           <div className="px-6 flex-1">
             {showFinancialData && (
