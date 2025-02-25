@@ -11,6 +11,18 @@ export const RegisterFormContainer = () => {
   const navigate = useNavigate();
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+      cpf: "",
+      sponsorCustomId: "",
+      customId: "",
+      birthDate: "",
+      whatsapp: "",
+      secondaryWhatsapp: "",
+    },
   });
 
   const onSubmit = (data: RegisterFormData) => {
