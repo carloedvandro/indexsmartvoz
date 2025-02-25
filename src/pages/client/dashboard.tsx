@@ -7,6 +7,7 @@ import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
 import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
+import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { DollarSign, LineChart, TrendingUp } from "lucide-react";
@@ -41,9 +42,12 @@ export default function ClientDashboard() {
             <div className="px-6 mb-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card 
-                  className="relative p-6 bg-[#5f0889] text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="relative p-6 bg-[#5f0889] text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
                   onClick={handleFinancialClick}
                 >
+                  <div className="absolute inset-0">
+                    <ParticlesBackground />
+                  </div>
                   <div className="relative z-10 flex items-center space-x-4">
                     <div className="p-3 bg-white/20 rounded-full">
                       <DollarSign className="w-6 h-6" />
@@ -55,7 +59,10 @@ export default function ClientDashboard() {
                   </div>
                 </Card>
 
-                <Card className="relative p-6 bg-[#5f0889] text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300">
+                <Card className="relative p-6 bg-[#5f0889] text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+                  <div className="absolute inset-0">
+                    <ParticlesBackground />
+                  </div>
                   <div className="relative z-10 flex items-center space-x-4">
                     <div className="p-3 bg-white/20 rounded-full">
                       <LineChart className="w-6 h-6" />
@@ -67,7 +74,10 @@ export default function ClientDashboard() {
                   </div>
                 </Card>
 
-                <Card className="relative p-6 bg-[#5f0889] text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300">
+                <Card className="relative p-6 bg-[#5f0889] text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+                  <div className="absolute inset-0">
+                    <ParticlesBackground />
+                  </div>
                   <div className="relative z-10 flex items-center space-x-4">
                     <div className="p-3 bg-white/20 rounded-full">
                       <TrendingUp className="w-6 h-6" />

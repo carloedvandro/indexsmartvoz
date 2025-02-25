@@ -3,7 +3,7 @@ import { useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import type { Session } from '@supabase/supabase-js';
 
-export function useSession() {
+export const useSession = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const getSession = useCallback(async (): Promise<Session | null> => {
@@ -25,4 +25,4 @@ export function useSession() {
   }, []);
 
   return { getSession, isLoading };
-}
+};
