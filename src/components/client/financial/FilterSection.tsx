@@ -77,26 +77,26 @@ export function FilterSection({
           </div>
         </div>
         <div className="flex justify-between gap-4">
+          <Button
+            variant="outline"
+            onClick={handleBack}
+            className="w-[120px] border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white"
+          >
+            Voltar
+          </Button>
           <div className="relative overflow-hidden rounded-lg">
             <div className="absolute inset-0">
               <ParticlesBackground />
             </div>
             <div className="relative z-10">
-              <Button
-                variant="outline"
-                onClick={handleBack}
-                className="w-[120px] border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white"
+              <Button 
+                onClick={onFilter}
+                className="w-[120px] bg-[#5f0889] hover:bg-[#5f0889]/90 text-white"
               >
-                Voltar
+                Filtrar
               </Button>
             </div>
           </div>
-          <Button 
-            onClick={onFilter}
-            className="w-[120px] bg-[#5f0889] hover:bg-[#5f0889]/90 text-white"
-          >
-            Filtrar
-          </Button>
         </div>
       </div>
     </div>
