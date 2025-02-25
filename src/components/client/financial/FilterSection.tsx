@@ -40,7 +40,7 @@ export function FilterSection({
           <div className="col-span-3">
             <label className="block text-sm font-medium text-gray-900 mb-1">Mês</label>
             <Select defaultValue={selectedMonth} onValueChange={onMonthChange}>
-              <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900">
+              <SelectTrigger className="w-full bg-white text-gray-900 border-gray-300">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-white">
@@ -59,7 +59,7 @@ export function FilterSection({
           <div className="col-span-3">
             <label className="block text-sm font-medium text-gray-900 mb-1">Ano</label>
             <Select defaultValue={selectedYear} onValueChange={onYearChange}>
-              <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 pl-3">
+              <SelectTrigger className="w-full bg-white text-gray-900 border-gray-300">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-white">
