@@ -23,10 +23,10 @@ export const NavigationContent = ({ item }: NavigationContentProps) => {
         <NavigationMenuLink asChild key={subItem.title}>
           <Link
             to={subItem.href || "#"}
-            className="flex flex-row justify-between items-center py-2 pl-0 pr-4 rounded text-left hover:bg-muted"
+            className="flex flex-row justify-between items-center py-3 px-4 rounded text-left hover:bg-gray-50 text-gray-800 text-sm font-medium w-full"
           >
             <span className="text-left">{subItem.title}</span>
-            <MoveRight className="w-4 h-4 text-muted-foreground" />
+            <MoveRight className="w-4 h-4 text-gray-500" />
           </Link>
         </NavigationMenuLink>
       );
@@ -34,8 +34,8 @@ export const NavigationContent = ({ item }: NavigationContentProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col text-sm">
+    <div className="flex flex-col gap-4 w-full">
+      <div className="flex flex-col text-sm w-full">
         {item.items && renderItems(item.items)}
       </div>
     </div>
