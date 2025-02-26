@@ -4,7 +4,6 @@ import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
 import { FilterSection } from "@/components/client/financial/FilterSection";
 import { BalanceCards } from "@/components/client/financial/BalanceCards";
 import { BalanceDialog } from "@/components/client/financial/BalanceDialog";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 export default function Financial() {
   const [selectedMonth, setSelectedMonth] = useState("2");
@@ -48,7 +47,7 @@ export default function Financial() {
   };
 
   return (
-    <div className="h-screen overflow-hidden flex flex-col">
+    <div className="h-screen overflow-hidden flex flex-col bg-white">
       <FinancialHeader />
 
       <div className="flex-1 overflow-auto">
