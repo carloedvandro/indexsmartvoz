@@ -1,5 +1,5 @@
-
 import { useLocation } from "react-router-dom";
+import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
 import {
   Table,
@@ -14,6 +14,11 @@ import { FilterX } from "lucide-react";
 export default function FinancialDetails() {
   const location = useLocation();
   const { type } = location.state || {};
+
+  const [selectedMonth, setSelectedMonth] = useState("2");
+  const [selectedYear, setSelectedYear] = useState("2025");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredTransactions, setFilteredTransactions] = useState(transactions);
 
   const transactions = [
     { date: '05/02/2025', type: 'DÉBITO', description: 'LANÇAMENTO FINANCEIRO 9736', value: 'R$ 0,00', balance: 'R$ 0,00' },
@@ -42,6 +47,56 @@ export default function FinancialDetails() {
     { date: '24/02/2025', type: 'SOLICITACAO DE SAQUE', description: 'LANÇAMENTO FINANCEIRO 8695', value: 'R$ 0,00', balance: 'R$ 47.576,23' },
   ];
 
+  // Função para filtrar transações
+  const filterTransactions = () => {
+    const filtered = transactions.filter(transaction => {
+      const matchesSearch = searchTerm === "" || 
+        transaction.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.value.includes(searchTerm) ||
+        transaction.date.includes(searchTerm);
+      
+      const [month, year] = transaction.date.split('/').map(Number);
+      const matchesFilter = month === parseInt(selectedMonth) && year === parseInt(selectedYear);
+      
+      return matchesFilter && (searchTerm === "" || matchesSearch);
+    });
+    
+    setFilteredTransactions(filtered);
+  };
+
+  // Função para exportar PDF
+  const handleExportPDF = () => {
+    console.log("Exportando PDF...");
+    // Aqui você pode implementar a lógica de exportação para PDF
+    // Por exemplo, usando uma biblioteca como jsPDF
+    window.print(); // Solução temporária usando a impressão do navegador
+  };
+
+  // Array de meses para o select
+  const months = [
+    { value: "1", label: "Janeiro" },
+    { value: "2", label: "Fevereiro" },
+    { value: "3", label: "Março" },
+    { value: "4", label: "Abril" },
+    { value: "5", label: "Maio" },
+    { value: "6", label: "Junho" },
+    { value: "7", label: "Julho" },
+    { value: "8", label: "Agosto" },
+    { value: "9", label: "Setembro" },
+    { value: "10", label: "Outubro" },
+    { value: "11", label: "Novembro" },
+    { value: "12", label: "Dezembro" }
+  ];
+
+  // Array de anos para o select
+  const years = [
+    "2023",
+    "2024",
+    "2025",
+    "2026"
+  ];
+
   return (
     <div className="min-h-screen bg-white">
       {/* Cabeçalho Roxo */}
@@ -58,13 +113,32 @@ export default function FinancialDetails() {
             <span className="font-medium">Filtros</span>
           </div>
           <div className="flex gap-4 mb-4">
-            <select className="border rounded-md px-4 py-2 w-48">
-              <option>Fevereiro</option>
+            <select 
+              className="border rounded-md px-4 py-2 w-48"
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+            >
+              {months.map(month => (
+                <option key={month.value} value={month.value}>
+                  {month.label}
+                </option>
+              ))}
             </select>
-            <select className="border rounded-md px-4 py-2 w-48">
-              <option>2025</option>
+            <select 
+              className="border rounded-md px-4 py-2 w-48"
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+            >
+              {years.map(year => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
             </select>
-            <button className="bg-[#00B8D4] text-white px-6 py-2 rounded-md hover:bg-[#00A0BC] transition-colors">
+            <button 
+              onClick={filterTransactions}
+              className="bg-[#00B8D4] text-white px-6 py-2 rounded-md hover:bg-[#00A0BC] transition-colors"
+            >
               Filtrar
             </button>
           </div>
@@ -104,8 +178,16 @@ export default function FinancialDetails() {
             type="text"
             placeholder="Pesquisar"
             className="border rounded-md px-4 py-2 w-64"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              filterTransactions();
+            }}
           />
-          <button className="bg-gray-800 text-white px-6 py-2 rounded-md hover:bg-gray-700 transition-colors">
+          <button 
+            onClick={handleExportPDF}
+            className="bg-gray-800 text-white px-6 py-2 rounded-md hover:bg-gray-700 transition-colors"
+          >
             Baixar em PDF
           </button>
         </div>
@@ -123,7 +205,7 @@ export default function FinancialDetails() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {transactions.map((transaction, index) => (
+              {filteredTransactions.map((transaction, index) => (
                 <TableRow key={index} className="border-b hover:bg-gray-50">
                   <TableCell>{transaction.date}</TableCell>
                   <TableCell className="font-medium">{transaction.type}</TableCell>
@@ -138,7 +220,7 @@ export default function FinancialDetails() {
 
         {/* Paginação */}
         <div className="mt-4 text-sm text-gray-600">
-          Mostrando de 1 até 24 de 24 registros
+          Mostrando de 1 até {filteredTransactions.length} de {transactions.length} registros
         </div>
       </div>
     </div>
