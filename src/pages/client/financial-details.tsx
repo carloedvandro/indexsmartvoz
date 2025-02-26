@@ -1,4 +1,3 @@
-
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
@@ -263,7 +262,7 @@ export default function FinancialDetails() {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between gap-3 w-full md:w-[800px] mx-auto mb-6">
+        <div className="flex flex-row justify-between items-center gap-3 w-full md:w-[800px] mx-auto mb-6">
           <input
             type="text"
             placeholder="Pesquisar"
@@ -276,7 +275,7 @@ export default function FinancialDetails() {
           />
           <button 
             onClick={handleExportPDF}
-            className="bg-gray-800 text-white px-6 h-9 rounded-md hover:bg-gray-700 transition-colors w-full md:w-auto"
+            className="bg-[#5f0889] text-white px-6 h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors whitespace-nowrap"
           >
             Baixar em PDF
           </button>
