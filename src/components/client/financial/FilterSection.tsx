@@ -28,9 +28,11 @@ export function FilterSection({
 
   return (
     <div className="border rounded-lg bg-white">
-      <div className="flex items-center gap-2 p-4">
-        <Filter className="w-4 h-4 text-[#5f0889]" />
-        <span className="text-sm font-medium text-gray-900">Filtros</span>
+      <div className="py-2 px-4 border-b bg-gray-50">
+        <div className="flex items-center gap-2">
+          <Filter className="w-4 h-4 text-[#5f0889]" />
+          <span className="text-sm font-medium text-gray-900">Filtros</span>
+        </div>
       </div>
       <div className="p-4">
         <div className="grid grid-cols-6 gap-4 mb-6">
@@ -38,14 +40,14 @@ export function FilterSection({
             <label className="block text-sm font-medium text-gray-900 mb-1">Mês</label>
             <Select defaultValue={selectedMonth} onValueChange={onMonthChange}>
               <SelectTrigger className="w-full bg-white !bg-white text-gray-900 border-gray-300 [&>span]:bg-white">
-                <SelectValue className="!bg-white" />
+                <SelectValue className="bg-white" />
               </SelectTrigger>
-              <SelectContent className="!bg-white [&>div]:!bg-white">
+              <SelectContent className="bg-white [&>div]:bg-white">
                 {months.map((month) => (
                   <SelectItem 
                     key={month.value} 
                     value={month.value}
-                    className="!bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
+                    className="bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
                   >
                     {month.label}
                   </SelectItem>
@@ -57,14 +59,14 @@ export function FilterSection({
             <label className="block text-sm font-medium text-gray-900 mb-1">Ano</label>
             <Select defaultValue={selectedYear} onValueChange={onYearChange}>
               <SelectTrigger className="w-full bg-white !bg-white text-gray-900 border-gray-300 [&>span]:bg-white">
-                <SelectValue className="!bg-white" />
+                <SelectValue className="bg-white" />
               </SelectTrigger>
-              <SelectContent className="!bg-white [&>div]:!bg-white">
+              <SelectContent className="bg-white [&>div]:bg-white">
                 {years.map((year) => (
                   <SelectItem 
                     key={year.value} 
                     value={year.value}
-                    className="!bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
+                    className="bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
                   >
                     {year.label}
                   </SelectItem>
