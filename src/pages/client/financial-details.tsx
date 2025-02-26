@@ -1,3 +1,4 @@
+
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
@@ -242,21 +243,21 @@ export default function FinancialDetails() {
           <Table>
             <TableHeader className="bg-gray-50">
               <TableRow>
-                <TableHead className="font-semibold">Data</TableHead>
-                <TableHead className="font-semibold">Histórico</TableHead>
-                <TableHead className="font-semibold">Descrição</TableHead>
-                <TableHead className="font-semibold text-right">Valor</TableHead>
-                <TableHead className="font-semibold text-right">Saldo</TableHead>
+                <TableHead className="font-semibold w-[100px]">Data</TableHead>
+                <TableHead className="font-semibold w-[150px]">Histórico</TableHead>
+                <TableHead className="font-semibold w-[200px]">Descrição</TableHead>
+                <TableHead className="font-semibold text-right w-[120px]">Valor</TableHead>
+                <TableHead className="font-semibold text-right w-[120px]">Saldo</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredTransactions.map((transaction, index) => (
                 <TableRow key={index} className="border-b hover:bg-gray-50">
-                  <TableCell>{transaction.date}</TableCell>
-                  <TableCell className="font-medium">{transaction.type}</TableCell>
-                  <TableCell>{transaction.description}</TableCell>
-                  <TableCell className="text-right text-green-600">{transaction.value}</TableCell>
-                  <TableCell className="text-right">{transaction.balance}</TableCell>
+                  <TableCell className="w-[100px]">{transaction.date}</TableCell>
+                  <TableCell className="font-medium w-[150px]">{transaction.type}</TableCell>
+                  <TableCell className="w-[200px] truncate">{transaction.description}</TableCell>
+                  <TableCell className="text-right text-green-600 w-[120px]">{transaction.value}</TableCell>
+                  <TableCell className="text-right w-[120px]">{transaction.balance}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
