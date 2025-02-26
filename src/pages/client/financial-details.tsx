@@ -17,24 +17,15 @@ export default function FinancialDetails() {
   const { type } = location.state || {};
 
   const transactions = [
-    { date: '05/02/2025', type: 'BÔNUS', description: 'LANÇAMENTO FINANCEIRO 10940', value: 'R$ 446,89', balance: 'R$ 446,89' },
-    { date: '05/02/2025', type: 'BÔNUS', description: 'LANÇAMENTO FINANCEIRO 11769', value: 'R$ 1.732,64', balance: 'R$ 2.179,53' },
     { date: '10/02/2025', type: 'BÔNUS DE EQUIPE', description: 'LANÇAMENTO FINANCEIRO 11546', value: 'R$ 4.059,05', balance: 'R$ 10.848,84' },
     { date: '11/02/2025', type: 'BÔNUS DE INDICAÇÃO', description: 'LANÇAMENTO FINANCEIRO 9398', value: 'R$ 10,00', balance: 'R$ 10.858,84' },
-    { date: '11/02/2025', type: 'BÔNUS', description: 'LANÇAMENTO FINANCEIRO 9597', value: 'R$ 3.543,88', balance: 'R$ 14.402,72' },
-    { date: '11/02/2025', type: 'BÔNUS', description: 'LANÇAMENTO FINANCEIRO 12092', value: 'R$ 1.323,26', balance: 'R$ 15.725,98' },
     { date: '13/02/2025', type: 'BÔNUS DE EQUIPE', description: 'LANÇAMENTO FINANCEIRO 10573', value: 'R$ 9.012,98', balance: 'R$ 24.738,96' },
-    { date: '14/02/2025', type: 'BÔNUS', description: 'LANÇAMENTO FINANCEIRO 11979', value: 'R$ 169,37', balance: 'R$ 24.908,33' },
     { date: '15/02/2025', type: 'BÔNUS DE INDICAÇÃO', description: 'LANÇAMENTO FINANCEIRO 11404', value: 'R$ 30,00', balance: 'R$ 24.938,33' },
     { date: '16/02/2025', type: 'IMPOSTO DE RENDA', description: 'LANÇAMENTO FINANCEIRO 8697', value: 'R$ 0,00', balance: 'R$ 24.938,33' },
     { date: '18/02/2025', type: 'BÔNUS DE EQUIPE', description: 'LANÇAMENTO FINANCEIRO 8173', value: 'R$ 6.495,92', balance: 'R$ 31.434,25' },
     { date: '18/02/2025', type: 'INSS', description: 'LANÇAMENTO FINANCEIRO 8696', value: 'R$ 0,00', balance: 'R$ 31.434,25' },
     { date: '18/02/2025', type: 'BÔNUS DE EQUIPE', description: 'LANÇAMENTO FINANCEIRO 9419', value: 'R$ 6.589,96', balance: 'R$ 38.024,21' },
-    { date: '20/02/2025', type: 'BÔNUS', description: 'LANÇAMENTO FINANCEIRO 11768', value: 'R$ 172,40', balance: 'R$ 43.196,61' },
-    { date: '21/02/2025', type: 'BÔNUS', description: 'LANÇAMENTO FINANCEIRO 12061', value: 'R$ 1.105,92', balance: 'R$ 44.302,53' },
-    { date: '23/02/2025', type: 'BÔNUS', description: 'LANÇAMENTO FINANCEIRO 8321', value: 'R$ 2.796,81', balance: 'R$ 47.099,34' },
     { date: '23/02/2025', type: 'BÔNUS DE INDICAÇÃO', description: 'LANÇAMENTO FINANCEIRO 11403', value: 'R$ 30,00', balance: 'R$ 47.129,34' },
-    { date: '23/02/2025', type: 'BÔNUS', description: 'LANÇAMENTO FINANCEIRO 12027', value: 'R$ 446,89', balance: 'R$ 47.576,23' },
   ];
 
   const [selectedMonth, setSelectedMonth] = useState("2");
