@@ -1,3 +1,4 @@
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
@@ -288,8 +289,8 @@ export default function FinancialDetails() {
                 <TableHead className="font-semibold min-w-[100px] text-black">Data</TableHead>
                 <TableHead className="font-semibold min-w-[200px] text-black">Histórico</TableHead>
                 <TableHead className="font-semibold min-w-[240px] text-black">Descrição</TableHead>
-                <TableHead className="font-semibold text-right min-w-[130px] text-black">Valor</TableHead>
-                <TableHead className="font-semibold text-right min-w-[130px] text-black">Saldo</TableHead>
+                <TableHead className="font-semibold text-left min-w-[130px] text-black">Valor</TableHead>
+                <TableHead className="font-semibold text-left min-w-[130px] text-black">Saldo</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -298,8 +299,8 @@ export default function FinancialDetails() {
                   <TableCell className="min-w-[100px]">{transaction.date}</TableCell>
                   <TableCell className="font-medium min-w-[200px]">{transaction.type}</TableCell>
                   <TableCell className="min-w-[240px] truncate">{transaction.description}</TableCell>
-                  <TableCell className="text-right text-green-600 min-w-[130px]">{transaction.value}</TableCell>
-                  <TableCell className="text-right min-w-[130px]">{transaction.balance}</TableCell>
+                  <TableCell className="text-left text-green-600 min-w-[130px]">{transaction.value}</TableCell>
+                  <TableCell className="text-left min-w-[130px]">{transaction.balance}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
