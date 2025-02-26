@@ -22,7 +22,10 @@ export default function ClientDashboard() {
   };
 
   const handleFinancialClick = () => {
-    navigate("/client/financial");
+    // Navega para a página financeira com os filtros já aplicados
+    navigate("/client/financial", {
+      state: { showFinancialData: true }
+    });
   };
 
   if (!profile) {
@@ -57,7 +60,10 @@ export default function ClientDashboard() {
                   </div>
                 </Card>
 
-                <Card className="relative p-6 bg-[#5f0889]/90 backdrop-blur-sm text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300">
+                <Card 
+                  className="relative p-6 bg-[#5f0889]/90 backdrop-blur-sm text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  onClick={handleFinancialClick}
+                >
                   <div className="relative z-10 flex items-center space-x-4">
                     <div className="p-3 bg-white/20 rounded-full">
                       <LineChart className="w-6 h-6" />

@@ -1,15 +1,24 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
 import { FilterSection } from "@/components/client/financial/FilterSection";
 import { BalanceCards } from "@/components/client/financial/BalanceCards";
 import { BalanceDialog } from "@/components/client/financial/BalanceDialog";
 
 export default function Financial() {
+  const location = useLocation();
   const [selectedMonth, setSelectedMonth] = useState("2");
   const [selectedYear, setSelectedYear] = useState("2025");
   const [showFinancialData, setShowFinancialData] = useState(false);
   const [showBalanceDialog, setShowBalanceDialog] = useState(false);
+
+  // Mostrar os dados financeiros automaticamente se vier do dashboard
+  useEffect(() => {
+    if (location.state?.showFinancialData) {
+      setShowFinancialData(true);
+    }
+  }, [location.state]);
 
   const months = [
     { value: "1", label: "Janeiro" },
