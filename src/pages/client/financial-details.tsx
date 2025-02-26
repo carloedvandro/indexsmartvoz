@@ -288,7 +288,7 @@ export default function FinancialDetails() {
         </div>
 
         <div className="mt-4 text-sm text-gray-600">
-          Mostrando de 1 até {filteredTransactions.length} de {transactions.length} registros
+          Total de {filteredTransactions.length} registros
         </div>
       </div>
     </div>
