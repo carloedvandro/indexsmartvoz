@@ -17,6 +17,7 @@ import ClientChipActivation from '@/pages/client/chip-activation';
 import ClientProducts from '@/pages/client/products';
 import ClientESIM from '@/pages/client/esim';
 import ClientFinancial from '@/pages/client/financial';
+import ClientFinancialDetails from '@/pages/client/financial-details';
 import AdminDashboard from '@/pages/admin/dashboard';
 import AdminLogin from '@/pages/admin/login';
 import AdminNetwork from '@/pages/admin/network';
@@ -51,6 +52,7 @@ const router = createBrowserRouter(
         <Route path="/client/products" element={<ClientProducts />} />
         <Route path="/client/esim" element={<ClientESIM />} />
         <Route path="/client/financial" element={<ClientFinancial />} />
+        <Route path="/client/financial/details" element={<ClientFinancialDetails />} />
       </Route>
 
       {/* Protected Admin Routes */}
