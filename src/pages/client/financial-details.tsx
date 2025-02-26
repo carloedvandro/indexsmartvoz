@@ -63,14 +63,18 @@ export default function FinancialDetails() {
     // Configurar colunas com larguras específicas e posições x
     const startX = 14;
     const colWidths = {
-      date: 25,
-      type: 45,
-      description: 60,
-      value: 25,
-      balance: 25
+      date: 30,        // Data
+      type: 50,        // Histórico
+      description: 65, // Descrição
+      value: 25,       // Valor
+      balance: 25      // Saldo
     };
     
-    let y = 40;
+    let y = 45;
+    
+    // Adicionar linha cinza clara de cabeçalho
+    doc.setFillColor(247, 248, 249); // Cor similar ao bg-gray-50 do Tailwind
+    doc.rect(startX, y - 5, 185, 8, 'F');
     
     // Cabeçalhos
     doc.setFont("helvetica", "bold");
@@ -87,21 +91,23 @@ export default function FinancialDetails() {
     currentX += colWidths.type;
     doc.text("Descrição", currentX, y);
     
-    // Valor
+    // Valor (alinhado à direita)
     currentX += colWidths.description;
     const valorText = "Valor";
     const valorWidth = doc.getTextWidth(valorText);
-    doc.text(valorText, currentX + colWidths.value - valorWidth, y);
+    doc.text(valorText, currentX + colWidths.value - valorWidth - 2, y);
     
-    // Saldo
+    // Saldo (alinhado à direita)
     currentX += colWidths.value;
     const saldoText = "Saldo";
     const saldoWidth = doc.getTextWidth(saldoText);
-    doc.text(saldoText, currentX + colWidths.balance - saldoWidth, y);
+    doc.text(saldoText, currentX + colWidths.balance - saldoWidth - 2, y);
     
     // Dados
     doc.setFont("helvetica", "normal");
-    filteredTransactions.forEach((transaction) => {
+    doc.setTextColor(0, 0, 0);
+    
+    filteredTransactions.forEach((transaction, index) => {
       y += 10;
       
       if (y > 280) {
@@ -109,6 +115,13 @@ export default function FinancialDetails() {
         y = 20;
       }
       
+      // Adicionar linha cinza clara alternada
+      if (index % 2 === 0) {
+        doc.setFillColor(249, 250, 251);
+        doc.rect(startX, y - 5, 185, 8, 'F');
+      }
+      
+      doc.setTextColor(0, 0, 0); // Reset para cor preta
       currentX = startX;
       
       // Data
@@ -122,15 +135,17 @@ export default function FinancialDetails() {
       currentX += colWidths.type;
       doc.text(transaction.description, currentX, y);
       
-      // Valor
+      // Valor (em verde e alinhado à direita)
       currentX += colWidths.description;
+      doc.setTextColor(34, 197, 94); // text-green-600
       const valueWidth = doc.getTextWidth(transaction.value);
-      doc.text(transaction.value, currentX + colWidths.value - valueWidth, y);
+      doc.text(transaction.value, currentX + colWidths.value - valueWidth - 2, y);
       
-      // Saldo
+      // Saldo (alinhado à direita)
       currentX += colWidths.value;
+      doc.setTextColor(0, 0, 0);
       const balanceWidth = doc.getTextWidth(transaction.balance);
-      doc.text(transaction.balance, currentX + colWidths.balance - balanceWidth, y);
+      doc.text(transaction.balance, currentX + colWidths.balance - balanceWidth - 2, y);
     });
     
     y += 20;
