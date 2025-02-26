@@ -25,7 +25,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">WhatsApp</FormLabel>
             <FormControl>
               <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-3.5 w-3.5" />
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8425af] h-3.5 w-3.5" />
                 <Input 
                   {...field} 
                   type="text"
@@ -47,7 +47,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">Segundo Contato</FormLabel>
             <FormControl>
               <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-3.5 w-3.5" />
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8425af] h-3.5 w-3.5" />
                 <Input 
                   {...field} 
                   type="text"
