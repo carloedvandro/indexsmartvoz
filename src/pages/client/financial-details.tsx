@@ -16,6 +16,12 @@ export default function FinancialDetails() {
   const { type } = location.state || {};
 
   const transactions = [
+    { date: '05/02/2025', type: 'DÉBITO', description: 'LANÇAMENTO FINANCEIRO 9736', value: 'R$ 0,00', balance: 'R$ 0,00' },
+    { date: '05/02/2025', type: 'BÔNUS', description: 'LANÇAMENTO FINANCEIRO 10940', value: 'R$ 446,89', balance: 'R$ 446,89' },
+    { date: '05/02/2025', type: 'BÔNUS', description: 'LANÇAMENTO FINANCEIRO 11769', value: 'R$ 1.732,64', balance: 'R$ 2.179,53' },
+    { date: '06/02/2025', type: 'BÔNUS', description: 'LANÇAMENTO FINANCEIRO 10797', value: 'R$ 4.610,25', balance: 'R$ 6.789,78' },
+    { date: '09/02/2025', type: 'CRÉDITO', description: 'LANÇAMENTO FINANCEIRO 5172', value: 'R$ 0,01', balance: 'R$ 6.789,79' },
+    { date: '09/02/2025', type: 'SOLICITACAO DE SAQUE', description: 'LANÇAMENTO FINANCEIRO 11073', value: 'R$ 0,00', balance: 'R$ 6.789,79' },
     { date: '10/02/2025', type: 'BÔNUS DE EQUIPE', description: 'LANÇAMENTO FINANCEIRO 11546', value: 'R$ 4.059,05', balance: 'R$ 10.848,84' },
     { date: '11/02/2025', type: 'BÔNUS DE INDICAÇÃO', description: 'LANÇAMENTO FINANCEIRO 9398', value: 'R$ 10,00', balance: 'R$ 10.858,84' },
     { date: '11/02/2025', type: 'BÔNUS', description: 'LANÇAMENTO FINANCEIRO 9597', value: 'R$ 3.543,88', balance: 'R$ 14.402,72' },
@@ -88,7 +94,7 @@ export default function FinancialDetails() {
         <div className="flex justify-end mb-6">
           <div className="text-right">
             <span className="font-semibold text-gray-700">SALDO ANTERIOR: </span>
-            <span className="font-semibold">R$ 6.789,79</span>
+            <span className="font-semibold">R$ 0,00</span>
           </div>
         </div>
 
@@ -107,7 +113,7 @@ export default function FinancialDetails() {
         {/* Tabela de Transações */}
         <div className="bg-white rounded-lg overflow-hidden border">
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-gray-50">
               <TableRow>
                 <TableHead className="font-semibold">Data</TableHead>
                 <TableHead className="font-semibold">Histórico</TableHead>
@@ -118,7 +124,7 @@ export default function FinancialDetails() {
             </TableHeader>
             <TableBody>
               {transactions.map((transaction, index) => (
-                <TableRow key={index}>
+                <TableRow key={index} className="border-b hover:bg-gray-50">
                   <TableCell>{transaction.date}</TableCell>
                   <TableCell className="font-medium">{transaction.type}</TableCell>
                   <TableCell>{transaction.description}</TableCell>
