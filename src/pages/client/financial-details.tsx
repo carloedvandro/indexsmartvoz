@@ -106,7 +106,7 @@ export default function FinancialDetails() {
             className="border rounded-md px-4 py-2 w-64"
           />
           <button className="bg-gray-800 text-white px-6 py-2 rounded-md hover:bg-gray-700 transition-colors">
-            Exportar para Excel
+            Baixar em PDF
           </button>
         </div>
 
