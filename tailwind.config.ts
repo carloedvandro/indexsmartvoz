@@ -27,10 +27,15 @@ export default {
             backgroundPosition: "var(--bg-size) 0",
           },
         },
+        "moving-banner": {
+          from: { backgroundPosition: "0% 0" },
+          to: { backgroundPosition: "100% 0" },
+        },
       },
       animation: {
         ...animations.animation,
         gradient: "gradient 8s linear infinite",
+        "moving-banner": "moving-banner 20s linear infinite",
       },
     },
   },
@@ -40,7 +45,6 @@ export default {
   ],
 } satisfies Config;
 
-// This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
 function addVariablesForColors({ addBase, theme }: any) {
   let allColors = flattenColorPalette(theme("colors"));
   let newVars = Object.fromEntries(
