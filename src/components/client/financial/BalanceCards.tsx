@@ -42,10 +42,9 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
       </Card>
 
       <Card 
-        className="relative p-4 border border-gray-200 rounded-lg bg-white overflow-hidden"
+        className="relative p-4 border border-gray-200 rounded-lg overflow-hidden"
         style={{
           backgroundColor: 'white',
-          boxShadow: '0 0 0 9999px white inset',
           position: 'relative',
           zIndex: 50
         }}
