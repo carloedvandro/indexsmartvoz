@@ -1,3 +1,4 @@
+
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
@@ -160,7 +161,7 @@ export default function FinancialDetails() {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 py-8">
-        <div className="mb-8 w-[600px]">
+        <div className="mb-8 w-[800px] mx-auto">
           <div className="flex items-center gap-4 mb-6">
             <FilterX className="w-5 h-5" />
             <span className="font-medium">Filtros</span>
@@ -212,14 +213,7 @@ export default function FinancialDetails() {
           </div>
         </div>
 
-        <div className="flex md:justify-end mb-6">
-          <div className="text-gray-700">
-            <span className="font-semibold">Saldo anterior: </span>
-            <span>R$0,00</span>
-          </div>
-        </div>
-
-        <div className="flex justify-between mb-6">
+        <div className="flex justify-between w-[800px] mx-auto mb-6">
           <input
             type="text"
             placeholder="Pesquisar"
@@ -236,6 +230,13 @@ export default function FinancialDetails() {
           >
             Baixar em PDF
           </button>
+        </div>
+
+        <div className="flex md:justify-end mb-6 w-[800px] mx-auto">
+          <div className="text-gray-700">
+            <span className="font-semibold">Saldo anterior: </span>
+            <span>R$0,00</span>
+          </div>
         </div>
 
         <div className="bg-white rounded-lg overflow-hidden border mx-auto w-[800px]">
@@ -263,7 +264,7 @@ export default function FinancialDetails() {
           </Table>
         </div>
 
-        <div className="mt-4 text-sm text-gray-600">
+        <div className="mt-4 text-sm text-gray-600 w-[800px] mx-auto">
           Total de {filteredTransactions.length} registros
         </div>
       </div>
