@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { FilterX } from "lucide-react";
+import jsPDF from "jspdf";
 
 export default function FinancialDetails() {
   const location = useLocation();
@@ -59,10 +60,58 @@ export default function FinancialDetails() {
   };
 
   const handleExportPDF = () => {
-    console.log("Exportando PDF...");
-    // Aqui você pode implementar a lógica de exportação para PDF
-    // Por exemplo, usando uma biblioteca como jsPDF
-    window.print(); // Solução temporária usando a impressão do navegador
+    const doc = new jsPDF();
+    
+    doc.setFontSize(16);
+    doc.text("Extrato Detalhado", 14, 20);
+    
+    doc.setFontSize(12);
+    doc.text(`Período: ${months.find(m => m.value === selectedMonth)?.label} de ${selectedYear}`, 14, 30);
+    
+    const headers = ["Data", "Histórico", "Descrição", "Valor", "Saldo"];
+    const columnWidths = [25, 35, 60, 35, 35];
+    let y = 40;
+    
+    doc.setFont("helvetica", "bold");
+    headers.forEach((header, i) => {
+      let x = 14;
+      for (let j = 0; j < i; j++) {
+        x += columnWidths[j];
+      }
+      doc.text(header, x, y);
+    });
+    
+    doc.setFont("helvetica", "normal");
+    filteredTransactions.forEach((transaction, index) => {
+      y += 10;
+      
+      if (y > 280) {
+        doc.addPage();
+        y = 20;
+      }
+      
+      let x = 14;
+      
+      doc.text(transaction.date, x, y);
+      x += columnWidths[0];
+      
+      doc.text(transaction.type, x, y);
+      x += columnWidths[1];
+      
+      const description = doc.splitTextToSize(transaction.description, columnWidths[2] - 5);
+      doc.text(description, x, y);
+      x += columnWidths[2];
+      
+      doc.text(transaction.value, x, y);
+      x += columnWidths[3];
+      
+      doc.text(transaction.balance, x, y);
+    });
+    
+    const lastY = y + 20;
+    doc.text(`Total de registros: ${filteredTransactions.length}`, 14, lastY);
+    
+    doc.save(`extrato-${selectedMonth}-${selectedYear}.pdf`);
   };
 
   const months = [
