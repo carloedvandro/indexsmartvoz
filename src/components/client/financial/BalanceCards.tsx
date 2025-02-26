@@ -41,7 +41,13 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
         </div>
       </Card>
 
-      <Card className="relative p-4 border border-gray-200 rounded-lg bg-white overflow-hidden">
+      <Card 
+        className="relative p-4 border border-gray-200 rounded-lg bg-white overflow-hidden"
+        style={{
+          backgroundColor: 'white',
+          boxShadow: '0 0 0 9999px white inset',
+        }}
+      >
         <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#02951e]" />
         <div className="relative z-10 flex justify-between items-center">
           <span className="text-[#02951e] font-medium">Saldo disponível</span>
