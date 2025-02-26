@@ -1,3 +1,4 @@
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
@@ -248,7 +249,7 @@ export default function FinancialDetails() {
         </div>
 
         <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-6 md:mb-8 mx-auto w-full md:w-[800px]">
-          <div className="bg-[#8BC34A] text-white py-3 px-5 rounded-lg w-full md:w-[250px]">
+          <div className="bg-[#5f0889] text-white py-3 px-5 rounded-lg w-full md:w-[250px]">
             <div className="text-xl font-bold mb-1">R$ 42.576,22</div>
             <div className="text-sm">Total de ganhos em Fevereiro/2025</div>
           </div>
