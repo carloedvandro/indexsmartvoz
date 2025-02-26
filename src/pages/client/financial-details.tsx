@@ -1,4 +1,3 @@
-
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
@@ -12,8 +11,10 @@ import {
 } from "@/components/ui/table";
 import { FilterX } from "lucide-react";
 import jsPDF from "jspdf";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function FinancialDetails() {
+  const isMobile = useIsMobile();
   const location = useLocation();
   const { type } = location.state || {};
 
@@ -160,15 +161,15 @@ export default function FinancialDetails() {
         <h2 className="text-2xl font-semibold">Extrato Detalhado</h2>
       </div>
 
-      <div className="max-w-[1200px] mx-auto px-6 py-8">
-        <div className="mb-8 w-[800px] mx-auto">
-          <div className="flex items-center gap-4 mb-6">
+      <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8">
+        <div className="mb-6 md:mb-8 w-full md:w-[800px] mx-auto">
+          <div className="flex items-center gap-4 mb-4 md:mb-6">
             <FilterX className="w-5 h-5" />
             <span className="font-medium">Filtros</span>
           </div>
-          <div className="flex gap-4 mb-4">
+          <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-4">
             <select 
-              className="border rounded-md px-4 py-2 w-[250px]"
+              className="border rounded-md px-4 py-2 w-full md:w-[250px]"
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
             >
@@ -179,7 +180,7 @@ export default function FinancialDetails() {
               ))}
             </select>
             <select 
-              className="border rounded-md px-4 py-2 w-[250px]"
+              className="border rounded-md px-4 py-2 w-full md:w-[250px]"
               value={selectedYear}
               onChange={(e) => setSelectedYear(e.target.value)}
             >
@@ -191,33 +192,33 @@ export default function FinancialDetails() {
             </select>
             <button 
               onClick={filterTransactions}
-              className="bg-[#00B8D4] text-white px-6 h-9 rounded-md hover:bg-[#00A0BC] transition-colors"
+              className="bg-[#00B8D4] text-white px-6 h-9 rounded-md hover:bg-[#00A0BC] transition-colors w-full md:w-auto"
             >
               Filtrar
             </button>
           </div>
         </div>
 
-        <div className="flex gap-4 mb-8 mx-auto w-[800px]">
-          <div className="bg-[#8BC34A] text-white py-3 px-5 rounded-lg w-[250px]">
+        <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-6 md:mb-8 mx-auto w-full md:w-[800px]">
+          <div className="bg-[#8BC34A] text-white py-3 px-5 rounded-lg w-full md:w-[250px]">
             <div className="text-xl font-bold mb-1">R$ 42.576,22</div>
             <div className="text-sm">Total de ganhos em Fevereiro/2025</div>
           </div>
-          <div className="bg-[#E3F2FD] py-3 px-5 rounded-lg w-[250px]">
+          <div className="bg-[#E3F2FD] py-3 px-5 rounded-lg w-full md:w-[250px]">
             <div className="text-xl font-bold mb-1">R$ 47.576,23</div>
             <div className="text-sm text-gray-600">Saldo em Fevereiro/2025</div>
           </div>
-          <div className="bg-[#E3F2FD] py-3 px-5 rounded-lg w-[250px]">
+          <div className="bg-[#E3F2FD] py-3 px-5 rounded-lg w-full md:w-[250px]">
             <div className="text-xl font-bold mb-1">R$ 5.000,01</div>
             <div className="text-sm text-gray-600">Saldo disponível em Fevereiro/2025</div>
           </div>
         </div>
 
-        <div className="flex justify-between w-[800px] mx-auto mb-6">
+        <div className="flex flex-col md:flex-row justify-between gap-3 w-full md:w-[800px] mx-auto mb-6">
           <input
             type="text"
             placeholder="Pesquisar"
-            className="border rounded-md px-4 h-9 w-64"
+            className="border rounded-md px-4 h-9 w-full md:w-64"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -226,45 +227,45 @@ export default function FinancialDetails() {
           />
           <button 
             onClick={handleExportPDF}
-            className="bg-gray-800 text-white px-6 h-9 rounded-md hover:bg-gray-700 transition-colors"
+            className="bg-gray-800 text-white px-6 h-9 rounded-md hover:bg-gray-700 transition-colors w-full md:w-auto"
           >
             Baixar em PDF
           </button>
         </div>
 
-        <div className="flex md:justify-end mb-6 w-[800px] mx-auto">
+        <div className="flex justify-end mb-4 md:mb-6 w-full md:w-[800px] mx-auto">
           <div className="text-gray-700">
             <span className="font-semibold">Saldo anterior: </span>
             <span>R$0,00</span>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg overflow-hidden border mx-auto w-[800px]">
+        <div className="bg-white rounded-lg overflow-hidden border mx-auto w-full md:w-[800px] overflow-x-auto">
           <Table>
             <TableHeader className="bg-gray-50">
               <TableRow>
-                <TableHead className="font-semibold w-[100px] text-black">Data</TableHead>
-                <TableHead className="font-semibold w-[200px] text-black">Histórico</TableHead>
-                <TableHead className="font-semibold w-[240px] text-black">Descrição</TableHead>
-                <TableHead className="font-semibold text-right w-[130px] text-black">Valor</TableHead>
-                <TableHead className="font-semibold text-right w-[130px] text-black">Saldo</TableHead>
+                <TableHead className="font-semibold min-w-[100px] text-black">Data</TableHead>
+                <TableHead className="font-semibold min-w-[200px] text-black">Histórico</TableHead>
+                <TableHead className="font-semibold min-w-[240px] text-black">Descrição</TableHead>
+                <TableHead className="font-semibold text-right min-w-[130px] text-black">Valor</TableHead>
+                <TableHead className="font-semibold text-right min-w-[130px] text-black">Saldo</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredTransactions.map((transaction, index) => (
                 <TableRow key={index} className="border-b hover:bg-gray-50">
-                  <TableCell className="w-[100px]">{transaction.date}</TableCell>
-                  <TableCell className="font-medium w-[200px]">{transaction.type}</TableCell>
-                  <TableCell className="w-[240px] truncate">{transaction.description}</TableCell>
-                  <TableCell className="text-right text-green-600 w-[130px]">{transaction.value}</TableCell>
-                  <TableCell className="text-right w-[130px]">{transaction.balance}</TableCell>
+                  <TableCell className="min-w-[100px]">{transaction.date}</TableCell>
+                  <TableCell className="font-medium min-w-[200px]">{transaction.type}</TableCell>
+                  <TableCell className="min-w-[240px] truncate">{transaction.description}</TableCell>
+                  <TableCell className="text-right text-green-600 min-w-[130px]">{transaction.value}</TableCell>
+                  <TableCell className="text-right min-w-[130px]">{transaction.balance}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </div>
 
-        <div className="mt-4 text-sm text-gray-600 w-[800px] mx-auto">
+        <div className="mt-4 text-sm text-gray-600 w-full md:w-[800px] mx-auto">
           Total de {filteredTransactions.length} registros
         </div>
       </div>
