@@ -60,21 +60,34 @@ export default function FinancialDetails() {
     doc.setFontSize(12);
     doc.text(`Período: ${months.find(m => m.value === selectedMonth)?.label} de ${selectedYear}`, 14, 30);
     
-    const headers = ["Data", "Histórico", "Descrição", "Valor", "Saldo"];
-    const columnWidths = [25, 35, 60, 35, 35];
+    // Configurar colunas com larguras específicas e posições x
+    const startX = 14;
+    const colWidths = {
+      date: 25,
+      type: 45,
+      description: 55,
+      value: 30,
+      balance: 30
+    };
+    
     let y = 40;
     
+    // Cabeçalhos
     doc.setFont("helvetica", "bold");
-    headers.forEach((header, i) => {
-      let x = 14;
-      for (let j = 0; j < i; j++) {
-        x += columnWidths[j];
-      }
-      doc.text(header, x, y);
-    });
+    let currentX = startX;
+    doc.text("Data", currentX, y);
+    currentX += colWidths.date;
+    doc.text("Histórico", currentX, y);
+    currentX += colWidths.type;
+    doc.text("Descrição", currentX, y);
+    currentX += colWidths.description;
+    doc.text("Valor", currentX, y);
+    currentX += colWidths.value;
+    doc.text("Saldo", currentX, y);
     
+    // Dados
     doc.setFont("helvetica", "normal");
-    filteredTransactions.forEach((transaction, index) => {
+    filteredTransactions.forEach((transaction) => {
       y += 10;
       
       if (y > 280) {
@@ -82,26 +95,32 @@ export default function FinancialDetails() {
         y = 20;
       }
       
-      let x = 14;
+      currentX = startX;
       
-      doc.text(transaction.date, x, y);
-      x += columnWidths[0];
+      // Data
+      doc.text(transaction.date, currentX, y);
       
-      doc.text(transaction.type, x, y);
-      x += columnWidths[1];
+      // Histórico
+      currentX += colWidths.date;
+      doc.text(transaction.type, currentX, y);
       
-      const description = doc.splitTextToSize(transaction.description, columnWidths[2] - 5);
-      doc.text(description, x, y);
-      x += columnWidths[2];
+      // Descrição
+      currentX += colWidths.type;
+      doc.text(transaction.description, currentX, y);
       
-      doc.text(transaction.value, x, y);
-      x += columnWidths[3];
+      // Valor (alinhado à direita)
+      currentX += colWidths.description;
+      const valueWidth = doc.getTextWidth(transaction.value);
+      doc.text(transaction.value, currentX + colWidths.value - valueWidth, y);
       
-      doc.text(transaction.balance, x, y);
+      // Saldo (alinhado à direita)
+      currentX += colWidths.value;
+      const balanceWidth = doc.getTextWidth(transaction.balance);
+      doc.text(transaction.balance, currentX + colWidths.balance - balanceWidth, y);
     });
     
-    const lastY = y + 20;
-    doc.text(`Total de registros: ${filteredTransactions.length}`, 14, lastY);
+    y += 20;
+    doc.text(`Total de registros: ${filteredTransactions.length}`, 14, y);
     
     doc.save(`extrato-${selectedMonth}-${selectedYear}.pdf`);
   };
