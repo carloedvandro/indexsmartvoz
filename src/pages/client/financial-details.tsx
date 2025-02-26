@@ -243,16 +243,16 @@ export default function FinancialDetails() {
               </SelectContent>
             </Select>
 
-            <div className="flex gap-3 w-full md:w-auto">
+            <div className="flex gap-3 w-full md:w-auto justify-end">
               <button 
                 onClick={handleBack}
-                className="bg-white text-[#5f0889] border border-[#5f0889] px-6 h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-full md:w-auto"
+                className="bg-white text-[#5f0889] border border-[#5f0889] h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-[120px]"
               >
                 Voltar
               </button>
               <button 
                 onClick={filterTransactions}
-                className="bg-[#5f0889] text-white px-6 h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors w-full md:w-auto"
+                className="bg-[#5f0889] text-white h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors w-[120px]"
               >
                 Filtrar
               </button>
