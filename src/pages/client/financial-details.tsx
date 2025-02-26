@@ -246,7 +246,7 @@ export default function FinancialDetails() {
             <div className="flex gap-3 w-full md:w-auto justify-end">
               <button 
                 onClick={handleBack}
-                className="bg-white text-[#5f0889] border border-[#5f0889] h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-[120px]"
+                className="border border-[#5f0889] text-[#5f0889] h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-[120px]"
               >
                 Voltar
               </button>
