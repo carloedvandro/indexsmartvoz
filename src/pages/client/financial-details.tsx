@@ -239,25 +239,25 @@ export default function FinancialDetails() {
           </button>
         </div>
 
-        <div className="bg-white rounded-lg overflow-hidden border mx-auto w-[600px]">
+        <div className="bg-white rounded-lg overflow-hidden border mx-auto w-[800px]">
           <Table>
             <TableHeader className="bg-gray-50">
               <TableRow>
-                <TableHead className="font-semibold w-[80px]">Data</TableHead>
-                <TableHead className="font-semibold w-[120px]">Histórico</TableHead>
-                <TableHead className="font-semibold w-[180px]">Descrição</TableHead>
-                <TableHead className="font-semibold text-right w-[110px]">Valor</TableHead>
-                <TableHead className="font-semibold text-right w-[110px]">Saldo</TableHead>
+                <TableHead className="font-semibold w-[100px]">Data</TableHead>
+                <TableHead className="font-semibold w-[200px]">Histórico</TableHead>
+                <TableHead className="font-semibold w-[240px]">Descrição</TableHead>
+                <TableHead className="font-semibold text-right w-[130px]">Valor</TableHead>
+                <TableHead className="font-semibold text-right w-[130px]">Saldo</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredTransactions.map((transaction, index) => (
                 <TableRow key={index} className="border-b hover:bg-gray-50">
-                  <TableCell className="w-[80px]">{transaction.date}</TableCell>
-                  <TableCell className="font-medium w-[120px]">{transaction.type}</TableCell>
-                  <TableCell className="w-[180px] truncate">{transaction.description}</TableCell>
-                  <TableCell className="text-right text-green-600 w-[110px]">{transaction.value}</TableCell>
-                  <TableCell className="text-right w-[110px]">{transaction.balance}</TableCell>
+                  <TableCell className="w-[100px]">{transaction.date}</TableCell>
+                  <TableCell className="font-medium w-[200px]">{transaction.type}</TableCell>
+                  <TableCell className="w-[240px] truncate">{transaction.description}</TableCell>
+                  <TableCell className="text-right text-green-600 w-[130px]">{transaction.value}</TableCell>
+                  <TableCell className="text-right w-[130px]">{transaction.balance}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
