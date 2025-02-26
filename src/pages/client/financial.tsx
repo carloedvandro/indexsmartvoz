@@ -50,7 +50,6 @@ export default function Financial() {
   return (
     <div className="h-screen overflow-hidden flex flex-col">
       <FinancialHeader />
-      <ParticlesBackground style="matrix" />
 
       <div className="flex-1 overflow-auto">
         <div className="max-w-[530px] mx-auto h-full flex flex-col">
