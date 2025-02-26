@@ -1,3 +1,4 @@
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
@@ -174,8 +175,8 @@ export default function FinancialDetails() {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8">
-        <div className="mb-6 md:mb-8 w-full md:w-[800px] mx-auto">
-          <div className="border rounded-lg bg-white p-6 shadow-sm">
+        <div className="mb-6 md:mb-8 w-full md:w-[800px] mx-auto flex flex-col md:flex-row gap-3 md:gap-4">
+          <div className="border rounded-lg bg-white p-6 shadow-sm w-full md:w-[800px]">
             <div className="flex items-center gap-2 mb-6">
               <Filter className="w-4 h-4 text-[#5f0889]" />
               <span className="text-sm font-medium text-gray-900">Filtros</span>
