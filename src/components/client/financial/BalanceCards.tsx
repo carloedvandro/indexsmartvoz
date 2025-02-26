@@ -1,6 +1,5 @@
 
 import { Card } from "@/components/ui/card";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 interface BalanceCardsProps {
   selectedMonth: string;
@@ -42,12 +41,9 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
         </div>
       </Card>
 
-      <Card className="relative p-4 border border-gray-200 rounded-lg bg-white overflow-hidden">
-        <div className="absolute inset-0">
-          <ParticlesBackground />
-        </div>
+      <Card className="relative p-4 border border-gray-200 rounded-lg bg-white">
         <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#02951e]" />
-        <div className="relative z-10 flex justify-between items-center">
+        <div className="flex justify-between items-center">
           <span className="text-[#02951e] font-medium">Saldo disponível</span>
           <div className="flex items-center gap-1">
             <span className="text-[#02951e]">R$</span>
