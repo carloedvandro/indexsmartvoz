@@ -84,16 +84,16 @@ export default function ClientDashboard() {
             </div>
 
             <div className="px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <div className="w-full">
+              <div className="w-full bg-transparent">
                 <ProfileCard profile={profile} />
               </div>
-              <div className="w-full">
+              <div className="w-full bg-transparent">
                 <NetworkCard 
                   networkStats={networkStats} 
                   onClick={handleNetworkClick} 
                 />
               </div>
-              <div className="w-full">
+              <div className="w-full bg-transparent">
                 <PlansCard />
               </div>
             </div>
