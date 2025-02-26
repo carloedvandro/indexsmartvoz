@@ -40,7 +40,10 @@ export function FilterSection({
               <SelectTrigger className="w-full bg-white text-gray-900 border-gray-300">
                 <SelectValue className="bg-white" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent 
+                className="bg-white shadow-lg z-[1000]"
+                style={{ isolation: 'isolate' }}
+              >
                 {months.map((month) => (
                   <SelectItem 
                     key={month.value} 
@@ -59,7 +62,10 @@ export function FilterSection({
               <SelectTrigger className="w-full bg-white text-gray-900 border-gray-300">
                 <SelectValue className="bg-white" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent 
+                className="bg-white shadow-lg z-[1000]"
+                style={{ isolation: 'isolate' }}
+              >
                 {years.map((year) => (
                   <SelectItem 
                     key={year.value} 
