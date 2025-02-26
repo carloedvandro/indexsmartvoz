@@ -48,32 +48,34 @@ export default function Financial() {
   };
 
   return (
-    <div className="container relative min-h-screen flex items-center justify-center">
-      <ParticlesBackground />
-      
-      <div className="w-full max-w-[530px] space-y-6 relative z-10">
-        <FinancialHeader />
-        <div className="p-6">
-          <FilterSection
-            selectedMonth={selectedMonth}
-            selectedYear={selectedYear}
-            months={months}
-            years={years}
-            onMonthChange={setSelectedMonth}
-            onYearChange={setSelectedYear}
-            onFilter={handleFilter}
-          />
-        </div>
+    <div className="h-screen overflow-hidden flex flex-col">
+      <FinancialHeader />
+      <ParticlesBackground style="matrix" />
 
-        <div className="px-6">
-          {showFinancialData && (
-            <BalanceCards
+      <div className="flex-1 overflow-auto">
+        <div className="max-w-[530px] mx-auto h-full flex flex-col">
+          <div className="mt-[101px] p-6">
+            <FilterSection
               selectedMonth={selectedMonth}
               selectedYear={selectedYear}
               months={months}
-              onCardClick={() => setShowBalanceDialog(true)}
+              years={years}
+              onMonthChange={setSelectedMonth}
+              onYearChange={setSelectedYear}
+              onFilter={handleFilter}
             />
-          )}
+          </div>
+
+          <div className="px-6">
+            {showFinancialData && (
+              <BalanceCards
+                selectedMonth={selectedMonth}
+                selectedYear={selectedYear}
+                months={months}
+                onCardClick={() => setShowBalanceDialog(true)}
+              />
+            )}
+          </div>
         </div>
       </div>
 
