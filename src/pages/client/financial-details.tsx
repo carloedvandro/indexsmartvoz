@@ -200,15 +200,15 @@ export default function FinancialDetails() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div className="bg-[#8BC34A] text-white py-4 px-6 rounded-lg w-[300px]">
-            <div className="text-3xl font-bold mb-1">R$ 42.576,22</div>
+            <div className="text-2xl font-bold mb-1">R$ 42.576,22</div>
             <div className="text-sm">Total de ganhos em Fevereiro/2025</div>
           </div>
           <div className="bg-[#E3F2FD] py-4 px-6 rounded-lg w-[300px]">
-            <div className="text-3xl font-bold mb-1">R$ 47.576,23</div>
+            <div className="text-2xl font-bold mb-1">R$ 47.576,23</div>
             <div className="text-sm text-gray-600">Saldo em Fevereiro/2025</div>
           </div>
           <div className="bg-[#E3F2FD] py-4 px-6 rounded-lg w-[300px]">
-            <div className="text-3xl font-bold mb-1">R$ 5.000,01</div>
+            <div className="text-2xl font-bold mb-1">R$ 5.000,01</div>
             <div className="text-sm text-gray-600">Saldo disponível em Fevereiro/2025</div>
           </div>
         </div>
