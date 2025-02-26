@@ -282,13 +282,6 @@ export default function FinancialDetails() {
           </button>
         </div>
 
-        <div className="flex justify-end mb-4 md:mb-6 w-full md:w-[800px] mx-auto">
-          <div className="text-gray-700">
-            <span className="font-semibold">Saldo anterior: </span>
-            <span>R$0,00</span>
-          </div>
-        </div>
-
         <div className="bg-white rounded-lg overflow-hidden border mx-auto w-full md:w-[800px] overflow-x-auto">
           <Table>
             <TableHeader className="bg-gray-50">
@@ -312,6 +305,13 @@ export default function FinancialDetails() {
               ))}
             </TableBody>
           </Table>
+        </div>
+
+        <div className="flex justify-end mt-4 text-sm text-gray-700 w-full md:w-[800px] mx-auto">
+          <div>
+            <span className="font-semibold">Saldo anterior: </span>
+            <span>R$0,00</span>
+          </div>
         </div>
 
         <div className="mt-4 text-sm text-gray-600 w-full md:w-[800px] mx-auto">
