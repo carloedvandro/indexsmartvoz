@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { FilterX } from "lucide-react";
+import { Filter } from "lucide-react";
 import jsPDF from "jspdf";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
@@ -177,7 +177,7 @@ export default function FinancialDetails() {
         <div className="mb-6 md:mb-8 w-full md:w-[800px] mx-auto">
           <div className="border rounded-lg bg-white p-6 shadow-sm">
             <div className="flex items-center gap-2 mb-6">
-              <FilterX className="w-4 h-4 text-[#5f0889]" />
+              <Filter className="w-4 h-4 text-[#5f0889]" />
               <span className="text-sm font-medium text-gray-900">Filtros</span>
             </div>
             <div className="flex flex-row justify-between gap-4">
