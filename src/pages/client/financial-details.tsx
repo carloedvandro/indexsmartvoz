@@ -247,7 +247,7 @@ export default function FinancialDetails() {
           <input
             type="text"
             placeholder="Pesquisar"
-            className="border rounded-md px-4 py-2 w-64"
+            className="border rounded-md px-4 h-9 w-64"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -256,7 +256,7 @@ export default function FinancialDetails() {
           />
           <button 
             onClick={handleExportPDF}
-            className="bg-gray-800 text-white px-6 py-2 rounded-md hover:bg-gray-700 transition-colors"
+            className="bg-gray-800 text-white px-6 h-9 rounded-md hover:bg-gray-700 transition-colors"
           >
             Baixar em PDF
           </button>
