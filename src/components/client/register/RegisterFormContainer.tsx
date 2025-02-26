@@ -39,23 +39,27 @@ export const RegisterFormContainer = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormFields form={form} />
         <div className="flex justify-between mt-6 gap-4">
-          <div className="relative">
-            <ParticlesBackground />
+          <div className="relative h-10 w-28">
+            <div className="absolute inset-0">
+              <ParticlesBackground />
+            </div>
             <Button
               type="button"
               variant="outline"
-              className="relative z-10 w-28 border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
+              className="relative z-10 w-full h-full border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
               onClick={handleBack}
             >
               Voltar
             </Button>
           </div>
           
-          <div className="relative">
-            <ParticlesBackground />
+          <div className="relative h-10 w-28">
+            <div className="absolute inset-0">
+              <ParticlesBackground />
+            </div>
             <Button 
               type="submit"
-              className="relative z-10 w-28 bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+              className="relative z-10 w-full h-full bg-[#8425af] hover:bg-[#6c1e8f] text-white"
             >
               Cadastrar
             </Button>
