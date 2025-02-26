@@ -4,7 +4,6 @@ import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
 import { FilterSection } from "@/components/client/financial/FilterSection";
 import { BalanceCards } from "@/components/client/financial/BalanceCards";
 import { BalanceDialog } from "@/components/client/financial/BalanceDialog";
-import VideoPlayer from "@/components/ui/video-player";
 
 export default function Financial() {
   const [selectedMonth, setSelectedMonth] = useState("2");
@@ -65,19 +64,14 @@ export default function Financial() {
             />
           </div>
 
-          <div className="px-6 space-y-6">
+          <div className="px-6">
             {showFinancialData && (
-              <>
-                <BalanceCards
-                  selectedMonth={selectedMonth}
-                  selectedYear={selectedYear}
-                  months={months}
-                  onCardClick={() => setShowBalanceDialog(true)}
-                />
-                <div className="pb-6">
-                  <VideoPlayer src="https://videos.pexels.com/video-files/30333849/13003128_2560_1440_25fps.mp4" />
-                </div>
-              </>
+              <BalanceCards
+                selectedMonth={selectedMonth}
+                selectedYear={selectedYear}
+                months={months}
+                onCardClick={() => setShowBalanceDialog(true)}
+              />
             )}
           </div>
         </div>
