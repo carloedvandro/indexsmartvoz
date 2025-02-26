@@ -1,4 +1,3 @@
-
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
@@ -243,21 +242,21 @@ export default function FinancialDetails() {
           <Table>
             <TableHeader className="bg-gray-50">
               <TableRow>
-                <TableHead className="font-semibold pl-3">Data</TableHead>
-                <TableHead className="font-semibold pl-3">Histórico</TableHead>
-                <TableHead className="font-semibold pl-3">Descrição</TableHead>
-                <TableHead className="font-semibold text-right pr-3">Valor</TableHead>
-                <TableHead className="font-semibold text-right pr-3">Saldo</TableHead>
+                <TableHead className="font-semibold">Data</TableHead>
+                <TableHead className="font-semibold">Histórico</TableHead>
+                <TableHead className="font-semibold">Descrição</TableHead>
+                <TableHead className="font-semibold text-right">Valor</TableHead>
+                <TableHead className="font-semibold text-right">Saldo</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredTransactions.map((transaction, index) => (
                 <TableRow key={index} className="border-b hover:bg-gray-50">
-                  <TableCell className="pl-3">{transaction.date}</TableCell>
-                  <TableCell className="font-medium pl-3">{transaction.type}</TableCell>
-                  <TableCell className="pl-3">{transaction.description}</TableCell>
-                  <TableCell className="text-right text-green-600 pr-3">{transaction.value}</TableCell>
-                  <TableCell className="text-right pr-3">{transaction.balance}</TableCell>
+                  <TableCell>{transaction.date}</TableCell>
+                  <TableCell className="font-medium">{transaction.type}</TableCell>
+                  <TableCell>{transaction.description}</TableCell>
+                  <TableCell className="text-right text-green-600">{transaction.value}</TableCell>
+                  <TableCell className="text-right">{transaction.balance}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
