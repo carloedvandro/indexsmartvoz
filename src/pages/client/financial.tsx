@@ -47,12 +47,12 @@ export default function Financial() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="h-screen overflow-hidden flex flex-col bg-white">
       <FinancialHeader />
 
-      <div className="pt-16 bg-white">
-        <div className="max-w-[530px] mx-auto">
-          <div className="mt-[85px] p-6">
+      <div className="flex-1 overflow-auto bg-white">
+        <div className="max-w-[530px] mx-auto h-full flex flex-col">
+          <div className="mt-[101px] p-6">
             <FilterSection
               selectedMonth={selectedMonth}
               selectedYear={selectedYear}
