@@ -1,4 +1,3 @@
-
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
@@ -18,15 +17,15 @@ export default function FinancialDetails() {
   const { type } = location.state || {};
 
   const transactions = [
-    { date: '10/02/2025', type: 'BÔNUS DE EQUIPE', description: 'LANÇAMENTO FINANCEIRO 11546', value: 'R$ 4.059,05', balance: 'R$ 10.848,84' },
-    { date: '11/02/2025', type: 'BÔNUS DE INDICAÇÃO', description: 'LANÇAMENTO FINANCEIRO 9398', value: 'R$ 10,00', balance: 'R$ 10.858,84' },
-    { date: '13/02/2025', type: 'BÔNUS DE EQUIPE', description: 'LANÇAMENTO FINANCEIRO 10573', value: 'R$ 9.012,98', balance: 'R$ 24.738,96' },
-    { date: '15/02/2025', type: 'BÔNUS DE INDICAÇÃO', description: 'LANÇAMENTO FINANCEIRO 11404', value: 'R$ 30,00', balance: 'R$ 24.938,33' },
-    { date: '16/02/2025', type: 'IMPOSTO DE RENDA', description: 'LANÇAMENTO FINANCEIRO 8697', value: 'R$ 0,00', balance: 'R$ 24.938,33' },
-    { date: '18/02/2025', type: 'BÔNUS DE EQUIPE', description: 'LANÇAMENTO FINANCEIRO 8173', value: 'R$ 6.495,92', balance: 'R$ 31.434,25' },
-    { date: '18/02/2025', type: 'INSS', description: 'LANÇAMENTO FINANCEIRO 8696', value: 'R$ 0,00', balance: 'R$ 31.434,25' },
-    { date: '18/02/2025', type: 'BÔNUS DE EQUIPE', description: 'LANÇAMENTO FINANCEIRO 9419', value: 'R$ 6.589,96', balance: 'R$ 38.024,21' },
-    { date: '23/02/2025', type: 'BÔNUS DE INDICAÇÃO', description: 'LANÇAMENTO FINANCEIRO 11403', value: 'R$ 30,00', balance: 'R$ 47.129,34' },
+    { date: '10/02/2025', type: 'Bônus de equipe', description: 'Lançamento financeiro 11546', value: 'R$ 4.059,05', balance: 'R$ 10.848,84' },
+    { date: '11/02/2025', type: 'Bônus de indicação', description: 'Lançamento financeiro 9398', value: 'R$ 10,00', balance: 'R$ 10.858,84' },
+    { date: '13/02/2025', type: 'Bônus de equipe', description: 'Lançamento financeiro 10573', value: 'R$ 9.012,98', balance: 'R$ 24.738,96' },
+    { date: '15/02/2025', type: 'Bônus de indicação', description: 'Lançamento financeiro 11404', value: 'R$ 30,00', balance: 'R$ 24.938,33' },
+    { date: '16/02/2025', type: 'Imposto de renda', description: 'Lançamento financeiro 8697', value: 'R$ 0,00', balance: 'R$ 24.938,33' },
+    { date: '18/02/2025', type: 'Bônus de equipe', description: 'Lançamento financeiro 8173', value: 'R$ 6.495,92', balance: 'R$ 31.434,25' },
+    { date: '18/02/2025', type: 'Inss', description: 'Lançamento financeiro 8696', value: 'R$ 0,00', balance: 'R$ 31.434,25' },
+    { date: '18/02/2025', type: 'Bônus de equipe', description: 'Lançamento financeiro 9419', value: 'R$ 6.589,96', balance: 'R$ 38.024,21' },
+    { date: '23/02/2025', type: 'Bônus de indicação', description: 'Lançamento financeiro 11403', value: 'R$ 30,00', balance: 'R$ 47.129,34' },
   ];
 
   const [selectedMonth, setSelectedMonth] = useState("2");
@@ -60,50 +59,37 @@ export default function FinancialDetails() {
     doc.setFontSize(12);
     doc.text(`Período: ${months.find(m => m.value === selectedMonth)?.label} de ${selectedYear}`, 14, 30);
     
-    // Configurar colunas com larguras específicas e posições x
     const startX = 14;
     const colWidths = {
-      date: 30,        // Data
-      type: 50,        // Histórico
-      description: 65, // Descrição
-      value: 25,       // Valor
-      balance: 25      // Saldo
+      date: 30,
+      type: 50,
+      description: 65,
+      value: 25,
+      balance: 25
     };
     
     let y = 45;
     
-    // Adicionar linha cinza clara de cabeçalho
-    doc.setFillColor(247, 248, 249); // Cor similar ao bg-gray-50 do Tailwind
+    doc.setFillColor(247, 248, 249);
     doc.rect(startX, y - 5, 185, 8, 'F');
     
-    // Cabeçalhos
     doc.setFont("helvetica", "bold");
     let currentX = startX;
     
-    // Data
     doc.text("Data", currentX, y);
-    
-    // Histórico
     currentX += colWidths.date;
     doc.text("Histórico", currentX, y);
-    
-    // Descrição
     currentX += colWidths.type;
     doc.text("Descrição", currentX, y);
-    
-    // Valor (alinhado à direita)
     currentX += colWidths.description;
     const valorText = "Valor";
     const valorWidth = doc.getTextWidth(valorText);
     doc.text(valorText, currentX + colWidths.value - valorWidth - 2, y);
-    
-    // Saldo (alinhado à direita)
     currentX += colWidths.value;
     const saldoText = "Saldo";
     const saldoWidth = doc.getTextWidth(saldoText);
     doc.text(saldoText, currentX + colWidths.balance - saldoWidth - 2, y);
     
-    // Dados
     doc.setFont("helvetica", "normal");
     doc.setTextColor(0, 0, 0);
     
@@ -115,33 +101,23 @@ export default function FinancialDetails() {
         y = 20;
       }
       
-      // Adicionar linha cinza clara alternada
       if (index % 2 === 0) {
         doc.setFillColor(249, 250, 251);
         doc.rect(startX, y - 5, 185, 8, 'F');
       }
       
-      doc.setTextColor(0, 0, 0); // Reset para cor preta
+      doc.setTextColor(0, 0, 0);
       currentX = startX;
       
-      // Data
       doc.text(transaction.date, currentX, y);
-      
-      // Histórico
       currentX += colWidths.date;
       doc.text(transaction.type, currentX, y);
-      
-      // Descrição
       currentX += colWidths.type;
       doc.text(transaction.description, currentX, y);
-      
-      // Valor (em verde e alinhado à direita)
       currentX += colWidths.description;
-      doc.setTextColor(34, 197, 94); // text-green-600
+      doc.setTextColor(34, 197, 94);
       const valueWidth = doc.getTextWidth(transaction.value);
       doc.text(transaction.value, currentX + colWidths.value - valueWidth - 2, y);
-      
-      // Saldo (alinhado à direita)
       currentX += colWidths.value;
       doc.setTextColor(0, 0, 0);
       const balanceWidth = doc.getTextWidth(transaction.balance);
@@ -184,14 +160,14 @@ export default function FinancialDetails() {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 py-8">
-        <div className="mb-8 max-w-[530px]">
+        <div className="mb-8 w-[600px]">
           <div className="flex items-center gap-4 mb-6">
             <FilterX className="w-5 h-5" />
             <span className="font-medium">Filtros</span>
           </div>
           <div className="flex gap-4 mb-4">
             <select 
-              className="border rounded-md px-4 py-2 w-48"
+              className="border rounded-md px-4 py-2 w-[250px]"
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
             >
@@ -202,7 +178,7 @@ export default function FinancialDetails() {
               ))}
             </select>
             <select 
-              className="border rounded-md px-4 py-2 w-48"
+              className="border rounded-md px-4 py-2 w-[250px]"
               value={selectedYear}
               onChange={(e) => setSelectedYear(e.target.value)}
             >
@@ -214,7 +190,7 @@ export default function FinancialDetails() {
             </select>
             <button 
               onClick={filterTransactions}
-              className="bg-[#00B8D4] text-white px-6 py-2 rounded-md hover:bg-[#00A0BC] transition-colors"
+              className="bg-[#00B8D4] text-white px-6 h-9 rounded-md hover:bg-[#00A0BC] transition-colors"
             >
               Filtrar
             </button>
@@ -224,7 +200,7 @@ export default function FinancialDetails() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div className="bg-[#8BC34A] text-white py-4 px-6 rounded-lg">
             <div className="text-3xl font-bold mb-1">R$ 42.576,22</div>
-            <div className="text-sm">Total de Ganhos em Fevereiro/2025</div>
+            <div className="text-sm">Total de ganhos em Fevereiro/2025</div>
           </div>
           <div className="bg-[#E3F2FD] py-4 px-6 rounded-lg">
             <div className="text-3xl font-bold mb-1">R$ 47.576,23</div>
@@ -232,13 +208,13 @@ export default function FinancialDetails() {
           </div>
           <div className="bg-[#E3F2FD] py-4 px-6 rounded-lg">
             <div className="text-3xl font-bold mb-1">R$ 5.000,01</div>
-            <div className="text-sm text-gray-600">Saldo Disponível em Fevereiro/2025</div>
+            <div className="text-sm text-gray-600">Saldo disponível em Fevereiro/2025</div>
           </div>
         </div>
 
         <div className="flex md:justify-end mb-6">
           <div className="text-gray-700">
-            <span className="font-semibold">Saldo Anterior: </span>
+            <span className="font-semibold">Saldo anterior: </span>
             <span>R$0,00</span>
           </div>
         </div>
