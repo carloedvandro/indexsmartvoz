@@ -27,7 +27,7 @@ export function FilterSection({
   };
 
   return (
-    <div className="border rounded-lg bg-white">
+    <div className="border rounded-lg bg-white relative z-[200]">
       <div className="flex items-center gap-2 p-4">
         <Filter className="w-4 h-4 text-[#5f0889]" />
         <span className="text-sm font-medium text-gray-900">Filtros</span>
@@ -40,15 +40,14 @@ export function FilterSection({
               <SelectTrigger className="w-full bg-white text-gray-900 border-gray-300">
                 <SelectValue className="bg-white" />
               </SelectTrigger>
-              <SelectContent 
-                className="bg-white/100 shadow-lg z-[1000] backdrop-blur-xl"
-                style={{ isolation: 'isolate', backdropFilter: 'blur(8px)', backgroundColor: 'rgba(255, 255, 255, 1)' }}
+              <SelectContent
+                className="!bg-white !z-[1000]"
               >
                 {months.map((month) => (
                   <SelectItem 
                     key={month.value} 
                     value={month.value}
-                    className="bg-white/100 hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
+                    className="!bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
                   >
                     {month.label}
                   </SelectItem>
@@ -62,15 +61,14 @@ export function FilterSection({
               <SelectTrigger className="w-full bg-white text-gray-900 border-gray-300">
                 <SelectValue className="bg-white" />
               </SelectTrigger>
-              <SelectContent 
-                className="bg-white/100 shadow-lg z-[1000] backdrop-blur-xl"
-                style={{ isolation: 'isolate', backdropFilter: 'blur(8px)', backgroundColor: 'rgba(255, 255, 255, 1)' }}
+              <SelectContent
+                className="!bg-white !z-[1000]"
               >
                 {years.map((year) => (
                   <SelectItem 
                     key={year.value} 
                     value={year.value}
-                    className="bg-white/100 hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
+                    className="!bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
                   >
                     {year.label}
                   </SelectItem>
