@@ -1,4 +1,3 @@
-
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
@@ -175,7 +174,7 @@ export default function FinancialDetails() {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8">
-        <div className="mb-6 md:mb-8 w-full md:w-[800px] mx-auto">
+        <div className="mb-6 md:mb-8 w-full md:w-[780px] mx-auto">
           <div className="border rounded-lg bg-white p-6 shadow-sm w-full">
             <div className="flex items-center gap-2 mb-6">
               <Filter className="w-4 h-4 text-[#5f0889]" />
@@ -248,7 +247,7 @@ export default function FinancialDetails() {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-6 md:mb-8 mx-auto w-full md:w-[800px]">
+        <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-6 md:mb-8 mx-auto w-full md:w-[780px]">
           <div className="bg-[#5f0889] text-white py-3 px-5 rounded-lg w-full md:w-[250px]">
             <div className="text-xl font-bold mb-1">R$ 42.576,22</div>
             <div className="text-sm">Total de ganhos em Fevereiro/2025</div>
@@ -263,7 +262,7 @@ export default function FinancialDetails() {
           </div>
         </div>
 
-        <div className="flex flex-row justify-between items-center gap-3 w-full md:w-[800px] mx-auto mb-6">
+        <div className="flex flex-row justify-between items-center gap-3 w-full md:w-[780px] mx-auto mb-6">
           <input
             type="text"
             placeholder="Pesquisar"
@@ -282,7 +281,7 @@ export default function FinancialDetails() {
           </button>
         </div>
 
-        <div className="bg-white rounded-lg overflow-hidden border mx-auto w-full md:w-[800px] overflow-x-auto">
+        <div className="bg-white rounded-lg overflow-hidden border mx-auto w-full md:w-[780px] overflow-x-auto">
           <Table>
             <TableHeader className="bg-gray-50">
               <TableRow>
@@ -307,7 +306,7 @@ export default function FinancialDetails() {
           </Table>
         </div>
 
-        <div className="flex justify-between items-center mt-4 text-sm w-full md:w-[800px] mx-auto">
+        <div className="flex justify-between items-center mt-4 text-sm w-full md:w-[780px] mx-auto">
           <div className="text-gray-600">
             Total de {filteredTransactions.length} registros
           </div>
