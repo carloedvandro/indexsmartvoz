@@ -46,10 +46,12 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
         style={{
           backgroundColor: 'white',
           boxShadow: '0 0 0 9999px white inset',
+          position: 'relative',
+          zIndex: 50
         }}
       >
         <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#02951e]" />
-        <div className="relative z-10 flex justify-between items-center">
+        <div className="flex justify-between items-center">
           <span className="text-[#02951e] font-medium">Saldo disponível</span>
           <div className="flex items-center gap-1">
             <span className="text-[#02951e]">R$</span>
