@@ -172,14 +172,10 @@ export default function FinancialDetails() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div className="bg-[#8BC34A] text-white p-6 rounded-lg">
             <div className="text-3xl font-bold mb-2">R$ 42.576,22</div>
             <div className="text-sm">Total de Ganhos em Fevereiro/2025</div>
-          </div>
-          <div className="bg-[#E3F2FD] p-6 rounded-lg">
-            <div className="text-3xl font-bold mb-2">R$ 42.576,22</div>
-            <div className="text-sm text-gray-600">Aprovisionado em Fevereiro/2025</div>
           </div>
           <div className="bg-[#E3F2FD] p-6 rounded-lg">
             <div className="text-3xl font-bold mb-2">R$ 47.576,23</div>
