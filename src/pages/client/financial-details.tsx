@@ -1,3 +1,4 @@
+
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
@@ -219,11 +220,11 @@ export default function FinancialDetails() {
           </div>
         </div>
 
-        <div className="flex justify-between mb-6">
+        <div className="flex justify-between mb-6 w-[600px]">
           <input
             type="text"
             placeholder="Pesquisar"
-            className="border rounded-md px-4 h-9 w-64"
+            className="border rounded-md px-4 h-9 w-[450px]"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -232,7 +233,7 @@ export default function FinancialDetails() {
           />
           <button 
             onClick={handleExportPDF}
-            className="bg-gray-800 text-white px-6 h-9 rounded-md hover:bg-gray-700 transition-colors"
+            className="bg-gray-800 text-white px-6 h-9 rounded-md hover:bg-gray-700 transition-colors w-[130px]"
           >
             Baixar em PDF
           </button>
