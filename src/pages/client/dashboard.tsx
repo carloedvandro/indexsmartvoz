@@ -97,11 +97,7 @@ export default function ClientDashboard() {
                 <PlansCard />
               </div>
             </div>
-
-            {/* Moved NetworkStatsCard to the bottom with more padding */}
-            <div className="px-6 pb-8">
-              <NetworkStatsCard />
-            </div>
+            <NetworkStatsCard />
           </div>
         </div>
       </main>
