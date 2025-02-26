@@ -1,5 +1,6 @@
 
 import { Card } from "@/components/ui/card";
+import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 interface BalanceCardsProps {
   selectedMonth: string;
@@ -12,30 +13,35 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
   return (
     <div className="grid grid-cols-1 gap-4">
       <Card 
-        className="relative p-4 border rounded-lg bg-white cursor-pointer"
+        className="relative p-4 border rounded-lg bg-white overflow-hidden cursor-pointer"
         onClick={onCardClick}
       >
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-col gap-2">
-            <div className="flex justify-between items-start max-md:flex-col max-md:items-stretch">
-              <div className="text-gray-900 font-medium text-[15px] whitespace-nowrap">
-                Total de bônus recebido em {months.find(m => m.value === selectedMonth)?.label}/{selectedYear}
+        <div className="absolute inset-0">
+          <ParticlesBackground />
+        </div>
+        <div className="relative z-10">
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
+              <div className="flex justify-between items-start max-md:flex-col max-md:items-stretch">
+                <div className="text-gray-900 font-medium text-[15px] whitespace-nowrap">
+                  Total de bônus recebido em {months.find(m => m.value === selectedMonth)?.label}/{selectedYear}
+                </div>
+                <div className="flex items-center gap-1 mt-2 md:mt-0 justify-end">
+                  <span className="text-gray-500">R$</span>
+                  <span className="text-gray-500">42.576,22</span>
+                </div>
               </div>
-              <div className="flex items-center gap-1 mt-2 md:mt-0 justify-end">
+            </div>
+            <div className="h-[1px] bg-gray-200 w-full"></div>
+            <div className="flex justify-between items-center">
+              <div className="flex items-center gap-1">
+                <span className="text-gray-900 font-medium">Total de saldo</span>
+                <span className="text-red-500 font-medium">bloqueado</span>
+              </div>
+              <div className="flex items-baseline gap-1">
                 <span className="text-gray-500">R$</span>
-                <span className="text-gray-500">42.576,22</span>
+                <span className="text-gray-500">0,00</span>
               </div>
-            </div>
-          </div>
-          <div className="h-[1px] bg-gray-200 w-full"></div>
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-1">
-              <span className="text-gray-900 font-medium">Total de saldo</span>
-              <span className="text-red-500 font-medium">bloqueado</span>
-            </div>
-            <div className="flex items-baseline gap-1">
-              <span className="text-gray-500">R$</span>
-              <span className="text-gray-500">0,00</span>
             </div>
           </div>
         </div>
