@@ -1,4 +1,3 @@
-
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
@@ -307,15 +306,14 @@ export default function FinancialDetails() {
           </Table>
         </div>
 
-        <div className="flex justify-end mt-4 text-sm text-gray-700 w-full md:w-[800px] mx-auto">
-          <div>
+        <div className="flex justify-between items-center mt-4 text-sm w-full md:w-[800px] mx-auto">
+          <div className="text-gray-600">
+            Total de {filteredTransactions.length} registros
+          </div>
+          <div className="text-gray-700">
             <span className="font-semibold">Saldo anterior: </span>
             <span>R$0,00</span>
           </div>
-        </div>
-
-        <div className="mt-4 text-sm text-gray-600 w-full md:w-[800px] mx-auto">
-          Total de {filteredTransactions.length} registros
         </div>
       </div>
     </div>
