@@ -4,7 +4,6 @@ import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
 import { FilterSection } from "@/components/client/financial/FilterSection";
 import { BalanceCards } from "@/components/client/financial/BalanceCards";
 import { BalanceDialog } from "@/components/client/financial/BalanceDialog";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 export default function Financial() {
   const [selectedMonth, setSelectedMonth] = useState("2");
@@ -48,11 +47,9 @@ export default function Financial() {
   };
 
   return (
-    <div className="container relative min-h-screen flex items-center justify-center">
-      <ParticlesBackground />
-      
-      <div className="w-full max-w-[530px] space-y-6 relative z-10">
-        <FinancialHeader />
+    <div className="container min-h-screen">
+      <FinancialHeader />
+      <div className="w-full max-w-[530px] mx-auto space-y-6 relative z-10 mt-24">
         <div className="p-6">
           <FilterSection
             selectedMonth={selectedMonth}
