@@ -21,10 +21,23 @@ export default function ClientDashboard() {
     navigate("/client/network");
   };
 
-  const handleFinancialClick = () => {
-    // Navega para a página financeira com os filtros já aplicados
-    navigate("/client/financial", {
-      state: { showFinancialData: true }
+  const handleBalanceCardClick = () => {
+    // Abre o dialog de detalhes do saldo
+    navigate("/client/financial/details", {
+      state: { 
+        type: "balance",
+        showDetails: true
+      }
+    });
+  };
+
+  const handleEarningsCardClick = () => {
+    // Abre o dialog de detalhes dos ganhos
+    navigate("/client/financial/details", {
+      state: { 
+        type: "earnings",
+        showDetails: true
+      }
     });
   };
 
@@ -47,7 +60,7 @@ export default function ClientDashboard() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card 
                   className="relative p-6 bg-[#5f0889]/90 backdrop-blur-sm text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
-                  onClick={handleFinancialClick}
+                  onClick={handleBalanceCardClick}
                 >
                   <div className="relative z-10 flex items-center space-x-4">
                     <div className="p-3 bg-white/20 rounded-full">
@@ -62,7 +75,7 @@ export default function ClientDashboard() {
 
                 <Card 
                   className="relative p-6 bg-[#5f0889]/90 backdrop-blur-sm text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
-                  onClick={handleFinancialClick}
+                  onClick={handleEarningsCardClick}
                 >
                   <div className="relative z-10 flex items-center space-x-4">
                     <div className="p-3 bg-white/20 rounded-full">
