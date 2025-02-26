@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
 import {
@@ -14,6 +14,7 @@ import jsPDF from "jspdf";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function FinancialDetails() {
+  const navigate = useNavigate();
   const isMobile = useIsMobile();
   const location = useLocation();
   const { type } = location.state || {};
@@ -132,6 +133,10 @@ export default function FinancialDetails() {
     doc.save(`extrato-${selectedMonth}-${selectedYear}.pdf`);
   };
 
+  const handleBack = () => {
+    navigate('/client/financial');
+  };
+
   const months = [
     { value: "1", label: "Janeiro" },
     { value: "2", label: "Fevereiro" },
@@ -190,12 +195,20 @@ export default function FinancialDetails() {
                 </option>
               ))}
             </select>
-            <button 
-              onClick={filterTransactions}
-              className="bg-[#00B8D4] text-white px-6 h-9 rounded-md hover:bg-[#00A0BC] transition-colors w-full md:w-auto"
-            >
-              Filtrar
-            </button>
+            <div className="flex gap-3 w-full md:w-auto">
+              <button 
+                onClick={handleBack}
+                className="bg-white text-[#00B8D4] border border-[#00B8D4] px-6 h-9 rounded-md hover:bg-[#00B8D4] hover:text-white transition-colors w-full md:w-auto"
+              >
+                Voltar
+              </button>
+              <button 
+                onClick={filterTransactions}
+                className="bg-[#00B8D4] text-white px-6 h-9 rounded-md hover:bg-[#00A0BC] transition-colors w-full md:w-auto"
+              >
+                Filtrar
+              </button>
+            </div>
           </div>
         </div>
 
