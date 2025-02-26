@@ -236,10 +236,10 @@ export default function FinancialDetails() {
           </div>
         </div>
 
-        <div className="flex justify-end mb-6">
-          <div className="text-right">
-            <span className="font-semibold text-gray-700">SALDO ANTERIOR: </span>
-            <span className="font-semibold">R$ 0,00</span>
+        <div className="flex md:justify-end mb-6">
+          <div className="text-gray-700">
+            <span className="font-semibold">Saldo Anterior: </span>
+            <span>R$0,00</span>
           </div>
         </div>
 
