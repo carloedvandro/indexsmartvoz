@@ -1,6 +1,5 @@
 
 import { Card } from "@/components/ui/card";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 interface BalanceCardsProps {
   selectedMonth: string;
