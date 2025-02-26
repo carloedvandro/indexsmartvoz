@@ -37,15 +37,15 @@ export function FilterSection({
           <div className="col-span-3">
             <label className="block text-sm font-medium text-gray-900 mb-1">Mês</label>
             <Select defaultValue={selectedMonth} onValueChange={onMonthChange}>
-              <SelectTrigger className="w-full bg-white !bg-white text-gray-900 border-gray-300 [&>span]:bg-white">
-                <SelectValue className="bg-white" />
+              <SelectTrigger className="w-full bg-white border border-gray-300 text-gray-900">
+                <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-white [&>div]:bg-white">
+              <SelectContent className="bg-white">
                 {months.map((month) => (
                   <SelectItem 
                     key={month.value} 
                     value={month.value}
-                    className="bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
+                    className="hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
                   >
                     {month.label}
                   </SelectItem>
@@ -56,15 +56,15 @@ export function FilterSection({
           <div className="col-span-3">
             <label className="block text-sm font-medium text-gray-900 mb-1">Ano</label>
             <Select defaultValue={selectedYear} onValueChange={onYearChange}>
-              <SelectTrigger className="w-full bg-white !bg-white text-gray-900 border-gray-300 [&>span]:bg-white">
-                <SelectValue className="bg-white" />
+              <SelectTrigger className="w-full bg-white border border-gray-300 text-gray-900">
+                <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-white [&>div]:bg-white">
+              <SelectContent className="bg-white">
                 {years.map((year) => (
                   <SelectItem 
                     key={year.value} 
                     value={year.value}
-                    className="bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
+                    className="hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
                   >
                     {year.label}
                   </SelectItem>
