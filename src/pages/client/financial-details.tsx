@@ -181,67 +181,79 @@ export default function FinancialDetails() {
             <span className="font-medium">Filtros</span>
           </div>
           <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-4">
-            <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
-              <SelectTrigger 
-                className="w-full md:w-[250px] !bg-white text-gray-900 border-gray-300 relative z-50"
-                style={{
-                  backgroundColor: 'white',
-                  boxShadow: '0 0 0 9999px white inset',
-                }}
-              >
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent 
-                className="!bg-white !border-gray-200 !shadow-lg"
-                style={{
-                  backgroundColor: 'white',
-                  zIndex: 9999,
-                }}
-              >
-                <div className="bg-white rounded-md">
-                  {months.map((month) => (
-                    <SelectItem 
-                      key={month.value} 
-                      value={month.value}
-                      className="!bg-white hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white"
-                    >
-                      {month.label}
-                    </SelectItem>
-                  ))}
-                </div>
-              </SelectContent>
-            </Select>
+            <div className="space-y-2">
+              <label htmlFor="month-select" className="block text-sm font-medium text-gray-900">
+                Mês
+              </label>
+              <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
+                <SelectTrigger 
+                  id="month-select"
+                  className="w-full md:w-[250px] !bg-white text-gray-900 border-gray-300 relative z-50"
+                  style={{
+                    backgroundColor: 'white',
+                    boxShadow: '0 0 0 9999px white inset',
+                  }}
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent 
+                  className="!bg-white !border-gray-200 !shadow-lg"
+                  style={{
+                    backgroundColor: 'white',
+                    zIndex: 9999,
+                  }}
+                >
+                  <div className="bg-white rounded-md">
+                    {months.map((month) => (
+                      <SelectItem 
+                        key={month.value} 
+                        value={month.value}
+                        className="!bg-white hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white"
+                      >
+                        {month.label}
+                      </SelectItem>
+                    ))}
+                  </div>
+                </SelectContent>
+              </Select>
+            </div>
 
-            <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
-              <SelectTrigger 
-                className="w-full md:w-[250px] !bg-white text-gray-900 border-gray-300 relative z-50"
-                style={{
-                  backgroundColor: 'white',
-                  boxShadow: '0 0 0 9999px white inset',
-                }}
-              >
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent 
-                className="!bg-white !border-gray-200 !shadow-lg"
-                style={{
-                  backgroundColor: 'white',
-                  zIndex: 9999,
-                }}
-              >
-                <div className="bg-white rounded-md">
-                  {years.map((year) => (
-                    <SelectItem 
-                      key={year} 
-                      value={year}
-                      className="!bg-white hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white"
-                    >
-                      {year}
-                    </SelectItem>
-                  ))}
-                </div>
-              </SelectContent>
-            </Select>
+            <div className="space-y-2">
+              <label htmlFor="year-select" className="block text-sm font-medium text-gray-900">
+                Ano
+              </label>
+              <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
+                <SelectTrigger 
+                  id="year-select"
+                  className="w-full md:w-[250px] !bg-white text-gray-900 border-gray-300 relative z-50"
+                  style={{
+                    backgroundColor: 'white',
+                    boxShadow: '0 0 0 9999px white inset',
+                  }}
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent 
+                  className="!bg-white !border-gray-200 !shadow-lg"
+                  style={{
+                    backgroundColor: 'white',
+                    zIndex: 9999,
+                  }}
+                >
+                  <div className="bg-white rounded-md">
+                    {years.map((year) => (
+                      <SelectItem 
+                        key={year} 
+                        value={year}
+                        className="!bg-white hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white"
+                      >
+                        {year}
+                      </SelectItem>
+                    ))}
+                  </div>
+                </SelectContent>
+              </Select>
+            </div>
 
             <div className="flex gap-3 w-full md:w-auto justify-end">
               <button 
