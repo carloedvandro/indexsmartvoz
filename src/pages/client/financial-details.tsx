@@ -13,6 +13,13 @@ import {
 import { FilterX } from "lucide-react";
 import jsPDF from "jspdf";
 import { useIsMobile } from "@/hooks/use-mobile";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function FinancialDetails() {
   const navigate = useNavigate();
@@ -174,28 +181,68 @@ export default function FinancialDetails() {
             <span className="font-medium">Filtros</span>
           </div>
           <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-4">
-            <select 
-              className="border rounded-md px-4 py-2 w-full md:w-[250px]"
-              value={selectedMonth}
-              onChange={(e) => setSelectedMonth(e.target.value)}
-            >
-              {months.map(month => (
-                <option key={month.value} value={month.value}>
-                  {month.label}
-                </option>
-              ))}
-            </select>
-            <select 
-              className="border rounded-md px-4 py-2 w-full md:w-[250px]"
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value)}
-            >
-              {years.map(year => (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              ))}
-            </select>
+            <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
+              <SelectTrigger 
+                className="w-full md:w-[250px] !bg-white text-gray-900 border-gray-300 relative z-50"
+                style={{
+                  backgroundColor: 'white',
+                  boxShadow: '0 0 0 9999px white inset',
+                }}
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent 
+                className="!bg-white !border-gray-200 !shadow-lg"
+                style={{
+                  backgroundColor: 'white',
+                  zIndex: 9999,
+                }}
+              >
+                <div className="bg-white rounded-md">
+                  {months.map((month) => (
+                    <SelectItem 
+                      key={month.value} 
+                      value={month.value}
+                      className="!bg-white hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white"
+                    >
+                      {month.label}
+                    </SelectItem>
+                  ))}
+                </div>
+              </SelectContent>
+            </Select>
+
+            <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
+              <SelectTrigger 
+                className="w-full md:w-[250px] !bg-white text-gray-900 border-gray-300 relative z-50"
+                style={{
+                  backgroundColor: 'white',
+                  boxShadow: '0 0 0 9999px white inset',
+                }}
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent 
+                className="!bg-white !border-gray-200 !shadow-lg"
+                style={{
+                  backgroundColor: 'white',
+                  zIndex: 9999,
+                }}
+              >
+                <div className="bg-white rounded-md">
+                  {years.map((year) => (
+                    <SelectItem 
+                      key={year} 
+                      value={year}
+                      className="!bg-white hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white"
+                    >
+                      {year}
+                    </SelectItem>
+                  ))}
+                </div>
+              </SelectContent>
+            </Select>
+
             <div className="flex gap-3 w-full md:w-auto">
               <button 
                 onClick={handleBack}
