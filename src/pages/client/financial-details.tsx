@@ -1,4 +1,3 @@
-
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
@@ -18,15 +17,15 @@ export default function FinancialDetails() {
   const { type } = location.state || {};
 
   const transactions = [
-    { date: '10/02/2025', type: 'Bônus de equipe', description: 'Lançamento financeiro 11546', value: 'R$ 4.059,05', balance: 'R$ 10.848,84' },
-    { date: '11/02/2025', type: 'Bônus de indicação', description: 'Lançamento financeiro 9398', value: 'R$ 10,00', balance: 'R$ 10.858,84' },
-    { date: '13/02/2025', type: 'Bônus de equipe', description: 'Lançamento financeiro 10573', value: 'R$ 9.012,98', balance: 'R$ 24.738,96' },
-    { date: '15/02/2025', type: 'Bônus de indicação', description: 'Lançamento financeiro 11404', value: 'R$ 30,00', balance: 'R$ 24.938,33' },
-    { date: '16/02/2025', type: 'Imposto de renda', description: 'Lançamento financeiro 8697', value: 'R$ 0,00', balance: 'R$ 24.938,33' },
-    { date: '18/02/2025', type: 'Bônus de equipe', description: 'Lançamento financeiro 8173', value: 'R$ 6.495,92', balance: 'R$ 31.434,25' },
-    { date: '18/02/2025', type: 'Inss', description: 'Lançamento financeiro 8696', value: 'R$ 0,00', balance: 'R$ 31.434,25' },
-    { date: '18/02/2025', type: 'Bônus de equipe', description: 'Lançamento financeiro 9419', value: 'R$ 6.589,96', balance: 'R$ 38.024,21' },
-    { date: '23/02/2025', type: 'Bônus de indicação', description: 'Lançamento financeiro 11403', value: 'R$ 30,00', balance: 'R$ 47.129,34' },
+    { date: '10/02/2025', type: 'Bônus de equipe', description: 'Lançamento financeiro', value: 'R$ 4.059,05', balance: 'R$ 10.848,84' },
+    { date: '11/02/2025', type: 'Bônus de indicação', description: 'Lançamento financeiro', value: 'R$ 10,00', balance: 'R$ 10.858,84' },
+    { date: '13/02/2025', type: 'Bônus de equipe', description: 'Lançamento financeiro', value: 'R$ 9.012,98', balance: 'R$ 24.738,96' },
+    { date: '15/02/2025', type: 'Bônus de indicação', description: 'Lançamento financeiro', value: 'R$ 30,00', balance: 'R$ 24.938,33' },
+    { date: '16/02/2025', type: 'Imposto de renda', description: 'Lançamento financeiro', value: 'R$ 0,00', balance: 'R$ 24.938,33' },
+    { date: '18/02/2025', type: 'Bônus de equipe', description: 'Lançamento financeiro', value: 'R$ 6.495,92', balance: 'R$ 31.434,25' },
+    { date: '18/02/2025', type: 'Inss', description: 'Lançamento financeiro', value: 'R$ 0,00', balance: 'R$ 31.434,25' },
+    { date: '18/02/2025', type: 'Bônus de equipe', description: 'Lançamento financeiro', value: 'R$ 6.589,96', balance: 'R$ 38.024,21' },
+    { date: '23/02/2025', type: 'Bônus de indicação', description: 'Lançamento financeiro', value: 'R$ 30,00', balance: 'R$ 47.129,34' },
   ];
 
   const [selectedMonth, setSelectedMonth] = useState("2");
