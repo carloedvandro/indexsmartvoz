@@ -184,14 +184,14 @@ export default function FinancialDetails() {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 py-8">
-        <div className="mb-8 max-w-[530px]">
+        <div className="mb-8 w-[600px]">
           <div className="flex items-center gap-4 mb-6">
             <FilterX className="w-5 h-5" />
             <span className="font-medium">Filtros</span>
           </div>
           <div className="flex gap-4 mb-4">
             <select 
-              className="border rounded-md px-4 py-2 w-48"
+              className="border rounded-md px-4 py-2 w-[250px]"
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
             >
@@ -202,7 +202,7 @@ export default function FinancialDetails() {
               ))}
             </select>
             <select 
-              className="border rounded-md px-4 py-2 w-48"
+              className="border rounded-md px-4 py-2 w-[250px]"
               value={selectedYear}
               onChange={(e) => setSelectedYear(e.target.value)}
             >
@@ -214,7 +214,7 @@ export default function FinancialDetails() {
             </select>
             <button 
               onClick={filterTransactions}
-              className="bg-[#00B8D4] text-white px-6 py-2 rounded-md hover:bg-[#00A0BC] transition-colors"
+              className="bg-[#00B8D4] text-white px-6 h-9 rounded-md hover:bg-[#00A0BC] transition-colors"
             >
               Filtrar
             </button>
