@@ -43,10 +43,9 @@ export default function ClientDashboard() {
             <div className="px-6 mb-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card 
-                  className="relative p-6 bg-[#5f0889] text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="relative p-6 bg-[#5f0889]/90 backdrop-blur-sm text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleFinancialClick}
                 >
-                  <ParticlesBackground style="default" />
                   <div className="relative z-10 flex items-center space-x-4">
                     <div className="p-3 bg-white/20 rounded-full">
                       <DollarSign className="w-6 h-6" />
@@ -58,8 +57,7 @@ export default function ClientDashboard() {
                   </div>
                 </Card>
 
-                <Card className="relative p-6 bg-[#5f0889] text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300">
-                  <ParticlesBackground style="default" />
+                <Card className="relative p-6 bg-[#5f0889]/90 backdrop-blur-sm text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300">
                   <div className="relative z-10 flex items-center space-x-4">
                     <div className="p-3 bg-white/20 rounded-full">
                       <LineChart className="w-6 h-6" />
@@ -71,8 +69,7 @@ export default function ClientDashboard() {
                   </div>
                 </Card>
 
-                <Card className="relative p-6 bg-[#5f0889] text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300">
-                  <ParticlesBackground style="default" />
+                <Card className="relative p-6 bg-[#5f0889]/90 backdrop-blur-sm text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300">
                   <div className="relative z-10 flex items-center space-x-4">
                     <div className="p-3 bg-white/20 rounded-full">
                       <TrendingUp className="w-6 h-6" />
