@@ -15,11 +15,6 @@ export default function FinancialDetails() {
   const location = useLocation();
   const { type } = location.state || {};
 
-  const [selectedMonth, setSelectedMonth] = useState("2");
-  const [selectedYear, setSelectedYear] = useState("2025");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredTransactions, setFilteredTransactions] = useState(transactions);
-
   const transactions = [
     { date: '05/02/2025', type: 'DÉBITO', description: 'LANÇAMENTO FINANCEIRO 9736', value: 'R$ 0,00', balance: 'R$ 0,00' },
     { date: '05/02/2025', type: 'BÔNUS', description: 'LANÇAMENTO FINANCEIRO 10940', value: 'R$ 446,89', balance: 'R$ 446,89' },
@@ -47,7 +42,11 @@ export default function FinancialDetails() {
     { date: '24/02/2025', type: 'SOLICITACAO DE SAQUE', description: 'LANÇAMENTO FINANCEIRO 8695', value: 'R$ 0,00', balance: 'R$ 47.576,23' },
   ];
 
-  // Função para filtrar transações
+  const [selectedMonth, setSelectedMonth] = useState("2");
+  const [selectedYear, setSelectedYear] = useState("2025");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredTransactions, setFilteredTransactions] = useState(transactions);
+
   const filterTransactions = () => {
     const filtered = transactions.filter(transaction => {
       const matchesSearch = searchTerm === "" || 
@@ -65,7 +64,6 @@ export default function FinancialDetails() {
     setFilteredTransactions(filtered);
   };
 
-  // Função para exportar PDF
   const handleExportPDF = () => {
     console.log("Exportando PDF...");
     // Aqui você pode implementar a lógica de exportação para PDF
@@ -73,7 +71,6 @@ export default function FinancialDetails() {
     window.print(); // Solução temporária usando a impressão do navegador
   };
 
-  // Array de meses para o select
   const months = [
     { value: "1", label: "Janeiro" },
     { value: "2", label: "Fevereiro" },
@@ -89,7 +86,6 @@ export default function FinancialDetails() {
     { value: "12", label: "Dezembro" }
   ];
 
-  // Array de anos para o select
   const years = [
     "2023",
     "2024",
@@ -99,14 +95,12 @@ export default function FinancialDetails() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Cabeçalho Roxo */}
       <div className="bg-[#3B0764] text-white px-6 py-4">
         <h1 className="text-xl font-normal mb-1">Financeiro</h1>
         <h2 className="text-2xl font-semibold">Extrato Detalhado</h2>
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 py-8">
-        {/* Filtros */}
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-6">
             <FilterX className="w-5 h-5" />
@@ -144,7 +138,6 @@ export default function FinancialDetails() {
           </div>
         </div>
 
-        {/* Cards de Resumo */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-[#8BC34A] text-white p-6 rounded-lg">
             <div className="text-3xl font-bold mb-2">R$ 42.576,22</div>
@@ -164,7 +157,6 @@ export default function FinancialDetails() {
           </div>
         </div>
 
-        {/* Saldo Anterior */}
         <div className="flex justify-end mb-6">
           <div className="text-right">
             <span className="font-semibold text-gray-700">SALDO ANTERIOR: </span>
@@ -172,7 +164,6 @@ export default function FinancialDetails() {
           </div>
         </div>
 
-        {/* Barra de Pesquisa e Exportar */}
         <div className="flex justify-between mb-6">
           <input
             type="text"
@@ -192,7 +183,6 @@ export default function FinancialDetails() {
           </button>
         </div>
 
-        {/* Tabela de Transações */}
         <div className="bg-white rounded-lg overflow-hidden border">
           <Table>
             <TableHeader className="bg-gray-50">
@@ -218,7 +208,6 @@ export default function FinancialDetails() {
           </Table>
         </div>
 
-        {/* Paginação */}
         <div className="mt-4 text-sm text-gray-600">
           Mostrando de 1 até {filteredTransactions.length} de {transactions.length} registros
         </div>
