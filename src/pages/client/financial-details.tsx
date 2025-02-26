@@ -65,9 +65,9 @@ export default function FinancialDetails() {
     const colWidths = {
       date: 25,
       type: 45,
-      description: 55,
-      value: 30,
-      balance: 30
+      description: 60,
+      value: 25,
+      balance: 25
     };
     
     let y = 40;
@@ -75,15 +75,29 @@ export default function FinancialDetails() {
     // Cabeçalhos
     doc.setFont("helvetica", "bold");
     let currentX = startX;
+    
+    // Data
     doc.text("Data", currentX, y);
+    
+    // Histórico
     currentX += colWidths.date;
     doc.text("Histórico", currentX, y);
+    
+    // Descrição
     currentX += colWidths.type;
     doc.text("Descrição", currentX, y);
+    
+    // Valor
     currentX += colWidths.description;
-    doc.text("Valor", currentX, y);
+    const valorText = "Valor";
+    const valorWidth = doc.getTextWidth(valorText);
+    doc.text(valorText, currentX + colWidths.value - valorWidth, y);
+    
+    // Saldo
     currentX += colWidths.value;
-    doc.text("Saldo", currentX, y);
+    const saldoText = "Saldo";
+    const saldoWidth = doc.getTextWidth(saldoText);
+    doc.text(saldoText, currentX + colWidths.balance - saldoWidth, y);
     
     // Dados
     doc.setFont("helvetica", "normal");
@@ -108,12 +122,12 @@ export default function FinancialDetails() {
       currentX += colWidths.type;
       doc.text(transaction.description, currentX, y);
       
-      // Valor (alinhado à direita)
+      // Valor
       currentX += colWidths.description;
       const valueWidth = doc.getTextWidth(transaction.value);
       doc.text(transaction.value, currentX + colWidths.value - valueWidth, y);
       
-      // Saldo (alinhado à direita)
+      // Saldo
       currentX += colWidths.value;
       const balanceWidth = doc.getTextWidth(transaction.balance);
       doc.text(transaction.balance, currentX + colWidths.balance - balanceWidth, y);
