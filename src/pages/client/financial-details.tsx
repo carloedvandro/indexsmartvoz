@@ -136,7 +136,7 @@ export default function FinancialDetails() {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 py-8">
-        <div className="mb-8">
+        <div className="mb-8 max-w-[530px]">
           <div className="flex items-center gap-4 mb-6">
             <FilterX className="w-5 h-5" />
             <span className="font-medium">Filtros</span>
