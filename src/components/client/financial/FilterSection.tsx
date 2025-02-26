@@ -41,14 +41,14 @@ export function FilterSection({
                 <SelectValue className="bg-white" />
               </SelectTrigger>
               <SelectContent 
-                className="bg-white shadow-lg z-[1000]"
-                style={{ isolation: 'isolate' }}
+                className="bg-white/100 shadow-lg z-[1000] backdrop-blur-xl"
+                style={{ isolation: 'isolate', backdropFilter: 'blur(8px)', backgroundColor: 'rgba(255, 255, 255, 1)' }}
               >
                 {months.map((month) => (
                   <SelectItem 
                     key={month.value} 
                     value={month.value}
-                    className="bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
+                    className="bg-white/100 hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
                   >
                     {month.label}
                   </SelectItem>
@@ -63,14 +63,14 @@ export function FilterSection({
                 <SelectValue className="bg-white" />
               </SelectTrigger>
               <SelectContent 
-                className="bg-white shadow-lg z-[1000]"
-                style={{ isolation: 'isolate' }}
+                className="bg-white/100 shadow-lg z-[1000] backdrop-blur-xl"
+                style={{ isolation: 'isolate', backdropFilter: 'blur(8px)', backgroundColor: 'rgba(255, 255, 255, 1)' }}
               >
                 {years.map((year) => (
                   <SelectItem 
                     key={year.value} 
                     value={year.value}
-                    className="bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
+                    className="bg-white/100 hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white"
                   >
                     {year.label}
                   </SelectItem>
