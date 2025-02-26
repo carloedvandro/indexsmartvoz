@@ -28,11 +28,9 @@ export function FilterSection({
 
   return (
     <div className="border rounded-lg bg-white">
-      <div className="py-2 px-4 border-b bg-gray-50">
-        <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-[#5f0889]" />
-          <span className="text-sm font-medium text-gray-900">Filtros</span>
-        </div>
+      <div className="flex items-center gap-2 p-4">
+        <Filter className="w-4 h-4 text-[#5f0889]" />
+        <span className="text-sm font-medium text-gray-900">Filtros</span>
       </div>
       <div className="p-4">
         <div className="grid grid-cols-6 gap-4 mb-6">
