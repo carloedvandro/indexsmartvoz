@@ -181,8 +181,8 @@ export default function FinancialDetails() {
               <FilterX className="w-4 h-4 text-[#5f0889]" />
               <span className="text-sm font-medium text-gray-900">Filtros</span>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
+            <div className="flex flex-col md:flex-row justify-between gap-6">
+              <div className="w-full md:w-[250px]">
                 <label className="block text-sm font-medium text-gray-900 mb-2">
                   Mês
                 </label>
@@ -206,7 +206,7 @@ export default function FinancialDetails() {
                 </Select>
               </div>
 
-              <div>
+              <div className="w-full md:w-[250px]">
                 <label className="block text-sm font-medium text-gray-900 mb-2">
                   Ano
                 </label>
