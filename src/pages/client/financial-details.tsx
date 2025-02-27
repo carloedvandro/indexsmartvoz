@@ -1,3 +1,4 @@
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
@@ -250,13 +251,13 @@ export default function FinancialDetails() {
             <div className="text-xl font-bold mb-1">R$ 42.576,22</div>
             <div className="text-sm">Total de ganhos em Fevereiro/2025</div>
           </div>
-          <div className="bg-[#5f0889] py-3 px-5 rounded-lg w-full md:w-[250px] text-white">
+          <div className="bg-[#E3F2FD] py-3 px-5 rounded-lg w-full md:w-[250px]">
             <div className="text-xl font-bold mb-1">R$ 47.576,23</div>
-            <div className="text-sm">Saldo em Fevereiro/2025</div>
+            <div className="text-sm text-gray-600">Saldo em Fevereiro/2025</div>
           </div>
-          <div className="bg-[#5f0889] py-3 px-5 rounded-lg w-full md:w-[250px] text-white">
+          <div className="bg-[#E3F2FD] py-3 px-5 rounded-lg w-full md:w-[250px]">
             <div className="text-xl font-bold mb-1">R$ 5.000,01</div>
-            <div className="text-sm">Saldo disponível em Fevereiro/2025</div>
+            <div className="text-sm text-gray-600">Saldo disponível em Fevereiro/2025</div>
           </div>
         </div>
 
