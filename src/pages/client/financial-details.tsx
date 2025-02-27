@@ -76,28 +76,28 @@ export default function FinancialDetails() {
     doc.text(period, (pageWidth - periodWidth) / 2, 45);
     
     // Define margens laterais para centralizar a tabela
-    const margin = 20;
+    const margin = 15; // Reduzindo a margem para aumentar o espaço disponível
     const tableWidth = pageWidth - (margin * 2);
     
-    // Define larguras das colunas em proporção adequada
+    // Ajusta as larguras das colunas para melhor distribuição do espaço
     const colWidths = {
-      date: Math.floor(tableWidth * 0.15),
+      date: Math.floor(tableWidth * 0.12), // Reduzido para dar mais espaço às outras colunas
       type: Math.floor(tableWidth * 0.22),
-      description: Math.floor(tableWidth * 0.23),
+      description: Math.floor(tableWidth * 0.26), // Aumentado para descrições longas
       value: Math.floor(tableWidth * 0.20),
       balance: Math.floor(tableWidth * 0.20)
     };
     
     let y = 60;
     
-    // Cabeçalho da tabela
+    // Cabeçalho da tabela com mais espaço
     doc.setFillColor(247, 248, 249);
     doc.rect(margin, y - 5, tableWidth, 8, 'F');
     
     doc.setFont("helvetica", "bold");
     let currentX = margin;
     
-    // Centraliza os cabeçalhos em suas respectivas colunas
+    // Posiciona os cabeçalhos melhor espaçados
     doc.text("Data", currentX + 4, y);
     currentX += colWidths.date;
     
@@ -107,23 +107,26 @@ export default function FinancialDetails() {
     doc.text("Descrição", currentX + 4, y);
     currentX += colWidths.description;
     
-    // Alinha o "Valor" à direita da sua coluna
+    // Alinha o "Valor" à direita da sua coluna com mais espaço
     const valorText = "Valor";
     const valorWidth = doc.getTextWidth(valorText);
-    doc.text(valorText, currentX + colWidths.value - valorWidth - 4, y);
+    doc.text(valorText, currentX + colWidths.value - valorWidth - 6, y);
     currentX += colWidths.value;
     
-    // Alinha o "Saldo" à direita da sua coluna
+    // Alinha o "Saldo" à direita da sua coluna com mais espaço
     const saldoText = "Saldo";
     const saldoWidth = doc.getTextWidth(saldoText);
-    doc.text(saldoText, currentX + colWidths.balance - saldoWidth - 4, y);
+    doc.text(saldoText, currentX + colWidths.balance - saldoWidth - 6, y);
     
     doc.setFont("helvetica", "normal");
     doc.setTextColor(0, 0, 0);
     
-    // Conteúdo da tabela
+    // Aumenta o espaçamento entre linhas
+    const lineHeight = 10;
+    
+    // Conteúdo da tabela com mais espaço entre as linhas
     filteredTransactions.forEach((transaction, index) => {
-      y += 10;
+      y += lineHeight;
       
       if (y > 280) {
         doc.addPage();
@@ -154,13 +157,13 @@ export default function FinancialDetails() {
       // Coluna Valor (verde e alinhado à direita)
       doc.setTextColor(34, 197, 94);
       const valueWidth = doc.getTextWidth(transaction.value);
-      doc.text(transaction.value, currentX + colWidths.value - valueWidth - 4, y);
+      doc.text(transaction.value, currentX + colWidths.value - valueWidth - 6, y);
       currentX += colWidths.value;
       
       // Coluna Saldo (preto e alinhado à direita)
       doc.setTextColor(0, 0, 0);
       const balanceWidth = doc.getTextWidth(transaction.balance);
-      doc.text(transaction.balance, currentX + colWidths.balance - balanceWidth - 4, y);
+      doc.text(transaction.balance, currentX + colWidths.balance - balanceWidth - 6, y);
     });
     
     y += 20;
