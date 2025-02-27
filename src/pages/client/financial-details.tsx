@@ -1,6 +1,6 @@
 
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
 import {
   Table,
@@ -41,11 +41,6 @@ export default function FinancialDetails() {
   const [selectedYear, setSelectedYear] = useState("2025");
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredTransactions, setFilteredTransactions] = useState(transactions);
-
-  // Aplica filtro inicial ao carregar o componente
-  useEffect(() => {
-    filterTransactions();
-  }, []);
 
   const filterTransactions = () => {
     const filtered = transactions.filter(transaction => {
