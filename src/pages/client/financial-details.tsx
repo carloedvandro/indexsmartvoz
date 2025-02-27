@@ -285,20 +285,20 @@ export default function FinancialDetails() {
             <TableHeader className="bg-gray-50">
               <TableRow>
                 <TableHead className="font-semibold min-w-[100px] text-black pl-4">Data</TableHead>
-                <TableHead className="font-semibold min-w-[200px] text-black pl-4">Histórico</TableHead>
+                <TableHead className="font-semibold min-w-[200px] text-black pl-5">Histórico</TableHead>
                 <TableHead className="font-semibold min-w-[240px] text-black pl-4">Descrição</TableHead>
                 <TableHead className="font-semibold min-w-[130px] text-black pl-4">Valor</TableHead>
-                <TableHead className="font-semibold min-w-[130px] text-black pl-4">Saldo</TableHead>
+                <TableHead className="font-semibold min-w-[130px] text-black">Saldo</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredTransactions.map((transaction, index) => (
                 <TableRow key={index} className="border-b hover:bg-gray-50">
                   <TableCell className="min-w-[100px] pl-4">{transaction.date}</TableCell>
-                  <TableCell className="font-medium min-w-[200px] pl-4">{transaction.type}</TableCell>
+                  <TableCell className="font-medium min-w-[200px] pl-5">{transaction.type}</TableCell>
                   <TableCell className="min-w-[240px] truncate pl-4">{transaction.description}</TableCell>
                   <TableCell className="text-green-600 min-w-[130px] pl-4">{transaction.value}</TableCell>
-                  <TableCell className="min-w-[130px] pl-4">{transaction.balance}</TableCell>
+                  <TableCell className="min-w-[130px]">{transaction.balance}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
