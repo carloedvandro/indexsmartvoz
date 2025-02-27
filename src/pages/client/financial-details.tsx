@@ -118,12 +118,12 @@ export default function FinancialDetails() {
     doc.text("Descrição", currentX + 5, headerTextY);
     currentX += colWidths.description;
     
-    // Cabeçalho Valor - Ajustado para alinhar corretamente com os valores
-    doc.text("Valor", currentX + colWidths.value - 25, headerTextY);
+    // Cabeçalho Valor - Deslocado mais à direita para alinhar com os valores
+    doc.text("Valor", currentX + colWidths.value - 15, headerTextY);
     currentX += colWidths.value;
     
-    // Cabeçalho Saldo - Ajustado para alinhar corretamente com os valores
-    doc.text("Saldo", currentX + colWidths.balance - 30, headerTextY);
+    // Cabeçalho Saldo - Deslocado mais à direita para alinhar com os valores
+    doc.text("Saldo", currentX + colWidths.balance - 20, headerTextY);
     
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
