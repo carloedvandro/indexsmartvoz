@@ -284,21 +284,21 @@ export default function FinancialDetails() {
           <Table>
             <TableHeader className="bg-gray-50">
               <TableRow>
-                <TableHead className="font-semibold min-w-[100px] text-black pl-5 text-base">Data</TableHead>
-                <TableHead className="font-semibold min-w-[200px] text-black pl-10 text-base">Histórico</TableHead>
-                <TableHead className="font-semibold min-w-[240px] text-black pl-5 text-base">Descrição</TableHead>
-                <TableHead className="font-semibold min-w-[130px] text-black pl-0 text-base">Valor</TableHead>
-                <TableHead className="font-semibold min-w-[130px] text-black pl-0 text-base">Saldo</TableHead>
+                <TableHead className="font-semibold min-w-[100px] text-black pl-5 text-lg">Data</TableHead>
+                <TableHead className="font-semibold min-w-[200px] text-black pl-10 text-lg">Histórico</TableHead>
+                <TableHead className="font-semibold min-w-[240px] text-black pl-5 text-lg">Descrição</TableHead>
+                <TableHead className="font-semibold min-w-[130px] text-black pl-0 text-lg">Valor</TableHead>
+                <TableHead className="font-semibold min-w-[130px] text-black pl-0 text-lg">Saldo</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredTransactions.map((transaction, index) => (
                 <TableRow key={index} className="border-b hover:bg-gray-50">
-                  <TableCell className="min-w-[100px] pl-5 text-base">{transaction.date}</TableCell>
-                  <TableCell className="font-medium min-w-[200px] pl-10 text-base">{transaction.type}</TableCell>
-                  <TableCell className="min-w-[240px] truncate pl-5 text-base">{transaction.description}</TableCell>
-                  <TableCell className="text-green-600 min-w-[130px] pl-0 text-base">{transaction.value}</TableCell>
-                  <TableCell className="min-w-[130px] pl-0 text-base">{transaction.balance}</TableCell>
+                  <TableCell className="min-w-[100px] pl-5">{transaction.date}</TableCell>
+                  <TableCell className="font-medium min-w-[200px] pl-10">{transaction.type}</TableCell>
+                  <TableCell className="min-w-[240px] truncate pl-5">{transaction.description}</TableCell>
+                  <TableCell className="text-green-600 min-w-[130px] pl-0">{transaction.value}</TableCell>
+                  <TableCell className="min-w-[130px] pl-0">{transaction.balance}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
