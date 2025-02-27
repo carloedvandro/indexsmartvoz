@@ -75,98 +75,95 @@ export default function FinancialDetails() {
     const periodWidth = doc.getTextWidth(period);
     doc.text(period, (pageWidth - periodWidth) / 2, 45);
     
-    // Define margens laterais para centralizar a tabela
-    const margin = 15; // Reduzindo a margem para aumentar o espaço disponível
+    // Define margens laterais para centralizar a tabela - reduzida para aumentar largura
+    const margin = 10; // Margem reduzida para aumentar a largura disponível
     const tableWidth = pageWidth - (margin * 2);
     
-    // Ajusta as larguras das colunas para melhor distribuição do espaço
+    // Define larguras proporcionais para cada coluna
     const colWidths = {
-      date: Math.floor(tableWidth * 0.12), // Reduzido para dar mais espaço às outras colunas
-      type: Math.floor(tableWidth * 0.22),
-      description: Math.floor(tableWidth * 0.26), // Aumentado para descrições longas
+      date: Math.floor(tableWidth * 0.15),
+      type: Math.floor(tableWidth * 0.20),
+      description: Math.floor(tableWidth * 0.25),
       value: Math.floor(tableWidth * 0.20),
       balance: Math.floor(tableWidth * 0.20)
     };
     
-    let y = 60;
+    let y = 65; // Aumentado para dar mais espaço entre o título e a tabela
     
-    // Cabeçalho da tabela com mais espaço
-    doc.setFillColor(247, 248, 249);
+    // Cabeçalho da tabela
+    doc.setFillColor(240, 240, 240);
     doc.rect(margin, y - 5, tableWidth, 8, 'F');
     
     doc.setFont("helvetica", "bold");
     let currentX = margin;
     
-    // Posiciona os cabeçalhos melhor espaçados
-    doc.text("Data", currentX + 4, y);
+    // Cabeçalho Data
+    doc.text("Data", currentX + 5, y);
     currentX += colWidths.date;
     
-    doc.text("Histórico", currentX + 4, y);
+    // Cabeçalho Histórico
+    doc.text("Histórico", currentX + 5, y);
     currentX += colWidths.type;
     
-    doc.text("Descrição", currentX + 4, y);
+    // Cabeçalho Descrição
+    doc.text("Descrição", currentX + 5, y);
     currentX += colWidths.description;
     
-    // Alinha o "Valor" à direita da sua coluna com mais espaço
+    // Cabeçalho Valor (alinhado à direita)
     const valorText = "Valor";
     const valorWidth = doc.getTextWidth(valorText);
-    doc.text(valorText, currentX + colWidths.value - valorWidth - 6, y);
+    doc.text(valorText, currentX + colWidths.value - valorWidth - 5, y);
     currentX += colWidths.value;
     
-    // Alinha o "Saldo" à direita da sua coluna com mais espaço
+    // Cabeçalho Saldo (alinhado à direita)
     const saldoText = "Saldo";
     const saldoWidth = doc.getTextWidth(saldoText);
-    doc.text(saldoText, currentX + colWidths.balance - saldoWidth - 6, y);
+    doc.text(saldoText, currentX + colWidths.balance - saldoWidth - 5, y);
     
     doc.setFont("helvetica", "normal");
-    doc.setTextColor(0, 0, 0);
     
-    // Aumenta o espaçamento entre linhas
-    const lineHeight = 10;
+    // Adiciona linhas da tabela com espaçamento adequado
+    const lineHeight = 12; // Aumentado para melhorar a legibilidade
+    y += 10; // Espaço extra após o cabeçalho
     
-    // Conteúdo da tabela com mais espaço entre as linhas
     filteredTransactions.forEach((transaction, index) => {
-      y += lineHeight;
-      
-      if (y > 280) {
-        doc.addPage();
-        y = 20;
-      }
-      
-      // Linhas alternadas para facilitar a leitura
+      // Adiciona fundo alternado para melhorar a legibilidade
       if (index % 2 === 0) {
-        doc.setFillColor(249, 250, 251);
-        doc.rect(margin, y - 5, tableWidth, 8, 'F');
+        doc.setFillColor(248, 248, 248);
+        doc.rect(margin, y - 5, tableWidth, lineHeight, 'F');
       }
       
       currentX = margin;
       
       // Coluna Data
       doc.setTextColor(0, 0, 0);
-      doc.text(transaction.date, currentX + 4, y);
+      doc.text(transaction.date, currentX + 5, y);
       currentX += colWidths.date;
       
       // Coluna Histórico
-      doc.text(transaction.type, currentX + 4, y);
+      doc.text(transaction.type, currentX + 5, y);
       currentX += colWidths.type;
       
       // Coluna Descrição
-      doc.text(transaction.description, currentX + 4, y);
+      doc.text(transaction.description, currentX + 5, y);
       currentX += colWidths.description;
       
       // Coluna Valor (verde e alinhado à direita)
       doc.setTextColor(34, 197, 94);
       const valueWidth = doc.getTextWidth(transaction.value);
-      doc.text(transaction.value, currentX + colWidths.value - valueWidth - 6, y);
+      doc.text(transaction.value, currentX + colWidths.value - valueWidth - 5, y);
       currentX += colWidths.value;
       
       // Coluna Saldo (preto e alinhado à direita)
       doc.setTextColor(0, 0, 0);
       const balanceWidth = doc.getTextWidth(transaction.balance);
-      doc.text(transaction.balance, currentX + colWidths.balance - balanceWidth - 6, y);
+      doc.text(transaction.balance, currentX + colWidths.balance - balanceWidth - 5, y);
+      
+      y += lineHeight; // Aumentar o espaçamento entre as linhas
     });
     
-    y += 20;
+    // Adiciona o total de registros na parte inferior
+    y += 10;
     doc.text(`Total de registros: ${filteredTransactions.length}`, margin, y);
     
     doc.save(`extrato-${selectedMonth}-${selectedYear}.pdf`);
