@@ -285,10 +285,10 @@ export default function FinancialDetails() {
             <TableHeader className="bg-gray-50">
               <TableRow>
                 <TableHead className="font-semibold min-w-[100px] text-black pl-4 text-lg">Data</TableHead>
-                <TableHead className="font-semibold min-w-[200px] text-black pl-9">Histórico</TableHead>
-                <TableHead className="font-semibold min-w-[240px] text-black pl-4">Descrição</TableHead>
-                <TableHead className="font-semibold min-w-[130px] text-black pl-2">Valor</TableHead>
-                <TableHead className="font-semibold min-w-[130px] text-black pl-2">Saldo</TableHead>
+                <TableHead className="font-semibold min-w-[200px] text-black pl-9 text-lg">Histórico</TableHead>
+                <TableHead className="font-semibold min-w-[240px] text-black pl-4 text-lg">Descrição</TableHead>
+                <TableHead className="font-semibold min-w-[130px] text-black pl-2 text-lg">Valor</TableHead>
+                <TableHead className="font-semibold min-w-[130px] text-black pl-2 text-lg">Saldo</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
