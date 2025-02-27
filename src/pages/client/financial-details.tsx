@@ -159,10 +159,19 @@ export default function FinancialDetails() {
   ];
 
   const years = [
-    "2023",
-    "2024",
-    "2025",
-    "2026"
+    { value: "2014", label: "2014" },
+    { value: "2015", label: "2015" },
+    { value: "2016", label: "2016" },
+    { value: "2017", label: "2017" },
+    { value: "2018", label: "2018" },
+    { value: "2019", label: "2019" },
+    { value: "2020", label: "2020" },
+    { value: "2021", label: "2021" },
+    { value: "2022", label: "2022" },
+    { value: "2023", label: "2023" },
+    { value: "2024", label: "2024" },
+    { value: "2025", label: "2025" },
+    { value: "2026", label: "2026" }
   ];
 
   return (
@@ -190,12 +199,12 @@ export default function FinancialDetails() {
                   >
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="border border-gray-200 rounded-md shadow-md">
                     {months.map((month) => (
                       <SelectItem 
                         key={month.value} 
                         value={month.value}
-                        className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white"
+                        className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-2 px-2"
                       >
                         {month.label}
                       </SelectItem>
@@ -214,14 +223,14 @@ export default function FinancialDetails() {
                   >
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="border border-gray-200 rounded-md shadow-md">
                     {years.map((year) => (
                       <SelectItem 
-                        key={year} 
-                        value={year}
-                        className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white"
+                        key={year.value} 
+                        value={year.value}
+                        className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-2 px-2"
                       >
-                        {year}
+                        {year.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
