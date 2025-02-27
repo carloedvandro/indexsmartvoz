@@ -75,8 +75,8 @@ export default function FinancialDetails() {
     const periodWidth = doc.getTextWidth(period);
     doc.text(period, (pageWidth - periodWidth) / 2, 45);
     
-    // Define margens laterais para centralizar a tabela - reduzida para aumentar largura
-    const margin = 10; // Margem reduzida para aumentar a largura disponível
+    // Define margens laterais para centralizar a tabela
+    const margin = 5; // Margem reduzida para aumentar a largura disponível
     const tableWidth = pageWidth - (margin * 2);
     
     // Define larguras proporcionais para cada coluna
@@ -88,11 +88,11 @@ export default function FinancialDetails() {
       balance: Math.floor(tableWidth * 0.20)
     };
     
-    let y = 65; // Aumentado para dar mais espaço entre o título e a tabela
+    let y = 65;
     
     // Cabeçalho da tabela
     doc.setFillColor(240, 240, 240);
-    doc.rect(margin, y - 5, tableWidth, 8, 'F');
+    doc.rect(margin, y - 5, tableWidth, 7, 'F');
     
     doc.setFont("helvetica", "bold");
     let currentX = margin;
@@ -123,14 +123,14 @@ export default function FinancialDetails() {
     doc.setFont("helvetica", "normal");
     
     // Adiciona linhas da tabela com espaçamento adequado
-    const lineHeight = 12; // Aumentado para melhorar a legibilidade
-    y += 10; // Espaço extra após o cabeçalho
+    const lineHeight = 8; // Reduzido para aproximar as linhas
+    y += 8; // Espaço após o cabeçalho reduzido
     
     filteredTransactions.forEach((transaction, index) => {
       // Adiciona fundo alternado para melhorar a legibilidade
       if (index % 2 === 0) {
         doc.setFillColor(248, 248, 248);
-        doc.rect(margin, y - 5, tableWidth, lineHeight, 'F');
+        doc.rect(margin, y - 4, tableWidth, lineHeight + 2, 'F');
       }
       
       currentX = margin;
@@ -159,11 +159,11 @@ export default function FinancialDetails() {
       const balanceWidth = doc.getTextWidth(transaction.balance);
       doc.text(transaction.balance, currentX + colWidths.balance - balanceWidth - 5, y);
       
-      y += lineHeight; // Aumentar o espaçamento entre as linhas
+      y += lineHeight + 1; // Reduzido o espaçamento entre as linhas
     });
     
     // Adiciona o total de registros na parte inferior
-    y += 10;
+    y += 8;
     doc.text(`Total de registros: ${filteredTransactions.length}`, margin, y);
     
     doc.save(`extrato-${selectedMonth}-${selectedYear}.pdf`);
