@@ -118,16 +118,12 @@ export default function FinancialDetails() {
     doc.text("Descrição", currentX + 5, headerTextY);
     currentX += colWidths.description;
     
-    // Cabeçalho Valor (alinhado à direita)
-    const valorText = "Valor";
-    const valorWidth = doc.getTextWidth(valorText);
-    doc.text(valorText, currentX + colWidths.value - valorWidth - 5, headerTextY);
+    // Cabeçalho Valor - AJUSTADO para posicionar no início da coluna, não no final
+    doc.text("Valor", currentX + 5, headerTextY);
     currentX += colWidths.value;
     
-    // Cabeçalho Saldo (alinhado à direita)
-    const saldoText = "Saldo";
-    const saldoWidth = doc.getTextWidth(saldoText);
-    doc.text(saldoText, currentX + colWidths.balance - saldoWidth - 5, headerTextY);
+    // Cabeçalho Saldo - AJUSTADO para posicionar no início da coluna, não no final
+    doc.text("Saldo", currentX + 5, headerTextY);
     
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
