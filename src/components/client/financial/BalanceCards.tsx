@@ -30,7 +30,7 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
       </Card>
 
       <Card 
-        className="relative p-4 border rounded-lg bg-white cursor-pointer"
+        className="relative p-4 border rounded-lg bg-white cursor-pointer hover:bg-gray-50 transition-colors"
         onClick={onCardClick}
       >
         <div className="flex flex-col gap-3">
