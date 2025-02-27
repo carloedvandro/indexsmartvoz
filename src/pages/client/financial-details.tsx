@@ -76,7 +76,7 @@ export default function FinancialDetails() {
     doc.text(period, (pageWidth - periodWidth) / 2, 45);
     
     // Define margens laterais para centralizar a tabela - reduzida para aumentar largura
-    const margin = 10; // Margem reduzida para aumentar a largura disponível
+    const margin = 5; // Margem reduzida para aumentar a largura disponível ainda mais
     const tableWidth = pageWidth - (margin * 2);
     
     // Define larguras proporcionais para cada coluna
@@ -123,14 +123,14 @@ export default function FinancialDetails() {
     doc.setFont("helvetica", "normal");
     
     // Adiciona linhas da tabela com espaçamento adequado
-    const lineHeight = 12; // Aumentado para melhorar a legibilidade
-    y += 10; // Espaço extra após o cabeçalho
+    const lineHeight = 8; // Reduzido para aproximar as linhas
+    y += 8; // Espaço extra após o cabeçalho
     
     filteredTransactions.forEach((transaction, index) => {
       // Adiciona fundo alternado para melhorar a legibilidade
       if (index % 2 === 0) {
         doc.setFillColor(248, 248, 248);
-        doc.rect(margin, y - 5, tableWidth, lineHeight, 'F');
+        doc.rect(margin, y - 5, tableWidth, lineHeight + 4, 'F');
       }
       
       currentX = margin;
@@ -159,7 +159,7 @@ export default function FinancialDetails() {
       const balanceWidth = doc.getTextWidth(transaction.balance);
       doc.text(transaction.balance, currentX + colWidths.balance - balanceWidth - 5, y);
       
-      y += lineHeight; // Aumentar o espaçamento entre as linhas
+      y += lineHeight + 2; // Aumentar o espaçamento entre as linhas
     });
     
     // Adiciona o total de registros na parte inferior
@@ -319,32 +319,32 @@ export default function FinancialDetails() {
           </button>
         </div>
 
-        <div className="bg-white rounded-lg overflow-hidden border mx-auto w-full md:w-[780px] overflow-x-auto">
+        <div className="bg-white rounded-lg overflow-hidden border mx-auto w-full md:w-[850px] overflow-x-auto">
           <Table>
             <TableHeader className="bg-gray-50">
               <TableRow>
-                <TableHead className="font-semibold min-w-[100px] text-black pl-6 text-lg">Data</TableHead>
-                <TableHead className="font-semibold min-w-[200px] text-black pl-9 text-lg">Histórico</TableHead>
-                <TableHead className="font-semibold min-w-[240px] text-black pl-4 text-lg">Descrição</TableHead>
-                <TableHead className="font-semibold min-w-[130px] text-black text-lg -translate-x-4">Valor</TableHead>
-                <TableHead className={`font-semibold min-w-[130px] text-black text-lg md:pl-0 md:-translate-x-1.5 ${isMobile ? 'pl-12' : ''}`}>Saldo</TableHead>
+                <TableHead className="font-semibold min-w-[110px] text-black pl-6 text-lg">Data</TableHead>
+                <TableHead className="font-semibold min-w-[220px] text-black pl-9 text-lg">Histórico</TableHead>
+                <TableHead className="font-semibold min-w-[250px] text-black pl-4 text-lg">Descrição</TableHead>
+                <TableHead className="font-semibold min-w-[140px] text-black text-lg -translate-x-4">Valor</TableHead>
+                <TableHead className={`font-semibold min-w-[140px] text-black text-lg md:pl-0 md:-translate-x-1.5 ${isMobile ? 'pl-12' : ''}`}>Saldo</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredTransactions.map((transaction, index) => (
-                <TableRow key={index} className="border-b hover:bg-gray-50">
-                  <TableCell className="min-w-[100px] pl-6">{transaction.date}</TableCell>
-                  <TableCell className="font-medium min-w-[200px] pl-9">{transaction.type}</TableCell>
-                  <TableCell className="min-w-[240px] truncate pl-4">{transaction.description}</TableCell>
-                  <TableCell className="text-green-600 min-w-[130px] -translate-x-4">{transaction.value}</TableCell>
-                  <TableCell className={`min-w-[130px] md:pl-0 md:-translate-x-1.5 ${isMobile ? 'pl-12' : ''}`}>{transaction.balance}</TableCell>
+                <TableRow key={index} className="border-b hover:bg-gray-50 h-10">
+                  <TableCell className="min-w-[110px] pl-6 py-2">{transaction.date}</TableCell>
+                  <TableCell className="font-medium min-w-[220px] pl-9 py-2">{transaction.type}</TableCell>
+                  <TableCell className="min-w-[250px] truncate pl-4 py-2">{transaction.description}</TableCell>
+                  <TableCell className="text-green-600 min-w-[140px] -translate-x-4 py-2">{transaction.value}</TableCell>
+                  <TableCell className={`min-w-[140px] md:pl-0 md:-translate-x-1.5 ${isMobile ? 'pl-12' : ''} py-2`}>{transaction.balance}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </div>
 
-        <div className="flex justify-between items-center mt-4 text-sm w-full md:w-[780px] mx-auto">
+        <div className="flex justify-between items-center mt-4 text-sm w-full md:w-[850px] mx-auto">
           <div className="text-gray-600">
             Total de {filteredTransactions.length} registros
           </div>
