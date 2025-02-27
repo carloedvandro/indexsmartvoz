@@ -322,29 +322,34 @@ export default function FinancialDetails() {
           </button>
         </div>
 
-        <div className="bg-white rounded-lg overflow-hidden border mx-auto w-full md:w-[780px] overflow-x-auto">
-          <Table>
-            <TableHeader className="bg-gray-50">
-              <TableRow>
-                <TableHead className="font-semibold min-w-[100px] text-black pl-6 text-lg">Data</TableHead>
-                <TableHead className="font-semibold min-w-[200px] text-black pl-9 text-lg">Histórico</TableHead>
-                <TableHead className="font-semibold min-w-[240px] text-black pl-4 text-lg">Descrição</TableHead>
-                <TableHead className="font-semibold min-w-[130px] text-black text-lg -translate-x-4">Valor</TableHead>
-                <TableHead className="font-semibold min-w-[130px] text-black pl-0 text-lg -translate-x-1.5">Saldo</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredTransactions.map((transaction, index) => (
-                <TableRow key={index} className="border-b hover:bg-gray-50">
-                  <TableCell className="min-w-[100px] pl-6">{transaction.date}</TableCell>
-                  <TableCell className="font-medium min-w-[200px] pl-9">{transaction.type}</TableCell>
-                  <TableCell className="min-w-[240px] truncate pl-4">{transaction.description}</TableCell>
-                  <TableCell className="text-green-600 min-w-[130px] -translate-x-4">{transaction.value}</TableCell>
-                  <TableCell className="min-w-[130px] pl-0 -translate-x-1.5">{transaction.balance}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+        <div className="bg-white rounded-lg border mx-auto w-full md:w-[780px] overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="text-left py-4 px-6 text-lg font-semibold text-black">Data</th>
+                  <th className="text-left py-4 px-6 text-lg font-semibold text-black">Histórico</th>
+                  <th className="text-left py-4 px-6 text-lg font-semibold text-black">Descrição</th>
+                  <th className="text-right py-4 px-6 text-lg font-semibold text-black">Valor</th>
+                  <th className="text-right py-4 px-6 text-lg font-semibold text-black">Saldo</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredTransactions.map((transaction, index) => (
+                  <tr 
+                    key={index} 
+                    className={`border-t hover:bg-gray-50 ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}
+                  >
+                    <td className="py-4 px-6">{transaction.date}</td>
+                    <td className="py-4 px-6 font-medium">{transaction.type}</td>
+                    <td className="py-4 px-6">{transaction.description}</td>
+                    <td className="py-4 px-6 text-right text-green-600">{transaction.value}</td>
+                    <td className="py-4 px-6 text-right">{transaction.balance}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <div className="flex justify-between items-center mt-4 text-sm w-full md:w-[780px] mx-auto">
