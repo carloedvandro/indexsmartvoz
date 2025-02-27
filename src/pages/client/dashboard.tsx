@@ -22,13 +22,8 @@ export default function ClientDashboard() {
   };
 
   const handleBalanceCardClick = () => {
-    // Abre o dialog de detalhes do saldo
-    navigate("/client/financial/details", {
-      state: { 
-        type: "balance",
-        showDetails: true
-      }
-    });
+    // Navega para a página de financeiro resumo
+    navigate("/client/financial");
   };
 
   const handleEarningsCardClick = () => {
