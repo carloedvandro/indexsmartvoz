@@ -60,110 +60,123 @@ export default function FinancialDetails() {
   };
 
   const handleExportPDF = () => {
-    const doc = new jsPDF();
+    const doc = new jsPDF({
+      orientation: "landscape", // Orientação paisagem para maior largura
+    });
     
     // Centraliza o título
-    doc.setFontSize(18);
+    doc.setFontSize(16);
     const title = "Extrato Detalhado";
     const titleWidth = doc.getTextWidth(title);
     const pageWidth = doc.internal.pageSize.width;
-    doc.text(title, (pageWidth - titleWidth) / 2, 30);
+    doc.text(title, (pageWidth - titleWidth) / 2, 20);
     
     // Centraliza o período
-    doc.setFontSize(12);
+    doc.setFontSize(10);
     const period = `Período: ${months.find(m => m.value === selectedMonth)?.label} de ${selectedYear}`;
     const periodWidth = doc.getTextWidth(period);
-    doc.text(period, (pageWidth - periodWidth) / 2, 45);
+    doc.text(period, (pageWidth - periodWidth) / 2, 30);
     
     // Define margens laterais para centralizar a tabela
-    const margin = 5; // Margem reduzida para aumentar a largura disponível
+    const margin = 10;
     const tableWidth = pageWidth - (margin * 2);
     
     // Define larguras proporcionais para cada coluna
     const colWidths = {
-      date: Math.floor(tableWidth * 0.15),
-      type: Math.floor(tableWidth * 0.20),
-      description: Math.floor(tableWidth * 0.25),
+      date: Math.floor(tableWidth * 0.12),
+      type: Math.floor(tableWidth * 0.22),
+      description: Math.floor(tableWidth * 0.24),
       value: Math.floor(tableWidth * 0.20),
-      balance: Math.floor(tableWidth * 0.20)
+      balance: Math.floor(tableWidth * 0.22)
     };
     
-    let y = 65;
+    let y = 40;
     
-    // Cabeçalho da tabela
+    // Altura padrão para todas as linhas da tabela (cabeçalho e dados)
+    const rowHeight = 8;
+    
+    // Cabeçalho da tabela com altura e cor padrão
     doc.setFillColor(240, 240, 240);
-    doc.rect(margin, y - 5, tableWidth, 7, 'F');
+    doc.rect(margin, y - 6, tableWidth, rowHeight, 'F');
     
     doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
     let currentX = margin;
     
+    // Centraliza verticalmente o texto do cabeçalho
+    const headerTextY = y - 1; // Ajuste para centralizar verticalmente
+    
     // Cabeçalho Data
-    doc.text("Data", currentX + 5, y);
+    doc.text("Data", currentX + 5, headerTextY);
     currentX += colWidths.date;
     
     // Cabeçalho Histórico
-    doc.text("Histórico", currentX + 5, y);
+    doc.text("Histórico", currentX + 5, headerTextY);
     currentX += colWidths.type;
     
     // Cabeçalho Descrição
-    doc.text("Descrição", currentX + 5, y);
+    doc.text("Descrição", currentX + 5, headerTextY);
     currentX += colWidths.description;
     
     // Cabeçalho Valor (alinhado à direita)
     const valorText = "Valor";
     const valorWidth = doc.getTextWidth(valorText);
-    doc.text(valorText, currentX + colWidths.value - valorWidth - 5, y);
+    doc.text(valorText, currentX + colWidths.value - valorWidth - 5, headerTextY);
     currentX += colWidths.value;
     
     // Cabeçalho Saldo (alinhado à direita)
     const saldoText = "Saldo";
     const saldoWidth = doc.getTextWidth(saldoText);
-    doc.text(saldoText, currentX + colWidths.balance - saldoWidth - 5, y);
+    doc.text(saldoText, currentX + colWidths.balance - saldoWidth - 5, headerTextY);
     
     doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
     
-    // Adiciona linhas da tabela com espaçamento adequado
-    const lineHeight = 8; // Reduzido para aproximar as linhas
-    y += 8; // Espaço após o cabeçalho reduzido
+    // Adiciona linhas da tabela com a mesma altura
+    y += rowHeight + 2; // Espaço após o cabeçalho
     
     filteredTransactions.forEach((transaction, index) => {
-      // Adiciona fundo alternado para melhorar a legibilidade
+      // Adiciona fundo alternado com altura padronizada
       if (index % 2 === 0) {
-        doc.setFillColor(248, 248, 248);
-        doc.rect(margin, y - 4, tableWidth, lineHeight + 2, 'F');
+        doc.setFillColor(245, 245, 245);
+        doc.rect(margin, y - 6, tableWidth, rowHeight, 'F');
       }
+      
+      // Centraliza verticalmente o texto na linha
+      const textY = y - 1;
       
       currentX = margin;
       
       // Coluna Data
       doc.setTextColor(0, 0, 0);
-      doc.text(transaction.date, currentX + 5, y);
+      doc.text(transaction.date, currentX + 5, textY);
       currentX += colWidths.date;
       
       // Coluna Histórico
-      doc.text(transaction.type, currentX + 5, y);
+      doc.text(transaction.type, currentX + 5, textY);
       currentX += colWidths.type;
       
       // Coluna Descrição
-      doc.text(transaction.description, currentX + 5, y);
+      doc.text(transaction.description, currentX + 5, textY);
       currentX += colWidths.description;
       
       // Coluna Valor (verde e alinhado à direita)
       doc.setTextColor(34, 197, 94);
       const valueWidth = doc.getTextWidth(transaction.value);
-      doc.text(transaction.value, currentX + colWidths.value - valueWidth - 5, y);
+      doc.text(transaction.value, currentX + colWidths.value - valueWidth - 5, textY);
       currentX += colWidths.value;
       
       // Coluna Saldo (preto e alinhado à direita)
       doc.setTextColor(0, 0, 0);
       const balanceWidth = doc.getTextWidth(transaction.balance);
-      doc.text(transaction.balance, currentX + colWidths.balance - balanceWidth - 5, y);
+      doc.text(transaction.balance, currentX + colWidths.balance - balanceWidth - 5, textY);
       
-      y += lineHeight + 1; // Reduzido o espaçamento entre as linhas
+      y += rowHeight + 2; // Espaçamento padronizado entre as linhas
     });
     
     // Adiciona o total de registros na parte inferior
-    y += 8;
+    y += 6;
+    doc.setFontSize(10);
     doc.text(`Total de registros: ${filteredTransactions.length}`, margin, y);
     
     doc.save(`extrato-${selectedMonth}-${selectedYear}.pdf`);
