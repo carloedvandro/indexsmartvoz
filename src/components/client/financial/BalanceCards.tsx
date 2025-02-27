@@ -12,6 +12,24 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
   return (
     <div className="grid grid-cols-1 gap-4">
       <Card 
+        className="relative p-4 border border-gray-200 rounded-lg overflow-hidden"
+        style={{
+          backgroundColor: 'white',
+          position: 'relative',
+          zIndex: 50
+        }}
+      >
+        <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#02951e]" />
+        <div className="flex justify-between items-center">
+          <span className="text-[#02951e] font-medium">Saldo disponível</span>
+          <div className="flex items-center gap-1">
+            <span className="text-[#02951e]">R$</span>
+            <span className="text-[#02951e]">5.000,01</span>
+          </div>
+        </div>
+      </Card>
+
+      <Card 
         className="relative p-4 border rounded-lg bg-white cursor-pointer"
         onClick={onCardClick}
       >
@@ -36,22 +54,6 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
             <div className="flex items-baseline gap-1">
               <span className="text-gray-500">R$</span>
               <span className="text-gray-500">0,00</span>
-            </div>
-          </div>
-        </div>
-      </Card>
-
-      <Card 
-        className="relative p-4 border border-gray-200 rounded-lg overflow-hidden bg-[#5f0889] text-white"
-      >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-              <span className="text-xl">$</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-sm">Saldo Disponível</span>
-              <span className="text-xl font-semibold">R$ 5.000,01</span>
             </div>
           </div>
         </div>
