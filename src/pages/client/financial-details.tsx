@@ -60,44 +60,41 @@ export default function FinancialDetails() {
   };
 
   const handleExportPDF = () => {
-    const doc = new jsPDF({
-      orientation: "landscape", // Altera para orientação paisagem para maior largura
-    });
+    const doc = new jsPDF();
     
     // Centraliza o título
-    doc.setFontSize(16); // Reduzido de 18 para 16
+    doc.setFontSize(18);
     const title = "Extrato Detalhado";
     const titleWidth = doc.getTextWidth(title);
     const pageWidth = doc.internal.pageSize.width;
-    doc.text(title, (pageWidth - titleWidth) / 2, 20);
+    doc.text(title, (pageWidth - titleWidth) / 2, 30);
     
     // Centraliza o período
-    doc.setFontSize(10); // Reduzido de 12 para 10
+    doc.setFontSize(12);
     const period = `Período: ${months.find(m => m.value === selectedMonth)?.label} de ${selectedYear}`;
     const periodWidth = doc.getTextWidth(period);
-    doc.text(period, (pageWidth - periodWidth) / 2, 30);
+    doc.text(period, (pageWidth - periodWidth) / 2, 45);
     
     // Define margens laterais para centralizar a tabela
-    const margin = 5; // Margem reduzida para aproveitar melhor o espaço
+    const margin = 5; // Margem reduzida para aumentar a largura disponível
     const tableWidth = pageWidth - (margin * 2);
     
     // Define larguras proporcionais para cada coluna
     const colWidths = {
-      date: Math.floor(tableWidth * 0.12),
-      type: Math.floor(tableWidth * 0.22),
-      description: Math.floor(tableWidth * 0.24),
+      date: Math.floor(tableWidth * 0.15),
+      type: Math.floor(tableWidth * 0.20),
+      description: Math.floor(tableWidth * 0.25),
       value: Math.floor(tableWidth * 0.20),
-      balance: Math.floor(tableWidth * 0.22)
+      balance: Math.floor(tableWidth * 0.20)
     };
     
-    let y = 40; // Ajustado devido à orientação paisagem
+    let y = 65;
     
     // Cabeçalho da tabela
     doc.setFillColor(240, 240, 240);
     doc.rect(margin, y - 5, tableWidth, 7, 'F');
     
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(10); // Fonte menor para o cabeçalho
     let currentX = margin;
     
     // Cabeçalho Data
@@ -124,11 +121,10 @@ export default function FinancialDetails() {
     doc.text(saldoText, currentX + colWidths.balance - saldoWidth - 5, y);
     
     doc.setFont("helvetica", "normal");
-    doc.setFontSize(9); // Fonte ainda menor para o conteúdo
     
     // Adiciona linhas da tabela com espaçamento adequado
-    const lineHeight = 7; // Reduzido para aproximar as linhas
-    y += 8; // Espaço após o cabeçalho 
+    const lineHeight = 8; // Reduzido para aproximar as linhas
+    y += 8; // Espaço após o cabeçalho reduzido
     
     filteredTransactions.forEach((transaction, index) => {
       // Adiciona fundo alternado para melhorar a legibilidade
@@ -163,12 +159,11 @@ export default function FinancialDetails() {
       const balanceWidth = doc.getTextWidth(transaction.balance);
       doc.text(transaction.balance, currentX + colWidths.balance - balanceWidth - 5, y);
       
-      y += lineHeight + 1; // Espaçamento reduzido entre as linhas
+      y += lineHeight + 1; // Reduzido o espaçamento entre as linhas
     });
     
     // Adiciona o total de registros na parte inferior
     y += 8;
-    doc.setFontSize(10); // Volta para tamanho um pouco maior
     doc.text(`Total de registros: ${filteredTransactions.length}`, margin, y);
     
     doc.save(`extrato-${selectedMonth}-${selectedYear}.pdf`);
@@ -328,8 +323,8 @@ export default function FinancialDetails() {
           <Table>
             <TableHeader className="bg-gray-50">
               <TableRow>
-                <TableHead className="font-semibold min-w-[110px] text-black pl-6 text-lg">Data</TableHead>
-                <TableHead className="font-semibold min-w-[220px] text-black pl-9 text-lg">Histórico</TableHead>
+                <TableHead className="font-semibold min-w-[100px] text-black pl-6 text-lg">Data</TableHead>
+                <TableHead className="font-semibold min-w-[200px] text-black pl-9 text-lg">Histórico</TableHead>
                 <TableHead className="font-semibold min-w-[240px] text-black pl-4 text-lg">Descrição</TableHead>
                 <TableHead className="font-semibold min-w-[130px] text-black text-lg -translate-x-4">Valor</TableHead>
                 <TableHead className={`font-semibold min-w-[130px] text-black text-lg md:pl-0 md:-translate-x-1.5 ${isMobile ? 'pl-12' : ''}`}>Saldo</TableHead>
@@ -338,8 +333,8 @@ export default function FinancialDetails() {
             <TableBody>
               {filteredTransactions.map((transaction, index) => (
                 <TableRow key={index} className="border-b hover:bg-gray-50">
-                  <TableCell className="min-w-[110px] pl-6">{transaction.date}</TableCell>
-                  <TableCell className="font-medium min-w-[220px] pl-9">{transaction.type}</TableCell>
+                  <TableCell className="min-w-[100px] pl-6">{transaction.date}</TableCell>
+                  <TableCell className="font-medium min-w-[200px] pl-9">{transaction.type}</TableCell>
                   <TableCell className="min-w-[240px] truncate pl-4">{transaction.description}</TableCell>
                   <TableCell className="text-green-600 min-w-[130px] -translate-x-4">{transaction.value}</TableCell>
                   <TableCell className={`min-w-[130px] md:pl-0 md:-translate-x-1.5 ${isMobile ? 'pl-12' : ''}`}>{transaction.balance}</TableCell>
