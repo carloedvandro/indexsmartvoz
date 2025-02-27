@@ -1,4 +1,3 @@
-
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
@@ -140,7 +139,7 @@ export default function FinancialDetails() {
   };
 
   const handleBack = () => {
-    navigate('/client/financial');
+    navigate('/client/dashboard');
   };
 
   const months = [
