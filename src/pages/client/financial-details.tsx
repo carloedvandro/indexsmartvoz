@@ -62,46 +62,66 @@ export default function FinancialDetails() {
   const handleExportPDF = () => {
     const doc = new jsPDF();
     
-    doc.setFontSize(16);
-    doc.text("Extrato Detalhado", 14, 20);
+    // Centraliza o título
+    doc.setFontSize(18);
+    const title = "Extrato Detalhado";
+    const titleWidth = doc.getTextWidth(title);
+    const pageWidth = doc.internal.pageSize.width;
+    doc.text(title, (pageWidth - titleWidth) / 2, 30);
     
+    // Centraliza o período
     doc.setFontSize(12);
-    doc.text(`Período: ${months.find(m => m.value === selectedMonth)?.label} de ${selectedYear}`, 14, 30);
+    const period = `Período: ${months.find(m => m.value === selectedMonth)?.label} de ${selectedYear}`;
+    const periodWidth = doc.getTextWidth(period);
+    doc.text(period, (pageWidth - periodWidth) / 2, 45);
     
-    const startX = 14;
+    // Define margens laterais para centralizar a tabela
+    const margin = 20;
+    const tableWidth = pageWidth - (margin * 2);
+    
+    // Define larguras das colunas em proporção adequada
     const colWidths = {
-      date: 30,
-      type: 50,
-      description: 65,
-      value: 25,
-      balance: 25
+      date: Math.floor(tableWidth * 0.15),
+      type: Math.floor(tableWidth * 0.22),
+      description: Math.floor(tableWidth * 0.23),
+      value: Math.floor(tableWidth * 0.20),
+      balance: Math.floor(tableWidth * 0.20)
     };
     
-    let y = 45;
+    let y = 60;
     
+    // Cabeçalho da tabela
     doc.setFillColor(247, 248, 249);
-    doc.rect(startX, y - 5, 185, 8, 'F');
+    doc.rect(margin, y - 5, tableWidth, 8, 'F');
     
     doc.setFont("helvetica", "bold");
-    let currentX = startX;
+    let currentX = margin;
     
-    doc.text("Data", currentX, y);
+    // Centraliza os cabeçalhos em suas respectivas colunas
+    doc.text("Data", currentX + 4, y);
     currentX += colWidths.date;
-    doc.text("Histórico", currentX, y);
+    
+    doc.text("Histórico", currentX + 4, y);
     currentX += colWidths.type;
-    doc.text("Descrição", currentX, y);
+    
+    doc.text("Descrição", currentX + 4, y);
     currentX += colWidths.description;
+    
+    // Alinha o "Valor" à direita da sua coluna
     const valorText = "Valor";
     const valorWidth = doc.getTextWidth(valorText);
-    doc.text(valorText, currentX + colWidths.value - valorWidth - 2, y);
+    doc.text(valorText, currentX + colWidths.value - valorWidth - 4, y);
     currentX += colWidths.value;
+    
+    // Alinha o "Saldo" à direita da sua coluna
     const saldoText = "Saldo";
     const saldoWidth = doc.getTextWidth(saldoText);
-    doc.text(saldoText, currentX + colWidths.balance - saldoWidth - 2, y);
+    doc.text(saldoText, currentX + colWidths.balance - saldoWidth - 4, y);
     
     doc.setFont("helvetica", "normal");
     doc.setTextColor(0, 0, 0);
     
+    // Conteúdo da tabela
     filteredTransactions.forEach((transaction, index) => {
       y += 10;
       
@@ -110,31 +130,41 @@ export default function FinancialDetails() {
         y = 20;
       }
       
+      // Linhas alternadas para facilitar a leitura
       if (index % 2 === 0) {
         doc.setFillColor(249, 250, 251);
-        doc.rect(startX, y - 5, 185, 8, 'F');
+        doc.rect(margin, y - 5, tableWidth, 8, 'F');
       }
       
-      doc.setTextColor(0, 0, 0);
-      currentX = startX;
+      currentX = margin;
       
-      doc.text(transaction.date, currentX, y);
+      // Coluna Data
+      doc.setTextColor(0, 0, 0);
+      doc.text(transaction.date, currentX + 4, y);
       currentX += colWidths.date;
-      doc.text(transaction.type, currentX, y);
+      
+      // Coluna Histórico
+      doc.text(transaction.type, currentX + 4, y);
       currentX += colWidths.type;
-      doc.text(transaction.description, currentX, y);
+      
+      // Coluna Descrição
+      doc.text(transaction.description, currentX + 4, y);
       currentX += colWidths.description;
+      
+      // Coluna Valor (verde e alinhado à direita)
       doc.setTextColor(34, 197, 94);
       const valueWidth = doc.getTextWidth(transaction.value);
-      doc.text(transaction.value, currentX + colWidths.value - valueWidth - 2, y);
+      doc.text(transaction.value, currentX + colWidths.value - valueWidth - 4, y);
       currentX += colWidths.value;
+      
+      // Coluna Saldo (preto e alinhado à direita)
       doc.setTextColor(0, 0, 0);
       const balanceWidth = doc.getTextWidth(transaction.balance);
-      doc.text(transaction.balance, currentX + colWidths.balance - balanceWidth - 2, y);
+      doc.text(transaction.balance, currentX + colWidths.balance - balanceWidth - 4, y);
     });
     
     y += 20;
-    doc.text(`Total de registros: ${filteredTransactions.length}`, 14, y);
+    doc.text(`Total de registros: ${filteredTransactions.length}`, margin, y);
     
     doc.save(`extrato-${selectedMonth}-${selectedYear}.pdf`);
   };
