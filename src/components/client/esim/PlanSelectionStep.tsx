@@ -44,6 +44,11 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
     });
   };
 
+  const handleBack = () => {
+    // Call the onBack function provided by the parent component
+    onBack();
+  };
+
   return (
     <div className="max-w-[400px] mx-auto w-full pt-6">
       <div className="space-y-8">
@@ -90,7 +95,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           <Button 
             variant="outline" 
             className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
-            onClick={onBack}
+            onClick={handleBack}
           >
             Voltar
           </Button>
