@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { InternetSelector } from "@/components/client/products/InternetSelector";
 import { DDDInput } from "@/components/client/products/DDDInput";
@@ -20,18 +20,51 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   const [selectedInternet, setSelectedInternet] = useState<string>("");
   const [selectedDDD, setSelectedDDD] = useState<string>("");
   const [selectedDueDate, setSelectedDueDate] = useState<number | null>(null);
+  const [isFreePlan, setIsFreePlan] = useState(false);
 
   const internetOptions = [
     { value: "FREE", label: "Plano Gratuito", price: 0 },
     { value: "120GB", label: "Plano 120GB", price: 129.99 },
   ];
 
+  // Effect to handle selection of free plan
+  useEffect(() => {
+    if (selectedInternet === "FREE") {
+      setIsFreePlan(true);
+      // Auto-select dummy values when free plan is chosen
+      setSelectedDDD("00");
+      setSelectedDueDate(1);
+    } else {
+      setIsFreePlan(false);
+      // Clear the values when switching from free plan to another
+      if (selectedDDD === "00") setSelectedDDD("");
+      if (selectedDueDate === 1) setSelectedDueDate(null);
+    }
+  }, [selectedInternet]);
+
   const getLinePrice = () => {
     return internetOptions.find(option => option.value === selectedInternet)?.price || 0;
   };
 
   const handleContinue = () => {
-    if (!selectedInternet || !selectedDDD || !selectedDueDate) {
+    if (!selectedInternet) {
+      // Could add toast notification here for validation
+      return;
+    }
+
+    // For free plan, we don't need valid DDD and due date
+    if (isFreePlan) {
+      onContinue({
+        internet: selectedInternet,
+        ddd: selectedDDD,
+        dueDate: selectedDueDate || 1,
+        price: 0
+      });
+      return;
+    }
+
+    // For paid plans, we need valid DDD and due date
+    if (!selectedDDD || !selectedDueDate) {
       // Could add toast notification here for validation
       return;
     }
@@ -72,16 +105,23 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
               <DDDInput
                 ddd={selectedDDD}
                 onDDDChange={setSelectedDDD}
+                disabled={isFreePlan}
               />
             </div>
           </div>
 
-          <div>
-            <DueDateSelector
-              selectedDueDate={selectedDueDate}
-              setSelectedDueDate={setSelectedDueDate}
-            />
-          </div>
+          {!isFreePlan ? (
+            <div>
+              <DueDateSelector
+                selectedDueDate={selectedDueDate}
+                setSelectedDueDate={setSelectedDueDate}
+              />
+            </div>
+          ) : (
+            <div className="text-sm text-purple-700 p-2 bg-purple-50 rounded-md">
+              O Plano Gratuito não requer seleção de DDD ou data de vencimento.
+            </div>
+          )}
 
           <div>
             <PriceSummary
@@ -102,7 +142,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           <Button 
             className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
             onClick={handleContinue}
-            disabled={!selectedInternet || !selectedDDD || !selectedDueDate}
+            disabled={!selectedInternet || (!isFreePlan && (!selectedDDD || !selectedDueDate))}
           >
             Continuar
           </Button>

@@ -10,9 +10,10 @@ import {
 interface DDDInputProps {
   ddd: string;
   onDDDChange: (value: string) => void;
+  disabled?: boolean;
 }
 
-export function DDDInput({ ddd, onDDDChange }: DDDInputProps) {
+export function DDDInput({ ddd, onDDDChange, disabled = false }: DDDInputProps) {
   // Lista de DDDs do Brasil
   const ddds = [
     "11", "12", "13", "14", "15", "16", "17", "18", "19", // São Paulo
@@ -47,8 +48,10 @@ export function DDDInput({ ddd, onDDDChange }: DDDInputProps) {
   return (
     <div>
       <span className="text-sm font-medium mb-1 block">DDD</span>
-      <Select value={ddd} onValueChange={onDDDChange}>
-        <SelectTrigger className="bg-white h-[42px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af]">
+      <Select value={ddd} onValueChange={onDDDChange} disabled={disabled}>
+        <SelectTrigger 
+          className={`bg-white h-[42px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+        >
           <SelectValue placeholder="Selecione o DDD" />
         </SelectTrigger>
         <SelectContent position="popper" className="bg-white max-h-[178px] overflow-y-auto w-full">
@@ -66,4 +69,3 @@ export function DDDInput({ ddd, onDDDChange }: DDDInputProps) {
     </div>
   );
 }
-
