@@ -85,20 +85,24 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
         </div>
 
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="w-full">
-              <InternetSelector
-                selectedInternet={selectedInternet}
-                onInternetChange={setSelectedInternet}
-                internetOptions={internetOptions}
-              />
-            </div>
-            <div className="w-full">
-              <DDDInput
-                ddd={selectedDDD}
-                onDDDChange={setSelectedDDD}
-                disabled={isFreePlan}
-              />
+          <div className="w-full px-4 max-w-[400px] mx-auto">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="w-full">
+                <span className="text-sm font-medium mb-1 block">Internet</span>
+                <InternetSelector
+                  selectedInternet={selectedInternet}
+                  onInternetChange={setSelectedInternet}
+                  internetOptions={internetOptions}
+                />
+              </div>
+              <div className="w-full">
+                <span className="text-sm font-medium mb-1 block">DDD</span>
+                <DDDInput
+                  ddd={selectedDDD}
+                  onDDDChange={setSelectedDDD}
+                  disabled={isFreePlan}
+                />
+              </div>
             </div>
           </div>
 
@@ -110,7 +114,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
               />
             </div>
           ) : (
-            <div className="text-sm text-purple-700 p-2 bg-purple-50 rounded-md">
+            <div className="text-sm text-purple-700 p-2 bg-purple-50 rounded-md w-full px-4 max-w-[400px] mx-auto">
               O Plano Gratuito é exclusivo para parceiros, sem necessidade de aquisição de plano pago para realizar suas vendas e receber comissões.
             </div>
           )}

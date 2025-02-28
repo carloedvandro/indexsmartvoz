@@ -1,4 +1,3 @@
-
 import {
   Select,
   SelectContent,
@@ -46,26 +45,23 @@ export function DDDInput({ ddd, onDDDChange, disabled = false }: DDDInputProps) 
   ];
 
   return (
-    <div>
-      <span className="text-sm font-medium mb-1 block">DDD</span>
-      <Select value={ddd} onValueChange={onDDDChange} disabled={disabled}>
-        <SelectTrigger 
-          className={`bg-white h-[42px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-        >
-          <SelectValue placeholder="Selecione o DDD" />
-        </SelectTrigger>
-        <SelectContent position="popper" className="bg-white max-h-[178px] overflow-y-auto w-full">
-          {ddds.map((dddOption) => (
-            <SelectItem 
-              key={dddOption} 
-              value={dddOption}
-              className="hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
-            >
-              {dddOption}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
+    <Select value={ddd} onValueChange={onDDDChange} disabled={disabled}>
+      <SelectTrigger 
+        className={`bg-white h-[42px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+      >
+        <SelectValue placeholder="Selecione o DDD" />
+      </SelectTrigger>
+      <SelectContent position="popper" className="bg-white max-h-[178px] overflow-y-auto w-full">
+        {ddds.map((dddOption) => (
+          <SelectItem 
+            key={dddOption} 
+            value={dddOption}
+            className="hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
+          >
+            {dddOption}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }
