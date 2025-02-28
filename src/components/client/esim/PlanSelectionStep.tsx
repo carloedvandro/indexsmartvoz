@@ -73,18 +73,19 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   };
 
   return (
-    <div className="w-full pt-6 -mt-[15px]">
+    <div className="w-full">
       <div className="space-y-6">
-        <div className="space-y-2">
-          <h2 className="text-2xl font-medium text-center">Personalize seu pedido</h2>
-          <p className="text-gray-600 text-center">
+        <div className="space-y-2 text-center">
+          <h2 className="text-2xl font-medium">Personalize seu pedido</h2>
+          <p className="text-gray-600">
             Confira aqui as melhores ofertas para você, cliente Smatvoz.
           </p>
         </div>
 
-        <div className="space-y-4 w-full">
+        <div className="space-y-6 w-full">
           <div className="grid grid-cols-2 gap-4">
             <div className="w-full">
+              <span className="text-sm font-medium mb-1 block">Internet</span>
               <InternetSelector
                 selectedInternet={selectedInternet}
                 onInternetChange={setSelectedInternet}
@@ -92,6 +93,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
               />
             </div>
             <div className="w-full">
+              <span className="text-sm font-medium mb-1 block">DDD</span>
               <DDDInput
                 ddd={selectedDDD}
                 onDDDChange={setSelectedDDD}
@@ -102,6 +104,9 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
 
           {!isFreePlan ? (
             <div>
+              <h2 className="text-xl font-normal mt-3 mb-4 text-center">
+                Escolha a melhor data de vencimento da sua fatura:
+              </h2>
               <DueDateSelector
                 selectedDueDate={selectedDueDate}
                 setSelectedDueDate={setSelectedDueDate}
@@ -115,10 +120,10 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           )}
 
           <div>
-            <PriceSummary
-              linePrice={getLinePrice()}
-              totalPrice={getLinePrice()}
-            />
+            <div className="flex justify-between items-center bg-purple-50 px-4 py-3 rounded-md">
+              <span className="font-medium">Total mensal:</span>
+              <span className="font-medium">R$ {getLinePrice().toFixed(2).replace('.', ',')}/mês</span>
+            </div>
           </div>
         </div>
 
