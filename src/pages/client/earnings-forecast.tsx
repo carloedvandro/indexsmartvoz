@@ -136,16 +136,16 @@ export default function EarningsForecast() {
             </div>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 sm:justify-between w-full">
+          <div className="flex justify-between">
             <button 
               onClick={handleBack}
-              className="border border-[#5f0889] text-[#5f0889] h-10 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-full sm:w-auto px-4 sm:px-10"
+              className="border border-[#5f0889] text-[#5f0889] h-10 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors px-8"
             >
               Voltar
             </button>
             
             <button 
-              className="bg-[#5f0889] text-white h-10 rounded-md hover:bg-[#5f0889]/90 transition-colors w-full sm:w-auto px-4 sm:px-10"
+              className="bg-[#5f0889] text-white h-10 rounded-md hover:bg-[#5f0889]/90 transition-colors px-8"
             >
               Filtrar
             </button>
