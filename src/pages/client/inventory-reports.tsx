@@ -44,10 +44,7 @@ export default function InventoryReports() {
   
   const inventoryItems = [
     { type: "SIM Cards", total: 250, available: 180, allocated: 70 },
-    { type: "eSIMs", total: 500, available: 420, allocated: 80 },
-    { type: "Dispositivos IoT", total: 75, available: 45, allocated: 30 },
-    { type: "Roteadores", total: 100, available: 65, allocated: 35 },
-    { type: "Módems", total: 60, available: 42, allocated: 18 }
+    { type: "eSIMs", total: 500, available: 420, allocated: 80 }
   ];
 
   return (
@@ -168,17 +165,17 @@ export default function InventoryReports() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-[780px] mx-auto">
           <Card className="p-4 border border-l-[10px] border-l-purple-600">
             <p className="text-sm text-gray-500">Total em Estoque</p>
-            <p className="text-2xl font-semibold text-gray-900">985</p>
+            <p className="text-2xl font-semibold text-gray-900">750</p>
           </Card>
           
           <Card className="p-4 border border-l-[10px] border-l-green-600">
             <p className="text-sm text-gray-500">Disponíveis</p>
-            <p className="text-2xl font-semibold text-green-600">752</p>
+            <p className="text-2xl font-semibold text-green-600">600</p>
           </Card>
           
           <Card className="p-4 border border-l-[10px] border-l-amber-600">
             <p className="text-sm text-gray-500">Alocados</p>
-            <p className="text-2xl font-semibold text-amber-600">233</p>
+            <p className="text-2xl font-semibold text-amber-600">150</p>
           </Card>
         </div>
       </div>
