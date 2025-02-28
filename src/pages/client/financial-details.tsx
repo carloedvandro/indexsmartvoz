@@ -119,22 +119,18 @@ export default function FinancialDetails() {
     doc.text("Descrição", currentX + 5, headerTextY);
     currentX += colWidths.description;
     
-    // Simulação para obter a largura média dos valores para alinhamento
-    const sampleValue = "R$ 4.059,05";
-    const sampleBalance = "R$ 10.848,84";
-    const valueWidth = doc.getTextWidth(sampleValue);
-    const balanceWidth = doc.getTextWidth(sampleBalance);
+    // Calcula a posição correta para os valores monetários
+    const valueColEndX = currentX + colWidths.value;
+    const balanceColEndX = valueColEndX + colWidths.balance;
     
     // Cabeçalho Valor - Alinhado à direita com os valores monetários
     const valorText = "Valor";
-    const valorTextWidth = doc.getTextWidth(valorText);
-    doc.text(valorText, currentX + colWidths.value - valueWidth - 5 + (valueWidth - valorTextWidth) / 2, headerTextY);
+    doc.text(valorText, valueColEndX - 5, headerTextY, { align: 'right' });
     currentX += colWidths.value;
     
     // Cabeçalho Saldo - Alinhado à direita com os valores de saldo
     const saldoText = "Saldo";
-    const saldoTextWidth = doc.getTextWidth(saldoText);
-    doc.text(saldoText, currentX + colWidths.balance - balanceWidth - 5 + (balanceWidth - saldoTextWidth) / 2, headerTextY);
+    doc.text(saldoText, balanceColEndX - 5, headerTextY, { align: 'right' });
     
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
@@ -169,14 +165,12 @@ export default function FinancialDetails() {
       
       // Coluna Valor (verde e alinhado à direita)
       doc.setTextColor(34, 197, 94);
-      const transactionValueWidth = doc.getTextWidth(transaction.value);
-      doc.text(transaction.value, currentX + colWidths.value - transactionValueWidth - 5, textY);
+      doc.text(transaction.value, valueColEndX - 5, textY, { align: 'right' });
       currentX += colWidths.value;
       
       // Coluna Saldo (preto e alinhado à direita)
       doc.setTextColor(0, 0, 0);
-      const transactionBalanceWidth = doc.getTextWidth(transaction.balance);
-      doc.text(transaction.balance, currentX + colWidths.balance - transactionBalanceWidth - 5, textY);
+      doc.text(transaction.balance, balanceColEndX - 5, textY, { align: 'right' });
       
       y += rowHeight + 2; // Espaçamento padronizado entre as linhas
     });
