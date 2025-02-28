@@ -1,6 +1,6 @@
 
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
 import {
   Table,
@@ -339,28 +339,47 @@ export default function FinancialDetails() {
         </div>
 
         <div className="bg-white rounded-lg overflow-hidden border mx-auto w-full md:w-[780px] overflow-x-auto">
-          <Table>
-            <TableHeader className="bg-gray-50">
-              <TableRow>
-                <TableHead className="font-semibold min-w-[100px] text-black pl-6 text-lg">Data</TableHead>
-                <TableHead className="font-semibold min-w-[200px] text-black pl-9 text-lg">Histórico</TableHead>
-                <TableHead className="font-semibold min-w-[240px] text-black pl-4 text-lg">Descrição</TableHead>
-                <TableHead className="font-semibold min-w-[130px] text-black text-lg -translate-x-4">Valor</TableHead>
-                <TableHead className={`font-semibold min-w-[130px] text-black text-lg md:pl-0 md:-translate-x-1.5 ${isMobile ? 'pl-12' : ''}`}>Saldo</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredTransactions.map((transaction, index) => (
-                <TableRow key={index} className="border-b hover:bg-gray-50">
-                  <TableCell className="min-w-[100px] pl-6">{transaction.date}</TableCell>
-                  <TableCell className="font-medium min-w-[200px] pl-9">{transaction.type}</TableCell>
-                  <TableCell className="min-w-[240px] truncate pl-4">{transaction.description}</TableCell>
-                  <TableCell className="text-green-600 min-w-[130px] -translate-x-4">{transaction.value}</TableCell>
-                  <TableCell className={`min-w-[130px] md:pl-0 md:-translate-x-1.5 ${isMobile ? 'pl-12' : ''}`}>{transaction.balance}</TableCell>
+          {isMobile ? (
+            <table className="w-full border-collapse">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="py-3 px-4 font-semibold text-black text-center border-b">Valor</th>
+                  <th className="py-3 px-4 font-semibold text-black text-center border-b">Saldo</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredTransactions.map((transaction, index) => (
+                  <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                    <td className="py-3 px-4 border-b text-green-600 text-center whitespace-nowrap">{transaction.value}</td>
+                    <td className="py-3 px-4 border-b text-black text-center whitespace-nowrap">{transaction.balance}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <Table>
+              <TableHeader className="bg-gray-50">
+                <TableRow>
+                  <TableHead className="font-semibold min-w-[100px] text-black pl-6 text-lg">Data</TableHead>
+                  <TableHead className="font-semibold min-w-[200px] text-black pl-9 text-lg">Histórico</TableHead>
+                  <TableHead className="font-semibold min-w-[240px] text-black pl-4 text-lg">Descrição</TableHead>
+                  <TableHead className="font-semibold min-w-[130px] text-black text-lg -translate-x-4">Valor</TableHead>
+                  <TableHead className={`font-semibold min-w-[130px] text-black text-lg md:pl-0 md:-translate-x-1.5 ${isMobile ? 'pl-12' : ''}`}>Saldo</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filteredTransactions.map((transaction, index) => (
+                  <TableRow key={index} className="border-b hover:bg-gray-50">
+                    <TableCell className="min-w-[100px] pl-6">{transaction.date}</TableCell>
+                    <TableCell className="font-medium min-w-[200px] pl-9">{transaction.type}</TableCell>
+                    <TableCell className="min-w-[240px] truncate pl-4">{transaction.description}</TableCell>
+                    <TableCell className="text-green-600 min-w-[130px] -translate-x-4">{transaction.value}</TableCell>
+                    <TableCell className={`min-w-[130px] md:pl-0 md:-translate-x-1.5 ${isMobile ? 'pl-12' : ''}`}>{transaction.balance}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </div>
 
         <div className="flex justify-between items-center mt-4 text-sm w-full md:w-[780px] mx-auto">
