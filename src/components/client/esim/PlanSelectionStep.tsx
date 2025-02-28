@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { InternetSelector } from "@/components/client/products/InternetSelector";
@@ -110,7 +111,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             </div>
           ) : (
             <div className="text-sm text-purple-700 p-2 bg-purple-50 rounded-md">
-              O Plano Gratuito é exclusivo para parceiros, sem necessidade de aquisição de plano pago.
+              O Plano Gratuito é exclusivo para parceiros, sem necessidade de aquisição de plano pago para realizar suas vendas e receber comissões.
             </div>
           )}
 
