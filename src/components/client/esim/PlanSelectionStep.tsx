@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { InternetSelector } from "@/components/client/products/InternetSelector";
@@ -27,16 +26,13 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
     { value: "120GB", label: "Plano 120GB", price: 129.99 },
   ];
 
-  // Effect to handle selection of free plan
   useEffect(() => {
     if (selectedInternet === "FREE") {
       setIsFreePlan(true);
-      // Auto-select dummy values when free plan is chosen
       setSelectedDDD("00");
       setSelectedDueDate(1);
     } else {
       setIsFreePlan(false);
-      // Clear the values when switching from free plan to another
       if (selectedDDD === "00") setSelectedDDD("");
       if (selectedDueDate === 1) setSelectedDueDate(null);
     }
@@ -48,11 +44,9 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
 
   const handleContinue = () => {
     if (!selectedInternet) {
-      // Could add toast notification here for validation
       return;
     }
 
-    // For free plan, we don't need valid DDD and due date
     if (isFreePlan) {
       onContinue({
         internet: selectedInternet,
@@ -63,9 +57,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
       return;
     }
 
-    // For paid plans, we need valid DDD and due date
     if (!selectedDDD || !selectedDueDate) {
-      // Could add toast notification here for validation
       return;
     }
 
@@ -77,7 +69,6 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
     });
   };
 
-  // Simply call the onBack function without any conditions
   const handleBack = () => {
     onBack();
   };
@@ -119,7 +110,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             </div>
           ) : (
             <div className="text-sm text-purple-700 p-2 bg-purple-50 rounded-md">
-              O Plano Gratuito é para parceiros sem aquesição do plano.
+              O Plano Gratuito é exclusivo para parceiros, sem necessidade de aquisição de plano pago.
             </div>
           )}
 
