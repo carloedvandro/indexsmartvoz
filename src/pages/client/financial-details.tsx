@@ -41,15 +41,6 @@ export default function FinancialDetails() {
   const [selectedYear, setSelectedYear] = useState("2025");
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredTransactions, setFilteredTransactions] = useState(transactions);
-  const [simplifiedLayout, setSimplifiedLayout] = useState(false);
-
-  useEffect(() => {
-    if (isMobile) {
-      setSimplifiedLayout(true);
-    } else {
-      setSimplifiedLayout(false);
-    }
-  }, [isMobile]);
 
   const filterTransactions = () => {
     const filtered = transactions.filter(transaction => {
@@ -232,157 +223,6 @@ export default function FinancialDetails() {
     { value: "2026", label: "2026" }
   ];
 
-  // Renderiza a versão simplificada para celulares
-  if (simplifiedLayout) {
-    return (
-      <div className="min-h-screen bg-white">
-        <div className="bg-[#3B0764] text-white px-6 py-4">
-          <h1 className="text-xl font-normal mb-1">Financeiro</h1>
-          <h2 className="text-2xl font-semibold">Extrato Detalhado</h2>
-        </div>
-
-        <div className="max-w-[1200px] mx-auto px-4 py-6">
-          <div className="mb-6 w-full mx-auto">
-            <div className="border rounded-lg bg-white p-4 shadow-sm w-full">
-              <div className="flex items-center gap-2 mb-4">
-                <Filter className="w-4 h-4 text-[#5f0889]" />
-                <span className="text-sm font-medium text-gray-900">Filtros</span>
-              </div>
-              <div className="flex flex-row justify-between gap-4">
-                <div className="w-1/2">
-                  <label className="block text-sm font-medium text-gray-900 mb-2">
-                    Mês
-                  </label>
-                  <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
-                    <SelectTrigger 
-                      className="w-full !bg-white text-gray-900 border-gray-300"
-                    >
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="border border-gray-200 rounded-md shadow-md">
-                      {months.map((month) => (
-                        <SelectItem 
-                          key={month.value} 
-                          value={month.value}
-                          className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-2 px-2"
-                        >
-                          {month.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="w-1/2">
-                  <label className="block text-sm font-medium text-gray-900 mb-2">
-                    Ano
-                  </label>
-                  <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
-                    <SelectTrigger 
-                      className="w-full !bg-white text-gray-900 border-gray-300"
-                    >
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="border border-gray-200 rounded-md shadow-md">
-                      {years.map((year) => (
-                        <SelectItem 
-                          key={year.value} 
-                          value={year.value}
-                          className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-2 px-2"
-                        >
-                          {year.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="flex justify-between items-center mt-4">
-                <button 
-                  onClick={handleBack}
-                  className="border border-[#5f0889] text-[#5f0889] h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-[80px]"
-                >
-                  Voltar
-                </button>
-                <button 
-                  onClick={filterTransactions}
-                  className="bg-[#5f0889] text-white h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors w-[80px]"
-                >
-                  Filtrar
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3 mb-6 mx-auto w-full">
-            <div className="bg-[#5f0889] text-white py-3 px-5 rounded-lg w-full">
-              <div className="text-xl font-bold mb-1">R$ 42.576,22</div>
-              <div className="text-sm">Total de ganhos em Fevereiro/2025</div>
-            </div>
-            <div className="bg-[#E3F2FD] py-3 px-5 rounded-lg w-full">
-              <div className="text-xl font-bold mb-1">R$ 47.576,23</div>
-              <div className="text-sm text-gray-600">Saldo em Fevereiro/2025</div>
-            </div>
-            <div className="bg-[#E3F2FD] py-3 px-5 rounded-lg w-full">
-              <div className="text-xl font-bold mb-1">R$ 5.000,01</div>
-              <div className="text-sm text-gray-600">Saldo disponível em Fevereiro/2025</div>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3 w-full mx-auto mb-6">
-            <input
-              type="text"
-              placeholder="Pesquisar"
-              className="border rounded-md px-4 h-9 w-full"
-              value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                filterTransactions();
-              }}
-            />
-            <button 
-              onClick={handleExportPDF}
-              className="bg-[#5f0889] text-white px-6 h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors"
-            >
-              Baixar em PDF
-            </button>
-          </div>
-
-          <div className="bg-white rounded-lg overflow-hidden border mx-auto w-full mb-4">
-            <table className="w-full border-collapse">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="py-3 px-4 font-semibold text-black text-center border-b w-1/2">Valor</th>
-                  <th className="py-3 px-4 font-semibold text-black text-center border-b w-1/2">Saldo</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredTransactions.map((transaction, index) => (
-                  <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
-                    <td className="py-3 px-4 border-b text-green-600 text-center whitespace-nowrap">{transaction.value}</td>
-                    <td className="py-3 px-4 border-b text-black text-center whitespace-nowrap">{transaction.balance}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <div className="flex justify-between items-center text-sm w-full mx-auto">
-            <div className="text-gray-600">
-              Total de {filteredTransactions.length} registros
-            </div>
-            <div className="text-gray-700">
-              <span className="font-semibold">Saldo anterior: </span>
-              <span>R$0,00</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Versão desktop original (não modificada)
   return (
     <div className="min-h-screen bg-white">
       <div className="bg-[#3B0764] text-white px-6 py-4">
@@ -499,28 +339,47 @@ export default function FinancialDetails() {
         </div>
 
         <div className="bg-white rounded-lg overflow-hidden border mx-auto w-full md:w-[780px] overflow-x-auto">
-          <Table>
-            <TableHeader className="bg-gray-50">
-              <TableRow>
-                <TableHead className="font-semibold min-w-[100px] text-black pl-6 text-lg">Data</TableHead>
-                <TableHead className="font-semibold min-w-[200px] text-black pl-9 text-lg">Histórico</TableHead>
-                <TableHead className="font-semibold min-w-[240px] text-black pl-4 text-lg">Descrição</TableHead>
-                <TableHead className="font-semibold min-w-[130px] text-black text-lg text-center">Valor</TableHead>
-                <TableHead className="font-semibold min-w-[130px] text-black text-lg text-center">Saldo</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredTransactions.map((transaction, index) => (
-                <TableRow key={index} className="border-b hover:bg-gray-50">
-                  <TableCell className="min-w-[100px] pl-6">{transaction.date}</TableCell>
-                  <TableCell className="font-medium min-w-[200px] pl-9">{transaction.type}</TableCell>
-                  <TableCell className="min-w-[240px] truncate pl-4">{transaction.description}</TableCell>
-                  <TableCell className="text-green-600 min-w-[130px] text-center">{transaction.value}</TableCell>
-                  <TableCell className="min-w-[130px] text-center">{transaction.balance}</TableCell>
+          {isMobile ? (
+            <table className="w-full border-collapse">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="py-3 px-4 font-semibold text-black text-center border-b">Valor</th>
+                  <th className="py-3 px-4 font-semibold text-black text-center border-b">Saldo</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredTransactions.map((transaction, index) => (
+                  <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                    <td className="py-3 px-4 border-b text-green-600 text-center whitespace-nowrap">{transaction.value}</td>
+                    <td className="py-3 px-4 border-b text-black text-center whitespace-nowrap">{transaction.balance}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <Table>
+              <TableHeader className="bg-gray-50">
+                <TableRow>
+                  <TableHead className="font-semibold min-w-[100px] text-black pl-6 text-lg">Data</TableHead>
+                  <TableHead className="font-semibold min-w-[200px] text-black pl-9 text-lg">Histórico</TableHead>
+                  <TableHead className="font-semibold min-w-[240px] text-black pl-4 text-lg">Descrição</TableHead>
+                  <TableHead className="font-semibold min-w-[130px] text-black text-lg -translate-x-4">Valor</TableHead>
+                  <TableHead className={`font-semibold min-w-[130px] text-black text-lg md:pl-0 md:-translate-x-1.5 ${isMobile ? 'pl-12' : ''}`}>Saldo</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filteredTransactions.map((transaction, index) => (
+                  <TableRow key={index} className="border-b hover:bg-gray-50">
+                    <TableCell className="min-w-[100px] pl-6">{transaction.date}</TableCell>
+                    <TableCell className="font-medium min-w-[200px] pl-9">{transaction.type}</TableCell>
+                    <TableCell className="min-w-[240px] truncate pl-4">{transaction.description}</TableCell>
+                    <TableCell className="text-green-600 min-w-[130px] -translate-x-4">{transaction.value}</TableCell>
+                    <TableCell className={`min-w-[130px] md:pl-0 md:-translate-x-1.5 ${isMobile ? 'pl-12' : ''}`}>{transaction.balance}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </div>
 
         <div className="flex justify-between items-center mt-4 text-sm w-full md:w-[780px] mx-auto">
