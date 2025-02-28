@@ -8,8 +8,8 @@ import { BalanceDialog } from "@/components/client/financial/BalanceDialog";
 
 export default function Financial() {
   const location = useLocation();
-  const [selectedMonth, setSelectedMonth] = useState("2");
-  const [selectedYear, setSelectedYear] = useState("2025");
+  const [selectedMonth, setSelectedMonth] = useState("5");
+  const [selectedYear, setSelectedYear] = useState("2018");
   const [showFinancialData, setShowFinancialData] = useState(false);
   const [showBalanceDialog, setShowBalanceDialog] = useState(false);
 
@@ -57,7 +57,11 @@ export default function Financial() {
 
   return (
     <div className="h-screen overflow-hidden flex flex-col bg-white">
-      <FinancialHeader />
+      <FinancialHeader 
+        selectedMonth={selectedMonth} 
+        selectedYear={selectedYear}
+        months={months}
+      />
 
       <div className="flex-1 overflow-auto bg-white">
         <div className="max-w-[530px] mx-auto h-full flex flex-col">
