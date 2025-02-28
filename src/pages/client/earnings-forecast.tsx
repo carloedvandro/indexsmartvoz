@@ -163,24 +163,24 @@ export default function EarningsForecast() {
         </div>
         
         {/* Tabela de bônus */}
-        <div className="bg-white border rounded-lg overflow-hidden w-full md:w-[780px] mx-auto">
+        <div className="bg-white border rounded-lg overflow-hidden w-full md:w-[780px] mx-auto mb-8">
           {bonusItems.map((item, index) => (
             <div key={index} className={`flex justify-between py-4 px-6 ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
               <div className="font-medium text-gray-700">{item.type}</div>
               <div className="text-gray-900">{item.value}</div>
             </div>
           ))}
-          
-          {/* Total com estilo atualizado conforme a segunda imagem */}
-          <div className="relative mt-4 mb-4 mx-4 rounded-lg overflow-hidden">
-            <div className="absolute inset-0 border-[6px] border-[#FFD700] rounded-lg"></div>
-            <div className="flex justify-between py-6 px-8 bg-[#FEF7CD] rounded-lg">
-              <div className="font-bold text-2xl text-[#B8860B]">Total de Bônus</div>
-              <div className="font-bold text-2xl text-[#B8860B]">R$ 0,00</div>
-            </div>
+        </div>
+        
+        {/* Total separado abaixo da tabela principal */}
+        <div className="w-full md:w-[780px] mx-auto border-[8px] border-[#FFD700] rounded-lg overflow-hidden">
+          <div className="flex justify-between py-4 px-8 bg-[#FEF7CD]">
+            <div className="font-bold text-2xl text-[#B8860B]">Total de Bônus</div>
+            <div className="font-bold text-2xl text-[#B8860B]">R$ 0,00</div>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
