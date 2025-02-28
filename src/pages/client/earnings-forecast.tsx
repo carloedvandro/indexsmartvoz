@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 import { AlertTriangle, Filter } from "lucide-react";
 import {
   Select,
@@ -70,7 +69,6 @@ export default function EarningsForecast() {
   return (
     <div className="min-h-screen bg-white">
       <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-50">
-        <ParticlesBackground style="default" />
         <div className="h-full flex items-center px-6 relative z-10">
           <div className="flex flex-col">
             <h1 className="text-sm text-gray-400 font-normal leading-tight">RELATÓRIOS</h1>
