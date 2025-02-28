@@ -13,12 +13,8 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
   const currentStepIndex = steps.findIndex(step => step.id === currentStep);
 
   return (
-    <div className="w-full">
-      <div className="flex items-center gap-4">
-        <h1 className="text-2xl font-bold">Ativação do eSIM</h1>
-      </div>
-
-      <div className="flex items-center justify-between mb-8 max-w-3xl mx-auto mt-8">
+    <div className="w-full max-w-3xl mx-auto mt-12 mb-8">
+      <div className="flex items-center justify-between">
         <div className="flex items-center flex-1">
           <div className={`w-8 h-8 rounded-full bg-[#8425af] text-white flex items-center justify-center`}>
             1
