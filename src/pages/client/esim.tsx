@@ -1,9 +1,10 @@
-
 import { useState } from "react";
 import { ESIMActivationFlow } from "@/components/client/esim/ChipActivationFlow";
+import { useNavigate } from "react-router-dom";
 
 export default function ClientESIM() {
   const [currentStep, setCurrentStep] = useState(1);
+  const navigate = useNavigate();
   const [activationData, setActivationData] = useState<{
     type?: 'self' | 'collaborator';
     device_type?: 'android' | 'ios';
@@ -16,8 +17,11 @@ export default function ClientESIM() {
   }>({});
 
   const handleBack = () => {
-    // Current implementation only allows going back if step > 1
-    if (currentStep > 1) {
+    // If on first step, go back to dashboard
+    if (currentStep === 1) {
+      navigate("/client/dashboard");
+    } else {
+      // Otherwise go to previous step
       setCurrentStep(currentStep - 1);
     }
   };
