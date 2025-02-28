@@ -353,15 +353,15 @@ export default function FinancialDetails() {
             <table className="w-full border-collapse">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="py-3 px-4 font-semibold text-black text-left border-b w-1/2">Valor</th>
-                  <th className="py-3 px-4 font-semibold text-black text-left border-b w-1/2">Saldo</th>
+                  <th className="py-3 px-4 font-semibold text-black text-center border-b w-1/2">Valor</th>
+                  <th className="py-3 px-4 font-semibold text-black text-center border-b w-1/2">Saldo</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredTransactions.map((transaction, index) => (
                   <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
-                    <td className="py-3 px-4 border-b text-green-600 text-left whitespace-nowrap">{transaction.value}</td>
-                    <td className="py-3 px-4 border-b text-black text-left whitespace-nowrap">{transaction.balance}</td>
+                    <td className="py-3 px-4 border-b text-green-600 text-center whitespace-nowrap">{transaction.value}</td>
+                    <td className="py-3 px-4 border-b text-black text-center whitespace-nowrap">{transaction.balance}</td>
                   </tr>
                 ))}
               </tbody>
