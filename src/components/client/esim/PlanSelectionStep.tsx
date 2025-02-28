@@ -80,7 +80,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
         <div className="space-y-2">
           <h2 className="text-2xl font-medium text-center">Personalize seu pedido</h2>
           <p className="text-gray-600 text-center">
-            Confira aqui as melhores ofertas para você, cliente Smatvoz.
+            Escolha a melhor data do eSIM para você, cliente Smatvoz.
           </p>
         </div>
 
