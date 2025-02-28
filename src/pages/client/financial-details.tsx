@@ -356,7 +356,7 @@ export default function FinancialDetails() {
                   <TableCell className="font-medium min-w-[200px] pl-9">{transaction.type}</TableCell>
                   <TableCell className="min-w-[240px] truncate pl-4">{transaction.description}</TableCell>
                   <TableCell className="text-green-600 min-w-[130px] -translate-x-4 whitespace-nowrap pr-1">{transaction.value}</TableCell>
-                  <TableCell className={`min-w-[130px] md:pl-0 md:-translate-x-2 ${isMobile ? 'pl-10' : ''} whitespace-nowrap`}>{transaction.balance}</TableCell>
+                  <TableCell className={`min-w-[130px] md:pl-0 md:-translate-x-3 ${isMobile ? 'pl-9' : ''} whitespace-nowrap`}>{transaction.balance}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
