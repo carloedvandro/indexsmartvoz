@@ -345,8 +345,8 @@ export default function FinancialDetails() {
                 <TableHead className="font-semibold min-w-[100px] text-black pl-6 text-lg">Data</TableHead>
                 <TableHead className="font-semibold min-w-[200px] text-black pl-9 text-lg">Histórico</TableHead>
                 <TableHead className="font-semibold min-w-[240px] text-black pl-4 text-lg">Descrição</TableHead>
-                <TableHead className="font-semibold min-w-[130px] text-black text-lg text-center">Valor</TableHead>
-                <TableHead className="font-semibold min-w-[130px] text-black text-lg text-center">Saldo</TableHead>
+                <TableHead className="font-semibold min-w-[130px] text-black text-lg -translate-x-4">Valor</TableHead>
+                <TableHead className={`font-semibold min-w-[130px] text-black text-lg md:pl-0 md:-translate-x-1.5 ${isMobile ? 'pl-12' : ''}`}>Saldo</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -355,8 +355,8 @@ export default function FinancialDetails() {
                   <TableCell className="min-w-[100px] pl-6">{transaction.date}</TableCell>
                   <TableCell className="font-medium min-w-[200px] pl-9">{transaction.type}</TableCell>
                   <TableCell className="min-w-[240px] truncate pl-4">{transaction.description}</TableCell>
-                  <TableCell className="text-green-600 min-w-[130px] text-center">{transaction.value}</TableCell>
-                  <TableCell className="min-w-[130px] text-center">{transaction.balance}</TableCell>
+                  <TableCell className="text-green-600 min-w-[130px] -translate-x-4">{transaction.value}</TableCell>
+                  <TableCell className={`min-w-[130px] md:pl-0 md:-translate-x-1.5 ${isMobile ? 'pl-12' : ''}`}>{transaction.balance}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
