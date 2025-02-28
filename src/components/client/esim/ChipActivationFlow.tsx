@@ -5,6 +5,7 @@ import { IMEIForm } from "./IMEIForm";
 import { EIDForm } from "./EIDForm";
 import { SuccessScreen } from "./SuccessScreen";
 import { StepIndicator } from "./StepIndicator";
+import { PlanSelectionStep } from "./PlanSelectionStep";
 import { ESIMActivation } from "@/services/esim/esimActivationService";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
@@ -14,6 +15,7 @@ type ESIMActivationFlowProps = {
   onContinue: () => void;
   onDeviceSelect: (device: 'android' | 'ios') => void;
   onTypeSelect: (type: 'self' | 'collaborator') => void;
+  onPlanSelect: (planData: {internet: string; ddd: string; dueDate: number; price: number}) => void;
   onIMEISubmit: (imei: string) => void;
   onEIDSubmit: (eid: string) => void;
   activationData: Partial<ESIMActivation>;
@@ -25,6 +27,7 @@ export function ESIMActivationFlow({
   onContinue,
   onDeviceSelect,
   onTypeSelect,
+  onPlanSelect,
   onIMEISubmit,
   onEIDSubmit,
   activationData
@@ -34,8 +37,10 @@ export function ESIMActivationFlow({
       case 1:
         return <ActivationType onSelect={onTypeSelect} onBack={onBack} />;
       case 2:
-        return <DeviceSelector onSelect={onDeviceSelect} onBack={onBack} />;
+        return <PlanSelectionStep onBack={onBack} onContinue={onPlanSelect} />;
       case 3:
+        return <DeviceSelector onSelect={onDeviceSelect} onBack={onBack} />;
+      case 4:
         return (
           <IMEIForm 
             onSubmit={onIMEISubmit} 
@@ -43,7 +48,7 @@ export function ESIMActivationFlow({
             deviceType={activationData.device_type as 'android' | 'ios'} 
           />
         );
-      case 4:
+      case 5:
         return (
           <EIDForm 
             onSubmit={onEIDSubmit} 
@@ -51,7 +56,7 @@ export function ESIMActivationFlow({
             deviceType={activationData.device_type as 'android' | 'ios'} 
           />
         );
-      case 5:
+      case 6:
         return <SuccessScreen data={activationData} />;
       default:
         return null;
@@ -63,10 +68,12 @@ export function ESIMActivationFlow({
       case 1:
         return 'type';
       case 2:
-        return 'device';
+        return 'plan';
       case 3:
-        return 'imei';
+        return 'device';
       case 4:
+        return 'imei';
+      case 5:
         return 'eid';
       default:
         return 'type';

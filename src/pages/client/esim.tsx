@@ -1,77 +1,72 @@
 
 import { useState } from "react";
-import { ESIMActivationFlow } from "@/components/client/esim/ChipActivationFlow";
-import { ESIMActivation, createESIMActivation } from "@/services/esim/esimActivationService";
-import { useToast } from "@/components/ui/use-toast";
-import { useNavigate } from "react-router-dom";
+import { ChipActivationFlow } from "@/components/client/esim/ChipActivationFlow";
 
-export default function ESIMActivationPage() {
+export default function ClientESIM() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [activationData, setActivationData] = useState<Partial<ESIMActivation>>({});
-  const { toast } = useToast();
-  const navigate = useNavigate();
+  const [activationData, setActivationData] = useState<{
+    type?: 'self' | 'collaborator';
+    device_type?: 'android' | 'ios';
+    imei?: string;
+    eid?: string;
+    internet?: string;
+    ddd?: string;
+    dueDate?: number;
+    price?: number;
+  }>({});
 
   const handleBack = () => {
-    if (currentStep === 1) {
-      navigate("/client/dashboard");
-    } else {
-      setCurrentStep(prev => prev - 1);
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
     }
   };
 
   const handleContinue = () => {
-    setCurrentStep(prev => prev + 1);
-  };
-
-  const handleTypeSelect = (type: 'self' | 'collaborator') => {
-    setActivationData(prev => ({ ...prev, activation_type: type }));
-    handleContinue();
+    setCurrentStep(currentStep + 1);
   };
 
   const handleDeviceSelect = (device: 'android' | 'ios') => {
-    setActivationData(prev => ({ ...prev, device_type: device }));
+    setActivationData({ ...activationData, device_type: device });
+    handleContinue();
+  };
+
+  const handleTypeSelect = (type: 'self' | 'collaborator') => {
+    setActivationData({ ...activationData, type });
+    handleContinue();
+  };
+
+  const handlePlanSelect = (planData: {internet: string; ddd: string; dueDate: number; price: number}) => {
+    setActivationData({ 
+      ...activationData, 
+      internet: planData.internet,
+      ddd: planData.ddd,
+      dueDate: planData.dueDate,
+      price: planData.price
+    });
     handleContinue();
   };
 
   const handleIMEISubmit = (imei: string) => {
-    setActivationData(prev => ({ ...prev, imei }));
+    setActivationData({ ...activationData, imei });
     handleContinue();
   };
 
-  const handleEIDSubmit = async (eid: string) => {
-    try {
-      const completeData = {
-        activation_type: activationData.activation_type!,
-        device_type: activationData.device_type!,
-        phone_number: '+55',
-        imei: activationData.imei,
-        eid
-      };
-      
-      const result = await createESIMActivation(completeData);
-      setActivationData(prev => ({ ...prev, ...result }));
-      handleContinue();
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Erro na ativação",
-        description: "Não foi possível completar a ativação do eSIM. Tente novamente.",
-      });
-    }
+  const handleEIDSubmit = (eid: string) => {
+    setActivationData({ ...activationData, eid });
+    handleContinue();
   };
 
   return (
-    <div className="h-screen w-screen overflow-hidden">
-      <ESIMActivationFlow
-        currentStep={currentStep}
-        onBack={handleBack}
-        onContinue={handleContinue}
-        onTypeSelect={handleTypeSelect}
-        onDeviceSelect={handleDeviceSelect}
-        onIMEISubmit={handleIMEISubmit}
-        onEIDSubmit={handleEIDSubmit}
-        activationData={activationData}
-      />
-    </div>
+    <ChipActivationFlow
+      currentStep={currentStep}
+      onBack={handleBack}
+      onContinue={handleContinue}
+      onDeviceSelect={handleDeviceSelect}
+      onTypeSelect={handleTypeSelect}
+      onPlanSelect={handlePlanSelect}
+      onIMEISubmit={handleIMEISubmit}
+      onEIDSubmit={handleEIDSubmit}
+      activationData={activationData}
+    />
   );
 }
