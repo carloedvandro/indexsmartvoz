@@ -16,6 +16,7 @@ export default function ClientESIM() {
   }>({});
 
   const handleBack = () => {
+    // Current implementation only allows going back if step > 1
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }

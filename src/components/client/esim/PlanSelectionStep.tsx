@@ -44,8 +44,8 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
     });
   };
 
+  // Simply call the onBack function without any conditions
   const handleBack = () => {
-    // Call the onBack function provided by the parent component
     onBack();
   };
 
