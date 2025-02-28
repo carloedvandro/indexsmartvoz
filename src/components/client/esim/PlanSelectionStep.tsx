@@ -5,6 +5,8 @@ import { InternetSelector } from "@/components/client/products/InternetSelector"
 import { DDDInput } from "@/components/client/products/DDDInput";
 import { DueDateSelector } from "@/components/client/products/DueDateSelector";
 import { PriceSummary } from "@/components/client/products/PriceSummary";
+import { motion } from "framer-motion";
+import { useCalendarStyles } from "@/hooks/useCalendarStyles";
 
 interface PlanSelectionStepProps {
   onBack: () => void;
@@ -17,6 +19,7 @@ interface PlanSelectionStepProps {
 }
 
 export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps) {
+  const { data: calendarStyle } = useCalendarStyles();
   const [selectedInternet, setSelectedInternet] = useState<string>("");
   const [selectedDDD, setSelectedDDD] = useState<string>("");
   const [selectedDueDate, setSelectedDueDate] = useState<number | null>(null);
@@ -74,18 +77,37 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
     onBack();
   };
 
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  };
+
   return (
     <div className="max-w-[400px] mx-auto w-full pt-6">
       <div className="space-y-8">
-        <div className="space-y-2">
+        <motion.div 
+          className="space-y-2"
+          initial="hidden"
+          animate="visible"
+          variants={itemVariants}
+        >
           <h2 className="text-2xl font-medium text-center">Personalize seu pedido</h2>
           <p className="text-gray-600 text-center">
             Confira aqui as melhores ofertas para você, cliente Smatvoz.
           </p>
-        </div>
+        </motion.div>
 
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <motion.div 
+            className="grid grid-cols-2 gap-4"
+            initial="hidden"
+            animate="visible"
+            variants={itemVariants}
+          >
             <div className="w-full">
               <InternetSelector
                 selectedInternet={selectedInternet}
@@ -100,27 +122,36 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
                 disabled={isFreePlan}
               />
             </div>
-          </div>
+          </motion.div>
 
-          {!isFreePlan ? (
-            <div>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={itemVariants}
+          >
+            {!isFreePlan ? (
               <DueDateSelector
                 selectedDueDate={selectedDueDate}
                 setSelectedDueDate={setSelectedDueDate}
+                calendarStyle={calendarStyle}
               />
-            </div>
-          ) : (
-            <div className="text-sm text-purple-700 p-2 bg-purple-50 rounded-md">
-              O Plano Gratuito é exclusivo para parceiros, sem necessidade de aquisição de plano pago para realizar suas vendas e receber comissões.
-            </div>
-          )}
+            ) : (
+              <div className="text-sm text-purple-700 p-2 bg-purple-50 rounded-md">
+                O Plano Gratuito é exclusivo para parceiros, sem necessidade de aquisição de plano pago para realizar suas vendas e receber comissões.
+              </div>
+            )}
+          </motion.div>
 
-          <div>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={itemVariants}
+          >
             <PriceSummary
               linePrice={getLinePrice()}
               totalPrice={getLinePrice()}
             />
-          </div>
+          </motion.div>
         </div>
 
         <div className="flex justify-between pt-4">
