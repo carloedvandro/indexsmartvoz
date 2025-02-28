@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
-import { Filter } from "lucide-react";
+import { AlertTriangle, Filter } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -153,10 +153,11 @@ export default function EarningsForecast() {
         </div>
         
         {/* Alerta de previsão */}
-        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 w-full md:w-[780px] mx-auto">
-          <div className="flex">
+        <div className="bg-[#FFFEF8] border border-yellow-400 border-l-[10px] rounded-md p-4 mb-6 w-full md:w-[780px] mx-auto">
+          <div className="flex items-start">
+            <AlertTriangle className="w-5 h-5 text-yellow-500 mt-0.5 flex-shrink-0" />
             <div className="ml-3">
-              <p className="text-sm text-yellow-700">
+              <p className="text-amber-800">
                 <span className="font-bold">Previsão de bônus.</span> O valor apresentado nesse relatório pode ser alterado durante o processamento do bônus.
               </p>
             </div>
