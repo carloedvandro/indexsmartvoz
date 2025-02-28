@@ -80,7 +80,7 @@ export default function InventoryReports() {
               </label>
               <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
                 <SelectTrigger 
-                  className="w-full bg-white text-gray-900 border-gray-300 h-12"
+                  className="w-full max-w-[200px] bg-white text-gray-900 border-gray-300 h-12"
                 >
                   <SelectValue />
                 </SelectTrigger>
@@ -104,7 +104,7 @@ export default function InventoryReports() {
               </label>
               <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
                 <SelectTrigger 
-                  className="w-full bg-white text-gray-900 border-gray-300 h-12"
+                  className="w-full max-w-[200px] bg-white text-gray-900 border-gray-300 h-12"
                 >
                   <SelectValue />
                 </SelectTrigger>
