@@ -107,7 +107,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           </div>
 
           {!isFreePlan ? (
-            <div>
+            <div className="w-full px-4 max-w-[400px] mx-auto">
               <DueDateSelector
                 selectedDueDate={selectedDueDate}
                 setSelectedDueDate={setSelectedDueDate}
@@ -119,7 +119,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             </div>
           )}
 
-          <div>
+          <div className="w-full px-4 max-w-[400px] mx-auto">
             <PriceSummary
               linePrice={getLinePrice()}
               totalPrice={getLinePrice()}
