@@ -79,8 +79,8 @@ export default function EarningsForecast() {
         </div>
       </div>
 
-      <div className="max-w-[850px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
-        <div className="border rounded-lg bg-white p-6 shadow-sm w-full mb-6">
+      <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
+        <div className="border rounded-lg bg-white p-6 shadow-sm w-full md:w-[780px] mx-auto mb-6">
           <div className="flex items-center gap-2 mb-6">
             <Filter className="w-5 h-5 text-[#5f0889]" />
             <span className="text-base font-medium text-[#5f0889]">Filtros</span>
@@ -153,7 +153,7 @@ export default function EarningsForecast() {
         </div>
         
         {/* Alerta de previsão */}
-        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 w-full md:w-[780px] mx-auto">
           <div className="flex">
             <div className="ml-3">
               <p className="text-sm text-yellow-700">
@@ -164,7 +164,7 @@ export default function EarningsForecast() {
         </div>
         
         {/* Tabela de bônus */}
-        <div className="bg-white border rounded-lg overflow-hidden">
+        <div className="bg-white border rounded-lg overflow-hidden w-full md:w-[780px] mx-auto">
           {bonusItems.map((item, index) => (
             <div key={index} className={`flex justify-between py-4 px-6 ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
               <div className="font-medium text-gray-700">{item.type}</div>
