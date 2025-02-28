@@ -133,8 +133,7 @@ export default function FinancialDetails() {
     // Cabeçalho Saldo - Alinhado à direita com os valores de saldo
     const saldoText = "Saldo";
     const saldoTextWidth = doc.getTextWidth(saldoText);
-    // Movendo 2mm (aproximadamente 5.67pt) para a esquerda
-    doc.text(saldoText, currentX + colWidths.balance - balanceWidth - 5 + (balanceWidth - saldoTextWidth) / 2 - 5.67, headerTextY);
+    doc.text(saldoText, currentX + colWidths.balance - balanceWidth - 5 + (balanceWidth - saldoTextWidth) / 2, headerTextY);
     
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
@@ -176,8 +175,7 @@ export default function FinancialDetails() {
       // Coluna Saldo (preto e alinhado à direita)
       doc.setTextColor(0, 0, 0);
       const transactionBalanceWidth = doc.getTextWidth(transaction.balance);
-      // Movendo 2mm (aproximadamente 5.67pt) para a esquerda
-      doc.text(transaction.balance, currentX + colWidths.balance - transactionBalanceWidth - 5 - 5.67, textY);
+      doc.text(transaction.balance, currentX + colWidths.balance - transactionBalanceWidth - 5, textY);
       
       y += rowHeight + 2; // Espaçamento padronizado entre as linhas
     });
@@ -348,7 +346,7 @@ export default function FinancialDetails() {
                 <TableHead className="font-semibold min-w-[200px] text-black pl-9 text-lg">Histórico</TableHead>
                 <TableHead className="font-semibold min-w-[240px] text-black pl-4 text-lg">Descrição</TableHead>
                 <TableHead className="font-semibold min-w-[130px] text-black text-lg -translate-x-4">Valor</TableHead>
-                <TableHead className={`font-semibold min-w-[130px] text-black text-lg md:pl-0 md:-translate-x-1 ${isMobile ? 'pl-11' : ''}`}>Saldo</TableHead>
+                <TableHead className={`font-semibold min-w-[130px] text-black text-lg md:pl-0 md:-translate-x-3 ${isMobile ? 'pl-11' : ''}`}>Saldo</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -358,7 +356,7 @@ export default function FinancialDetails() {
                   <TableCell className="font-medium min-w-[200px] pl-9">{transaction.type}</TableCell>
                   <TableCell className="min-w-[240px] truncate pl-4">{transaction.description}</TableCell>
                   <TableCell className="text-green-600 min-w-[130px] -translate-x-4 whitespace-nowrap pr-1">{transaction.value}</TableCell>
-                  <TableCell className={`min-w-[130px] md:pl-0 md:-translate-x-1 ${isMobile ? 'pl-11' : ''} whitespace-nowrap`}>{transaction.balance}</TableCell>
+                  <TableCell className={`min-w-[130px] md:pl-0 md:-translate-x-3 ${isMobile ? 'pl-11' : ''} whitespace-nowrap`}>{transaction.balance}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
