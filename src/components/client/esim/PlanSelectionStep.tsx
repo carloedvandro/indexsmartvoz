@@ -123,7 +123,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           </div>
         </div>
 
-        <div className="flex justify-between pt-4">
+        <div className="w-full px-4 max-w-[400px] mx-auto flex justify-between pt-4">
           <Button 
             variant="outline" 
             className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
