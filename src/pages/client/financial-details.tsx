@@ -133,7 +133,8 @@ export default function FinancialDetails() {
     // Cabeçalho Saldo - Alinhado à direita com os valores de saldo
     const saldoText = "Saldo";
     const saldoTextWidth = doc.getTextWidth(saldoText);
-    doc.text(saldoText, currentX + colWidths.balance - balanceWidth - 5 + (balanceWidth - saldoTextWidth) / 2, headerTextY);
+    // Movendo 2mm (aproximadamente 5.67pt) para a esquerda
+    doc.text(saldoText, currentX + colWidths.balance - balanceWidth - 5 + (balanceWidth - saldoTextWidth) / 2 - 5.67, headerTextY);
     
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
@@ -175,7 +176,8 @@ export default function FinancialDetails() {
       // Coluna Saldo (preto e alinhado à direita)
       doc.setTextColor(0, 0, 0);
       const transactionBalanceWidth = doc.getTextWidth(transaction.balance);
-      doc.text(transaction.balance, currentX + colWidths.balance - transactionBalanceWidth - 5, textY);
+      // Movendo 2mm (aproximadamente 5.67pt) para a esquerda
+      doc.text(transaction.balance, currentX + colWidths.balance - transactionBalanceWidth - 5 - 5.67, textY);
       
       y += rowHeight + 2; // Espaçamento padronizado entre as linhas
     });
