@@ -153,7 +153,7 @@ export default function EarningsForecast() {
         </div>
         
         {/* Alerta de previsão */}
-        <div className="bg-[#FFFEF8] border border-yellow-400 border-l-[10px] rounded-md p-4 mb-6 w-full md:w-[780px] mx-auto">
+        <div className="bg-white border border-yellow-400 border-l-[10px] rounded-md p-4 mb-6 w-full md:w-[780px] mx-auto">
           <div className="flex items-start">
             <AlertTriangle className="w-5 h-5 text-yellow-500 mt-0.5 flex-shrink-0" />
             <div className="ml-3">
