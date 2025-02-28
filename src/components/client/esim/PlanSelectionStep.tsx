@@ -119,7 +119,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             </div>
           ) : (
             <div className="text-sm text-purple-700 p-2 bg-purple-50 rounded-md">
-              O Plano Gratuito não requer seleção de DDD ou data de vencimento.
+              O Plano Gratuito é para parceiros sem aquesição do plano.
             </div>
           )}
 
