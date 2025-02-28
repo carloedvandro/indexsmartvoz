@@ -173,10 +173,10 @@ export default function EarningsForecast() {
         </div>
         
         {/* Total separado abaixo da tabela principal */}
-        <div className="w-full md:w-[780px] mx-auto border-[8px] border-[#FFD700] rounded-lg overflow-hidden">
+        <div className="w-full md:w-[780px] mx-auto border border-yellow-400 border-l-[10px] rounded-md overflow-hidden">
           <div className="flex justify-between py-4 px-8 bg-white">
-            <div className="font-bold text-2xl text-[#8B6914]">Total de Bônus</div>
-            <div className="font-bold text-2xl text-[#8B6914]">R$ 0,00</div>
+            <div className="font-bold text-2xl text-amber-800">Total de Bônus</div>
+            <div className="font-bold text-2xl text-amber-800">R$ 0,00</div>
           </div>
         </div>
       </div>
