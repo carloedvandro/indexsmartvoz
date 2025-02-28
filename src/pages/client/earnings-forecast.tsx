@@ -97,7 +97,7 @@ export default function EarningsForecast() {
                 >
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="border border-gray-200 rounded-md shadow-md">
+                <SelectContent className="!bg-white border border-gray-200 rounded-md shadow-md">
                   {months.map((month) => (
                     <SelectItem 
                       key={month.value} 
@@ -121,7 +121,7 @@ export default function EarningsForecast() {
                 >
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="border border-gray-200 rounded-md shadow-md">
+                <SelectContent className="!bg-white border border-gray-200 rounded-md shadow-md">
                   {years.map((year) => (
                     <SelectItem 
                       key={year.value} 
