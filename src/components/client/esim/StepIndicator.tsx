@@ -1,16 +1,10 @@
 
 import { cn } from "@/lib/utils";
 
-const steps = [
-  { id: 'plan', title: 'Plano' },
-  { id: 'type', title: 'Identidade' },
-  { id: 'device', title: 'Sistema' },
-  { id: 'imei', title: 'IMEI' },
-  { id: 'eid', title: 'EID' }
-];
-
 export function StepIndicator({ currentStep }: { currentStep: string }) {
-  const currentStepIndex = steps.findIndex(step => step.id === currentStep);
+  // Convert the step ID to an index
+  const stepIds = ['plan', 'type', 'device', 'imei', 'eid'];
+  const currentStepIndex = stepIds.findIndex(id => id === currentStep);
 
   return (
     <div className="w-full max-w-3xl mx-auto mt-12 mb-8">
