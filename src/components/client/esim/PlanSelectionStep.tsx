@@ -87,35 +87,43 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   };
 
   return (
-    <div className="max-w-[400px] mx-auto w-full pt-6">
-      <div className="space-y-8">
+    <div className="w-full pt-6">
+      <div className="space-y-6">
         <motion.div 
-          className="space-y-2"
+          className="text-center"
           initial="hidden"
           animate="visible"
           variants={itemVariants}
         >
-          <h2 className="text-2xl font-medium text-center">Personalize seu pedido</h2>
-          <p className="text-gray-600 text-center">
+          <h2 className="text-2xl font-medium">Personalize seu pedido</h2>
+          <p className="text-gray-600">
             Confira aqui as melhores ofertas para você, cliente Smatvoz.
           </p>
         </motion.div>
 
-        <div className="space-y-4">
+        <div className="space-y-6">
           <motion.div 
-            className="grid grid-cols-2 gap-4"
             initial="hidden"
             animate="visible"
             variants={itemVariants}
           >
-            <div className="w-full">
+            <div className="flex flex-col gap-1">
+              <span className="text-sm font-medium">Internet</span>
               <InternetSelector
                 selectedInternet={selectedInternet}
                 onInternetChange={setSelectedInternet}
                 internetOptions={internetOptions}
               />
             </div>
-            <div className="w-full">
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={itemVariants}
+          >
+            <div className="flex flex-col gap-1">
+              <span className="text-sm font-medium">DDD</span>
               <DDDInput
                 ddd={selectedDDD}
                 onDDDChange={setSelectedDDD}
@@ -146,11 +154,12 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             initial="hidden"
             animate="visible"
             variants={itemVariants}
+            className="pt-2"
           >
-            <PriceSummary
-              linePrice={getLinePrice()}
-              totalPrice={getLinePrice()}
-            />
+            <div className="flex justify-between items-center">
+              <span className="font-medium">Total mensal:</span>
+              <span className="font-medium">R$ {getLinePrice().toFixed(2)}/mês</span>
+            </div>
           </motion.div>
         </div>
 
