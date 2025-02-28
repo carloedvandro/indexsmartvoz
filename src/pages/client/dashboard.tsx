@@ -35,11 +35,6 @@ export default function ClientDashboard() {
       }
     });
   };
-  
-  const handleForecastCardClick = () => {
-    // Navega para a página de previsão de ganhos
-    navigate("/client/earnings-forecast");
-  };
 
   if (!profile) {
     return null;
@@ -88,10 +83,7 @@ export default function ClientDashboard() {
                   </div>
                 </Card>
 
-                <Card 
-                  className="relative p-6 bg-[#5f0889]/90 backdrop-blur-sm text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
-                  onClick={handleForecastCardClick}
-                >
+                <Card className="relative p-6 bg-[#5f0889]/90 backdrop-blur-sm text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300">
                   <div className="relative z-10 flex items-center space-x-4">
                     <div className="p-3 bg-white/20 rounded-full">
                       <TrendingUp className="w-6 h-6" />
