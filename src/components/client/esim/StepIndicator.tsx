@@ -14,32 +14,38 @@ export function StepIndicator({ currentStep }: { currentStep: string }) {
 
   return (
     <div className="w-full">
-      <div className="text-center mb-8">
-        <h1 className="text-2xl font-semibold">Ativação do eSIM</h1>
+      <div className="flex items-center gap-4">
+        <h1 className="text-2xl font-bold">Ativação do eSIM</h1>
       </div>
-      
-      <div className="flex items-center justify-between mb-8 max-w-3xl mx-auto">
-        {steps.map((step, index) => (
-          <div key={step.id} className="flex items-center flex-1">
-            <div 
-              className={cn(
-                "w-8 h-8 rounded-full flex items-center justify-center",
-                index <= currentStepIndex ? 'bg-[#8425af] text-white' : 'bg-gray-200 text-gray-600'
-              )}
-            >
-              {index + 1}
-            </div>
-            
-            {index < steps.length - 1 && (
-              <div 
-                className={cn(
-                  "flex-1 h-1 mx-2",
-                  index < currentStepIndex ? 'bg-[#8425af]' : 'bg-gray-200'
-                )}
-              />
-            )}
+
+      <div className="flex items-center justify-between mb-8 max-w-3xl mx-auto mt-8">
+        <div className="flex items-center flex-1">
+          <div className={`w-8 h-8 rounded-full bg-[#8425af] text-white flex items-center justify-center`}>
+            1
           </div>
-        ))}
+          <div className={`flex-1 h-1 ${currentStepIndex >= 1 ? 'bg-[#8425af]' : 'bg-gray-200'} mx-2`} />
+        </div>
+        <div className="flex items-center flex-1">
+          <div className={`w-8 h-8 rounded-full ${currentStepIndex >= 1 ? 'bg-[#8425af]' : 'bg-gray-200'} text-white flex items-center justify-center`}>
+            2
+          </div>
+          <div className={`flex-1 h-1 ${currentStepIndex >= 2 ? 'bg-[#8425af]' : 'bg-gray-200'} mx-2`} />
+        </div>
+        <div className="flex items-center flex-1">
+          <div className={`w-8 h-8 rounded-full ${currentStepIndex >= 2 ? 'bg-[#8425af]' : 'bg-gray-200'} text-white flex items-center justify-center`}>
+            3
+          </div>
+          <div className={`flex-1 h-1 ${currentStepIndex >= 3 ? 'bg-[#8425af]' : 'bg-gray-200'} mx-2`} />
+        </div>
+        <div className="flex items-center flex-1">
+          <div className={`w-8 h-8 rounded-full ${currentStepIndex >= 3 ? 'bg-[#8425af]' : 'bg-gray-200'} text-white flex items-center justify-center`}>
+            4
+          </div>
+          <div className={`flex-1 h-1 ${currentStepIndex >= 4 ? 'bg-[#8425af]' : 'bg-gray-200'} mx-2`} />
+        </div>
+        <div className={`w-8 h-8 rounded-full ${currentStepIndex >= 4 ? 'bg-[#8425af]' : 'bg-gray-200'} text-white flex items-center justify-center`}>
+          5
+        </div>
       </div>
     </div>
   );
