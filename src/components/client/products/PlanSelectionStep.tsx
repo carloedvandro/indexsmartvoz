@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
@@ -30,13 +30,14 @@ export function PlanSelectionStep({
   setSelectedDueDate 
 }: PlanSelectionStepProps) {
   const { data: calendarStyle } = useCalendarStyles();
+  const [isFreePlan, setIsFreePlan] = useState(false);
   
   const internetOptions = [
     { value: "FREE", label: "Plano Gratuito", price: 0 },
     { value: "120GB", label: "Plano 120GB", price: 129.99 },
   ];
 
-  useState(() => {
+  useEffect(() => {
     if (selectedLines.length === 0) {
       setSelectedLines([
         {
@@ -48,7 +49,43 @@ export function PlanSelectionStep({
         },
       ]);
     }
-  });
+  }, []);
+
+  useEffect(() => {
+    if (selectedLines[0]?.internet === "FREE") {
+      setIsFreePlan(true);
+      
+      // Set default values for free plan
+      const updatedLines = selectedLines.map(line => 
+        line.id === 1 
+          ? { ...line, ddd: "00", price: 0 }
+          : line
+      );
+      setSelectedLines(updatedLines);
+      
+      // Set a default due date
+      if (!selectedDueDate) {
+        setSelectedDueDate(1);
+      }
+    } else {
+      setIsFreePlan(false);
+      
+      // Reset default values if they were set by free plan
+      if (selectedLines[0]?.ddd === "00") {
+        const updatedLines = selectedLines.map(line => 
+          line.id === 1 
+            ? { ...line, ddd: "" }
+            : line
+        );
+        setSelectedLines(updatedLines);
+      }
+      
+      // Reset default due date if it was set by free plan
+      if (selectedDueDate === 1) {
+        setSelectedDueDate(null);
+      }
+    }
+  }, [selectedLines[0]?.internet]);
 
   const handleInternetChange = (value: string) => {
     const newPrice = internetOptions.find(option => option.value === value)?.price || 0;
@@ -89,7 +126,7 @@ export function PlanSelectionStep({
         >
           <div className="w-full">
             <InternetSelector
-              selectedInternet={selectedLines[0]?.internet || undefined}
+              selectedInternet={selectedLines[0]?.internet || ""}
               onInternetChange={handleInternetChange}
               internetOptions={internetOptions}
             />
@@ -98,16 +135,23 @@ export function PlanSelectionStep({
             <DDDInput
               ddd={selectedLines[0]?.ddd || ""}
               onDDDChange={handleDDDChange}
+              disabled={isFreePlan}
             />
           </div>
         </motion.div>
 
         <motion.div variants={itemVariants}>
-          <DueDateSelector
-            selectedDueDate={selectedDueDate}
-            setSelectedDueDate={setSelectedDueDate}
-            calendarStyle={calendarStyle}
-          />
+          {!isFreePlan ? (
+            <DueDateSelector
+              selectedDueDate={selectedDueDate}
+              setSelectedDueDate={setSelectedDueDate}
+              calendarStyle={calendarStyle}
+            />
+          ) : (
+            <div className="text-sm text-purple-700 p-2 bg-purple-50 rounded-md">
+              O Plano Gratuito é exclusivo para parceiros, sem necessidade de aquisição de plano pago para realizar suas vendas e receber comissões.
+            </div>
+          )}
         </motion.div>
 
         <motion.div variants={itemVariants}>
