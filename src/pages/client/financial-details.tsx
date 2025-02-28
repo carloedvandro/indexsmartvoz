@@ -102,35 +102,35 @@ export default function FinancialDetails() {
     
     doc.setFont("helvetica", "bold");
     doc.setFontSize(10);
-    let currentX = margin;
     
     // Centraliza verticalmente o texto do cabeçalho
     const headerTextY = y - 1; // Ajuste para centralizar verticalmente
     
+    // Definindo pontos de início de cada coluna
+    const dateStartX = margin;
+    const typeStartX = dateStartX + colWidths.date;
+    const descriptionStartX = typeStartX + colWidths.type;
+    const valueStartX = descriptionStartX + colWidths.description;
+    const balanceStartX = valueStartX + colWidths.value;
+    
+    // Definindo pontos finais de cada coluna (para alinhamento à direita)
+    const valueEndX = balanceStartX;
+    const balanceEndX = balanceStartX + colWidths.balance;
+    
     // Cabeçalho Data
-    doc.text("Data", currentX + 5, headerTextY);
-    currentX += colWidths.date;
+    doc.text("Data", dateStartX + 5, headerTextY);
     
     // Cabeçalho Histórico
-    doc.text("Histórico", currentX + 5, headerTextY);
-    currentX += colWidths.type;
+    doc.text("Histórico", typeStartX + 5, headerTextY);
     
     // Cabeçalho Descrição
-    doc.text("Descrição", currentX + 5, headerTextY);
-    currentX += colWidths.description;
+    doc.text("Descrição", descriptionStartX + 5, headerTextY);
     
-    // Calcula a posição correta para os valores monetários
-    const valueColEndX = currentX + colWidths.value;
-    const balanceColEndX = valueColEndX + colWidths.balance;
+    // Cabeçalho Valor - Alinhado à direita
+    doc.text("Valor", valueEndX - 5, headerTextY, { align: "right" });
     
-    // Cabeçalho Valor - Alinhado à direita com os valores monetários
-    const valorText = "Valor";
-    doc.text(valorText, valueColEndX - 5, headerTextY, { align: 'right' });
-    currentX += colWidths.value;
-    
-    // Cabeçalho Saldo - Alinhado à direita com os valores de saldo
-    const saldoText = "Saldo";
-    doc.text(saldoText, balanceColEndX - 5, headerTextY, { align: 'right' });
+    // Cabeçalho Saldo - Alinhado à direita
+    doc.text("Saldo", balanceEndX - 5, headerTextY, { align: "right" });
     
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
@@ -148,29 +148,23 @@ export default function FinancialDetails() {
       // Centraliza verticalmente o texto na linha
       const textY = y - 1;
       
-      currentX = margin;
-      
       // Coluna Data
       doc.setTextColor(0, 0, 0);
-      doc.text(transaction.date, currentX + 5, textY);
-      currentX += colWidths.date;
+      doc.text(transaction.date, dateStartX + 5, textY);
       
       // Coluna Histórico
-      doc.text(transaction.type, currentX + 5, textY);
-      currentX += colWidths.type;
+      doc.text(transaction.type, typeStartX + 5, textY);
       
       // Coluna Descrição
-      doc.text(transaction.description, currentX + 5, textY);
-      currentX += colWidths.description;
+      doc.text(transaction.description, descriptionStartX + 5, textY);
       
       // Coluna Valor (verde e alinhado à direita)
       doc.setTextColor(34, 197, 94);
-      doc.text(transaction.value, valueColEndX - 5, textY, { align: 'right' });
-      currentX += colWidths.value;
+      doc.text(transaction.value, valueEndX - 5, textY, { align: "right" });
       
       // Coluna Saldo (preto e alinhado à direita)
       doc.setTextColor(0, 0, 0);
-      doc.text(transaction.balance, balanceColEndX - 5, textY, { align: 'right' });
+      doc.text(transaction.balance, balanceEndX - 5, textY, { align: "right" });
       
       y += rowHeight + 2; // Espaçamento padronizado entre as linhas
     });
