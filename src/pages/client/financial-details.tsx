@@ -1,7 +1,6 @@
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
 import {
   Table,
   TableBody,
@@ -213,6 +212,8 @@ export default function FinancialDetails() {
     { value: "2026", label: "2026" }
   ];
 
+  const monthLabel = months.find(m => m.value === selectedMonth)?.label || "Fevereiro";
+
   return (
     <div className="min-h-screen bg-white">
       <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-50">
@@ -220,7 +221,7 @@ export default function FinancialDetails() {
         <div className="h-full flex items-center px-6 relative z-10">
           <div className="flex flex-col">
             <h1 className="text-sm text-gray-400 font-normal leading-tight">Financeiro</h1>
-            <h2 className="text-xl text-white font-medium leading-7">Extrato Detalhado</h2>
+            <h2 className="text-xl text-white font-medium leading-7">Extrato Detalhado - {monthLabel} / {selectedYear}</h2>
           </div>
         </div>
       </div>
@@ -302,15 +303,15 @@ export default function FinancialDetails() {
         <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-6 md:mb-8 mx-auto w-full md:w-[780px]">
           <div className="bg-[#5f0889] text-white py-3 px-5 rounded-lg w-full md:w-[250px]">
             <div className="text-xl font-bold mb-1">R$ 42.576,22</div>
-            <div className="text-sm">Total de ganhos em Fevereiro/2025</div>
+            <div className="text-sm">Total de ganhos em {monthLabel}/{selectedYear}</div>
           </div>
           <div className="bg-[#E3F2FD] py-3 px-5 rounded-lg w-full md:w-[250px]">
             <div className="text-xl font-bold mb-1">R$ 47.576,23</div>
-            <div className="text-sm text-gray-600">Saldo em Fevereiro/2025</div>
+            <div className="text-sm text-gray-600">Saldo em {monthLabel}/{selectedYear}</div>
           </div>
           <div className="bg-[#E3F2FD] py-3 px-5 rounded-lg w-full md:w-[250px]">
             <div className="text-xl font-bold mb-1">R$ 5.000,01</div>
-            <div className="text-sm text-gray-600">Saldo disponível em Fevereiro/2025</div>
+            <div className="text-sm text-gray-600">Saldo disponível em {monthLabel}/{selectedYear}</div>
           </div>
         </div>
 
