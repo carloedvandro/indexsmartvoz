@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { ChipActivationFlow } from "@/components/client/esim/ChipActivationFlow";
+import { ESIMActivationFlow } from "@/components/client/esim/ChipActivationFlow";
 
 export default function ClientESIM() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -57,7 +57,7 @@ export default function ClientESIM() {
   };
 
   return (
-    <ChipActivationFlow
+    <ESIMActivationFlow
       currentStep={currentStep}
       onBack={handleBack}
       onContinue={handleContinue}

@@ -1,7 +1,7 @@
 
 const steps = [
-  { id: 'type', title: 'Identidade' },
   { id: 'plan', title: 'Plano' },
+  { id: 'type', title: 'Identidade' },
   { id: 'device', title: 'Sistema' },
   { id: 'imei', title: 'IMEI' },
   { id: 'eid', title: 'EID' }

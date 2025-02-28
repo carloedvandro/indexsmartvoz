@@ -35,9 +35,9 @@ export function ESIMActivationFlow({
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 1:
-        return <ActivationType onSelect={onTypeSelect} onBack={onBack} />;
-      case 2:
         return <PlanSelectionStep onBack={onBack} onContinue={onPlanSelect} />;
+      case 2:
+        return <ActivationType onSelect={onTypeSelect} onBack={onBack} />;
       case 3:
         return <DeviceSelector onSelect={onDeviceSelect} onBack={onBack} />;
       case 4:
@@ -66,9 +66,9 @@ export function ESIMActivationFlow({
   const getCurrentStepId = () => {
     switch (currentStep) {
       case 1:
-        return 'type';
-      case 2:
         return 'plan';
+      case 2:
+        return 'type';
       case 3:
         return 'device';
       case 4:
@@ -76,7 +76,7 @@ export function ESIMActivationFlow({
       case 5:
         return 'eid';
       default:
-        return 'type';
+        return 'plan';
     }
   };
 
