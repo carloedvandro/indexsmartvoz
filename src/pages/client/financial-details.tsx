@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 export default function FinancialDetails() {
   const navigate = useNavigate();
@@ -225,12 +226,17 @@ export default function FinancialDetails() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="bg-[#3B0764] text-white px-6 py-4">
-        <h1 className="text-xl font-normal mb-1">Financeiro</h1>
-        <h2 className="text-2xl font-semibold">Extrato Detalhado</h2>
+      <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-50">
+        <ParticlesBackground style="default" />
+        <div className="h-full flex items-center px-6 relative z-10">
+          <div className="flex flex-col">
+            <h1 className="text-sm text-gray-400 font-normal leading-tight">Financeiro</h1>
+            <h2 className="text-xl text-white font-medium leading-7">Extrato Detalhado</h2>
+          </div>
+        </div>
       </div>
 
-      <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8">
+      <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
         <div className="mb-6 md:mb-8 w-full md:w-[780px] mx-auto">
           <div className="border rounded-lg bg-white p-6 shadow-sm w-full">
             <div className="flex items-center gap-2 mb-6">
