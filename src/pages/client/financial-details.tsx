@@ -79,7 +79,8 @@ export default function FinancialDetails() {
     doc.text(period, (pageWidth - periodWidth) / 2, 30);
     
     // Define margens laterais para centralizar a tabela
-    const margin = 10;
+    // Aumentando as margens para diminuir a largura efetiva da tabela
+    const margin = 25; // Aumentado de 10 para 25
     const tableWidth = pageWidth - (margin * 2);
     
     // Define larguras proporcionais para cada coluna
