@@ -51,7 +51,7 @@ function App() {
           <Route path="/store/:username" element={<PublicStore />} />
 
           {/* Rotas protegidas do cliente */}
-          <Route element={<ProtectedRoute type="client" />}>
+          <Route element={<ProtectedRoute />}>
             <Route path="/client/dashboard" element={<Dashboard />} />
             <Route path="/client/earnings-forecast" element={<EarningsForecast />} />
             <Route path="/client/network" element={<Network />} />
@@ -69,7 +69,7 @@ function App() {
 
           {/* Rotas de administração */}
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route element={<ProtectedRoute type="admin" />}>
+          <Route element={<ProtectedRoute />}>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/users" element={<AdminUsers />} />
             <Route path="/admin/network" element={<AdminNetwork />} />

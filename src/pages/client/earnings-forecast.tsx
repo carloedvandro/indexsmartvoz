@@ -81,19 +81,19 @@ export default function EarningsForecast() {
 
       <div className="max-w-[1000px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
         <div className="border rounded-lg bg-white p-6 shadow-sm w-full mb-6">
-          <div className="flex items-center gap-2 mb-4">
-            <Filter className="w-4 h-4 text-[#5f0889]" />
-            <span className="text-sm font-medium text-gray-900">Filtros</span>
+          <div className="flex items-center gap-2 mb-6">
+            <Filter className="w-5 h-5 text-[#5f0889]" />
+            <span className="text-base font-medium text-[#5f0889]">Filtros</span>
           </div>
           
-          <div className="flex flex-row justify-between gap-4">
-            <div className="w-1/2">
+          <div className="grid grid-cols-2 gap-8 mb-8">
+            <div>
               <label className="block text-sm font-medium text-gray-900 mb-2">
                 Mês
               </label>
               <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
                 <SelectTrigger 
-                  className="w-full !bg-white text-gray-900 border-gray-300"
+                  className="w-full !bg-white text-gray-900 border-gray-300 h-12"
                 >
                   <SelectValue />
                 </SelectTrigger>
@@ -111,13 +111,13 @@ export default function EarningsForecast() {
               </Select>
             </div>
             
-            <div className="w-1/2">
+            <div>
               <label className="block text-sm font-medium text-gray-900 mb-2">
                 Ano
               </label>
               <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
                 <SelectTrigger 
-                  className="w-full !bg-white text-gray-900 border-gray-300"
+                  className="w-full !bg-white text-gray-900 border-gray-300 h-12"
                 >
                   <SelectValue />
                 </SelectTrigger>
@@ -134,12 +134,21 @@ export default function EarningsForecast() {
                 </SelectContent>
               </Select>
             </div>
+          </div>
+          
+          <div className="flex justify-between">
+            <button 
+              onClick={handleBack}
+              className="border border-[#5f0889] text-[#5f0889] h-10 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors px-8"
+            >
+              Voltar
+            </button>
             
-            <div className="flex items-end">
-              <button className="bg-[#00a3d3] text-white h-10 rounded-md hover:bg-[#00a3d3]/90 transition-colors px-6">
-                Filtrar
-              </button>
-            </div>
+            <button 
+              className="bg-[#5f0889] text-white h-10 rounded-md hover:bg-[#5f0889]/90 transition-colors px-8"
+            >
+              Filtrar
+            </button>
           </div>
         </div>
         
@@ -168,15 +177,6 @@ export default function EarningsForecast() {
             <div>Total de Bônus</div>
             <div>R$ 0,00</div>
           </div>
-        </div>
-        
-        <div className="mt-6">
-          <button 
-            onClick={handleBack}
-            className="border border-[#5f0889] text-[#5f0889] h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors px-4"
-          >
-            Voltar
-          </button>
         </div>
       </div>
     </div>
