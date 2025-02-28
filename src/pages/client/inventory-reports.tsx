@@ -73,7 +73,7 @@ export default function InventoryReports() {
             <span className="text-base font-medium text-[#5f0889]">Filtros</span>
           </div>
           
-          <div className="grid grid-cols-2 gap-8 mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
             <div>
               <label className="block text-sm font-medium text-gray-900 mb-2">
                 Mês
