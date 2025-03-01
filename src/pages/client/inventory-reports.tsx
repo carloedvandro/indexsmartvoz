@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Database, Filter } from "lucide-react";
@@ -80,7 +79,7 @@ export default function InventoryReports() {
               </label>
               <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
                 <SelectTrigger 
-                  className="w-full bg-white text-gray-900 border-gray-300 h-14 text-base"
+                  className="w-full bg-white text-gray-900 border-gray-300 h-12 text-base"
                 >
                   <SelectValue />
                 </SelectTrigger>
@@ -104,7 +103,7 @@ export default function InventoryReports() {
               </label>
               <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
                 <SelectTrigger 
-                  className="w-full bg-white text-gray-900 border-gray-300 h-14 text-base"
+                  className="w-full bg-white text-gray-900 border-gray-300 h-12 text-base"
                 >
                   <SelectValue />
                 </SelectTrigger>
@@ -126,20 +125,19 @@ export default function InventoryReports() {
           <div className="flex flex-row justify-between gap-6 mt-8">
             <button 
               onClick={handleBack}
-              className="border border-[#5f0889] text-[#5f0889] h-12 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-32 px-4 font-medium"
+              className="border border-[#5f0889] text-[#5f0889] h-12 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-[124px] px-4 font-medium"
             >
               Voltar
             </button>
             
             <button 
-              className="bg-[#5f0889] text-white h-12 rounded-md hover:bg-[#5f0889]/90 transition-colors w-32 px-4 font-medium"
+              className="bg-[#5f0889] text-white h-12 rounded-md hover:bg-[#5f0889]/90 transition-colors w-[124px] px-4 font-medium"
             >
               Filtrar
             </button>
           </div>
         </div>
         
-        {/* Tabela de Estoque */}
         <div className="bg-white border rounded-lg overflow-hidden w-full md:w-[780px] mx-auto mb-4">
           <div className="flex items-center gap-3 p-4 bg-[#5f0889]/10 border-b border-gray-200">
             <Database className="w-5 h-5 text-[#5f0889]" />
@@ -169,7 +167,6 @@ export default function InventoryReports() {
           ))}
         </div>
         
-        {/* Cards de resumo */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-[780px] mx-auto">
           <Card className="p-4 border border-l-[10px] border-l-purple-600">
             <p className="text-sm text-gray-500">Total em Estoque</p>
