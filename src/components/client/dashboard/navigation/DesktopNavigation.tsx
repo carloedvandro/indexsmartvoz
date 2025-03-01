@@ -88,7 +88,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 )}
                 
                 {item.items && (
-                  <div className="ml-8 mt-1 space-y-1">
+                  <div className="ml-0 mt-1 space-y-1">
                     {item.items.map((subItem) => (
                       <DropdownMenuItem key={subItem.title} asChild>
                         <Link 
