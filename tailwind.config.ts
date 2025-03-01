@@ -16,7 +16,17 @@ export default {
   ],
   prefix: "",
   theme: {
-    container,
+    container: {
+      center: true,
+      padding: "1.5rem",
+      screens: {
+        sm: "100%",
+        md: "100%",
+        lg: "1024px",
+        xl: "1280px",
+        "2xl": "1400px",
+      },
+    },
     extend: {
       colors,
       borderRadius,
@@ -32,6 +42,9 @@ export default {
         ...animations.animation,
         gradient: "gradient 8s linear infinite",
       },
+      maxWidth: {
+        'sm': '384px', // Increased from default 24rem (384px)
+      }
     },
   },
   plugins: [

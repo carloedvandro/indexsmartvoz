@@ -115,3 +115,8 @@ img:focus,
   box-shadow: none !important;
 }
 
+/* Custom container width for dropdown menus */
+.dropdown-menu-custom {
+  min-width: 320px !important;
+}
+

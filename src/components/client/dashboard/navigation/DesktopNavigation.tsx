@@ -48,7 +48,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               </span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-72 bg-white p-2">
+          <DropdownMenuContent align="start" className="w-80 bg-white p-2">
             {homeItem.href && (
               <>
                 <DropdownMenuItem asChild>
