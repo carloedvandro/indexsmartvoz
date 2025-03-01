@@ -58,10 +58,6 @@ export function DDDInput({ ddd, onDDDChange, disabled = false }: DDDInputProps) 
             key={dddOption} 
             value={dddOption}
             className="hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
-            style={{ 
-              backgroundColor: 'white',
-              background: 'white'
-            }}
           >
             {dddOption}
           </SelectItem>

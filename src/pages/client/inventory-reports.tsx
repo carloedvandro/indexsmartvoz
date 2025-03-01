@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Database, Filter } from "lucide-react";
@@ -91,10 +92,6 @@ export default function InventoryReports() {
                       key={month.value} 
                       value={month.value}
                       className="bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white py-2 px-2"
-                      style={{ 
-                        backgroundColor: 'white',
-                        background: 'white'
-                      }}
                     >
                       {month.label}
                     </SelectItem>
@@ -113,16 +110,12 @@ export default function InventoryReports() {
                 >
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md max-h-[200px] overflow-y-auto">
+                <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md">
                   {years.map((year) => (
                     <SelectItem 
                       key={year.value} 
                       value={year.value}
                       className="bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white py-2 px-2"
-                      style={{ 
-                        backgroundColor: 'white',
-                        background: 'white'
-                      }}
                     >
                       {year.label}
                     </SelectItem>
