@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Database, Filter } from "lucide-react";
@@ -110,7 +109,7 @@ export default function InventoryReports() {
                 >
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md">
+                <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md max-h-[200px] overflow-y-auto">
                   {years.map((year) => (
                     <SelectItem 
                       key={year.value} 
