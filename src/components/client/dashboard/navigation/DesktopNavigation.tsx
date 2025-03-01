@@ -32,7 +32,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 className="w-10 h-10 hover:scale-110 transition-transform outline-none focus:outline-none active:outline-none" 
                 style={{outline: 'none'}}
               />
-              <span className="text-base mb-1 -ml-2">Home</span>
+              <span className="text-base mb-0.5 -ml-2">Home</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-72 bg-white p-2">
