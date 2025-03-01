@@ -72,6 +72,14 @@ select,
   min-height: 28px !important;
   padding-top: 2px !important;
   padding-bottom: 2px !important;
+  background-color: white !important;
+}
+
+[role="option"]:hover,
+[role="option"]:focus,
+[role="option"][data-highlighted] {
+  background-color: #8425af !important;
+  color: white !important;
 }
 
 /* Hide scroll buttons when not needed */
