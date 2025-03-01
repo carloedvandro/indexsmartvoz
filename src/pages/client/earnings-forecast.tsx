@@ -50,20 +50,12 @@ export default function EarningsForecast() {
     { value: "2026", label: "2026" }
   ];
   
+  // Modified the bonus items list to remove the requested items
   const bonusItems = [
-    { type: "Binário", value: "R$ 0,00" },
-    { type: "Bônus Adesão Cadastrador", value: "R$ 0,00" },
     { type: "Bônus Ativação", value: "R$ 0,00" },
-    { type: "Bônus Cashback", value: "R$ 0,00" },
     { type: "Bônus Equipe Promocional", value: "R$ 0,00" },
     { type: "Bônus Indicação", value: "R$ 0,00" },
-    { type: "Distribuição", value: "R$ 0,00" },
     { type: "Equipe", value: "R$ 0,00" },
-    { type: "Liderança", value: "R$ 0,00" },
-    { type: "Loja Externa", value: "R$ 0,00" },
-    { type: "Participação", value: "R$ 0,00" },
-    { type: "Recompra", value: "R$ 0,00" },
-    { type: "Residual", value: "R$ 0,00" },
   ];
 
   return (
