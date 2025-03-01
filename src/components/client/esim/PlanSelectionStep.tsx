@@ -75,7 +75,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   };
 
   return (
-    <div className="max-w-[350px] mx-auto w-full pt-6">
+    <div className="max-w-[340px] mx-auto w-full pt-6">
       <div className="space-y-8">
         <div className="space-y-2">
           <h2 className="text-3xl font-medium text-center">Personalize seu pedido</h2>
@@ -85,7 +85,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
         </div>
 
         <div className="space-y-4">
-          <div className="w-full px-2 max-w-[350px] mx-auto">
+          <div className="w-full px-2 max-w-[340px] mx-auto">
             <div className="grid grid-cols-2 gap-3">
               <div className="w-full">
                 <span className="text-sm font-medium mb-1 block">Internet</span>
@@ -107,14 +107,14 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           </div>
 
           {!isFreePlan ? (
-            <div className="w-full px-2 max-w-[350px] mx-auto">
+            <div className="w-full px-2 max-w-[340px] mx-auto">
               <DueDateSelector
                 selectedDueDate={selectedDueDate}
                 setSelectedDueDate={setSelectedDueDate}
               />
             </div>
           ) : (
-            <div className="w-full px-2 max-w-[350px] mx-auto">
+            <div className="w-full px-2 max-w-[340px] mx-auto">
               <div className="p-2 bg-purple-50 rounded-md">
                 <div className="text-base text-purple-700">
                   O Plano Gratuito é exclusivo para parceiros, sem necessidade de aquisição de plano pago para realizar suas vendas e receber comissões.
@@ -123,7 +123,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             </div>
           )}
 
-          <div className="w-full px-2 max-w-[350px] mx-auto">
+          <div className="w-full px-2 max-w-[340px] mx-auto">
             <PriceSummary
               linePrice={getLinePrice()}
               totalPrice={getLinePrice()}
@@ -131,7 +131,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           </div>
         </div>
 
-        <div className="w-full px-2 max-w-[350px] mx-auto flex justify-between pt-4">
+        <div className="w-full px-2 max-w-[340px] mx-auto flex justify-between pt-4">
           <Button 
             variant="outline" 
             className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
