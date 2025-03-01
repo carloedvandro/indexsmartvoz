@@ -24,7 +24,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
               className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap ml-1"
             >
               {item.icon === "home" && (
-                <div className="flex items-end gap-1 -ml-1">
+                <div className="flex items-end gap-1 -ml-2">
                   <img 
                     src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
                     alt="Home" 
