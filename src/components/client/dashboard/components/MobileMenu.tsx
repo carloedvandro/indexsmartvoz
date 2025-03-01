@@ -31,7 +31,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                     className="w-10 h-10 hover:scale-110 transition-transform border-0 outline-none focus:outline-none active:outline-none" 
                     style={{outline: 'none'}}
                   />
-                  <span className="text-base mb-0.5 ml-5 text-primary">Home</span>
+                  <span className="text-base mb-0.5 ml-3 text-primary">Home</span>
                 </div>
               )}
               {!item.iconOnly && item.icon !== "home" && <span className="text-base">{item.title}</span>}
@@ -69,7 +69,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
             className="w-10 h-10 hover:scale-110 transition-transform outline-none focus:outline-none active:outline-none" 
             style={{outline: 'none'}}
           />
-          <span className="text-base mb-0.5 ml-5 text-primary">Home</span>
+          <span className="text-base mb-0.5 ml-3 text-primary">Home</span>
         </Link>
       )}
       {isOpen && (
