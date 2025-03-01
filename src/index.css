@@ -113,3 +113,21 @@ select,
 [data-radix-select-content] {
   background-color: white !important;
 }
+
+/* Additional forceful white background rules */
+[role="dialog"],
+[role="menu"],
+[role="listbox"],
+.select-dropdown,
+[data-state="open"] {
+  background-color: white !important;
+  background: white !important;
+}
+
+/* Force white background specifically for this component */
+[data-radix-select-content] div,
+[data-radix-select-content] ul,
+[data-radix-select-content] li {
+  background-color: white !important;
+  background: white !important;
+}

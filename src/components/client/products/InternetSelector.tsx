@@ -31,15 +31,21 @@ export function InternetSelector({
       </SelectTrigger>
       <SelectContent 
         position="popper" 
-        className="bg-white max-h-[179px] overflow-y-auto w-full z-50"
-        style={{ backgroundColor: 'white' }}
+        className="bg-white max-h-[179px] overflow-y-auto w-full z-50 select-content"
+        style={{ 
+          backgroundColor: 'white',
+          background: 'white'
+        }}
       >
         {internetOptions.map((option) => (
           <SelectItem 
             key={option.value} 
             value={option.value}
             className="bg-white hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
-            style={{ backgroundColor: 'white' }}
+            style={{ 
+              backgroundColor: 'white',
+              background: 'white'
+            }}
           >
             {option.label}
           </SelectItem>
