@@ -51,7 +51,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                 <p className="text-base font-medium">{item.title}</p>
               </div>
               {item.items && (
-                <div className="flex flex-col gap-1 ml-6">
+                <div className="flex flex-col gap-1">
                   {renderItems(item.items, level + 1)}
                 </div>
               )}
