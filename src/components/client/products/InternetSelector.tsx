@@ -34,7 +34,7 @@ export function InternetSelector({
           <SelectItem 
             key={option.value} 
             value={option.value}
-            className="hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
+            className="bg-white hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
           >
             {option.label}
           </SelectItem>
