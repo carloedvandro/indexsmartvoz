@@ -28,7 +28,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                   <img 
                     src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
                     alt="Home" 
-                    className="w-8 h-8 hover:scale-110 transition-transform border-0 outline-none focus:outline-none active:outline-none" 
+                    className="w-10 h-10 hover:scale-110 transition-transform border-0 outline-none focus:outline-none active:outline-none" 
                     style={{outline: 'none'}}
                   />
                   <span className="text-base">Home</span>
