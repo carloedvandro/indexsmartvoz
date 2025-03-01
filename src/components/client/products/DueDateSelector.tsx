@@ -1,64 +1,49 @@
 
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { CalendarStyle } from "@/hooks/useCalendarStyles";
+import { cn } from "@/lib/utils";
 
 interface DueDateSelectorProps {
   selectedDueDate: number | null;
   setSelectedDueDate: (date: number) => void;
-  calendarStyle?: CalendarStyle;
   selectedCardClassName?: string;
+  calendarStyle?: any;
 }
 
 export function DueDateSelector({
   selectedDueDate,
   setSelectedDueDate,
+  selectedCardClassName = "",
   calendarStyle,
-  selectedCardClassName
 }: DueDateSelectorProps) {
-  const dueDates = [
-    [2, 5, 7, 10],
-    [15, 20, 25, 30]
-  ];
+  // Datas disponíveis
+  const availableDates = [1, 5, 10, 15, 20, 25];
+
+  // Formatar a data de vencimento
+  const formatDueDate = (day: number) => {
+    return `Dia ${day}`;
+  };
 
   return (
-    <div className="flex flex-col items-center w-full mt-2">
-      <div className="text-center mb-4 mt-2">
-        <h2 className="text-base md:text-xl font-normal -mt-[5px]">
-          Escolha a melhor data de vencimento da sua fatura:
-        </h2>
-      </div>
-
-      <div className="w-[95%] px-4 max-w-[380px] mx-auto">
-        <div className="grid grid-cols-4 gap-3 w-full mt-2">
-          {dueDates.map((row, rowIndex) => (
-            <React.Fragment key={rowIndex}>
-              {row.map((date) => (
-                <Card 
-                  key={date}
-                  className={`cursor-pointer transition-all duration-200 h-8 flex items-center justify-center shadow-none relative
-                    ${selectedDueDate === date 
-                      ? `ring-2 ring-[#8425af] ring-offset-0 border-none ${selectedCardClassName || ''} before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px]`
-                      : 'border border-[#8425af] hover:border-[#8425af]'
-                    }`}
-                  style={{
-                    borderRadius: calendarStyle?.border_radius || '8px',
-                  }}
-                  onClick={() => setSelectedDueDate(date)}
-                >
-                  <CardContent className="flex items-center justify-center h-full p-0">
-                    <span 
-                      className={`font-medium ${selectedDueDate === date ? 'text-[#8425af]' : ''}`}
-                      style={{
-                        fontSize: calendarStyle?.date_font_size || '14px'
-                      }}
-                    >
-                      {date.toString().padStart(2, '0')}
-                    </span>
-                  </CardContent>
-                </Card>
-              ))}
-            </React.Fragment>
+    <div className="w-full">
+      <div className="flex flex-col space-y-2">
+        <span className="text-sm font-medium mb-1 block">
+          Data de Vencimento
+        </span>
+        <div className="grid grid-cols-3 gap-2">
+          {availableDates.map((date) => (
+            <button
+              key={date}
+              type="button"
+              onClick={() => setSelectedDueDate(date)}
+              className={cn(
+                "border rounded-md py-2 px-1 text-center transition-colors",
+                selectedDueDate === date
+                  ? `border-[#8425af] bg-[#8425af] text-white ${selectedCardClassName}`
+                  : "border-gray-300 bg-white text-gray-700 hover:border-[#8425af]"
+              )}
+            >
+              {formatDueDate(date)}
+            </button>
           ))}
         </div>
       </div>
