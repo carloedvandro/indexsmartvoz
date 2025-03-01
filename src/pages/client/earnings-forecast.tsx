@@ -9,10 +9,6 @@ export default function EarningsForecast() {
   const [selectedMonth, setSelectedMonth] = useState("2");
   const [selectedYear, setSelectedYear] = useState("2025");
   
-  const handleBack = () => {
-    navigate('/client/dashboard');
-  };
-  
   const months = [
     { value: "1", label: "Janeiro" },
     { value: "2", label: "Fevereiro" },
@@ -59,7 +55,7 @@ export default function EarningsForecast() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-50">
+      <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-40">
         <div className="h-full flex items-center px-6 relative z-10">
           <div className="flex flex-col">
             <h1 className="text-sm text-gray-400 font-normal leading-tight">Relatório</h1>
@@ -68,8 +64,8 @@ export default function EarningsForecast() {
         </div>
       </div>
 
-      <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
-        <div className="w-full md:w-[780px] mx-auto mb-6">
+      <div className="max-w-[1024px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
+        <div className="w-full max-w-[780px] mx-auto mb-6">
           <FilterSection 
             selectedMonth={selectedMonth}
             selectedYear={selectedYear}
@@ -82,7 +78,7 @@ export default function EarningsForecast() {
         </div>
         
         {/* Alerta de previsão */}
-        <div className="bg-white border border-yellow-400 border-l-[10px] rounded-md p-4 mb-6 w-full md:w-[780px] mx-auto">
+        <div className="bg-white border border-yellow-400 border-l-[10px] rounded-md p-4 mb-6 w-full max-w-[780px] mx-auto">
           <div className="flex items-start">
             <AlertTriangle className="w-5 h-5 text-yellow-500 mt-0.5 flex-shrink-0" />
             <div className="ml-3">
@@ -94,7 +90,7 @@ export default function EarningsForecast() {
         </div>
         
         {/* Tabela de bônus */}
-        <div className="bg-white border rounded-lg overflow-hidden w-full md:w-[780px] mx-auto mb-8">
+        <div className="bg-white border rounded-lg overflow-hidden w-full max-w-[780px] mx-auto mb-8">
           {bonusItems.map((item, index) => (
             <div key={index} className={`flex justify-between py-4 px-6 ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
               <div className="font-medium text-gray-700">{item.type}</div>
@@ -104,7 +100,7 @@ export default function EarningsForecast() {
         </div>
         
         {/* Total separado abaixo da tabela principal */}
-        <div className="w-full md:w-[780px] mx-auto border border-yellow-400 border-l-[10px] rounded-md overflow-hidden">
+        <div className="w-full max-w-[780px] mx-auto border border-yellow-400 border-l-[10px] rounded-md overflow-hidden">
           <div className="flex justify-between py-4 px-8 bg-white">
             <div className="font-bold text-lg text-amber-800">Total de Bônus</div>
             <div className="font-bold text-lg text-amber-800">R$ 0,00</div>
