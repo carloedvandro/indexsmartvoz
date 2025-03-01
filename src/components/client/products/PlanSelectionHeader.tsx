@@ -16,7 +16,7 @@ interface PlanSelectionHeaderProps {
 export function PlanSelectionHeader({ variants }: PlanSelectionHeaderProps) {
   return (
     <motion.div 
-      className="space-y-2 max-w-[500px]"
+      className="space-y-2 max-w-[500px] mx-auto text-center"
       variants={variants}
     >
       <h2 className="text-3xl font-medium">Personalize seu pedido</h2>
