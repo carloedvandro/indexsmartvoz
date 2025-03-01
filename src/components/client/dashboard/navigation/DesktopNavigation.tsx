@@ -28,7 +28,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
             className="w-10 h-10 group-hover:scale-110 transition-transform outline-none focus:outline-none active:outline-none" 
             style={{outline: 'none'}}
           />
-          <span className="text-base mb-0.5 -ml-2 text-foreground">Home</span>
+          <span className="text-base mb-0.5 -ml-2 text-primary">Home</span>
         </Link>
       )}
 

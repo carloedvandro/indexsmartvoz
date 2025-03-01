@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from "react-router-dom";
-import { X, Menu } from "lucide-react";
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
@@ -31,7 +31,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                     className="w-10 h-10 hover:scale-110 transition-transform border-0 outline-none focus:outline-none active:outline-none" 
                     style={{outline: 'none'}}
                   />
-                  <span className="text-base mb-0.5 ml-5">Home</span>
+                  <span className="text-base mb-0.5 ml-5 text-primary">Home</span>
                 </div>
               )}
               {!item.iconOnly && item.icon !== "home" && <span className="text-base">{item.title}</span>}
@@ -53,13 +53,25 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
 
   return (
     <div className="flex lg:hidden ml-auto">
-      <Button 
-        variant="ghost" 
-        onClick={() => setOpen(!isOpen)}
-        className="hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent"
-      >
-        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-      </Button>
+      {isOpen ? (
+        <Button 
+          variant="ghost" 
+          onClick={() => setOpen(false)}
+          className="hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent"
+        >
+          <X className="w-6 h-6" />
+        </Button>
+      ) : (
+        <Link to="/" className="flex items-end gap-1 no-underline -mr-2">
+          <img 
+            src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
+            alt="Home" 
+            className="w-10 h-10 hover:scale-110 transition-transform outline-none focus:outline-none active:outline-none" 
+            style={{outline: 'none'}}
+          />
+          <span className="text-base mb-0.5 ml-5 text-primary">Home</span>
+        </Link>
+      )}
       {isOpen && (
         <div className="fixed top-16 left-0 right-0 border-t flex flex-col w-full bg-white shadow-lg py-3 container gap-4 z-50">
           {renderItems(navigationItems)}
