@@ -131,16 +131,16 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           </div>
         </div>
 
-        <div className="w-full px-2 max-w-[360px] mx-auto flex justify-between pt-4">
+        <div className="w-full px-2 max-w-[360px] mx-auto grid grid-cols-2 gap-4 pt-4">
           <Button 
             variant="outline" 
-            className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
+            className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white w-full"
             onClick={handleBack}
           >
             Voltar
           </Button>
           <Button 
-            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white w-full"
             onClick={handleContinue}
             disabled={!selectedInternet || (!isFreePlan && (!selectedDDD || !selectedDueDate))}
           >
