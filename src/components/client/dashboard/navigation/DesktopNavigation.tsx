@@ -34,7 +34,17 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 className="w-10 h-10 outline-none focus:outline-none active:outline-none" 
                 style={{outline: 'none'}}
               />
-              <span className="text-base mb-0.5 ml-0 font-bold" style={{marginBottom: '2px'}}>Home</span>
+              <span 
+                className="text-base mb-0.5 ml-0 font-bold" 
+                style={{
+                  marginBottom: '2px', 
+                  marginLeft: '-2px', 
+                  color: '#5f0889',
+                  pointerEvents: 'none'
+                }}
+              >
+                Home
+              </span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-72 bg-white p-2">
@@ -48,7 +58,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                       className="w-10 h-10 outline-none focus:outline-none" 
                       style={{outline: 'none'}}
                     />
-                    <span className="font-bold">Home</span>
+                    <span className="font-bold" style={{color: '#5f0889'}}>Home</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
