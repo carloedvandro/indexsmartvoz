@@ -59,7 +59,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                       className="w-10 h-10 outline-none focus:outline-none" 
                       style={{outline: 'none'}}
                     />
-                    <span className="font-bold" style={{color: '#5f0889'}}>Home</span>
+                    <span className="font-bold self-center" style={{color: '#5f0889'}}>Home</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
