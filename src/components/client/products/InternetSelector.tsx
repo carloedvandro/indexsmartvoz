@@ -25,21 +25,24 @@ export function InternetSelector({
   internetOptions 
 }: InternetSelectorProps) {
   return (
-    <Select value={selectedInternet} onValueChange={onInternetChange}>
-      <SelectTrigger className="bg-white h-[42px] w-[90%] mx-auto border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] focus:border-[#8425af]">
-        <SelectValue placeholder="Escolher o plano" />
-      </SelectTrigger>
-      <SelectContent position="popper" className="bg-white max-h-[179px] overflow-y-auto w-full">
-        {internetOptions.map((option) => (
-          <SelectItem 
-            key={option.value} 
-            value={option.value}
-            className="bg-white hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
-          >
-            {option.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <div className="flex flex-col">
+      <label className="text-lg font-medium mb-2 text-left">Internet</label>
+      <Select value={selectedInternet} onValueChange={onInternetChange}>
+        <SelectTrigger className="bg-white h-[42px] w-[90%] mx-auto border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] focus:border-[#8425af]">
+          <SelectValue placeholder="Escolher o plano" />
+        </SelectTrigger>
+        <SelectContent position="popper" className="bg-white max-h-[179px] overflow-y-auto w-full">
+          {internetOptions.map((option) => (
+            <SelectItem 
+              key={option.value} 
+              value={option.value}
+              className="bg-white hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
+            >
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 }
