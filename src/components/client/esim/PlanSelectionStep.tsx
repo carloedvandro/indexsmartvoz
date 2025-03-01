@@ -114,8 +114,10 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
               />
             </div>
           ) : (
-            <div className="text-sm text-purple-700 p-2 bg-purple-50 rounded-md w-full px-4 max-w-[400px] mx-auto">
-              O Plano Gratuito é exclusivo para parceiros, sem necessidade de aquisição de plano pago para realizar suas vendas e receber comissões.
+            <div className="w-full p-2 bg-purple-50 rounded-md mx-auto">
+              <div className="text-sm text-purple-700 px-4">
+                O Plano Gratuito é exclusivo para parceiros, sem necessidade de aquisição de plano pago para realizar suas vendas e receber comissões.
+              </div>
             </div>
           )}
 
