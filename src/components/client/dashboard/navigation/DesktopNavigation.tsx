@@ -78,7 +78,10 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 ) : (
                   <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap flex items-center justify-between">
                     <span>{item.title}</span>
-                    <ArrowRight className="h-4 w-4 ml-2" />
+                    {/* Removed ArrowRight icon for "Loja Virtual" and "Rede" */}
+                    {item.title !== "Loja Virtual" && item.title !== "Rede" && (
+                      <ArrowRight className="h-4 w-4 ml-2" />
+                    )}
                   </DropdownMenuItem>
                 )}
                 

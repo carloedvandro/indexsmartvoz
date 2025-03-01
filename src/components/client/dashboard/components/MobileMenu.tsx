@@ -45,7 +45,10 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
             <>
               <div className="flex items-center justify-between">
                 <p className="text-base font-medium">{item.title}</p>
-                <ArrowRight className="h-4 w-4 ml-2" />
+                {/* Removed ArrowRight icon for "Loja Virtual" and "Rede" */}
+                {item.title !== "Loja Virtual" && item.title !== "Rede" && (
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                )}
               </div>
               {item.items && (
                 <div className="flex flex-col gap-1">
