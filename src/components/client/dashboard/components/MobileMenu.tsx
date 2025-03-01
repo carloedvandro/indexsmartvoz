@@ -35,23 +35,23 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                 </div>
               )}
               {!item.iconOnly && item.icon !== "home" && (
-                <div className="flex items-center justify-between w-full">
+                <div className="flex items-center w-full">
+                  <ArrowRight className="h-4 w-4 mr-2" />
                   <span className="text-base">{item.title}</span>
-                  <ArrowRight className="h-4 w-4 ml-2" />
                 </div>
               )}
             </Link>
           ) : (
             <>
-              <div className="flex items-center justify-between">
-                <p className="text-base font-medium">{item.title}</p>
-                {/* Removed ArrowRight icon for "Loja Virtual" and "Rede" */}
+              <div className="flex items-center">
+                {/* No arrow for "Loja Virtual" and "Rede" */}
                 {item.title !== "Loja Virtual" && item.title !== "Rede" && (
-                  <ArrowRight className="h-4 w-4 ml-2" />
+                  <ArrowRight className="h-4 w-4 mr-2" />
                 )}
+                <p className="text-base font-medium">{item.title}</p>
               </div>
               {item.items && (
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 ml-6">
                   {renderItems(item.items, level + 1)}
                 </div>
               )}

@@ -71,30 +71,34 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 {item.href ? (
                   <DropdownMenuItem asChild>
                     <Link to={item.href} className="w-full whitespace-nowrap flex items-center justify-between">
-                      <span>{item.title}</span>
-                      <ArrowRight className="h-4 w-4 ml-2" />
+                      <div className="flex items-center">
+                        <ArrowRight className="h-4 w-4 mr-2" />
+                        <span>{item.title}</span>
+                      </div>
                     </Link>
                   </DropdownMenuItem>
                 ) : (
-                  <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap flex items-center justify-between">
-                    <span>{item.title}</span>
-                    {/* Removed ArrowRight icon for "Loja Virtual" and "Rede" */}
+                  <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap flex items-center">
+                    {/* No arrow for "Loja Virtual" and "Rede" */}
                     {item.title !== "Loja Virtual" && item.title !== "Rede" && (
-                      <ArrowRight className="h-4 w-4 ml-2" />
+                      <ArrowRight className="h-4 w-4 mr-2" />
                     )}
+                    <span>{item.title}</span>
                   </DropdownMenuItem>
                 )}
                 
                 {item.items && (
-                  <div className="ml-4 mt-1 space-y-1">
+                  <div className="ml-8 mt-1 space-y-1">
                     {item.items.map((subItem) => (
                       <DropdownMenuItem key={subItem.title} asChild>
                         <Link 
                           to={subItem.href || "#"} 
                           className="w-full text-sm py-1 whitespace-nowrap flex items-center justify-between"
                         >
-                          <span>{subItem.title}</span>
-                          <ArrowRight className="h-4 w-4 ml-2" />
+                          <div className="flex items-center">
+                            <ArrowRight className="h-4 w-4 mr-2" />
+                            <span>{subItem.title}</span>
+                          </div>
                         </Link>
                       </DropdownMenuItem>
                     ))}
