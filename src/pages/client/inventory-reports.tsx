@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Database, Filter } from "lucide-react";
@@ -9,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
+import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 export default function InventoryReports() {
   const navigate = useNavigate();
@@ -57,6 +59,7 @@ export default function InventoryReports() {
   return (
     <div className="min-h-screen bg-white">
       <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-50">
+        <ParticlesBackground style="default" />
         <div className="h-full flex items-center px-6 relative z-10">
           <div className="flex flex-col">
             <h1 className="text-sm text-gray-400 font-normal leading-tight">Relatório</h1>
