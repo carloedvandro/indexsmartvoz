@@ -28,7 +28,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0"
             >
               <img 
-                src="/lovable-uploads/7bd3feb8-4aa8-4cd3-a350-70d1d416ec5a.png" 
+                src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
                 alt="Home" 
                 className="w-40 h-40 hover:scale-110 transition-transform outline-none focus:outline-none active:outline-none" 
                 style={{outline: 'none'}}
@@ -41,7 +41,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0">
                     <img 
-                      src="/lovable-uploads/7bd3feb8-4aa8-4cd3-a350-70d1d416ec5a.png" 
+                      src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
                       alt="Home" 
                       className="w-36 h-36 outline-none focus:outline-none" 
                       style={{outline: 'none'}}
