@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Database, Filter } from "lucide-react";
@@ -12,7 +13,7 @@ import { Card } from "@/components/ui/card";
 
 export default function InventoryReports() {
   const navigate = useNavigate();
-  const [selectedMonth, setSelectedMonth] = useState("2");
+  const [selectedMonth, setSelectedMonth] = useState("6");
   const [selectedYear, setSelectedYear] = useState("2025");
   
   const handleBack = () => {
@@ -66,29 +67,29 @@ export default function InventoryReports() {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
-        <div className="border rounded-lg bg-white p-8 shadow-sm w-full md:w-[780px] mx-auto mb-6">
-          <div className="flex items-center gap-2 mb-8">
+        <div className="border rounded-lg bg-white p-6 shadow-sm w-full md:w-[780px] mx-auto mb-6">
+          <div className="flex items-center gap-2 mb-6">
             <Filter className="w-5 h-5 text-[#5f0889]" />
-            <span className="text-lg font-medium text-[#5f0889]">Filtros</span>
+            <span className="text-base font-medium text-[#5f0889]">Filtros</span>
           </div>
           
-          <div className="grid grid-cols-2 gap-10 mb-10">
-            <div className="max-w-[220px]">
-              <label className="block text-lg font-medium text-gray-900 mb-3">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+            <div>
+              <label className="block text-sm font-medium text-gray-900 mb-2">
                 Mês
               </label>
               <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
                 <SelectTrigger 
-                  className="w-full bg-white text-gray-900 border-gray-300 h-12 text-base"
+                  className="w-full max-w-[200px] bg-white text-gray-900 border-gray-300 h-12"
                 >
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md">
+                <SelectContent className="border border-gray-200 rounded-md shadow-md">
                   {months.map((month) => (
                     <SelectItem 
                       key={month.value} 
                       value={month.value}
-                      className="bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white py-2 px-2"
+                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-2 px-2"
                     >
                       {month.label}
                     </SelectItem>
@@ -97,22 +98,22 @@ export default function InventoryReports() {
               </Select>
             </div>
             
-            <div className="max-w-[220px] justify-self-end">
-              <label className="block text-lg font-medium text-gray-900 mb-3">
+            <div>
+              <label className="block text-sm font-medium text-gray-900 mb-2">
                 Ano
               </label>
               <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
                 <SelectTrigger 
-                  className="w-full bg-white text-gray-900 border-gray-300 h-12 text-base"
+                  className="w-full max-w-[200px] bg-white text-gray-900 border-gray-300 h-12"
                 >
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md">
+                <SelectContent className="border border-gray-200 rounded-md shadow-md">
                   {years.map((year) => (
                     <SelectItem 
                       key={year.value} 
                       value={year.value}
-                      className="bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white py-2 px-2"
+                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-2 px-2"
                     >
                       {year.label}
                     </SelectItem>
@@ -122,22 +123,23 @@ export default function InventoryReports() {
             </div>
           </div>
           
-          <div className="flex flex-row justify-between gap-6 mt-8">
+          <div className="flex flex-col sm:flex-row gap-4 sm:justify-between w-full">
             <button 
               onClick={handleBack}
-              className="border border-[#5f0889] text-[#5f0889] h-12 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-[124px] px-4 font-medium"
+              className="border border-[#5f0889] text-[#5f0889] h-10 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-full sm:w-auto px-4 sm:px-10"
             >
               Voltar
             </button>
             
             <button 
-              className="bg-[#5f0889] text-white h-12 rounded-md hover:bg-[#5f0889]/90 transition-colors w-[124px] px-4 font-medium"
+              className="bg-[#5f0889] text-white h-10 rounded-md hover:bg-[#5f0889]/90 transition-colors w-full sm:w-auto px-4 sm:px-10"
             >
               Filtrar
             </button>
           </div>
         </div>
         
+        {/* Tabela de Estoque */}
         <div className="bg-white border rounded-lg overflow-hidden w-full md:w-[780px] mx-auto mb-4">
           <div className="flex items-center gap-3 p-4 bg-[#5f0889]/10 border-b border-gray-200">
             <Database className="w-5 h-5 text-[#5f0889]" />
@@ -167,6 +169,7 @@ export default function InventoryReports() {
           ))}
         </div>
         
+        {/* Cards de resumo */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-[780px] mx-auto">
           <Card className="p-4 border border-l-[10px] border-l-purple-600">
             <p className="text-sm text-gray-500">Total em Estoque</p>
