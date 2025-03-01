@@ -1,3 +1,4 @@
+
 import {
   Select,
   SelectContent,
@@ -47,7 +48,7 @@ export function DDDInput({ ddd, onDDDChange, disabled = false }: DDDInputProps) 
   return (
     <Select value={ddd} onValueChange={onDDDChange} disabled={disabled}>
       <SelectTrigger 
-        className={`bg-white h-[42px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+        className={`bg-white h-[42px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] text-left pl-3 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
         <SelectValue placeholder="Selecione o DDD" />
       </SelectTrigger>
