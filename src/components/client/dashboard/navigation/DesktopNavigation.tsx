@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
 import { NavigationItem } from "../types";
+import { ArrowRight } from "lucide-react";
 
 interface DesktopNavigationProps {
   navigationItems: NavigationItem[];
@@ -69,13 +70,15 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <div key={item.title}>
                 {item.href ? (
                   <DropdownMenuItem asChild>
-                    <Link to={item.href} className="w-full whitespace-nowrap">
-                      {item.title}
+                    <Link to={item.href} className="w-full whitespace-nowrap flex items-center justify-between">
+                      <span>{item.title}</span>
+                      <ArrowRight className="h-4 w-4 ml-2" />
                     </Link>
                   </DropdownMenuItem>
                 ) : (
-                  <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap">
-                    {item.title}
+                  <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap flex items-center justify-between">
+                    <span>{item.title}</span>
+                    <ArrowRight className="h-4 w-4 ml-2" />
                   </DropdownMenuItem>
                 )}
                 
@@ -85,9 +88,10 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                       <DropdownMenuItem key={subItem.title} asChild>
                         <Link 
                           to={subItem.href || "#"} 
-                          className="w-full text-sm py-1 whitespace-nowrap"
+                          className="w-full text-sm py-1 whitespace-nowrap flex items-center justify-between"
                         >
-                          {subItem.title}
+                          <span>{subItem.title}</span>
+                          <ArrowRight className="h-4 w-4 ml-2" />
                         </Link>
                       </DropdownMenuItem>
                     ))}

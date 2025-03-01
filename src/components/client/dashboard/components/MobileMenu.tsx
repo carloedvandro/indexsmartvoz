@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from "react-router-dom";
-import { X, Menu } from "lucide-react";
+import { X, Menu, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
@@ -34,11 +34,19 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                   <span className="text-base mb-0.5 font-bold" style={{marginBottom: '2px', marginLeft: '-1px'}}>Home</span>
                 </div>
               )}
-              {!item.iconOnly && item.icon !== "home" && <span className="text-base">{item.title}</span>}
+              {!item.iconOnly && item.icon !== "home" && (
+                <div className="flex items-center justify-between w-full">
+                  <span className="text-base">{item.title}</span>
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </div>
+              )}
             </Link>
           ) : (
             <>
-              <p className="text-base font-medium">{item.title}</p>
+              <div className="flex items-center justify-between">
+                <p className="text-base font-medium">{item.title}</p>
+                <ArrowRight className="h-4 w-4 ml-2" />
+              </div>
               {item.items && (
                 <div className="flex flex-col gap-1">
                   {renderItems(item.items, level + 1)}
