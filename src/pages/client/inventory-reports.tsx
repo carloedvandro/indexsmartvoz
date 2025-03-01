@@ -73,23 +73,23 @@ export default function InventoryReports() {
             <span className="text-base font-medium text-[#5f0889]">Filtros</span>
           </div>
           
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+          <div className="grid grid-cols-2 gap-6 mb-8">
             <div>
               <label className="block text-sm font-medium text-gray-900 mb-2">
                 Mês
               </label>
               <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
                 <SelectTrigger 
-                  className="w-full max-w-[200px] bg-white text-gray-900 border-gray-300 h-12"
+                  className="w-full bg-white text-gray-900 border-gray-300 h-12"
                 >
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="border border-gray-200 rounded-md shadow-md">
+                <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md">
                   {months.map((month) => (
                     <SelectItem 
                       key={month.value} 
                       value={month.value}
-                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-2 px-2"
+                      className="bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white py-2 px-2"
                     >
                       {month.label}
                     </SelectItem>
@@ -104,16 +104,16 @@ export default function InventoryReports() {
               </label>
               <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
                 <SelectTrigger 
-                  className="w-full max-w-[200px] bg-white text-gray-900 border-gray-300 h-12"
+                  className="w-full bg-white text-gray-900 border-gray-300 h-12"
                 >
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="border border-gray-200 rounded-md shadow-md">
+                <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md">
                   {years.map((year) => (
                     <SelectItem 
                       key={year.value} 
                       value={year.value}
-                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-2 px-2"
+                      className="bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white py-2 px-2"
                     >
                       {year.label}
                     </SelectItem>
@@ -123,16 +123,16 @@ export default function InventoryReports() {
             </div>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 sm:justify-between w-full">
+          <div className="flex flex-row justify-between gap-6">
             <button 
               onClick={handleBack}
-              className="border border-[#5f0889] text-[#5f0889] h-10 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-full sm:w-auto px-4 sm:px-10"
+              className="border border-[#5f0889] text-[#5f0889] h-12 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-40 px-4"
             >
               Voltar
             </button>
             
             <button 
-              className="bg-[#5f0889] text-white h-10 rounded-md hover:bg-[#5f0889]/90 transition-colors w-full sm:w-auto px-4 sm:px-10"
+              className="bg-[#5f0889] text-white h-12 rounded-md hover:bg-[#5f0889]/90 transition-colors w-40 px-4"
             >
               Filtrar
             </button>
