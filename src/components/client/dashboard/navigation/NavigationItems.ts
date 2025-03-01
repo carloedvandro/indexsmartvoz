@@ -6,6 +6,7 @@ export const navigationItems: NavigationItem[] = [
     title: "Dashboard",
     href: "/client/dashboard",
     icon: "home",
+    iconOnly: true,
   },
   {
     title: "Loja Virtual",

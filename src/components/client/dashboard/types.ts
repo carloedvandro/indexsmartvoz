@@ -5,4 +5,5 @@ export interface NavigationItem {
   description?: string;
   items?: NavigationItem[];
   icon?: string;
+  iconOnly?: boolean;
 }
