@@ -111,6 +111,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
               <DueDateSelector
                 selectedDueDate={selectedDueDate}
                 setSelectedDueDate={setSelectedDueDate}
+                selectedCardClassName="bg-white"
               />
             </div>
           ) : (
