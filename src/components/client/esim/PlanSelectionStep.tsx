@@ -87,7 +87,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
         <div className="space-y-4">
           <div className="w-full px-2 max-w-[360px] mx-auto">
             <div className="grid grid-cols-2 gap-3">
-              <div className="w-full max-w-[135px]">
+              <div className="w-full max-w-[140px]">
                 <span className="text-sm font-medium mb-1 block">Internet</span>
                 <InternetSelector
                   selectedInternet={selectedInternet}
@@ -95,7 +95,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
                   internetOptions={internetOptions}
                 />
               </div>
-              <div className="w-full max-w-[135px]">
+              <div className="w-full max-w-[140px]">
                 <span className="text-sm font-medium mb-1 block">DDD</span>
                 <DDDInput
                   ddd={selectedDDD}
