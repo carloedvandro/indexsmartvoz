@@ -108,7 +108,6 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
 
           {!isFreePlan ? (
             <div className="w-full px-2 max-w-[340px] mx-auto">
-              <span className="text-sm font-medium mb-1 block max-w-[250px]">Escolha a melhor data de vencimento da sua fatura:</span>
               <DueDateSelector
                 selectedDueDate={selectedDueDate}
                 setSelectedDueDate={setSelectedDueDate}
