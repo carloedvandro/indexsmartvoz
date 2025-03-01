@@ -1,11 +1,12 @@
 
 import React from 'react';
+import { Transaction, Month } from './types';
 
 interface ExportPDFButtonProps {
-  filteredTransactions: any[];
+  filteredTransactions: Transaction[];
   selectedMonth: string;
   selectedYear: string;
-  months: Array<{ value: string; label: string }>;
+  months: Month[];
 }
 
 export function ExportPDFButton({ 
