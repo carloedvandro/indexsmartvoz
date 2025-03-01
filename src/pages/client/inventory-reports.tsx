@@ -74,7 +74,7 @@ export default function InventoryReports() {
           </div>
           
           <div className="grid grid-cols-2 gap-10 mb-10">
-            <div>
+            <div className="max-w-[220px]">
               <label className="block text-lg font-medium text-gray-900 mb-3">
                 Mês
               </label>
@@ -98,7 +98,7 @@ export default function InventoryReports() {
               </Select>
             </div>
             
-            <div>
+            <div className="max-w-[220px] justify-self-end">
               <label className="block text-lg font-medium text-gray-900 mb-3">
                 Ano
               </label>
