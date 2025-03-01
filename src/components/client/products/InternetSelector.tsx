@@ -26,7 +26,7 @@ export function InternetSelector({
 }: InternetSelectorProps) {
   return (
     <Select value={selectedInternet} onValueChange={onInternetChange}>
-      <SelectTrigger className="bg-white h-[42px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] focus:border-[#8425af]">
+      <SelectTrigger className="bg-white h-[42px] w-[90%] mx-auto border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] focus:border-[#8425af]">
         <SelectValue placeholder="Escolher o plano" />
       </SelectTrigger>
       <SelectContent position="popper" className="bg-white max-h-[179px] overflow-y-auto w-full">

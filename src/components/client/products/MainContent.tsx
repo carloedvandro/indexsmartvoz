@@ -69,7 +69,7 @@ export function MainContent({
       variants={containerVariants}
     >
       <ParticlesBackground />
-      <Card className="relative z-10 w-full max-w-[360px] shadow-none bg-transparent border-0">
+      <Card className="relative z-10 w-full max-w-[400px] shadow-none bg-transparent border-0">
         <CardContent>
           <motion.div variants={itemVariants}>
             {currentStep === 1 && (
