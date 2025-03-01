@@ -15,7 +15,8 @@ import {
   DropdownMenu, 
   DropdownMenuContent, 
   DropdownMenuTrigger, 
-  DropdownMenuItem 
+  DropdownMenuItem,
+  DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
 
 interface DesktopNavigationProps {
@@ -40,35 +41,46 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-56 bg-white p-2">
             {homeItem.href && (
-              <DropdownMenuItem asChild>
-                <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer">
-                  <House className="w-4 h-4 text-primary" />
-                  <span>Home</span>
-                </Link>
-              </DropdownMenuItem>
+              <>
+                <DropdownMenuItem asChild>
+                  <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer">
+                    <House className="w-4 h-4 text-primary" />
+                    <span>Home</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+              </>
             )}
             
             {otherItems.map((item) => (
-              <NavigationMenu key={item.title} className="p-0 w-full">
-                <NavigationMenuList className="p-0 w-full flex-col">
-                  <NavigationMenuItem className="w-full">
-                    {item.href ? (
-                      <NavigationMenuTrigger className="w-full justify-start font-medium text-sm bg-transparent hover:bg-transparent hover:text-primary data-[state=open]:bg-transparent data-[state=open]:text-primary active:bg-transparent focus:bg-transparent text-left p-2">
-                        {item.title}
-                      </NavigationMenuTrigger>
-                    ) : (
-                      <>
-                        <NavigationMenuTrigger className="w-full justify-start font-medium text-sm bg-transparent hover:bg-transparent hover:text-primary data-[state=open]:bg-transparent data-[state=open]:text-primary active:bg-transparent focus:bg-transparent text-left p-2">
-                          {item.title}
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent className="!w-[380px] p-4 bg-white">
-                          <NavigationContent item={item} />
-                        </NavigationMenuContent>
-                      </>
-                    )}
-                  </NavigationMenuItem>
-                </NavigationMenuList>
-              </NavigationMenu>
+              <div key={item.title}>
+                {item.href ? (
+                  <DropdownMenuItem asChild>
+                    <Link to={item.href} className="w-full">
+                      {item.title}
+                    </Link>
+                  </DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem className="font-medium cursor-default">
+                    {item.title}
+                  </DropdownMenuItem>
+                )}
+                
+                {item.items && (
+                  <div className="ml-4 mt-1 space-y-1">
+                    {item.items.map((subItem) => (
+                      <DropdownMenuItem key={subItem.title} asChild>
+                        <Link 
+                          to={subItem.href || "#"} 
+                          className="w-full text-sm py-1"
+                        >
+                          {subItem.title}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
