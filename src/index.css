@@ -72,11 +72,18 @@ select,
   min-height: 28px !important;
   padding-top: 2px !important;
   padding-bottom: 2px !important;
+  background-color: white !important;
+}
+
+[role="option"]:hover {
+  background-color: #8425af !important;
+  color: white !important;
 }
 
 /* Hide scroll buttons when not needed */
 [data-radix-select-viewport] {
   overflow-y: auto !important;
+  background-color: white !important;
 }
 
 /* Hide scroll indicators completely */
@@ -96,4 +103,13 @@ select,
 
 *::-webkit-scrollbar {
   display: none !important;
+}
+
+/* Force white background for radix elements */
+[data-radix-popper-content-wrapper] {
+  background-color: white !important;
+}
+
+[data-radix-select-content] {
+  background-color: white !important;
 }

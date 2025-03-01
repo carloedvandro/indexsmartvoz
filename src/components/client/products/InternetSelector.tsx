@@ -29,12 +29,17 @@ export function InternetSelector({
       <SelectTrigger className="bg-white h-[42px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af]">
         <SelectValue placeholder="Escolher o plano" />
       </SelectTrigger>
-      <SelectContent position="popper" className="bg-white max-h-[179px] overflow-y-auto w-full z-50">
+      <SelectContent 
+        position="popper" 
+        className="bg-white max-h-[179px] overflow-y-auto w-full z-50"
+        style={{ backgroundColor: 'white' }}
+      >
         {internetOptions.map((option) => (
           <SelectItem 
             key={option.value} 
             value={option.value}
             className="bg-white hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
+            style={{ backgroundColor: 'white' }}
           >
             {option.label}
           </SelectItem>
