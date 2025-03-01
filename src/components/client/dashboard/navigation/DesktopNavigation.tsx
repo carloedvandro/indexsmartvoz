@@ -36,7 +36,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               variant="link" 
               className="p-0 h-auto bg-transparent hover:bg-transparent focus:bg-transparent"
             >
-              <House className="w-5 h-5 text-primary hover:scale-110 transition-transform" />
+              <House className="w-8 h-8 text-primary hover:scale-110 transition-transform" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-72 bg-white p-2">
