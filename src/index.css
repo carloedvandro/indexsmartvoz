@@ -77,8 +77,24 @@ select,
 
 [role="option"]:hover,
 [role="option"]:focus,
-[role="option"][data-highlighted] {
-  background-color: #8425af !important;
+[role="option"][data-highlighted],
+[role="option"][data-state="checked"],
+[role="option"][aria-selected="true"] {
+  background-color: #5f0889 !important;
+  color: white !important;
+}
+
+/* Style for selected item to maintain purple color */
+[role="option"][aria-selected="true"], 
+[role="option"][data-state="checked"] {
+  background-color: #5f0889 !important;
+  color: white !important;
+}
+
+/* Override any dynamic effects that might change these colors */
+[role="option"]:active,
+[role="option"]:focus {
+  background-color: #5f0889 !important;
   color: white !important;
 }
 
@@ -126,4 +142,3 @@ img:focus,
   text-align: left;
   padding-left: 0;
 }
-
