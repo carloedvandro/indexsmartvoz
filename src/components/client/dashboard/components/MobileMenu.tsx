@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from "react-router-dom";
-import { MoveRight, X, Menu, Home } from "lucide-react";
+import { X, Menu, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
@@ -24,12 +24,14 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
               className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent whitespace-nowrap"
             >
               {item.icon === "home" && (
-                <div className="bg-[#403E43] p-1 rounded flex items-center justify-center">
-                  <Home className="w-5 h-5 text-white" />
-                </div>
+                <>
+                  <div className="bg-[#403E43] p-1 rounded flex items-center justify-center">
+                    <Home className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="text-base">Home</span>
+                </>
               )}
-              {!item.iconOnly && <span className="text-base">{item.title}</span>}
-              <MoveRight className="w-3.5 h-3.5 stroke-1 text-muted-foreground" />
+              {!item.iconOnly && item.icon !== "home" && <span className="text-base">{item.title}</span>}
             </Link>
           ) : (
             <>
