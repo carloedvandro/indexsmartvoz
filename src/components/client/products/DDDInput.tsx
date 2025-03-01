@@ -46,11 +46,11 @@ export function DDDInput({ ddd, onDDDChange, disabled = false }: DDDInputProps) 
   ];
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1">
       <label className="block text-lg font-medium">DDD</label>
       <Select value={ddd} onValueChange={onDDDChange} disabled={disabled}>
         <SelectTrigger 
-          className={`bg-white h-[42px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] focus:border-[#8425af] text-left pl-3 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`bg-white h-[40px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] focus:border-[#8425af] text-left pl-3 text-sm ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
           <SelectValue placeholder="Selecione o DDD" />
         </SelectTrigger>
