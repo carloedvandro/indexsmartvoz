@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,7 +30,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <img 
                 src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
                 alt="Home" 
-                className="w-10 h-10 hover:scale-110 transition-transform outline-none focus:outline-none active:outline-none" 
+                className="w-10 h-10 outline-none focus:outline-none active:outline-none" 
                 style={{outline: 'none'}}
               />
               <span className="text-base mb-1 ml-1">Home</span>
