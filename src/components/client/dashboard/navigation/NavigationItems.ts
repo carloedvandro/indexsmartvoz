@@ -3,6 +3,11 @@ import { NavigationItem } from "../types";
 
 export const navigationItems: NavigationItem[] = [
   {
+    title: "Dashboard",
+    href: "/client/dashboard",
+    icon: "home",
+  },
+  {
     title: "Loja Virtual",
     items: [
       {

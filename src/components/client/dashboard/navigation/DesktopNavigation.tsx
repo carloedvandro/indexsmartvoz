@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { NavigationItem } from "../types";
 import { NavigationContent } from "./NavigationContent";
+import { Home } from "lucide-react";
 
 interface DesktopNavigationProps {
   navigationItems: NavigationItem[];
@@ -26,7 +27,10 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               {item.href ? (
                 <NavigationMenuLink asChild>
                   <Button variant="link" className="text-foreground hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent text-left justify-start p-0 h-auto text-sm whitespace-nowrap" asChild>
-                    <Link to={item.href}>{item.title}</Link>
+                    <Link to={item.href} className="flex items-center gap-1">
+                      {item.icon === "home" && <Home className="w-4 h-4" />}
+                      {item.title}
+                    </Link>
                   </Button>
                 </NavigationMenuLink>
               ) : (
