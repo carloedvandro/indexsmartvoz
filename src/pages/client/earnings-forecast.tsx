@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
@@ -40,7 +39,6 @@ export default function EarningsForecast() {
     { value: "2026", label: "2026" }
   ];
   
-  // Modified the bonus items list to remove the requested items
   const bonusItems = [
     { type: "Bônus Ativação", value: "R$ 0,00" },
     { type: "Bônus Equipe Promocional", value: "R$ 0,00" },
@@ -49,7 +47,6 @@ export default function EarningsForecast() {
   ];
 
   const handleFilter = () => {
-    // Handle filter action
     console.log(`Filter applied: ${selectedMonth}/${selectedYear}`);
   };
 
@@ -64,8 +61,8 @@ export default function EarningsForecast() {
         </div>
       </div>
 
-      <div className="max-w-[1024px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
-        <div className="w-full max-w-[780px] mx-auto mb-6">
+      <div className="max-w-[900px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
+        <div className="w-full max-w-[680px] mx-auto mb-6">
           <FilterSection 
             selectedMonth={selectedMonth}
             selectedYear={selectedYear}
@@ -77,8 +74,7 @@ export default function EarningsForecast() {
           />
         </div>
         
-        {/* Alerta de previsão */}
-        <div className="bg-white border border-yellow-400 border-l-[10px] rounded-md p-4 mb-6 w-full max-w-[780px] mx-auto">
+        <div className="bg-white border border-yellow-400 border-l-[10px] rounded-md p-4 mb-6 w-full max-w-[680px] mx-auto">
           <div className="flex items-start">
             <AlertTriangle className="w-5 h-5 text-yellow-500 mt-0.5 flex-shrink-0" />
             <div className="ml-3">
@@ -89,8 +85,7 @@ export default function EarningsForecast() {
           </div>
         </div>
         
-        {/* Tabela de bônus */}
-        <div className="bg-white border rounded-lg overflow-hidden w-full max-w-[780px] mx-auto mb-8">
+        <div className="bg-white border rounded-lg overflow-hidden w-full max-w-[680px] mx-auto mb-8">
           {bonusItems.map((item, index) => (
             <div key={index} className={`flex justify-between py-4 px-6 ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
               <div className="font-medium text-gray-700">{item.type}</div>
@@ -99,8 +94,7 @@ export default function EarningsForecast() {
           ))}
         </div>
         
-        {/* Total separado abaixo da tabela principal */}
-        <div className="w-full max-w-[780px] mx-auto border border-yellow-400 border-l-[10px] rounded-md overflow-hidden">
+        <div className="w-full max-w-[680px] mx-auto border border-yellow-400 border-l-[10px] rounded-md overflow-hidden">
           <div className="flex justify-between py-4 px-8 bg-white">
             <div className="font-bold text-lg text-amber-800">Total de Bônus</div>
             <div className="font-bold text-lg text-amber-800">R$ 0,00</div>
