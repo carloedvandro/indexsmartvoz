@@ -26,6 +26,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
             <Button 
               variant="ghost" 
               className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-end -ml-3"
+              style={{ pointerEvents: 'auto' }}
             >
               <img 
                 src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
