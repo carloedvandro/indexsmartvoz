@@ -30,7 +30,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <img 
                 src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
                 alt="Home" 
-                className="w-40 h-40 hover:scale-110 transition-transform outline-none focus:outline-none active:outline-none" 
+                className="w-8 h-8 hover:scale-110 transition-transform outline-none focus:outline-none active:outline-none" 
                 style={{outline: 'none'}}
               />
             </Button>
@@ -43,7 +43,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                     <img 
                       src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
                       alt="Home" 
-                      className="w-36 h-36 outline-none focus:outline-none" 
+                      className="w-8 h-8 outline-none focus:outline-none" 
                       style={{outline: 'none'}}
                     />
                     <span>Home</span>
