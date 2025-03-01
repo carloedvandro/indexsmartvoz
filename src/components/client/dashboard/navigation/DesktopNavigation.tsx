@@ -52,14 +52,14 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
             {homeItem.href && (
               <>
                 <DropdownMenuItem asChild>
-                  <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-purple-600 rounded-md">
+                  <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
                     <img 
                       src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
                       alt="Home" 
                       className="w-10 h-10 outline-none focus:outline-none" 
                       style={{outline: 'none'}}
                     />
-                    <span className="font-bold self-center text-white">Home</span>
+                    <span className="font-bold self-center text-[#5f0889]">Home</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
