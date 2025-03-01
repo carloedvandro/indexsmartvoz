@@ -73,6 +73,8 @@ select,
   padding-top: 2px !important;
   padding-bottom: 2px !important;
   background-color: white !important;
+  margin-bottom: 1px !important;
+  border-radius: 2px !important;
 }
 
 [role="option"]:hover,
@@ -101,6 +103,7 @@ select,
 /* Hide scroll buttons when not needed */
 [data-radix-select-viewport] {
   overflow-y: auto !important;
+  padding: 2px !important;
 }
 
 /* Hide scroll indicators completely */
