@@ -28,7 +28,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 <NavigationMenuLink asChild>
                   <Button variant="link" className="text-foreground hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent text-left justify-start p-0 h-auto text-sm whitespace-nowrap" asChild>
                     <Link to={item.href} className="flex items-center gap-1">
-                      {item.icon === "home" && <Home className="w-5 h-5" />}
+                      {item.icon === "home" && <Home className="w-8 h-8" />}
                       {!item.iconOnly && item.title}
                     </Link>
                   </Button>
