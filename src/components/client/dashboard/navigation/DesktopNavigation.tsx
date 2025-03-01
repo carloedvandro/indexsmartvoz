@@ -18,15 +18,6 @@ interface DesktopNavigationProps {
 export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) => {
   const homeItem = navigationItems.find(item => item.icon === "home");
   const otherItems = navigationItems.filter(item => item.icon !== "home");
-  
-  // Array of titles that should have the arrow on the left
-  const titlesWithLeftArrow = [
-    "Plano Smartvoz", 
-    "Processo de Ativação do SIM Card", 
-    "Processo de Ativação do eSIM", 
-    "Relatórios Estoque", 
-    "Minha Rede"
-  ];
 
   return (
     <div className="justify-start items-center gap-2 lg:flex hidden flex-row pl-2">
@@ -80,17 +71,8 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 {item.href ? (
                   <DropdownMenuItem asChild>
                     <Link to={item.href} className="w-full whitespace-nowrap flex items-center justify-between">
-                      {titlesWithLeftArrow.includes(item.title) ? (
-                        <div className="flex items-center w-full justify-end">
-                          <ArrowRight className="h-4 w-4 mr-2" />
-                          <span>{item.title}</span>
-                        </div>
-                      ) : (
-                        <div className="flex items-center w-full justify-between">
-                          <span>{item.title}</span>
-                          <ArrowRight className="h-4 w-4 ml-2" />
-                        </div>
-                      )}
+                      <span>{item.title}</span>
+                      <ArrowRight className="h-4 w-4 ml-2" />
                     </Link>
                   </DropdownMenuItem>
                 ) : (
@@ -108,17 +90,8 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                           to={subItem.href || "#"} 
                           className="w-full text-sm py-1 whitespace-nowrap flex items-center justify-between"
                         >
-                          {titlesWithLeftArrow.includes(subItem.title) ? (
-                            <div className="flex items-center w-full justify-end">
-                              <ArrowRight className="h-4 w-4 mr-2" />
-                              <span>{subItem.title}</span>
-                            </div>
-                          ) : (
-                            <div className="flex items-center w-full justify-between">
-                              <span>{subItem.title}</span>
-                              <ArrowRight className="h-4 w-4 ml-2" />
-                            </div>
-                          )}
+                          <span>{subItem.title}</span>
+                          <ArrowRight className="h-4 w-4 ml-2" />
                         </Link>
                       </DropdownMenuItem>
                     ))}
