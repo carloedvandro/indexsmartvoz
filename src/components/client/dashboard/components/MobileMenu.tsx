@@ -23,7 +23,11 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
               to={item.href}
               className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent whitespace-nowrap"
             >
-              {item.icon === "home" && <Home className="w-8 h-8" />}
+              {item.icon === "home" && (
+                <div className="bg-[#403E43] p-1 rounded flex items-center justify-center">
+                  <Home className="w-5 h-5 text-white" />
+                </div>
+              )}
               {!item.iconOnly && <span className="text-base">{item.title}</span>}
               <MoveRight className="w-3.5 h-3.5 stroke-1 text-muted-foreground" />
             </Link>
