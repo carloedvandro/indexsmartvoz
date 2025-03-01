@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Database, Filter } from "lucide-react";
@@ -99,7 +100,7 @@ export default function InventoryReports() {
               </Select>
             </div>
             
-            <div className="max-w-[180px] ml-auto">
+            <div className="ml-auto max-w-[120px]">
               <label className="block text-base font-medium text-gray-900 mb-2">
                 Ano
               </label>
