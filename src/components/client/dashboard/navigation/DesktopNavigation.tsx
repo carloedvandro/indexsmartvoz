@@ -30,8 +30,8 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                     <Link to={item.href} className="flex items-center gap-1">
                       {item.icon === "home" && (
                         <>
-                          <Home className="w-5 h-5 text-primary" />
-                          <House className="w-5 h-5 text-primary" />
+                          <Home className="w-5 h-5 text-primary hover:scale-110 transition-transform" />
+                          <House className="w-5 h-5 text-primary hover:scale-110 transition-transform" />
                         </>
                       )}
                       {!item.iconOnly && item.title}

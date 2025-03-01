@@ -25,8 +25,8 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
             >
               {item.icon === "home" && (
                 <>
-                  <Home className="w-5 h-5 text-primary" />
-                  <House className="w-5 h-5 text-primary" />
+                  <Home className="w-5 h-5 text-primary hover:scale-110 transition-transform" />
+                  <House className="w-5 h-5 text-primary hover:scale-110 transition-transform" />
                   <span className="text-base">Home</span>
                 </>
               )}
