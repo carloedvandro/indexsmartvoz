@@ -21,14 +21,14 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
           {item.href ? (
             <Link
               to={item.href}
-              className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent whitespace-nowrap"
+              className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap"
             >
               {item.icon === "home" && (
                 <>
                   <img 
                     src="/lovable-uploads/7bd3feb8-4aa8-4cd3-a350-70d1d416ec5a.png" 
                     alt="Home" 
-                    className="w-20 h-20 hover:scale-110 transition-transform" 
+                    className="w-20 h-20 hover:scale-110 transition-transform border-0" 
                   />
                   <span className="text-base">Home</span>
                 </>
@@ -55,7 +55,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
       <Button 
         variant="ghost" 
         onClick={() => setOpen(!isOpen)}
-        className="hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent"
+        className="hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent"
       >
         {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </Button>

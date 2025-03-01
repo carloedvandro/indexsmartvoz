@@ -24,8 +24,8 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button 
-              variant="link" 
-              className="p-0 h-auto bg-transparent hover:bg-transparent focus:bg-transparent"
+              variant="ghost" 
+              className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0"
             >
               <img 
                 src="/lovable-uploads/7bd3feb8-4aa8-4cd3-a350-70d1d416ec5a.png" 
