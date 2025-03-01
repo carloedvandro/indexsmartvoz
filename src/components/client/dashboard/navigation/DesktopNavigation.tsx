@@ -39,7 +39,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <House className="w-5 h-5 text-primary hover:scale-110 transition-transform" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-56 bg-white p-2">
+          <DropdownMenuContent align="start" className="w-72 bg-white p-2">
             {homeItem.href && (
               <>
                 <DropdownMenuItem asChild>
@@ -56,12 +56,12 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <div key={item.title}>
                 {item.href ? (
                   <DropdownMenuItem asChild>
-                    <Link to={item.href} className="w-full">
+                    <Link to={item.href} className="w-full whitespace-nowrap">
                       {item.title}
                     </Link>
                   </DropdownMenuItem>
                 ) : (
-                  <DropdownMenuItem className="font-medium cursor-default">
+                  <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap">
                     {item.title}
                   </DropdownMenuItem>
                 )}
@@ -72,7 +72,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                       <DropdownMenuItem key={subItem.title} asChild>
                         <Link 
                           to={subItem.href || "#"} 
-                          className="w-full text-sm py-1"
+                          className="w-full text-sm py-1 whitespace-nowrap"
                         >
                           {subItem.title}
                         </Link>
