@@ -14,6 +14,15 @@ interface MobileMenuProps {
 }
 
 export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: MobileMenuProps) => {
+  // Array of titles that should have the arrow on the left
+  const titlesWithLeftArrow = [
+    "Plano Smartvoz", 
+    "Processo de Ativação do SIM Card", 
+    "Processo de Ativação do eSIM", 
+    "Relatórios Estoque", 
+    "Minha Rede"
+  ];
+
   const renderItems = (items: NavigationItem[], level = 0) => {
     return items.map((item) => (
       <div key={item.title}>
@@ -36,8 +45,17 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
               )}
               {!item.iconOnly && item.icon !== "home" && (
                 <div className="flex items-center justify-between w-full">
-                  <span className="text-base">{item.title}</span>
-                  <ArrowRight className="h-4 w-4 ml-2" />
+                  {titlesWithLeftArrow.includes(item.title) ? (
+                    <>
+                      <ArrowRight className="h-4 w-4 mr-2" />
+                      <span className="text-base">{item.title}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-base">{item.title}</span>
+                      <ArrowRight className="h-4 w-4 ml-2" />
+                    </>
+                  )}
                 </div>
               )}
             </Link>
