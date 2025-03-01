@@ -1,24 +1,13 @@
-import { useLocation, useNavigate } from "react-router-dom";
+
 import { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Filter } from "lucide-react";
-import jsPDF from "jspdf";
-import { useIsMobile } from "@/hooks/use-mobile";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
+import { FinancialHeader } from "@/components/client/financial/FinancialDetailsHeader";
+import { FinancialFilter } from "@/components/client/financial/FinancialFilter";
+import { FinancialSummary } from "@/components/client/financial/FinancialSummary";
+import { FinancialTable } from "@/components/client/financial/FinancialTable";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { BalanceDialog } from "@/components/client/financial/BalanceDialog";
 
 export default function FinancialDetails() {
   const navigate = useNavigate();
@@ -40,6 +29,7 @@ export default function FinancialDetails() {
   const [selectedYear, setSelectedYear] = useState("2025");
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredTransactions, setFilteredTransactions] = useState(transactions);
+  const [balanceDialogOpen, setBalanceDialogOpen] = useState(false);
 
   const filterTransactions = () => {
     const filtered = transactions.filter(transaction => {
@@ -56,124 +46,6 @@ export default function FinancialDetails() {
     });
     
     setFilteredTransactions(filtered);
-  };
-
-  const handleExportPDF = () => {
-    const doc = new jsPDF({
-      orientation: "landscape", // Orientação paisagem para maior largura
-    });
-    
-    // Centraliza o título
-    doc.setFontSize(16);
-    const title = "Extrato Detalhado";
-    const titleWidth = doc.getTextWidth(title);
-    const pageWidth = doc.internal.pageSize.width;
-    doc.text(title, (pageWidth - titleWidth) / 2, 20);
-    
-    // Centraliza o período
-    doc.setFontSize(10);
-    const period = `Período: ${months.find(m => m.value === selectedMonth)?.label} de ${selectedYear}`;
-    const periodWidth = doc.getTextWidth(period);
-    doc.text(period, (pageWidth - periodWidth) / 2, 30);
-    
-    // Define margens laterais para centralizar a tabela
-    // Aumentando as margens para diminuir a largura efetiva da tabela
-    const margin = 40; // Aumentado para 40 para diminuir ainda mais a largura
-    const tableWidth = pageWidth - (margin * 2);
-    
-    // Define larguras proporcionais para cada coluna
-    const colWidths = {
-      date: Math.floor(tableWidth * 0.12),
-      type: Math.floor(tableWidth * 0.22),
-      description: Math.floor(tableWidth * 0.24),
-      value: Math.floor(tableWidth * 0.20),
-      balance: Math.floor(tableWidth * 0.22)
-    };
-    
-    let y = 40;
-    
-    // Altura padrão para todas as linhas da tabela (cabeçalho e dados)
-    const rowHeight = 8;
-    
-    // Cabeçalho da tabela com altura e cor padrão
-    doc.setFillColor(240, 240, 240);
-    doc.rect(margin, y - 6, tableWidth, rowHeight, 'F');
-    
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(10);
-    
-    // Centraliza verticalmente o texto do cabeçalho
-    const headerTextY = y - 1; // Ajuste para centralizar verticalmente
-    
-    // Definindo pontos de início de cada coluna
-    const dateStartX = margin;
-    const typeStartX = dateStartX + colWidths.date;
-    const descriptionStartX = typeStartX + colWidths.type;
-    const valueStartX = descriptionStartX + colWidths.description;
-    const balanceStartX = valueStartX + colWidths.value;
-    
-    // Definindo pontos finais de cada coluna (para alinhamento à direita)
-    const valueEndX = balanceStartX;
-    const balanceEndX = balanceStartX + colWidths.balance;
-    
-    // Cabeçalho Data
-    doc.text("Data", dateStartX + 5, headerTextY);
-    
-    // Cabeçalho Histórico
-    doc.text("Histórico", typeStartX + 5, headerTextY);
-    
-    // Cabeçalho Descrição
-    doc.text("Descrição", descriptionStartX + 5, headerTextY);
-    
-    // Cabeçalho Valor - Alinhado à direita
-    doc.text("Valor", valueEndX - 5, headerTextY, { align: "right" });
-    
-    // Cabeçalho Saldo - Alinhado à direita
-    doc.text("Saldo", balanceEndX - 5, headerTextY, { align: "right" });
-    
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(9);
-    
-    // Adiciona linhas da tabela com a mesma altura
-    y += rowHeight + 2; // Espaço após o cabeçalho
-    
-    filteredTransactions.forEach((transaction, index) => {
-      // Adiciona fundo alternado com altura padronizada
-      if (index % 2 === 0) {
-        doc.setFillColor(245, 245, 245);
-        doc.rect(margin, y - 6, tableWidth, rowHeight, 'F');
-      }
-      
-      // Centraliza verticalmente o texto na linha
-      const textY = y - 1;
-      
-      // Coluna Data
-      doc.setTextColor(0, 0, 0);
-      doc.text(transaction.date, dateStartX + 5, textY);
-      
-      // Coluna Histórico
-      doc.text(transaction.type, typeStartX + 5, textY);
-      
-      // Coluna Descrição
-      doc.text(transaction.description, descriptionStartX + 5, textY);
-      
-      // Coluna Valor (verde e alinhado à direita)
-      doc.setTextColor(34, 197, 94);
-      doc.text(transaction.value, valueEndX - 5, textY, { align: "right" });
-      
-      // Coluna Saldo (preto e alinhado à direita)
-      doc.setTextColor(0, 0, 0);
-      doc.text(transaction.balance, balanceEndX - 5, textY, { align: "right" });
-      
-      y += rowHeight + 2; // Espaçamento padronizado entre as linhas
-    });
-    
-    // Adiciona o total de registros na parte inferior
-    y += 6;
-    doc.setFontSize(10);
-    doc.text(`Total de registros: ${filteredTransactions.length}`, margin, y);
-    
-    doc.save(`extrato-${selectedMonth}-${selectedYear}.pdf`);
   };
 
   const handleBack = () => {
@@ -217,102 +89,27 @@ export default function FinancialDetails() {
     <div className="min-h-screen bg-white">
       <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-50">
         <ParticlesBackground style="default" />
-        <div className="h-full flex items-center px-6 relative z-10">
-          <div className="flex flex-col">
-            <h1 className="text-sm text-gray-400 font-normal leading-tight">Financeiro</h1>
-            <h2 className="text-xl text-white font-medium leading-7">Extrato Detalhado - {monthLabel} / {selectedYear}</h2>
-          </div>
-        </div>
+        <FinancialHeader monthLabel={monthLabel} selectedYear={selectedYear} />
       </div>
 
       <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
-        <div className="mb-6 md:mb-8 w-full md:w-[780px] mx-auto">
-          <div className="border rounded-lg bg-white p-6 shadow-sm w-full">
-            <div className="flex items-center gap-2 mb-6">
-              <Filter className="w-4 h-4 text-[#5f0889]" />
-              <span className="text-sm font-medium text-gray-900">Filtros</span>
-            </div>
-            <div className="flex flex-row justify-between gap-4">
-              <div className="w-full md:max-w-[200px]">
-                <label className="block text-sm font-medium text-gray-900 mb-2">
-                  Mês
-                </label>
-                <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
-                  <SelectTrigger 
-                    className="w-full !bg-white text-gray-900 border-gray-300"
-                  >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="border border-gray-200 rounded-md shadow-md">
-                    {months.map((month) => (
-                      <SelectItem 
-                        key={month.value} 
-                        value={month.value}
-                        className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-2 px-2"
-                      >
-                        {month.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+        <FinancialFilter 
+          selectedMonth={selectedMonth}
+          setSelectedMonth={setSelectedMonth}
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
+          months={months}
+          years={years}
+          handleBack={handleBack}
+          filterTransactions={filterTransactions}
+        />
 
-              <div className="w-full md:max-w-[200px]">
-                <label className="block text-sm font-medium text-gray-900 mb-2">
-                  Ano
-                </label>
-                <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
-                  <SelectTrigger 
-                    className="w-full !bg-white text-gray-900 border-gray-300"
-                  >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="border border-gray-200 rounded-md shadow-md">
-                    {years.map((year) => (
-                      <SelectItem 
-                        key={year.value} 
-                        value={year.value}
-                        className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-2 px-2"
-                      >
-                        {year.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div className="flex justify-between items-center mt-6">
-              <button 
-                onClick={handleBack}
-                className="border border-[#5f0889] text-[#5f0889] h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-[80px]"
-              >
-                Voltar
-              </button>
-              <button 
-                onClick={filterTransactions}
-                className="bg-[#5f0889] text-white h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors w-[80px]"
-              >
-                Filtrar
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-6 md:mb-8 mx-auto w-full md:w-[780px]">
-          <div className="bg-[#5f0889] text-white py-3 px-5 rounded-lg w-full md:w-[250px]">
-            <div className="text-xl font-bold mb-1">R$ 42.576,22</div>
-            <div className="text-sm">Total de ganhos em {monthLabel}/{selectedYear}</div>
-          </div>
-          <div className="bg-[#E3F2FD] py-3 px-5 rounded-lg w-full md:w-[250px]">
-            <div className="text-xl font-bold mb-1">R$ 47.576,23</div>
-            <div className="text-sm text-gray-600">Saldo em {monthLabel}/{selectedYear}</div>
-          </div>
-          <div className="bg-[#E3F2FD] py-3 px-5 rounded-lg w-full md:w-[250px]">
-            <div className="text-xl font-bold mb-1">R$ 5.000,01</div>
-            <div className="text-sm text-gray-600">Saldo disponível em {monthLabel}/{selectedYear}</div>
-          </div>
-        </div>
+        <FinancialSummary 
+          selectedMonth={selectedMonth}
+          selectedYear={selectedYear}
+          months={months}
+          onCardClick={() => setBalanceDialogOpen(true)}
+        />
 
         <div className="flex flex-row justify-between items-center gap-3 w-full md:w-[780px] mx-auto mb-6">
           <input
@@ -325,38 +122,18 @@ export default function FinancialDetails() {
               filterTransactions();
             }}
           />
-          <button 
-            onClick={handleExportPDF}
-            className="bg-[#5f0889] text-white px-6 h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors whitespace-nowrap"
-          >
-            Baixar em PDF
-          </button>
+          <ExportPDFButton 
+            filteredTransactions={filteredTransactions}
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            months={months}
+          />
         </div>
 
-        <div className="bg-white rounded-lg overflow-hidden border mx-auto w-full md:w-[780px] overflow-x-auto">
-          <Table>
-            <TableHeader className="bg-gray-50">
-              <TableRow>
-                <TableHead className="font-semibold min-w-[100px] text-black pl-6 text-lg">Data</TableHead>
-                <TableHead className="font-semibold min-w-[200px] text-black pl-9 text-lg">Histórico</TableHead>
-                <TableHead className="font-semibold min-w-[240px] text-black pl-4 text-lg">Descrição</TableHead>
-                <TableHead className="font-semibold min-w-[130px] text-black text-lg -translate-x-4">Valor</TableHead>
-                <TableHead className={`font-semibold min-w-[130px] text-black text-lg md:pl-0 md:-translate-x-[11px] ${isMobile ? 'pl-6' : ''}`}>Saldo</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredTransactions.map((transaction, index) => (
-                <TableRow key={index} className="border-b hover:bg-gray-50">
-                  <TableCell className="min-w-[100px] pl-6">{transaction.date}</TableCell>
-                  <TableCell className="font-medium min-w-[200px] pl-9">{transaction.type}</TableCell>
-                  <TableCell className="min-w-[240px] truncate pl-4">{transaction.description}</TableCell>
-                  <TableCell className="text-green-600 min-w-[130px] -translate-x-4 whitespace-nowrap pr-1">{transaction.value}</TableCell>
-                  <TableCell className={`min-w-[130px] md:pl-[3.3px] md:-translate-x-[11px] ${isMobile ? 'pl-6' : ''} whitespace-nowrap`}>{transaction.balance}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+        <FinancialTable 
+          filteredTransactions={filteredTransactions}
+          isMobile={isMobile}
+        />
 
         <div className="flex justify-between items-center mt-4 text-sm w-full md:w-[780px] mx-auto">
           <div className="text-gray-600">
@@ -368,6 +145,139 @@ export default function FinancialDetails() {
           </div>
         </div>
       </div>
+      
+      <BalanceDialog
+        open={balanceDialogOpen}
+        onOpenChange={setBalanceDialogOpen}
+      />
     </div>
+  );
+}
+
+interface ExportPDFButtonProps {
+  filteredTransactions: any[];
+  selectedMonth: string;
+  selectedYear: string;
+  months: Array<{ value: string; label: string }>;
+}
+
+function ExportPDFButton({ filteredTransactions, selectedMonth, selectedYear, months }: ExportPDFButtonProps) {
+  const handleExportPDF = () => {
+    const jsPDF = require('jspdf');
+    const doc = new jsPDF({
+      orientation: "landscape",
+    });
+    
+    // Centraliza o título
+    doc.setFontSize(16);
+    const title = "Extrato Detalhado";
+    const titleWidth = doc.getTextWidth(title);
+    const pageWidth = doc.internal.pageSize.width;
+    doc.text(title, (pageWidth - titleWidth) / 2, 20);
+    
+    // Centraliza o período
+    doc.setFontSize(10);
+    const period = `Período: ${months.find(m => m.value === selectedMonth)?.label} de ${selectedYear}`;
+    const periodWidth = doc.getTextWidth(period);
+    doc.text(period, (pageWidth - periodWidth) / 2, 30);
+    
+    // Define margens laterais para centralizar a tabela
+    const margin = 40;
+    const tableWidth = pageWidth - (margin * 2);
+    
+    // Define larguras proporcionais para cada coluna
+    const colWidths = {
+      date: Math.floor(tableWidth * 0.12),
+      type: Math.floor(tableWidth * 0.22),
+      description: Math.floor(tableWidth * 0.24),
+      value: Math.floor(tableWidth * 0.20),
+      balance: Math.floor(tableWidth * 0.22)
+    };
+    
+    let y = 40;
+    
+    // Altura padrão para todas as linhas da tabela
+    const rowHeight = 8;
+    
+    // Cabeçalho da tabela com altura e cor padrão
+    doc.setFillColor(240, 240, 240);
+    doc.rect(margin, y - 6, tableWidth, rowHeight, 'F');
+    
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
+    
+    // Centraliza verticalmente o texto do cabeçalho
+    const headerTextY = y - 1;
+    
+    // Definindo pontos de início de cada coluna
+    const dateStartX = margin;
+    const typeStartX = dateStartX + colWidths.date;
+    const descriptionStartX = typeStartX + colWidths.type;
+    const valueStartX = descriptionStartX + colWidths.description;
+    const balanceStartX = valueStartX + colWidths.value;
+    
+    // Definindo pontos finais de cada coluna
+    const valueEndX = balanceStartX;
+    const balanceEndX = balanceStartX + colWidths.balance;
+    
+    // Cabeçalhos
+    doc.text("Data", dateStartX + 5, headerTextY);
+    doc.text("Histórico", typeStartX + 5, headerTextY);
+    doc.text("Descrição", descriptionStartX + 5, headerTextY);
+    doc.text("Valor", valueEndX - 5, headerTextY, { align: "right" });
+    doc.text("Saldo", balanceEndX - 5, headerTextY, { align: "right" });
+    
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    
+    // Adiciona linhas da tabela com a mesma altura
+    y += rowHeight + 2;
+    
+    filteredTransactions.forEach((transaction, index) => {
+      // Adiciona fundo alternado com altura padronizada
+      if (index % 2 === 0) {
+        doc.setFillColor(245, 245, 245);
+        doc.rect(margin, y - 6, tableWidth, rowHeight, 'F');
+      }
+      
+      // Centraliza verticalmente o texto na linha
+      const textY = y - 1;
+      
+      // Coluna Data
+      doc.setTextColor(0, 0, 0);
+      doc.text(transaction.date, dateStartX + 5, textY);
+      
+      // Coluna Histórico
+      doc.text(transaction.type, typeStartX + 5, textY);
+      
+      // Coluna Descrição
+      doc.text(transaction.description, descriptionStartX + 5, textY);
+      
+      // Coluna Valor (verde e alinhado à direita)
+      doc.setTextColor(34, 197, 94);
+      doc.text(transaction.value, valueEndX - 5, textY, { align: "right" });
+      
+      // Coluna Saldo (preto e alinhado à direita)
+      doc.setTextColor(0, 0, 0);
+      doc.text(transaction.balance, balanceEndX - 5, textY, { align: "right" });
+      
+      y += rowHeight + 2;
+    });
+    
+    // Adiciona o total de registros na parte inferior
+    y += 6;
+    doc.setFontSize(10);
+    doc.text(`Total de registros: ${filteredTransactions.length}`, margin, y);
+    
+    doc.save(`extrato-${selectedMonth}-${selectedYear}.pdf`);
+  };
+
+  return (
+    <button 
+      onClick={handleExportPDF}
+      className="bg-[#5f0889] text-white px-6 h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors whitespace-nowrap"
+    >
+      Baixar em PDF
+    </button>
   );
 }
