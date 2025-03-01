@@ -25,7 +25,7 @@ export function InternetSelector({
   internetOptions 
 }: InternetSelectorProps) {
   return (
-    <div className="space-y-1">
+    <div className="space-y-1 w-full md:max-w-[150px]">
       <label className="block text-sm font-medium">Internet</label>
       <Select value={selectedInternet} onValueChange={onInternetChange}>
         <SelectTrigger className="bg-white h-[40px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] focus:border-[#8425af] text-sm">
