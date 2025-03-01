@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,72 +21,63 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
   return (
     <div className="justify-start items-center gap-2 lg:flex hidden flex-row pl-2">
       {homeItem && (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button 
-              variant="ghost" 
-              className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-end -ml-3"
-            >
-              <img 
-                src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
-                alt="Home" 
-                className="w-10 h-10 hover:scale-110 transition-transform outline-none focus:outline-none active:outline-none" 
-                style={{outline: 'none'}}
-              />
-              <span className="text-base mb-0.5 -ml-2">Home</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-72 bg-white p-2">
-            {homeItem.href && (
-              <>
+        <Link to={homeItem.href || "/"} className="flex items-end group -ml-3 no-underline">
+          <img 
+            src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
+            alt="Home" 
+            className="w-10 h-10 group-hover:scale-110 transition-transform outline-none focus:outline-none active:outline-none" 
+            style={{outline: 'none'}}
+          />
+          <span className="text-base mb-0.5 -ml-2 text-foreground">Home</span>
+        </Link>
+      )}
+
+      {/* Dropdown para outros itens de menu */}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button 
+            variant="ghost" 
+            className="p-2 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 ml-2"
+          >
+            <Menu className="w-5 h-5" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start" className="w-72 bg-white p-2">
+          {otherItems.map((item) => (
+            <div key={item.title}>
+              {item.href ? (
                 <DropdownMenuItem asChild>
-                  <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0">
-                    <img 
-                      src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
-                      alt="Home" 
-                      className="w-10 h-10 outline-none focus:outline-none" 
-                      style={{outline: 'none'}}
-                    />
-                    <span>Home</span>
+                  <Link to={item.href} className="w-full whitespace-nowrap">
+                    {item.title}
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-              </>
-            )}
-            
-            {otherItems.map((item) => (
-              <div key={item.title}>
-                {item.href ? (
-                  <DropdownMenuItem asChild>
-                    <Link to={item.href} className="w-full whitespace-nowrap">
-                      {item.title}
-                    </Link>
-                  </DropdownMenuItem>
-                ) : (
-                  <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap">
-                    {item.title}
-                  </DropdownMenuItem>
-                )}
-                
-                {item.items && (
-                  <div className="ml-4 mt-1 space-y-1">
-                    {item.items.map((subItem) => (
-                      <DropdownMenuItem key={subItem.title} asChild>
-                        <Link 
-                          to={subItem.href || "#"} 
-                          className="w-full text-sm py-1 whitespace-nowrap"
-                        >
-                          {subItem.title}
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )}
+              ) : (
+                <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap">
+                  {item.title}
+                </DropdownMenuItem>
+              )}
+              
+              {item.items && (
+                <div className="ml-4 mt-1 space-y-1">
+                  {item.items.map((subItem) => (
+                    <DropdownMenuItem key={subItem.title} asChild>
+                      <Link 
+                        to={subItem.href || "#"} 
+                        className="w-full text-sm py-1 whitespace-nowrap"
+                      >
+                        {subItem.title}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 };
+
+// Adicionando o componente Menu importado do lucide-react
+import { Menu } from "lucide-react";
