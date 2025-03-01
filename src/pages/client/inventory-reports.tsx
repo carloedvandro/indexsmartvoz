@@ -69,20 +69,20 @@ export default function InventoryReports() {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
-        <div className="border rounded-lg bg-white p-8 shadow-sm w-full md:w-[780px] mx-auto mb-6">
-          <div className="flex items-center gap-2 mb-8">
+        <div className="border rounded-lg bg-white p-6 shadow-sm w-full md:w-[780px] mx-auto mb-6">
+          <div className="flex items-center gap-2 mb-6">
             <Filter className="w-5 h-5 text-[#5f0889]" />
             <span className="text-lg font-medium text-[#5f0889]">Filtros</span>
           </div>
           
-          <div className="grid grid-cols-2 gap-10 mb-10">
-            <div className="max-w-[220px]">
-              <label className="block text-lg font-medium text-gray-900 mb-3">
+          <div className="grid grid-cols-2 gap-6 mb-10">
+            <div>
+              <label className="block text-base font-medium text-gray-900 mb-2">
                 Mês
               </label>
               <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
                 <SelectTrigger 
-                  className="w-full bg-white text-gray-900 border-gray-300 h-12 text-base"
+                  className="w-full bg-white text-gray-900 border-gray-300 h-10"
                 >
                   <SelectValue />
                 </SelectTrigger>
@@ -100,13 +100,13 @@ export default function InventoryReports() {
               </Select>
             </div>
             
-            <div className="max-w-[220px] justify-self-end">
-              <label className="block text-lg font-medium text-gray-900 mb-3">
+            <div className="justify-self-end">
+              <label className="block text-base font-medium text-gray-900 mb-2">
                 Ano
               </label>
               <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
                 <SelectTrigger 
-                  className="w-full bg-white text-gray-900 border-gray-300 h-12 text-base"
+                  className="w-full bg-white text-gray-900 border-gray-300 h-10"
                 >
                   <SelectValue />
                 </SelectTrigger>
@@ -125,16 +125,16 @@ export default function InventoryReports() {
             </div>
           </div>
           
-          <div className="flex flex-row justify-between gap-6 mt-8">
+          <div className="flex flex-row justify-between gap-6">
             <button 
               onClick={handleBack}
-              className="border border-[#5f0889] text-[#5f0889] h-12 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-[124px] px-4 font-medium"
+              className="border border-[#5f0889] text-[#5f0889] h-10 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors px-6 font-medium"
             >
               Voltar
             </button>
             
             <button 
-              className="bg-[#5f0889] text-white h-12 rounded-md hover:bg-[#5f0889]/90 transition-colors w-[124px] px-4 font-medium"
+              className="bg-[#5f0889] text-white h-10 rounded-md hover:bg-[#5f0889]/90 transition-colors px-6 font-medium"
             >
               Filtrar
             </button>
