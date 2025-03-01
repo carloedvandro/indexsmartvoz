@@ -28,12 +28,12 @@ export function FilterSection({
 
   return (
     <div className="border rounded-lg bg-white p-6">
-      <div className="flex items-center gap-2 mb-5">
-        <FilterIcon className="w-5 h-5 text-[#9b87f5]" />
+      <div className="flex items-center gap-2 mb-4">
+        <FilterIcon className="w-5 h-5 text-[#5f0889]" />
         <span className="text-base font-medium">Filtros</span>
       </div>
       
-      <div className="flex flex-col md:flex-row gap-6 mb-6">
+      <div className="flex flex-col md:flex-row gap-4 mb-6">
         <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Mês
@@ -85,15 +85,15 @@ export function FilterSection({
       
       <div className="flex justify-between gap-4">
         <Button
-          onClick={handleBack}
-          className="min-w-[100px] border border-[#9b87f5] text-[#9b87f5] bg-white hover:bg-gray-50 rounded-md"
           variant="outline"
+          onClick={handleBack}
+          className="min-w-[100px] border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white rounded-md"
         >
           Voltar
         </Button>
         <Button 
           onClick={onFilter}
-          className="min-w-[100px] bg-[#5f0889] hover:bg-[#4a006b] text-white rounded-md"
+          className="min-w-[100px] bg-[#5f0889] hover:bg-[#5f0889]/90 text-white rounded-md"
         >
           Filtrar
         </Button>
