@@ -81,17 +81,15 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                   <DropdownMenuItem asChild>
                     <Link to={item.href} className="w-full whitespace-nowrap flex items-center justify-between">
                       {titlesWithLeftArrow.includes(item.title) ? (
-                        <>
-                          <div className="flex items-center">
-                            <ArrowRight className="h-4 w-4 mr-2" />
-                            <span>{item.title}</span>
-                          </div>
-                        </>
+                        <div className="flex items-center w-full justify-end">
+                          <ArrowRight className="h-4 w-4 mr-2" />
+                          <span>{item.title}</span>
+                        </div>
                       ) : (
-                        <>
+                        <div className="flex items-center w-full justify-between">
                           <span>{item.title}</span>
                           <ArrowRight className="h-4 w-4 ml-2" />
-                        </>
+                        </div>
                       )}
                     </Link>
                   </DropdownMenuItem>
@@ -111,17 +109,15 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                           className="w-full text-sm py-1 whitespace-nowrap flex items-center justify-between"
                         >
                           {titlesWithLeftArrow.includes(subItem.title) ? (
-                            <>
-                              <div className="flex items-center">
-                                <ArrowRight className="h-4 w-4 mr-2" />
-                                <span>{subItem.title}</span>
-                              </div>
-                            </>
+                            <div className="flex items-center w-full justify-end">
+                              <ArrowRight className="h-4 w-4 mr-2" />
+                              <span>{subItem.title}</span>
+                            </div>
                           ) : (
-                            <>
+                            <div className="flex items-center w-full justify-between">
                               <span>{subItem.title}</span>
                               <ArrowRight className="h-4 w-4 ml-2" />
-                            </>
+                            </div>
                           )}
                         </Link>
                       </DropdownMenuItem>

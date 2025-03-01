@@ -40,21 +40,21 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                     className="w-10 h-10 border-0 outline-none focus:outline-none active:outline-none" 
                     style={{outline: 'none'}}
                   />
-                  <span className="text-base mb-0.5 font-bold" style={{marginBottom: '2px', marginLeft: '-1px'}}>Home</span>
+                  <span className="text-base mb-0.5 font-bold" style={{marginBottom: '2px', marginLeft: '-3px'}}>Home</span>
                 </div>
               )}
               {!item.iconOnly && item.icon !== "home" && (
                 <div className="flex items-center justify-between w-full">
                   {titlesWithLeftArrow.includes(item.title) ? (
-                    <>
+                    <div className="flex items-center w-full justify-end">
                       <ArrowRight className="h-4 w-4 mr-2" />
                       <span className="text-base">{item.title}</span>
-                    </>
+                    </div>
                   ) : (
-                    <>
+                    <div className="flex items-center w-full justify-between">
                       <span className="text-base">{item.title}</span>
                       <ArrowRight className="h-4 w-4 ml-2" />
-                    </>
+                    </div>
                   )}
                 </div>
               )}
