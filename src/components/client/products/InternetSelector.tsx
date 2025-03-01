@@ -41,7 +41,7 @@ export function InternetSelector({
           <SelectItem 
             key={option.value} 
             value={option.value}
-            className="bg-white hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white"
+            className="bg-white hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white data-[state=checked]:bg-[#8425af] data-[state=checked]:text-white"
             style={{ 
               backgroundColor: 'white',
               background: 'white'
