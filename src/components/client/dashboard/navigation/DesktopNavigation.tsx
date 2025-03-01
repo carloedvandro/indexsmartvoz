@@ -30,7 +30,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <img 
                 src="/lovable-uploads/7bd3feb8-4aa8-4cd3-a350-70d1d416ec5a.png" 
                 alt="Home" 
-                className="w-10 h-10 hover:scale-110 transition-transform" 
+                className="w-20 h-20 hover:scale-110 transition-transform" 
               />
             </Button>
           </DropdownMenuTrigger>
@@ -42,7 +42,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                     <img 
                       src="/lovable-uploads/7bd3feb8-4aa8-4cd3-a350-70d1d416ec5a.png" 
                       alt="Home" 
-                      className="w-6 h-6" 
+                      className="w-16 h-16" 
                     />
                     <span>Home</span>
                   </Link>
