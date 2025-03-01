@@ -105,3 +105,13 @@ select,
 *::-webkit-scrollbar {
   display: none !important;
 }
+
+/* Ensure focus outlines are completely removed for buttons and images */
+button:focus, 
+a:focus, 
+img:focus, 
+[role="button"]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
