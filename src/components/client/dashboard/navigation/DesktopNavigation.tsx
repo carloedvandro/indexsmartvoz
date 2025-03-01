@@ -2,22 +2,13 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-import { NavigationItem } from "../types";
-import { NavigationContent } from "./NavigationContent";
-import { House } from "lucide-react";
-import { 
   DropdownMenu, 
   DropdownMenuContent, 
   DropdownMenuTrigger, 
   DropdownMenuItem,
   DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
+import { NavigationItem } from "../types";
 
 interface DesktopNavigationProps {
   navigationItems: NavigationItem[];
@@ -36,7 +27,11 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               variant="link" 
               className="p-0 h-auto bg-transparent hover:bg-transparent focus:bg-transparent"
             >
-              <House className="w-8 h-8 text-primary hover:scale-110 transition-transform" />
+              <img 
+                src="/lovable-uploads/793e53e4-2f21-4977-b658-566d95fd1611.png" 
+                alt="Home" 
+                className="w-8 h-8 hover:scale-110 transition-transform" 
+              />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-72 bg-white p-2">
@@ -44,7 +39,11 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <>
                 <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer">
-                    <House className="w-4 h-4 text-primary" />
+                    <img 
+                      src="/lovable-uploads/793e53e4-2f21-4977-b658-566d95fd1611.png" 
+                      alt="Home" 
+                      className="w-4 h-4" 
+                    />
                     <span>Home</span>
                   </Link>
                 </DropdownMenuItem>
