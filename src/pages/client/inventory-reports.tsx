@@ -100,7 +100,7 @@ export default function InventoryReports() {
               </Select>
             </div>
             
-            <div className="max-w-[120px] ml-auto">
+            <div className="ml-auto max-w-[120px]">
               <label className="block text-base font-medium text-gray-900 mb-2">
                 Ano
               </label>
