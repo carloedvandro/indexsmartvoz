@@ -5,50 +5,74 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { NavigationItem } from "../types";
 import { NavigationContent } from "./NavigationContent";
 import { House } from "lucide-react";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuTrigger, 
+  DropdownMenuItem 
+} from "@/components/ui/dropdown-menu";
 
 interface DesktopNavigationProps {
   navigationItems: NavigationItem[];
 }
 
 export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) => {
+  const homeItem = navigationItems.find(item => item.icon === "home");
+  const otherItems = navigationItems.filter(item => item.icon !== "home");
+
   return (
     <div className="justify-start items-center gap-2 lg:flex hidden flex-row">
-      <NavigationMenu className="flex justify-start items-start">
-        <NavigationMenuList className="flex justify-start gap-2 flex-row">
-          {navigationItems.map((item) => (
-            <NavigationMenuItem key={item.title}>
-              {item.href ? (
-                <NavigationMenuLink asChild>
-                  <Button variant="link" className="text-foreground hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent text-left justify-start p-0 h-auto text-sm whitespace-nowrap" asChild>
-                    <Link to={item.href} className="flex items-center gap-1">
-                      {item.icon === "home" && (
-                        <House className="w-5 h-5 text-primary hover:scale-110 transition-transform" />
-                      )}
-                      {!item.iconOnly && item.title}
-                    </Link>
-                  </Button>
-                </NavigationMenuLink>
-              ) : (
-                <>
-                  <NavigationMenuTrigger className="font-medium text-sm bg-transparent hover:bg-transparent hover:text-primary data-[state=open]:bg-transparent data-[state=open]:text-primary active:bg-transparent focus:bg-transparent text-left justify-start p-0 whitespace-nowrap">
-                    {item.title}
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent className="!w-[380px] p-4 bg-white">
-                    <NavigationContent item={item} />
-                  </NavigationMenuContent>
-                </>
-              )}
-            </NavigationMenuItem>
-          ))}
-        </NavigationMenuList>
-      </NavigationMenu>
+      {homeItem && (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button 
+              variant="link" 
+              className="p-0 h-auto bg-transparent hover:bg-transparent focus:bg-transparent"
+            >
+              <House className="w-5 h-5 text-primary hover:scale-110 transition-transform" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="w-56 bg-white p-2">
+            {homeItem.href && (
+              <DropdownMenuItem asChild>
+                <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer">
+                  <House className="w-4 h-4 text-primary" />
+                  <span>Home</span>
+                </Link>
+              </DropdownMenuItem>
+            )}
+            
+            {otherItems.map((item) => (
+              <NavigationMenu key={item.title} className="p-0 w-full">
+                <NavigationMenuList className="p-0 w-full flex-col">
+                  <NavigationMenuItem className="w-full">
+                    {item.href ? (
+                      <NavigationMenuTrigger className="w-full justify-start font-medium text-sm bg-transparent hover:bg-transparent hover:text-primary data-[state=open]:bg-transparent data-[state=open]:text-primary active:bg-transparent focus:bg-transparent text-left p-2">
+                        {item.title}
+                      </NavigationMenuTrigger>
+                    ) : (
+                      <>
+                        <NavigationMenuTrigger className="w-full justify-start font-medium text-sm bg-transparent hover:bg-transparent hover:text-primary data-[state=open]:bg-transparent data-[state=open]:text-primary active:bg-transparent focus:bg-transparent text-left p-2">
+                          {item.title}
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent className="!w-[380px] p-4 bg-white">
+                          <NavigationContent item={item} />
+                        </NavigationMenuContent>
+                      </>
+                    )}
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
     </div>
   );
 };
