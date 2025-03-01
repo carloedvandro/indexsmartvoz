@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from "react-router-dom";
-import { X, Menu, Home } from "lucide-react";
+import { X, Menu, Home, House } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
@@ -25,9 +25,8 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
             >
               {item.icon === "home" && (
                 <>
-                  <div className="bg-[#403E43] p-1 rounded flex items-center justify-center">
-                    <Home className="w-5 h-5 text-white" />
-                  </div>
+                  <Home className="w-5 h-5 text-primary" />
+                  <House className="w-5 h-5 text-primary" />
                   <span className="text-base">Home</span>
                 </>
               )}
