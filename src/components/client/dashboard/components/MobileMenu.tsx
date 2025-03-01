@@ -47,23 +47,14 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
   };
 
   return (
-    <div className="flex lg:hidden items-center">
-      {/* Home icon with mobile menu toggle */}
-      <div className="flex items-center mr-2">
-        <Link to="/client/dashboard" className="flex items-center">
-          <div className="bg-[#403E43] p-1 rounded flex items-center justify-center">
-            <Home className="w-5 h-5 text-white" />
-          </div>
-        </Link>
-        <Button 
-          variant="ghost" 
-          onClick={() => setOpen(!isOpen)}
-          className="p-1 hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent"
-        >
-          {isOpen ? <X className="w-5 h-5" /> : <MoveRight className="w-5 h-5" />}
-        </Button>
-      </div>
-      
+    <div className="flex lg:hidden ml-auto">
+      <Button 
+        variant="ghost" 
+        onClick={() => setOpen(!isOpen)}
+        className="hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent"
+      >
+        {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+      </Button>
       {isOpen && (
         <div className="fixed top-16 left-0 right-0 border-t flex flex-col w-full bg-white shadow-lg py-3 container gap-4 z-50">
           {renderItems(navigationItems)}

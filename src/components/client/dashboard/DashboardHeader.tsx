@@ -46,20 +46,18 @@ export function DashboardHeader() {
   return (
     <header className="w-full bg-background border-b">
       <div className="container relative mx-auto min-h-16 flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center">
-        <div className="flex justify-start items-center">
+        <DesktopNavigation navigationItems={navigationItems} />
+        <div className="flex lg:justify-center">
+          <Logo />
+        </div>
+        <div className="flex items-center justify-end gap-2 ml-auto">
+          <LogoutButton onLogout={handleLogout} className="hidden md:inline-flex" />
           <MobileMenu 
             isOpen={isOpen}
             setOpen={setOpen}
             navigationItems={navigationItems}
             onLogout={handleLogout}
           />
-          <DesktopNavigation navigationItems={navigationItems} />
-        </div>
-        <div className="flex lg:justify-center">
-          <Logo />
-        </div>
-        <div className="flex items-center justify-end gap-2 ml-auto">
-          <LogoutButton onLogout={handleLogout} className="hidden md:inline-flex" />
         </div>
       </div>
     </header>
