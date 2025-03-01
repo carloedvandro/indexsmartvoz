@@ -1,14 +1,8 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AlertTriangle, Filter } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { AlertTriangle } from "lucide-react";
+import { FilterSection } from "@/components/client/financial/FilterSection";
 
 export default function EarningsForecast() {
   const navigate = useNavigate();
@@ -58,6 +52,11 @@ export default function EarningsForecast() {
     { type: "Equipe", value: "R$ 0,00" },
   ];
 
+  const handleFilter = () => {
+    // Handle filter action
+    console.log(`Filter applied: ${selectedMonth}/${selectedYear}`);
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-50">
@@ -70,76 +69,16 @@ export default function EarningsForecast() {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
-        <div className="border rounded-lg bg-white p-6 shadow-sm w-full md:w-[780px] mx-auto mb-6">
-          <div className="flex items-center gap-2 mb-6">
-            <Filter className="w-5 h-5 text-[#5f0889]" />
-            <span className="text-base font-medium text-[#5f0889]">Filtros</span>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-8 mb-8">
-            <div>
-              <label className="block text-sm font-medium text-gray-900 mb-2">
-                Mês
-              </label>
-              <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
-                <SelectTrigger 
-                  className="w-full bg-white text-gray-900 border-gray-300 h-12"
-                >
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="border border-gray-200 rounded-md shadow-md">
-                  {months.map((month) => (
-                    <SelectItem 
-                      key={month.value} 
-                      value={month.value}
-                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-2 px-2"
-                    >
-                      {month.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-900 mb-2">
-                Ano
-              </label>
-              <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
-                <SelectTrigger 
-                  className="w-full bg-white text-gray-900 border-gray-300 h-12"
-                >
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="border border-gray-200 rounded-md shadow-md">
-                  {years.map((year) => (
-                    <SelectItem 
-                      key={year.value} 
-                      value={year.value}
-                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-2 px-2"
-                    >
-                      {year.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-          
-          <div className="flex flex-col sm:flex-row gap-4 sm:justify-between w-full">
-            <button 
-              onClick={handleBack}
-              className="border border-[#5f0889] text-[#5f0889] h-10 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-full sm:w-auto px-4 sm:px-10"
-            >
-              Voltar
-            </button>
-            
-            <button 
-              className="bg-[#5f0889] text-white h-10 rounded-md hover:bg-[#5f0889]/90 transition-colors w-full sm:w-auto px-4 sm:px-10"
-            >
-              Filtrar
-            </button>
-          </div>
+        <div className="w-full md:w-[780px] mx-auto mb-6">
+          <FilterSection 
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            months={months}
+            years={years}
+            onMonthChange={setSelectedMonth}
+            onYearChange={setSelectedYear}
+            onFilter={handleFilter}
+          />
         </div>
         
         {/* Alerta de previsão */}

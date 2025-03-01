@@ -27,95 +27,76 @@ export function FilterSection({
   };
 
   return (
-    <div className="border rounded-lg bg-white">
-      <div className="flex items-center gap-2 p-4">
-        <Filter className="w-4 h-4 text-[#5f0889]" />
-        <span className="text-sm font-medium text-gray-900">Filtros</span>
+    <div className="border rounded-lg bg-white p-6">
+      <div className="flex items-center gap-2 mb-6">
+        <Filter className="w-5 h-5 text-[#5f0889]" />
+        <span className="text-base font-medium">Filtros</span>
       </div>
-      <div className="p-4">
-        <div className="grid grid-cols-6 gap-4 mb-6">
-          <div className="col-span-3">
-            <label className="block text-sm font-medium text-gray-900 mb-1">Mês</label>
-            <Select defaultValue={selectedMonth} onValueChange={onMonthChange}>
-              <SelectTrigger 
-                className="w-full !bg-white text-gray-900 border-gray-300 relative z-50"
-                style={{
-                  backgroundColor: 'white',
-                  boxShadow: '0 0 0 9999px white inset',
-                }}
-              >
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent 
-                className="!bg-white !border-gray-200 !shadow-lg"
-                style={{
-                  backgroundColor: 'white',
-                  zIndex: 9999,
-                }}
-              >
-                <div className="bg-white rounded-md">
-                  {months.map((month) => (
-                    <SelectItem 
-                      key={month.value} 
-                      value={month.value}
-                      className="!bg-white hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white"
-                    >
-                      {month.label}
-                    </SelectItem>
-                  ))}
-                </div>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="col-span-3">
-            <label className="block text-sm font-medium text-gray-900 mb-1">Ano</label>
-            <Select defaultValue={selectedYear} onValueChange={onYearChange}>
-              <SelectTrigger 
-                className="w-full !bg-white text-gray-900 border-gray-300 relative z-50"
-                style={{
-                  backgroundColor: 'white',
-                  boxShadow: '0 0 0 9999px white inset',
-                }}
-              >
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent 
-                className="!bg-white !border-gray-200 !shadow-lg"
-                style={{
-                  backgroundColor: 'white',
-                  zIndex: 9999,
-                }}
-              >
-                <div className="bg-white rounded-md">
-                  {years.map((year) => (
-                    <SelectItem 
-                      key={year.value} 
-                      value={year.value}
-                      className="!bg-white hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white"
-                    >
-                      {year.label}
-                    </SelectItem>
-                  ))}
-                </div>
-              </SelectContent>
-            </Select>
-          </div>
+      
+      <div className="flex flex-col md:flex-row gap-6 mb-6">
+        <div className="w-full">
+          <label className="block text-sm font-medium text-gray-900 mb-2">
+            Mês
+          </label>
+          <Select defaultValue={selectedMonth} onValueChange={onMonthChange}>
+            <SelectTrigger 
+              className="w-full bg-white text-gray-900 border-gray-300"
+            >
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="border border-gray-200 rounded-md shadow-md">
+              {months.map((month) => (
+                <SelectItem 
+                  key={month.value} 
+                  value={month.value}
+                  className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white"
+                >
+                  {month.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
-        <div className="flex justify-between gap-4">
-          <Button
-            variant="outline"
-            onClick={handleBack}
-            className="w-[80px] border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white"
-          >
-            Voltar
-          </Button>
-          <Button 
-            onClick={onFilter}
-            className="w-[80px] bg-[#5f0889] hover:bg-[#5f0889]/90 text-white"
-          >
-            Filtrar
-          </Button>
+        
+        <div className="w-full">
+          <label className="block text-sm font-medium text-gray-900 mb-2">
+            Ano
+          </label>
+          <Select defaultValue={selectedYear} onValueChange={onYearChange}>
+            <SelectTrigger 
+              className="w-full bg-white text-gray-900 border-gray-300"
+            >
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="border border-gray-200 rounded-md shadow-md">
+              {years.map((year) => (
+                <SelectItem 
+                  key={year.value} 
+                  value={year.value}
+                  className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white"
+                >
+                  {year.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
+      </div>
+      
+      <div className="flex justify-between gap-4">
+        <Button
+          variant="outline"
+          onClick={handleBack}
+          className="min-w-[100px] border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white"
+        >
+          Voltar
+        </Button>
+        <Button 
+          onClick={onFilter}
+          className="min-w-[100px] bg-[#5f0889] hover:bg-[#5f0889]/90 text-white"
+        >
+          Filtrar
+        </Button>
       </div>
     </div>
   );
