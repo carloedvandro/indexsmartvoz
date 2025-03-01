@@ -3,10 +3,6 @@ import { NavigationItem } from "../types";
 
 export const navigationItems: NavigationItem[] = [
   {
-    title: "Dashboard",
-    href: "/client/dashboard",
-  },
-  {
     title: "Loja Virtual",
     items: [
       {
