@@ -95,7 +95,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
                   internetOptions={internetOptions}
                 />
               </div>
-              <div className="w-full max-w-[150px]">
+              <div className="w-full max-w-[150px] ml-auto">
                 <span className="text-sm font-medium mb-1 block">DDD</span>
                 <DDDInput
                   ddd={selectedDDD}
