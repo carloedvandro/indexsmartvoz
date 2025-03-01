@@ -93,7 +93,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                       <DropdownMenuItem key={subItem.title} asChild>
                         <Link 
                           to={subItem.href || "#"} 
-                          className="w-full text-sm py-1 whitespace-nowrap flex items-center justify-between"
+                          className="w-full text-sm py-1 whitespace-nowrap flex items-center"
                         >
                           <div className="flex items-center">
                             <ArrowRight className="h-4 w-4 mr-2" />

@@ -35,7 +35,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                 </div>
               )}
               {!item.iconOnly && item.icon !== "home" && (
-                <div className="flex items-center w-full">
+                <div className="flex items-center">
                   <ArrowRight className="h-4 w-4 mr-2" />
                   <span className="text-base">{item.title}</span>
                 </div>
