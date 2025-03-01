@@ -28,7 +28,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                   <img 
                     src="/lovable-uploads/7bd3feb8-4aa8-4cd3-a350-70d1d416ec5a.png" 
                     alt="Home" 
-                    className="w-20 h-20 hover:scale-110 transition-transform border-0" 
+                    className="w-40 h-40 hover:scale-110 transition-transform border-0" 
                   />
                   <span className="text-base">Home</span>
                 </>
@@ -57,7 +57,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         onClick={() => setOpen(!isOpen)}
         className="hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent"
       >
-        {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </Button>
       {isOpen && (
         <div className="fixed top-16 left-0 right-0 border-t flex flex-col w-full bg-white shadow-lg py-3 container gap-4 z-50">
