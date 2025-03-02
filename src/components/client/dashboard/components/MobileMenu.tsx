@@ -5,6 +5,7 @@ import { X, Menu, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -14,6 +15,8 @@ interface MobileMenuProps {
 }
 
 export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: MobileMenuProps) => {
+  const isMobile = useIsMobile();
+
   const renderItems = (items: NavigationItem[], level = 0) => {
     return items.map((item) => (
       <div key={item.title}>
@@ -31,7 +34,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                     className="w-10 h-10 border-0 outline-none focus:outline-none active:outline-none" 
                     style={{outline: 'none'}}
                   />
-                  <span className="text-base mb-0.5 font-bold" style={{marginBottom: '2px', marginLeft: '-1px'}}>Home</span>
+                  <span className="text-base font-bold pb-[6px]">Home</span>
                 </div>
               )}
               {!item.iconOnly && item.icon !== "home" && (
