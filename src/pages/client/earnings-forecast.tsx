@@ -53,7 +53,7 @@ export default function EarningsForecast() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="fixed top-0 left-0 right-0 h-40 bg-[#46005e] border-b border-white/10 z-40">
+      <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-40">
         <ParticlesBackground style="default" />
         <div className="h-full flex items-center px-6 relative z-10">
           <div className="flex flex-col max-w-xs truncate">
@@ -63,7 +63,7 @@ export default function EarningsForecast() {
         </div>
       </div>
 
-      <div className="max-w-[600px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-40">
+      <div className="max-w-[600px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
         <div className="w-full mx-auto mb-6">
           <FilterSection 
             selectedMonth={selectedMonth}
