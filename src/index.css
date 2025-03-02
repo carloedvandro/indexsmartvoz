@@ -79,7 +79,7 @@ body::before {
     width: 370px !important;
     max-width: 370px !important;
     padding-top: 0.5rem !important;
-    padding-bottom: 0.75rem !important;
+    padding-bottom: 1.5rem !important; /* Increased bottom padding to give more space at the bottom */
     border-radius: 0 0 12px 12px !important;
   }
 }
