@@ -39,7 +39,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 className="text-base mb-0.5 ml-0 font-bold" 
                 style={{
                   marginBottom: '2px', 
-                  marginLeft: '-4px', 
+                  marginLeft: '-5px', 
                   color: '#5f0889',
                   pointerEvents: 'none'
                 }}
