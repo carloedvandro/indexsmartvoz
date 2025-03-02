@@ -90,7 +90,12 @@ export default function FinancialDetails() {
     <div className="min-h-screen bg-white">
       <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-50">
         <ParticlesBackground style="default" />
-        <FinancialHeader monthLabel={monthLabel} selectedYear={selectedYear} />
+        <div className="h-full flex items-center px-6 relative z-10">
+          <div className="flex flex-col max-w-xs truncate">
+            <h1 className="text-sm text-gray-400 font-normal leading-tight">Financeiro</h1>
+            <h2 className="text-xl text-white font-medium leading-7 truncate">Extrato Detalhado - {monthLabel} / {selectedYear}</h2>
+          </div>
+        </div>
       </div>
 
       <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
