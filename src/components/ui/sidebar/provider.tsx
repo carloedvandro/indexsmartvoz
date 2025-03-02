@@ -1,11 +1,11 @@
-
 import * as React from "react"
 import { TooltipProvider } from "@radix-ui/react-tooltip"
 import { cn } from "@/lib/utils"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { useSidebarPreferences } from "@/hooks/useSidebarPreferences"
 import { SidebarContext } from "./context"
 import { 
+  SIDEBAR_COOKIE_NAME, 
+  SIDEBAR_COOKIE_MAX_AGE, 
   SIDEBAR_KEYBOARD_SHORTCUT,
   type SidebarProviderProps,
   type SidebarState
@@ -21,36 +21,30 @@ export function SidebarProvider({
 }: SidebarProviderProps) {
   const isMobile = useIsMobile()
   const [openMobile, setOpenMobile] = React.useState(false)
+  const [_open, _setOpen] = React.useState(defaultOpen)
+  const open = openProp ?? _open
   
-  // Use the custom hook for localStorage persistence instead of cookies
-  const { open: storedOpen, setOpen: setStoredOpen } = useSidebarPreferences(defaultOpen)
-  
-  // Use controlled or uncontrolled state
-  const _open = openProp ?? storedOpen
-  
-  // Optimize setOpen to use useCallback with dependencies
   const setOpen = React.useCallback(
     (value: boolean | ((value: boolean) => boolean)) => {
-      const openState = typeof value === "function" ? value(_open) : value
+      const openState = typeof value === "function" ? value(open) : value
       if (setOpenProp) {
         setOpenProp(openState)
       } else {
-        setStoredOpen(openState)
+        _setOpen(openState)
       }
+      document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
     },
-    [setOpenProp, _open, setStoredOpen]
+    [setOpenProp, open]
   )
 
-  // Optimize toggleSidebar to use useCallback with correct dependencies
   const toggleSidebar = React.useCallback(() => {
     return isMobile
       ? setOpenMobile((open) => !open)
       : setOpen((open) => !open)
   }, [isMobile, setOpen])
 
-  // Optimize the keyboard shortcut listener
   React.useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
+    const handleKeyDown = (event: KeyboardEvent) => {
       if (
         event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
         (event.metaKey || event.ctrlKey)
@@ -64,20 +58,19 @@ export function SidebarProvider({
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [toggleSidebar])
 
-  const state: SidebarState = _open ? "expanded" : "collapsed"
+  const state: SidebarState = open ? "expanded" : "collapsed"
 
-  // Optimize context value creation with useMemo and proper dependencies
   const contextValue = React.useMemo(
     () => ({
       state,
-      open: _open,
+      open,
       setOpen,
       isMobile,
       openMobile,
       setOpenMobile,
       toggleSidebar,
     }),
-    [state, _open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]
+    [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]
   )
 
   return (

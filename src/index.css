@@ -144,10 +144,3 @@ img:focus,
   text-align: left;
   padding-left: 0;
 }
-
-/* Fix for dashboard home icon visibility */
-.dashboard-home-icon {
-  display: inline-flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}

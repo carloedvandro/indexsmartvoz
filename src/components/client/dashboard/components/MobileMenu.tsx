@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from "react-router-dom";
-import { X, Menu, ArrowRight, Home as HomeIcon } from "lucide-react";
+import { X, Menu, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
@@ -24,12 +24,14 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
               className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap ml-1"
             >
               {item.icon === "home" && (
-                <div className="flex items-center gap-1">
-                  <HomeIcon 
-                    className="h-6 w-6 text-[#5f0889]"
-                    aria-hidden="true"
+                <div className="flex items-end gap-1 -ml-2">
+                  <img 
+                    src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
+                    alt="Home" 
+                    className="w-10 h-10 border-0 outline-none focus:outline-none active:outline-none" 
+                    style={{outline: 'none'}}
                   />
-                  <span className="text-base font-bold text-[#5f0889]">Home</span>
+                  <span className="text-base mb-0.5 font-bold" style={{marginBottom: '2px', marginLeft: '-1px'}}>Home</span>
                 </div>
               )}
               {!item.iconOnly && item.icon !== "home" && (

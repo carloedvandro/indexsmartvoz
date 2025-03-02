@@ -1,7 +1,6 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home as HomeIcon, ArrowRight } from "lucide-react";
 import {
   DropdownMenu, 
   DropdownMenuContent, 
@@ -10,6 +9,7 @@ import {
   DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
 import { NavigationItem } from "../types";
+import { ArrowRight } from "lucide-react";
 
 interface DesktopNavigationProps {
   navigationItems: NavigationItem[];
@@ -26,13 +26,24 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
           <DropdownMenuTrigger asChild>
             <Button 
               variant="ghost" 
-              className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-center gap-1"
+              className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-end -ml-6"
+              style={{ pointerEvents: 'auto' }}
             >
-              <HomeIcon 
-                className="h-6 w-6 text-[#5f0889]"
-                aria-hidden="true"
+              <img 
+                src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
+                alt="Home" 
+                className="w-10 h-10 outline-none focus:outline-none active:outline-none" 
+                style={{outline: 'none'}}
               />
-              <span className="text-base font-bold text-[#5f0889]">
+              <span 
+                className="text-base mb-0.5 ml-0 font-bold" 
+                style={{
+                  marginBottom: '2px', 
+                  marginLeft: '-3px', 
+                  color: '#5f0889',
+                  pointerEvents: 'none'
+                }}
+              >
                 Home
               </span>
             </Button>
@@ -42,9 +53,11 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <>
                 <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
-                    <HomeIcon 
-                      className="h-6 w-6 text-[#5f0889]"
-                      aria-hidden="true"
+                    <img 
+                      src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
+                      alt="Home" 
+                      className="w-10 h-10 outline-none focus:outline-none" 
+                      style={{outline: 'none'}}
                     />
                     <span className="font-bold self-center text-[#5f0889]">Home</span>
                   </Link>
