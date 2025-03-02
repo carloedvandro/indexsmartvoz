@@ -74,7 +74,7 @@ body::before {
 }
 
 button[variant="ghost"] svg[class*="lucide-menu"] {
-  transform: translateY(6px);
+  transform: translateY(12px);
 }
 
 @media (max-width: 1024px) {
