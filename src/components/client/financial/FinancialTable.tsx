@@ -19,11 +19,11 @@ export function FinancialTable({ filteredTransactions, isMobile }: FinancialTabl
       <Table>
         <TableHeader className="bg-gray-50">
           <TableRow>
-            <TableHead className="font-semibold text-black pl-6 text-xs">Data</TableHead>
-            <TableHead className="font-semibold text-black pl-4 text-xs">Histórico</TableHead>
-            <TableHead className="font-semibold text-black pl-4 text-xs">Descrição</TableHead>
-            <TableHead className="font-semibold text-black text-xs pl-8">Valor</TableHead>
-            <TableHead className="font-semibold text-black text-xs pl-8">Saldo</TableHead>
+            <TableHead className="font-semibold text-black pl-6 text-sm">Data</TableHead>
+            <TableHead className="font-semibold text-black pl-4 text-sm">Histórico</TableHead>
+            <TableHead className="font-semibold text-black pl-4 text-sm">Descrição</TableHead>
+            <TableHead className="font-semibold text-black text-sm pl-8">Valor</TableHead>
+            <TableHead className="font-semibold text-black text-sm pl-8">Saldo</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
