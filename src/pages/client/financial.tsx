@@ -64,8 +64,8 @@ export default function Financial() {
       />
 
       <div className="flex-1 overflow-auto bg-white">
-        <div className="max-w-[530px] mx-auto h-full flex flex-col">
-          <div className="mt-[116px] p-6">
+        <div className="max-w-[600px] mx-auto h-full flex flex-col">
+          <div className="mt-[116px] px-4 sm:px-6">
             <FilterSection
               selectedMonth={selectedMonth}
               selectedYear={selectedYear}
@@ -77,7 +77,7 @@ export default function Financial() {
             />
           </div>
 
-          <div className="px-6 mt-3">
+          <div className="px-4 sm:px-6 mt-3">
             {showFinancialData && (
               <BalanceCards
                 selectedMonth={selectedMonth}
