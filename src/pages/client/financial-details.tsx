@@ -86,6 +86,10 @@ export default function FinancialDetails() {
 
   const monthLabel = months.find(m => m.value === selectedMonth)?.label || "Fevereiro";
 
+  useEffect(() => {
+    filterTransactions();
+  }, [selectedMonth, selectedYear]);
+
   return (
     <div className="min-h-screen">
       <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-50">
@@ -98,56 +102,58 @@ export default function FinancialDetails() {
         </div>
       </div>
 
-      <div className="max-w-[600px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
-        <FinancialFilter 
-          selectedMonth={selectedMonth}
-          setSelectedMonth={setSelectedMonth}
-          selectedYear={selectedYear}
-          setSelectedYear={setSelectedYear}
-          months={months}
-          years={years}
-          handleBack={handleBack}
-          filterTransactions={filterTransactions}
-        />
-
-        <FinancialSummary 
-          selectedMonth={selectedMonth}
-          selectedYear={selectedYear}
-          months={months}
-          onCardClick={() => setBalanceDialogOpen(true)}
-        />
-
-        <div className="flex flex-row justify-between items-center gap-3 w-full mx-auto mb-6">
-          <input
-            type="text"
-            placeholder="Pesquisar"
-            className="border rounded-md px-4 h-9 w-full"
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-              filterTransactions();
-            }}
+      <div className="w-full mx-auto px-4 py-6 md:px-0 md:py-8 mt-16 flex flex-col items-center">
+        <div className="w-full max-w-[800px]">
+          <FinancialFilter 
+            selectedMonth={selectedMonth}
+            setSelectedMonth={setSelectedMonth}
+            selectedYear={selectedYear}
+            setSelectedYear={setSelectedYear}
+            months={months}
+            years={years}
+            handleBack={handleBack}
+            filterTransactions={filterTransactions}
           />
-          <ExportPDFButton 
-            filteredTransactions={filteredTransactions}
+
+          <FinancialSummary 
             selectedMonth={selectedMonth}
             selectedYear={selectedYear}
             months={months}
+            onCardClick={() => setBalanceDialogOpen(true)}
           />
-        </div>
 
-        <FinancialTable 
-          filteredTransactions={filteredTransactions}
-          isMobile={isMobile}
-        />
-
-        <div className="flex justify-between items-center mt-4 text-sm w-full mx-auto">
-          <div className="text-gray-600">
-            Total de {filteredTransactions.length} registros
+          <div className="flex flex-row justify-between items-center gap-3 w-full mb-6">
+            <input
+              type="text"
+              placeholder="Pesquisar"
+              className="border rounded-md px-4 h-9 w-full"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                filterTransactions();
+              }}
+            />
+            <ExportPDFButton 
+              filteredTransactions={filteredTransactions}
+              selectedMonth={selectedMonth}
+              selectedYear={selectedYear}
+              months={months}
+            />
           </div>
-          <div className="text-gray-700">
-            <span className="font-semibold">Saldo anterior: </span>
-            <span>R$0,00</span>
+
+          <FinancialTable 
+            filteredTransactions={filteredTransactions}
+            isMobile={isMobile}
+          />
+
+          <div className="flex justify-between items-center mt-4 text-sm w-full">
+            <div className="text-gray-600">
+              Total de {filteredTransactions.length} registros
+            </div>
+            <div className="text-gray-700">
+              <span className="font-semibold">Saldo anterior: </span>
+              <span>R$0,00</span>
+            </div>
           </div>
         </div>
       </div>

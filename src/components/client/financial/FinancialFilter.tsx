@@ -7,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 
 interface FinancialFilterProps {
   selectedMonth: string;
@@ -31,7 +30,7 @@ export function FinancialFilter({
   filterTransactions,
 }: FinancialFilterProps) {
   return (
-    <div className="mb-6 md:mb-8 max-w-[600px] mx-auto">
+    <div className="mb-6 md:mb-8 w-full">
       <div className="flex items-center gap-2 mb-6">
         <Filter className="w-4 h-4 text-[#5f0889]" />
         <span className="text-sm font-medium text-gray-900">Filtros</span>
