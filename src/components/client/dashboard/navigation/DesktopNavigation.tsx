@@ -36,12 +36,13 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 style={{outline: 'none'}}
               />
               <span 
-                className="text-base mb-0.5 ml-0 font-bold" 
+                className="font-bold" 
                 style={{
                   marginBottom: '2px', 
                   marginLeft: '-5px', 
                   color: '#5f0889',
-                  pointerEvents: 'none'
+                  pointerEvents: 'none',
+                  fontSize: '1.1rem'
                 }}
               >
                 Home
