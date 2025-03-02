@@ -76,8 +76,8 @@ body::before {
 
 @media (max-width: 1024px) {
   .mobile-menu-container {
-    width: 324px !important;
-    max-width: 324px !important;
+    width: 330px !important;
+    max-width: 330px !important;
     padding-top: 0.5rem !important;
     padding-bottom: 0.75rem !important;
     border-radius: 0 0 12px 12px !important;
