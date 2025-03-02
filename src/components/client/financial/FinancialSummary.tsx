@@ -20,16 +20,16 @@ export function FinancialSummary({
         <div className="text-lg font-bold mb-1">R$ 42.576,22</div>
         <div className="text-xs">Total de ganhos em {monthLabel}/{selectedYear}</div>
       </div>
-      <div className="bg-[#E3F2FD] py-3 px-5 rounded-lg w-full md:flex-1">
+      <div className="bg-[#5f0889] text-white py-3 px-5 rounded-lg w-full md:flex-1">
         <div className="text-lg font-bold mb-1">R$ 47.576,23</div>
-        <div className="text-xs text-gray-600">Saldo em {monthLabel}/{selectedYear}</div>
+        <div className="text-xs">Saldo em {monthLabel}/{selectedYear}</div>
       </div>
       <div 
-        className="bg-[#E3F2FD] py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer"
+        className="bg-[#5f0889] text-white py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer"
         onClick={onCardClick}
       >
         <div className="text-lg font-bold mb-1">R$ 5.000,01</div>
-        <div className="text-xs text-gray-600">Saldo disponível em {monthLabel}/{selectedYear}</div>
+        <div className="text-xs">Saldo disponível em {monthLabel}/{selectedYear}</div>
       </div>
     </div>
   );
