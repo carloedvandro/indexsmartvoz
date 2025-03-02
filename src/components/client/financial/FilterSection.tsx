@@ -33,8 +33,8 @@ export function FilterSection({
         <span className="text-base font-medium">Filtros</span>
       </div>
       
-      <div className="flex flex-row justify-between gap-6 mb-6">
-        <div className="w-full">
+      <div className="flex flex-row justify-center gap-6 mb-6">
+        <div className="w-[150px]">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Mês
           </label>
@@ -58,7 +58,7 @@ export function FilterSection({
           </Select>
         </div>
         
-        <div className="w-full">
+        <div className="w-[150px]">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Ano
           </label>
