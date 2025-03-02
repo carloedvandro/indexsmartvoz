@@ -27,7 +27,7 @@ export function FilterSection({
   };
 
   return (
-    <div className="border rounded-lg bg-white p-6 w-full max-w-[600px] mx-auto">
+    <>
       <div className="flex items-center gap-2 mb-4">
         <FilterIcon className="w-5 h-5 text-[#5f0889]" />
         <span className="text-base font-medium">Filtros</span>
@@ -98,6 +98,6 @@ export function FilterSection({
           Filtrar
         </Button>
       </div>
-    </div>
+    </>
   );
 }
