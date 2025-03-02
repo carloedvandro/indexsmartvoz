@@ -3,7 +3,7 @@ import React from 'react';
 
 export const Logo = () => {
   return (
-    <div className="flex justify-center items-center h-full -mt-2">
+    <div className="flex justify-center items-center h-full -mt-3">
       <img 
         src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
         alt="Smartvoz" 
