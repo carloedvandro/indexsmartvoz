@@ -33,7 +33,7 @@ export const particleConfigs: Record<ParticleStyle, ParticleConfig> = {
   default: {
     count: 1500,
     size: 0.02,
-    color: '#9b87f5',
+    color: '#c026d3', // Changed to match the logo purple/pink theme
     opacity: 1,
     spread: 15,
   },
