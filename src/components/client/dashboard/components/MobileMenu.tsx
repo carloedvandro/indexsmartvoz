@@ -66,11 +66,11 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
   };
 
   return (
-    <div className="flex lg:hidden ml-auto">
+    <div className="flex lg:hidden ml-auto items-center h-full">
       <Button 
         variant="ghost" 
         onClick={() => setOpen(!isOpen)}
-        className="hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent"
+        className="hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent my-auto"
       >
         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </Button>
