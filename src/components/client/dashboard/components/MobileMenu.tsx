@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
-import { X, Menu, ArrowRight as ArrowRightIcon } from "lucide-react";
+import { X, Menu, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
@@ -47,7 +47,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
               )}
               {!item.iconOnly && item.icon !== "home" && (
                 <div className="flex items-center">
-                  <ArrowRightIcon className="h-4 w-4 mr-2" />
+                  <ArrowRight className="h-4 w-4 mr-2" />
                   <span className="text-base">{item.title}</span>
                 </div>
               )}
@@ -57,7 +57,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
               <div className="flex items-center">
                 {/* No arrow for "Loja Virtual" and "Rede" */}
                 {item.title !== "Loja Virtual" && item.title !== "Rede" && (
-                  <ArrowRightIcon className="h-4 w-4 mr-2" />
+                  <ArrowRight className="h-4 w-4 mr-2" />
                 )}
                 <p className="text-base font-medium">{item.title}</p>
               </div>
