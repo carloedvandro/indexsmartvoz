@@ -22,7 +22,7 @@ export function FinancialTable({ filteredTransactions, isMobile }: FinancialTabl
             <TableHead className="font-semibold text-black pl-6 text-xs">Data</TableHead>
             <TableHead className="font-semibold text-black pl-4 text-xs">Histórico</TableHead>
             <TableHead className="font-semibold text-black pl-4 text-xs">Descrição</TableHead>
-            <TableHead className="font-semibold text-black text-xs text-right pr-6">Valor</TableHead>
+            <TableHead className="font-semibold text-black text-xs text-right pr-4">Valor</TableHead>
             <TableHead className="font-semibold text-black text-xs text-right pr-6">Saldo</TableHead>
           </TableRow>
         </TableHeader>
@@ -32,7 +32,7 @@ export function FinancialTable({ filteredTransactions, isMobile }: FinancialTabl
               <TableCell className="pl-6 text-xs">{transaction.date}</TableCell>
               <TableCell className="font-medium pl-4 text-xs">{transaction.type}</TableCell>
               <TableCell className="truncate pl-4 text-xs">{transaction.description}</TableCell>
-              <TableCell className="text-green-600 text-right pr-6 text-xs whitespace-nowrap">{transaction.value}</TableCell>
+              <TableCell className="text-green-600 text-right pr-4 text-xs whitespace-nowrap">{transaction.value}</TableCell>
               <TableCell className="text-right pr-6 text-xs whitespace-nowrap">{transaction.balance}</TableCell>
             </TableRow>
           ))}
