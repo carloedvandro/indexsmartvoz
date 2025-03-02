@@ -7,7 +7,7 @@ export const Logo = () => {
       <img 
         src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
         alt="Smartvoz" 
-        className="h-[120px] w-auto object-contain"
+        className="h-[100px] w-auto object-contain -mt-3"
         style={{ 
           maxWidth: '200px',
           filter: 'drop-shadow(0 0 0.1rem rgba(0,0,0,0.05))'

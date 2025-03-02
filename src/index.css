@@ -59,7 +59,7 @@
   min-width: 180px !important;
   max-width: 200px !important;
   width: 200px !important;
-  height: 120px !important;
+  height: 100px !important;
   object-fit: contain !important;
   mix-blend-mode: multiply; /* This helps remove white background */
 }
