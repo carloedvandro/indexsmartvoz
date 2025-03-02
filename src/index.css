@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -73,8 +74,17 @@ body::before {
   mix-blend-mode: multiply; /* This helps remove white background */
 }
 
-button[variant="ghost"] svg[class*="lucide-menu"] {
-  transform: translateY(12px) !important;
+/* Mobile menu button styling - updated */
+.mobile-menu-button {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
 }
 
 @media (max-width: 1024px) {
