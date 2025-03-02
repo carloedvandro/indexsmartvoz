@@ -30,19 +30,20 @@ export function FinancialFilter({
   filterTransactions,
 }: FinancialFilterProps) {
   return (
-    <div className="mb-6 md:mb-8 w-full mx-auto">
+    <div className="mb-6 md:mb-8">
       <div className="flex items-center gap-2 mb-6">
         <Filter className="w-4 h-4 text-[#5f0889]" />
         <span className="text-sm font-medium text-gray-900">Filtros</span>
       </div>
-      <div className="flex flex-row justify-between gap-4">
-        <div className="w-full md:max-w-[200px]">
+      
+      <div className="flex justify-between gap-6 mb-6">
+        <div className="w-1/2">
           <label className="block text-sm font-medium text-gray-900 mb-2">
             Mês
           </label>
           <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
             <SelectTrigger 
-              className="w-full !bg-white text-gray-900 border-gray-300"
+              className="w-full text-gray-900 border-gray-300"
             >
               <SelectValue />
             </SelectTrigger>
@@ -51,7 +52,7 @@ export function FinancialFilter({
                 <SelectItem 
                   key={month.value} 
                   value={month.value}
-                  className="cursor-pointer py-1.5 px-2 !bg-white hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white selected:!bg-[#5f0889] selected:!text-white"
+                  className="cursor-pointer py-1.5 px-2 hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white selected:!bg-[#5f0889] selected:!text-white"
                 >
                   {month.label}
                 </SelectItem>
@@ -60,13 +61,13 @@ export function FinancialFilter({
           </Select>
         </div>
 
-        <div className="w-full md:max-w-[200px]">
+        <div className="w-1/2">
           <label className="block text-sm font-medium text-gray-900 mb-2">
             Ano
           </label>
           <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
             <SelectTrigger 
-              className="w-full !bg-white text-gray-900 border-gray-300"
+              className="w-full text-gray-900 border-gray-300"
             >
               <SelectValue />
             </SelectTrigger>
@@ -75,7 +76,7 @@ export function FinancialFilter({
                 <SelectItem 
                   key={year.value} 
                   value={year.value}
-                  className="cursor-pointer py-1.5 px-2 !bg-white hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white selected:!bg-[#5f0889] selected:!text-white"
+                  className="cursor-pointer py-1.5 px-2 hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white selected:!bg-[#5f0889] selected:!text-white"
                 >
                   {year.label}
                 </SelectItem>
@@ -85,16 +86,16 @@ export function FinancialFilter({
         </div>
       </div>
 
-      <div className="flex justify-between items-center mt-6">
+      <div className="flex justify-between items-center">
         <button 
           onClick={handleBack}
-          className="border border-[#5f0889] text-[#5f0889] h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-[80px]"
+          className="border border-[#5f0889] text-[#5f0889] h-9 min-w-[80px] px-3 py-1 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors text-sm"
         >
           Voltar
         </button>
         <button 
           onClick={filterTransactions}
-          className="bg-[#5f0889] text-white h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors w-[80px]"
+          className="bg-[#5f0889] text-white h-9 min-w-[80px] px-3 py-1 rounded-md hover:bg-[#5f0889]/90 transition-colors text-sm"
         >
           Filtrar
         </button>
