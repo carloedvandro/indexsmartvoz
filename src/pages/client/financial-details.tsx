@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
@@ -88,15 +87,10 @@ export default function FinancialDetails() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-50">
-        <ParticlesBackground style="default" />
-        <div className="h-full flex items-center px-6 relative z-10">
-          <div className="flex flex-col max-w-xs truncate">
-            <h1 className="text-sm text-gray-400 font-normal leading-tight">Financeiro</h1>
-            <h2 className="text-base text-white font-medium leading-6 truncate">Extrato Detalhado - {monthLabel} / {selectedYear}</h2>
-          </div>
-        </div>
-      </div>
+      <FinancialHeader
+        monthLabel={monthLabel}
+        selectedYear={selectedYear}
+      />
 
       <div className="max-w-[1080px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
         <FinancialFilter 
