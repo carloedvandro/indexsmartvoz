@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -52,6 +51,18 @@
     --color-4: 259 94.4% 51.4%;
     --color-5: 259 94.4% 51.4%;
   }
+}
+
+/* Critical images preload */
+body::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: -1;
+  content: url("/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png") 
+           url("/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png");
 }
 
 /* Logo specific styles */

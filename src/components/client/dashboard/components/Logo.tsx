@@ -10,8 +10,11 @@ export const Logo = () => {
         className="h-[100px] w-auto object-contain"
         style={{ 
           maxWidth: '200px',
-          filter: 'drop-shadow(0 0 0.1rem rgba(0,0,0,0.05))'
+          filter: 'drop-shadow(0 0 0.1rem rgba(0,0,0,0.05))',
+          // Add loading priority to prevent delay
+          content: 'high'
         }}
+        loading="eager"
       />
     </div>
   );
