@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -75,10 +74,11 @@ body::before {
 }
 
 @media (max-width: 1024px) {
-  .container.max-w-sm {
-    max-width: 336px !important;
+  .mobile-menu-container {
+    max-width: 320px !important;
     padding-top: 0.5rem !important;
-    padding-bottom: 0.5rem !important;
+    padding-bottom: 0.75rem !important;
+    border-radius: 0 0 12px 12px !important;
   }
 }
 
