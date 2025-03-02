@@ -84,11 +84,11 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         {isOpen ? (
           <X className="w-5 h-5" />
         ) : (
-          <div className="mobile-menu-dots">
-            <div className="dot"></div>
-            <div className="dot"></div>
-            <div className="dot"></div>
-          </div>
+          <img 
+            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
+            alt="Menu" 
+            className="w-10 h-10" 
+          />
         )}
       </Button>
       {isOpen && (
