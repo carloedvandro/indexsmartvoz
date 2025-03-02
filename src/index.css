@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -61,7 +60,6 @@
   width: 200px !important;
   height: auto !important;
   mix-blend-mode: multiply; /* This helps remove white background */
-  transform: translateY(0px); /* Removed transformation to position logo naturally */
 }
 
 /* Add styles for select dropdowns */
