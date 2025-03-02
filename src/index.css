@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -73,7 +74,7 @@ body::before {
   mix-blend-mode: multiply; /* This helps remove white background */
 }
 
-/* Mobile menu button styling - simple purple button */
+/* Mobile menu button styling */
 .mobile-menu-button {
   width: 40px !important;
   height: 40px !important;
@@ -84,7 +85,7 @@ body::before {
   align-items: center !important;
   justify-content: center !important;
   border-radius: 9999px !important;
-  background-color: #6b21a8 !important; /* Using a darker purple color */
+  background-color: #8a2be2 !important; /* Purple color to match image */
   color: white !important;
   border: none !important;
   box-shadow: none !important;
@@ -94,10 +95,26 @@ body::before {
 .mobile-menu-button:hover,
 .mobile-menu-button:focus,
 .mobile-menu-button:active {
-  background-color: #7c3aed !important;
+  background-color: #9932cc !important; /* Slightly lighter purple on hover */
   color: white !important;
   outline: none !important;
   border: none !important;
+}
+
+/* Mobile menu dots */
+.mobile-menu-dots {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.mobile-menu-dots .dot {
+  width: 4px !important;
+  height: 4px !important;
+  background-color: white !important;
+  border-radius: 50% !important;
 }
 
 .rotate-animation {

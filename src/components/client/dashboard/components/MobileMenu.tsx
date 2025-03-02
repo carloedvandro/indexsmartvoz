@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
-import { X, Menu, ArrowRight } from "lucide-react";
+import { X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
@@ -84,10 +84,10 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         {isOpen ? (
           <X className="w-5 h-5" />
         ) : (
-          <div className="flex flex-col gap-1.5 items-center justify-center">
-            <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
-            <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
-            <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+          <div className="mobile-menu-dots">
+            <div className="dot"></div>
+            <div className="dot"></div>
+            <div className="dot"></div>
           </div>
         )}
       </Button>
