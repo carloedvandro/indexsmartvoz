@@ -75,7 +75,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </Button>
       {isOpen && (
-        <div className="fixed top-20 left-0 right-0 border-t flex flex-col w-full bg-white shadow-lg py-2 container mobile-menu-container mx-auto gap-2 z-50 rounded-b-lg">
+        <div className="fixed top-20 left-0 right-0 flex flex-col w-[321px] mx-auto bg-white shadow-lg py-2 container mobile-menu-container gap-2 z-50 rounded-b-lg">
           <div className="flex flex-col gap-2">
             {renderItems(navigationItems)}
           </div>
