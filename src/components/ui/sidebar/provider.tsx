@@ -1,3 +1,4 @@
+
 import * as React from "react"
 import { TooltipProvider } from "@radix-ui/react-tooltip"
 import { cn } from "@/lib/utils"
@@ -24,6 +25,7 @@ export function SidebarProvider({
   const [_open, _setOpen] = React.useState(defaultOpen)
   const open = openProp ?? _open
   
+  // Optimize setOpen to use useCallback with dependencies
   const setOpen = React.useCallback(
     (value: boolean | ((value: boolean) => boolean)) => {
       const openState = typeof value === "function" ? value(open) : value
@@ -37,14 +39,16 @@ export function SidebarProvider({
     [setOpenProp, open]
   )
 
+  // Optimize toggleSidebar to use useCallback with correct dependencies
   const toggleSidebar = React.useCallback(() => {
     return isMobile
       ? setOpenMobile((open) => !open)
       : setOpen((open) => !open)
   }, [isMobile, setOpen])
 
+  // Optimize the keyboard shortcut listener
   React.useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
+    function handleKeyDown(event: KeyboardEvent) {
       if (
         event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
         (event.metaKey || event.ctrlKey)
@@ -60,6 +64,7 @@ export function SidebarProvider({
 
   const state: SidebarState = open ? "expanded" : "collapsed"
 
+  // Optimize context value creation with useMemo and proper dependencies
   const contextValue = React.useMemo(
     () => ({
       state,

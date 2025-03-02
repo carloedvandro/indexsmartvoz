@@ -20,11 +20,47 @@ import {
 import { SidebarContext, useSidebar } from "./context"
 import { SIDEBAR_WIDTH, SIDEBAR_WIDTH_MOBILE, SIDEBAR_WIDTH_ICON } from "./types"
 import { 
-  SidebarMenuSkeleton, 
   SidebarMenuSub, 
   SidebarMenuSubButton, 
   SidebarMenuSubItem 
 } from "./components/submenu"
+
+const SidebarMenuSkeleton = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<"div"> & {
+    showIcon?: boolean
+  }
+>(({ className, showIcon = false, ...props }, ref) => {
+  const width = React.useMemo(() => {
+    return `${Math.floor(Math.random() * 40) + 50}%`
+  }, [])
+
+  return (
+    <div
+      ref={ref}
+      data-sidebar="menu-skeleton"
+      className={cn("rounded-md h-8 flex gap-2 px-2 items-center", className)}
+      {...props}
+    >
+      {showIcon && (
+        <Skeleton
+          className="size-4 rounded-md"
+          data-sidebar="menu-skeleton-icon"
+        />
+      )}
+      <Skeleton
+        className="h-4 flex-1 max-w-[--skeleton-width]"
+        data-sidebar="menu-skeleton-text"
+        style={
+          {
+            "--skeleton-width": width,
+          } as React.CSSProperties
+        }
+      />
+    </div>
+  )
+})
+SidebarMenuSkeleton.displayName = "SidebarMenuSkeleton"
 
 const Sidebar = React.forwardRef<
   HTMLDivElement,
@@ -91,7 +127,6 @@ const Sidebar = React.forwardRef<
         data-variant={variant}
         data-side={side}
       >
-        {/* This is what handles the sidebar gap on desktop */}
         <div
           className={cn(
             "duration-200 relative h-svh w-[--sidebar-width] bg-transparent transition-[width] ease-linear",
@@ -401,63 +436,129 @@ const sidebarMenuButtonVariants = cva(
   }
 )
 
-const SidebarMenuButton = React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentProps<"button"> & {
-    asChild?: boolean
-    isActive?: boolean
-    tooltip?: string | React.ComponentProps<typeof TooltipContent>
-  } & VariantProps<typeof sidebarMenuButtonVariants>
->(
-  (
-    {
-      asChild = false,
-      isActive = false,
-      variant = "default",
-      size = "default",
-      tooltip,
-      className,
-      ...props
-    },
-    ref
-  ) => {
-    const Comp = asChild ? Slot : "button"
-    const { isMobile, state } = useSidebar()
-
-    const button = (
-      <Comp
-        ref={ref}
-        data-sidebar="menu-button"
-        data-size={size}
-        data-active={isActive}
-        className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
-        {...props}
-      />
-    )
-
-    if (!tooltip) {
-      return button
+const OptimizedTooltip = React.memo(
+  ({ 
+    button, 
+    tooltip, 
+    hidden
+  }: { 
+    button: React.ReactElement, 
+    tooltip: React.ReactElement | string,
+    hidden: boolean
+  }) => {
+    if (hidden || !tooltip) {
+      return button;
     }
-
-    if (typeof tooltip === "string") {
-      tooltip = {
-        children: tooltip,
-      }
-    }
-
+    
+    const tooltipContent = typeof tooltip === 'string' 
+      ? <TooltipContent side="right" align="center">{tooltip}</TooltipContent>
+      : tooltip;
+      
     return (
       <Tooltip>
         <TooltipTrigger asChild>{button}</TooltipTrigger>
-        <TooltipContent
-          side="right"
-          align="center"
-          hidden={state !== "collapsed" || isMobile}
-          {...tooltip}
-        />
+        {tooltipContent}
       </Tooltip>
-    )
+    );
+  },
+  (prevProps, nextProps) => {
+    return (
+      prevProps.hidden === nextProps.hidden &&
+      (typeof prevProps.tooltip === typeof nextProps.tooltip) &&
+      (typeof prevProps.tooltip === 'string' 
+        ? prevProps.tooltip === nextProps.tooltip 
+        : true)
+    );
   }
-)
+);
+OptimizedTooltip.displayName = "OptimizedTooltip";
+
+const SidebarMenuButton = React.memo(
+  React.forwardRef<
+    HTMLButtonElement,
+    React.ComponentProps<"button"> & {
+      asChild?: boolean
+      isActive?: boolean
+      tooltip?: string | React.ComponentProps<typeof TooltipContent>
+    } & VariantProps<typeof sidebarMenuButtonVariants>
+  >(
+    (
+      {
+        asChild = false,
+        isActive = false,
+        variant = "default",
+        size = "default",
+        tooltip,
+        className,
+        ...props
+      },
+      ref
+    ) => {
+      const Comp = asChild ? Slot : "button"
+      const { isMobile, state } = useSidebar()
+      const tooltipHidden = state !== "collapsed" || isMobile
+      
+      const buttonClass = React.useMemo(() => {
+        return cn(sidebarMenuButtonVariants({ variant, size }), className)
+      }, [variant, size, className])
+
+      const button = (
+        <Comp
+          ref={ref}
+          data-sidebar="menu-button"
+          data-size={size}
+          data-active={isActive}
+          className={buttonClass}
+          {...props}
+        />
+      )
+
+      if (!tooltip) {
+        return button
+      }
+
+      const tooltipContent = React.useMemo(() => {
+        if (typeof tooltip === "string") {
+          return (
+            <TooltipContent
+              side="right"
+              align="center"
+              hidden={tooltipHidden}
+            >
+              {tooltip}
+            </TooltipContent>
+          );
+        }
+        
+        return (
+          <TooltipContent
+            side="right"
+            align="center"
+            hidden={tooltipHidden}
+            {...tooltip}
+          />
+        );
+      }, [tooltip, tooltipHidden]);
+
+      return (
+        <OptimizedTooltip 
+          button={button}
+          tooltip={tooltipContent}
+          hidden={tooltipHidden}
+        />
+      )
+    }
+  ),
+  (prevProps, nextProps) => {
+    return (
+      prevProps.isActive === nextProps.isActive &&
+      prevProps.variant === nextProps.variant &&
+      prevProps.size === nextProps.size &&
+      prevProps.className === nextProps.className &&
+      prevProps.tooltip === nextProps.tooltip
+    );
+  }
+);
 SidebarMenuButton.displayName = "SidebarMenuButton"
 
 const SidebarMenuAction = React.forwardRef<

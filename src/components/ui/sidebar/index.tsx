@@ -1,4 +1,5 @@
-export { useSidebar } from "./context"
+
+export { useSidebar, useSidebarState, useSidebarIsOpen } from "./context"
 export { SidebarProvider } from "./provider"
 export * from "./components/base"
 export * from "./components/menu"
