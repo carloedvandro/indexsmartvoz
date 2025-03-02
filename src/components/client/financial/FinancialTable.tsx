@@ -19,21 +19,21 @@ export function FinancialTable({ filteredTransactions, isMobile }: FinancialTabl
       <Table>
         <TableHeader className="bg-gray-50">
           <TableRow>
-            <TableHead className="font-semibold text-black pl-6 text-base">Data</TableHead>
-            <TableHead className="font-semibold text-black pl-4 text-base">Histórico</TableHead>
-            <TableHead className="font-semibold text-black pl-4 text-base">Descrição</TableHead>
-            <TableHead className="font-semibold text-black text-base text-right pr-6">Valor</TableHead>
-            <TableHead className="font-semibold text-black text-base text-right pr-6">Saldo</TableHead>
+            <TableHead className="font-semibold text-black pl-6 text-xs">Data</TableHead>
+            <TableHead className="font-semibold text-black pl-4 text-xs">Histórico</TableHead>
+            <TableHead className="font-semibold text-black pl-4 text-xs">Descrição</TableHead>
+            <TableHead className="font-semibold text-black text-xs text-right pr-6">Valor</TableHead>
+            <TableHead className="font-semibold text-black text-xs text-right pr-6">Saldo</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {filteredTransactions.map((transaction, index) => (
             <TableRow key={index} className="border-b hover:bg-gray-50">
-              <TableCell className="pl-6 text-sm">{transaction.date}</TableCell>
-              <TableCell className="font-medium pl-4 text-sm">{transaction.type}</TableCell>
-              <TableCell className="truncate pl-4 text-sm">{transaction.description}</TableCell>
-              <TableCell className="text-green-600 text-right pr-6 text-sm whitespace-nowrap">{transaction.value}</TableCell>
-              <TableCell className="text-right pr-6 text-sm whitespace-nowrap">{transaction.balance}</TableCell>
+              <TableCell className="pl-6 text-xs">{transaction.date}</TableCell>
+              <TableCell className="font-medium pl-4 text-xs">{transaction.type}</TableCell>
+              <TableCell className="truncate pl-4 text-xs">{transaction.description}</TableCell>
+              <TableCell className="text-green-600 text-right pr-6 text-xs whitespace-nowrap">{transaction.value}</TableCell>
+              <TableCell className="text-right pr-6 text-xs whitespace-nowrap">{transaction.balance}</TableCell>
             </TableRow>
           ))}
         </TableBody>
