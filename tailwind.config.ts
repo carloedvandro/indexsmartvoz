@@ -37,15 +37,10 @@ export default {
             backgroundPosition: "var(--bg-size) 0",
           },
         },
-        rainbow: {
-          "0%, 100%": { backgroundPosition: "0% 50%" },
-          "50%": { backgroundPosition: "100% 50%" },
-        },
       },
       animation: {
         ...animations.animation,
         gradient: "gradient 8s linear infinite",
-        rainbow: "rainbow 3s ease infinite",
       },
       maxWidth: {
         'sm': '384px', // Increased from default 24rem (384px)
