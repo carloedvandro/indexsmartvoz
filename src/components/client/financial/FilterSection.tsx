@@ -87,13 +87,13 @@ export function FilterSection({
         <Button
           variant="outline"
           onClick={handleBack}
-          className="min-w-[100px] border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white rounded-md"
+          className="min-w-[80px] h-9 px-3 py-1 border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white rounded-md text-sm"
         >
           Voltar
         </Button>
         <Button 
           onClick={onFilter}
-          className="min-w-[100px] bg-[#5f0889] hover:bg-[#5f0889]/90 text-white rounded-md"
+          className="min-w-[80px] h-9 px-3 py-1 bg-[#5f0889] hover:bg-[#5f0889]/90 text-white rounded-md text-sm"
         >
           Filtrar
         </Button>
