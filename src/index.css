@@ -54,6 +54,12 @@
   }
 }
 
+/* Logo specific styles */
+.logo-image {
+  max-width: 400px !important;
+  width: auto !important;
+}
+
 /* Add styles for select dropdowns */
 select,
 .select,
