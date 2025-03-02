@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -79,7 +78,7 @@ body::before {
 /* Mobile menu adjustments */
 @media (max-width: 1024px) {
   .container.max-w-sm {
-    max-width: 340px !important;
+    max-width: 338px !important;
     padding-top: 0.5rem !important;
     padding-bottom: 0.5rem !important;
   }
@@ -175,4 +174,3 @@ img:focus,
   text-align: left;
   padding-left: 0;
 }
-
