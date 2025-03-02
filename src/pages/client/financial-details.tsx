@@ -98,7 +98,7 @@ export default function FinancialDetails() {
         </div>
       </div>
 
-      <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
+      <div className="max-w-[600px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
         <FinancialFilter 
           selectedMonth={selectedMonth}
           setSelectedMonth={setSelectedMonth}
@@ -117,11 +117,11 @@ export default function FinancialDetails() {
           onCardClick={() => setBalanceDialogOpen(true)}
         />
 
-        <div className="flex flex-row justify-between items-center gap-3 w-full md:w-[780px] mx-auto mb-6">
+        <div className="flex flex-row justify-between items-center gap-3 w-full mx-auto mb-6">
           <input
             type="text"
             placeholder="Pesquisar"
-            className="border rounded-md px-4 h-9 w-full md:w-64"
+            className="border rounded-md px-4 h-9 w-full"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -141,7 +141,7 @@ export default function FinancialDetails() {
           isMobile={isMobile}
         />
 
-        <div className="flex justify-between items-center mt-4 text-sm w-full md:w-[780px] mx-auto">
+        <div className="flex justify-between items-center mt-4 text-sm w-full mx-auto">
           <div className="text-gray-600">
             Total de {filteredTransactions.length} registros
           </div>
