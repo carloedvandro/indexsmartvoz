@@ -27,7 +27,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
             <Button 
               variant="ghost" 
               className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-end -ml-6"
-              style={{ pointerEvents: 'auto', transform: 'translateY(20px)' }}
+              style={{ pointerEvents: 'auto', transform: 'translateY(19px)' }} // Moved 1px up from 20px to 19px
             >
               <img 
                 src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
@@ -38,7 +38,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <span 
                 className="font-bold" 
                 style={{
-                  marginBottom: '8px', // Changed from 7px to 8px (moving 1px up)
+                  marginBottom: '8px', // Keep existing value
                   marginLeft: '-9px', 
                   color: '#5f0889',
                   pointerEvents: 'none',
@@ -113,3 +113,4 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
     </div>
   );
 };
+
