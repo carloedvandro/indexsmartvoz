@@ -93,12 +93,12 @@ export default function FinancialDetails() {
         <div className="h-full flex items-center px-6 relative z-10">
           <div className="flex flex-col max-w-xs truncate">
             <h1 className="text-sm text-gray-400 font-normal leading-tight">Financeiro</h1>
-            <h2 className="text-xl text-white font-medium leading-7 truncate">Extrato Detalhado - {monthLabel} / {selectedYear}</h2>
+            <h2 className="text-lg text-white font-medium leading-7 truncate">Extrato Detalhado - {monthLabel} / {selectedYear}</h2>
           </div>
         </div>
       </div>
 
-      <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
+      <div className="max-w-[1080px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
         <FinancialFilter 
           selectedMonth={selectedMonth}
           setSelectedMonth={setSelectedMonth}
@@ -117,7 +117,7 @@ export default function FinancialDetails() {
           onCardClick={() => setBalanceDialogOpen(true)}
         />
 
-        <div className="flex flex-row justify-between items-center gap-3 w-full md:w-[780px] mx-auto mb-6">
+        <div className="flex flex-row justify-between items-center gap-3 w-full md:w-[680px] mx-auto mb-6">
           <input
             type="text"
             placeholder="Pesquisar"
@@ -141,7 +141,7 @@ export default function FinancialDetails() {
           isMobile={isMobile}
         />
 
-        <div className="flex justify-between items-center mt-4 text-sm w-full md:w-[780px] mx-auto">
+        <div className="flex justify-between items-center mt-4 text-sm w-full md:w-[680px] mx-auto">
           <div className="text-gray-600">
             Total de {filteredTransactions.length} registros
           </div>

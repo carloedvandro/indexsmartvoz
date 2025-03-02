@@ -30,7 +30,7 @@ export function FinancialFilter({
   filterTransactions,
 }: FinancialFilterProps) {
   return (
-    <div className="mb-6 md:mb-8 w-full md:w-[780px] mx-auto">
+    <div className="mb-6 md:mb-8 w-full md:w-[680px] mx-auto">
       <div className="border rounded-lg bg-white p-6 shadow-sm w-full">
         <div className="flex items-center gap-2 mb-6">
           <Filter className="w-4 h-4 text-[#5f0889]" />
