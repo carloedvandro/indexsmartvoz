@@ -17,15 +17,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
       style={{ transform: 'translateY(20px)' }}
     >
       <LogOut className="w-5 h-5" />
-      <span 
-        className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600 bg-[length:200%_auto] animate-gradient"
-        style={{ 
-          backgroundSize: '200% auto',
-          animationDuration: '6s'
-        }}
-      >
-        Sair
-      </span>
+      <span>Sair</span>
     </Button>
   );
 }
