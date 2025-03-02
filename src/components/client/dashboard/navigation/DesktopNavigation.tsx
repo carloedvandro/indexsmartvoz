@@ -32,7 +32,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <img 
                 src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
                 alt="Home" 
-                className="w-12 h-12 outline-none focus:outline-none active:outline-none" 
+                className="w-13 h-13 outline-none focus:outline-none active:outline-none" 
                 style={{outline: 'none'}}
               />
               <span 
@@ -57,7 +57,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                     <img 
                       src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
                       alt="Home" 
-                      className="w-12 h-12 outline-none focus:outline-none" 
+                      className="w-13 h-13 outline-none focus:outline-none" 
                       style={{outline: 'none'}}
                     />
                     <span className="font-bold self-center text-[#5f0889]">Home</span>
