@@ -19,8 +19,8 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
 
   const renderItems = (items: NavigationItem[], level = 0) => {
     return items.map((item) => (
-      <div key={item.title}>
-        <div className="flex flex-col gap-1">
+      <div key={item.title} className="mb-1">
+        <div className="flex flex-col gap-0.5">
           {item.href ? (
             <Link
               to={item.href}
@@ -54,7 +54,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                 <p className="text-base font-medium">{item.title}</p>
               </div>
               {item.items && (
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-0.5 mt-1">
                   {renderItems(item.items, level + 1)}
                 </div>
               )}
@@ -75,9 +75,11 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </Button>
       {isOpen && (
-        <div className="fixed top-20 left-0 right-0 border-t flex flex-col w-full bg-white shadow-lg py-3 container max-w-sm mx-auto gap-4 z-50">
-          {renderItems(navigationItems)}
-          <div>
+        <div className="fixed top-20 left-0 right-0 border-t flex flex-col w-full bg-white shadow-lg py-2 container max-w-sm mx-auto gap-2 z-50">
+          <div className="flex flex-col gap-2">
+            {renderItems(navigationItems)}
+          </div>
+          <div className="mt-2 border-t pt-2">
             <LogoutButton onLogout={onLogout} className="w-full p-0 justify-start hover:bg-transparent active:bg-transparent focus:bg-transparent" />
           </div>
         </div>

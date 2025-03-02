@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -73,6 +74,15 @@ body::before {
   height: 100px !important;
   object-fit: contain !important;
   mix-blend-mode: multiply; /* This helps remove white background */
+}
+
+/* Mobile menu adjustments */
+@media (max-width: 1024px) {
+  .container.max-w-sm {
+    max-width: 340px !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
 }
 
 /* Add styles for select dropdowns */
@@ -165,3 +175,4 @@ img:focus,
   text-align: left;
   padding-left: 0;
 }
+
