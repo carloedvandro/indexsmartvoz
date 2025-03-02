@@ -22,8 +22,8 @@ export function FinancialTable({ filteredTransactions, isMobile }: FinancialTabl
             <TableHead className="font-semibold text-black pl-6 text-xs">Data</TableHead>
             <TableHead className="font-semibold text-black pl-4 text-xs">Histórico</TableHead>
             <TableHead className="font-semibold text-black pl-4 text-xs">Descrição</TableHead>
-            <TableHead className="font-semibold text-black text-xs text-right pr-4">Valor</TableHead>
-            <TableHead className="font-semibold text-black text-xs text-right pr-6">Saldo</TableHead>
+            <TableHead className="font-semibold text-black text-xs pl-4">Valor</TableHead>
+            <TableHead className="font-semibold text-black text-xs pl-4">Saldo</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
