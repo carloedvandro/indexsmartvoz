@@ -11,7 +11,7 @@ export function FinancialHeader({ selectedMonth = "5", selectedYear = "2018", mo
   const monthLabel = months.find(m => m.value === selectedMonth)?.label || "Maio";
   
   return (
-    <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-50">
+    <div className="fixed top-0 left-0 right-0 h-40 bg-[#46005e] border-b border-white/10 z-50">
       <ParticlesBackground style="default" />
       <div className="h-full flex items-center px-6 relative z-10">
         <div className="flex flex-col max-w-xs truncate">
