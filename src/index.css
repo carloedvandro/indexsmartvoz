@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -75,8 +76,8 @@ body::before {
 
 @media (max-width: 1024px) {
   .mobile-menu-container {
-    width: 321px !important;
-    max-width: 321px !important;
+    width: 310px !important;
+    max-width: 310px !important;
     padding-top: 0.5rem !important;
     padding-bottom: 0.75rem !important;
     border-radius: 0 0 12px 12px !important;
