@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -58,7 +59,8 @@
   min-width: 180px !important;
   max-width: 200px !important;
   width: 200px !important;
-  height: auto !important;
+  height: 200px !important;
+  object-fit: contain !important;
   mix-blend-mode: multiply; /* This helps remove white background */
 }
 
