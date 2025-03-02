@@ -128,7 +128,7 @@ export function ExportPDFButton({
   return (
     <button 
       onClick={handleExportPDF}
-      className="bg-[#5f0889] text-white px-6 h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors whitespace-nowrap"
+      className="bg-[#5f0889] text-white px-6 py-2 rounded-md hover:bg-[#5f0889]/90 transition-colors whitespace-nowrap font-medium"
     >
       Baixar em PDF
     </button>
