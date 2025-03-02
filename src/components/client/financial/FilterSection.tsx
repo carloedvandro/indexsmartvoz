@@ -33,7 +33,7 @@ export function FilterSection({
         <span className="text-base font-medium">Filtros</span>
       </div>
       
-      <div className="flex flex-col md:flex-row gap-4 mb-6">
+      <div className="flex flex-col md:flex-row justify-end gap-4 mb-6">
         <div className="w-full md:max-w-[200px]">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Mês
