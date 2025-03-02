@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 import { FinancialHeader } from "@/components/client/financial/FinancialDetailsHeader";
@@ -86,74 +86,68 @@ export default function FinancialDetails() {
 
   const monthLabel = months.find(m => m.value === selectedMonth)?.label || "Fevereiro";
 
-  useEffect(() => {
-    filterTransactions();
-  }, [selectedMonth, selectedYear]);
-
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-50">
         <ParticlesBackground style="default" />
         <div className="h-full flex items-center px-6 relative z-10">
           <div className="flex flex-col max-w-xs truncate">
             <h1 className="text-sm text-gray-400 font-normal leading-tight">Financeiro</h1>
-            <h2 className="text-lg text-white font-medium leading-6 truncate">Extrato Detalhado - {monthLabel} / {selectedYear}</h2>
+            <h2 className="text-xl text-white font-medium leading-7 truncate">Extrato Detalhado - {monthLabel} / {selectedYear}</h2>
           </div>
         </div>
       </div>
 
-      <div className="w-full mx-auto px-4 py-6 md:px-0 md:py-8 mt-16 flex flex-col items-center">
-        <div className="w-full max-w-[800px]">
-          <FinancialFilter 
-            selectedMonth={selectedMonth}
-            setSelectedMonth={setSelectedMonth}
-            selectedYear={selectedYear}
-            setSelectedYear={setSelectedYear}
-            months={months}
-            years={years}
-            handleBack={handleBack}
-            filterTransactions={filterTransactions}
+      <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
+        <FinancialFilter 
+          selectedMonth={selectedMonth}
+          setSelectedMonth={setSelectedMonth}
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
+          months={months}
+          years={years}
+          handleBack={handleBack}
+          filterTransactions={filterTransactions}
+        />
+
+        <FinancialSummary 
+          selectedMonth={selectedMonth}
+          selectedYear={selectedYear}
+          months={months}
+          onCardClick={() => setBalanceDialogOpen(true)}
+        />
+
+        <div className="flex flex-row justify-between items-center gap-3 w-full md:w-[780px] mx-auto mb-6">
+          <input
+            type="text"
+            placeholder="Pesquisar"
+            className="border rounded-md px-4 h-9 w-full md:w-64"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              filterTransactions();
+            }}
           />
-
-          <FinancialSummary 
-            selectedMonth={selectedMonth}
-            selectedYear={selectedYear}
-            months={months}
-            onCardClick={() => setBalanceDialogOpen(true)}
-          />
-
-          <div className="flex flex-row justify-between items-center gap-3 w-full mb-6">
-            <input
-              type="text"
-              placeholder="Pesquisar"
-              className="border rounded-md px-4 h-9 w-full"
-              value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                filterTransactions();
-              }}
-            />
-            <ExportPDFButton 
-              filteredTransactions={filteredTransactions}
-              selectedMonth={selectedMonth}
-              selectedYear={selectedYear}
-              months={months}
-            />
-          </div>
-
-          <FinancialTable 
+          <ExportPDFButton 
             filteredTransactions={filteredTransactions}
-            isMobile={isMobile}
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            months={months}
           />
+        </div>
 
-          <div className="flex justify-between items-center mt-4 text-sm w-full">
-            <div className="text-gray-600">
-              Total de {filteredTransactions.length} registros
-            </div>
-            <div className="text-gray-700">
-              <span className="font-semibold">Saldo anterior: </span>
-              <span>R$0,00</span>
-            </div>
+        <FinancialTable 
+          filteredTransactions={filteredTransactions}
+          isMobile={isMobile}
+        />
+
+        <div className="flex justify-between items-center mt-4 text-sm w-full md:w-[780px] mx-auto">
+          <div className="text-gray-600">
+            Total de {filteredTransactions.length} registros
+          </div>
+          <div className="text-gray-700">
+            <span className="font-semibold">Saldo anterior: </span>
+            <span>R$0,00</span>
           </div>
         </div>
       </div>
