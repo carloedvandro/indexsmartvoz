@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 import { FinancialHeader } from "@/components/client/financial/FinancialDetailsHeader";
@@ -83,7 +83,15 @@ export default function FinancialDetails() {
     { value: "2026", label: "2026" }
   ];
 
+  useEffect(() => {
+    filterTransactions();
+  }, [selectedMonth, selectedYear, searchTerm]);
+
   const monthLabel = months.find(m => m.value === selectedMonth)?.label || "Fevereiro";
+
+  const handleCardClick = () => {
+    setBalanceDialogOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -108,7 +116,7 @@ export default function FinancialDetails() {
           selectedMonth={selectedMonth}
           selectedYear={selectedYear}
           months={months}
-          onCardClick={() => setBalanceDialogOpen(true)}
+          onCardClick={handleCardClick}
         />
 
         <div className="flex flex-row justify-between items-center gap-3 w-full md:w-[680px] mx-auto mb-6">
@@ -119,7 +127,6 @@ export default function FinancialDetails() {
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              filterTransactions();
             }}
           />
           <ExportPDFButton 
