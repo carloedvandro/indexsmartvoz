@@ -36,7 +36,7 @@ export function InternetSelector({
             <SelectItem 
               key={option.value} 
               value={option.value}
-              className="cursor-pointer bg-white hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white data-[state=checked]:bg-[#8425af] data-[state=checked]:text-white selected:bg-[#8425af] selected:text-white"
+              className="cursor-pointer py-1.5 px-2 bg-white hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white data-[state=checked]:bg-[#8425af] data-[state=checked]:text-white selected:bg-[#8425af] selected:text-white"
             >
               {option.label}
             </SelectItem>
