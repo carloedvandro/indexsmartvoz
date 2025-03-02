@@ -79,7 +79,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
           <div className="flex flex-col gap-2">
             {renderItems(navigationItems)}
           </div>
-          <div className="mt-16 pt-8"> {/* Aumentado significativamente o espaçamento vertical para o botão Sair */}
+          <div className="absolute bottom-4 left-0 right-0 px-2">
             <LogoutButton onLogout={onLogout} className="w-full p-0 justify-start hover:bg-transparent active:bg-transparent focus:bg-transparent" />
           </div>
         </div>
