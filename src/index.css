@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -78,10 +79,8 @@ body::before {
     width: 370px !important;
     max-width: 370px !important;
     padding-top: 0.5rem !important;
-    padding-bottom: 4rem !important; /* Aumentado padding inferior para acomodar o botão Sair absoluto */
+    padding-bottom: 0.75rem !important;
     border-radius: 0 0 12px 12px !important;
-    position: relative !important; /* Assegura que o posicionamento absoluto do botão Sair funcione */
-    min-height: 300px !important; /* Assegura altura mínima para o menu */
   }
 }
 
