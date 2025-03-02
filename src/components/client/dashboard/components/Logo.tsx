@@ -12,7 +12,7 @@ export const Logo = () => {
           maxWidth: '200px',
           objectFit: 'contain',
           filter: 'drop-shadow(0 0 0.1rem rgba(0,0,0,0.05))',
-          marginTop: '-15px'  // Increased upward movement
+          marginTop: '-25px'  // Increased upward movement even more
         }}
       />
     </div>
