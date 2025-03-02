@@ -33,14 +33,14 @@ export function FilterSection({
         <span className="text-base font-medium">Filtros</span>
       </div>
       
-      <div className="flex flex-col md:flex-row justify-end gap-4 mb-6">
-        <div className="w-full md:max-w-[200px]">
+      <div className="flex flex-col md:flex-row mb-6">
+        <div className="w-full md:w-1/2">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Mês
           </label>
           <Select value={selectedMonth} onValueChange={onMonthChange}>
             <SelectTrigger 
-              className="w-full bg-white text-gray-800 border-gray-300 rounded-md"
+              className="w-full md:max-w-[200px] bg-white text-gray-800 border-gray-300 rounded-md"
             >
               <SelectValue />
             </SelectTrigger>
@@ -58,28 +58,30 @@ export function FilterSection({
           </Select>
         </div>
         
-        <div className="w-full md:max-w-[200px]">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Ano
-          </label>
-          <Select value={selectedYear} onValueChange={onYearChange}>
-            <SelectTrigger 
-              className="w-full bg-white text-gray-800 border-gray-300 rounded-md"
-            >
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md z-50">
-              {years.map((year) => (
-                <SelectItem 
-                  key={year.value} 
-                  value={year.value}
-                  className="cursor-pointer py-1.5 px-2 bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white selected:bg-[#5f0889] selected:text-white"
-                >
-                  {year.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <div className="w-full md:w-1/2 flex md:justify-end mt-4 md:mt-0">
+          <div className="w-full md:max-w-[200px]">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Ano
+            </label>
+            <Select value={selectedYear} onValueChange={onYearChange}>
+              <SelectTrigger 
+                className="w-full bg-white text-gray-800 border-gray-300 rounded-md"
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md z-50">
+                {years.map((year) => (
+                  <SelectItem 
+                    key={year.value} 
+                    value={year.value}
+                    className="cursor-pointer py-1.5 px-2 bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white selected:bg-[#5f0889] selected:text-white"
+                  >
+                    {year.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
       
