@@ -60,7 +60,7 @@
   width: 200px !important;
   height: auto !important;
   mix-blend-mode: multiply; /* This helps remove white background */
-  transform: translateY(-18px); /* Increased transform to move logo up more */
+  transform: translateY(-8px); /* Reduced transform to move logo down more */
 }
 
 /* Add styles for select dropdowns */
