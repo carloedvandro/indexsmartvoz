@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,7 +29,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-end -ml-6"
               style={{ pointerEvents: 'auto' }}
             >
-              <div className="flex flex-col items-center" style={{ marginBottom: '2px' }}>
+              <div className="flex flex-col items-center mb-3">
                 <img 
                   src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
                   alt="Home" 
@@ -36,8 +37,9 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                   style={{outline: 'none'}}
                 />
                 <span 
-                  className="text-base ml-0 font-bold" 
+                  className="text-base mb-0.5 ml-0 font-bold" 
                   style={{
+                    marginBottom: '2px', 
                     marginLeft: '-3px', 
                     color: '#5f0889',
                     pointerEvents: 'none'
