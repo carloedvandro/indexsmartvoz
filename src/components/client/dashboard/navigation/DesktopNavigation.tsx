@@ -38,8 +38,8 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <span 
                 className="font-bold" 
                 style={{
-                  marginBottom: '3px', 
-                  marginLeft: '-7px', 
+                  marginBottom: '5px', 
+                  marginLeft: '-9px', 
                   color: '#5f0889',
                   pointerEvents: 'none',
                   fontSize: '1.1rem'
