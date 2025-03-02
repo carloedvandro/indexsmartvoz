@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
-import { X, ArrowRight } from "lucide-react";
+import { X, Menu, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
@@ -16,14 +16,6 @@ interface MobileMenuProps {
 
 export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: MobileMenuProps) => {
   const isMobile = useIsMobile();
-  const [isRotating, setIsRotating] = useState(false);
-  
-  const handleButtonClick = () => {
-    setIsRotating(true);
-    setOpen(!isOpen);
-    // Reset the rotating state after animation completes
-    setTimeout(() => setIsRotating(false), 300);
-  };
 
   const renderItems = (items: NavigationItem[], level = 0) => {
     return items.map((item) => (
@@ -77,26 +69,17 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
     <div className="flex lg:hidden ml-auto items-center h-full">
       <Button 
         variant="ghost" 
-        onClick={handleButtonClick}
-        className={`mobile-menu-button ${isRotating ? 'rotate-animation' : ''}`}
-        aria-label="Toggle menu"
+        onClick={() => setOpen(!isOpen)}
+        className="hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent my-auto"
       >
-        {isOpen ? (
-          <X className="w-5 h-5" />
-        ) : (
-          <img 
-            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
-            alt="Menu" 
-            className="w-10 h-10" 
-          />
-        )}
+        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </Button>
       {isOpen && (
         <div className="fixed top-20 left-0 right-0 flex flex-col w-[370px] mx-auto bg-white shadow-lg py-2 container mobile-menu-container gap-2 z-50 rounded-b-lg">
           <div className="flex flex-col gap-2">
             {renderItems(navigationItems)}
           </div>
-          <div className="mt-2">
+          <div className="mt-2 pt-6"> {/* Added pt-6 to move the logout button down by 6px */}
             <LogoutButton onLogout={onLogout} className="w-full p-0 justify-start hover:bg-transparent active:bg-transparent focus:bg-transparent" />
           </div>
         </div>

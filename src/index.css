@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -71,53 +72,6 @@ body::before {
   height: 100px !important;
   object-fit: contain !important;
   mix-blend-mode: multiply; /* This helps remove white background */
-}
-
-/* Mobile menu button styling */
-.mobile-menu-button {
-  width: 40px !important;
-  height: 40px !important;
-  min-width: 40px !important;
-  min-height: 40px !important;
-  padding: 0 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  border-radius: 9999px !important;
-  background-color: transparent !important; /* Transparent background since we're using an image */
-  color: white !important;
-  border: none !important;
-  box-shadow: none !important;
-  transition: transform 0.3s ease !important;
-}
-
-.mobile-menu-button:hover,
-.mobile-menu-button:focus,
-.mobile-menu-button:active {
-  background-color: transparent !important;
-  color: white !important;
-  outline: none !important;
-  border: none !important;
-}
-
-/* Mobile menu dots */
-.mobile-menu-dots {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 3px !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-.mobile-menu-dots .dot {
-  width: 4px !important;
-  height: 4px !important;
-  background-color: white !important;
-  border-radius: 50% !important;
-}
-
-.rotate-animation {
-  transform: rotate(180deg) !important;
 }
 
 @media (max-width: 1024px) {
