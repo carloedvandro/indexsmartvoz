@@ -55,9 +55,9 @@
 
 /* Logo specific styles */
 .logo-image {
-  min-width: 160px !important;
-  max-width: 180px !important;
-  width: 180px !important;
+  min-width: 180px !important;
+  max-width: 200px !important;
+  width: 200px !important;
   height: auto !important;
   mix-blend-mode: multiply; /* This helps remove white background */
 }
