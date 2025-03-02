@@ -56,9 +56,9 @@
 
 /* Logo specific styles */
 .logo-image {
-  min-width: 200px !important;
-  max-width: 240px !important;
-  width: 240px !important;
+  min-width: 180px !important;
+  max-width: 200px !important;
+  width: 200px !important;
   height: auto !important;
 }
 
