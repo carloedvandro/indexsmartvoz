@@ -11,7 +11,8 @@ export const Logo = () => {
         style={{ 
           maxWidth: '200px',
           objectFit: 'contain',
-          filter: 'drop-shadow(0 0 0.1rem rgba(0,0,0,0.05))'
+          filter: 'drop-shadow(0 0 0.1rem rgba(0,0,0,0.05))',
+          marginTop: '-8px'  // Move the logo upward
         }}
       />
     </div>
