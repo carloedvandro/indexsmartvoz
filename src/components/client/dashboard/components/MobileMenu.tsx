@@ -71,6 +71,14 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         variant="ghost" 
         onClick={() => setOpen(!isOpen)}
         className="rounded-full bg-purple-600 hover:bg-purple-700 p-2 flex items-center justify-center text-white hover:text-white active:bg-purple-700 focus:bg-purple-700 focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-purple-700 my-auto mobile-menu-button"
+        style={{ 
+          width: '40px', 
+          height: '40px', 
+          minWidth: '40px', 
+          minHeight: '40px',
+          padding: '0',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+        }}
       >
         {isOpen ? <X className="w-5 h-5" /> : <RefreshCw className="w-5 h-5" />}
       </Button>
