@@ -56,8 +56,10 @@
 
 /* Logo specific styles */
 .logo-image {
+  min-width: 200px !important;
   max-width: 400px !important;
-  width: auto !important;
+  width: 400px !important;
+  height: auto !important;
 }
 
 /* Add styles for select dropdowns */
