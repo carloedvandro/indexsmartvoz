@@ -87,7 +87,7 @@ export default function FinancialDetails() {
   const monthLabel = months.find(m => m.value === selectedMonth)?.label || "Fevereiro";
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-50">
         <ParticlesBackground style="default" />
         <div className="h-full flex items-center px-6 relative z-10">
