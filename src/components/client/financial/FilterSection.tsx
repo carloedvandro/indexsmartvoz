@@ -33,14 +33,14 @@ export function FilterSection({
         <span className="text-base font-medium">Filtros</span>
       </div>
       
-      <div className="flex flex-col md:flex-row justify-between mb-6">
-        <div>
+      <div className="flex flex-row justify-between gap-4 mb-6">
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Mês
           </label>
           <Select value={selectedMonth} onValueChange={onMonthChange}>
             <SelectTrigger 
-              className="w-full md:w-[200px] bg-white text-gray-800 border-gray-300 rounded-md"
+              className="w-full bg-white text-gray-800 border-gray-300 rounded-md"
             >
               <SelectValue />
             </SelectTrigger>
@@ -58,13 +58,13 @@ export function FilterSection({
           </Select>
         </div>
         
-        <div className="mt-4 md:mt-0">
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Ano
           </label>
           <Select value={selectedYear} onValueChange={onYearChange}>
             <SelectTrigger 
-              className="w-full md:w-[200px] bg-white text-gray-800 border-gray-300 rounded-md"
+              className="w-full bg-white text-gray-800 border-gray-300 rounded-md"
             >
               <SelectValue />
             </SelectTrigger>
