@@ -64,7 +64,7 @@ export default function Financial() {
       />
 
       <div className="flex-1 overflow-auto bg-white">
-        <div className="max-w-[530px] mx-auto h-full flex flex-col">
+        <div className="max-w-[680px] mx-auto h-full flex flex-col">
           <div className="mt-[116px] p-6">
             <FilterSection
               selectedMonth={selectedMonth}
