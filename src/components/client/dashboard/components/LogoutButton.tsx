@@ -14,7 +14,6 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
       variant="link"
       onClick={onLogout}
       className={cn("text-foreground hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent gap-2 p-0 text-base", className)}
-      style={{ transform: 'translateY(20px)' }}
     >
       <LogOut className="w-5 h-5" />
       <span>Sair</span>

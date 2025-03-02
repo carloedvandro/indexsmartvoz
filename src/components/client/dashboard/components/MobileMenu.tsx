@@ -86,4 +86,4 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
       )}
     </div>
   );
-};
+}

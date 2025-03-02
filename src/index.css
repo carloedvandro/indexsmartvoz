@@ -53,7 +53,6 @@
   }
 }
 
-/* Critical images preload */
 body::before {
   content: '';
   position: absolute;
@@ -65,7 +64,6 @@ body::before {
            url("/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png");
 }
 
-/* Logo specific styles */
 .logo-image {
   min-width: 180px !important;
   max-width: 200px !important;
@@ -75,7 +73,6 @@ body::before {
   mix-blend-mode: multiply; /* This helps remove white background */
 }
 
-/* Mobile menu adjustments */
 @media (max-width: 1024px) {
   .container.max-w-sm {
     max-width: 338px !important;
@@ -84,7 +81,6 @@ body::before {
   }
 }
 
-/* Add styles for select dropdowns */
 select,
 .select,
 [role="listbox"] {
@@ -97,7 +93,6 @@ select,
   z-index: 50;
 }
 
-/* Custom styles for select items */
 [role="option"] {
   min-height: 28px !important;
   padding: 6px 8px !important;
@@ -115,27 +110,23 @@ select,
   color: white !important;
 }
 
-/* Style for selected item to maintain purple color */
 [role="option"][aria-selected="true"], 
 [role="option"][data-state="checked"] {
   background-color: #5f0889 !important;
   color: white !important;
 }
 
-/* Override any dynamic effects that might change these colors */
 [role="option"]:active,
 [role="option"]:focus {
   background-color: #5f0889 !important;
   color: white !important;
 }
 
-/* Hide scroll buttons when not needed */
 [data-radix-select-viewport] {
   overflow-y: auto !important;
   padding: 4px !important;
 }
 
-/* Hide scroll indicators completely */
 .select-scroll-button {
   display: none !important;
 }
@@ -154,7 +145,6 @@ select,
   display: none !important;
 }
 
-/* Ensure focus outlines are completely removed for buttons and images */
 button:focus, 
 a:focus, 
 img:focus, 
@@ -163,7 +153,6 @@ img:focus,
   box-shadow: none !important;
 }
 
-/* Custom container width for dropdown menus */
 .dropdown-menu-custom {
   min-width: 320px !important;
   max-width: 380px !important;
