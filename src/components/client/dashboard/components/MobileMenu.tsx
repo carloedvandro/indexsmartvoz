@@ -1,7 +1,6 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
-import { X, ArrowRight, RefreshCw } from "lucide-react";
+import { X, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
@@ -16,6 +15,14 @@ interface MobileMenuProps {
 
 export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: MobileMenuProps) => {
   const isMobile = useIsMobile();
+  const [isRotating, setIsRotating] = useState(false);
+  
+  const handleButtonClick = () => {
+    setIsRotating(true);
+    setOpen(!isOpen);
+    // Reset the rotating state after animation completes
+    setTimeout(() => setIsRotating(false), 300);
+  };
 
   const renderItems = (items: NavigationItem[], level = 0) => {
     return items.map((item) => (
@@ -69,18 +76,19 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
     <div className="flex lg:hidden ml-auto items-center h-full">
       <Button 
         variant="ghost" 
-        onClick={() => setOpen(!isOpen)}
-        className="rounded-full bg-purple-600 hover:bg-purple-700 p-2 flex items-center justify-center text-white hover:text-white active:bg-purple-700 focus:bg-purple-700 focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-purple-700 my-auto mobile-menu-button"
-        style={{ 
-          width: '40px', 
-          height: '40px', 
-          minWidth: '40px', 
-          minHeight: '40px',
-          padding: '0',
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
-        }}
+        onClick={handleButtonClick}
+        className={`mobile-menu-button ${isRotating ? 'rotate-animation' : ''}`}
+        aria-label="Toggle menu"
       >
-        {isOpen ? <X className="w-5 h-5" /> : <RefreshCw className="w-5 h-5" />}
+        {isOpen ? (
+          <X className="w-5 h-5" />
+        ) : (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 4C13.1046 4 14 4.89543 14 6C14 7.10457 13.1046 8 12 8C10.8954 8 10 7.10457 10 6C10 4.89543 10.8954 4 12 4Z" fill="currentColor"/>
+            <path d="M12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10Z" fill="currentColor"/>
+            <path d="M12 16C13.1046 16 14 16.8954 14 18C14 19.1046 13.1046 20 12 20C10.8954 20 10 19.1046 10 18C10 16.8954 10.8954 16 12 16Z" fill="currentColor"/>
+          </svg>
+        )}
       </Button>
       {isOpen && (
         <div className="fixed top-20 left-0 right-0 flex flex-col w-[370px] mx-auto bg-white shadow-lg py-2 container mobile-menu-container gap-2 z-50 rounded-b-lg">

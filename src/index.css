@@ -73,7 +73,7 @@ body::before {
   mix-blend-mode: multiply; /* This helps remove white background */
 }
 
-/* Mobile menu button styling - updated and enhanced */
+/* Mobile menu button styling - simple purple button */
 .mobile-menu-button {
   width: 40px !important;
   height: 40px !important;
@@ -83,18 +83,25 @@ body::before {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
   border-radius: 9999px !important;
-  background-color: #8B5CF6 !important; /* Using Tailwind's purple-500 */
+  background-color: #6b21a8 !important; /* Using a darker purple color */
   color: white !important;
+  border: none !important;
+  box-shadow: none !important;
+  transition: transform 0.3s ease !important;
 }
 
 .mobile-menu-button:hover,
 .mobile-menu-button:focus,
 .mobile-menu-button:active {
-  background-color: #7C3AED !important; /* Using Tailwind's purple-600 */
+  background-color: #7c3aed !important;
   color: white !important;
   outline: none !important;
+  border: none !important;
+}
+
+.rotate-animation {
+  transform: rotate(180deg) !important;
 }
 
 @media (max-width: 1024px) {
