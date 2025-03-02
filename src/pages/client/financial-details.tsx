@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 import { FinancialHeader } from "@/components/client/financial/FinancialDetailsHeader";
@@ -93,7 +93,7 @@ export default function FinancialDetails() {
         <div className="h-full flex items-center px-6 relative z-10">
           <div className="flex flex-col max-w-xs truncate">
             <h1 className="text-sm text-gray-400 font-normal leading-tight">Financeiro</h1>
-            <h2 className="text-xl text-white font-medium leading-7 truncate">Extrato Detalhado - {monthLabel} / {selectedYear}</h2>
+            <h2 className="text-lg text-white font-medium leading-6 truncate">Extrato Detalhado - {monthLabel} / {selectedYear}</h2>
           </div>
         </div>
       </div>
