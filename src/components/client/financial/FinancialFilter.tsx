@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
 interface FinancialFilterProps {
   selectedMonth: string;
@@ -30,14 +31,14 @@ export function FinancialFilter({
   filterTransactions,
 }: FinancialFilterProps) {
   return (
-    <div className="mb-6 md:mb-8 mx-auto">
+    <div className="mb-6 md:mb-8 max-w-[600px] mx-auto">
       <div className="flex items-center gap-2 mb-6">
         <Filter className="w-4 h-4 text-[#5f0889]" />
         <span className="text-sm font-medium text-gray-900">Filtros</span>
       </div>
       
-      <div className="flex justify-center gap-6 mb-6">
-        <div className="w-[45%]">
+      <div className="flex gap-4 mb-6">
+        <div className="w-1/2">
           <label className="block text-sm font-medium text-gray-900 mb-2">
             Mês
           </label>
@@ -61,7 +62,7 @@ export function FinancialFilter({
           </Select>
         </div>
 
-        <div className="w-[45%]">
+        <div className="w-1/2">
           <label className="block text-sm font-medium text-gray-900 mb-2">
             Ano
           </label>
@@ -86,7 +87,7 @@ export function FinancialFilter({
         </div>
       </div>
 
-      <div className="flex justify-center gap-4 items-center">
+      <div className="flex justify-center gap-4">
         <button 
           onClick={handleBack}
           className="border border-[#5f0889] text-[#5f0889] h-9 min-w-[80px] px-3 py-1 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors text-sm"
