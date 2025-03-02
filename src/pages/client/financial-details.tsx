@@ -142,13 +142,12 @@ export default function FinancialDetails() {
           isMobile={isMobile}
         />
 
-        <div className="flex justify-between items-center mt-4 text-sm w-full md:w-[680px] mx-auto">
+        <div className="flex justify-between items-center mt-4 px-2 text-sm w-full md:w-[680px] mx-auto">
           <div className="text-gray-600">
             Total de {filteredTransactions.length} registros
           </div>
           <div className="text-gray-700">
-            <span className="font-semibold">Saldo anterior: </span>
-            <span>R$0,00</span>
+            Saldo anterior: <span className="font-medium">R$0,00</span>
           </div>
         </div>
       </div>
