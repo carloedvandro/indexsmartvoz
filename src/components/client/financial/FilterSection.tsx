@@ -33,7 +33,7 @@ export function FilterSection({
         <span className="text-base font-medium">Filtros</span>
       </div>
       
-      <div className="flex flex-row justify-between mb-6">
+      <div className="flex justify-between mb-6">
         <div className="w-[150px]">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Mês
