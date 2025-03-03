@@ -73,9 +73,9 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         className="hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent my-auto mobile-menu-button"
       >
         {isOpen ? (
-          <X className="w-8 h-8" />
+          <X className="w-8 h-8 font-bold" />
         ) : (
-          <RefreshCw className="w-8 h-8 text-[#5f0889]" />
+          <RefreshCw className="w-8 h-8 text-[#5f0889] font-bold animate-spin-slow" />
         )}
       </Button>
       {isOpen && (
