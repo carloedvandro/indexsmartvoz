@@ -83,7 +83,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
           <div className="flex flex-col gap-2">
             {renderItems(navigationItems)}
           </div>
-          <div className="mt-2 pt-16">
+          <div className="mt-2 pt-[104px]">
             <LogoutButton onLogout={onLogout} className="w-full p-0 justify-start hover:bg-transparent active:bg-transparent focus:bg-transparent" />
           </div>
         </div>
