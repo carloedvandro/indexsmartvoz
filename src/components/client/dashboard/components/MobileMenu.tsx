@@ -29,7 +29,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
               {item.icon === "home" && (
                 <div className="flex items-end gap-1 -ml-2">
                   <img 
-                    src="/lovable-uploads/6476bb03-0467-42d7-ae08-31ae5f2da580.png" 
+                    src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
                     alt="Home" 
                     className="w-10 h-10 border-0 outline-none focus:outline-none active:outline-none" 
                     style={{outline: 'none'}}
@@ -73,7 +73,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         className="hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent my-auto mobile-menu-button ml-4"
       >
         {isOpen ? (
-          <X className="w-12 h-12 text-black" />
+          <X className="w-12 h-12 font-bold text-black" />
         ) : (
           <RefreshCw className="w-12 h-12 text-[#5f0889] font-bold animate-spin-slow" />
         )}

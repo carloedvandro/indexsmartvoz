@@ -60,8 +60,7 @@ body::before {
   height: 0;
   overflow: hidden;
   z-index: -1;
-  content: url("/lovable-uploads/6476bb03-0467-42d7-ae08-31ae5f2da580.png") 
-           url("/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png")
+  content: url("/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png") 
            url("/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png")
            url("/lovable-uploads/f022b81e-7533-4e36-ae24-0a886fa5c775.png");
 }

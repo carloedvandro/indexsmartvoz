@@ -42,15 +42,9 @@ export default function ResetPassword() {
       <div className="relative z-10 container flex items-center justify-center min-h-screen">
         <div className="w-full max-w-[350px] space-y-6">
           <div className="flex flex-col space-y-2 text-center">
-            <div className="flex justify-center mb-8">
-              <img 
-                src="/lovable-uploads/6476bb03-0467-42d7-ae08-31ae5f2da580.png" 
-                alt="Smartvoz" 
-                className="w-auto h-16"
-                loading="eager"
-                fetchPriority="high"
-              />
-            </div>
+            <h1 className="text-[2.4rem] leading-[3.6rem] tracking-wide font-black bg-gradient-to-r from-color-1 via-color-2 to-color-3 bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:200%_auto] -mt-16 mb-12">
+              Smartvoz
+            </h1>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
