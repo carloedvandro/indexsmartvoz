@@ -9,7 +9,7 @@ import { containerVariants, itemVariants } from "@/utils/animations";
 export default function LoginPage() {
   return (
     <motion.div 
-      className="container relative min-h-screen flex items-center justify-center"
+      className="container relative h-screen flex items-center justify-center overflow-hidden"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
