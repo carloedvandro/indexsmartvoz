@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from "react-router-dom";
-import { X, Menu, ArrowRight } from "lucide-react";
+import { X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
@@ -70,16 +70,24 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
       <Button 
         variant="ghost" 
         onClick={() => setOpen(!isOpen)}
-        className="hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent my-auto"
+        className="hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent my-auto purple-menu-button"
       >
-        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        {isOpen ? (
+          <X className="w-6 h-6" />
+        ) : (
+          <img 
+            src="/lovable-uploads/f022b81e-7533-4e36-ae24-0a886fa5c775.png" 
+            alt="Menu" 
+            className="w-6 h-6"
+          />
+        )}
       </Button>
       {isOpen && (
         <div className="fixed top-20 left-0 right-0 flex flex-col w-[370px] mx-auto bg-white shadow-lg py-2 container mobile-menu-container gap-2 z-50 rounded-b-lg">
           <div className="flex flex-col gap-2">
             {renderItems(navigationItems)}
           </div>
-          <div className="mt-2 pt-6"> {/* Added pt-6 to move the logout button down by 6px */}
+          <div className="mt-2 pt-6">
             <LogoutButton onLogout={onLogout} className="w-full p-0 justify-start hover:bg-transparent active:bg-transparent focus:bg-transparent" />
           </div>
         </div>
