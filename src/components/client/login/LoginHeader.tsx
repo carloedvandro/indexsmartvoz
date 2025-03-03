@@ -15,7 +15,7 @@ export function LoginHeader({ itemVariants }: LoginHeaderProps) {
         <img 
           src="/lovable-uploads/5bded3e2-dd4c-4996-9027-b3a0abbb766c.png" 
           alt="Smartvoz" 
-          className="h-auto w-[280px] md:w-[320px]"
+          className="h-auto w-[240px]"
         />
       </div>
     </motion.div>
