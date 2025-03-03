@@ -30,9 +30,9 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               style={{ pointerEvents: 'auto', transform: 'translateY(19px)' }}
             >
               <img 
-                src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
+                src="/lovable-uploads/6476bb03-0467-42d7-ae08-31ae5f2da580.png" 
                 alt="Home" 
-                className="w-14 h-14 outline-none focus:outline-none active:outline-none" 
+                className="w-10 h-10 outline-none focus:outline-none active:outline-none" 
                 style={{outline: 'none'}}
                 loading="eager"
                 fetchPriority="high"
@@ -57,9 +57,9 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
                     <img 
-                      src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
+                      src="/lovable-uploads/6476bb03-0467-42d7-ae08-31ae5f2da580.png" 
                       alt="Home" 
-                      className="w-14 h-14 outline-none focus:outline-none" 
+                      className="w-10 h-10 outline-none focus:outline-none" 
                       style={{outline: 'none'}}
                       loading="eager"
                     />
@@ -115,4 +115,4 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
       )}
     </div>
   );
-};
+}

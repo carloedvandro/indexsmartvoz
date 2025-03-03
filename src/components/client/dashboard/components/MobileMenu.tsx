@@ -29,7 +29,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
               {item.icon === "home" && (
                 <div className="flex items-end gap-1 -ml-2">
                   <img 
-                    src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
+                    src="/lovable-uploads/6476bb03-0467-42d7-ae08-31ae5f2da580.png" 
                     alt="Home" 
                     className="w-10 h-10 border-0 outline-none focus:outline-none active:outline-none" 
                     style={{outline: 'none'}}
