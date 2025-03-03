@@ -6,9 +6,16 @@ import { FormFields } from "./FormFields";
 import { RegisterFormData, registerFormSchema } from "./RegisterSchema";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+import { createUser } from "@/services/user/userCreate";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 export const RegisterFormContainer = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
@@ -25,8 +32,38 @@ export const RegisterFormContainer = () => {
     },
   });
 
-  const onSubmit = (data: RegisterFormData) => {
-    console.log(data);
+  const onSubmit = async (data: RegisterFormData) => {
+    try {
+      setIsSubmitting(true);
+      console.log("Form data:", data);
+      
+      // Create user with the form data
+      await createUser({
+        email: data.email,
+        password: data.password,
+        fullName: data.fullName,
+        cpf: data.cpf,
+        customId: data.customId,
+        sponsorCustomId: data.sponsorCustomId,
+      });
+      
+      toast({
+        title: "Cadastro realizado com sucesso!",
+        description: "Vamos continuar com a verificação biométrica.",
+      });
+      
+      // Navigate to facial biometry page
+      navigate("/client/facial-biometry");
+    } catch (error: any) {
+      console.error("Registration error:", error);
+      toast({
+        title: "Erro no cadastro",
+        description: error.message || "Ocorreu um erro ao criar sua conta.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleBack = () => {
@@ -43,6 +80,7 @@ export const RegisterFormContainer = () => {
             variant="outline"
             className="w-full h-9 border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
             onClick={handleBack}
+            disabled={isSubmitting}
           >
             Voltar
           </Button>
@@ -50,8 +88,16 @@ export const RegisterFormContainer = () => {
           <Button 
             type="submit"
             className="w-full h-9 bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+            disabled={isSubmitting}
           >
-            Cadastrar
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Processando...
+              </>
+            ) : (
+              "Cadastrar"
+            )}
           </Button>
         </div>
       </form>
