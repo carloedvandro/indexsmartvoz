@@ -1,23 +1,26 @@
 
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
+import { formatCurrency } from "@/utils/format";
 
 interface BalanceCardsProps {
   selectedMonth: string;
   selectedYear: string;
   months: Array<{ value: string; label: string }>;
-  onCardClick: () => void;
+  onCardClick: (cardType: string) => void;
 }
 
 export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick }: BalanceCardsProps) {
   return (
     <div className="grid grid-cols-1 gap-4">
       <Card 
-        className="relative p-4 border border-gray-200 rounded-lg overflow-hidden"
+        className="relative p-4 border border-gray-200 rounded-lg overflow-hidden cursor-pointer hover:bg-gray-50 transition-colors"
         style={{
           backgroundColor: 'white',
           position: 'relative',
           zIndex: 50
         }}
+        onClick={() => onCardClick('available')}
       >
         <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#02951e]" />
         <div className="flex justify-between items-center">
@@ -31,7 +34,7 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
 
       <Card 
         className="relative p-4 border rounded-lg bg-white cursor-pointer hover:bg-gray-50 transition-colors"
-        onClick={onCardClick}
+        onClick={() => onCardClick('bonus')}
       >
         <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-2">
