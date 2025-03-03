@@ -148,7 +148,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       <motion.div variants={itemVariants}>
         <RainbowButton
           type="submit"
-          className="w-full !bg-[#5f0889] hover:!bg-[#4a0668] h-12"
+          className="w-full !bg-[#5f0889] hover:!bg-[#4a0668]"
           disabled={isLoading}
         >
           {isLoading ? "Entrando..." : "Entrar"}
