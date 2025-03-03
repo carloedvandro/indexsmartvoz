@@ -1,5 +1,4 @@
 
-import { LoginHeader } from "@/components/client/login/LoginHeader";
 import { LoginForm } from "@/components/client/login/LoginForm";
 import { RegisterLink } from "@/components/client/login/RegisterLink";
 import { containerVariants, itemVariants } from "@/utils/animations";
@@ -9,7 +8,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen w-full">
       <motion.div 
-        className="container flex items-center justify-center h-screen"
+        className="container flex items-center justify-center h-screen -mt-5"
         initial="hidden"
         animate="visible"
         variants={containerVariants}

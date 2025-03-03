@@ -40,7 +40,7 @@ export default function ResetPassword() {
   return (
     <div className="min-h-screen w-full">
       <motion.div 
-        className="container flex items-center justify-center h-screen" 
+        className="container flex items-center justify-center h-screen -mt-5" 
         initial="hidden"
         animate="visible"
         variants={containerVariants}
