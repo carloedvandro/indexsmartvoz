@@ -1,6 +1,5 @@
 
 import { motion } from "framer-motion";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 import { LoginHeader } from "@/components/client/login/LoginHeader";
 import { LoginForm } from "@/components/client/login/LoginForm";
 import { RegisterLink } from "@/components/client/login/RegisterLink";
@@ -8,10 +7,9 @@ import { containerVariants, itemVariants } from "@/utils/animations";
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen w-full relative">
-      <ParticlesBackground />
+    <div className="min-h-screen w-full">
       <motion.div 
-        className="relative z-10 container flex items-center justify-center h-screen"
+        className="container flex items-center justify-center h-screen"
         initial="hidden"
         animate="visible"
         variants={containerVariants}
