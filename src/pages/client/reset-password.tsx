@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -45,7 +46,7 @@ export default function ResetPassword() {
         variants={containerVariants}
       >
         <div className="w-full max-w-[350px] space-y-6">
-          <motion.div className="flex flex-col space-y-2 text-center" variants={itemVariants}>
+          <div className="flex flex-col space-y-2 text-center">
             <div className="-mt-10 flex justify-center">
               <img 
                 src="/lovable-uploads/5bded3e2-dd4c-4996-9027-b3a0abbb766c.png" 
@@ -53,7 +54,7 @@ export default function ResetPassword() {
                 className="h-auto w-[240px]"
               />
             </div>
-          </motion.div>
+          </div>
 
           <motion.form onSubmit={handleSubmit} className="space-y-6" variants={containerVariants}>
             <motion.div className="space-y-2" variants={itemVariants}>
