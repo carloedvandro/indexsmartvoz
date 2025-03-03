@@ -30,7 +30,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
                   {...field} 
                   type="text"
                   placeholder="(00) 00000-0000" 
-                  className="pl-9 text-sm h-8"
+                  className="pl-9 text-sm h-7"
                 />
               </div>
             </FormControl>
@@ -52,7 +52,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
                   {...field} 
                   type="text"
                   placeholder="(00) 00000-0000"
-                  className="pl-9 text-sm h-8"
+                  className="pl-9 text-sm h-7"
                   onChange={(e) => {
                     const value = e.target.value;
                     if (value === primaryWhatsapp) {
