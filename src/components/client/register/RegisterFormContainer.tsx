@@ -41,7 +41,7 @@ export const RegisterFormContainer = () => {
           <Button
             type="button"
             variant="outline"
-            className="w-[160px] h-10 border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
+            className="w-[180px] h-10 border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
             onClick={handleBack}
           >
             Voltar
@@ -49,7 +49,7 @@ export const RegisterFormContainer = () => {
           
           <Button 
             type="submit"
-            className="w-[160px] h-10 bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+            className="w-[180px] h-10 bg-[#8425af] hover:bg-[#6c1e8f] text-white"
           >
             Cadastrar
           </Button>
