@@ -1,72 +1,38 @@
 
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UseFormReturn, useWatch } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
-import { Phone } from "lucide-react";
 
 interface ContactFieldsProps {
   form: UseFormReturn<RegisterFormData>;
 }
 
 export const ContactFields = ({ form }: ContactFieldsProps) => {
-  const primaryWhatsapp = useWatch({
-    control: form.control,
-    name: "whatsapp",
-  });
-
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="space-y-4">
       <FormField
         control={form.control}
-        name="whatsapp"
+        name="phone"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-sm">WhatsApp</FormLabel>
+            <FormLabel className="text-sm">Telefone</FormLabel>
             <FormControl>
-              <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8425af] h-3.5 w-3.5" />
-                <Input 
-                  {...field} 
-                  type="text"
-                  placeholder="(00) 00000-0000" 
-                  className="pl-9 text-sm h-8 pt-[3px]"
-                />
-              </div>
+              <Input {...field} className="bg-transparent text-sm h-8 pt-[3px] pb-0" />
             </FormControl>
             <FormMessage className="text-xs" />
           </FormItem>
         )}
       />
-
+      
       <FormField
         control={form.control}
-        name="secondaryWhatsapp"
+        name="address"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-sm">Segundo Contato</FormLabel>
+            <FormLabel className="text-sm">Endereço</FormLabel>
             <FormControl>
-              <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8425af] h-3.5 w-3.5" />
-                <Input 
-                  {...field} 
-                  type="text"
-                  placeholder="(00) 00000-0000"
-                  className="pl-9 text-sm h-8 pt-[3px]"
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (value === primaryWhatsapp) {
-                      form.setError("secondaryWhatsapp", {
-                        type: "manual",
-                        message: "O segundo contato deve ser diferente do WhatsApp principal"
-                      });
-                    } else {
-                      form.clearErrors("secondaryWhatsapp");
-                    }
-                    field.onChange(e);
-                  }}
-                />
-              </div>
+              <Input {...field} className="bg-transparent text-sm h-8 pt-[3px] pb-0" />
             </FormControl>
             <FormMessage className="text-xs" />
           </FormItem>
