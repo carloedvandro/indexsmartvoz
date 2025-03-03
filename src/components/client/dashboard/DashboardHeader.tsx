@@ -51,7 +51,7 @@ export function DashboardHeader() {
           <Logo />
         </div>
         <div className="flex items-center justify-end gap-2 ml-auto">
-          <LogoutButton onLogout={handleLogout} className="hidden md:inline-flex" />
+          <LogoutButton onLogout={handleLogout} className="hidden md:inline-flex mt-2.5" />
           <MobileMenu 
             isOpen={isOpen}
             setOpen={setOpen}
