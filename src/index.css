@@ -70,6 +70,7 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 10px;
 }
 
 .purple-menu-button:hover {
