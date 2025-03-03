@@ -75,7 +75,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         {isOpen ? (
           <X className="w-8 h-8" />
         ) : (
-          <RefreshCw className="w-8 h-8 text-white" />
+          <RefreshCw className="w-8 h-8 text-[#5f0889]" />
         )}
       </Button>
       {isOpen && (
