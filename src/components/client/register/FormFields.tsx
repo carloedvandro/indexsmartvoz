@@ -26,7 +26,7 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">ID Personalizado do Patrocinador</FormLabel>
             <FormControl>
-              <Input {...field} disabled={disableSponsor} className="bg-transparent text-sm h-8 pb-0 pt-3" />
+              <Input {...field} disabled={disableSponsor} className="bg-transparent text-sm h-8 pt-[3px]" />
             </FormControl>
             <FormMessage className="text-xs" />
           </FormItem>

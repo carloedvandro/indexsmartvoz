@@ -18,7 +18,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">Nome Completo</FormLabel>
             <FormControl>
-              <Input {...field} className="bg-transparent text-sm h-8 pb-0 pt-3" />
+              <Input {...field} className="bg-transparent text-sm h-8 pt-[3px]" />
             </FormControl>
             <FormMessage className="text-xs" />
           </FormItem>
@@ -32,7 +32,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">Endereço de email</FormLabel>
             <FormControl>
-              <Input type="email" {...field} className="bg-transparent text-sm h-8 pb-0 pt-3" />
+              <Input type="email" {...field} className="bg-transparent text-sm h-8 pt-[3px]" />
             </FormControl>
             <FormMessage className="text-xs" />
           </FormItem>
@@ -46,7 +46,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">CPF</FormLabel>
             <FormControl>
-              <Input {...field} className="bg-transparent text-sm h-8 pb-0 pt-3" />
+              <Input {...field} className="bg-transparent text-sm h-8 pt-[3px]" />
             </FormControl>
             <FormMessage className="text-xs" />
           </FormItem>
@@ -61,7 +61,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
             <FormItem>
               <FormLabel className="text-sm">Data de Nascimento</FormLabel>
               <FormControl>
-                <Input type="date" {...field} className="bg-transparent text-sm h-8 pb-0 pt-3" />
+                <Input type="date" {...field} className="bg-transparent text-sm h-8 pt-[3px]" />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
@@ -75,7 +75,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
             <FormItem>
               <FormLabel className="text-sm">Seu ID Personalizado</FormLabel>
               <FormControl>
-                <Input {...field} className="bg-transparent text-sm h-8 pb-0 pt-3" />
+                <Input {...field} className="bg-transparent text-sm h-8 pt-[3px]" />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
