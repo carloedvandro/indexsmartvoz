@@ -10,7 +10,6 @@ import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { DollarSign, LineChart, TrendingUp } from "lucide-react";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -51,7 +50,6 @@ export default function ClientDashboard() {
       animate={{ opacity: 1 }}
       className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden relative"
     >
-      <ParticlesBackground style="default" />
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
