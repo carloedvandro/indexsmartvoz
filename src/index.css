@@ -77,6 +77,12 @@ body::before {
   opacity: 0.8;
 }
 
+.mobile-menu-button svg {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
 @keyframes spin-slow {
   from {
     transform: rotate(0deg);
