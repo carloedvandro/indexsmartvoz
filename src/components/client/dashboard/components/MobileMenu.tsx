@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { Link } from "react-router-dom";
-import { X, ArrowRight, Menu } from "lucide-react";
+import { X, ArrowRight, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
@@ -69,12 +70,12 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
       <Button 
         variant="ghost" 
         onClick={() => setOpen(!isOpen)}
-        className="hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent my-auto purple-menu-button"
+        className="hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent my-auto mobile-menu-button"
       >
         {isOpen ? (
           <X className="w-8 h-8" />
         ) : (
-          <Menu className="w-8 h-8 text-purple-600" />
+          <RefreshCw className="w-8 h-8 text-white" />
         )}
       </Button>
       {isOpen && (

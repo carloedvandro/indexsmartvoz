@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -66,14 +65,15 @@ body::before {
            url("/lovable-uploads/f022b81e-7533-4e36-ae24-0a886fa5c775.png");
 }
 
-.purple-menu-button {
+.mobile-menu-button {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 25px;
+  position: relative;
 }
 
-.purple-menu-button:hover {
+.mobile-menu-button:hover {
   opacity: 0.8;
 }
 
