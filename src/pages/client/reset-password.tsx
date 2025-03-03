@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -6,7 +5,6 @@ import { useToast } from "@/hooks/use-toast";
 import { resetPassword } from "@/services/user/userReset";
 import { Mail } from "lucide-react";
 import { RainbowButton } from "@/components/ui/rainbow-button";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 import { motion } from "framer-motion";
 import { containerVariants, itemVariants } from "@/utils/animations";
 
@@ -39,10 +37,9 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="min-h-screen w-full relative">
-      <ParticlesBackground />
+    <div className="min-h-screen w-full">
       <motion.div 
-        className="relative z-10 container flex items-center justify-center h-screen" 
+        className="container flex items-center justify-center h-screen" 
         initial="hidden"
         animate="visible"
         variants={containerVariants}
