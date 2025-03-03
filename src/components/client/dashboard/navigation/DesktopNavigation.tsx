@@ -32,7 +32,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <img 
                 src="/lovable-uploads/6476bb03-0467-42d7-ae08-31ae5f2da580.png" 
                 alt="Home" 
-                className="w-10 h-10 outline-none focus:outline-none active:outline-none" 
+                className="w-auto h-10"
                 style={{outline: 'none'}}
                 loading="eager"
                 fetchPriority="high"
@@ -59,7 +59,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                     <img 
                       src="/lovable-uploads/6476bb03-0467-42d7-ae08-31ae5f2da580.png" 
                       alt="Home" 
-                      className="w-10 h-10 outline-none focus:outline-none" 
+                      className="w-auto h-10"
                       style={{outline: 'none'}}
                       loading="eager"
                     />
