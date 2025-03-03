@@ -29,7 +29,7 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
                 <Input 
                   type={showPassword ? "text" : "password"} 
                   {...field} 
-                  className="pl-9 text-sm h-8 pt-[3px]"
+                  className="pl-9 text-sm"
                 />
                 <Button
                   type="button"
@@ -63,7 +63,7 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
                 <Input 
                   type={showPasswordConfirmation ? "text" : "password"} 
                   {...field} 
-                  className="pl-9 text-sm h-8 pt-[3px]"
+                  className="pl-9 text-sm"
                 />
                 <Button
                   type="button"
