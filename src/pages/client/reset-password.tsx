@@ -39,10 +39,10 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="relative min-h-screen">
+    <div className="min-h-screen w-full relative">
       <ParticlesBackground />
       <motion.div 
-        className="relative z-10 container flex items-center justify-center h-screen overflow-hidden" 
+        className="relative z-10 container flex items-center justify-center h-screen" 
         initial="hidden"
         animate="visible"
         variants={containerVariants}

@@ -8,19 +8,20 @@ import { containerVariants, itemVariants } from "@/utils/animations";
 
 export default function LoginPage() {
   return (
-    <motion.div 
-      className="container relative h-screen flex items-center justify-center overflow-hidden"
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-    >
+    <div className="min-h-screen w-full relative">
       <ParticlesBackground />
-      
-      <div className="w-full max-w-[350px] space-y-6 relative z-10">
-        <LoginHeader itemVariants={itemVariants} />
-        <LoginForm containerVariants={containerVariants} itemVariants={itemVariants} />
-        <RegisterLink itemVariants={itemVariants} />
-      </div>
-    </motion.div>
+      <motion.div 
+        className="relative z-10 container flex items-center justify-center h-screen"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
+        <div className="w-full max-w-[350px] space-y-6">
+          <LoginHeader itemVariants={itemVariants} />
+          <LoginForm containerVariants={containerVariants} itemVariants={itemVariants} />
+          <RegisterLink itemVariants={itemVariants} />
+        </div>
+      </motion.div>
+    </div>
   );
 }

@@ -6,10 +6,10 @@ import { containerVariants, itemVariants } from "@/utils/animations";
 
 export default function ClientRegister() {
   return (
-    <div className="min-h-screen w-full overflow-y-auto scrollbar-hide">
+    <div className="min-h-screen w-full relative">
       <ParticlesBackground />
-      <div className="relative flex flex-col justify-center items-center min-h-screen py-10 px-5 sm:px-4">
-        <div className="w-full max-w-xl mt-4 z-10">
+      <div className="relative flex flex-col justify-center items-center min-h-screen py-10 px-5 sm:px-4 z-10">
+        <div className="w-full max-w-xl mt-4">
           <motion.div 
             className="flex flex-col items-center mb-6" 
             initial="hidden"
