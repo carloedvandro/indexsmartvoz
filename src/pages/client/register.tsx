@@ -8,7 +8,7 @@ export default function ClientRegister() {
   return (
     <div className="min-h-screen w-full overflow-y-auto scrollbar-hide">
       <ParticlesBackground />
-      <div className="relative flex flex-col justify-center items-center min-h-screen py-10 px-5 sm:px-4 overflow-hidden">
+      <div className="relative flex flex-col justify-center items-center min-h-screen py-10 px-5 sm:px-4">
         <div className="w-full max-w-xl mt-4 z-10">
           <motion.div 
             className="flex flex-col items-center mb-6" 
