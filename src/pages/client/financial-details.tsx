@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 import { FinancialHeader } from "@/components/client/financial/FinancialDetailsHeader";
 import { FinancialFilter } from "@/components/client/financial/FinancialFilter";
 import { FinancialSummary } from "@/components/client/financial/FinancialSummary";

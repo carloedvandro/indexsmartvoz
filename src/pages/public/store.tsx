@@ -11,7 +11,6 @@ import { useStoreProducts } from "@/components/store/hooks/useStoreProducts";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Copy, ArrowRight } from "lucide-react";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 type StoreOwner = {
   id: string;
@@ -124,7 +123,6 @@ export default function PublicStore() {
 
   return (
     <div className="relative min-h-screen">
-      <ParticlesBackground />
       <ScrollArea className="h-screen">
         <div className="relative z-10 container mx-auto p-4">
           <div className="space-y-8">
