@@ -10,7 +10,6 @@ import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { DollarSign, LineChart, TrendingUp } from "lucide-react";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -51,7 +50,6 @@ export default function ClientDashboard() {
       animate={{ opacity: 1 }}
       className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden relative"
     >
-      <ParticlesBackground style="default" />
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
@@ -59,7 +57,7 @@ export default function ClientDashboard() {
             <div className="px-6 mb-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card 
-                  className="relative p-6 bg-[#5f0889]/90 backdrop-blur-sm text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="relative p-6 bg-[#5f0889] text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleBalanceCardClick}
                 >
                   <div className="relative z-10 flex items-center space-x-4">
@@ -74,7 +72,7 @@ export default function ClientDashboard() {
                 </Card>
 
                 <Card 
-                  className="relative p-6 bg-[#5f0889]/90 backdrop-blur-sm text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="relative p-6 bg-[#5f0889] text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleEarningsCardClick}
                 >
                   <div className="relative z-10 flex items-center space-x-4">
@@ -89,7 +87,7 @@ export default function ClientDashboard() {
                 </Card>
 
                 <Card 
-                  className="relative p-6 bg-[#5f0889]/90 backdrop-blur-sm text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="relative p-6 bg-[#5f0889] text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleForecastCardClick}
                 >
                   <div className="relative z-10 flex items-center space-x-4">
