@@ -10,9 +10,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function InventoryReports() {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [selectedMonth, setSelectedMonth] = useState("6");
   const [selectedYear, setSelectedYear] = useState("2025");
   
@@ -73,14 +75,14 @@ export default function InventoryReports() {
             <span className="text-base font-medium text-[#5f0889]">Filtros</span>
           </div>
           
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
-            <div>
+          <div className="flex flex-row justify-between gap-4 mb-6">
+            <div className="w-full md:w-[200px]">
               <label className="block text-sm font-medium text-gray-900 mb-2">
                 Mês
               </label>
               <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
                 <SelectTrigger 
-                  className="w-[200px] bg-white text-gray-900 border-gray-300 h-10"
+                  className="w-full bg-white text-gray-900 border-gray-300 h-10"
                 >
                   <SelectValue />
                 </SelectTrigger>
@@ -98,13 +100,13 @@ export default function InventoryReports() {
               </Select>
             </div>
             
-            <div>
+            <div className="w-full md:w-[200px]">
               <label className="block text-sm font-medium text-gray-900 mb-2">
                 Ano
               </label>
               <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
                 <SelectTrigger 
-                  className="w-[200px] bg-white text-gray-900 border-gray-300 h-10"
+                  className="w-full bg-white text-gray-900 border-gray-300 h-10"
                 >
                   <SelectValue />
                 </SelectTrigger>
@@ -123,16 +125,16 @@ export default function InventoryReports() {
             </div>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 sm:justify-between w-full">
+          <div className="flex flex-row gap-4 justify-between w-full">
             <button 
               onClick={handleBack}
-              className="border border-[#5f0889] text-[#5f0889] h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-full sm:w-auto px-4 sm:px-10"
+              className="border border-[#5f0889] text-[#5f0889] h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-full px-4"
             >
               Voltar
             </button>
             
             <button 
-              className="bg-[#5f0889] text-white h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors w-full sm:w-auto px-4 sm:px-10"
+              className="bg-[#5f0889] text-white h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors w-full px-4"
             >
               Filtrar
             </button>
