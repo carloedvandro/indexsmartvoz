@@ -46,7 +46,7 @@ export function DDDInput({ ddd, onDDDChange, disabled = false }: DDDInputProps) 
   ];
 
   return (
-    <div className="space-y-1 w-full md:max-w-[150px]">
+    <div className="space-y-1 w-full md:w-[170px]">
       <label className="block text-sm font-medium">DDD</label>
       <Select value={ddd} onValueChange={onDDDChange} disabled={disabled}>
         <SelectTrigger 
