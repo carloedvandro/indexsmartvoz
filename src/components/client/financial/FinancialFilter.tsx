@@ -36,7 +36,7 @@ export function FinancialFilter({
         <span className="text-sm font-medium text-gray-900">Filtros</span>
       </div>
       <div className="flex flex-row justify-between gap-4">
-        <div className="w-[170px]">
+        <div className="w-[200px]">
           <label className="block text-sm font-medium text-gray-900 mb-2">
             Mês
           </label>
@@ -60,7 +60,7 @@ export function FinancialFilter({
           </Select>
         </div>
 
-        <div className="w-[170px]">
+        <div className="w-[200px]">
           <label className="block text-sm font-medium text-gray-900 mb-2">
             Ano
           </label>

@@ -34,7 +34,7 @@ export function FilterSection({
       </div>
       
       <div className="flex justify-between mb-6">
-        <div className="w-[150px]">
+        <div className="w-[200px]">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Mês
           </label>
@@ -58,7 +58,7 @@ export function FilterSection({
           </Select>
         </div>
         
-        <div className="w-[150px]">
+        <div className="w-[200px]">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Ano
           </label>

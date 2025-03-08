@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Database, Filter } from "lucide-react";
@@ -80,7 +79,7 @@ export default function InventoryReports() {
               </label>
               <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
                 <SelectTrigger 
-                  className="w-[170px] bg-white text-gray-900 border-gray-300 h-12"
+                  className="w-[200px] bg-white text-gray-900 border-gray-300 h-12"
                 >
                   <SelectValue />
                 </SelectTrigger>
@@ -104,7 +103,7 @@ export default function InventoryReports() {
               </label>
               <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
                 <SelectTrigger 
-                  className="w-[170px] bg-white text-gray-900 border-gray-300 h-12"
+                  className="w-[200px] bg-white text-gray-900 border-gray-300 h-12"
                 >
                   <SelectValue />
                 </SelectTrigger>
@@ -139,7 +138,6 @@ export default function InventoryReports() {
           </div>
         </div>
         
-        {/* Tabela de Estoque */}
         <div className="bg-white border rounded-lg overflow-hidden w-full md:w-[540px] mx-auto mb-4">
           <div className="flex items-center gap-3 p-4 bg-[#5f0889]/10 border-b border-gray-200">
             <Database className="w-5 h-5 text-[#5f0889]" />
@@ -169,7 +167,6 @@ export default function InventoryReports() {
           ))}
         </div>
         
-        {/* Cards de resumo */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-[540px] mx-auto">
           <Card className="p-4 border border-l-[10px] border-l-purple-600">
             <p className="text-sm text-gray-500">Total em Estoque</p>
