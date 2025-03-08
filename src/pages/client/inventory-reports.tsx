@@ -67,7 +67,7 @@ export default function InventoryReports() {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
-        <div className="border rounded-lg bg-white p-6 shadow-sm w-full md:w-[780px] mx-auto mb-6">
+        <div className="border rounded-lg bg-white p-6 shadow-sm w-full md:w-[540px] mx-auto mb-6">
           <div className="flex items-center gap-2 mb-6">
             <Filter className="w-5 h-5 text-[#5f0889]" />
             <span className="text-base font-medium text-[#5f0889]">Filtros</span>
@@ -140,7 +140,7 @@ export default function InventoryReports() {
         </div>
         
         {/* Tabela de Estoque */}
-        <div className="bg-white border rounded-lg overflow-hidden w-full md:w-[780px] mx-auto mb-4">
+        <div className="bg-white border rounded-lg overflow-hidden w-full md:w-[540px] mx-auto mb-4">
           <div className="flex items-center gap-3 p-4 bg-[#5f0889]/10 border-b border-gray-200">
             <Database className="w-5 h-5 text-[#5f0889]" />
             <h3 className="font-medium text-[#5f0889]">Resumo do Estoque</h3>
@@ -170,7 +170,7 @@ export default function InventoryReports() {
         </div>
         
         {/* Cards de resumo */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-[780px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-[540px] mx-auto">
           <Card className="p-4 border border-l-[10px] border-l-purple-600">
             <p className="text-sm text-gray-500">Total em Estoque</p>
             <p className="text-2xl font-semibold text-gray-900">750</p>

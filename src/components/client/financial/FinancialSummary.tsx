@@ -17,7 +17,7 @@ export function FinancialSummary({
   const monthLabel = months.find(m => m.value === selectedMonth)?.label || "Fevereiro";
 
   return (
-    <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-6 md:mb-8 mx-auto w-full md:w-[680px]">
+    <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-6 md:mb-8 mx-auto w-full md:w-[540px]">
       <div 
         className="bg-[#5f0889] text-white py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer hover:bg-[#4c0670] transition-colors"
         onClick={() => onCardClick('earnings')}
