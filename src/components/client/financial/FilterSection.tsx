@@ -40,7 +40,7 @@ export function FilterSection({
           </label>
           <Select value={selectedMonth} onValueChange={onMonthChange}>
             <SelectTrigger 
-              className="w-full bg-white text-gray-800 border-gray-300 rounded-md"
+              className="w-full bg-white text-gray-800 border-gray-300 rounded-md h-10"
             >
               <SelectValue />
             </SelectTrigger>
@@ -64,7 +64,7 @@ export function FilterSection({
           </label>
           <Select value={selectedYear} onValueChange={onYearChange}>
             <SelectTrigger 
-              className="w-full bg-white text-gray-800 border-gray-300 rounded-md"
+              className="w-full bg-white text-gray-800 border-gray-300 rounded-md h-10"
             >
               <SelectValue />
             </SelectTrigger>

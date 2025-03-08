@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Database, Filter } from "lucide-react";
@@ -67,19 +68,19 @@ export default function InventoryReports() {
 
       <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
         <div className="border rounded-lg bg-white p-6 shadow-sm w-full md:w-[540px] mx-auto mb-6">
-          <div className="flex items-center gap-2 mb-6">
+          <div className="flex items-center gap-2 mb-4">
             <Filter className="w-5 h-5 text-[#5f0889]" />
             <span className="text-base font-medium text-[#5f0889]">Filtros</span>
           </div>
           
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
             <div>
               <label className="block text-sm font-medium text-gray-900 mb-2">
                 Mês
               </label>
               <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
                 <SelectTrigger 
-                  className="w-[200px] bg-white text-gray-900 border-gray-300 h-12"
+                  className="w-[200px] bg-white text-gray-900 border-gray-300 h-10"
                 >
                   <SelectValue />
                 </SelectTrigger>
@@ -88,7 +89,7 @@ export default function InventoryReports() {
                     <SelectItem 
                       key={month.value} 
                       value={month.value}
-                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-2 px-2"
+                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-1.5 px-2"
                     >
                       {month.label}
                     </SelectItem>
@@ -103,7 +104,7 @@ export default function InventoryReports() {
               </label>
               <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
                 <SelectTrigger 
-                  className="w-[200px] bg-white text-gray-900 border-gray-300 h-12"
+                  className="w-[200px] bg-white text-gray-900 border-gray-300 h-10"
                 >
                   <SelectValue />
                 </SelectTrigger>
@@ -112,7 +113,7 @@ export default function InventoryReports() {
                     <SelectItem 
                       key={year.value} 
                       value={year.value}
-                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-2 px-2"
+                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-1.5 px-2"
                     >
                       {year.label}
                     </SelectItem>
@@ -125,13 +126,13 @@ export default function InventoryReports() {
           <div className="flex flex-col sm:flex-row gap-4 sm:justify-between w-full">
             <button 
               onClick={handleBack}
-              className="border border-[#5f0889] text-[#5f0889] h-10 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-full sm:w-auto px-4 sm:px-10"
+              className="border border-[#5f0889] text-[#5f0889] h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-full sm:w-auto px-4 sm:px-10"
             >
               Voltar
             </button>
             
             <button 
-              className="bg-[#5f0889] text-white h-10 rounded-md hover:bg-[#5f0889]/90 transition-colors w-full sm:w-auto px-4 sm:px-10"
+              className="bg-[#5f0889] text-white h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors w-full sm:w-auto px-4 sm:px-10"
             >
               Filtrar
             </button>
