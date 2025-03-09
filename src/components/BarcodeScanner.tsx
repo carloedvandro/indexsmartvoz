@@ -7,18 +7,32 @@ interface BarcodeScannerProps {
   onClose: () => void;
 }
 
+// Define extended interfaces to handle the custom camera properties
+interface ExtendedMediaTrackCapabilities extends MediaTrackCapabilities {
+  focusMode?: string[];
+  zoom?: {
+    max: number;
+    min: number;
+    step: number;
+  };
+}
+
+interface ExtendedMediaTrackConstraintSet extends MediaTrackConstraintSet {
+  focusMode?: string;
+  zoom?: number;
+}
+
 export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [lastScanPosition, setLastScanPosition] = useState<number | null>(null);
   const [hasScanned, setHasScanned] = useState(false);
-  const [constraints, setConstraints] = useState({
+  const [constraints, setConstraints] = useState<MediaStreamConstraints>({
     video: {
       width: { ideal: 1280 },
       height: { ideal: 720 },
       facingMode: "environment",
-      focusMode: "continuous",
-      advanced: [{ zoom: 2 }]
+      advanced: [{ } as ExtendedMediaTrackConstraintSet]
     }
   });
 
@@ -74,13 +88,13 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
             .getVideoTracks()[0];
             
           if (track) {
-            const capabilities = track.getCapabilities();
+            const capabilities = track.getCapabilities() as ExtendedMediaTrackCapabilities;
             const settings = track.getSettings();
             
             console.log("Camera capabilities:", capabilities);
             
             // Ajustar configurações da câmera se disponíveis
-            const newConstraints: any = {};
+            const newConstraints: Partial<ExtendedMediaTrackConstraintSet> = {};
             
             if (capabilities.focusMode && capabilities.focusMode.includes('continuous')) {
               newConstraints.focusMode = 'continuous';
@@ -156,7 +170,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
             className="w-[340px] h-[200px] object-cover rounded-lg"
           />
           <div className="absolute inset-0 border-2 border-[#8425af] rounded-lg">
-            <div className="absolute top-0 left-0 right-0 bg-white/80 text-center py-2 px-4 rounded-t-lg font-medium text-sm">
+            <div className="absolute top-0 left-0 right-0 bg-white/80 text-center py-1 h-[15px] flex items-center justify-center rounded-t-lg font-medium text-xs">
               Posicione o código de barras do chip
             </div>
           </div>
