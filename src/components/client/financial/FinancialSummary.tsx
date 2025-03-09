@@ -22,6 +22,7 @@ export function FinancialSummary({
         <StatsCard 
           title={`Total de ganhos em ${monthLabel}/${selectedYear}`}
           value="R$ 42.576,22"
+          color="#00ca7d"
         />
       </div>
       
@@ -29,6 +30,7 @@ export function FinancialSummary({
         <StatsCard 
           title={`Saldo em ${monthLabel}/${selectedYear}`}
           value="R$ 47.576,23"
+          color="#00ca7d"
         />
       </div>
       
@@ -36,6 +38,7 @@ export function FinancialSummary({
         <StatsCard 
           title={`Saldo disponível em ${monthLabel}/${selectedYear}`}
           value="R$ 5.000,01"
+          color="#00ca7d"
         />
       </div>
     </div>

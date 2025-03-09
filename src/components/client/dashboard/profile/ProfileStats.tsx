@@ -1,5 +1,4 @@
 
-import { Tables } from "@/integrations/supabase/types";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
 import { StatsCard } from "@/components/ui/stats-card";
 
@@ -15,10 +14,10 @@ export const ProfileStats = ({ profileId }: ProfileStatsProps) => {
 
   return (
     <div className="grid grid-cols-2 gap-2">
-      <StatsCard title="Plano Atual" value="Pago" />
-      <StatsCard title="Pontos" value="0" />
-      <StatsCard title="Equipe" value={totalNetworkSize.toString()} />
-      <StatsCard title="Status" value="Ativo" />
+      <StatsCard title="Plano Atual" value="Pago" color="#00ca7d" />
+      <StatsCard title="Pontos" value="0" color="#00ca7d" />
+      <StatsCard title="Equipe" value={totalNetworkSize.toString()} color="#00ca7d" />
+      <StatsCard title="Status" value="Ativo" color="#00ca7d" />
     </div>
   );
 };

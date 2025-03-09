@@ -17,6 +17,7 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
         <StatsCard 
           title="Saldo disponível" 
           value="R$ 5.000,01"
+          color="#00ca7d"
         />
       </div>
 

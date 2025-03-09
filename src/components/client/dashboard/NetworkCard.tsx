@@ -40,21 +40,25 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
             title="Nível 1" 
             value={networkStats?.level1Count || 0} 
             className="bg-white"
+            color="#00ca7d"
           />
           <StatsCard 
             title="Nível 2" 
             value={networkStats?.level2Count || 0} 
             className="bg-white"
+            color="#00ca7d"
           />
           <StatsCard 
             title="Nível 3" 
             value={networkStats?.level3Count || 0} 
             className="bg-white"
+            color="#00ca7d"
           />
           <StatsCard 
             title="Nível 4" 
             value={networkStats?.level4Count || 0} 
             className="bg-white"
+            color="#00ca7d"
           />
         </div>
       </CardContent>
