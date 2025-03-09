@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { useZxing } from "react-zxing";
 
@@ -6,26 +7,18 @@ interface BarcodeScannerProps {
   onClose: () => void;
 }
 
-interface ExtendedMediaTrackCapabilities extends MediaTrackCapabilities {
-  focusMode?: string[];
-  zoom?: number;
-}
-
-interface ExtendedMediaTrackConstraintSet extends MediaTrackConstraintSet {
-  focusMode?: string;
-  zoom?: number;
-}
-
 export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [lastScanPosition, setLastScanPosition] = useState<number | null>(null);
   const [hasScanned, setHasScanned] = useState(false);
-  const [constraints, setConstraints] = useState<MediaStreamConstraints>({
+  const [constraints, setConstraints] = useState({
     video: {
       width: { ideal: 1280 },
       height: { ideal: 720 },
       facingMode: "environment",
+      focusMode: "continuous",
+      advanced: [{ zoom: 2 }]
     }
   });
 
@@ -35,11 +28,13 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
     onDecodeResult(result) {
       const barcode = result.getText();
       
+      // Relaxando a validação para aceitar códigos de 20 dígitos que começam com 8955
       if (barcode.length === 20 && /^8955\d+$/.test(barcode)) {
+        // Toca o som de beep com volume máximo
         const beepSound = audioRef.current;
         if (beepSound) {
-          beepSound.volume = 1.0;
-          beepSound.currentTime = 0;
+          beepSound.volume = 1.0; // Volume máximo
+          beepSound.currentTime = 0; // Garante que o som começa do início
           const playPromise = beepSound.play();
           
           if (playPromise !== undefined) {
@@ -49,6 +44,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           }
         }
         
+        // Captura a posição atual da linha de scan
         const scanLine = document.querySelector('.scan-line');
         if (scanLine) {
           const rect = scanLine.getBoundingClientRect();
@@ -59,15 +55,17 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         console.log("Código de barras capturado:", barcode);
         onResult(barcode);
         
+        // Pequeno delay antes de fechar para mostrar a linha fixa
         setTimeout(() => {
           onClose();
-        }, 1500);
+        }, 1500); // 1.5 segundos para dar tempo de ver e ouvir o feedback
       }
     },
-    timeBetweenDecodingAttempts: 100,
+    timeBetweenDecodingAttempts: 100, // Aumento na frequência de tentativas
     constraints: constraints,
   });
 
+  // Tenta ajustar o foco e o zoom da câmera quando disponível
   useEffect(() => {
     const setupCamera = async () => {
       try {
@@ -76,31 +74,26 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
             .getVideoTracks()[0];
             
           if (track) {
-            const capabilities = track.getCapabilities() as ExtendedMediaTrackCapabilities;
+            const capabilities = track.getCapabilities();
             const settings = track.getSettings();
             
             console.log("Camera capabilities:", capabilities);
             
-            if (capabilities && Object.keys(capabilities).length > 0) {
+            // Ajustar configurações da câmera se disponíveis
+            const newConstraints: any = {};
+            
+            if (capabilities.focusMode && capabilities.focusMode.includes('continuous')) {
+              newConstraints.focusMode = 'continuous';
+            }
+            
+            if (capabilities.zoom) {
+              newConstraints.zoom = Math.min(capabilities.zoom.max, 2);
+            }
+            
+            if (Object.keys(newConstraints).length > 0) {
               try {
-                const advancedConstraints: ExtendedMediaTrackConstraintSet = {};
-                
-                if (capabilities.focusMode && 
-                    Array.isArray(capabilities.focusMode) && 
-                    capabilities.focusMode.includes('continuous')) {
-                  advancedConstraints.focusMode = 'continuous';
-                }
-                
-                if (capabilities.zoom) {
-                  advancedConstraints.zoom = 2.0;
-                }
-                
-                if (Object.keys(advancedConstraints).length > 0) {
-                  await track.applyConstraints({
-                    advanced: [advancedConstraints]
-                  });
-                  console.log("Applied camera constraints:", advancedConstraints);
-                }
+                await track.applyConstraints({ advanced: [newConstraints] });
+                console.log("Applied camera constraints:", newConstraints);
               } catch (error) {
                 console.error("Error applying camera constraints:", error);
               }
@@ -126,6 +119,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
 
+  // Pre-carrega o som do beep
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.load();
