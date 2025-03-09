@@ -39,7 +39,7 @@ export default function ClientProducts() {
       return;
     }
 
-    if (currentStep === 3 && !selectedDueDate) {
+    if (currentStep === 1 && !selectedDueDate) {
       toast({
         title: "Erro",
         description: "Selecione uma data de vencimento para continuar",
@@ -48,7 +48,7 @@ export default function ClientProducts() {
       return;
     }
 
-    if (currentStep === 4 && !acceptedTerms) {
+    if (currentStep === 3 && !acceptedTerms) {
       toast({
         title: "Erro",
         description: "Você precisa aceitar os termos para continuar",
@@ -57,11 +57,11 @@ export default function ClientProducts() {
       return;
     }
 
-    if (currentStep === 4 && acceptedTerms) {
+    if (currentStep === 3 && acceptedTerms) {
       const protocolNumber = new Date().getTime().toString();
       setProtocol(protocolNumber);
       setShowChipActivation(true);
-      setCurrentStep(5);
+      setCurrentStep(4);
     } else if (currentStep === 5) {
       setCurrentStep(6);
     } else if (currentStep === 6) {
@@ -73,9 +73,9 @@ export default function ClientProducts() {
 
   const handleBack = () => {
     if (currentStep > 1) {
-      if (currentStep === 5) {
+      if (currentStep === 4) {
         setShowChipActivation(false);
-        setCurrentStep(4);
+        setCurrentStep(3);
       } else {
         setCurrentStep(currentStep - 1);
       }

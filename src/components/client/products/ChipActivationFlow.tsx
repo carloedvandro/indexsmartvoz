@@ -47,9 +47,9 @@ export function ChipActivationFlow({
         />
       )}
       
-      <div className="flex flex-col items-center w-full">
+      <div className="flex flex-col items-center justify-start min-h-screen bg-gray-50/80 pt-32 relative">
         <div className="w-full max-w-[340px] mx-auto">
-          <div className="pt-16 space-y-8">
+          <div className="space-y-8">
             {currentStep === 4 && <ChipInstructions />}
             {currentStep === 5 && <BarcodeInstructions onBack={onBack} onContinue={onContinue} />}
             {currentStep === 6 && (
