@@ -30,9 +30,6 @@ export default {
     extend: {
       colors,
       borderRadius,
-      height: {
-        '8.5': '2.125rem', // 8px (2rem) + 0.5px (0.125rem) = 2.125rem
-      },
       keyframes: {
         ...animations.keyframes,
         gradient: {

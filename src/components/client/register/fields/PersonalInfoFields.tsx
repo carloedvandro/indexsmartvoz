@@ -15,10 +15,10 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
         control={form.control}
         name="fullName"
         render={({ field }) => (
-          <FormItem className="space-y-1">
+          <FormItem>
             <FormLabel className="text-sm">Nome Completo</FormLabel>
             <FormControl>
-              <Input {...field} className="bg-transparent text-sm h-8" />
+              <Input {...field} className="bg-transparent text-sm h-8 pt-[3px]" />
             </FormControl>
             <FormMessage className="text-xs" />
           </FormItem>
@@ -29,10 +29,10 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
         control={form.control}
         name="email"
         render={({ field }) => (
-          <FormItem className="space-y-1">
+          <FormItem>
             <FormLabel className="text-sm">Endereço de email</FormLabel>
             <FormControl>
-              <Input type="email" {...field} className="bg-transparent text-sm h-8" />
+              <Input type="email" {...field} className="bg-transparent text-sm h-8 pt-[3px]" />
             </FormControl>
             <FormMessage className="text-xs" />
           </FormItem>
@@ -43,10 +43,10 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
         control={form.control}
         name="cpf"
         render={({ field }) => (
-          <FormItem className="space-y-1">
+          <FormItem>
             <FormLabel className="text-sm">CPF</FormLabel>
             <FormControl>
-              <Input {...field} className="bg-transparent text-sm h-8" />
+              <Input {...field} className="bg-transparent text-sm h-8 pt-[3px]" />
             </FormControl>
             <FormMessage className="text-xs" />
           </FormItem>
@@ -58,10 +58,10 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
           control={form.control}
           name="birthDate"
           render={({ field }) => (
-            <FormItem className="space-y-1">
+            <FormItem>
               <FormLabel className="text-sm">Data de Nascimento</FormLabel>
               <FormControl>
-                <Input type="date" {...field} className="bg-transparent text-sm h-8" />
+                <Input type="date" {...field} className="bg-transparent text-sm h-8 pt-[3px]" />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
@@ -72,10 +72,10 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
           control={form.control}
           name="customId"
           render={({ field }) => (
-            <FormItem className="space-y-1">
+            <FormItem>
               <FormLabel className="text-sm">Seu ID Personalizado</FormLabel>
               <FormControl>
-                <Input {...field} className="bg-transparent text-sm h-8" />
+                <Input {...field} className="bg-transparent text-sm h-8 pt-[3px]" />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>

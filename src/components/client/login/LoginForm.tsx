@@ -84,9 +84,10 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       className="space-y-6 -mt-17 w-full"
       variants={containerVariants}
     >
-      <motion.div className="space-y-1" variants={itemVariants}>
-        <Label htmlFor="email" className="block mb-2">Email</Label>
-        <div className="relative rounded-md">
+      <motion.div className="space-y-2" variants={itemVariants}>
+        <Label htmlFor="email">Email</Label>
+        <div className="relative overflow-hidden rounded-md">
+          <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#5f0889]" />
           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-4 w-4" />
           <Input
             id="email"
@@ -94,15 +95,16 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             placeholder="seu@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="pl-10 bg-white border rounded-md"
+            className="pl-10 bg-transparent border-l-0 rounded-none"
             required
           />
         </div>
       </motion.div>
 
-      <motion.div className="space-y-1" variants={itemVariants}>
-        <Label htmlFor="password" className="block mb-2">Senha</Label>
-        <div className="relative rounded-md">
+      <motion.div className="space-y-2" variants={itemVariants}>
+        <Label htmlFor="password">Senha</Label>
+        <div className="relative overflow-hidden rounded-md">
+          <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#5f0889]" />
           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-4 w-4" />
           <Input
             id="password"
@@ -110,7 +112,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="pl-10 bg-white border rounded-md"
+            className="pl-10 bg-transparent border-l-0 rounded-none"
             required
           />
           <button
