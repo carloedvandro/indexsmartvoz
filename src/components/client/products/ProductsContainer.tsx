@@ -7,8 +7,8 @@ interface ProductsContainerProps {
 
 export function ProductsContainer({ children }: ProductsContainerProps) {
   return (
-    <div className="relative min-h-screen bg-gray-50">
-      <div className="relative z-10">{children}</div>
+    <div className="relative min-h-screen bg-gray-50 flex flex-col items-center justify-start">
+      <div className="relative z-10 w-full">{children}</div>
     </div>
   );
 }

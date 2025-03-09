@@ -47,16 +47,16 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   };
 
   return (
-    <div className="max-w-[340px] mx-auto w-full pt-5 px-2">
-      <div className="space-y-5">
-        <div className="space-y-2">
-          <h2 className="text-xl font-medium text-center">Personalize seu pedido</h2>
-          <p className="text-gray-600 text-center text-lg max-w-[320px] mx-auto">
+    <div className="flex flex-col items-center justify-center max-w-[340px] mx-auto w-full pt-5 px-2">
+      <div className="space-y-5 w-full">
+        <div className="text-center space-y-2">
+          <h2 className="text-xl font-medium">Personalize seu pedido</h2>
+          <p className="text-gray-600 text-lg max-w-[320px] mx-auto">
             Confira aqui as melhores ofertas para você, cliente Smatvoz.
           </p>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-5">
           <div className="grid grid-cols-2 gap-2">
             <div className="w-full">
               <InternetSelector

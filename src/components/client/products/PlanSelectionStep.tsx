@@ -87,10 +87,10 @@ export function PlanSelectionStep({
                      selectedDueDate !== null;
 
   return (
-    <div className="space-y-4 -mt-[15px] max-w-[340px] mx-auto w-full px-2">
+    <div className="flex flex-col items-center justify-center space-y-6 -mt-[15px] max-w-[340px] mx-auto w-full px-2">
       <PlanSelectionHeader variants={itemVariants} />
 
-      <div className="space-y-3 w-full">
+      <div className="space-y-5 w-full">
         <motion.div variants={itemVariants}>
           <div className="grid grid-cols-2 gap-2">
             <div className="w-full">

@@ -72,5 +72,5 @@ export function MainContent({
     }
   };
 
-  return <div className="w-full">{renderStep()}</div>;
+  return <div className="flex items-center justify-center w-full h-full">{renderStep()}</div>;
 }

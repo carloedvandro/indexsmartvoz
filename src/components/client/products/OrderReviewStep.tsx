@@ -23,15 +23,15 @@ export function OrderReviewStep({
   handleContinue
 }: OrderReviewStepProps) {
   return (
-    <div className="space-y-6 -mt-[15px] max-w-[340px] mx-auto w-full px-2">
-      <div className="space-y-2">
+    <div className="flex flex-col items-center justify-center space-y-6 -mt-[15px] max-w-[340px] mx-auto w-full px-2">
+      <div className="space-y-2 text-center">
         <h2 className="text-2xl font-medium">Confirme seu pedido</h2>
         <p className="text-gray-600">
           Revise os planos selecionados e os valores antes de prosseguir
         </p>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 w-full">
         {selectedLines.map((line) => (
           <div key={line.id} className="p-4 bg-gray-50 rounded-lg">
             <div className="flex justify-between items-center">
@@ -63,7 +63,7 @@ export function OrderReviewStep({
         )}
       </div>
       
-      <div className="flex justify-between mt-6 gap-2">
+      <div className="flex justify-between mt-6 gap-2 w-full">
         <Button 
           variant="outline"
           className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white w-full"
