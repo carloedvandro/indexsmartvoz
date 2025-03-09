@@ -62,7 +62,7 @@ export function MainContent({
 
   return (
     <motion.div 
-      className="flex flex-col items-center justify-start min-h-screen bg-gray-50/80 pt-32 relative"
+      className="flex flex-col items-center min-h-screen bg-gray-50/80 pt-32 relative"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
