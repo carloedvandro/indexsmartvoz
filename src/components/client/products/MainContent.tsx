@@ -1,11 +1,9 @@
 
-import { Card, CardContent } from "@/components/ui/card";
-import { OrderReviewStep } from "./OrderReviewStep";
-import { ContractTermsStep } from "./ContractTermsStep";
+import React from "react";
 import { PlanSelectionStep } from "./PlanSelectionStep";
-import { NavigationButtons } from "./NavigationButtons";
+import { OrderReviewStep } from "./OrderReviewStep";
+import { TermsStep } from "./TermsStep";
 import { useStepValidator } from "./StepValidator";
-import { motion } from "framer-motion";
 
 interface MainContentProps {
   currentStep: number;
@@ -28,80 +26,51 @@ export function MainContent({
   setSelectedDueDate,
   setAcceptedTerms,
   handleBack,
-  handleContinue
+  handleContinue,
 }: MainContentProps) {
-  const { validateAndContinue } = useStepValidator({ 
-    currentStep, 
-    selectedLines, 
-    selectedDueDate, 
+  const { validateAndContinue } = useStepValidator({
+    currentStep,
+    selectedLines,
+    selectedDueDate,
     acceptedTerms,
-    handleContinue 
+    handleContinue,
   });
 
-  const containerVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-        staggerChildren: 0.1
-      }
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <PlanSelectionStep
+            selectedLines={selectedLines}
+            setSelectedLines={setSelectedLines}
+            selectedDueDate={selectedDueDate}
+            setSelectedDueDate={setSelectedDueDate}
+            onContinue={validateAndContinue}
+            onBack={handleBack}
+          />
+        );
+      case 2:
+        return (
+          <OrderReviewStep
+            selectedLines={selectedLines}
+            selectedDueDate={selectedDueDate}
+            handleBack={handleBack}
+            handleContinue={validateAndContinue}
+          />
+        );
+      case 3:
+        return (
+          <TermsStep
+            acceptedTerms={acceptedTerms}
+            setAcceptedTerms={setAcceptedTerms}
+            handleBack={handleBack}
+            handleContinue={validateAndContinue}
+          />
+        );
+      default:
+        return null;
     }
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.5, ease: "easeOut" }
-    }
-  };
-
-  return (
-    <motion.div 
-      className="flex flex-col items-center justify-start min-h-screen pt-20 overflow-hidden scrollbar-hide"
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-    >
-      <div className="w-full max-w-[340px] mx-auto">
-        <Card className="relative z-10 shadow-none bg-transparent border-0">
-          <CardContent className="w-full px-0">
-            <motion.div variants={itemVariants} className="w-full">
-              {currentStep === 1 && (
-                <PlanSelectionStep 
-                  selectedLines={selectedLines}
-                  setSelectedLines={setSelectedLines}
-                  selectedDueDate={selectedDueDate}
-                  setSelectedDueDate={setSelectedDueDate}
-                />
-              )}
-
-              {currentStep === 2 && (
-                <OrderReviewStep selectedLines={selectedLines} />
-              )}
-
-              {currentStep === 3 && (
-                <ContractTermsStep
-                  acceptedTerms={acceptedTerms}
-                  onTermsChange={setAcceptedTerms}
-                />
-              )}
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="w-full mx-auto mt-6 px-2">
-              <NavigationButtons 
-                currentStep={currentStep}
-                handleBack={handleBack}
-                handleContinue={validateAndContinue}
-              />
-            </motion.div>
-          </CardContent>
-        </Card>
-      </div>
-    </motion.div>
-  );
+  return <div className="w-full">{renderStep()}</div>;
 }
