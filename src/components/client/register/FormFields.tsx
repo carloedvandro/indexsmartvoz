@@ -17,7 +17,7 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
     <div className="space-y-4 w-full">
       <PersonalInfoFields form={form} />
       
-      {/* Contact fields side by side */}
+      {/* Phone fields side by side through ContactFields component */}
       <ContactFields form={form} />
       
       <PasswordFields form={form} />
