@@ -84,8 +84,8 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       className="space-y-6 -mt-17 w-full"
       variants={containerVariants}
     >
-      <motion.div className="space-y-2" variants={itemVariants}>
-        <Label htmlFor="email">Email</Label>
+      <motion.div className="space-y-1" variants={itemVariants}>
+        <Label htmlFor="email" className="block mb-2">Email</Label>
         <div className="relative rounded-md">
           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-4 w-4" />
           <Input
@@ -100,8 +100,8 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
         </div>
       </motion.div>
 
-      <motion.div className="space-y-2" variants={itemVariants}>
-        <Label htmlFor="password">Senha</Label>
+      <motion.div className="space-y-1" variants={itemVariants}>
+        <Label htmlFor="password" className="block mb-2">Senha</Label>
         <div className="relative rounded-md">
           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-4 w-4" />
           <Input

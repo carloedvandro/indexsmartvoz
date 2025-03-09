@@ -21,7 +21,7 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
         control={form.control}
         name="password"
         render={({ field }) => (
-          <FormItem>
+          <FormItem className="space-y-1">
             <FormLabel className="text-sm">Senha</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
@@ -29,7 +29,7 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
                 <Input 
                   type={showPassword ? "text" : "password"} 
                   {...field} 
-                  className="pl-9 text-sm h-8 pt-[3px] rounded-md"
+                  className="pl-9 text-sm h-8 rounded-md"
                 />
                 <Button
                   type="button"
@@ -55,7 +55,7 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
         control={form.control}
         name="passwordConfirmation"
         render={({ field }) => (
-          <FormItem>
+          <FormItem className="space-y-1">
             <FormLabel className="text-sm">Confirmar Senha</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
@@ -63,7 +63,7 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
                 <Input 
                   type={showPasswordConfirmation ? "text" : "password"} 
                   {...field} 
-                  className="pl-9 text-sm h-8 pt-[3px] rounded-md"
+                  className="pl-9 text-sm h-8 rounded-md"
                 />
                 <Button
                   type="button"
