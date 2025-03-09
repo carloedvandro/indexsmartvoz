@@ -86,8 +86,8 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
     >
       <motion.div className="space-y-2" variants={itemVariants}>
         <Label htmlFor="email">Email</Label>
-        <div className="relative">
-          <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180] rounded-tl-md rounded-bl-md" />
+        <div className="relative overflow-hidden rounded-md">
+          <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180]" />
           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-4 w-4" />
           <Input
             id="email"
@@ -95,7 +95,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             placeholder="seu@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="pl-10 bg-transparent border-l-0"
+            className="pl-10 bg-transparent border-l-0 rounded-none"
             required
           />
         </div>
@@ -103,8 +103,8 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
 
       <motion.div className="space-y-2" variants={itemVariants}>
         <Label htmlFor="password">Senha</Label>
-        <div className="relative">
-          <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180] rounded-tl-md rounded-bl-md" />
+        <div className="relative overflow-hidden rounded-md">
+          <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180]" />
           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-4 w-4" />
           <Input
             id="password"
@@ -112,7 +112,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="pl-10 bg-transparent border-l-0"
+            className="pl-10 bg-transparent border-l-0 rounded-none"
             required
           />
           <button
@@ -150,7 +150,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       <motion.div variants={itemVariants}>
         <RainbowButton
           type="submit"
-          className="w-full !bg-[#5f0889] hover:!bg-[#4a0668]"
+          className="w-full !bg-[#580180] hover:!bg-[#4a0668]"
           disabled={isLoading}
         >
           {isLoading ? "Entrando..." : "Entrar"}

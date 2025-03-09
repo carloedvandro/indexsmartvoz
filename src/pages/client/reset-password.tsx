@@ -61,7 +61,8 @@ export default function ResetPassword() {
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email
               </label>
-              <div className="relative">
+              <div className="relative overflow-hidden rounded-md">
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180]" />
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-4 w-4" />
                 <Input
                   id="email"
@@ -69,7 +70,7 @@ export default function ResetPassword() {
                   placeholder="seu@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 bg-transparent"
+                  className="pl-10 bg-transparent border-l-0 rounded-none"
                   required
                 />
               </div>
