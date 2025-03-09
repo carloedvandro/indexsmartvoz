@@ -1,6 +1,7 @@
 
 import { Tables } from "@/integrations/supabase/types";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
+import { StatsCard } from "@/components/ui/stats-card";
 
 interface ProfileStatsProps {
   profileId: string;
@@ -14,22 +15,10 @@ export const ProfileStats = ({ profileId }: ProfileStatsProps) => {
 
   return (
     <div className="grid grid-cols-2 gap-2">
-      <div className="text-center">
-        <p className="text-sm text-muted-foreground">Plano Atual</p>
-        <p className="font-medium">Pago</p>
-      </div>
-      <div className="text-center">
-        <p className="text-sm text-muted-foreground">Pontos</p>
-        <p className="font-medium">0</p>
-      </div>
-      <div className="text-center">
-        <p className="text-sm text-muted-foreground">Equipe</p>
-        <p className="font-medium">{totalNetworkSize}</p>
-      </div>
-      <div className="text-center">
-        <p className="text-sm text-muted-foreground">Status</p>
-        <p className="font-medium capitalize">Ativo</p>
-      </div>
+      <StatsCard title="Plano Atual" value="Pago" />
+      <StatsCard title="Pontos" value="0" />
+      <StatsCard title="Equipe" value={totalNetworkSize.toString()} />
+      <StatsCard title="Status" value="Ativo" />
     </div>
   );
 };
