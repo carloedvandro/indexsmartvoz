@@ -16,7 +16,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
   });
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <div className="space-y-4">
       <FormField
         control={form.control}
         name="whatsapp"
