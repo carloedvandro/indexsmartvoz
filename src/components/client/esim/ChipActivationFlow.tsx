@@ -1,3 +1,4 @@
+
 import { ActivationType } from "./ActivationType";
 import { DeviceSelector } from "./DeviceSelector";
 import { IMEIForm } from "./IMEIForm";
@@ -81,9 +82,10 @@ export function ESIMActivationFlow({
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-start pt-20 gap-12 overflow-hidden scrollbar-hide">
       <StepIndicator currentStep={getCurrentStepId()} />
-      <div className="w-full max-w-[340px] mx-auto">
+      <div className="w-full max-w-[350px] mx-auto">
         {renderCurrentStep()}
       </div>
     </main>
   );
 }
+
