@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -93,7 +94,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             placeholder="seu@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="pl-10 bg-transparent rounded-md"
+            className="pl-10 bg-transparent rounded-md h-9"
             required
           />
         </div>
@@ -109,7 +110,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="pl-10 bg-transparent rounded-md"
+            className="pl-10 bg-transparent rounded-md h-9"
             required
           />
           <button
