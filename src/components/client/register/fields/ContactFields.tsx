@@ -27,8 +27,8 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">WhatsApp</FormLabel>
             <FormControl>
               <div className="relative overflow-hidden rounded-md">
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#5f0889]" />
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180]" />
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-3.5 w-3.5" />
                 <Input 
                   {...field} 
                   type="text"
@@ -50,8 +50,8 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">Segundo Contato</FormLabel>
             <FormControl>
               <div className="relative overflow-hidden rounded-md">
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#5f0889]" />
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180]" />
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-3.5 w-3.5" />
                 <Input 
                   {...field} 
                   type="text"

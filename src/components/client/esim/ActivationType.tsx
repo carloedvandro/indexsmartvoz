@@ -19,7 +19,7 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
 
       <div className="space-y-4 mt-6">
         <div 
-          className="p-4 rounded-lg transition-all cursor-pointer relative hover:bg-transparent ring-2 ring-[#5f0889] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#5f0889] before:rounded-[7px]"
+          className="p-4 rounded-lg transition-all cursor-pointer relative hover:bg-transparent ring-2 ring-[#8425af] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px]"
           onClick={() => onSelect('self')}
         >
           <div className="flex items-start gap-3">
@@ -27,7 +27,7 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
               type="radio"
               name="type"
               id="self"
-              className="mt-1 accent-[#5f0889]"
+              className="mt-1 accent-[#580180]"
               checked
               readOnly
             />
@@ -46,14 +46,14 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
       <div className="flex justify-between mt-8">
         <Button 
           variant="outline"
-          className="w-[120px] border border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white rounded-lg py-3"
+          className="w-[120px] border border-[#8425af] text-[#580180] hover:bg-[#8425af] hover:text-white rounded-lg py-3"
           onClick={onBack}
         >
           Voltar
         </Button>
         <Button 
           onClick={() => onSelect('self')}
-          className="w-[120px] bg-[#5f0889] hover:bg-[#5f0889]/90 text-white rounded-lg py-3"
+          className="w-[120px] bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3"
         >
           Continuar
         </Button>

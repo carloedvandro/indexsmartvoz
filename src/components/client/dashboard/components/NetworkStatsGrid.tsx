@@ -18,7 +18,7 @@ export const NetworkStatsGrid = ({ cardData }: NetworkStatsGridProps) => {
           key={index}
           title={card.title}
           value={card.value}
-          color="#5f0889"
+          color={card.color}
         />
       ))}
     </div>
