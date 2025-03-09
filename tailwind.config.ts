@@ -48,6 +48,11 @@ export default {
       maxWidth: {
         'sm': '384px', // Increased from default 24rem (384px)
         'custom': '400px' // Adding custom max-width
+      },
+      // Adding animation delay utilities
+      transitionDelay: {
+        '75': '75ms',
+        '150': '150ms',
       }
     },
   },

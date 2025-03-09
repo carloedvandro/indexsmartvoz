@@ -3,7 +3,7 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
-import { Phone, SignalHigh } from "lucide-react";
+import { Phone } from "lucide-react";
 
 interface ContactFieldsProps {
   form: UseFormReturn<RegisterFormData>;
@@ -26,7 +26,12 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormControl>
               <div className="relative rounded-md">
                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
-                <SignalHigh className="absolute left-6 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5 animate-pulse" />
+                {/* First signal bar */}
+                <div className="absolute left-[18px] top-1/2 -translate-y-1/2 w-1 h-3 bg-[#5f0889] rounded-full animate-pulse"></div>
+                {/* Second signal bar */}
+                <div className="absolute left-[22px] top-1/2 -translate-y-1/2 w-1 h-4 bg-[#5f0889] rounded-full animate-pulse delay-75"></div>
+                {/* Third signal bar */}
+                <div className="absolute left-[26px] top-1/2 -translate-y-1/2 w-1 h-5 bg-[#5f0889] rounded-full animate-pulse delay-150"></div>
                 <Input 
                   {...field} 
                   type="text"
@@ -49,7 +54,12 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormControl>
               <div className="relative rounded-md">
                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
-                <SignalHigh className="absolute left-6 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5 animate-pulse" />
+                {/* First signal bar */}
+                <div className="absolute left-[18px] top-1/2 -translate-y-1/2 w-1 h-3 bg-[#5f0889] rounded-full animate-pulse"></div>
+                {/* Second signal bar */}
+                <div className="absolute left-[22px] top-1/2 -translate-y-1/2 w-1 h-4 bg-[#5f0889] rounded-full animate-pulse delay-75"></div>
+                {/* Third signal bar */}
+                <div className="absolute left-[26px] top-1/2 -translate-y-1/2 w-1 h-5 bg-[#5f0889] rounded-full animate-pulse delay-150"></div>
                 <Input 
                   {...field} 
                   type="text"
