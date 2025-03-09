@@ -16,10 +16,7 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
   return (
     <div className="space-y-4 w-full">
       <PersonalInfoFields form={form} />
-      
-      {/* Contact fields side by side */}
       <ContactFields form={form} />
-      
       <PasswordFields form={form} />
       
       <FormField
@@ -29,7 +26,7 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">ID Personalizado do Patrocinador</FormLabel>
             <FormControl>
-              <Input {...field} disabled={disableSponsor} className="bg-transparent text-sm h-9 pt-[3px] rounded-md" />
+              <Input {...field} disabled={disableSponsor} className="bg-transparent text-sm h-8 pt-[3px]" />
             </FormControl>
             <FormMessage className="text-xs" />
           </FormItem>

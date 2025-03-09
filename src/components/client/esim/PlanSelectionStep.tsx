@@ -22,7 +22,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   const [selectedDueDate, setSelectedDueDate] = useState<number | null>(null);
 
   const internetOptions = [
-    { value: "120GB", label: "Plano 120GB", price: 119.99 },
+    { value: "120GB", label: "Plano 120GB", price: 129.99 },
   ];
 
   const getLinePrice = () => {
@@ -47,41 +47,43 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   };
 
   return (
-    <div className="flex flex-col items-center justify-center max-w-[340px] mx-auto w-full pt-5 px-2">
-      <div className="space-y-5 w-full">
-        <div className="text-center space-y-2">
-          <h2 className="text-xl font-medium">Personalize seu pedido</h2>
-          <p className="text-gray-600 text-lg max-w-[320px] mx-auto">
+    <div className="max-w-[320px] mx-auto w-full pt-5">
+      <div className="space-y-7">
+        <div className="space-y-2">
+          <h2 className="text-xl font-medium text-center">Personalize seu pedido</h2>
+          <p className="text-gray-600 text-center text-lg max-w-[290px] mx-auto">
             Confira aqui as melhores ofertas para você, cliente Smatvoz.
           </p>
         </div>
 
-        <div className="space-y-5">
-          <div className="grid grid-cols-2 gap-2">
-            <div className="w-full">
-              <InternetSelector
-                selectedInternet={selectedInternet}
-                onInternetChange={setSelectedInternet}
-                internetOptions={internetOptions}
-              />
-            </div>
-            <div className="w-full">
-              <DDDInput
-                ddd={selectedDDD}
-                onDDDChange={setSelectedDDD}
-              />
+        <div className="space-y-4">
+          <div className="w-full px-2 max-w-[320px] mx-auto">
+            <div className="grid grid-cols-2 gap-3 place-items-center">
+              <div className="w-full">
+                <InternetSelector
+                  selectedInternet={selectedInternet}
+                  onInternetChange={setSelectedInternet}
+                  internetOptions={internetOptions}
+                />
+              </div>
+              <div className="w-full">
+                <DDDInput
+                  ddd={selectedDDD}
+                  onDDDChange={setSelectedDDD}
+                />
+              </div>
             </div>
           </div>
 
-          <div>
+          <div className="w-full px-2 max-w-[320px] mx-auto">
             <DueDateSelector
               selectedDueDate={selectedDueDate}
               setSelectedDueDate={setSelectedDueDate}
-              variants={{ marginTop: '2px' }}
+              selectedCardClassName="bg-white"
             />
           </div>
 
-          <div>
+          <div className="w-full px-2 max-w-[320px] mx-auto">
             <PriceSummary
               linePrice={getLinePrice()}
               totalPrice={getLinePrice()}
@@ -89,7 +91,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           </div>
         </div>
 
-        <div className="w-full grid grid-cols-2 gap-2 pt-2">
+        <div className="w-full px-2 max-w-[320px] mx-auto grid grid-cols-2 gap-3 pt-4">
           <Button 
             variant="outline" 
             className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white w-full"

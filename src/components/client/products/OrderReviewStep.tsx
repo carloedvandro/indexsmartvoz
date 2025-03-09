@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 
 type Line = {
@@ -11,27 +10,19 @@ type Line = {
 
 interface OrderReviewStepProps {
   selectedLines: Line[];
-  selectedDueDate: number | null;
-  handleBack: () => void;
-  handleContinue: () => void;
 }
 
-export function OrderReviewStep({ 
-  selectedLines, 
-  selectedDueDate,
-  handleBack,
-  handleContinue
-}: OrderReviewStepProps) {
+export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
   return (
-    <div className="flex flex-col items-center justify-center space-y-6 max-w-[340px] mx-auto w-full px-2 py-5">
-      <div className="space-y-2 text-center">
+    <div className="space-y-6">
+      <div className="space-y-2">
         <h2 className="text-2xl font-medium">Confirme seu pedido</h2>
         <p className="text-gray-600">
           Revise os planos selecionados e os valores antes de prosseguir
         </p>
       </div>
 
-      <div className="space-y-4 w-full">
+      <div className="space-y-4">
         {selectedLines.map((line) => (
           <div key={line.id} className="p-4 bg-gray-50 rounded-lg">
             <div className="flex justify-between items-center">
@@ -52,31 +43,6 @@ export function OrderReviewStep({
             <span>R$ {(selectedLines.reduce((acc, line) => acc + line.price, 0)).toFixed(2)}/mês</span>
           </div>
         </div>
-        
-        {selectedDueDate && (
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <div className="flex justify-between items-center">
-              <span className="font-medium">Data de vencimento:</span>
-              <span>Dia {selectedDueDate}</span>
-            </div>
-          </div>
-        )}
-      </div>
-      
-      <div className="flex justify-between mt-6 gap-2 w-full">
-        <Button 
-          variant="outline"
-          className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white w-full"
-          onClick={handleBack}
-        >
-          Voltar
-        </Button>
-        <Button 
-          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white w-full"
-          onClick={handleContinue}
-        >
-          Continuar
-        </Button>
       </div>
     </div>
   );

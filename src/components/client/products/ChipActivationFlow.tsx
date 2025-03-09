@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { BarcodeScanner } from "@/components/BarcodeScanner";
 import { ChipInstructions } from "./chip-activation/ChipInstructions";
@@ -47,38 +46,36 @@ export function ChipActivationFlow({
         />
       )}
       
-      <main className="flex flex-col items-center justify-start min-h-screen pt-20 overflow-hidden scrollbar-hide">
-        <div className="w-full max-w-[340px] mx-auto">
-          <div className="space-y-8 px-2">
-            {currentStep === 4 && <ChipInstructions />}
-            {currentStep === 5 && <BarcodeInstructions onBack={onBack} onContinue={onContinue} />}
-            {currentStep === 6 && (
-              <div className="flex flex-col space-y-5">
-                <BarcodeScannerComponent
-                  selectedLines={selectedLines}
-                  onStartScanning={onStartScanning}
-                />
-                <div className="flex justify-between w-full gap-2">
-                  <Button 
-                    variant="outline" 
-                    className="bg-white border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-4 h-[42px] flex items-center"
-                    onClick={onBack}
-                  >
-                    Voltar
-                  </Button>
-                  <Button 
-                    className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-4 h-[42px] flex items-center"
-                    onClick={onContinue}
-                    disabled={!allBarcodesScanned}
-                  >
-                    Continuar
-                  </Button>
-                </div>
+      <div className="max-w-[340px] mx-auto w-full">
+        <div className="pt-16 space-y-8">
+          {currentStep === 4 && <ChipInstructions />}
+          {currentStep === 5 && <BarcodeInstructions onBack={onBack} onContinue={onContinue} />}
+          {currentStep === 6 && (
+            <div className="flex flex-col space-y-6">
+              <BarcodeScannerComponent
+                selectedLines={selectedLines}
+                onStartScanning={onStartScanning}
+              />
+              <div className="flex justify-between w-full">
+                <Button 
+                  variant="outline" 
+                  className="bg-white border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-4 h-[42px] flex items-center"
+                  onClick={onBack}
+                >
+                  Voltar
+                </Button>
+                <Button 
+                  className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-4 h-[42px] flex items-center"
+                  onClick={onContinue}
+                  disabled={!allBarcodesScanned}
+                >
+                  Continuar
+                </Button>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-      </main>
+      </div>
     </>
   );
 }

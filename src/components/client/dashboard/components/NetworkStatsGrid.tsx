@@ -1,5 +1,5 @@
 
-import { StatCard } from "../charts/StatCard";
+import { StatsCard } from "@/components/ui/stats-card";
 
 interface NetworkStatsGridProps {
   cardData: Array<{
@@ -12,16 +12,15 @@ interface NetworkStatsGridProps {
 
 export const NetworkStatsGrid = ({ cardData }: NetworkStatsGridProps) => {
   return (
-    <>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
       {cardData.map((card, index) => (
-        <StatCard
+        <StatsCard
           key={index}
           title={card.title}
           value={card.value}
-          data={card.data}
-          color={card.color}
+          color="#5f0889"
         />
       ))}
-    </>
+    </div>
   );
 };

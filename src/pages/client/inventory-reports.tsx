@@ -69,7 +69,7 @@ export default function InventoryReports() {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
-        <div className="w-full md:w-[540px] mx-auto">
+        <div className="border rounded-lg bg-white p-6 shadow-sm w-full md:w-[540px] mx-auto mb-6">
           <div className="flex items-center gap-2 mb-4">
             <Filter className="w-5 h-5 text-[#5f0889]" />
             <span className="text-base font-medium text-[#5f0889]">Filtros</span>
@@ -125,7 +125,7 @@ export default function InventoryReports() {
             </div>
           </div>
           
-          <div className="flex flex-row gap-4 justify-between w-full mb-6">
+          <div className="flex flex-row gap-4 justify-between w-full">
             <button 
               onClick={handleBack}
               className="border border-[#5f0889] text-[#5f0889] h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-full px-4"
@@ -139,52 +139,52 @@ export default function InventoryReports() {
               Filtrar
             </button>
           </div>
+        </div>
         
-          <div className="bg-white border rounded-lg overflow-hidden mb-4">
-            <div className="flex items-center gap-3 p-4 bg-[#5f0889]/10 border-b border-gray-200">
-              <Database className="w-5 h-5 text-[#5f0889]" />
-              <h3 className="font-medium text-[#5f0889]">Resumo do Estoque</h3>
-            </div>
-            
-            <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 grid grid-cols-4 text-sm font-medium text-gray-600">
-              <div>Item</div>
-              <div className="text-center">Total</div>
-              <div className="text-center">Disponível</div>
-              <div className="text-center">Alocado</div>
-            </div>
-            
-            {inventoryItems.map((item, index) => (
-              <div 
-                key={index} 
-                className={`px-4 py-3 grid grid-cols-4 text-sm ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}
-              >
-                <div className="flex items-center gap-2">
-                  <Box className="w-4 h-4 text-gray-500" />
-                  <span className="font-medium text-gray-700">{item.type}</span>
-                </div>
-                <div className="text-center text-gray-900">{item.total}</div>
-                <div className="text-center text-green-600">{item.available}</div>
-                <div className="text-center text-amber-600">{item.allocated}</div>
-              </div>
-            ))}
+        <div className="bg-white border rounded-lg overflow-hidden w-full md:w-[540px] mx-auto mb-4">
+          <div className="flex items-center gap-3 p-4 bg-[#5f0889]/10 border-b border-gray-200">
+            <Database className="w-5 h-5 text-[#5f0889]" />
+            <h3 className="font-medium text-[#5f0889]">Resumo do Estoque</h3>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card className="p-4 border border-l-[10px] border-l-purple-600">
-              <p className="text-sm text-gray-500">Total em Estoque</p>
-              <p className="text-2xl font-semibold text-gray-900">750</p>
-            </Card>
-            
-            <Card className="p-4 border border-l-[10px] border-l-green-600">
-              <p className="text-sm text-gray-500">Disponíveis</p>
-              <p className="text-2xl font-semibold text-green-600">600</p>
-            </Card>
-            
-            <Card className="p-4 border border-l-[10px] border-l-amber-600">
-              <p className="text-sm text-gray-500">Alocados</p>
-              <p className="text-2xl font-semibold text-amber-600">150</p>
-            </Card>
+          <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 grid grid-cols-4 text-sm font-medium text-gray-600">
+            <div>Item</div>
+            <div className="text-center">Total</div>
+            <div className="text-center">Disponível</div>
+            <div className="text-center">Alocado</div>
           </div>
+          
+          {inventoryItems.map((item, index) => (
+            <div 
+              key={index} 
+              className={`px-4 py-3 grid grid-cols-4 text-sm ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}
+            >
+              <div className="flex items-center gap-2">
+                <Box className="w-4 h-4 text-gray-500" />
+                <span className="font-medium text-gray-700">{item.type}</span>
+              </div>
+              <div className="text-center text-gray-900">{item.total}</div>
+              <div className="text-center text-green-600">{item.available}</div>
+              <div className="text-center text-amber-600">{item.allocated}</div>
+            </div>
+          ))}
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-[540px] mx-auto">
+          <Card className="p-4 border border-l-[10px] border-l-purple-600">
+            <p className="text-sm text-gray-500">Total em Estoque</p>
+            <p className="text-2xl font-semibold text-gray-900">750</p>
+          </Card>
+          
+          <Card className="p-4 border border-l-[10px] border-l-green-600">
+            <p className="text-sm text-gray-500">Disponíveis</p>
+            <p className="text-2xl font-semibold text-green-600">600</p>
+          </Card>
+          
+          <Card className="p-4 border border-l-[10px] border-l-amber-600">
+            <p className="text-sm text-gray-500">Alocados</p>
+            <p className="text-2xl font-semibold text-amber-600">150</p>
+          </Card>
         </div>
       </div>
     </div>

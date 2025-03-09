@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import { useCalendarStyles } from "@/hooks/useCalendarStyles";
 import { DueDateSelector } from "./DueDateSelector";
 import { PlanSelectionHeader } from "./PlanSelectionHeader";
-import { Button } from "@/components/ui/button";
 
 type Line = {
   id: number;
@@ -22,25 +21,21 @@ interface PlanSelectionStepProps {
   setSelectedLines: (lines: Line[]) => void;
   selectedDueDate: number | null;
   setSelectedDueDate: (date: number) => void;
-  onContinue: () => void;
-  onBack: () => void;
 }
 
 export function PlanSelectionStep({ 
   selectedLines, 
   setSelectedLines,
   selectedDueDate,
-  setSelectedDueDate,
-  onContinue,
-  onBack
+  setSelectedDueDate 
 }: PlanSelectionStepProps) {
   const { data: calendarStyle } = useCalendarStyles();
   
   const internetOptions = [
-    { value: "120GB", label: "Plano 120GB", price: 119.99 },
+    { value: "120GB", label: "Plano 120GB", price: 129.99 },
   ];
 
-  useEffect(() => {
+  useState(() => {
     if (selectedLines.length === 0) {
       setSelectedLines([
         {
@@ -52,7 +47,7 @@ export function PlanSelectionStep({
         },
       ]);
     }
-  }, [selectedLines, setSelectedLines]);
+  });
 
   const handleInternetChange = (value: string) => {
     const newPrice = internetOptions.find(option => option.value === value)?.price || 0;
@@ -82,30 +77,27 @@ export function PlanSelectionStep({
     }
   };
 
-  const isFormValid = selectedLines[0]?.internet && 
-                     selectedLines[0]?.ddd && 
-                     selectedDueDate !== null;
-
   return (
-    <div className="flex flex-col items-center justify-center space-y-6 max-w-[340px] mx-auto w-full px-2 py-5">
+    <div className="space-y-6 -mt-[15px] max-w-[300px] mx-auto w-full">
       <PlanSelectionHeader variants={itemVariants} />
 
-      <div className="space-y-5 w-full">
-        <motion.div variants={itemVariants}>
-          <div className="grid grid-cols-2 gap-2">
-            <div className="w-full">
-              <InternetSelector
-                selectedInternet={selectedLines[0]?.internet || undefined}
-                onInternetChange={handleInternetChange}
-                internetOptions={internetOptions}
-              />
-            </div>
-            <div className="w-full">
-              <DDDInput
-                ddd={selectedLines[0]?.ddd || ""}
-                onDDDChange={handleDDDChange}
-              />
-            </div>
+      <div className="space-y-4 w-full">
+        <motion.div 
+          className="grid grid-cols-2 gap-3"
+          variants={itemVariants}
+        >
+          <div className="w-full">
+            <InternetSelector
+              selectedInternet={selectedLines[0]?.internet || undefined}
+              onInternetChange={handleInternetChange}
+              internetOptions={internetOptions}
+            />
+          </div>
+          <div className="w-full">
+            <DDDInput
+              ddd={selectedLines[0]?.ddd || ""}
+              onDDDChange={handleDDDChange}
+            />
           </div>
         </motion.div>
 
@@ -122,23 +114,6 @@ export function PlanSelectionStep({
             linePrice={selectedLines[0]?.price || 0}
             totalPrice={totalPrice}
           />
-        </motion.div>
-
-        <motion.div variants={itemVariants} className="flex justify-between mt-6 gap-2">
-          <Button 
-            variant="outline"
-            className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white w-full"
-            onClick={onBack}
-          >
-            Voltar
-          </Button>
-          <Button 
-            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white w-full"
-            onClick={onContinue}
-            disabled={!isFormValid}
-          >
-            Continuar
-          </Button>
         </motion.div>
       </div>
     </div>
