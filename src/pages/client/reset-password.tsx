@@ -62,7 +62,7 @@ export default function ResetPassword() {
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-4 w-4" />
                 <Input
                   id="email"
                   type="email"
@@ -78,7 +78,7 @@ export default function ResetPassword() {
             <motion.div variants={itemVariants}>
               <RainbowButton
                 type="submit"
-                className="w-full !bg-[#5f0889] hover:!bg-[#4a0668]"
+                className="w-full !bg-[#580180] hover:!bg-[#4a0668]"
                 disabled={loading}
               >
                 {loading ? "Enviando..." : "Continuar"}
