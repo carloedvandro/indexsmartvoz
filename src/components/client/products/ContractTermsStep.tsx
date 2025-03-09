@@ -8,7 +8,7 @@ interface ContractTermsStepProps {
 
 export function ContractTermsStep({ acceptedTerms, onTermsChange }: ContractTermsStepProps) {
   return (
-    <div className="space-y-6 max-w-[410px] mx-auto">
+    <div className="space-y-6 max-w-[390px] mx-auto">
       <div>
         <h2 className="text-2xl font-bold mb-4">Termos de contrato</h2>
         <p className="text-gray-600 mb-4">
