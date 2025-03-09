@@ -25,14 +25,15 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">WhatsApp</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 h-[70px] w-[70px]">
+                <div className="absolute inset-0 rounded-md bg-[#F2FCE2] border border-green-500/20"></div>
+                <div className="absolute left-1.5 top-1/2 -translate-y-1/2 h-[50px] w-[50px] z-10">
                   <WhatsAppIcon />
                 </div>
                 <Input 
                   {...field} 
                   type="text"
                   placeholder="(00) 00000-0000" 
-                  className="pl-[85px] text-sm h-8.5 rounded-md w-full pr-2"
+                  className="pl-[60px] text-sm h-10 rounded-md w-full pr-2 bg-transparent relative z-0 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                 />
               </div>
             </FormControl>
@@ -49,14 +50,15 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">Segundo Contato</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 h-[70px] w-[70px]">
+                <div className="absolute inset-0 rounded-md bg-[#F2FCE2] border border-green-500/20"></div>
+                <div className="absolute left-1.5 top-1/2 -translate-y-1/2 h-[50px] w-[50px] z-10">
                   <WhatsAppIcon />
                 </div>
                 <Input 
                   {...field} 
                   type="text"
                   placeholder="(00) 00000-0000"
-                  className="pl-[85px] text-sm h-8.5 rounded-md w-full pr-2"
+                  className="pl-[60px] text-sm h-10 rounded-md w-full pr-2 bg-transparent relative z-0 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                   onChange={(e) => {
                     const value = e.target.value;
                     if (value === primaryWhatsapp) {
