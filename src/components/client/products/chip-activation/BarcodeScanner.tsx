@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Line } from "../ChipActivationFlow";
+import { Info } from "lucide-react";
 
 interface BarcodeScannerProps {
   selectedLines: Line[];
@@ -11,6 +12,14 @@ export function BarcodeScannerComponent({ selectedLines, onStartScanning }: Barc
   return (
     <div className="flex flex-col items-center w-full max-w-[400px] mx-auto">
       <h2 className="text-lg font-semibold text-center mb-6 max-w-[300px]">Escaneie o código de barra do chip</h2>
+      
+      <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-2 w-full">
+        <Info size={16} className="text-blue-500 mt-0.5 flex-shrink-0" />
+        <p className="text-xs text-blue-700">
+          O código de barras do chip deve ter 20 dígitos e começar com 8955. Posicione o código no centro da câmera.
+        </p>
+      </div>
+      
       <div className="space-y-4 w-full">
         {selectedLines.map((line, index) => (
           <div key={line.id} className="flex flex-col space-y-3 w-full">
