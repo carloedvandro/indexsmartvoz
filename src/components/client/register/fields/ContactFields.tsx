@@ -3,7 +3,6 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
-import { Phone } from "lucide-react";
 
 interface ContactFieldsProps {
   form: UseFormReturn<RegisterFormData>;
@@ -16,7 +15,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
   });
 
   return (
-    <div className="space-y-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <FormField
         control={form.control}
         name="whatsapp"
@@ -26,7 +25,13 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormControl>
               <div className="relative overflow-hidden rounded-md">
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180]" />
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-3.5 w-3.5" />
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5">
+                  <img 
+                    src="/lovable-uploads/781343f8-a9e6-4801-9287-c6d3d756cebb.png" 
+                    alt="WhatsApp" 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
                 <Input 
                   {...field} 
                   type="text"
@@ -49,7 +54,13 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormControl>
               <div className="relative overflow-hidden rounded-md">
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180]" />
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-3.5 w-3.5" />
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5">
+                  <img 
+                    src="/lovable-uploads/781343f8-a9e6-4801-9287-c6d3d756cebb.png" 
+                    alt="WhatsApp" 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
                 <Input 
                   {...field} 
                   type="text"
