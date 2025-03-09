@@ -47,7 +47,7 @@ export function ChipActivationFlow({
       />
       
       <div className="flex flex-col items-center w-full">
-        <div className="w-full max-w-[352px] mx-auto">
+        <div className="w-full max-w-[354px] mx-auto">
           <div className="pt-16 space-y-8">
             <ChipActivationStepContent
               currentStep={currentStep}

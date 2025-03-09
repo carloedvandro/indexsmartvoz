@@ -16,11 +16,11 @@ interface PlanSelectionHeaderProps {
 export function PlanSelectionHeader({ variants }: PlanSelectionHeaderProps) {
   return (
     <motion.div 
-      className="space-y-2 max-w-[482px] mx-auto text-center"
+      className="space-y-2 max-w-[484px] mx-auto text-center"
       variants={variants}
     >
       <h2 className="text-xl font-medium">Personalize seu pedido</h2>
-      <p className="text-gray-600 max-w-[342px] mx-auto">
+      <p className="text-gray-600 max-w-[344px] mx-auto">
         Confira aqui as melhores ofertas para você, cliente Smatvoz.
       </p>
     </motion.div>
