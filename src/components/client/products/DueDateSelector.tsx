@@ -23,14 +23,14 @@ export function DueDateSelector({
 
   return (
     <div className="flex flex-col items-center w-full mt-2">
-      <div className="text-center mb-4 mt-2">
-        <h2 className="text-base md:text-xl font-normal -mt-[5px]">
+      <div className="text-center mb-3 mt-1">
+        <h2 className="text-base font-normal -mt-[5px]">
           Escolha a melhor data de vencimento da sua fatura:
         </h2>
       </div>
 
-      <div className="w-[95%] px-4 max-w-[380px] mx-auto">
-        <div className="grid grid-cols-4 gap-3 w-full mt-2">
+      <div className="w-full px-2 max-w-[320px] mx-auto">
+        <div className="grid grid-cols-4 gap-2 w-full mt-1">
           {dueDates.map((row, rowIndex) => (
             <React.Fragment key={rowIndex}>
               {row.map((date) => (

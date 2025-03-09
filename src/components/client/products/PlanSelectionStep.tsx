@@ -78,12 +78,12 @@ export function PlanSelectionStep({
   };
 
   return (
-    <div className="space-y-6 -mt-[15px]">
+    <div className="space-y-6 -mt-[15px] max-w-[320px] mx-auto">
       <PlanSelectionHeader variants={itemVariants} />
 
       <div className="space-y-4 w-full">
         <motion.div 
-          className="grid grid-cols-2 gap-4"
+          className="grid grid-cols-2 gap-3"
           variants={itemVariants}
         >
           <div className="w-full">

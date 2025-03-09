@@ -67,7 +67,7 @@ export function MainContent({
       animate="visible"
       variants={containerVariants}
     >
-      <Card className="relative z-10 w-full max-w-[540px] shadow-none bg-transparent border-0">
+      <Card className="relative z-10 w-full max-w-[480px] shadow-none bg-transparent border-0">
         <CardContent>
           <motion.div variants={itemVariants}>
             {currentStep === 1 && (
@@ -91,7 +91,7 @@ export function MainContent({
             )}
           </motion.div>
 
-          <motion.div variants={itemVariants}>
+          <motion.div variants={itemVariants} className="max-w-[320px] mx-auto">
             <NavigationButtons 
               currentStep={currentStep}
               handleBack={handleBack}
