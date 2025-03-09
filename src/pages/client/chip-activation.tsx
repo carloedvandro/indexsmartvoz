@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -130,7 +129,7 @@ export default function ClientChipActivation() {
           <h1 className="text-2xl font-bold">Ativação do Chip do Plano</h1>
         </div>
 
-        <div className="flex items-center justify-between mb-8 max-w-[390px] mx-auto">
+        <div className="flex items-center justify-between mb-8 max-w-[385px] mx-auto">
           <div className="flex items-center flex-1">
             <div className="w-8 h-8 rounded-full bg-[#8425af] text-white flex items-center justify-center">
               1
