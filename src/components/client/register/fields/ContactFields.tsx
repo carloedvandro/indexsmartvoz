@@ -3,7 +3,6 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
-import { Phone, SignalHigh } from "lucide-react";
 
 interface ContactFieldsProps {
   form: UseFormReturn<RegisterFormData>;
@@ -25,8 +24,11 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">WhatsApp</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
-                <SignalHigh className="absolute left-6 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5 animate-pulse" />
+                <img 
+                  src="/lovable-uploads/480377f4-67dd-44a7-a8f7-89740126c0df.png" 
+                  alt="Viber"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 h-5 w-5"
+                />
                 <Input 
                   {...field} 
                   type="text"
@@ -48,8 +50,11 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">Segundo Contato</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
-                <SignalHigh className="absolute left-6 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5 animate-pulse" />
+                <img 
+                  src="/lovable-uploads/480377f4-67dd-44a7-a8f7-89740126c0df.png" 
+                  alt="Viber"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 h-5 w-5"
+                />
                 <Input 
                   {...field} 
                   type="text"
