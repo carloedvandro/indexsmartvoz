@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { BarcodeScanner } from "@/components/BarcodeScanner";
 import { ChipInstructions } from "./chip-activation/ChipInstructions";
