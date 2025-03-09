@@ -36,8 +36,11 @@ export function MainContent({
     handleContinue,
   });
 
+  // This function is important to ensure back button works correctly
   const handleBackNavigation = () => {
-    handleBack();
+    if (currentStep > 1) {
+      handleBack();
+    }
   };
 
   const renderStep = () => {

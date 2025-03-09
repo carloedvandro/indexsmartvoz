@@ -79,6 +79,9 @@ export default function ClientProducts() {
       } else {
         setCurrentStep(currentStep - 1);
       }
+    } else if (currentStep === 1) {
+      // Handle navigation for the first step
+      navigate("/client/dashboard");
     }
   };
 
