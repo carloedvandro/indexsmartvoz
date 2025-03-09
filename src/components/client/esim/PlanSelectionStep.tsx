@@ -47,17 +47,17 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   };
 
   return (
-    <div className="max-w-[410px] mx-auto w-full pt-5">
+    <div className="max-w-[340px] mx-auto w-full pt-5">
       <div className="space-y-7">
         <div className="space-y-2">
           <h2 className="text-xl font-medium text-center">Personalize seu pedido</h2>
-          <p className="text-gray-600 text-center text-lg max-w-[410px] mx-auto">
+          <p className="text-gray-600 text-center text-lg max-w-[320px] mx-auto">
             Confira aqui as melhores ofertas para você, cliente Smatvoz.
           </p>
         </div>
 
         <div className="space-y-4">
-          <div className="w-full px-2 max-w-[410px] mx-auto">
+          <div className="w-full px-2 max-w-[340px] mx-auto">
             <div className="grid grid-cols-2 gap-3 place-items-center">
               <div className="w-full">
                 <InternetSelector
@@ -75,7 +75,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             </div>
           </div>
 
-          <div className="w-full px-2 max-w-[410px] mx-auto">
+          <div className="w-full px-2 max-w-[340px] mx-auto">
             <DueDateSelector
               selectedDueDate={selectedDueDate}
               setSelectedDueDate={setSelectedDueDate}
@@ -83,7 +83,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             />
           </div>
 
-          <div className="w-full px-2 max-w-[410px] mx-auto">
+          <div className="w-full px-2 max-w-[340px] mx-auto">
             <PriceSummary
               linePrice={getLinePrice()}
               totalPrice={getLinePrice()}
@@ -91,7 +91,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           </div>
         </div>
 
-        <div className="w-full px-2 max-w-[410px] mx-auto flex gap-4 pt-4">
+        <div className="w-full px-2 max-w-[340px] mx-auto flex gap-4 pt-4">
           <Button 
             variant="outline" 
             className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1"
