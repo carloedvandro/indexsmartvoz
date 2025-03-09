@@ -48,7 +48,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
 
   return (
     <div className="max-w-[340px] mx-auto w-full pt-5">
-      <div className="space-y-7">
+      <div className="space-y-6">
         <div className="space-y-2">
           <h2 className="text-xl font-medium text-center">Personalize seu pedido</h2>
           <p className="text-gray-600 text-center text-lg max-w-[320px] mx-auto">
@@ -56,9 +56,9 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           <div className="w-full px-2 max-w-[340px] mx-auto">
-            <div className="grid grid-cols-2 gap-3 place-items-center">
+            <div className="grid grid-cols-2 gap-2 place-items-center">
               <div className="w-full">
                 <InternetSelector
                   selectedInternet={selectedInternet}
@@ -79,7 +79,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             <DueDateSelector
               selectedDueDate={selectedDueDate}
               setSelectedDueDate={setSelectedDueDate}
-              variants={{ marginTop: '8px' }}
+              variants={{ marginTop: '4px' }}
             />
           </div>
 
@@ -91,7 +91,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           </div>
         </div>
 
-        <div className="w-full px-2 max-w-[340px] mx-auto grid grid-cols-2 gap-3 pt-4">
+        <div className="w-full px-2 max-w-[340px] mx-auto grid grid-cols-2 gap-2 pt-4">
           <Button 
             variant="outline" 
             className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white w-full"

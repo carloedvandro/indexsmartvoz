@@ -92,7 +92,7 @@ export function MainContent({
               )}
             </motion.div>
 
-            <motion.div variants={itemVariants} className="w-full mx-auto mt-6">
+            <motion.div variants={itemVariants} className="w-full mx-auto mt-6 px-2">
               <NavigationButtons 
                 currentStep={currentStep}
                 handleBack={handleBack}

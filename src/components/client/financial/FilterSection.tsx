@@ -36,7 +36,7 @@ export function FilterSection({
         <span className="text-base font-medium">Filtros</span>
       </div>
       
-      <div className="flex flex-row justify-between gap-4 mb-6">
+      <div className="flex flex-row justify-between gap-2 mb-6">
         <div className="w-full md:w-[200px]">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Mês
@@ -86,7 +86,7 @@ export function FilterSection({
         </div>
       </div>
       
-      <div className="flex flex-row justify-between gap-4">
+      <div className="flex flex-row justify-between gap-2">
         <Button
           variant="outline"
           onClick={handleBack}

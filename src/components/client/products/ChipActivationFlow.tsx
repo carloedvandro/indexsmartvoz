@@ -58,7 +58,7 @@ export function ChipActivationFlow({
                   selectedLines={selectedLines}
                   onStartScanning={onStartScanning}
                 />
-                <div className="flex justify-between w-full">
+                <div className="flex justify-between w-full gap-2">
                   <Button 
                     variant="outline" 
                     className="bg-white border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-4 h-[42px] flex items-center"
