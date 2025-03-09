@@ -25,7 +25,7 @@ export function DueDateSelector({
   return (
     <div className="w-full" style={variants}>
       <label className="text-sm font-medium text-gray-700 mb-1 block">
-        Data de Vencimento
+        Escolha a melhor data de vencimento
       </label>
       <div className="grid grid-cols-5 gap-2 w-full">
         {dueDates.map((dueDate) => (
