@@ -47,7 +47,7 @@ export function ChipActivationFlow({
         />
       )}
       
-      <div className="w-full max-w-[340px] mx-auto">
+      <div className="max-w-[340px] mx-auto w-full">
         <div className="pt-16 space-y-8">
           {currentStep === 4 && <ChipInstructions />}
           {currentStep === 5 && <BarcodeInstructions onBack={onBack} onContinue={onContinue} />}
