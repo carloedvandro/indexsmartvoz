@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/utils/format";
@@ -64,7 +65,10 @@ export function ProductCard({
   };
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden relative">
+      {/* Adicionando uma linha de cor ao topo do card */}
+      <div className="absolute left-0 top-0 w-full h-1 bg-[#580180]" />
+      
       {product.image_url && (
         <div className="aspect-video w-full overflow-hidden">
           <img
