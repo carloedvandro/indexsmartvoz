@@ -21,7 +21,7 @@ export function PlanSelectionHeader({ variants }: PlanSelectionHeaderProps) {
     >
       <h2 className="text-xl font-medium">Personalize seu pedido</h2>
       <p className="text-gray-600 max-w-[380px] mx-auto">
-        Confira aqui as melhores ofertas para você, cliente Smatvoz.
+        Confira aqui as melhores ofertas para você, cliente Smartvoz.
       </p>
     </motion.div>
   );
