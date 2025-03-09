@@ -24,12 +24,13 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">Senha</FormLabel>
             <FormControl>
-              <div className="relative rounded-md">
+              <div className="relative overflow-hidden rounded-md">
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#5f0889]" />
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
                 <Input 
                   type={showPassword ? "text" : "password"} 
                   {...field} 
-                  className="pl-9 text-sm h-8 pt-[3px] rounded-md"
+                  className="pl-9 text-sm h-8 pt-[3px] border-l-0 rounded-none"
                 />
                 <Button
                   type="button"
@@ -58,12 +59,13 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">Confirmar Senha</FormLabel>
             <FormControl>
-              <div className="relative rounded-md">
+              <div className="relative overflow-hidden rounded-md">
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#5f0889]" />
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
                 <Input 
                   type={showPasswordConfirmation ? "text" : "password"} 
                   {...field} 
-                  className="pl-9 text-sm h-8 pt-[3px] rounded-md"
+                  className="pl-9 text-sm h-8 pt-[3px] border-l-0 rounded-none"
                 />
                 <Button
                   type="button"
