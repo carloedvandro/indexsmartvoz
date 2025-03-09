@@ -25,7 +25,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">WhatsApp</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4">
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5">
                   <WhatsAppIcon />
                 </div>
                 <Input 
@@ -49,7 +49,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">Segundo Contato</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4">
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5">
                   <WhatsAppIcon />
                 </div>
                 <Input 
