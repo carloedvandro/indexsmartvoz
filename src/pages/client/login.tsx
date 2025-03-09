@@ -13,7 +13,7 @@ export default function LoginPage() {
         animate="visible"
         variants={containerVariants}
       >
-        <div className="w-full max-w-[310px] space-y-6">
+        <div className="w-full max-w-[320px] space-y-6">
           <div className="flex flex-col space-y-2 text-center">
             <div className="-mt-10 flex justify-center">
               <img 
