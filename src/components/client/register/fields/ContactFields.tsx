@@ -25,12 +25,12 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">WhatsApp</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5 animate-spin-slow" />
                 <Input 
                   {...field} 
                   type="text"
                   placeholder="(00) 00000-0000" 
-                  className="pl-9 text-sm h-8 rounded-md w-full pr-2"
+                  className="pl-9 text-sm h-8.5 rounded-md w-full pr-2"
                 />
               </div>
             </FormControl>
@@ -47,12 +47,12 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">Segundo Contato</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5 animate-spin-slow" />
                 <Input 
                   {...field} 
                   type="text"
                   placeholder="(00) 00000-0000"
-                  className="pl-9 text-sm h-8 rounded-md w-full pr-2"
+                  className="pl-9 text-sm h-8.5 rounded-md w-full pr-2"
                   onChange={(e) => {
                     const value = e.target.value;
                     if (value === primaryWhatsapp) {
