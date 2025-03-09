@@ -25,13 +25,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">WhatsApp</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
-                {/* First signal bar */}
-                <div className="absolute left-[18px] top-1/2 -translate-y-1/2 w-1 h-3 bg-[#5f0889] rounded-full animate-pulse"></div>
-                {/* Second signal bar */}
-                <div className="absolute left-[22px] top-1/2 -translate-y-1/2 w-1 h-4 bg-[#5f0889] rounded-full animate-pulse delay-75"></div>
-                {/* Third signal bar */}
-                <div className="absolute left-[26px] top-1/2 -translate-y-1/2 w-1 h-5 bg-[#5f0889] rounded-full animate-pulse delay-150"></div>
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5 animate-spin-slow" />
                 <Input 
                   {...field} 
                   type="text"
@@ -53,13 +47,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">Segundo Contato</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
-                {/* First signal bar */}
-                <div className="absolute left-[18px] top-1/2 -translate-y-1/2 w-1 h-3 bg-[#5f0889] rounded-full animate-pulse"></div>
-                {/* Second signal bar */}
-                <div className="absolute left-[22px] top-1/2 -translate-y-1/2 w-1 h-4 bg-[#5f0889] rounded-full animate-pulse delay-75"></div>
-                {/* Third signal bar */}
-                <div className="absolute left-[26px] top-1/2 -translate-y-1/2 w-1 h-5 bg-[#5f0889] rounded-full animate-pulse delay-150"></div>
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5 animate-spin-slow" />
                 <Input 
                   {...field} 
                   type="text"
