@@ -18,7 +18,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">Nome Completo</FormLabel>
             <FormControl>
-              <Input {...field} className="text-sm h-8 pt-[3px] rounded-md" />
+              <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
             </FormControl>
             <FormMessage className="text-xs" />
           </FormItem>
@@ -33,7 +33,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
             <FormItem>
               <FormLabel className="text-sm">E-mail</FormLabel>
               <FormControl>
-                <Input {...field} className="text-sm h-8 pt-[3px] rounded-md" />
+                <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
@@ -47,7 +47,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
             <FormItem>
               <FormLabel className="text-sm">CPF</FormLabel>
               <FormControl>
-                <Input {...field} className="text-sm h-8 pt-[3px] rounded-md" />
+                <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
@@ -63,7 +63,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
             <FormItem>
               <FormLabel className="text-sm">ID Personalizado</FormLabel>
               <FormControl>
-                <Input {...field} className="text-sm h-8 pt-[3px] rounded-md" />
+                <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
@@ -80,7 +80,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
                 <Input 
                   {...field} 
                   placeholder="DD/MM/AAAA"
-                  className="text-sm h-8 pt-[3px] rounded-md" 
+                  className="text-sm h-9 pt-[3px] rounded-md" 
                 />
               </FormControl>
               <FormMessage className="text-xs" />
