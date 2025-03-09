@@ -28,7 +28,7 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
                 <img 
                   src="/lovable-uploads/8c5d0ebe-7db8-46e8-85e9-c8e7936ed4cd.png" 
                   alt="Lock" 
-                  className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 [filter:hue-rotate(140deg)_saturate(2)]"
                 />
                 <Input 
                   type={showPassword ? "text" : "password"} 
@@ -66,7 +66,7 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
                 <img 
                   src="/lovable-uploads/8c5d0ebe-7db8-46e8-85e9-c8e7936ed4cd.png" 
                   alt="Lock" 
-                  className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 [filter:hue-rotate(140deg)_saturate(2)]"
                 />
                 <Input 
                   type={showPasswordConfirmation ? "text" : "password"} 
