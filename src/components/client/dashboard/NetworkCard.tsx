@@ -1,6 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users } from "lucide-react";
+import { StatsCard } from "@/components/ui/stats-card";
 
 interface NetworkCardProps {
   networkStats: {
@@ -35,26 +36,26 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
       </CardHeader>
       <CardContent className="py-4">
         <div className="grid grid-cols-2 gap-4">
-          <div className="p-4 bg-red-50 rounded-lg text-center">
-            <p className="text-sm text-red-600 font-medium">Nível 1</p>
-            <p className="text-2xl font-bold text-red-700">{networkStats?.level1Count || 0}</p>
-            <p className="text-xs text-red-600">Indicados Diretos</p>
-          </div>
-          <div className="p-4 bg-green-50 rounded-lg text-center">
-            <p className="text-sm text-green-600 font-medium">Nível 2</p>
-            <p className="text-2xl font-bold text-green-700">{networkStats?.level2Count || 0}</p>
-            <p className="text-xs text-green-600">Indicados Indiretos</p>
-          </div>
-          <div className="p-4 bg-purple-50 rounded-lg text-center">
-            <p className="text-sm text-purple-600 font-medium">Nível 3</p>
-            <p className="text-2xl font-bold text-purple-700">{networkStats?.level3Count || 0}</p>
-            <p className="text-xs text-purple-600">Indicados Indiretos</p>
-          </div>
-          <div className="p-4 bg-orange-50 rounded-lg text-center">
-            <p className="text-sm text-orange-600 font-medium">Nível 4</p>
-            <p className="text-2xl font-bold text-orange-700">{networkStats?.level4Count || 0}</p>
-            <p className="text-xs text-orange-600">Indicados Indiretos</p>
-          </div>
+          <StatsCard 
+            title="Nível 1" 
+            value={networkStats?.level1Count || 0} 
+            className="bg-white"
+          />
+          <StatsCard 
+            title="Nível 2" 
+            value={networkStats?.level2Count || 0} 
+            className="bg-white"
+          />
+          <StatsCard 
+            title="Nível 3" 
+            value={networkStats?.level3Count || 0} 
+            className="bg-white"
+          />
+          <StatsCard 
+            title="Nível 4" 
+            value={networkStats?.level4Count || 0} 
+            className="bg-white"
+          />
         </div>
       </CardContent>
     </Card>
