@@ -18,42 +18,58 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">Nome Completo</FormLabel>
             <FormControl>
-              <Input {...field} className="bg-transparent text-sm h-8 pt-[3px]" />
+              <Input {...field} className="text-sm h-8 pt-[3px] rounded-md" />
             </FormControl>
             <FormMessage className="text-xs" />
           </FormItem>
         )}
       />
-
-      <FormField
-        control={form.control}
-        name="email"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="text-sm">Endereço de email</FormLabel>
-            <FormControl>
-              <Input type="email" {...field} className="bg-transparent text-sm h-8 pt-[3px]" />
-            </FormControl>
-            <FormMessage className="text-xs" />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={form.control}
-        name="cpf"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="text-sm">CPF</FormLabel>
-            <FormControl>
-              <Input {...field} className="bg-transparent text-sm h-8 pt-[3px]" />
-            </FormControl>
-            <FormMessage className="text-xs" />
-          </FormItem>
-        )}
-      />
-
-      <div className="grid grid-cols-2 gap-3">
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-sm">E-mail</FormLabel>
+              <FormControl>
+                <Input {...field} className="text-sm h-8 pt-[3px] rounded-md" />
+              </FormControl>
+              <FormMessage className="text-xs" />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="cpf"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-sm">CPF</FormLabel>
+              <FormControl>
+                <Input {...field} className="text-sm h-8 pt-[3px] rounded-md" />
+              </FormControl>
+              <FormMessage className="text-xs" />
+            </FormItem>
+          )}
+        />
+      </div>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="customId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-sm">ID Personalizado</FormLabel>
+              <FormControl>
+                <Input {...field} className="text-sm h-8 pt-[3px] rounded-md" />
+              </FormControl>
+              <FormMessage className="text-xs" />
+            </FormItem>
+          )}
+        />
+        
         <FormField
           control={form.control}
           name="birthDate"
@@ -61,21 +77,11 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
             <FormItem>
               <FormLabel className="text-sm">Data de Nascimento</FormLabel>
               <FormControl>
-                <Input type="date" {...field} className="bg-transparent text-sm h-8 pt-[3px]" />
-              </FormControl>
-              <FormMessage className="text-xs" />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="customId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-sm">Seu ID Personalizado</FormLabel>
-              <FormControl>
-                <Input {...field} className="bg-transparent text-sm h-8 pt-[3px]" />
+                <Input 
+                  {...field} 
+                  placeholder="DD/MM/AAAA"
+                  className="text-sm h-8 pt-[3px] rounded-md" 
+                />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
