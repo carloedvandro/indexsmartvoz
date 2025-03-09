@@ -33,9 +33,10 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
       </Card>
 
       <Card 
-        className="relative p-4 border rounded-lg bg-white cursor-pointer hover:bg-gray-50 transition-colors"
+        className="relative p-4 border rounded-lg bg-white cursor-pointer hover:bg-gray-50 transition-colors overflow-hidden"
         onClick={() => onCardClick('bonus')}
       >
+        <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#580180]" />
         <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-2">
             <div className="flex justify-between items-start max-md:flex-col max-md:items-stretch">
