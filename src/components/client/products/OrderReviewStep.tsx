@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 
 type Line = {
@@ -10,11 +11,19 @@ type Line = {
 
 interface OrderReviewStepProps {
   selectedLines: Line[];
+  selectedDueDate: number | null;
+  handleBack: () => void;
+  handleContinue: () => void;
 }
 
-export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
+export function OrderReviewStep({ 
+  selectedLines, 
+  selectedDueDate,
+  handleBack,
+  handleContinue
+}: OrderReviewStepProps) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 -mt-[15px] max-w-[340px] mx-auto w-full px-2">
       <div className="space-y-2">
         <h2 className="text-2xl font-medium">Confirme seu pedido</h2>
         <p className="text-gray-600">
@@ -43,6 +52,31 @@ export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
             <span>R$ {(selectedLines.reduce((acc, line) => acc + line.price, 0)).toFixed(2)}/mês</span>
           </div>
         </div>
+        
+        {selectedDueDate && (
+          <div className="p-4 bg-gray-50 rounded-lg">
+            <div className="flex justify-between items-center">
+              <span className="font-medium">Data de vencimento:</span>
+              <span>Dia {selectedDueDate}</span>
+            </div>
+          </div>
+        )}
+      </div>
+      
+      <div className="flex justify-between mt-6 gap-2">
+        <Button 
+          variant="outline"
+          className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white w-full"
+          onClick={handleBack}
+        >
+          Voltar
+        </Button>
+        <Button 
+          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white w-full"
+          onClick={handleContinue}
+        >
+          Continuar
+        </Button>
       </div>
     </div>
   );
