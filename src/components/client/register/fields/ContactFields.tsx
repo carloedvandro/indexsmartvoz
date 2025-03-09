@@ -4,12 +4,14 @@ import { Input } from "@/components/ui/input";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
 import { Phone } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ContactFieldsProps {
   form: UseFormReturn<RegisterFormData>;
 }
 
 export const ContactFields = ({ form }: ContactFieldsProps) => {
+  const isMobile = useIsMobile();
   const primaryWhatsapp = useWatch({
     control: form.control,
     name: "whatsapp",
