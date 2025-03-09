@@ -167,10 +167,10 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         <div className="relative">
           <video
             ref={videoRef}
-            className="w-[340px] h-[200px] object-cover rounded-lg"
+            className="w-[340px] h-[180px] object-cover rounded-lg"
           />
           <div className="absolute inset-0 border-2 border-[#8425af] rounded-lg">
-            <div className="absolute top-0 left-0 right-0 bg-white/80 text-center py-1 h-[15px] flex items-center justify-center rounded-t-lg font-medium text-xs">
+            <div className="absolute top-0 left-0 right-0 bg-white/80 text-center py-2 rounded-t-lg font-medium text-sm">
               Posicione o código de barras do chip
             </div>
           </div>
