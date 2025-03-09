@@ -67,39 +67,41 @@ export function MainContent({
       animate="visible"
       variants={containerVariants}
     >
-      <Card className="relative z-10 w-full max-w-[340px] shadow-none bg-transparent border-0">
-        <CardContent className="w-full px-0">
-          <motion.div variants={itemVariants} className="w-full">
-            {currentStep === 1 && (
-              <PlanSelectionStep 
-                selectedLines={selectedLines}
-                setSelectedLines={setSelectedLines}
-                selectedDueDate={selectedDueDate}
-                setSelectedDueDate={setSelectedDueDate}
+      <div className="w-full max-w-[340px] mx-auto">
+        <Card className="relative z-10 shadow-none bg-transparent border-0">
+          <CardContent className="w-full px-0">
+            <motion.div variants={itemVariants} className="w-full">
+              {currentStep === 1 && (
+                <PlanSelectionStep 
+                  selectedLines={selectedLines}
+                  setSelectedLines={setSelectedLines}
+                  selectedDueDate={selectedDueDate}
+                  setSelectedDueDate={setSelectedDueDate}
+                />
+              )}
+
+              {currentStep === 2 && (
+                <OrderReviewStep selectedLines={selectedLines} />
+              )}
+
+              {currentStep === 3 && (
+                <ContractTermsStep
+                  acceptedTerms={acceptedTerms}
+                  onTermsChange={setAcceptedTerms}
+                />
+              )}
+            </motion.div>
+
+            <motion.div variants={itemVariants} className="w-full mx-auto mt-6">
+              <NavigationButtons 
+                currentStep={currentStep}
+                handleBack={handleBack}
+                handleContinue={validateAndContinue}
               />
-            )}
-
-            {currentStep === 2 && (
-              <OrderReviewStep selectedLines={selectedLines} />
-            )}
-
-            {currentStep === 3 && (
-              <ContractTermsStep
-                acceptedTerms={acceptedTerms}
-                onTermsChange={setAcceptedTerms}
-              />
-            )}
-          </motion.div>
-
-          <motion.div variants={itemVariants} className="w-full mx-auto mt-6">
-            <NavigationButtons 
-              currentStep={currentStep}
-              handleBack={handleBack}
-              handleContinue={validateAndContinue}
-            />
-          </motion.div>
-        </CardContent>
-      </Card>
+            </motion.div>
+          </CardContent>
+        </Card>
+      </div>
     </motion.div>
   );
 }
