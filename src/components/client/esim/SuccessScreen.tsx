@@ -14,8 +14,8 @@ export function SuccessScreen({ data }: SuccessScreenProps) {
   return (
     <div className="text-center space-y-6">
       <div className="flex justify-center">
-        <div className="w-16 h-16 bg-[#5f0889]/10 rounded-full flex items-center justify-center">
-          <Check className="w-8 h-8 text-[#5f0889]" />
+        <div className="w-16 h-16 bg-[#580180]/10 rounded-full flex items-center justify-center">
+          <Check className="w-8 h-8 text-[#580180]" />
         </div>
       </div>
 
@@ -36,7 +36,7 @@ export function SuccessScreen({ data }: SuccessScreenProps) {
 
       <Button 
         onClick={() => navigate("/client/dashboard")}
-        className="bg-[#5f0889] hover:bg-[#5f0889]/90 text-white"
+        className="bg-[#580180] hover:bg-[#4a0066] text-white"
       >
         Voltar para o Dashboard
       </Button>

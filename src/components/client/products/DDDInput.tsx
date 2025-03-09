@@ -50,7 +50,7 @@ export function DDDInput({ ddd, onDDDChange, disabled = false }: DDDInputProps) 
       <label className="block text-sm font-medium">DDD</label>
       <Select value={ddd} onValueChange={onDDDChange} disabled={disabled}>
         <SelectTrigger 
-          className={`bg-white h-[40px] border-[#5f0889] focus:ring-[#5f0889] hover:border-[#5f0889] focus:border-[#5f0889] text-left pl-3 text-sm w-full ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`bg-white h-[40px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] focus:border-[#8425af] text-left pl-3 text-sm w-full ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
           <SelectValue placeholder="Selecione o DDD" />
         </SelectTrigger>
@@ -59,7 +59,7 @@ export function DDDInput({ ddd, onDDDChange, disabled = false }: DDDInputProps) 
             <SelectItem 
               key={dddOption} 
               value={dddOption}
-              className="cursor-pointer py-1.5 px-2 bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white selected:bg-[#5f0889] selected:text-white"
+              className="cursor-pointer py-1.5 px-2 bg-white hover:bg-[#8425af] hover:text-white focus:bg-[#8425af] focus:text-white data-[state=checked]:bg-[#8425af] data-[state=checked]:text-white selected:bg-[#8425af] selected:text-white"
             >
               {dddOption}
             </SelectItem>

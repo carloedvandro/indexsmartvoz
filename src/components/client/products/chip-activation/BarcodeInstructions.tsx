@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 
 interface BarcodeInstructionsProps {
@@ -13,17 +12,17 @@ export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsP
       
       <div className="flex items-center justify-between max-w-xl mx-auto relative">
         <div className="flex flex-col items-center space-y-2">
-          <div className="w-6 h-6 rounded-full bg-[#5f0889] flex items-center justify-center text-white text-sm">✓</div>
+          <div className="w-6 h-6 rounded-full bg-[#8425af] flex items-center justify-center text-white text-sm">✓</div>
           <span className="text-sm font-medium text-gray-700">Identidade</span>
         </div>
 
-        <div className="flex-1 h-[2px] bg-[#5f0889]"></div>
+        <div className="flex-1 h-[2px] bg-[#8425af]"></div>
 
         <div className="flex flex-col items-center space-y-2">
-          <div className="w-6 h-6 rounded-full bg-[#5f0889] border-2 border-white flex items-center justify-center">
+          <div className="w-6 h-6 rounded-full bg-[#8425af] border-2 border-white flex items-center justify-center">
             <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
           </div>
-          <span className="text-sm font-medium text-[#5f0889]">SIM Card</span>
+          <span className="text-sm font-medium text-[#8425af]">SIM Card</span>
         </div>
 
         <div className="flex-1 h-[2px] bg-gray-200"></div>
@@ -54,14 +53,14 @@ export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsP
       <div className="flex justify-between">
         <Button 
           variant="outline"
-          className="hover:bg-[#5f0889] hover:text-white border-[#5f0889] text-[#5f0889]"
+          className="hover:bg-[#8425af] hover:text-white border-[#8425af] text-[#8425af]"
           onClick={onBack}
           type="button"
         >
           Voltar
         </Button>
         <Button 
-          className="bg-[#5f0889] hover:bg-[#5f0889]/90 text-white"
+          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
           onClick={onContinue}
           type="button"
         >
