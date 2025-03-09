@@ -1,4 +1,3 @@
-
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface ContractTermsStepProps {
@@ -8,7 +7,7 @@ interface ContractTermsStepProps {
 
 export function ContractTermsStep({ acceptedTerms, onTermsChange }: ContractTermsStepProps) {
   return (
-    <div className="space-y-6 max-w-[380px] mx-auto">
+    <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold mb-4">Termos de contrato</h2>
         <p className="text-gray-600 mb-4">
