@@ -43,9 +43,9 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeOff className="h-3.5 w-3.5 text-[#5f0889]" />
+                    <EyeOff className="h-3.5 w-3.5 text-green-600" />
                   ) : (
-                    <Eye className="h-3.5 w-3.5 text-[#5f0889]" />
+                    <Eye className="h-3.5 w-3.5 text-green-600" />
                   )}
                 </Button>
               </div>
@@ -81,9 +81,9 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
                   onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
                 >
                   {showPasswordConfirmation ? (
-                    <EyeOff className="h-3.5 w-3.5 text-[#5f0889]" />
+                    <EyeOff className="h-3.5 w-3.5 text-green-600" />
                   ) : (
-                    <Eye className="h-3.5 w-3.5 text-[#5f0889]" />
+                    <Eye className="h-3.5 w-3.5 text-green-600" />
                   )}
                 </Button>
               </div>
