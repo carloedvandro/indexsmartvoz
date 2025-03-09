@@ -112,18 +112,18 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
           É só ligar pra *#06# e procurar por EID. O número vai aparecer na tela do seu celular.
         </p>
 
-        <div className="flex justify-between items-center w-full mt-8">
+        <div className="flex justify-between items-center gap-4 w-full mt-8">
           <Button 
             type="button"
             variant="outline"
-            className="w-[120px] border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg py-3"
+            className="flex-1 border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg py-3"
             onClick={onBack}
           >
             Voltar
           </Button>
           <Button 
             type="submit"
-            className="w-[120px] bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3"
+            className="flex-1 bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3"
             disabled={!isValidEID || isValidating}
           >
             Continuar

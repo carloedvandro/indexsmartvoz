@@ -91,7 +91,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           </div>
         </div>
 
-        <div className="w-full px-2 max-w-[340px] mx-auto grid grid-cols-2 gap-3 pt-4">
+        <div className="w-full px-2 max-w-[340px] mx-auto grid grid-cols-2 gap-4 pt-4">
           <Button 
             variant="outline" 
             className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white w-full"

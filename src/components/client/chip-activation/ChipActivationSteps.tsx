@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -183,20 +182,21 @@ export function ChipActivationSteps({
           </div>
         )}
 
-        <div className="flex justify-between">
+        <div className="flex justify-between gap-4">
           {currentStep > 1 && (
             <Button 
               variant="outline"
+              className="flex-1"
               onClick={handleBack}
             >
               Voltar
             </Button>
           )}
           {currentStep === 1 && (
-            <div /> // Empty div to maintain layout with flex justify-between
+            <div className="flex-1" /> // Empty div to maintain layout with flex justify-between
           )}
           <Button 
-            className="bg-[#8425af] hover:bg-[#6c1e8f]"
+            className="flex-1 bg-[#8425af] hover:bg-[#6c1e8f]"
             onClick={handleContinue}
             disabled={isContinueDisabled()}
           >
