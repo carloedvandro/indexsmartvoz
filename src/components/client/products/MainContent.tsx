@@ -5,7 +5,6 @@ import { ContractTermsStep } from "./ContractTermsStep";
 import { PlanSelectionStep } from "./PlanSelectionStep";
 import { NavigationButtons } from "./NavigationButtons";
 import { useStepValidator } from "./StepValidator";
-import { ParticlesBackground } from "./ParticlesBackground";
 import { motion } from "framer-motion";
 
 interface MainContentProps {
@@ -68,7 +67,6 @@ export function MainContent({
       animate="visible"
       variants={containerVariants}
     >
-      <ParticlesBackground />
       <Card className="relative z-10 w-full max-w-[540px] shadow-none bg-transparent border-0">
         <CardContent>
           <motion.div variants={itemVariants}>
