@@ -15,7 +15,7 @@ interface OrderReviewStepProps {
 
 export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
   return (
-    <div className="space-y-6 max-w-[390px] mx-auto">
+    <div className="space-y-6 max-w-[380px] mx-auto">
       <div className="space-y-2">
         <h2 className="text-2xl font-medium">Confirme seu pedido</h2>
         <p className="text-gray-600">
