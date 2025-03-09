@@ -12,13 +12,11 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [lastScanPosition, setLastScanPosition] = useState<number | null>(null);
   const [hasScanned, setHasScanned] = useState(false);
-  const [constraints, setConstraints] = useState({
+  const [constraints, setConstraints] = useState<MediaStreamConstraints>({
     video: {
       width: { ideal: 1280 },
       height: { ideal: 720 },
       facingMode: "environment",
-      focusMode: "continuous",
-      advanced: [{ zoom: 2 }]
     }
   });
 
@@ -80,20 +78,27 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
             console.log("Camera capabilities:", capabilities);
             
             // Ajustar configurações da câmera se disponíveis
-            const newConstraints: any = {};
-            
-            if (capabilities.focusMode && capabilities.focusMode.includes('continuous')) {
-              newConstraints.focusMode = 'continuous';
-            }
-            
-            if (capabilities.zoom) {
-              newConstraints.zoom = Math.min(capabilities.zoom.max, 2);
-            }
-            
-            if (Object.keys(newConstraints).length > 0) {
+            if (capabilities && Object.keys(capabilities).length > 0) {
               try {
-                await track.applyConstraints({ advanced: [newConstraints] });
-                console.log("Applied camera constraints:", newConstraints);
+                // Try to apply better camera settings
+                const advancedConstraints: MediaTrackConstraintSet = {};
+                
+                if (capabilities.focusMode && 
+                    Array.isArray(capabilities.focusMode) && 
+                    capabilities.focusMode.includes('continuous')) {
+                  advancedConstraints.focusMode = 'continuous';
+                }
+                
+                if (capabilities.zoom) {
+                  advancedConstraints.zoom = 2.0;
+                }
+                
+                if (Object.keys(advancedConstraints).length > 0) {
+                  await track.applyConstraints({
+                    advanced: [advancedConstraints]
+                  });
+                  console.log("Applied camera constraints:", advancedConstraints);
+                }
               } catch (error) {
                 console.error("Error applying camera constraints:", error);
               }
