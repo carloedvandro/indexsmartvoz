@@ -4,6 +4,7 @@ import { BarcodeInstructions } from "./BarcodeInstructions";
 import { BarcodeScannerComponent } from "./BarcodeScanner";
 import { Button } from "@/components/ui/button";
 import { Line } from "../ChipActivationFlow";
+import { NavigationButtons } from "./NavigationButtons";
 
 interface ChipActivationStepContentProps {
   currentStep: number;
