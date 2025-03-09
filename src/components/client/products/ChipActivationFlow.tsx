@@ -47,7 +47,7 @@ export function ChipActivationFlow({
         />
       )}
       
-      <div className="flex flex-col items-center justify-start min-h-screen bg-gray-50/80 pt-32 relative">
+      <main className="flex flex-col items-center justify-start min-h-screen pt-20 overflow-hidden scrollbar-hide">
         <div className="w-full max-w-[340px] mx-auto">
           <div className="space-y-8">
             {currentStep === 4 && <ChipInstructions />}
@@ -78,7 +78,7 @@ export function ChipActivationFlow({
             )}
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }
