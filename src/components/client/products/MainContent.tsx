@@ -68,8 +68,8 @@ export function MainContent({
       variants={containerVariants}
     >
       <Card className="relative z-10 w-full max-w-[480px] shadow-none bg-transparent border-0">
-        <CardContent>
-          <motion.div variants={itemVariants}>
+        <CardContent className="px-3">
+          <motion.div variants={itemVariants} className="w-full">
             {currentStep === 1 && (
               <PlanSelectionStep 
                 selectedLines={selectedLines}
@@ -91,7 +91,7 @@ export function MainContent({
             )}
           </motion.div>
 
-          <motion.div variants={itemVariants} className="max-w-[320px] mx-auto">
+          <motion.div variants={itemVariants} className="w-full mx-auto mt-6">
             <NavigationButtons 
               currentStep={currentStep}
               handleBack={handleBack}

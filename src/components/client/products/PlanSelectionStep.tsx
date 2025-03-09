@@ -78,7 +78,7 @@ export function PlanSelectionStep({
   };
 
   return (
-    <div className="space-y-6 -mt-[15px] max-w-[320px] mx-auto">
+    <div className="space-y-6 -mt-[15px] mx-auto w-full">
       <PlanSelectionHeader variants={itemVariants} />
 
       <div className="space-y-4 w-full">

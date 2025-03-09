@@ -29,7 +29,7 @@ export function DueDateSelector({
         </h2>
       </div>
 
-      <div className="w-full max-w-[320px] mx-auto">
+      <div className="w-full max-w-[100%] mx-auto">
         <div className="grid grid-cols-4 gap-2 w-full mt-1">
           {dueDates.map((row, rowIndex) => (
             <React.Fragment key={rowIndex}>
