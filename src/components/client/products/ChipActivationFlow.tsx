@@ -49,11 +49,11 @@ export function ChipActivationFlow({
       
       <main className="flex flex-col items-center justify-start min-h-screen pt-20 overflow-hidden scrollbar-hide">
         <div className="w-full max-w-[340px] mx-auto">
-          <div className="space-y-8">
+          <div className="space-y-8 px-2">
             {currentStep === 4 && <ChipInstructions />}
             {currentStep === 5 && <BarcodeInstructions onBack={onBack} onContinue={onContinue} />}
             {currentStep === 6 && (
-              <div className="flex flex-col space-y-6">
+              <div className="flex flex-col space-y-5">
                 <BarcodeScannerComponent
                   selectedLines={selectedLines}
                   onStartScanning={onStartScanning}

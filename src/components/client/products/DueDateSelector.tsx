@@ -27,7 +27,7 @@ export function DueDateSelector({
       <label className="text-sm font-medium text-gray-700 mb-1 block">
         Data de Vencimento
       </label>
-      <div className="grid grid-cols-5 gap-1 w-full">
+      <div className="grid grid-cols-5 gap-2 w-full">
         {dueDates.map((dueDate) => (
           <button
             key={dueDate}

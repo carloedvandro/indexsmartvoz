@@ -78,26 +78,25 @@ export function PlanSelectionStep({
   };
 
   return (
-    <div className="space-y-5 -mt-[15px] max-w-[340px] mx-auto w-full">
+    <div className="space-y-4 -mt-[15px] max-w-[340px] mx-auto w-full px-2">
       <PlanSelectionHeader variants={itemVariants} />
 
       <div className="space-y-3 w-full">
-        <motion.div 
-          className="grid grid-cols-2 gap-2"
-          variants={itemVariants}
-        >
-          <div className="w-full">
-            <InternetSelector
-              selectedInternet={selectedLines[0]?.internet || undefined}
-              onInternetChange={handleInternetChange}
-              internetOptions={internetOptions}
-            />
-          </div>
-          <div className="w-full">
-            <DDDInput
-              ddd={selectedLines[0]?.ddd || ""}
-              onDDDChange={handleDDDChange}
-            />
+        <motion.div variants={itemVariants}>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="w-full">
+              <InternetSelector
+                selectedInternet={selectedLines[0]?.internet || undefined}
+                onInternetChange={handleInternetChange}
+                internetOptions={internetOptions}
+              />
+            </div>
+            <div className="w-full">
+              <DDDInput
+                ddd={selectedLines[0]?.ddd || ""}
+                onDDDChange={handleDDDChange}
+              />
+            </div>
           </div>
         </motion.div>
 
