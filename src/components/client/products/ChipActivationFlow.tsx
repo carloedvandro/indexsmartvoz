@@ -4,7 +4,6 @@ import { BarcodeScanner } from "@/components/BarcodeScanner";
 import { ChipInstructions } from "./chip-activation/ChipInstructions";
 import { BarcodeInstructions } from "./chip-activation/BarcodeInstructions";
 import { BarcodeScannerComponent } from "./chip-activation/BarcodeScanner";
-import { useEffect } from "react";
 
 interface ChipActivationFlowProps {
   currentStep: number;
@@ -38,38 +37,6 @@ export function ChipActivationFlow({
 }: ChipActivationFlowProps) {
   // Verifica se todos os códigos de barras foram escaneados
   const allBarcodesScanned = selectedLines.every(line => line.barcode);
-  
-  // Adiciona a animação do scanner à folha de estilo global se ainda não existir
-  useEffect(() => {
-    if (!document.getElementById('scan-line-animation')) {
-      const style = document.createElement('style');
-      style.id = 'scan-line-animation';
-      style.innerHTML = `
-        @keyframes scan-line {
-          0% {
-            top: 20%;
-          }
-          50% {
-            top: 80%;
-          }
-          100% {
-            top: 20%;
-          }
-        }
-        .animate-scan-line {
-          animation: scan-line 1.5s ease-in-out infinite;
-        }
-      `;
-      document.head.appendChild(style);
-    }
-    
-    return () => {
-      const styleElement = document.getElementById('scan-line-animation');
-      if (styleElement) {
-        styleElement.remove();
-      }
-    };
-  }, []);
 
   return (
     <>
@@ -91,16 +58,16 @@ export function ChipActivationFlow({
                   selectedLines={selectedLines}
                   onStartScanning={onStartScanning}
                 />
-                <div className="flex justify-between w-full gap-4">
+                <div className="flex justify-between w-full">
                   <Button 
                     variant="outline" 
-                    className="bg-white border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-4 h-[42px] flex-1 items-center"
+                    className="bg-white border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-4 h-[42px] flex items-center"
                     onClick={onBack}
                   >
                     Voltar
                   </Button>
                   <Button 
-                    className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-4 h-[42px] flex-1 items-center"
+                    className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-4 h-[42px] flex items-center"
                     onClick={onContinue}
                     disabled={!allBarcodesScanned}
                   >
