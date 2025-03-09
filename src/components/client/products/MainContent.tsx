@@ -36,6 +36,12 @@ export function MainContent({
     handleContinue,
   });
 
+  const handleBackNavigation = () => {
+    if (currentStep > 1) {
+      handleBack();
+    }
+  };
+
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -46,7 +52,7 @@ export function MainContent({
             selectedDueDate={selectedDueDate}
             setSelectedDueDate={setSelectedDueDate}
             onContinue={validateAndContinue}
-            onBack={handleBack}
+            onBack={handleBackNavigation}
           />
         );
       case 2:
@@ -54,7 +60,7 @@ export function MainContent({
           <OrderReviewStep
             selectedLines={selectedLines}
             selectedDueDate={selectedDueDate}
-            handleBack={handleBack}
+            handleBack={handleBackNavigation}
             handleContinue={validateAndContinue}
           />
         );
@@ -63,7 +69,7 @@ export function MainContent({
           <TermsStep
             acceptedTerms={acceptedTerms}
             setAcceptedTerms={setAcceptedTerms}
-            handleBack={handleBack}
+            handleBack={handleBackNavigation}
             handleContinue={validateAndContinue}
           />
         );
