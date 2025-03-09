@@ -20,45 +20,17 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   const [selectedInternet, setSelectedInternet] = useState<string>("");
   const [selectedDDD, setSelectedDDD] = useState<string>("");
   const [selectedDueDate, setSelectedDueDate] = useState<number | null>(null);
-  const [isFreePlan, setIsFreePlan] = useState(false);
 
   const internetOptions = [
-    { value: "FREE", label: "Plano Gratuito", price: 0 },
     { value: "120GB", label: "Plano 120GB", price: 129.99 },
   ];
-
-  useEffect(() => {
-    if (selectedInternet === "FREE") {
-      setIsFreePlan(true);
-      setSelectedDDD("00");
-      setSelectedDueDate(1);
-    } else {
-      setIsFreePlan(false);
-      if (selectedDDD === "00") setSelectedDDD("");
-      if (selectedDueDate === 1) setSelectedDueDate(null);
-    }
-  }, [selectedInternet]);
 
   const getLinePrice = () => {
     return internetOptions.find(option => option.value === selectedInternet)?.price || 0;
   };
 
   const handleContinue = () => {
-    if (!selectedInternet) {
-      return;
-    }
-
-    if (isFreePlan) {
-      onContinue({
-        internet: selectedInternet,
-        ddd: selectedDDD,
-        dueDate: selectedDueDate || 1,
-        price: 0
-      });
-      return;
-    }
-
-    if (!selectedDDD || !selectedDueDate) {
+    if (!selectedInternet || !selectedDDD || !selectedDueDate) {
       return;
     }
 
@@ -98,29 +70,18 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
                 <DDDInput
                   ddd={selectedDDD}
                   onDDDChange={setSelectedDDD}
-                  disabled={isFreePlan}
                 />
               </div>
             </div>
           </div>
 
-          {!isFreePlan ? (
-            <div className="w-full px-2 max-w-[360px] mx-auto">
-              <DueDateSelector
-                selectedDueDate={selectedDueDate}
-                setSelectedDueDate={setSelectedDueDate}
-                selectedCardClassName="bg-white"
-              />
-            </div>
-          ) : (
-            <div className="w-full px-2 max-w-[360px] mx-auto">
-              <div className="p-2 bg-purple-50 rounded-md">
-                <div className="text-base text-purple-700">
-                  O Plano Gratuito é exclusivo para parceiros, sem necessidade de aquisição de plano pago para realizar suas vendas e receber comissões.
-                </div>
-              </div>
-            </div>
-          )}
+          <div className="w-full px-2 max-w-[360px] mx-auto">
+            <DueDateSelector
+              selectedDueDate={selectedDueDate}
+              setSelectedDueDate={setSelectedDueDate}
+              selectedCardClassName="bg-white"
+            />
+          </div>
 
           <div className="w-full px-2 max-w-[360px] mx-auto">
             <PriceSummary
@@ -141,7 +102,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           <Button 
             className="bg-[#8425af] hover:bg-[#6c1e8f] text-white w-full"
             onClick={handleContinue}
-            disabled={!selectedInternet || (!isFreePlan && (!selectedDDD || !selectedDueDate))}
+            disabled={!selectedInternet || !selectedDDD || !selectedDueDate}
           >
             Continuar
           </Button>

@@ -1,3 +1,4 @@
+
 import { Tables } from "@/integrations/supabase/types";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
 
@@ -15,7 +16,7 @@ export const ProfileStats = ({ profileId }: ProfileStatsProps) => {
     <div className="grid grid-cols-2 gap-2">
       <div className="text-center">
         <p className="text-sm text-muted-foreground">Plano Atual</p>
-        <p className="font-medium">Gratuito</p>
+        <p className="font-medium">Pago</p>
       </div>
       <div className="text-center">
         <p className="text-sm text-muted-foreground">Pontos</p>
@@ -27,7 +28,7 @@ export const ProfileStats = ({ profileId }: ProfileStatsProps) => {
       </div>
       <div className="text-center">
         <p className="text-sm text-muted-foreground">Status</p>
-        <p className="font-medium capitalize">Pendente</p>
+        <p className="font-medium capitalize">Ativo</p>
       </div>
     </div>
   );

@@ -32,7 +32,6 @@ export function PlanSelectionStep({
   const { data: calendarStyle } = useCalendarStyles();
   
   const internetOptions = [
-    { value: "FREE", label: "Plano Gratuito", price: 0 },
     { value: "120GB", label: "Plano 120GB", price: 129.99 },
   ];
 
