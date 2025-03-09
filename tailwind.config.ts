@@ -43,8 +43,8 @@ export default {
         gradient: "gradient 8s linear infinite",
       },
       maxWidth: {
-        'sm': '384px', // Increased from default 24rem (384px)
-        'custom': '400px' // Adding custom max-width
+        'sm': '384px',
+        'custom': '380px'
       }
     },
   },
