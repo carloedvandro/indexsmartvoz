@@ -25,7 +25,7 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
             <FormLabel className="text-sm">Senha</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#660099] h-3.5 w-3.5" />
                 <Input 
                   type={showPassword ? "text" : "password"} 
                   {...field} 
@@ -39,9 +39,9 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeOff className="h-3.5 w-3.5 text-[#5f0889]" />
+                    <EyeOff className="h-3.5 w-3.5 text-[#660099]" />
                   ) : (
-                    <Eye className="h-3.5 w-3.5 text-[#5f0889]" />
+                    <Eye className="h-3.5 w-3.5 text-[#660099]" />
                   )}
                 </Button>
               </div>
@@ -59,7 +59,7 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
             <FormLabel className="text-sm">Confirmar Senha</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#660099] h-3.5 w-3.5" />
                 <Input 
                   type={showPasswordConfirmation ? "text" : "password"} 
                   {...field} 
@@ -73,9 +73,9 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
                   onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
                 >
                   {showPasswordConfirmation ? (
-                    <EyeOff className="h-3.5 w-3.5 text-[#5f0889]" />
+                    <EyeOff className="h-3.5 w-3.5 text-[#660099]" />
                   ) : (
-                    <Eye className="h-3.5 w-3.5 text-[#5f0889]" />
+                    <Eye className="h-3.5 w-3.5 text-[#660099]" />
                   )}
                 </Button>
               </div>
