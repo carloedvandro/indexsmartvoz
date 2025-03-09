@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { useZxing } from "react-zxing";
 
@@ -166,7 +167,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         <div className="relative">
           <video
             ref={videoRef}
-            className="w-[350px] h-[120px] object-cover rounded-lg"
+            className="w-[352px] h-[120px] object-cover rounded-lg"
           />
           <div className="absolute inset-0 border-2 border-[#8425af] rounded-lg">
             <div className="absolute top-0 left-0 right-0 bg-white/80 text-center py-2 rounded-t-lg font-medium text-sm">

@@ -10,7 +10,7 @@ interface BarcodeScannerProps {
 
 export function BarcodeScannerComponent({ selectedLines, onStartScanning }: BarcodeScannerProps) {
   return (
-    <div className="flex flex-col items-center w-full max-w-[410px] mx-auto">
+    <div className="flex flex-col items-center w-full max-w-[412px] mx-auto">
       <h2 className="text-lg font-semibold text-center mb-6 max-w-[310px]">Escaneie o código de barra do chip</h2>
       
       <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-2 w-full">
