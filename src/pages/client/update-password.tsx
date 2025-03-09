@@ -75,8 +75,8 @@ export default function UpdatePassword() {
               Nova Senha
             </label>
             <div className="relative overflow-hidden rounded-md">
-              <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180]" />
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-4 w-4" />
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#5f0889]" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-4 w-4" />
               <Input
                 id="password"
                 type="password"
@@ -92,7 +92,7 @@ export default function UpdatePassword() {
 
           <RainbowButton
             type="submit"
-            className="w-full !bg-[#580180] hover:!bg-[#4a0668]"
+            className="w-full !bg-[#5f0889] hover:!bg-[#5f0889]/90"
             disabled={loading}
           >
             {loading ? "Atualizando..." : "Atualizar Senha"}

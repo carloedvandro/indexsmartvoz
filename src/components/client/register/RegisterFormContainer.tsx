@@ -78,7 +78,7 @@ export const RegisterFormContainer = () => {
           <Button
             type="button"
             variant="outline"
-            className="w-full border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
+            className="w-full border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white"
             onClick={handleBack}
             disabled={isSubmitting}
           >
@@ -87,7 +87,7 @@ export const RegisterFormContainer = () => {
           
           <Button 
             type="submit"
-            className="w-full bg-[#8425af] hover:bg-[#6c1e8f] text-white"
+            className="w-full bg-[#5f0889] hover:bg-[#5f0889]/90 text-white"
             disabled={isSubmitting}
           >
             {isSubmitting ? (

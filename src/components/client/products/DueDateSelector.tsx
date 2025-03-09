@@ -38,8 +38,8 @@ export function DueDateSelector({
                   key={date}
                   className={`cursor-pointer transition-all duration-200 h-8 flex items-center justify-center shadow-none relative overflow-hidden
                     ${selectedDueDate === date 
-                      ? `ring-2 ring-[#580180] ring-offset-0 border-none ${selectedCardClassName || ''} before:absolute before:inset-[1px] before:border before:border-[#580180] before:rounded-[7px]`
-                      : 'border border-[#580180] hover:border-[#580180]'
+                      ? `ring-2 ring-[#5f0889] ring-offset-0 border-none ${selectedCardClassName || ''} before:absolute before:inset-[1px] before:border before:border-[#5f0889] before:rounded-[7px]`
+                      : 'border border-[#5f0889] hover:border-[#5f0889]'
                     }`}
                   style={{
                     borderRadius: calendarStyle?.border_radius || '8px',
@@ -47,11 +47,11 @@ export function DueDateSelector({
                   onClick={() => setSelectedDueDate(date)}
                 >
                   {selectedDueDate === date && (
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180] rounded-tl-md rounded-bl-md" />
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#5f0889] rounded-tl-md rounded-bl-md" />
                   )}
                   <CardContent className="flex items-center justify-center h-full p-0">
                     <span 
-                      className={`font-medium ${selectedDueDate === date ? 'text-[#580180]' : ''}`}
+                      className={`font-medium ${selectedDueDate === date ? 'text-[#5f0889]' : ''}`}
                       style={{
                         fontSize: calendarStyle?.date_font_size || '14px'
                       }}

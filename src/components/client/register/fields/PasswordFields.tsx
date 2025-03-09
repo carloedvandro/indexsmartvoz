@@ -16,7 +16,7 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
   const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <div className="grid grid-cols-2 gap-3">
       <FormField
         control={form.control}
         name="password"
@@ -24,13 +24,12 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">Senha</FormLabel>
             <FormControl>
-              <div className="relative overflow-hidden rounded-md">
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180]" />
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-3.5 w-3.5" />
+              <div className="relative rounded-md">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
                 <Input 
                   type={showPassword ? "text" : "password"} 
                   {...field} 
-                  className="pl-9 text-sm h-8 pt-[3px] border-l-0 rounded-none"
+                  className="pl-9 text-sm h-8 pt-[3px] rounded-md"
                 />
                 <Button
                   type="button"
@@ -40,9 +39,9 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeOff className="h-3.5 w-3.5 text-[#580180]" />
+                    <EyeOff className="h-3.5 w-3.5 text-[#5f0889]" />
                   ) : (
-                    <Eye className="h-3.5 w-3.5 text-[#580180]" />
+                    <Eye className="h-3.5 w-3.5 text-[#5f0889]" />
                   )}
                 </Button>
               </div>
@@ -59,13 +58,12 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">Confirmar Senha</FormLabel>
             <FormControl>
-              <div className="relative overflow-hidden rounded-md">
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180]" />
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-3.5 w-3.5" />
+              <div className="relative rounded-md">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
                 <Input 
                   type={showPasswordConfirmation ? "text" : "password"} 
                   {...field} 
-                  className="pl-9 text-sm h-8 pt-[3px] border-l-0 rounded-none"
+                  className="pl-9 text-sm h-8 pt-[3px] rounded-md"
                 />
                 <Button
                   type="button"
@@ -75,9 +73,9 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
                   onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
                 >
                   {showPasswordConfirmation ? (
-                    <EyeOff className="h-3.5 w-3.5 text-[#580180]" />
+                    <EyeOff className="h-3.5 w-3.5 text-[#5f0889]" />
                   ) : (
-                    <Eye className="h-3.5 w-3.5 text-[#580180]" />
+                    <Eye className="h-3.5 w-3.5 text-[#5f0889]" />
                   )}
                 </Button>
               </div>
