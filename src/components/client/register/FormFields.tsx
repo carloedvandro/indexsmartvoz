@@ -17,24 +17,26 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
     <div className="space-y-4 w-full">
       <PersonalInfoFields form={form} />
       
-      {/* Phone fields side by side through ContactFields component */}
+      {/* Contact fields side by side */}
       <ContactFields form={form} />
       
       <PasswordFields form={form} />
       
-      <FormField
-        control={form.control}
-        name="sponsorCustomId"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="text-sm">ID Personalizado do Patrocinador</FormLabel>
-            <FormControl>
-              <Input {...field} disabled={disableSponsor} className="bg-transparent text-sm h-9 pt-[3px] rounded-md" />
-            </FormControl>
-            <FormMessage className="text-xs" />
-          </FormItem>
-        )}
-      />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="sponsorCustomId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-sm">ID Personalizado do Patrocinador</FormLabel>
+              <FormControl>
+                <Input {...field} disabled={disableSponsor} className="bg-transparent text-sm h-9 pt-[3px] rounded-md" />
+              </FormControl>
+              <FormMessage className="text-xs" />
+            </FormItem>
+          )}
+        />
+      </div>
     </div>
   );
 };
