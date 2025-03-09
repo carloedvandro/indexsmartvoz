@@ -45,7 +45,7 @@ export default function ResetPassword() {
         animate="visible"
         variants={containerVariants}
       >
-        <div className="w-full max-w-[350px] space-y-6">
+        <div className="w-full max-w-[400px] space-y-6">
           <div className="flex flex-col space-y-2 text-center">
             <div className="-mt-10 flex justify-center">
               <img 
@@ -70,7 +70,7 @@ export default function ResetPassword() {
                   placeholder="seu@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 bg-transparent border-l-0 rounded-none"
+                  className="pl-10 bg-transparent border-l-0 rounded-none w-full pr-2"
                   required
                 />
               </div>

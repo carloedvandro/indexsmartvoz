@@ -16,7 +16,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
   });
 
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
       <FormField
         control={form.control}
         name="whatsapp"
@@ -31,7 +31,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
                   {...field} 
                   type="text"
                   placeholder="(00) 00000-0000" 
-                  className="pl-9 text-sm h-8 pt-[3px] border-l-0 rounded-none"
+                  className="pl-9 text-sm h-8 pt-[3px] border-l-0 rounded-none w-full pr-2"
                 />
               </div>
             </FormControl>
@@ -54,7 +54,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
                   {...field} 
                   type="text"
                   placeholder="(00) 00000-0000"
-                  className="pl-9 text-sm h-8 pt-[3px] border-l-0 rounded-none"
+                  className="pl-9 text-sm h-8 pt-[3px] border-l-0 rounded-none w-full pr-2"
                   onChange={(e) => {
                     const value = e.target.value;
                     if (value === primaryWhatsapp) {

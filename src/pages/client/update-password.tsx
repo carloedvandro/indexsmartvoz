@@ -60,7 +60,7 @@ export default function UpdatePassword() {
 
   return (
     <div className="container relative min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-[350px] space-y-6">
+      <div className="w-full max-w-[400px] space-y-6">
         <div className="flex flex-col space-y-2 text-center">
           <h1 className="text-5xl tracking-tighter font-black bg-gradient-to-r from-color-1 via-color-2 to-color-3 bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:200%_auto] -mt-16 mb-12">
             Smartvoz
@@ -83,7 +83,7 @@ export default function UpdatePassword() {
                 placeholder="Digite sua nova senha"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="pl-10 border-l-0 rounded-none"
+                className="pl-10 border-l-0 rounded-none w-full pr-2"
                 required
                 minLength={6}
               />
