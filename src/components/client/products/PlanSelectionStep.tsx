@@ -87,7 +87,7 @@ export function PlanSelectionStep({
                      selectedDueDate !== null;
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-6 max-w-[340px] mx-auto w-full px-2">
+    <div className="flex flex-col items-center justify-center space-y-6 max-w-[340px] mx-auto w-full px-2 py-5">
       <PlanSelectionHeader variants={itemVariants} />
 
       <div className="space-y-5 w-full">

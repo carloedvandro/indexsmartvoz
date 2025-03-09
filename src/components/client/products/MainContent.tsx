@@ -37,9 +37,7 @@ export function MainContent({
   });
 
   const handleBackNavigation = () => {
-    if (currentStep > 1) {
-      handleBack();
-    }
+    handleBack();
   };
 
   const renderStep = () => {
