@@ -87,14 +87,15 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       <motion.div className="space-y-2" variants={itemVariants}>
         <Label htmlFor="email">Email</Label>
         <div className="relative">
-          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
+          <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180] rounded-tl-md rounded-bl-md" />
+          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-4 w-4" />
           <Input
             id="email"
             type="email"
             placeholder="seu@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="pl-10 bg-transparent"
+            className="pl-10 bg-transparent border-l-0"
             required
           />
         </div>
@@ -103,14 +104,15 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       <motion.div className="space-y-2" variants={itemVariants}>
         <Label htmlFor="password">Senha</Label>
         <div className="relative">
-          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
+          <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180] rounded-tl-md rounded-bl-md" />
+          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-4 w-4" />
           <Input
             id="password"
             type={showPassword ? "text" : "password"}
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="pl-10 bg-transparent"
+            className="pl-10 bg-transparent border-l-0"
             required
           />
           <button
@@ -119,9 +121,9 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
           >
             {showPassword ? (
-              <EyeOff className="h-4 w-4" />
+              <EyeOff className="h-4 w-4 text-[#580180]" />
             ) : (
-              <Eye className="h-4 w-4" />
+              <Eye className="h-4 w-4 text-[#580180]" />
             )}
           </button>
         </div>

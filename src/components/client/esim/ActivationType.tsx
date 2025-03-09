@@ -27,7 +27,7 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
               type="radio"
               name="type"
               id="self"
-              className="mt-1 accent-[#8425af]"
+              className="mt-1 accent-[#580180]"
               checked
               readOnly
             />
@@ -46,7 +46,7 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
       <div className="flex justify-between mt-8">
         <Button 
           variant="outline"
-          className="w-[120px] border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg py-3"
+          className="w-[120px] border border-[#8425af] text-[#580180] hover:bg-[#8425af] hover:text-white rounded-lg py-3"
           onClick={onBack}
         >
           Voltar
