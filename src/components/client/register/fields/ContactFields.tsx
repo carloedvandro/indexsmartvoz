@@ -3,7 +3,7 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
-import { PhoneModel } from "@/components/3d/PhoneModel";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
 interface ContactFieldsProps {
   form: UseFormReturn<RegisterFormData>;
@@ -25,8 +25,8 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">WhatsApp</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-4 w-4">
-                  <PhoneModel />
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4">
+                  <WhatsAppIcon />
                 </div>
                 <Input 
                   {...field} 
@@ -49,8 +49,8 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">Segundo Contato</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-4 w-4">
-                  <PhoneModel />
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4">
+                  <WhatsAppIcon />
                 </div>
                 <Input 
                   {...field} 
