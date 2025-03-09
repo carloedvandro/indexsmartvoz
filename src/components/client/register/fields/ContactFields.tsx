@@ -3,7 +3,7 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
-import { Phone } from "lucide-react";
+import { Phone, SignalHigh } from "lucide-react";
 
 interface ContactFieldsProps {
   form: UseFormReturn<RegisterFormData>;
@@ -25,7 +25,8 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">WhatsApp</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5 animate-spin-slow" />
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
+                <SignalHigh className="absolute left-6 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5 animate-pulse" />
                 <Input 
                   {...field} 
                   type="text"
@@ -47,7 +48,8 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
             <FormLabel className="text-sm">Segundo Contato</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5 animate-spin-slow" />
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
+                <SignalHigh className="absolute left-6 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5 animate-pulse" />
                 <Input 
                   {...field} 
                   type="text"
