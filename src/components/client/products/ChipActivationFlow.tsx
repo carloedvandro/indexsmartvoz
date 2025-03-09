@@ -91,16 +91,16 @@ export function ChipActivationFlow({
                   selectedLines={selectedLines}
                   onStartScanning={onStartScanning}
                 />
-                <div className="flex justify-between w-full">
+                <div className="flex justify-between w-full gap-4">
                   <Button 
                     variant="outline" 
-                    className="bg-white border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-4 h-[42px] flex items-center"
+                    className="bg-white border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-4 h-[42px] flex-1 items-center"
                     onClick={onBack}
                   >
                     Voltar
                   </Button>
                   <Button 
-                    className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-4 h-[42px] flex items-center"
+                    className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-4 h-[42px] flex-1 items-center"
                     onClick={onContinue}
                     disabled={!allBarcodesScanned}
                   >
