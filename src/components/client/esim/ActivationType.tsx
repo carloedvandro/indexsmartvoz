@@ -43,7 +43,7 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
         </div>
       </div>
 
-      <div className="flex justify-between gap-4 mt-8">
+      <div className="flex justify-between mt-8 gap-4">
         <Button 
           variant="outline"
           className="flex-1 border border-[#8425af] text-[#580180] hover:bg-[#8425af] hover:text-white rounded-lg py-3"
