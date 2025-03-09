@@ -67,8 +67,7 @@ export const RegisterFormContainer = () => {
   };
 
   const handleBack = () => {
-    // Navigate to the login page instead of using the browser history
-    navigate("/client/login");
+    navigate(-1);
   };
 
   return (
@@ -79,7 +78,7 @@ export const RegisterFormContainer = () => {
           <Button
             type="button"
             variant="outline"
-            className="w-full border-[#660099] text-[#660099] hover:bg-[#660099] hover:text-white"
+            className="w-full border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white"
             onClick={handleBack}
             disabled={isSubmitting}
           >
@@ -88,7 +87,7 @@ export const RegisterFormContainer = () => {
           
           <Button 
             type="submit"
-            className="w-full bg-[#660099] hover:bg-[#660099]/90 text-white"
+            className="w-full bg-[#5f0889] hover:bg-[#5f0889]/90 text-white"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
