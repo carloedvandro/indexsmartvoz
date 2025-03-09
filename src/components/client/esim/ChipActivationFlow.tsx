@@ -1,4 +1,3 @@
-
 import { ActivationType } from "./ActivationType";
 import { DeviceSelector } from "./DeviceSelector";
 import { IMEIForm } from "./IMEIForm";
@@ -7,7 +6,6 @@ import { SuccessScreen } from "./SuccessScreen";
 import { StepIndicator } from "./StepIndicator";
 import { PlanSelectionStep } from "./PlanSelectionStep";
 import { ESIMActivation } from "@/services/esim/esimActivationService";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 type ESIMActivationFlowProps = {
   currentStep: number;
@@ -82,7 +80,6 @@ export function ESIMActivationFlow({
 
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-start pt-20 gap-12 overflow-hidden scrollbar-hide">
-      <ParticlesBackground />
       <StepIndicator currentStep={getCurrentStepId()} />
       {renderCurrentStep()}
     </main>
