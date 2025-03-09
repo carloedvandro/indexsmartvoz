@@ -4,7 +4,7 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
-import { Eye, EyeOff, Lock } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface PasswordFieldsProps {
@@ -25,7 +25,11 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
             <FormLabel className="text-sm">Senha</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
+                <img 
+                  src="/lovable-uploads/8c5d0ebe-7db8-46e8-85e9-c8e7936ed4cd.png" 
+                  alt="Lock" 
+                  className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4"
+                />
                 <Input 
                   type={showPassword ? "text" : "password"} 
                   {...field} 
@@ -59,7 +63,11 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
             <FormLabel className="text-sm">Confirmar Senha</FormLabel>
             <FormControl>
               <div className="relative rounded-md">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f0889] h-3.5 w-3.5" />
+                <img 
+                  src="/lovable-uploads/8c5d0ebe-7db8-46e8-85e9-c8e7936ed4cd.png" 
+                  alt="Lock" 
+                  className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4"
+                />
                 <Input 
                   type={showPasswordConfirmation ? "text" : "password"} 
                   {...field} 
