@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Database, Filter } from "lucide-react";
@@ -69,79 +68,77 @@ export default function InventoryReports() {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
-        <div className="border rounded-lg bg-white p-6 shadow-sm w-full md:w-[540px] mx-auto mb-6">
-          <div className="flex items-center gap-2 mb-4">
-            <Filter className="w-5 h-5 text-[#5f0889]" />
-            <span className="text-base font-medium text-[#5f0889]">Filtros</span>
+        <div className="flex items-center gap-2 mb-4">
+          <Filter className="w-5 h-5 text-[#5f0889]" />
+          <span className="text-base font-medium text-[#5f0889]">Filtros</span>
+        </div>
+        
+        <div className="flex flex-row justify-between gap-4 mb-6">
+          <div className="w-full md:w-[200px]">
+            <label className="block text-sm font-medium text-gray-900 mb-2">
+              Mês
+            </label>
+            <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
+              <SelectTrigger 
+                className="w-full bg-white text-gray-900 border-gray-300 h-10"
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="border border-gray-200 rounded-md shadow-md">
+                {months.map((month) => (
+                  <SelectItem 
+                    key={month.value} 
+                    value={month.value}
+                    className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-1.5 px-2"
+                  >
+                    {month.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           
-          <div className="flex flex-row justify-between gap-4 mb-6">
-            <div className="w-full md:w-[200px]">
-              <label className="block text-sm font-medium text-gray-900 mb-2">
-                Mês
-              </label>
-              <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
-                <SelectTrigger 
-                  className="w-full bg-white text-gray-900 border-gray-300 h-10"
-                >
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="border border-gray-200 rounded-md shadow-md">
-                  {months.map((month) => (
-                    <SelectItem 
-                      key={month.value} 
-                      value={month.value}
-                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-1.5 px-2"
-                    >
-                      {month.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div className="w-full md:w-[200px]">
-              <label className="block text-sm font-medium text-gray-900 mb-2">
-                Ano
-              </label>
-              <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
-                <SelectTrigger 
-                  className="w-full bg-white text-gray-900 border-gray-300 h-10"
-                >
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="border border-gray-200 rounded-md shadow-md">
-                  {years.map((year) => (
-                    <SelectItem 
-                      key={year.value} 
-                      value={year.value}
-                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-1.5 px-2"
-                    >
-                      {year.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-          
-          <div className="flex flex-row gap-4 justify-between w-full">
-            <button 
-              onClick={handleBack}
-              className="border border-[#5f0889] text-[#5f0889] h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-full px-4"
-            >
-              Voltar
-            </button>
-            
-            <button 
-              className="bg-[#5f0889] text-white h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors w-full px-4"
-            >
-              Filtrar
-            </button>
+          <div className="w-full md:w-[200px]">
+            <label className="block text-sm font-medium text-gray-900 mb-2">
+              Ano
+            </label>
+            <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
+              <SelectTrigger 
+                className="w-full bg-white text-gray-900 border-gray-300 h-10"
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="border border-gray-200 rounded-md shadow-md">
+                {years.map((year) => (
+                  <SelectItem 
+                    key={year.value} 
+                    value={year.value}
+                    className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-1.5 px-2"
+                  >
+                    {year.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
         
-        <div className="bg-white border rounded-lg overflow-hidden w-full md:w-[540px] mx-auto mb-4">
+        <div className="flex flex-row gap-4 justify-between w-full">
+          <button 
+            onClick={handleBack}
+            className="border border-[#5f0889] text-[#5f0889] h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-full px-4"
+          >
+            Voltar
+          </button>
+          
+          <button 
+            className="bg-[#5f0889] text-white h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors w-full px-4"
+          >
+            Filtrar
+          </button>
+        </div>
+        
+        <div className="bg-white border rounded-lg overflow-hidden w-full md:w-[540px] mx-auto mb-4 mt-6">
           <div className="flex items-center gap-3 p-4 bg-[#5f0889]/10 border-b border-gray-200">
             <Database className="w-5 h-5 text-[#5f0889]" />
             <h3 className="font-medium text-[#5f0889]">Resumo do Estoque</h3>
