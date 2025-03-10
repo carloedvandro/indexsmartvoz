@@ -49,7 +49,14 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   return (
     <div className="max-w-[340px] mx-auto w-full pt-5">
       <div className="space-y-7">
-        <div className="space-y-3">
+        <div className="space-y-3 text-center">
+          <div className="w-full flex justify-center mb-4">
+            <img 
+              src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 
+              alt="Smartvoz Logo" 
+              className="h-16 object-contain"
+            />
+          </div>
           <h2 className="text-xl font-medium text-center text-[#8425af]">Personalize seu pedido</h2>
           <p className="text-gray-600 text-center text-lg max-w-[340px] mx-auto">
             Veja as ofertas exclusivas disponíveis para clientes Smatvoz.
