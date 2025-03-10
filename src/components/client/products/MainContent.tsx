@@ -38,6 +38,20 @@ export function MainContent({
     handleContinue 
   });
 
+  // Check if continue button should be disabled
+  const isContinueDisabled = () => {
+    if (currentStep === 1) {
+      // Only enable if internet plan, DDD and due date are selected
+      return !selectedLines[0]?.internet || !selectedLines[0]?.ddd || !selectedDueDate;
+    }
+    
+    if (currentStep === 3) {
+      return !acceptedTerms;
+    }
+    
+    return false;
+  };
+
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { 
@@ -97,6 +111,7 @@ export function MainContent({
                 currentStep={currentStep}
                 handleBack={handleBack}
                 handleContinue={validateAndContinue}
+                disabled={isContinueDisabled()}
               />
             </motion.div>
           </CardContent>

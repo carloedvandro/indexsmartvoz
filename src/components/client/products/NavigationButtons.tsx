@@ -6,12 +6,14 @@ interface NavigationButtonsProps {
   currentStep: number;
   handleBack: () => void;
   handleContinue: () => void;
+  disabled?: boolean;
 }
 
 export function NavigationButtons({ 
   currentStep, 
   handleBack, 
-  handleContinue 
+  handleContinue,
+  disabled = false
 }: NavigationButtonsProps) {
   const navigate = useNavigate();
 
@@ -27,6 +29,7 @@ export function NavigationButtons({
       <Button 
         className="bg-[#8425af] hover:bg-[#6c1e8f] text-white flex-1"
         onClick={handleContinue}
+        disabled={disabled}
       >
         {currentStep === 3 ? 'Continuar' : 'Continuar'}
       </Button>
