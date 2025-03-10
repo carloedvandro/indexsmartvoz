@@ -1,6 +1,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useZxing } from "react-zxing";
+import { X } from "lucide-react";
 
 interface BarcodeScannerProps {
   onResult: (result: string) => void;
@@ -147,27 +148,15 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         <button
           onClick={onClose}
           className="absolute -top-2 -right-2 bg-white rounded-full p-1 shadow-lg z-10"
+          aria-label="Fechar scanner"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-5 h-5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+          <X className="w-5 h-5" />
         </button>
 
         <div className="relative">
           <video
             ref={videoRef}
-            className="w-[354px] h-[120px] object-cover rounded-lg"
+            className="w-[354px] h-[220px] object-cover rounded-lg"
           />
           <div className="absolute inset-0 border-2 border-[#8425af] rounded-lg">
             <div className="absolute top-0 left-0 right-0 bg-white/80 text-center py-2 rounded-t-lg font-medium text-sm">
