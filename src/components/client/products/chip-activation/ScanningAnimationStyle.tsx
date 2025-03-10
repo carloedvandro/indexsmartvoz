@@ -3,7 +3,7 @@ import React from 'react';
 
 export function ScanningAnimationStyle() {
   return (
-    <style jsx global>{`
+    <style dangerouslySetInnerHTML={{ __html: `
       @keyframes scan-line {
         0%, 100% {
           top: 20%;
@@ -16,6 +16,6 @@ export function ScanningAnimationStyle() {
       .animate-scan-line {
         animation: scan-line 1.5s ease-in-out infinite;
       }
-    `}</style>
+    `}} />
   );
 }
