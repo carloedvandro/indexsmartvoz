@@ -90,9 +90,6 @@ export function PlanSelectionStep({
           />
         </div>
         <h2 className="text-xl font-medium text-[#8425af]">Personalize seu pedido</h2>
-        <p className="text-gray-600 max-w-[340px] mx-auto">
-          Oferta exclusiva para cliente Smatvoz.
-        </p>
       </motion.div>
 
       <div className="space-y-4 w-full">
