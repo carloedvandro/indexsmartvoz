@@ -15,7 +15,7 @@ interface OrderReviewStepProps {
 
 export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
   return (
-    <div className="space-y-6 mt-[-60px]">
+    <div className="space-y-6">
       <div className="w-full flex justify-center mb-4">
         <img 
           src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 

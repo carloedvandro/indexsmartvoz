@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { InternetSelector } from "@/components/client/products/InternetSelector";
@@ -47,7 +46,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   };
 
   return (
-    <div className="max-w-[340px] mx-auto w-full pt-5 mt-[-60px]">
+    <div className="max-w-[340px] mx-auto w-full pt-5">
       <div className="space-y-7">
         <div className="space-y-3 text-center">
           <div className="w-full flex justify-center mb-4">
