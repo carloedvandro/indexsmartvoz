@@ -1,3 +1,4 @@
+
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
@@ -20,7 +21,7 @@ export function OtherTab({ register, setValue, watch }) {
           <SelectTrigger>
             <SelectValue placeholder="Selecione" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-gray-50">
             <SelectItem value="pending">Pendente</SelectItem>
             <SelectItem value="active">Ativo</SelectItem>
             <SelectItem value="blocked">Bloqueado</SelectItem>

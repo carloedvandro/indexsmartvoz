@@ -31,14 +31,14 @@ export function InternetSelector({
         <SelectTrigger className="bg-white h-[40px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] focus:border-[#8425af] text-sm w-full">
           <SelectValue placeholder="Escolher o plano" />
         </SelectTrigger>
-        <SelectContent position="popper" className="bg-white max-h-[179px] overflow-y-auto w-full">
+        <SelectContent position="popper" className="bg-gray-50 max-h-[179px] overflow-y-auto w-full">
           {internetOptions.map((option) => (
             <SelectItem 
               key={option.value} 
               value={option.value}
-              className="cursor-pointer py-1.5 px-2 bg-white hover:bg-white focus:bg-white focus:text-[#8425af] data-[state=checked]:bg-white data-[state=checked]:text-[#8425af]"
+              className="cursor-pointer py-1.5 px-2"
             >
-              {option.label}
+              <span className="text-[#8425af] data-[state=checked]:font-medium">{option.label}</span>
             </SelectItem>
           ))}
         </SelectContent>

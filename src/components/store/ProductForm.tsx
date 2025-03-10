@@ -61,7 +61,7 @@ export function ProductForm({ selectedProduct, isLoading, onSubmit }: ProductFor
               <SelectTrigger>
                 <SelectValue placeholder="Selecione um plano (opcional)" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-gray-50">
                 {plans.map((plan) => (
                   <SelectItem key={plan.id} value={plan.id}>
                     {plan.name} - {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(plan.price)}

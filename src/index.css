@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -123,43 +124,44 @@ select,
 }
 
 .select-content {
-  background-color: white !important;
+  background-color: #f5f5f5 !important;
   z-index: 50;
 }
 
 [role="option"] {
   min-height: 28px !important;
   padding: 6px 8px !important;
-  background-color: white !important;
+  background-color: #f5f5f5 !important;
   margin-bottom: 1px !important;
   border-radius: 2px !important;
 }
 
 [role="option"]:hover,
 [role="option"]:focus {
-  background-color: white !important;
+  background-color: #eaeaea !important;
   color: inherit !important;
 }
 
 [role="option"][data-highlighted] {
-  background-color: white !important;
+  background-color: #eaeaea !important;
   color: inherit !important;
 }
 
 [role="option"][data-state="checked"],
 [role="option"][aria-selected="true"] {
-  background-color: white !important;
+  background-color: #f5f5f5 !important;
   color: #8425af !important;
 }
 
 [role="option"]:active,
 [role="option"]:focus {
-  background-color: white !important;
+  background-color: #eaeaea !important;
 }
 
 [data-radix-select-viewport] {
   overflow-y: auto !important;
   padding: 4px !important;
+  background-color: #f5f5f5 !important;
 }
 
 .select-scroll-button {

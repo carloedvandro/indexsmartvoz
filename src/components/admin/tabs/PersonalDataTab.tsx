@@ -1,3 +1,4 @@
+
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
@@ -32,7 +33,7 @@ export function PersonalDataTab({ register, setValue, watch, readOnly = false })
           <SelectTrigger>
             <SelectValue placeholder="Selecione" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-gray-50">
             <SelectItem value="pf">Pessoa Física</SelectItem>
             <SelectItem value="pj">Pessoa Jurídica</SelectItem>
           </SelectContent>
