@@ -11,7 +11,15 @@ interface BarcodeScannerProps {
 export function BarcodeScannerComponent({ selectedLines, onStartScanning }: BarcodeScannerProps) {
   return (
     <div className="flex flex-col items-center w-full max-w-[414px] mx-auto">
-      <h2 className="text-lg font-semibold text-center mb-6 max-w-[310px]">Escaneie o código de barra do chip</h2>
+      <div className="w-full flex justify-center mb-4">
+        <img 
+          src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 
+          alt="Smartvoz Logo" 
+          className="h-16 object-contain"
+        />
+      </div>
+      
+      <h2 className="text-lg font-semibold text-center mb-6 max-w-[310px] text-[#8425af]">Escaneie o código de barra do chip</h2>
       
       <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-2 w-full">
         <Info size={16} className="text-blue-500 mt-0.5 flex-shrink-0" />

@@ -1,3 +1,4 @@
+
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface ContractTermsStepProps {
@@ -8,8 +9,16 @@ interface ContractTermsStepProps {
 export function ContractTermsStep({ acceptedTerms, onTermsChange }: ContractTermsStepProps) {
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold mb-4">Termos de contrato</h2>
+      <div className="w-full flex justify-center mb-4">
+        <img 
+          src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 
+          alt="Smartvoz Logo" 
+          className="h-16 object-contain"
+        />
+      </div>
+      
+      <div className="text-center">
+        <h2 className="text-xl font-medium text-[#8425af] mb-4">Termos de contrato</h2>
         <p className="text-gray-600 mb-4">
           Ao concluir a solicitação, você confirma que todos os dados são verdadeiros e estão em perfeita
           conformidade com os termos a seguir:
