@@ -54,7 +54,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             <img 
               src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 
               alt="Smartvoz Logo" 
-              className="h-16 object-contain"
+              className="h-[200px] object-contain"
             />
           </div>
           <h2 className="text-xl font-medium text-center text-[#8425af]">Personalize seu pedido</h2>
