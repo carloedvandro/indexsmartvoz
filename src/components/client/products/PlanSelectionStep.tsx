@@ -32,7 +32,7 @@ export function PlanSelectionStep({
   const { data: calendarStyle } = useCalendarStyles();
   
   const internetOptions = [
-    { value: "120GB", label: "Plano 120GB", price: 129.99 },
+    { value: "120GB", label: "Plano 120GB", price: 119.99 },
   ];
 
   useState(() => {
