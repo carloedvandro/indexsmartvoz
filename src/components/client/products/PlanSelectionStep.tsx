@@ -78,7 +78,7 @@ export function PlanSelectionStep({
   };
 
   return (
-    <div className="space-y-6 -mt-[0px] pt-5 max-w-[344px] mx-auto w-full">
+    <div className="space-y-6 pt-5 max-w-[344px] mx-auto w-full">
       <motion.div 
         className="space-y-3 max-w-[340px] mx-auto text-center"
         variants={itemVariants}
@@ -93,7 +93,7 @@ export function PlanSelectionStep({
         <h2 className="text-xl font-medium text-[#8425af]">Personalize seu pedido</h2>
       </motion.div>
 
-      <div className="space-y-4 w-full">
+      <div className="space-y-4 w-full px-1">
         <motion.div 
           className="grid grid-cols-2 gap-3"
           variants={itemVariants}
