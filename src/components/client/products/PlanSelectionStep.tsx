@@ -79,13 +79,6 @@ export function PlanSelectionStep({
 
   return (
     <div className="space-y-6 -mt-[15px] max-w-[344px] mx-auto w-full">
-      <div className="flex justify-center mb-4">
-        <img 
-          src="/lovable-uploads/17e9a31f-bc88-4247-81c6-3a0f5059c867.png" 
-          alt="Smartvoz Logo" 
-          className="h-10 w-auto"
-        />
-      </div>
       <PlanSelectionHeader variants={itemVariants} />
 
       <div className="space-y-4 w-full">
