@@ -46,9 +46,6 @@ export function DueDateSelector({
                   }}
                   onClick={() => setSelectedDueDate(date)}
                 >
-                  {selectedDueDate === date && (
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180] rounded-tl-md rounded-bl-md" />
-                  )}
                   <CardContent className="flex items-center justify-center h-full p-0">
                     <span 
                       className={`font-medium ${selectedDueDate === date ? 'text-[#580180]' : ''}`}
@@ -68,3 +65,4 @@ export function DueDateSelector({
     </div>
   );
 };
+

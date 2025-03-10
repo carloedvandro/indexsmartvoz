@@ -66,9 +66,6 @@ export function ProductCard({
 
   return (
     <Card className="overflow-hidden relative">
-      {/* Adicionando uma linha de cor ao lado esquerdo do card */}
-      <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#580180]" />
-      
       {product.image_url && (
         <div className="aspect-video w-full overflow-hidden">
           <img
@@ -112,3 +109,4 @@ export function ProductCard({
     </Card>
   );
 }
+
