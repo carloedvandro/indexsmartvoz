@@ -26,7 +26,6 @@ export function PlanSelectionHeader({ variants }: PlanSelectionHeaderProps) {
           className="h-[140px] object-contain mix-blend-multiply opacity-90 contrast-125"
         />
       </div>
-      <h2 className="text-xl font-medium text-[#8425af]">Personalize seu pedido</h2>
     </motion.div>
   );
 }
