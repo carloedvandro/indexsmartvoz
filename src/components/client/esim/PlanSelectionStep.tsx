@@ -51,7 +51,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
       <div className="space-y-7">
         <div className="space-y-2">
           <h2 className="text-xl font-medium text-center">Personalize seu pedido</h2>
-          <p className="text-gray-600 text-center text-lg max-w-[280px] mx-auto">
+          <p className="text-gray-600 text-center text-lg max-w-[340px] mx-auto">
             Confira aqui as melhores ofertas para você, cliente Smatvoz.
           </p>
         </div>
