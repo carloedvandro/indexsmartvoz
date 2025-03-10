@@ -20,7 +20,7 @@ export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
         <img 
           src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 
           alt="Smartvoz Logo" 
-          className="h-[140px] object-contain mix-blend-multiply"
+          className="h-[140px] object-contain mix-blend-multiply opacity-90 contrast-125"
         />
       </div>
       

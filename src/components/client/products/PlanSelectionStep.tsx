@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
@@ -87,7 +86,7 @@ export function PlanSelectionStep({
           <img 
             src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 
             alt="Smartvoz Logo" 
-            className="h-[140px] object-contain mix-blend-multiply"
+            className="h-[140px] object-contain mix-blend-multiply opacity-90 contrast-125"
           />
         </div>
         <h2 className="text-xl font-medium text-[#8425af]">Personalize seu pedido</h2>
