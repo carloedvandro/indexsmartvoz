@@ -57,6 +57,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
               className="h-[140px] object-contain mix-blend-multiply opacity-90 contrast-125"
             />
           </div>
+          <h2 className="text-xl font-medium text-center text-[#8425af]">Personalize seu pedido</h2>
         </div>
 
         <div className="space-y-4">
