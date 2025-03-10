@@ -6,7 +6,7 @@ export function ScanningAnimationStyle() {
     if (!document.getElementById('scan-line-animation')) {
       const style = document.createElement('style');
       style.id = 'scan-line-animation';
-      style.innerHTML = `
+      style.textContent = `
         @keyframes scan-line {
           0% {
             top: 20%;

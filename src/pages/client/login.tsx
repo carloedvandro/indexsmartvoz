@@ -22,6 +22,10 @@ export default function LoginPage() {
                 className="h-auto w-[240px]"
               />
             </div>
+            <div className="mt-4 space-y-1">
+              <h2 className="text-2xl font-normal text-gray-700">Bem-vindo.</h2>
+              <h3 className="text-3xl font-bold text-gray-900">Faça seu login.</h3>
+            </div>
           </div>
           <LoginForm containerVariants={containerVariants} itemVariants={itemVariants} />
           <RegisterLink itemVariants={itemVariants} />
