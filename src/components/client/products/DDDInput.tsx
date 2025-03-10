@@ -59,7 +59,7 @@ export function DDDInput({ ddd, onDDDChange, disabled = false }: DDDInputProps) 
             <SelectItem 
               key={dddOption} 
               value={dddOption}
-              className="cursor-pointer py-1.5 px-2 bg-white hover:bg-gray-100 focus:bg-white focus:text-[#8425af] data-[state=checked]:bg-white data-[state=checked]:text-[#8425af]"
+              className="cursor-pointer py-1.5 px-2 bg-white hover:bg-white focus:bg-white focus:text-[#8425af] data-[state=checked]:bg-white data-[state=checked]:text-[#8425af]"
             >
               {dddOption}
             </SelectItem>

@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -138,12 +137,12 @@ select,
 
 [role="option"]:hover,
 [role="option"]:focus {
-  background-color: #f3f4f6 !important; /* gray-100 */
+  background-color: white !important;
   color: inherit !important;
 }
 
 [role="option"][data-highlighted] {
-  background-color: #f3f4f6 !important; /* gray-100 */
+  background-color: white !important;
   color: inherit !important;
 }
 
@@ -155,7 +154,7 @@ select,
 
 [role="option"]:active,
 [role="option"]:focus {
-  background-color: #f3f4f6 !important; /* gray-100 */
+  background-color: white !important;
 }
 
 [data-radix-select-viewport] {
