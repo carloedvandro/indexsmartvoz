@@ -54,14 +54,14 @@ export function DDDInput({ ddd, onDDDChange, disabled = false }: DDDInputProps) 
         >
           <SelectValue placeholder="Selecione o DDD" />
         </SelectTrigger>
-        <SelectContent position="popper" className="bg-gray-50 max-h-[178px] overflow-y-auto w-full">
+        <SelectContent position="popper" className="bg-white max-h-[178px] overflow-y-auto w-full">
           {ddds.map((dddOption) => (
             <SelectItem 
               key={dddOption} 
               value={dddOption}
-              className="cursor-pointer py-1.5 px-2"
+              className="cursor-pointer py-1.5 px-2 bg-white hover:bg-white focus:bg-white focus:text-[#8425af] data-[state=checked]:bg-white data-[state=checked]:text-[#8425af]"
             >
-              <span className="data-[state=checked]:text-[#8425af] data-[state=checked]:font-medium">{dddOption}</span>
+              {dddOption}
             </SelectItem>
           ))}
         </SelectContent>

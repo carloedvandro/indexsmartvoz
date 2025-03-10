@@ -47,12 +47,12 @@ export function FilterSection({
             >
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-gray-50 border border-gray-200 rounded-md shadow-md z-50">
+            <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md z-50">
               {months.map((month) => (
                 <SelectItem 
                   key={month.value} 
                   value={month.value}
-                  className="cursor-pointer py-1.5 px-2"
+                  className="cursor-pointer py-1.5 px-2 bg-white hover:bg-white focus:bg-white focus:text-[#5f0889] data-[state=checked]:bg-white data-[state=checked]:text-[#5f0889]"
                 >
                   {month.label}
                 </SelectItem>
@@ -71,12 +71,12 @@ export function FilterSection({
             >
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-gray-50 border border-gray-200 rounded-md shadow-md z-50">
+            <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md z-50">
               {years.map((year) => (
                 <SelectItem 
                   key={year.value} 
                   value={year.value}
-                  className="cursor-pointer py-1.5 px-2"
+                  className="cursor-pointer py-1.5 px-2 bg-white hover:bg-white focus:bg-white focus:text-[#5f0889] data-[state=checked]:bg-white data-[state=checked]:text-[#5f0889]"
                 >
                   {year.label}
                 </SelectItem>
