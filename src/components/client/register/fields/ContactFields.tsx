@@ -3,6 +3,7 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ContactFieldsProps {
   form: UseFormReturn<RegisterFormData>;
@@ -13,9 +14,10 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
     control: form.control,
     name: "whatsapp",
   });
-
+  
+  // Always display fields side by side, even on mobile
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 gap-3">
       <FormField
         control={form.control}
         name="whatsapp"
