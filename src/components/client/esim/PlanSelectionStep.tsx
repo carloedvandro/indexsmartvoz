@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { InternetSelector } from "@/components/client/products/InternetSelector";
@@ -50,6 +49,13 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
     <div className="max-w-[340px] mx-auto w-full pt-5">
       <div className="space-y-7">
         <div className="space-y-3">
+          <div className="flex justify-center mb-4">
+            <img 
+              src="/lovable-uploads/17e9a31f-bc88-4247-81c6-3a0f5059c867.png" 
+              alt="Smartvoz Logo" 
+              className="h-10 w-auto"
+            />
+          </div>
           <h2 className="text-xl font-medium text-center text-[#8425af]">Personalize seu pedido</h2>
           <p className="text-gray-600 text-center text-lg max-w-[340px] mx-auto">
             Veja as ofertas exclusivas disponíveis para clientes Smatvoz.
