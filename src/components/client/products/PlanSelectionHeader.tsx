@@ -16,7 +16,7 @@ interface PlanSelectionHeaderProps {
 export function PlanSelectionHeader({ variants }: PlanSelectionHeaderProps) {
   return (
     <motion.div 
-      className="space-y-3 max-w-[340px] mx-auto text-center mt-[-20px]"
+      className="space-y-3 max-w-[340px] mx-auto text-center mt-[-60px]"
       variants={variants}
     >
       <div className="w-full flex justify-center mb-4">
