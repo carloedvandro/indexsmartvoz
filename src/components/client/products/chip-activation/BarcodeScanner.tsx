@@ -15,7 +15,7 @@ export function BarcodeScannerComponent({ selectedLines, onStartScanning }: Barc
         <img 
           src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 
           alt="Smartvoz Logo" 
-          className="h-[200px] object-contain"
+          className="h-[150px] object-contain"
         />
       </div>
       
