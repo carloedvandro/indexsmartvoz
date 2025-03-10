@@ -52,7 +52,7 @@ export function FilterSection({
                 <SelectItem 
                   key={month.value} 
                   value={month.value}
-                  className="cursor-pointer py-1.5 px-2 bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white selected:bg-[#5f0889] selected:text-white"
+                  className="cursor-pointer py-1.5 px-2 bg-white hover:bg-gray-100 focus:bg-white focus:text-[#5f0889] data-[state=checked]:bg-white data-[state=checked]:text-[#5f0889]"
                 >
                   {month.label}
                 </SelectItem>
@@ -76,7 +76,7 @@ export function FilterSection({
                 <SelectItem 
                   key={year.value} 
                   value={year.value}
-                  className="cursor-pointer py-1.5 px-2 bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white selected:bg-[#5f0889] selected:text-white"
+                  className="cursor-pointer py-1.5 px-2 bg-white hover:bg-gray-100 focus:bg-white focus:text-[#5f0889] data-[state=checked]:bg-white data-[state=checked]:text-[#5f0889]"
                 >
                   {year.label}
                 </SelectItem>

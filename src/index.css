@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -136,24 +137,25 @@ select,
 }
 
 [role="option"]:hover,
-[role="option"]:focus,
-[role="option"][data-highlighted],
-[role="option"][data-state="checked"],
-[role="option"][aria-selected="true"] {
-  background-color: #5f0889 !important;
-  color: white !important;
+[role="option"]:focus {
+  background-color: #f3f4f6 !important; /* gray-100 */
+  color: inherit !important;
 }
 
-[role="option"][aria-selected="true"], 
-[role="option"][data-state="checked"] {
-  background-color: #5f0889 !important;
-  color: white !important;
+[role="option"][data-highlighted] {
+  background-color: #f3f4f6 !important; /* gray-100 */
+  color: inherit !important;
+}
+
+[role="option"][data-state="checked"],
+[role="option"][aria-selected="true"] {
+  background-color: white !important;
+  color: #8425af !important;
 }
 
 [role="option"]:active,
 [role="option"]:focus {
-  background-color: #5f0889 !important;
-  color: white !important;
+  background-color: #f3f4f6 !important; /* gray-100 */
 }
 
 [data-radix-select-viewport] {
