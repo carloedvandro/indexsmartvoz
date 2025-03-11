@@ -57,7 +57,6 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
               className="h-[140px] object-contain mix-blend-multiply opacity-90 contrast-125"
             />
           </div>
-          <h2 className="text-xl font-medium text-center text-[#8425af]">Personalize seu pedido</h2>
         </div>
 
         <div className="space-y-4">
@@ -98,13 +97,13 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
         <div className="w-full max-w-[340px] mx-auto flex gap-4 pt-4">
           <Button 
             variant="outline" 
-            className="flex-1 border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-md"
-            onClick={onBack}
+            className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1"
+            onClick={handleBack}
           >
             Voltar
           </Button>
           <Button 
-            className="flex-1 bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-md"
+            className="bg-[#8425af] hover:bg-[#6c1e8f] text-white flex-1"
             onClick={handleContinue}
             disabled={!selectedInternet || !selectedDDD || !selectedDueDate}
           >

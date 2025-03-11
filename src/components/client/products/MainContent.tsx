@@ -6,7 +6,6 @@ import { PlanSelectionStep } from "./PlanSelectionStep";
 import { NavigationButtons } from "./NavigationButtons";
 import { useStepValidator } from "./StepValidator";
 import { motion } from "framer-motion";
-import { useSwipe } from "@/hooks/use-swipe";
 
 interface MainContentProps {
   currentStep: number;
@@ -53,11 +52,6 @@ export function MainContent({
     return false;
   };
 
-  const { onTouchStart, onTouchMove, onTouchEnd } = useSwipe({
-    onSwipeLeft: () => !isContinueDisabled() && validateAndContinue(),
-    onSwipeRight: handleBack
-  });
-
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { 
@@ -82,13 +76,10 @@ export function MainContent({
 
   return (
     <motion.div 
-      className="flex flex-col items-center min-h-screen bg-gray-50/80 pt-12 relative touch-pan-y"
+      className="flex flex-col items-center min-h-screen bg-gray-50/80 pt-12 relative"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
     >
       <div className="w-full max-w-[344px] mx-auto px-4">
         <Card className="relative z-10 shadow-none bg-transparent border-0">

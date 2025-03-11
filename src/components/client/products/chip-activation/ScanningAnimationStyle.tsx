@@ -1,37 +1,21 @@
 
-import { useEffect } from "react";
+import React from 'react';
 
 export function ScanningAnimationStyle() {
-  useEffect(() => {
-    if (!document.getElementById('scan-line-animation')) {
-      const style = document.createElement('style');
-      style.id = 'scan-line-animation';
-      style.textContent = `
-        @keyframes scan-line {
-          0% {
-            top: 20%;
-          }
-          50% {
-            top: 80%;
-          }
-          100% {
-            top: 20%;
-          }
+  return (
+    <style dangerouslySetInnerHTML={{ __html: `
+      @keyframes scan-line {
+        0%, 100% {
+          top: 20%;
         }
-        .animate-scan-line {
-          animation: scan-line 1.5s ease-in-out infinite;
+        50% {
+          top: 80%;
         }
-      `;
-      document.head.appendChild(style);
-    }
-    
-    return () => {
-      const styleElement = document.getElementById('scan-line-animation');
-      if (styleElement) {
-        styleElement.remove();
       }
-    };
-  }, []);
-
-  return null;
+      
+      .animate-scan-line {
+        animation: scan-line 1.5s ease-in-out infinite;
+      }
+    `}} />
+  );
 }

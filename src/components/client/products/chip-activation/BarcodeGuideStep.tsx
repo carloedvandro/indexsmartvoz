@@ -1,7 +1,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useSwipe } from "@/hooks/use-swipe";
 
 interface BarcodeGuideStepProps {
   onBack: () => void;
@@ -9,19 +8,9 @@ interface BarcodeGuideStepProps {
 }
 
 export function BarcodeGuideStep({ onBack, onContinue }: BarcodeGuideStepProps) {
-  const { onTouchStart, onTouchMove, onTouchEnd } = useSwipe({
-    onSwipeLeft: onContinue,
-    onSwipeRight: onBack
-  });
-
   return (
     <Card>
-      <CardContent 
-        className="pt-6 space-y-8 touch-pan-y"
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
-      >
+      <CardContent className="pt-6 space-y-8">
         <div className="space-y-6">
           <h2 className="text-2xl font-bold">Confira como você encontra o código de barras do SIM card</h2>
           
