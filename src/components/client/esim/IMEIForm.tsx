@@ -165,14 +165,14 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           <Button 
             type="button"
             variant="outline"
-            className="w-[120px] border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg py-3"
+            className="flex-1 border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-md"
             onClick={onBack}
           >
             Voltar
           </Button>
           <Button 
             type="submit"
-            className="w-[120px] bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3"
+            className="flex-1 bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-md"
             disabled={!isValidIMEI || isValidating || imei.length !== 15}
           >
             Continuar
