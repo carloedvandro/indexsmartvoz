@@ -61,19 +61,21 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
         </div>
 
         <div className="space-y-4">
-          <div className="w-full max-w-[340px] mx-auto space-y-3">
-            <div className="w-full">
-              <InternetSelector
-                selectedInternet={selectedInternet}
-                onInternetChange={setSelectedInternet}
-                internetOptions={internetOptions}
-              />
-            </div>
-            <div className="w-full">
-              <DDDInput
-                ddd={selectedDDD}
-                onDDDChange={setSelectedDDD}
-              />
+          <div className="w-full max-w-[340px] mx-auto">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <InternetSelector
+                  selectedInternet={selectedInternet}
+                  onInternetChange={setSelectedInternet}
+                  internetOptions={internetOptions}
+                />
+              </div>
+              <div>
+                <DDDInput
+                  ddd={selectedDDD}
+                  onDDDChange={setSelectedDDD}
+                />
+              </div>
             </div>
           </div>
 
