@@ -2,6 +2,7 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { CalendarStyle } from "@/hooks/useCalendarStyles";
+import { motion } from "framer-motion";
 
 interface DueDateSelectorProps {
   selectedDueDate: number | null;
@@ -20,6 +21,21 @@ export function DueDateSelector({
     [2, 5, 7, 10],
     [15, 20, 25, 30]
   ];
+
+  const numberVariants = {
+    selected: {
+      scale: [1, 1.15, 1],
+      transition: {
+        duration: 0.5,
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: "easeInOut"
+      }
+    },
+    unselected: {
+      scale: 1
+    }
+  };
 
   return (
     <div className="flex flex-col items-center w-full mt-2">
@@ -44,14 +60,17 @@ export function DueDateSelector({
                   onClick={() => setSelectedDueDate(date)}
                 >
                   <CardContent className="flex items-center justify-center h-full p-0">
-                    <span 
+                    <motion.span 
                       className={`font-medium ${selectedDueDate === date ? 'text-white' : 'text-[#8425af]'}`}
                       style={{
                         fontSize: calendarStyle?.date_font_size || '14px'
                       }}
+                      variants={numberVariants}
+                      initial="unselected"
+                      animate={selectedDueDate === date ? "selected" : "unselected"}
                     >
                       {date.toString().padStart(2, '0')}
-                    </span>
+                    </motion.span>
                   </CardContent>
                 </Card>
               ))}
@@ -62,3 +81,4 @@ export function DueDateSelector({
     </div>
   );
 };
+
