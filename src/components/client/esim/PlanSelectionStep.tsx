@@ -5,6 +5,7 @@ import { InternetSelector } from "@/components/client/products/InternetSelector"
 import { DDDInput } from "@/components/client/products/DDDInput";
 import { DueDateSelector } from "@/components/client/products/DueDateSelector";
 import { PriceSummary } from "@/components/client/products/PriceSummary";
+import { NavigationButtons } from "@/components/client/products/chip-activation/NavigationButtons";
 
 interface PlanSelectionStepProps {
   onBack: () => void;
@@ -62,7 +63,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
 
         <div className="space-y-6">
           <div className="w-full max-w-[340px] mx-auto">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-6">
               <div>
                 <InternetSelector
                   selectedInternet={selectedInternet}
