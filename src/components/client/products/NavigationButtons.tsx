@@ -33,7 +33,7 @@ export function NavigationButtons({
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <div className="flex items-center justify-between w-full max-w-[320px] bg-gradient-to-r from-purple-900 to-indigo-800 rounded-full h-16 px-3 shadow-lg">
+      <div className="flex items-center justify-between w-full max-w-[320px] bg-gradient-to-r from-gray-900 to-black rounded-full h-16 px-3 shadow-lg">
         <Button 
           onClick={handleBackClick}
           className="rounded-full h-12 w-12 flex items-center justify-center p-0 bg-gradient-to-br from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white border-none shadow-md transition-all duration-300"
