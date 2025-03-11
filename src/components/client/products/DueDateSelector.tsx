@@ -36,19 +36,16 @@ export function DueDateSelector({
               {row.map((date) => (
                 <Card 
                   key={date}
-                  className={`cursor-pointer transition-all duration-200 h-8 flex items-center justify-center shadow-none relative overflow-hidden
+                  className={`cursor-pointer transition-all duration-200 h-9 flex items-center justify-center shadow-none relative overflow-hidden rounded-xl
                     ${selectedDueDate === date 
-                      ? `ring-2 ring-[#580180] ring-offset-0 border-none ${selectedCardClassName || ''} before:absolute before:inset-[1px] before:border before:border-[#580180] before:rounded-[7px]`
-                      : 'border border-[#580180] hover:border-[#580180]'
+                      ? 'bg-[#8425af] text-white border-none' 
+                      : 'bg-white border border-[#8425af]/20 hover:border-[#8425af]/40'
                     }`}
-                  style={{
-                    borderRadius: calendarStyle?.border_radius || '8px',
-                  }}
                   onClick={() => setSelectedDueDate(date)}
                 >
                   <CardContent className="flex items-center justify-center h-full p-0">
                     <span 
-                      className={`font-medium ${selectedDueDate === date ? 'text-[#580180]' : ''}`}
+                      className={`font-medium ${selectedDueDate === date ? 'text-white' : 'text-[#8425af]'}`}
                       style={{
                         fontSize: calendarStyle?.date_font_size || '14px'
                       }}
@@ -65,4 +62,3 @@ export function DueDateSelector({
     </div>
   );
 };
-
