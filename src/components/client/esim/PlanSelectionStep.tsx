@@ -63,7 +63,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
 
         <div className="space-y-6">
           <div className="w-full max-w-[340px] mx-auto">
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-8">
               <div>
                 <InternetSelector
                   selectedInternet={selectedInternet}
@@ -96,7 +96,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           </div>
         </div>
 
-        <div className="w-full max-w-[340px] mx-auto flex gap-4 pt-4">
+        <div className="w-full max-w-[340px] mx-auto flex gap-8 pt-4">
           <Button 
             variant="outline" 
             className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1"

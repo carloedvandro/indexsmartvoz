@@ -95,7 +95,7 @@ export function PlanSelectionStep({
 
       <div className="space-y-4 w-full">
         <motion.div 
-          className="grid grid-cols-2 gap-3"
+          className="grid grid-cols-2 gap-8"
           variants={itemVariants}
         >
           <div className="w-full">
