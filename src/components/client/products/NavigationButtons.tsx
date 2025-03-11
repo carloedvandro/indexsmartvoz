@@ -21,13 +21,13 @@ export function NavigationButtons({
   const handleBackClick = () => currentStep === 1 ? navigate("/client/dashboard") : handleBack();
   
   const { onTouchStart, onTouchMove, onTouchEnd } = useSwipe({
-    onSwipeLeft: handleContinue,
+    onSwipeLeft: () => !disabled && handleContinue(),
     onSwipeRight: handleBackClick
   });
 
   return (
     <div 
-      className="flex justify-center mt-6 touch-pan-y"
+      className="flex justify-center w-full mt-6 touch-pan-y"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}

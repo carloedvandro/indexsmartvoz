@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 
 interface SwipeHandlers {
   onSwipeLeft?: () => void

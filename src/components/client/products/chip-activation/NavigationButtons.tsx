@@ -14,7 +14,7 @@ export function NavigationButtons({
   disabled = false 
 }: NavigationButtonsProps) {
   const { onTouchStart, onTouchMove, onTouchEnd } = useSwipe({
-    onSwipeLeft: onContinue,
+    onSwipeLeft: () => !disabled && onContinue(),
     onSwipeRight: onBack
   });
 

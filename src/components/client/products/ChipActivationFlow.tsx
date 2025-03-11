@@ -2,6 +2,7 @@
 import { BarcodeScannerContainer } from "./chip-activation/BarcodeScannerContainer";
 import { ScanningAnimationStyle } from "./chip-activation/ScanningAnimationStyle";
 import { ChipActivationStepContent } from "./chip-activation/ChipActivationStepContent";
+import { useSwipe } from "@/hooks/use-swipe";
 
 export type Line = {
   id: number;
@@ -36,6 +37,11 @@ export function ChipActivationFlow({
   // Verifica se todos os códigos de barras foram escaneados
   const allBarcodesScanned = selectedLines.every(line => line.barcode);
   
+  const { onTouchStart, onTouchMove, onTouchEnd } = useSwipe({
+    onSwipeLeft: () => scanningIndex === null && onContinue(),
+    onSwipeRight: () => scanningIndex === null && onBack()
+  });
+  
   return (
     <>
       <ScanningAnimationStyle />
@@ -46,7 +52,12 @@ export function ChipActivationFlow({
         onScanningClose={onScanningClose}
       />
       
-      <div className="flex flex-col items-center w-full">
+      <div 
+        className="flex flex-col items-center w-full touch-pan-y"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
         <div className="w-full max-w-[354px] mx-auto">
           <div className="pt-16 space-y-8">
             <ChipActivationStepContent
