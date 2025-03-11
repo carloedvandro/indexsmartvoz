@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useSwipe } from "@/hooks/use-swipe";
 
 interface NavigationButtonsProps {
   currentStep: number;
@@ -16,12 +17,24 @@ export function NavigationButtons({
   disabled = false
 }: NavigationButtonsProps) {
   const navigate = useNavigate();
+  
+  const handleBackClick = () => currentStep === 1 ? navigate("/client/dashboard") : handleBack();
+  
+  const { onTouchStart, onTouchMove, onTouchEnd } = useSwipe({
+    onSwipeLeft: handleContinue,
+    onSwipeRight: handleBackClick
+  });
 
   return (
-    <div className="flex justify-center mt-6">
+    <div 
+      className="flex justify-center mt-6 touch-pan-y"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       <div className="relative flex items-center justify-between bg-black rounded-full max-w-[280px] w-full h-14 px-1">
         <Button 
-          onClick={() => currentStep === 1 ? navigate("/client/dashboard") : handleBack()}
+          onClick={handleBackClick}
           className="rounded-full h-12 w-12 flex items-center justify-center p-0 bg-red-600 hover:bg-red-700 text-white border-none"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

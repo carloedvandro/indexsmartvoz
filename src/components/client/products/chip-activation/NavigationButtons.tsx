@@ -1,5 +1,6 @@
 
 import { Button } from "@/components/ui/button";
+import { useSwipe } from "@/hooks/use-swipe";
 
 interface NavigationButtonsProps {
   onBack: () => void;
@@ -12,8 +13,18 @@ export function NavigationButtons({
   onContinue, 
   disabled = false 
 }: NavigationButtonsProps) {
+  const { onTouchStart, onTouchMove, onTouchEnd } = useSwipe({
+    onSwipeLeft: onContinue,
+    onSwipeRight: onBack
+  });
+
   return (
-    <div className="flex justify-center w-full mt-6">
+    <div 
+      className="flex justify-center w-full mt-6 touch-pan-y"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       <div className="relative flex items-center justify-between bg-black rounded-full max-w-[280px] w-full h-14 px-1">
         <Button 
           onClick={onBack}
