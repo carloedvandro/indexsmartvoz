@@ -126,13 +126,12 @@ export function LineSelectionStep({
         <div className="flex justify-between">
           <Button 
             variant="outline"
-            className="flex-1 border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-md mr-2"
             onClick={onBack}
           >
             Voltar
           </Button>
           <Button 
-            className="flex-1 bg-[#bc8ccd] hover:bg-[#8425af] text-white rounded-md ml-2"
+            className="bg-[#8425af] hover:bg-[#6c1e8f]"
             onClick={onContinue}
             disabled={!isFormValid}
           >

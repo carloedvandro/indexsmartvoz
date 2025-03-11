@@ -33,13 +33,12 @@ export function BarcodeGuideStep({ onBack, onContinue }: BarcodeGuideStepProps) 
         <div className="flex justify-end gap-4">
           <Button 
             variant="outline"
-            className="flex-1 border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-md"
             onClick={onBack}
           >
             Voltar
           </Button>
           <Button 
-            className="flex-1 bg-[#bc8ccd] hover:bg-[#8425af] text-white rounded-md"
+            className="bg-[#8425af] hover:bg-[#6c1e8f]"
             onClick={onContinue}
           >
             Continuar
