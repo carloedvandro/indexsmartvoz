@@ -41,7 +41,7 @@ export function NavigationButtons({
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <div className="flex items-center justify-between w-full max-w-[320px] bg-black rounded-full h-16 px-3 shadow-lg relative">
+      <div className="flex items-center justify-between w-full max-w-[320px] bg-[#660099] rounded-full h-16 px-3 shadow-lg relative">
         {/* Botão Voltar */}
         <Button 
           onClick={onBack}
