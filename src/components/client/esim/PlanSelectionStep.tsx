@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { InternetSelector } from "@/components/client/products/InternetSelector";
@@ -60,7 +61,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
         </div>
 
         <div className="space-y-4">
-          <div className="w-full max-w-[380px] mx-auto space-y-3">
+          <div className="w-full max-w-[340px] mx-auto space-y-3">
             <div className="w-full">
               <InternetSelector
                 selectedInternet={selectedInternet}
@@ -76,7 +77,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             </div>
           </div>
 
-          <div className="w-full max-w-[380px] mx-auto">
+          <div className="w-full max-w-[340px] mx-auto">
             <DueDateSelector
               selectedDueDate={selectedDueDate}
               setSelectedDueDate={setSelectedDueDate}
@@ -84,7 +85,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             />
           </div>
 
-          <div className="w-full max-w-[380px] mx-auto">
+          <div className="w-full max-w-[340px] mx-auto">
             <PriceSummary
               linePrice={getLinePrice()}
               totalPrice={getLinePrice()}
@@ -92,7 +93,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           </div>
         </div>
 
-        <div className="w-full max-w-[380px] mx-auto flex gap-4 pt-4">
+        <div className="w-full max-w-[340px] mx-auto flex gap-4 pt-4">
           <Button 
             variant="outline" 
             className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1"
