@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useSwipe } from "@/hooks/use-swipe";
+import { ChevronLeft, ArrowUpRight } from "lucide-react";
 
 interface NavigationButtonsProps {
   currentStep: number;
@@ -27,31 +28,29 @@ export function NavigationButtons({
 
   return (
     <div 
-      className="flex justify-center w-full mt-6 touch-pan-y"
+      className="flex justify-center w-full mt-8 touch-pan-y"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <div className="relative flex items-center justify-between bg-black rounded-full max-w-[280px] w-full h-14 px-1">
+      <div className="flex items-center justify-between w-full max-w-[320px] bg-gradient-to-r from-purple-900 to-indigo-800 rounded-full h-16 px-3 shadow-lg">
         <Button 
           onClick={handleBackClick}
-          className="rounded-full h-12 w-12 flex items-center justify-center p-0 bg-red-600 hover:bg-red-700 text-white border-none"
+          className="rounded-full h-12 w-12 flex items-center justify-center p-0 bg-gradient-to-br from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white border-none shadow-md transition-all duration-300"
+          aria-label="Go back"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M18 6V4c0-1.1-.9-2-2-2H4a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-2"/>
-            <path d="M15 10H9"/>
-            <polyline points="13 6 9 10 13 14"/>
-          </svg>
+          <ChevronLeft size={22} strokeWidth={2.5} />
         </Button>
-        <div className="border-t-2 border-white w-full max-w-[180px]"></div>
+
+        <div className="h-1 flex-1 max-w-[180px] bg-gradient-to-r from-white/10 to-white/30 rounded-full mx-4" />
+        
         <Button 
           onClick={handleContinue}
           disabled={disabled}
-          className="rounded-full h-12 w-12 flex items-center justify-center p-0 bg-green-500 hover:bg-green-600 text-white border-none disabled:opacity-50 disabled:cursor-not-allowed"
+          className="rounded-full h-12 w-12 flex items-center justify-center p-0 bg-gradient-to-br from-emerald-400 to-teal-600 hover:from-emerald-500 hover:to-teal-700 text-white border-none shadow-md transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label="Continue"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M7 17l9.2-9.2M17 17V7H7"/>
-          </svg>
+          <ArrowUpRight size={22} strokeWidth={2.5} />
         </Button>
       </div>
     </div>
