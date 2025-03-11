@@ -19,6 +19,8 @@ export function BarcodeScannerComponent({ selectedLines, onStartScanning }: Barc
         />
       </div>
       
+      <h2 className="text-lg font-semibold text-center mb-6 max-w-[310px] text-[#8425af]">Escaneie o código de barra do chip</h2>
+      
       <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-2 w-full">
         <Info size={16} className="text-blue-500 mt-0.5 flex-shrink-0" />
         <p className="text-xs text-blue-700">
