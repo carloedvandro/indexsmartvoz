@@ -31,6 +31,7 @@ export function NavigationButtons({
         onBack={onBack}
         onContinue={handleContinue}
         disabled={disabled}
+        bgColor="#5f0889"
       />
     </div>
   );
