@@ -47,7 +47,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   };
 
   return (
-    <div className="max-w-[380px] mx-auto w-full" style={{ marginTop: "10px" }}>
+    <div className="max-w-[380px] mx-auto w-full" style={{ marginTop: "20px" }}>
       <div className="space-y-7">
         <div className="space-y-3 text-center">
           <div className="w-full flex justify-center mb-4">
