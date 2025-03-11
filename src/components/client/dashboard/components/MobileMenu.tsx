@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from "react-router-dom";
 import { X, ArrowRight, RefreshCw } from "lucide-react";
@@ -83,8 +82,8 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
           <div className="flex flex-col gap-2">
             {renderItems(navigationItems)}
           </div>
-          <div className="mt-2 pt-[106px]">
-            <LogoutButton onLogout={onLogout} className="w-full p-0 justify-start hover:bg-transparent active:bg-transparent focus:bg-transparent" />
+          <div className="mt-2 pt-4 pb-2 px-2">
+            <LogoutButton onLogout={onLogout} className="w-full justify-start" />
           </div>
         </div>
       )}
