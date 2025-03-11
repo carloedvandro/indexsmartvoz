@@ -32,11 +32,17 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
     <div className={cn("relative", className)}>
       <div
         ref={constraintsRef}
-        className="bg-gray-100 rounded-full h-10 w-48 flex items-center overflow-hidden"
+        className="bg-gradient-to-r from-purple-100 to-purple-200 rounded-full h-12 w-48 flex items-center overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg"
       >
-        <div 
-          className="absolute left-0 h-full bg-red-500 rounded-full transition-all duration-200"
+        <motion.div 
+          className="absolute left-0 h-full bg-gradient-to-r from-red-400 to-red-500 rounded-full transition-all duration-200"
           style={{ width: `${dragProgress * 100}%` }}
+          initial={{ opacity: 0.8 }}
+          animate={{ 
+            opacity: isDragging ? 1 : 0.8,
+            scale: isDragging ? 1.02 : 1
+          }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
         />
         <motion.div
           drag="x"
@@ -44,13 +50,24 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
           dragElastic={0.1}
           onDrag={handleDrag}
           onDragEnd={handleDragEnd}
-          className="absolute left-0 z-10 flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-md cursor-grab"
-          animate={{ x: isDragging ? dragProgress * 150 : 0 }}
+          className="absolute left-0 z-10 flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-lg cursor-grab"
+          whileDrag={{ scale: 1.1 }}
+          whileHover={{ scale: 1.05 }}
+          animate={{ 
+            x: isDragging ? dragProgress * 150 : 0,
+            boxShadow: isDragging ? "0 10px 25px -5px rgba(0, 0, 0, 0.1)" : "0 4px 6px -1px rgba(0, 0, 0, 0.1)"
+          }}
           transition={{ type: "spring", stiffness: 500, damping: 30 }}
         >
-          <LogOut className="w-5 h-5 text-red-500" />
+          <LogOut className={cn(
+            "w-5 h-5 transition-colors duration-300",
+            dragProgress > 0.5 ? "text-red-500" : "text-purple-500"
+          )} />
         </motion.div>
-        <span className="ml-12 font-medium text-gray-600">
+        <span className={cn(
+          "ml-14 font-medium transition-all duration-300",
+          dragProgress > 0.5 ? "text-white" : "text-purple-700"
+        )}>
           {dragProgress > 0.5 ? "Solte para sair" : "Arraste para sair"}
         </span>
       </div>
