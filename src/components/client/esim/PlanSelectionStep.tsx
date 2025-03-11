@@ -48,7 +48,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
 
   return (
     <div className="max-w-[379px] mx-auto w-full" style={{ marginTop: "74px" }}>
-      <div className="space-y-7">
+      <div className="space-y-6">
         <div className="space-y-3 text-center">
           <div className="w-full flex justify-center mb-4">
             <img 
@@ -60,7 +60,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           <h2 className="text-xl font-medium text-center text-[#8425af]">Personalize seu pedido</h2>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-6">
           <div className="w-full max-w-[340px] mx-auto">
             <div className="grid grid-cols-2 gap-4">
               <div>
