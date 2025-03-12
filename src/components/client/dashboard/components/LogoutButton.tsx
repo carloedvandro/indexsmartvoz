@@ -42,7 +42,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   };
 
   const handleDrag = (_: any, info: any) => {
-    const progress = Math.min(Math.max(info.offset.x / 150, 0), 1);
+    const progress = Math.min(Math.max(info.offset.x / 148, 0), 1);
     setDragProgress(progress);
     setIsDragging(progress > 0);
   };
@@ -55,7 +55,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   const renderStyle0 = () => (
     <div
       ref={constraintsRef}
-      className="bg-gradient-to-r from-purple-100 to-purple-200 rounded-full h-12 w-48 flex items-center overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg"
+      className="bg-gradient-to-r from-purple-100 to-purple-200 rounded-full h-12 w-[190px] flex items-center overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg"
     >
       <motion.div 
         className="absolute left-0 h-full bg-gradient-to-r from-red-400 to-red-500 rounded-full transition-all duration-200"
@@ -69,7 +69,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
       />
       <motion.div
         drag="x"
-        dragConstraints={{ left: 0, right: 150 }}
+        dragConstraints={{ left: 0, right: 148 }}
         dragElastic={0.1}
         onDrag={handleDrag}
         onDragEnd={handleDragEnd}
@@ -77,7 +77,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         whileDrag={{ scale: 1.1 }}
         whileHover={{ scale: 1.05 }}
         animate={{ 
-          x: isDragging ? dragProgress * 150 : 0,
+          x: isDragging ? dragProgress * 148 : 0,
           boxShadow: isDragging ? "0 10px 25px -5px rgba(0, 0, 0, 0.1)" : "0 4px 6px -1px rgba(0, 0, 0, 0.1)"
         }}
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
@@ -100,7 +100,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   const renderStyle1 = () => (
     <div
       ref={constraintsRef}
-      className="bg-white border-2 border-purple-300 rounded-full h-12 w-48 flex items-center overflow-hidden shadow-sm transition-all duration-300 hover:border-purple-400"
+      className="bg-white border-2 border-purple-300 rounded-full h-12 w-[190px] flex items-center overflow-hidden shadow-sm transition-all duration-300 hover:border-purple-400"
     >
       <motion.div 
         className="absolute left-0 h-full bg-purple-100 rounded-full transition-all duration-200"
@@ -113,7 +113,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
       />
       <motion.div
         drag="x"
-        dragConstraints={{ left: 0, right: 150 }}
+        dragConstraints={{ left: 0, right: 148 }}
         dragElastic={0.1}
         onDrag={handleDrag}
         onDragEnd={handleDragEnd}
@@ -121,7 +121,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         whileDrag={{ scale: 1.05 }}
         whileHover={{ scale: 1.02 }}
         animate={{ 
-          x: isDragging ? dragProgress * 150 : 0
+          x: isDragging ? dragProgress * 148 : 0
         }}
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
       >
@@ -140,7 +140,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   const renderStyle2 = () => (
     <div
       ref={constraintsRef}
-      className="bg-purple-50 bg-opacity-40 backdrop-blur-sm rounded-full h-12 w-48 flex items-center overflow-hidden shadow-sm border border-purple-100 transition-all duration-300"
+      className="bg-purple-50 bg-opacity-40 backdrop-blur-sm rounded-full h-12 w-[190px] flex items-center overflow-hidden shadow-sm border border-purple-100 transition-all duration-300"
     >
       <motion.div 
         className="absolute left-0 h-full bg-purple-200 bg-opacity-60 rounded-full transition-all duration-200"
@@ -148,14 +148,14 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
       />
       <motion.div
         drag="x"
-        dragConstraints={{ left: 0, right: 150 }}
+        dragConstraints={{ left: 0, right: 148 }}
         dragElastic={0.1}
         onDrag={handleDrag}
         onDragEnd={handleDragEnd}
         className="absolute left-0 z-10 flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-md cursor-grab border border-purple-200"
         whileDrag={{ rotate: dragProgress * 90 }}
         animate={{ 
-          x: isDragging ? dragProgress * 150 : 0
+          x: isDragging ? dragProgress * 148 : 0
         }}
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
       >

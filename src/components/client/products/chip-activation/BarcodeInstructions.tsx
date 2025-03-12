@@ -11,7 +11,7 @@ export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsP
     <div className="space-y-6">
       <h2 className="text-2xl font-medium">Confira como você encontra o código de barras do SIM card</h2>
       
-      <div className="flex items-center justify-between max-w-[410px] mx-auto relative">
+      <div className="flex items-center justify-between max-w-[342px] mx-auto relative">
         <div className="flex flex-col items-center space-y-2">
           <div className="w-6 h-6 rounded-full bg-[#8425af] flex items-center justify-center text-white text-sm">✓</div>
           <span className="text-sm font-medium text-gray-700">Identidade</span>
@@ -46,7 +46,7 @@ export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsP
           <img 
             src="/lovable-uploads/c1471528-92f5-409a-a0c9-a520defbecf5.png" 
             alt="Exemplo de código de barras do chip"
-            className="max-w-[410px] w-full"
+            className="max-w-[340px] w-full"
           />
         </div>
       </div>

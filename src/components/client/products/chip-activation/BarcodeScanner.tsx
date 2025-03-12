@@ -10,7 +10,7 @@ interface BarcodeScannerProps {
 
 export function BarcodeScannerComponent({ selectedLines, onStartScanning }: BarcodeScannerProps) {
   return (
-    <div className="flex flex-col items-center w-full max-w-[414px] mx-auto">
+    <div className="flex flex-col items-center w-full max-w-[342px] mx-auto">
       <div className="w-full flex justify-center mb-4">
         <img 
           src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 
