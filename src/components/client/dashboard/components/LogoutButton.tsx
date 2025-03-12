@@ -51,14 +51,14 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
     setButtonStyle((prev) => (prev + 1) % 3);
   };
 
-  // Style 0: Purple gradient (updated style - removed red)
+  // Style 0: Purple gradient (current style)
   const renderStyle0 = () => (
     <div
       ref={constraintsRef}
       className="bg-gradient-to-r from-purple-100 to-purple-200 rounded-full h-12 w-48 flex items-center overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg"
     >
       <motion.div 
-        className="absolute left-0 h-full bg-gradient-to-r from-purple-400 to-purple-500 rounded-full transition-all duration-200"
+        className="absolute left-0 h-full bg-gradient-to-r from-red-400 to-red-500 rounded-full transition-all duration-200"
         style={{ width: `${dragProgress * 100}%` }}
         initial={{ opacity: 0.8 }}
         animate={{ 
@@ -84,7 +84,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
       >
         <LogOut className={cn(
           "w-5 h-5 transition-colors duration-300",
-          dragProgress > 0.5 ? "text-purple-500" : "text-purple-500"
+          dragProgress > 0.5 ? "text-red-500" : "text-purple-500"
         )} />
       </motion.div>
       <span className={cn(
