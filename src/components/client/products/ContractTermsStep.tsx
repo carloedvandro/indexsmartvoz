@@ -32,11 +32,12 @@ export function ContractTermsStep({ acceptedTerms, onTermsChange }: ContractTerm
           </a>
         </div>
         
-        <div className="flex items-center space-x-2">
+        <div className="flex items-start space-x-2 text-left">
           <Checkbox 
             id="terms" 
             checked={acceptedTerms}
             onCheckedChange={(checked) => onTermsChange(checked as boolean)}
+            className="mt-0.5"
           />
           <label 
             htmlFor="terms" 
