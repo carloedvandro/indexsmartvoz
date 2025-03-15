@@ -82,7 +82,7 @@ export function ESIMActivationFlow({
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-start pt-0 gap-12 overflow-hidden scrollbar-hide mt-[-20px]">
       <StepIndicator currentStep={getCurrentStepId()} />
-      <div className="w-full max-w-[380px] mx-auto pt-80">
+      <div className="w-full max-w-[380px] mx-auto pt-60">
         {renderCurrentStep()}
       </div>
     </main>
