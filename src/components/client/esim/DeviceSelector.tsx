@@ -37,7 +37,10 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
             }`}
           onClick={() => setSelectedDevice('android')}
         >
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between">
+            <label htmlFor="android" className="text-lg font-medium text-black">
+              Android
+            </label>
             <input
               type="radio"
               name="device"
@@ -46,9 +49,6 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
               checked={selectedDevice === 'android'}
               onChange={() => setSelectedDevice('android')}
             />
-            <label htmlFor="android" className="text-lg font-medium text-black">
-              Android
-            </label>
           </div>
         </div>
 
@@ -60,7 +60,10 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
             }`}
           onClick={() => setSelectedDevice('ios')}
         >
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between">
+            <label htmlFor="ios" className="text-lg font-medium text-black">
+              iOS (iPhone)
+            </label>
             <input
               type="radio"
               name="device"
@@ -69,9 +72,6 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
               checked={selectedDevice === 'ios'}
               onChange={() => setSelectedDevice('ios')}
             />
-            <label htmlFor="ios" className="text-lg font-medium text-black">
-              iOS (iPhone)
-            </label>
           </div>
         </div>
       </div>
