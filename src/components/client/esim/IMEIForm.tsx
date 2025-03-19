@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -80,7 +81,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   };
 
   return (
-    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6 pt-20">
+    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6 pt-28">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-semibold">
           Digite o IMEI do {deviceType === 'android' ? 'Android' : 'iPhone'} com eSIM
