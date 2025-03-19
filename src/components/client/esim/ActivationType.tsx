@@ -9,7 +9,7 @@ type ActivationTypeProps = {
 
 export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
   return (
-    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto">
+    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto pt-5">
       <h2 className="text-2xl font-semibold text-center">
         Quem irá ativar a linha no eSIM?
       </h2>
