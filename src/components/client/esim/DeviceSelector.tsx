@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Info } from "lucide-react";
 import { useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type DeviceSelectorProps = {
   onSelect: (device: 'android' | 'ios') => void;
@@ -10,6 +11,7 @@ type DeviceSelectorProps = {
 
 export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
   const [selectedDevice, setSelectedDevice] = useState<'android' | 'ios'>('android');
+  const isMobile = useIsMobile();
 
   return (
     <div className="w-full max-w-[85%] md:max-w-[420px] mx-auto space-y-6 pt-28">
@@ -26,9 +28,9 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
         </p>
       </div>
 
-      <div className="space-y-4 mt-4">
+      <div className={`${isMobile ? 'flex gap-3' : 'space-y-4'} mt-4`}>
         <div 
-          className={`p-4 rounded-lg border transition-all cursor-pointer relative hover:bg-transparent
+          className={`p-4 rounded-lg border transition-all cursor-pointer relative hover:bg-transparent ${isMobile ? 'flex-1' : ''}
             ${selectedDevice === 'android' 
               ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px]'
               : 'border-[#8425af] hover:border-[#8425af]'
@@ -51,7 +53,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
         </div>
 
         <div 
-          className={`p-4 rounded-lg border transition-all cursor-pointer relative hover:bg-transparent
+          className={`p-4 rounded-lg border transition-all cursor-pointer relative hover:bg-transparent ${isMobile ? 'flex-1' : ''}
             ${selectedDevice === 'ios' 
               ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px]'
               : 'border-[#8425af] hover:border-[#8425af]'
