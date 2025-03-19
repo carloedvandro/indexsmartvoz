@@ -69,7 +69,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   };
 
   return (
-    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6 pt-5">
+    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6 pt-12">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-semibold">
           Digite o EID exato do celular que vai ter o eSIM ativado
