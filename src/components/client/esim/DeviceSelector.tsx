@@ -30,7 +30,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
 
       <div className={`${isMobile ? 'flex gap-3 px-2' : 'space-y-4'} mt-4 w-full`}>
         <div 
-          className={`p-4 rounded-lg border transition-all cursor-pointer relative hover:bg-transparent ${isMobile ? 'flex-1' : ''}
+          className={`p-4 rounded-lg border transition-all cursor-pointer relative hover:bg-transparent ${isMobile ? 'flex-1 w-[calc(50%+4px)]' : 'w-[calc(100%+4px)]'}
             ${selectedDevice === 'android' 
               ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px]'
               : 'border-[#8425af] hover:border-[#8425af]'
@@ -53,7 +53,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
         </div>
 
         <div 
-          className={`p-4 rounded-lg border transition-all cursor-pointer relative hover:bg-transparent ${isMobile ? 'flex-1' : ''}
+          className={`p-4 rounded-lg border transition-all cursor-pointer relative hover:bg-transparent ${isMobile ? 'flex-1 w-[calc(50%+4px)]' : 'w-[calc(100%+4px)]'}
             ${selectedDevice === 'ios' 
               ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px]'
               : 'border-[#8425af] hover:border-[#8425af]'
@@ -79,14 +79,14 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
       <div className="flex justify-between items-center mt-8 w-full">
         <Button 
           variant="outline"
-          className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg px-8 py-3"
+          className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg px-8 py-3 w-[calc(50%-8px+4px)]"
           onClick={onBack}
         >
           Voltar
         </Button>
         <Button 
           onClick={() => onSelect(selectedDevice)}
-          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg px-8 py-3"
+          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg px-8 py-3 w-[calc(50%-8px+4px)]"
         >
           Continuar
         </Button>
