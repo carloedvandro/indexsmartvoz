@@ -53,26 +53,26 @@ export const validateDeviceIdentifier = async (
     }
 
     if (identifierType === 'eid') {
-      // Verificações mais rigorosas para EID
+      // Verificação rigorosa de comprimento
       if (cleanValue.length !== 32) {
         console.log('EID inválido: comprimento incorreto');
         return { isValid: false };
       }
 
-      // Verificar formato hexadecimal válido
-      if (!cleanValue.match(/^[0-9A-F]{32}$/i)) {
-        console.log('EID inválido: formato incorreto');
+      // Verificação rigorosa de formato hexadecimal
+      if (!/^[0-9A-F]{32}$/i.test(cleanValue)) {
+        console.log('EID inválido: formato hexadecimal incorreto');
         return { isValid: false };
       }
 
-      // Lista local de EIDs conhecidos para validação
-      // Em produção, esta lista seria expandida ou substituída por verificação em API/DB
+      // Lista de EIDs conhecidos e válidos (lista local para validação rápida)
       const knownValidEIDs = [
         '89033023525100100100035763232936'
       ];
       
-      if (knownValidEIDs.includes(cleanValue)) {
-        console.log('EID válido encontrado na lista local');
+      // Verificar na lista local de EIDs conhecidos
+      if (knownValidEIDs.includes(cleanValue.toUpperCase())) {
+        console.log('EID válido encontrado na lista local:', cleanValue);
         return {
           isValid: true,
           deviceInfo: {
@@ -82,33 +82,37 @@ export const validateDeviceIdentifier = async (
         };
       }
 
-      // Verificação adicional com o banco de dados
+      // Verificação com o banco de dados Supabase
+      console.log('Verificando EID com o banco de dados:', cleanValue);
       const { data, error } = await supabase.rpc('validate_device_identifier', {
         p_device_type: deviceType,
         p_identifier_type: identifierType,
-        p_value: cleanValue
+        p_value: cleanValue.toUpperCase()
       });
 
       console.log('Resposta do banco:', data);
 
       if (error) {
-        console.error('Erro na validação:', error);
+        console.error('Erro na validação com banco de dados:', error);
         return { isValid: false };
       }
 
       if (!data || !Array.isArray(data) || data.length === 0) {
-        console.log('Nenhum dispositivo encontrado');
+        console.log('Nenhum dispositivo encontrado no banco de dados');
         return { isValid: false };
       }
 
       const [result] = data as DeviceValidationResponse[];
       
-      // Verificação adicional do resultado
+      // Verificação do resultado retornado pelo banco
       if (!result.is_valid) {
-        console.log('EID inválido pela validação do banco');
+        console.log('EID inválido pela validação do banco de dados');
         return { isValid: false };
       }
 
+      console.log('EID válido confirmado pelo banco de dados:', cleanValue);
+      
+      // Extrair informações do dispositivo retornadas pelo banco
       const deviceInfo = result.device_info && typeof result.device_info === 'object' ? {
         tac: String(result.device_info.tac || ''),
         serialNumber: String(result.device_info.serialNumber || ''),
@@ -128,6 +132,7 @@ export const validateDeviceIdentifier = async (
       };
     }
 
+    console.log('Tipo de identificador inválido:', identifierType);
     return { isValid: false };
   } catch (error) {
     console.error('Erro inesperado na validação:', error);

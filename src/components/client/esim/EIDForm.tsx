@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,18 +16,10 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   const [isValidEID, setIsValidEID] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const [deviceInfo, setDeviceInfo] = useState<{ brand: string; model: string; } | null>(null);
-  const [lastValidatedEid, setLastValidatedEid] = useState<string>("");
   const { toast } = useToast();
+  
+  // Use a ref to store the exact validated EID
   const validatedEidRef = useRef<string>("");
-
-  // Este efeito garantirá que o estado de validação seja limpo sempre que o EID mudar
-  useEffect(() => {
-    // Se o EID atual for diferente do último EID validado com sucesso, resetamos a validação
-    if (eid !== validatedEidRef.current) {
-      setIsValidEID(false);
-      // Não limpamos o deviceInfo aqui para melhorar a UX, apenas quando a validação falhar
-    }
-  }, [eid]);
 
   const validateEID = async (value: string) => {
     if (value.length === 32) {
@@ -38,8 +31,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
         if (validation.isValid && validation.deviceInfo) {
           setIsValidEID(true);
           setDeviceInfo(validation.deviceInfo);
-          setLastValidatedEid(value);  // Store the last valid EID
-          validatedEidRef.current = value; // Store in ref for strict comparison
+          validatedEidRef.current = value; // Store the exact validated EID
           
           toast({
             title: "Dispositivo identificado",
@@ -48,8 +40,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
         } else {
           setIsValidEID(false);
           setDeviceInfo(null);
-          setLastValidatedEid("");  // Clear last valid EID
-          validatedEidRef.current = ""; // Clear ref value
+          validatedEidRef.current = ""; // Clear the validated EID
           
           toast({
             variant: "destructive",
@@ -61,8 +52,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
         console.error('Erro na validação do EID:', error);
         setIsValidEID(false);
         setDeviceInfo(null);
-        setLastValidatedEid("");  // Clear last valid EID
-        validatedEidRef.current = ""; // Clear ref value
+        validatedEidRef.current = ""; // Clear the validated EID
         
         toast({
           variant: "destructive",
@@ -74,18 +64,17 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
       }
     } else {
       setIsValidEID(false);
-      setDeviceInfo(null);
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Verificar se o EID atual é exatamente igual ao último EID validado com sucesso
+    // Verificar se o EID atual é EXATAMENTE igual ao EID validado
     if (isValidEID && !isValidating && eid === validatedEidRef.current) {
       onSubmit(eid);
     } else {
-      // Mostrar um erro se o EID foi modificado após a validação
+      // O EID foi modificado ou não é válido
       if (eid !== validatedEidRef.current) {
         toast({
           variant: "destructive",
@@ -93,14 +82,15 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
           description: "O EID foi modificado após a validação. Por favor, valide novamente."
         });
       }
-      // Se o EID não for válido ou foi modificado, forçar uma nova validação
+      
+      // Forçar uma nova validação
       if (eid.length === 32) {
         validateEID(eid);
       }
     }
   };
 
-  const handleEidChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEidChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Limpar caracteres inválidos
     const value = e.target.value.replace(/[^0-9a-fA-F]/g, '');
     
@@ -108,18 +98,20 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
       const upperValue = value.toUpperCase();
       setEID(upperValue);
       
-      // Se o valor mudou do último validado, desabilitar a validação
+      // Se o valor atual não for exatamente igual ao EID validado, redefina a validação
       if (upperValue !== validatedEidRef.current) {
         setIsValidEID(false);
-        // Mantém as informações do dispositivo visíveis até a próxima validação
-      }
-      
-      // Apenas validar quando tiver 32 caracteres
-      if (value.length === 32) {
-        await validateEID(upperValue);
+        // Mantemos deviceInfo para melhor UX até que seja feita nova validação
       }
     }
   };
+
+  // Só queremos validar automaticamente quando o EID tiver 32 caracteres
+  useEffect(() => {
+    if (eid.length === 32 && eid !== validatedEidRef.current) {
+      validateEID(eid);
+    }
+  }, [eid, deviceType]);
 
   return (
     <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6 pt-44">
