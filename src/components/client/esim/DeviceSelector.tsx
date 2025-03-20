@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Info } from "lucide-react";
 import { useState } from "react";
@@ -22,7 +23,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
 
       <div className="bg-[#212529] text-white rounded-lg p-4 flex items-center gap-2">
         <Info className="w-5 h-5" />
-        <p className="text-sm">
+        <p className="text-sm max-w-[calc(100%-4px)]">
           O aparelho precisa ter um eSIM pra ter o chip ativado
         </p>
       </div>
