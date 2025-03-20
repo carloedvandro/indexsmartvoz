@@ -53,19 +53,24 @@ export const validateDeviceIdentifier = async (
     }
 
     if (identifierType === 'eid') {
+      // Verificações mais rigorosas para EID
       if (cleanValue.length !== 32) {
         console.log('EID inválido: comprimento incorreto');
         return { isValid: false };
       }
 
-      // Adicionar uma verificação local de EID conhecidos para evitar fakes
-      // Isto é apenas um exemplo - em produção, você usaria uma fonte de dados mais robusta
+      // Verificar formato hexadecimal válido
+      if (!cleanValue.match(/^[0-9A-F]{32}$/i)) {
+        console.log('EID inválido: formato incorreto');
+        return { isValid: false };
+      }
+
+      // Lista local de EIDs conhecidos para validação
+      // Em produção, esta lista seria expandida ou substituída por verificação em API/DB
       const knownValidEIDs = [
         '89033023525100100100035763232936'
       ];
       
-      // Para fins de demonstração, vamos verificar se o EID está na lista de validados
-      // Em um ambiente real, isso seria feito pelo backend ou banco de dados
       if (knownValidEIDs.includes(cleanValue)) {
         console.log('EID válido encontrado na lista local');
         return {
@@ -77,6 +82,7 @@ export const validateDeviceIdentifier = async (
         };
       }
 
+      // Verificação adicional com o banco de dados
       const { data, error } = await supabase.rpc('validate_device_identifier', {
         p_device_type: deviceType,
         p_identifier_type: identifierType,
@@ -97,10 +103,9 @@ export const validateDeviceIdentifier = async (
 
       const [result] = data as DeviceValidationResponse[];
       
-      // Adicionar verificação extra para maior segurança
-      // Em um cenário real, você adicionaria mais verificações
-      if (!result.is_valid || !cleanValue.match(/^[0-9A-F]{32}$/i)) {
-        console.log('EID inválido pelo formato ou validação');
+      // Verificação adicional do resultado
+      if (!result.is_valid) {
+        console.log('EID inválido pela validação do banco');
         return { isValid: false };
       }
 
