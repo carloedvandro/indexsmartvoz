@@ -28,7 +28,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
         </p>
       </div>
 
-      <div className={`${isMobile ? 'flex gap-3 px-[2px]' : 'space-y-4'} mt-4`}>
+      <div className={`${isMobile ? 'flex gap-3 px-2' : 'space-y-4'} mt-4 w-full`}>
         <div 
           className={`p-4 rounded-lg border transition-all cursor-pointer relative hover:bg-transparent ${isMobile ? 'flex-1' : ''}
             ${selectedDevice === 'android' 
@@ -76,7 +76,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
         </div>
       </div>
 
-      <div className="flex justify-between items-center mt-8">
+      <div className="flex justify-between items-center mt-8 w-full">
         <Button 
           variant="outline"
           className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg px-8 py-3"
