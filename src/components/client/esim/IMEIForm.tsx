@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -88,9 +87,6 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           alt="Smartvoz Logo" 
           className="h-[140px] object-contain mx-auto mix-blend-multiply opacity-90 contrast-125"
         />
-        <h2 className="text-2xl font-semibold mx-auto whitespace-nowrap w-[300px]">
-          Digite o IMEI do {deviceType === 'android' ? 'Android' : 'iPhone'} com eSIM
-        </h2>
         <p className="text-black text-sm">
           O número precisa ser idêntico ao que aparece nas configurações do seu celular
         </p>
