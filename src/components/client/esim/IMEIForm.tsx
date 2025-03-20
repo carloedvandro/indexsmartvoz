@@ -81,7 +81,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   };
 
   return (
-    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6 pt-38">
+    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6 pt-48">
       <div className="text-center space-y-2">
         <img 
           src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
