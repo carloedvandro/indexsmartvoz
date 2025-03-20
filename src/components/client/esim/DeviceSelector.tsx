@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Info } from "lucide-react";
 import { useState } from "react";
@@ -14,7 +13,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
   const isMobile = useIsMobile();
 
   return (
-    <div className="w-full max-w-[calc(85%+17px)] md:max-w-[calc(420px+17px)] mx-auto space-y-6 pt-28">
+    <div className="w-full max-w-[calc(85%+19px)] md:max-w-[calc(420px+19px)] mx-auto space-y-6 pt-28">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-semibold">
           Vamos começar escolhendo o sistema do celular que vai ter o eSIM ativado
