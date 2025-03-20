@@ -9,7 +9,7 @@ type ActivationTypeProps = {
 
 export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
   return (
-    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto pt-38">
+    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto pt-48">
       <div className="flex justify-center">
         <img 
           src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
