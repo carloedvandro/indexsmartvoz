@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { validateDeviceIdentifier } from "@/services/esim/deviceValidationService";
@@ -18,26 +18,29 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   const [deviceInfo, setDeviceInfo] = useState<{ brand: string; model: string; } | null>(null);
   const [lastValidatedEid, setLastValidatedEid] = useState<string>("");
   const { toast } = useToast();
+  const validatedEidRef = useRef<string>("");
 
   // Este efeito garantirá que o estado de validação seja limpo sempre que o EID mudar
   useEffect(() => {
     // Se o EID atual for diferente do último EID validado com sucesso, resetamos a validação
-    if (eid !== lastValidatedEid) {
+    if (eid !== validatedEidRef.current) {
       setIsValidEID(false);
       // Não limpamos o deviceInfo aqui para melhorar a UX, apenas quando a validação falhar
     }
-  }, [eid, lastValidatedEid]);
+  }, [eid]);
 
   const validateEID = async (value: string) => {
     if (value.length === 32) {
       setIsValidating(true);
       try {
+        console.log("Validando EID:", value);
         const validation = await validateDeviceIdentifier(deviceType, 'eid', value);
         
         if (validation.isValid && validation.deviceInfo) {
           setIsValidEID(true);
           setDeviceInfo(validation.deviceInfo);
           setLastValidatedEid(value);  // Store the last valid EID
+          validatedEidRef.current = value; // Store in ref for strict comparison
           
           toast({
             title: "Dispositivo identificado",
@@ -47,6 +50,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
           setIsValidEID(false);
           setDeviceInfo(null);
           setLastValidatedEid("");  // Clear last valid EID
+          validatedEidRef.current = ""; // Clear ref value
           
           toast({
             variant: "destructive",
@@ -59,6 +63,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
         setIsValidEID(false);
         setDeviceInfo(null);
         setLastValidatedEid("");  // Clear last valid EID
+        validatedEidRef.current = ""; // Clear ref value
         
         toast({
           variant: "destructive",
@@ -78,19 +83,21 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
     e.preventDefault();
     
     // Verificar se o EID atual é exatamente igual ao último EID validado com sucesso
-    if (isValidEID && !isValidating && eid === lastValidatedEid) {
+    if (isValidEID && !isValidating && eid === validatedEidRef.current) {
       onSubmit(eid);
     } else {
       // Mostrar um erro se o EID foi modificado após a validação
-      if (eid !== lastValidatedEid) {
+      if (eid !== validatedEidRef.current) {
         toast({
           variant: "destructive",
           title: "EID modificado",
           description: "O EID foi modificado após a validação. Por favor, valide novamente."
         });
       }
-      // Resetar o estado para forçar uma nova validação
-      setIsValidEID(false);
+      // Se o EID não for válido ou foi modificado, forçar uma nova validação
+      if (eid.length === 32) {
+        validateEID(eid);
+      }
     }
   };
 
@@ -103,7 +110,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
       setEID(upperValue);
       
       // Se o valor mudou do último validado, desabilitar a validação
-      if (upperValue !== lastValidatedEid) {
+      if (upperValue !== validatedEidRef.current) {
         setIsValidEID(false);
         // Mantém as informações do dispositivo visíveis até a próxima validação
       }
@@ -135,18 +142,18 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
           value={eid}
           onChange={handleEidChange}
           className={`w-full text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
-            deviceInfo && isValidEID && eid === lastValidatedEid ? 'ring-2 ring-green-500' : 
-            eid.length === 32 && (!deviceInfo || !isValidEID || eid !== lastValidatedEid) ? 'ring-2 ring-red-500' : ''
+            deviceInfo && isValidEID && eid === validatedEidRef.current ? 'ring-2 ring-green-500' : 
+            eid.length === 32 && (!deviceInfo || !isValidEID || eid !== validatedEidRef.current) ? 'ring-2 ring-red-500' : ''
           }`}
         />
 
         {deviceInfo && (
-          <div className={`text-center p-4 rounded-lg ${isValidEID && eid === lastValidatedEid ? 'bg-green-50' : 'bg-red-50'}`}>
-            <p className={`font-medium ${isValidEID && eid === lastValidatedEid ? 'text-green-800' : 'text-red-800'}`}>
+          <div className={`text-center p-4 rounded-lg ${isValidEID && eid === validatedEidRef.current ? 'bg-green-50' : 'bg-red-50'}`}>
+            <p className={`font-medium ${isValidEID && eid === validatedEidRef.current ? 'text-green-800' : 'text-red-800'}`}>
               {deviceInfo.brand} {deviceInfo.model}
             </p>
-            <p className={`text-sm ${isValidEID && eid === lastValidatedEid ? 'text-green-600' : 'text-red-600'}`}>
-              {isValidEID && eid === lastValidatedEid 
+            <p className={`text-sm ${isValidEID && eid === validatedEidRef.current ? 'text-green-600' : 'text-red-600'}`}>
+              {isValidEID && eid === validatedEidRef.current 
                 ? "Dispositivo compatível com eSIM" 
                 : "EID modificado após validação. Por favor, valide novamente."}
             </p>
@@ -169,7 +176,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
           <Button 
             type="submit"
             className="flex-1 bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3"
-            disabled={!isValidEID || isValidating || eid !== lastValidatedEid}
+            disabled={!isValidEID || isValidating || eid !== validatedEidRef.current}
           >
             Continuar
           </Button>
