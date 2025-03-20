@@ -88,7 +88,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           alt="Smartvoz Logo" 
           className="h-[140px] object-contain mx-auto mix-blend-multiply opacity-90 contrast-125"
         />
-        <p className="text-black text-sm w-[calc(100%+2px)]">
+        <p className="text-black text-sm w-[calc(100%+8px)]">
           O número precisa ser idêntico ao que aparece nas configurações do seu celular
         </p>
       </div>
