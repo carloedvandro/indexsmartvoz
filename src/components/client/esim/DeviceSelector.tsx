@@ -28,7 +28,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
         </p>
       </div>
 
-      <div className={`${isMobile ? 'flex gap-3' : 'space-y-4'} mt-4`}>
+      <div className={`${isMobile ? 'flex gap-3 px-[2px]' : 'space-y-4'} mt-4`}>
         <div 
           className={`p-4 rounded-lg border transition-all cursor-pointer relative hover:bg-transparent ${isMobile ? 'flex-1' : ''}
             ${selectedDevice === 'android' 
