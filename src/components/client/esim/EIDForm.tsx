@@ -69,12 +69,14 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   };
 
   return (
-    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6 pt-28">
+    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6 pt-44">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-semibold">
-          Digite o EID exato do celular que vai ter o eSIM ativado
-        </h2>
-        <p className="text-sm text-gray-600">
+        <img 
+          src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
+          alt="Smartvoz Logo" 
+          className="h-[140px] object-contain mx-auto mix-blend-multiply opacity-90 contrast-125"
+        />
+        <p className="text-black text-[15.7px] text-center mx-auto max-w-[320px]">
           O número precisa ser idêntico ao que aparece nas configurações do seu celular
         </p>
       </div>
