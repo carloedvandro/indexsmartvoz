@@ -16,6 +16,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   const [isValidEID, setIsValidEID] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const [deviceInfo, setDeviceInfo] = useState<{ brand: string; model: string; } | null>(null);
+  const [lastValidatedEid, setLastValidatedEid] = useState<string>("");
   const { toast } = useToast();
 
   const validateEID = async (value: string) => {
@@ -27,6 +28,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
         if (validation.isValid && validation.deviceInfo) {
           setIsValidEID(true);
           setDeviceInfo(validation.deviceInfo);
+          setLastValidatedEid(value);  // Store the last valid EID
           
           toast({
             title: "Dispositivo identificado",
@@ -35,6 +37,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
         } else {
           setIsValidEID(false);
           setDeviceInfo(null);
+          setLastValidatedEid("");  // Clear last valid EID
           
           toast({
             variant: "destructive",
@@ -46,6 +49,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
         console.error('Erro na validação do EID:', error);
         setIsValidEID(false);
         setDeviceInfo(null);
+        setLastValidatedEid("");  // Clear last valid EID
         
         toast({
           variant: "destructive",
@@ -63,8 +67,17 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (isValidEID && !isValidating) {
+    // Only allow submission if current EID matches the last validated EID
+    if (isValidEID && !isValidating && eid === lastValidatedEid) {
       onSubmit(eid);
+    } else if (eid !== lastValidatedEid) {
+      toast({
+        variant: "destructive",
+        title: "EID modificado",
+        description: "O EID foi modificado após a validação. Por favor, valide novamente."
+      });
+      setIsValidEID(false);
+      setDeviceInfo(null);
     }
   };
 
@@ -90,6 +103,13 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
             const value = e.target.value.replace(/[^0-9a-fA-F]/g, '');
             if (value.length <= 32) {
               setEID(value.toUpperCase());
+              
+              // If EID changed from previously validated one, reset validation state
+              if (lastValidatedEid && value !== lastValidatedEid) {
+                setIsValidEID(false);
+                setDeviceInfo(null);
+              }
+              
               await validateEID(value);
             }
           }}
@@ -126,7 +146,7 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
           <Button 
             type="submit"
             className="flex-1 bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3"
-            disabled={!isValidEID || isValidating}
+            disabled={!isValidEID || isValidating || eid !== lastValidatedEid}
           >
             Continuar
           </Button>
