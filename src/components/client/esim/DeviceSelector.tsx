@@ -28,12 +28,12 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
         </p>
       </div>
 
-      <div className={`${isMobile ? 'flex gap-3 px-2' : 'space-y-4'} mt-4 w-full`}>
+      <div className="flex flex-col md:flex-col gap-4 mt-4 w-full">
         <div 
-          className={`p-4 rounded-lg border transition-all cursor-pointer relative hover:bg-transparent ${isMobile ? 'flex-1 w-[calc(50%+4px)]' : 'w-[calc(100%+4px)]'}
+          className={`p-4 rounded-lg border border-[#8425af] cursor-pointer relative w-full
             ${selectedDevice === 'android' 
               ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px]'
-              : 'border-[#8425af] hover:border-[#8425af]'
+              : 'hover:border-[#8425af]'
             }`}
           onClick={() => setSelectedDevice('android')}
         >
@@ -53,16 +53,16 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
         </div>
 
         <div 
-          className={`p-4 rounded-lg border transition-all cursor-pointer relative hover:bg-transparent ${isMobile ? 'flex-1 w-[calc(50%+4px)]' : 'w-[calc(100%+4px)]'}
+          className={`p-4 rounded-lg border border-[#8425af] cursor-pointer relative w-full
             ${selectedDevice === 'ios' 
               ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px]'
-              : 'border-[#8425af] hover:border-[#8425af]'
+              : 'hover:border-[#8425af]'
             }`}
           onClick={() => setSelectedDevice('ios')}
         >
           <div className="flex items-center justify-between">
-            <label htmlFor="ios" className="text-lg font-medium text-black whitespace-nowrap">
-              <span className="text-base">iOS (iPhone)</span>
+            <label htmlFor="ios" className="text-lg font-medium text-black">
+              iOS (iPhone)
             </label>
             <input
               type="radio"
@@ -76,17 +76,17 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
         </div>
       </div>
 
-      <div className="flex justify-between items-center mt-8 w-full">
+      <div className="flex justify-between items-center gap-4 mt-8 w-full">
         <Button 
           variant="outline"
-          className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg px-8 py-3 w-[calc(50%-8px+4px)]"
+          className="border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg py-3 flex-1"
           onClick={onBack}
         >
           Voltar
         </Button>
         <Button 
           onClick={() => onSelect(selectedDevice)}
-          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg px-8 py-3 w-[calc(50%-8px+4px)]"
+          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3 flex-1"
         >
           Continuar
         </Button>
