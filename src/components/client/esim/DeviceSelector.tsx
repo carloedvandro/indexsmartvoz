@@ -61,8 +61,8 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
           onClick={() => setSelectedDevice('ios')}
         >
           <div className="flex items-center justify-between">
-            <label htmlFor="ios" className="text-lg font-medium text-black">
-              iOS (iPhone)
+            <label htmlFor="ios" className="text-lg font-medium text-black whitespace-nowrap">
+              <span className="text-base">iOS (iPhone)</span>
             </label>
             <input
               type="radio"
