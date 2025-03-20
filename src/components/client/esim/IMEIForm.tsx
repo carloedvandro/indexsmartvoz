@@ -81,9 +81,14 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   };
 
   return (
-    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6 pt-28">
+    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6 pt-48">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-semibold">
+        <img 
+          src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
+          alt="Smartvoz Logo" 
+          className="h-[140px] object-contain mx-auto mix-blend-multiply opacity-90 contrast-125"
+        />
+        <h2 className="text-2xl font-semibold max-w-[300px] mx-auto">
           Digite o IMEI do {deviceType === 'android' ? 'Android' : 'iPhone'} com eSIM
         </h2>
         <p className="text-black text-sm">
