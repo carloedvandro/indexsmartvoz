@@ -12,14 +12,24 @@ export const validateDeviceIdentifier = async (
   console.log('Iniciando validação:', { deviceType, identifierType, value });
 
   try {
-    const cleanValue = value.replace(/[^0-9a-fA-F]/g, '');
+    // Limpeza mais rigorosa do valor de entrada
+    const cleanValue = value.trim().replace(/[^0-9a-fA-F]/g, '').toUpperCase();
+    
+    // Verificar se o valor limpo é idêntico ao valor de entrada (exceto case)
+    // Isso garante que não haja caracteres inválidos removidos durante a limpeza
+    if (cleanValue.toUpperCase() !== value.toUpperCase()) {
+      console.log('Identificador inválido: contém caracteres não permitidos');
+      return { isValid: false };
+    }
 
     if (identifierType === 'imei') {
+      // Verificação rigorosa de comprimento para IMEI
       if (cleanValue.length !== 15) {
         console.log('IMEI inválido: comprimento incorreto');
         return { isValid: false };
       }
 
+      // Verificação de checksum para IMEI
       if (!validateImeiChecksum(cleanValue)) {
         console.log('IMEI inválido: checksum incorreto');
         return { isValid: false };
@@ -53,24 +63,30 @@ export const validateDeviceIdentifier = async (
     }
 
     if (identifierType === 'eid') {
-      // Verificação rigorosa de comprimento
+      // Verificação rigorosa de comprimento para EID - deve ter EXATAMENTE 32 caracteres
       if (cleanValue.length !== 32) {
         console.log('EID inválido: comprimento incorreto');
         return { isValid: false };
       }
 
-      // Verificação rigorosa de formato hexadecimal
+      // Verificação rigorosa de formato hexadecimal para EID
       if (!/^[0-9A-F]{32}$/i.test(cleanValue)) {
         console.log('EID inválido: formato hexadecimal incorreto');
         return { isValid: false };
       }
+      
+      // Verificação de prefixo para EIDs - maioria começa com 89 (código de país)
+      if (!cleanValue.startsWith('89')) {
+        console.log('EID inválido: prefixo incorreto');
+        return { isValid: false };
+      }
 
-      // Lista de EIDs conhecidos e válidos (lista local para validação rápida)
+      // Lista de EIDs conhecidos para validação rápida
       const knownValidEIDs = [
         '89033023525100100100035763232936'
       ];
       
-      // Verificar na lista local de EIDs conhecidos
+      // Verificar na lista local de EIDs conhecidos (validação exata, case-insensitive)
       if (knownValidEIDs.includes(cleanValue.toUpperCase())) {
         console.log('EID válido encontrado na lista local:', cleanValue);
         return {
