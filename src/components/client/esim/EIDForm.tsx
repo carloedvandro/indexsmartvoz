@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { validateDeviceIdentifier } from "@/services/esim/deviceValidationService";
@@ -18,6 +18,15 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   const [deviceInfo, setDeviceInfo] = useState<{ brand: string; model: string; } | null>(null);
   const [lastValidatedEid, setLastValidatedEid] = useState<string>("");
   const { toast } = useToast();
+
+  // Este efeito garantirá que o estado de validação seja limpo sempre que o EID mudar
+  useEffect(() => {
+    // Se o EID atual for diferente do último EID validado com sucesso, resetamos a validação
+    if (eid !== lastValidatedEid) {
+      setIsValidEID(false);
+      // Não limpamos o deviceInfo aqui para melhorar a UX, apenas quando a validação falhar
+    }
+  }, [eid, lastValidatedEid]);
 
   const validateEID = async (value: string) => {
     if (value.length === 32) {
@@ -67,17 +76,42 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Only allow submission if current EID matches the last validated EID
+    
+    // Verificar se o EID atual é exatamente igual ao último EID validado com sucesso
     if (isValidEID && !isValidating && eid === lastValidatedEid) {
       onSubmit(eid);
-    } else if (eid !== lastValidatedEid) {
-      toast({
-        variant: "destructive",
-        title: "EID modificado",
-        description: "O EID foi modificado após a validação. Por favor, valide novamente."
-      });
+    } else {
+      // Mostrar um erro se o EID foi modificado após a validação
+      if (eid !== lastValidatedEid) {
+        toast({
+          variant: "destructive",
+          title: "EID modificado",
+          description: "O EID foi modificado após a validação. Por favor, valide novamente."
+        });
+      }
+      // Resetar o estado para forçar uma nova validação
       setIsValidEID(false);
-      setDeviceInfo(null);
+    }
+  };
+
+  const handleEidChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Limpar caracteres inválidos
+    const value = e.target.value.replace(/[^0-9a-fA-F]/g, '');
+    
+    if (value.length <= 32) {
+      const upperValue = value.toUpperCase();
+      setEID(upperValue);
+      
+      // Se o valor mudou do último validado, desabilitar a validação
+      if (upperValue !== lastValidatedEid) {
+        setIsValidEID(false);
+        // Mantém as informações do dispositivo visíveis até a próxima validação
+      }
+      
+      // Apenas validar quando tiver 32 caracteres
+      if (value.length === 32) {
+        await validateEID(upperValue);
+      }
     }
   };
 
@@ -99,33 +133,22 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
           type="text"
           placeholder="Digite o EID"
           value={eid}
-          onChange={async (e) => {
-            const value = e.target.value.replace(/[^0-9a-fA-F]/g, '');
-            if (value.length <= 32) {
-              setEID(value.toUpperCase());
-              
-              // If EID changed from previously validated one, reset validation state
-              if (lastValidatedEid && value !== lastValidatedEid) {
-                setIsValidEID(false);
-                setDeviceInfo(null);
-              }
-              
-              await validateEID(value);
-            }
-          }}
+          onChange={handleEidChange}
           className={`w-full text-center text-lg rounded-lg border focus:ring-2 focus:ring-[#8425af] ${
-            deviceInfo ? 'ring-2 ring-green-500' : 
-            eid.length === 32 && !deviceInfo ? 'ring-2 ring-red-500' : ''
+            deviceInfo && isValidEID && eid === lastValidatedEid ? 'ring-2 ring-green-500' : 
+            eid.length === 32 && (!deviceInfo || !isValidEID || eid !== lastValidatedEid) ? 'ring-2 ring-red-500' : ''
           }`}
         />
 
         {deviceInfo && (
-          <div className="text-center p-4 bg-green-50 rounded-lg">
-            <p className="font-medium text-green-800">
+          <div className={`text-center p-4 rounded-lg ${isValidEID && eid === lastValidatedEid ? 'bg-green-50' : 'bg-red-50'}`}>
+            <p className={`font-medium ${isValidEID && eid === lastValidatedEid ? 'text-green-800' : 'text-red-800'}`}>
               {deviceInfo.brand} {deviceInfo.model}
             </p>
-            <p className="text-sm text-green-600">
-              Dispositivo compatível com eSIM
+            <p className={`text-sm ${isValidEID && eid === lastValidatedEid ? 'text-green-600' : 'text-red-600'}`}>
+              {isValidEID && eid === lastValidatedEid 
+                ? "Dispositivo compatível com eSIM" 
+                : "EID modificado após validação. Por favor, valide novamente."}
             </p>
           </div>
         )}
