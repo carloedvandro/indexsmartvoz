@@ -49,8 +49,8 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         onClick={handleToggleClick}
       >
         <motion.div 
-          className="absolute w-full h-full transition-colors"
-          style={{ 
+          className="absolute w-full h-full"
+          animate={{ 
             backgroundColor: isOn ? "#10b981" : "#ef4444"
           }}
           initial={{ x: 0 }}
