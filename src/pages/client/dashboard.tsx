@@ -10,6 +10,7 @@ import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { DollarSign, LineChart, TrendingUp } from "lucide-react";
+import { formatCurrency } from "@/utils/format";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -57,46 +58,58 @@ export default function ClientDashboard() {
             <div className="px-6 mb-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card 
-                  className="relative p-6 bg-[#5f0889]/90 backdrop-blur-sm text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="relative px-6 py-4 bg-[#9b67fb] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleBalanceCardClick}
                 >
-                  <div className="relative z-10 flex items-center space-x-4">
-                    <div className="p-3 bg-white/20 rounded-full">
-                      <DollarSign className="w-6 h-6" />
+                  <div className="relative z-10 flex items-center gap-4">
+                    <div className="p-1">
+                      <img 
+                        src="/lovable-uploads/84108351-37b9-4b60-acce-8689d183c3de.png" 
+                        alt="Invoice icon" 
+                        className="w-10 h-10" 
+                      />
                     </div>
-                    <div>
-                      <p className="text-sm opacity-90">Saldo Disponível</p>
-                      <p className="text-2xl font-semibold">R$ 5.000,01</p>
+                    <div className="flex flex-col">
+                      <p className="text-2xl font-bold">{formatCurrency(610690.89)}</p>
+                      <p className="text-sm font-light">Total de saldo</p>
                     </div>
                   </div>
                 </Card>
 
                 <Card 
-                  className="relative p-6 bg-[#5f0889]/90 backdrop-blur-sm text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="relative px-6 py-4 bg-[#9b67fb] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleEarningsCardClick}
                 >
-                  <div className="relative z-10 flex items-center space-x-4">
-                    <div className="p-3 bg-white/20 rounded-full">
-                      <LineChart className="w-6 h-6" />
+                  <div className="relative z-10 flex items-center gap-4">
+                    <div className="p-1">
+                      <img 
+                        src="/lovable-uploads/84108351-37b9-4b60-acce-8689d183c3de.png" 
+                        alt="Invoice icon" 
+                        className="w-10 h-10" 
+                      />
                     </div>
-                    <div>
-                      <p className="text-sm opacity-90">Ganhos até hoje</p>
-                      <p className="text-2xl font-semibold">R$ 42.576,22</p>
+                    <div className="flex flex-col">
+                      <p className="text-2xl font-bold">{formatCurrency(42576.22)}</p>
+                      <p className="text-sm font-light">Ganhos até hoje</p>
                     </div>
                   </div>
                 </Card>
 
                 <Card 
-                  className="relative p-6 bg-[#5f0889]/90 backdrop-blur-sm text-white rounded-lg border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="relative px-6 py-4 bg-[#9b67fb] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleForecastCardClick}
                 >
-                  <div className="relative z-10 flex items-center space-x-4">
-                    <div className="p-3 bg-white/20 rounded-full">
-                      <TrendingUp className="w-6 h-6" />
+                  <div className="relative z-10 flex items-center gap-4">
+                    <div className="p-1">
+                      <img 
+                        src="/lovable-uploads/84108351-37b9-4b60-acce-8689d183c3de.png" 
+                        alt="Invoice icon" 
+                        className="w-10 h-10" 
+                      />
                     </div>
-                    <div>
-                      <p className="text-sm opacity-90">Previsão de Ganhos</p>
-                      <p className="text-2xl font-semibold">R$ 0,00</p>
+                    <div className="flex flex-col">
+                      <p className="text-2xl font-bold">{formatCurrency(0)}</p>
+                      <p className="text-sm font-light">Previsão de Ganhos</p>
                     </div>
                   </div>
                 </Card>
