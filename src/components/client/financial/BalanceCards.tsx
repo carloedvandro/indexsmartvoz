@@ -53,7 +53,7 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-1">
               <span className="text-gray-900 font-medium">Total de saldo</span>
-              <span className="text-red-500 font-medium">bloqueado</span>
+              <span className="text-red-500 font-medium mt-1">bloqueado</span>
             </div>
             <div className="flex items-baseline gap-1">
               <span className="text-gray-500">R$</span>
