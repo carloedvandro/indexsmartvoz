@@ -27,14 +27,8 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
               className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap ml-1"
             >
               {item.icon === "home" && (
-                <div className="flex items-end gap-1 -ml-2">
-                  <img 
-                    src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
-                    alt="Dashboards" 
-                    className="w-10 h-10 border-0 outline-none focus:outline-none active:outline-none" 
-                    style={{outline: 'none'}}
-                  />
-                  <span className="text-base font-bold pb-[6px]">Dashboards</span>
+                <div className="flex items-center">
+                  <span className="text-base font-bold">Dashboards</span>
                 </div>
               )}
               {!item.iconOnly && item.icon !== "home" && (

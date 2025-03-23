@@ -26,22 +26,12 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
           <DropdownMenuTrigger asChild>
             <Button 
               variant="ghost" 
-              className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-end -ml-6"
-              style={{ pointerEvents: 'auto', transform: 'translateY(19px)' }}
+              className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-center"
+              style={{ pointerEvents: 'auto' }}
             >
-              <img 
-                src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
-                alt="Dashboards" 
-                className="w-14 h-14 outline-none focus:outline-none active:outline-none" 
-                style={{outline: 'none'}}
-                loading="eager"
-                fetchPriority="high"
-              />
               <span 
                 className="font-bold" 
                 style={{
-                  marginBottom: '8px',
-                  marginLeft: '-9px', 
                   color: '#5f0889',
                   pointerEvents: 'none',
                   fontSize: '1.1rem'
@@ -56,13 +46,6 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <>
                 <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
-                    <img 
-                      src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
-                      alt="Dashboards" 
-                      className="w-14 h-14 outline-none focus:outline-none" 
-                      style={{outline: 'none'}}
-                      loading="eager"
-                    />
                     <span className="font-bold self-center text-[#5f0889]">Dashboards</span>
                   </Link>
                 </DropdownMenuItem>
