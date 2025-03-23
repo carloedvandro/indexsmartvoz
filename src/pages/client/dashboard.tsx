@@ -63,7 +63,7 @@ export default function ClientDashboard() {
                     </div>
                     <div className="text-right">
                       <p className="text-3xl font-bold">{formatCurrency(610690.89)}</p>
-                      <p className="text-sm font-light">Total de saldo</p>
+                      <p className="text-sm font-light mt-1">Total de saldo</p>
                     </div>
                   </div>
                 </Card>
@@ -82,7 +82,7 @@ export default function ClientDashboard() {
                     </div>
                     <div className="text-right">
                       <p className="text-3xl font-bold">{formatCurrency(42576.22)}</p>
-                      <p className="text-sm font-light">Ganhos até hoje</p>
+                      <p className="text-sm font-light mt-1">Ganhos até hoje</p>
                     </div>
                   </div>
                 </Card>
