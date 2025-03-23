@@ -46,7 +46,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         <img 
           src="/lovable-uploads/78dbfd4e-37c2-4b7c-8bb9-b400c2cdb84d.png" 
           alt="Logout" 
-          className="h-5 w-5 transition-transform duration-300 hover:scale-110" 
+          className="h-5 w-5" 
         />
         <span>Sair</span>
       </button>
