@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/format";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 interface BalanceCardsProps {
   selectedMonth: string;

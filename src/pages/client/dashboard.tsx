@@ -11,7 +11,6 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/format";
 import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
-import { WarpBackground } from "@/components/ui/warp-background";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
