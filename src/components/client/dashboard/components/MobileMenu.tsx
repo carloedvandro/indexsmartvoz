@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from "react-router-dom";
 import { X, ArrowRight, RefreshCw } from "lucide-react";
@@ -74,7 +75,9 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         {isOpen ? (
           <X className="w-12 h-12 font-bold text-black" />
         ) : (
-          <RefreshCw className="w-12 h-12 text-[#5f0889] font-bold animate-spin-slow" />
+          <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center">
+            <span className="text-white font-bold">MENU</span>
+          </div>
         )}
       </Button>
       {isOpen && (
