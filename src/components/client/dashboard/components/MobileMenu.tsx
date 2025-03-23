@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from "react-router-dom";
 import { X, ArrowRight, RefreshCw } from "lucide-react";
@@ -29,11 +30,11 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                 <div className="flex items-end gap-1 -ml-2">
                   <img 
                     src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
-                    alt="Home" 
+                    alt="Dashboards" 
                     className="w-10 h-10 border-0 outline-none focus:outline-none active:outline-none" 
                     style={{outline: 'none'}}
                   />
-                  <span className="text-base font-bold pb-[6px]">Home</span>
+                  <span className="text-base font-bold pb-[6px]">Dashboards</span>
                 </div>
               )}
               {!item.iconOnly && item.icon !== "home" && (

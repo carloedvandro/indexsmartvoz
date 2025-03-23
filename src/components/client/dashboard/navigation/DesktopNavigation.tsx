@@ -31,7 +31,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
             >
               <img 
                 src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
-                alt="Home" 
+                alt="Dashboards" 
                 className="w-14 h-14 outline-none focus:outline-none active:outline-none" 
                 style={{outline: 'none'}}
                 loading="eager"
@@ -47,7 +47,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                   fontSize: '1.1rem'
                 }}
               >
-                Home
+                Dashboards
               </span>
             </Button>
           </DropdownMenuTrigger>
@@ -58,12 +58,12 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
                     <img 
                       src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
-                      alt="Home" 
+                      alt="Dashboards" 
                       className="w-14 h-14 outline-none focus:outline-none" 
                       style={{outline: 'none'}}
                       loading="eager"
                     />
-                    <span className="font-bold self-center text-[#5f0889]">Home</span>
+                    <span className="font-bold self-center text-[#5f0889]">Dashboards</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
