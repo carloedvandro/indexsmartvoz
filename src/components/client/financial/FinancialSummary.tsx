@@ -20,6 +20,7 @@ export function FinancialSummary({
     <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-6 md:mb-8 mx-auto w-full md:w-[540px]">
       <div 
         className="bg-gradient-to-r from-[#5f0889] to-[#ff0000] text-white py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer hover:opacity-90 transition-opacity relative overflow-hidden"
+        style={{ background: 'linear-gradient(110deg, #5f0889, #ff0000)' }}
         onClick={() => onCardClick('earnings')}
       >
         <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-white rounded-tl-md rounded-bl-md"></div>
@@ -28,6 +29,7 @@ export function FinancialSummary({
       </div>
       <div 
         className="bg-gradient-to-r from-[#5f0889] to-[#ff0000] text-white py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer hover:opacity-90 transition-opacity relative overflow-hidden"
+        style={{ background: 'linear-gradient(110deg, #5f0889, #ff0000)' }}
         onClick={() => onCardClick('balance')}
       >
         <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-white rounded-tl-md rounded-bl-md"></div>
@@ -36,6 +38,7 @@ export function FinancialSummary({
       </div>
       <div 
         className="bg-gradient-to-r from-[#5f0889] to-[#ff0000] text-white py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer hover:opacity-90 transition-opacity relative overflow-hidden"
+        style={{ background: 'linear-gradient(110deg, #5f0889, #ff0000)' }}
         onClick={() => onCardClick('available')}
       >
         <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-white rounded-tl-md rounded-bl-md"></div>

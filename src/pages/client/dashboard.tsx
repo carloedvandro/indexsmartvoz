@@ -51,6 +51,7 @@ export default function ClientDashboard() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card 
                   className="relative px-6 py-4 bg-gradient-to-r from-[#5f0889] to-[#ff0000] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  style={{ background: 'linear-gradient(110deg, #5f0889, #ff0000)' }}
                   onClick={handleBalanceCardClick}
                 >
                   <div className="flex items-center justify-between">
@@ -70,6 +71,7 @@ export default function ClientDashboard() {
 
                 <Card 
                   className="relative px-6 py-4 bg-gradient-to-r from-[#5f0889] to-[#ff0000] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  style={{ background: 'linear-gradient(110deg, #5f0889, #ff0000)' }}
                   onClick={handleEarningsCardClick}
                 >
                   <div className="flex items-center justify-between">
