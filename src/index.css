@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -197,4 +198,31 @@ img:focus,
   width: 100%;
   text-align: left;
   padding-left: 0;
+}
+
+/* Estilos para o menu dropdown */
+[data-radix-dropdown-menu-content] {
+  background-color: white !important;
+}
+
+[data-radix-dropdown-menu-item] {
+  cursor: pointer !important;
+}
+
+/* Remove backgrounds on hover for dropdown items and adds purple text */
+[data-radix-dropdown-menu-item]:hover,
+[data-radix-dropdown-menu-item]:focus {
+  background-color: transparent !important;
+  color: #5f0889 !important;
+}
+
+/* Make sure the purple color applies to all text in dropdown items when hovering */
+[data-radix-dropdown-menu-item]:hover *,
+[data-radix-dropdown-menu-item]:focus * {
+  color: #5f0889 !important;
+}
+
+/* Specific styles for the "Plano Smartvoz" highlighted item */
+a:hover .arrow-icon {
+  color: #5f0889 !important;
 }
