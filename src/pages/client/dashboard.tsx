@@ -10,7 +10,6 @@ import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/format";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -51,45 +50,39 @@ export default function ClientDashboard() {
             <div className="px-6 mb-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card 
-                  className="relative px-6 py-4 bg-[#660099] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+                  className="relative px-6 py-4 bg-[#4c0470] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleBalanceCardClick}
                 >
-                  <div className="absolute inset-0">
-                    <ParticlesBackground style="matrix" />
-                  </div>
-                  <div className="flex items-center justify-between relative z-10">
+                  <div className="flex items-center justify-between">
                     <div>
                       <img 
                         src="/lovable-uploads/9c458018-4e54-4993-92c1-bf40c3e95228.png" 
                         alt="Dollar sign" 
-                        className="h-16 w-16" 
+                        className="h-12 w-12" 
                       />
                     </div>
                     <div className="text-right">
                       <p className="text-3xl font-bold">{formatCurrency(610690.89)}</p>
-                      <p className="text-sm font-light mt-1">Total de saldo</p>
+                      <p className="text-sm font-light">Total de saldo</p>
                     </div>
                   </div>
                 </Card>
 
                 <Card 
-                  className="relative px-6 py-4 bg-[#660099] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+                  className="relative px-6 py-4 bg-[#4c0470] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleEarningsCardClick}
                 >
-                  <div className="absolute inset-0">
-                    <ParticlesBackground style="matrix" />
-                  </div>
-                  <div className="flex items-center justify-between relative z-10">
+                  <div className="flex items-center justify-between">
                     <div>
                       <img 
                         src="/lovable-uploads/9c458018-4e54-4993-92c1-bf40c3e95228.png" 
                         alt="Dollar sign" 
-                        className="h-16 w-16" 
+                        className="h-12 w-12" 
                       />
                     </div>
                     <div className="text-right">
                       <p className="text-3xl font-bold">{formatCurrency(42576.22)}</p>
-                      <p className="text-sm font-light mt-1">Ganhos até hoje</p>
+                      <p className="text-sm font-light">Ganhos até hoje</p>
                     </div>
                   </div>
                 </Card>
