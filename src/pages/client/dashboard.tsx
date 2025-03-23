@@ -10,7 +10,6 @@ import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/format";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -51,13 +50,10 @@ export default function ClientDashboard() {
             <div className="px-6 mb-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card 
-                  className="relative px-6 py-4 bg-[#660099] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+                  className="relative px-6 py-4 bg-[#660099] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleBalanceCardClick}
                 >
-                  <div className="absolute inset-0 z-0">
-                    <ParticlesBackground style="matrix" />
-                  </div>
-                  <div className="flex items-center justify-between relative z-10">
+                  <div className="flex items-center justify-between">
                     <div>
                       <img 
                         src="/lovable-uploads/9c458018-4e54-4993-92c1-bf40c3e95228.png" 
@@ -73,13 +69,10 @@ export default function ClientDashboard() {
                 </Card>
 
                 <Card 
-                  className="relative px-6 py-4 bg-[#660099] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+                  className="relative px-6 py-4 bg-[#660099] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleEarningsCardClick}
                 >
-                  <div className="absolute inset-0 z-0">
-                    <ParticlesBackground style="matrix" />
-                  </div>
-                  <div className="flex items-center justify-between relative z-10">
+                  <div className="flex items-center justify-between">
                     <div>
                       <img 
                         src="/lovable-uploads/9c458018-4e54-4993-92c1-bf40c3e95228.png" 
