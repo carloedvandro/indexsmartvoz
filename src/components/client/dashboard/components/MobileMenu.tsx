@@ -28,7 +28,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
             >
               {item.icon === "home" && (
                 <div className="flex items-center">
-                  <span className="text-base font-bold">Dashboards</span>
+                  <span className="text-base font-bold text-lg">Dashboards</span>
                 </div>
               )}
               {!item.iconOnly && item.icon !== "home" && (
