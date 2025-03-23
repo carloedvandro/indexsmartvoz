@@ -1,8 +1,7 @@
 
 import { useState, useRef } from "react";
-import { LogOut, Power } from "lucide-react";
+import { Power } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 import { useEffect } from "react";
 
 interface LogoutButtonProps {
@@ -41,7 +40,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         className={cn(
-          "bg-red-600 hover:bg-red-700 text-white font-medium rounded-md h-10 px-4 flex items-center justify-center gap-2 transition-all duration-300",
+          "text-gray-700 hover:text-red-600 font-medium rounded-md h-10 px-4 flex items-center justify-center gap-2 transition-all duration-300",
           className
         )}
       >
