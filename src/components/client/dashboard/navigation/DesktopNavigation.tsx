@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -37,7 +36,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                   fontSize: '1.3rem'
                 }}
               >
-                Dashboards
+                Dashboard
               </span>
             </Button>
           </DropdownMenuTrigger>
@@ -46,7 +45,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <>
                 <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
-                    <span className="font-bold self-center text-[#5f0889] text-lg">Dashboards</span>
+                    <span className="font-bold self-center text-[#5f0889] text-lg">Dashboard</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
