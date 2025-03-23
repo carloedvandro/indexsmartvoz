@@ -37,10 +37,19 @@ export default {
             backgroundPosition: "var(--bg-size) 0",
           },
         },
+        "spin-slow": {
+          from: {
+            transform: "rotate(0deg)",
+          },
+          to: {
+            transform: "rotate(360deg)",
+          },
+        },
       },
       animation: {
         ...animations.animation,
         gradient: "gradient 8s linear infinite",
+        "spin-slow": "spin-slow 3s linear infinite",
       },
       maxWidth: {
         'sm': '384px', // Increased from default 24rem (384px)
