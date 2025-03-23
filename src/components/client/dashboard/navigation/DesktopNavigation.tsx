@@ -54,7 +54,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
           <DropdownMenuContent align="start" className="w-80 bg-white p-2">
             {homeItem.href && (
               <>
-                <DropdownMenuItem asChild className="hover:bg-transparent hover:text-[#5f0889]">
+                <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
                     <img 
                       src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
@@ -73,7 +73,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
             {otherItems.map((item) => (
               <div key={item.title}>
                 {item.href ? (
-                  <DropdownMenuItem asChild className="hover:bg-transparent hover:text-[#5f0889]">
+                  <DropdownMenuItem asChild>
                     <Link to={item.href} className="w-full whitespace-nowrap flex items-center justify-between">
                       <div className="flex items-center">
                         <ArrowRight className="h-4 w-4 mr-2" />
@@ -82,7 +82,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                     </Link>
                   </DropdownMenuItem>
                 ) : (
-                  <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap flex items-center hover:bg-transparent">
+                  <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap flex items-center">
                     {/* No arrow for "Loja Virtual" and "Rede" */}
                     {item.title !== "Loja Virtual" && item.title !== "Rede" && (
                       <ArrowRight className="h-4 w-4 mr-2" />
@@ -94,7 +94,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 {item.items && (
                   <div className="ml-0 mt-1 space-y-1">
                     {item.items.map((subItem) => (
-                      <DropdownMenuItem key={subItem.title} asChild className="hover:bg-transparent hover:text-[#5f0889]">
+                      <DropdownMenuItem key={subItem.title} asChild>
                         <Link 
                           to={subItem.href || "#"} 
                           className="w-full text-sm py-1 whitespace-nowrap flex items-center"
