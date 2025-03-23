@@ -50,8 +50,8 @@ export default function ClientDashboard() {
             <div className="px-6 mb-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card 
-                  className="relative px-6 py-4 bg-gradient-to-r from-[#ff0000] to-[#5f0889] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
-                  style={{ background: 'linear-gradient(80deg, #ff0000, #5f0889)' }}
+                  className="relative px-6 py-4 bg-gradient-to-r from-[#a46b31] to-[#5f0889] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  style={{ background: 'linear-gradient(120deg, #a46b31, #5f0889)' }}
                   onClick={handleBalanceCardClick}
                 >
                   <div className="flex items-center justify-between">
@@ -70,8 +70,8 @@ export default function ClientDashboard() {
                 </Card>
 
                 <Card 
-                  className="relative px-6 py-4 bg-gradient-to-r from-[#ff0000] to-[#5f0889] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
-                  style={{ background: 'linear-gradient(80deg, #ff0000, #5f0889)' }}
+                  className="relative px-6 py-4 bg-gradient-to-r from-[#a46b31] to-[#5f0889] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  style={{ background: 'linear-gradient(120deg, #a46b31, #5f0889)' }}
                   onClick={handleEarningsCardClick}
                 >
                   <div className="flex items-center justify-between">
