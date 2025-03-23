@@ -32,10 +32,6 @@ export default function ClientDashboard() {
       }
     });
   };
-  
-  const handleForecastCardClick = () => {
-    navigate("/client/earnings-forecast");
-  };
 
   if (!profile) {
     return null;
@@ -52,7 +48,7 @@ export default function ClientDashboard() {
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           <div className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
             <div className="px-6 mb-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card 
                   className="relative px-6 py-4 bg-[#4c0470] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleBalanceCardClick}
@@ -87,25 +83,6 @@ export default function ClientDashboard() {
                     <div className="text-right">
                       <p className="text-2xl font-bold">{formatCurrency(42576.22)}</p>
                       <p className="text-sm font-light">Ganhos até hoje</p>
-                    </div>
-                  </div>
-                </Card>
-
-                <Card 
-                  className="relative px-6 py-4 bg-[#4c0470] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
-                  onClick={handleForecastCardClick}
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <img 
-                        src="/lovable-uploads/9c458018-4e54-4993-92c1-bf40c3e95228.png" 
-                        alt="Dollar sign" 
-                        className="h-12 w-12" 
-                      />
-                    </div>
-                    <div className="text-right">
-                      <p className="text-2xl font-bold">{formatCurrency(0)}</p>
-                      <p className="text-sm font-light">Previsão de Ganhos</p>
                     </div>
                   </div>
                 </Card>
