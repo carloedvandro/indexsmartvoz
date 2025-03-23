@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
@@ -11,26 +11,50 @@ interface LogoutButtonProps {
 
 export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   const [isOn, setIsOn] = useState(true);
+  const [audioLoaded, setAudioLoaded] = useState(false);
+  const [audio] = useState(new Audio("/beep.mp3"));
 
-  const handleToggleChange = (checked: boolean) => {
-    setIsOn(checked);
+  useEffect(() => {
+    // Preload the audio
+    audio.load();
+    setAudioLoaded(true);
     
-    // If turning off, trigger logout
-    if (!checked) {
-      // Short delay to allow the animation to complete
+    return () => {
+      audio.pause();
+    };
+  }, [audio]);
+
+  const handleToggleClick = () => {
+    // Toggle state
+    setIsOn(!isOn);
+    
+    // Play sound effect if loaded
+    if (audioLoaded) {
+      audio.currentTime = 0;
+      audio.play().catch(err => console.error("Error playing sound:", err));
+    }
+    
+    // If turning off, trigger logout after animation
+    if (isOn) {
       setTimeout(() => {
         onLogout();
-      }, 300);
+      }, 400);
     }
   };
 
   return (
     <div className={cn("flex items-center gap-2", className)}>
-      <div className="relative w-[110px] h-[45px] rounded-full border-2 border-gray-200 flex items-center overflow-hidden shadow-sm">
+      <div 
+        className="relative w-[110px] h-[45px] rounded-full border-2 border-gray-200 flex items-center overflow-hidden shadow-sm cursor-pointer"
+        onClick={handleToggleClick}
+      >
         <motion.div 
-          className="absolute w-full h-full bg-green-500 transition-colors"
+          className="absolute w-full h-full transition-colors"
+          style={{ 
+            backgroundColor: isOn ? "#10b981" : "#ef4444"
+          }}
           initial={{ x: 0 }}
-          animate={{ x: isOn ? 0 : "100%" }}
+          animate={{ x: isOn ? 0 : "-100%" }}
           transition={{ type: "spring", stiffness: 500, damping: 30 }}
         />
         
@@ -50,7 +74,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         />
         
         <motion.span 
-          className="relative z-10 text-gray-700 font-bold ml-auto pr-4"
+          className="relative z-10 text-white font-bold ml-auto pr-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: isOn ? 0 : 1 }}
         >
@@ -60,7 +84,12 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
       
       <Switch
         checked={isOn}
-        onCheckedChange={handleToggleChange}
+        onCheckedChange={(checked) => {
+          setIsOn(checked);
+          if (!checked) {
+            setTimeout(() => onLogout(), 400);
+          }
+        }}
         className="hidden"
       />
       
