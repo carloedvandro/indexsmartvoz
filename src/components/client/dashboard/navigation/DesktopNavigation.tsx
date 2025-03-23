@@ -20,17 +20,17 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
   const otherItems = navigationItems.filter(item => item.icon !== "home");
 
   return (
-    <div className="justify-start items-center gap-2 lg:flex hidden flex-row pl-2">
+    <div className="justify-start items-center gap-2 lg:flex hidden flex-row pl-0">
       {homeItem && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button 
               variant="ghost" 
-              className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-center"
+              className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-center pl-0"
               style={{ pointerEvents: 'auto' }}
             >
               <span 
-                className="font-bold" 
+                className="font-bold text-left" 
                 style={{
                   color: '#5f0889',
                   pointerEvents: 'none',

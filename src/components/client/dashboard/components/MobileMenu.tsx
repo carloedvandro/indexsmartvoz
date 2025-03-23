@@ -24,11 +24,11 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
           {item.href ? (
             <Link
               to={item.href}
-              className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap ml-1"
+              className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap ml-0"
             >
               {item.icon === "home" && (
                 <div className="flex items-center">
-                  <span className="text-base font-bold text-lg">Dashboards</span>
+                  <span className="text-base font-bold text-lg pl-0">Dashboards</span>
                 </div>
               )}
               {!item.iconOnly && item.icon !== "home" && (
