@@ -51,10 +51,10 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         <motion.div 
           className="absolute w-full h-full"
           animate={{ 
-            backgroundColor: isOn ? "#10b981" : "#ef4444"
+            backgroundColor: isOn ? "#10b981" : "#ef4444",
+            x: isOn ? 0 : "-100%"
           }}
           initial={{ x: 0 }}
-          animate={{ x: isOn ? 0 : "-100%" }}
           transition={{ type: "spring", stiffness: 500, damping: 30 }}
         />
         
