@@ -30,25 +30,13 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               style={{ pointerEvents: 'auto', transform: 'translateY(19px)' }}
             >
               <img 
-                src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
-                alt="Home" 
-                className="w-14 h-14 outline-none focus:outline-none active:outline-none" 
+                src="/lovable-uploads/6be544b6-ff00-402c-af73-5cf737135a6c.png" 
+                alt="Menu" 
+                className="w-28 h-12 outline-none focus:outline-none active:outline-none" 
                 style={{outline: 'none'}}
                 loading="eager"
                 fetchPriority="high"
               />
-              <span 
-                className="font-bold" 
-                style={{
-                  marginBottom: '8px',
-                  marginLeft: '-9px', 
-                  color: '#5f0889',
-                  pointerEvents: 'none',
-                  fontSize: '1.1rem'
-                }}
-              >
-                Home
-              </span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-80 bg-white p-2">
@@ -57,13 +45,12 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
                     <img 
-                      src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
-                      alt="Home" 
-                      className="w-14 h-14 outline-none focus:outline-none" 
+                      src="/lovable-uploads/6be544b6-ff00-402c-af73-5cf737135a6c.png" 
+                      alt="Menu" 
+                      className="w-28 h-12 outline-none focus:outline-none" 
                       style={{outline: 'none'}}
                       loading="eager"
                     />
-                    <span className="font-bold self-center text-[#5f0889]">Home</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />

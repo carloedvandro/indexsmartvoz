@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { Link } from "react-router-dom";
-import { X, ArrowRight, RefreshCw } from "lucide-react";
+import { X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
@@ -28,12 +29,11 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
               {item.icon === "home" && (
                 <div className="flex items-end gap-1 -ml-2">
                   <img 
-                    src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
+                    src="/lovable-uploads/6be544b6-ff00-402c-af73-5cf737135a6c.png" 
                     alt="Home" 
-                    className="w-10 h-10 border-0 outline-none focus:outline-none active:outline-none" 
+                    className="w-28 h-12 border-0 outline-none focus:outline-none active:outline-none" 
                     style={{outline: 'none'}}
                   />
-                  <span className="text-base font-bold pb-[6px]">Home</span>
                 </div>
               )}
               {!item.iconOnly && item.icon !== "home" && (
@@ -74,7 +74,15 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         {isOpen ? (
           <X className="w-12 h-12 font-bold text-black" />
         ) : (
-          <RefreshCw className="w-12 h-12 text-[#5f0889] font-bold animate-spin-slow" />
+          <div className="rounded-full shadow-md" style={{ 
+            backgroundColor: '#FF0000', 
+            padding: '8px 20px',
+            borderRadius: '30px',
+            boxShadow: '0 4px 0 #000',
+            transform: 'translateY(-2px)'
+          }}>
+            <span className="text-white font-bold text-xl">MENU</span>
+          </div>
         )}
       </Button>
       {isOpen && (
