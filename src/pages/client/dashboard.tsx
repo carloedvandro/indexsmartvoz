@@ -60,8 +60,8 @@ export default function ClientDashboard() {
                   <div className="flex items-center justify-between">
                     <div>
                       <img 
-                        src="/lovable-uploads/84108351-37b9-4b60-acce-8689d183c3de.png" 
-                        alt="Invoice icon" 
+                        src="/lovable-uploads/3fed3762-3750-4f62-8ccc-ed8df0158585.png" 
+                        alt="Dollar sign" 
                         className="h-12 w-12" 
                       />
                     </div>
@@ -79,8 +79,8 @@ export default function ClientDashboard() {
                   <div className="flex items-center justify-between">
                     <div>
                       <img 
-                        src="/lovable-uploads/84108351-37b9-4b60-acce-8689d183c3de.png" 
-                        alt="Invoice icon" 
+                        src="/lovable-uploads/3fed3762-3750-4f62-8ccc-ed8df0158585.png" 
+                        alt="Dollar sign" 
                         className="h-12 w-12" 
                       />
                     </div>
@@ -98,8 +98,8 @@ export default function ClientDashboard() {
                   <div className="flex items-center justify-between">
                     <div>
                       <img 
-                        src="/lovable-uploads/84108351-37b9-4b60-acce-8689d183c3de.png" 
-                        alt="Invoice icon" 
+                        src="/lovable-uploads/3fed3762-3750-4f62-8ccc-ed8df0158585.png" 
+                        alt="Dollar sign" 
                         className="h-12 w-12" 
                       />
                     </div>
