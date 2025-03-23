@@ -9,7 +9,6 @@ import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
-import { DollarSign, LineChart, TrendingUp } from "lucide-react";
 import { formatCurrency } from "@/utils/format";
 
 export default function ClientDashboard() {
@@ -22,12 +21,10 @@ export default function ClientDashboard() {
   };
 
   const handleBalanceCardClick = () => {
-    // Navega para a página de financeiro resumo
     navigate("/client/financial");
   };
 
   const handleEarningsCardClick = () => {
-    // Abre o dialog de detalhes dos ganhos
     navigate("/client/financial/details", {
       state: { 
         type: "earnings",
@@ -37,7 +34,6 @@ export default function ClientDashboard() {
   };
   
   const handleForecastCardClick = () => {
-    // Navega para a página de previsão de ganhos
     navigate("/client/earnings-forecast");
   };
 
@@ -61,15 +57,15 @@ export default function ClientDashboard() {
                   className="relative px-6 py-4 bg-[#9b67fb] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleBalanceCardClick}
                 >
-                  <div className="relative z-10 flex items-center gap-4">
-                    <div className="p-1">
+                  <div className="flex items-center justify-between">
+                    <div>
                       <img 
                         src="/lovable-uploads/84108351-37b9-4b60-acce-8689d183c3de.png" 
                         alt="Invoice icon" 
-                        className="w-10 h-10" 
+                        className="h-12 w-12" 
                       />
                     </div>
-                    <div className="flex flex-col">
+                    <div className="text-right">
                       <p className="text-2xl font-bold">{formatCurrency(610690.89)}</p>
                       <p className="text-sm font-light">Total de saldo</p>
                     </div>
@@ -80,15 +76,15 @@ export default function ClientDashboard() {
                   className="relative px-6 py-4 bg-[#9b67fb] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleEarningsCardClick}
                 >
-                  <div className="relative z-10 flex items-center gap-4">
-                    <div className="p-1">
+                  <div className="flex items-center justify-between">
+                    <div>
                       <img 
                         src="/lovable-uploads/84108351-37b9-4b60-acce-8689d183c3de.png" 
                         alt="Invoice icon" 
-                        className="w-10 h-10" 
+                        className="h-12 w-12" 
                       />
                     </div>
-                    <div className="flex flex-col">
+                    <div className="text-right">
                       <p className="text-2xl font-bold">{formatCurrency(42576.22)}</p>
                       <p className="text-sm font-light">Ganhos até hoje</p>
                     </div>
@@ -99,15 +95,15 @@ export default function ClientDashboard() {
                   className="relative px-6 py-4 bg-[#9b67fb] text-white rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleForecastCardClick}
                 >
-                  <div className="relative z-10 flex items-center gap-4">
-                    <div className="p-1">
+                  <div className="flex items-center justify-between">
+                    <div>
                       <img 
                         src="/lovable-uploads/84108351-37b9-4b60-acce-8689d183c3de.png" 
                         alt="Invoice icon" 
-                        className="w-10 h-10" 
+                        className="h-12 w-12" 
                       />
                     </div>
-                    <div className="flex flex-col">
+                    <div className="text-right">
                       <p className="text-2xl font-bold">{formatCurrency(0)}</p>
                       <p className="text-sm font-light">Previsão de Ganhos</p>
                     </div>
