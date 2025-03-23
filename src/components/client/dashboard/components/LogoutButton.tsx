@@ -1,6 +1,5 @@
 
 import { useState, useRef } from "react";
-import { Power } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 
@@ -44,7 +43,11 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
           className
         )}
       >
-        <Power className="h-4 w-4" />
+        <img 
+          src="/lovable-uploads/78dbfd4e-37c2-4b7c-8bb9-b400c2cdb84d.png" 
+          alt="Logout" 
+          className="h-5 w-5" 
+        />
         <span>Sair</span>
       </button>
     </div>
