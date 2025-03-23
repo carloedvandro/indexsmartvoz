@@ -33,7 +33,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   };
 
   return (
-    <div className={cn("relative mr-0.5", className)}>
+    <div className={cn("relative mr-2", className)}>
       <button 
         onClick={handleLogout}
         onMouseEnter={() => setHover(true)}
