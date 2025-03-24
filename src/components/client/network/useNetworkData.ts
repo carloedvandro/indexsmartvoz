@@ -44,11 +44,14 @@ export const useNetworkData = (userId: string) => {
         console.log("Raw network members data:", allNetworkMembers);
 
         if (allNetworkMembers && allNetworkMembers.length > 0) {
+          // Get all unique user_ids from network members
+          const userIds = [...new Set(allNetworkMembers.map(member => member.user_id))];
+          
           // Fetch all profiles in a single query
           const { data: profilesData, error: profilesError } = await supabase
             .from("profiles")
             .select("id, full_name, email, custom_id, status, registration_date")
-            .in('id', allNetworkMembers.map(member => member.user_id));
+            .in('id', userIds);
 
           if (profilesError) {
             console.error("Error fetching profiles:", profilesError);
@@ -73,6 +76,7 @@ export const useNetworkData = (userId: string) => {
                 level: member.level,
                 parentId: member.parent_id,
                 user: {
+                  id: profileData.id,
                   full_name: profileData.full_name || null,
                   email: profileData.email || '',
                   custom_id: profileData.custom_id || null,

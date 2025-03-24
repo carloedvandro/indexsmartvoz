@@ -71,10 +71,10 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   const currentLevel = depth + 1;
 
   const isRuiTree = member.user.full_name === 'Rui Barbosa' || 
-                    (member.parent_id && member.user.custom_id?.startsWith('rui-'));
+                    (member.parentId && member.user.custom_id?.startsWith('rui-'));
   
   const isVaniaTree = member.user.custom_id === 'vania' || 
-                     (member.parent_id && member.user.custom_id?.startsWith('vania-'));
+                     (member.parentId && member.user.custom_id?.startsWith('vania-'));
 
   const isDavidForgat = member.user.full_name === 'David Forgat';
   
@@ -85,7 +85,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   
   // Adicionando console.log para debug
   console.log('Nome do usuário:', member.user.full_name);
-  console.log('É Carolina?', isCarolinaTree);
+  console.log('ID do usuário:', member.user.id);
+  console.log('Status do usuário:', member.user.status);
   
   const style = {
     marginLeft: isDavidForgat ? '-9px' : // David mantém a margem original
@@ -103,7 +104,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className={`relative w-full ${depth > 0 ? 'mt-10' : ''}`}
+      className={`relative w-full ${depth > 0 ? 'mt-10' : ''} bg-white rounded-lg p-4 shadow-sm`}
       style={style}
     >
       <div className="flex items-start gap-2 w-full">
@@ -157,7 +158,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             <div className="space-y-1 text-sm" style={{ marginTop: '8mm' }}>
               <div className="flex items-center gap-2 text-black">
                 <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
-                <span className="truncate">Meu ID: Smartvoz</span>
+                <span className="truncate">Meu ID: {member.user.custom_id || "Smartvoz"}</span>
               </div>
               
               {formattedDate && (

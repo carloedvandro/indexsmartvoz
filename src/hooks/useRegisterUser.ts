@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { RegisterFormData } from "@/components/client/register/RegisterSchema";
 
@@ -8,7 +9,8 @@ export const useRegisterUser = () => {
         ...values,
         password: "[PROTECTED]",
         customId: values.customId,
-        cpf: values.cpf // Log CPF value
+        cpf: values.cpf, // Log CPF value
+        sponsorCustomId: values.sponsorCustomId // Log sponsor custom ID
       });
 
       // Check if email already exists
@@ -56,7 +58,7 @@ export const useRegisterUser = () => {
         console.log("Verifying sponsor with custom ID:", values.sponsorCustomId);
         const { data: sponsor, error: sponsorError } = await supabase
           .from("profiles")
-          .select("id")
+          .select("id, custom_id")
           .eq("custom_id", values.sponsorCustomId)
           .single();
 
@@ -71,7 +73,8 @@ export const useRegisterUser = () => {
       // Create user with custom_id and CPF in metadata
       console.log("Creating user with metadata:", {
         custom_id: values.customId,
-        cpf: values.cpf
+        cpf: values.cpf,
+        sponsor_id: sponsorId
       });
       
       const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -97,7 +100,7 @@ export const useRegisterUser = () => {
         throw new Error("Erro ao criar usuário");
       }
 
-      // Explicitly update profile with all data including CPF
+      // Explicitly update profile with all data including CPF and sponsor_id
       console.log("Updating profile with data:", {
         custom_id: values.customId,
         store_url: values.customId,
@@ -111,7 +114,7 @@ export const useRegisterUser = () => {
           custom_id: values.customId,
           store_url: values.customId,
           sponsor_id: sponsorId,
-          cpf: values.cpf // Explicitly set CPF in profiles table
+          cpf: values.cpf 
         })
         .eq("id", authData.user.id);
 
@@ -120,10 +123,16 @@ export const useRegisterUser = () => {
         throw new Error("Erro ao atualizar perfil");
       }
 
+      // Ensure the network entry is created
+      if (sponsorId) {
+        await createNetworkEntry(authData.user.id, sponsorId);
+      }
+
       console.log("User registration completed successfully:", {
         userId: authData.user.id,
         customId: values.customId,
-        cpf: values.cpf
+        cpf: values.cpf,
+        sponsorId: sponsorId
       });
       
       return authData;
@@ -131,6 +140,41 @@ export const useRegisterUser = () => {
     } catch (error: any) {
       console.error("Registration error:", error);
       throw error;
+    }
+  };
+
+  // Helper function to create network entry
+  const createNetworkEntry = async (userId: string, sponsorId: string) => {
+    try {
+      // Get sponsor's network ID
+      const { data: sponsorNetwork, error: sponsorNetworkError } = await supabase
+        .from("network")
+        .select("id")
+        .eq("user_id", sponsorId)
+        .single();
+
+      if (sponsorNetworkError || !sponsorNetwork) {
+        console.error("Error fetching sponsor network:", sponsorNetworkError);
+        return;
+      }
+
+      // Create network entry for the new user
+      const { data: userNetwork, error: userNetworkError } = await supabase
+        .from("network")
+        .insert({
+          user_id: userId,
+          parent_id: sponsorNetwork.id,
+          level: 2  // Direct child of sponsor
+        })
+        .select();
+
+      if (userNetworkError) {
+        console.error("Error creating network entry:", userNetworkError);
+      } else {
+        console.log("Network entry created successfully:", userNetwork);
+      }
+    } catch (error) {
+      console.error("Error in createNetworkEntry:", error);
     }
   };
 

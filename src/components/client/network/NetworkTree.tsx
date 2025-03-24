@@ -11,6 +11,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { ParticlesBackground } from "../products/ParticlesBackground";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Button } from "@/components/ui/button";
+import { RefreshCw } from "lucide-react";
 
 interface NetworkTreeProps {
   userId: string;
@@ -23,6 +25,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   const queryClient = useQueryClient();
   const isMobile = useIsMobile();
 
+  // Set up real-time subscriptions for network and profile changes
   useEffect(() => {
     const channel = supabase
       .channel('network-changes')
@@ -74,6 +77,10 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
     });
   };
 
+  const handleRefresh = () => {
+    queryClient.invalidateQueries({ queryKey: ['networkData', userId] });
+  };
+
   const filteredData = useFilteredNetwork(networkData, selectedLevel);
 
   if (loading) {
@@ -85,15 +92,25 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }
 
   return (
-    <div className="relative min-h-screen pb-20">
+    <div className="relative min-h-screen pb-20 bg-white">
       <ParticlesBackground />
       <div className="relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="md:col-span-1 sticky top-20 z-20">
-            <NetworkFilter
-              selectedLevel={selectedLevel}
-              onLevelChange={setSelectedLevel}
-            />
+            <div className="space-y-4">
+              <NetworkFilter
+                selectedLevel={selectedLevel}
+                onLevelChange={setSelectedLevel}
+              />
+              <Button 
+                variant="outline" 
+                className="w-full" 
+                onClick={handleRefresh}
+              >
+                <RefreshCw className="h-4 w-4 mr-2" />
+                Atualizar Rede
+              </Button>
+            </div>
           </div>
 
           <div className="md:col-span-3 relative">
@@ -121,10 +138,18 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
                       ))}
                     </div>
                   ) : (
-                    <div className="text-center py-8">
-                      <p className="text-gray-500 text-sm">
+                    <div className="text-center py-8 bg-white rounded-lg shadow-sm">
+                      <p className="text-gray-500 mb-4">
                         Nenhum membro encontrado em sua rede.
                       </p>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={handleRefresh}
+                      >
+                        <RefreshCw className="h-4 w-4 mr-2" />
+                        Atualizar dados
+                      </Button>
                     </div>
                   )}
                 </AnimatePresence>
