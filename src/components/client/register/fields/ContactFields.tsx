@@ -26,10 +26,10 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">WhatsApp</FormLabel>
             <FormControl>
-              <div className="relative overflow-hidden rounded-md">
-                <div className="absolute left-2 top-1/2 -translate-y-1/2 w-5 h-5">
+              <div className="relative overflow-hidden rounded-md flex justify-center">
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5">
                   <img 
-                    src="/lovable-uploads/2e4ca7a4-cb0a-4cc0-94b0-fbf9e4a57298.png" 
+                    src="/lovable-uploads/f119e39b-c1ca-46b1-b84c-5ae42ec1dcf4.png" 
                     alt="WhatsApp" 
                     className="w-full h-full object-contain"
                   />
@@ -38,7 +38,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
                   {...field} 
                   type="text"
                   placeholder="(00) 00000-0000" 
-                  className="pl-9 text-sm h-9 pt-[3px] rounded-md w-full pr-2"
+                  className="pl-10 text-sm h-9 pt-[3px] rounded-md w-full pr-2 text-center"
                 />
               </div>
             </FormControl>
@@ -54,10 +54,10 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">Segundo Contato</FormLabel>
             <FormControl>
-              <div className="relative overflow-hidden rounded-md">
-                <div className="absolute left-2 top-1/2 -translate-y-1/2 w-5 h-5">
+              <div className="relative overflow-hidden rounded-md flex justify-center">
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5">
                   <img 
-                    src="/lovable-uploads/2e4ca7a4-cb0a-4cc0-94b0-fbf9e4a57298.png" 
+                    src="/lovable-uploads/f119e39b-c1ca-46b1-b84c-5ae42ec1dcf4.png" 
                     alt="WhatsApp" 
                     className="w-full h-full object-contain"
                   />
@@ -66,7 +66,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
                   {...field} 
                   type="text"
                   placeholder="(00) 00000-0000"
-                  className="pl-9 text-sm h-9 pt-[3px] rounded-md w-full pr-2"
+                  className="pl-10 text-sm h-9 pt-[3px] rounded-md w-full pr-2 text-center"
                   onChange={(e) => {
                     const value = e.target.value;
                     if (value === primaryWhatsapp) {
