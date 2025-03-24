@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/format";
-import { RotateCcw } from "lucide-react";
 
 interface BalanceCardsProps {
   selectedMonth: string;
