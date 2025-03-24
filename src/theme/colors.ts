@@ -1,3 +1,4 @@
+
 export const colors = {
   border: "hsl(var(--border))",
   input: "hsl(var(--input))",
@@ -5,7 +6,7 @@ export const colors = {
   background: "hsl(var(--background))",
   foreground: "hsl(var(--foreground))",
   primary: {
-    DEFAULT: "#5f0889",
+    DEFAULT: "#660099",
     foreground: "#ffffff",
   },
   secondary: {
