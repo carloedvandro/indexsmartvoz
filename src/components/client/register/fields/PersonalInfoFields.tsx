@@ -136,7 +136,7 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
           name="customId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm">ID Personalizado</FormLabel>
+              <FormLabel className="text-sm">ID Personalizado do Usuário</FormLabel>
               <FormControl>
                 <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
               </FormControl>
