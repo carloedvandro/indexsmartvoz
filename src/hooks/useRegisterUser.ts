@@ -12,19 +12,20 @@ export const useRegisterUser = () => {
         cpf: values.cpf.replace(/\D/g, '') // Ensure we're using the raw CPF value without formatting
       });
 
-      // Check if email already exists using Auth API directly
-      // This provides a more accurate check than querying the profiles table
-      const { data: { users }, error: getUserError } = await supabase.auth.admin.listUsers({
-        filters: {
-          email: values.email
-        }
-      });
+      // Check if email already exists using auth API
+      // We'll check directly in the profiles table instead of using the admin API
+      // as the admin.listUsers with filters isn't available in the client library
+      const { data: existingUser, error: emailCheckError } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("email", values.email)
+        .single();
       
-      if (getUserError) {
-        console.error("Error checking existing user:", getUserError);
+      if (emailCheckError && emailCheckError.code !== 'PGRST116') {
+        console.error("Error checking existing user:", emailCheckError);
         // Continue with registration if there's an error checking user
         // This is safer than blocking registration due to a check error
-      } else if (users && users.length > 0) {
+      } else if (existingUser) {
         console.log("Email already exists:", values.email);
         throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
       }
