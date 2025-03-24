@@ -66,7 +66,12 @@ export const RegisterFormContainer = () => {
     }
   };
 
+  // Only navigate back when the user explicitly clicks the back button
   const handleBack = () => {
+    // Confirm before navigating away if form has been modified
+    if (form.formState.isDirty && !window.confirm("Você tem certeza que deseja voltar? Suas alterações serão perdidas.")) {
+      return;
+    }
     navigate(-1);
   };
 
