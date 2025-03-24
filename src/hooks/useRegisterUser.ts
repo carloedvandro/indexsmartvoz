@@ -1,6 +1,7 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { RegisterFormData } from "@/components/client/register/RegisterSchema";
+import { formatDateForDB } from "@/utils/format";
 
 export const useRegisterUser = () => {
   const registerUser = async (values: RegisterFormData) => {
@@ -28,9 +29,12 @@ export const useRegisterUser = () => {
         throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
       }
 
-      // Format birth date correctly (DD/MM/YYYY to YYYY-MM-DD)
-      const [day, month, year] = values.birthDate.split('/');
-      const formattedBirthDate = `${year}-${month}-${day}`;
+      // Format birth date correctly from DD/MM/YYYY to YYYY-MM-DD
+      const formattedBirthDate = formatDateForDB(values.birthDate);
+      
+      if (!formattedBirthDate) {
+        throw new Error("Formato de data inválido. Use o formato DD/MM/AAAA.");
+      }
 
       // Verifique também na tabela profiles (dupla verificação)
       const { data: existingEmailCheck, error: emailCheckError } = await supabase
