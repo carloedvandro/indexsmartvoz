@@ -12,13 +12,13 @@ export const useRegisterUser = () => {
         cpf: values.cpf.replace(/\D/g, '') // Ensure we're using the raw CPF value without formatting
       });
 
-      // Check if email already exists in profiles table
-      const { data: existingProfiles, error: profilesError } = await supabase
+      // Check if email already exists in auth.users
+      const { data: existingEmailCheck, error: emailCheckError } = await supabase
         .from("profiles")
         .select("id")
         .eq("email", values.email);
 
-      if (existingProfiles && existingProfiles.length > 0) {
+      if (existingEmailCheck && existingEmailCheck.length > 0) {
         console.error("Email already exists in profiles table", values.email);
         throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
       }
@@ -68,7 +68,7 @@ export const useRegisterUser = () => {
         console.log("Found sponsor ID:", sponsorId);
       }
 
-      // Create user with custom_id and CPF in metadata
+      // Now that all validations passed, create the user
       console.log("Creating user with metadata:", {
         custom_id: values.customId,
         cpf: values.cpf.replace(/\D/g, '') // Remove formatting
@@ -90,10 +90,7 @@ export const useRegisterUser = () => {
 
       if (authError) {
         console.error("Auth error:", authError);
-        if (authError.message.includes("already registered")) {
-          throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
-        }
-        throw new Error("Erro ao criar usuário: " + authError.message);
+        throw new Error(authError.message);
       }
 
       if (!authData.user) {

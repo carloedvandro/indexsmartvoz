@@ -66,31 +66,6 @@ export const createUser = async (data: CreateUserData) => {
       throw new Error("ID personalizado já está em uso. Por favor, escolha outro ID.");
     }
 
-    // Proceed with user creation
-    const { data: authData, error: signUpError } = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-      options: {
-        data: {
-          full_name: data.fullName,
-          custom_id: data.customId,
-          cpf: data.cpf,
-        },
-      },
-    });
-
-    if (signUpError) {
-      log("error", "Error creating user", signUpError);
-      if (signUpError.message.includes("already registered")) {
-        throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
-      }
-      throw signUpError;
-    }
-    
-    if (!authData.user) {
-      throw new Error("Falha ao criar usuário");
-    }
-
     // Get sponsor ID if provided
     let sponsorId = null;
     if (data.sponsorCustomId) {
@@ -105,6 +80,28 @@ export const createUser = async (data: CreateUserData) => {
         throw new Error("ID do patrocinador inválido ou não encontrado");
       }
       sponsorId = sponsor.id;
+    }
+    
+    // Now that all validations passed, proceed with user creation
+    const { data: authData, error: signUpError } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+      options: {
+        data: {
+          full_name: data.fullName,
+          custom_id: data.customId,
+          cpf: data.cpf,
+        },
+      },
+    });
+
+    if (signUpError) {
+      log("error", "Error creating user", signUpError);
+      throw signUpError;
+    }
+    
+    if (!authData.user) {
+      throw new Error("Falha ao criar usuário");
     }
 
     // Explicitly update profile with custom_id, CPF and sponsor
