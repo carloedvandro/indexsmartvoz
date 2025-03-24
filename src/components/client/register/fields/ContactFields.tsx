@@ -19,9 +19,14 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
 
   // Format WhatsApp number with Brazilian mobile format
   const formatWhatsApp = (value: string) => {
+    // Return empty string if no value
+    if (!value) return "";
+    
     const digits = value.replace(/\D/g, '');
     
-    if (digits.length <= 2) {
+    if (digits.length === 0) {
+      return "";
+    } else if (digits.length <= 2) {
       return `(${digits}`;
     } else if (digits.length <= 7) {
       return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
@@ -49,7 +54,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
                 </div>
                 <Input 
                   {...field}
-                  value={formatWhatsApp(field.value)}
+                  value={formatWhatsApp(field.value || "")}
                   onChange={(e) => {
                     const rawValue = e.target.value.replace(/\D/g, '');
                     field.onChange(rawValue);
@@ -83,7 +88,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
                 </div>
                 <Input 
                   {...field}
-                  value={formatWhatsApp(field.value)}
+                  value={formatWhatsApp(field.value || "")}
                   onChange={(e) => {
                     const rawValue = e.target.value.replace(/\D/g, '');
                     if (rawValue === primaryWhatsapp) {
