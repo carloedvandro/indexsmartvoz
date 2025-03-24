@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useProfile } from "@/hooks/useProfile";
 import { FixNetworkButton } from "./FixNetworkButton";
+import { WrenchIcon } from "lucide-react";
 
 interface NetworkFilterProps {
   selectedLevel: string;
@@ -59,7 +60,15 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
         </Button>
 
         <div className="pt-3 border-t border-gray-200">
-          {profile?.id && <FixNetworkButton userId={profile.id} />}
+          <Button 
+            variant="outline"
+            className="w-full flex items-center gap-2"
+            onClick={() => profile?.id && (document.getElementById('fix-network-button') as HTMLButtonElement)?.click()}
+          >
+            <WrenchIcon className="h-4 w-4" />
+            Corrigir Relações
+          </Button>
+          {profile?.id && <FixNetworkButton userId={profile.id} id="fix-network-button" className="hidden" />}
         </div>
       </CardContent>
     </Card>

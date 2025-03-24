@@ -13,8 +13,12 @@ export default function NetworkPage() {
   const queryClient = useQueryClient();
 
   const handleRefreshNetwork = () => {
-    queryClient.invalidateQueries({ queryKey: ['networkData', profile?.id] });
-    toast.success("Atualizando dados da rede...");
+    if (profile?.id) {
+      queryClient.invalidateQueries({ queryKey: ['networkData', profile.id] });
+      toast.success("Atualizando dados da rede...");
+    } else {
+      toast.error("Perfil não encontrado. Faça login novamente.");
+    }
   };
 
   return (

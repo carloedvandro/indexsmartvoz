@@ -8,9 +8,11 @@ import { WrenchIcon } from "lucide-react";
 
 interface FixNetworkButtonProps {
   userId: string;
+  id?: string;
+  className?: string;
 }
 
-export const FixNetworkButton = ({ userId }: FixNetworkButtonProps) => {
+export const FixNetworkButton = ({ userId, id, className }: FixNetworkButtonProps) => {
   const [isFixing, setIsFixing] = useState(false);
   const queryClient = useQueryClient();
 
@@ -156,9 +158,10 @@ export const FixNetworkButton = ({ userId }: FixNetworkButtonProps) => {
       size="sm"
       onClick={handleFix}
       disabled={isFixing}
-      className="w-full flex items-center gap-2"
+      id={id}
+      className={className}
     >
-      <WrenchIcon className="h-4 w-4" />
+      <WrenchIcon className="h-4 w-4 mr-2" />
       {isFixing ? "Corrigindo..." : "Corrigir Relações"}
     </Button>
   );

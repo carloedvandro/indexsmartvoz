@@ -144,7 +144,6 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
                       </p>
                       <Button 
                         variant="outline" 
-                        size="sm" 
                         onClick={handleRefresh}
                       >
                         <RefreshCw className="h-4 w-4 mr-2" />
