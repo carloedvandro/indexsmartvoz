@@ -146,7 +146,7 @@ export default function AdminUsers() {
         return;
       }
 
-      // If not found in profiles, check auth metadata
+      // If not found in profiles, try the SQL function directly with an RPC call
       const { data, error } = await supabase.rpc('find_user_by_email', { 
         email_to_find: email 
       });

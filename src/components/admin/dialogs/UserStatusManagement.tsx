@@ -45,10 +45,12 @@ export function UserStatusManagement({ userId, userEmail, currentStatus }: UserS
         throw profileError;
       }
 
-      // Admin reset user's password to reactivate their account
+      // Instead of using 'banned' which doesn't exist, we'll just update user metadata
+      // to indicate they are active. The actual auth.user status will be handled through
+      // the profiles table which we already updated above.
       const { error: authError } = await supabase.auth.admin.updateUserById(
         userId,
-        { banned: false }
+        { user_metadata: { status: 'active' } }
       );
 
       if (authError) {
