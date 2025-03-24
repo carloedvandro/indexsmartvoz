@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -128,68 +127,6 @@ export default function AdminUsers() {
     setSelectedUser(null);
   };
 
-  const handleFindSpecificUser = async (email) => {
-    try {
-      // First get the user by email from profiles table
-      const { data: profileData, error: profileError } = await supabase
-        .from("profiles")
-        .select("*")
-        .ilike("email", email)
-        .limit(1);
-      
-      if (profileError) {
-        throw profileError;
-      }
-
-      if (profileData && profileData.length > 0) {
-        setSelectedUser(profileData[0]);
-        return;
-      }
-
-      // If not found in profiles, try the SQL function directly with an RPC call
-      const { data, error } = await supabase.rpc('find_user_by_email', { 
-        email_to_find: email 
-      });
-      
-      if (error) {
-        throw error;
-      }
-
-      if (data && data.length > 0) {
-        const authUser = data[0];
-        
-        // Create a temporary user object with data from auth
-        const tempUser = {
-          id: authUser.id,
-          email: authUser.email,
-          full_name: authUser.raw_user_meta_data?.full_name || "",
-          status: "pending",
-          role: "client"
-        };
-        
-        setSelectedUser(tempUser);
-        
-        toast({
-          title: "Usuário encontrado",
-          description: "Este usuário existe no auth mas não tem perfil completo. Você pode completar os dados agora.",
-        });
-      } else {
-        toast({
-          title: "Usuário não encontrado",
-          description: "Nenhum usuário com este email foi encontrado no sistema.",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error("Error finding user:", error);
-      toast({
-        title: "Erro",
-        description: "Erro ao buscar usuário: " + (error.message || "Erro desconhecido"),
-        variant: "destructive",
-      });
-    }
-  };
-
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
@@ -223,7 +160,6 @@ export default function AdminUsers() {
                   filters={filters}
                   setFilters={setFilters}
                   onSearch={handleSearch}
-                  onFindSpecificUser={handleFindSpecificUser}
                 />
               </CardContent>
             </Card>
