@@ -1,7 +1,7 @@
 
 import { z } from "zod";
 import { validatePasswordStrength } from "@/utils/passwordValidation";
-import { validateCPF } from "@/utils/validation/cpfValidation";
+import { validateCPF } from "@/utils/cpfValidation";
 
 export const registerFormSchema = z.object({
   fullName: z.string().min(3, "Nome deve ter pelo menos 3 caracteres"),
@@ -37,3 +37,4 @@ export const registerFormSchema = z.object({
 );
 
 export type RegisterFormData = z.infer<typeof registerFormSchema>;
+

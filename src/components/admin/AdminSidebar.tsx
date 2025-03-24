@@ -1,5 +1,4 @@
-
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Home,
   Settings,
@@ -7,7 +6,6 @@ import {
   FileText,
   HelpCircle,
   LogOut,
-  Network,
 } from "lucide-react";
 import {
   Sidebar,
@@ -23,7 +21,6 @@ import {
 
 const menuItems = [
   { icon: Home, label: "Dashboard", path: "/admin/dashboard" },
-  { icon: Network, label: "Minha Rede", path: "/admin/network" },
   { icon: Settings, label: "Configurações", path: "/admin/settings" },
   { icon: Users, label: "Usuários", path: "/admin/users" },
   { icon: FileText, label: "Relatórios", path: "/admin/reports" },
@@ -32,8 +29,6 @@ const menuItems = [
 ];
 
 export function AdminSidebar() {
-  const location = useLocation();
-  
   return (
     <Sidebar className="bg-sidebar border-r border-sidebar-border">
       <SidebarHeader className="flex items-center justify-between p-4 border-b border-sidebar-border bg-sidebar">
@@ -48,26 +43,19 @@ export function AdminSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => {
-                const isActive = location.pathname === item.path;
-                return (
-                  <SidebarMenuItem key={item.label}>
-                    <SidebarMenuButton asChild>
-                      <Link 
-                        to={item.path} 
-                        className={`flex items-center gap-2 transition-colors ${
-                          isActive 
-                            ? "text-primary font-medium" 
-                            : "text-sidebar-foreground hover:text-primary"
-                        }`}
-                      >
-                        <item.icon className={`h-4 w-4 ${isActive ? "text-primary" : ""}`} />
-                        <span>{item.label}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
+              {menuItems.map((item) => (
+                <SidebarMenuItem key={item.label}>
+                  <SidebarMenuButton asChild>
+                    <Link 
+                      to={item.path} 
+                      className="flex items-center gap-2 text-sidebar-foreground hover:text-primary transition-colors"
+                    >
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

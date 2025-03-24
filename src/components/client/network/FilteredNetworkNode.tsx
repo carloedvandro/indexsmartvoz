@@ -42,15 +42,14 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative w-full overflow-hidden bg-white"
-      style={{ marginLeft: '4px', background: "#fff" }}
+      className="relative w-full overflow-hidden"
     >
-      <Card className="shadow-sm hover:shadow-md transition-shadow rounded-lg w-full bg-white" style={{ background: "#fff" }}>
-        <div className="flex items-start gap-2 bg-white">
+      <Card className="shadow-sm hover:shadow-md transition-shadow rounded-lg w-full">
+        <div className="flex items-start gap-2">
           {hasChildren && (
             <button
               onClick={() => onToggle(member.id)}
-              className="p-1 hover:bg-gray-100 rounded-full bg-white"
+              className="p-1 hover:bg-gray-100 rounded-full"
               aria-label={isExpanded ? "Recolher" : "Expandir"}
             >
               {isExpanded ? (
@@ -60,9 +59,9 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
               )}
             </button>
           )}
-          <div className="w-full bg-white">
-            <div className="flex items-start gap-4 bg-white">
-              <div className="flex flex-col items-center bg-white">
+          <div className="w-full">
+            <div className="flex items-start gap-4">
+              <div className="flex flex-col items-center">
                 <div className="relative">
                   <Avatar className={`h-12 w-12 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
                     <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
@@ -78,8 +77,8 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
                 </div>
               </div>
 
-              <div className="flex-1 min-w-0 bg-white">
-                <div className="flex items-center gap-2 mb-2 bg-white">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-2">
                   <h3 className="text-base font-semibold text-black truncate">
                     {member.user.full_name || "Usuário"}
                   </h3>
@@ -90,7 +89,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
                   </span>
                 </div>
 
-                <div className="space-y-1 text-sm mt-2 bg-white">
+                <div className="space-y-1 text-sm mt-2">
                   <div className="flex items-center gap-2 text-black">
                     <GraduationCap className="h-4 w-4" style={{ color: '#660099' }} />
                     <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>

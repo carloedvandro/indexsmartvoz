@@ -36,8 +36,8 @@ export default function FacialBiometry() {
       const { error } = await supabase
         .from('profiles')
         .update({
-          facial_verification_status: verificationData.facialVerification ? 'verified' : 'failed',
-          document_verification_status: verificationData.documentVerification ? 'verified' : 'failed',
+          facial_verification_complete: verificationData.facialVerification,
+          document_verification_complete: verificationData.documentVerification,
           verification_completed_at: new Date().toISOString()
         })
         .eq('id', userId);
@@ -71,25 +71,23 @@ export default function FacialBiometry() {
 
   return (
     <div className="min-h-screen w-full bg-white">
-      <div className="flex flex-col justify-center items-center min-h-screen py-8 px-5 sm:px-4">
-        <div className="w-full max-w-md">
-          <div className="flex flex-col items-center mb-4">
+      <div className="flex flex-col justify-center items-center min-h-screen py-10 px-5 sm:px-4">
+        <div className="w-full max-w-[400px] mt-4">
+          <div className="flex flex-col items-center mb-6">
             <div className="flex justify-center">
               <img 
                 src="/lovable-uploads/5bded3e2-dd4c-4996-9027-b3a0abbb766c.png" 
                 alt="Smartvoz" 
-                className="h-auto w-[180px] object-contain"
+                className="h-auto w-[240px] object-contain"
               />
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-sm p-4">
-            <FacialBiometryFlow 
-              onComplete={handleVerificationComplete} 
-              onBack={handleBack} 
-            />
-          </div>
+          <FacialBiometryFlow 
+            onComplete={handleVerificationComplete} 
+            onBack={handleBack} 
+          />
         </div>
       </div>
     </div>
   );
-};
+}
