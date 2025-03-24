@@ -50,7 +50,7 @@ export default function ClientDashboard() {
             <div className="px-6 mb-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card 
-                  className="relative px-6 py-4 bg-[#4c0470] text-black rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="relative px-6 py-4 bg-white text-black rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleBalanceCardClick}
                 >
                   <div className="flex items-center justify-between">
@@ -69,7 +69,7 @@ export default function ClientDashboard() {
                 </Card>
 
                 <Card 
-                  className="relative px-6 py-4 bg-[#4c0470] text-black rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="relative px-6 py-4 bg-white text-black rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleEarningsCardClick}
                 >
                   <div className="flex items-center justify-between">
