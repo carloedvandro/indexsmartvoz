@@ -106,7 +106,10 @@ export const useRegisterUser = () => {
         custom_id: values.customId,
         store_url: values.customId,
         sponsor_id: sponsorId,
-        cpf: values.cpf
+        cpf: values.cpf,
+        whatsapp: values.whatsapp,
+        secondary_whatsapp: values.secondaryWhatsapp || null,
+        birth_date: values.birthDate
       });
 
       const { error: updateError } = await supabase
@@ -115,9 +118,9 @@ export const useRegisterUser = () => {
           custom_id: values.customId,
           store_url: values.customId,
           sponsor_id: sponsorId,
-          cpf: values.cpf, // Explicitly set CPF in profiles table
+          cpf: values.cpf, 
           whatsapp: values.whatsapp,
-          secondary_whatsapp: values.secondaryWhatsapp,
+          secondary_whatsapp: values.secondaryWhatsapp || null,
           birth_date: values.birthDate
         })
         .eq("id", authData.user.id);

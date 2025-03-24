@@ -7,7 +7,7 @@ import { RegisterFormData, registerFormSchema } from "./RegisterSchema";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { createUser } from "@/services/user/userCreate";
+import { useRegisterUser } from "@/hooks/useRegisterUser";
 import { useState } from "react";
 import { Loader2, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -17,6 +17,7 @@ export const RegisterFormContainer = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { registerUser } = useRegisterUser();
   
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
@@ -40,15 +41,14 @@ export const RegisterFormContainer = () => {
       setError(null);
       console.log("Form data:", data);
       
-      // Create user with the form data
-      await createUser({
-        email: data.email,
-        password: data.password,
-        fullName: data.fullName,
-        cpf: data.cpf,
-        customId: data.customId,
-        sponsorCustomId: data.sponsorCustomId,
-      });
+      // Format data correctly before submission
+      const formattedData = {
+        ...data,
+        // We store raw values without formatting in state, so no need to modify
+      };
+      
+      // Register user with the form data
+      await registerUser(formattedData);
       
       toast({
         title: "Cadastro realizado com sucesso!",
