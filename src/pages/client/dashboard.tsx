@@ -10,6 +10,7 @@ import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/format";
+import { RotateCcw } from "lucide-react";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -55,10 +56,8 @@ export default function ClientDashboard() {
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <img 
-                        src="/lovable-uploads/9c458018-4e54-4993-92c1-bf40c3e95228.png" 
-                        alt="Dollar sign" 
-                        className="h-16 w-16 animate-spin-reverse-slow" 
+                      <RotateCcw 
+                        className="h-16 w-16 text-[#580180] animate-spin-reverse-slow" 
                       />
                     </div>
                     <div className="text-right">
@@ -74,10 +73,8 @@ export default function ClientDashboard() {
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <img 
-                        src="/lovable-uploads/9c458018-4e54-4993-92c1-bf40c3e95228.png" 
-                        alt="Dollar sign" 
-                        className="h-16 w-16 animate-spin-reverse-slow" 
+                      <RotateCcw 
+                        className="h-16 w-16 text-[#580180] animate-spin-reverse-slow" 
                       />
                     </div>
                     <div className="text-right">
