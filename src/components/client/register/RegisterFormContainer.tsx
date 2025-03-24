@@ -5,7 +5,7 @@ import { Form } from "@/components/ui/form";
 import { FormFields } from "./FormFields";
 import { RegisterFormData, registerFormSchema } from "./RegisterSchema";
 import { Button } from "@/components/ui/button";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useRegisterUser } from "@/hooks/useRegisterUser";
 import { useState, useEffect } from "react";
@@ -82,7 +82,8 @@ export const RegisterFormContainer = () => {
   };
 
   const handleBack = () => {
-    navigate(-1);
+    // Navegue para a página de login em vez de voltar no histórico
+    navigate("/client/login");
   };
 
   return (

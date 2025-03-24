@@ -12,7 +12,20 @@ export const useRegisterUser = () => {
         cpf: values.cpf.replace(/\D/g, '') // Ensure we're using the raw CPF value without formatting
       });
 
-      // Check if email already exists in profiles or auth
+      // Check if email already exists by querying the auth API directly instead of profiles
+      // This gives us a more accurate check for existing users
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: "temporary-check-password-123456789",
+      });
+
+      // If there's no error or error is NOT "Invalid login credentials", the email exists
+      if (!signInError || (signInError && !signInError.message.includes("Invalid login credentials"))) {
+        console.error("Email already exists in auth");
+        throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
+      }
+
+      // Check if email exists in profiles (backup check)
       const { data: emailCheckResult } = await supabase
         .from("profiles")
         .select("id")
@@ -59,15 +72,21 @@ export const useRegisterUser = () => {
           .select("id")
           .eq("custom_id", values.sponsorCustomId);
 
-        if (sponsorError || !sponsor || sponsor.length === 0) {
-          console.error("Sponsor verification error:", sponsorError || "Sponsor not found");
-          throw new Error("ID do patrocinador inválido ou não encontrado");
+        if (sponsorError) {
+          console.error("Sponsor verification error:", sponsorError);
+          throw new Error("Erro ao verificar o patrocinador: " + sponsorError.message);
         }
+        
+        if (!sponsor || sponsor.length === 0) {
+          console.error("Sponsor not found");
+          throw new Error("ID do patrocinador não encontrado. Verifique e tente novamente.");
+        }
+        
         sponsorId = sponsor[0].id;
         console.log("Found sponsor ID:", sponsorId);
       }
 
-      // Create user with custom_id and CPF in metadata
+      // Create user
       console.log("Creating user with metadata:", {
         custom_id: values.customId,
         cpf: values.cpf.replace(/\D/g, '') // Remove formatting
@@ -88,9 +107,6 @@ export const useRegisterUser = () => {
 
       if (authError) {
         console.error("Auth error:", authError);
-        if (authError.message.includes("already registered")) {
-          throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
-        }
         throw new Error("Erro ao criar usuário: " + authError.message);
       }
 
