@@ -7,9 +7,10 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 interface PersonalInfoFieldsProps {
   form: UseFormReturn<RegisterFormData>;
+  disableSponsor?: boolean;
 }
 
-export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
+export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsProps) => {
   const isMobile = useIsMobile();
   
   return (
@@ -90,6 +91,21 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
               </FormItem>
             )}
           />
+          
+          {/* Sponsor Custom ID moved here, below CPF */}
+          <FormField
+            control={form.control}
+            name="sponsorCustomId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm">ID Personalizado do Patrocinador</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled={disableSponsor} className="bg-transparent text-sm h-9 pt-[3px] rounded-md" />
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
         </>
       )}
       
@@ -126,6 +142,23 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
           )}
         />
       </div>
+      
+      {/* Add sponsor field for mobile layout */}
+      {isMobile && (
+        <FormField
+          control={form.control}
+          name="sponsorCustomId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-sm">ID Personalizado do Patrocinador</FormLabel>
+              <FormControl>
+                <Input {...field} disabled={disableSponsor} className="bg-transparent text-sm h-9 pt-[3px] rounded-md" />
+              </FormControl>
+              <FormMessage className="text-xs" />
+            </FormItem>
+          )}
+        />
+      )}
     </div>
   );
 };
