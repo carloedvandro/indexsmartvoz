@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { RotateCw, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -103,14 +102,14 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       className={`relative w-full ${depth > 0 ? 'mt-10' : ''} bg-white`}
-      style={style}
+      style={{...style, background: "#fff"}}
     >
-      <div className="flex items-start gap-2 w-full">
+      <div className="flex items-start gap-2 w-full bg-white">
         {hasChildren && (
           <button
             onClick={() => onToggle(member.id)}
-            className="p-1 hover:text-primary rounded-full flex-shrink-0"
-            style={{ marginTop: '4mm', marginLeft: '-0.5mm' }}
+            className="p-1 hover:text-primary rounded-full flex-shrink-0 bg-white"
+            style={{ marginTop: '4mm', marginLeft: '-0.5mm', background: "#fff" }}
             aria-label={isExpanded ? "Recolher" : "Expandir"}
           >
             <RotateCw 
@@ -120,7 +119,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
           </button>
         )}
         
-        <div className="flex items-start gap-3 flex-1">
+        <div className="flex items-start gap-3 flex-1 bg-white">
           <div className="relative">
             <Avatar className={`h-14 w-14 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
               <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
@@ -133,7 +132,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
                 isActive ? 'text-green-500' : 'text-red-500'
               }`}
             />
-            <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap flex items-center gap-2">
+            <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap flex items-center gap-2 bg-white">
               <AnimatedSignal />
               <span className="text-xs" style={{ color: '#660099', transform: 'translateY(0.5mm)' }}>
                 Nvl. <span className="font-semibold">{currentLevel}</span>
@@ -141,7 +140,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             </div>
           </div>
 
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 bg-white">
             <div className="flex flex-col gap-1" style={{ marginTop: '4mm' }}>
               <h3 className="text-base font-semibold text-black truncate">
                 {member.user.full_name || "Usuário"}
@@ -180,7 +179,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
         </div>
       </div>
       {hasChildren && isExpanded && (
-        <div className={`mt-2 space-y-2 mb-2 ${isVaniaTree ? 'ml-[25.5px]' : ''}`}>
+        <div className={`mt-2 space-y-2 mb-2 ${isVaniaTree ? 'ml-[25.5px]' : ''} bg-white`}>
           {member.children.map((child) => (
             <NetworkNode
               key={child.id}

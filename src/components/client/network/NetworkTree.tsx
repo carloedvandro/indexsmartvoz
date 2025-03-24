@@ -84,19 +84,19 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }
 
   return (
-    <div className="relative min-h-screen pb-20 bg-white">
-      <div className="relative z-10">
+    <div className="relative min-h-screen pb-20 bg-white" style={{ background: "#fff" }}>
+      <div className="relative z-10 bg-white">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="md:col-span-1 sticky top-20 z-20">
+          <div className="md:col-span-1 sticky top-20 z-20 bg-white">
             <NetworkFilter
               selectedLevel={selectedLevel}
               onLevelChange={setSelectedLevel}
             />
           </div>
 
-          <div className="md:col-span-3 relative">
-            <div className="h-[calc(100vh-120px)] overflow-y-auto">
-              <div className="pr-4 pb-20">
+          <div className="md:col-span-3 relative bg-white">
+            <div className="h-[calc(100vh-120px)] overflow-y-auto bg-white">
+              <div className="pr-4 pb-20 bg-white">
                 <AnimatePresence>
                   {filteredData.length > 0 ? (
                     <div className="space-y-4">
@@ -119,7 +119,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
                       ))}
                     </div>
                   ) : (
-                    <div className="text-center py-8">
+                    <div className="text-center py-8 bg-white">
                       <p className="text-gray-500 text-sm">
                         Nenhum membro encontrado em sua rede.
                       </p>
