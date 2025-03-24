@@ -28,35 +28,70 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
         )}
       />
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-sm">E-mail</FormLabel>
-              <FormControl>
-                <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
-              </FormControl>
-              <FormMessage className="text-xs" />
-            </FormItem>
-          )}
-        />
-        
-        <FormField
-          control={form.control}
-          name="cpf"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-sm">CPF</FormLabel>
-              <FormControl>
-                <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
-              </FormControl>
-              <FormMessage className="text-xs" />
-            </FormItem>
-          )}
-        />
-      </div>
+      {/* On desktop, display email and CPF in separate rows */}
+      {/* On mobile, maintain side by side layout */}
+      {isMobile ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm">E-mail</FormLabel>
+                <FormControl>
+                  <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="cpf"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm">CPF</FormLabel>
+                <FormControl>
+                  <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+        </div>
+      ) : (
+        /* Desktop layout - email and CPF stacked */
+        <>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm">E-mail</FormLabel>
+                <FormControl>
+                  <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="cpf"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm">CPF</FormLabel>
+                <FormControl>
+                  <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+        </>
+      )}
       
       <div className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-1 sm:grid-cols-2'} gap-4`}>
         <FormField
