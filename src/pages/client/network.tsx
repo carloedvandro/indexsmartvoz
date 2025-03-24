@@ -6,11 +6,44 @@ import { NetworkTree } from "@/components/client/network/NetworkTree";
 import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function NetworkPage() {
   const navigate = useNavigate();
   const { data: profile } = useProfile();
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    // Verifica e corrige automaticamente as relações da rede ao carregar a página
+    const autoFixNetwork = async () => {
+      if (!profile?.id) return;
+      
+      // Verifica se o usuário atual tem uma entrada na rede
+      const { data: userNetworkData, error: userNetworkError } = await supabase
+        .from("network")
+        .select("id")
+        .eq("user_id", profile.id)
+        .maybeSingle();
+
+      if (userNetworkError) {
+        console.error("Error checking network:", userNetworkError);
+        return;
+      }
+
+      // Cria uma entrada na rede se não existir
+      if (!userNetworkData) {
+        await supabase
+          .from("network")
+          .insert({
+            user_id: profile.id,
+            level: 1
+          });
+      }
+    };
+    
+    autoFixNetwork();
+  }, [profile?.id]);
 
   const handleRefreshNetwork = () => {
     if (profile?.id) {

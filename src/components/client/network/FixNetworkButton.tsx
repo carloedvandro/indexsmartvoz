@@ -17,7 +17,10 @@ export const FixNetworkButton = ({ userId, id, className }: FixNetworkButtonProp
   const queryClient = useQueryClient();
 
   const handleFix = async () => {
-    if (!userId) return;
+    if (!userId) {
+      toast.error("ID do usuário não encontrado");
+      return;
+    }
     
     try {
       setIsFixing(true);
@@ -69,6 +72,7 @@ export const FixNetworkButton = ({ userId, id, className }: FixNetworkButtonProp
 
       if (!sponsoredProfiles || sponsoredProfiles.length === 0) {
         toast.info("Nenhum perfil patrocinado encontrado");
+        setIsFixing(false);
         return;
       }
 
@@ -82,11 +86,14 @@ export const FixNetworkButton = ({ userId, id, className }: FixNetworkButtonProp
       if (networkEntryError || !networkEntry) {
         console.error("Error getting network entry:", networkEntryError);
         toast.error("Erro ao obter entrada de rede");
+        setIsFixing(false);
         return;
       }
 
       // 3. Check and create network entries for sponsored users
       let fixedCount = 0;
+      let createdCount = 0;
+      
       for (const profile of sponsoredProfiles) {
         // Check if they already have a network entry
         const { data: existingNetwork, error: existingNetworkError } = await supabase
@@ -115,7 +122,7 @@ export const FixNetworkButton = ({ userId, id, className }: FixNetworkButtonProp
             continue;
           }
 
-          fixedCount++;
+          createdCount++;
         } else if (existingNetwork.parent_id !== networkEntry.id) {
           // Update existing network entry
           const { error: updateNetworkError } = await supabase
@@ -135,8 +142,15 @@ export const FixNetworkButton = ({ userId, id, className }: FixNetworkButtonProp
         }
       }
 
-      if (fixedCount > 0) {
-        toast.success(`Corrigido ${fixedCount} relacionamento(s) de rede`);
+      if (createdCount > 0 || fixedCount > 0) {
+        let message = "";
+        if (createdCount > 0) {
+          message += `Criado ${createdCount} relacionamento(s) de rede. `;
+        }
+        if (fixedCount > 0) {
+          message += `Corrigido ${fixedCount} relacionamento(s) de rede.`;
+        }
+        toast.success(message);
       } else {
         toast.info("Todos os relacionamentos de rede estão corretos");
       }
@@ -155,11 +169,10 @@ export const FixNetworkButton = ({ userId, id, className }: FixNetworkButtonProp
   return (
     <Button
       variant="outline"
-      size="sm"
       onClick={handleFix}
       disabled={isFixing}
       id={id}
-      className={className}
+      className={className || ""}
     >
       <WrenchIcon className="h-4 w-4 mr-2" />
       {isFixing ? "Corrigindo..." : "Corrigir Relações"}
