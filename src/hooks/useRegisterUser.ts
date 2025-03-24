@@ -145,7 +145,11 @@ export const useRegisterUser = () => {
           cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
           whatsapp: formattedWhatsapp,
           secondary_whatsapp: formattedSecondaryWhatsapp,
-          birth_date: values.birthDate
+          birth_date: values.birthDate,
+          // Set verification fields as verified by default since we're skipping biometry
+          facial_verification_status: 'verified',
+          document_verification_status: 'verified',
+          verification_completed_at: new Date().toISOString()
         })
         .eq("id", authData.user.id);
 

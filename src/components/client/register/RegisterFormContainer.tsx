@@ -46,11 +46,11 @@ export const RegisterFormContainer = () => {
       
       toast({
         title: "Cadastro realizado com sucesso!",
-        description: "Vamos continuar com a verificação biométrica.",
+        description: "Bem-vindo à Smartvoz!",
       });
       
-      // Navigate to facial biometry page
-      navigate("/client/facial-biometry");
+      // Navigate directly to dashboard, skipping biometry
+      navigate("/client/dashboard");
     } catch (error: any) {
       console.error("Registration error:", error);
       
