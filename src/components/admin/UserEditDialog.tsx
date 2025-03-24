@@ -109,8 +109,18 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   };
 
   const handleDelete = async () => {
+    if (!user?.id) {
+      toast({
+        title: "Erro",
+        description: "ID do usuário não encontrado",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsDeleting(true);
     try {
+      console.log("Deleting user with ID:", user.id);
       await deleteUser(user.id);
       toast({
         title: "Sucesso",
@@ -119,7 +129,7 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
       onUserUpdated();
       onOpenChange(false);
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error details:', error);
       toast({
         title: "Erro",
         description: error.message || "Erro ao excluir usuário",

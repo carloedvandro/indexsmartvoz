@@ -29,10 +29,18 @@ export function UsersTable({ users, onEdit, refetch }) {
   const [userToDelete, setUserToDelete] = useState(null);
 
   const handleDeleteUser = async (userId) => {
-    if (!userId) return;
+    if (!userId) {
+      toast({
+        title: "Erro",
+        description: "ID do usuário é obrigatório para exclusão.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     setIsDeleting(true);
     try {
+      console.log("Deleting user with ID:", userId);
       await deleteUser(userId);
       toast({
         title: "Usuário excluído",
