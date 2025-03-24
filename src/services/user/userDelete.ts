@@ -10,7 +10,8 @@ export const deleteUser = async (id: string) => {
   log("info", "Deleting user and related data", { id });
 
   try {
-    // Call the Supabase function that handles all the cascading deletes
+    // Chamar a função do Supabase que lida com as exclusões em cascata
+    // Passamos o parâmetro com o nome qualificado para evitar ambiguidade
     const { error } = await supabase
       .rpc('delete_user_and_related_data', { user_id: id });
 
