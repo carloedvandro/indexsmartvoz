@@ -18,6 +18,10 @@ export const useRegisterUser = () => {
         .select("id")
         .eq("email", values.email);
 
+      if (emailCheckError) {
+        console.error("Error checking email:", emailCheckError);
+      }
+
       if (existingEmailCheck && existingEmailCheck.length > 0) {
         console.error("Email already exists in profiles table", values.email);
         throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
@@ -27,10 +31,15 @@ export const useRegisterUser = () => {
       if (values.cpf) {
         const cleanCpf = values.cpf.replace(/\D/g, '');
         console.log("Checking if CPF exists:", cleanCpf);
-        const { data: existingCPF } = await supabase
+        
+        const { data: existingCPF, error: cpfError } = await supabase
           .from("profiles")
           .select("id")
           .eq("cpf", cleanCpf);
+          
+        if (cpfError) {
+          console.error("Error checking CPF:", cpfError);
+        }
 
         if (existingCPF && existingCPF.length > 0) {
           throw new Error("CPF já está cadastrado. Utilize outro CPF ou faça login.");
@@ -40,10 +49,15 @@ export const useRegisterUser = () => {
       // Check if custom ID already exists
       if (values.customId) {
         console.log("Checking if custom ID exists:", values.customId);
-        const { data: existingCustomId } = await supabase
+        
+        const { data: existingCustomId, error: customIdError } = await supabase
           .from("profiles")
           .select("id")
           .eq("custom_id", values.customId);
+        
+        if (customIdError) {
+          console.error("Error checking custom ID:", customIdError);
+        }
 
         if (existingCustomId && existingCustomId.length > 0) {
           throw new Error("ID personalizado já está em uso. Por favor, escolha outro ID.");
@@ -90,6 +104,10 @@ export const useRegisterUser = () => {
 
       if (authError) {
         console.error("Auth error:", authError);
+        // Check if the error message indicates a duplicate email
+        if (authError.message.includes("already registered")) {
+          throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
+        }
         throw new Error(authError.message);
       }
 

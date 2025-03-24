@@ -34,35 +34,45 @@ export const createUser = async (data: CreateUserData) => {
 
   try {
     // Check if email already exists
-    const { data: existingEmail } = await supabase
+    const { data: existingEmail, error: emailError } = await supabase
       .from("profiles")
       .select("id")
-      .eq("email", data.email)
-      .single();
+      .eq("email", data.email);
 
-    if (existingEmail) {
+    if (emailError) {
+      log("error", "Error checking email existence", emailError);
+    }
+
+    if (existingEmail && existingEmail.length > 0) {
       throw new Error("Email já está em uso. Por favor, use outro email ou faça login.");
     }
 
     // Check if CPF already exists
-    const { data: existingCPF } = await supabase
+    const cleanCpf = data.cpf.replace(/\D/g, '');
+    const { data: existingCPF, error: cpfError } = await supabase
       .from("profiles")
       .select("id")
-      .eq("cpf", data.cpf)
-      .single();
+      .eq("cpf", cleanCpf);
 
-    if (existingCPF) {
+    if (cpfError) {
+      log("error", "Error checking CPF existence", cpfError);
+    }
+
+    if (existingCPF && existingCPF.length > 0) {
       throw new Error("CPF já está cadastrado. Utilize outro CPF ou faça login.");
     }
 
     // Check if custom ID already exists
-    const { data: existingCustomId } = await supabase
+    const { data: existingCustomId, error: customIdError } = await supabase
       .from("profiles")
       .select("id")
-      .eq("custom_id", data.customId)
-      .single();
+      .eq("custom_id", data.customId);
 
-    if (existingCustomId) {
+    if (customIdError) {
+      log("error", "Error checking custom ID existence", customIdError);
+    }
+
+    if (existingCustomId && existingCustomId.length > 0) {
       throw new Error("ID personalizado já está em uso. Por favor, escolha outro ID.");
     }
 
@@ -97,6 +107,10 @@ export const createUser = async (data: CreateUserData) => {
 
     if (signUpError) {
       log("error", "Error creating user", signUpError);
+      // Check if the error message indicates a duplicate email
+      if (signUpError.message.includes("already registered")) {
+        throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
+      }
       throw signUpError;
     }
     
