@@ -29,6 +29,11 @@ export const formatDateBR = (date: Date | string | null | undefined): string => 
 export const formatDateForDB = (dateString: string): string | null => {
   if (!dateString) return null;
   
+  // Already in YYYY-MM-DD format
+  if (/^\d{4}-\d{2}-\d{2}/.test(dateString)) {
+    return dateString.split('T')[0]; // Remove time part if present
+  }
+  
   const parts = dateString.split('/');
   if (parts.length !== 3) return null;
   

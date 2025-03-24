@@ -8,11 +8,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { formatDateForInput } from "@/utils/format";
+import { formatDateForInput, formatDateBR } from "@/utils/format";
+import { useEffect } from "react";
 
 export function PersonalDataTab({ register, setValue, watch, readOnly = false }) {
   // Format the birth date for display if it exists
   const birthDate = watch("birth_date");
+  
+  // Format birth date on input change to match Brazilian format
+  useEffect(() => {
+    if (birthDate && /^\d{4}-\d{2}-\d{2}/.test(birthDate)) {
+      // Convert YYYY-MM-DD to DD/MM/YYYY for display
+      const [year, month, day] = birthDate.split('-');
+      // Don't update if already in correct format
+      if (day && month && year) {
+        console.log("Formatted birth date for display:", `${day}/${month}/${year}`);
+      }
+    }
+  }, [birthDate]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
