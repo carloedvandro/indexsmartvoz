@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { RotateCw, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -83,8 +82,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   
   const isRubensTree = member.user.full_name === 'Rubens Valin';
   
-  // Adicionando 2px à margem direita para todos os níveis
-  const additionalMargin = 2;
+  // Adicionando 4px à margem direita para todos os níveis
+  const additionalMargin = 4;
   
   const style = {
     marginLeft: isDavidForgat ? '-9px' : // David mantém a margem original
