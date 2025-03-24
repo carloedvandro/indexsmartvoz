@@ -15,7 +15,8 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
   
   // CPF formatting function
   const formatCPF = (value: string) => {
-    const cpfDigits = value.replace(/\D/g, '');
+    // Limit to only 11 digits max
+    const cpfDigits = value.replace(/\D/g, '').slice(0, 11);
     
     if (cpfDigits.length <= 3) {
       return cpfDigits;

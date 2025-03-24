@@ -9,7 +9,7 @@ export const useRegisterUser = () => {
         ...values,
         password: "[PROTECTED]",
         customId: values.customId,
-        cpf: values.cpf
+        cpf: values.cpf.replace(/\D/g, '') // Ensure we're using the raw CPF value without formatting
       });
 
       // Check if email already exists
@@ -25,11 +25,12 @@ export const useRegisterUser = () => {
 
       // Check if CPF already exists
       if (values.cpf) {
-        console.log("Checking if CPF exists:", values.cpf);
+        const cleanCpf = values.cpf.replace(/\D/g, '');
+        console.log("Checking if CPF exists:", cleanCpf);
         const { data: existingCPF } = await supabase
           .from("profiles")
           .select("id")
-          .eq("cpf", values.cpf)
+          .eq("cpf", cleanCpf)
           .single();
 
         if (existingCPF) {
@@ -72,7 +73,7 @@ export const useRegisterUser = () => {
       // Create user with custom_id and CPF in metadata
       console.log("Creating user with metadata:", {
         custom_id: values.customId,
-        cpf: values.cpf
+        cpf: values.cpf.replace(/\D/g, '') // Remove formatting
       });
       
       const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -82,7 +83,7 @@ export const useRegisterUser = () => {
           data: {
             full_name: values.fullName,
             custom_id: values.customId,
-            cpf: values.cpf,
+            cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
             sponsor_id: sponsorId,
           },
         },
@@ -106,7 +107,7 @@ export const useRegisterUser = () => {
         custom_id: values.customId,
         store_url: values.customId,
         sponsor_id: sponsorId,
-        cpf: values.cpf,
+        cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
         whatsapp: values.whatsapp,
         secondary_whatsapp: values.secondaryWhatsapp || null,
         birth_date: values.birthDate
@@ -118,7 +119,7 @@ export const useRegisterUser = () => {
           custom_id: values.customId,
           store_url: values.customId,
           sponsor_id: sponsorId,
-          cpf: values.cpf, 
+          cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
           whatsapp: values.whatsapp,
           secondary_whatsapp: values.secondaryWhatsapp || null,
           birth_date: values.birthDate
@@ -133,7 +134,7 @@ export const useRegisterUser = () => {
       console.log("User registration completed successfully:", {
         userId: authData.user.id,
         customId: values.customId,
-        cpf: values.cpf
+        cpf: values.cpf.replace(/\D/g, '') // Show clean CPF in logs
       });
       
       return authData;
