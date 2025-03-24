@@ -72,21 +72,13 @@ const router = createBrowserRouter(
   )
 );
 
-const AppContent = () => {
+function App() {
   return (
     <>
       <RouterProvider router={router} />
       <Toaster />
     </>
   );
-};
-
-const App = () => {
-  return (
-    <React.StrictMode>
-      <AppContent />
-    </React.StrictMode>
-  );
-};
+}
 
 export default App;
