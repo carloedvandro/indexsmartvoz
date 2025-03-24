@@ -29,105 +29,59 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
         )}
       />
       
-      {/* On desktop, display email and CPF in separate rows */}
-      {/* On mobile, maintain side by side layout */}
-      {isMobile ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm">E-mail</FormLabel>
-                <FormControl>
-                  <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
-          
-          <FormField
-            control={form.control}
-            name="cpf"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm">CPF</FormLabel>
-                <FormControl>
-                  <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
-        </div>
-      ) : (
-        /* Desktop layout - email stacked, then CPF and Birth Date side by side */
+      {/* Email field is displayed the same way in both layouts */}
+      <FormField
+        control={form.control}
+        name="email"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="text-sm">E-mail</FormLabel>
+            <FormControl>
+              <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
+            </FormControl>
+            <FormMessage className="text-xs" />
+          </FormItem>
+        )}
+      />
+      
+      {/* CPF and Birth Date side by side on both mobile and desktop */}
+      <div className="grid grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="cpf"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-sm">CPF</FormLabel>
+              <FormControl>
+                <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
+              </FormControl>
+              <FormMessage className="text-xs" />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="birthDate"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-sm">Data de Nascimento</FormLabel>
+              <FormControl>
+                <Input 
+                  {...field} 
+                  placeholder="DD/MM/AAAA"
+                  className="text-sm h-9 pt-[3px] rounded-md" 
+                />
+              </FormControl>
+              <FormMessage className="text-xs" />
+            </FormItem>
+          )}
+        />
+      </div>
+      
+      {/* Desktop layout - User Custom ID and Sponsor Custom ID as full width items */}
+      {!isMobile && (
         <>
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm">E-mail</FormLabel>
-                <FormControl>
-                  <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
-          
-          {/* CPF and Birth Date side by side on desktop */}
-          <div className="grid grid-cols-2 gap-4">
-            <FormField
-              control={form.control}
-              name="cpf"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">CPF</FormLabel>
-                  <FormControl>
-                    <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="birthDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Data de Nascimento</FormLabel>
-                  <FormControl>
-                    <Input 
-                      {...field} 
-                      placeholder="DD/MM/AAAA"
-                      className="text-sm h-9 pt-[3px] rounded-md" 
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
-          </div>
-          
-          {/* Sponsor Custom ID and User Custom ID - both full width in their own rows */}
-          <FormField
-            control={form.control}
-            name="sponsorCustomId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm">ID Personalizado do Patrocinador</FormLabel>
-                <FormControl>
-                  <Input {...field} disabled={disableSponsor} className="bg-transparent text-sm h-9 pt-[3px] rounded-md w-full" />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
-          
           <FormField
             control={form.control}
             name="customId"
@@ -141,12 +95,26 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
               </FormItem>
             )}
           />
+          
+          <FormField
+            control={form.control}
+            name="sponsorCustomId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm">ID Personalizado do Patrocinador</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled={disableSponsor} className="bg-transparent text-sm h-9 pt-[3px] rounded-md w-full" />
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
         </>
       )}
       
-      {/* Mobile layout - User Custom ID and Birth Date side by side */}
+      {/* Mobile layout - User Custom ID and Sponsor Custom ID */}
       {isMobile && (
-        <div className="grid grid-cols-2 gap-4">
+        <>
           <FormField
             control={form.control}
             name="customId"
@@ -163,39 +131,18 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
           
           <FormField
             control={form.control}
-            name="birthDate"
+            name="sponsorCustomId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm">Data de Nascimento</FormLabel>
+                <FormLabel className="text-sm">ID Personalizado do Patrocinador</FormLabel>
                 <FormControl>
-                  <Input 
-                    {...field} 
-                    placeholder="DD/MM/AAAA"
-                    className="text-sm h-9 pt-[3px] rounded-md" 
-                  />
+                  <Input {...field} disabled={disableSponsor} className="bg-transparent text-sm h-9 pt-[3px] rounded-md" />
                 </FormControl>
                 <FormMessage className="text-xs" />
               </FormItem>
             )}
           />
-        </div>
-      )}
-      
-      {/* Add sponsor field for mobile layout */}
-      {isMobile && (
-        <FormField
-          control={form.control}
-          name="sponsorCustomId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-sm">ID Personalizado do Patrocinador</FormLabel>
-              <FormControl>
-                <Input {...field} disabled={disableSponsor} className="bg-transparent text-sm h-9 pt-[3px] rounded-md" />
-              </FormControl>
-              <FormMessage className="text-xs" />
-            </FormItem>
-          )}
-        />
+        </>
       )}
     </div>
   );
