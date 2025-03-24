@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,10 +11,17 @@ import {
 } from "@/components/ui/select";
 import { Search } from "lucide-react";
 
-export function UserSearchForm({ filters, setFilters, onSearch }) {
+export function UserSearchForm({ filters, setFilters, onSearch, onFindSpecificUser }) {
   const handleSearch = (e) => {
     e.preventDefault();
     onSearch();
+  };
+
+  const handleFindUser = (e) => {
+    e.preventDefault();
+    if (filters.email) {
+      onFindSpecificUser(filters.email);
+    }
   };
 
   return (
@@ -90,7 +98,15 @@ export function UserSearchForm({ filters, setFilters, onSearch }) {
           />
         </div>
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2">
+        <Button 
+          type="button" 
+          variant="outline" 
+          onClick={handleFindUser}
+          disabled={!filters.email}
+        >
+          Localizar Email Específico
+        </Button>
         <Button type="submit">
           <Search className="mr-2 h-4 w-4" />
           Buscar

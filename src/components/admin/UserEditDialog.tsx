@@ -12,6 +12,7 @@ import {
 import { UserFormTabs } from "./UserFormTabs";
 import { UserFormActions } from "./dialogs/UserFormActions";
 import { PasswordManagement } from "./dialogs/PasswordManagement";
+import { UserStatusManagement } from "./dialogs/UserStatusManagement";
 import { 
   checkExistingUser, 
   createUser, 
@@ -113,10 +114,18 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
           />
           
           {user?.id && (
-            <PasswordManagement 
-              userId={user.id} 
-              userEmail={user.email} 
-            />
+            <>
+              <PasswordManagement 
+                userId={user.id} 
+                userEmail={user.email} 
+              />
+              
+              <UserStatusManagement 
+                userId={user.id}
+                userEmail={user.email}
+                currentStatus={user.status}
+              />
+            </>
           )}
           
           <DialogFooter>

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -127,6 +128,63 @@ export default function AdminUsers() {
     setSelectedUser(null);
   };
 
+  const handleFindSpecificUser = async (email) => {
+    try {
+      // Primeiro, busque no auth.users
+      const { data: authUser, error: authError } = await supabase.auth.admin.getUserByEmail(email);
+      
+      if (authError) {
+        throw authError;
+      }
+
+      if (authUser?.user) {
+        // Verificar se este usuário tem um perfil
+        const { data: profileData, error: profileError } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", authUser.user.id)
+          .single();
+
+        if (profileError && profileError.code !== 'PGRST204') {
+          console.error("Profile query error:", profileError);
+        }
+
+        // Se o perfil existir, edite-o
+        if (profileData) {
+          setSelectedUser(profileData);
+        } else {
+          // Se o perfil não existir, crie um objeto temporário com os dados do auth.user
+          const tempUser = {
+            id: authUser.user.id,
+            email: authUser.user.email,
+            full_name: authUser.user.user_metadata?.full_name || "",
+            status: "pending",
+            role: "client"
+          };
+          setSelectedUser(tempUser);
+          
+          toast({
+            title: "Usuário encontrado",
+            description: "Este usuário existe no auth mas não tem perfil completo. Você pode completar os dados agora.",
+          });
+        }
+      } else {
+        toast({
+          title: "Usuário não encontrado",
+          description: "Nenhum usuário com este email foi encontrado no sistema.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Error finding user:", error);
+      toast({
+        title: "Erro",
+        description: "Erro ao buscar usuário: " + (error.message || "Erro desconhecido"),
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
@@ -160,6 +218,7 @@ export default function AdminUsers() {
                   filters={filters}
                   setFilters={setFilters}
                   onSearch={handleSearch}
+                  onFindSpecificUser={handleFindSpecificUser}
                 />
               </CardContent>
             </Card>
