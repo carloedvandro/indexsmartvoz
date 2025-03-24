@@ -29,7 +29,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
               <div className="relative overflow-hidden rounded-md">
                 <div className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5">
                   <img 
-                    src="/lovable-uploads/781343f8-a9e6-4801-9287-c6d3d756cebb.png" 
+                    src="/lovable-uploads/2e4ca7a4-cb0a-4cc0-94b0-fbf9e4a57298.png" 
                     alt="WhatsApp" 
                     className="w-full h-full object-contain"
                   />
@@ -57,7 +57,7 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
               <div className="relative overflow-hidden rounded-md">
                 <div className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5">
                   <img 
-                    src="/lovable-uploads/781343f8-a9e6-4801-9287-c6d3d756cebb.png" 
+                    src="/lovable-uploads/2e4ca7a4-cb0a-4cc0-94b0-fbf9e4a57298.png" 
                     alt="WhatsApp" 
                     className="w-full h-full object-contain"
                   />
