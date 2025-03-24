@@ -106,7 +106,7 @@ body::before {
 }
 
 .animate-spin-reverse-slow {
-  animation: spin-reverse-slow 2.5s linear infinite;
+  animation: spin-reverse-slow 3s linear infinite;
 }
 
 .logo-image {
