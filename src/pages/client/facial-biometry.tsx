@@ -36,8 +36,8 @@ export default function FacialBiometry() {
       const { error } = await supabase
         .from('profiles')
         .update({
-          facial_verification_status: verificationData.facialVerification ? 'verified' : 'failed',
-          document_verification_status: verificationData.documentVerification ? 'verified' : 'failed',
+          facial_verification_complete: verificationData.facialVerification,
+          document_verification_complete: verificationData.documentVerification,
           verification_completed_at: new Date().toISOString()
         })
         .eq('id', userId);
