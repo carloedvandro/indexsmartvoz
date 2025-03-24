@@ -33,18 +33,19 @@ export const createUser = async (data: CreateUserData) => {
   });
 
   try {
-    // Primeiro, verifique se o email já existe diretamente na tabela auth.users (verificação crítica)
-    const { data: existingUserAuth, error: authCheckError } = await supabase.auth.admin
-      .listUsers({ 
-        filters: { 
-          email: data.email 
-        }
+    // First check for existing email in auth.users by attempting to get the user
+    const { data: authUserData, error: authUserError } = await supabase.auth
+      .signInWithPassword({
+        email: data.email,
+        password: "dummy-password-for-check" // This will fail but tell us if the email exists
       });
       
-    if (authCheckError) {
-      log("error", "Error checking auth.users:", authCheckError);
-    } else if (existingUserAuth && existingUserAuth.users && existingUserAuth.users.length > 0) {
-      log("error", "Email already exists in auth.users table:", data.email);
+    // If we get no error or an error other than "Invalid login credentials", 
+    // it means the email exists in auth system
+    if (authUserError && !authUserError.message.includes("Invalid login credentials")) {
+      log("error", "Error checking auth system:", authUserError);
+    } else if (authUserData && authUserData.user) {
+      log("error", "Email already exists in auth system:", data.email);
       throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
     }
 

@@ -12,17 +12,18 @@ export const useRegisterUser = () => {
         cpf: values.cpf.replace(/\D/g, '') // Ensure we're using the raw CPF value without formatting
       });
 
-      // Primeiro, verifique se o email já existe diretamente na tabela auth.users (verificação crítica)
-      const { data: existingUserAuth, error: authCheckError } = await supabase.auth.admin
-        .listUsers({ 
-          filters: { 
-            email: values.email 
-          }
+      // First check for existing email in auth.users by attempting to get the user
+      const { data: authUserData, error: authUserError } = await supabase.auth
+        .signInWithPassword({
+          email: values.email,
+          password: "dummy-password-for-check" // This will fail but tell us if the email exists
         });
-        
-      if (authCheckError) {
-        console.error("Error checking auth.users:", authCheckError);
-      } else if (existingUserAuth && existingUserAuth.users && existingUserAuth.users.length > 0) {
+
+      // If we get no error or an error other than "Invalid login credentials", 
+      // it means the email exists in auth system
+      if (authUserError && !authUserError.message.includes("Invalid login credentials")) {
+        console.error("Error checking auth.users:", authUserError);
+      } else if (authUserData && authUserData.user) {
         console.error("Email already exists in auth.users table:", values.email);
         throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
       }
