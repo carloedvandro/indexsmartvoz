@@ -3,12 +3,15 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface PersonalInfoFieldsProps {
   form: UseFormReturn<RegisterFormData>;
 }
 
 export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
+  const isMobile = useIsMobile();
+  
   return (
     <div className="space-y-4">
       <FormField
@@ -55,7 +58,7 @@ export const PersonalInfoFields = ({ form }: PersonalInfoFieldsProps) => {
         />
       </div>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-1 sm:grid-cols-2'} gap-4`}>
         <FormField
           control={form.control}
           name="customId"
