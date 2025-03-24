@@ -6,17 +6,18 @@ import { useLocation } from "react-router-dom";
 export default function ClientRegister() {
   const location = useLocation();
 
-  // This effect helps prevent unexpected form reset by logging navigation events
+  // Este efeito ajuda a prevenir o reset inesperado do formulário
   useEffect(() => {
     console.log("Register page mounted/updated", location.key);
     
-    // Add warning before user tries to leave the page with unsubmitted form
+    // Adiciona aviso antes do usuário tentar sair da página com formulário não enviado
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       const message = "Suas alterações serão perdidas. Tem certeza que deseja sair?";
       e.returnValue = message;
       return message;
     };
     
+    // Adiciona o listener para o evento beforeunload
     window.addEventListener('beforeunload', handleBeforeUnload);
     
     return () => {
