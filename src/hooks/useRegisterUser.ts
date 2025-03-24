@@ -28,6 +28,10 @@ export const useRegisterUser = () => {
         throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
       }
 
+      // Format birth date correctly (DD/MM/YYYY to YYYY-MM-DD)
+      const [day, month, year] = values.birthDate.split('/');
+      const formattedBirthDate = `${year}-${month}-${day}`;
+
       // Verifique também na tabela profiles (dupla verificação)
       const { data: existingEmailCheck, error: emailCheckError } = await supabase
         .from("profiles")
@@ -101,7 +105,8 @@ export const useRegisterUser = () => {
       // Now that all validations passed, create the user
       console.log("Creating user with metadata:", {
         custom_id: values.customId,
-        cpf: values.cpf.replace(/\D/g, '') // Remove formatting
+        cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
+        birth_date: formattedBirthDate // Use formatted date
       });
       
       // Try to sign up the user with supabase auth
@@ -114,6 +119,7 @@ export const useRegisterUser = () => {
             custom_id: values.customId,
             cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
             sponsor_id: sponsorId,
+            birth_date: formattedBirthDate // Use formatted date
           },
         },
       });
@@ -140,7 +146,7 @@ export const useRegisterUser = () => {
         cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
         whatsapp: values.whatsapp,
         secondary_whatsapp: values.secondaryWhatsapp || null,
-        birth_date: values.birthDate,
+        birth_date: formattedBirthDate, // Use formatted date
         facial_verification_status: 'verified',
         document_verification_status: 'verified',
         verification_completed_at: new Date().toISOString()
@@ -155,7 +161,7 @@ export const useRegisterUser = () => {
           cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
           whatsapp: values.whatsapp,
           secondary_whatsapp: values.secondaryWhatsapp || null,
-          birth_date: values.birthDate,
+          birth_date: formattedBirthDate, // Use formatted date
           facial_verification_status: 'verified',
           document_verification_status: 'verified',
           verification_completed_at: new Date().toISOString()

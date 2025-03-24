@@ -11,6 +11,7 @@ export type CreateUserData = {
   cpf: string;
   customId: string;
   sponsorCustomId?: string;
+  birthDate?: string;
 };
 
 export const createUser = async (data: CreateUserData) => {
@@ -107,6 +108,13 @@ export const createUser = async (data: CreateUserData) => {
       }
       sponsorId = sponsor.id;
     }
+
+    // Format birth date if provided
+    let formattedBirthDate = null;
+    if (data.birthDate) {
+      const [day, month, year] = data.birthDate.split('/');
+      formattedBirthDate = `${year}-${month}-${day}`;
+    }
     
     // Now that all validations passed, proceed with user creation
     const { data: authData, error: signUpError } = await supabase.auth.signUp({
@@ -117,6 +125,7 @@ export const createUser = async (data: CreateUserData) => {
           full_name: data.fullName,
           custom_id: data.customId,
           cpf: data.cpf,
+          birth_date: formattedBirthDate
         },
       },
     });
@@ -141,7 +150,8 @@ export const createUser = async (data: CreateUserData) => {
         custom_id: data.customId,
         store_url: data.customId,
         cpf: data.cpf,
-        sponsor_id: sponsorId
+        sponsor_id: sponsorId,
+        birth_date: formattedBirthDate
       })
       .eq("id", authData.user.id);
 
