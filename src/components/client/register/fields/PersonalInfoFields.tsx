@@ -31,7 +31,7 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
   
   // Birth date formatting function
   const formatBirthDate = (value: string) => {
-    const dateDigits = value.replace(/\D/g, '');
+    const dateDigits = value.replace(/\D/g, '').slice(0, 8); // Limit to 8 digits (DDMMYYYY)
     
     if (dateDigits.length <= 2) {
       return dateDigits;
