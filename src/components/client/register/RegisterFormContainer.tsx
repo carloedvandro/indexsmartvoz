@@ -7,7 +7,7 @@ import { RegisterFormData, registerFormSchema } from "./RegisterSchema";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { useRegisterUser } from "@/hooks/useRegisterUser";
+import { createUser } from "@/services/user/userCreate";
 import { useState } from "react";
 import { Loader2, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -17,7 +17,6 @@ export const RegisterFormContainer = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { registerUser } = useRegisterUser();
   
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
@@ -41,8 +40,15 @@ export const RegisterFormContainer = () => {
       setError(null);
       console.log("Form data:", data);
       
-      // Register user with the form data
-      await registerUser(data);
+      // Create user with the form data
+      await createUser({
+        email: data.email,
+        password: data.password,
+        fullName: data.fullName,
+        cpf: data.cpf,
+        customId: data.customId,
+        sponsorCustomId: data.sponsorCustomId,
+      });
       
       toast({
         title: "Cadastro realizado com sucesso!",
@@ -67,8 +73,9 @@ export const RegisterFormContainer = () => {
     }
   };
 
+  // Confirmação antes de navegar para trás 
   const handleBack = () => {
-    navigate("/client/login");
+    navigate(-1);
   };
 
   return (
@@ -81,7 +88,7 @@ export const RegisterFormContainer = () => {
         </Alert>
       )}
       
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" noValidate>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormFields form={form} />
         <div className="flex justify-between mt-6 gap-4">
           <Button
