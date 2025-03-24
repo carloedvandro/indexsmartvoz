@@ -73,9 +73,9 @@ export const RegisterFormContainer = () => {
     }
   };
 
-  // Confirmação antes de navegar para trás 
+  // Alterado para navegar para a página inicial em vez de voltar
   const handleBack = () => {
-    navigate(-1);
+    navigate("/");
   };
 
   return (
