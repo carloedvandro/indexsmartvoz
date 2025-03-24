@@ -31,7 +31,7 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
   
   // Birth date formatting function
   const formatBirthDate = (value: string) => {
-    const dateDigits = value.replace(/\D/g, '');
+    const dateDigits = value.replace(/\D/g, '').slice(0, 8); // Limit to 8 digits (DDMMYYYY)
     
     if (dateDigits.length <= 2) {
       return dateDigits;
@@ -73,7 +73,7 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
         )}
       />
       
-      {/* CPF and Birth Date side by side on both mobile and desktop */}
+      {/* CPF and Birth Date side by side */}
       <div className="grid grid-cols-2 gap-4">
         <FormField
           control={form.control}
@@ -123,71 +123,34 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
         />
       </div>
       
-      {/* Desktop layout - Sponsor Custom ID ABOVE User Custom ID */}
-      {!isMobile && (
-        <>
-          <FormField
-            control={form.control}
-            name="sponsorCustomId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm">ID Personalizado do Patrocinador</FormLabel>
-                <FormControl>
-                  <Input {...field} disabled={disableSponsor} className="bg-transparent text-sm h-9 pt-[3px] rounded-md w-full" />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
-          
-          <FormField
-            control={form.control}
-            name="customId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm">ID Personalizado do Usuário</FormLabel>
-                <FormControl>
-                  <Input {...field} className="text-sm h-9 pt-[3px] rounded-md w-full" />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
-        </>
-      )}
+      {/* Sponsor ID and User Custom ID fields */}
+      <FormField
+        control={form.control}
+        name="sponsorCustomId"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="text-sm">ID Personalizado do Patrocinador</FormLabel>
+            <FormControl>
+              <Input {...field} disabled={disableSponsor} className="bg-transparent text-sm h-9 pt-[3px] rounded-md w-full" />
+            </FormControl>
+            <FormMessage className="text-xs" />
+          </FormItem>
+        )}
+      />
       
-      {/* Mobile layout - Sponsor Custom ID ABOVE User Custom ID */}
-      {isMobile && (
-        <>
-          <FormField
-            control={form.control}
-            name="sponsorCustomId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm">ID Personalizado do Patrocinador</FormLabel>
-                <FormControl>
-                  <Input {...field} disabled={disableSponsor} className="bg-transparent text-sm h-9 pt-[3px] rounded-md" />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
-          
-          <FormField
-            control={form.control}
-            name="customId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm">ID Personalizado do Usuário</FormLabel>
-                <FormControl>
-                  <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
-        </>
-      )}
+      <FormField
+        control={form.control}
+        name="customId"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="text-sm">ID Personalizado do Usuário</FormLabel>
+            <FormControl>
+              <Input {...field} className="text-sm h-9 pt-[3px] rounded-md w-full" />
+            </FormControl>
+            <FormMessage className="text-xs" />
+          </FormItem>
+        )}
+      />
     </div>
   );
 };
