@@ -41,14 +41,8 @@ export const RegisterFormContainer = () => {
       setError(null);
       console.log("Form data:", data);
       
-      // Format data correctly before submission
-      const formattedData = {
-        ...data,
-        // We store raw values without formatting in state, so no need to modify
-      };
-      
       // Register user with the form data
-      await registerUser(formattedData);
+      await registerUser(data);
       
       toast({
         title: "Cadastro realizado com sucesso!",
@@ -74,7 +68,7 @@ export const RegisterFormContainer = () => {
   };
 
   const handleBack = () => {
-    navigate(-1);
+    navigate("/client/login");
   };
 
   return (
