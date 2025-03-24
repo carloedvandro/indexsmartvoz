@@ -12,14 +12,13 @@ export const useRegisterUser = () => {
         cpf: values.cpf.replace(/\D/g, '') // Ensure we're using the raw CPF value without formatting
       });
 
-      // First check if the user already exists in auth by trying to get the user by email
-      const { data: existingEmailCheck, error: emailCheckError } = await supabase
+      // Check if email already exists in profiles table
+      const { data: existingProfiles, error: profilesError } = await supabase
         .from("profiles")
         .select("id")
-        .eq("email", values.email)
-        .single();
-        
-      if (existingEmailCheck) {
+        .eq("email", values.email);
+
+      if (existingProfiles && existingProfiles.length > 0) {
         console.error("Email already exists in profiles table", values.email);
         throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
       }
@@ -31,10 +30,9 @@ export const useRegisterUser = () => {
         const { data: existingCPF } = await supabase
           .from("profiles")
           .select("id")
-          .eq("cpf", cleanCpf)
-          .single();
+          .eq("cpf", cleanCpf);
 
-        if (existingCPF) {
+        if (existingCPF && existingCPF.length > 0) {
           throw new Error("CPF já está cadastrado. Utilize outro CPF ou faça login.");
         }
       }
@@ -45,10 +43,9 @@ export const useRegisterUser = () => {
         const { data: existingCustomId } = await supabase
           .from("profiles")
           .select("id")
-          .eq("custom_id", values.customId)
-          .single();
+          .eq("custom_id", values.customId);
 
-        if (existingCustomId) {
+        if (existingCustomId && existingCustomId.length > 0) {
           throw new Error("ID personalizado já está em uso. Por favor, escolha outro ID.");
         }
       }
