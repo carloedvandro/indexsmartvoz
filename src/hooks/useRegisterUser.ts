@@ -12,14 +12,29 @@ export const useRegisterUser = () => {
         cpf: values.cpf.replace(/\D/g, '') // Ensure we're using the raw CPF value without formatting
       });
 
-      // Check if email already exists in auth.users
+      // Primeiro, verifique se o email já existe diretamente na tabela auth.users (verificação crítica)
+      const { data: existingUserAuth, error: authCheckError } = await supabase.auth.admin
+        .listUsers({ 
+          filters: { 
+            email: values.email 
+          }
+        });
+        
+      if (authCheckError) {
+        console.error("Error checking auth.users:", authCheckError);
+      } else if (existingUserAuth && existingUserAuth.users && existingUserAuth.users.length > 0) {
+        console.error("Email already exists in auth.users table:", values.email);
+        throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
+      }
+
+      // Verifique também na tabela profiles (dupla verificação)
       const { data: existingEmailCheck, error: emailCheckError } = await supabase
         .from("profiles")
         .select("id")
         .eq("email", values.email);
 
       if (emailCheckError) {
-        console.error("Error checking email:", emailCheckError);
+        console.error("Error checking email in profiles:", emailCheckError);
       }
 
       if (existingEmailCheck && existingEmailCheck.length > 0) {
@@ -105,7 +120,7 @@ export const useRegisterUser = () => {
       if (authError) {
         console.error("Auth error:", authError);
         // Check if the error message indicates a duplicate email
-        if (authError.message.includes("already registered")) {
+        if (authError.message.includes("already registered") || authError.message.includes("já existe")) {
           throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
         }
         throw new Error(authError.message);

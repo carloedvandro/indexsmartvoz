@@ -33,7 +33,22 @@ export const createUser = async (data: CreateUserData) => {
   });
 
   try {
-    // Check if email already exists
+    // Primeiro, verifique se o email já existe diretamente na tabela auth.users (verificação crítica)
+    const { data: existingUserAuth, error: authCheckError } = await supabase.auth.admin
+      .listUsers({ 
+        filters: { 
+          email: data.email 
+        }
+      });
+      
+    if (authCheckError) {
+      log("error", "Error checking auth.users:", authCheckError);
+    } else if (existingUserAuth && existingUserAuth.users && existingUserAuth.users.length > 0) {
+      log("error", "Email already exists in auth.users table:", data.email);
+      throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
+    }
+
+    // Check if email already exists in profiles
     const { data: existingEmail, error: emailError } = await supabase
       .from("profiles")
       .select("id")
@@ -108,7 +123,7 @@ export const createUser = async (data: CreateUserData) => {
     if (signUpError) {
       log("error", "Error creating user", signUpError);
       // Check if the error message indicates a duplicate email
-      if (signUpError.message.includes("already registered")) {
+      if (signUpError.message.includes("already registered") || signUpError.message.includes("já existe")) {
         throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
       }
       throw signUpError;

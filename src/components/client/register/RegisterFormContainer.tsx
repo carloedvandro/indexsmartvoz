@@ -67,8 +67,15 @@ export const RegisterFormContainer = () => {
     } catch (error: any) {
       console.error("Registration error:", error);
       
-      // Set specific error to display in the UI
-      setError(error.message || "Ocorreu um erro ao criar sua conta.");
+      // Mensagem específica para email já existente
+      if (error.message.includes("já está cadastrado") || 
+          error.message.includes("already registered") ||
+          error.message.includes("já existe")) {
+        setError("Este email já está cadastrado. Por favor, faça login ou use recuperação de senha.");
+      } else {
+        // Set specific error to display in the UI
+        setError(error.message || "Ocorreu um erro ao criar sua conta.");
+      }
       
       // Show a toast with the error message
       toast({
