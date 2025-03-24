@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { RegisterFormData } from "@/components/client/register/RegisterSchema";
 
@@ -9,7 +8,7 @@ export const useRegisterUser = () => {
         ...values,
         password: "[PROTECTED]",
         customId: values.customId,
-        cpf: values.cpf
+        cpf: values.cpf // Log CPF value
       });
 
       // Check if email already exists
@@ -20,7 +19,7 @@ export const useRegisterUser = () => {
         .single();
 
       if (existingEmail) {
-        throw new Error("Email já está em uso. Por favor, use outro email.");
+        throw new Error("Email já cadastrado");
       }
 
       // Check if CPF already exists
@@ -33,7 +32,7 @@ export const useRegisterUser = () => {
           .single();
 
         if (existingCPF) {
-          throw new Error("CPF já está cadastrado. Utilize outro CPF ou faça login.");
+          throw new Error("CPF já cadastrado");
         }
       }
 
@@ -47,7 +46,7 @@ export const useRegisterUser = () => {
           .single();
 
         if (existingCustomId) {
-          throw new Error("ID personalizado já está em uso. Por favor, escolha outro ID.");
+          throw new Error("ID personalizado já está em uso");
         }
       }
 
@@ -90,10 +89,7 @@ export const useRegisterUser = () => {
 
       if (authError) {
         console.error("Auth error:", authError);
-        if (authError.message.includes("already registered")) {
-          throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
-        }
-        throw new Error("Erro ao criar usuário: " + authError.message);
+        throw new Error("Erro ao criar usuário");
       }
 
       if (!authData.user) {
@@ -115,16 +111,13 @@ export const useRegisterUser = () => {
           custom_id: values.customId,
           store_url: values.customId,
           sponsor_id: sponsorId,
-          cpf: values.cpf, // Explicitly set CPF in profiles table
-          whatsapp: values.whatsapp,
-          secondary_whatsapp: values.secondaryWhatsapp,
-          birth_date: values.birthDate
+          cpf: values.cpf // Explicitly set CPF in profiles table
         })
         .eq("id", authData.user.id);
 
       if (updateError) {
         console.error("Error updating profile:", updateError);
-        throw new Error("Erro ao atualizar perfil: " + updateError.message);
+        throw new Error("Erro ao atualizar perfil");
       }
 
       console.log("User registration completed successfully:", {
