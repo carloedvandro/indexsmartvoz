@@ -130,44 +130,49 @@ export default function AdminUsers() {
 
   const handleFindSpecificUser = async (email) => {
     try {
-      // Primeiro, busque no auth.users
-      const { data: authUser, error: authError } = await supabase.auth.admin.getUserByEmail(email);
+      // First get the user by email from profiles table
+      const { data: profileData, error: profileError } = await supabase
+        .from("profiles")
+        .select("*")
+        .ilike("email", email)
+        .limit(1);
       
-      if (authError) {
-        throw authError;
+      if (profileError) {
+        throw profileError;
       }
 
-      if (authUser?.user) {
-        // Verificar se este usuário tem um perfil
-        const { data: profileData, error: profileError } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", authUser.user.id)
-          .single();
+      if (profileData && profileData.length > 0) {
+        setSelectedUser(profileData[0]);
+        return;
+      }
 
-        if (profileError && profileError.code !== 'PGRST204') {
-          console.error("Profile query error:", profileError);
-        }
+      // If not found in profiles, check auth metadata
+      const { data, error } = await supabase.rpc('find_user_by_email', { 
+        email_to_find: email 
+      });
+      
+      if (error) {
+        throw error;
+      }
 
-        // Se o perfil existir, edite-o
-        if (profileData) {
-          setSelectedUser(profileData);
-        } else {
-          // Se o perfil não existir, crie um objeto temporário com os dados do auth.user
-          const tempUser = {
-            id: authUser.user.id,
-            email: authUser.user.email,
-            full_name: authUser.user.user_metadata?.full_name || "",
-            status: "pending",
-            role: "client"
-          };
-          setSelectedUser(tempUser);
-          
-          toast({
-            title: "Usuário encontrado",
-            description: "Este usuário existe no auth mas não tem perfil completo. Você pode completar os dados agora.",
-          });
-        }
+      if (data && data.length > 0) {
+        const authUser = data[0];
+        
+        // Create a temporary user object with data from auth
+        const tempUser = {
+          id: authUser.id,
+          email: authUser.email,
+          full_name: authUser.raw_user_meta_data?.full_name || "",
+          status: "pending",
+          role: "client"
+        };
+        
+        setSelectedUser(tempUser);
+        
+        toast({
+          title: "Usuário encontrado",
+          description: "Este usuário existe no auth mas não tem perfil completo. Você pode completar os dados agora.",
+        });
       } else {
         toast({
           title: "Usuário não encontrado",

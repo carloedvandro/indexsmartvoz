@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
-import { ReloadIcon } from "@radix-ui/react-icons";
+import { Loader2 } from "lucide-react";
 
 interface UserStatusManagementProps {
   userId: string;
@@ -142,7 +142,7 @@ export function UserStatusManagement({ userId, userEmail, currentStatus }: UserS
           disabled={isReactivating || status === "active"}
           className="flex gap-2 items-center"
         >
-          {isReactivating && <ReloadIcon className="h-4 w-4 animate-spin" />}
+          {isReactivating && <Loader2 className="h-4 w-4 animate-spin" />}
           {status === "active" ? "Usuário Ativo" : "Reativar Usuário"}
         </Button>
 
@@ -153,7 +153,7 @@ export function UserStatusManagement({ userId, userEmail, currentStatus }: UserS
           disabled={isVerifying}
           className="flex gap-2 items-center"
         >
-          {isVerifying && <ReloadIcon className="h-4 w-4 animate-spin" />}
+          {isVerifying && <Loader2 className="h-4 w-4 animate-spin" />}
           Verificar Email
         </Button>
       </div>
