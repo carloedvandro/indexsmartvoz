@@ -1,9 +1,9 @@
+
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { formatDateForDB } from "@/utils/format";
 
 interface PersonalInfoFieldsProps {
   form: UseFormReturn<RegisterFormData>;
@@ -29,9 +29,9 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
     }
   };
   
-  // Birth date formatting function (Brazilian format DD/MM/YYYY)
+  // Birth date formatting function
   const formatBirthDate = (value: string) => {
-    const dateDigits = value.replace(/\D/g, '').slice(0, 8); // Limit to 8 digits (DDMMYYYY)
+    const dateDigits = value.replace(/\D/g, '');
     
     if (dateDigits.length <= 2) {
       return dateDigits;

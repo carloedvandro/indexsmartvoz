@@ -1,7 +1,6 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { RegisterFormData } from "@/components/client/register/RegisterSchema";
-import { formatDateForDB } from "@/utils/format";
 
 export const useRegisterUser = () => {
   const registerUser = async (values: RegisterFormData) => {
@@ -13,41 +12,21 @@ export const useRegisterUser = () => {
         cpf: values.cpf.replace(/\D/g, '') // Ensure we're using the raw CPF value without formatting
       });
 
-      // First check for existing email in auth.users by attempting to get the user
-      const { data: authUserData, error: authUserError } = await supabase.auth
-        .signInWithPassword({
-          email: values.email,
-          password: "dummy-password-for-check" // This will fail but tell us if the email exists
-        });
-
-      // If we get no error or an error other than "Invalid login credentials", 
-      // it means the email exists in auth system
-      if (authUserError && !authUserError.message.includes("Invalid login credentials")) {
-        console.error("Error checking auth.users:", authUserError);
-      } else if (authUserData && authUserData.user) {
-        console.error("Email already exists in auth.users table:", values.email);
-        throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
-      }
-
-      // Format birth date correctly from DD/MM/YYYY to YYYY-MM-DD
-      const formattedBirthDate = formatDateForDB(values.birthDate);
-      
-      if (!formattedBirthDate) {
-        throw new Error("Formato de data inválido. Use o formato DD/MM/AAAA.");
-      }
-
-      // Verifique também na tabela profiles (dupla verificação)
-      const { data: existingEmailCheck, error: emailCheckError } = await supabase
+      // Check if email already exists using auth API
+      // We'll check directly in the profiles table instead of using the admin API
+      // as the admin.listUsers with filters isn't available in the client library
+      const { data: existingUser, error: emailCheckError } = await supabase
         .from("profiles")
         .select("id")
-        .eq("email", values.email);
-
-      if (emailCheckError) {
-        console.error("Error checking email in profiles:", emailCheckError);
-      }
-
-      if (existingEmailCheck && existingEmailCheck.length > 0) {
-        console.error("Email already exists in profiles table", values.email);
+        .eq("email", values.email)
+        .single();
+      
+      if (emailCheckError && emailCheckError.code !== 'PGRST116') {
+        console.error("Error checking existing user:", emailCheckError);
+        // Continue with registration if there's an error checking user
+        // This is safer than blocking registration due to a check error
+      } else if (existingUser) {
+        console.log("Email already exists:", values.email);
         throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
       }
 
@@ -55,17 +34,16 @@ export const useRegisterUser = () => {
       if (values.cpf) {
         const cleanCpf = values.cpf.replace(/\D/g, '');
         console.log("Checking if CPF exists:", cleanCpf);
-        
         const { data: existingCPF, error: cpfError } = await supabase
           .from("profiles")
           .select("id")
-          .eq("cpf", cleanCpf);
-          
-        if (cpfError) {
-          console.error("Error checking CPF:", cpfError);
-        }
+          .eq("cpf", cleanCpf)
+          .single();
 
-        if (existingCPF && existingCPF.length > 0) {
+        if (cpfError && cpfError.code !== 'PGRST116') {
+          console.error("Error checking CPF:", cpfError);
+        } else if (existingCPF) {
+          console.log("CPF already exists:", cleanCpf);
           throw new Error("CPF já está cadastrado. Utilize outro CPF ou faça login.");
         }
       }
@@ -73,17 +51,16 @@ export const useRegisterUser = () => {
       // Check if custom ID already exists
       if (values.customId) {
         console.log("Checking if custom ID exists:", values.customId);
-        
         const { data: existingCustomId, error: customIdError } = await supabase
           .from("profiles")
           .select("id")
-          .eq("custom_id", values.customId);
-        
-        if (customIdError) {
-          console.error("Error checking custom ID:", customIdError);
-        }
+          .eq("custom_id", values.customId)
+          .single();
 
-        if (existingCustomId && existingCustomId.length > 0) {
+        if (customIdError && customIdError.code !== 'PGRST116') {
+          console.error("Error checking custom ID:", customIdError);
+        } else if (existingCustomId) {
+          console.log("Custom ID already exists:", values.customId);
           throw new Error("ID personalizado já está em uso. Por favor, escolha outro ID.");
         }
       }
@@ -98,22 +75,30 @@ export const useRegisterUser = () => {
           .eq("custom_id", values.sponsorCustomId)
           .single();
 
-        if (sponsorError || !sponsor) {
+        if (sponsorError && sponsorError.code !== 'PGRST116') {
           console.error("Sponsor verification error:", sponsorError);
+        }
+        
+        if (!sponsor) {
+          console.error("Sponsor not found:", values.sponsorCustomId);
           throw new Error("ID do patrocinador inválido ou não encontrado");
         }
+        
         sponsorId = sponsor.id;
         console.log("Found sponsor ID:", sponsorId);
       }
 
-      // Now that all validations passed, create the user
+      // Format phone numbers consistently - remove any non-numeric characters
+      const formattedWhatsapp = values.whatsapp ? values.whatsapp.replace(/\D/g, '') : '';
+      const formattedSecondaryWhatsapp = values.secondaryWhatsapp ? values.secondaryWhatsapp.replace(/\D/g, '') : null;
+
+      // Create user with custom_id and CPF in metadata
       console.log("Creating user with metadata:", {
         custom_id: values.customId,
-        cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
-        birth_date: formattedBirthDate // Use formatted date
+        cpf: values.cpf.replace(/\D/g, '') // Remove formatting
       });
       
-      // Try to sign up the user with supabase auth
+      // Attempt user creation with Supabase Auth
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -123,18 +108,16 @@ export const useRegisterUser = () => {
             custom_id: values.customId,
             cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
             sponsor_id: sponsorId,
-            birth_date: formattedBirthDate // Use formatted date
           },
         },
       });
 
       if (authError) {
         console.error("Auth error:", authError);
-        // Check if the error message indicates a duplicate email
-        if (authError.message.includes("already registered") || authError.message.includes("já existe")) {
+        if (authError.message.includes("already registered")) {
           throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
         }
-        throw new Error(authError.message);
+        throw new Error("Erro ao criar usuário: " + authError.message);
       }
 
       if (!authData.user) {
@@ -142,18 +125,15 @@ export const useRegisterUser = () => {
         throw new Error("Erro ao criar usuário");
       }
 
-      // Explicitly update profile with all data including CPF and set verification status to verified by default
+      // Explicitly update profile with all data including CPF
       console.log("Updating profile with data:", {
         custom_id: values.customId,
         store_url: values.customId,
         sponsor_id: sponsorId,
         cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
-        whatsapp: values.whatsapp,
-        secondary_whatsapp: values.secondaryWhatsapp || null,
-        birth_date: formattedBirthDate, // Use formatted date
-        facial_verification_status: 'verified',
-        document_verification_status: 'verified',
-        verification_completed_at: new Date().toISOString()
+        whatsapp: formattedWhatsapp,
+        secondary_whatsapp: formattedSecondaryWhatsapp,
+        birth_date: values.birthDate
       });
 
       const { error: updateError } = await supabase
@@ -163,9 +143,10 @@ export const useRegisterUser = () => {
           store_url: values.customId,
           sponsor_id: sponsorId,
           cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
-          whatsapp: values.whatsapp,
-          secondary_whatsapp: values.secondaryWhatsapp || null,
-          birth_date: formattedBirthDate, // Use formatted date
+          whatsapp: formattedWhatsapp,
+          secondary_whatsapp: formattedSecondaryWhatsapp,
+          birth_date: values.birthDate,
+          // Set verification fields as verified by default since we're skipping biometry
           facial_verification_status: 'verified',
           document_verification_status: 'verified',
           verification_completed_at: new Date().toISOString()

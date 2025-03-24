@@ -11,7 +11,6 @@ export type CreateUserData = {
   cpf: string;
   customId: string;
   sponsorCustomId?: string;
-  birthDate?: string;
 };
 
 export const createUser = async (data: CreateUserData) => {
@@ -34,63 +33,62 @@ export const createUser = async (data: CreateUserData) => {
   });
 
   try {
-    // First check for existing email in auth.users by attempting to get the user
-    const { data: authUserData, error: authUserError } = await supabase.auth
-      .signInWithPassword({
-        email: data.email,
-        password: "dummy-password-for-check" // This will fail but tell us if the email exists
-      });
-      
-    // If we get no error or an error other than "Invalid login credentials", 
-    // it means the email exists in auth system
-    if (authUserError && !authUserError.message.includes("Invalid login credentials")) {
-      log("error", "Error checking auth system:", authUserError);
-    } else if (authUserData && authUserData.user) {
-      log("error", "Email already exists in auth system:", data.email);
-      throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
-    }
-
-    // Check if email already exists in profiles
-    const { data: existingEmail, error: emailError } = await supabase
+    // Check if email already exists
+    const { data: existingEmail } = await supabase
       .from("profiles")
       .select("id")
-      .eq("email", data.email);
+      .eq("email", data.email)
+      .single();
 
-    if (emailError) {
-      log("error", "Error checking email existence", emailError);
-    }
-
-    if (existingEmail && existingEmail.length > 0) {
+    if (existingEmail) {
       throw new Error("Email já está em uso. Por favor, use outro email ou faça login.");
     }
 
     // Check if CPF already exists
-    const cleanCpf = data.cpf.replace(/\D/g, '');
-    const { data: existingCPF, error: cpfError } = await supabase
+    const { data: existingCPF } = await supabase
       .from("profiles")
       .select("id")
-      .eq("cpf", cleanCpf);
+      .eq("cpf", data.cpf)
+      .single();
 
-    if (cpfError) {
-      log("error", "Error checking CPF existence", cpfError);
-    }
-
-    if (existingCPF && existingCPF.length > 0) {
+    if (existingCPF) {
       throw new Error("CPF já está cadastrado. Utilize outro CPF ou faça login.");
     }
 
     // Check if custom ID already exists
-    const { data: existingCustomId, error: customIdError } = await supabase
+    const { data: existingCustomId } = await supabase
       .from("profiles")
       .select("id")
-      .eq("custom_id", data.customId);
+      .eq("custom_id", data.customId)
+      .single();
 
-    if (customIdError) {
-      log("error", "Error checking custom ID existence", customIdError);
+    if (existingCustomId) {
+      throw new Error("ID personalizado já está em uso. Por favor, escolha outro ID.");
     }
 
-    if (existingCustomId && existingCustomId.length > 0) {
-      throw new Error("ID personalizado já está em uso. Por favor, escolha outro ID.");
+    // Proceed with user creation
+    const { data: authData, error: signUpError } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+      options: {
+        data: {
+          full_name: data.fullName,
+          custom_id: data.customId,
+          cpf: data.cpf,
+        },
+      },
+    });
+
+    if (signUpError) {
+      log("error", "Error creating user", signUpError);
+      if (signUpError.message.includes("already registered")) {
+        throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
+      }
+      throw signUpError;
+    }
+    
+    if (!authData.user) {
+      throw new Error("Falha ao criar usuário");
     }
 
     // Get sponsor ID if provided
@@ -109,40 +107,6 @@ export const createUser = async (data: CreateUserData) => {
       sponsorId = sponsor.id;
     }
 
-    // Format birth date if provided
-    let formattedBirthDate = null;
-    if (data.birthDate) {
-      const [day, month, year] = data.birthDate.split('/');
-      formattedBirthDate = `${year}-${month}-${day}`;
-    }
-    
-    // Now that all validations passed, proceed with user creation
-    const { data: authData, error: signUpError } = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-      options: {
-        data: {
-          full_name: data.fullName,
-          custom_id: data.customId,
-          cpf: data.cpf,
-          birth_date: formattedBirthDate
-        },
-      },
-    });
-
-    if (signUpError) {
-      log("error", "Error creating user", signUpError);
-      // Check if the error message indicates a duplicate email
-      if (signUpError.message.includes("already registered") || signUpError.message.includes("já existe")) {
-        throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
-      }
-      throw signUpError;
-    }
-    
-    if (!authData.user) {
-      throw new Error("Falha ao criar usuário");
-    }
-
     // Explicitly update profile with custom_id, CPF and sponsor
     const { error: updateError } = await supabase
       .from("profiles")
@@ -150,8 +114,7 @@ export const createUser = async (data: CreateUserData) => {
         custom_id: data.customId,
         store_url: data.customId,
         cpf: data.cpf,
-        sponsor_id: sponsorId,
-        birth_date: formattedBirthDate
+        sponsor_id: sponsorId
       })
       .eq("id", authData.user.id);
 

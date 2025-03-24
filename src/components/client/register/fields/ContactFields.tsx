@@ -1,32 +1,25 @@
 
+import { useState } from "react";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UseFormReturn, useWatch } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { Phone } from "lucide-react";
 
 interface ContactFieldsProps {
   form: UseFormReturn<RegisterFormData>;
 }
 
 export const ContactFields = ({ form }: ContactFieldsProps) => {
-  const primaryWhatsapp = useWatch({
-    control: form.control,
-    name: "whatsapp",
-  });
-  
-  const isMobile = useIsMobile();
-
-  // Format WhatsApp number with Brazilian mobile format
-  const formatWhatsApp = (value: string) => {
-    // Return empty string if no value
+  // This formats the phone number as (XX) XXXXX-XXXX while typing
+  const formatPhone = (value: string) => {
     if (!value) return "";
     
-    const digits = value.replace(/\D/g, '');
+    // Remove all non-digits
+    const digits = value.replace(/\D/g, "");
     
-    if (digits.length === 0) {
-      return "";
-    } else if (digits.length <= 2) {
+    // Format according to Brazilian phone number pattern
+    if (digits.length <= 2) {
       return `(${digits}`;
     } else if (digits.length <= 7) {
       return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
@@ -35,8 +28,13 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
     }
   };
 
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>, field: any) => {
+    const formattedValue = formatPhone(e.target.value);
+    field.onChange(formattedValue);
+  };
+
   return (
-    <div className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-1 sm:grid-cols-2'} gap-4`}>
+    <div className="grid grid-cols-2 gap-3">
       <FormField
         control={form.control}
         name="whatsapp"
@@ -44,25 +42,14 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">WhatsApp</FormLabel>
             <FormControl>
-              <div className="relative overflow-hidden rounded-md">
-                <div className="absolute left-2 top-1/2 -translate-y-1/2 w-5 h-5">
-                  <img 
-                    src="/lovable-uploads/2e4ca7a4-cb0a-4cc0-94b0-fbf9e4a57298.png" 
-                    alt="WhatsApp" 
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <Input 
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-3.5 w-3.5" />
+                <Input
                   {...field}
-                  value={formatWhatsApp(field.value || "")}
-                  onChange={(e) => {
-                    const rawValue = e.target.value.replace(/\D/g, '');
-                    field.onChange(rawValue);
-                  }} 
-                  type="text"
-                  placeholder="(00) 00000-0000" 
-                  className="pl-9 text-sm h-9 pt-[3px] rounded-md w-full pr-2 text-center"
-                  maxLength={15}
+                  className="pl-9 text-sm h-9 pt-[3px] rounded-md"
+                  onChange={(e) => handlePhoneChange(e, field)}
+                  placeholder="(XX) XXXXX-XXXX"
+                  maxLength={16}
                 />
               </div>
             </FormControl>
@@ -78,33 +65,14 @@ export const ContactFields = ({ form }: ContactFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">Segundo Contato</FormLabel>
             <FormControl>
-              <div className="relative overflow-hidden rounded-md">
-                <div className="absolute left-2 top-1/2 -translate-y-1/2 w-5 h-5">
-                  <img 
-                    src="/lovable-uploads/2e4ca7a4-cb0a-4cc0-94b0-fbf9e4a57298.png" 
-                    alt="WhatsApp" 
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <Input 
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-3.5 w-3.5" />
+                <Input
                   {...field}
-                  value={formatWhatsApp(field.value || "")}
-                  onChange={(e) => {
-                    const rawValue = e.target.value.replace(/\D/g, '');
-                    if (rawValue === primaryWhatsapp) {
-                      form.setError("secondaryWhatsapp", {
-                        type: "manual",
-                        message: "O segundo contato deve ser diferente do WhatsApp principal"
-                      });
-                    } else {
-                      form.clearErrors("secondaryWhatsapp");
-                    }
-                    field.onChange(rawValue);
-                  }}
-                  type="text"
-                  placeholder="(00) 00000-0000"
-                  className="pl-9 text-sm h-9 pt-[3px] rounded-md w-full pr-2 text-center"
-                  maxLength={15}
+                  className="pl-9 text-sm h-9 pt-[3px] rounded-md"
+                  onChange={(e) => handlePhoneChange(e, field)}
+                  placeholder="(XX) XXXXX-XXXX (opcional)"
+                  maxLength={16}
                 />
               </div>
             </FormControl>
