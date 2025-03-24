@@ -79,23 +79,9 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
         />
       </div>
       
-      {/* Desktop layout - User Custom ID and Sponsor Custom ID as full width items */}
+      {/* Desktop layout - Sponsor Custom ID ABOVE User Custom ID */}
       {!isMobile && (
         <>
-          <FormField
-            control={form.control}
-            name="customId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm">ID Personalizado do Usuário</FormLabel>
-                <FormControl>
-                  <Input {...field} className="text-sm h-9 pt-[3px] rounded-md w-full" />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
-          
           <FormField
             control={form.control}
             name="sponsorCustomId"
@@ -104,6 +90,20 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
                 <FormLabel className="text-sm">ID Personalizado do Patrocinador</FormLabel>
                 <FormControl>
                   <Input {...field} disabled={disableSponsor} className="bg-transparent text-sm h-9 pt-[3px] rounded-md w-full" />
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="customId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm">ID Personalizado do Usuário</FormLabel>
+                <FormControl>
+                  <Input {...field} className="text-sm h-9 pt-[3px] rounded-md w-full" />
                 </FormControl>
                 <FormMessage className="text-xs" />
               </FormItem>
