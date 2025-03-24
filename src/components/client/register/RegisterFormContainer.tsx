@@ -73,7 +73,6 @@ export const RegisterFormContainer = () => {
     }
   };
 
-  // Confirmação antes de navegar para trás 
   const handleBack = () => {
     navigate(-1);
   };
@@ -88,7 +87,7 @@ export const RegisterFormContainer = () => {
         </Alert>
       )}
       
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" noValidate>
         <FormFields form={form} />
         <div className="flex justify-between mt-6 gap-4">
           <Button
