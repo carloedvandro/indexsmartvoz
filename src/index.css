@@ -92,21 +92,8 @@ body::before {
   }
 }
 
-@keyframes spin-reverse-slow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(-360deg);
-  }
-}
-
 .animate-spin-slow {
   animation: spin-slow 3s linear infinite;
-}
-
-.animate-spin-reverse-slow {
-  animation: spin-reverse-slow 3s linear infinite;
 }
 
 .logo-image {
