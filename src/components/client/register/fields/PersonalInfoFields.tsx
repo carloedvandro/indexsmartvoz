@@ -13,6 +13,35 @@ interface PersonalInfoFieldsProps {
 export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsProps) => {
   const isMobile = useIsMobile();
   
+  // CPF formatting function
+  const formatCPF = (value: string) => {
+    // Limit to only 11 digits max
+    const cpfDigits = value.replace(/\D/g, '').slice(0, 11);
+    
+    if (cpfDigits.length <= 3) {
+      return cpfDigits;
+    } else if (cpfDigits.length <= 6) {
+      return `${cpfDigits.slice(0, 3)}.${cpfDigits.slice(3)}`;
+    } else if (cpfDigits.length <= 9) {
+      return `${cpfDigits.slice(0, 3)}.${cpfDigits.slice(3, 6)}.${cpfDigits.slice(6)}`;
+    } else {
+      return `${cpfDigits.slice(0, 3)}.${cpfDigits.slice(3, 6)}.${cpfDigits.slice(6, 9)}-${cpfDigits.slice(9, 11)}`;
+    }
+  };
+  
+  // Birth date formatting function
+  const formatBirthDate = (value: string) => {
+    const dateDigits = value.replace(/\D/g, '');
+    
+    if (dateDigits.length <= 2) {
+      return dateDigits;
+    } else if (dateDigits.length <= 4) {
+      return `${dateDigits.slice(0, 2)}/${dateDigits.slice(2)}`;
+    } else {
+      return `${dateDigits.slice(0, 2)}/${dateDigits.slice(2, 4)}/${dateDigits.slice(4, 8)}`;
+    }
+  };
+  
   return (
     <div className="space-y-4">
       <FormField
@@ -53,7 +82,16 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
             <FormItem>
               <FormLabel className="text-sm">CPF</FormLabel>
               <FormControl>
-                <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
+                <Input 
+                  {...field}
+                  value={formatCPF(field.value)}
+                  onChange={(e) => {
+                    const formattedValue = e.target.value.replace(/\D/g, '');
+                    field.onChange(formattedValue);
+                  }}
+                  maxLength={14}
+                  className="text-sm h-9 pt-[3px] rounded-md" 
+                />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
@@ -68,7 +106,13 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
               <FormLabel className="text-sm">Data de Nascimento</FormLabel>
               <FormControl>
                 <Input 
-                  {...field} 
+                  {...field}
+                  value={formatBirthDate(field.value)}
+                  onChange={(e) => {
+                    const formattedValue = e.target.value.replace(/\D/g, '');
+                    field.onChange(formattedValue);
+                  }}
+                  maxLength={10}
                   placeholder="DD/MM/AAAA"
                   className="text-sm h-9 pt-[3px] rounded-md" 
                 />
