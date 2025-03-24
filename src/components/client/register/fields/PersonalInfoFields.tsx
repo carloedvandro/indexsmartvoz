@@ -62,7 +62,7 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
           />
         </div>
       ) : (
-        /* Desktop layout - email and CPF stacked */
+        /* Desktop layout - email stacked, then CPF and Birth Date side by side */
         <>
           <FormField
             control={form.control}
@@ -78,21 +78,42 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
             )}
           />
           
-          <FormField
-            control={form.control}
-            name="cpf"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm">CPF</FormLabel>
-                <FormControl>
-                  <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
+          {/* CPF and Birth Date side by side on desktop */}
+          <div className="grid grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="cpf"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm">CPF</FormLabel>
+                  <FormControl>
+                    <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
+                  </FormControl>
+                  <FormMessage className="text-xs" />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="birthDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm">Data de Nascimento</FormLabel>
+                  <FormControl>
+                    <Input 
+                      {...field} 
+                      placeholder="DD/MM/AAAA"
+                      className="text-sm h-9 pt-[3px] rounded-md" 
+                    />
+                  </FormControl>
+                  <FormMessage className="text-xs" />
+                </FormItem>
+              )}
+            />
+          </div>
           
-          {/* Sponsor Custom ID moved here, below CPF */}
+          {/* Sponsor Custom ID moved here, below CPF and Birth Date */}
           <FormField
             control={form.control}
             name="sponsorCustomId"
@@ -124,23 +145,26 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
           )}
         />
         
-        <FormField
-          control={form.control}
-          name="birthDate"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-sm">Data de Nascimento</FormLabel>
-              <FormControl>
-                <Input 
-                  {...field} 
-                  placeholder="DD/MM/AAAA"
-                  className="text-sm h-9 pt-[3px] rounded-md" 
-                />
-              </FormControl>
-              <FormMessage className="text-xs" />
-            </FormItem>
-          )}
-        />
+        {/* Only show Birth Date here on mobile layout */}
+        {isMobile && (
+          <FormField
+            control={form.control}
+            name="birthDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm">Data de Nascimento</FormLabel>
+                <FormControl>
+                  <Input 
+                    {...field} 
+                    placeholder="DD/MM/AAAA"
+                    className="text-sm h-9 pt-[3px] rounded-md" 
+                  />
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+        )}
       </div>
       
       {/* Add sponsor field for mobile layout */}
