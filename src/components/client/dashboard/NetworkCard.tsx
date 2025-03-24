@@ -21,7 +21,7 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
 
   return (
     <Card 
-      className="h-full cursor-pointer hover:shadow-lg transition-shadow relative overflow-hidden"
+      className="h-full cursor-pointer hover:shadow-lg transition-shadow"
       onClick={onClick}
     >
       <CardHeader className="pb-2 space-y-0 py-4">
@@ -56,7 +56,6 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
             <p className="text-xs text-orange-600">Indicados Indiretos</p>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-purple-500/10 to-transparent h-1.5"></div>
       </CardContent>
     </Card>
   );
