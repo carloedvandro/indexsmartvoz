@@ -114,7 +114,7 @@ export const useRegisterUser = () => {
         throw new Error("Erro ao criar usuário");
       }
 
-      // Explicitly update profile with all data including CPF
+      // Explicitly update profile with all data including CPF and set verification status to verified by default
       console.log("Updating profile with data:", {
         custom_id: values.customId,
         store_url: values.customId,
@@ -122,7 +122,10 @@ export const useRegisterUser = () => {
         cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
         whatsapp: values.whatsapp,
         secondary_whatsapp: values.secondaryWhatsapp || null,
-        birth_date: values.birthDate
+        birth_date: values.birthDate,
+        facial_verification_status: 'verified',
+        document_verification_status: 'verified',
+        verification_completed_at: new Date().toISOString()
       });
 
       const { error: updateError } = await supabase
@@ -134,7 +137,10 @@ export const useRegisterUser = () => {
           cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
           whatsapp: values.whatsapp,
           secondary_whatsapp: values.secondaryWhatsapp || null,
-          birth_date: values.birthDate
+          birth_date: values.birthDate,
+          facial_verification_status: 'verified',
+          document_verification_status: 'verified',
+          verification_completed_at: new Date().toISOString()
         })
         .eq("id", authData.user.id);
 

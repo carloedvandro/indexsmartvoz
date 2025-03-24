@@ -59,11 +59,11 @@ export const RegisterFormContainer = () => {
       
       toast({
         title: "Cadastro realizado com sucesso!",
-        description: "Vamos continuar com a verificação biométrica.",
+        description: "Você será redirecionado para o dashboard.",
       });
       
-      // Navigate to facial biometry page
-      navigate("/client/facial-biometry");
+      // Navigate directly to dashboard instead of facial biometry
+      navigate("/client/dashboard");
     } catch (error: any) {
       console.error("Registration error:", error);
       
@@ -82,7 +82,7 @@ export const RegisterFormContainer = () => {
   };
 
   const handleBack = () => {
-    navigate(-1);
+    navigate("/client/login");
   };
 
   return (
