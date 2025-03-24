@@ -29,7 +29,7 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
     }
   };
   
-  // Birth date formatting function
+  // Birth date formatting function (Brazilian format DD/MM/YYYY)
   const formatBirthDate = (value: string) => {
     const dateDigits = value.replace(/\D/g, '').slice(0, 8); // Limit to 8 digits (DDMMYYYY)
     

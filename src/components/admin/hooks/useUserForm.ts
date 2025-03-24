@@ -7,15 +7,19 @@ import {
   createUser, 
   updateProfile 
 } from "../UserFormUtils";
+import { formatDateForInput } from "@/utils/format";
 
 export function useUserForm(user, onUserUpdated, onOpenChange) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   
+  // Format birth date for form display if it exists
+  const formattedBirthDate = user?.birth_date ? formatDateForInput(user.birth_date) : '';
+  
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       ...user,
-      birth_date: user?.birth_date?.split('T')[0],
+      birth_date: formattedBirthDate,
     },
   });
 

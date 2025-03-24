@@ -1,3 +1,4 @@
+
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
@@ -7,8 +8,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { formatDateForInput } from "@/utils/format";
 
 export function PersonalDataTab({ register, setValue, watch, readOnly = false }) {
+  // Format the birth date for display if it exists
+  const birthDate = watch("birth_date");
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="space-y-2">
@@ -21,7 +26,11 @@ export function PersonalDataTab({ register, setValue, watch, readOnly = false })
       </div>
       <div className="space-y-2">
         <Label>Data de Nascimento</Label>
-        <Input {...register("birth_date")} type="date" />
+        <Input 
+          {...register("birth_date")} 
+          type="date" 
+          placeholder="DD/MM/AAAA"
+        />
       </div>
       <div className="space-y-2">
         <Label>Tipo de Pessoa</Label>
