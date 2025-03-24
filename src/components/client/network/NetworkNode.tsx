@@ -83,18 +83,17 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   
   const isRubensTree = member.user.full_name === 'Rubens Valin';
   
-  // Adicionando console.log para debug
-  console.log('Nome do usuário:', member.user.full_name);
-  console.log('É Carolina?', isCarolinaTree);
+  // Adicionando 2px à margem direita para todos os níveis
+  const additionalMargin = 2;
   
   const style = {
     marginLeft: isDavidForgat ? '-9px' : // David mantém a margem original
                 isCarolinaTree ? '29mm' : // Carolina 29mm para direita
                 isRubensTree ? '5.5mm' : // Rubens 5.5mm para direita
-                depth === 2 ? '8px' : 
-                isRuiTree ? '10px' : 
-                member.user.custom_id === 'vania' ? '25.5px' :
-                (depth === 0 ? '-3px' : '5px'),
+                depth === 2 ? `${8 + additionalMargin}px` : 
+                isRuiTree ? `${10 + additionalMargin}px` : 
+                member.user.custom_id === 'vania' ? `${25.5 + additionalMargin}px` :
+                (depth === 0 ? `${-3 + additionalMargin}px` : `${5 + additionalMargin}px`),
     width: `calc(100% - ${depth === 0 ? -3 : 5}px)`,
   };
 
