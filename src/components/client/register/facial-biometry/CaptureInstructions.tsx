@@ -9,39 +9,36 @@ interface CaptureInstructionsProps {
 
 export const CaptureInstructions = ({ onNext, onBack }: CaptureInstructionsProps) => {
   return (
-    <div className="space-y-6">
-      <div className="text-center">
-        <h2 className="text-2xl font-semibold mb-4">Instruções para Captura</h2>
-        <div className="space-y-4 text-left max-w-md mx-auto">
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <h3 className="font-medium mb-2">Prepare o ambiente:</h3>
-            <ul className="list-disc list-inside space-y-2 text-gray-600">
-              <li>Escolha um local bem iluminado</li>
-              <li>Evite fundos muito claros ou escuros</li>
-              <li>Remova óculos, máscaras ou outros acessórios</li>
-            </ul>
-          </div>
-
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <h3 className="font-medium mb-2">Durante a captura:</h3>
-            <ul className="list-disc list-inside space-y-2 text-gray-600">
-              <li>Mantenha uma expressão neutra</li>
-              <li>Olhe diretamente para a câmera</li>
-              <li>Evite movimentos bruscos</li>
-            </ul>
+    <div className="bg-[#8425af] text-white p-8 rounded-lg">
+      <div className="space-y-6 text-center">
+        <div className="flex items-center justify-center mb-4">
+          <div className="p-3 rounded-full bg-white/10">
+            <img 
+              src="/lovable-uploads/f4b30617-4032-4f4b-8c3e-ec83632e0240.png" 
+              alt="Documento de identificação" 
+              className="h-16 w-16 object-contain"
+            />
           </div>
         </div>
-      </div>
-
-      <div className="flex flex-col gap-2 max-w-xs mx-auto">
-        <Button onClick={onNext} className="w-full">
-          Continuar
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
         
-        <Button variant="outline" onClick={onBack}>
-          Voltar
-        </Button>
+        <h2 className="text-2xl font-semibold">Olá,</h2>
+        <p className="text-base">
+          Hora de tirar sua foto de identificação.<br />
+          Antes de começar, algumas dicas:
+        </p>
+
+        <div className="flex justify-center space-x-2 mt-4">
+          <div className="w-2 h-2 bg-white rounded-full"></div>
+          <div className="w-2 h-2 bg-white/40 rounded-full"></div>
+          <div className="w-2 h-2 bg-white/40 rounded-full"></div>
+          <div className="w-2 h-2 bg-white/40 rounded-full"></div>
+        </div>
+
+        <div className="flex flex-col gap-2 max-w-xs mx-auto">
+          <Button onClick={onNext} className="w-full bg-white text-[#8425af] hover:bg-gray-100">
+            AVANÇAR
+          </Button>
+        </div>
       </div>
     </div>
   );
