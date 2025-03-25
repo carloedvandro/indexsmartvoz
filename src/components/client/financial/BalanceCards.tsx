@@ -27,7 +27,7 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
           <span className="text-[#580180] font-medium">Saldo disponível</span>
           <div className="flex items-center gap-1">
             <span className="text-[#580180]">R$</span>
-            <span className="text-[#580180] text-xl">5.000,01</span>
+            <span className="text-[#580180]">5.000,01</span>
           </div>
         </div>
       </Card>
@@ -45,7 +45,7 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
               </div>
               <div className="flex items-center gap-1 mt-2 md:mt-0 justify-end">
                 <span className="text-gray-500">R$</span>
-                <span className="text-gray-500 text-xl">42.576,22</span>
+                <span className="text-gray-500">42.576,22</span>
               </div>
             </div>
           </div>
@@ -53,11 +53,11 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-1">
               <span className="text-gray-900 font-medium">Total de saldo</span>
-              <span className="text-red-500 font-medium mt-1">bloqueado</span>
+              <span className="text-red-500 font-medium">bloqueado</span>
             </div>
             <div className="flex items-baseline gap-1">
               <span className="text-gray-500">R$</span>
-              <span className="text-gray-500 text-xl">0,00</span>
+              <span className="text-gray-500">0,00</span>
             </div>
           </div>
         </div>
