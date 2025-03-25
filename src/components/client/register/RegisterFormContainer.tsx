@@ -9,8 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { createUser } from "@/services/user/userCreate";
 import { useState, useEffect } from "react";
-import { Loader2, AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Loader2 } from "lucide-react";
 
 // Chave para armazenar os dados do formulário no localStorage
 const FORM_STORAGE_KEY = "smartvoz_register_form_data";
@@ -19,7 +18,6 @@ export const RegisterFormContainer = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   
   // Carrega os valores iniciais do formulário do localStorage
   const getSavedFormValues = () => {
@@ -77,7 +75,6 @@ export const RegisterFormContainer = () => {
   const onSubmit = async (data: RegisterFormData) => {
     try {
       setIsSubmitting(true);
-      setError(null);
       console.log("Form data:", data);
       
       // Create user with the form data
@@ -102,10 +99,6 @@ export const RegisterFormContainer = () => {
       navigate("/client/facial-biometry");
     } catch (error: any) {
       console.error("Registration error:", error);
-      
-      // Set specific error to display in the UI
-      setError(error.message || "Ocorreu um erro ao criar sua conta.");
-      
       toast({
         title: "Erro no cadastro",
         description: error.message || "Ocorreu um erro ao criar sua conta.",
@@ -127,14 +120,6 @@ export const RegisterFormContainer = () => {
 
   return (
     <Form {...form}>
-      {error && (
-        <Alert variant="destructive" className="mb-4">
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Erro no cadastro</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
-      
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormFields form={form} />
         <div className="flex justify-between mt-6 gap-4">
