@@ -8,69 +8,29 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { createUser } from "@/services/user/userCreate";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Loader2 } from "lucide-react";
-
-// Chave para armazenar os dados do formulário no localStorage
-const FORM_STORAGE_KEY = "smartvoz_register_form_data";
 
 export const RegisterFormContainer = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // Carrega os valores iniciais do formulário do localStorage
-  const getSavedFormValues = () => {
-    try {
-      const savedValues = localStorage.getItem(FORM_STORAGE_KEY);
-      return savedValues ? JSON.parse(savedValues) : {
-        fullName: "",
-        email: "",
-        password: "",
-        passwordConfirmation: "",
-        cpf: "",
-        sponsorCustomId: "",
-        customId: "",
-        birthDate: "",
-        whatsapp: "",
-        secondaryWhatsapp: "",
-      };
-    } catch (error) {
-      console.error("Erro ao carregar dados salvos:", error);
-      return {
-        fullName: "",
-        email: "",
-        password: "",
-        passwordConfirmation: "",
-        cpf: "",
-        sponsorCustomId: "",
-        customId: "",
-        birthDate: "",
-        whatsapp: "",
-        secondaryWhatsapp: "",
-      };
-    }
-  };
-  
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
-    defaultValues: getSavedFormValues(),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+      cpf: "",
+      sponsorCustomId: "",
+      customId: "",
+      birthDate: "",
+      whatsapp: "",
+      secondaryWhatsapp: "",
+    },
   });
-
-  // Salva os dados do formulário no localStorage sempre que houver mudanças
-  useEffect(() => {
-    const subscription = form.watch((values) => {
-      // Não salva senhas no localStorage por segurança, mas mantém os outros campos
-      const dataToSave = {
-        ...values,
-        password: values.password ? values.password : "",
-        passwordConfirmation: values.passwordConfirmation ? values.passwordConfirmation : "",
-      };
-      localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(dataToSave));
-    });
-    
-    return () => subscription.unsubscribe();
-  }, [form.watch]);
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
@@ -86,9 +46,6 @@ export const RegisterFormContainer = () => {
         customId: data.customId,
         sponsorCustomId: data.sponsorCustomId,
       });
-      
-      // Limpa os dados salvos após o cadastro bem-sucedido
-      localStorage.removeItem(FORM_STORAGE_KEY);
       
       toast({
         title: "Cadastro realizado com sucesso!",
@@ -109,12 +66,7 @@ export const RegisterFormContainer = () => {
     }
   };
 
-  // Confirmação antes de navegar para trás se o formulário tiver alterações
   const handleBack = () => {
-    // Confirma antes de navegar se o formulário foi modificado
-    if (form.formState.isDirty && !window.confirm("Você tem certeza que deseja voltar? Suas alterações serão salvas localmente, mas você precisará preencher o formulário novamente.")) {
-      return;
-    }
     navigate(-1);
   };
 
