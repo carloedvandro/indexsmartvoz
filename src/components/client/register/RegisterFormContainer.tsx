@@ -5,18 +5,21 @@ import { Form } from "@/components/ui/form";
 import { FormFields } from "./FormFields";
 import { RegisterFormData, registerFormSchema } from "./RegisterSchema";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { createUser } from "@/services/user/userCreate";
-import { useState } from "react";
+import { useRegisterUser } from "@/hooks/useRegisterUser";
+import { useState, useEffect } from "react";
 import { Loader2, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export const RegisterFormContainer = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const sponsorId = searchParams.get("sponsor");
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { registerUser } = useRegisterUser();
   
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
@@ -26,7 +29,7 @@ export const RegisterFormContainer = () => {
       password: "",
       passwordConfirmation: "",
       cpf: "",
-      sponsorCustomId: "",
+      sponsorCustomId: sponsorId || "",
       customId: "",
       birthDate: "",
       whatsapp: "",
@@ -34,21 +37,25 @@ export const RegisterFormContainer = () => {
     },
   });
 
+  useEffect(() => {
+    if (sponsorId) {
+      console.log("Setting sponsor ID from URL:", sponsorId);
+      form.setValue("sponsorCustomId", sponsorId);
+    }
+  }, [sponsorId, form]);
+
   const onSubmit = async (data: RegisterFormData) => {
     try {
       setIsSubmitting(true);
       setError(null);
-      console.log("Form data:", data);
-      
-      // Create user with the form data
-      await createUser({
-        email: data.email,
-        password: data.password,
-        fullName: data.fullName,
-        cpf: data.cpf,
-        customId: data.customId,
-        sponsorCustomId: data.sponsorCustomId,
+      console.log("Form data:", {
+        ...data,
+        password: "[PROTECTED]",
+        passwordConfirmation: "[PROTECTED]"
       });
+      
+      // Register user with the form data
+      await registerUser(data);
       
       toast({
         title: "Cadastro realizado com sucesso!",
@@ -63,6 +70,7 @@ export const RegisterFormContainer = () => {
       // Set specific error to display in the UI
       setError(error.message || "Ocorreu um erro ao criar sua conta.");
       
+      // Show a toast with the error message
       toast({
         title: "Erro no cadastro",
         description: error.message || "Ocorreu um erro ao criar sua conta.",
@@ -73,9 +81,9 @@ export const RegisterFormContainer = () => {
     }
   };
 
-  // Alterado para navegar para a página inicial em vez de voltar
   const handleBack = () => {
-    navigate("/");
+    // Navigate to the login page
+    navigate("/client/login");
   };
 
   return (
@@ -88,8 +96,8 @@ export const RegisterFormContainer = () => {
         </Alert>
       )}
       
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormFields form={form} />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" noValidate>
+        <FormFields form={form} disableSponsor={!!sponsorId} />
         <div className="flex justify-between mt-6 gap-4">
           <Button
             type="button"
