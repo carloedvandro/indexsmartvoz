@@ -826,7 +826,6 @@ export type Database = {
           status: string | null
           store_url: string | null
           updated_at: string
-          verification_completed_at: string | null
           voucher: string | null
           whatsapp: string | null
           zip_code: string | null
@@ -875,7 +874,6 @@ export type Database = {
           status?: string | null
           store_url?: string | null
           updated_at?: string
-          verification_completed_at?: string | null
           voucher?: string | null
           whatsapp?: string | null
           zip_code?: string | null
@@ -924,7 +922,6 @@ export type Database = {
           status?: string | null
           store_url?: string | null
           updated_at?: string
-          verification_completed_at?: string | null
           voucher?: string | null
           whatsapp?: string | null
           zip_code?: string | null
