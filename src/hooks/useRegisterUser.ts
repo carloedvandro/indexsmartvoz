@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { RegisterFormData } from "@/components/client/register/RegisterSchema";
 
@@ -8,7 +9,7 @@ export const useRegisterUser = () => {
         ...values,
         password: "[PROTECTED]",
         customId: values.customId,
-        cpf: values.cpf // Log CPF value
+        cpf: values.cpf.replace(/\D/g, '') // Ensure we're using the raw CPF value without formatting
       });
 
       // Check if email already exists
@@ -19,20 +20,21 @@ export const useRegisterUser = () => {
         .single();
 
       if (existingEmail) {
-        throw new Error("Email já cadastrado");
+        throw new Error("Email já está em uso. Por favor, use outro email.");
       }
 
       // Check if CPF already exists
       if (values.cpf) {
-        console.log("Checking if CPF exists:", values.cpf);
+        const cleanCpf = values.cpf.replace(/\D/g, '');
+        console.log("Checking if CPF exists:", cleanCpf);
         const { data: existingCPF } = await supabase
           .from("profiles")
           .select("id")
-          .eq("cpf", values.cpf)
+          .eq("cpf", cleanCpf)
           .single();
 
         if (existingCPF) {
-          throw new Error("CPF já cadastrado");
+          throw new Error("CPF já está cadastrado. Utilize outro CPF ou faça login.");
         }
       }
 
@@ -46,7 +48,7 @@ export const useRegisterUser = () => {
           .single();
 
         if (existingCustomId) {
-          throw new Error("ID personalizado já está em uso");
+          throw new Error("ID personalizado já está em uso. Por favor, escolha outro ID.");
         }
       }
 
@@ -71,7 +73,7 @@ export const useRegisterUser = () => {
       // Create user with custom_id and CPF in metadata
       console.log("Creating user with metadata:", {
         custom_id: values.customId,
-        cpf: values.cpf
+        cpf: values.cpf.replace(/\D/g, '') // Remove formatting
       });
       
       const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -81,7 +83,7 @@ export const useRegisterUser = () => {
           data: {
             full_name: values.fullName,
             custom_id: values.customId,
-            cpf: values.cpf,
+            cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
             sponsor_id: sponsorId,
           },
         },
@@ -89,7 +91,10 @@ export const useRegisterUser = () => {
 
       if (authError) {
         console.error("Auth error:", authError);
-        throw new Error("Erro ao criar usuário");
+        if (authError.message.includes("already registered")) {
+          throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
+        }
+        throw new Error("Erro ao criar usuário: " + authError.message);
       }
 
       if (!authData.user) {
@@ -102,7 +107,10 @@ export const useRegisterUser = () => {
         custom_id: values.customId,
         store_url: values.customId,
         sponsor_id: sponsorId,
-        cpf: values.cpf
+        cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
+        whatsapp: values.whatsapp,
+        secondary_whatsapp: values.secondaryWhatsapp || null,
+        birth_date: values.birthDate
       });
 
       const { error: updateError } = await supabase
@@ -111,19 +119,22 @@ export const useRegisterUser = () => {
           custom_id: values.customId,
           store_url: values.customId,
           sponsor_id: sponsorId,
-          cpf: values.cpf // Explicitly set CPF in profiles table
+          cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
+          whatsapp: values.whatsapp,
+          secondary_whatsapp: values.secondaryWhatsapp || null,
+          birth_date: values.birthDate
         })
         .eq("id", authData.user.id);
 
       if (updateError) {
         console.error("Error updating profile:", updateError);
-        throw new Error("Erro ao atualizar perfil");
+        throw new Error("Erro ao atualizar perfil: " + updateError.message);
       }
 
       console.log("User registration completed successfully:", {
         userId: authData.user.id,
         customId: values.customId,
-        cpf: values.cpf
+        cpf: values.cpf.replace(/\D/g, '') // Show clean CPF in logs
       });
       
       return authData;
