@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Webcam from "react-webcam";
+import { supabase } from "@/integrations/supabase/client";
 
 interface FacialCaptureStepProps {
   onNext: (imageSrc: string) => void;
@@ -19,6 +20,25 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
   const [faceDetected, setFaceDetected] = useState(false);
   const webcamRef = useRef<Webcam>(null);
   const { toast } = useToast();
+
+  // Check if the user is logged in when the component mounts
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        console.error("No active session found in FacialCaptureStep");
+        toast({
+          title: "Erro de Autenticação",
+          description: "Sessão não encontrada. Por favor, faça login novamente.",
+          variant: "destructive",
+        });
+      } else {
+        console.log("User session found:", data.session.user.id);
+      }
+    };
+    
+    checkSession();
+  }, [toast]);
 
   const checkFace = async (imageData: ImageData) => {
     // Simplified face detection - checks for skin-tone pixels in the center
@@ -85,9 +105,37 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
       if (imageSrc) {
         setIsProcessing(true);
         try {
+          // Check if user is authenticated before proceeding
+          const { data: sessionData } = await supabase.auth.getSession();
+          if (!sessionData.session?.user) {
+            toast({
+              title: "Erro de Autenticação",
+              description: "Usuário não está autenticado. Por favor, faça login novamente.",
+              variant: "destructive",
+            });
+            return;
+          }
+          
+          // Save the facial image to Supabase Storage
+          const userId = sessionData.session.user.id;
+          const blob = await fetch(imageSrc).then(res => res.blob());
+          const file = new File([blob], `facial-${Date.now()}.jpg`, { type: 'image/jpeg' });
+          const filePath = `${userId}/facial/${Date.now()}.jpg`;
+          
+          const { error: uploadError } = await supabase.storage
+            .from('documents')
+            .upload(filePath, file);
+            
+          if (uploadError) {
+            console.error('Error uploading facial image:', uploadError);
+            throw uploadError;
+          }
+          
+          // Add a small delay for better UX
           await new Promise(resolve => setTimeout(resolve, 1000));
           onNext(imageSrc);
         } catch (error) {
+          console.error('Error during facial capture:', error);
           toast({
             title: "Erro na Captura",
             description: "Ocorreu um erro ao processar a imagem. Por favor, tente novamente.",
