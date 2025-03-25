@@ -44,16 +44,16 @@ export function UserStatusManagement({ user, onUserUpdated }: UserStatusManageme
         throw new Error("Admin não autenticado");
       }
 
-      // Call updateUserById to toggle banned status
+      // Call updateUserById with the correct properties structure
       const { error } = await supabase.auth.admin.updateUserById(
         user.id, 
         { 
           user_metadata: {
             ...user.raw_user_meta_data,
             admin_updated_at: new Date().toISOString(),
-            admin_updated_by: adminData.user.id
+            admin_updated_by: adminData.user.id,
+            banned_status: !isUserBanned // Store banned status in metadata instead
           },
-          banned: !isUserBanned
         }
       );
 

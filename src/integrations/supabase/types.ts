@@ -1134,6 +1134,18 @@ export type Database = {
         }
         Returns: undefined
       }
+      find_user_by_email: {
+        Args: {
+          email_param: string
+        }
+        Returns: {
+          id: string
+          email: string
+          raw_user_meta_data: Json
+          banned: boolean
+          confirmed_at: string
+        }[]
+      }
       get_all_network_members: {
         Args: {
           root_network_id: string
