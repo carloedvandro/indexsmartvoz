@@ -1,11 +1,12 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { validateCPF } from "@/utils/cpfValidation";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface CpfVerificationStepProps {
   onNext: () => void;
@@ -15,7 +16,33 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
   const [cpf, setCpf] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [checkingAuth, setCheckingAuth] = useState(true);
   const { toast } = useToast();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if user is authenticated
+    const checkAuth = async () => {
+      const { data: sessionData } = await supabase.auth.getSession();
+      
+      if (!sessionData.session) {
+        toast({
+          title: "Erro de Autenticação",
+          description: "Por favor, faça login novamente para continuar com a verificação.",
+          variant: "destructive",
+        });
+        
+        // Give user time to read the toast
+        setTimeout(() => {
+          navigate("/client/login");
+        }, 2000);
+      } else {
+        setCheckingAuth(false);
+      }
+    };
+    
+    checkAuth();
+  }, [navigate, toast]);
 
   const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Only allow numbers and format CPF
@@ -56,6 +83,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
           description: "Usuário não está autenticado. Por favor, faça login novamente.",
           variant: "destructive",
         });
+        navigate("/client/login");
         return;
       }
       
@@ -94,6 +122,14 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
       setIsLoading(false);
     }
   };
+
+  if (checkingAuth) {
+    return (
+      <div className="flex justify-center items-center p-8">
+        <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
