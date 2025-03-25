@@ -122,7 +122,7 @@ export default function AdminUsers() {
             if (profile.email) {
               try {
                 // Use our custom function to find the user by email
-                const { data: userData, error: userError } = await supabase.rpc<AuthUserData>(
+                const { data: userData, error: userError } = await supabase.rpc<AuthUserData, { email_param: string }>(
                   'find_user_by_email',
                   { email_param: profile.email }
                 );
