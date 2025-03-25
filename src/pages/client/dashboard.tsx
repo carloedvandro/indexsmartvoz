@@ -58,7 +58,7 @@ export default function ClientDashboard() {
                       <img 
                         src="/lovable-uploads/9c458018-4e54-4993-92c1-bf40c3e95228.png" 
                         alt="Dollar sign" 
-                        className="h-16 w-16 animate-spin-reverse-slow" 
+                        className="h-16 w-16" 
                       />
                     </div>
                     <div className="text-right">
@@ -77,7 +77,7 @@ export default function ClientDashboard() {
                       <img 
                         src="/lovable-uploads/9c458018-4e54-4993-92c1-bf40c3e95228.png" 
                         alt="Dollar sign" 
-                        className="h-16 w-16 animate-spin-reverse-slow" 
+                        className="h-16 w-16" 
                       />
                     </div>
                     <div className="text-right">
