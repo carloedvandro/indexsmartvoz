@@ -19,7 +19,8 @@ export function FinancialSummary({
   return (
     <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-6 md:mb-8 mx-auto w-full md:w-[540px]">
       <div 
-        className="bg-[#580180] text-white py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer hover:bg-[#4a0066] transition-colors relative overflow-hidden"
+        className="bg-gradient-to-r from-[#a46b31] to-[#5f0889] text-white py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer hover:opacity-90 transition-opacity relative overflow-hidden"
+        style={{ background: 'linear-gradient(120deg, #a46b31, #5f0889)' }}
         onClick={() => onCardClick('earnings')}
       >
         <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-white rounded-tl-md rounded-bl-md"></div>
@@ -27,7 +28,8 @@ export function FinancialSummary({
         <div className="text-xs">Total de ganhos em {monthLabel}/{selectedYear}</div>
       </div>
       <div 
-        className="bg-[#580180] text-white py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer hover:bg-[#4a0066] transition-colors relative overflow-hidden"
+        className="bg-gradient-to-r from-[#a46b31] to-[#5f0889] text-white py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer hover:opacity-90 transition-opacity relative overflow-hidden"
+        style={{ background: 'linear-gradient(120deg, #a46b31, #5f0889)' }}
         onClick={() => onCardClick('balance')}
       >
         <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-white rounded-tl-md rounded-bl-md"></div>
@@ -35,7 +37,8 @@ export function FinancialSummary({
         <div className="text-xs">Saldo em {monthLabel}/{selectedYear}</div>
       </div>
       <div 
-        className="bg-[#580180] text-white py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer hover:bg-[#4a0066] transition-colors relative overflow-hidden"
+        className="bg-gradient-to-r from-[#a46b31] to-[#5f0889] text-white py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer hover:opacity-90 transition-opacity relative overflow-hidden"
+        style={{ background: 'linear-gradient(120deg, #a46b31, #5f0889)' }}
         onClick={() => onCardClick('available')}
       >
         <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-white rounded-tl-md rounded-bl-md"></div>
