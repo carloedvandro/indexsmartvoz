@@ -1,2 +1,0 @@
-
-export { UserFormTabs } from './UserFormTabs';
