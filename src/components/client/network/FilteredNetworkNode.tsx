@@ -92,7 +92,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
                 <div className="space-y-1 text-sm mt-2">
                   <div className="flex items-center gap-2 text-black">
                     <GraduationCap className="h-4 w-4" style={{ color: '#660099' }} />
-                    <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
+                    <span className="truncate">Meu ID: {member.user.custom_id || "Não definido"}</span>
                   </div>
                   
                   {formattedDate && (
