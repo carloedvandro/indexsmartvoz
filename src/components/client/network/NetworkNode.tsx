@@ -83,8 +83,8 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
   
   const isRubensTree = member.user.full_name === 'Rubens Valin';
   
-  // Adicionando 4px à margem direita para todos os níveis
-  const additionalMargin = 4;
+  // Adicionando 2px à margem direita para todos os níveis
+  const additionalMargin = 2;
   
   const style = {
     marginLeft: isDavidForgat ? '-9px' : // David mantém a margem original
@@ -102,7 +102,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className={`relative w-full ${depth > 0 ? 'mt-10' : ''} bg-white`}
+      className={`relative w-full ${depth > 0 ? 'mt-10' : ''}`}
       style={style}
     >
       <div className="flex items-start gap-2 w-full">

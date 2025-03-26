@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -41,10 +42,10 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative w-full overflow-hidden bg-white"
-      style={{ marginLeft: '4px' }}
+      className="relative w-full overflow-hidden"
+      style={{ marginLeft: '2px' }} // Added 2px margin to the left
     >
-      <Card className="shadow-sm hover:shadow-md transition-shadow rounded-lg w-full bg-white">
+      <Card className="shadow-sm hover:shadow-md transition-shadow rounded-lg w-full">
         <div className="flex items-start gap-2">
           {hasChildren && (
             <button
