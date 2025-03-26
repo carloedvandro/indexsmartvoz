@@ -11,18 +11,20 @@ export const deleteUser = async (id: string) => {
 
   try {
     // Chamar a função do Supabase que lida com as exclusões em cascata
-    // Passamos o parâmetro com o nome qualificado para evitar ambiguidade
-    const { error } = await supabase
-      .rpc('delete_user_and_related_data', { user_id: id });
+    // Passamos o nome da função e um objeto com o parâmetro user_id
+    const { error } = await supabase.rpc(
+      'delete_user_and_related_data', 
+      { user_id: id }
+    );
 
     if (error) {
       log("error", "Error deleting user", { id, error });
-      throw new Error(`Erro ao excluir usuário: ${error.message}`);
+      throw error;
     }
 
     log("info", "User and related data deleted successfully", { id });
   } catch (error: any) {
     log("error", "Exception during user deletion", { id, error });
-    throw new Error(`Falha ao excluir usuário: ${error.message}`);
+    throw error;
   }
 };
