@@ -10,9 +10,10 @@ import { DocumentTypeStep } from "./steps/DocumentTypeStep";
 import { DocumentCaptureStep } from "./steps/DocumentCaptureStep";
 import { CompletionStep } from "./steps/CompletionStep";
 import { useCameraManagement } from "@/hooks/useCameraManagement";
+import { useNavigate } from "react-router-dom";
 
 interface FacialBiometryFlowProps {
-  onComplete: (verificationData: {
+  onComplete?: (verificationData: {
     facialVerification: boolean;
     documentVerification: boolean;
   }) => void;
@@ -44,6 +45,7 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   const [capturedImages, setCapturedImages] = useState<CapturedImages>({});
   const { videoConstraints: facialVideoConstraints } = useCameraManagement();
   const { videoConstraints: documentVideoConstraints } = useCameraManagement(true);
+  const navigate = useNavigate();
 
   const handleDocumentTypeSelection = (type: 'rg' | 'cnh') => {
     setSelectedDocType(type);
@@ -55,10 +57,14 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
       return;
     }
 
-    onComplete({
-      facialVerification: true,
-      documentVerification: true,
-    });
+    if (onComplete) {
+      onComplete({
+        facialVerification: true,
+        documentVerification: true,
+      });
+    } else {
+      navigate("/client/dashboard");
+    }
   };
 
   const renderAnalysisStep = () => (
