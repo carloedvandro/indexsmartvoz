@@ -111,7 +111,23 @@ export const deleteUser = async (id: string) => {
       console.error("Error deleting commission history:", commissionError);
     }
 
-    // Step 2: Delete the profile (which should cascade to auth.users)
+    // Step 2: Try direct auth deletion first, then delete profile
+    try {
+      log("info", "Attempting direct auth user deletion", { id });
+      const { error: directAuthError } = await supabase.auth.admin.deleteUser(id);
+      
+      if (directAuthError) {
+        log("error", "Error with direct auth deletion, will try profile deletion", { id, error: directAuthError });
+        console.error("Direct auth deletion failed, trying profile deletion:", directAuthError);
+      } else {
+        log("info", "Direct auth deletion successful", { id });
+      }
+    } catch (authError) {
+      log("error", "Exception during direct auth deletion", { id, error: authError });
+      console.error("Exception during direct auth deletion:", authError);
+    }
+
+    // Try profile deletion regardless of auth deletion success/failure
     const { error: profileError } = await supabase
       .from("profiles")
       .delete()
@@ -121,7 +137,7 @@ export const deleteUser = async (id: string) => {
       log("error", "Error deleting profile", { id, error: profileError });
       console.error("Error deleting profile:", profileError);
       
-      // If profile deletion fails, try using the delete_user_and_profile RPC function
+      // If profile deletion fails, try RPC functions
       const { error: rpcError } = await supabase
         .rpc('delete_user_and_profile', { user_id: id });
         
@@ -137,19 +153,20 @@ export const deleteUser = async (id: string) => {
           log("error", "Error deleting user via delete_user_and_related_data RPC", { id, error: rpc2Error });
           console.error("Error deleting user via delete_user_and_related_data RPC:", rpc2Error);
           
-          // As a last resort, try to directly delete from auth.users
-          // Note: This requires admin privileges and may fail due to permission issues
+          // As a last resort, try to directly execute SQL via RPC (requires a custom function)
           try {
-            const { error: authError } = await supabase.auth.admin.deleteUser(id);
-            
-            if (authError) {
-              log("error", "Error deleting auth user directly", { id, error: authError });
-              throw new Error(`Failed to delete user: ${authError.message}`);
+            const { error: sqlRpcError } = await supabase
+              .rpc('force_delete_user', { user_id: id });
+              
+            if (sqlRpcError) {
+              log("error", "Error with forced user deletion via SQL RPC", { id, error: sqlRpcError });
+              console.error("Forced deletion via SQL failed:", sqlRpcError);
+              throw new Error(`Failed to delete user after all attempts. Manual database cleaning required.`);
             }
-          } catch (adminError) {
-            log("error", "Exception when calling admin.deleteUser", { id, error: adminError });
-            console.error("Exception when calling admin.deleteUser:", adminError);
-            throw new Error(`Failed to delete user after multiple attempts. Please check Supabase permissions.`);
+          } catch (finalError) {
+            log("error", "All deletion methods failed", { id, error: finalError });
+            console.error("All deletion methods failed:", finalError);
+            throw new Error(`Não foi possível excluir o usuário após várias tentativas. Pode ser necessário excluir manualmente no console do Supabase.`);
           }
         }
       }
