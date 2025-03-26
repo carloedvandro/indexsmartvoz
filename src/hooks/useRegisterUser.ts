@@ -12,20 +12,14 @@ export const useRegisterUser = () => {
         cpf: values.cpf.replace(/\D/g, '') // Ensure we're using the raw CPF value without formatting
       });
 
-      // Check if email already exists using Auth API directly
-      // This provides a more accurate check than querying the profiles table
-      const { data: { users }, error: getUserError } = await supabase.auth.admin.listUsers({
-        filters: {
-          email: values.email
-        }
-      });
-      
-      if (getUserError) {
-        console.error("Error checking existing user:", getUserError);
-        // Continue with registration if there's an error checking user
-        // This is safer than blocking registration due to a check error
-      } else if (users && users.length > 0) {
-        console.log("Email already exists:", values.email);
+      // Check if email already exists in profiles table
+      const { data: existingProfiles, error: profilesError } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("email", values.email);
+
+      if (existingProfiles && existingProfiles.length > 0) {
+        console.error("Email already exists in profiles table", values.email);
         throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
       }
 
@@ -33,16 +27,12 @@ export const useRegisterUser = () => {
       if (values.cpf) {
         const cleanCpf = values.cpf.replace(/\D/g, '');
         console.log("Checking if CPF exists:", cleanCpf);
-        const { data: existingCPF, error: cpfError } = await supabase
+        const { data: existingCPF } = await supabase
           .from("profiles")
           .select("id")
-          .eq("cpf", cleanCpf)
-          .single();
+          .eq("cpf", cleanCpf);
 
-        if (cpfError && cpfError.code !== 'PGRST116') {
-          console.error("Error checking CPF:", cpfError);
-        } else if (existingCPF) {
-          console.log("CPF already exists:", cleanCpf);
+        if (existingCPF && existingCPF.length > 0) {
           throw new Error("CPF já está cadastrado. Utilize outro CPF ou faça login.");
         }
       }
@@ -50,16 +40,12 @@ export const useRegisterUser = () => {
       // Check if custom ID already exists
       if (values.customId) {
         console.log("Checking if custom ID exists:", values.customId);
-        const { data: existingCustomId, error: customIdError } = await supabase
+        const { data: existingCustomId } = await supabase
           .from("profiles")
           .select("id")
-          .eq("custom_id", values.customId)
-          .single();
+          .eq("custom_id", values.customId);
 
-        if (customIdError && customIdError.code !== 'PGRST116') {
-          console.error("Error checking custom ID:", customIdError);
-        } else if (existingCustomId) {
-          console.log("Custom ID already exists:", values.customId);
+        if (existingCustomId && existingCustomId.length > 0) {
           throw new Error("ID personalizado já está em uso. Por favor, escolha outro ID.");
         }
       }
@@ -74,22 +60,13 @@ export const useRegisterUser = () => {
           .eq("custom_id", values.sponsorCustomId)
           .single();
 
-        if (sponsorError && sponsorError.code !== 'PGRST116') {
+        if (sponsorError || !sponsor) {
           console.error("Sponsor verification error:", sponsorError);
-        }
-        
-        if (!sponsor) {
-          console.error("Sponsor not found:", values.sponsorCustomId);
           throw new Error("ID do patrocinador inválido ou não encontrado");
         }
-        
         sponsorId = sponsor.id;
         console.log("Found sponsor ID:", sponsorId);
       }
-
-      // Format phone numbers consistently - remove any non-numeric characters
-      const formattedWhatsapp = values.whatsapp ? values.whatsapp.replace(/\D/g, '') : '';
-      const formattedSecondaryWhatsapp = values.secondaryWhatsapp ? values.secondaryWhatsapp.replace(/\D/g, '') : null;
 
       // Create user with custom_id and CPF in metadata
       console.log("Creating user with metadata:", {
@@ -97,7 +74,7 @@ export const useRegisterUser = () => {
         cpf: values.cpf.replace(/\D/g, '') // Remove formatting
       });
       
-      // Attempt user creation with Supabase Auth
+      // Try to sign up the user with supabase auth
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -124,15 +101,18 @@ export const useRegisterUser = () => {
         throw new Error("Erro ao criar usuário");
       }
 
-      // Explicitly update profile with all data including CPF
+      // Explicitly update profile with all data including CPF and set verification status to verified by default
       console.log("Updating profile with data:", {
         custom_id: values.customId,
         store_url: values.customId,
         sponsor_id: sponsorId,
         cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
-        whatsapp: formattedWhatsapp,
-        secondary_whatsapp: formattedSecondaryWhatsapp,
-        birth_date: values.birthDate
+        whatsapp: values.whatsapp,
+        secondary_whatsapp: values.secondaryWhatsapp || null,
+        birth_date: values.birthDate,
+        facial_verification_status: 'verified',
+        document_verification_status: 'verified',
+        verification_completed_at: new Date().toISOString()
       });
 
       const { error: updateError } = await supabase
@@ -142,9 +122,12 @@ export const useRegisterUser = () => {
           store_url: values.customId,
           sponsor_id: sponsorId,
           cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
-          whatsapp: formattedWhatsapp,
-          secondary_whatsapp: formattedSecondaryWhatsapp,
-          birth_date: values.birthDate
+          whatsapp: values.whatsapp,
+          secondary_whatsapp: values.secondaryWhatsapp || null,
+          birth_date: values.birthDate,
+          facial_verification_status: 'verified',
+          document_verification_status: 'verified',
+          verification_completed_at: new Date().toISOString()
         })
         .eq("id", authData.user.id);
 
