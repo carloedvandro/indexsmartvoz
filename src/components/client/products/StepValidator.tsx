@@ -1,6 +1,5 @@
 
 import { useToast } from "@/hooks/use-toast";
-import { useCallback } from "react";
 
 interface StepValidatorProps {
   currentStep: number;
@@ -19,7 +18,7 @@ export function useStepValidator({
 }: StepValidatorProps) {
   const { toast } = useToast();
 
-  const validateAndContinue = useCallback(() => {
+  const validateAndContinue = () => {
     if (currentStep === 1) {
       if (!selectedLines[0]?.internet) {
         toast({
@@ -58,7 +57,7 @@ export function useStepValidator({
     }
 
     handleContinue();
-  }, [currentStep, selectedLines, selectedDueDate, acceptedTerms, toast, handleContinue]);
+  };
 
   return { validateAndContinue };
 }
