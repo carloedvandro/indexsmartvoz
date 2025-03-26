@@ -1,10 +1,23 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PersonalDataTab } from "./tabs/PersonalDataTab";
-import { ContactTab } from "./tabs/ContactTab";
-import { AddressTab } from "./tabs/AddressTab";
-import { OtherTab } from "./tabs/OtherTab";
 
-export function UserFormTabs({ register, setValue, watch, readOnly = false }) {
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PersonalDataTab } from "../tabs/PersonalDataTab";
+import { ContactTab } from "../tabs/ContactTab";
+import { AddressTab } from "../tabs/AddressTab";
+import { OtherTab } from "../tabs/OtherTab";
+
+interface UserFormTabsProps {
+  register: any;
+  setValue: any;
+  watch: any;
+  readOnly?: boolean;
+}
+
+export function UserFormTabs({ 
+  register, 
+  setValue, 
+  watch, 
+  readOnly = false 
+}: UserFormTabsProps) {
   return (
     <Tabs defaultValue="personal" className="w-full">
       <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4">

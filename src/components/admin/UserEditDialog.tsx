@@ -7,11 +7,17 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { UserFormTabs } from "./UserFormTabs";
+import { UserFormTabs } from "./form-tabs";
 import { UserFormActions } from "./dialogs/UserFormActions";
 import { PasswordManagement } from "./user-dialog/PasswordManagement";
+import { User, UserEditDialogProps } from "./user-dialog/types";
 
-export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
+export function UserEditDialog({ 
+  user, 
+  open, 
+  onOpenChange, 
+  onUserUpdated 
+}: UserEditDialogProps) {
   const {
     form,
     isLoading,
