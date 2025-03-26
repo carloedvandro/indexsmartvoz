@@ -12,48 +12,35 @@ export const useFilteredNetwork = (data: NetworkMember[], selectedLevel: string)
   
   const level = parseInt(selectedLevel);
   
-  // Manter registro de IDs de usuários já processados para evitar duplicações
-  const processedUserIds = new Set<string>();
+  // Para armazenar os resultados filtrados
+  const result: NetworkMember[] = [];
   
-  const filterByLevel = (members: NetworkMember[], currentLevel: number = 1): NetworkMember[] => {
-    if (!members || members.length === 0) return [];
+  // Função para encontrar membros de um nível específico
+  const findMembersByLevel = (members: NetworkMember[], currentLevel: number = 1) => {
+    if (!members || members.length === 0) return;
     
-    if (currentLevel === level) {
-      // Filtrar membros para incluir apenas aqueles cujos user_ids não foram processados ainda
-      const filteredMembers = members.filter(member => !processedUserIds.has(member.user.id));
-      
-      // Adicionar os IDs de usuário ao conjunto de processados
-      filteredMembers.forEach(member => processedUserIds.add(member.user.id));
-      
-      return filteredMembers.map(member => ({
-        ...member,
-        children: [] // Remove os filhos quando encontra o nível desejado
-      }));
-    }
-    
-    return members.reduce<NetworkMember[]>((acc, member) => {
-      // Verificar se este usuário já foi processado
-      if (processedUserIds.has(member.user.id)) {
-        return acc; // Pular este membro se já foi processado
+    members.forEach(member => {
+      // Se estamos no nível desejado, adicione o membro ao resultado
+      if (currentLevel === level) {
+        // Verificação para evitar duplicação de membros com mesmo user.id
+        if (!result.some(m => m.user.id === member.user.id)) {
+          result.push({
+            ...member,
+            children: [] // Remover filhos ao encontrar o nível desejado
+          });
+        }
       }
       
-      const filteredChildren = filterByLevel(member.children || [], currentLevel + 1);
-      
-      if (filteredChildren.length > 0) {
-        // Adicionar este usuário ao conjunto de processados
-        processedUserIds.add(member.user.id);
-        
-        acc.push({
-          ...member,
-          children: filteredChildren
-        });
+      // Continue procurando nos filhos se ainda não atingimos o nível desejado
+      if (currentLevel < level && member.children && member.children.length > 0) {
+        findMembersByLevel(member.children, currentLevel + 1);
       }
-      
-      return acc;
-    }, []);
+    });
   };
-
-  const filteredData = filterByLevel(data);
-  console.log("Dados filtrados:", filteredData);
-  return filteredData;
+  
+  // Inicie a busca a partir do nível 1
+  findMembersByLevel(data);
+  
+  console.log("Dados filtrados:", result);
+  return result;
 };
