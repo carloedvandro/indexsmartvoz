@@ -7,7 +7,6 @@ import Index from '@/pages/Index';
 import ClientDashboard from '@/pages/client/dashboard';
 import ClientLogin from '@/pages/client/login';
 import ClientRegister from '@/pages/client/register';
-import ClientFacialBiometry from '@/pages/client/facial-biometry';
 import ClientNetwork from '@/pages/client/network';
 import ClientStore from '@/pages/client/store';
 import ClientEvents from '@/pages/client/events';
@@ -37,7 +36,6 @@ const router = createBrowserRouter(
       <Route path="/" element={<Index />} />
       <Route path="/client/login" element={<ClientLogin />} />
       <Route path="/client/register" element={<ClientRegister />} />
-      <Route path="/client/facial-biometry" element={<ClientFacialBiometry />} />
       <Route path="/client/reset-password" element={<ResetPassword />} />
       <Route path="/client/update-password" element={<UpdatePassword />} />
       <Route path="/admin/login" element={<AdminLogin />} />

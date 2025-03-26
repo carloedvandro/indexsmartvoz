@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { RegisterFormData } from "@/components/client/register/RegisterSchema";
 
@@ -9,31 +8,31 @@ export const useRegisterUser = () => {
         ...values,
         password: "[PROTECTED]",
         customId: values.customId,
-        cpf: values.cpf.replace(/\D/g, '') // Ensure we're using the raw CPF value without formatting
+        cpf: values.cpf // Log CPF value
       });
 
-      // Check if email already exists in profiles table
-      const { data: existingProfiles, error: profilesError } = await supabase
+      // Check if email already exists
+      const { data: existingEmail } = await supabase
         .from("profiles")
         .select("id")
-        .eq("email", values.email);
+        .eq("email", values.email)
+        .single();
 
-      if (existingProfiles && existingProfiles.length > 0) {
-        console.error("Email already exists in profiles table", values.email);
-        throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
+      if (existingEmail) {
+        throw new Error("Email já cadastrado");
       }
 
       // Check if CPF already exists
       if (values.cpf) {
-        const cleanCpf = values.cpf.replace(/\D/g, '');
-        console.log("Checking if CPF exists:", cleanCpf);
+        console.log("Checking if CPF exists:", values.cpf);
         const { data: existingCPF } = await supabase
           .from("profiles")
           .select("id")
-          .eq("cpf", cleanCpf);
+          .eq("cpf", values.cpf)
+          .single();
 
-        if (existingCPF && existingCPF.length > 0) {
-          throw new Error("CPF já está cadastrado. Utilize outro CPF ou faça login.");
+        if (existingCPF) {
+          throw new Error("CPF já cadastrado");
         }
       }
 
@@ -43,10 +42,11 @@ export const useRegisterUser = () => {
         const { data: existingCustomId } = await supabase
           .from("profiles")
           .select("id")
-          .eq("custom_id", values.customId);
+          .eq("custom_id", values.customId)
+          .single();
 
-        if (existingCustomId && existingCustomId.length > 0) {
-          throw new Error("ID personalizado já está em uso. Por favor, escolha outro ID.");
+        if (existingCustomId) {
+          throw new Error("ID personalizado já está em uso");
         }
       }
 
@@ -71,10 +71,9 @@ export const useRegisterUser = () => {
       // Create user with custom_id and CPF in metadata
       console.log("Creating user with metadata:", {
         custom_id: values.customId,
-        cpf: values.cpf.replace(/\D/g, '') // Remove formatting
+        cpf: values.cpf
       });
       
-      // Try to sign up the user with supabase auth
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -82,7 +81,7 @@ export const useRegisterUser = () => {
           data: {
             full_name: values.fullName,
             custom_id: values.customId,
-            cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
+            cpf: values.cpf,
             sponsor_id: sponsorId,
           },
         },
@@ -90,10 +89,7 @@ export const useRegisterUser = () => {
 
       if (authError) {
         console.error("Auth error:", authError);
-        if (authError.message.includes("already registered")) {
-          throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
-        }
-        throw new Error("Erro ao criar usuário: " + authError.message);
+        throw new Error("Erro ao criar usuário");
       }
 
       if (!authData.user) {
@@ -101,18 +97,12 @@ export const useRegisterUser = () => {
         throw new Error("Erro ao criar usuário");
       }
 
-      // Explicitly update profile with all data including CPF and set verification status to verified by default
+      // Explicitly update profile with all data including CPF
       console.log("Updating profile with data:", {
         custom_id: values.customId,
         store_url: values.customId,
         sponsor_id: sponsorId,
-        cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
-        whatsapp: values.whatsapp,
-        secondary_whatsapp: values.secondaryWhatsapp || null,
-        birth_date: values.birthDate,
-        facial_verification_status: 'verified',
-        document_verification_status: 'verified',
-        verification_completed_at: new Date().toISOString()
+        cpf: values.cpf
       });
 
       const { error: updateError } = await supabase
@@ -121,25 +111,19 @@ export const useRegisterUser = () => {
           custom_id: values.customId,
           store_url: values.customId,
           sponsor_id: sponsorId,
-          cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
-          whatsapp: values.whatsapp,
-          secondary_whatsapp: values.secondaryWhatsapp || null,
-          birth_date: values.birthDate,
-          facial_verification_status: 'verified',
-          document_verification_status: 'verified',
-          verification_completed_at: new Date().toISOString()
+          cpf: values.cpf // Explicitly set CPF in profiles table
         })
         .eq("id", authData.user.id);
 
       if (updateError) {
         console.error("Error updating profile:", updateError);
-        throw new Error("Erro ao atualizar perfil: " + updateError.message);
+        throw new Error("Erro ao atualizar perfil");
       }
 
       console.log("User registration completed successfully:", {
         userId: authData.user.id,
         customId: values.customId,
-        cpf: values.cpf.replace(/\D/g, '') // Show clean CPF in logs
+        cpf: values.cpf
       });
       
       return authData;
