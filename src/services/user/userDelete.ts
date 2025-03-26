@@ -153,14 +153,16 @@ export const deleteUser = async (id: string) => {
           log("error", "Error deleting user via delete_user_and_related_data RPC", { id, error: rpc2Error });
           console.error("Error deleting user via delete_user_and_related_data RPC:", rpc2Error);
           
-          // As a last resort, try to directly execute SQL via RPC (requires a custom function)
+          // As a last resort, use our new force_delete_user function
           try {
-            const { error: sqlRpcError } = await supabase
+            // Use the force_delete_user function we just created in the database
+            // @ts-ignore - Temporarily ignore type checking for this call
+            const { error: forceDeleteError } = await supabase
               .rpc('force_delete_user', { user_id: id });
               
-            if (sqlRpcError) {
-              log("error", "Error with forced user deletion via SQL RPC", { id, error: sqlRpcError });
-              console.error("Forced deletion via SQL failed:", sqlRpcError);
+            if (forceDeleteError) {
+              log("error", "Error with forced user deletion via SQL RPC", { id, error: forceDeleteError });
+              console.error("Forced deletion via SQL failed:", forceDeleteError);
               throw new Error(`Failed to delete user after all attempts. Manual database cleaning required.`);
             }
           } catch (finalError) {
