@@ -111,6 +111,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
                             member={member}
                             onToggle={toggleNode}
                             expandedNodes={expandedNodes}
+                            isAllLevels={selectedLevel === "all"}
                           />
                         ) : (
                           <FilteredNetworkNode
