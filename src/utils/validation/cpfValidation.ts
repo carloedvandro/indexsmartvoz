@@ -81,3 +81,6 @@ export const formatCPF = (cpf: string): string => {
   // Aplicar máscara
   return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
 };
+
+// Alias for isValidCPF (to maintain backward compatibility)
+export const isValidCPF = validateCPF;
