@@ -23,6 +23,17 @@ export const deleteUser = async (id: string) => {
       console.error("Error deleting network data:", networkError);
     }
 
+    // Delete child network records where this user is a parent
+    const { error: childNetworkError } = await supabase
+      .from("network")
+      .delete()
+      .eq("parent_id", id);
+    
+    if (childNetworkError) {
+      log("error", "Error deleting child network data", { id, error: childNetworkError });
+      console.error("Error deleting child network data:", childNetworkError);
+    }
+
     // Delete any store products
     const { error: storeError } = await supabase
       .from("store_products")
@@ -78,6 +89,28 @@ export const deleteUser = async (id: string) => {
       console.error("Error deleting earnings settings:", earningsError);
     }
 
+    // Delete any user verifications
+    const { error: userVerificationsError } = await supabase
+      .from("user_verifications")
+      .delete()
+      .eq("user_id", id);
+      
+    if (userVerificationsError) {
+      log("error", "Error deleting user verifications", { id, error: userVerificationsError });
+      console.error("Error deleting user verifications:", userVerificationsError);
+    }
+
+    // Delete any commission history
+    const { error: commissionError } = await supabase
+      .from("network_commission_history")
+      .delete()
+      .eq("user_id", id);
+      
+    if (commissionError) {
+      log("error", "Error deleting commission history", { id, error: commissionError });
+      console.error("Error deleting commission history:", commissionError);
+    }
+
     // Step 2: Delete the profile (which should cascade to auth.users)
     const { error: profileError } = await supabase
       .from("profiles")
@@ -88,20 +121,36 @@ export const deleteUser = async (id: string) => {
       log("error", "Error deleting profile", { id, error: profileError });
       console.error("Error deleting profile:", profileError);
       
-      // If profile deletion fails, try using the RPC function as backup
+      // If profile deletion fails, try using the delete_user_and_profile RPC function
       const { error: rpcError } = await supabase
-        .rpc('delete_user_and_related_data', { user_id: id });
+        .rpc('delete_user_and_profile', { user_id: id });
         
       if (rpcError) {
-        log("error", "Error deleting user via RPC", { id, error: rpcError });
-        console.error("Error deleting user via RPC:", rpcError);
+        log("error", "Error deleting user via delete_user_and_profile RPC", { id, error: rpcError });
+        console.error("Error deleting user via delete_user_and_profile RPC:", rpcError);
         
-        // If the RPC function fails, try direct deletion from auth.users as last resort
-        const { error: authError } = await supabase.auth.admin.deleteUser(id);
-        
-        if (authError) {
-          log("error", "Error deleting auth user directly", { id, error: authError });
-          throw new Error(`Failed to delete user: ${authError.message}`);
+        // Try the other RPC function as a backup
+        const { error: rpc2Error } = await supabase
+          .rpc('delete_user_and_related_data', { user_id: id });
+          
+        if (rpc2Error) {
+          log("error", "Error deleting user via delete_user_and_related_data RPC", { id, error: rpc2Error });
+          console.error("Error deleting user via delete_user_and_related_data RPC:", rpc2Error);
+          
+          // As a last resort, try to directly delete from auth.users
+          // Note: This requires admin privileges and may fail due to permission issues
+          try {
+            const { error: authError } = await supabase.auth.admin.deleteUser(id);
+            
+            if (authError) {
+              log("error", "Error deleting auth user directly", { id, error: authError });
+              throw new Error(`Failed to delete user: ${authError.message}`);
+            }
+          } catch (adminError) {
+            log("error", "Exception when calling admin.deleteUser", { id, error: adminError });
+            console.error("Exception when calling admin.deleteUser:", adminError);
+            throw new Error(`Failed to delete user after multiple attempts. Please check Supabase permissions.`);
+          }
         }
       }
     }
