@@ -1,10 +1,38 @@
 
 /**
- * Validates a CPF (Brazilian individual taxpayer registry) number
- * @param cpf The CPF to validate (with or without formatting)
- * @returns Boolean indicating if the CPF is valid
+ * Valida os primeiros dígitos de um CPF (para etapa inicial da verificação biométrica)
+ * @param cpfDigits Os primeiros 5 dígitos do CPF
+ * @returns Boolean indicando se os dígitos são válidos
  */
-export const isValidCPF = (cpf: string): boolean => {
+export const validatePartialCPF = (cpfDigits: string): boolean => {
+  // Remover caracteres não numéricos
+  const digits = cpfDigits.replace(/\D/g, '');
+  
+  // Verificar se tem 5 dígitos
+  if (digits.length !== 5) {
+    return false;
+  }
+  
+  // Verificar se não são dígitos repetidos (00000, 11111, etc)
+  if (/^(\d)\1+$/.test(digits)) {
+    return false;
+  }
+  
+  // Verificar se os dígitos são válidos (verificação básica)
+  const firstDigit = parseInt(digits[0]);
+  if (firstDigit < 0 || firstDigit > 9) {
+    return false;
+  }
+  
+  return true;
+};
+
+/**
+ * Valida um CPF completo
+ * @param cpf O CPF completo (com ou sem formatação)
+ * @returns Boolean indicando se o CPF é válido
+ */
+export const validateCPF = (cpf: string): boolean => {
   // Remover caracteres não numéricos
   cpf = cpf.replace(/[^\d]+/g, '');
   
@@ -42,45 +70,14 @@ export const isValidCPF = (cpf: string): boolean => {
 };
 
 /**
- * Validates the first 5 digits of a CPF (for initial biometric verification stage)
- * @param cpfDigits The first 5 digits of the CPF
- * @returns Boolean indicating if the digits are valid
- */
-export const validatePartialCPF = (cpfDigits: string): boolean => {
-  // Remove non-numeric characters
-  const digits = cpfDigits.replace(/\D/g, '');
-  
-  // Check if it has 5 digits
-  if (digits.length !== 5) {
-    return false;
-  }
-  
-  // Check if it's not repeated digits (00000, 11111, etc)
-  if (/^(\d)\1+$/.test(digits)) {
-    return false;
-  }
-  
-  // Verify if the digits are valid (basic verification)
-  const firstDigit = parseInt(digits[0]);
-  if (firstDigit < 0 || firstDigit > 9) {
-    return false;
-  }
-  
-  return true;
-};
-
-/**
- * Formats a CPF for display (format: 123.456.789-00)
- * @param cpf The CPF without formatting
- * @returns The formatted CPF
+ * Formata um CPF para exibição (formato: 123.456.789-00)
+ * @param cpf O CPF sem formatação
+ * @returns O CPF formatado
  */
 export const formatCPF = (cpf: string): string => {
-  // Remove non-numeric characters
+  // Remover caracteres não numéricos
   cpf = cpf.replace(/\D/g, '');
   
-  // Apply mask
+  // Aplicar máscara
   return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
 };
-
-// Export the validateCPF function as well for backward compatibility
-export const validateCPF = isValidCPF;

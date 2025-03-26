@@ -43,7 +43,6 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full overflow-hidden"
-      style={{ marginLeft: '2px' }} // Added 2px margin to the left
     >
       <Card className="shadow-sm hover:shadow-md transition-shadow rounded-lg w-full">
         <div className="flex items-start gap-2">
