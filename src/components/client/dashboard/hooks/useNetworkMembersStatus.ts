@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
@@ -36,12 +37,12 @@ export const useNetworkMembersStatus = (userId: string | undefined, networkId: s
         return { active: 0, pending: 0 };
       }
 
-      // Remove duplicatas e o próprio usuário
+      // Filter out duplicates and the user themselves
       const validMembers = allNetworkData.filter(member => 
         member.user_id !== userId
       );
       
-      // Usa Set para garantir que não há duplicatas de user_id
+      // Use Set to ensure no duplicates of user_id
       const networkUserIds = [...new Set(validMembers.map(item => item.user_id))];
 
       console.log("Valid members count:", validMembers.length);
@@ -51,9 +52,10 @@ export const useNetworkMembersStatus = (userId: string | undefined, networkId: s
         return { active: 0, pending: 0 };
       }
 
+      // Check which profiles actually exist (to filter out deleted users)
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
-        .select('status')
+        .select('id, status')
         .in('id', networkUserIds);
 
       if (profilesError) {
@@ -66,10 +68,12 @@ export const useNetworkMembersStatus = (userId: string | undefined, networkId: s
         return { active: 0, pending: 0 };
       }
 
-      console.log("Profiles data:", profilesData);
+      // Only count profiles that still exist in the system
+      const existingProfiles = profilesData || [];
+      console.log("Existing profiles data:", existingProfiles);
 
-      const active = profilesData.filter(p => p.status === 'active').length;
-      const pending = profilesData.filter(p => p.status === 'pending').length;
+      const active = existingProfiles.filter(p => p.status === 'active').length;
+      const pending = existingProfiles.filter(p => p.status === 'pending').length;
 
       console.log("Active members:", active);
       console.log("Pending members:", pending);

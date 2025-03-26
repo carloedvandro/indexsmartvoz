@@ -10,12 +10,37 @@ import { NetworkStatsGrid } from "./components/NetworkStatsGrid";
 import { ExpenseDistributionCard } from "./charts/ExpenseDistributionCard";
 import { MonthlyPerformanceChart } from "./charts/MonthlyPerformanceChart";
 import { generateCardData, generateRevenueData } from "./utils/statsUtils";
+import { useNetworkMembersStatus } from "./hooks/useNetworkMembersStatus";
 
 export const NetworkStatsCard = () => {
   const { data: profile } = useProfile();
   const { networkData } = useNetworkData(profile?.id || '');
   const queryClient = useQueryClient();
   const [cardData, setCardData] = useState<any[]>([]);
+
+  // Get network ID for current user
+  const [networkId, setNetworkId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const fetchNetworkId = async () => {
+      if (profile?.id) {
+        const { data } = await supabase
+          .from("network")
+          .select("id")
+          .eq("user_id", profile.id)
+          .maybeSingle();
+        
+        if (data) {
+          setNetworkId(data.id);
+        }
+      }
+    };
+    
+    fetchNetworkId();
+  }, [profile?.id]);
+
+  // Use the specialized hook for fetching members status
+  const { data: memberCounts } = useNetworkMembersStatus(profile?.id, networkId);
 
   useEffect(() => {
     const loadCardData = async () => {
@@ -38,6 +63,7 @@ export const NetworkStatsCard = () => {
         },
         () => {
           queryClient.invalidateQueries({ queryKey: ['networkData', profile?.id] });
+          queryClient.invalidateQueries({ queryKey: ['networkMembersStatus', profile?.id] });
         }
       )
       .subscribe();
@@ -47,7 +73,6 @@ export const NetworkStatsCard = () => {
     };
   }, [profile?.id, queryClient]);
 
-  const memberCounts = networkData ? countMembersByStatus(networkData) : { active: 0, pending: 0 };
   const revenueData = generateRevenueData();
 
   return (
