@@ -74,9 +74,11 @@ export const useNetworkData = (userId: string) => {
             if (profileData) { // Only add member if profile data exists
               membersMap.set(member.id, {
                 id: member.id,
+                user_id: member.user_id, // Importante: Armazenar o user_id para verificações de duplicidade
                 level: member.level,
-                parentId: member.parent_id,
+                parent_id: member.parent_id,
                 user: {
+                  id: member.user_id, // Garantir que o ID do usuário esteja disponível
                   full_name: profileData.full_name || null,
                   email: profileData.email || '',
                   custom_id: profileData.custom_id || null,
@@ -91,10 +93,10 @@ export const useNetworkData = (userId: string) => {
           // Build the tree structure
           const rootMembers: NetworkMember[] = [];
           membersMap.forEach((member, id) => {
-            if (member.parentId === userNetwork.id) {
+            if (member.parent_id === userNetwork.id) {
               rootMembers.push(member);
-            } else if (membersMap.has(member.parentId)) {
-              const parent = membersMap.get(member.parentId);
+            } else if (membersMap.has(member.parent_id)) {
+              const parent = membersMap.get(member.parent_id);
               if (!parent.children) parent.children = [];
               parent.children.push(member);
             }
