@@ -9,7 +9,7 @@ export default function NetworkPage() {
   const { data: profile } = useProfile();
 
   return (
-    <div className="min-h-screen overflow-x-hidden">
+    <div className="min-h-screen overflow-x-hidden bg-white" style={{ background: "#fff" }}>
       <header className="bg-white shadow fixed top-0 left-0 right-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center">
           <button
@@ -22,7 +22,7 @@ export default function NetworkPage() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pt-24">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pt-24 bg-white" style={{ background: "#fff" }}>
         {profile?.id && <NetworkTree userId={profile.id} />}
       </main>
     </div>
