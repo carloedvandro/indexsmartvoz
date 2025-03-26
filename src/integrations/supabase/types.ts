@@ -1131,12 +1131,6 @@ export type Database = {
         }
         Returns: undefined
       }
-      force_delete_user: {
-        Args: {
-          user_id: string
-        }
-        Returns: undefined
-      }
       get_all_network_members: {
         Args: {
           root_network_id: string

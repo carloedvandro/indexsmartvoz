@@ -77,11 +77,6 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   };
 
   const filteredData = useFilteredNetwork(networkData, selectedLevel);
-  
-  // Debug logs
-  console.log("Selected level:", selectedLevel);
-  console.log("Original network data:", networkData);
-  console.log("Filtered data:", filteredData);
 
   if (loading) {
     return (

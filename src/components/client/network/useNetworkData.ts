@@ -31,8 +31,7 @@ export const useNetworkData = (userId: string) => {
 
         console.log("User network found:", userNetwork);
 
-        // Get all network members using the get_all_network_members function
-        // This RPC function returns all members up to level 4
+        // Busca todos os membros da rede usando a função get_all_network_members
         const { data: allNetworkMembers, error } = await supabase
           .rpc('get_all_network_members', { root_network_id: userNetwork.id });
 
@@ -69,22 +68,15 @@ export const useNetworkData = (userId: string) => {
             
           const membersMap = new Map();
           
-          // Debug log
-          console.log("Creating member structure...");
-          
           // Only include members that have valid profiles
           allNetworkMembers.forEach(member => {
             const profileData = profilesMap.get(member.user_id);
             if (profileData) { // Only add member if profile data exists
-              console.log(`Processing member: ID=${member.id}, user_id=${member.user_id}, level=${member.level}, parent_id=${member.parent_id}`);
-              
               membersMap.set(member.id, {
                 id: member.id,
-                user_id: member.user_id,
                 level: member.level,
-                parent_id: member.parent_id,
+                parentId: member.parent_id,
                 user: {
-                  id: member.user_id,
                   full_name: profileData.full_name || null,
                   email: profileData.email || '',
                   custom_id: profileData.custom_id || null,
@@ -93,30 +85,18 @@ export const useNetworkData = (userId: string) => {
                 },
                 children: []
               });
-            } else {
-              console.log(`Skipping member (profile not found): ID=${member.id}, user_id=${member.user_id}`);
             }
           });
 
           // Build the tree structure
           const rootMembers: NetworkMember[] = [];
-          
-          console.log("Building network tree...");
-          
           membersMap.forEach((member, id) => {
-            console.log(`Checking where to place member: ID=${id}, parent_id=${member.parent_id}`);
-            
-            if (member.parent_id === userNetwork.id) {
-              console.log(`Adding as root member: ${member.user.full_name}`);
+            if (member.parentId === userNetwork.id) {
               rootMembers.push(member);
-            } else if (membersMap.has(member.parent_id)) {
-              const parent = membersMap.get(member.parent_id);
+            } else if (membersMap.has(member.parentId)) {
+              const parent = membersMap.get(member.parentId);
               if (!parent.children) parent.children = [];
-              
-              console.log(`Adding as child of ${parent.user.full_name}: ${member.user.full_name}`);
               parent.children.push(member);
-            } else {
-              console.log(`WARNING: No parent found for member: ${member.user.full_name} (parent_id=${member.parent_id})`);
             }
           });
 

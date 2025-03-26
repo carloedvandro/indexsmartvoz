@@ -85,7 +85,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes, isAllL
   
   // Adicionando console.log para debug
   console.log('Nome do usuário:', member.user.full_name);
-  console.log('ID personalizado:', member.user.custom_id);
+  console.log('É Carolina?', isCarolinaTree);
   
   // Adding 4px additional right margin when showing all levels (isAllLevels is true)
   const allLevelsMargin = isAllLevels ? '4px' : '0px';
@@ -160,7 +160,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes, isAllL
             <div className="space-y-1 text-sm" style={{ marginTop: '8mm' }}>
               <div className="flex items-center gap-2 text-black">
                 <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
-                <span className="truncate">Meu ID: {member.user.custom_id || "Não definido"}</span>
+                <span className="truncate">Meu ID: Smartvoz</span>
               </div>
               
               {formattedDate && (
