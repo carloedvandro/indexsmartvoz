@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -178,11 +177,7 @@ export default function AdminUsers() {
                 {isLoading ? (
                   <p>Carregando...</p>
                 ) : (
-                  <UsersTable 
-                    users={users} 
-                    onEdit={handleEdit} 
-                    refetch={refetch}
-                  />
+                  <UsersTable users={users} onEdit={handleEdit} />
                 )}
               </CardContent>
             </Card>
