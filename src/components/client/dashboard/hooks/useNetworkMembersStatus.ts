@@ -16,7 +16,7 @@ interface MembersStatus {
 
 export const useNetworkMembersStatus = (userId: string | undefined, networkId: string | undefined) => {
   return useQuery({
-    queryKey: ['networkMembersStatus', userId],
+    queryKey: ['networkMembersStatus', userId, networkId],
     queryFn: async () => {
       if (!userId || !networkId) return null;
 
@@ -63,7 +63,7 @@ export const useNetworkMembersStatus = (userId: string | undefined, networkId: s
         return { active: 0, pending: 0 };
       }
 
-      if (!profilesData) {
+      if (!profilesData || profilesData.length === 0) {
         console.log("No profiles found");
         return { active: 0, pending: 0 };
       }
@@ -81,6 +81,8 @@ export const useNetworkMembersStatus = (userId: string | undefined, networkId: s
 
       return { active, pending };
     },
-    enabled: !!userId && !!networkId
+    enabled: !!userId && !!networkId,
+    refetchInterval: 30000, // Refetch every 30 seconds to stay updated
+    staleTime: 10000 // Consider data stale after 10 seconds
   });
 };

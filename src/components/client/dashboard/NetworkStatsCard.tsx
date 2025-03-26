@@ -52,7 +52,31 @@ export const NetworkStatsCard = () => {
   }, []);
 
   useEffect(() => {
-    const channel = supabase
+    const handleDbChanges = () => {
+      if (profile?.id) {
+        // Invalidate all relevant queries when data changes
+        queryClient.invalidateQueries({ queryKey: ['networkData', profile.id] });
+        queryClient.invalidateQueries({ queryKey: ['networkMembersStatus', profile.id] });
+        queryClient.invalidateQueries({ queryKey: ['networkStats', profile.id] });
+      }
+    };
+
+    // Listen for changes to the network table
+    const networkChannel = supabase
+      .channel('network-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'network'
+        },
+        handleDbChanges
+      )
+      .subscribe();
+
+    // Listen for changes to profiles table
+    const profilesChannel = supabase
       .channel('profiles-changes')
       .on(
         'postgres_changes',
@@ -61,15 +85,13 @@ export const NetworkStatsCard = () => {
           schema: 'public',
           table: 'profiles'
         },
-        () => {
-          queryClient.invalidateQueries({ queryKey: ['networkData', profile?.id] });
-          queryClient.invalidateQueries({ queryKey: ['networkMembersStatus', profile?.id] });
-        }
+        handleDbChanges
       )
       .subscribe();
 
     return () => {
-      supabase.removeChannel(channel);
+      supabase.removeChannel(networkChannel);
+      supabase.removeChannel(profilesChannel);
     };
   }, [profile?.id, queryClient]);
 
