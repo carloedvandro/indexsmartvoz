@@ -1,105 +1,100 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { validatePartialCPF } from "@/utils/validation/cpfValidation";
 
 interface CpfVerificationStepProps {
   onNext: () => void;
 }
 
 export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
-  const [cpfPrefix, setCpfPrefix] = useState('');
-  const [isValidating, setIsValidating] = useState(false);
+  const [cpfDigits, setCpfDigits] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  // Get the CPF from session storage where it was saved during registration
-  const getRegisteredCpf = () => {
-    const registrationData = sessionStorage.getItem('registrationData');
-    if (!registrationData) {
-      return null;
-    }
-    try {
-      const data = JSON.parse(registrationData);
-      return data.cpf;
-    } catch (error) {
-      console.error('Error parsing registration data:', error);
-      return null;
-    }
-  };
-
-  const handleCpfVerification = () => {
-    if (cpfPrefix.length !== 5) {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!cpfDigits || cpfDigits.length < 5) {
       toast({
-        title: "CPF Inválido",
+        title: "CPF inválido",
         description: "Por favor, insira os primeiros 5 dígitos do seu CPF.",
         variant: "destructive",
       });
       return;
     }
-
-    setIsValidating(true);
+    
     try {
-      const registeredCpf = getRegisteredCpf();
+      setIsLoading(true);
       
-      if (!registeredCpf) {
-        toast({
-          title: "Erro na verificação",
-          description: "Dados do cadastro não encontrados. Por favor, preencha o formulário de cadastro primeiro.",
-          variant: "destructive",
-        });
-        return;
+      // Simulação de verificação do CPF (em produção, isso seria uma chamada de API)
+      if (!validatePartialCPF(cpfDigits)) {
+        throw new Error("Os dígitos do CPF não são válidos.");
       }
-
-      // Verificar se os primeiros 5 dígitos correspondem
-      const registeredPrefix = registeredCpf.replace(/[^\d]/g, '').substring(0, 5);
       
-      if (cpfPrefix !== registeredPrefix) {
-        toast({
-          title: "CPF Inválido",
-          description: "Os dígitos informados não correspondem ao CPF cadastrado.",
-          variant: "destructive",
-        });
-        return;
-      }
-
+      // Adicionar um pequeno atraso para simular processamento
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      // Se não houver erros, prosseguir para a próxima etapa
       onNext();
     } catch (error: any) {
-      console.error("Erro na verificação do CPF:", error);
       toast({
         title: "Erro na verificação",
         description: error.message || "Ocorreu um erro ao verificar o CPF.",
         variant: "destructive",
       });
     } finally {
-      setIsValidating(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-2xl font-semibold text-center">Verificação Biométrica</h2>
-      <p className="text-center text-gray-600">
-        Insira os primeiros 5 dígitos do seu CPF para iniciar
-      </p>
-      <div className="max-w-xs mx-auto space-y-4">
-        <Input
-          type="number"
-          placeholder="XXXXX"
-          maxLength={5}
-          value={cpfPrefix}
-          onChange={(e) => setCpfPrefix(e.target.value.slice(0, 5))}
-          className="text-center text-lg"
-        />
-        <Button 
-          onClick={handleCpfVerification}
-          className="w-full"
-          disabled={cpfPrefix.length !== 5 || isValidating}
-        >
-          {isValidating ? "Validando..." : "Validar CPF"}
-          <ArrowRight className="ml-2" />
-        </Button>
+    <div className="bg-[#8425af] text-white p-8 rounded-lg">
+      <div className="text-center space-y-6">
+        <h2 className="text-2xl font-semibold">
+          Olá, verificamos que você está realizando a contratação dos nossos serviços.
+        </h2>
+        <p className="text-lg">
+          Para dar continuidade precisamos realizar a sua biometria.
+        </p>
+        
+        <div className="mt-4 text-center">
+          <p className="text-sm opacity-80 mb-4">
+            Biometria é uma solução que utiliza a tecnologia para identificação do cliente.
+          </p>
+        </div>
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-2">
+            <label htmlFor="cpf" className="block text-lg font-medium text-center">
+              Insira os primeiros 5 dígitos do seu CPF:
+            </label>
+            <Input
+              id="cpf"
+              type="text"
+              value={cpfDigits}
+              onChange={(e) => {
+                // Limitar a 5 dígitos e apenas números
+                const value = e.target.value.replace(/\D/g, '').slice(0, 5);
+                setCpfDigits(value);
+              }}
+              placeholder="12345"
+              className="w-full max-w-xs mx-auto text-black text-center text-lg h-12"
+              maxLength={5}
+            />
+          </div>
+          
+          <Button 
+            type="submit" 
+            className="w-full max-w-xs bg-white text-[#8425af] hover:bg-gray-100"
+            disabled={isLoading || cpfDigits.length < 5}
+          >
+            {isLoading ? "Validando..." : "VALIDAR"}
+            {!isLoading && <ArrowRight className="ml-2 h-4 w-4" />}
+          </Button>
+        </form>
       </div>
     </div>
   );

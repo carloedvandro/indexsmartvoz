@@ -1,9 +1,9 @@
 
 import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Webcam from "react-webcam";
+import { supabase } from "@/integrations/supabase/client";
 
 interface FacialCaptureStepProps {
   onNext: (imageSrc: string) => void;
@@ -19,6 +19,25 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
   const [faceDetected, setFaceDetected] = useState(false);
   const webcamRef = useRef<Webcam>(null);
   const { toast } = useToast();
+
+  // Check if the user is logged in when the component mounts
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        console.error("No active session found in FacialCaptureStep");
+        toast({
+          title: "Erro de Autenticação",
+          description: "Sessão não encontrada. Por favor, faça login novamente.",
+          variant: "destructive",
+        });
+      } else {
+        console.log("User session found:", data.session.user.id);
+      }
+    };
+    
+    checkSession();
+  }, [toast]);
 
   const checkFace = async (imageData: ImageData) => {
     // Simplified face detection - checks for skin-tone pixels in the center
@@ -85,9 +104,37 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
       if (imageSrc) {
         setIsProcessing(true);
         try {
+          // Check if user is authenticated before proceeding
+          const { data: sessionData } = await supabase.auth.getSession();
+          if (!sessionData.session?.user) {
+            toast({
+              title: "Erro de Autenticação",
+              description: "Usuário não está autenticado. Por favor, faça login novamente.",
+              variant: "destructive",
+            });
+            return;
+          }
+          
+          // Save the facial image to Supabase Storage
+          const userId = sessionData.session.user.id;
+          const blob = await fetch(imageSrc).then(res => res.blob());
+          const file = new File([blob], `facial-${Date.now()}.jpg`, { type: 'image/jpeg' });
+          const filePath = `${userId}/facial/${Date.now()}.jpg`;
+          
+          const { error: uploadError } = await supabase.storage
+            .from('documents')
+            .upload(filePath, file);
+            
+          if (uploadError) {
+            console.error('Error uploading facial image:', uploadError);
+            throw uploadError;
+          }
+          
+          // Add a small delay for better UX
           await new Promise(resolve => setTimeout(resolve, 1000));
           onNext(imageSrc);
         } catch (error) {
+          console.error('Error during facial capture:', error);
           toast({
             title: "Erro na Captura",
             description: "Ocorreu um erro ao processar a imagem. Por favor, tente novamente.",
@@ -109,41 +156,55 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
   };
 
   return (
-    <div className="space-y-6 text-center">
-      <h2 className="text-2xl font-semibold">Captura Facial</h2>
-      <p className="text-gray-600">Posicione seu rosto dentro do círculo</p>
-      <div className="relative w-64 h-64 mx-auto">
-        <div className={`absolute inset-0 rounded-full border-4 ${
-          faceDetected ? 'border-green-500' : 'border-dashed border-primary/70'
-        } z-10 transition-colors duration-300`}></div>
-        <div className="w-full h-full overflow-hidden rounded-full">
-          <Webcam
-            ref={webcamRef}
-            audio={false}
-            screenshotFormat="image/jpeg"
-            videoConstraints={updatedVideoConstraints}
-            className="w-full h-full object-cover"
-            mirrored={true}
-          />
+    <div className="relative h-[540px] bg-gray-100 overflow-hidden">
+      <div className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 z-20 text-center">
+        <p className="text-sm">Centralize seu rosto</p>
+      </div>
+      
+      <div className="relative h-full">
+        <Webcam
+          ref={webcamRef}
+          audio={false}
+          screenshotFormat="image/jpeg"
+          videoConstraints={updatedVideoConstraints}
+          className="w-full h-full object-cover"
+          mirrored={true}
+        />
+        
+        <div className="absolute inset-0 flex items-center justify-center z-10">
+          <div className={`w-64 h-80 border-2 rounded-full ${faceDetected ? 'border-green-500' : 'border-[#8425af]'}`}>
+            <div className="relative w-full h-full">
+              {/* Face outline */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <svg viewBox="0 0 100 120" width="100%" height="100%" className="opacity-50">
+                  <path d="M50,10 C70,10 85,30 85,55 C85,75 70,90 50,90 C30,90 15,75 15,55 C15,30 30,10 50,10 Z" 
+                    fill="none" 
+                    stroke={faceDetected ? "#22c55e" : "#8425af"} 
+                    strokeWidth="1"
+                  />
+                  <circle cx="35" cy="45" r="5" fill="none" stroke={faceDetected ? "#22c55e" : "#8425af"} strokeWidth="1" />
+                  <circle cx="65" cy="45" r="5" fill="none" stroke={faceDetected ? "#22c55e" : "#8425af"} strokeWidth="1" />
+                  <path d="M40,65 C43,70 47,72 50,72 C53,72 57,70 60,65" 
+                    fill="none" 
+                    stroke={faceDetected ? "#22c55e" : "#8425af"} 
+                    strokeWidth="1" 
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <p className="text-sm text-gray-500">
-        {faceDetected ? 'Rosto detectado! Você pode capturar a foto.' : 'Mantenha uma distância adequada e certifique-se que seu rosto está bem iluminado'}
-      </p>
-      <Button 
+      
+      <button 
         onClick={handleFacialCapture}
         disabled={isProcessing || !faceDetected}
-        className="w-full max-w-xs bg-primary hover:bg-primary/90"
+        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20"
       >
-        {isProcessing ? (
-          <>
-            <Clock className="mr-2 animate-spin" />
-            Processando...
-          </>
-        ) : (
-          "Capturar"
-        )}
-      </Button>
+        <div className={`w-16 h-16 rounded-full border-4 ${faceDetected ? 'border-green-500' : 'border-white'} flex items-center justify-center`}>
+          <div className={`w-12 h-12 rounded-full ${faceDetected ? 'bg-green-500' : 'bg-white'}`}></div>
+        </div>
+      </button>
     </div>
   );
 };
