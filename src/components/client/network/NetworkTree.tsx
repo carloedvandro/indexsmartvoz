@@ -78,10 +78,10 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
 
   const filteredData = useFilteredNetwork(networkData, selectedLevel);
   
-  // Adicionando logs para debug
-  console.log("Nível selecionado:", selectedLevel);
-  console.log("Dados da rede originais:", networkData);
-  console.log("Dados filtrados:", filteredData);
+  // Debug logs
+  console.log("Selected level:", selectedLevel);
+  console.log("Original network data:", networkData);
+  console.log("Filtered data:", filteredData);
 
   if (loading) {
     return (

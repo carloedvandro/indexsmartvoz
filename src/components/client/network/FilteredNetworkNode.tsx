@@ -37,8 +37,13 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   const totalTeamSize = calculateTotalTeamSize(member);
   const StatusIcon = isActive ? UserCheck : UserX;
 
-  // Adicionando log para debug
-  console.log("Renderizando membro:", member.user.full_name, "com ID:", member.user.id, "e custom_id:", member.user.custom_id);
+  // Debug log
+  console.log("Rendering FilteredNetworkNode for member:", {
+    name: member.user.full_name,
+    id: member.user.id,
+    custom_id: member.user.custom_id,
+    level: member.level
+  });
 
   return (
     <motion.div
