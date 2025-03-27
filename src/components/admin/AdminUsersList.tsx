@@ -89,7 +89,6 @@ export function AdminUsersList({ users = [], onEdit }) {
                 <input type="checkbox" className="rounded border-gray-300" />
               </TableHead>
               <TableHead>Detalhes do Usuário</TableHead>
-              <TableHead>Detalhes da Associação</TableHead>
               <TableHead>Status do Plano</TableHead>
               <TableHead>Indicação</TableHead>
               <TableHead>Ação</TableHead>
@@ -110,13 +109,6 @@ export function AdminUsersList({ users = [], onEdit }) {
                     <span className="font-medium">{user.full_name}</span>
                     <span className="text-sm text-gray-500">{user.external_id || "zefilhovera1020"}</span>
                     <span className="text-sm text-blue-500">{user.email}</span>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex flex-col">
-                    <span className="font-medium">PARCEIRO SMART INTERNET</span>
-                    <span className="text-sm text-gray-500">Não disponível</span>
-                    <span className="text-sm text-blue-500">Editar Plano</span>
                   </div>
                 </TableCell>
                 <TableCell>
