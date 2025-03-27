@@ -1,21 +1,13 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { UserSearchForm } from "@/components/admin/UserSearchForm";
-import { UsersTable } from "@/components/admin/UsersTable";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { UserEditDialog } from "@/components/admin/UserEditDialog";
 import { useToast } from "@/hooks/use-toast";
+import { AdminUsersList } from "@/components/admin/AdminUsersList";
 
 export default function AdminUsers() {
   const navigate = useNavigate();
@@ -114,10 +106,6 @@ export default function AdminUsers() {
     navigate("/admin/login");
   };
 
-  const handleSearch = () => {
-    refetch();
-  };
-
   const handleEdit = (user) => {
     setSelectedUser(user);
   };
@@ -132,55 +120,26 @@ export default function AdminUsers() {
       <div className="min-h-screen flex w-full bg-gray-50">
         <AdminSidebar />
         <main className="flex-1 p-4 md:p-8 overflow-auto">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-              <div>
-                <h1 className="text-2xl font-bold">Usuários</h1>
-                <p className="text-muted-foreground">
-                  Gerencie os usuários do sistema
-                </p>
+          <div className="max-w-full mx-auto">
+            <div className="flex flex-col">
+              <div className="bg-indigo-700 text-white p-4 mb-4 rounded-t-lg flex items-center gap-3">
+                <div className="bg-indigo-600 p-2 rounded-full">
+                  <UserCheck className="h-6 w-6" />
+                </div>
+                <h1 className="text-xl font-bold">Lista de Usuário</h1>
+                <div className="ml-auto flex items-center">
+                  <span className="text-sm">
+                    Página inicial do administrador &gt; Lista de Usuário
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center gap-4">
-                <SidebarTrigger />
-                <Button variant="outline" onClick={handleLogout}>
-                  Sair
-                </Button>
-              </div>
+
+              {isLoading ? (
+                <div className="p-8 text-center">Carregando...</div>
+              ) : (
+                <AdminUsersList users={users} onEdit={handleEdit} />
+              )}
             </div>
-
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle>Busca Avançada</CardTitle>
-                <CardDescription>
-                  Use os filtros abaixo para encontrar usuários específicos
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <UserSearchForm
-                  filters={filters}
-                  setFilters={setFilters}
-                  onSearch={handleSearch}
-                />
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Resultados da Busca</CardTitle>
-                {users && (
-                  <CardDescription>
-                    {users.length} usuário(s) encontrado(s)
-                  </CardDescription>
-                )}
-              </CardHeader>
-              <CardContent>
-                {isLoading ? (
-                  <p>Carregando...</p>
-                ) : (
-                  <UsersTable users={users} onEdit={handleEdit} />
-                )}
-              </CardContent>
-            </Card>
           </div>
         </main>
 
