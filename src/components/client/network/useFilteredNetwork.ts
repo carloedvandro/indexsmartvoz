@@ -4,43 +4,43 @@ import { NetworkMember } from "./types";
 export const useFilteredNetwork = (data: NetworkMember[], selectedLevel: string) => {
   if (!data) return [];
   
-  // If "all" is selected, return the complete structure without filtering
+  // Se for "all", retorna a estrutura completa sem filtragem
   if (selectedLevel === "all") {
-    console.log("Returning all levels:", data);
+    console.log("Retornando todos os níveis:", data);
     return data;
   }
   
   const level = parseInt(selectedLevel);
   
-  // For storing filtered results
+  // Para armazenar os resultados filtrados
   const result: NetworkMember[] = [];
   
-  // Function to find members of a specific level
+  // Função para encontrar membros de um nível específico
   const findMembersByLevel = (members: NetworkMember[], currentLevel: number = 1) => {
     if (!members || members.length === 0) return;
     
     members.forEach(member => {
-      // If we're at the desired level, add the member to the result
+      // Se estamos no nível desejado, adicione o membro ao resultado
       if (currentLevel === level) {
-        // Check to avoid duplicate members with the same user.id
+        // Verificação para evitar duplicação de membros com mesmo user.id
         if (!result.some(m => m.user.id === member.user.id)) {
-          // Add the member with its children for expandability
           result.push({
-            ...member
+            ...member,
+            children: [] // Remover filhos ao encontrar o nível desejado
           });
         }
       }
       
-      // Continue searching in children if we haven't reached the desired level
+      // Continue procurando nos filhos se ainda não atingimos o nível desejado
       if (currentLevel < level && member.children && member.children.length > 0) {
         findMembersByLevel(member.children, currentLevel + 1);
       }
     });
   };
   
-  // Start the search from level 1
+  // Inicie a busca a partir do nível 1
   findMembersByLevel(data);
   
-  console.log(`Filtered data for level ${level}:`, result);
+  console.log("Dados filtrados:", result);
   return result;
 };
