@@ -15,9 +15,8 @@ export const ProfileInfo = ({ member, isFilteredView = false }: ProfileInfoProps
     ? format(parseISO(member.user.registration_date), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })
     : null;
   
-  // Ensure we always have a number for team size, default to 0
+  // Force numbers for team size and direct reports, default to 0
   const totalTeamSize = member.children ? calculateTotalTeamSize(member) : 0;
-  // Ensure we always have a number for direct reports, default to 0
   const directReports = member.children?.length || 0;
 
   // Calculate margin and style based on view type
