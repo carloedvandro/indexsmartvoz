@@ -61,7 +61,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
               </span>
             </div>
             
-            {/* Always render the ProfileInfo component for correct icons display */}
+            {/* Always render the ProfileInfo component inside the layout for correct counts display */}
             <ProfileInfo member={member} isFilteredView={true} />
           </div>
         </div>
