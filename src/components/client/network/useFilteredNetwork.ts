@@ -24,9 +24,10 @@ export const useFilteredNetwork = (data: NetworkMember[], selectedLevel: string)
       if (currentLevel === level) {
         // Verificação para evitar duplicação de membros com mesmo user.id
         if (!result.some(m => m.user.id === member.user.id)) {
-          // Importante: Preserve os children para calcular o tamanho da equipe
-          const memberCopy = { ...member };
-          result.push(memberCopy);
+          result.push({
+            ...member,
+            children: [] // Remover filhos ao encontrar o nível desejado
+          });
         }
       }
       
@@ -40,14 +41,6 @@ export const useFilteredNetwork = (data: NetworkMember[], selectedLevel: string)
   // Inicie a busca a partir do nível 1
   findMembersByLevel(data);
   
-  console.log("Dados filtrados por nível:", selectedLevel, "resultado:", result);
-  // Verifique e log detalhes dos membros filtrados
-  if (result.length > 0) {
-    result.forEach((member, index) => {
-      console.log(`Membro filtrado ${index + 1}:`, member.user.full_name);
-      console.log(`- Tem filhos: ${member.children ? 'Sim, ' + member.children.length + ' filhos' : 'Não'}`);
-    });
-  }
-  
+  console.log("Dados filtrados:", result);
   return result;
 };
