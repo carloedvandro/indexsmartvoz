@@ -46,10 +46,6 @@ const menuItems = [
       { icon: PieChart, label: "Relatórios", path: "/admin/relatorios-cadastro" },
     ]
   },
-  { icon: Settings, label: "Configurações", path: "/admin/settings" },
-  { icon: Users, label: "Usuários", path: "/admin/users" },
-  { icon: FileText, label: "Relatórios", path: "/admin/reports" },
-  { icon: HelpCircle, label: "Suporte", path: "/admin/support" },
   {
     icon: ShoppingBag,
     label: "Loja e Vendas",
@@ -62,6 +58,10 @@ const menuItems = [
       { icon: BarChart, label: "Relatórios", path: "/admin/relatorios-vendas" },
     ]
   },
+  { icon: Settings, label: "Configurações", path: "/admin/settings" },
+  { icon: Users, label: "Usuários", path: "/admin/users" },
+  { icon: FileText, label: "Relatórios", path: "/admin/reports" },
+  { icon: HelpCircle, label: "Suporte", path: "/admin/support" },
   { icon: LogOut, label: "Sair", path: "/admin/logout" },
 ];
 
