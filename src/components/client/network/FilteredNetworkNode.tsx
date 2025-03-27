@@ -19,7 +19,6 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
 
   // Log for debugging
   console.log("Renderizando membro filtrado:", member.user.full_name, "com ID:", member.user.id);
-  console.log("Children count:", member.children?.length || 0);
 
   return (
     <motion.div
