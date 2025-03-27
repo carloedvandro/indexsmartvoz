@@ -1,3 +1,4 @@
+
 export function validateCPF(cpf: string) {
   cpf = cpf.replace(/[^\d]/g, '');
   
@@ -23,3 +24,6 @@ export function validateCPF(cpf: string) {
   
   return true;
 }
+
+// Adding alias for backward compatibility
+export const isValidCPF = validateCPF;
