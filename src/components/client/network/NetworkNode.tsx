@@ -43,9 +43,10 @@ interface NetworkNodeProps {
   depth?: number;
   onToggle: (nodeId: string) => void;
   expandedNodes: Set<string>;
+  isAllLevels?: boolean;
 }
 
-export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: NetworkNodeProps) => {
+export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes, isAllLevels = true }: NetworkNodeProps) => {
   const hasChildren = member.children && member.children.length > 0;
   const isExpanded = expandedNodes.has(member.id);
   const isActive = member.user.status === 'active';
@@ -78,23 +79,25 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
 
   const isDavidForgat = member.user.full_name === 'David Forgat';
   
-  // Corrigindo o nome para "Bezzera" com "zz"
   const isCarolinaTree = member.user.full_name?.trim() === 'Carolina Bezzera e Silva';
   
   const isRubensTree = member.user.full_name === 'Rubens Valin';
   
   // Adicionando console.log para debug
   console.log('Nome do usuário:', member.user.full_name);
-  console.log('É Carolina?', isCarolinaTree);
+  console.log('ID personalizado:', member.user.custom_id);
+  
+  // Adding 4px additional right margin when showing all levels (isAllLevels is true)
+  const allLevelsMargin = isAllLevels ? '4px' : '0px';
   
   const style = {
-    marginLeft: isDavidForgat ? '-9px' : // David mantém a margem original
-                isCarolinaTree ? '29mm' : // Carolina 29mm para direita
-                isRubensTree ? '5.5mm' : // Rubens 5.5mm para direita
-                depth === 2 ? '8px' : 
-                isRuiTree ? '10px' : 
-                member.user.custom_id === 'vania' ? '25.5px' :
-                (depth === 0 ? '-3px' : '5px'),
+    marginLeft: isDavidForgat ? `calc(-9px + ${allLevelsMargin})` : // David mantém a margem original + novo ajuste
+                isCarolinaTree ? `calc(29mm + ${allLevelsMargin})` : // Carolina 29mm para direita + novo ajuste
+                isRubensTree ? `calc(5.5mm + ${allLevelsMargin})` : // Rubens 5.5mm para direita + novo ajuste
+                depth === 2 ? `calc(8px + ${allLevelsMargin})` : 
+                isRuiTree ? `calc(10px + ${allLevelsMargin})` : 
+                member.user.custom_id === 'vania' ? `calc(25.5px + ${allLevelsMargin})` :
+                (depth === 0 ? `calc(-3px + ${allLevelsMargin})` : `calc(5px + ${allLevelsMargin})`),
     width: `calc(100% - ${depth === 0 ? -3 : 5}px)`,
   };
 
@@ -157,7 +160,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
             <div className="space-y-1 text-sm" style={{ marginTop: '8mm' }}>
               <div className="flex items-center gap-2 text-black">
                 <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
-                <span className="truncate">Meu ID: Smartvoz</span>
+                <span className="truncate">Meu ID: {member.user.custom_id || "Não definido"}</span>
               </div>
               
               {formattedDate && (
@@ -189,6 +192,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes }: Netw
               depth={depth + 1}
               onToggle={onToggle}
               expandedNodes={expandedNodes}
+              isAllLevels={isAllLevels}
             />
           ))}
         </div>

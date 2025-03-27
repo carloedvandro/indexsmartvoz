@@ -1,7 +1,7 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { isValidEmail } from "@/utils/validation/emailValidation";
-import { validateCPF as isValidCPF } from "@/utils/validation/cpfValidation";
+import { isValidCPF } from "@/utils/validation/cpfValidation";
 import { log } from "@/utils/logging/userLogger";
 
 export const checkExistingUser = async (email: string): Promise<boolean> => {

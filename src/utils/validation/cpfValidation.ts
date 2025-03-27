@@ -69,9 +69,6 @@ export const validateCPF = (cpf: string): boolean => {
   );
 };
 
-// Add alias for isValidCPF to maintain backward compatibility
-export const isValidCPF = validateCPF;
-
 /**
  * Formata um CPF para exibição (formato: 123.456.789-00)
  * @param cpf O CPF sem formatação
@@ -84,3 +81,6 @@ export const formatCPF = (cpf: string): string => {
   // Aplicar máscara
   return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
 };
+
+// Alias for isValidCPF (to maintain backward compatibility)
+export const isValidCPF = validateCPF;

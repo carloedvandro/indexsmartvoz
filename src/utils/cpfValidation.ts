@@ -25,5 +25,5 @@ export function validateCPF(cpf: string) {
   return true;
 }
 
-// Adding alias for backward compatibility
+// Alias for isValidCPF (to maintain backward compatibility)
 export const isValidCPF = validateCPF;

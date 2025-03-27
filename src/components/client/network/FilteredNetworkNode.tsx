@@ -37,6 +37,9 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   const totalTeamSize = calculateTotalTeamSize(member);
   const StatusIcon = isActive ? UserCheck : UserX;
 
+  // Adicionando log para debug
+  console.log("Renderizando membro:", member.user.full_name, "com ID:", member.user.id, "e custom_id:", member.user.custom_id);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -92,7 +95,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
                 <div className="space-y-1 text-sm mt-2">
                   <div className="flex items-center gap-2 text-black">
                     <GraduationCap className="h-4 w-4" style={{ color: '#660099' }} />
-                    <span className="truncate">Meu ID: {member.user.custom_id || "-"}</span>
+                    <span className="truncate">Meu ID: {member.user.custom_id || "Não definido"}</span>
                   </div>
                   
                   {formattedDate && (

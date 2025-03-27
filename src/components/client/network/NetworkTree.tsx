@@ -24,7 +24,8 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    const channel = supabase
+    // Listen for changes to the network table
+    const networkChannel = supabase
       .channel('network-changes')
       .on(
         'postgres_changes',
@@ -40,6 +41,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       )
       .subscribe();
 
+    // Listen for changes to profiles table
     const profilesChannel = supabase
       .channel('profiles-changes')
       .on(
@@ -57,7 +59,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       .subscribe();
 
     return () => {
-      supabase.removeChannel(channel);
+      supabase.removeChannel(networkChannel);
       supabase.removeChannel(profilesChannel);
     };
   }, [userId, queryClient]);
@@ -75,6 +77,11 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   };
 
   const filteredData = useFilteredNetwork(networkData, selectedLevel);
+  
+  // Adicionando logs para debug
+  console.log("Nível selecionado:", selectedLevel);
+  console.log("Dados da rede originais:", networkData);
+  console.log("Dados filtrados:", filteredData);
 
   if (loading) {
     return (
@@ -109,6 +116,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
                             member={member}
                             onToggle={toggleNode}
                             expandedNodes={expandedNodes}
+                            isAllLevels={selectedLevel === "all"}
                           />
                         ) : (
                           <FilteredNetworkNode
