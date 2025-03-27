@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Clock, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,8 @@ import { DocumentCaptureStep } from "./steps/DocumentCaptureStep";
 import { CompletionStep } from "./steps/CompletionStep";
 import { useCameraManagement } from "@/hooks/useCameraManagement";
 import { useNavigate } from "react-router-dom";
+import { AnalysisStep } from "./steps/AnalysisStep";
+import { DocumentInstructionsStep } from "./steps/DocumentInstructionsStep";
 
 interface FacialBiometryFlowProps {
   onComplete?: (verificationData: {
@@ -53,7 +56,7 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   };
 
   const handleCompletion = () => {
-    if (!capturedImages.facial || !capturedImages.documentFront || !capturedImages.documentBack) {
+    if (!capturedImages.facial || !capturedImages.documentFront || (selectedDocType === 'rg' && !capturedImages.documentBack)) {
       return;
     }
 
@@ -66,29 +69,6 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
       navigate("/client/dashboard");
     }
   };
-
-  const renderAnalysisStep = () => (
-    <div className="space-y-6 text-center">
-      <h2 className="text-2xl font-semibold">Em análise</h2>
-      <p className="text-gray-600">Aguarde um instante</p>
-      <div className="flex justify-center">
-        <Clock className="w-16 h-16 text-purple-500 animate-spin" />
-      </div>
-    </div>
-  );
-
-  const renderDocumentInstructions = () => (
-    <div className="space-y-6 text-center">
-      <h2 className="text-2xl font-semibold">Verificação de Documento</h2>
-      <p className="text-gray-600">
-        Tenha em mãos seu RG, CNH ou Documento oficial de identificação com foto.
-      </p>
-      <Button onClick={() => setCurrentStep('document-type')} className="w-full max-w-xs">
-        Continuar
-        <ArrowRight className="ml-2" />
-      </Button>
-    </div>
-  );
 
   const renderStep = () => {
     switch (currentStep) {
@@ -112,21 +92,33 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
             onNext={(imageSrc) => {
               setCapturedImages(prev => ({ ...prev, facial: imageSrc }));
               setCurrentStep('facial-analysis');
-              setTimeout(() => setCurrentStep('document-instructions'), 2000);
             }}
             videoConstraints={facialVideoConstraints}
           />
         );
       
       case 'facial-analysis':
-      case 'document-analysis':
-        return renderAnalysisStep();
+        return (
+          <AnalysisStep
+            onNext={() => setCurrentStep('document-instructions')}
+            title="Em análise"
+            description="Aguarde um instante"
+            step={3}
+            totalSteps={4}
+          />
+        );
       
       case 'document-instructions':
-        return renderDocumentInstructions();
+        return (
+          <DocumentInstructionsStep
+            onNext={() => setCurrentStep('document-type')}
+            step={3}
+            totalSteps={4}
+          />
+        );
       
       case 'document-type':
-        return <DocumentTypeStep onSelectDocType={handleDocumentTypeSelection} />;
+        return <DocumentTypeStep onSelectDocType={handleDocumentTypeSelection} step={3} totalSteps={4} />;
       
       case 'document-front':
       case 'document-back':
@@ -135,16 +127,33 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
             onNext={(imageSrc) => {
               if (currentStep === 'document-front') {
                 setCapturedImages(prev => ({ ...prev, documentFront: imageSrc }));
-                setCurrentStep('document-back');
+                if (selectedDocType === 'cnh') {
+                  // CNH só precisa de frente, então vai direto para análise
+                  setCurrentStep('document-analysis');
+                } else {
+                  setCurrentStep('document-back');
+                }
               } else {
                 setCapturedImages(prev => ({ ...prev, documentBack: imageSrc }));
                 setCurrentStep('document-analysis');
-                setTimeout(() => setCurrentStep('completion'), 2000);
               }
             }}
             selectedDocType={selectedDocType!}
             isBackSide={currentStep === 'document-back'}
             videoConstraints={documentVideoConstraints}
+            step={3}
+            totalSteps={4}
+          />
+        );
+      
+      case 'document-analysis':
+        return (
+          <AnalysisStep
+            onNext={() => setCurrentStep('completion')}
+            title="Em análise"
+            description="Aguarde um instante"
+            step={3}
+            totalSteps={4}
           />
         );
       

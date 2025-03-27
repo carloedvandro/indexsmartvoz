@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { isValidEmail } from "@/utils/validation/emailValidation";
 import { isValidCPF } from "@/utils/validation/cpfValidation";
@@ -20,6 +21,18 @@ export type UpdateProfileData = Partial<{
 }>;
 
 export const updateProfile = async (id: string, data: UpdateProfileData) => {
+  // Check if user exists before proceeding
+  const { data: existingProfile, error: fetchError } = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("id", id)
+    .single();
+
+  if (fetchError || !existingProfile) {
+    log("error", "User profile does not exist", { id, error: fetchError });
+    throw new Error("Perfil de usuário não encontrado");
+  }
+
   // Validate critical fields if present
   if (data.email && !isValidEmail(data.email)) {
     throw new Error("Email inválido");

@@ -1,4 +1,3 @@
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,7 +10,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 
 interface DeleteUserConfirmationProps {
   isDeleting: boolean;
@@ -19,15 +17,8 @@ interface DeleteUserConfirmationProps {
 }
 
 export function DeleteUserConfirmation({ isDeleting, onDelete }: DeleteUserConfirmationProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  
-  const handleConfirmDelete = async () => {
-    await onDelete();
-    setIsOpen(false);
-  };
-
   return (
-    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+    <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
           type="button"
@@ -46,7 +37,7 @@ export function DeleteUserConfirmation({ isDeleting, onDelete }: DeleteUserConfi
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <AlertDialogAction onClick={handleConfirmDelete}>
+          <AlertDialogAction onClick={onDelete}>
             Confirmar
           </AlertDialogAction>
         </AlertDialogFooter>

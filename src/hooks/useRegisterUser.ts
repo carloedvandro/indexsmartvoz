@@ -9,43 +9,30 @@ export const useRegisterUser = () => {
         ...values,
         password: "[PROTECTED]",
         customId: values.customId,
-        cpf: values.cpf.replace(/\D/g, '') // Ensure we're using the raw CPF value without formatting
+        cpf: values.cpf
       });
 
-      // Check if email already exists by querying the auth API directly instead of profiles
-      // This gives us a more accurate check for existing users
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: values.email,
-        password: "temporary-check-password-123456789",
-      });
-
-      // If there's no error or error is NOT "Invalid login credentials", the email exists
-      if (!signInError || (signInError && !signInError.message.includes("Invalid login credentials"))) {
-        console.error("Email already exists in auth");
-        throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
-      }
-
-      // Check if email exists in profiles (backup check)
-      const { data: emailCheckResult } = await supabase
+      // Check if email already exists
+      const { data: existingEmail } = await supabase
         .from("profiles")
         .select("id")
-        .eq("email", values.email);
-      
-      if (emailCheckResult && emailCheckResult.length > 0) {
-        console.error("Email already exists in profiles");
-        throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
+        .eq("email", values.email)
+        .single();
+
+      if (existingEmail) {
+        throw new Error("Email já está em uso. Por favor, use outro email.");
       }
 
       // Check if CPF already exists
       if (values.cpf) {
-        const cleanCpf = values.cpf.replace(/\D/g, '');
-        console.log("Checking if CPF exists:", cleanCpf);
+        console.log("Checking if CPF exists:", values.cpf);
         const { data: existingCPF } = await supabase
           .from("profiles")
           .select("id")
-          .eq("cpf", cleanCpf);
+          .eq("cpf", values.cpf)
+          .single();
 
-        if (existingCPF && existingCPF.length > 0) {
+        if (existingCPF) {
           throw new Error("CPF já está cadastrado. Utilize outro CPF ou faça login.");
         }
       }
@@ -56,9 +43,10 @@ export const useRegisterUser = () => {
         const { data: existingCustomId } = await supabase
           .from("profiles")
           .select("id")
-          .eq("custom_id", values.customId);
+          .eq("custom_id", values.customId)
+          .single();
 
-        if (existingCustomId && existingCustomId.length > 0) {
+        if (existingCustomId) {
           throw new Error("ID personalizado já está em uso. Por favor, escolha outro ID.");
         }
       }
@@ -70,26 +58,21 @@ export const useRegisterUser = () => {
         const { data: sponsor, error: sponsorError } = await supabase
           .from("profiles")
           .select("id")
-          .eq("custom_id", values.sponsorCustomId);
+          .eq("custom_id", values.sponsorCustomId)
+          .single();
 
-        if (sponsorError) {
+        if (sponsorError || !sponsor) {
           console.error("Sponsor verification error:", sponsorError);
-          throw new Error("Erro ao verificar o patrocinador: " + sponsorError.message);
+          throw new Error("ID do patrocinador inválido ou não encontrado");
         }
-        
-        if (!sponsor || sponsor.length === 0) {
-          console.error("Sponsor not found");
-          throw new Error("ID do patrocinador não encontrado. Verifique e tente novamente.");
-        }
-        
-        sponsorId = sponsor[0].id;
+        sponsorId = sponsor.id;
         console.log("Found sponsor ID:", sponsorId);
       }
 
-      // Create user
+      // Create user with custom_id and CPF in metadata
       console.log("Creating user with metadata:", {
         custom_id: values.customId,
-        cpf: values.cpf.replace(/\D/g, '') // Remove formatting
+        cpf: values.cpf
       });
       
       const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -99,7 +82,7 @@ export const useRegisterUser = () => {
           data: {
             full_name: values.fullName,
             custom_id: values.customId,
-            cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
+            cpf: values.cpf,
             sponsor_id: sponsorId,
           },
         },
@@ -107,6 +90,9 @@ export const useRegisterUser = () => {
 
       if (authError) {
         console.error("Auth error:", authError);
+        if (authError.message.includes("already registered")) {
+          throw new Error("Email já está cadastrado. Por favor faça login ou use recuperação de senha.");
+        }
         throw new Error("Erro ao criar usuário: " + authError.message);
       }
 
@@ -120,10 +106,7 @@ export const useRegisterUser = () => {
         custom_id: values.customId,
         store_url: values.customId,
         sponsor_id: sponsorId,
-        cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
-        whatsapp: values.whatsapp,
-        secondary_whatsapp: values.secondaryWhatsapp || null,
-        birth_date: values.birthDate
+        cpf: values.cpf
       });
 
       const { error: updateError } = await supabase
@@ -132,9 +115,9 @@ export const useRegisterUser = () => {
           custom_id: values.customId,
           store_url: values.customId,
           sponsor_id: sponsorId,
-          cpf: values.cpf.replace(/\D/g, ''), // Remove formatting
+          cpf: values.cpf, // Explicitly set CPF in profiles table
           whatsapp: values.whatsapp,
-          secondary_whatsapp: values.secondaryWhatsapp || null,
+          secondary_whatsapp: values.secondaryWhatsapp,
           birth_date: values.birthDate
         })
         .eq("id", authData.user.id);
@@ -147,7 +130,7 @@ export const useRegisterUser = () => {
       console.log("User registration completed successfully:", {
         userId: authData.user.id,
         customId: values.customId,
-        cpf: values.cpf.replace(/\D/g, '') // Show clean CPF in logs
+        cpf: values.cpf
       });
       
       return authData;
