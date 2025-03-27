@@ -18,7 +18,7 @@ export const ProfileInfo = ({ member, isFilteredView = false }: ProfileInfoProps
   const totalTeamSize = calculateTotalTeamSize(member);
 
   // Apply different margins based on view type - removing the negative margin
-  const marginClass = isFilteredView ? "ml-0" : "ml-[-17mm]"; // Ajustado para mover mais para a esquerda
+  const marginClass = isFilteredView ? "ml-0" : "ml-[-17.5mm]"; // Ajustado para mover mais 0.5px para a esquerda
 
   return (
     <div className={`space-y-1 text-sm ${marginClass}`} style={{ marginTop: '8mm' }}>
