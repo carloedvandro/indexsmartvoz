@@ -91,7 +91,7 @@ export function AdminUsersList({ users = [], onEdit }) {
               <TableHead>Detalhes do Usuário</TableHead>
               <TableHead>Detalhes da Associação</TableHead>
               <TableHead>Status do Plano</TableHead>
-              <TableHead>Referido por</TableHead>
+              <TableHead>Indicação</TableHead>
               <TableHead>Ação</TableHead>
             </TableRow>
           </TableHeader>
