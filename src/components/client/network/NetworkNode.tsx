@@ -66,17 +66,10 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes, isAllL
     >
       <div className="flex items-start gap-2 w-full">
         {hasChildren && (
-          <button
-            onClick={() => onToggle(member.id)}
-            className="p-1 hover:text-primary rounded-full flex-shrink-0"
-            style={{ marginTop: '4mm', marginLeft: '-0.5mm' }}
-            aria-label={isExpanded ? "Recolher" : "Expandir"}
-          >
-            <RotateCw 
-              className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
-              style={{ color: '#660099' }}
-            />
-          </button>
+          <ToggleButton 
+            isExpanded={isExpanded} 
+            onToggle={() => onToggle(member.id)} 
+          />
         )}
         
         <div className="flex items-start gap-3 flex-1">
@@ -99,19 +92,69 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes, isAllL
       </div>
       
       {hasChildren && isExpanded && (
-        <div className={`mt-6 space-y-4 mb-8 ${isVaniaTree ? 'ml-[25.5px]' : 'ml-5'}`}>
-          {member.children.map((child) => (
-            <NetworkNode
-              key={child.id}
-              member={child}
-              depth={depth + 1}
-              onToggle={onToggle}
-              expandedNodes={expandedNodes}
-              isAllLevels={isAllLevels}
-            />
-          ))}
-        </div>
+        <ChildrenNodes 
+          children={member.children}
+          depth={depth}
+          onToggle={onToggle}
+          expandedNodes={expandedNodes}
+          isAllLevels={isAllLevels}
+          isVaniaTree={isVaniaTree}
+        />
       )}
     </motion.div>
+  );
+};
+
+interface ToggleButtonProps {
+  isExpanded: boolean;
+  onToggle: () => void;
+}
+
+const ToggleButton = ({ isExpanded, onToggle }: ToggleButtonProps) => {
+  return (
+    <button
+      onClick={onToggle}
+      className="p-1 hover:text-primary rounded-full flex-shrink-0"
+      style={{ marginTop: '4mm', marginLeft: '-0.5mm' }}
+      aria-label={isExpanded ? "Recolher" : "Expandir"}
+    >
+      <RotateCw 
+        className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+        style={{ color: '#660099' }}
+      />
+    </button>
+  );
+};
+
+interface ChildrenNodesProps {
+  children: NetworkMember[];
+  depth: number;
+  onToggle: (nodeId: string) => void;
+  expandedNodes: Set<string>;
+  isAllLevels: boolean;
+  isVaniaTree: boolean;
+}
+
+const ChildrenNodes = ({ 
+  children, 
+  depth, 
+  onToggle, 
+  expandedNodes, 
+  isAllLevels,
+  isVaniaTree
+}: ChildrenNodesProps) => {
+  return (
+    <div className={`mt-6 space-y-4 mb-8 ${isVaniaTree ? 'ml-[25.5px]' : 'ml-5'}`}>
+      {children.map((child) => (
+        <NetworkNode
+          key={child.id}
+          member={child}
+          depth={depth + 1}
+          onToggle={onToggle}
+          expandedNodes={expandedNodes}
+          isAllLevels={isAllLevels}
+        />
+      ))}
+    </div>
   );
 };
