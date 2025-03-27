@@ -60,12 +60,12 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
             </div>
+            
+            {/* Always render the ProfileInfo component for correct icons display */}
+            <ProfileInfo member={member} isFilteredView={true} />
           </div>
         </div>
       </div>
-
-      {/* Always render the ProfileInfo component */}
-      <ProfileInfo member={member} isFilteredView={true} />
       
       {hasChildren && isExpanded && (
         <div className="mt-2 space-y-2 mb-2 ml-[25.5px]">

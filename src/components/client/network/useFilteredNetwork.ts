@@ -24,10 +24,8 @@ export const useFilteredNetwork = (data: NetworkMember[], selectedLevel: string)
       if (currentLevel === level) {
         // Verificação para evitar duplicação de membros com mesmo user.id
         if (!result.some(m => m.user.id === member.user.id)) {
-          result.push({
-            ...member,
-            children: [] // Remover filhos ao encontrar o nível desejado
-          });
+          // Preservamos os children para que a contagem de "Diretos" e "Equipe" funcione corretamente
+          result.push({ ...member });
         }
       }
       
