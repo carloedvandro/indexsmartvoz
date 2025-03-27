@@ -25,8 +25,7 @@ export const useFilteredNetwork = (data: NetworkMember[], selectedLevel: string)
         // Verificação para evitar duplicação de membros com mesmo user.id
         if (!result.some(m => m.user.id === member.user.id)) {
           // Importante: Preserve os children para calcular o tamanho da equipe
-          const memberCopy = { ...member };
-          result.push(memberCopy);
+          result.push({ ...member });
         }
       }
       
