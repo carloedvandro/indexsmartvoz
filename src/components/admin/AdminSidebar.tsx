@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Home,
@@ -17,6 +18,7 @@ import {
   Store,
   BarChart,
   ChevronRight,
+  ChevronDown,
 } from "lucide-react";
 import {
   Sidebar,
@@ -72,6 +74,18 @@ const menuItems = [
 ];
 
 export function AdminSidebar() {
+  const [openMenus, setOpenMenus] = useState<string[]>([]);
+
+  const toggleSubmenu = (label: string) => {
+    setOpenMenus(prev => 
+      prev.includes(label) 
+        ? prev.filter(item => item !== label) 
+        : [...prev, label]
+    );
+  };
+
+  const isSubmenuOpen = (label: string) => openMenus.includes(label);
+
   return (
     <Sidebar className="bg-sidebar border-r border-sidebar-border">
       <SidebarHeader className="flex items-center justify-between p-4 border-b border-sidebar-border bg-sidebar">
@@ -90,28 +104,37 @@ export function AdminSidebar() {
                 <SidebarMenuItem key={item.label}>
                   {item.submenu ? (
                     <>
-                      <SidebarMenuButton className="text-sidebar-foreground hover:text-primary transition-colors flex justify-between">
+                      <SidebarMenuButton 
+                        onClick={() => toggleSubmenu(item.label)}
+                        className="text-sidebar-foreground hover:text-primary transition-colors flex justify-between"
+                      >
                         <div className="flex items-center gap-2">
                           <item.icon className="h-4 w-4" />
                           <span>{item.label}</span>
                         </div>
-                        <ChevronRight className="h-4 w-4 ml-1" />
+                        {isSubmenuOpen(item.label) ? (
+                          <ChevronDown className="h-4 w-4 ml-1" />
+                        ) : (
+                          <ChevronRight className="h-4 w-4 ml-1" />
+                        )}
                       </SidebarMenuButton>
-                      <SidebarMenuSub>
-                        {item.submenu.map((subItem) => (
-                          <SidebarMenuSubItem key={subItem.label}>
-                            <SidebarMenuSubButton asChild>
-                              <Link
-                                to={subItem.path}
-                                className="flex items-center gap-2 text-sidebar-foreground hover:text-primary transition-colors"
-                              >
-                                <subItem.icon className="h-4 w-4" />
-                                <span>{subItem.label}</span>
-                              </Link>
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                        ))}
-                      </SidebarMenuSub>
+                      {isSubmenuOpen(item.label) && (
+                        <SidebarMenuSub>
+                          {item.submenu.map((subItem) => (
+                            <SidebarMenuSubItem key={subItem.label}>
+                              <SidebarMenuSubButton asChild>
+                                <Link
+                                  to={subItem.path}
+                                  className="flex items-center gap-2 text-sidebar-foreground hover:text-primary transition-colors"
+                                >
+                                  <subItem.icon className="h-4 w-4" />
+                                  <span>{subItem.label}</span>
+                                </Link>
+                              </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
+                          ))}
+                        </SidebarMenuSub>
+                      )}
                     </>
                   ) : (
                     <SidebarMenuButton asChild>
