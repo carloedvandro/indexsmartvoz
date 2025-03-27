@@ -7,17 +7,21 @@ import { ptBR } from "date-fns/locale";
 
 interface ProfileInfoProps {
   member: NetworkMember;
+  isFilteredView?: boolean;
 }
 
-export const ProfileInfo = ({ member }: ProfileInfoProps) => {
+export const ProfileInfo = ({ member, isFilteredView = false }: ProfileInfoProps) => {
   const formattedDate = member.user.registration_date 
     ? format(parseISO(member.user.registration_date), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })
     : null;
   
   const totalTeamSize = calculateTotalTeamSize(member);
 
+  // Apply different margins based on view type
+  const marginClass = isFilteredView ? "ml-0" : "ml-[-3.5mm]";
+
   return (
-    <div className="space-y-1 text-sm ml-[-3.5mm]" style={{ marginTop: '8mm' }}>
+    <div className={`space-y-1 text-sm ${marginClass}`} style={{ marginTop: '8mm' }}>
       <div className="flex items-center gap-2 text-black">
         <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
         <span className="truncate">Meu ID: {member.user.custom_id || "Não definido"}</span>

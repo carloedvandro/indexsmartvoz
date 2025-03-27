@@ -65,7 +65,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
                   </span>
                 </div>
 
-                <ProfileInfo member={member} />
+                <ProfileInfo member={member} isFilteredView={true} />
               </div>
             </div>
           </div>

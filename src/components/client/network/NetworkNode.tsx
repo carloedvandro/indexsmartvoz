@@ -80,7 +80,7 @@ export const NetworkNode = ({
               </span>
             </div>
 
-            <ProfileInfo member={member} />
+            <ProfileInfo member={member} isFilteredView={false} />
           </div>
         </div>
       </div>
