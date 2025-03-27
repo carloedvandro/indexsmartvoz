@@ -115,7 +115,7 @@ export function AdminUsersList({ users = [], onEdit }) {
                   <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs">Ativo</span>
                 </TableCell>
                 <TableCell>
-                  <span>{user.role === "admin" ? "Administrador" : "Negócios Inteligentes"}</span>
+                  <span>{user.role === "admin" ? "Administrador" : "Smartvoz"}</span>
                 </TableCell>
                 <TableCell>
                   <div className="flex space-x-1">
