@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { RotateCw, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -83,10 +82,6 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes, isAllL
   
   const isRubensTree = member.user.full_name === 'Rubens Valin';
   
-  // Adicionando console.log para debug
-  console.log('Nome do usuário:', member.user.full_name);
-  console.log('ID personalizado:', member.user.custom_id);
-  
   // Adding 4px additional right margin when showing all levels (isAllLevels is true)
   const allLevelsMargin = isAllLevels ? '4px' : '0px';
   
@@ -106,7 +101,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes, isAllL
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className={`relative w-full ${depth > 0 ? 'mt-10' : ''}`}
+      className={`relative w-full overflow-visible ${depth > 0 ? 'mt-10' : ''} mb-12`}
       style={style}
     >
       <div className="flex items-start gap-2 w-full">
@@ -157,7 +152,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes, isAllL
               </span>
             </div>
 
-            <div className="space-y-1 text-sm" style={{ marginTop: '8mm' }}>
+            <div className="space-y-3 text-sm mt-8">
               <div className="flex items-center gap-2 text-black">
                 <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
                 <span className="truncate">Meu ID: {member.user.custom_id || "Não definido"}</span>
@@ -184,7 +179,7 @@ export const NetworkNode = ({ member, depth = 0, onToggle, expandedNodes, isAllL
         </div>
       </div>
       {hasChildren && isExpanded && (
-        <div className={`mt-2 space-y-2 mb-2 ${isVaniaTree ? 'ml-[25.5px]' : ''}`}>
+        <div className={`mt-6 space-y-4 mb-8 ${isVaniaTree ? 'ml-[25.5px]' : 'ml-5'}`}>
           {member.children.map((child) => (
             <NetworkNode
               key={child.id}

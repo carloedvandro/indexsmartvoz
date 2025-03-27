@@ -1,17 +1,9 @@
-
 import { motion } from "framer-motion";
-import { ChevronDown, ChevronRight, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX, RotateCw } from "lucide-react";
+import { RotateCw, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card } from "@/components/ui/card";
 import { NetworkMember } from "./types";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
-
-interface FilteredNetworkNodeProps {
-  member: NetworkMember;
-  onToggle: (nodeId: string) => void;
-  expandedNodes: Set<string>;
-}
 
 const AnimatedSignal = () => {
   const bars = [
@@ -74,7 +66,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative w-full overflow-hidden"
+      className="relative w-full overflow-visible mb-16"
     >
       <div className="flex items-start gap-2 w-full">
         {hasChildren && (
@@ -124,7 +116,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
               </span>
             </div>
 
-            <div className="space-y-1 text-sm" style={{ marginTop: '8mm' }}>
+            <div className="space-y-3 text-sm mt-8">
               <div className="flex items-center gap-2 text-black">
                 <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
                 <span className="truncate">Meu ID: {member.user.custom_id || "Não definido"}</span>
@@ -152,7 +144,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       </div>
       
       {hasChildren && isExpanded && (
-        <div className="mt-2 space-y-2 mb-2 ml-5">
+        <div className="mt-6 space-y-4 mb-4 ml-5">
           {member.children.map((child) => (
             <FilteredNetworkNode
               key={child.id}
@@ -166,3 +158,9 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     </motion.div>
   );
 };
+
+interface FilteredNetworkNodeProps {
+  member: NetworkMember;
+  onToggle: (nodeId: string) => void;
+  expandedNodes: Set<string>;
+}
