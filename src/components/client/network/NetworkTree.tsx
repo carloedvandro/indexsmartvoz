@@ -9,7 +9,6 @@ import { useNetworkData } from "./useNetworkData";
 import { useFilteredNetwork } from "./useFilteredNetwork";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { ParticlesBackground } from "../products/ParticlesBackground";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface NetworkTreeProps {
@@ -93,7 +92,6 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
 
   return (
     <div className="relative min-h-screen pb-20">
-      <ParticlesBackground />
       <div className="relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="md:col-span-1 sticky top-20 z-20">
