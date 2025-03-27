@@ -15,7 +15,10 @@ export const ProfileInfo = ({ member, isFilteredView = false }: ProfileInfoProps
     ? format(parseISO(member.user.registration_date), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })
     : null;
   
-  const totalTeamSize = calculateTotalTeamSize(member);
+  // Ensure we always have a number for team size, default to 0
+  const totalTeamSize = member.children ? calculateTotalTeamSize(member) : 0;
+  // Ensure we always have a number for direct reports, default to 0
+  const directReports = member.children?.length || 0;
 
   // Calculate margin and style based on view type
   const marginClass = isFilteredView ? "ml-[2.3px]" : "ml-[-17.5mm]"; 
@@ -37,7 +40,7 @@ export const ProfileInfo = ({ member, isFilteredView = false }: ProfileInfoProps
       
       <div className="flex items-center gap-2 text-black">
         <UserPlus2 className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
-        <span>Diretos: {member.children?.length || 0}</span>
+        <span>Diretos: {directReports}</span>
       </div>
       
       <div className="flex items-center gap-2 text-black">
