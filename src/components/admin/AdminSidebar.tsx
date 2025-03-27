@@ -16,6 +16,7 @@ import {
   Package,
   Store,
   BarChart,
+  ChevronRight,
 } from "lucide-react";
 import {
   Sidebar,
@@ -87,9 +88,12 @@ export function AdminSidebar() {
                 <SidebarMenuItem key={item.label}>
                   {item.submenu ? (
                     <>
-                      <SidebarMenuButton className="text-sidebar-foreground hover:text-primary transition-colors">
-                        <item.icon className="h-4 w-4" />
-                        <span>{item.label}</span>
+                      <SidebarMenuButton className="text-sidebar-foreground hover:text-primary transition-colors flex justify-between">
+                        <div className="flex items-center gap-2">
+                          <item.icon className="h-4 w-4" />
+                          <span>{item.label}</span>
+                        </div>
+                        <ChevronRight className="h-4 w-4 ml-1" />
                       </SidebarMenuButton>
                       <SidebarMenuSub>
                         {item.submenu.map((subItem) => (
