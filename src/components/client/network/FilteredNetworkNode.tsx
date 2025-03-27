@@ -64,7 +64,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
         </div>
       </div>
 
-      {/* Always render the ProfileInfo component with isFilteredView=true */}
+      {/* Always render the ProfileInfo component */}
       <ProfileInfo member={member} isFilteredView={true} />
       
       {hasChildren && isExpanded && (

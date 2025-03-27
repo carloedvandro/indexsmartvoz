@@ -15,13 +15,18 @@ export const ProfileInfo = ({ member, isFilteredView = false }: ProfileInfoProps
     ? format(parseISO(member.user.registration_date), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })
     : null;
   
-  // Force numbers for team size and direct reports, default to 0
+  // Always initialize with 0 to ensure the counts are displayed
+  // Even if the children array is undefined or empty
   const totalTeamSize = member.children ? calculateTotalTeamSize(member) : 0;
   const directReports = member.children?.length || 0;
 
   // Calculate margin and style based on view type
   const marginClass = isFilteredView ? "ml-[2.3px]" : "ml-[-17.5mm]"; 
   const marginTop = isFilteredView ? "calc(3mm + 15.2px)" : "8mm";
+
+  console.log("ProfileInfo rendering for:", member.user.full_name);
+  console.log("- Diretos:", directReports);
+  console.log("- Equipe:", totalTeamSize);
 
   return (
     <div className={`space-y-1 text-sm ${marginClass}`} style={{ marginTop }}>
@@ -37,6 +42,7 @@ export const ProfileInfo = ({ member, isFilteredView = false }: ProfileInfoProps
         </div>
       )}
       
+      {/* Always display these items (even when zero) */}
       <div className="flex items-center gap-2 text-black">
         <UserPlus2 className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
         <span>Diretos: {directReports}</span>
