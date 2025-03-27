@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import {
   Home,
@@ -6,6 +7,11 @@ import {
   FileText,
   HelpCircle,
   LogOut,
+  ClipboardList,
+  UserCheck,
+  FileSpreadsheet,
+  PieChart,
+  CircleDollarSign,
 } from "lucide-react";
 import {
   Sidebar,
@@ -17,10 +23,23 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarTrigger,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
 } from "@/components/ui/sidebar";
 
 const menuItems = [
   { icon: Home, label: "Dashboard", path: "/admin/dashboard" },
+  {
+    icon: ClipboardList,
+    label: "Cadastros",
+    submenu: [
+      { icon: UserCheck, label: "Consultores", path: "/admin/consultores" },
+      { icon: FileSpreadsheet, label: "Documentos", path: "/admin/documentos" },
+      { icon: CircleDollarSign, label: "Pontos", path: "/admin/pontos" },
+      { icon: PieChart, label: "Relatórios", path: "/admin/relatorios-cadastro" },
+    ]
+  },
   { icon: Settings, label: "Configurações", path: "/admin/settings" },
   { icon: Users, label: "Usuários", path: "/admin/users" },
   { icon: FileText, label: "Relatórios", path: "/admin/reports" },
@@ -45,15 +64,39 @@ export function AdminSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.label}>
-                  <SidebarMenuButton asChild>
-                    <Link 
-                      to={item.path} 
-                      className="flex items-center gap-2 text-sidebar-foreground hover:text-primary transition-colors"
-                    >
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.label}</span>
-                    </Link>
-                  </SidebarMenuButton>
+                  {item.submenu ? (
+                    <>
+                      <SidebarMenuButton className="text-sidebar-foreground hover:text-primary transition-colors">
+                        <item.icon className="h-4 w-4" />
+                        <span>{item.label}</span>
+                      </SidebarMenuButton>
+                      <SidebarMenuSub>
+                        {item.submenu.map((subItem) => (
+                          <SidebarMenuSubItem key={subItem.label}>
+                            <SidebarMenuSubButton asChild>
+                              <Link
+                                to={subItem.path}
+                                className="flex items-center gap-2 text-sidebar-foreground hover:text-primary transition-colors"
+                              >
+                                <subItem.icon className="h-4 w-4" />
+                                <span>{subItem.label}</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        ))}
+                      </SidebarMenuSub>
+                    </>
+                  ) : (
+                    <SidebarMenuButton asChild>
+                      <Link 
+                        to={item.path} 
+                        className="flex items-center gap-2 text-sidebar-foreground hover:text-primary transition-colors"
+                      >
+                        <item.icon className="h-4 w-4" />
+                        <span>{item.label}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
