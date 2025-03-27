@@ -36,6 +36,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
         () => {
           console.log('Network data changed, invalidating query');
           queryClient.invalidateQueries({ queryKey: ['networkData', userId] });
+          queryClient.invalidateQueries({ queryKey: ['networkStats', userId] });
         }
       )
       .subscribe();
@@ -53,6 +54,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
         () => {
           console.log('Profiles data changed, invalidating query');
           queryClient.invalidateQueries({ queryKey: ['networkData', userId] });
+          queryClient.invalidateQueries({ queryKey: ['networkStats', userId] });
         }
       )
       .subscribe();
@@ -76,11 +78,6 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   };
 
   const filteredData = useFilteredNetwork(networkData, selectedLevel);
-  
-  // Adicionando logs para debug
-  console.log("Nível selecionado:", selectedLevel);
-  console.log("Dados da rede originais:", networkData);
-  console.log("Dados filtrados:", filteredData);
 
   if (loading) {
     return (

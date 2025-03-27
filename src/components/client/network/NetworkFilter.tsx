@@ -1,5 +1,7 @@
 
 import { Button } from "@/components/ui/button";
+import { useNetworkStats } from "@/hooks/useNetworkStats";
+import { useProfile } from "@/hooks/useProfile";
 
 interface NetworkFilterProps {
   selectedLevel: string;
@@ -15,6 +17,21 @@ const NETWORK_LEVELS = [
 ] as const;
 
 export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterProps) => {
+  const { data: profile } = useProfile();
+  const { data: networkStats } = useNetworkStats(profile?.id);
+
+  const getLevelCount = (level: string) => {
+    if (!networkStats) return 0;
+    
+    switch (level) {
+      case "1": return networkStats.level1Count;
+      case "2": return networkStats.level2Count;
+      case "3": return networkStats.level3Count;
+      case "4": return networkStats.level4Count;
+      default: return 0;
+    }
+  };
+
   return (
     <div className="sticky top-20 z-10 space-y-2">
       {NETWORK_LEVELS.map((level) => (
@@ -31,7 +48,11 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
           onClick={() => onLevelChange(level.value)}
         >
           <span>{level.label}</span>
-          <span className="opacity-0">→</span>
+          {level.value !== 'all' && (
+            <span className="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-0.5 rounded-full">
+              {getLevelCount(level.value)}
+            </span>
+          )}
         </Button>
       ))}
     </div>
