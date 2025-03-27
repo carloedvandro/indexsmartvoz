@@ -1,7 +1,6 @@
 
 import { motion } from "framer-motion";
-import { ChevronDown, ChevronRight, RotateCw } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import { RotateCw } from "lucide-react";
 import { NetworkMember } from "./types";
 import { UserAvatar } from "./components/UserAvatar";
 import { ProfileInfo } from "./components/ProfileInfo";
@@ -28,7 +27,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full overflow-hidden"
     >
-      <div className="flex items-start gap-2 w-full">
+      <div className="flex items-start w-full">
         {hasChildren && (
           <button
             onClick={() => onToggle(member.id)}
@@ -50,8 +49,8 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
             currentLevel={currentLevel} 
           />
 
-          <div className="flex-1 min-w-0">
-            <div className="flex flex-col gap-1" style={{ marginTop: '4mm' }}>
+          <div className="flex-col min-w-0">
+            <div className="flex flex-col" style={{ marginTop: '4mm', marginBottom: '2mm' }}>
               <h3 className="text-base font-semibold text-black truncate">
                 {member.user.full_name || "Usuário"}
               </h3>
@@ -61,11 +60,11 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
             </div>
-
-            <ProfileInfo member={member} isFilteredView={true} />
           </div>
         </div>
       </div>
+
+      <ProfileInfo member={member} isFilteredView={true} />
       
       {hasChildren && isExpanded && (
         <div className="mt-2 space-y-2 mb-2 ml-[25.5px]">
