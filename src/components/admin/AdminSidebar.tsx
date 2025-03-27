@@ -39,8 +39,10 @@ const menuItems = [
     icon: Users,
     label: "Usuários",
     submenu: [
-      { icon: UserCheck, label: "Lista de Usuários", path: "/admin/users" },
-      { icon: FileSpreadsheet, label: "Permissões", path: "/admin/permissions" },
+      { icon: UserCheck, label: "Lista de Usuário", path: "/admin/users" },
+      { icon: UserCheck, label: "Grupos de usuários", path: "/admin/user-groups" },
+      { icon: UserCheck, label: "Árvore de referência", path: "/admin/reference-tree" },
+      { icon: UserCheck, label: "Remetente de e-mail", path: "/admin/email-sender" },
     ]
   },
   {
