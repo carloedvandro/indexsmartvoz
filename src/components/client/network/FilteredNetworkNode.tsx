@@ -1,41 +1,18 @@
+
 import { motion } from "framer-motion";
-import { RotateCw, Users, Calendar, GraduationCap, Users2, UserPlus2, UserCheck, UserX } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { RotateCw } from "lucide-react";
 import { NetworkMember } from "./types";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { UserAvatar } from "./components/UserAvatar";
+import { UserDetails } from "./components/UserDetails";
+import { calculateTotalTeamSize } from "./utils/networkUtils";
 
-const AnimatedSignal = () => {
-  const bars = [
-    { height: "20%", delay: 0 },
-    { height: "40%", delay: 0.2 },
-    { height: "60%", delay: 0.4 },
-    { height: "80%", delay: 0.6 },
-    { height: "100%", delay: 0.8 }
-  ];
-
-  return (
-    <div className="flex items-end h-3.5 gap-[1px] align-middle">
-      {bars.map((bar, index) => (
-        <motion.div
-          key={index}
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ 
-            height: bar.height,
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.4,
-            delay: bar.delay,
-            repeat: Infinity,
-            repeatDelay: 2
-          }}
-          className="w-[2px] bg-[#660099]"
-        />
-      ))}
-    </div>
-  );
-};
+interface FilteredNetworkNodeProps {
+  member: NetworkMember;
+  onToggle: (nodeId: string) => void;
+  expandedNodes: Set<string>;
+}
 
 export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: FilteredNetworkNodeProps) => {
   const hasChildren = member.children && member.children.length > 0;
@@ -48,18 +25,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     ? format(parseISO(member.user.registration_date), "dd/MM/yyyy 'às' HH:mm'h'", { locale: ptBR })
     : null;
 
-  const calculateTotalTeamSize = (node: NetworkMember): number => {
-    if (!node.children || node.children.length === 0) {
-      return 0;
-    }
-    
-    return node.children.reduce((total, child) => {
-      return total + 1 + calculateTotalTeamSize(child);
-    }, 0);
-  };
-
   const totalTeamSize = calculateTotalTeamSize(member);
-  const StatusIcon = isActive ? UserCheck : UserX;
   
   return (
     <motion.div
@@ -84,62 +50,21 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
         )}
         
         <div className="flex items-start gap-3 flex-1">
-          <div className="relative">
-            <Avatar className={`h-14 w-14 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
-              <AvatarImage src={profileImage} alt={member.user.full_name || "Profile"} />
-              <AvatarFallback>
-                <Users className="h-8 w-8" />
-              </AvatarFallback>
-            </Avatar>
-            <StatusIcon 
-              className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-white p-0.5 ${
-                isActive ? 'text-green-500' : 'text-red-500'
-              }`}
-            />
-            <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap flex items-center gap-2">
-              <AnimatedSignal />
-              <span className="text-xs" style={{ color: '#660099', transform: 'translateY(0.5mm)' }}>
-                Nvl. <span className="font-semibold">{member.level || ""}</span>
-              </span>
-            </div>
-          </div>
+          <UserAvatar 
+            profileImage={profileImage}
+            fullName={member.user.full_name}
+            isActive={isActive}
+            level={member.level || ""}
+          />
 
-          <div className="flex-1 min-w-0">
-            <div className="flex flex-col gap-1" style={{ marginTop: '4mm' }}>
-              <h3 className="text-base font-semibold text-black truncate">
-                {member.user.full_name || "Usuário"}
-              </h3>
-              <span className={`text-xs font-semibold ${
-                isActive ? 'text-green-600' : 'text-red-600'
-              }`}>
-                {isActive ? 'Ativo' : 'Pendente'}
-              </span>
-            </div>
-
-            <div className="space-y-3 text-sm mt-8">
-              <div className="flex items-center gap-2 text-black">
-                <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
-                <span className="truncate">Meu ID: {member.user.custom_id || "Não definido"}</span>
-              </div>
-              
-              {formattedDate && (
-                <div className="flex items-center gap-2 text-black">
-                  <Calendar className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
-                  <span className="truncate">Cadastro: {formattedDate}</span>
-                </div>
-              )}
-              
-              <div className="flex items-center gap-2 text-black">
-                <UserPlus2 className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
-                <span>Diretos: {member.children?.length || 0}</span>
-              </div>
-              
-              <div className="flex items-center gap-2 text-black">
-                <Users2 className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
-                <span>Equipe: {totalTeamSize}</span>
-              </div>
-            </div>
-          </div>
+          <UserDetails 
+            fullName={member.user.full_name}
+            isActive={isActive}
+            customId={member.user.custom_id}
+            formattedDate={formattedDate}
+            directCount={member.children?.length || 0}
+            teamSize={totalTeamSize}
+          />
         </div>
       </div>
       
@@ -158,9 +83,3 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     </motion.div>
   );
 };
-
-interface FilteredNetworkNodeProps {
-  member: NetworkMember;
-  onToggle: (nodeId: string) => void;
-  expandedNodes: Set<string>;
-}
