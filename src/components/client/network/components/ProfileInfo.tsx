@@ -17,7 +17,7 @@ export const ProfileInfo = ({ member }: ProfileInfoProps) => {
   const totalTeamSize = calculateTotalTeamSize(member);
 
   return (
-    <div className="space-y-1 text-sm" style={{ marginTop: '8mm' }}>
+    <div className="space-y-1 text-sm ml-[-3.5mm]" style={{ marginTop: '8mm' }}>
       <div className="flex items-center gap-2 text-black">
         <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
         <span className="truncate">Meu ID: {member.user.custom_id || "Não definido"}</span>
