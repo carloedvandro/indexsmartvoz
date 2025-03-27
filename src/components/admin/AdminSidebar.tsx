@@ -127,8 +127,11 @@ export function AdminSidebar() {
                                   to={subItem.path}
                                   className="flex items-center gap-2 text-sidebar-foreground hover:text-primary transition-colors"
                                 >
-                                  <subItem.icon className="h-4 w-4" />
-                                  <span>{subItem.label}</span>
+                                  <div className="flex items-center gap-2">
+                                    <subItem.icon className="h-4 w-4" />
+                                    <span>{subItem.label}</span>
+                                  </div>
+                                  <ChevronRight className="h-4 w-4 ml-auto" />
                                 </Link>
                               </SidebarMenuSubButton>
                             </SidebarMenuSubItem>
