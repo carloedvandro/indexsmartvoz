@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import {
   Home,
@@ -10,13 +9,11 @@ import {
   ClipboardList,
   UserCheck,
   FileSpreadsheet,
-  PieChart,
   CircleDollarSign,
+  PieChart,
   ShoppingBag,
   Package,
   Store,
-  BookOpen,
-  Star,
   BarChart,
 } from "lucide-react";
 import {
@@ -53,8 +50,6 @@ const menuItems = [
       { icon: Package, label: "Pedidos", path: "/admin/pedidos" },
       { icon: Store, label: "Produtos", path: "/admin/produtos" },
       { icon: Store, label: "Centros", path: "/admin/centros" },
-      { icon: BookOpen, label: "Cursos", path: "/admin/cursos" },
-      { icon: Star, label: "Promoções", path: "/admin/promocoes" },
       { icon: BarChart, label: "Relatórios", path: "/admin/relatorios-vendas" },
     ]
   },
