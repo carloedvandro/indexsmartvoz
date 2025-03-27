@@ -18,7 +18,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   const currentLevel = 1; // For filtered views, we show everything at level 1
 
   // Log for debugging
-  console.log("Renderizando membro filtrado:", member.user.full_name, "com ID:", member.user.id);
+  console.log("Renderizando membro:", member.user.full_name, "com ID:", member.user.id, "e custom_id:", member.user.custom_id);
 
   return (
     <motion.div
@@ -60,12 +60,11 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
             </div>
-            
-            {/* Always render the ProfileInfo component inside the layout for correct counts display */}
-            <ProfileInfo member={member} isFilteredView={true} />
           </div>
         </div>
       </div>
+
+      <ProfileInfo member={member} isFilteredView={true} />
       
       {hasChildren && isExpanded && (
         <div className="mt-2 space-y-2 mb-2 ml-[25.5px]">

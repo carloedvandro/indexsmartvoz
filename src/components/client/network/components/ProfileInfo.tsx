@@ -15,10 +15,7 @@ export const ProfileInfo = ({ member, isFilteredView = false }: ProfileInfoProps
     ? format(parseISO(member.user.registration_date), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })
     : null;
   
-  // Always initialize with 0 to ensure the counts are displayed
-  // Even if the children array is undefined or empty
-  const totalTeamSize = member.children ? calculateTotalTeamSize(member) : 0;
-  const directReports = member.children?.length || 0;
+  const totalTeamSize = calculateTotalTeamSize(member);
 
   // Calculate margin and style based on view type
   const marginClass = isFilteredView ? "ml-[2.3px]" : "ml-[-17.5mm]"; 
@@ -40,7 +37,7 @@ export const ProfileInfo = ({ member, isFilteredView = false }: ProfileInfoProps
       
       <div className="flex items-center gap-2 text-black">
         <UserPlus2 className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
-        <span>Diretos: {directReports}</span>
+        <span>Diretos: {member.children?.length || 0}</span>
       </div>
       
       <div className="flex items-center gap-2 text-black">
