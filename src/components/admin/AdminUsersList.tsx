@@ -91,9 +91,6 @@ export function AdminUsersList({ users = [], onEdit }) {
               <TableHead>Detalhes do Usuário</TableHead>
               <TableHead>Detalhes da Associação</TableHead>
               <TableHead>Status do Plano</TableHead>
-              <TableHead>País</TableHead>
-              <TableHead>Grupos</TableHead>
-              <TableHead>Fornecedor</TableHead>
               <TableHead>Referido por</TableHead>
               <TableHead>Ação</TableHead>
             </TableRow>
@@ -124,19 +121,6 @@ export function AdminUsersList({ users = [], onEdit }) {
                 </TableCell>
                 <TableCell>
                   <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs">Ativo</span>
-                </TableCell>
-                <TableCell>
-                  <BrazilFlag />
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-1">
-                    <span className="text-sm text-gray-500">Nenhum grupo atribuído!</span>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center">
-                    <X className="text-red-500 h-5 w-5" />
-                  </div>
                 </TableCell>
                 <TableCell>
                   <span>{user.role === "admin" ? "Administrador" : "Negócios Inteligentes"}</span>
