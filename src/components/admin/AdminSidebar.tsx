@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import {
   Home,
@@ -34,6 +35,14 @@ import {
 const menuItems = [
   { icon: Home, label: "Dashboard", path: "/admin/dashboard" },
   {
+    icon: Users,
+    label: "Usuários",
+    submenu: [
+      { icon: UserCheck, label: "Lista de Usuários", path: "/admin/users" },
+      { icon: FileSpreadsheet, label: "Permissões", path: "/admin/permissions" },
+    ]
+  },
+  {
     icon: ClipboardList,
     label: "Cadastros",
     submenu: [
@@ -54,7 +63,6 @@ const menuItems = [
     ]
   },
   { icon: Settings, label: "Configurações", path: "/admin/settings" },
-  { icon: Users, label: "Usuários", path: "/admin/users" },
   { icon: FileText, label: "Relatórios", path: "/admin/reports" },
   { icon: HelpCircle, label: "Suporte", path: "/admin/support" },
   { icon: LogOut, label: "Sair", path: "/admin/logout" },
