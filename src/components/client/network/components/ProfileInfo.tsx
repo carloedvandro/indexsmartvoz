@@ -18,7 +18,7 @@ export const ProfileInfo = ({ member, isFilteredView = false }: ProfileInfoProps
   const totalTeamSize = calculateTotalTeamSize(member);
 
   // Calculate margin and style based on view type
-  const marginClass = isFilteredView ? "ml-[2.4px]" : "ml-[-17.5mm]"; 
+  const marginClass = isFilteredView ? "ml-[2.3px]" : "ml-[-17.5mm]"; 
   const marginTop = isFilteredView ? "calc(3mm + 15.2px)" : "8mm";
 
   return (
