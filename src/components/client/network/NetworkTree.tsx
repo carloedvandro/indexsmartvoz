@@ -23,6 +23,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   const isMobile = useIsMobile();
 
   useEffect(() => {
+    // Listen for changes to the network table
     const networkChannel = supabase
       .channel('network-changes')
       .on(
@@ -39,6 +40,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       )
       .subscribe();
 
+    // Listen for changes to profiles table
     const profilesChannel = supabase
       .channel('profiles-changes')
       .on(
@@ -75,6 +77,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
 
   const filteredData = useFilteredNetwork(networkData, selectedLevel);
   
+  // Adicionando logs para debug
   console.log("Nível selecionado:", selectedLevel);
   console.log("Dados da rede originais:", networkData);
   console.log("Dados filtrados:", filteredData);
@@ -91,17 +94,15 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
     <div className="relative min-h-screen">
       <div className="relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="md:col-span-1">
-            <div className="sticky top-20 z-20">
-              <NetworkFilter
-                selectedLevel={selectedLevel}
-                onLevelChange={setSelectedLevel}
-              />
-            </div>
+          <div className="md:col-span-1 sticky top-20 z-20">
+            <NetworkFilter
+              selectedLevel={selectedLevel}
+              onLevelChange={setSelectedLevel}
+            />
           </div>
 
           <div className="md:col-span-3 relative">
-            <div className="pb-60">
+            <div className="h-auto max-h-[calc(100vh-140px)] overflow-y-auto pb-60">
               <div className="pr-4">
                 <AnimatePresence>
                   {filteredData.length > 0 ? (
