@@ -19,7 +19,7 @@ const BrazilFlag = () => (
   </div>
 );
 
-export function AdminUsersList({ users = [] }) {
+export function AdminUsersList({ users = [], onEdit }) {
   const [nameFilter, setNameFilter] = useState("");
   const [emailFilter, setEmailFilter] = useState("");
   const [groupFilter, setGroupFilter] = useState("");
@@ -77,7 +77,7 @@ export function AdminUsersList({ users = [] }) {
       
       <div className="px-4 py-2">
         <div className="bg-indigo-500 text-white py-1 px-3 rounded inline-block">
-          Mostrar usuários (417)
+          Mostrar usuários ({users.length || 417})
         </div>
       </div>
       
@@ -149,7 +149,12 @@ export function AdminUsersList({ users = [] }) {
                     <Button size="sm" variant="default" className="bg-cyan-500 hover:bg-cyan-600 h-8 w-8 p-0">
                       <UserCheck className="h-4 w-4" />
                     </Button>
-                    <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">
+                    <Button 
+                      size="sm" 
+                      variant="default" 
+                      className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
+                      onClick={() => onEdit(user)}
+                    >
                       <Edit className="h-4 w-4" />
                     </Button>
                     <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">

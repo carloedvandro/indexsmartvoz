@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -8,6 +7,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { UserEditDialog } from "@/components/admin/UserEditDialog";
 import { useToast } from "@/hooks/use-toast";
 import { AdminUsersList } from "@/components/admin/AdminUsersList";
+import { UserCheck } from "lucide-react";
 
 export default function AdminUsers() {
   const navigate = useNavigate();
@@ -22,7 +22,6 @@ export default function AdminUsers() {
     cnpj: "",
   });
 
-  // Verificar autenticação e papel do usuário
   useEffect(() => {
     const checkAdmin = async () => {
       const { data: { session } } = await supabase.auth.getSession();
@@ -46,7 +45,6 @@ export default function AdminUsers() {
     checkAdmin();
   }, [navigate]);
 
-  // Monitorar mudanças no estado da autenticação
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT' || !session) {
