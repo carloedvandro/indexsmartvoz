@@ -1,101 +1,172 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import { validateCPF } from "@/utils/cpfValidation";
+import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { validatePartialCPF } from "@/utils/validation/cpfValidation";
+import { useNavigate } from "react-router-dom";
 
 interface CpfVerificationStepProps {
   onNext: () => void;
 }
 
 export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
-  const [cpfDigits, setCpfDigits] = useState("");
+  const [cpf, setCpf] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [checkingAuth, setCheckingAuth] = useState(true);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    // Check if user is authenticated
+    const checkAuth = async () => {
+      const { data: sessionData } = await supabase.auth.getSession();
+      
+      if (!sessionData.session) {
+        toast({
+          title: "Erro de Autenticação",
+          description: "Por favor, faça login novamente para continuar com a verificação.",
+          variant: "destructive",
+        });
+        
+        // Give user time to read the toast
+        setTimeout(() => {
+          navigate("/client/login");
+        }, 2000);
+      } else {
+        setCheckingAuth(false);
+      }
+    };
     
-    if (!cpfDigits || cpfDigits.length < 5) {
-      toast({
-        title: "CPF inválido",
-        description: "Por favor, insira os primeiros 5 dígitos do seu CPF.",
-        variant: "destructive",
-      });
+    checkAuth();
+  }, [navigate, toast]);
+
+  const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Only allow numbers and format CPF
+    const value = e.target.value.replace(/\D/g, "");
+    
+    // Format CPF as XXX.XXX.XXX-XX
+    let formattedValue = value;
+    if (value.length > 3) {
+      formattedValue = value.replace(/^(\d{3})(\d)/, "$1.$2");
+    }
+    if (value.length > 6) {
+      formattedValue = formattedValue.replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3");
+    }
+    if (value.length > 9) {
+      formattedValue = formattedValue.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3-$4");
+    }
+    
+    setCpf(formattedValue);
+    setError("");
+  };
+
+  const handleVerify = async () => {
+    const cleanCpf = cpf.replace(/\D/g, "");
+    
+    if (!validateCPF(cleanCpf)) {
+      setError("CPF inválido");
       return;
     }
     
+    setIsLoading(true);
+    
     try {
-      setIsLoading(true);
-      
-      // Simulação de verificação do CPF (em produção, isso seria uma chamada de API)
-      if (!validatePartialCPF(cpfDigits)) {
-        throw new Error("Os dígitos do CPF não são válidos.");
+      // Get current user session
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        toast({
+          title: "Erro de Autenticação",
+          description: "Usuário não está autenticado. Por favor, faça login novamente.",
+          variant: "destructive",
+        });
+        navigate("/client/login");
+        return;
       }
       
-      // Adicionar um pequeno atraso para simular processamento
-      await new Promise(resolve => setTimeout(resolve, 800));
+      const userId = sessionData.session.user.id;
       
-      // Se não houver erros, prosseguir para a próxima etapa
-      onNext();
-    } catch (error: any) {
+      // Get the user's profile and check if the CPF matches
+      const { data: profileData, error: profileError } = await supabase
+        .from("profiles")
+        .select("cpf")
+        .eq("id", userId)
+        .single();
+      
+      if (profileError) {
+        console.error("Error fetching profile:", profileError);
+        setError("Erro ao verificar CPF. Por favor, tente novamente.");
+        return;
+      }
+      
+      // Check if the CPF matches
+      if (!profileData || profileData.cpf !== cleanCpf) {
+        setError("CPF não corresponde ao utilizado no cadastro");
+        return;
+      }
+      
+      // CPF verified successfully
       toast({
-        title: "Erro na verificação",
-        description: error.message || "Ocorreu um erro ao verificar o CPF.",
-        variant: "destructive",
+        title: "CPF Verificado",
+        description: "Seu CPF foi verificado com sucesso",
       });
+      
+      onNext();
+    } catch (error) {
+      console.error("Verification error:", error);
+      setError("Erro ao verificar CPF. Por favor, tente novamente.");
     } finally {
       setIsLoading(false);
     }
   };
 
+  if (checkingAuth) {
+    return (
+      <div className="flex justify-center items-center p-8">
+        <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-[#8425af] text-white p-8 rounded-lg">
-      <div className="text-center space-y-6">
-        <h2 className="text-2xl font-semibold">
-          Olá, verificamos que você está realizando a contratação dos nossos serviços.
-        </h2>
-        <p className="text-lg">
-          Para dar continuidade precisamos realizar a sua biometria.
+    <div className="space-y-6">
+      <div className="text-center">
+        <h2 className="text-2xl font-semibold">Verificação de CPF</h2>
+        <p className="text-gray-600 mt-2">
+          Por favor, informe seu CPF para verificação
         </p>
-        
-        <div className="mt-4 text-center">
-          <p className="text-sm opacity-80 mb-4">
-            Biometria é uma solução que utiliza a tecnologia para identificação do cliente.
-          </p>
+      </div>
+
+      <div className="space-y-4">
+        <div>
+          <Input
+            type="text"
+            value={cpf}
+            onChange={handleCpfChange}
+            placeholder="000.000.000-00"
+            className="text-center text-lg"
+            maxLength={14}
+          />
+          {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         </div>
-        
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <label htmlFor="cpf" className="block text-lg font-medium text-center">
-              Insira os primeiros 5 dígitos do seu CPF:
-            </label>
-            <Input
-              id="cpf"
-              type="text"
-              value={cpfDigits}
-              onChange={(e) => {
-                // Limitar a 5 dígitos e apenas números
-                const value = e.target.value.replace(/\D/g, '').slice(0, 5);
-                setCpfDigits(value);
-              }}
-              placeholder="12345"
-              className="w-full max-w-xs mx-auto text-black text-center text-lg h-12"
-              maxLength={5}
-            />
-          </div>
-          
-          <Button 
-            type="submit" 
-            className="w-full max-w-xs bg-white text-[#8425af] hover:bg-gray-100"
-            disabled={isLoading || cpfDigits.length < 5}
-          >
-            {isLoading ? "Validando..." : "VALIDAR"}
-            {!isLoading && <ArrowRight className="ml-2 h-4 w-4" />}
-          </Button>
-        </form>
+
+        <Button
+          onClick={handleVerify}
+          disabled={isLoading || cpf.replace(/\D/g, "").length !== 11}
+          className="w-full"
+        >
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Verificando...
+            </>
+          ) : (
+            "Verificar"
+          )}
+        </Button>
       </div>
     </div>
   );

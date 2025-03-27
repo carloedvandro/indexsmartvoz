@@ -10,18 +10,11 @@ export default function ClientRegister() {
   useEffect(() => {
     console.log("Register page mounted/updated", location.key);
     
-    // Adiciona aviso antes do usuário tentar sair da página com formulário não enviado
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      const message = "Suas alterações serão perdidas. Tem certeza que deseja sair?";
-      e.returnValue = message;
-      return message;
-    };
-    
-    // Adiciona o listener para o evento beforeunload
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    // Removido o beforeunload event para evitar o diálogo de confirmação indesejado
+    // que estava causando a perda de dados do formulário
     
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      // Cleanup se necessário
     };
   }, [location]);
 

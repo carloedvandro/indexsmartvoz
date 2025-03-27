@@ -15,9 +15,10 @@ export const FormFields = ({ form, disableSponsor }: FormFieldsProps) => {
     <div className="space-y-4 w-full">
       <PersonalInfoFields form={form} disableSponsor={disableSponsor} />
       
-      {/* Contact fields side by side */}
+      {/* Contact fields */}
       <ContactFields form={form} />
       
+      {/* Password fields */}
       <PasswordFields form={form} />
     </div>
   );

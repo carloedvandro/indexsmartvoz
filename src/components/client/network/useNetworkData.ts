@@ -44,14 +44,11 @@ export const useNetworkData = (userId: string) => {
         console.log("Raw network members data:", allNetworkMembers);
 
         if (allNetworkMembers && allNetworkMembers.length > 0) {
-          // Get all unique user_ids from network members
-          const memberUserIds = allNetworkMembers.map(member => member.user_id);
-          
-          // Fetch only profiles that still exist in the system
+          // Fetch all profiles in a single query
           const { data: profilesData, error: profilesError } = await supabase
             .from("profiles")
             .select("id, full_name, email, custom_id, status, registration_date")
-            .in('id', memberUserIds);
+            .in('id', allNetworkMembers.map(member => member.user_id));
 
           if (profilesError) {
             console.error("Error fetching profiles:", profilesError);
@@ -68,7 +65,6 @@ export const useNetworkData = (userId: string) => {
             
           const membersMap = new Map();
           
-          // Only include members that have valid profiles
           allNetworkMembers.forEach(member => {
             const profileData = profilesMap.get(member.user_id);
             if (profileData) { // Only add member if profile data exists
