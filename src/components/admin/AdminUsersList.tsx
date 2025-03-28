@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -236,8 +237,24 @@ export function AdminUsersList({ users = [], onEdit }) {
                   <TableRow className="bg-gray-50">
                     <TableCell colSpan={5} className="p-0">
                       <div className="px-4 py-3">
-                        <div className="text-center py-4 text-gray-500">
-                          Informações detalhadas foram removidas.
+                        <div className="grid grid-cols-1 gap-4">
+                          <div className="grid grid-cols-4 gap-4 border-t pt-2 text-sm text-gray-600">
+                            <div>
+                              <p>Cliques: 0 / R$0,00</p>
+                              <p>Em Solicitação: R$0,00</p>
+                            </div>
+                            <div>
+                              <p>Ação Clique: 0 / R$0,00</p>
+                              <p>Comissões Totais: R$0,00</p>
+                            </div>
+                            <div>
+                              <p>Vendas/Comissões: R$0,00 / R$0,00</p>
+                              <p>Celular: +5588993734779</p>
+                            </div>
+                            <div>
+                              <p>Comissão Paga: R$0,00</p>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </TableCell>
