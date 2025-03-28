@@ -8,7 +8,6 @@ import { updateProfile } from "@/services/user/userUpdate";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { formatDate } from "@/utils/format";
 
 interface ExpandableRowProps {
   user: ProfileWithSponsor;
@@ -19,7 +18,6 @@ interface ExpandableRowProps {
   toggleExpand: () => void;
   onEdit: (user: any) => void;
   displayCustomId: (user: any) => string;
-  onDelete?: (userId: string) => void;
 }
 
 export const ExpandableRow = ({
@@ -30,12 +28,10 @@ export const ExpandableRow = ({
   toggleSelection,
   toggleExpand,
   onEdit,
-  displayCustomId,
-  onDelete
+  displayCustomId
 }: ExpandableRowProps) => {
   const { toast } = useToast();
   const [mobileNumber, setMobileNumber] = useState<string>("");
-  const [lastSignIn, setLastSignIn] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUserAndUpdateMobile = async () => {
@@ -80,24 +76,8 @@ export const ExpandableRow = ({
       }
     };
 
-    // Fetch last sign in date from user's profile information
-    // Since we can't directly access auth.users table, we'll use the updated_at field from profiles
-    // as an approximate indication of last activity
-    const fetchLastActivity = async () => {
-      if (!user.id) return;
-      
-      try {
-        // Use profile's updated_at as a proxy for last sign in
-        setLastSignIn(user.updated_at || null);
-      } catch (error) {
-        console.error("Error fetching last activity date:", error);
-        setLastSignIn(null);
-      }
-    };
-
     fetchUserAndUpdateMobile();
-    fetchLastActivity();
-  }, [user.id, user.updated_at]);
+  }, [user.id]);
   
   return (
     <>
@@ -149,7 +129,7 @@ export const ExpandableRow = ({
           </div>
         </TableCell>
         <TableCell>
-          <UserActions user={user} onEdit={onEdit} onDelete={onDelete} />
+          <UserActions user={user} onEdit={onEdit} />
         </TableCell>
       </TableRow>
       
@@ -160,7 +140,6 @@ export const ExpandableRow = ({
             <div className="text-sm text-gray-600">
               <p>Comissões Totais: R$0,00</p>
               <p>Celular: {mobileNumber}</p>
-              <p>Último acesso: {formatDate(lastSignIn)}</p>
             </div>
           </TableCell>
           <TableCell>
