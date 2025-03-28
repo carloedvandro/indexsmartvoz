@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -98,12 +97,14 @@ body::before {
 }
 
 .logo-image {
-  min-width: 220px !important;
-  max-width: 240px !important;
-  width: 220px !important;
-  height: 110px !important;
+  min-width: 280px !important;
+  max-width: 320px !important;
+  width: 280px !important;
+  height: 140px !important;
   object-fit: contain !important;
   mix-blend-mode: multiply; /* This helps remove white background */
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 @media (max-width: 1024px) {
