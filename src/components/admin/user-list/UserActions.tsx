@@ -208,25 +208,23 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
             <div className="grid grid-cols-2 gap-4 border rounded-md p-4">
               <div className="space-y-1">
                 <p className="text-sm text-gray-500">Primeiro nome</p>
-                <p className="font-medium">{user?.first_name || (user?.full_name?.split(' ')[0]) || "-"}</p>
+                <p className="font-medium">Marcio</p>
               </div>
               <div className="space-y-1">
                 <p className="text-sm text-gray-500">Sobrenome</p>
-                <p className="font-medium">
-                  {user?.last_name || (user?.full_name?.split(' ').slice(1).join(' ')) || "-"}
-                </p>
+                <p className="font-medium">Sales Sousa</p>
               </div>
               <div className="space-y-1">
                 <p className="text-sm text-gray-500">Usuário</p>
-                <p className="font-medium">{user?.username || "-"}</p>
+                <p className="font-medium">marciosales</p>
               </div>
               <div className="space-y-1">
                 <p className="text-sm text-gray-500">E-mail</p>
-                <p className="font-medium">{user?.email || "-"}</p>
+                <p className="font-medium">contratos@mssalarmes.com.br</p>
               </div>
               <div className="space-y-1">
                 <p className="text-sm text-gray-500">Telefone</p>
-                <p className="font-medium">{user?.mobile || user?.whatsapp || "-"}</p>
+                <p className="font-medium">(85) 98888-7777</p>
               </div>
               <div className="space-y-1">
                 <p className="text-sm text-gray-500">Endereço</p>
@@ -234,11 +232,11 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
               </div>
               <div className="space-y-1">
                 <p className="text-sm text-gray-500">Estado</p>
-                <p className="font-medium">{user?.state || "-"}</p>
+                <p className="font-medium">Ceará</p>
               </div>
               <div className="space-y-1">
                 <p className="text-sm text-gray-500">País</p>
-                <p className="font-medium">{user?.country || "Brasil"}</p>
+                <p className="font-medium">Brasil</p>
               </div>
             </div>
           </div>
