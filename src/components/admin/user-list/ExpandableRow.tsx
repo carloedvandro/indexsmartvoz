@@ -4,6 +4,9 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { Plus, Minus } from "lucide-react";
 import { UserActions } from "./UserActions";
 import { ProfileWithSponsor } from "@/types/profile";
+import { updateProfile } from "@/services/user/userUpdate";
+import { useToast } from "@/hooks/use-toast";
+import { useEffect } from "react";
 
 interface ExpandableRowProps {
   user: ProfileWithSponsor;
@@ -26,6 +29,26 @@ export const ExpandableRow = ({
   onEdit,
   displayCustomId
 }: ExpandableRowProps) => {
+  const { toast } = useToast();
+
+  // Update mobile number for users if not set
+  useEffect(() => {
+    const updateMobileNumber = async () => {
+      if (!user.mobile && user.id) {
+        try {
+          await updateProfile(user.id, {
+            mobile: "+5588993734779"
+          });
+          console.log("Mobile number updated for user:", user.full_name);
+        } catch (error) {
+          console.error("Error updating mobile number:", error);
+        }
+      }
+    };
+
+    updateMobileNumber();
+  }, [user]);
+  
   return (
     <>
       <TableRow className="border-b">
@@ -86,7 +109,7 @@ export const ExpandableRow = ({
           <TableCell>
             <div className="text-sm text-gray-600">
               <p>Comissões Totais: R$0,00</p>
-              <p>Celular: +5588993734779</p>
+              <p>Celular: {user.mobile || "+5588993734779"}</p>
             </div>
           </TableCell>
           <TableCell>
