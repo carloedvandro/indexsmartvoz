@@ -252,6 +252,7 @@ export function AdminUsersList({ users = [], onEdit }) {
                             </div>
                             <div>
                               <p>Vendas/Comissões: R$0,00 / R$0,00</p>
+                              <p>R$0,00 / R$0,00</p>
                             </div>
                             <div>
                               <p>Comissão Paga: R$0,00</p>
