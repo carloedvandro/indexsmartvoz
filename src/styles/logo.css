@@ -1,0 +1,11 @@
+
+.logo-image {
+  min-width: 400px !important;
+  max-width: 450px !important;
+  width: 400px !important;
+  height: 200px !important;
+  object-fit: contain !important;
+  mix-blend-mode: multiply; /* This helps remove white background */
+  padding: 0 !important;
+  margin: 0 !important;
+}
