@@ -35,8 +35,9 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
 
   // Create a copy of the profile data with the sponsor added
   const profileWithSponsor: ProfileWithSponsor = {
-    ...profileData,
-    sponsor: typeof profileData === 'object' && 
+    ...profileData as Record<string, any>,
+    sponsor: profileData && 
+             typeof profileData === 'object' && 
              'sponsor' in profileData && 
              profileData.sponsor 
       ? mapSponsor(profileData.sponsor as Record<string, any>) 
