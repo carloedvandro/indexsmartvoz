@@ -116,7 +116,7 @@ export function AdminUsersList({ users = [], onEdit }) {
                   {user.status === "pending" ? (
                     <span className="text-red-500 font-medium">Pendente</span>
                   ) : (
-                    <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs">Ativo</span>
+                    <span className="text-green-500 font-medium">Ativo</span>
                   )}
                 </TableCell>
                 <TableCell>
