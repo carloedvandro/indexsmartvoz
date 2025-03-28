@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Check, X, UserCheck, UserPlus, Download, Eye, Edit, Info, Key, Trash, Mail } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 // Flag icon component
 const BrazilFlag = () => (
@@ -113,7 +114,7 @@ export function AdminUsersList({ users = [], onEdit }) {
                 </TableCell>
                 <TableCell>
                   {user.status === "pending" ? (
-                    <span className="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs">Pendente</span>
+                    <span className="text-red-500 font-medium">Pendente</span>
                   ) : (
                     <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs">Ativo</span>
                   )}
