@@ -33,16 +33,17 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
     return null;
   }
 
+  // Type assertion to specify that profileData is a Record<string, any>
+  // This helps TypeScript understand we can safely spread this object
+  const typedProfileData = profileData as Record<string, any>;
+  
   // Create a copy of the profile data with the sponsor added
-  const profileWithSponsor = {
-    ...profileData,
-    sponsor: profileData && 
-            typeof profileData === 'object' && 
-            'sponsor' in profileData && 
-            profileData.sponsor
-      ? mapSponsor(profileData.sponsor as any) 
+  const profileWithSponsor: ProfileWithSponsor = {
+    ...typedProfileData,
+    sponsor: typedProfileData.sponsor 
+      ? mapSponsor(typedProfileData.sponsor) 
       : null
-  } as ProfileWithSponsor;
+  };
 
   return profileWithSponsor;
 };
