@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Edit, Eye, Info, Lock, Mail, Trash, UserCheck } from "lucide-react";
+import { Edit, Eye, Info, Lock, LockOpen, Mail, Trash, UserCheck } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useState } from "react";
 import { deleteUser } from "@/services/user/userDelete";
@@ -15,6 +15,7 @@ interface UserActionsProps {
 export const UserActions = ({ user, onEdit }: UserActionsProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteTransactions, setDeleteTransactions] = useState(true);
+  const [isUnlocked, setIsUnlocked] = useState(false);
   const { toast } = useToast();
 
   const handleDelete = async () => {
@@ -46,6 +47,18 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
     } finally {
       setIsDeleting(false);
     }
+  };
+
+  const toggleLock = () => {
+    setIsUnlocked(!isUnlocked);
+    
+    // Show toast notification for lock status change
+    toast({
+      title: isUnlocked ? "Usuário bloqueado" : "Usuário desbloqueado",
+      description: isUnlocked 
+        ? "As configurações do usuário foram bloqueadas." 
+        : "As configurações do usuário foram desbloqueadas para edição.",
+    });
   };
 
   return (
@@ -111,8 +124,13 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
         </AlertDialogContent>
       </AlertDialog>
       
-      <Button size="sm" variant="default" className="bg-purple-600 hover:bg-purple-700 h-8 w-8 p-0">
-        <Lock className="h-4 w-4" />
+      <Button 
+        size="sm" 
+        variant="default" 
+        className={`${isUnlocked ? "bg-red-500 hover:bg-red-600" : "bg-purple-600 hover:bg-purple-700"} h-8 w-8 p-0`}
+        onClick={toggleLock}
+      >
+        {isUnlocked ? <LockOpen className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
       </Button>
       <Button size="sm" variant="default" className="bg-green-500 hover:bg-green-600 h-8 w-8 p-0">
         <Mail className="h-4 w-4" />
