@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { ActionButtons, DeleteUserDialog, PaymentDetailsDialog } from "./actions";
+import { ActionButtons, DeleteUserDialog, PaymentDetailsDialog, PlanDetailsDialog } from "./actions";
 
 interface UserActionsProps {
   user: any;
@@ -11,6 +11,7 @@ interface UserActionsProps {
 export const UserActions = ({ user, onEdit }: UserActionsProps) => {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [isPaymentDetailsOpen, setIsPaymentDetailsOpen] = useState(false);
+  const [isPlanDetailsOpen, setIsPlanDetailsOpen] = useState(false);
   const { toast } = useToast();
 
   const toggleLock = () => {
@@ -29,6 +30,10 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
     setIsPaymentDetailsOpen(true);
   };
 
+  const openPlanDetails = () => {
+    setIsPlanDetailsOpen(true);
+  };
+
   return (
     <div className="flex space-x-1">
       <ActionButtons 
@@ -37,6 +42,7 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
         onEdit={onEdit}
         onInfoClick={openPaymentDetails}
         onToggleLock={toggleLock}
+        onPlanClick={openPlanDetails}
       />
       
       <DeleteUserDialog 
@@ -48,6 +54,12 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
         user={user}
         isOpen={isPaymentDetailsOpen}
         onOpenChange={setIsPaymentDetailsOpen}
+      />
+
+      <PlanDetailsDialog 
+        user={user}
+        isOpen={isPlanDetailsOpen}
+        onOpenChange={setIsPlanDetailsOpen}
       />
     </div>
   );
