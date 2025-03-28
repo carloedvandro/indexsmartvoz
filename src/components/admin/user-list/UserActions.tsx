@@ -45,6 +45,7 @@ export const UserActions = ({ user, onEdit, onDelete }: UserActionsProps) => {
         onEdit={onEdit}
         onInfoClick={openPaymentDetails}
         onToggleLock={toggleLock}
+        onDeleteClick={() => setIsDeleteDialogOpen(true)}
       />
       
       <DeleteUserDialog 

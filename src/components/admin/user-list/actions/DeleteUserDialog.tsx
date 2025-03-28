@@ -14,7 +14,7 @@ import {
 export interface DeleteUserDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  onDelete: () => void;
+  onDelete: () => Promise<void>;
   userName: string;
 }
 
