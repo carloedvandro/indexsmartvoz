@@ -7,7 +7,7 @@ export function Logo() {
       <img 
         src="/lovable-uploads/a4a911e3-a6ea-47f3-a5c0-a855aa60803b.png" 
         alt="Smartvoz" 
-        className="w-[400px] h-auto object-contain"
+        className="logo-image"
       />
     </Link>
   );
