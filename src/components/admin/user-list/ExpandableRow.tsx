@@ -31,9 +31,7 @@ export const ExpandableRow = ({
   displayCustomId
 }: ExpandableRowProps) => {
   const { toast } = useToast();
-  const [mobileNumber, setMobileNumber] = useState<string>(
-    user.mobile || user.whatsapp || "+5588993734779"
-  );
+  const [mobileNumber, setMobileNumber] = useState<string>("");
 
   // Fetch the latest user data from the database and update mobile number if needed
   useEffect(() => {
@@ -53,7 +51,7 @@ export const ExpandableRow = ({
           return;
         }
 
-        let mobileToUse = "+5588993734779";
+        let mobileToUse = "";
         let shouldUpdate = false;
 
         // Priority: existing mobile > whatsapp > default
@@ -64,6 +62,7 @@ export const ExpandableRow = ({
           mobileToUse = latestUserData.whatsapp;
           shouldUpdate = true;
         } else {
+          mobileToUse = "+5588993734779"; // Default fallback
           shouldUpdate = true;
         }
 
