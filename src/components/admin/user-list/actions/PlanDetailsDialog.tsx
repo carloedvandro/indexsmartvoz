@@ -70,7 +70,10 @@ export const PlanDetailsDialog = ({ isOpen, onOpenChange, user }: PlanDetailsDia
           </div>
           
           <div className="flex justify-center pt-6 pb-2">
-            <Button variant="outline" className="border-gray-300 text-gray-600">
+            <Button 
+              variant="outline" 
+              className="border-gray-300 text-gray-600"
+            >
               Comprar Novo Plano
             </Button>
           </div>
