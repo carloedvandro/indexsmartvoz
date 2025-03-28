@@ -36,7 +36,7 @@ export function ActionButtons({ user, onEdit, onDelete }) {
       
       <Button
         variant="ghost"
-        className="h-8 w-8 p-0 text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50"
+        className="h-8 w-8 p-0 bg-blue-500 hover:bg-blue-600 text-white rounded-md"
         onClick={handleViewNetwork}
       >
         <Network className="h-4 w-4" />
@@ -77,7 +77,7 @@ export function ActionButtons({ user, onEdit, onDelete }) {
       </DropdownMenu>
 
       <DeleteUserDialog
-        open={isDeleteDialogOpen}
+        isOpen={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
         onDelete={() => {
           onDelete(user.id);
@@ -87,13 +87,13 @@ export function ActionButtons({ user, onEdit, onDelete }) {
       />
 
       <PlanDetailsDialog
-        open={isPlanDialogOpen}
+        isOpen={isPlanDialogOpen}
         onOpenChange={setIsPlanDialogOpen}
         user={user}
       />
 
       <PaymentDetailsDialog
-        open={isPaymentDialogOpen}
+        isOpen={isPaymentDialogOpen}
         onOpenChange={setIsPaymentDialogOpen}
         user={user}
       />
