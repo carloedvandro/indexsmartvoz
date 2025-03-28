@@ -248,10 +248,10 @@ export function AdminUsersList({ users = [], onEdit }) {
                           <div className="grid grid-cols-4 gap-4 border-t pt-2 text-sm text-gray-600">
                             <div>
                               <p>Comissões Totais: R$0,00</p>
+                              <p>Celular: +5588993734779</p>
                             </div>
                             <div>
                               <p>Vendas/Comissões: R$0,00 / R$0,00</p>
-                              <p>Celular: +5588993734779</p>
                             </div>
                             <div>
                               <p>Comissão Paga: R$0,00</p>
