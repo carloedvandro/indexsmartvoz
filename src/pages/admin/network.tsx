@@ -7,11 +7,15 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { NetworkTree } from "@/components/client/network/NetworkTree";
-import { Users } from "lucide-react";
+import { NetworkLevels } from "@/components/client/network/NetworkLevels";
+import { Network, Users } from "lucide-react";
 
 export default function AdminNetwork() {
   const navigate = useNavigate();
@@ -62,7 +66,8 @@ export default function AdminNetwork() {
           id,
           full_name,
           email,
-          custom_id
+          custom_id,
+          status
         `)
         .eq("id", userId)
         .single();
@@ -73,6 +78,11 @@ export default function AdminNetwork() {
     enabled: !!userId
   });
 
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/admin/login");
+  };
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
@@ -82,9 +92,7 @@ export default function AdminNetwork() {
             <div className="flex flex-col">
               <div className="bg-[#5438a0] text-white p-4 flex items-center gap-3 w-full">
                 <div className="bg-[#4a3195] p-2 rounded-full">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M7 19H5M17 19h2M5 19v-4M5 19H3M19 19v-4M19 19h2M15 9h2v2h-2V9zM9 9h2v2H9V9zM10 13h4v2h-4v-2zM17 5h2v10h-2V5zM5 5h2v10H5V5zM7 5V3h10v2H7z" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+                  <Network className="h-6 w-6" />
                 </div>
                 <h1 className="text-xl font-bold">Visualização de Rede</h1>
                 <div className="ml-auto flex items-center">
@@ -103,54 +111,35 @@ export default function AdminNetwork() {
                   ) : userData ? (
                     <div className="space-y-6">
                       <Card className="border border-gray-200 shadow-sm">
-                        <div className="p-6 flex items-center justify-between">
-                          <div className="flex items-center gap-4">
-                            <div className="bg-[#5438a0] p-3 rounded-full">
-                              <Users className="h-6 w-6 text-white" />
+                        <CardHeader className="bg-gray-50 border-b border-gray-200">
+                          <div className="flex items-center gap-3">
+                            <div className="bg-[#5438a0] p-2 rounded-full">
+                              <Users className="h-5 w-5 text-white" />
                             </div>
                             <div>
-                              <h2 className="text-xl font-bold">{userData.full_name}</h2>
-                              <p className="text-sm text-gray-600">
+                              <CardTitle className="text-xl font-bold">{userData.full_name}</CardTitle>
+                              <CardDescription className="text-sm text-gray-600">
                                 {userData.email} {userData.custom_id ? `(${userData.custom_id})` : ''}
-                              </p>
+                              </CardDescription>
                             </div>
-                          </div>
-                          <Button 
-                            onClick={() => navigate('/admin/users')}
-                            className="border border-[#5438a0] bg-white text-[#5438a0] hover:bg-[#5438a0] hover:text-white"
-                          >
-                            Voltar para Lista de Usuários
-                          </Button>
-                        </div>
-                        <CardContent className="grid grid-cols-1 md:grid-cols-5 gap-6 py-6">
-                          <div className="md:col-span-1">
-                            <div className="space-y-2">
-                              {["1", "2", "3", "4"].map((level) => (
-                                <Button
-                                  key={level}
-                                  variant={level === "1" ? "default" : "outline"}
-                                  className={
-                                    level === "1"
-                                      ? "w-full bg-[#5438a0] hover:bg-[#4a3195]"
-                                      : "w-full border-[#5438a0] text-[#5438a0] hover:bg-[#5438a0] hover:text-white"
-                                  }
-                                >
-                                  {level}° Nível
-                                </Button>
-                              ))}
-                              <Button
-                                variant="default"
-                                className="w-full bg-[#5438a0] hover:bg-[#4a3195]"
+                            <div className="ml-auto">
+                              <Button 
+                                onClick={() => navigate('/admin/users')}
+                                variant="outline" 
+                                className="border-[#5438a0] text-[#5438a0] hover:bg-[#5438a0] hover:text-white"
                               >
-                                Todos os Níveis
+                                Voltar para Lista de Usuários
                               </Button>
                             </div>
                           </div>
-                          <div className="md:col-span-4">
-                            <div className="flex items-center justify-center h-64 border border-dashed border-gray-300 rounded-lg bg-gray-50">
-                              <p className="text-gray-500 text-center">
-                                Nenhum membro encontrado em sua rede.
-                              </p>
+                        </CardHeader>
+                        <CardContent className="pt-6">
+                          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                            <div className="lg:col-span-1">
+                              <NetworkLevels />
+                            </div>
+                            <div className="lg:col-span-3">
+                              <NetworkTree userId={userId} />
                             </div>
                           </div>
                         </CardContent>

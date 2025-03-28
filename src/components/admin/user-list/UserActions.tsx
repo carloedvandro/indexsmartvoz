@@ -6,13 +6,11 @@ import { ActionButtons, DeleteUserDialog, PaymentDetailsDialog } from "./actions
 interface UserActionsProps {
   user: any;
   onEdit: (user: any) => void;
-  onDelete: (userId: string) => void;
 }
 
-export const UserActions = ({ user, onEdit, onDelete }: UserActionsProps) => {
+export const UserActions = ({ user, onEdit }: UserActionsProps) => {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [isPaymentDetailsOpen, setIsPaymentDetailsOpen] = useState(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const { toast } = useToast();
 
   const toggleLock = () => {
@@ -32,11 +30,6 @@ export const UserActions = ({ user, onEdit, onDelete }: UserActionsProps) => {
     setIsPaymentDetailsOpen(true);
   };
 
-  const handleDeleteUser = async () => {
-    onDelete(user.id);
-    return Promise.resolve();
-  };
-
   return (
     <div className="flex space-x-1">
       <ActionButtons 
@@ -45,14 +38,11 @@ export const UserActions = ({ user, onEdit, onDelete }: UserActionsProps) => {
         onEdit={onEdit}
         onInfoClick={openPaymentDetails}
         onToggleLock={toggleLock}
-        onDeleteClick={() => setIsDeleteDialogOpen(true)}
       />
       
       <DeleteUserDialog 
-        isOpen={isDeleteDialogOpen}
-        onOpenChange={setIsDeleteDialogOpen}
-        onDelete={handleDeleteUser}
-        userName={user?.full_name || ""}
+        user={user}
+        isUnlocked={isUnlocked}
       />
 
       <PaymentDetailsDialog 
