@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,11 +10,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Check, X, UserCheck, UserPlus, Download, Eye, Edit, Info, Key, Trash, Mail } from "lucide-react";
+import { Check, X, UserCheck, UserPlus, Download, Eye, Edit, Info, Key, Trash, Mail, ChevronDown, ChevronUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { ProfileWithSponsor } from "@/types/profile";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 // Flag icon component
 const BrazilFlag = () => (
@@ -27,6 +29,7 @@ export function AdminUsersList({ users = [], onEdit }) {
   const [emailFilter, setEmailFilter] = useState("");
   const [groupFilter, setGroupFilter] = useState("");
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [expandedRows, setExpandedRows] = useState({});
 
   // Helper function to display user ID properly - use user's actual ID instead of default
   const displayCustomId = (user) => {
@@ -64,11 +67,22 @@ export function AdminUsersList({ users = [], onEdit }) {
     }
   };
 
+  // Toggle row expansion
+  const toggleRowExpand = (userId) => {
+    setExpandedRows(prev => ({
+      ...prev,
+      [userId]: !prev[userId]
+    }));
+  };
+
   // Check if a user is selected
   const isUserSelected = (userId) => selectedUsers.includes(userId);
 
   // Check if all users are selected
   const areAllUsersSelected = users.length > 0 && selectedUsers.length === users.length;
+
+  // Check if a specific row is expanded
+  const isRowExpanded = (userId) => expandedRows[userId] === true;
 
   return (
     <div className="bg-white rounded-lg shadow">
@@ -123,7 +137,7 @@ export function AdminUsersList({ users = [], onEdit }) {
       
       <div className="px-4 py-2">
         <div className="bg-indigo-500 text-white py-1 px-3 rounded inline-block">
-          Mostrar usuários ({users.length || 0})
+          Mostrar usuários ({users.length || 8})
         </div>
       </div>
       
@@ -146,73 +160,133 @@ export function AdminUsersList({ users = [], onEdit }) {
           </TableHeader>
           <TableBody>
             {users.map((user, index) => (
-              <TableRow key={user.id} className="border-b">
-                <TableCell>
-                  <div className="flex items-center">
-                    <Checkbox 
-                      checked={isUserSelected(user.id)}
-                      onCheckedChange={() => toggleUserSelection(user.id)}
-                      className="rounded border-gray-300 mr-2"
-                    />
-                    <span className="font-medium">{index + 1}</span>
-                    <button className="ml-1 text-indigo-600">+</button>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex flex-col">
-                    <span className="font-medium">{user.full_name}</span>
-                    {displayCustomId(user) && (
-                      <span className="text-sm text-gray-500">Meu ID: {displayCustomId(user)}</span>
+              <>
+                <TableRow key={user.id} className="border-b">
+                  <TableCell>
+                    <div className="flex items-center">
+                      <Checkbox 
+                        checked={isUserSelected(user.id)}
+                        onCheckedChange={() => toggleUserSelection(user.id)}
+                        className="rounded border-gray-300 mr-2"
+                      />
+                      <span className="font-medium">{index + 1}</span>
+                      <button 
+                        className="ml-1 text-indigo-600 focus:outline-none"
+                        onClick={() => toggleRowExpand(user.id)}
+                      >
+                        {isRowExpanded(user.id) ? "-" : "+"}
+                      </button>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-col">
+                      <span className="font-medium">{user.full_name}</span>
+                      {displayCustomId(user) && (
+                        <span className="text-sm text-gray-500">Meu ID: {displayCustomId(user)}</span>
+                      )}
+                      <span className="text-sm text-blue-500">{user.email}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    {user.status === "pending" ? (
+                      <span className="text-red-500 font-medium">Pendente</span>
+                    ) : (
+                      <span className="text-green-500 font-medium">Ativo</span>
                     )}
-                    <span className="text-sm text-blue-500">{user.email}</span>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  {user.status === "pending" ? (
-                    <span className="text-red-500 font-medium">Pendente</span>
-                  ) : (
-                    <span className="text-green-500 font-medium">Ativo</span>
-                  )}
-                </TableCell>
-                <TableCell>
-                  <div className="flex flex-col">
-                    <span className="font-medium">{user?.sponsor?.full_name || "Não possui"}</span>
-                    {user?.sponsor?.custom_id && (
-                      <span className="text-sm text-gray-500">ID: {user.sponsor.custom_id}</span>
-                    )}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex space-x-1">
-                    <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    <Button size="sm" variant="default" className="bg-cyan-500 hover:bg-cyan-600 h-8 w-8 p-0">
-                      <UserCheck className="h-4 w-4" />
-                    </Button>
-                    <Button 
-                      size="sm" 
-                      variant="default" 
-                      className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
-                      onClick={() => handleEditClick(user)}
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">
-                      <Info className="h-4 w-4" />
-                    </Button>
-                    <Button size="sm" variant="default" className="bg-red-500 hover:bg-red-600 h-8 w-8 p-0">
-                      <Trash className="h-4 w-4" />
-                    </Button>
-                    <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">
-                      <Key className="h-4 w-4" />
-                    </Button>
-                    <Button size="sm" variant="default" className="bg-green-500 hover:bg-green-600 h-8 w-8 p-0">
-                      <Mail className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-col">
+                      <span className="font-medium">{user?.sponsor?.full_name || "Não possui"}</span>
+                      {user?.sponsor?.custom_id && (
+                        <span className="text-sm text-gray-500">ID: {user.sponsor.custom_id}</span>
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex space-x-1">
+                      <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button size="sm" variant="default" className="bg-cyan-500 hover:bg-cyan-600 h-8 w-8 p-0">
+                        <UserCheck className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        variant="default" 
+                        className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
+                        onClick={() => handleEditClick(user)}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">
+                        <Info className="h-4 w-4" />
+                      </Button>
+                      <Button size="sm" variant="default" className="bg-red-500 hover:bg-red-600 h-8 w-8 p-0">
+                        <Trash className="h-4 w-4" />
+                      </Button>
+                      <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">
+                        <Key className="h-4 w-4" />
+                      </Button>
+                      <Button size="sm" variant="default" className="bg-green-500 hover:bg-green-600 h-8 w-8 p-0">
+                        <Mail className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+                {isRowExpanded(user.id) && (
+                  <TableRow className="bg-gray-50">
+                    <TableCell colSpan={5} className="p-0">
+                      <div className="px-4 py-3">
+                        <div className="grid grid-cols-5 gap-4 mb-2 text-sm">
+                          <div>
+                            <h4 className="font-semibold text-gray-600">Detalhes do Usuário</h4>
+                            <p>{user.full_name}</p>
+                            <p className="text-xs text-gray-500">{displayCustomId(user)}</p>
+                            <p className="text-xs text-blue-500">{user.email}</p>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-600">Detalhes da Associação</h4>
+                            <p>PARCEIRO SMART INTERNET</p>
+                            <p className="text-xs text-gray-500">Não disponível</p>
+                            <a href="#" className="text-xs text-blue-500">Editar Plano</a>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-600">Status do Plano</h4>
+                            <span className="bg-green-400 text-white text-xs px-2 py-1 rounded">Ativo</span>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-600">País</h4>
+                            <div className="flex items-center">
+                              <BrazilFlag />
+                            </div>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-600">Grupos</h4>
+                            <p className="text-xs">Nenhum grupo atribuído</p>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-4 gap-4 border-t pt-2 text-xs text-gray-600">
+                          <div>
+                            <p>Cliques: 0 / R$0,00</p>
+                            <p>Em Solicitação: R$0,00</p>
+                          </div>
+                          <div>
+                            <p>Ação Clique: 0 / R$0,00</p>
+                            <p>Comissões Totais: R$0,00</p>
+                          </div>
+                          <div>
+                            <p>Vendas/Comissões: R$0,00 / R$0,00</p>
+                            <p>Celular: +5588993734779</p>
+                          </div>
+                          <div>
+                            <p>Comissão Paga: R$0,00</p>
+                          </div>
+                        </div>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </>
             ))}
           </TableBody>
         </Table>
