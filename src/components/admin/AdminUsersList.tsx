@@ -108,7 +108,7 @@ export function AdminUsersList({ users = [], onEdit }) {
                 <TableCell>
                   <div className="flex flex-col">
                     <span className="font-medium">{user.full_name}</span>
-                    <span className="text-sm text-gray-500">{user.external_id || "zefilhovera1020"}</span>
+                    <span className="text-sm text-gray-500">Meu ID: {user.external_id || "Gesia89"}</span>
                     <span className="text-sm text-blue-500">{user.email}</span>
                   </div>
                 </TableCell>
