@@ -1,84 +1,56 @@
 
-import { RefreshCw } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import React from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { formatCurrency } from "@/utils/format";
 
 interface PlanDetailsDialogProps {
+  user: any;
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  user: any;
 }
 
-export const PlanDetailsDialog = ({ isOpen, onOpenChange, user }: PlanDetailsDialogProps) => {
+export function PlanDetailsDialog({ user, isOpen, onOpenChange }: PlanDetailsDialogProps) {
+  const planDetails = user?.plan || {
+    name: "Plano básico",
+    price: 99.90,
+    features: ["Acesso à plataforma", "1 Linha ativa", "Suporte básico"]
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
-        <DialogHeader className="flex flex-row items-center">
-          <div className="flex items-center gap-2 w-full">
-            <div className="bg-indigo-700 p-1.5 rounded-full">
-              <RefreshCw className="h-4 w-4 text-white" />
-            </div>
-            <DialogTitle className="text-lg">Expiração do Plano</DialogTitle>
-          </div>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Detalhes do Plano</DialogTitle>
         </DialogHeader>
-        
-        <div className="space-y-0">
-          <div className="bg-cyan-500 text-white p-4 rounded-md mb-4 text-center">
-            <p>O status do seu plano é <strong>Ativo</strong>. Aguarde enquanto o status do seu plano muda.</p>
+        <div className="space-y-4 py-2">
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-medium">{planDetails.name}</h3>
+            <span className="text-xl font-bold text-primary">
+              {formatCurrency(planDetails.price)}
+            </span>
           </div>
           
-          <div className="border rounded-md">
-            <div className="border-b p-4">
-              <h3 className="font-medium text-lg">Plano de Associação</h3>
-            </div>
-            
-            <div className="border-b p-4">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Planta:</span>
-                <span className="font-semibold text-green-500">PARCEIRO SMART INTERNET</span>
-              </div>
-            </div>
-            
-            <div className="border-b p-4">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Dados do Plano:</span>
-                <span>25 de março de 2025 a 31/12/1969</span>
-              </div>
-            </div>
-            
-            <div className="border-b p-4">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Restantes Dias:</span>
-                <span className="text-purple-500">Dias não disponíveis</span>
-              </div>
-            </div>
-            
-            <div className="border-b p-4">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Status do Plano:</span>
-                <Badge className="bg-cyan-500 hover:bg-cyan-600 text-white border-0">Ativo</Badge>
-              </div>
-            </div>
-            
-            <div className="p-4">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Ativo:</span>
-                <Badge className="bg-cyan-500 hover:bg-cyan-600 text-white border-0">Ativo</Badge>
-              </div>
-            </div>
+          <div className="space-y-2">
+            <h4 className="font-medium">Recursos inclusos:</h4>
+            <ul className="list-disc pl-5 space-y-1">
+              {planDetails.features.map((feature: string, index: number) => (
+                <li key={index}>{feature}</li>
+              ))}
+            </ul>
           </div>
-          
-          <div className="flex justify-center pt-6 pb-2">
-            <Button 
-              variant="outline" 
-              className="border-gray-300 text-gray-600 hover:bg-gray-100"
-            >
-              Comprar Novo Plano
-            </Button>
+
+          <div className="pt-2 border-t">
+            <p className="text-sm text-muted-foreground">
+              Usuário: {user?.fullName || user?.email || "Nome não disponível"}
+            </p>
           </div>
         </div>
       </DialogContent>
     </Dialog>
   );
-};
+}
