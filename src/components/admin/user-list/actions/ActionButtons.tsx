@@ -1,7 +1,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Eye, UserCheck, Edit, Info, Mail, Lock, LockOpen } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 
 interface ActionButtonsProps {
   user: any;
