@@ -153,6 +153,7 @@ export function AdminUsersList({ users = [], onEdit }) {
                 />
               </TableHead>
               <TableHead>Detalhes do Usuário</TableHead>
+              <TableHead>Detalhes da Associação</TableHead>
               <TableHead className="whitespace-nowrap">Status do Usuário</TableHead>
               <TableHead>Patrocinador</TableHead>
               <TableHead>Ação</TableHead>
@@ -185,6 +186,12 @@ export function AdminUsersList({ users = [], onEdit }) {
                         <span className="text-sm text-gray-500">Meu ID: {displayCustomId(user)}</span>
                       )}
                       <span className="text-sm text-blue-500">{user.email}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-col">
+                      <span className="italic text-gray-700">Plano não adquirido!</span>
+                      <a href="#" className="text-sm text-blue-500 hover:underline">Editar Plano</a>
                     </div>
                   </TableCell>
                   <TableCell>
@@ -235,7 +242,7 @@ export function AdminUsersList({ users = [], onEdit }) {
                 </TableRow>
                 {isRowExpanded(user.id) && (
                   <TableRow className="bg-gray-50">
-                    <TableCell colSpan={5} className="p-0">
+                    <TableCell colSpan={6} className="p-0">
                       <div className="px-4 py-3">
                         <div className="grid grid-cols-1 gap-4">
                           <div className="grid grid-cols-4 gap-4 border-t pt-2 text-sm text-gray-600">
