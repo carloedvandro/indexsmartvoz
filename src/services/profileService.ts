@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { ProfileWithSponsor } from "@/types/profile";
 import { mapSponsor } from "@/utils/mappers/profileMapper";
