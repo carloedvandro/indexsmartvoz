@@ -5,6 +5,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { useState } from "react";
 import { deleteUser } from "@/services/user/userDelete";
 import { useToast } from "@/hooks/use-toast";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface UserActionsProps {
   user: any;
@@ -13,6 +14,7 @@ interface UserActionsProps {
 
 export const UserActions = ({ user, onEdit }: UserActionsProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteTransactions, setDeleteTransactions] = useState(true);
   const { toast } = useToast();
 
   const handleDelete = async () => {
@@ -77,18 +79,30 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
             <Trash className="h-4 w-4" />
           </Button>
         </AlertDialogTrigger>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-white">
           <AlertDialogHeader>
-            <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
-            <AlertDialogDescription>
-              Tem certeza que deseja excluir o usuário {user.full_name}? Esta ação não pode ser desfeita.
-            </AlertDialogDescription>
+            <AlertDialogTitle className="text-center text-2xl">Tem certeza?</AlertDialogTitle>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <div className="py-4 border-t border-b">
+            <p className="mb-4">Comissão Total Não Paga: R$0,00</p>
+            <div className="flex items-center space-x-2 mb-4">
+              <Checkbox 
+                id="deleteTransactions" 
+                checked={deleteTransactions}
+                onCheckedChange={(checked) => setDeleteTransactions(checked as boolean)}
+              />
+              <label htmlFor="deleteTransactions" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Excluir Todas as Transações ou Comissões?
+              </label>
+            </div>
+          </div>
+          <AlertDialogFooter className="flex gap-2 sm:gap-0">
+            <AlertDialogCancel className="bg-gray-100 hover:bg-gray-200 mt-0 w-full">
+              Cancelar
+            </AlertDialogCancel>
             <AlertDialogAction 
               onClick={handleDelete} 
-              className="bg-red-500 hover:bg-red-600"
+              className="bg-purple-600 hover:bg-purple-700 text-white w-full"
               disabled={isDeleting}
             >
               {isDeleting ? "Excluindo..." : "Excluir"}
