@@ -250,7 +250,7 @@ export function AdminUsersList({ users = [], onEdit }) {
                               <p>Celular: +5588993734779</p>
                             </div>
                             <div>
-                              <p>Vendas/Comissões: R$0,00 / R$0,00</p>
+                              <p>Vendas/Comissões</p>
                             </div>
                             <div>
                               <p>Comissão Paga: R$0,00</p>
