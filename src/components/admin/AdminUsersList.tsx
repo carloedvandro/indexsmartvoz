@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -247,10 +246,6 @@ export function AdminUsersList({ users = [], onEdit }) {
                         <div className="grid grid-cols-1 gap-4">
                           <div className="grid grid-cols-4 gap-4 border-t pt-2 text-sm text-gray-600">
                             <div>
-                              <p>Cliques: 0 / R$0,00</p>
-                              <p>Em Solicitação: R$0,00</p>
-                            </div>
-                            <div>
                               <p>Ação Clique: 0 / R$0,00</p>
                               <p>Comissões Totais: R$0,00</p>
                             </div>
@@ -260,6 +255,9 @@ export function AdminUsersList({ users = [], onEdit }) {
                             </div>
                             <div>
                               <p>Comissão Paga: R$0,00</p>
+                            </div>
+                            <div>
+                              {/* Empty fourth column */}
                             </div>
                           </div>
                         </div>
