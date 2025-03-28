@@ -1,4 +1,3 @@
-
 import { Checkbox } from "@/components/ui/checkbox";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Plus, Minus } from "lucide-react";
@@ -83,21 +82,22 @@ export const ExpandableRow = ({
       {isExpanded && (
         <TableRow className="bg-gray-50">
           <TableCell colSpan={6} className="p-0">
-            <div className="px-4 py-3">
-              <div className="grid grid-cols-1 gap-4">
-                <div className="grid grid-cols-3 gap-4 border-t pt-2 text-sm text-gray-600 pl-10">
-                  <div>
-                    <p>Comissões Totais: R$0,00</p>
-                    <p>Celular: +5588993734779</p>
-                  </div>
-                  <div>
-                    <p>Vendas/Comissões</p>
-                    <p>R$0,00 / R$0,00</p>
-                  </div>
-                  <div>
-                    <p>Comissão Paga: R$0,00</p>
-                  </div>
+            <div className="p-0">
+              <div className="grid grid-cols-6 gap-0">
+                <div className=""></div>
+                <div className="text-sm text-gray-600 py-3">
+                  <p>Comissões Totais: R$0,00</p>
+                  <p>Celular: +5588993734779</p>
                 </div>
+                <div className="text-sm text-gray-600 py-3">
+                  <p>Vendas/Comissões</p>
+                  <p>R$0,00 / R$0,00</p>
+                </div>
+                <div className="text-sm text-gray-600 py-3">
+                  <p>Comissão Paga: R$0,00</p>
+                </div>
+                <div className=""></div>
+                <div className=""></div>
               </div>
             </div>
           </TableCell>
