@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -106,7 +105,6 @@ export default function AdminUsers() {
         throw error;
       }
       
-      // Return data as ProfileWithSponsor array
       return data as ProfileWithSponsor[];
     },
   });
@@ -130,9 +128,9 @@ export default function AdminUsers() {
       <div className="min-h-screen flex w-full bg-gray-50">
         <AdminSidebar />
         <main className="flex-1 p-4 md:p-8 overflow-auto">
-          <div className="max-w-full mx-auto">
+          <div className="w-full mx-auto">
             <div className="flex flex-col">
-              <div className="bg-indigo-700 text-white p-4 mb-4 rounded-t-lg flex items-center gap-3 w-full max-w-full">
+              <div className="bg-indigo-700 text-white p-4 mb-4 rounded-t-lg flex items-center gap-3 w-full">
                 <div className="bg-indigo-600 p-2 rounded-full">
                   <UserCheck className="h-6 w-6" />
                 </div>
