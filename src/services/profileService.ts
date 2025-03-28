@@ -11,11 +11,6 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
       .from("profiles")
       .select(`
         *,
-        bank_name,
-        account_number,
-        account_name,
-        ifsc_code,
-        paypal_email,
         sponsor:sponsor_id (
           id,
           full_name,
