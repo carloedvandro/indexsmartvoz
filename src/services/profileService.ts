@@ -33,9 +33,9 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
     return null;
   }
 
-  // Create a copy of the profile data to which we can safely add the sponsor
+  // Create a copy of the profile data with the sponsor added
   const profileWithSponsor: ProfileWithSponsor = {
-    ...(profileData as object),
+    ...profileData as ProfileWithSponsor,
     sponsor: profileData.sponsor ? mapSponsor(profileData.sponsor) : null
   };
 
