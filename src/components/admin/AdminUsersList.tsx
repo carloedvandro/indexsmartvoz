@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -237,50 +236,8 @@ export function AdminUsersList({ users = [], onEdit }) {
                   <TableRow className="bg-gray-50">
                     <TableCell colSpan={5} className="p-0">
                       <div className="px-4 py-3">
-                        <div className="grid grid-cols-5 gap-4 mb-2 text-sm">
-                          <div>
-                            <h4 className="font-semibold text-gray-600">Detalhes do Usuário</h4>
-                            <p>{user.full_name}</p>
-                            <p className="text-xs text-gray-500">{displayCustomId(user)}</p>
-                            <p className="text-xs text-blue-500">{user.email}</p>
-                          </div>
-                          <div>
-                            <h4 className="font-semibold text-gray-600">Detalhes da Associação</h4>
-                            <p>PARCEIRO SMART INTERNET</p>
-                            <p className="text-xs text-gray-500">Não disponível</p>
-                            <a href="#" className="text-xs text-blue-500">Editar Plano</a>
-                          </div>
-                          <div>
-                            <h4 className="font-semibold text-gray-600">Status do Plano</h4>
-                            <span className="bg-green-400 text-white text-xs px-2 py-1 rounded">Ativo</span>
-                          </div>
-                          <div>
-                            <h4 className="font-semibold text-gray-600">País</h4>
-                            <div className="flex items-center">
-                              <BrazilFlag />
-                            </div>
-                          </div>
-                          <div>
-                            <h4 className="font-semibold text-gray-600">Grupos</h4>
-                            <p className="text-xs">Nenhum grupo atribuído</p>
-                          </div>
-                        </div>
-                        <div className="grid grid-cols-4 gap-4 border-t pt-2 text-xs text-gray-600">
-                          <div>
-                            <p>Cliques: 0 / R$0,00</p>
-                            <p>Em Solicitação: R$0,00</p>
-                          </div>
-                          <div>
-                            <p>Ação Clique: 0 / R$0,00</p>
-                            <p>Comissões Totais: R$0,00</p>
-                          </div>
-                          <div>
-                            <p>Vendas/Comissões: R$0,00 / R$0,00</p>
-                            <p>Celular: +5588993734779</p>
-                          </div>
-                          <div>
-                            <p>Comissão Paga: R$0,00</p>
-                          </div>
+                        <div className="text-center py-4 text-gray-500">
+                          Informações detalhadas foram removidas.
                         </div>
                       </div>
                     </TableCell>
