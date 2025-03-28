@@ -139,7 +139,10 @@ export function AdminUsersList({ users = [], onEdit }) {
                   )}
                 </TableCell>
                 <TableCell>
-                  <span>{user.role === "admin" ? "Administrador" : "Smartvoz"}</span>
+                  <div className="flex flex-col">
+                    <span>{user.role === "admin" ? "Administrador" : "Marcio Sales Sousa"}</span>
+                    <span className="text-sm text-gray-500">Meu ID: Marcio88</span>
+                  </div>
                 </TableCell>
                 <TableCell>
                   <div className="flex space-x-1">
