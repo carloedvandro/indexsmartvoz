@@ -42,6 +42,20 @@ export function AdminUsersList({ users = [], onEdit }) {
     }
   };
 
+  // Function to determine random referral name for each user
+  const getReferralInfo = (index) => {
+    const referrals = [
+      { name: "João Silva", id: "Joao123" },
+      { name: "Ana Oliveira", id: "Ana456" },
+      { name: "Pedro Santos", id: "Pedro789" },
+      { name: "Clara Mendes", id: "Clara321" },
+      { name: "Roberto Gomes", id: "Rob567" }
+    ];
+    
+    // Use modulo to cycle through referrals
+    return referrals[index % referrals.length];
+  };
+
   return (
     <div className="bg-white rounded-lg shadow w-full max-w-none">
       <div className="p-4">
@@ -113,69 +127,72 @@ export function AdminUsersList({ users = [], onEdit }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((user, index) => (
-              <TableRow key={user.id} className="border-b">
-                <TableCell>
-                  <div className="flex items-center">
-                    <input type="checkbox" className="rounded border-gray-300 mr-2" />
-                    <span className="font-medium">{index + 465}</span>
-                    <button className="ml-1 text-indigo-600">+</button>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex flex-col">
-                    <span className="font-medium">{user.full_name}</span>
-                    {displayCustomId(user) && (
-                      <span className="text-sm text-gray-500">Meu ID: {displayCustomId(user)}</span>
+            {users.map((user, index) => {
+              const referral = getReferralInfo(index);
+              return (
+                <TableRow key={user.id} className="border-b">
+                  <TableCell>
+                    <div className="flex items-center">
+                      <input type="checkbox" className="rounded border-gray-300 mr-2" />
+                      <span className="font-medium">{index + 465}</span>
+                      <button className="ml-1 text-indigo-600">+</button>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-col">
+                      <span className="font-medium">{user.full_name}</span>
+                      {displayCustomId(user) && (
+                        <span className="text-sm text-gray-500">Meu ID: {displayCustomId(user)}</span>
+                      )}
+                      <span className="text-sm text-blue-500">{user.email}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    {user.status === "pending" ? (
+                      <span className="text-red-500 font-medium">Pendente</span>
+                    ) : (
+                      <span className="text-green-500 font-medium">Ativo</span>
                     )}
-                    <span className="text-sm text-blue-500">{user.email}</span>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  {user.status === "pending" ? (
-                    <span className="text-red-500 font-medium">Pendente</span>
-                  ) : (
-                    <span className="text-green-500 font-medium">Ativo</span>
-                  )}
-                </TableCell>
-                <TableCell>
-                  <div className="flex flex-col">
-                    <span>{user.role === "admin" ? "Administrador" : "Marcio Sales Sousa"}</span>
-                    <span className="text-sm text-gray-500">Meu ID: Marcio88</span>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex space-x-1">
-                    <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    <Button size="sm" variant="default" className="bg-cyan-500 hover:bg-cyan-600 h-8 w-8 p-0">
-                      <UserCheck className="h-4 w-4" />
-                    </Button>
-                    <Button 
-                      size="sm" 
-                      variant="default" 
-                      className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
-                      onClick={() => handleEditClick(user)}
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">
-                      <Info className="h-4 w-4" />
-                    </Button>
-                    <Button size="sm" variant="default" className="bg-red-500 hover:bg-red-600 h-8 w-8 p-0">
-                      <Trash className="h-4 w-4" />
-                    </Button>
-                    <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">
-                      <Key className="h-4 w-4" />
-                    </Button>
-                    <Button size="sm" variant="default" className="bg-green-500 hover:bg-green-600 h-8 w-8 p-0">
-                      <Mail className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-col">
+                      <span>{user.role === "admin" ? "Administrador" : referral.name}</span>
+                      <span className="text-sm text-gray-500">Meu ID: {referral.id}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex space-x-1">
+                      <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button size="sm" variant="default" className="bg-cyan-500 hover:bg-cyan-600 h-8 w-8 p-0">
+                        <UserCheck className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        variant="default" 
+                        className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
+                        onClick={() => handleEditClick(user)}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">
+                        <Info className="h-4 w-4" />
+                      </Button>
+                      <Button size="sm" variant="default" className="bg-red-500 hover:bg-red-600 h-8 w-8 p-0">
+                        <Trash className="h-4 w-4" />
+                      </Button>
+                      <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">
+                        <Key className="h-4 w-4" />
+                      </Button>
+                      <Button size="sm" variant="default" className="bg-green-500 hover:bg-green-600 h-8 w-8 p-0">
+                        <Mail className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </div>
