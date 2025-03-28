@@ -89,7 +89,7 @@ export function AdminUsersList({ users = [], onEdit }) {
                 <input type="checkbox" className="rounded border-gray-300" />
               </TableHead>
               <TableHead>Detalhes do Usuário</TableHead>
-              <TableHead>Status do Usuário</TableHead>
+              <TableHead className="whitespace-nowrap">Status do Usuário</TableHead>
               <TableHead>Indicação</TableHead>
               <TableHead>Ação</TableHead>
             </TableRow>
