@@ -6,7 +6,7 @@ import { UserActions } from "./UserActions";
 import { ProfileWithSponsor } from "@/types/profile";
 import { updateProfile } from "@/services/user/userUpdate";
 import { useToast } from "@/hooks/use-toast";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface ExpandableRowProps {
   user: ProfileWithSponsor;
@@ -30,16 +30,33 @@ export const ExpandableRow = ({
   displayCustomId
 }: ExpandableRowProps) => {
   const { toast } = useToast();
+  const [mobileNumber, setMobileNumber] = useState<string>(
+    user.mobile || user.whatsapp || "+5588993734779"
+  );
 
-  // Update mobile number for users if not set or use whatsapp if available
+  // Update mobile number for users from their profile data
   useEffect(() => {
     const updateMobileNumber = async () => {
-      // Check if mobile is not set
-      if ((!user.mobile || user.mobile === '') && user.id) {
+      let mobileToUse = "+5588993734779";
+      let shouldUpdate = false;
+
+      // Priority: existing mobile > whatsapp > default
+      if (user.mobile && user.mobile.trim() !== "") {
+        mobileToUse = user.mobile;
+        // No need to update if mobile is already set properly
+        shouldUpdate = false;
+      } else if (user.whatsapp && user.whatsapp.trim() !== "") {
+        mobileToUse = user.whatsapp;
+        shouldUpdate = true;
+      } else {
+        shouldUpdate = true;
+      }
+
+      setMobileNumber(mobileToUse);
+
+      // Only update if needed and if user ID exists
+      if (shouldUpdate && user.id) {
         try {
-          // Use whatsapp number if available, otherwise use default
-          const mobileToUse = user.whatsapp ? user.whatsapp : "+5588993734779";
-          
           await updateProfile(user.id, {
             mobile: mobileToUse
           });
@@ -113,7 +130,7 @@ export const ExpandableRow = ({
           <TableCell>
             <div className="text-sm text-gray-600">
               <p>Comissões Totais: R$0,00</p>
-              <p>Celular: {user.mobile || (user.whatsapp ? user.whatsapp : "+5588993734779")}</p>
+              <p>Celular: {mobileNumber}</p>
             </div>
           </TableCell>
           <TableCell>
