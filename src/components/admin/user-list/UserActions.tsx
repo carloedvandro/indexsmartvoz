@@ -6,6 +6,7 @@ import { useState } from "react";
 import { deleteUser } from "@/services/user/userDelete";
 import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 
 interface UserActionsProps {
   user: any;
@@ -16,6 +17,7 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteTransactions, setDeleteTransactions] = useState(false);
   const [isUnlocked, setIsUnlocked] = useState(false);
+  const [isPaymentDetailsOpen, setIsPaymentDetailsOpen] = useState(false);
   const { toast } = useToast();
 
   const handleDelete = async () => {
@@ -61,6 +63,10 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
     });
   };
 
+  const openPaymentDetails = () => {
+    setIsPaymentDetailsOpen(true);
+  };
+
   return (
     <div className="flex space-x-1">
       <Button 
@@ -92,6 +98,7 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
         size="sm" 
         variant="default" 
         className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
+        onClick={openPaymentDetails}
         disabled={!isUnlocked}
       >
         <Info className="h-4 w-4" />
@@ -156,6 +163,95 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
       >
         <Mail className="h-4 w-4" />
       </Button>
+
+      {/* Payment Details Dialog */}
+      <Dialog open={isPaymentDetailsOpen} onOpenChange={setIsPaymentDetailsOpen}>
+        <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl">Detalhes de pagamento do usuário</DialogTitle>
+          </DialogHeader>
+          
+          <div className="mt-4">
+            <h3 className="text-lg font-semibold mb-3">Dados bancários</h3>
+            <div className="grid grid-cols-4 gap-4 border rounded-md p-4">
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">Nome do banco</p>
+                <p className="font-medium">{user?.bank_name || "-"}</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">Número de conta</p>
+                <p className="font-medium">{user?.account_number || "-"}</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">Nome da conta</p>
+                <p className="font-medium">{user?.account_name || "-"}</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">Código IFSC</p>
+                <p className="font-medium">{user?.ifsc_code || "-"}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold mb-3">E-mails do Paypal</h3>
+            <div className="border rounded-md p-4">
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">E-mail</p>
+                <p className="font-medium">{user?.paypal_email || "-"}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold mb-3">Detalhes do Usuário</h3>
+            <div className="grid grid-cols-2 gap-4 border rounded-md p-4">
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">Primeiro nome</p>
+                <p className="font-medium">{user?.first_name || (user?.full_name?.split(' ')[0]) || "-"}</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">Sobrenome</p>
+                <p className="font-medium">
+                  {user?.last_name || (user?.full_name?.split(' ').slice(1).join(' ')) || "-"}
+                </p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">Usuário</p>
+                <p className="font-medium">{user?.username || "-"}</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">E-mail</p>
+                <p className="font-medium">{user?.email || "-"}</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">Telefone</p>
+                <p className="font-medium">{user?.mobile || user?.whatsapp || "-"}</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">Endereço</p>
+                <p className="font-medium">{user?.address || "-"}</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">Estado</p>
+                <p className="font-medium">{user?.state || "-"}</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">País</p>
+                <p className="font-medium">{user?.country || "Brasil"}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-4 flex justify-end">
+            <DialogClose asChild>
+              <Button className="bg-red-500 hover:bg-red-600 text-white">
+                Fechar
+              </Button>
+            </DialogClose>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
