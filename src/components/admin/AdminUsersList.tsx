@@ -26,9 +26,12 @@ export function AdminUsersList({ users = [], onEdit }) {
   const [emailFilter, setEmailFilter] = useState("");
   const [groupFilter, setGroupFilter] = useState("");
 
-  // Helper function to display user ID properly
+  // Helper function to display user ID properly - use user's actual ID instead of default
   const displayCustomId = (user) => {
-    return user?.custom_id || user?.external_id || "Gesia89";
+    // Only return Gesia89 if both custom_id and external_id are null or undefined
+    if (user?.custom_id) return user.custom_id;
+    if (user?.external_id) return user.external_id;
+    return ""; // Return empty string if no ID exists
   };
 
   // This will refresh the UI when a user is updated
@@ -122,7 +125,9 @@ export function AdminUsersList({ users = [], onEdit }) {
                 <TableCell>
                   <div className="flex flex-col">
                     <span className="font-medium">{user.full_name}</span>
-                    <span className="text-sm text-gray-500">Meu ID: {displayCustomId(user)}</span>
+                    {displayCustomId(user) && (
+                      <span className="text-sm text-gray-500">Meu ID: {displayCustomId(user)}</span>
+                    )}
                     <span className="text-sm text-blue-500">{user.email}</span>
                   </div>
                 </TableCell>
