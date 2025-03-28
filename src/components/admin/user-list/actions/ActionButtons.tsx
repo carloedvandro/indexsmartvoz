@@ -2,6 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { Eye, UserCheck, Edit, Info, Lock, LockOpen, ArrowRightToLine } from "lucide-react";
 import Image from "@/components/ui/image";
+import { useState } from "react";
+import { PlanDetailsDialog } from "./PlanDetailsDialog";
 
 interface ActionButtonsProps {
   user: any;
@@ -18,6 +20,8 @@ export const ActionButtons = ({
   onInfoClick, 
   onToggleLock 
 }: ActionButtonsProps) => {
+  const [isPlanDetailsOpen, setIsPlanDetailsOpen] = useState(false);
+
   return (
     <>
       <Button 
@@ -67,10 +71,16 @@ export const ActionButtons = ({
         size="sm" 
         variant="default" 
         className="bg-green-500 hover:bg-green-600 h-8 w-8 p-0"
-        disabled={!isUnlocked}
+        onClick={() => setIsPlanDetailsOpen(true)}
       >
         <ArrowRightToLine className="h-4 w-4" />
       </Button>
+
+      <PlanDetailsDialog 
+        isOpen={isPlanDetailsOpen} 
+        onOpenChange={setIsPlanDetailsOpen}
+        user={user}
+      />
     </>
   );
 };
