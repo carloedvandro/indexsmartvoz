@@ -14,7 +14,7 @@ interface UserActionsProps {
 
 export const UserActions = ({ user, onEdit }: UserActionsProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
-  const [deleteTransactions, setDeleteTransactions] = useState(true);
+  const [deleteTransactions, setDeleteTransactions] = useState(false);
   const [isUnlocked, setIsUnlocked] = useState(false);
   const { toast } = useToast();
 
