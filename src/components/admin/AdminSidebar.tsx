@@ -90,8 +90,8 @@ export function AdminSidebar() {
     <Sidebar className="bg-sidebar border-r border-sidebar-border">
       <SidebarHeader className="flex items-center justify-between p-4 border-b border-sidebar-border bg-sidebar">
         <img
-          src="/lovable-uploads/dd13194a-ddb9-41f1-ac14-d4e483f9b1df.png"
-          alt="Y-TECH Logo"
+          src="/lovable-uploads/398f11a2-4319-4170-ac91-a7aedb8e5617.png"
+          alt="Smartvoz Logo"
           className="h-12 w-auto object-contain"
         />
         <SidebarTrigger className="md:hidden" />
