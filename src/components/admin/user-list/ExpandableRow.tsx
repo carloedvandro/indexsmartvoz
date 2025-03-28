@@ -1,7 +1,7 @@
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import { UserActions } from "./UserActions";
 import { ProfileWithSponsor } from "@/types/profile";
 
@@ -41,7 +41,7 @@ export const ExpandableRow = ({
               className="ml-1 text-indigo-600 focus:outline-none"
               onClick={toggleExpand}
             >
-              {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              {isExpanded ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
             </button>
           </div>
         </TableCell>
