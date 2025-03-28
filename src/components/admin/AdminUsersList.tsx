@@ -43,7 +43,7 @@ export function AdminUsersList({ users = [], onEdit }) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow">
+    <div className="bg-white rounded-lg shadow w-full max-w-none">
       <div className="p-4">
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
