@@ -80,28 +80,24 @@ export const ExpandableRow = ({
       }
     };
 
-    // Fetch last sign in date
-    const fetchLastSignIn = async () => {
+    // Fetch last sign in date from user's profile information
+    // Since we can't directly access auth.users table, we'll use the updated_at field from profiles
+    // as an approximate indication of last activity
+    const fetchLastActivity = async () => {
       if (!user.id) return;
       
       try {
-        const { data, error } = await supabase
-          .from("auth.users")
-          .select("last_sign_in_at")
-          .eq("id", user.id)
-          .single();
-
-        if (!error && data) {
-          setLastSignIn(data.last_sign_in_at);
-        }
+        // Use profile's updated_at as a proxy for last sign in
+        setLastSignIn(user.updated_at || null);
       } catch (error) {
-        console.error("Error fetching last sign in:", error);
+        console.error("Error fetching last activity date:", error);
+        setLastSignIn(null);
       }
     };
 
     fetchUserAndUpdateMobile();
-    fetchLastSignIn();
-  }, [user.id]);
+    fetchLastActivity();
+  }, [user.id, user.updated_at]);
   
   return (
     <>
