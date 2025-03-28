@@ -1,4 +1,3 @@
-
 import { Checkbox } from "@/components/ui/checkbox";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Plus, Minus } from "lucide-react";
@@ -33,13 +32,11 @@ export const ExpandableRow = ({
   const { toast } = useToast();
   const [mobileNumber, setMobileNumber] = useState<string>("");
 
-  // Fetch the latest user data from the database and update mobile number if needed
   useEffect(() => {
     const fetchUserAndUpdateMobile = async () => {
       if (!user.id) return;
 
       try {
-        // First, get the latest user data from Supabase
         const { data: latestUserData, error: fetchError } = await supabase
           .from("profiles")
           .select("mobile, whatsapp")
@@ -54,7 +51,6 @@ export const ExpandableRow = ({
         let mobileToUse = "";
         let shouldUpdate = false;
 
-        // Priority: existing mobile > whatsapp > default
         if (latestUserData.mobile && latestUserData.mobile.trim() !== "") {
           mobileToUse = latestUserData.mobile;
           shouldUpdate = false;
@@ -62,13 +58,12 @@ export const ExpandableRow = ({
           mobileToUse = latestUserData.whatsapp;
           shouldUpdate = true;
         } else {
-          mobileToUse = "+5588993734779"; // Default fallback
+          mobileToUse = "+5588993734779";
           shouldUpdate = true;
         }
 
         setMobileNumber(mobileToUse);
 
-        // Only update in database if needed
         if (shouldUpdate) {
           await updateProfile(user.id, {
             mobile: mobileToUse
@@ -156,8 +151,7 @@ export const ExpandableRow = ({
           </TableCell>
           <TableCell>
             <div className="text-sm text-gray-600">
-              <p>Comissão Paga:</p>
-              <p>R$0,00</p>
+              <p>Comissão Paga: R$0,00</p>
             </div>
           </TableCell>
           <TableCell></TableCell>
