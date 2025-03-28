@@ -63,10 +63,20 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
 
   return (
     <div className="flex space-x-1">
-      <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">
+      <Button 
+        size="sm" 
+        variant="default" 
+        className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
+        disabled={!isUnlocked}
+      >
         <Eye className="h-4 w-4" />
       </Button>
-      <Button size="sm" variant="default" className="bg-cyan-500 hover:bg-cyan-600 h-8 w-8 p-0">
+      <Button 
+        size="sm" 
+        variant="default" 
+        className="bg-cyan-500 hover:bg-cyan-600 h-8 w-8 p-0"
+        disabled={!isUnlocked}
+      >
         <UserCheck className="h-4 w-4" />
       </Button>
       <Button 
@@ -74,10 +84,16 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
         variant="default" 
         className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
         onClick={() => onEdit(user)}
+        disabled={!isUnlocked}
       >
         <Edit className="h-4 w-4" />
       </Button>
-      <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">
+      <Button 
+        size="sm" 
+        variant="default" 
+        className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
+        disabled={!isUnlocked}
+      >
         <Info className="h-4 w-4" />
       </Button>
       
@@ -87,7 +103,7 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
             size="sm" 
             variant="default" 
             className="bg-red-500 hover:bg-red-600 h-8 w-8 p-0"
-            disabled={isDeleting}
+            disabled={isDeleting || !isUnlocked}
           >
             <Trash className="h-4 w-4" />
           </Button>
@@ -132,7 +148,12 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
       >
         {isUnlocked ? <LockOpen className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
       </Button>
-      <Button size="sm" variant="default" className="bg-green-500 hover:bg-green-600 h-8 w-8 p-0">
+      <Button 
+        size="sm" 
+        variant="default" 
+        className="bg-green-500 hover:bg-green-600 h-8 w-8 p-0"
+        disabled={!isUnlocked}
+      >
         <Mail className="h-4 w-4" />
       </Button>
     </div>
