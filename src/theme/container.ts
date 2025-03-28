@@ -1,8 +1,7 @@
-
 export const container = {
   center: true,
-  padding: "1.5rem",
+  padding: "2rem",
   screens: {
-    "2xl": "1920px", // Aumentando para 1920px para permitir layouts mais largos
+    "2xl": "1400px",
   },
 };
