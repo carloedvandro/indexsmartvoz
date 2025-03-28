@@ -8,6 +8,7 @@ import { updateProfile } from "@/services/user/userUpdate";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { formatDate } from "@/utils/format";
 
 interface ExpandableRowProps {
   user: ProfileWithSponsor;
@@ -18,6 +19,7 @@ interface ExpandableRowProps {
   toggleExpand: () => void;
   onEdit: (user: any) => void;
   displayCustomId: (user: any) => string;
+  onDelete?: (userId: string) => void;
 }
 
 export const ExpandableRow = ({
@@ -28,10 +30,12 @@ export const ExpandableRow = ({
   toggleSelection,
   toggleExpand,
   onEdit,
-  displayCustomId
+  displayCustomId,
+  onDelete
 }: ExpandableRowProps) => {
   const { toast } = useToast();
   const [mobileNumber, setMobileNumber] = useState<string>("");
+  const [lastSignIn, setLastSignIn] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUserAndUpdateMobile = async () => {
@@ -76,7 +80,27 @@ export const ExpandableRow = ({
       }
     };
 
+    // Fetch last sign in date
+    const fetchLastSignIn = async () => {
+      if (!user.id) return;
+      
+      try {
+        const { data, error } = await supabase
+          .from("auth.users")
+          .select("last_sign_in_at")
+          .eq("id", user.id)
+          .single();
+
+        if (!error && data) {
+          setLastSignIn(data.last_sign_in_at);
+        }
+      } catch (error) {
+        console.error("Error fetching last sign in:", error);
+      }
+    };
+
     fetchUserAndUpdateMobile();
+    fetchLastSignIn();
   }, [user.id]);
   
   return (
@@ -129,7 +153,7 @@ export const ExpandableRow = ({
           </div>
         </TableCell>
         <TableCell>
-          <UserActions user={user} onEdit={onEdit} />
+          <UserActions user={user} onEdit={onEdit} onDelete={onDelete} />
         </TableCell>
       </TableRow>
       
@@ -140,6 +164,7 @@ export const ExpandableRow = ({
             <div className="text-sm text-gray-600">
               <p>Comissões Totais: R$0,00</p>
               <p>Celular: {mobileNumber}</p>
+              <p>Último acesso: {formatDate(lastSignIn)}</p>
             </div>
           </TableCell>
           <TableCell>
