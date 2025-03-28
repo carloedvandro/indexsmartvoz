@@ -123,7 +123,7 @@ export function AdminUsersList({ users = [], onEdit }) {
       
       <div className="px-4 py-2">
         <div className="bg-indigo-500 text-white py-1 px-3 rounded inline-block">
-          Mostrar usuários ({users.length || 417})
+          Mostrar usuários ({users.length || 0})
         </div>
       </div>
       
@@ -154,7 +154,7 @@ export function AdminUsersList({ users = [], onEdit }) {
                       onCheckedChange={() => toggleUserSelection(user.id)}
                       className="rounded border-gray-300 mr-2"
                     />
-                    <span className="font-medium">{index + 465}</span>
+                    <span className="font-medium">{index + 1}</span>
                     <button className="ml-1 text-indigo-600">+</button>
                   </div>
                 </TableCell>
