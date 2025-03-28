@@ -112,11 +112,6 @@ export default function AdminUsers() {
     },
   });
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate("/admin/login");
-  };
-
   const handleEdit = (user) => {
     setSelectedUser(user);
     setIsAddingUser(false);

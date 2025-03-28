@@ -31,10 +31,12 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const [isSettingPassword, setIsSettingPassword] = useState(false);
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [newPassword, setNewPassword] = useState("");
+  const [passwordMatch, setPasswordMatch] = useState(true);
   
-  const { register, handleSubmit, setValue, watch, reset } = useForm({
+  const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm({
     defaultValues: {
       full_name: "",
+      last_name: "",
       email: "",
       document_id: "",
       cnpj: "",
@@ -44,6 +46,8 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
       status: "active",
       sponsor_id: null,
       country: "Brasil",
+      password: "",
+      repeat_password: "",
       ...user,
       birth_date: user?.birth_date?.split('T')[0],
     },
@@ -57,6 +61,15 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
       });
     }
   }, [user, reset]);
+
+  const watchPassword = watch("password");
+  const watchRepeatPassword = watch("repeat_password");
+
+  useEffect(() => {
+    if (watchPassword || watchRepeatPassword) {
+      setPasswordMatch(watchPassword === watchRepeatPassword);
+    }
+  }, [watchPassword, watchRepeatPassword]);
 
   const handleResetPassword = async () => {
     if (!user?.email) {
@@ -151,6 +164,15 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   };
 
   const handleSave = async (data) => {
+    if (data.password && data.password !== data.repeat_password) {
+      toast({
+        title: "Erro",
+        description: "As senhas não coincidem",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
     try {
       if (!user?.id) {
@@ -234,17 +256,31 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Nome Completo</Label>
-                <Input {...register("full_name")} placeholder="Nome completo" />
+                <Input 
+                  {...register("full_name")}
+                  placeholder="Nome completo"
+                  className={errors.full_name ? "border-red-500" : ""}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Sobrenome</Label>
-                <Input {...register("last_name")} placeholder="Sobrenome" />
+                <Input 
+                  {...register("last_name")}
+                  placeholder="Sobrenome"
+                  className={errors.last_name ? "border-red-500" : ""}
+                />
               </div>
             </div>
             
             <div className="space-y-2">
               <Label>Email</Label>
-              <Input {...register("email")} type="email" placeholder="email@exemplo.com" readOnly={!!user?.id} />
+              <Input 
+                {...register("email")} 
+                type="email" 
+                placeholder="email@exemplo.com" 
+                readOnly={!!user?.id}
+                className={errors.email ? "border-red-500" : ""}
+              />
             </div>
             
             <div className="space-y-2">
@@ -265,23 +301,44 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
                   <span className="inline-flex items-center px-3 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
                     <img src="/br-flag.svg" alt="Brasil" className="w-5 h-3 mr-1" /> +55
                   </span>
-                  <Input {...register("phone")} className="rounded-l-none" placeholder="Telefone" />
+                  <Input 
+                    {...register("phone")} 
+                    className="rounded-l-none" 
+                    placeholder="Telefone"
+                  />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label>Nome de usuário</Label>
-                <Input {...register("custom_id")} placeholder="Nome de usuário" />
+                <Input 
+                  {...register("custom_id")} 
+                  placeholder="Nome de usuário"
+                  className={errors.custom_id ? "border-red-500" : ""}
+                />
               </div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Senha</Label>
-                <Input type="password" {...register("password")} placeholder="Senha" />
+                <Input 
+                  type="password" 
+                  {...register("password")} 
+                  placeholder="Senha"
+                  className={!passwordMatch ? "border-red-500" : ""}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Repetir a Senha</Label>
-                <Input type="password" placeholder="Repetir a senha" />
+                <Input 
+                  type="password" 
+                  {...register("repeat_password")} 
+                  placeholder="Repetir a senha"
+                  className={!passwordMatch ? "border-red-500" : ""}
+                />
+                {!passwordMatch && (
+                  <p className="text-xs text-red-500">As senhas não coincidem</p>
+                )}
               </div>
             </div>
             
