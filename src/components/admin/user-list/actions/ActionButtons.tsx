@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
-import { Eye, UserCheck, Edit, Info, Lock, LockOpen } from "lucide-react";
-import Image from "@/components/ui/image"; // We'll create this component to handle images
+import { Eye, UserCheck, Edit, Info, Lock, LockOpen, ArrowRightToLine } from "lucide-react";
+import Image from "@/components/ui/image";
 
 interface ActionButtonsProps {
   user: any;
@@ -69,7 +69,7 @@ export const ActionButtons = ({
         className="bg-green-500 hover:bg-green-600 h-8 w-8 p-0"
         disabled={!isUnlocked}
       >
-        <img src="/lovable-uploads/93713723-867e-4e8e-a05f-9265ec0b5035.png" className="h-4 w-4" alt="Send to User" />
+        <ArrowRightToLine className="h-4 w-4" />
       </Button>
     </>
   );
