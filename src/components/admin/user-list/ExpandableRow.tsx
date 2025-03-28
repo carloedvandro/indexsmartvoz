@@ -96,11 +96,12 @@ export const ExpandableRow = ({
             </div>
           </TableCell>
           <TableCell>
-            <div className="text-sm text-gray-600 ml-7">
+          </TableCell>
+          <TableCell>
+            <div className="text-sm text-gray-600">
               <p>Comissão Paga: R$0,00</p>
             </div>
           </TableCell>
-          <TableCell></TableCell>
           <TableCell></TableCell>
         </TableRow>
       )}
