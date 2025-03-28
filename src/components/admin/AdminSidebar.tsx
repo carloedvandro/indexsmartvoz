@@ -90,7 +90,7 @@ export function AdminSidebar() {
     <Sidebar className="bg-sidebar border-r border-sidebar-border">
       <SidebarHeader className="flex items-center justify-between p-4 border-b border-sidebar-border bg-sidebar">
         <img
-          src="/lovable-uploads/398f11a2-4319-4170-ac91-a7aedb8e5617.png"
+          src="/lovable-uploads/a4a911e3-a6ea-47f3-a5c0-a855aa60803b.png"
           alt="Smartvoz Logo"
           className="h-12 w-auto object-contain"
         />

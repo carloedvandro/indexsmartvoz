@@ -8,7 +8,7 @@ export function LoginHeader({ itemVariants }: LoginHeaderProps) {
     <div className="flex flex-col space-y-2 text-center">
       <div className="-mt-10 flex justify-center">
         <img 
-          src="/lovable-uploads/398f11a2-4319-4170-ac91-a7aedb8e5617.png" 
+          src="/lovable-uploads/a4a911e3-a6ea-47f3-a5c0-a855aa60803b.png" 
           alt="Smartvoz" 
           className="h-auto w-[240px]"
         />
