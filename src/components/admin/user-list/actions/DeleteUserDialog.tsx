@@ -13,7 +13,7 @@ import {
   AlertDialogTrigger 
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { deleteUser } from "@/services/user/userDelete";
 
@@ -64,10 +64,10 @@ export const DeleteUserDialog = ({ user, isUnlocked }: DeleteUserDialogProps) =>
         <Button 
           size="sm" 
           variant="default" 
-          className="bg-red-500 hover:bg-red-600 h-8 w-8 p-0"
+          className="bg-red-500 hover:bg-red-600 h-9 w-9 p-0 rounded-md"
           disabled={isDeleting || !isUnlocked}
         >
-          <Trash className="h-4 w-4" />
+          <Trash2 className="h-4 w-4" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-white">
