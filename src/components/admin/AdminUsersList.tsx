@@ -21,6 +21,15 @@ const BrazilFlag = () => (
   </div>
 );
 
+// Sample sponsor names to cycle through
+const sampleSponsors = [
+  { name: "Ana Carolina Silva", id: "Ana567" },
+  { name: "Carlos Oliveira", id: "Carlos123" },
+  { name: "Patricia Mendes", id: "Pati456" },
+  { name: "João Pereira", id: "Joao789" },
+  { name: "Mariana Costa", id: "Mari321" },
+];
+
 export function AdminUsersList({ users = [], onEdit }) {
   const [nameFilter, setNameFilter] = useState("");
   const [emailFilter, setEmailFilter] = useState("");
@@ -40,6 +49,11 @@ export function AdminUsersList({ users = [], onEdit }) {
       console.log("Editing user:", user);
       onEdit(user);
     }
+  };
+
+  // Get a sponsor based on index
+  const getSponsor = (index) => {
+    return sampleSponsors[index % sampleSponsors.length];
   };
 
   return (
@@ -108,7 +122,7 @@ export function AdminUsersList({ users = [], onEdit }) {
               </TableHead>
               <TableHead>Detalhes do Usuário</TableHead>
               <TableHead className="whitespace-nowrap">Status do Usuário</TableHead>
-              <TableHead>Indicação</TableHead>
+              <TableHead>Patrocinador</TableHead>
               <TableHead>Ação</TableHead>
             </TableRow>
           </TableHeader>
@@ -139,7 +153,10 @@ export function AdminUsersList({ users = [], onEdit }) {
                   )}
                 </TableCell>
                 <TableCell>
-                  <span>{user.role === "admin" ? "Administrador" : "Smartvoz"}</span>
+                  <div className="flex flex-col">
+                    <span className="font-medium">{getSponsor(index).name}</span>
+                    <span className="text-sm text-gray-500">ID: {getSponsor(index).id}</span>
+                  </div>
                 </TableCell>
                 <TableCell>
                   <div className="flex space-x-1">
