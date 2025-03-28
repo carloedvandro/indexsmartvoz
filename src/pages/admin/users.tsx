@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -7,14 +8,16 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { UserEditDialog } from "@/components/admin/UserEditDialog";
 import { useToast } from "@/hooks/use-toast";
 import { AdminUsersList } from "@/components/admin/AdminUsersList";
-import { UserCheck } from "lucide-react";
+import { UserCheck, Plus } from "lucide-react";
 import { mapSponsor } from "@/utils/mappers/profileMapper";
 import { ProfileWithSponsor } from "@/types/profile";
+import { Button } from "@/components/ui/button";
 
 export default function AdminUsers() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [selectedUser, setSelectedUser] = useState(null);
+  const [isAddingUser, setIsAddingUser] = useState(false);
   const [filters, setFilters] = useState({
     externalId: "",
     fullName: "",
@@ -116,22 +119,29 @@ export default function AdminUsers() {
 
   const handleEdit = (user) => {
     setSelectedUser(user);
+    setIsAddingUser(false);
+  };
+
+  const handleAddUser = () => {
+    setSelectedUser(null);
+    setIsAddingUser(true);
   };
 
   const handleUserUpdated = () => {
     refetch();
     setSelectedUser(null);
+    setIsAddingUser(false);
   };
 
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
         <AdminSidebar />
-        <main className="flex-1 p-4 md:p-8 overflow-auto">
+        <main className="flex-1 p-0 overflow-auto">
           <div className="w-full mx-auto">
             <div className="flex flex-col">
-              <div className="bg-indigo-700 text-white p-4 mb-4 rounded-t-lg flex items-center gap-3 w-full">
-                <div className="bg-indigo-600 p-2 rounded-full">
+              <div className="bg-[#5438a0] text-white p-4 flex items-center gap-3 w-full">
+                <div className="bg-[#4a3195] p-2 rounded-full">
                   <UserCheck className="h-6 w-6" />
                 </div>
                 <h1 className="text-xl font-bold">Lista de Usuário</h1>
@@ -140,6 +150,16 @@ export default function AdminUsers() {
                     Página inicial do administrador &gt; Lista de Usuário
                   </span>
                 </div>
+              </div>
+
+              <div className="p-4 bg-white">
+                <Button 
+                  onClick={handleAddUser} 
+                  className="bg-[#5438a0] hover:bg-[#4a3195] flex items-center gap-2 mb-4"
+                >
+                  <Plus size={18} />
+                  <span>Adicionar Usuário</span>
+                </Button>
               </div>
 
               {isLoading ? (
@@ -153,8 +173,13 @@ export default function AdminUsers() {
 
         <UserEditDialog
           user={selectedUser}
-          open={!!selectedUser}
-          onOpenChange={(open) => !open && setSelectedUser(null)}
+          open={!!selectedUser || isAddingUser}
+          onOpenChange={(open) => {
+            if (!open) {
+              setSelectedUser(null);
+              setIsAddingUser(false);
+            }
+          }}
           onUserUpdated={handleUserUpdated}
         />
       </div>
