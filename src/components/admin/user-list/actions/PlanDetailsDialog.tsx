@@ -13,9 +13,9 @@ interface PlanDetailsDialogProps {
 export const PlanDetailsDialog = ({ isOpen, onOpenChange, user }: PlanDetailsDialogProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg md:max-w-xl">
+      <DialogContent className="sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
         <DialogHeader className="flex flex-row items-center">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full">
             <div className="bg-indigo-700 p-1.5 rounded-full">
               <RefreshCw className="h-4 w-4 text-white" />
             </div>
