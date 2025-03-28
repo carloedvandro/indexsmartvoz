@@ -33,11 +33,8 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
     return null;
   }
 
-  // Create the ProfileWithSponsor object with proper null checking
-  const profileWithSponsor: ProfileWithSponsor = {
-    ...profileData as object,
-    sponsor: profileData.sponsor ? mapSponsor(profileData.sponsor) : null
-  };
-
-  return profileWithSponsor;
+  return {
+    ...profileData,
+    sponsor: mapSponsor(profileData.sponsor),
+  } as ProfileWithSponsor;
 };

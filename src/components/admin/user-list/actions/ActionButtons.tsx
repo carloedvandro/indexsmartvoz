@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { UserCheck, Edit, Info, Mail, Lock, LockOpen } from "lucide-react";
+import { Eye, UserCheck, Edit, Info, Mail, Lock, LockOpen } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface ActionButtonsProps {
@@ -9,7 +9,6 @@ interface ActionButtonsProps {
   onEdit: (user: any) => void;
   onInfoClick: () => void;
   onToggleLock: () => void;
-  onPlanClick: () => void;
 }
 
 export const ActionButtons = ({ 
@@ -17,23 +16,23 @@ export const ActionButtons = ({
   isUnlocked, 
   onEdit, 
   onInfoClick, 
-  onToggleLock,
-  onPlanClick
+  onToggleLock 
 }: ActionButtonsProps) => {
   return (
     <>
       <Button 
         size="sm" 
         variant="default" 
-        className="bg-green-500 hover:bg-green-600 h-8 w-8 p-0"
-        onClick={onPlanClick}
+        className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
+        disabled={!isUnlocked}
       >
-        <Mail className="h-4 w-4" />
+        <Eye className="h-4 w-4" />
       </Button>
       <Button 
         size="sm" 
         variant="default" 
         className="bg-cyan-500 hover:bg-cyan-600 h-8 w-8 p-0"
+        disabled={!isUnlocked}
       >
         <UserCheck className="h-4 w-4" />
       </Button>
@@ -42,6 +41,7 @@ export const ActionButtons = ({
         variant="default" 
         className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
         onClick={() => onEdit(user)}
+        disabled={!isUnlocked}
       >
         <Edit className="h-4 w-4" />
       </Button>
@@ -50,6 +50,7 @@ export const ActionButtons = ({
         variant="default" 
         className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
         onClick={onInfoClick}
+        disabled={!isUnlocked}
       >
         <Info className="h-4 w-4" />
       </Button>
@@ -61,6 +62,14 @@ export const ActionButtons = ({
         onClick={onToggleLock}
       >
         {isUnlocked ? <LockOpen className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
+      </Button>
+      <Button 
+        size="sm" 
+        variant="default" 
+        className="bg-green-500 hover:bg-green-600 h-8 w-8 p-0"
+        disabled={!isUnlocked}
+      >
+        <Mail className="h-4 w-4" />
       </Button>
     </>
   );
