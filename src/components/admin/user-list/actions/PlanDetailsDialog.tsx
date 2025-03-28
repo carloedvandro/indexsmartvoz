@@ -31,7 +31,7 @@ export const PlanDetailsDialog = ({ isOpen, onOpenChange, user }: PlanDetailsDia
           <div className="border-b pb-4">
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Plano:</span>
-              <span className="font-semibold text-green-500">PARCEIRO SMART INTERNET</span>
+              <span className="font-semibold text-green-500">Smartvoz</span>
             </div>
           </div>
           
