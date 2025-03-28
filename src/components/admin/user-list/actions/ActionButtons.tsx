@@ -1,7 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Eye, UserCheck, Edit, Info, Lock, LockOpen, ArrowRightToLine } from "lucide-react";
-import Image from "@/components/ui/image";
+import { Eye, Users, Edit, Info, Lock, LockOpen, ArrowRightToLine } from "lucide-react";
 import { useState } from "react";
 import { PlanDetailsDialog } from "./PlanDetailsDialog";
 
@@ -24,22 +23,27 @@ export const ActionButtons = ({
 
   return (
     <>
+      {/* Square blue button with eye icon */}
       <Button 
         size="sm" 
         variant="default" 
-        className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
+        className="bg-cyan-500 hover:bg-cyan-600 h-12 w-12 p-0 rounded-md"
         disabled={!isUnlocked}
       >
-        <Eye className="h-4 w-4" />
+        <Eye className="h-5 w-5" />
       </Button>
+
+      {/* Square blue button with users icon */}
       <Button 
         size="sm" 
         variant="default" 
-        className="bg-cyan-500 hover:bg-cyan-600 h-8 w-8 p-0"
+        className="bg-cyan-500 hover:bg-cyan-600 h-12 w-12 p-0 rounded-md"
         disabled={!isUnlocked}
       >
-        <UserCheck className="h-4 w-4" />
+        <Users className="h-5 w-5" />
       </Button>
+
+      {/* Edit button */}
       <Button 
         size="sm" 
         variant="default" 
@@ -49,6 +53,8 @@ export const ActionButtons = ({
       >
         <Edit className="h-4 w-4" />
       </Button>
+
+      {/* Info button */}
       <Button 
         size="sm" 
         variant="default" 
@@ -59,6 +65,7 @@ export const ActionButtons = ({
         <Info className="h-4 w-4" />
       </Button>
       
+      {/* Lock/Unlock button */}
       <Button 
         size="sm" 
         variant="default" 
@@ -67,6 +74,8 @@ export const ActionButtons = ({
       >
         {isUnlocked ? <LockOpen className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
       </Button>
+
+      {/* Plan details button */}
       <Button 
         size="sm" 
         variant="default" 
