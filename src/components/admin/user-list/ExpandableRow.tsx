@@ -82,21 +82,25 @@ export const ExpandableRow = ({
       
       {isExpanded && (
         <TableRow className="bg-gray-50">
-          <TableCell colSpan={6} className="p-4">
-            <div className="grid grid-cols-3 gap-4 text-sm text-gray-600">
-              <div>
-                <p>Comissões Totais: R$0,00</p>
-                <p>Celular: +5588993734779</p>
-              </div>
-              <div>
-                <p>Vendas/Comissões</p>
-                <p>R$0,00 / R$0,00</p>
-              </div>
-              <div>
-                <p>Comissão Paga: R$0,00</p>
-              </div>
+          <TableCell className="w-10"></TableCell>
+          <TableCell>
+            <div className="text-sm text-gray-600">
+              <p>Comissões Totais: R$0,00</p>
+              <p>Celular: +5588993734779</p>
             </div>
           </TableCell>
+          <TableCell>
+            <div className="text-sm text-gray-600">
+              <p>Vendas/Comissões</p>
+              <p>R$0,00 / R$0,00</p>
+            </div>
+          </TableCell>
+          <TableCell colSpan={2}>
+            <div className="text-sm text-gray-600">
+              <p>Comissão Paga: R$0,00</p>
+            </div>
+          </TableCell>
+          <TableCell></TableCell>
         </TableRow>
       )}
     </>
