@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Eye, Users, Edit, Info, Lock, LockOpen, ArrowRightToLine } from "lucide-react";
+import { Eye, Network, Edit, Info, Lock, LockOpen, ArrowRightToLine } from "lucide-react";
 import { useState } from "react";
 import { PlanDetailsDialog } from "./PlanDetailsDialog";
 
@@ -33,14 +33,14 @@ export const ActionButtons = ({
         <Eye className="h-5 w-5" />
       </Button>
 
-      {/* Square blue button with users icon */}
+      {/* Square blue button with network icon */}
       <Button 
         size="sm" 
         variant="default" 
         className="bg-cyan-500 hover:bg-cyan-600 h-12 w-12 p-0 rounded-md"
         disabled={!isUnlocked}
       >
-        <Users className="h-5 w-5" />
+        <Network className="h-5 w-5" />
       </Button>
 
       {/* Edit button */}
