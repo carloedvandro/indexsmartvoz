@@ -7,6 +7,7 @@ import { ProfileWithSponsor } from "@/types/profile";
 import { updateProfile } from "@/services/user/userUpdate";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ExpandableRowProps {
   user: ProfileWithSponsor;
@@ -34,41 +35,54 @@ export const ExpandableRow = ({
     user.mobile || user.whatsapp || "+5588993734779"
   );
 
-  // Update mobile number for users from their profile data
+  // Fetch the latest user data from the database and update mobile number if needed
   useEffect(() => {
-    const updateMobileNumber = async () => {
-      let mobileToUse = "+5588993734779";
-      let shouldUpdate = false;
+    const fetchUserAndUpdateMobile = async () => {
+      if (!user.id) return;
 
-      // Priority: existing mobile > whatsapp > default
-      if (user.mobile && user.mobile.trim() !== "") {
-        mobileToUse = user.mobile;
-        // No need to update if mobile is already set properly
-        shouldUpdate = false;
-      } else if (user.whatsapp && user.whatsapp.trim() !== "") {
-        mobileToUse = user.whatsapp;
-        shouldUpdate = true;
-      } else {
-        shouldUpdate = true;
-      }
+      try {
+        // First, get the latest user data from Supabase
+        const { data: latestUserData, error: fetchError } = await supabase
+          .from("profiles")
+          .select("mobile, whatsapp")
+          .eq("id", user.id)
+          .single();
 
-      setMobileNumber(mobileToUse);
+        if (fetchError) {
+          console.error("Error fetching user data:", fetchError);
+          return;
+        }
 
-      // Only update if needed and if user ID exists
-      if (shouldUpdate && user.id) {
-        try {
+        let mobileToUse = "+5588993734779";
+        let shouldUpdate = false;
+
+        // Priority: existing mobile > whatsapp > default
+        if (latestUserData.mobile && latestUserData.mobile.trim() !== "") {
+          mobileToUse = latestUserData.mobile;
+          shouldUpdate = false;
+        } else if (latestUserData.whatsapp && latestUserData.whatsapp.trim() !== "") {
+          mobileToUse = latestUserData.whatsapp;
+          shouldUpdate = true;
+        } else {
+          shouldUpdate = true;
+        }
+
+        setMobileNumber(mobileToUse);
+
+        // Only update in database if needed
+        if (shouldUpdate) {
           await updateProfile(user.id, {
             mobile: mobileToUse
           });
           console.log("Mobile number updated for user:", user.full_name, "to", mobileToUse);
-        } catch (error) {
-          console.error("Error updating mobile number:", error);
         }
+      } catch (error) {
+        console.error("Error in fetch and update process:", error);
       }
     };
 
-    updateMobileNumber();
-  }, [user]);
+    fetchUserAndUpdateMobile();
+  }, [user.id]);
   
   return (
     <>
