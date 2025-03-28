@@ -1,12 +1,10 @@
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { CircleUser } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface ViewUserDetailsDialogProps {
@@ -18,6 +16,8 @@ interface ViewUserDetailsDialogProps {
 export const ViewUserDetailsDialog = ({ isOpen, onOpenChange, user }: ViewUserDetailsDialogProps) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPasswordInput, setShowPasswordInput] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
   
   const handleSave = async () => {
     setIsSubmitting(true);
@@ -46,120 +46,85 @@ export const ViewUserDetailsDialog = ({ isOpen, onOpenChange, user }: ViewUserDe
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader className="flex flex-row items-center gap-2">
-          <div className="bg-indigo-700 p-1.5 rounded-full">
-            <CircleUser className="h-5 w-5 text-white" />
-          </div>
-          <DialogTitle className="text-lg">Adicionar Usuário</DialogTitle>
+        <DialogHeader>
+          <DialogTitle className="text-lg">{user?.id ? 'Editar Usuário' : 'Adicionar Usuário'}</DialogTitle>
         </DialogHeader>
         
-        <div className="grid grid-cols-1 gap-2">
-          <div className="flex gap-2">
-            <Button variant="outline" className="bg-indigo-100 text-indigo-900">
-              Usuário
-            </Button>
-            <Button variant="outline">
-              Adicionar Transação
-            </Button>
-          </div>
-          
+        <div>
           <Tabs defaultValue="personal" className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="personal">Dados Pessoais</TabsTrigger>
-              <TabsTrigger value="contact">Contato</TabsTrigger>
-              <TabsTrigger value="address">Endereço</TabsTrigger>
-              <TabsTrigger value="other">Outros</TabsTrigger>
+            <TabsList className="w-full grid grid-cols-4">
+              <TabsTrigger value="personal" className="rounded-none">Dados Pessoais</TabsTrigger>
+              <TabsTrigger value="contact" className="rounded-none">Contato</TabsTrigger>
+              <TabsTrigger value="address" className="rounded-none">Endereço</TabsTrigger>
+              <TabsTrigger value="other" className="rounded-none">Outros</TabsTrigger>
             </TabsList>
             
             <TabsContent value="personal" className="space-y-4 mt-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <Label htmlFor="first-name">Nome</Label>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Nome Completo</label>
                   <Input 
-                    id="first-name" 
-                    placeholder="Nome" 
-                    defaultValue={user?.full_name?.split(' ')[0] || ''}
+                    placeholder="Nome Completo" 
+                    defaultValue={user?.full_name || ''}
                   />
                 </div>
-                <div className="space-y-1">
-                  <Label htmlFor="last-name">Sobrenome</Label>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Email</label>
                   <Input 
-                    id="last-name" 
-                    placeholder="Sobrenome" 
-                    defaultValue={user?.full_name?.split(' ').slice(1).join(' ') || ''}
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="email">Email</Label>
-                  <Input 
-                    id="email" 
                     type="email" 
                     placeholder="Email" 
                     defaultValue={user?.email || ''}
                   />
                 </div>
-                <div className="space-y-1">
-                  <Label htmlFor="status">Status do fornecedor</Label>
-                  <Select defaultValue={user?.status || 'active'}>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Data de Nascimento</label>
+                  <Input 
+                    type="date" 
+                    placeholder="dd/mm/aaaa"
+                    defaultValue={user?.birth_date?.split('T')[0] || ''}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Tipo de Pessoa</label>
+                  <Select defaultValue={user?.person_type || 'pf'}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Selecione um status" />
+                      <SelectValue placeholder="Selecione" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="active">Ativo</SelectItem>
-                      <SelectItem value="pending">Pendente</SelectItem>
-                      <SelectItem value="blocked">Desabilitado</SelectItem>
+                      <SelectItem value="pf">Pessoa Física</SelectItem>
+                      <SelectItem value="pj">Pessoa Jurídica</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-1">
-                  <Label htmlFor="phone">Telefone</Label>
+                <div>
+                  <label className="block text-sm font-medium mb-1">CPF</label>
                   <Input 
-                    id="phone" 
-                    placeholder="+55 (00) 00000-0000" 
-                    defaultValue={user?.phone || ''}
+                    placeholder="CPF" 
+                    defaultValue={user?.document_id || ''}
                   />
                 </div>
-                <div className="space-y-1">
-                  <Label htmlFor="custom-id">ID Personalizado</Label>
+                <div>
+                  <label className="block text-sm font-medium mb-1">CNPJ</label>
                   <Input 
-                    id="custom-id" 
-                    placeholder="ID Personalizado" 
-                    defaultValue={user?.custom_id || ''}
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="password">Senha</Label>
-                  <Input 
-                    id="password" 
-                    type="password" 
-                    placeholder="Senha" 
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="confirm-password">Confirmar Senha</Label>
-                  <Input 
-                    id="confirm-password" 
-                    type="password" 
-                    placeholder="Confirmar Senha" 
+                    placeholder="CNPJ" 
+                    defaultValue={user?.cnpj || ''}
                   />
                 </div>
               </div>
             </TabsContent>
             
-            <TabsContent value="contact" className="space-y-4">
+            <TabsContent value="contact" className="space-y-4 mt-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <Label htmlFor="phone">Telefone</Label>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Telefone</label>
                   <Input 
-                    id="phone" 
                     placeholder="Telefone" 
                     defaultValue={user?.phone || ''}
                   />
                 </div>
-                <div className="space-y-1">
-                  <Label htmlFor="mobile">Celular</Label>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Celular</label>
                   <Input 
-                    id="mobile" 
                     placeholder="Celular" 
                     defaultValue={user?.mobile || ''}
                   />
@@ -167,34 +132,38 @@ export const ViewUserDetailsDialog = ({ isOpen, onOpenChange, user }: ViewUserDe
               </div>
             </TabsContent>
             
-            <TabsContent value="address" className="space-y-4">
+            <TabsContent value="address" className="space-y-4 mt-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <Label htmlFor="address">Endereço</Label>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Endereço</label>
                   <Input 
-                    id="address" 
                     placeholder="Endereço" 
                     defaultValue={user?.address || ''}
                   />
                 </div>
-                <div className="space-y-1">
-                  <Label htmlFor="city">Cidade</Label>
+                <div>
+                  <label className="block text-sm font-medium mb-1">CEP</label>
                   <Input 
-                    id="city" 
+                    placeholder="CEP" 
+                    defaultValue={user?.zip_code || ''}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Cidade</label>
+                  <Input 
                     placeholder="Cidade" 
                     defaultValue={user?.city || ''}
                   />
                 </div>
-                <div className="space-y-1">
-                  <Label htmlFor="state">Estado</Label>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Estado</label>
                   <Input 
-                    id="state" 
                     placeholder="Estado" 
                     defaultValue={user?.state || ''}
                   />
                 </div>
-                <div className="space-y-1">
-                  <Label htmlFor="country">País</Label>
+                <div>
+                  <label className="block text-sm font-medium mb-1">País</label>
                   <Select defaultValue={user?.country || 'Brasil'}>
                     <SelectTrigger>
                       <SelectValue placeholder="Selecione um país" />
@@ -209,10 +178,23 @@ export const ViewUserDetailsDialog = ({ isOpen, onOpenChange, user }: ViewUserDe
               </div>
             </TabsContent>
             
-            <TabsContent value="other" className="space-y-4">
+            <TabsContent value="other" className="space-y-4 mt-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <Label htmlFor="sponsor">Afiliado</Label>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Status do fornecedor</label>
+                  <Select defaultValue={user?.status || 'active'}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione um status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="active">Ativo</SelectItem>
+                      <SelectItem value="pending">Pendente</SelectItem>
+                      <SelectItem value="blocked">Desabilitado</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Afiliado</label>
                   <Select defaultValue="">
                     <SelectTrigger>
                       <SelectValue placeholder="Selecione um afiliado" />
@@ -223,27 +205,72 @@ export const ViewUserDetailsDialog = ({ isOpen, onOpenChange, user }: ViewUserDe
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-1">
-                  <Label htmlFor="user-group">Grupos</Label>
-                  <Input 
-                    id="user-group" 
-                    placeholder="Atribuir grupos" 
-                  />
+                <div>
+                  <label className="block text-sm font-medium mb-1">Grupos</label>
+                  <Input placeholder="Atribuir grupos" />
                 </div>
               </div>
             </TabsContent>
           </Tabs>
           
-          <div className="flex justify-end mt-6">
+          {user?.id && (
+            <div className="flex gap-2 mt-6">
+              <Button
+                variant="outline"
+                className="text-black"
+                onClick={() => setShowPasswordInput(true)}
+              >
+                Definir Nova Senha
+              </Button>
+              <Button
+                variant="outline"
+                className="text-black"
+              >
+                Enviar Email de Reset
+              </Button>
+            </div>
+          )}
+          
+          {showPasswordInput && (
+            <div className="mt-4">
+              <div className="mb-2">
+                <label className="block text-sm font-medium mb-1">Nova Senha</label>
+                <Input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+        
+        <DialogFooter className="flex justify-between mt-4 space-x-2">
+          {user?.id && (
+            <Button
+              type="button"
+              variant="destructive"
+              className="bg-red-500 hover:bg-red-600"
+            >
+              Excluir
+            </Button>
+          )}
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
+              Cancelar
+            </Button>
             <Button
               onClick={handleSave}
               disabled={isSubmitting}
-              className="bg-emerald-500 hover:bg-emerald-600 text-white px-10"
+              className="bg-purple-700 hover:bg-purple-800 text-white"
             >
-              {isSubmitting ? "Enviando..." : "Enviar"}
+              Salvar
             </Button>
           </div>
-        </div>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

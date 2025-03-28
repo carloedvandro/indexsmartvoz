@@ -1,7 +1,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Eye, UserCheck, Edit, Info, Lock, LockOpen, ArrowRightToLine } from "lucide-react";
-import Image from "@/components/ui/image";
 import { useState } from "react";
 import { PlanDetailsDialog } from "./PlanDetailsDialog";
 import { ViewUserDetailsDialog } from "./ViewUserDetailsDialog";
