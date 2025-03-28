@@ -85,7 +85,7 @@ export const ExpandableRow = ({
           <TableCell colSpan={6} className="p-0">
             <div className="px-4 py-3">
               <div className="grid grid-cols-1 gap-4">
-                <div className="grid grid-cols-4 gap-4 border-t pt-2 text-sm text-gray-600">
+                <div className="grid grid-cols-3 gap-4 border-t pt-2 text-sm text-gray-600 pl-10">
                   <div>
                     <p>Comissões Totais: R$0,00</p>
                     <p>Celular: +5588993734779</p>
@@ -96,9 +96,6 @@ export const ExpandableRow = ({
                   </div>
                   <div>
                     <p>Comissão Paga: R$0,00</p>
-                  </div>
-                  <div>
-                    {/* Empty fourth column */}
                   </div>
                 </div>
               </div>
