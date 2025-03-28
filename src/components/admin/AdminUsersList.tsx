@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Check, X, UserCheck, UserPlus, Download, Eye, Edit, Info, Key, Trash, Mail } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "@/hooks/use-toast";
 
 // Flag icon component
 const BrazilFlag = () => (
@@ -24,6 +25,19 @@ export function AdminUsersList({ users = [], onEdit }) {
   const [nameFilter, setNameFilter] = useState("");
   const [emailFilter, setEmailFilter] = useState("");
   const [groupFilter, setGroupFilter] = useState("");
+
+  // Helper function to display user ID properly
+  const displayCustomId = (user) => {
+    return user?.custom_id || user?.external_id || "Gesia89";
+  };
+
+  // This will refresh the UI when a user is updated
+  const handleEditClick = (user) => {
+    if (onEdit) {
+      console.log("Editing user:", user);
+      onEdit(user);
+    }
+  };
 
   return (
     <div className="bg-white rounded-lg shadow">
@@ -108,7 +122,7 @@ export function AdminUsersList({ users = [], onEdit }) {
                 <TableCell>
                   <div className="flex flex-col">
                     <span className="font-medium">{user.full_name}</span>
-                    <span className="text-sm text-gray-500">Meu ID: {user.external_id || "Gesia89"}</span>
+                    <span className="text-sm text-gray-500">Meu ID: {displayCustomId(user)}</span>
                     <span className="text-sm text-blue-500">{user.email}</span>
                   </div>
                 </TableCell>
@@ -134,7 +148,7 @@ export function AdminUsersList({ users = [], onEdit }) {
                       size="sm" 
                       variant="default" 
                       className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
-                      onClick={() => onEdit(user)}
+                      onClick={() => handleEditClick(user)}
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
