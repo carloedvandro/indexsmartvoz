@@ -31,15 +31,19 @@ export const ExpandableRow = ({
 }: ExpandableRowProps) => {
   const { toast } = useToast();
 
-  // Update mobile number for users if not set
+  // Update mobile number for users if not set or use whatsapp if available
   useEffect(() => {
     const updateMobileNumber = async () => {
-      if (!user.mobile && user.id) {
+      // Check if mobile is not set
+      if ((!user.mobile || user.mobile === '') && user.id) {
         try {
+          // Use whatsapp number if available, otherwise use default
+          const mobileToUse = user.whatsapp ? user.whatsapp : "+5588993734779";
+          
           await updateProfile(user.id, {
-            mobile: "+5588993734779"
+            mobile: mobileToUse
           });
-          console.log("Mobile number updated for user:", user.full_name);
+          console.log("Mobile number updated for user:", user.full_name, "to", mobileToUse);
         } catch (error) {
           console.error("Error updating mobile number:", error);
         }
@@ -109,7 +113,7 @@ export const ExpandableRow = ({
           <TableCell>
             <div className="text-sm text-gray-600">
               <p>Comissões Totais: R$0,00</p>
-              <p>Celular: {user.mobile || "+5588993734779"}</p>
+              <p>Celular: {user.mobile || (user.whatsapp ? user.whatsapp : "+5588993734779")}</p>
             </div>
           </TableCell>
           <TableCell>
