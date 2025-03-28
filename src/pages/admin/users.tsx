@@ -132,7 +132,7 @@ export default function AdminUsers() {
         <main className="flex-1 p-4 md:p-8 overflow-auto">
           <div className="max-w-full mx-auto">
             <div className="flex flex-col">
-              <div className="bg-indigo-700 text-white p-4 mb-4 rounded-t-lg flex items-center gap-3 w-full">
+              <div className="bg-indigo-700 text-white p-4 mb-4 rounded-t-lg flex items-center gap-3 w-full max-w-full">
                 <div className="bg-indigo-600 p-2 rounded-full">
                   <UserCheck className="h-6 w-6" />
                 </div>
