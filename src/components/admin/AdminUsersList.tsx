@@ -13,6 +13,7 @@ import {
 import { Check, X, UserCheck, UserPlus, Download, Eye, Edit, Info, Key, Trash, Mail } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
+import { ProfileWithSponsor } from "@/types/profile";
 
 // Flag icon component
 const BrazilFlag = () => (
@@ -20,15 +21,6 @@ const BrazilFlag = () => (
     <img src="/br-flag.svg" alt="Brazil" className="h-6 w-6" />
   </div>
 );
-
-// Sample sponsor names to cycle through
-const sampleSponsors = [
-  { name: "Ana Carolina Silva", id: "Ana567" },
-  { name: "Carlos Oliveira", id: "Carlos123" },
-  { name: "Patricia Mendes", id: "Pati456" },
-  { name: "João Pereira", id: "Joao789" },
-  { name: "Mariana Costa", id: "Mari321" },
-];
 
 export function AdminUsersList({ users = [], onEdit }) {
   const [nameFilter, setNameFilter] = useState("");
@@ -49,11 +41,6 @@ export function AdminUsersList({ users = [], onEdit }) {
       console.log("Editing user:", user);
       onEdit(user);
     }
-  };
-
-  // Get a sponsor based on index
-  const getSponsor = (index) => {
-    return sampleSponsors[index % sampleSponsors.length];
   };
 
   return (
@@ -154,8 +141,10 @@ export function AdminUsersList({ users = [], onEdit }) {
                 </TableCell>
                 <TableCell>
                   <div className="flex flex-col">
-                    <span className="font-medium">{getSponsor(index).name}</span>
-                    <span className="text-sm text-gray-500">ID: {getSponsor(index).id}</span>
+                    <span className="font-medium">{user?.sponsor?.full_name || "Não possui"}</span>
+                    {user?.sponsor?.custom_id && (
+                      <span className="text-sm text-gray-500">ID: {user.sponsor.custom_id}</span>
+                    )}
                   </div>
                 </TableCell>
                 <TableCell>

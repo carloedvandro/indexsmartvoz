@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -8,6 +9,8 @@ import { UserEditDialog } from "@/components/admin/UserEditDialog";
 import { useToast } from "@/hooks/use-toast";
 import { AdminUsersList } from "@/components/admin/AdminUsersList";
 import { UserCheck } from "lucide-react";
+import { mapSponsor } from "@/utils/mappers/profileMapper";
+import { ProfileWithSponsor } from "@/types/profile";
 
 export default function AdminUsers() {
   const navigate = useNavigate();
@@ -66,7 +69,15 @@ export default function AdminUsers() {
 
       let query = supabase
         .from("profiles")
-        .select("*")
+        .select(`
+          *,
+          sponsor:sponsor_id (
+            id,
+            full_name,
+            email,
+            custom_id
+          )
+        `)
         .order("created_at", { ascending: false });
 
       if (filters.fullName) {
@@ -95,7 +106,8 @@ export default function AdminUsers() {
         throw error;
       }
       
-      return data;
+      // Return data as ProfileWithSponsor array
+      return data as ProfileWithSponsor[];
     },
   });
 
