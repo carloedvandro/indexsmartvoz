@@ -11,11 +11,6 @@ interface PlanDetailsDialogProps {
 }
 
 export const PlanDetailsDialog = ({ isOpen, onOpenChange, user }: PlanDetailsDialogProps) => {
-  const handleRefresh = () => {
-    // Refresh the page
-    window.location.reload();
-  };
-
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
@@ -40,7 +35,7 @@ export const PlanDetailsDialog = ({ isOpen, onOpenChange, user }: PlanDetailsDia
             
             <div className="border-b p-4">
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">Plano:</span>
+                <span className="text-gray-600">Planta:</span>
                 <span className="font-semibold text-green-500">PARCEIRO SMART INTERNET</span>
               </div>
             </div>
@@ -74,20 +69,12 @@ export const PlanDetailsDialog = ({ isOpen, onOpenChange, user }: PlanDetailsDia
             </div>
           </div>
           
-          <div className="flex justify-center gap-4 pt-6 pb-2">
+          <div className="flex justify-center pt-6 pb-2">
             <Button 
               variant="outline" 
               className="border-gray-300 text-gray-600 hover:bg-gray-100"
             >
               Comprar Novo Plano
-            </Button>
-            
-            <Button 
-              onClick={handleRefresh}
-              className="bg-indigo-700 hover:bg-indigo-800"
-            >
-              <RefreshCw className="mr-2 h-4 w-4" />
-              Atualizar
             </Button>
           </div>
         </div>
