@@ -13,7 +13,7 @@ interface PlanDetailsDialogProps {
 export const PlanDetailsDialog = ({ isOpen, onOpenChange, user }: PlanDetailsDialogProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-lg md:max-w-xl">
         <DialogHeader className="flex flex-row items-center">
           <div className="flex items-center gap-2">
             <div className="bg-indigo-700 p-1.5 rounded-full">
