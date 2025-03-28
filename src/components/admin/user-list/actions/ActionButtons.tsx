@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Eye, Network, Edit, Info, Lock, LockOpen, ArrowRightToLine, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { PlanDetailsDialog } from "./PlanDetailsDialog";
+import { useNavigate } from "react-router-dom";
 
 interface ActionButtonsProps {
   user: any;
@@ -20,6 +21,13 @@ export const ActionButtons = ({
   onToggleLock 
 }: ActionButtonsProps) => {
   const [isPlanDetailsOpen, setIsPlanDetailsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleNetworkClick = () => {
+    if (user && user.id) {
+      navigate(`/admin/network?userId=${user.id}`);
+    }
+  };
 
   return (
     <>
@@ -38,7 +46,7 @@ export const ActionButtons = ({
         size="sm" 
         variant="default" 
         className="bg-blue-500 hover:bg-blue-600 h-9 w-9 p-0 rounded-md"
-        disabled={!isUnlocked}
+        onClick={handleNetworkClick}
       >
         <Network className="h-4 w-4" />
       </Button>
