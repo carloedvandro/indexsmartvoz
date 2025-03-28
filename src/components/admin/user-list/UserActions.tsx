@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Edit, Eye, Info, Key, Mail, Trash, UserCheck } from "lucide-react";
+import { Edit, Eye, Info, Lock, Mail, Trash, UserCheck } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useState } from "react";
 import { deleteUser } from "@/services/user/userDelete";
@@ -111,8 +111,8 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
         </AlertDialogContent>
       </AlertDialog>
       
-      <Button size="sm" variant="default" className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0">
-        <Key className="h-4 w-4" />
+      <Button size="sm" variant="default" className="bg-purple-600 hover:bg-purple-700 h-8 w-8 p-0">
+        <Lock className="h-4 w-4" />
       </Button>
       <Button size="sm" variant="default" className="bg-green-500 hover:bg-green-600 h-8 w-8 p-0">
         <Mail className="h-4 w-4" />
