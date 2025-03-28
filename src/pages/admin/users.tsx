@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -7,9 +8,10 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { UserEditDialog } from "@/components/admin/UserEditDialog";
 import { useToast } from "@/hooks/use-toast";
 import { AdminUsersList } from "@/components/admin/AdminUsersList";
-import { UserCheck } from "lucide-react";
+import { UserCheck, Plus } from "lucide-react";
 import { mapSponsor } from "@/utils/mappers/profileMapper";
 import { ProfileWithSponsor } from "@/types/profile";
+import { Button } from "@/components/ui/button";
 
 export default function AdminUsers() {
   const navigate = useNavigate();
@@ -118,6 +120,10 @@ export default function AdminUsers() {
     setSelectedUser(user);
   };
 
+  const handleAddUser = () => {
+    setSelectedUser({});
+  };
+
   const handleUserUpdated = () => {
     refetch();
     setSelectedUser(null);
@@ -136,9 +142,31 @@ export default function AdminUsers() {
                 </div>
                 <h1 className="text-xl font-bold">Lista de Usuário</h1>
                 <div className="ml-auto flex items-center">
-                  <span className="text-sm">
-                    Página inicial do administrador &gt; Lista de Usuário
-                  </span>
+                  <Button 
+                    variant="default" 
+                    className="bg-purple-700 hover:bg-purple-800 text-white flex items-center gap-2"
+                    onClick={handleAddUser}
+                  >
+                    <Plus className="h-4 w-4" />
+                    Adicionar Usuário
+                  </Button>
+                </div>
+              </div>
+
+              <div className="bg-white p-4 mb-4 rounded-md shadow-sm">
+                <div className="flex space-x-2">
+                  <Button 
+                    variant="default" 
+                    className="bg-purple-700 hover:bg-purple-800"
+                  >
+                    Usuário
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="border-purple-300 text-purple-700 hover:bg-purple-50"
+                  >
+                    Adicionar Transação
+                  </Button>
                 </div>
               </div>
 

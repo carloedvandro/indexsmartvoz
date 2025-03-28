@@ -4,6 +4,7 @@ import { Eye, Network, Edit, Info, Lock, LockOpen, ArrowRightToLine, Trash2 } fr
 import { useState } from "react";
 import { PlanDetailsDialog } from "./PlanDetailsDialog";
 import { useNavigate } from "react-router-dom";
+import { DeleteUserDialog } from "./DeleteUserDialog";
 
 interface ActionButtonsProps {
   user: any;
@@ -92,6 +93,9 @@ export const ActionButtons = ({
       >
         <ArrowRightToLine className="h-4 w-4" />
       </Button>
+
+      {/* Delete user button */}
+      <DeleteUserDialog user={user} isUnlocked={isUnlocked} />
 
       <PlanDetailsDialog 
         isOpen={isPlanDetailsOpen} 
