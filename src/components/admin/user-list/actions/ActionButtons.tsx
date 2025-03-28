@@ -1,9 +1,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Eye, UserCheck, Edit, Info, Lock, LockOpen, ArrowRightToLine } from "lucide-react";
+import Image from "@/components/ui/image";
 import { useState } from "react";
 import { PlanDetailsDialog } from "./PlanDetailsDialog";
-import { ViewUserDetailsDialog } from "./ViewUserDetailsDialog";
 
 interface ActionButtonsProps {
   user: any;
@@ -21,7 +21,6 @@ export const ActionButtons = ({
   onToggleLock 
 }: ActionButtonsProps) => {
   const [isPlanDetailsOpen, setIsPlanDetailsOpen] = useState(false);
-  const [isViewDetailsOpen, setIsViewDetailsOpen] = useState(false);
 
   return (
     <>
@@ -29,7 +28,7 @@ export const ActionButtons = ({
         size="sm" 
         variant="default" 
         className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
-        onClick={() => setIsViewDetailsOpen(true)}
+        disabled={!isUnlocked}
       >
         <Eye className="h-4 w-4" />
       </Button>
@@ -80,12 +79,6 @@ export const ActionButtons = ({
       <PlanDetailsDialog 
         isOpen={isPlanDetailsOpen} 
         onOpenChange={setIsPlanDetailsOpen}
-        user={user}
-      />
-      
-      <ViewUserDetailsDialog
-        isOpen={isViewDetailsOpen}
-        onOpenChange={setIsViewDetailsOpen}
         user={user}
       />
     </>
