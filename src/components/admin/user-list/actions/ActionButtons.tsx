@@ -1,15 +1,15 @@
 
+import { Edit, Key, RefreshCw, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Eye, UserCheck, Edit, Info, Lock, LockOpen, ArrowRightToLine } from "lucide-react";
-import Image from "@/components/ui/image";
-import { useState } from "react";
-import { PlanDetailsDialog } from "./PlanDetailsDialog";
+import { Tooltip } from "@/components/ui/tooltip";
+import { TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface ActionButtonsProps {
   user: any;
   isUnlocked: boolean;
   onEdit: (user: any) => void;
   onInfoClick: () => void;
+  onPlanClick: () => void;
   onToggleLock: () => void;
 }
 
@@ -18,69 +18,82 @@ export const ActionButtons = ({
   isUnlocked, 
   onEdit, 
   onInfoClick, 
+  onPlanClick,
   onToggleLock 
 }: ActionButtonsProps) => {
-  const [isPlanDetailsOpen, setIsPlanDetailsOpen] = useState(false);
-
   return (
     <>
-      <Button 
-        size="sm" 
-        variant="default" 
-        className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
-        disabled={!isUnlocked}
-      >
-        <Eye className="h-4 w-4" />
-      </Button>
-      <Button 
-        size="sm" 
-        variant="default" 
-        className="bg-cyan-500 hover:bg-cyan-600 h-8 w-8 p-0"
-        disabled={!isUnlocked}
-      >
-        <UserCheck className="h-4 w-4" />
-      </Button>
-      <Button 
-        size="sm" 
-        variant="default" 
-        className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
-        onClick={() => onEdit(user)}
-        disabled={!isUnlocked}
-      >
-        <Edit className="h-4 w-4" />
-      </Button>
-      <Button 
-        size="sm" 
-        variant="default" 
-        className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
-        onClick={onInfoClick}
-        disabled={!isUnlocked}
-      >
-        <Info className="h-4 w-4" />
-      </Button>
-      
-      <Button 
-        size="sm" 
-        variant="default" 
-        className={`${isUnlocked ? "bg-red-500 hover:bg-red-600" : "bg-purple-600 hover:bg-purple-700"} h-8 w-8 p-0`}
-        onClick={onToggleLock}
-      >
-        {isUnlocked ? <LockOpen className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
-      </Button>
-      <Button 
-        size="sm" 
-        variant="default" 
-        className="bg-green-500 hover:bg-green-600 h-8 w-8 p-0"
-        onClick={() => setIsPlanDetailsOpen(true)}
-      >
-        <ArrowRightToLine className="h-4 w-4" />
-      </Button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={() => onEdit(user)}
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+            >
+              <Edit className="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Editar</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
 
-      <PlanDetailsDialog 
-        isOpen={isPlanDetailsOpen} 
-        onOpenChange={setIsPlanDetailsOpen}
-        user={user}
-      />
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={onToggleLock}
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+            >
+              <Key className={`h-4 w-4 ${isUnlocked ? "text-green-500" : "text-gray-500"}`} />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{isUnlocked ? "Bloquear" : "Desbloquear"} edição</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={onInfoClick}
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+            >
+              <Info className="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Detalhes de pagamento</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={onPlanClick}
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+            >
+              <RefreshCw className="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Expiração do Plano</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </>
   );
 };
