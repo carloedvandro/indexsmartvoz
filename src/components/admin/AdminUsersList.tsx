@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +13,7 @@ import { Check, X, UserCheck, UserPlus, Download, Eye, Edit, Info, Key, Trash, M
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { ProfileWithSponsor } from "@/types/profile";
+import { Checkbox } from "@/components/ui/checkbox";
 
 // Flag icon component
 const BrazilFlag = () => (
@@ -26,6 +26,7 @@ export function AdminUsersList({ users = [], onEdit }) {
   const [nameFilter, setNameFilter] = useState("");
   const [emailFilter, setEmailFilter] = useState("");
   const [groupFilter, setGroupFilter] = useState("");
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   // Helper function to display user ID properly - use user's actual ID instead of default
   const displayCustomId = (user) => {
@@ -42,6 +43,32 @@ export function AdminUsersList({ users = [], onEdit }) {
       onEdit(user);
     }
   };
+
+  // Handle individual user selection
+  const toggleUserSelection = (userId) => {
+    setSelectedUsers(prev => 
+      prev.includes(userId)
+        ? prev.filter(id => id !== userId)
+        : [...prev, userId]
+    );
+  };
+
+  // Handle select all checkbox
+  const toggleSelectAll = () => {
+    if (selectedUsers.length === users.length) {
+      // If all are selected, deselect all
+      setSelectedUsers([]);
+    } else {
+      // Otherwise, select all
+      setSelectedUsers(users.map(user => user.id));
+    }
+  };
+
+  // Check if a user is selected
+  const isUserSelected = (userId) => selectedUsers.includes(userId);
+
+  // Check if all users are selected
+  const areAllUsersSelected = users.length > 0 && selectedUsers.length === users.length;
 
   return (
     <div className="bg-white rounded-lg shadow">
@@ -105,7 +132,11 @@ export function AdminUsersList({ users = [], onEdit }) {
           <TableHeader className="bg-gray-200">
             <TableRow>
               <TableHead className="w-10">
-                <input type="checkbox" className="rounded border-gray-300" />
+                <Checkbox 
+                  checked={areAllUsersSelected}
+                  onCheckedChange={toggleSelectAll}
+                  className="rounded border-gray-300"
+                />
               </TableHead>
               <TableHead>Detalhes do Usuário</TableHead>
               <TableHead className="whitespace-nowrap">Status do Usuário</TableHead>
@@ -118,7 +149,11 @@ export function AdminUsersList({ users = [], onEdit }) {
               <TableRow key={user.id} className="border-b">
                 <TableCell>
                   <div className="flex items-center">
-                    <input type="checkbox" className="rounded border-gray-300 mr-2" />
+                    <Checkbox 
+                      checked={isUserSelected(user.id)}
+                      onCheckedChange={() => toggleUserSelection(user.id)}
+                      className="rounded border-gray-300 mr-2"
+                    />
                     <span className="font-medium">{index + 465}</span>
                     <button className="ml-1 text-indigo-600">+</button>
                   </div>
