@@ -92,6 +92,7 @@ export const ExpandableRow = ({
                   </div>
                   <div>
                     <p>Vendas/Comissões</p>
+                    <p>R$0,00 / R$0,00</p>
                   </div>
                   <div>
                     <p>Comissão Paga: R$0,00</p>
