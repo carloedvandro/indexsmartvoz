@@ -29,6 +29,7 @@ export const PaymentDetailsDialog = ({ user, isOpen, onOpenChange }: PaymentDeta
         setIsLoading(true);
         try {
           const profileData = await fetchProfile(user.id);
+          console.log("Loaded user details:", profileData);
           setUserDetails(profileData);
         } catch (error) {
           console.error("Failed to load user details:", error);

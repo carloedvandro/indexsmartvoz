@@ -26,6 +26,7 @@ export const UserActions = ({ user, onEdit }: UserActionsProps) => {
   };
 
   const openPaymentDetails = () => {
+    console.log("Opening payment details for user:", user);
     setIsPaymentDetailsOpen(true);
   };
 
