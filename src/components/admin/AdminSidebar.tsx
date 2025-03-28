@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -92,7 +91,7 @@ export function AdminSidebar() {
         <img
           src="/lovable-uploads/a4a911e3-a6ea-47f3-a5c0-a855aa60803b.png"
           alt="Smartvoz Logo"
-          className="h-12 w-auto object-contain"
+          className="h-16 w-auto object-contain" 
         />
         <SidebarTrigger className="md:hidden" />
       </SidebarHeader>
