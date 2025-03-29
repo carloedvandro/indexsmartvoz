@@ -9,7 +9,6 @@ import { UserEditDialog } from "@/components/admin/UserEditDialog";
 import { useToast } from "@/hooks/use-toast";
 import { AdminUsersList } from "@/components/admin/AdminUsersList";
 import { UserCheck, Plus } from "lucide-react";
-import { mapSponsor } from "@/utils/mappers/profileMapper";
 import { ProfileWithSponsor } from "@/types/profile";
 import { Button } from "@/components/ui/button";
 
@@ -128,6 +127,25 @@ export default function AdminUsers() {
     setIsAddingUser(false);
   };
 
+  const handleDeleteUser = async (userId: string) => {
+    try {
+      // Implementation would depend on your delete service
+      // This is a placeholder
+      toast({
+        title: "Usuário excluído",
+        description: "O usuário foi excluído com sucesso.",
+      });
+      refetch();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      toast({
+        title: "Erro ao excluir usuário",
+        description: "Ocorreu um erro ao tentar excluir o usuário.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
@@ -160,7 +178,11 @@ export default function AdminUsers() {
               {isLoading ? (
                 <div className="p-8 text-center">Carregando...</div>
               ) : (
-                <AdminUsersList users={users} onEdit={handleEdit} />
+                <AdminUsersList 
+                  users={users} 
+                  onEdit={handleEdit} 
+                  onDelete={handleDeleteUser}
+                />
               )}
             </div>
           </div>

@@ -2,15 +2,21 @@ import { useState } from "react";
 import { ProfileWithSponsor } from "@/types/profile";
 import { displayCustomId, SearchFilters, UsersTable } from "./user-list";
 
-export function AdminUsersList({ users = [], onEdit }) {
+interface AdminUsersListProps {
+  users?: ProfileWithSponsor[];
+  onEdit: (user: any) => void;
+  onDelete?: (userId: string) => void;
+}
+
+export function AdminUsersList({ users = [], onEdit, onDelete }: AdminUsersListProps) {
   const [nameFilter, setNameFilter] = useState("");
   const [emailFilter, setEmailFilter] = useState("");
   const [groupFilter, setGroupFilter] = useState("");
-  const [selectedUsers, setSelectedUsers] = useState([]);
-  const [expandedRows, setExpandedRows] = useState({});
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
 
   // Handle individual user selection
-  const toggleUserSelection = (userId) => {
+  const toggleUserSelection = (userId: string) => {
     setSelectedUsers(prev => 
       prev.includes(userId)
         ? prev.filter(id => id !== userId)
@@ -30,7 +36,7 @@ export function AdminUsersList({ users = [], onEdit }) {
   };
 
   // Toggle row expansion
-  const toggleRowExpand = (userId) => {
+  const toggleRowExpand = (userId: string) => {
     setExpandedRows(prev => ({
       ...prev,
       [userId]: !prev[userId]
@@ -53,7 +59,7 @@ export function AdminUsersList({ users = [], onEdit }) {
       
       <div className="px-4 py-2">
         <div className="bg-indigo-500 text-white py-1 px-3 rounded inline-block">
-          Mostrar usuários ({users.length || 8})
+          Mostrar usuários ({users.length || 0})
         </div>
       </div>
       
@@ -67,6 +73,7 @@ export function AdminUsersList({ users = [], onEdit }) {
         areAllUsersSelected={areAllUsersSelected}
         onEdit={onEdit}
         displayCustomId={displayCustomId}
+        onDelete={onDelete}
       />
     </div>
   );

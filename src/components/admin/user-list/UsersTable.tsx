@@ -15,6 +15,7 @@ interface UsersTableProps {
   areAllUsersSelected: boolean;
   onEdit: (user: any) => void;
   displayCustomId: (user: any) => string;
+  onDelete?: (userId: string) => void;
 }
 
 export const UsersTable = ({
@@ -26,7 +27,8 @@ export const UsersTable = ({
   toggleSelectAll,
   areAllUsersSelected,
   onEdit,
-  displayCustomId
+  displayCustomId,
+  onDelete
 }: UsersTableProps) => {
   // Check if a user is selected
   const isUserSelected = (userId: string) => selectedUsers.includes(userId);
@@ -53,6 +55,7 @@ export const UsersTable = ({
               toggleExpand={() => toggleRowExpand(user.id)}
               onEdit={onEdit}
               displayCustomId={displayCustomId}
+              onDelete={onDelete}
             />
           ))}
         </TableBody>
