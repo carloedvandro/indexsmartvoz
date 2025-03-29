@@ -17,8 +17,8 @@ export const ProfileInfo = ({ member, isFilteredView = false }: ProfileInfoProps
   
   const totalTeamSize = calculateTotalTeamSize(member);
 
-  // Adjusted positioning to move information more to the right
-  const marginClass = isFilteredView ? "ml-[30px]" : "ml-[30px]"; 
+  // Posicionamento correto para mover as informações para a direita
+  const marginClass = isFilteredView ? "ml-[75px]" : "ml-[75px]"; 
   const marginTop = isFilteredView ? "calc(3mm + 15.2px)" : "8mm";
 
   return (
