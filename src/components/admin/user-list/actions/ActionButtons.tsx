@@ -1,74 +1,105 @@
 
-import { Button } from "@/components/ui/button";
-import { Edit, Lock, Unlock, Info, Trash2, Network } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { MoreHorizontal, PencilIcon, Trash2, Network } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { DeleteUserDialog } from "./DeleteUserDialog";
+import { PlanDetailsDialog } from "./PlanDetailsDialog";
+import { PaymentDetailsDialog } from "./PaymentDetailsDialog";
 
-interface ActionButtonsProps {
-  user: any;
-  isUnlocked: boolean;
-  onEdit: (user: any) => void;
-  onInfoClick: () => void;
-  onToggleLock: () => void;
-  onDeleteClick: () => void;
-}
+export function ActionButtons({ user, onEdit, onDelete }) {
+  const navigate = useNavigate();
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isPlanDialogOpen, setIsPlanDialogOpen] = useState(false);
+  const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
 
-export const ActionButtons = ({ 
-  user, 
-  isUnlocked, 
-  onEdit,
-  onInfoClick,
-  onToggleLock,
-  onDeleteClick
-}: ActionButtonsProps) => {
-  const [showInfo, setShowInfo] = useState(false);
-  const buttonClass = "h-8 w-8 p-0";
+  const handleViewNetwork = () => {
+    navigate(`/admin/network?userId=${user.id}`);
+  };
+
+  // We need to make this function return a Promise to match the expected type
+  const handleDelete = async () => {
+    onDelete(user.id);
+    return Promise.resolve();
+  };
 
   return (
-    <>
+    <div className="flex items-center justify-end gap-2">
       <Button
         variant="ghost"
-        size="icon"
-        className={buttonClass}
+        className="h-8 w-8 p-0 text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50"
         onClick={() => onEdit(user)}
-        title="Editar usuário"
       >
-        <Edit className="h-4 w-4" />
+        <PencilIcon className="h-4 w-4" />
+        <span className="sr-only">Edit</span>
       </Button>
+      
       <Button
         variant="ghost"
-        size="icon"
-        className={buttonClass}
-        onClick={onInfoClick}
-        title="Informações de pagamento"
-      >
-        <Info className="h-4 w-4" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        className={buttonClass}
-        onClick={onToggleLock}
-        title={isUnlocked ? "Bloquear usuário" : "Desbloquear usuário"}
-      >
-        {isUnlocked ? <Unlock className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        className={buttonClass}
-        onClick={onDeleteClick}
-        title="Excluir usuário"
-      >
-        <Trash2 className="h-4 w-4 text-red-500" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        className={buttonClass}
-        title="Rede"
+        className="h-8 w-8 p-0 bg-blue-500 hover:bg-blue-600 text-white rounded-md"
+        onClick={handleViewNetwork}
       >
         <Network className="h-4 w-4" />
+        <span className="sr-only">Network</span>
       </Button>
-    </>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            className="h-8 w-8 p-0 text-slate-600 hover:text-slate-700 hover:bg-slate-100"
+          >
+            <MoreHorizontal className="h-4 w-4" />
+            <span className="sr-only">More options</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="bg-white">
+          <DropdownMenuItem
+            className="text-red-600 cursor-pointer flex items-center gap-2"
+            onClick={() => setIsDeleteDialogOpen(true)}
+          >
+            <Trash2 className="h-4 w-4" />
+            <span>Excluir</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer flex items-center gap-2"
+            onClick={() => setIsPlanDialogOpen(true)}
+          >
+            <span>Detalhes do Plano</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer flex items-center gap-2"
+            onClick={() => setIsPaymentDialogOpen(true)}
+          >
+            <span>Detalhes de Pagamento</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <DeleteUserDialog
+        isOpen={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+        onDelete={handleDelete}
+        userName={user.full_name}
+      />
+
+      <PlanDetailsDialog
+        isOpen={isPlanDialogOpen}
+        onOpenChange={setIsPlanDialogOpen}
+        user={user}
+      />
+
+      <PaymentDetailsDialog
+        isOpen={isPaymentDialogOpen}
+        onOpenChange={setIsPaymentDialogOpen}
+        user={user}
+      />
+    </div>
   );
-};
+}
