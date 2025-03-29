@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -8,7 +7,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { UserEditDialog } from "@/components/admin/UserEditDialog";
 import { useToast } from "@/hooks/use-toast";
 import { AdminUsersList } from "@/components/admin/AdminUsersList";
-import { UserCheck, Plus } from "lucide-react";
+import { UserCheck, Settings } from "lucide-react";
 import { ProfileWithSponsor } from "@/types/profile";
 import { Button } from "@/components/ui/button";
 
@@ -129,8 +128,6 @@ export default function AdminUsers() {
 
   const handleDeleteUser = async (userId: string) => {
     try {
-      // Implementation would depend on your delete service
-      // This is a placeholder
       toast({
         title: "Usuário excluído",
         description: "O usuário foi excluído com sucesso.",
@@ -170,7 +167,7 @@ export default function AdminUsers() {
                   onClick={handleAddUser} 
                   className="bg-[#5438a0] hover:bg-[#4a3195] flex items-center gap-2 mb-4"
                 >
-                  <Plus size={18} />
+                  <Settings size={18} />
                   <span>Adicionar Usuário</span>
                 </Button>
               </div>
