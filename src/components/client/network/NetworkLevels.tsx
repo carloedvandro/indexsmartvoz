@@ -1,3 +1,4 @@
+
 import { useSearchParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,7 @@ export function NetworkLevels() {
   };
 
   return (
-    <Card className="p-4 mb-6">
+    <Card className="p-4 mb-6 sticky top-24">
       <div className="flex flex-col gap-2">
         {levels.map((level) => (
           <Button

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useProfile } from "@/hooks/useProfile";
 import { NetworkTree } from "@/components/client/network/NetworkTree";
+import { NetworkLevels } from "@/components/client/network/NetworkLevels";
 
 export default function NetworkPage() {
   const navigate = useNavigate();
@@ -23,7 +24,14 @@ export default function NetworkPage() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pt-24">
-        {profile?.id && <NetworkTree userId={profile.id} />}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="md:col-span-1">
+            <NetworkLevels />
+          </div>
+          <div className="md:col-span-3">
+            {profile?.id && <NetworkTree userId={profile.id} />}
+          </div>
+        </div>
       </main>
     </div>
   );
