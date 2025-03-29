@@ -23,6 +23,12 @@ export function ActionButtons({ user, onEdit, onDelete }) {
     navigate(`/admin/network?userId=${user.id}`);
   };
 
+  // Fix the return type to be a Promise
+  const handleDelete = async (): Promise<void> => {
+    onDelete(user.id);
+    return Promise.resolve();
+  };
+
   return (
     <div className="flex items-center justify-end gap-2">
       <Button
@@ -79,10 +85,7 @@ export function ActionButtons({ user, onEdit, onDelete }) {
       <DeleteUserDialog
         isOpen={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
-        onDelete={() => {
-          onDelete(user.id);
-          setIsDeleteDialogOpen(false);
-        }}
+        onDelete={handleDelete}
         userName={user.full_name}
       />
 
