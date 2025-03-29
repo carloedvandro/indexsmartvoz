@@ -29,11 +29,16 @@ export function UserGroupsManager({ userId, value, onChange, onClose }: UserGrou
 
   const fetchUserGroups = async (userId: string) => {
     try {
-      const { data, error } = await supabase.rpc('get_user_groups', { user_id: userId });
+      if (!userId) return;
+      
+      const { data, error } = await supabase
+        .from("user_groups")
+        .select("group_name")
+        .eq("user_id", userId);
       
       if (error) throw error;
       
-      const groups = data || [];
+      const groups = data?.map(item => item.group_name) || [];
       setUserGroups(groups);
       onChange(groups.join(", "));
     } catch (error) {

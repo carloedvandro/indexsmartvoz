@@ -10,8 +10,6 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { UserFormTabs } from "../UserFormTabs";
-import { UserFormActions } from "./UserFormActions";
 import { supabase } from "@/integrations/supabase/client";
 import { 
   checkExistingUser, 
@@ -74,11 +72,14 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
 
   const fetchUserGroups = async (userId) => {
     try {
-      const data = await supabase.rpc('get_user_groups', { user_id: userId });
+      const { data, error } = await supabase
+        .from("user_groups")
+        .select("group_name")
+        .eq("user_id", userId);
       
-      if (data.error) throw data.error;
+      if (error) throw error;
       
-      const groups = data.data || [];
+      const groups = data?.map(item => item.group_name) || [];
       setValue("user_groups", groups.join(", "));
     } catch (error) {
       console.error("Error fetching user groups:", error);

@@ -8,16 +8,25 @@ export const useUserGroups = () => {
   
   const saveUserGroups = async (userId: string, groups: string[]) => {
     try {
-      // First, create the RPC function if it doesn't exist (would normally be in a migration)
-      await createRpcFunctionIfNeeded();
-      
-      // Call the RPC function to save user groups
-      const { error } = await supabase.rpc(
-        'save_user_groups',
-        { user_id: userId, group_names: groups }
-      );
-      
-      if (error) throw error;
+      // Delete existing groups for this user
+      await supabase
+        .from("user_groups")
+        .delete()
+        .eq("user_id", userId);
+
+      // Insert new groups
+      if (groups.length > 0) {
+        const groupsToInsert = groups.map(group => ({
+          user_id: userId,
+          group_name: group
+        }));
+        
+        const { error } = await supabase
+          .from("user_groups")
+          .insert(groupsToInsert);
+          
+        if (error) throw error;
+      }
       
       return true;
     } catch (error) {
@@ -28,22 +37,6 @@ export const useUserGroups = () => {
         variant: "destructive",
       });
       return false;
-    }
-  };
-  
-  const createRpcFunctionIfNeeded = async () => {
-    // This would normally be in a Supabase migration
-    // We're adding it here since we don't have control over migrations in this context
-    try {
-      await supabase.rpc('get_user_groups', { user_id: '00000000-0000-0000-0000-000000000000' });
-    } catch (error: any) {
-      if (error.message.includes('function get_user_groups') && error.message.includes('does not exist')) {
-        // Create the user_groups table if it doesn't exist
-        await supabase.rpc('create_user_groups_table_if_needed');
-        
-        // Create the functions if they don't exist
-        await supabase.rpc('create_user_groups_functions');
-      }
     }
   };
 

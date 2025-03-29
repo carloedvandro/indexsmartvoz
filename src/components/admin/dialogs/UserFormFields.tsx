@@ -4,8 +4,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { ProfileWithSponsor } from "@/types/profile";
 import { UserGroupsManager } from "./UserGroupsManager";
-import { Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Users } from "lucide-react";
 
 interface UserFormFieldsProps {
   register: any;
