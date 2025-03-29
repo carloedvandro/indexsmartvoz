@@ -73,7 +73,7 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
       try {
         const { data, error } = await supabase
           .from("profiles")
-          .select("id, full_name, email, custom_id, status")
+          .select("id, full_name, email, custom_id, status, created_at, updated_at, role")
           .order("full_name");
         
         if (error) throw error;
@@ -96,7 +96,7 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
           cnpj: null,
           country: null,
           cpf: null,
-          created_at: profile.created_at || new Date().toISOString(),
+          created_at: profile.created_at,
           document_id: null,
           document_validated: null,
           document_validation_date: null,
@@ -124,7 +124,7 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
           sponsor_id: null,
           state: null,
           store_url: null,
-          updated_at: profile.updated_at || new Date().toISOString(),
+          updated_at: profile.updated_at,
           voucher: null,
           whatsapp: null,
           zip_code: null,
