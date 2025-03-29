@@ -24,7 +24,8 @@ import {
   adminSetUserPassword 
 } from "./UserFormUtils";
 import { formatDate } from "@/utils/format";
-import { ProfileWithSponsor } from "@/types/profile";
+import { ProfileWithSponsor, Sponsor } from "@/types/profile";
+import { mapSponsor } from "@/utils/mappers/profileMapper";
 
 export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const { toast } = useToast();
@@ -76,7 +77,62 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
           .order("full_name");
         
         if (error) throw error;
-        setAvailableSponsors(data || []);
+        
+        // Create properly shaped ProfileWithSponsor objects
+        const sponsors: ProfileWithSponsor[] = data?.map(profile => ({
+          ...profile,
+          // Adding the minimal required properties to satisfy TypeScript
+          account_name: null,
+          account_number: null,
+          address: null,
+          approval_date: null,
+          bank_name: null,
+          birth_date: null,
+          block_date: null,
+          block_reason: null,
+          blocked: null,
+          city: null,
+          civil_status: null,
+          cnpj: null,
+          country: null,
+          cpf: null,
+          created_at: profile.created_at || new Date().toISOString(),
+          document_id: null,
+          document_validated: null,
+          document_validation_date: null,
+          document_verification_status: null,
+          email_verified: null,
+          external_id: null,
+          face_match_verified: null,
+          facial_biometry_date: null,
+          facial_biometry_status: null,
+          facial_verification_status: null,
+          gender: null,
+          graduation_type: null,
+          ifsc_code: null,
+          kba_verified: null,
+          license_type: null,
+          mobile: null,
+          monthly_graduation: null,
+          paypal_email: null,
+          person_type: null,
+          phone: null,
+          phone_verified: null,
+          registration_date: null,
+          role: profile.role || 'client',
+          secondary_whatsapp: null,
+          sponsor_id: null,
+          state: null,
+          store_url: null,
+          updated_at: profile.updated_at || new Date().toISOString(),
+          voucher: null,
+          whatsapp: null,
+          zip_code: null,
+          // The sponsor field is optional in ProfileWithSponsor type
+          sponsor: null,
+        })) || [];
+        
+        setAvailableSponsors(sponsors);
       } catch (error) {
         console.error("Error fetching sponsors:", error);
         toast({
