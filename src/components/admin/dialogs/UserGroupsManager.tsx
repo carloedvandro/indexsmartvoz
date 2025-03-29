@@ -1,10 +1,10 @@
 
 import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Plus, Minus, Users } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useUserGroups } from "../hooks/useUserGroups";
 
 interface UserGroupsManagerProps {
   userId: string | null;
@@ -17,37 +17,24 @@ export function UserGroupsManager({ userId, value, onChange, onClose }: UserGrou
   const [userGroups, setUserGroups] = useState<string[]>([]);
   const [newGroup, setNewGroup] = useState("");
   const { toast } = useToast();
+  const { fetchUserGroups } = useUserGroups();
 
   useEffect(() => {
     if (userId) {
-      fetchUserGroups(userId);
+      loadUserGroups(userId);
     } else {
       // For new users, initialize with empty groups
       setUserGroups([]);
     }
   }, [userId]);
 
-  const fetchUserGroups = async (userId: string) => {
+  const loadUserGroups = async (userId: string) => {
     try {
-      if (!userId) return;
-      
-      const { data, error } = await supabase
-        .from("user_groups")
-        .select("group_name")
-        .eq("user_id", userId);
-      
-      if (error) throw error;
-      
-      const groups = data?.map(item => item.group_name) || [];
+      const groups = await fetchUserGroups(userId);
       setUserGroups(groups);
       onChange(groups.join(", "));
     } catch (error) {
-      console.error("Error fetching user groups:", error);
-      toast({
-        title: "Erro",
-        description: "Não foi possível carregar os grupos do usuário",
-        variant: "destructive",
-      });
+      console.error("Error loading user groups:", error);
     }
   };
 
