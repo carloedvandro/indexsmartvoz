@@ -2,10 +2,11 @@
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ActionButtons, DeleteUserDialog, PaymentDetailsDialog } from "./actions";
+import { ProfileWithSponsor } from "@/types/profile";
 
 interface UserActionsProps {
-  user: any;
-  onEdit: (user: any) => void;
+  user: ProfileWithSponsor;
+  onEdit: (user: ProfileWithSponsor) => void;
   onDelete?: (userId: string) => void;
 }
 
@@ -55,6 +56,7 @@ export const UserActions = ({ user, onEdit, onDelete }: UserActionsProps) => {
         onOpenChange={setIsDeleteDialogOpen}
         onDelete={handleDelete}
         userName={user.full_name || ""}
+        user={user}
       />
 
       <PaymentDetailsDialog 
