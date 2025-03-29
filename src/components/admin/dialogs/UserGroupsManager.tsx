@@ -17,7 +17,7 @@ export function UserGroupsManager({ userId, value, onChange, onClose }: UserGrou
   const [userGroups, setUserGroups] = useState<string[]>([]);
   const [newGroup, setNewGroup] = useState("");
   const { toast } = useToast();
-  const { fetchUserGroups } = useUserGroups();
+  const { fetchUserGroups, saveUserGroups } = useUserGroups();
 
   useEffect(() => {
     if (userId) {
@@ -54,6 +54,28 @@ export function UserGroupsManager({ userId, value, onChange, onClose }: UserGrou
     const updatedGroups = userGroups.filter(group => group !== groupToRemove);
     setUserGroups(updatedGroups);
     onChange(updatedGroups.join(", "));
+  };
+
+  const handleSave = async () => {
+    if (userId) {
+      try {
+        await saveUserGroups(userId, userGroups);
+        toast({
+          title: "Sucesso",
+          description: "Grupos do usuário salvos com sucesso",
+        });
+        onClose();
+      } catch (error) {
+        console.error("Error saving user groups:", error);
+        toast({
+          title: "Erro",
+          description: "Não foi possível salvar os grupos do usuário",
+          variant: "destructive",
+        });
+      }
+    } else {
+      onClose();
+    }
   };
 
   return (
