@@ -25,7 +25,7 @@ import {
 import { formatDate } from "@/utils/format";
 import { ProfileWithSponsor, Sponsor } from "@/types/profile";
 import { mapSponsor } from "@/utils/mappers/profileMapper";
-import { UserGroup, UserPlusSquare, Plus, Minus } from "lucide-react";
+import { Users, PlusSquare, Plus, Minus } from "lucide-react";
 
 export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const { toast } = useToast();
@@ -569,14 +569,14 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
                   className="absolute right-2 top-0 h-full text-[#5438a0]"
                   onClick={() => setShowGroupsDialog(true)}
                 >
-                  <UserGroup size={18} />
+                  <Users size={18} />
                 </Button>
               </div>
               
               {showGroupsDialog && (
                 <div className="p-4 border rounded-md bg-white shadow-md">
                   <h4 className="font-medium mb-2 flex items-center gap-1">
-                    <UserPlusSquare size={18} />
+                    <PlusSquare size={18} />
                     Gerenciar Grupos
                   </h4>
                   
