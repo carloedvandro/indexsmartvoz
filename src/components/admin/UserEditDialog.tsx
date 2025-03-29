@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
@@ -26,6 +25,7 @@ import {
 import { formatDate } from "@/utils/format";
 import { ProfileWithSponsor, Sponsor } from "@/types/profile";
 import { mapSponsor } from "@/utils/mappers/profileMapper";
+import { UserGroup, UserPlusSquare, Plus, Minus } from "lucide-react";
 
 export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const { toast } = useToast();
@@ -37,6 +37,9 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const [newPassword, setNewPassword] = useState("");
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [availableSponsors, setAvailableSponsors] = useState<ProfileWithSponsor[]>([]);
+  const [showGroupsDialog, setShowGroupsDialog] = useState(false);
+  const [userGroups, setUserGroups] = useState<string[]>([]);
+  const [newGroup, setNewGroup] = useState("");
   
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm({
     defaultValues: {
@@ -53,6 +56,7 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
       country: "Brasil",
       password: "",
       repeat_password: "",
+      user_groups: "",
       ...user,
       birth_date: user?.birth_date?.split('T')[0],
     },
@@ -63,11 +67,32 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
       reset({
         ...user,
         birth_date: user?.birth_date?.split('T')[0],
+        user_groups: userGroups.join(", "),
       });
+      
+      if (user.id) {
+        fetchUserGroups(user.id);
+      }
     }
-  }, [user, reset]);
+  }, [user, reset, userGroups]);
 
-  // Fetch available sponsors (all users)
+  const fetchUserGroups = async (userId) => {
+    try {
+      const { data, error } = await supabase
+        .from("user_groups")
+        .select("group_name")
+        .eq("user_id", userId);
+        
+      if (error) throw error;
+      
+      const groups = data?.map(item => item.group_name) || [];
+      setUserGroups(groups);
+      setValue("user_groups", groups.join(", "));
+    } catch (error) {
+      console.error("Error fetching user groups:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchSponsors = async () => {
       try {
@@ -78,10 +103,8 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
         
         if (error) throw error;
         
-        // Create properly shaped ProfileWithSponsor objects
         const sponsors: ProfileWithSponsor[] = data?.map(profile => ({
           ...profile,
-          // Adding the minimal required properties to satisfy TypeScript
           account_name: null,
           account_number: null,
           address: null,
@@ -128,7 +151,6 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
           voucher: null,
           whatsapp: null,
           zip_code: null,
-          // The sponsor field is optional in ProfileWithSponsor type
           sponsor: null,
         })) || [];
         
@@ -249,6 +271,24 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
     }
   };
 
+  const handleAddGroup = () => {
+    if (!newGroup.trim()) return;
+    
+    if (!userGroups.includes(newGroup)) {
+      const updatedGroups = [...userGroups, newGroup];
+      setUserGroups(updatedGroups);
+      setValue("user_groups", updatedGroups.join(", "));
+    }
+    
+    setNewGroup("");
+  };
+
+  const handleRemoveGroup = (groupToRemove) => {
+    const updatedGroups = userGroups.filter(group => group !== groupToRemove);
+    setUserGroups(updatedGroups);
+    setValue("user_groups", updatedGroups.join(", "));
+  };
+
   const handleSave = async (data) => {
     if (data.password && data.password !== data.repeat_password) {
       toast({
@@ -278,12 +318,19 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
           id: authData.user.id,
         });
 
+        if (userGroups.length > 0) {
+          await saveUserGroups(authData.user.id, userGroups);
+        }
+
         toast({
           title: "Sucesso",
           description: "Usuário criado com sucesso",
         });
       } else {
         await updateProfile(user.id, data);
+        
+        await saveUserGroups(user.id, userGroups);
+        
         toast({
           title: "Sucesso",
           description: "Usuário atualizado com sucesso",
@@ -304,7 +351,31 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
     }
   };
 
-  // Format user display information
+  const saveUserGroups = async (userId, groups) => {
+    try {
+      await supabase
+        .from("user_groups")
+        .delete()
+        .eq("user_id", userId);
+      
+      if (groups.length > 0) {
+        const groupsToInsert = groups.map(group => ({
+          user_id: userId,
+          group_name: group
+        }));
+        
+        const { error } = await supabase
+          .from("user_groups")
+          .insert(groupsToInsert);
+          
+        if (error) throw error;
+      }
+    } catch (error) {
+      console.error("Error saving user groups:", error);
+      throw new Error("Erro ao salvar grupos do usuário");
+    }
+  };
+
   const getUserDisplayInfo = () => {
     if (!user) return null;
     
@@ -485,7 +556,79 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
             
             <div className="space-y-2">
               <Label>Grupos</Label>
-              <Input placeholder="Atribuir grupos de usuários" />
+              <div className="relative">
+                <Input 
+                  {...register("user_groups")}
+                  placeholder="Atribuir grupos de usuários" 
+                  onFocus={() => setShowGroupsDialog(true)}
+                  readOnly
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="absolute right-2 top-0 h-full text-[#5438a0]"
+                  onClick={() => setShowGroupsDialog(true)}
+                >
+                  <UserGroup size={18} />
+                </Button>
+              </div>
+              
+              {showGroupsDialog && (
+                <div className="p-4 border rounded-md bg-white shadow-md">
+                  <h4 className="font-medium mb-2 flex items-center gap-1">
+                    <UserPlusSquare size={18} />
+                    Gerenciar Grupos
+                  </h4>
+                  
+                  <div className="flex mb-4">
+                    <Input
+                      value={newGroup}
+                      onChange={(e) => setNewGroup(e.target.value)}
+                      placeholder="Nome do grupo"
+                      className="mr-2"
+                    />
+                    <Button
+                      type="button"
+                      onClick={handleAddGroup}
+                      variant="outline"
+                      className="border-[#5438a0] text-[#5438a0]"
+                    >
+                      <Plus size={18} />
+                    </Button>
+                  </div>
+                  
+                  {userGroups.length > 0 ? (
+                    <div className="space-y-2">
+                      {userGroups.map((group, index) => (
+                        <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-md">
+                          <span>{group}</span>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleRemoveGroup(group)}
+                            className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <Minus size={16} />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-500">Nenhum grupo adicionado</p>
+                  )}
+                  
+                  <div className="mt-4 flex justify-end">
+                    <Button
+                      type="button"
+                      onClick={() => setShowGroupsDialog(false)}
+                      className="bg-[#5438a0] hover:bg-[#4a3195]"
+                    >
+                      Concluído
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           
