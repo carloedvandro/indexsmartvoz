@@ -98,7 +98,7 @@ export const ExpandableRow = ({ user, onEdit, onDelete }: ExpandableRowProps) =>
                   <p><span className="font-medium">ID Personalizado:</span> {user.custom_id || "-"}</p>
                   <p><span className="font-medium">Patrocinador:</span> {user.sponsor?.full_name || "-"}</p>
                   <p><span className="font-medium">Data de Criação:</span> {user.created_at ? formatDate(user.created_at) : "-"}</p>
-                  <p><span className="font-medium">Último Login:</span> {user.updated_at ? formatDate(user.updated_at) : "-"}</p>
+                  <p><span className="font-medium">Último Login:</span> {user.last_sign_in_at ? formatDate(user.last_sign_in_at) : "-"}</p>
                 </div>
               </div>
             </div>

@@ -42,16 +42,21 @@ export const UsersTable = ({
           toggleSelectAll={toggleSelectAll}
         />
         <TableBody>
-          {users.map((user) => (
+          {users.map((user, index) => (
             <ExpandableRow
               key={user.id}
               user={user}
+              index={index}
+              isSelected={isUserSelected(user.id)}
+              isExpanded={isRowExpanded(user.id)}
+              toggleSelection={() => toggleUserSelection(user.id)}
+              toggleExpand={() => toggleRowExpand(user.id)}
               onEdit={onEdit}
-              onDelete={(userId) => toggleUserSelection(userId)}
+              displayCustomId={displayCustomId}
             />
           ))}
         </TableBody>
       </Table>
     </div>
   );
-}
+};

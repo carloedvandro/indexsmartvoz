@@ -18,6 +18,4 @@ export type Sponsor = {
 
 export type ProfileWithSponsor = Profile & {
   sponsor?: Sponsor | null;
-  // Note: last_sign_in_at is not available directly in profiles table
-  // We use updated_at as a proxy for last login time
 };
