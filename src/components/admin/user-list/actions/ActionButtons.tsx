@@ -1,7 +1,9 @@
 
 import { Button } from "@/components/ui/button";
-import { Edit, Lock, Unlock, Info, Trash2, Network } from "lucide-react";
+import { Eye, UserCheck, Edit, Info, Lock, LockOpen, ArrowRightToLine } from "lucide-react";
+import Image from "@/components/ui/image";
 import { useState } from "react";
+import { PlanDetailsDialog } from "./PlanDetailsDialog";
 
 interface ActionButtonsProps {
   user: any;
@@ -9,66 +11,76 @@ interface ActionButtonsProps {
   onEdit: (user: any) => void;
   onInfoClick: () => void;
   onToggleLock: () => void;
-  onDeleteClick: () => void;
 }
 
 export const ActionButtons = ({ 
   user, 
   isUnlocked, 
-  onEdit,
-  onInfoClick,
-  onToggleLock,
-  onDeleteClick
+  onEdit, 
+  onInfoClick, 
+  onToggleLock 
 }: ActionButtonsProps) => {
-  const [showInfo, setShowInfo] = useState(false);
-  const buttonClass = "h-8 w-8 p-0";
+  const [isPlanDetailsOpen, setIsPlanDetailsOpen] = useState(false);
 
   return (
     <>
-      <Button
-        variant="ghost"
-        size="icon"
-        className={buttonClass}
+      <Button 
+        size="sm" 
+        variant="default" 
+        className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
+        disabled={!isUnlocked}
+      >
+        <Eye className="h-4 w-4" />
+      </Button>
+      <Button 
+        size="sm" 
+        variant="default" 
+        className="bg-cyan-500 hover:bg-cyan-600 h-8 w-8 p-0"
+        disabled={!isUnlocked}
+      >
+        <UserCheck className="h-4 w-4" />
+      </Button>
+      <Button 
+        size="sm" 
+        variant="default" 
+        className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
         onClick={() => onEdit(user)}
-        title="Editar usuário"
+        disabled={!isUnlocked}
       >
         <Edit className="h-4 w-4" />
       </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        className={buttonClass}
+      <Button 
+        size="sm" 
+        variant="default" 
+        className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
         onClick={onInfoClick}
-        title="Informações de pagamento"
+        disabled={!isUnlocked}
       >
         <Info className="h-4 w-4" />
       </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        className={buttonClass}
+      
+      <Button 
+        size="sm" 
+        variant="default" 
+        className={`${isUnlocked ? "bg-red-500 hover:bg-red-600" : "bg-purple-600 hover:bg-purple-700"} h-8 w-8 p-0`}
         onClick={onToggleLock}
-        title={isUnlocked ? "Bloquear usuário" : "Desbloquear usuário"}
       >
-        {isUnlocked ? <Unlock className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
+        {isUnlocked ? <LockOpen className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
       </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        className={buttonClass}
-        onClick={onDeleteClick}
-        title="Excluir usuário"
+      <Button 
+        size="sm" 
+        variant="default" 
+        className="bg-green-500 hover:bg-green-600 h-8 w-8 p-0"
+        onClick={() => setIsPlanDetailsOpen(true)}
       >
-        <Trash2 className="h-4 w-4 text-red-500" />
+        <ArrowRightToLine className="h-4 w-4" />
       </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        className={buttonClass}
-        title="Rede"
-      >
-        <Network className="h-4 w-4" />
-      </Button>
+
+      <PlanDetailsDialog 
+        isOpen={isPlanDetailsOpen} 
+        onOpenChange={setIsPlanDetailsOpen}
+        user={user}
+      />
     </>
   );
 };
