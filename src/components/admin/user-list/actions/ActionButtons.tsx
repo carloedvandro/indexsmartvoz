@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, PencilIcon, Trash2, Network, Lock, Unlock } from "lucide-react";
+import { MoreHorizontal, PencilIcon, Trash2, Network } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,25 +13,7 @@ import { DeleteUserDialog } from "./DeleteUserDialog";
 import { PlanDetailsDialog } from "./PlanDetailsDialog";
 import { PaymentDetailsDialog } from "./PaymentDetailsDialog";
 
-interface ActionButtonsProps {
-  user: any;
-  onEdit: (user: any) => void;
-  onDelete: (userId: string) => void;
-  isUnlocked?: boolean;
-  onInfoClick?: () => void;
-  onToggleLock?: () => void;
-  onDeleteClick?: () => void;
-}
-
-export function ActionButtons({ 
-  user, 
-  onEdit, 
-  onDelete,
-  isUnlocked,
-  onInfoClick,
-  onToggleLock,
-  onDeleteClick
-}: ActionButtonsProps) {
+export function ActionButtons({ user, onEdit, onDelete }) {
   const navigate = useNavigate();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isPlanDialogOpen, setIsPlanDialogOpen] = useState(false);
@@ -41,18 +23,10 @@ export function ActionButtons({
     navigate(`/admin/network?userId=${user.id}`);
   };
 
-  // Make sure handleDelete returns a Promise
-  const handleDelete = async (): Promise<void> => {
+  // We need to make this function return a Promise to match the expected type
+  const handleDelete = async () => {
     onDelete(user.id);
     return Promise.resolve();
-  };
-
-  const openDeleteDialog = () => {
-    if (onDeleteClick) {
-      onDeleteClick();
-    } else {
-      setIsDeleteDialogOpen(true);
-    }
   };
 
   return (
@@ -65,17 +39,6 @@ export function ActionButtons({
         <PencilIcon className="h-4 w-4" />
         <span className="sr-only">Edit</span>
       </Button>
-      
-      {onToggleLock && (
-        <Button
-          variant="ghost"
-          className={`h-8 w-8 p-0 ${isUnlocked ? 'text-red-600' : 'text-green-600'}`}
-          onClick={onToggleLock}
-        >
-          {isUnlocked ? <Unlock className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
-          <span className="sr-only">{isUnlocked ? 'Lock' : 'Unlock'}</span>
-        </Button>
-      )}
       
       <Button
         variant="ghost"
@@ -99,14 +62,14 @@ export function ActionButtons({
         <DropdownMenuContent align="end" className="bg-white">
           <DropdownMenuItem
             className="text-red-600 cursor-pointer flex items-center gap-2"
-            onClick={openDeleteDialog}
+            onClick={() => setIsDeleteDialogOpen(true)}
           >
             <Trash2 className="h-4 w-4" />
             <span>Excluir</span>
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer flex items-center gap-2"
-            onClick={() => onInfoClick ? onInfoClick() : setIsPlanDialogOpen(true)}
+            onClick={() => setIsPlanDialogOpen(true)}
           >
             <span>Detalhes do Plano</span>
           </DropdownMenuItem>
