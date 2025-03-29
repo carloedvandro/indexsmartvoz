@@ -1069,6 +1069,27 @@ export type Database = {
           },
         ]
       }
+      user_groups: {
+        Row: {
+          created_at: string | null
+          group_name: string
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          group_name: string
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          group_name?: string
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       user_verifications: {
         Row: {
           attempt_count: number | null
