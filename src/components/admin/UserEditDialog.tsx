@@ -23,6 +23,8 @@ import {
   adminResetPassword,
   adminSetUserPassword 
 } from "./UserFormUtils";
+import { formatDate } from "@/utils/format";
+import { ProfileWithSponsor } from "@/types/profile";
 
 export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const { toast } = useToast();
@@ -33,7 +35,7 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [passwordMatch, setPasswordMatch] = useState(true);
-  const [availableSponsors, setAvailableSponsors] = useState([]);
+  const [availableSponsors, setAvailableSponsors] = useState<ProfileWithSponsor[]>([]);
   
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm({
     defaultValues: {
@@ -70,7 +72,7 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
       try {
         const { data, error } = await supabase
           .from("profiles")
-          .select("id, full_name, email, custom_id")
+          .select("id, full_name, email, custom_id, status")
           .order("full_name");
         
         if (error) throw error;
@@ -246,6 +248,25 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
     }
   };
 
+  // Format user display information
+  const getUserDisplayInfo = () => {
+    if (!user) return null;
+    
+    return (
+      <div className="mb-4 p-4 bg-gray-50 rounded-md border">
+        <h3 className="text-sm font-semibold mb-2">Informações do usuário</h3>
+        <div className="grid grid-cols-2 gap-2 text-sm">
+          {user.id && <div><span className="font-medium">ID: </span>{user.id}</div>}
+          {user.created_at && <div><span className="font-medium">Criado em: </span>{formatDate(user.created_at)}</div>}
+          {user.updated_at && <div><span className="font-medium">Atualizado em: </span>{formatDate(user.updated_at)}</div>}
+          {user.sponsor && (
+            <div><span className="font-medium">Afiliado: </span>{user.sponsor.full_name || user.sponsor.email || user.sponsor.custom_id}</div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-background p-0">
@@ -279,6 +300,8 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
               Adicionar Transação
             </Button>
           </div>
+          
+          {user && getUserDisplayInfo()}
           
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
