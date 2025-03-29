@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { UserFormTabs } from "./UserFormTabs";
 import { UserFormActions } from "./dialogs/UserFormActions";
+import { supabase } from "@/integrations/supabase/client";
 import { 
   checkExistingUser, 
   createUser, 
@@ -32,6 +33,7 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [passwordMatch, setPasswordMatch] = useState(true);
+  const [availableSponsors, setAvailableSponsors] = useState([]);
   
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm({
     defaultValues: {
@@ -61,6 +63,32 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
       });
     }
   }, [user, reset]);
+
+  // Fetch available sponsors (all users)
+  useEffect(() => {
+    const fetchSponsors = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("id, full_name, email, custom_id")
+          .order("full_name");
+        
+        if (error) throw error;
+        setAvailableSponsors(data || []);
+      } catch (error) {
+        console.error("Error fetching sponsors:", error);
+        toast({
+          title: "Erro",
+          description: "Não foi possível carregar a lista de afiliados",
+          variant: "destructive",
+        });
+      }
+    };
+
+    if (open) {
+      fetchSponsors();
+    }
+  }, [open, toast]);
 
   const watchPassword = watch("password");
   const watchRepeatPassword = watch("repeat_password");
@@ -349,7 +377,11 @@ export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
                 className="w-full h-10 px-3 py-2 border border-gray-300 rounded-md bg-white"
               >
                 <option value="">-- Nenhum --</option>
-                {/* Lista de afiliados aqui */}
+                {availableSponsors.map(sponsor => (
+                  <option key={sponsor.id} value={sponsor.id}>
+                    {sponsor.full_name || sponsor.email || sponsor.custom_id || sponsor.id}
+                  </option>
+                ))}
               </select>
             </div>
             
