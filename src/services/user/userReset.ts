@@ -18,3 +18,12 @@ export const adminSetUserPassword = async (userId: string, password: string) => 
   
   if (error) throw error;
 };
+
+// Client reset password (sends email)
+export const resetPassword = async (email: string) => {
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/client/update-password`,
+  });
+  
+  if (error) throw error;
+};
