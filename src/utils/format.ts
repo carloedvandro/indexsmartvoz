@@ -6,14 +6,11 @@ export const formatCurrency = (value: number, currency: string = 'BRL') => {
   }).format(value);
 };
 
-export const formatDate = (date: string | Date | null | undefined) => {
-  if (!date) return '-';
-  
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
-  
+export const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
   return new Intl.DateTimeFormat('pt-BR', {
     day: '2-digit',
     month: '2-digit',
-    year: 'numeric',
-  }).format(dateObj);
+    year: 'numeric'
+  }).format(date);
 };

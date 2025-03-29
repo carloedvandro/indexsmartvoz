@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { LanguageSelector } from "@/components/LanguageSelector";
 
 export default function Index() {
   const { t } = useTranslation();
@@ -12,10 +11,6 @@ export default function Index() {
     <div className="fixed inset-0 w-full h-full flex flex-col items-center justify-center" style={{
       background: 'linear-gradient(135deg, #E5DEFF 0%, #FFDEE2 100%)'
     }}>
-      <div className="absolute top-4 right-4">
-        <LanguageSelector />
-      </div>
-      
       <motion.div 
         initial={{ opacity: 0, y: 20 }} 
         animate={{ opacity: 1, y: 0 }} 
