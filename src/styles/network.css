@@ -63,7 +63,7 @@
 /* Estilo para o nó da Gesia Almeida Dos Santos */
 [data-custom-id="Gesia89"],
 [data-member-name="Gesia Almeida Dos Santos"] {
-  margin-left: -2px !important; /* Movido 2px para esquerda (era 0px) */
+  margin-left: -4px !important; /* Movido 4px para esquerda (era -2px) */
   margin-top: 2px !important;
   max-width: 99% !important;
   transform: scale(0.99) !important;
