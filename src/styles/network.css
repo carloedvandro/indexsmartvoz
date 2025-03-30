@@ -1,16 +1,16 @@
 
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
-  margin-left: 28.5px !important;
+  margin-left: 29px !important;
 }
 
 /* Estilo para o nó do Marcio Bettanzos */
 .network-node-marcio {
-  margin-left: 28.5px !important;
+  margin-left: 29px !important;
 }
 
 /* Adicionando estilo mais específico para garantir que seja aplicado */
 [data-custom-id="Marcio89"],
 [data-member-name="Marcio Bettanzos da Silva"] {
-  margin-left: 28.5px !important;
+  margin-left: 29px !important;
 }
