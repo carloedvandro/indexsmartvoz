@@ -59,6 +59,11 @@ export default function NetworkPage() {
           [data-member-name="Dierro Santana Leal"] {
             margin-left: -1px !important; /* Movido 1px para direita (era -2px) */
           }
+          
+          [data-custom-id="Rudney89"],
+          [data-member-name="Rudney de Souza Nobrega"] {
+            margin-left: 5px !important; /* Movido 5px para direita */
+          }
         `}
       </style>
     </div>
