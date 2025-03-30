@@ -35,6 +35,10 @@ export const calculateNodeMargin = (
   const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
+  // Verificar se é filho direto da Gesia Almeida
+  const isGesiaChild = member.parent_id && 
+                      member.parent?.user?.full_name === 'Gesia Almeida Dos Santos';
+  
   return isDavidForgat ? `calc(-9px + ${allLevelsMargin})` : 
          isCarolinaTree ? `calc(29mm + ${allLevelsMargin})` : 
          isRubensTree ? `calc(5.5mm + ${allLevelsMargin})` : 

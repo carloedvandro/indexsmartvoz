@@ -80,26 +80,47 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   console.log("Dados da rede originais:", networkData);
   console.log("Dados filtrados:", filteredData);
 
+  // Ajustar posição do Marcio Bettanzos (filho da Gesia)
   useEffect(() => {
-    setTimeout(() => {
-      const allNodes = document.querySelectorAll('[data-custom-id]');
-      console.log(`Found ${allNodes.length} network nodes in DOM`);
+    // Função para aplicar margens personalizadas após o componente ser renderizado
+    const applyCustomStyles = () => {
+      if (!networkData || networkData.length === 0) return;
       
-      const gesiaNode = document.querySelector('[data-custom-id="Gesia89"]');
-      if (gesiaNode) {
-        console.log('Gesia node found, computed style:', window.getComputedStyle(gesiaNode));
-      } else {
-        console.log('Gesia node not found in DOM by data-custom-id');
-      }
+      // Procura por Gesia Almeida no networkData
+      const findGesia = (nodes: any[]): any | null => {
+        for (const node of nodes) {
+          if (node.user && node.user.full_name === 'Gesia Almeida Dos Santos') {
+            return node;
+          }
+          if (node.children && node.children.length > 0) {
+            const found = findGesia(node.children);
+            if (found) return found;
+          }
+        }
+        return null;
+      };
       
-      const gesiaByName = document.querySelector('[data-member-name="Gesia Almeida Dos Santos"]');
-      if (gesiaByName) {
-        console.log('Gesia node found by name, computed style:', window.getComputedStyle(gesiaByName));
-      } else {
-        console.log('Gesia node not found in DOM by data-member-name');
+      const gesiaNode = findGesia(networkData);
+      
+      if (gesiaNode && gesiaNode.children && gesiaNode.children.length > 0) {
+        // Para cada filho da Gesia, verifica se é o Marcio Bettanzos
+        gesiaNode.children.forEach((child: any) => {
+          if (child.user && child.user.full_name === 'Marcio Bettanzos da Silva') {
+            // Encontra o elemento DOM para o Marcio e adiciona o estilo
+            setTimeout(() => {
+              const marcioElement = document.querySelector(`[data-member-name="Marcio Bettanzos da Silva"]`);
+              if (marcioElement) {
+                (marcioElement as HTMLElement).style.marginLeft = '8px';
+                console.log('Aplicado estilo personalizado para Marcio Bettanzos');
+              }
+            }, 500);
+          }
+        });
       }
-    }, 1000);
-  }, [filteredData]);
+    };
+    
+    applyCustomStyles();
+  }, [networkData, selectedLevel]);
 
   if (loading) {
     return (
