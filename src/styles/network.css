@@ -65,3 +65,8 @@
 [data-member-name="Gesia Almeida Dos Santos"] {
   margin-top: 2px !important; /* Movido 2px para baixo */
 }
+
+/* Aplicando margem top para todos os nós da rede para garantir */
+.network-tree .relative {
+  margin-top: 2px !important;
+}
