@@ -47,7 +47,7 @@ export default function NetworkPage() {
           
           [data-custom-id="Domingos89"],
           [data-member-name="Domingos Ferreira Pinto"] {
-            margin-left: -3px !important; /* Ajustado 2px para direita (era -5px) */
+            margin-left: -1px !important; /* Ajustado 2px para direita (era -3px) */
           }
         `}
       </style>
