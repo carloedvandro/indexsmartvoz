@@ -40,7 +40,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   } else if (isVandoMacedo) {
     marginLeft = '1px'; // Movido 0.5px para esquerda (era 1.5px)
   } else if (isDierroLeal) {
-    marginLeft = '-2px'; // Movido 2px para esquerda
+    marginLeft = '-1px'; // Movido 1px para direita (era -2px)
   }
 
   // Log for debugging

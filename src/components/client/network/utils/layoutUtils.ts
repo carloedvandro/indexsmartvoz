@@ -41,7 +41,7 @@ export const calculateNodeMargin = (
          isCarloGoncalves ? `calc(-1px + ${allLevelsMargin})` : // Valor mantido
          isDomingosPinto ? `calc(0px + ${allLevelsMargin})` : // Ajustado 1px para direita (era -1px)
          isVandoMacedo ? `calc(1px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 1.5px)
-         isDierroLeal ? `calc(-2px + ${allLevelsMargin})` : // Movido 2px para esquerda
+         isDierroLeal ? `calc(-1px + ${allLevelsMargin})` : // Movido 1px para direita (era -2px)
          depth === 2 ? `calc(8px + ${allLevelsMargin})` : 
          isRuiTree ? `calc(10px + ${allLevelsMargin})` : 
          member.user.custom_id === 'vania' ? `calc(25.5px + ${allLevelsMargin})` :

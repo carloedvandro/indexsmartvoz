@@ -57,7 +57,7 @@ export default function NetworkPage() {
           
           [data-custom-id="Dierro89"],
           [data-member-name="Dierro Santana Leal"] {
-            margin-left: -2px !important; /* Movido 2px para esquerda */
+            margin-left: -1px !important; /* Movido 1px para direita (era -2px) */
           }
         `}
       </style>
