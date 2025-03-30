@@ -28,7 +28,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   if (isMarcioSilva) {
     marginLeft = '34px'; // Valor original
   } else if (isMarcioSales) {
-    marginLeft = '17px'; // Movido mais para a direita (era 12px)
+    marginLeft = '22px'; // Movido mais para a direita (era 17px)
   } else if (isCarloGoncalves) {
     marginLeft = '-1px'; // Valor mantido
     marginTop = '6px';

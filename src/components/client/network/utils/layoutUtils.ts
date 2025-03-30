@@ -34,7 +34,7 @@ export const calculateNodeMargin = (
          isCarolinaTree ? `calc(29mm + ${allLevelsMargin})` : 
          isRubensTree ? `calc(5.5mm + ${allLevelsMargin})` : 
          isMarcioSilva ? `calc(34px + ${allLevelsMargin})` : // Valor original
-         isMarcioSales ? `calc(17px + ${allLevelsMargin})` : // Movido mais para a direita (era 12px)
+         isMarcioSales ? `calc(22px + ${allLevelsMargin})` : // Movido mais para a direita (era 17px)
          isCarloGoncalves ? `calc(-1px + ${allLevelsMargin})` : // Valor mantido
          depth === 2 ? `calc(8px + ${allLevelsMargin})` : 
          isRuiTree ? `calc(10px + ${allLevelsMargin})` : 

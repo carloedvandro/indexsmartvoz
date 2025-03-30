@@ -36,7 +36,7 @@ export default function NetworkPage() {
           
           [data-custom-id="Marcio88"],
           [data-member-name="Marcio Sales Sousa"] {
-            margin-left: 17px !important; /* Movido mais para a direita (era 12px) */
+            margin-left: 22px !important; /* Movido mais para a direita (era 17px) */
           }
           
           [data-custom-id="Carlo89"],
