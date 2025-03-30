@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { NetworkNode } from "./NetworkNode";
@@ -124,7 +125,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
               <div className="pr-4">
                 <AnimatePresence>
                   {filteredData.length > 0 ? (
-                    <div className="space-y-3 mb-32">
+                    <div className="space-y-6 mb-32"> // Aumentado para space-y-6 (era space-y-3 + 3px)
                       {filteredData.map((member) => (
                         selectedLevel === "all" ? (
                           <NetworkNode
