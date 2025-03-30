@@ -62,7 +62,7 @@ export default function NetworkPage() {
           
           [data-custom-id="Rudney89"],
           [data-member-name="Rudney de Souza Nobrega"] {
-            margin-left: 8px !important; /* Atualizado para 8px para a direita (era 5px) */
+            margin-left: 14px !important; /* Movido 6px adicionais para direita (era 8px) */
           }
         `}
       </style>
