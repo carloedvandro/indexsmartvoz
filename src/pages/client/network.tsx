@@ -70,6 +70,11 @@ export default function NetworkPage() {
             margin-left: 30px !important; /* Movido mais 0.5px adicional para direita (era 29.5px) */
             margin-top: 2px !important; /* Movido 2px para baixo */
           }
+          
+          [data-custom-id="Gesia89"],
+          [data-member-name="Gesia Almeida Dos Santos"] {
+            margin-top: 2px !important; /* Movido 2px para baixo */
+          }
         `}
       </style>
     </div>
