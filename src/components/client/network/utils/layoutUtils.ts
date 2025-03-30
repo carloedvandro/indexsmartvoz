@@ -26,10 +26,12 @@ export const calculateNodeMargin = (
                     (member.parent_id && member.user.custom_id?.startsWith('rui-'));
   const isVaniaTree = member.user.custom_id === 'vania' || 
                      (member.parent_id && member.user.custom_id?.startsWith('vania-'));
+  const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
   
   return isDavidForgat ? `calc(-9px + ${allLevelsMargin})` : 
          isCarolinaTree ? `calc(29mm + ${allLevelsMargin})` : 
          isRubensTree ? `calc(5.5mm + ${allLevelsMargin})` : 
+         isMarcioSilva ? `calc(6px + ${allLevelsMargin})` :
          depth === 2 ? `calc(8px + ${allLevelsMargin})` : 
          isRuiTree ? `calc(10px + ${allLevelsMargin})` : 
          member.user.custom_id === 'vania' ? `calc(25.5px + ${allLevelsMargin})` :
