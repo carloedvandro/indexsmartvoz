@@ -31,7 +31,7 @@ export default function NetworkPage() {
           [data-user-id="Marcio89"],
           [data-custom-id="Marcio89"],
           [data-member-name="Marcio Bettanzos da Silva"] {
-            margin-left: 31px !important; /* Movido 0.5px adicional para esquerda (era 31.5px) */
+            margin-left: 30.5px !important; /* Movido 0.5px adicional para esquerda (era 31px) */
           }
           
           [data-custom-id="Marcio88"],
