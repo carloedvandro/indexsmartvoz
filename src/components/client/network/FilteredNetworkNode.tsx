@@ -31,19 +31,19 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   let marginTop = '0px';
   
   if (isMarcioSilva) {
-    marginLeft = '3px'; // Movido 0.5px mais para esquerda (era 3.5px)
+    marginLeft = '3px'; // Mantido em 3px
     marginTop = '2px'; // Mantido em 2px
   } else if (isMarcioSales) {
-    marginLeft = '2.5px'; // Movido 0.5px mais para esquerda (era 3px)
+    marginLeft = '2.5px'; // Mantido em 2.5px
     marginTop = '2px'; // Mantido em 2px
   } else if (isCarloGoncalves) {
     marginLeft = '2px'; // Mantido em 2px
     marginTop = '8px'; // Mantido em 8px
   } else if (isDomingosPinto) {
-    marginLeft = '3px'; // Movido 0.5px mais para direita (agora 3px, era 2.5px)
+    marginLeft = '3px'; // Mantido em 3px
     marginTop = '2px'; // Mantido em 2px
   } else if (isVandoMacedo) {
-    marginLeft = '3px'; // Movido 2px mais para direita (agora 3px, era 1px)
+    marginLeft = '3px'; // Mantido em 3px
     marginTop = '2px'; // Mantido em 2px
   } else if (isDierroLeal) {
     marginLeft = '-1px'; // Mantido em -1px
@@ -52,6 +52,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     marginLeft = '30px'; // Mantido em 30px
     marginTop = '2px'; // Mantido em 2px
   } else if (isGesiaAlmeida) {
+    marginLeft = '-2px'; // Movido 2px para esquerda (era 0px)
     marginTop = '2px'; // Mantido em 2px
   }
 
