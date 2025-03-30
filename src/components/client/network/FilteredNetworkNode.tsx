@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { RotateCw } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -25,7 +24,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   if (isMarcioSilva) {
     marginLeft = '29px';
   } else if (isCarloGoncalves) {
-    marginLeft = '-1.5px';
+    marginLeft = '-1px';
   }
 
   // Log for debugging
