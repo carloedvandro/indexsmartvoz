@@ -37,5 +37,5 @@
 /* Estilo para o nó do Vando Araujo Macedo */
 [data-custom-id="Vando89"],
 [data-member-name="Vando Araujo Macedo"] {
-  margin-left: -1px !important; /* Movido 2px para direita (era -3px) */
+  margin-left: -3px !important; /* Voltado para o valor original (-3px) */
 }
