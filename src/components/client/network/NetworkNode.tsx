@@ -78,12 +78,12 @@ export const NetworkNode = ({
             {isExpanded ? (
               <Minus
                 className="h-4 w-4"
-                style={{ color: '#660099' }}
+                style={{ color: '#660099', strokeWidth: 3 }}
               />
             ) : (
               <Plus
                 className="h-4 w-4"
-                style={{ color: '#660099' }}
+                style={{ color: '#660099', strokeWidth: 3 }}
               />
             )}
           </button>

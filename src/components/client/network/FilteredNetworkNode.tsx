@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -84,12 +85,12 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
             {isExpanded ? (
               <Minus
                 className="h-4 w-4"
-                style={{ color: '#660099' }}
+                style={{ color: '#660099', strokeWidth: 3 }}
               />
             ) : (
               <Plus
                 className="h-4 w-4"
-                style={{ color: '#660099' }}
+                style={{ color: '#660099', strokeWidth: 3 }}
               />
             )}
           </button>
