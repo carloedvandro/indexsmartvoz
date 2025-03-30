@@ -30,7 +30,7 @@ export default function NetworkPage() {
         {`
           [data-user-id="Marcio89"],
           [data-custom-id="Marcio89"] {
-            margin-left: 29px !important;
+            margin-left: 27.8px !important;
           }
         `}
       </style>
