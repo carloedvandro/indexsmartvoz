@@ -36,7 +36,7 @@ export default function NetworkPage() {
           
           [data-custom-id="Carlo89"],
           [data-member-name="Carlo Edvandro Camera Gonçalves"] {
-            margin-left: 4px !important; /* Movido 5px para a direita */
+            margin-left: -1px !important; /* Valor original restaurado */
             margin-top: 6px !important;
           }
         `}
