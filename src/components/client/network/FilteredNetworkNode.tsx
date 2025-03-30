@@ -38,7 +38,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   } else if (isDomingosPinto) {
     marginLeft = '0px'; // Ajustado 1px para direita (era -1px)
   } else if (isVandoMacedo) {
-    marginLeft = '1.5px'; // Movido 0.5px adicional para direita (era 1px)
+    marginLeft = '1px'; // Movido 0.5px para esquerda (era 1.5px)
   } else if (isDierroLeal) {
     marginLeft = '-2px'; // Movido 2px para esquerda
   }
