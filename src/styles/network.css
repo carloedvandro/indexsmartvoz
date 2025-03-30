@@ -14,3 +14,9 @@
 [data-member-name="Marcio Bettanzos da Silva"] {
   margin-left: 29px !important;
 }
+
+/* Estilo para o nó do Carlo Edvandro */
+[data-custom-id="Carlo89"],
+[data-member-name="Carlo Edvandro Camera Gonçalves"] {
+  margin-left: -3px !important;
+}

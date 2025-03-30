@@ -19,7 +19,14 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   
   // Verificando se é o usuário específico
   const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
-  const marginLeft = isMarcioSilva ? '29px' : '0px';
+  const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
+  
+  let marginLeft = '0px';
+  if (isMarcioSilva) {
+    marginLeft = '29px';
+  } else if (isCarloGoncalves) {
+    marginLeft = '-3px';
+  }
 
   // Log for debugging
   console.log("Renderizando membro:", member.user.full_name, "com ID:", member.user.id, "e custom_id:", member.user.custom_id);
@@ -31,7 +38,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full overflow-hidden"
-      style={{ marginLeft: isMarcioSilva ? '29px' : undefined }}
+      style={{ marginLeft: marginLeft !== '0px' ? marginLeft : undefined }}
       data-user-id={member.user.custom_id}
       data-member-name={member.user.full_name}
       data-node-id={member.id}

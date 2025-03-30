@@ -33,6 +33,11 @@ export default function NetworkPage() {
           [data-member-name="Marcio Bettanzos da Silva"] {
             margin-left: 29px !important;
           }
+          
+          [data-custom-id="Carlo89"],
+          [data-member-name="Carlo Edvandro Camera Gonçalves"] {
+            margin-left: -3px !important;
+          }
         `}
       </style>
     </div>
