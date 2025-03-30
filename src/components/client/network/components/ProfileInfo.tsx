@@ -17,11 +17,12 @@ export const ProfileInfo = ({ member, isFilteredView = false }: ProfileInfoProps
   
   const totalTeamSize = calculateTotalTeamSize(member);
 
-  // Apply different margins based on view type - removing the negative margin
-  const marginClass = isFilteredView ? "ml-0" : "ml-[-17.5mm]"; // Ajustado para mover mais 0.5px para a esquerda
+  // Calculate margin and style based on view type
+  const marginClass = isFilteredView ? "ml-[2.3px]" : "ml-[-17.5mm]"; 
+  const marginTop = isFilteredView ? "calc(3mm + 15.2px)" : "8mm";
 
   return (
-    <div className={`space-y-1 text-sm ${marginClass}`} style={{ marginTop: '8mm' }}>
+    <div className={`space-y-1 text-sm ${marginClass}`} style={{ marginTop }}>
       <div className="flex items-center gap-2 text-black">
         <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
         <span className="truncate">Meu ID: {member.user.custom_id || "Não definido"}</span>
