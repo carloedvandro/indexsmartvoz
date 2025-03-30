@@ -36,7 +36,7 @@ export default function NetworkPage() {
           
           [data-custom-id="Carlo89"],
           [data-member-name="Carlo Edvandro Camera Gonçalves"] {
-            margin-left: -3px !important;
+            margin-left: -1.5px !important;
           }
         `}
       </style>
