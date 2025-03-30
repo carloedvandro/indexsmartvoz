@@ -31,17 +31,17 @@ export default function NetworkPage() {
           [data-user-id="Marcio89"],
           [data-custom-id="Marcio89"],
           [data-member-name="Marcio Bettanzos da Silva"] {
-            margin-left: 34px !important; /* Valor original */
+            margin-left: 40px !important; /* Movido para a direita (era 34px) */
           }
           
           [data-custom-id="Marcio88"],
           [data-member-name="Marcio Sales Sousa"] {
-            margin-left: 6px !important; /* Movido 6px para a direita */
+            margin-left: 6px !important; /* Valor mantido */
           }
           
           [data-custom-id="Carlo89"],
           [data-member-name="Carlo Edvandro Camera Gonçalves"] {
-            margin-left: -1px !important; /* Valor original restaurado */
+            margin-left: -1px !important; /* Valor mantido */
             margin-top: 6px !important;
           }
         `}
