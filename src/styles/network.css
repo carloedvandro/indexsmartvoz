@@ -1,5 +1,4 @@
 
-
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
   margin-left: 34px !important; /* Aumentado de 29px para 34px */
@@ -19,7 +18,7 @@
 /* Estilo para o nó do Carlo Edvandro */
 [data-custom-id="Carlo89"],
 [data-member-name="Carlo Edvandro Camera Gonçalves"] {
-  margin-left: 4px !important; /* Aumentado de -1px para 4px */
+  margin-left: -1px !important; /* Restaurado para o valor original */
   margin-top: 6px !important;
 }
 
