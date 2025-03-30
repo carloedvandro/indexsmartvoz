@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
@@ -33,11 +33,9 @@ export function PlanSelectionStep({
   
   const internetOptions = [
     { value: "120GB", label: "Plano 120GB", price: 119.99 },
-    { value: "60GB", label: "Plano 60GB", price: 89.99 },
-    { value: "30GB", label: "Plano 30GB", price: 69.99 },
   ];
 
-  useEffect(() => {
+  useState(() => {
     if (selectedLines.length === 0) {
       setSelectedLines([
         {
@@ -49,7 +47,7 @@ export function PlanSelectionStep({
         },
       ]);
     }
-  }, []);
+  });
 
   const handleInternetChange = (value: string) => {
     const newPrice = internetOptions.find(option => option.value === value)?.price || 0;
