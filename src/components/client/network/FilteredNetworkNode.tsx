@@ -31,10 +31,10 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   let marginTop = '0px';
   
   if (isMarcioSilva) {
-    marginLeft = '13.5px'; // Movido 5px mais para esquerda (era 18.5px)
+    marginLeft = '6.5px'; // Movido 7px mais para esquerda (era 13.5px)
     marginTop = '2px'; // Mantido em 2px
   } else if (isMarcioSales) {
-    marginLeft = '13px'; // Movido 5px mais para esquerda (era 18px)
+    marginLeft = '6px'; // Movido 7px mais para esquerda (era 13px)
     marginTop = '2px'; // Mantido em 2px
   } else if (isCarloGoncalves) {
     marginLeft = '2px'; // Mantido em 2px
