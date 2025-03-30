@@ -54,6 +54,11 @@ export default function NetworkPage() {
           [data-member-name="Vando Araujo Macedo"] {
             margin-left: 1.5px !important; /* Movido 0.5px adicional para direita (era 1px) */
           }
+          
+          [data-custom-id="Dierro89"],
+          [data-member-name="Dierro Santana Leal"] {
+            margin-left: -2px !important; /* Movido 2px para esquerda */
+          }
         `}
       </style>
     </div>

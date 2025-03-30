@@ -23,6 +23,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
   const isDomingosPinto = member.user.full_name === 'Domingos Ferreira Pinto';
   const isVandoMacedo = member.user.full_name === 'Vando Araujo Macedo';
+  const isDierroLeal = member.user.full_name === 'Dierro Santana Leal';
   
   let marginLeft = '0px';
   let marginTop = '0px';
@@ -38,6 +39,8 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     marginLeft = '0px'; // Ajustado 1px para direita (era -1px)
   } else if (isVandoMacedo) {
     marginLeft = '1.5px'; // Movido 0.5px adicional para direita (era 1px)
+  } else if (isDierroLeal) {
+    marginLeft = '-2px'; // Movido 2px para esquerda
   }
 
   // Log for debugging
