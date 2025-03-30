@@ -31,12 +31,12 @@ export default function NetworkPage() {
           [data-user-id="Marcio89"],
           [data-custom-id="Marcio89"],
           [data-member-name="Marcio Bettanzos da Silva"] {
-            margin-left: 40px !important; /* Movido para a direita (era 34px) */
+            margin-left: 34px !important; /* Valor original */
           }
           
           [data-custom-id="Marcio88"],
           [data-member-name="Marcio Sales Sousa"] {
-            margin-left: 6px !important; /* Valor mantido */
+            margin-left: 12px !important; /* Movido mais para a direita (era 6px) */
           }
           
           [data-custom-id="Carlo89"],
