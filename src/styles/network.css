@@ -64,6 +64,8 @@
 [data-custom-id="Gesia89"],
 [data-member-name="Gesia Almeida Dos Santos"] {
   margin-top: 2px !important;
+  max-width: 99% !important; /* Adicionando largura máxima um pouco menor */
+  transform: scale(0.99) !important; /* Diminuindo minimamente o tamanho do texto */
 }
 
 /* Aplicando margem top para todos os nós da rede para garantir */
