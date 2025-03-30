@@ -26,12 +26,14 @@ export default function NetworkPage() {
         {profile?.id && <NetworkTree userId={profile.id} />}
       </main>
 
-      <style jsx>{`
-        [data-user-id="Marcio89"],
-        [data-custom-id="Marcio89"] {
-          margin-left: 24px !important;
-        }
-      `}</style>
+      <style>
+        {`
+          [data-user-id="Marcio89"],
+          [data-custom-id="Marcio89"] {
+            margin-left: 24px !important;
+          }
+        `}
+      </style>
     </div>
   );
 }
