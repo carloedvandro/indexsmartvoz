@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { RotateCw } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -21,6 +22,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   const isMarcioSales = member.user.full_name === 'Marcio Sales Sousa';
   const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
   const isDomingosPinto = member.user.full_name === 'Domingos Ferreira Pinto';
+  const isVandoMacedo = member.user.full_name === 'Vando Araujo Macedo';
   
   let marginLeft = '0px';
   let marginTop = '0px';
@@ -34,6 +36,8 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     marginTop = '6px';
   } else if (isDomingosPinto) {
     marginLeft = '0px'; // Ajustado 1px para direita (era -1px)
+  } else if (isVandoMacedo) {
+    marginLeft = '-3px'; // Movido 3px para esquerda
   }
 
   // Log for debugging

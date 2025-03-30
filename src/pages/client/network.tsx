@@ -49,6 +49,11 @@ export default function NetworkPage() {
           [data-member-name="Domingos Ferreira Pinto"] {
             margin-left: 0px !important; /* Ajustado 1px para direita (era -1px) */
           }
+          
+          [data-custom-id="Vando89"],
+          [data-member-name="Vando Araujo Macedo"] {
+            margin-left: -3px !important; /* Movido 3px para esquerda */
+          }
         `}
       </style>
     </div>

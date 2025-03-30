@@ -30,6 +30,7 @@ export const calculateNodeMargin = (
   const isMarcioSales = member.user.full_name === 'Marcio Sales Sousa';
   const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
   const isDomingosPinto = member.user.full_name === 'Domingos Ferreira Pinto';
+  const isVandoMacedo = member.user.full_name === 'Vando Araujo Macedo';
   
   return isDavidForgat ? `calc(-9px + ${allLevelsMargin})` : 
          isCarolinaTree ? `calc(29mm + ${allLevelsMargin})` : 
@@ -38,6 +39,7 @@ export const calculateNodeMargin = (
          isMarcioSales ? `calc(30px + ${allLevelsMargin})` : // Movido mais para a direita (era 22px)
          isCarloGoncalves ? `calc(-1px + ${allLevelsMargin})` : // Valor mantido
          isDomingosPinto ? `calc(0px + ${allLevelsMargin})` : // Ajustado 1px para direita (era -1px)
+         isVandoMacedo ? `calc(-3px + ${allLevelsMargin})` : // Movido 3px para esquerda
          depth === 2 ? `calc(8px + ${allLevelsMargin})` : 
          isRuiTree ? `calc(10px + ${allLevelsMargin})` : 
          member.user.custom_id === 'vania' ? `calc(25.5px + ${allLevelsMargin})` :
