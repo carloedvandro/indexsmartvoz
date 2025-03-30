@@ -21,6 +21,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
   const isMarcioSales = member.user.full_name === 'Marcio Sales Sousa';
   const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
+  const isDomingosPinto = member.user.full_name === 'Domingos Ferreira Pinto';
   
   let marginLeft = '0px';
   let marginTop = '0px';
@@ -32,6 +33,8 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   } else if (isCarloGoncalves) {
     marginLeft = '-1px'; // Valor mantido
     marginTop = '6px';
+  } else if (isDomingosPinto) {
+    marginLeft = '-8px'; // Movido 8px para esquerda
   }
 
   // Log for debugging

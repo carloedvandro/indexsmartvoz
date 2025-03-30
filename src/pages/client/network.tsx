@@ -44,6 +44,11 @@ export default function NetworkPage() {
             margin-left: -1px !important; /* Valor mantido */
             margin-top: 6px !important;
           }
+          
+          [data-custom-id="Domingos01"],
+          [data-member-name="Domingos Ferreira Pinto"] {
+            margin-left: -8px !important; /* Movido 8px para esquerda */
+          }
         `}
       </style>
     </div>
