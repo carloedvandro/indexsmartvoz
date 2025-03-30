@@ -28,11 +28,11 @@ export const calculateNodeMargin = (
                      (member.parent_id && member.user.custom_id?.startsWith('vania-'));
   const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
   
-  // Updated the value for Marcio Bettanzos da Silva to 27.8px (moving 1.2px more to the left)
+  // Updated the value for Marcio Bettanzos da Silva to 27.5px (moving 0.3px more to the left)
   return isDavidForgat ? `calc(-9px + ${allLevelsMargin})` : 
          isCarolinaTree ? `calc(29mm + ${allLevelsMargin})` : 
          isRubensTree ? `calc(5.5mm + ${allLevelsMargin})` : 
-         isMarcioSilva ? `calc(27.8px + ${allLevelsMargin})` :
+         isMarcioSilva ? `calc(27.5px + ${allLevelsMargin})` :
          depth === 2 ? `calc(8px + ${allLevelsMargin})` : 
          isRuiTree ? `calc(10px + ${allLevelsMargin})` : 
          member.user.custom_id === 'vania' ? `calc(25.5px + ${allLevelsMargin})` :
