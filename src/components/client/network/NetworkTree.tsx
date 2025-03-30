@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { NetworkNode } from "./NetworkNode";
@@ -9,6 +10,7 @@ import { useFilteredNetwork } from "./useFilteredNetwork";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useIsMobile } from "@/hooks/use-mobile";
+import "@/styles/network.css";
 
 interface NetworkTreeProps {
   userId: string;
