@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { NetworkNode } from "./NetworkNode";
@@ -79,18 +80,38 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   console.log("Dados filtrados:", filteredData);
 
   useEffect(() => {
-    const checkCarloNode = () => {
+    // Add extra debugging to check if the nodes are actually being rendered with proper styles
+    const checkNodes = () => {
+      const marcioSalesNode = document.querySelector('[data-custom-id="Marcio88"]');
+      const marcioSilvaNode = document.querySelector('[data-custom-id="Marcio89"]');
       const carloNode = document.querySelector('[data-custom-id="Carlo89"]');
+      
+      console.log('Nodes found in DOM:');
+      if (marcioSalesNode) {
+        console.log('Marcio Sales node found:', marcioSalesNode);
+        console.log('Marcio Sales computed style:', window.getComputedStyle(marcioSalesNode));
+      } else {
+        console.log('Marcio Sales node not found in DOM');
+      }
+      
+      if (marcioSilvaNode) {
+        console.log('Marcio Silva node found:', marcioSilvaNode);
+        console.log('Marcio Silva computed style:', window.getComputedStyle(marcioSilvaNode));
+      } else {
+        console.log('Marcio Silva node not found in DOM');
+      }
+      
       if (carloNode) {
-        console.log('Carlo node found in DOM:', carloNode);
-        console.log('Carlo node computed style:', window.getComputedStyle(carloNode));
+        console.log('Carlo node found:', carloNode);
+        console.log('Carlo computed style:', window.getComputedStyle(carloNode));
       } else {
         console.log('Carlo node not found in DOM');
       }
     };
     
-    checkCarloNode();
-    setTimeout(checkCarloNode, 1000);
+    // Run the check immediately after render and again after a short delay
+    checkNodes();
+    setTimeout(checkNodes, 1000);
   }, [filteredData]);
 
   if (loading) {
