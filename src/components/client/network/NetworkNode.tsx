@@ -4,7 +4,7 @@ import { RotateCw } from "lucide-react";
 import { NetworkMember } from "./types";
 import { UserAvatar } from "./components/UserAvatar";
 import { ProfileInfo } from "./components/ProfileInfo";
-import { calculateNodeMargin } from "./utils/layoutUtils";
+import { calculateNodeMargin, calculateNodeVerticalMargin } from "./utils/layoutUtils";
 
 interface NetworkNodeProps {
   member: NetworkMember;
@@ -31,16 +31,18 @@ export const NetworkNode = ({
   
   // Get the margin based on user and depth
   const leftMargin = calculateNodeMargin(member, depth, isAllLevels);
+  const topMargin = calculateNodeVerticalMargin(member);
   
   // Calculate width
   const width = `calc(100% - ${depth === 0 ? -3 : 5}px)`;
   
-  // Verificando se é o usuário específico para aplicar estilos adicionais
+  // Verificando se é o usuário específico
   const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
+  const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
   
   console.log('Nome do usuário:', member.user.full_name);
   console.log('ID personalizado:', member.user.custom_id);
-  console.log('Margem aplicada:', leftMargin);
+  console.log('Margem aplicada:', leftMargin, 'Margem vertical:', topMargin);
 
   return (
     <motion.div
@@ -50,6 +52,7 @@ export const NetworkNode = ({
       className={`relative w-full ${depth > 0 ? 'mt-10' : ''}`}
       style={{ 
         marginLeft: leftMargin, 
+        marginTop: topMargin !== '0px' ? topMargin : undefined,
         width 
       }}
       data-user-id={member.user.custom_id}

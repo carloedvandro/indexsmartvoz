@@ -40,3 +40,12 @@ export const calculateNodeMargin = (
          member.user.custom_id === 'vania' ? `calc(25.5px + ${allLevelsMargin})` :
          (depth === 0 ? `calc(-3px + ${allLevelsMargin})` : `calc(5px + ${allLevelsMargin})`);
 };
+
+// Adding a new function to calculate vertical margin if needed
+export const calculateNodeVerticalMargin = (
+  member: NetworkMember
+): string => {
+  const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
+  
+  return isCarloGoncalves ? '6px' : '0px';
+};

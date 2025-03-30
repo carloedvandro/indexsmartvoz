@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { RotateCw } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -21,15 +22,18 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
   
   let marginLeft = '0px';
+  let marginTop = '0px';
+  
   if (isMarcioSilva) {
     marginLeft = '29px';
   } else if (isCarloGoncalves) {
     marginLeft = '-1px';
+    marginTop = '6px';
   }
 
   // Log for debugging
   console.log("Renderizando membro:", member.user.full_name, "com ID:", member.user.id, "e custom_id:", member.user.custom_id);
-  console.log("Margin aplicada:", marginLeft);
+  console.log("Margin aplicada:", marginLeft, "marginTop:", marginTop);
 
   return (
     <motion.div
@@ -37,7 +41,10 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full overflow-hidden"
-      style={{ marginLeft: marginLeft !== '0px' ? marginLeft : undefined }}
+      style={{ 
+        marginLeft: marginLeft !== '0px' ? marginLeft : undefined,
+        marginTop: marginTop !== '0px' ? marginTop : undefined
+      }}
       data-user-id={member.user.custom_id}
       data-member-name={member.user.full_name}
       data-node-id={member.id}
