@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { RotateCw } from "lucide-react";
+import { Plus } from "lucide-react";
 import { NetworkMember } from "./types";
 import { UserAvatar } from "./components/UserAvatar";
 import { ProfileInfo } from "./components/ProfileInfo";
@@ -82,8 +82,8 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
             style={{ marginTop: '4mm', marginLeft: '-0.5mm' }}
             aria-label={isExpanded ? "Recolher" : "Expandir"}
           >
-            <RotateCw 
-              className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+            <Plus 
+              className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-45' : ''}`}
               style={{ color: '#660099' }}
             />
           </button>
