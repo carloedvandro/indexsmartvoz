@@ -32,37 +32,43 @@ export default function NetworkPage() {
           [data-custom-id="Marcio89"],
           [data-member-name="Marcio Bettanzos da Silva"] {
             margin-left: 30.5px !important; /* Movido 0.5px adicional para esquerda (era 31px) */
+            margin-top: 2px !important; /* Movido 2px para baixo */
           }
           
           [data-custom-id="Marcio88"],
           [data-member-name="Marcio Sales Sousa"] {
             margin-left: 30px !important; /* Movido mais para a direita (era 22px) */
+            margin-top: 2px !important; /* Movido 2px para baixo */
           }
           
           [data-custom-id="Carlo89"],
           [data-member-name="Carlo Edvandro Camera Gonçalves"] {
             margin-left: -1px !important; /* Valor mantido */
-            margin-top: 6px !important;
+            margin-top: 8px !important; /* Ajustado para 8px (era 6px + 2px adicionais) */
           }
           
           [data-custom-id="Domingos89"],
           [data-member-name="Domingos Ferreira Pinto"] {
             margin-left: 0px !important; /* Ajustado 1px para direita (era -1px) */
+            margin-top: 2px !important; /* Movido 2px para baixo */
           }
           
           [data-custom-id="Vando89"],
           [data-member-name="Vando Araujo Macedo"] {
             margin-left: 1px !important; /* Movido 0.5px para esquerda (era 1.5px) */
+            margin-top: 2px !important; /* Movido 2px para baixo */
           }
           
           [data-custom-id="Dierro89"],
           [data-member-name="Dierro Santana Leal"] {
             margin-left: -1px !important; /* Movido 1px para direita (era -2px) */
+            margin-top: 2px !important; /* Movido 2px para baixo */
           }
           
           [data-custom-id="Rudney89"],
           [data-member-name="Rudney de Souza Nobrega"] {
             margin-left: 30px !important; /* Movido mais 0.5px adicional para direita (era 29.5px) */
+            margin-top: 2px !important; /* Movido 2px para baixo */
           }
         `}
       </style>

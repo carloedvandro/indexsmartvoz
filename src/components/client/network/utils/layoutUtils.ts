@@ -55,6 +55,19 @@ export const calculateNodeVerticalMargin = (
   member: NetworkMember
 ): string => {
   const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
+  const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
+  const isMarcioSales = member.user.full_name === 'Marcio Sales Sousa';
+  const isDomingosPinto = member.user.full_name === 'Domingos Ferreira Pinto';
+  const isVandoMacedo = member.user.full_name === 'Vando Araujo Macedo';
+  const isDierroLeal = member.user.full_name === 'Dierro Santana Leal';
+  const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
   
-  return isCarloGoncalves ? '6px' : '0px';
+  if (isCarloGoncalves) {
+    return '8px'; // Ajustado para 8px (era 6px + 2px adicionais)
+  } else if (isMarcioSilva || isMarcioSales || isDomingosPinto || 
+            isVandoMacedo || isDierroLeal || isRudneyNobrega) {
+    return '2px'; // Movido 2px para baixo
+  }
+  
+  return '0px';
 };

@@ -31,19 +31,25 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   
   if (isMarcioSilva) {
     marginLeft = '30.5px'; // Movido 0.5px adicional para esquerda (era 31px)
+    marginTop = '2px'; // Movido 2px para baixo
   } else if (isMarcioSales) {
     marginLeft = '30px'; // Movido mais para a direita (era 22px)
+    marginTop = '2px'; // Movido 2px para baixo
   } else if (isCarloGoncalves) {
     marginLeft = '-1px'; // Valor mantido
-    marginTop = '6px';
+    marginTop = '8px'; // Ajustado para 8px (era 6px + 2px adicionais)
   } else if (isDomingosPinto) {
     marginLeft = '0px'; // Ajustado 1px para direita (era -1px)
+    marginTop = '2px'; // Movido 2px para baixo
   } else if (isVandoMacedo) {
     marginLeft = '1px'; // Movido 0.5px para esquerda (era 1.5px)
+    marginTop = '2px'; // Movido 2px para baixo
   } else if (isDierroLeal) {
     marginLeft = '-1px'; // Movido 1px para direita (era -2px)
+    marginTop = '2px'; // Movido 2px para baixo
   } else if (isRudneyNobrega) {
     marginLeft = '30px'; // Movido mais 0.5px adicional para direita (era 29.5px)
+    marginTop = '2px'; // Movido 2px para baixo
   }
 
   // Log for debugging
