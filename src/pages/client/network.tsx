@@ -45,7 +45,7 @@ export default function NetworkPage() {
             margin-top: 6px !important;
           }
           
-          [data-custom-id="Domingos01"],
+          [data-custom-id="Domingos89"],
           [data-member-name="Domingos Ferreira Pinto"] {
             margin-left: -3px !important; /* Ajustado 2px para direita (era -5px) */
           }
