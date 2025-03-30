@@ -4,9 +4,6 @@ import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useEffect } from "react";
-import { getUserByCPF } from "@/services/user/userLookup";
-import { formatCPF } from "@/utils/validation/cpfValidation";
 
 interface PersonalInfoFieldsProps {
   form: UseFormReturn<RegisterFormData>;
@@ -15,41 +12,6 @@ interface PersonalInfoFieldsProps {
 
 export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsProps) => {
   const isMobile = useIsMobile();
-  
-  // Função para buscar dados do usuário pelo CPF
-  const fetchUserDataByCPF = async (cpf: string) => {
-    if (cpf.replace(/\D/g, '').length === 11) {
-      const userData = await getUserByCPF(cpf);
-      
-      if (userData) {
-        // Preencher os campos automaticamente
-        form.setValue("fullName", userData.full_name || "");
-        
-        // Formatar a data de nascimento (caso esteja no formato ISO)
-        if (userData.birth_date) {
-          const birthDate = userData.birth_date.split('T')[0];
-          form.setValue("birthDate", birthDate);
-        }
-        
-        // Mostrar CPF formatado
-        form.setValue("cpf", formatCPF(userData.cpf));
-      }
-    }
-  };
-  
-  // Observar mudanças no campo CPF
-  useEffect(() => {
-    const subscription = form.watch((value, { name }) => {
-      if (name === 'cpf') {
-        const cpf = value.cpf as string;
-        if (cpf && cpf.replace(/\D/g, '').length === 11) {
-          fetchUserDataByCPF(cpf);
-        }
-      }
-    });
-    
-    return () => subscription.unsubscribe();
-  }, [form]);
   
   return (
     <div className="space-y-4">
@@ -91,23 +53,7 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
             <FormItem>
               <FormLabel className="text-sm">CPF</FormLabel>
               <FormControl>
-                <Input 
-                  {...field} 
-                  className="text-sm h-9 pt-[3px] rounded-md"
-                  onChange={(e) => {
-                    // Formatar o CPF enquanto o usuário digita
-                    const value = e.target.value.replace(/\D/g, '');
-                    
-                    if (value.length <= 11) {
-                      field.onChange(value.length === 11 ? formatCPF(value) : value);
-                      
-                      // Se tiver 11 dígitos, buscar dados do usuário
-                      if (value.length === 11) {
-                        fetchUserDataByCPF(value);
-                      }
-                    }
-                  }}
-                />
+                <Input {...field} className="text-sm h-9 pt-[3px] rounded-md" />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
@@ -123,7 +69,6 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
               <FormControl>
                 <Input 
                   {...field} 
-                  type="date"
                   placeholder="DD/MM/AAAA"
                   className="text-sm h-9 pt-[3px] rounded-md" 
                 />

@@ -21,7 +21,7 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
         <Button
           key={level.value}
           variant="outline"
-          className={`w-full text-left px-4 py-3 rounded-lg transition-all relative hover:bg-transparent
+          className={`w-full justify-between text-left px-4 py-3 rounded-lg transition-all relative hover:bg-transparent
             ${level.value === selectedLevel && level.value !== 'all'
               ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px] text-[#8425af]'
               : level.value === 'all'
@@ -31,6 +31,7 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
           onClick={() => onLevelChange(level.value)}
         >
           <span>{level.label}</span>
+          <span className="opacity-0">→</span>
         </Button>
       ))}
     </div>

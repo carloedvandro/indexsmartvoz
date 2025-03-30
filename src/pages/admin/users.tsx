@@ -2,20 +2,25 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { UserSearchForm } from "@/components/admin/UserSearchForm";
+import { UsersTable } from "@/components/admin/UsersTable";
 import { UserEditDialog } from "@/components/admin/UserEditDialog";
 import { useToast } from "@/hooks/use-toast";
-import { AdminUsersList } from "@/components/admin/AdminUsersList";
-import { UserCheck, Settings } from "lucide-react";
-import { ProfileWithSponsor } from "@/types/profile";
-import { Button } from "@/components/ui/button";
 
 export default function AdminUsers() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [selectedUser, setSelectedUser] = useState(null);
-  const [isAddingUser, setIsAddingUser] = useState(false);
   const [filters, setFilters] = useState({
     externalId: "",
     fullName: "",
@@ -25,6 +30,7 @@ export default function AdminUsers() {
     cnpj: "",
   });
 
+  // Verificar autenticação e papel do usuário
   useEffect(() => {
     const checkAdmin = async () => {
       const { data: { session } } = await supabase.auth.getSession();
@@ -48,6 +54,7 @@ export default function AdminUsers() {
     checkAdmin();
   }, [navigate]);
 
+  // Monitorar mudanças no estado da autenticação
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT' || !session) {
@@ -69,15 +76,7 @@ export default function AdminUsers() {
 
       let query = supabase
         .from("profiles")
-        .select(`
-          *,
-          sponsor:sponsor_id (
-            id,
-            full_name,
-            email,
-            custom_id
-          )
-        `)
+        .select("*")
         .order("created_at", { ascending: false });
 
       if (filters.fullName) {
@@ -106,94 +105,89 @@ export default function AdminUsers() {
         throw error;
       }
       
-      return data as ProfileWithSponsor[];
+      return data;
     },
   });
 
-  const handleEdit = (user) => {
-    setSelectedUser(user);
-    setIsAddingUser(false);
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/admin/login");
   };
 
-  const handleAddUser = () => {
-    setSelectedUser(null);
-    setIsAddingUser(true);
+  const handleSearch = () => {
+    refetch();
+  };
+
+  const handleEdit = (user) => {
+    setSelectedUser(user);
   };
 
   const handleUserUpdated = () => {
     refetch();
     setSelectedUser(null);
-    setIsAddingUser(false);
-  };
-
-  const handleDeleteUser = async (userId: string) => {
-    try {
-      toast({
-        title: "Usuário excluído",
-        description: "O usuário foi excluído com sucesso.",
-      });
-      refetch();
-    } catch (error) {
-      console.error("Error deleting user:", error);
-      toast({
-        title: "Erro ao excluir usuário",
-        description: "Ocorreu um erro ao tentar excluir o usuário.",
-        variant: "destructive",
-      });
-    }
   };
 
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
         <AdminSidebar />
-        <main className="flex-1 p-0 overflow-auto">
-          <div className="w-full mx-auto">
-            <div className="flex flex-col">
-              <div className="bg-[#5438a0] text-white p-4 flex items-center gap-3 w-full">
-                <div className="bg-[#4a3195] p-2 rounded-full">
-                  <UserCheck className="h-6 w-6" />
-                </div>
-                <h1 className="text-xl font-bold">Lista de Usuário</h1>
-                <div className="ml-auto flex items-center">
-                  <span className="text-sm">
-                    Página inicial do administrador &gt; Lista de Usuário
-                  </span>
-                </div>
+        <main className="flex-1 p-4 md:p-8 overflow-auto">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+              <div>
+                <h1 className="text-2xl font-bold">Usuários</h1>
+                <p className="text-muted-foreground">
+                  Gerencie os usuários do sistema
+                </p>
               </div>
-
-              <div className="p-4 bg-white">
-                <Button 
-                  onClick={handleAddUser} 
-                  className="bg-[#5438a0] hover:bg-[#4a3195] flex items-center gap-2 mb-4"
-                >
-                  <Settings size={18} />
-                  <span>Adicionar Usuário</span>
+              <div className="flex items-center gap-4">
+                <SidebarTrigger />
+                <Button variant="outline" onClick={handleLogout}>
+                  Sair
                 </Button>
               </div>
-
-              {isLoading ? (
-                <div className="p-8 text-center">Carregando...</div>
-              ) : (
-                <AdminUsersList 
-                  users={users} 
-                  onEdit={handleEdit} 
-                  onDelete={handleDeleteUser}
-                />
-              )}
             </div>
+
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Busca Avançada</CardTitle>
+                <CardDescription>
+                  Use os filtros abaixo para encontrar usuários específicos
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <UserSearchForm
+                  filters={filters}
+                  setFilters={setFilters}
+                  onSearch={handleSearch}
+                />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Resultados da Busca</CardTitle>
+                {users && (
+                  <CardDescription>
+                    {users.length} usuário(s) encontrado(s)
+                  </CardDescription>
+                )}
+              </CardHeader>
+              <CardContent>
+                {isLoading ? (
+                  <p>Carregando...</p>
+                ) : (
+                  <UsersTable users={users} onEdit={handleEdit} />
+                )}
+              </CardContent>
+            </Card>
           </div>
         </main>
 
         <UserEditDialog
           user={selectedUser}
-          open={!!selectedUser || isAddingUser}
-          onOpenChange={(open) => {
-            if (!open) {
-              setSelectedUser(null);
-              setIsAddingUser(false);
-            }
-          }}
+          open={!!selectedUser}
+          onOpenChange={(open) => !open && setSelectedUser(null)}
           onUserUpdated={handleUserUpdated}
         />
       </div>

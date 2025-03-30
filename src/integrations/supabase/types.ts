@@ -783,11 +783,8 @@ export type Database = {
       }
       profiles: {
         Row: {
-          account_name: string | null
-          account_number: string | null
           address: string | null
           approval_date: string | null
-          bank_name: string | null
           birth_date: string | null
           block_date: string | null
           block_reason: string | null
@@ -814,12 +811,10 @@ export type Database = {
           gender: string | null
           graduation_type: string | null
           id: string
-          ifsc_code: string | null
           kba_verified: boolean | null
           license_type: string | null
           mobile: string | null
           monthly_graduation: boolean | null
-          paypal_email: string | null
           person_type: string | null
           phone: string | null
           phone_verified: boolean | null
@@ -836,11 +831,8 @@ export type Database = {
           zip_code: string | null
         }
         Insert: {
-          account_name?: string | null
-          account_number?: string | null
           address?: string | null
           approval_date?: string | null
-          bank_name?: string | null
           birth_date?: string | null
           block_date?: string | null
           block_reason?: string | null
@@ -867,12 +859,10 @@ export type Database = {
           gender?: string | null
           graduation_type?: string | null
           id: string
-          ifsc_code?: string | null
           kba_verified?: boolean | null
           license_type?: string | null
           mobile?: string | null
           monthly_graduation?: boolean | null
-          paypal_email?: string | null
           person_type?: string | null
           phone?: string | null
           phone_verified?: boolean | null
@@ -889,11 +879,8 @@ export type Database = {
           zip_code?: string | null
         }
         Update: {
-          account_name?: string | null
-          account_number?: string | null
           address?: string | null
           approval_date?: string | null
-          bank_name?: string | null
           birth_date?: string | null
           block_date?: string | null
           block_reason?: string | null
@@ -920,12 +907,10 @@ export type Database = {
           gender?: string | null
           graduation_type?: string | null
           id?: string
-          ifsc_code?: string | null
           kba_verified?: boolean | null
           license_type?: string | null
           mobile?: string | null
           monthly_graduation?: boolean | null
-          paypal_email?: string | null
           person_type?: string | null
           phone?: string | null
           phone_verified?: boolean | null
@@ -1069,27 +1054,6 @@ export type Database = {
           },
         ]
       }
-      user_groups: {
-        Row: {
-          created_at: string | null
-          group_name: string
-          id: string
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          group_name: string
-          id?: string
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          group_name?: string
-          id?: string
-          user_id?: string | null
-        }
-        Relationships: []
-      }
       user_verifications: {
         Row: {
           attempt_count: number | null
@@ -1162,6 +1126,12 @@ export type Database = {
         Returns: undefined
       }
       delete_user_and_related_data: {
+        Args: {
+          user_id: string
+        }
+        Returns: undefined
+      }
+      force_delete_user: {
         Args: {
           user_id: string
         }

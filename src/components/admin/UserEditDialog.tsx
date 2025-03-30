@@ -1,77 +1,254 @@
 
-import { 
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useToast } from "@/hooks/use-toast";
+import {
   Dialog,
   DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
 } from "@/components/ui/dialog";
-import { useUserForm } from "./hooks/useUserForm";
-import { UserFormHeader } from "./dialogs/UserFormHeader";
-import { UserInfoDisplay } from "./dialogs/UserInfoDisplay";
-import { UserFormFields } from "./dialogs/UserFormFields";
-import { UserPasswordActions } from "./dialogs/UserPasswordActions";
-import { UserFormButtons } from "./dialogs/UserFormButtons";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { UserFormTabs } from "./UserFormTabs";
+import { UserFormActions } from "./dialogs/UserFormActions";
+import { 
+  checkExistingUser, 
+  createUser, 
+  updateProfile, 
+  deleteUser,
+  adminResetPassword,
+  adminSetUserPassword 
+} from "./UserFormUtils";
 
 export function UserEditDialog({ user, open, onOpenChange, onUserUpdated }) {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    errors,
-    isLoading,
-    isDeleting,
-    passwordMatch,
-    availableSponsors,
-    handleDelete,
-    handleSave
-  } = useUserForm(user, open, onOpenChange, onUserUpdated);
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isResettingPassword, setIsResettingPassword] = useState(false);
+  const [isSettingPassword, setIsSettingPassword] = useState(false);
+  const [showPasswordInput, setShowPasswordInput] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const { register, handleSubmit, setValue, watch } = useForm({
+    defaultValues: {
+      ...user,
+      birth_date: user?.birth_date?.split('T')[0],
+    },
+  });
+
+  const handleResetPassword = async () => {
+    if (!user?.email) {
+      toast({
+        title: "Erro",
+        description: "Email do usuário não encontrado",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsResettingPassword(true);
+    try {
+      await adminResetPassword(user.email);
+      toast({
+        title: "Sucesso",
+        description: "Email com instruções de redefinição de senha enviado para o usuário",
+      });
+      setShowPasswordInput(false);
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        title: "Erro",
+        description: error.message || "Erro ao resetar senha",
+        variant: "destructive",
+      });
+    } finally {
+      setIsResettingPassword(false);
+    }
+  };
+
+  const handleSetPassword = async () => {
+    if (!newPassword) {
+      toast({
+        title: "Erro",
+        description: "Digite a nova senha",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!user?.id) {
+      toast({
+        title: "Erro",
+        description: "ID do usuário não encontrado",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSettingPassword(true);
+    try {
+      await adminSetUserPassword(user.id, newPassword);
+      toast({
+        title: "Sucesso",
+        description: "Senha alterada com sucesso",
+      });
+      setShowPasswordInput(false);
+      setNewPassword("");
+    } catch (error: any) {
+      console.error('Error:', error);
+      toast({
+        title: "Erro",
+        description: error.message || "Erro ao definir nova senha",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSettingPassword(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      if (!user || !user.id) {
+        throw new Error("ID do usuário não encontrado para exclusão");
+      }
+      
+      console.log("Deleting user with ID:", user.id);
+      await deleteUser(user.id);
+      
+      toast({
+        title: "Sucesso",
+        description: "Usuário excluído com sucesso",
+      });
+      onUserUpdated();
+      onOpenChange(false);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      toast({
+        title: "Erro",
+        description: error.message || "Erro ao excluir usuário. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleSave = async (data) => {
+    setIsLoading(true);
+    try {
+      if (!user.id) {
+        const existingUser = await checkExistingUser(data.email);
+        if (existingUser) {
+          toast({
+            title: "Erro",
+            description: "Este email já está cadastrado no sistema",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        const authData = await createUser(data);
+        await updateProfile(authData.user.id, {
+          ...data,
+          id: authData.user.id,
+        });
+
+        toast({
+          title: "Sucesso",
+          description: "Usuário criado com sucesso",
+        });
+      } else {
+        await updateProfile(user.id, data);
+        toast({
+          title: "Sucesso",
+          description: "Usuário atualizado com sucesso",
+        });
+      }
+      
+      onUserUpdated();
+      onOpenChange(false);
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        title: "Erro",
+        description: error.message || "Erro ao salvar usuário",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-background p-0">
-        <UserFormHeader user={user} />
-        
-        <form onSubmit={handleSubmit(handleSave)} className="px-6 py-4">
-          <div className="mb-4 flex gap-2">
-            <button
-              type="button"
-              className="px-4 py-2 bg-[#5438a0] hover:bg-[#4a3195] text-white rounded"
-            >
-              Usuário
-            </button>
-            <button
-              type="button"
-              className="px-4 py-2 border border-[#5438a0] text-[#5438a0] rounded"
-            >
-              Adicionar Transação
-            </button>
-          </div>
-          
-          <UserInfoDisplay user={user} />
-          
-          <UserFormFields 
-            register={register}
-            setValue={setValue}
-            watch={watch}
-            errors={errors}
-            passwordMatch={passwordMatch}
-            user={user}
-            availableSponsors={availableSponsors}
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-background">
+        <DialogHeader>
+          <DialogTitle>{user?.id ? 'Editar Usuário' : 'Novo Usuário'}</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit(handleSave)} className="space-y-4">
+          <UserFormTabs 
+            register={register} 
+            setValue={setValue} 
+            watch={watch} 
+            readOnly={!!user?.id}
           />
-          
           {user?.id && (
-            <UserPasswordActions 
-              userId={user.id}
-              userEmail={user.email}
-            />
+            <div className="flex flex-col gap-4 px-6">
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setShowPasswordInput(!showPasswordInput)}
+                  >
+                    Definir Nova Senha
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleResetPassword}
+                    disabled={isResettingPassword}
+                  >
+                    {isResettingPassword ? "Enviando..." : "Enviar Email de Reset"}
+                  </Button>
+                </div>
+                
+                {showPasswordInput && (
+                  <div className="flex gap-2 items-end">
+                    <div className="flex-1">
+                      <Label htmlFor="new-password">Nova Senha</Label>
+                      <Input
+                        id="new-password"
+                        type="password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        placeholder="Digite a nova senha"
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      onClick={handleSetPassword}
+                      disabled={isSettingPassword}
+                    >
+                      {isSettingPassword ? "Salvando..." : "Salvar Senha"}
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </div>
           )}
-          
-          <div className="mt-8">
-            <UserFormButtons 
-              onDelete={user?.id ? handleDelete : undefined}
-              isDeleting={isDeleting}
+          <DialogFooter>
+            <UserFormActions
+              userId={user?.id}
               isLoading={isLoading}
+              isDeleting={isDeleting}
+              onDelete={handleDelete}
+              onCancel={() => onOpenChange(false)}
             />
-          </div>
+          </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>

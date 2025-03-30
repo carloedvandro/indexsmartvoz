@@ -4,43 +4,54 @@ import { NetworkMember } from "./types";
 export const useFilteredNetwork = (data: NetworkMember[], selectedLevel: string) => {
   if (!data) return [];
   
-  // Se for "all", retorna a estrutura completa sem filtragem
+  // If "all", return the complete structure without filtering
   if (selectedLevel === "all") {
-    console.log("Retornando todos os níveis:", data);
+    console.log("Returning all levels:", data);
     return data;
   }
   
   const level = parseInt(selectedLevel);
   
-  // Para armazenar os resultados filtrados
+  // For storing filtered results
   const result: NetworkMember[] = [];
   
-  // Função para encontrar membros de um nível específico
+  // Tracking processed user IDs to avoid duplicates
+  const processedUserIds = new Set<string>();
+  
+  // Function to find members at a specific level by traversing the entire tree
   const findMembersByLevel = (members: NetworkMember[], currentLevel: number = 1) => {
     if (!members || members.length === 0) return;
     
-    members.forEach(member => {
-      // Se estamos no nível desejado, adicione o membro ao resultado
-      if (currentLevel === level) {
-        // Verificação para evitar duplicação de membros com mesmo user.id
-        if (!result.some(m => m.user.id === member.user.id)) {
+    // If we're at the desired level, add all members at this level to the result
+    if (currentLevel === level) {
+      members.forEach(member => {
+        // Only add the member if we haven't processed this user ID before
+        if (!processedUserIds.has(member.user.id)) {
+          processedUserIds.add(member.user.id);
+          
+          // Add a copy of the member without children to avoid unwanted nesting
           result.push({
             ...member,
-            children: [] // Remover filhos ao encontrar o nível desejado
+            children: [] // Remove children when we've found the desired level
           });
         }
-      }
-      
-      // Continue procurando nos filhos se ainda não atingimos o nível desejado
-      if (currentLevel < level && member.children && member.children.length > 0) {
-        findMembersByLevel(member.children, currentLevel + 1);
-      }
-    });
+      });
+      return; // No need to go deeper if we're at the target level
+    }
+    
+    // If we're not at the desired level yet, continue searching in children
+    if (currentLevel < level) {
+      members.forEach(member => {
+        if (member.children && member.children.length > 0) {
+          findMembersByLevel(member.children, currentLevel + 1);
+        }
+      });
+    }
   };
   
-  // Inicie a busca a partir do nível 1
+  // Start searching from level 1 (the root members)
   findMembersByLevel(data);
   
-  console.log("Dados filtrados:", result);
+  console.log(`Filtered data for level ${level}:`, result);
   return result;
 };
