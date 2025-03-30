@@ -71,17 +71,17 @@
   margin-top: 2px !important;
 }
 
-/* Espaçamento entre os nós aninhados - correção para garantir que seja aplicado */
+/* Espaçamento padronizado para todas as áreas da rede */
 .network-tree .space-y-4 {
   margin-bottom: 8px !important;
 }
 
-/* Espaçamento geral entre conjuntos de nós */
+/* Espaçamento padrão entre todos os nós */
 .network-tree .space-y-4 > div {
-  margin-bottom: 12px !important;
+  margin-bottom: 8px !important;
 }
 
-/* Garantindo espaço adicional entre grupos de nós na rede */
+/* Espaçamento consistente para toda a árvore */
 .network-tree > div > div.space-y-4 > div {
-  margin-bottom: 16px !important;
+  margin-bottom: 8px !important;
 }

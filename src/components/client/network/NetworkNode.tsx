@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -29,14 +28,11 @@ export const NetworkNode = ({
   const isVaniaTree = member.user.custom_id === 'vania' || 
                      (member.parent_id && member.user.custom_id?.startsWith('vania-'));
   
-  // Get the margin based on user and depth
   const leftMargin = calculateNodeMargin(member, depth, isAllLevels);
   const topMargin = calculateNodeVerticalMargin(member);
   
-  // Calculate width
   const width = `calc(100% - ${depth === 0 ? -3 : 5}px)`;
   
-  // Verificando se é o usuário específico
   const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
   const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
   const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
@@ -45,7 +41,6 @@ export const NetworkNode = ({
   console.log('ID personalizado:', member.user.custom_id);
   console.log('Margem aplicada:', leftMargin, 'Margem vertical:', topMargin);
   
-  // Additional logging for Rudney
   if (isRudneyNobrega) {
     console.log('RUDNEY ENCONTRADO!', member);
     console.log('Margem que será aplicada:', leftMargin);
@@ -56,7 +51,7 @@ export const NetworkNode = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className={`relative w-full ${depth > 0 ? 'mt-10' : ''} mb-6`}
+      className={`relative w-full ${depth > 0 ? 'mt-10' : ''} mb-4`}
       style={{ 
         marginLeft: leftMargin, 
         marginTop: topMargin !== '0px' ? topMargin : undefined,
@@ -113,7 +108,7 @@ export const NetworkNode = ({
         </div>
       </div>
       {hasChildren && isExpanded && (
-        <div className={`mt-4 space-y-6 mb-4 ${isVaniaTree ? 'ml-[25.5px]' : ''}`}>
+        <div className={`mt-4 space-y-4 mb-4 ${isVaniaTree ? 'ml-[25.5px]' : ''}`}>
           {member.children.map((child) => (
             <NetworkNode
               key={child.id}
