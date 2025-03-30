@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useProfile } from "@/hooks/useProfile";
@@ -62,7 +61,7 @@ export default function NetworkPage() {
           
           [data-custom-id="Rudney89"],
           [data-member-name="Rudney de Souza Nobrega"] {
-            margin-left: 29px !important; /* Movido mais 1px adicional para direita (era 28px) */
+            margin-left: 29.5px !important; /* Movido mais 0.5px adicional para direita (era 29px) */
           }
         `}
       </style>
