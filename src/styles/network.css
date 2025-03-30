@@ -1,4 +1,3 @@
-
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
   margin-left: 26.5px !important;
@@ -35,7 +34,7 @@
 /* Estilo para o nó do Domingos Ferreira Pinto */
 [data-custom-id="Domingos89"],
 [data-member-name="Domingos Ferreira Pinto"] {
-  margin-left: 0px !important;
+  margin-left: 2px !important;
   margin-top: 2px !important;
 }
 

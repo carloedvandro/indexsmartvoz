@@ -40,7 +40,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     marginLeft = '2px'; // Mantido em 2px
     marginTop = '8px'; // Mantido em 8px
   } else if (isDomingosPinto) {
-    marginLeft = '0px'; // Mantido em 0px
+    marginLeft = '2px'; // Movido 2px mais para direita (era 0px)
     marginTop = '2px'; // Mantido em 2px
   } else if (isVandoMacedo) {
     marginLeft = '1px'; // Mantido em 1px
