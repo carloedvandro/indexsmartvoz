@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { RotateCw } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -34,7 +33,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     marginLeft = '-1px'; // Valor mantido
     marginTop = '6px';
   } else if (isDomingosPinto) {
-    marginLeft = '-1px'; // Ajustado 2px para direita (era -3px)
+    marginLeft = '0px'; // Ajustado 1px para direita (era -1px)
   }
 
   // Log for debugging
