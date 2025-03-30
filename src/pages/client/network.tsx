@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useProfile } from "@/hooks/useProfile";
@@ -52,7 +51,7 @@ export default function NetworkPage() {
           
           [data-custom-id="Vando89"],
           [data-member-name="Vando Araujo Macedo"] {
-            margin-left: 0px !important; /* Movido 3px para direita (era -3px) */
+            margin-left: 1px !important; /* Movido 1px para direita (era 0px) */
           }
         `}
       </style>
