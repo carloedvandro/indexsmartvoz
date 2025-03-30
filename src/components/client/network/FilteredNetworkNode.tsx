@@ -31,13 +31,13 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   let marginTop = '0px';
   
   if (isMarcioSilva) {
-    marginLeft = '26.5px'; // Movido 4px para esquerda (era 30.5px)
+    marginLeft = '18.5px'; // Movido 12px para esquerda (era 30.5px)
     marginTop = '2px'; // Movido 2px para baixo
   } else if (isMarcioSales) {
-    marginLeft = '26px'; // Movido 4px para esquerda (era 30px)
+    marginLeft = '18px'; // Movido 12px para esquerda (era 30px)
     marginTop = '2px'; // Movido 2px para baixo
   } else if (isCarloGoncalves) {
-    marginLeft = '10px'; // Movido 8px para direita (era 2px)
+    marginLeft = '2px'; // Revertido para 2px (voltando à posição anterior)
     marginTop = '8px'; // Ajustado para 8px (era 6px + 2px adicionais)
   } else if (isDomingosPinto) {
     marginLeft = '0px'; // Ajustado 1px para direita (era -1px)
