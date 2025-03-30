@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { NetworkNode } from "./NetworkNode";
@@ -23,7 +22,6 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Listen for changes to the network table
     const networkChannel = supabase
       .channel('network-changes')
       .on(
@@ -40,7 +38,6 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       )
       .subscribe();
 
-    // Listen for changes to profiles table
     const profilesChannel = supabase
       .channel('profiles-changes')
       .on(
@@ -77,10 +74,23 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
 
   const filteredData = useFilteredNetwork(networkData, selectedLevel);
   
-  // Adicionando logs para debug
   console.log("Nível selecionado:", selectedLevel);
   console.log("Dados da rede originais:", networkData);
   console.log("Dados filtrados:", filteredData);
+
+  useEffect(() => {
+    const checkCarloNode = () => {
+      const carloNode = document.querySelector('[data-custom-id="Carlo89"]');
+      if (carloNode) {
+        console.log('Carlo node found in DOM:', carloNode);
+        console.log('Carlo node computed style:', window.getComputedStyle(carloNode));
+      } else {
+        console.log('Carlo node not found in DOM');
+      }
+    };
+    
+    setTimeout(checkCarloNode, 1000);
+  }, [filteredData]);
 
   if (loading) {
     return (

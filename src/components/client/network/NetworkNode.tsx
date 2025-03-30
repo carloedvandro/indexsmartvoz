@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { RotateCw } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -58,6 +57,7 @@ export const NetworkNode = ({
       data-user-id={member.user.custom_id}
       data-member-name={member.user.full_name}
       data-node-id={member.id}
+      data-custom-id={member.user.custom_id}
     >
       <div className="flex items-start gap-2 w-full">
         {hasChildren && (

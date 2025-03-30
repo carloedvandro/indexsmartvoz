@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { RotateCw } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -48,6 +47,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       data-user-id={member.user.custom_id}
       data-member-name={member.user.full_name}
       data-node-id={member.id}
+      data-custom-id={member.user.custom_id}
     >
       <div className="flex items-start w-full">
         {hasChildren && (
