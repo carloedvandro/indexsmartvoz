@@ -14,14 +14,14 @@
 /* Adicionando estilo mais específico para garantir que seja aplicado */
 [data-custom-id="Marcio89"],
 [data-member-name="Marcio Bettanzos da Silva"] {
-  margin-left: 18.5px !important;
+  margin-left: 13.5px !important;
   margin-top: 2px !important;
 }
 
 /* Estilo para o nó do Marcio Sales Sousa */
 [data-custom-id="Marcio88"],
 [data-member-name="Marcio Sales Sousa"] {
-  margin-left: 18px !important;
+  margin-left: 13px !important;
   margin-top: 2px !important;
 }
 

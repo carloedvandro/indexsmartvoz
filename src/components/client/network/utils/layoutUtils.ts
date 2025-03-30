@@ -38,13 +38,13 @@ export const calculateNodeMargin = (
   return isDavidForgat ? `calc(-9px + ${allLevelsMargin})` : 
          isCarolinaTree ? `calc(29mm + ${allLevelsMargin})` : 
          isRubensTree ? `calc(5.5mm + ${allLevelsMargin})` : 
-         isMarcioSilva ? `calc(18.5px + ${allLevelsMargin})` : // Movido 12px para esquerda (era 30.5px)
-         isMarcioSales ? `calc(18px + ${allLevelsMargin})` : // Movido 12px para esquerda (era 30px)
-         isCarloGoncalves ? `calc(2px + ${allLevelsMargin})` : // Revertido para 2px (voltando à posição anterior)
-         isDomingosPinto ? `calc(0px + ${allLevelsMargin})` : // Ajustado 1px para direita (era -1px)
-         isVandoMacedo ? `calc(1px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 1.5px)
-         isDierroLeal ? `calc(-1px + ${allLevelsMargin})` : // Movido 1px para direita (era -2px)
-         isRudneyNobrega ? `calc(30px + ${allLevelsMargin})` : // Movido mais 0.5px adicional para direita (era 29.5px)
+         isMarcioSilva ? `calc(13.5px + ${allLevelsMargin})` : // Movido 5px mais para esquerda (era 18.5px)
+         isMarcioSales ? `calc(13px + ${allLevelsMargin})` : // Movido 5px mais para esquerda (era 18px)
+         isCarloGoncalves ? `calc(2px + ${allLevelsMargin})` : // Mantido em 2px
+         isDomingosPinto ? `calc(0px + ${allLevelsMargin})` : // Mantido em 0px
+         isVandoMacedo ? `calc(1px + ${allLevelsMargin})` : // Mantido em 1px
+         isDierroLeal ? `calc(-1px + ${allLevelsMargin})` : // Mantido em -1px
+         isRudneyNobrega ? `calc(30px + ${allLevelsMargin})` : // Mantido em 30px
          depth === 2 ? `calc(8px + ${allLevelsMargin})` : 
          isRuiTree ? `calc(10px + ${allLevelsMargin})` : 
          member.user.custom_id === 'vania' ? `calc(25.5px + ${allLevelsMargin})` :
@@ -65,10 +65,10 @@ export const calculateNodeVerticalMargin = (
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
   if (isCarloGoncalves) {
-    return '8px'; // Ajustado para 8px (era 6px + 2px adicionais)
+    return '8px'; // Mantido em 8px
   } else if (isMarcioSilva || isMarcioSales || isDomingosPinto || 
             isVandoMacedo || isDierroLeal || isRudneyNobrega || isGesiaAlmeida) {
-    return '2px'; // Movido 2px para baixo
+    return '2px'; // Mantido em 2px
   }
   
   return '0px';
