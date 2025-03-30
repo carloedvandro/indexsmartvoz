@@ -1,4 +1,3 @@
-
 import { NetworkMember } from "../types";
 
 export const calculateTotalTeamSize = (node: NetworkMember): number => {
@@ -29,7 +28,6 @@ export const calculateNodeMargin = (
   const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
   const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
   
-  // Updated margin for Carlo Edvandro Camera Gonçalves to -1px (moving 0.5px to the right from -1.5px)
   return isDavidForgat ? `calc(-9px + ${allLevelsMargin})` : 
          isCarolinaTree ? `calc(29mm + ${allLevelsMargin})` : 
          isRubensTree ? `calc(5.5mm + ${allLevelsMargin})` : 

@@ -89,6 +89,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       }
     };
     
+    checkCarloNode();
     setTimeout(checkCarloNode, 1000);
   }, [filteredData]);
 

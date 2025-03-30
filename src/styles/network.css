@@ -1,4 +1,5 @@
 
+
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
   margin-left: 29px !important;
@@ -19,5 +20,5 @@
 [data-custom-id="Carlo89"],
 [data-member-name="Carlo Edvandro Camera Gonçalves"] {
   margin-left: -1px !important;
-  margin-top: 6px !important; /* Adicionando margem superior de 6px */
+  margin-top: 6px !important;
 }
