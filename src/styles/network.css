@@ -1,23 +1,23 @@
 
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
-  margin-left: 39px !important; /* Aumentado para 39px (5px a mais) */
+  margin-left: 34px !important; /* Valor original */
 }
 
 /* Estilo para o nó do Marcio Bettanzos */
 .network-node-marcio {
-  margin-left: 39px !important; /* Aumentado para 39px (5px a mais) */
+  margin-left: 34px !important; /* Valor original */
 }
 
 /* Adicionando estilo mais específico para garantir que seja aplicado */
 [data-custom-id="Marcio89"],
 [data-member-name="Marcio Bettanzos da Silva"] {
-  margin-left: 39px !important; /* Aumentado para 39px (5px a mais) */
+  margin-left: 34px !important; /* Valor original */
 }
 
 /* Estilo para o nó do Carlo Edvandro */
 [data-custom-id="Carlo89"],
 [data-member-name="Carlo Edvandro Camera Gonçalves"] {
-  margin-left: -1px !important; /* Mantido o valor original */
+  margin-left: 4px !important; /* Movido 5px para a direita (de -1px para 4px) */
   margin-top: 6px !important;
 }
