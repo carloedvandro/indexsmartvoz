@@ -16,9 +16,14 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   const isExpanded = expandedNodes.has(member.id);
   const isActive = member.user.status === 'active';
   const currentLevel = 1; // For filtered views, we show everything at level 1
+  
+  // Verificando se é o usuário específico
+  const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
+  const marginLeft = isMarcioSilva ? '24px' : '0px';
 
   // Log for debugging
   console.log("Renderizando membro:", member.user.full_name, "com ID:", member.user.id, "e custom_id:", member.user.custom_id);
+  console.log("Margin aplicada:", marginLeft);
 
   return (
     <motion.div
@@ -26,6 +31,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full overflow-hidden"
+      style={{ marginLeft: isMarcioSilva ? '24px' : undefined }}
     >
       <div className="flex items-start w-full">
         {hasChildren && (

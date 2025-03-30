@@ -35,8 +35,12 @@ export const NetworkNode = ({
   // Calculate width
   const width = `calc(100% - ${depth === 0 ? -3 : 5}px)`;
   
+  // Verificando se é o usuário específico para aplicar estilos adicionais
+  const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
+  
   console.log('Nome do usuário:', member.user.full_name);
   console.log('ID personalizado:', member.user.custom_id);
+  console.log('Margem aplicada:', leftMargin);
 
   return (
     <motion.div
@@ -44,7 +48,10 @@ export const NetworkNode = ({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       className={`relative w-full ${depth > 0 ? 'mt-10' : ''}`}
-      style={{ marginLeft: leftMargin, width }}
+      style={{ 
+        marginLeft: leftMargin, 
+        width 
+      }}
     >
       <div className="flex items-start gap-2 w-full">
         {hasChildren && (
