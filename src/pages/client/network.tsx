@@ -31,7 +31,7 @@ export default function NetworkPage() {
           [data-user-id="Marcio89"],
           [data-custom-id="Marcio89"],
           [data-member-name="Marcio Bettanzos da Silva"] {
-            margin-left: 32px !important; /* Movido 0.5px adicional para esquerda (era 32.5px) */
+            margin-left: 31.5px !important; /* Movido 0.5px adicional para esquerda (era 32px) */
           }
           
           [data-custom-id="Marcio88"],
@@ -42,7 +42,7 @@ export default function NetworkPage() {
           [data-custom-id="Carlo89"],
           [data-member-name="Carlo Edvandro Camera Gonçalves"] {
             margin-left: -1px !important; /* Valor mantido */
-            marginTop: 6px !important;
+            margin-top: 6px !important;
           }
         `}
       </style>
