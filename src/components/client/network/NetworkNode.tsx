@@ -52,6 +52,9 @@ export const NetworkNode = ({
         marginLeft: leftMargin, 
         width 
       }}
+      data-user-id={member.user.custom_id}
+      data-member-name={member.user.full_name}
+      data-node-id={member.id}
     >
       <div className="flex items-start gap-2 w-full">
         {hasChildren && (

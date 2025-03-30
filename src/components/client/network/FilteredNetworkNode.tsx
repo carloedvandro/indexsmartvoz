@@ -32,6 +32,9 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full overflow-hidden"
       style={{ marginLeft: isMarcioSilva ? '27.5px' : undefined }}
+      data-user-id={member.user.custom_id}
+      data-member-name={member.user.full_name}
+      data-node-id={member.id}
     >
       <div className="flex items-start w-full">
         {hasChildren && (

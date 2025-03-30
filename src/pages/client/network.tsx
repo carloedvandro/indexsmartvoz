@@ -29,7 +29,8 @@ export default function NetworkPage() {
       <style>
         {`
           [data-user-id="Marcio89"],
-          [data-custom-id="Marcio89"] {
+          [data-custom-id="Marcio89"],
+          [data-member-name="Marcio Bettanzos da Silva"] {
             margin-left: 27.5px !important;
           }
         `}
