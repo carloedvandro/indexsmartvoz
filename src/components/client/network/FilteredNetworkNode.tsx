@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { RotateCw } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -42,7 +43,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   } else if (isDierroLeal) {
     marginLeft = '-1px'; // Movido 1px para direita (era -2px)
   } else if (isRudneyNobrega) {
-    marginLeft = '19px'; // Movido mais 5px adicionais para direita (era 14px)
+    marginLeft = '25px'; // Movido mais 6px adicionais para direita (era 19px)
   }
 
   // Log for debugging
