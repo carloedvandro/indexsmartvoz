@@ -39,10 +39,17 @@ export const NetworkNode = ({
   // Verificando se é o usuário específico
   const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
   const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
+  const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
   
   console.log('Nome do usuário:', member.user.full_name);
   console.log('ID personalizado:', member.user.custom_id);
   console.log('Margem aplicada:', leftMargin, 'Margem vertical:', topMargin);
+  
+  // Additional logging for Rudney
+  if (isRudneyNobrega) {
+    console.log('RUDNEY ENCONTRADO!', member);
+    console.log('Margem que será aplicada:', leftMargin);
+  }
 
   return (
     <motion.div
