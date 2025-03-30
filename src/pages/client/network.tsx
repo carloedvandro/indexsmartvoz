@@ -52,7 +52,7 @@ export default function NetworkPage() {
           
           [data-custom-id="Vando89"],
           [data-member-name="Vando Araujo Macedo"] {
-            margin-left: -3px !important; /* Movido 3px para esquerda */
+            margin-left: -1px !important; /* Movido 2px para direita (era -3px) */
           }
         `}
       </style>
