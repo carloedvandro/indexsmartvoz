@@ -19,7 +19,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   
   // Verificando se é o usuário específico
   const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
-  const marginLeft = isMarcioSilva ? '29.5px' : '0px';
+  const marginLeft = isMarcioSilva ? '30px' : '0px';
 
   // Log for debugging
   console.log("Renderizando membro:", member.user.full_name, "com ID:", member.user.id, "e custom_id:", member.user.custom_id);
@@ -31,7 +31,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       className="relative w-full overflow-hidden"
-      style={{ marginLeft: isMarcioSilva ? '29.5px' : undefined }}
+      style={{ marginLeft: isMarcioSilva ? '30px' : undefined }}
     >
       <div className="flex items-start w-full">
         {hasChildren && (
