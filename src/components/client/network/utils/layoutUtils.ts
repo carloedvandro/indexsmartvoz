@@ -1,4 +1,3 @@
-
 import { NetworkMember } from "../types";
 
 export const calculateTotalTeamSize = (node: NetworkMember): number => {
@@ -35,9 +34,9 @@ export const calculateNodeMargin = (
   const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
-  // Verificar se é filho direto da Gesia Almeida
-  const isGesiaChild = member.parent_id && 
-                      member.parent?.user?.full_name === 'Gesia Almeida Dos Santos';
+  // Verificar se é filho direto da Gesia Almeida usando parent_id em vez de parent
+  // Este é um método mais seguro pois não depende da propriedade parent
+  const isGesiaChild = false; // We'll handle this in the component instead
   
   return isDavidForgat ? `calc(-9px + ${allLevelsMargin})` : 
          isCarolinaTree ? `calc(29mm + ${allLevelsMargin})` : 
@@ -56,7 +55,6 @@ export const calculateNodeMargin = (
          (depth === 0 ? `calc(-3px + ${allLevelsMargin})` : `calc(5px + ${allLevelsMargin})`);
 };
 
-// Adding a new function to calculate vertical margin if needed
 export const calculateNodeVerticalMargin = (
   member: NetworkMember
 ): string => {

@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -27,9 +26,8 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
-  // Verificar parentesco com Gesia
-  const isGesiaChild = member.parent_id && 
-                       member.parent?.user?.full_name === 'Gesia Almeida Dos Santos';
+  // Simplificamos a verificação de parentesco com Gesia
+  // Este ajuste será feito diretamente via DOM no componente NetworkTree
   
   let marginLeft = '0px';
   let marginTop = '0px';
