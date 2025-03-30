@@ -31,12 +31,12 @@ export default function NetworkPage() {
           [data-user-id="Marcio89"],
           [data-custom-id="Marcio89"],
           [data-member-name="Marcio Bettanzos da Silva"] {
-            margin-left: 34px !important; /* Aumentado de 29px para 34px */
+            margin-left: 39px !important; /* Aumentado para 39px (5px a mais) */
           }
           
           [data-custom-id="Carlo89"],
           [data-member-name="Carlo Edvandro Camera Gonçalves"] {
-            margin-left: -1px !important; /* Restaurado para o valor original */
+            margin-left: -1px !important; /* Mantido o valor original */
             margin-top: 6px !important;
           }
         `}
