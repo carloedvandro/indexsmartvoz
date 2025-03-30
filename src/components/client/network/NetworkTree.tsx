@@ -9,7 +9,6 @@ import { useNetworkData } from "./useNetworkData";
 import { useFilteredNetwork } from "./useFilteredNetwork";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { ParticlesBackground } from "../products/ParticlesBackground";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface NetworkTreeProps {
@@ -78,10 +77,10 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
 
   const filteredData = useFilteredNetwork(networkData, selectedLevel);
   
-  // Debug logs
-  console.log("Selected level:", selectedLevel);
-  console.log("Original network data:", networkData);
-  console.log("Filtered data:", filteredData);
+  // Adicionando logs para debug
+  console.log("Nível selecionado:", selectedLevel);
+  console.log("Dados da rede originais:", networkData);
+  console.log("Dados filtrados:", filteredData);
 
   if (loading) {
     return (
@@ -92,8 +91,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }
 
   return (
-    <div className="relative min-h-screen pb-20">
-      <ParticlesBackground />
+    <div className="relative min-h-screen">
       <div className="relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="md:col-span-1 sticky top-20 z-20">
@@ -104,11 +102,11 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           </div>
 
           <div className="md:col-span-3 relative">
-            <div className="h-[calc(100vh-120px)] overflow-y-auto">
-              <div className="pr-4 pb-20">
+            <div className="h-auto max-h-[calc(100vh-140px)] overflow-y-auto pb-60">
+              <div className="pr-4">
                 <AnimatePresence>
                   {filteredData.length > 0 ? (
-                    <div className="space-y-4">
+                    <div className="space-y-4 mb-32">
                       {filteredData.map((member) => (
                         selectedLevel === "all" ? (
                           <NetworkNode
