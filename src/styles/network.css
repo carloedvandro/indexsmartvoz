@@ -71,7 +71,17 @@
   margin-top: 2px !important;
 }
 
-/* Adicionando espaçamento entre os nodes aninhados */
-.network-tree .space-y-2 {
-  margin-bottom: 4px !important;
+/* Espaçamento entre os nós aninhados - correção para garantir que seja aplicado */
+.network-tree .space-y-4 {
+  margin-bottom: 8px !important;
+}
+
+/* Espaçamento geral entre conjuntos de nós */
+.network-tree .space-y-4 > div {
+  margin-bottom: 12px !important;
+}
+
+/* Garantindo espaço adicional entre grupos de nós na rede */
+.network-tree > div > div.space-y-4 > div {
+  margin-bottom: 16px !important;
 }
