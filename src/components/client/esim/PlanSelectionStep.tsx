@@ -1,10 +1,11 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { InternetSelector } from "@/components/client/products/InternetSelector";
 import { DDDInput } from "@/components/client/products/DDDInput";
 import { DueDateSelector } from "@/components/client/products/DueDateSelector";
 import { PriceSummary } from "@/components/client/products/PriceSummary";
-import { NavigationButtons } from "@/components/client/products/chip-activation/NavigationButtons";
+import { useCalendarStyles } from "@/hooks/useCalendarStyles";
 
 interface PlanSelectionStepProps {
   onBack: () => void;
@@ -20,9 +21,12 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   const [selectedInternet, setSelectedInternet] = useState<string>("");
   const [selectedDDD, setSelectedDDD] = useState<string>("");
   const [selectedDueDate, setSelectedDueDate] = useState<number | null>(null);
+  const { data: calendarStyle } = useCalendarStyles();
 
   const internetOptions = [
     { value: "120GB", label: "Plano 120GB", price: 119.99 },
+    { value: "60GB", label: "Plano 60GB", price: 89.99 },
+    { value: "30GB", label: "Plano 30GB", price: 69.99 },
   ];
 
   const getLinePrice = () => {
@@ -83,6 +87,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             <DueDateSelector
               selectedDueDate={selectedDueDate}
               setSelectedDueDate={setSelectedDueDate}
+              calendarStyle={calendarStyle}
               selectedCardClassName="bg-white"
             />
           </div>
