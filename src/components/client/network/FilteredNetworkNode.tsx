@@ -43,7 +43,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   } else if (isDierroLeal) {
     marginLeft = '-1px'; // Movido 1px para direita (era -2px)
   } else if (isRudneyNobrega) {
-    marginLeft = '5px'; // Movido 5px para direita
+    marginLeft = '8px'; // Atualizado para 8px para a direita (era 5px)
   }
 
   // Log for debugging
