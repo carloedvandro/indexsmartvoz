@@ -56,7 +56,7 @@ export const NetworkNode = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className={`relative w-full ${depth > 0 ? 'mt-10' : ''}`}
+      className={`relative w-full ${depth > 0 ? 'mt-10' : ''} mb-4`}
       style={{ 
         marginLeft: leftMargin, 
         marginTop: topMargin !== '0px' ? topMargin : undefined,
@@ -113,7 +113,7 @@ export const NetworkNode = ({
         </div>
       </div>
       {hasChildren && isExpanded && (
-        <div className={`mt-2 space-y-2 mb-2 ${isVaniaTree ? 'ml-[25.5px]' : ''}`}>
+        <div className={`mt-2 space-y-4 mb-2 ${isVaniaTree ? 'ml-[25.5px]' : ''}`}>
           {member.children.map((child) => (
             <NetworkNode
               key={child.id}
