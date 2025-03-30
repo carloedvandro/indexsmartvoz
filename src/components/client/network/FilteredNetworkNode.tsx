@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { RotateCw } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -18,6 +19,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   
   // Verificando se é o usuário específico
   const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
+  const isMarcioSales = member.user.full_name === 'Marcio Sales Sousa';
   const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
   
   let marginLeft = '0px';
@@ -25,6 +27,8 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   
   if (isMarcioSilva) {
     marginLeft = '34px'; // Valor original
+  } else if (isMarcioSales) {
+    marginLeft = '6px'; // Movido 6px para a direita
   } else if (isCarloGoncalves) {
     marginLeft = '-1px'; // Valor original restaurado
     marginTop = '6px';

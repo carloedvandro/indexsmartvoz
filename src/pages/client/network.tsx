@@ -34,6 +34,11 @@ export default function NetworkPage() {
             margin-left: 34px !important; /* Valor original */
           }
           
+          [data-custom-id="Marcio88"],
+          [data-member-name="Marcio Sales Sousa"] {
+            margin-left: 6px !important; /* Movido 6px para a direita */
+          }
+          
           [data-custom-id="Carlo89"],
           [data-member-name="Carlo Edvandro Camera Gonçalves"] {
             margin-left: -1px !important; /* Valor original restaurado */
