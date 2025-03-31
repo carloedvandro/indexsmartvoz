@@ -89,6 +89,12 @@
   margin-bottom: 9px !important;
 }
 
+/* NOVO: Status "Pendente" movido 2px para baixo para todos os níveis exceto "Todos os Níveis" */
+.pending-status {
+  padding-top: 6px !important; /* 2px para baixo */
+  display: block !important; 
+}
+
 /* Ajuste específico para o texto de status 'Pendente' no modo "Todos os Níveis" */
 .network-tree .text-red-600 {
   padding-top: 5px !important; /* Reduzido para 5px (2px a menos que os 7px anteriores) */
@@ -107,4 +113,9 @@
 /* NOVO: Aumentando o espaçamento em todos os componentes da árvore */
 .network-tree .mb-6 {
   margin-bottom: 17px !important; /* Aumentado de 14px para 17px (adicionado mais 3px) */
+}
+
+/* Forçando a margem de 2px para baixo no status pendente em todos os níveis 1 a 4 */
+.text-red-600:not(.network-tree .text-red-600) {
+  transform: translateY(2px) !important;
 }

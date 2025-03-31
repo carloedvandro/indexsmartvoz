@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -98,8 +97,8 @@ export const NetworkNode = ({
                 {member.user.full_name || "Usuário"}
               </h3>
               <span className={`text-xs font-semibold ${
-                isActive ? 'text-green-600' : 'text-red-600'
-              }`} style={{ paddingTop: isAllLevels ? '0px' : '4px' }}>
+                isActive ? 'text-green-600' : 'text-red-600 pending-status'
+              }`}>
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
             </div>
