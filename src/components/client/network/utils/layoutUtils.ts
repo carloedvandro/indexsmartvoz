@@ -39,14 +39,14 @@ export const calculateNodeMargin = (
   return isDavidForgat ? `calc(-9px + ${allLevelsMargin})` : // Restaurado para o valor original
          isCarolinaTree ? `calc(29mm + ${allLevelsMargin})` : // Restaurado para o valor original
          isRubensTree ? `calc(5.5mm + ${allLevelsMargin})` : // Restaurado para o valor original
-         isMarcioSilva ? (isAllLevels ? `calc(30.5px + ${allLevelsMargin})` : "28.5px") : // Valor específico por tipo de visualização
-         isMarcioSales ? (isAllLevels ? `calc(30px + ${allLevelsMargin})` : "28px") : // Valor específico por tipo de visualização
-         isCarloGoncalves ? (isAllLevels ? `calc(2px + ${allLevelsMargin})` : "0px") : // Valor específico por tipo de visualização
-         isDomingosPinto ? (isAllLevels ? `calc(0px + ${allLevelsMargin})` : "-2px") : // Valor específico por tipo de visualização
-         isVandoMacedo ? (isAllLevels ? `calc(1px + ${allLevelsMargin})` : "-1px") : // Valor específico por tipo de visualização
-         isDierroLeal ? (isAllLevels ? `calc(-1px + ${allLevelsMargin})` : "-3px") : // Valor específico por tipo de visualização
-         isRudneyNobrega ? (isAllLevels ? `calc(30px + ${allLevelsMargin})` : "28px") : // Valor específico por tipo de visualização
-         isGesiaAlmeida ? (isAllLevels ? `calc(0px + ${allLevelsMargin})` : "-2px") : // Valor específico por tipo de visualização
+         isMarcioSilva ? (isAllLevels ? `calc(30.5px + ${allLevelsMargin})` : "30.5px") : // Valor original restaurado
+         isMarcioSales ? (isAllLevels ? `calc(30px + ${allLevelsMargin})` : "30px") : // Valor original restaurado
+         isCarloGoncalves ? (isAllLevels ? `calc(2px + ${allLevelsMargin})` : "2px") : // Valor original restaurado
+         isDomingosPinto ? (isAllLevels ? `calc(0px + ${allLevelsMargin})` : "0px") : // Valor original restaurado
+         isVandoMacedo ? (isAllLevels ? `calc(1px + ${allLevelsMargin})` : "1px") : // Valor original restaurado
+         isDierroLeal ? (isAllLevels ? `calc(-1px + ${allLevelsMargin})` : "-1px") : // Valor original restaurado
+         isRudneyNobrega ? (isAllLevels ? `calc(30px + ${allLevelsMargin})` : "30px") : // Valor original restaurado
+         isGesiaAlmeida ? (isAllLevels ? `calc(-2px + ${allLevelsMargin})` : "-2px") : // Valor original restaurado
          depth === 2 ? `calc(8px + ${allLevelsMargin})` : // Restaurado para o valor original
          isRuiTree ? `calc(10px + ${allLevelsMargin})` : // Restaurado para o valor original
          member.user.custom_id === 'vania' ? `calc(25.5px + ${allLevelsMargin})` : // Restaurado para o valor original

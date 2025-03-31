@@ -23,25 +23,25 @@ export const NodePositioner: React.FC<NodePositionerProps> = ({ member, children
   
   // Aplicando margens específicas apenas para os níveis individuais (não "Todos os Níveis")
   if (isMarcioSilva) {
-    marginLeft = '28.5px';
+    marginLeft = '30.5px';
     marginTop = '2px';
   } else if (isMarcioSales) {
-    marginLeft = '28px';
+    marginLeft = '30px';
     marginTop = '2px';
   } else if (isCarloGoncalves) {
-    marginLeft = '0px';
+    marginLeft = '2px';
     marginTop = '8px';
   } else if (isDomingosPinto) {
-    marginLeft = '-2px';
+    marginLeft = '0px';
     marginTop = '2px';
   } else if (isVandoMacedo) {
-    marginLeft = '-1px';
+    marginLeft = '1px';
     marginTop = '2px';
   } else if (isDierroLeal) {
-    marginLeft = '-3px';
+    marginLeft = '-1px';
     marginTop = '2px';
   } else if (isRudneyNobrega) {
-    marginLeft = '28px';
+    marginLeft = '30px';
     marginTop = '2px';
   } else if (isGesiaAlmeida) {
     marginLeft = '-2px';
