@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -33,7 +34,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   let marginTop = '0px';
   
   if (isMarcioSilva) {
-    marginLeft = '10px'; // Atualizado para 10px
+    marginLeft = '3px'; // Revertido para 3px como estava antes
     marginTop = '2px'; // Mantido em 2px
   } else if (isMarcioSales) {
     marginLeft = '2.5px'; // Mantido em 2.5px
@@ -54,7 +55,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     marginLeft = '30px'; // Mantido em 30px
     marginTop = '2px'; // Mantido em 2px
   } else if (isGesiaAlmeida) {
-    marginLeft = '-4px'; // Movido 4px para esquerda (era -2px)
+    marginLeft = '-4px'; // Mantido em -4px
     marginTop = '2px'; // Mantido em 2px
   }
 

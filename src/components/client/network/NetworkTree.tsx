@@ -110,8 +110,8 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
             setTimeout(() => {
               const marcioElement = document.querySelector(`[data-member-name="Marcio Bettanzos da Silva"]`);
               if (marcioElement) {
-                (marcioElement as HTMLElement).style.marginLeft = '10px'; // Atualizando para 10px
-                console.log('Aplicado estilo personalizado para Marcio Bettanzos (10px)');
+                (marcioElement as HTMLElement).style.marginLeft = '3px'; // Revertendo para 3px como estava antes
+                console.log('Aplicado estilo personalizado para Marcio Bettanzos (3px)');
               }
             }, 500);
           }
