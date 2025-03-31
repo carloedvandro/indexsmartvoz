@@ -45,7 +45,8 @@ export default {
       maxWidth: {
         'sm': '384px',
         'custom': '320px',
-        'mobile': '320px'
+        'mobile': '320px',
+        'network-filter': '360px'
       }
     },
   },
