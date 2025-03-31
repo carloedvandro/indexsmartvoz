@@ -73,15 +73,15 @@
 
 /* Espaçamento padronizado para todas as áreas da rede */
 .network-tree .space-y-4 {
-  margin-bottom: 6px !important;
+  margin-bottom: 9px !important; /* Aumentado para 9px (era 6px + 3px) */
 }
 
 /* Espaçamento padrão entre todos os nós */
 .network-tree .space-y-4 > div {
-  margin-bottom: 6px !important;
+  margin-bottom: 9px !important; /* Aumentado para 9px (era 6px + 3px) */
 }
 
 /* Espaçamento consistente para toda a árvore */
 .network-tree > div > div.space-y-4 > div {
-  margin-bottom: 6px !important;
+  margin-bottom: 9px !important; /* Aumentado para 9px (era 6px + 3px) */
 }
