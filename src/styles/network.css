@@ -68,12 +68,6 @@
   transform: scale(0.99) !important; /* Diminuindo minimamente o tamanho do texto */
 }
 
-/* Estilo específico para o nome e status da Gesia Almeida */
-[data-custom-id="Gesia89"] .flex-col,
-[data-member-name="Gesia Almeida Dos Santos"] .flex-col {
-  margin-top: 5mm !important; /* Ajustando para 5mm (1px a mais que o padrão de 4mm) */
-}
-
 /* Aplicando margem top para todos os nós da rede para garantir */
 .network-tree .relative {
   margin-top: 2px !important;
