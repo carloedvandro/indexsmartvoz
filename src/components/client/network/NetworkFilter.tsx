@@ -29,7 +29,7 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
                 : "border border-[#8425af] hover:border-[#8425af] hover:text-[#8425af]"
             }`}
           onClick={() => onLevelChange(level.value)}
-          style={{ maxWidth: '412px' }} // Atualizado para 412px para mobile
+          style={{ maxWidth: '412px' }}
         >
           <span>{level.label}</span>
         </Button>
