@@ -125,7 +125,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
 
       // Aplicar atributo de nível selecionado a todos os nós
       document.querySelectorAll('.network-tree').forEach(tree => {
-        tree.setAttribute('selectedLevel', selectedLevel);
+        tree.setAttribute('data-selected-level', selectedLevel);
       });
       
       // Verificar status pendente
@@ -148,7 +148,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }
 
   return (
-    <div className="relative min-h-screen network-tree" selectedLevel={selectedLevel}>
+    <div className="relative min-h-screen network-tree" data-selected-level={selectedLevel}>
       <div className="relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="md:col-span-1 sticky top-20 z-20">
