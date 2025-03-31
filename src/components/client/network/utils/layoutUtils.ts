@@ -1,3 +1,4 @@
+
 import { NetworkMember } from "../types";
 
 export const calculateTotalTeamSize = (node: NetworkMember): number => {
@@ -41,14 +42,14 @@ export const calculateNodeMargin = (
   return isDavidForgat ? `calc(-9px + ${allLevelsMargin})` : 
          isCarolinaTree ? `calc(29mm + ${allLevelsMargin})` : 
          isRubensTree ? `calc(5.5mm + ${allLevelsMargin})` : 
-         isMarcioSilva ? `calc(3px + ${allLevelsMargin})` : 
+         isMarcioSilva ? `calc(3px + ${allLevelsMargin})` : // Mantemos 3px para Marcio na visualização por nível
          isMarcioSales ? `calc(2.5px + ${allLevelsMargin})` : 
          isCarloGoncalves ? `calc(2px + ${allLevelsMargin})` : 
          isDomingosPinto ? `calc(3px + ${allLevelsMargin})` : 
          isVandoMacedo ? `calc(3px + ${allLevelsMargin})` : 
          isDierroLeal ? `calc(-1px + ${allLevelsMargin})` : 
          isRudneyNobrega ? `calc(30px + ${allLevelsMargin})` : 
-         isGesiaAlmeida ? `calc(-4px + ${allLevelsMargin})` : // Movido 4px para esquerda (era -2px)
+         isGesiaAlmeida ? `calc(-4px + ${allLevelsMargin})` : 
          depth === 2 ? `calc(8px + ${allLevelsMargin})` : 
          isRuiTree ? `calc(10px + ${allLevelsMargin})` : 
          member.user.custom_id === 'vania' ? `calc(25.5px + ${allLevelsMargin})` :
