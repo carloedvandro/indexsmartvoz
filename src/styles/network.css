@@ -1,72 +1,72 @@
 
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
-  margin-left: 30.5px !important; /* Restaurado para 30.5px (original) */
+  margin-left: 28.5px !important; /* Movido 2px para esquerda (era 30.5px) */
   margin-top: 2px !important;
 }
 
 /* Estilo para o nó do Marcio Bettanzos */
 .network-node-marcio {
-  margin-left: 30.5px !important; /* Restaurado para 30.5px (original) */
+  margin-left: 28.5px !important; /* Movido 2px para esquerda (era 30.5px) */
   margin-top: 2px !important;
 }
 
 /* Adicionando estilo mais específico para garantir que seja aplicado */
 [data-custom-id="Marcio89"],
 [data-member-name="Marcio Bettanzos da Silva"] {
-  margin-left: 30.5px !important; /* Restaurado para 30.5px (original) */
+  margin-left: 28.5px !important; /* Movido 2px para esquerda (era 30.5px) */
   margin-top: 2px !important;
 }
 
 /* Estilo para o nó do Marcio Sales Sousa */
 [data-custom-id="Marcio88"],
 [data-member-name="Marcio Sales Sousa"] {
-  margin-left: 30px !important; /* Restaurado para 30px (original) */
+  margin-left: 28px !important; /* Movido 2px para esquerda (era 30px) */
   margin-top: 2px !important;
 }
 
 /* Estilo para o nó do Carlo Edvandro */
 [data-custom-id="Carlo89"],
 [data-member-name="Carlo Edvandro Camera Gonçalves"] {
-  margin-left: 2px !important; /* Restaurado para 2px (original) */
+  margin-left: 0px !important; /* Movido 2px para esquerda (era 2px) */
   margin-top: 8px !important;
 }
 
 /* Estilo para o nó do Domingos Ferreira Pinto */
 [data-custom-id="Domingos89"],
 [data-member-name="Domingos Ferreira Pinto"] {
-  margin-left: 0px !important; /* Restaurado para 0px (original) */
+  margin-left: -2px !important; /* Movido 2px para esquerda (era 0px) */
   margin-top: 2px !important;
 }
 
 /* Estilo para o nó do Vando Araujo Macedo */
 [data-custom-id="Vando89"],
 [data-member-name="Vando Araujo Macedo"] {
-  margin-left: 1px !important; /* Restaurado para 1px (original) */
+  margin-left: -1px !important; /* Movido 2px para esquerda (era 1px) */
   margin-top: 2px !important;
 }
 
 /* Estilo para o nó do Dierro Santana Leal */
 [data-custom-id="Dierro89"],
 [data-member-name="Dierro Santana Leal"] {
-  margin-left: -1px !important; /* Restaurado para -1px (original) */
+  margin-left: -3px !important; /* Movido 2px para esquerda (era -1px) */
   margin-top: 2px !important;
 }
 
 /* Estilo para o nó do Rudney de Souza Nobrega */
 [data-custom-id="Rudney89"],
 [data-member-name="Rudney de Souza Nobrega"] {
-  margin-left: 30px !important; /* Restaurado para 30px (original) */
+  margin-left: 28px !important; /* Movido 2px para esquerda (era 30px) */
   margin-top: 2px !important;
 }
 
 /* Estilo para o nó da Gesia Almeida Dos Santos */
 [data-custom-id="Gesia89"],
 [data-member-name="Gesia Almeida Dos Santos"] {
-  margin-left: -2px !important;
+  margin-left: -2px !important; /* Adicionado margem esquerda negativa de 2px (não tinha antes) */
   margin-top: 2px !important;
-  max-width: 99% !important;
-  transform: scale(0.99) !important;
+  max-width: 99% !important; /* Mantido largura máxima um pouco menor */
+  transform: scale(0.99) !important; /* Mantido tamanho do texto ligeiramente reduzido */
 }
 
 /* Aplicando margem top para todos os nós da rede para garantir */
@@ -89,53 +89,33 @@
   margin-bottom: 9px !important;
 }
 
-/* Status "Pendente" movido 2px para baixo APENAS para níveis individuais 1 a 4 */
-.FilteredNetworkNode .pending-status {
+/* NOVO: Status "Pendente" movido 2px para baixo para todos os níveis exceto "Todos os Níveis" */
+.pending-status {
   padding-top: 6px !important; /* 2px para baixo */
   display: block !important; 
 }
 
-/* Restaurando o ajuste específico para o texto de status 'Pendente' no modo "Todos os Níveis" */
-.network-tree .text-red-600:not(.FilteredNetworkNode .text-red-600) {
-  padding-top: 7px !important; /* Restaurado para o valor original */
+/* Ajuste específico para o texto de status 'Pendente' no modo "Todos os Níveis" */
+.network-tree .text-red-600 {
+  padding-top: 5px !important; /* Reduzido para 5px (2px a menos que os 7px anteriores) */
 }
 
-/* Mantendo o espaçamento vertical entre os nós da rede */
-.FilteredNetworkNode .space-y-6 {
-  margin-bottom: 20px !important;
+/* NOVO: Aumentando o espaçamento vertical entre os nós da rede em 8px */
+.network-tree .space-y-6 {
+  margin-bottom: 20px !important; /* Aumentado de 17px para 20px (adicionado mais 3px) */
 }
 
-/* Mantendo o espaçamento entre os nós filhos */
-.FilteredNetworkNode .space-y-6 > div {
-  margin-bottom: 20px !important;
+/* NOVO: Aumentando o espaçamento entre os nós filhos */
+.network-tree .space-y-6 > div {
+  margin-bottom: 20px !important; /* Aumentado de 17px para 20px (adicionado mais 3px) */
 }
 
-/* Mantendo o espaçamento em componentes da árvore filtrada */
-.FilteredNetworkNode .mb-6 {
-  margin-bottom: 17px !important;
+/* NOVO: Aumentando o espaçamento em todos os componentes da árvore */
+.network-tree .mb-6 {
+  margin-bottom: 17px !important; /* Aumentado de 14px para 17px (adicionado mais 3px) */
 }
 
-/* Forçando a margem de 2px para baixo no status pendente APENAS em níveis 1 a 4 */
-.FilteredNetworkNode .text-red-600 {
+/* Forçando a margem de 2px para baixo no status pendente em todos os níveis 1 a 4 */
+.text-red-600:not(.network-tree .text-red-600) {
   transform: translateY(2px) !important;
-}
-
-/* Ajuste específico DIRETO para status pendente - mais forte e específico */
-.FilteredNetworkNode span.text-xs.font-semibold.text-red-600 {
-  transform: translateY(2px) !important;
-  position: relative !important;
-  top: 2px !important;
-  display: block !important;
-}
-
-/* Regra específica para níveis individuais 1 a 4 */
-[data-selected-level="1"] span.text-xs.font-semibold.text-red-600,
-[data-selected-level="2"] span.text-xs.font-semibold.text-red-600,
-[data-selected-level="3"] span.text-xs.font-semibold.text-red-600,
-[data-selected-level="4"] span.text-xs.font-semibold.text-red-600 {
-  transform: translateY(2px) !important;
-  margin-top: 2px !important;
-  position: relative !important;
-  top: 2px !important;
-  display: block !important;
 }

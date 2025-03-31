@@ -16,7 +16,7 @@ export const calculateNodeMargin = (
   depth: number,
   isAllLevels: boolean
 ): string => {
-  // Restaurando a margem original para modo "Todos os Níveis"
+  // Adding 4px additional right margin when showing all levels
   const allLevelsMargin = isAllLevels ? '4px' : '0px';
   
   const isDavidForgat = member.user.full_name === 'David Forgat';
@@ -35,22 +35,21 @@ export const calculateNodeMargin = (
   const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
-  // Restaurando os valores originais para "Todos os Níveis"
-  return isDavidForgat ? `calc(-9px + ${allLevelsMargin})` : // Restaurado para o valor original
-         isCarolinaTree ? `calc(29mm + ${allLevelsMargin})` : // Restaurado para o valor original
-         isRubensTree ? `calc(5.5mm + ${allLevelsMargin})` : // Restaurado para o valor original
-         isMarcioSilva ? (isAllLevels ? `calc(30.5px + ${allLevelsMargin})` : "30.5px") : // Valor original restaurado
-         isMarcioSales ? (isAllLevels ? `calc(30px + ${allLevelsMargin})` : "30px") : // Valor original restaurado
-         isCarloGoncalves ? (isAllLevels ? `calc(2px + ${allLevelsMargin})` : "2px") : // Valor original restaurado
-         isDomingosPinto ? (isAllLevels ? `calc(0px + ${allLevelsMargin})` : "0px") : // Valor original restaurado
-         isVandoMacedo ? (isAllLevels ? `calc(1px + ${allLevelsMargin})` : "1px") : // Valor original restaurado
-         isDierroLeal ? (isAllLevels ? `calc(-1px + ${allLevelsMargin})` : "-1px") : // Valor original restaurado
-         isRudneyNobrega ? (isAllLevels ? `calc(30px + ${allLevelsMargin})` : "30px") : // Valor original restaurado
-         isGesiaAlmeida ? (isAllLevels ? `calc(-2px + ${allLevelsMargin})` : "-2px") : // Valor original restaurado
-         depth === 2 ? `calc(8px + ${allLevelsMargin})` : // Restaurado para o valor original
-         isRuiTree ? `calc(10px + ${allLevelsMargin})` : // Restaurado para o valor original
-         member.user.custom_id === 'vania' ? `calc(25.5px + ${allLevelsMargin})` : // Restaurado para o valor original
-         (depth === 0 ? `calc(-3px + ${allLevelsMargin})` : `calc(5px + ${allLevelsMargin})`); // Restaurado para o valor original
+  return isDavidForgat ? `calc(-11px + ${allLevelsMargin})` : // Movido 2px para esquerda (era -9px)
+         isCarolinaTree ? `calc(27mm + ${allLevelsMargin})` : // Movido 2px para esquerda (era 29mm)
+         isRubensTree ? `calc(3.5mm + ${allLevelsMargin})` : // Movido 2px para esquerda (era 5.5mm)
+         isMarcioSilva ? `calc(28.5px + ${allLevelsMargin})` : // Movido 2px para esquerda (era 30.5px)
+         isMarcioSales ? `calc(28px + ${allLevelsMargin})` : // Movido 2px para esquerda (era 30px)
+         isCarloGoncalves ? `calc(0px + ${allLevelsMargin})` : // Movido 2px para esquerda (era 2px)
+         isDomingosPinto ? `calc(-2px + ${allLevelsMargin})` : // Movido 2px para esquerda (era 0px)
+         isVandoMacedo ? `calc(-1px + ${allLevelsMargin})` : // Movido 2px para esquerda (era 1px)
+         isDierroLeal ? `calc(-3px + ${allLevelsMargin})` : // Movido 2px para esquerda (era -1px)
+         isRudneyNobrega ? `calc(28px + ${allLevelsMargin})` : // Movido 2px para esquerda (era 30px)
+         isGesiaAlmeida ? `calc(-2px + ${allLevelsMargin})` : // Novo: adicionado margem de -2px 
+         depth === 2 ? `calc(6px + ${allLevelsMargin})` : // Movido 2px para esquerda (era 8px)
+         isRuiTree ? `calc(8px + ${allLevelsMargin})` : // Movido 2px para esquerda (era 10px)
+         member.user.custom_id === 'vania' ? `calc(23.5px + ${allLevelsMargin})` : // Movido 2px para esquerda (era 25.5px)
+         (depth === 0 ? `calc(-5px + ${allLevelsMargin})` : `calc(3px + ${allLevelsMargin})`); // Movido 2px para esquerda
 };
 
 // Mantendo a função que calcula a margem vertical
@@ -67,10 +66,10 @@ export const calculateNodeVerticalMargin = (
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
   if (isCarloGoncalves) {
-    return '8px';
+    return '8px'; // Ajustado para 8px (era 6px + 2px adicionais)
   } else if (isMarcioSilva || isMarcioSales || isDomingosPinto || 
             isVandoMacedo || isDierroLeal || isRudneyNobrega || isGesiaAlmeida) {
-    return '2px';
+    return '2px'; // Movido 2px para baixo
   }
   
   return '0px';

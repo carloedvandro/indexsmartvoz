@@ -1,9 +1,9 @@
 
 import { motion } from "framer-motion";
+import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
 import { UserAvatar } from "./components/UserAvatar";
 import { ProfileInfo } from "./components/ProfileInfo";
-import { ExpandButton } from "./components/ExpandButton";
 import { calculateNodeMargin, calculateNodeVerticalMargin } from "./utils/layoutUtils";
 
 interface NetworkNodeProps {
@@ -34,14 +34,25 @@ export const NetworkNode = ({
   
   const width = `calc(100% - ${depth === 0 ? -3 : 5}px)`;
   
-  const handleToggle = () => onToggle(member.id);
+  const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
+  const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
+  const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
+  
+  console.log('Nome do usuário:', member.user.full_name);
+  console.log('ID personalizado:', member.user.custom_id);
+  console.log('Margem aplicada:', leftMargin, 'Margem vertical:', topMargin);
+  
+  if (isRudneyNobrega) {
+    console.log('RUDNEY ENCONTRADO!', member);
+    console.log('Margem que será aplicada:', leftMargin);
+  }
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className={`relative w-full ${depth > 0 ? 'mt-10' : ''} mb-6 NetworkNode`}
+      className={`relative w-full ${depth > 0 ? 'mt-10' : ''} mb-6`}
       style={{ 
         marginLeft: leftMargin, 
         marginTop: topMargin !== '0px' ? topMargin : undefined,
@@ -54,7 +65,24 @@ export const NetworkNode = ({
     >
       <div className="flex items-start gap-2 w-full">
         {hasChildren && (
-          <ExpandButton isExpanded={isExpanded} onClick={handleToggle} />
+          <button
+            onClick={() => onToggle(member.id)}
+            className="p-1 hover:text-primary rounded-full flex-shrink-0"
+            style={{ marginTop: '4mm', marginLeft: '-0.5mm' }}
+            aria-label={isExpanded ? "Recolher" : "Expandir"}
+          >
+            {isExpanded ? (
+              <Minus
+                className="h-4 w-4"
+                style={{ color: '#660099', strokeWidth: 3 }}
+              />
+            ) : (
+              <Plus
+                className="h-4 w-4"
+                style={{ color: '#660099', strokeWidth: 3 }}
+              />
+            )}
+          </button>
         )}
         
         <div className="flex items-start gap-3 flex-1">
@@ -71,7 +99,7 @@ export const NetworkNode = ({
               </h3>
               <span className={`text-xs font-semibold ${
                 isActive ? 'text-green-600' : 'text-red-600 pending-status'
-              }`} style={{ position: 'relative', top: isActive ? '0' : '2px' }}>
+              }`}>
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
             </div>
