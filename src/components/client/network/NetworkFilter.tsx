@@ -1,5 +1,6 @@
 
 import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface NetworkFilterProps {
   selectedLevel: string;
@@ -15,6 +16,9 @@ const NETWORK_LEVELS = [
 ] as const;
 
 export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterProps) => {
+  const isMobile = useIsMobile();
+  const maxWidth = isMobile ? '410px' : '412px';
+  
   return (
     <div className="sticky top-20 z-10 space-y-2 max-w-custom">
       {NETWORK_LEVELS.map((level) => (
@@ -29,7 +33,7 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
                 : "border border-[#8425af] hover:border-[#8425af] hover:text-[#8425af]"
             }`}
           onClick={() => onLevelChange(level.value)}
-          style={{ maxWidth: '412px' }}
+          style={{ maxWidth }}
         >
           <span>{level.label}</span>
         </Button>
