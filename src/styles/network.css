@@ -74,7 +74,7 @@
 /* Estilo específico apenas para o status "Pendente" da Gesia */
 [data-member-name="Gesia Almeida Dos Santos"] .flex-col > div > span {
   position: relative !important;
-  top: 4px !important;
+  top: 5px !important;
 }
 
 /* Aplicando margem top para todos os nós da rede para garantir */
