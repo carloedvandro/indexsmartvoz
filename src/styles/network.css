@@ -1,69 +1,71 @@
 
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
-  margin-left: 30.5px !important; /* Movido 0.5px adicional para esquerda (era 31px) */
-  margin-top: 2px !important; /* Movido 2px para baixo */
+  margin-left: 30.5px !important;
+  margin-top: 2px !important;
 }
 
 /* Estilo para o nó do Marcio Bettanzos */
 .network-node-marcio {
-  margin-left: 30.5px !important; /* Movido 0.5px adicional para esquerda (era 31px) */
-  margin-top: 2px !important; /* Movido 2px para baixo */
+  margin-left: 30.5px !important;
+  margin-top: 2px !important;
 }
 
 /* Adicionando estilo mais específico para garantir que seja aplicado */
 [data-custom-id="Marcio89"],
 [data-member-name="Marcio Bettanzos da Silva"] {
-  margin-left: 30.5px !important; /* Movido 0.5px adicional para esquerda (era 31px) */
-  margin-top: 2px !important; /* Movido 2px para baixo */
+  margin-left: 30.5px !important;
+  margin-top: 2px !important;
 }
 
 /* Estilo para o nó do Marcio Sales Sousa */
 [data-custom-id="Marcio88"],
 [data-member-name="Marcio Sales Sousa"] {
-  margin-left: 30px !important; /* Movido mais para a direita (era 22px) */
-  margin-top: 2px !important; /* Movido 2px para baixo */
+  margin-left: 30px !important;
+  margin-top: 2px !important;
 }
 
 /* Estilo para o nó do Carlo Edvandro */
 [data-custom-id="Carlo89"],
 [data-member-name="Carlo Edvandro Camera Gonçalves"] {
-  margin-left: -1px !important; /* Valor mantido */
-  margin-top: 8px !important; /* Ajustado para 8px (era 6px + 2px adicionais) */
+  margin-left: -1px !important;
+  margin-top: 8px !important;
 }
 
 /* Estilo para o nó do Domingos Ferreira Pinto */
 [data-custom-id="Domingos89"],
 [data-member-name="Domingos Ferreira Pinto"] {
-  margin-left: 0px !important; /* Ajustado 1px para direita (era -1px) */
-  margin-top: 2px !important; /* Movido 2px para baixo */
+  margin-left: 0px !important;
+  margin-top: 2px !important;
 }
 
 /* Estilo para o nó do Vando Araujo Macedo */
 [data-custom-id="Vando89"],
 [data-member-name="Vando Araujo Macedo"] {
-  margin-left: 1px !important; /* Movido 0.5px para esquerda (era 1.5px) */
-  margin-top: 2px !important; /* Movido 2px para baixo */
+  margin-left: 1px !important;
+  margin-top: 2px !important;
 }
 
 /* Estilo para o nó do Dierro Santana Leal */
 [data-custom-id="Dierro89"],
 [data-member-name="Dierro Santana Leal"] {
-  margin-left: -1px !important; /* Movido 1px para direita (era -2px) */
-  margin-top: 2px !important; /* Movido 2px para baixo */
+  margin-left: -1px !important;
+  margin-top: 2px !important;
 }
 
 /* Estilo para o nó do Rudney de Souza Nobrega */
 [data-custom-id="Rudney89"],
 [data-member-name="Rudney de Souza Nobrega"] {
-  margin-left: 30px !important; /* Movido mais 0.5px adicional para direita (era 29.5px) */
-  margin-top: 2px !important; /* Movido 2px para baixo */
+  margin-left: 30px !important;
+  margin-top: 2px !important;
 }
 
 /* Estilo para o nó da Gesia Almeida Dos Santos */
 [data-custom-id="Gesia89"],
 [data-member-name="Gesia Almeida Dos Santos"] {
-  margin-top: 2px !important; /* Movido 2px para baixo */
+  margin-top: 2px !important;
+  max-width: 99% !important; /* Adicionando largura máxima um pouco menor */
+  transform: scale(0.99) !important; /* Diminuindo minimamente o tamanho do texto */
 }
 
 /* Aplicando margem top para todos os nós da rede para garantir */
@@ -73,15 +75,15 @@
 
 /* Espaçamento padronizado para todas as áreas da rede */
 .network-tree .space-y-4 {
-  margin-bottom: 9px !important; /* Aumentado para 9px (era 6px + 3px) */
+  margin-bottom: 9px !important;
 }
 
 /* Espaçamento padrão entre todos os nós */
 .network-tree .space-y-4 > div {
-  margin-bottom: 9px !important; /* Aumentado para 9px (era 6px + 3px) */
+  margin-bottom: 9px !important;
 }
 
 /* Espaçamento consistente para toda a árvore */
 .network-tree > div > div.space-y-4 > div {
-  margin-bottom: 9px !important; /* Aumentado para 9px (era 6px + 3px) */
+  margin-bottom: 9px !important;
 }
