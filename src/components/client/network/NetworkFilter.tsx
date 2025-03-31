@@ -17,7 +17,7 @@ const NETWORK_LEVELS = [
 
 export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterProps) => {
   const isMobile = useIsMobile();
-  const maxWidth = isMobile ? '408px' : '412px';
+  const maxWidth = isMobile ? '390px' : '412px';
   
   return (
     <div className="sticky top-20 z-10 space-y-2 max-w-custom">
