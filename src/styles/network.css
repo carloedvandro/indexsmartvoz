@@ -66,6 +66,11 @@
   margin-top: 2px !important;
 }
 
+/* Estilo específico para Gesia na visualização "Todos os Níveis" */
+.network-tree div[data-member-name="Gesia Almeida Dos Santos"] .flex-col {
+  margin-top: 3px !important;
+}
+
 /* Aplicando margem top para todos os nós da rede para garantir */
 .network-tree .relative {
   margin-top: 2px !important;

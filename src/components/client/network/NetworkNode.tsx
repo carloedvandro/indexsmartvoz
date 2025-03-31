@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -36,6 +37,7 @@ export const NetworkNode = ({
   const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
   const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
   const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
+  const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
   console.log('Nome do usuário:', member.user.full_name);
   console.log('ID personalizado:', member.user.custom_id);
@@ -92,7 +94,7 @@ export const NetworkNode = ({
           />
 
           <div className="flex-1 min-w-0">
-            <div className="flex flex-col gap-1" style={{ marginTop: '4mm' }}>
+            <div className={`flex flex-col gap-1 ${isGesiaAlmeida && isAllLevels ? 'mt-[5mm]' : 'mt-[4mm]'}`}>
               <h3 className="text-base font-semibold text-black truncate">
                 {member.user.full_name || "Usuário"}
               </h3>
