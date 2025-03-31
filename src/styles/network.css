@@ -68,6 +68,11 @@
   transform: scale(0.99) !important; /* Diminuindo minimamente o tamanho do texto */
 }
 
+/* Estilo específico para filhos do Marcio Bettanzos da Silva */
+[data-member-name="Marcio Bettanzos da Silva"] + div > div {
+  margin-left: 10px !important;
+}
+
 /* Aplicando margem top para todos os nós da rede para garantir */
 .network-tree .relative {
   margin-top: 2px !important;
@@ -86,4 +91,15 @@
 /* Espaçamento consistente para toda a árvore */
 .network-tree > div > div.space-y-4 > div {
   margin-bottom: 9px !important;
+}
+
+/* Estilo para o botão "Todos os Níveis" */
+.network-tree button.bg-purple-600 {
+  background-color: #660099 !important;
+  color: white !important;
+}
+
+/* Foco nos botões do filtro */
+.network-tree .border-purple-500 {
+  border-color: #660099 !important;
 }

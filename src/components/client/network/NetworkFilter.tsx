@@ -1,4 +1,5 @@
 
+import React from "react";
 import { Button } from "@/components/ui/button";
 
 interface NetworkFilterProps {
@@ -6,33 +7,91 @@ interface NetworkFilterProps {
   onLevelChange: (level: string) => void;
 }
 
-const NETWORK_LEVELS = [
-  { value: "1", label: "1° Nível" },
-  { value: "2", label: "2° Nível" },
-  { value: "3", label: "3° Nível" },
-  { value: "4", label: "4° Nível" },
-  { value: "all", label: "Todos os Níveis" },
-] as const;
-
 export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterProps) => {
   return (
-    <div className="sticky top-20 z-10 space-y-2">
-      {NETWORK_LEVELS.map((level) => (
+    <div className="bg-white p-4 rounded-lg shadow mb-6">
+      <h3 className="font-semibold text-lg mb-4">Filtrar por Nível</h3>
+      <div className="flex flex-col gap-3">
         <Button
-          key={level.value}
-          variant="outline"
-          className={`w-full text-left px-4 py-3 rounded-lg transition-all relative hover:bg-transparent
-            ${level.value === selectedLevel && level.value !== 'all'
-              ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px] text-[#8425af]'
-              : level.value === 'all'
-                ? "bg-[#5f0889] text-white hover:bg-[#5f0889]"
-                : "border border-[#8425af] hover:border-[#8425af] hover:text-[#8425af]"
-            }`}
-          onClick={() => onLevelChange(level.value)}
+          onClick={() => onLevelChange("all")}
+          className={`${
+            selectedLevel === "all" 
+              ? "bg-purple-600 hover:bg-purple-700 text-white"
+              : "bg-white text-gray-800 border border-gray-300 hover:bg-gray-100"
+          } w-full justify-start`}
+          variant={selectedLevel === "all" ? "default" : "outline"}
+          style={{ 
+            backgroundColor: selectedLevel === "all" ? "#660099" : "",
+            borderColor: selectedLevel === "all" ? "#660099" : ""
+          }}
         >
-          <span>{level.label}</span>
+          Todos os Níveis
         </Button>
-      ))}
+        
+        <Button
+          onClick={() => onLevelChange("1")}
+          className={`${
+            selectedLevel === "1" 
+              ? "border-purple-500 text-purple-700" 
+              : "bg-white text-gray-800 border border-gray-300 hover:bg-gray-100"
+          } w-full justify-start`}
+          variant="outline"
+          style={{ 
+            borderColor: selectedLevel === "1" ? "#660099" : "",
+            color: selectedLevel === "1" ? "#660099" : "" 
+          }}
+        >
+          Nível 1
+        </Button>
+        
+        <Button
+          onClick={() => onLevelChange("2")}
+          className={`${
+            selectedLevel === "2" 
+              ? "border-purple-500 text-purple-700" 
+              : "bg-white text-gray-800 border border-gray-300 hover:bg-gray-100"
+          } w-full justify-start`}
+          variant="outline"
+          style={{ 
+            borderColor: selectedLevel === "2" ? "#660099" : "",
+            color: selectedLevel === "2" ? "#660099" : "" 
+          }}
+        >
+          Nível 2
+        </Button>
+        
+        <Button
+          onClick={() => onLevelChange("3")}
+          className={`${
+            selectedLevel === "3" 
+              ? "border-purple-500 text-purple-700" 
+              : "bg-white text-gray-800 border border-gray-300 hover:bg-gray-100"
+          } w-full justify-start`}
+          variant="outline"
+          style={{ 
+            borderColor: selectedLevel === "3" ? "#660099" : "",
+            color: selectedLevel === "3" ? "#660099" : "" 
+          }}
+        >
+          Nível 3
+        </Button>
+        
+        <Button
+          onClick={() => onLevelChange("4")}
+          className={`${
+            selectedLevel === "4" 
+              ? "border-purple-500 text-purple-700" 
+              : "bg-white text-gray-800 border border-gray-300 hover:bg-gray-100"
+          } w-full justify-start`}
+          variant="outline"
+          style={{ 
+            borderColor: selectedLevel === "4" ? "#660099" : "",
+            color: selectedLevel === "4" ? "#660099" : "" 
+          }}
+        >
+          Nível 4
+        </Button>
+      </div>
     </div>
   );
-}
+};

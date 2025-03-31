@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -28,12 +29,12 @@ export const NetworkNode = ({
   const isVaniaTree = member.user.custom_id === 'vania' || 
                      (member.parent_id && member.user.custom_id?.startsWith('vania-'));
   
+  const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
   const leftMargin = calculateNodeMargin(member, depth, isAllLevels);
   const topMargin = calculateNodeVerticalMargin(member);
   
   const width = `calc(100% - ${depth === 0 ? -3 : 5}px)`;
   
-  const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
   const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
   const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
   
@@ -108,7 +109,7 @@ export const NetworkNode = ({
         </div>
       </div>
       {hasChildren && isExpanded && (
-        <div className={`mt-6 space-y-6 mb-6 ${isVaniaTree ? 'ml-[25.5px]' : ''}`}>
+        <div className={`mt-6 space-y-6 mb-6 ${isMarcioSilva ? 'ml-[35.5px]' : isVaniaTree ? 'ml-[25.5px]' : ''}`}>
           {member.children.map((child) => (
             <NetworkNode
               key={child.id}
