@@ -90,6 +90,14 @@
 
 /* Ajuste específico para o texto de status 'Pendente' no modo "Todos os Níveis" */
 .network-tree .text-red-600 {
-  padding-top: 2px;
+  padding-top: 0;
+  margin-top: -5px; /* Ajustado para alinhar exatamente com o corte */
+  display: block;
 }
 
+/* Ajuste para o texto 'Ativo' também */
+.network-tree .text-green-600 {
+  padding-top: 0;
+  margin-top: -5px; /* Ajustado para alinhar exatamente com o corte */
+  display: block;
+}
