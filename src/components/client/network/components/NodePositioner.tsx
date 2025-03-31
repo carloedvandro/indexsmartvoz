@@ -21,6 +21,7 @@ export const NodePositioner: React.FC<NodePositionerProps> = ({ member, children
   let marginLeft = '0px';
   let marginTop = '0px';
   
+  // Aplicando margens específicas apenas para os níveis individuais (não "Todos os Níveis")
   if (isMarcioSilva) {
     marginLeft = '28.5px';
     marginTop = '2px';
