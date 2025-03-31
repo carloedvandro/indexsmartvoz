@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -93,7 +94,9 @@ export const NetworkNode = ({
           />
 
           <div className="flex-1 min-w-0">
-            <div className={`flex flex-col gap-1 ${isGesiaAlmeida ? '' : ''}`} style={{ marginTop: '4mm' }}>
+            <div className={`flex flex-col gap-1 ${isGesiaAlmeida ? '' : ''}`} style={{ 
+              marginTop: isGesiaAlmeida ? 'calc(4mm + 4px)' : '4mm' 
+            }}>
               <h3 className="text-base font-semibold text-black truncate">
                 {member.user.full_name || "Usuário"}
               </h3>
