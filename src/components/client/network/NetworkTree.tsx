@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { NetworkNode } from "./NetworkNode";
@@ -80,13 +79,10 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   console.log("Dados da rede originais:", networkData);
   console.log("Dados filtrados:", filteredData);
 
-  // Ajustar posição do Marcio Bettanzos (filho da Gesia)
   useEffect(() => {
-    // Função para aplicar margens personalizadas após o componente ser renderizado
     const applyCustomStyles = () => {
       if (!networkData || networkData.length === 0) return;
       
-      // Procura por Gesia Almeida no networkData
       const findGesia = (nodes: any[]): any | null => {
         for (const node of nodes) {
           if (node.user && node.user.full_name === 'Gesia Almeida Dos Santos') {
@@ -103,15 +99,15 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       const gesiaNode = findGesia(networkData);
       
       if (gesiaNode && gesiaNode.children && gesiaNode.children.length > 0) {
-        // Para cada filho da Gesia, verifica se é o Marcio Bettanzos
         gesiaNode.children.forEach((child: any) => {
           if (child.user && child.user.full_name === 'Marcio Bettanzos da Silva') {
-            // Encontra o elemento DOM para o Marcio e adiciona o estilo
             setTimeout(() => {
-              const marcioElement = document.querySelector(`[data-member-name="Marcio Bettanzos da Silva"]`);
-              if (marcioElement) {
-                (marcioElement as HTMLElement).style.marginLeft = '10px'; // Atualizado para 10px como solicitado
-                console.log('Aplicado estilo personalizado para Marcio Bettanzos (10px)');
+              if (selectedLevel === "all") {
+                const marcioElement = document.querySelector(`[data-member-name="Marcio Bettanzos da Silva"]`);
+                if (marcioElement) {
+                  (marcioElement as HTMLElement).style.marginLeft = '10px';
+                  console.log('Aplicado estilo personalizado para Marcio Bettanzos (10px) no modo Todos os Níveis');
+                }
               }
             }, 500);
           }
