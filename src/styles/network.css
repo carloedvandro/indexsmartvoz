@@ -1,4 +1,5 @@
 
+
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
   margin-left: 30.5px !important;
@@ -90,14 +91,6 @@
 
 /* Ajuste específico para o texto de status 'Pendente' no modo "Todos os Níveis" */
 .network-tree .text-red-600 {
-  padding-top: 0;
-  margin-top: -5px; /* Ajustado para alinhar exatamente com o corte */
-  display: block;
+  padding-top: 2px;
 }
 
-/* Ajuste para o texto 'Ativo' também */
-.network-tree .text-green-600 {
-  padding-top: 0;
-  margin-top: -5px; /* Ajustado para alinhar exatamente com o corte */
-  display: block;
-}
