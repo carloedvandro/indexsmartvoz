@@ -1,5 +1,4 @@
 
-
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
   margin-left: 30.5px !important;
@@ -67,11 +66,6 @@
   margin-top: 2px !important;
 }
 
-/* Estilo específico para Gesia na visualização "Todos os Níveis" */
-.network-tree div[data-member-name="Gesia Almeida Dos Santos"] .flex-col {
-  margin-top: 3px !important;
-}
-
 /* Aplicando margem top para todos os nós da rede para garantir */
 .network-tree .relative {
   margin-top: 2px !important;
@@ -91,4 +85,3 @@
 .network-tree > div > div.space-y-4 > div {
   margin-bottom: 9px !important;
 }
-
