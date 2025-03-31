@@ -74,13 +74,13 @@
 /* Estilo específico apenas para o status "Pendente" da Gesia */
 [data-member-name="Gesia Almeida Dos Santos"] .flex-col > div > span {
   position: relative !important;
-  top: 5px !important;
+  top: 6px !important;
 }
 
 /* Estilo específico para o status "Pendente" em todos os níveis individuais */
 .network-tree [data-member-name] .text-red-600 {
   position: relative !important;
-  top: 5px !important;
+  top: 6px !important;
 }
 
 /* Aplicando margem top para todos os nós da rede para garantir */
