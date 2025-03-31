@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { NetworkNode } from "./NetworkNode";
@@ -24,11 +23,14 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Force reload network.css
+    // Force reload network.css com um timestamp para evitar cache
+    const timestamp = new Date().getTime();
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = '/src/styles/network.css?v=' + new Date().getTime();
+    link.href = `/src/styles/network.css?v=${timestamp}`;
     document.head.appendChild(link);
+    
+    console.log(`Forçando recarga de CSS com timestamp: ${timestamp}`);
     
     const networkChannel = supabase
       .channel('network-changes')
@@ -89,27 +91,32 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   console.log("Dados da rede originais:", networkData);
   console.log("Dados filtrados:", filteredData);
   console.log("Aplicando espaçamento vertical atualizado: 20px entre nós, 17px margem inferior");
+  console.log("Movendo todos os nós 2px para a esquerda");
 
   useEffect(() => {
     setTimeout(() => {
       const allNodes = document.querySelectorAll('[data-custom-id]');
       console.log(`Found ${allNodes.length} network nodes in DOM`);
       
-      const gesiaNode = document.querySelector('[data-custom-id="Gesia89"]');
-      if (gesiaNode) {
-        console.log('Gesia node found, computed style:', window.getComputedStyle(gesiaNode));
-      } else {
-        console.log('Gesia node not found in DOM by data-custom-id');
-      }
+      // Verificando as posições após as mudanças
+      const allPositions = {};
+      allNodes.forEach(node => {
+        const customId = node.getAttribute('data-custom-id');
+        const memberName = node.getAttribute('data-member-name');
+        if (customId && memberName) {
+          const styles = window.getComputedStyle(node);
+          allPositions[customId] = {
+            name: memberName,
+            marginLeft: styles.marginLeft,
+            marginTop: styles.marginTop
+          };
+          console.log(`Nó ${memberName} (${customId}): marginLeft=${styles.marginLeft}, marginTop=${styles.marginTop}`);
+        }
+      });
       
-      const gesiaByName = document.querySelector('[data-member-name="Gesia Almeida Dos Santos"]');
-      if (gesiaByName) {
-        console.log('Gesia node found by name, computed style:', window.getComputedStyle(gesiaByName));
-      } else {
-        console.log('Gesia node not found in DOM by data-member-name');
-      }
+      console.log('Posições atualizadas de todos os nós:', allPositions);
       
-      // Verifica a aplicação dos novos espaçamentos
+      // Verificando a aplicação dos novos espaçamentos
       const spaceY6 = document.querySelector('.network-tree .space-y-6');
       if (spaceY6) {
         console.log('Espaçamento vertical aplicado:', window.getComputedStyle(spaceY6).marginBottom);
