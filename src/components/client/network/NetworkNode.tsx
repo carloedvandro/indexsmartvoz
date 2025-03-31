@@ -94,7 +94,7 @@ export const NetworkNode = ({
           />
 
           <div className="flex-1 min-w-0">
-            <div className={`flex flex-col gap-1 ${isGesiaAlmeida && isAllLevels ? 'mt-[5mm]' : 'mt-[4mm]'}`}>
+            <div className={`flex flex-col gap-1 ${isGesiaAlmeida && isAllLevels ? 'mt-[4mm]' : 'mt-[4mm]'}`}>
               <h3 className="text-base font-semibold text-black truncate">
                 {member.user.full_name || "Usuário"}
               </h3>
