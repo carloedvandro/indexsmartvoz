@@ -44,7 +44,8 @@ export default {
       },
       maxWidth: {
         'sm': '384px',
-        'custom': '390px'
+        'custom': '365px',
+        'mobile': '365px'
       }
     },
   },
