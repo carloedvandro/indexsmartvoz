@@ -81,43 +81,25 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   console.log("Dados filtrados:", filteredData);
 
   useEffect(() => {
-    const applyCustomStyles = () => {
-      if (!networkData || networkData.length === 0) return;
+    setTimeout(() => {
+      const allNodes = document.querySelectorAll('[data-custom-id]');
+      console.log(`Found ${allNodes.length} network nodes in DOM`);
       
-      const findGesia = (nodes: any[]): any | null => {
-        for (const node of nodes) {
-          if (node.user && node.user.full_name === 'Gesia Almeida Dos Santos') {
-            return node;
-          }
-          if (node.children && node.children.length > 0) {
-            const found = findGesia(node.children);
-            if (found) return found;
-          }
-        }
-        return null;
-      };
-      
-      const gesiaNode = findGesia(networkData);
-      
-      if (gesiaNode && gesiaNode.children && gesiaNode.children.length > 0) {
-        gesiaNode.children.forEach((child: any) => {
-          if (child.user && child.user.full_name === 'Marcio Bettanzos da Silva') {
-            setTimeout(() => {
-              if (selectedLevel === "all") {
-                const marcioElement = document.querySelector(`[data-member-name="Marcio Bettanzos da Silva"]`);
-                if (marcioElement) {
-                  (marcioElement as HTMLElement).style.marginLeft = '10px';
-                  console.log('Aplicado estilo personalizado para Marcio Bettanzos (10px) no modo Todos os Níveis');
-                }
-              }
-            }, 500);
-          }
-        });
+      const gesiaNode = document.querySelector('[data-custom-id="Gesia89"]');
+      if (gesiaNode) {
+        console.log('Gesia node found, computed style:', window.getComputedStyle(gesiaNode));
+      } else {
+        console.log('Gesia node not found in DOM by data-custom-id');
       }
-    };
-    
-    applyCustomStyles();
-  }, [networkData, selectedLevel]);
+      
+      const gesiaByName = document.querySelector('[data-member-name="Gesia Almeida Dos Santos"]');
+      if (gesiaByName) {
+        console.log('Gesia node found by name, computed style:', window.getComputedStyle(gesiaByName));
+      } else {
+        console.log('Gesia node not found in DOM by data-member-name');
+      }
+    }, 1000);
+  }, [filteredData]);
 
   if (loading) {
     return (

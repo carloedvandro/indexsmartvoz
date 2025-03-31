@@ -35,27 +35,24 @@ export const calculateNodeMargin = (
   const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
-  // Verificar se é filho direto da Gesia Almeida usando parent_id em vez de parent
-  // Este é um método mais seguro pois não depende da propriedade parent
-  const isGesiaChild = false; // We'll handle this in the component instead
-  
   return isDavidForgat ? `calc(-9px + ${allLevelsMargin})` : 
          isCarolinaTree ? `calc(29mm + ${allLevelsMargin})` : 
          isRubensTree ? `calc(5.5mm + ${allLevelsMargin})` : 
-         isMarcioSilva ? `calc(3px + ${allLevelsMargin})` : // Mantemos 3px para Marcio na visualização por nível
+         isMarcioSilva ? `calc(3px + ${allLevelsMargin})` : 
          isMarcioSales ? `calc(2.5px + ${allLevelsMargin})` : 
          isCarloGoncalves ? `calc(2px + ${allLevelsMargin})` : 
          isDomingosPinto ? `calc(3px + ${allLevelsMargin})` : 
          isVandoMacedo ? `calc(3px + ${allLevelsMargin})` : 
          isDierroLeal ? `calc(-1px + ${allLevelsMargin})` : 
          isRudneyNobrega ? `calc(30px + ${allLevelsMargin})` : 
-         isGesiaAlmeida ? `calc(-4px + ${allLevelsMargin})` : 
+         isGesiaAlmeida ? `calc(-2px + ${allLevelsMargin})` : // Movido 2px para esquerda (era 0px)
          depth === 2 ? `calc(8px + ${allLevelsMargin})` : 
          isRuiTree ? `calc(10px + ${allLevelsMargin})` : 
          member.user.custom_id === 'vania' ? `calc(25.5px + ${allLevelsMargin})` :
          (depth === 0 ? `calc(-3px + ${allLevelsMargin})` : `calc(5px + ${allLevelsMargin})`);
 };
 
+// Adding a new function to calculate vertical margin if needed
 export const calculateNodeVerticalMargin = (
   member: NetworkMember
 ): string => {

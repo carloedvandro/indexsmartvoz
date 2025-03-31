@@ -6,7 +6,6 @@ export interface NetworkMember {
   level: number;
   team_size?: number;
   children: NetworkMember[];
-  parent?: NetworkMember | null; // Add this property for parent reference
   user: {
     id: string;
     email: string;

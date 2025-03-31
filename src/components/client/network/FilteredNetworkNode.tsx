@@ -27,14 +27,11 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
-  // Simplificamos a verificação de parentesco com Gesia
-  // Este ajuste será feito diretamente via DOM no componente NetworkTree
-  
   let marginLeft = '0px';
   let marginTop = '0px';
   
   if (isMarcioSilva) {
-    marginLeft = '3px'; // Usando 3px nos níveis individuais
+    marginLeft = '3px'; // Mantido em 3px
     marginTop = '2px'; // Mantido em 2px
   } else if (isMarcioSales) {
     marginLeft = '2.5px'; // Mantido em 2.5px
@@ -55,7 +52,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     marginLeft = '30px'; // Mantido em 30px
     marginTop = '2px'; // Mantido em 2px
   } else if (isGesiaAlmeida) {
-    marginLeft = '-4px'; // Mantido em -4px
+    marginLeft = '-2px'; // Movido 2px para esquerda (era 0px)
     marginTop = '2px'; // Mantido em 2px
   }
 
