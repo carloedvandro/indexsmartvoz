@@ -65,7 +65,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative w-full overflow-hidden mb-6"
+      className="relative w-full overflow-hidden mb-6 FilteredNetworkNode"
       style={{ 
         marginLeft: marginLeft !== '0px' ? marginLeft : undefined,
         marginTop: marginTop !== '0px' ? marginTop : undefined
@@ -111,7 +111,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
               </h3>
               <span className={`text-xs font-semibold ${
                 isActive ? 'text-green-600' : 'text-red-600 pending-status'
-              }`}>
+              }`} style={{ position: 'relative', top: isActive ? '0' : '2px' }}>
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
             </div>

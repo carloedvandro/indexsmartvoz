@@ -122,8 +122,22 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       if (spaceY6) {
         console.log('Espaçamento vertical aplicado:', window.getComputedStyle(spaceY6).marginBottom);
       }
+
+      // Aplicar atributo de nível selecionado a todos os nós
+      document.querySelectorAll('.network-tree').forEach(tree => {
+        tree.setAttribute('selectedLevel', selectedLevel);
+      });
+      
+      // Verificar status pendente
+      const pendingStatuses = document.querySelectorAll('.text-red-600');
+      console.log(`Found ${pendingStatuses.length} pending status elements`);
+      pendingStatuses.forEach(status => {
+        console.log('Pending status computed style:', window.getComputedStyle(status).transform);
+        console.log('Pending status top:', window.getComputedStyle(status).top);
+        console.log('Pending status margin-top:', window.getComputedStyle(status).marginTop);
+      });
     }, 1000);
-  }, [filteredData]);
+  }, [filteredData, selectedLevel]);
 
   if (loading) {
     return (
@@ -134,7 +148,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }
 
   return (
-    <div className="relative min-h-screen network-tree">
+    <div className="relative min-h-screen network-tree" selectedLevel={selectedLevel}>
       <div className="relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="md:col-span-1 sticky top-20 z-20">

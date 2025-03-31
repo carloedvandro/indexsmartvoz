@@ -119,3 +119,24 @@
 .text-red-600:not(.network-tree .text-red-600) {
   transform: translateY(2px) !important;
 }
+
+/* Ajuste específico DIRETO para status pendente - mais forte e específico */
+span.text-xs.font-semibold.text-red-600 {
+  transform: translateY(2px) !important;
+  position: relative !important;
+  top: 2px !important;
+  display: block !important;
+}
+
+/* Regra ainda mais específica para níveis individuais 1 a 4 */
+[selectedLevel="1"] span.text-xs.font-semibold.text-red-600,
+[selectedLevel="2"] span.text-xs.font-semibold.text-red-600,
+[selectedLevel="3"] span.text-xs.font-semibold.text-red-600,
+[selectedLevel="4"] span.text-xs.font-semibold.text-red-600,
+.FilteredNetworkNode span.text-xs.font-semibold.text-red-600 {
+  transform: translateY(2px) !important;
+  margin-top: 2px !important;
+  position: relative !important;
+  top: 2px !important;
+  display: block !important;
+}

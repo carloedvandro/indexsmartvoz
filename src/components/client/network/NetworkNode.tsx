@@ -52,7 +52,7 @@ export const NetworkNode = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className={`relative w-full ${depth > 0 ? 'mt-10' : ''} mb-6`}
+      className={`relative w-full ${depth > 0 ? 'mt-10' : ''} mb-6 NetworkNode`}
       style={{ 
         marginLeft: leftMargin, 
         marginTop: topMargin !== '0px' ? topMargin : undefined,
@@ -99,7 +99,7 @@ export const NetworkNode = ({
               </h3>
               <span className={`text-xs font-semibold ${
                 isActive ? 'text-green-600' : 'text-red-600 pending-status'
-              }`}>
+              }`} style={{ position: 'relative', top: isActive ? '0' : '2px' }}>
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
             </div>
