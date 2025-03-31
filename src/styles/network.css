@@ -95,16 +95,16 @@
 
 /* NOVO: Aumentando o espaçamento vertical entre os nós da rede em 5px */
 .network-tree .space-y-6 {
-  margin-bottom: 14px !important; /* Aumentado de 9px para 14px (adicionado 5px) */
+  margin-bottom: 17px !important; /* Aumentado de 14px para 17px (adicionado 3px) */
 }
 
 /* NOVO: Aumentando o espaçamento entre os nós filhos */
 .network-tree .space-y-6 > div {
-  margin-bottom: 14px !important; /* Aumentado de 9px para 14px (adicionado 5px) */
+  margin-bottom: 17px !important; /* Aumentado de 14px para 17px (adicionado 3px) */
 }
 
 /* NOVO: Aumentando o espaçamento em todos os componentes da árvore */
 .network-tree .mb-6 {
-  margin-bottom: 11px !important; /* Aumentado de 6px para 11px (adicionado 5px) */
+  margin-bottom: 14px !important; /* Aumentado de 11px para 14px (adicionado 3px) */
 }
 
