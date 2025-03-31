@@ -46,7 +46,7 @@ export default {
         'sm': '384px',
         'custom': '320px',
         'mobile': '320px',
-        'network-filter': '340px'
+        'network-filter': '360px'
       }
     },
   },
