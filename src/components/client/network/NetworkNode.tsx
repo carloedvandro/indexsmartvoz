@@ -92,14 +92,14 @@ export const NetworkNode = ({
             currentLevel={currentLevel} 
           />
 
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 relative">
             <div className="flex flex-col gap-1" style={{ marginTop: '4mm' }}>
               <h3 className="text-base font-semibold text-black truncate">
                 {member.user.full_name || "Usuário"}
               </h3>
               <span className={`text-xs font-semibold ${
                 isActive ? 'text-green-600' : 'text-red-600'
-              }`} style={{ paddingTop: '2px' }}>
+              }`}>
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
             </div>
