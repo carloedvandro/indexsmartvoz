@@ -125,7 +125,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
               <div className="pr-4">
                 <AnimatePresence>
                   {filteredData.length > 0 ? (
-                    <div className="space-y-6 mb-32">
+                    <div className="space-y-4 mb-32">
                       {filteredData.map((member) => (
                         selectedLevel === "all" ? (
                           <NetworkNode

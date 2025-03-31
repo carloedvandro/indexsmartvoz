@@ -31,28 +31,28 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   let marginTop = '0px';
   
   if (isMarcioSilva) {
-    marginLeft = '3px'; // Movido 0.5px mais para esquerda (era 3.5px)
-    marginTop = '2px'; // Mantido em 2px
+    marginLeft = '30.5px'; // Movido 0.5px adicional para esquerda (era 31px)
+    marginTop = '2px'; // Movido 2px para baixo
   } else if (isMarcioSales) {
-    marginLeft = '2.5px'; // Movido 0.5px mais para esquerda (era 3px)
-    marginTop = '2px'; // Mantido em 2px
+    marginLeft = '30px'; // Movido mais para a direita (era 22px)
+    marginTop = '2px'; // Movido 2px para baixo
   } else if (isCarloGoncalves) {
-    marginLeft = '2px'; // Mantido em 2px
-    marginTop = '8px'; // Mantido em 8px
+    marginLeft = '-1px'; // Valor mantido
+    marginTop = '8px'; // Ajustado para 8px (era 6px + 2px adicionais)
   } else if (isDomingosPinto) {
-    marginLeft = '3px'; // Movido 0.5px mais para direita (agora 3px, era 2.5px)
-    marginTop = '2px'; // Mantido em 2px
+    marginLeft = '0px'; // Ajustado 1px para direita (era -1px)
+    marginTop = '2px'; // Movido 2px para baixo
   } else if (isVandoMacedo) {
-    marginLeft = '3px'; // Movido 2px mais para direita (agora 3px, era 1px)
-    marginTop = '2px'; // Mantido em 2px
+    marginLeft = '1px'; // Movido 0.5px para esquerda (era 1.5px)
+    marginTop = '2px'; // Movido 2px para baixo
   } else if (isDierroLeal) {
-    marginLeft = '-1px'; // Mantido em -1px
-    marginTop = '2px'; // Mantido em 2px
+    marginLeft = '-1px'; // Movido 1px para direita (era -2px)
+    marginTop = '2px'; // Movido 2px para baixo
   } else if (isRudneyNobrega) {
-    marginLeft = '30px'; // Mantido em 30px
-    marginTop = '2px'; // Mantido em 2px
+    marginLeft = '30px'; // Movido mais 0.5px adicional para direita (era 29.5px)
+    marginTop = '2px'; // Movido 2px para baixo
   } else if (isGesiaAlmeida) {
-    marginTop = '2px'; // Mantido em 2px
+    marginTop = '2px'; // Movido 2px para baixo
   }
 
   // Log for debugging
@@ -121,7 +121,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       <ProfileInfo member={member} isFilteredView={true} />
       
       {hasChildren && isExpanded && (
-        <div className="mt-6 space-y-6 mb-6 ml-[25.5px]">
+        <div className="mt-4 space-y-6 mb-4 ml-[25.5px]">
           {member.children.map((child) => (
             <FilteredNetworkNode
               key={child.id}

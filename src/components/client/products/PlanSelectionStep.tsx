@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
@@ -35,7 +35,7 @@ export function PlanSelectionStep({
     { value: "120GB", label: "Plano 120GB", price: 119.99 },
   ];
 
-  useEffect(() => {
+  useState(() => {
     if (selectedLines.length === 0) {
       setSelectedLines([
         {
@@ -47,7 +47,7 @@ export function PlanSelectionStep({
         },
       ]);
     }
-  }, [selectedLines, setSelectedLines]);
+  });
 
   const handleInternetChange = (value: string) => {
     const newPrice = internetOptions.find(option => option.value === value)?.price || 0;
@@ -100,7 +100,7 @@ export function PlanSelectionStep({
         >
           <div className="w-full">
             <InternetSelector
-              selectedInternet={selectedLines[0]?.internet || ""}
+              selectedInternet={selectedLines[0]?.internet || undefined}
               onInternetChange={handleInternetChange}
               internetOptions={internetOptions}
             />

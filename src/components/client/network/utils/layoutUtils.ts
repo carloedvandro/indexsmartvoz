@@ -38,13 +38,13 @@ export const calculateNodeMargin = (
   return isDavidForgat ? `calc(-9px + ${allLevelsMargin})` : 
          isCarolinaTree ? `calc(29mm + ${allLevelsMargin})` : 
          isRubensTree ? `calc(5.5mm + ${allLevelsMargin})` : 
-         isMarcioSilva ? `calc(3px + ${allLevelsMargin})` : 
-         isMarcioSales ? `calc(2.5px + ${allLevelsMargin})` : 
-         isCarloGoncalves ? `calc(2px + ${allLevelsMargin})` : 
-         isDomingosPinto ? `calc(3px + ${allLevelsMargin})` : 
-         isVandoMacedo ? `calc(3px + ${allLevelsMargin})` : 
-         isDierroLeal ? `calc(-1px + ${allLevelsMargin})` : 
-         isRudneyNobrega ? `calc(30px + ${allLevelsMargin})` : 
+         isMarcioSilva ? `calc(30.5px + ${allLevelsMargin})` : // Movido 0.5px adicional para esquerda (era 31px)
+         isMarcioSales ? `calc(30px + ${allLevelsMargin})` : // Movido mais para a direita (era 22px)
+         isCarloGoncalves ? `calc(-1px + ${allLevelsMargin})` : // Valor mantido
+         isDomingosPinto ? `calc(0px + ${allLevelsMargin})` : // Ajustado 1px para direita (era -1px)
+         isVandoMacedo ? `calc(1px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 1.5px)
+         isDierroLeal ? `calc(-1px + ${allLevelsMargin})` : // Movido 1px para direita (era -2px)
+         isRudneyNobrega ? `calc(30px + ${allLevelsMargin})` : // Movido mais 0.5px adicional para direita (era 29.5px)
          depth === 2 ? `calc(8px + ${allLevelsMargin})` : 
          isRuiTree ? `calc(10px + ${allLevelsMargin})` : 
          member.user.custom_id === 'vania' ? `calc(25.5px + ${allLevelsMargin})` :
@@ -65,10 +65,10 @@ export const calculateNodeVerticalMargin = (
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
   if (isCarloGoncalves) {
-    return '8px'; // Mantido em 8px
+    return '8px'; // Ajustado para 8px (era 6px + 2px adicionais)
   } else if (isMarcioSilva || isMarcioSales || isDomingosPinto || 
             isVandoMacedo || isDierroLeal || isRudneyNobrega || isGesiaAlmeida) {
-    return '2px'; // Mantido em 2px
+    return '2px'; // Movido 2px para baixo
   }
   
   return '0px';
