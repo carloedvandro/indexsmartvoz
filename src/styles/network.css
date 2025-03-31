@@ -93,3 +93,18 @@
   padding-top: 5px !important; /* Reduzido para 5px (2px a menos que os 7px anteriores) */
 }
 
+/* NOVO: Aumentando o espaçamento vertical entre os nós da rede em 5px */
+.network-tree .space-y-6 {
+  margin-bottom: 14px !important; /* Aumentado de 9px para 14px (adicionado 5px) */
+}
+
+/* NOVO: Aumentando o espaçamento entre os nós filhos */
+.network-tree .space-y-6 > div {
+  margin-bottom: 14px !important; /* Aumentado de 9px para 14px (adicionado 5px) */
+}
+
+/* NOVO: Aumentando o espaçamento em todos os componentes da árvore */
+.network-tree .mb-6 {
+  margin-bottom: 11px !important; /* Aumentado de 6px para 11px (adicionado 5px) */
+}
+
