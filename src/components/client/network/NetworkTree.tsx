@@ -24,6 +24,12 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   const isMobile = useIsMobile();
 
   useEffect(() => {
+    // Force reload network.css
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = '/src/styles/network.css?v=' + new Date().getTime();
+    document.head.appendChild(link);
+    
     const networkChannel = supabase
       .channel('network-changes')
       .on(
@@ -59,6 +65,9 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
     return () => {
       supabase.removeChannel(networkChannel);
       supabase.removeChannel(profilesChannel);
+      if (link && link.parentNode) {
+        link.parentNode.removeChild(link);
+      }
     };
   }, [userId, queryClient]);
 
@@ -79,6 +88,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   console.log("Nível selecionado:", selectedLevel);
   console.log("Dados da rede originais:", networkData);
   console.log("Dados filtrados:", filteredData);
+  console.log("Aplicando espaçamento vertical atualizado: 20px entre nós, 17px margem inferior");
 
   useEffect(() => {
     setTimeout(() => {
@@ -97,6 +107,12 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
         console.log('Gesia node found by name, computed style:', window.getComputedStyle(gesiaByName));
       } else {
         console.log('Gesia node not found in DOM by data-member-name');
+      }
+      
+      // Verifica a aplicação dos novos espaçamentos
+      const spaceY6 = document.querySelector('.network-tree .space-y-6');
+      if (spaceY6) {
+        console.log('Espaçamento vertical aplicado:', window.getComputedStyle(spaceY6).marginBottom);
       }
     }, 1000);
   }, [filteredData]);
