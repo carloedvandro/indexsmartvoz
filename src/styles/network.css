@@ -1,3 +1,4 @@
+
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
   margin-left: 30.5px !important;
@@ -72,8 +73,8 @@
 
 /* Estilo específico apenas para o status "Pendente" da Gesia */
 [data-member-name="Gesia Almeida Dos Santos"] .flex-col > div > span {
-  position: relative;
-  top: 2px;
+  position: relative !important;
+  top: 4px !important;
 }
 
 /* Aplicando margem top para todos os nós da rede para garantir */
