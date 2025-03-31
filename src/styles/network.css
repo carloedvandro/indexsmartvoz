@@ -77,6 +77,12 @@
   top: 5px !important;
 }
 
+/* Estilo específico para o status "Pendente" em todos os níveis individuais */
+.network-tree [data-member-name] .text-red-600 {
+  position: relative !important;
+  top: 5px !important;
+}
+
 /* Aplicando margem top para todos os nós da rede para garantir */
 .network-tree .relative {
   margin-top: 2px !important;
