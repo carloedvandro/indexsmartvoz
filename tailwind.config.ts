@@ -44,7 +44,7 @@ export default {
       },
       maxWidth: {
         'sm': '384px', // Increased from default 24rem (384px)
-        'custom': '414px' // Valor original
+        'custom': '412px' // Atualizado para 412px
       }
     },
   },
