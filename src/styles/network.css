@@ -66,11 +66,6 @@
   margin-top: 2px !important;
 }
 
-/* Estilo específico para o texto do nó da Gesia Almeida */
-[data-member-name="Gesia Almeida Dos Santos"] .flex-col > div {
-  margin-top: calc(4mm + 2px) !important; 
-}
-
 /* Aplicando margem top para todos os nós da rede para garantir */
 .network-tree .relative {
   margin-top: 2px !important;

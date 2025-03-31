@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -103,10 +104,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
           />
 
           <div className="flex-col min-w-0">
-            <div className="flex flex-col" style={{ 
-              marginTop: isGesiaAlmeida ? 'calc(4mm + 2px)' : '4mm', 
-              marginBottom: '2mm' 
-            }}>
+            <div className="flex flex-col" style={{ marginTop: '4mm', marginBottom: '2mm' }}>
               <h3 className="text-base font-semibold text-black truncate">
                 {member.user.full_name || "Usuário"}
               </h3>
