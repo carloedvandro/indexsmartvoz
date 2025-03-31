@@ -111,7 +111,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
               </h3>
               <span className={`text-xs font-semibold ${
                 isActive ? 'text-green-600' : 'text-red-600'
-              }`}>
+              }`} style={{ paddingTop: '4px' }}>
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
             </div>

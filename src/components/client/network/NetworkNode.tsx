@@ -99,7 +99,7 @@ export const NetworkNode = ({
               </h3>
               <span className={`text-xs font-semibold ${
                 isActive ? 'text-green-600' : 'text-red-600'
-              }`} style={{ paddingTop: '2px' }}>
+              }`} style={{ paddingTop: isAllLevels ? '0px' : '4px' }}>
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
             </div>
