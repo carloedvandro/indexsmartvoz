@@ -38,14 +38,13 @@ export const calculateNodeMargin = (
   return isDavidForgat ? `calc(-9px + ${allLevelsMargin})` : 
          isCarolinaTree ? `calc(29mm + ${allLevelsMargin})` : 
          isRubensTree ? `calc(5.5mm + ${allLevelsMargin})` : 
-         isMarcioSilva ? `calc(3px + ${allLevelsMargin})` : 
-         isMarcioSales ? `calc(2.5px + ${allLevelsMargin})` : 
-         isCarloGoncalves ? `calc(2px + ${allLevelsMargin})` : 
-         isDomingosPinto ? `calc(3px + ${allLevelsMargin})` : 
-         isVandoMacedo ? `calc(3px + ${allLevelsMargin})` : 
-         isDierroLeal ? `calc(-1px + ${allLevelsMargin})` : 
-         isRudneyNobrega ? `calc(30px + ${allLevelsMargin})` : 
-         isGesiaAlmeida ? `calc(-2px + ${allLevelsMargin})` : // Movido 2px para esquerda (era 0px)
+         isMarcioSilva ? `calc(3px + ${allLevelsMargin})` : // Movido 0.5px mais para esquerda (era 3.5px)
+         isMarcioSales ? `calc(2.5px + ${allLevelsMargin})` : // Movido 0.5px mais para esquerda (era 3px)
+         isCarloGoncalves ? `calc(2px + ${allLevelsMargin})` : // Mantido em 2px
+         isDomingosPinto ? `calc(3px + ${allLevelsMargin})` : // Movido 0.5px mais para direita (agora 3px, era 2.5px)
+         isVandoMacedo ? `calc(3px + ${allLevelsMargin})` : // Movido 2px mais para direita (agora 3px, era 1px)
+         isDierroLeal ? `calc(-1px + ${allLevelsMargin})` : // Mantido em -1px
+         isRudneyNobrega ? `calc(30px + ${allLevelsMargin})` : // Mantido em 30px
          depth === 2 ? `calc(8px + ${allLevelsMargin})` : 
          isRuiTree ? `calc(10px + ${allLevelsMargin})` : 
          member.user.custom_id === 'vania' ? `calc(25.5px + ${allLevelsMargin})` :
