@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -98,7 +99,7 @@ export const NetworkNode = ({
               </h3>
               <span className={`text-xs font-semibold ${
                 isActive ? 'text-green-600' : 'text-red-600'
-              }`}>
+              }`} style={{ paddingTop: '2px' }}>
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
             </div>

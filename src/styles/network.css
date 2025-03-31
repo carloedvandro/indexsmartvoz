@@ -87,3 +87,8 @@
 .network-tree > div > div.space-y-4 > div {
   margin-bottom: 9px !important;
 }
+
+/* Ajuste específico para o texto de status 'Pendente' no modo "Todos os Níveis" */
+.network-tree .text-red-600 {
+  padding-top: 2px;
+}
