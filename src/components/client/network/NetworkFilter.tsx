@@ -20,7 +20,7 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
   
   return (
     <div className="sticky top-20 z-10 flex justify-center w-full">
-      <div className="w-full max-w-[350px] space-y-2">
+      <div className="w-full max-w-[340px] space-y-2">
         {NETWORK_LEVELS.map((level) => (
           <Button
             key={level.value}
