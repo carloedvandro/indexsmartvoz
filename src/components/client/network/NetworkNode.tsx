@@ -1,9 +1,9 @@
 
 import { motion } from "framer-motion";
-import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
 import { UserAvatar } from "./components/UserAvatar";
 import { ProfileInfo } from "./components/ProfileInfo";
+import { ExpandButton } from "./components/ExpandButton";
 import { calculateNodeMargin, calculateNodeVerticalMargin } from "./utils/layoutUtils";
 
 interface NetworkNodeProps {
@@ -34,18 +34,7 @@ export const NetworkNode = ({
   
   const width = `calc(100% - ${depth === 0 ? -3 : 5}px)`;
   
-  const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
-  const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
-  const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
-  
-  console.log('Nome do usuário:', member.user.full_name);
-  console.log('ID personalizado:', member.user.custom_id);
-  console.log('Margem aplicada:', leftMargin, 'Margem vertical:', topMargin);
-  
-  if (isRudneyNobrega) {
-    console.log('RUDNEY ENCONTRADO!', member);
-    console.log('Margem que será aplicada:', leftMargin);
-  }
+  const handleToggle = () => onToggle(member.id);
 
   return (
     <motion.div
@@ -65,24 +54,7 @@ export const NetworkNode = ({
     >
       <div className="flex items-start gap-2 w-full">
         {hasChildren && (
-          <button
-            onClick={() => onToggle(member.id)}
-            className="p-1 hover:text-primary rounded-full flex-shrink-0"
-            style={{ marginTop: '4mm', marginLeft: '-0.5mm' }}
-            aria-label={isExpanded ? "Recolher" : "Expandir"}
-          >
-            {isExpanded ? (
-              <Minus
-                className="h-4 w-4"
-                style={{ color: '#660099', strokeWidth: 3 }}
-              />
-            ) : (
-              <Plus
-                className="h-4 w-4"
-                style={{ color: '#660099', strokeWidth: 3 }}
-              />
-            )}
-          </button>
+          <ExpandButton isExpanded={isExpanded} onClick={handleToggle} />
         )}
         
         <div className="flex items-start gap-3 flex-1">

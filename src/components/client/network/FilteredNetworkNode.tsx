@@ -1,9 +1,9 @@
 
 import { motion } from "framer-motion";
-import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
 import { UserAvatar } from "./components/UserAvatar";
 import { ProfileInfo } from "./components/ProfileInfo";
+import { ExpandButton } from "./components/ExpandButton";
 
 interface FilteredNetworkNodeProps {
   member: NetworkMember;
@@ -56,9 +56,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     marginTop = '2px';
   }
 
-  // Log for debugging
-  console.log("Renderizando membro:", member.user.full_name, "com ID:", member.user.id, "e custom_id:", member.user.custom_id);
-  console.log("Margin aplicada:", marginLeft, "marginTop:", marginTop);
+  const handleToggle = () => onToggle(member.id);
 
   return (
     <motion.div
@@ -77,24 +75,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     >
       <div className="flex items-start w-full">
         {hasChildren && (
-          <button
-            onClick={() => onToggle(member.id)}
-            className="p-1 hover:text-primary rounded-full flex-shrink-0"
-            style={{ marginTop: '4mm', marginLeft: '-0.5mm' }}
-            aria-label={isExpanded ? "Recolher" : "Expandir"}
-          >
-            {isExpanded ? (
-              <Minus
-                className="h-4 w-4"
-                style={{ color: '#660099', strokeWidth: 3 }}
-              />
-            ) : (
-              <Plus
-                className="h-4 w-4"
-                style={{ color: '#660099', strokeWidth: 3 }}
-              />
-            )}
-          </button>
+          <ExpandButton isExpanded={isExpanded} onClick={handleToggle} />
         )}
         
         <div className="flex items-start gap-3 flex-1">
