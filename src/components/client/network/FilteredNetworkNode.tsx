@@ -104,7 +104,10 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
           />
 
           <div className="flex-col min-w-0">
-            <div className="flex flex-col" style={{ marginTop: '4mm', marginBottom: '2mm' }}>
+            <div className="flex flex-col" style={{ 
+              marginTop: isGesiaAlmeida ? 'calc(4mm + 1px)' : '4mm', 
+              marginBottom: '2mm' 
+            }}>
               <h3 className="text-base font-semibold text-black truncate">
                 {member.user.full_name || "Usuário"}
               </h3>
