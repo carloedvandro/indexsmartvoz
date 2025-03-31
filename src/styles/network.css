@@ -91,6 +91,6 @@
 
 /* Ajuste específico para o texto de status 'Pendente' no modo "Todos os Níveis" */
 .network-tree .text-red-600 {
-  padding-top: 2px;
+  padding-top: 3px; /* Aumentado de 2px para 3px (1px a mais) */
 }
 
