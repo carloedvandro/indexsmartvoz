@@ -73,15 +73,15 @@
 
 /* Espaçamento padronizado para todas as áreas da rede */
 .network-tree .space-y-4 {
-  margin-bottom: 8px !important;
+  margin-bottom: 6px !important;
 }
 
 /* Espaçamento padrão entre todos os nós */
 .network-tree .space-y-4 > div {
-  margin-bottom: 8px !important;
+  margin-bottom: 6px !important;
 }
 
 /* Espaçamento consistente para toda a árvore */
 .network-tree > div > div.space-y-4 > div {
-  margin-bottom: 8px !important;
+  margin-bottom: 6px !important;
 }
