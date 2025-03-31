@@ -1,4 +1,3 @@
-
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
   margin-left: 26.5px !important;
@@ -14,7 +13,7 @@
 /* Adicionando estilo mais específico para garantir que seja aplicado */
 [data-custom-id="Marcio89"],
 [data-member-name="Marcio Bettanzos da Silva"] {
-  margin-left: 3px !important;
+  margin-left: 10px !important; /* Atualizado para 10px para o filho da Gesia */
   margin-top: 2px !important;
 }
 
