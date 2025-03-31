@@ -77,8 +77,10 @@
   top: 6px !important;
 }
 
-/* Estilo específico para o status "Pendente" em todos os níveis individuais */
-.network-tree [data-member-name] .text-red-600 {
+/* Estilo específico para o status "Pendente" APENAS nos níveis 2, 3 e 4 */
+.network-tree [data-node-id] .space-y-6 [data-node-id] .text-red-600,
+.network-tree [data-node-id] .space-y-6 [data-node-id] .space-y-6 [data-node-id] .text-red-600,
+.network-tree [data-node-id] .space-y-6 [data-node-id] .space-y-6 [data-node-id] .space-y-6 [data-node-id] .text-red-600 {
   position: relative !important;
   top: 6px !important;
 }
