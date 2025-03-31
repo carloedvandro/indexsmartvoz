@@ -102,7 +102,7 @@ export const NetworkNode = ({
               </h3>
               <span className={`text-xs font-semibold ${
                 isActive ? 'text-green-600' : 'text-red-600'
-              }`}>
+              }`} style={isGesiaAlmeida && !isActive ? { position: 'relative', top: '2px' } : {}}>
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
             </div>
