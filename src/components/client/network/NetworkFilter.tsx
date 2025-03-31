@@ -17,10 +17,10 @@ const NETWORK_LEVELS = [
 
 export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterProps) => {
   const isMobile = useIsMobile();
-  const maxWidth = isMobile ? '365px' : '412px';
+  const maxWidth = isMobile ? '320px' : '412px';
   
   return (
-    <div className="sticky top-20 z-10 space-y-2">
+    <div className="sticky top-20 z-10 space-y-2 w-full" style={{ maxWidth }}>
       {NETWORK_LEVELS.map((level) => (
         <Button
           key={level.value}
@@ -33,7 +33,6 @@ export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterPro
                 : "border border-[#8425af] hover:border-[#8425af] hover:text-[#8425af]"
             }`}
           onClick={() => onLevelChange(level.value)}
-          style={{ maxWidth }}
         >
           <span>{level.label}</span>
         </Button>
