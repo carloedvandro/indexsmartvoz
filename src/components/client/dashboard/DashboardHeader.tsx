@@ -45,8 +45,8 @@ export function DashboardHeader() {
 
   return (
     <header className="w-full bg-background border-b">
-      <div className="container relative mx-auto flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center h-20 py-0">
-        <div className="h-full flex-1 flex lg:justify-center items-center order-2 lg:order-2">
+      <div className="container relative mx-auto flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center h-20 py-0 px-0 sm:px-6">
+        <div className="h-full flex-1 flex lg:justify-center items-center order-2 lg:order-2 pl-1">
           <Logo />
         </div>
         <DesktopNavigation navigationItems={navigationItems} />

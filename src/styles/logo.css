@@ -1,4 +1,5 @@
 
+
 .logo-image {
   max-width: 300px !important;
   width: auto !important;
@@ -29,6 +30,7 @@
   
   .logo-container {
     justify-content: flex-start !important;
-    padding-left: 16px !important;
+    padding-left: 0 !important; /* Reduzido de 16px para 0 para mover mais para a esquerda */
   }
 }
+
