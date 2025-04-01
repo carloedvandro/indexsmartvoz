@@ -28,7 +28,7 @@
 /* Estilo para o nó do Carlo Edvandro */
 [data-custom-id="Carlo89"],
 [data-member-name="Carlo Edvandro Camera Gonçalves"] {
-  margin-left: 1px !important; /* Movido 1px para direita (era 0px) */
+  margin-left: 3.5px !important; /* Movido 2.5px para direita (era 1px) */
   margin-top: 8px !important;
 }
 
