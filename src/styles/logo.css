@@ -1,4 +1,5 @@
 
+
 .logo-image {
   max-width: 300px !important;
   width: auto !important;
@@ -17,7 +18,7 @@
   height: 100% !important;
   width: 100% !important;
   padding-top: 10px !important; /* Added padding to help with vertical centering */
-  padding-right: 10px !important; /* Aumentado de 5px para 10px para mover mais 5px para esquerda */
+  padding-right: 16px !important; /* Aumentado de 10px para 16px para mover mais 6px para esquerda */
 }
 
 @media (max-width: 768px) {
@@ -31,6 +32,7 @@
   .logo-container {
     justify-content: center !important;
     padding-left: 0 !important;
-    padding-right: 10px !important; /* Aumentado de 5px para 10px para mover mais 5px para esquerda */
+    padding-right: 16px !important; /* Aumentado de 10px para 16px para mover mais 6px para esquerda */
   }
 }
+
