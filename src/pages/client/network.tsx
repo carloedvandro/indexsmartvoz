@@ -41,6 +41,18 @@ export default function NetworkPage() {
         (node as HTMLElement).style.maxWidth = '97%';
         (node as HTMLElement).style.transform = 'scale(0.97)';
         
+        // Adiciona transformação para mover o texto para cima
+        const nameElement = node.querySelector('h3');
+        const statusElement = node.querySelector('.text-red-600');
+        
+        if (nameElement) {
+          (nameElement as HTMLElement).style.transform = 'translateY(-2px)';
+        }
+        
+        if (statusElement) {
+          (statusElement as HTMLElement).style.transform = 'translateY(-2px)';
+        }
+        
         // Adiciona atributo para forçar "recálculo" de estilo
         node.setAttribute('data-timestamp', timestamp.toString());
       });

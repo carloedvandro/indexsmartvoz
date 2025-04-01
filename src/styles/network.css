@@ -1,3 +1,4 @@
+
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
   margin-left: 29px !important; /* Movido 0.5px para esquerda (era 29.5px) */
@@ -68,6 +69,14 @@
   transform: scale(0.97) !important; /* Reduzido de 0.98 para 0.97 */
 }
 
+/* NOVO: Ajuste específico para o texto da Gesia */
+[data-custom-id="Gesia89"] h3,
+[data-member-name="Gesia Almeida Dos Santos"] h3,
+[data-custom-id="Gesia89"] .text-red-600,
+[data-member-name="Gesia Almeida Dos Santos"] .text-red-600 {
+  transform: translateY(-2px) !important; /* Move o texto 2px para cima */
+}
+
 /* NOVO: Status "Pendente" movido 2px para baixo para todos os níveis exceto "Todos os Níveis" */
 .pending-status {
   padding-top: 6px !important; /* 2px para baixo */
@@ -119,4 +128,12 @@
   margin-left: 3.2px !important;
   max-width: 97% !important; /* Alterado de 98% para 97% */
   transform: scale(0.97) !important; /* Alterado de 0.98 para 0.97 */
+}
+
+/* NOVO: Aplicação específica para mover o texto da Gesia no modo Todos os Níveis para cima */
+.network-tree [data-custom-id="Gesia89"] h3,
+.network-tree [data-member-name="Gesia Almeida Dos Santos"] h3,
+.network-tree [data-custom-id="Gesia89"] .text-red-600,
+.network-tree [data-member-name="Gesia Almeida Dos Santos"] .text-red-600 {
+  transform: translateY(-2px) !important; /* Move o texto 2px para cima */
 }
