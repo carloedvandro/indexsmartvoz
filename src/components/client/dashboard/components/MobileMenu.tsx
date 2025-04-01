@@ -69,19 +69,10 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         {isOpen ? (
           <X className="w-12 h-12 font-bold text-black" />
         ) : (
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-[#5f0889] rounded-md border-2 border-black"></div>
-              <div className="w-44 h-2 bg-black rounded-md"></div>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-[#5f0889] rounded-md border-2 border-black"></div>
-              <div className="w-44 h-2 bg-black rounded-md"></div>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-[#5f0889] rounded-md border-2 border-black"></div>
-              <div className="w-44 h-2 bg-black rounded-md"></div>
-            </div>
+          <div className="flex flex-col gap-1.5 justify-center">
+            <div className="w-8 h-1.5 bg-[#8B5CF6] rounded-sm"></div>
+            <div className="w-8 h-1.5 bg-[#8B5CF6] rounded-sm"></div>
+            <div className="w-8 h-1.5 bg-[#8B5CF6] rounded-sm"></div>
           </div>
         )}
       </Button>
