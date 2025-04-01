@@ -50,6 +50,11 @@ export const calculateNodeMargin = (
     console.log('Aplicando margin-left para Gesia:', isAllLevels ? '3.8px' : '4px', 'com timestamp:', new Date().getTime());
   }
   
+  // Log para Marcio Sales
+  if (isMarcioSales) {
+    console.log('Aplicando margin-left 29.2px para Marcio Sales com timestamp:', new Date().getTime());
+  }
+  
   // Precisamos garantir que no modo "Todos os Níveis", a Gesia terá exatamente 3.8px de margem
   if (isGesiaAlmeida && isAllLevels) {
     return '3.8px';
@@ -59,7 +64,7 @@ export const calculateNodeMargin = (
          isCarolinaTree ? `calc(28mm + ${allLevelsMargin})` : // Movido 1px para direita (era 27mm)
          isRubensTree ? `calc(4.5mm + ${allLevelsMargin})` : // Movido 1px para direita (era 3.5mm)
          isMarcioSilva ? `calc(29.5px + ${allLevelsMargin})` : // Movido 1px para direita (era 28.5px)
-         isMarcioSales ? `calc(29px + ${allLevelsMargin})` : // Movido 1px para direita (era 28px)
+         isMarcioSales ? `calc(29.2px + ${allLevelsMargin})` : // Movido 0.2px para direita (era 29px)
          isCarloGoncalves ? `calc(0.3px + ${allLevelsMargin})` : // Movido 0.2px para esquerda (era 0.5px)
          isDomingosPinto ? `calc(0px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 0.5px)
          isVandoMacedo ? `calc(6px + ${allLevelsMargin})` : // Movido 6px para direita (era 0px)
