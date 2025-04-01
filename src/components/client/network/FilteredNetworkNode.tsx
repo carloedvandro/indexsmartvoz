@@ -9,9 +9,15 @@ interface FilteredNetworkNodeProps {
   member: NetworkMember;
   onToggle: (nodeId: string) => void;
   expandedNodes: Set<string>;
+  isAllLevels?: boolean;
 }
 
-export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: FilteredNetworkNodeProps) => {
+export const FilteredNetworkNode = ({ 
+  member, 
+  onToggle, 
+  expandedNodes,
+  isAllLevels = false
+}: FilteredNetworkNodeProps) => {
   const hasChildren = member.children && member.children.length > 0;
   const isExpanded = expandedNodes.has(member.id);
   const isActive = member.user.status === 'active';
@@ -70,8 +76,8 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     zIndex: 5
   } : {};
   
-  // Estilo específico para o status "Pendente"
-  const pendingStatusStyle: React.CSSProperties = !isActive ? {
+  // Estilo específico para o status "Pendente" - AGORA SÓ APLICA EM "TODOS OS NÍVEIS"
+  const pendingStatusStyle: React.CSSProperties = (!isActive && isAllLevels) ? {
     transform: 'translateY(-2px)',
     position: 'relative',
     zIndex: 5
@@ -155,6 +161,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
               member={child}
               onToggle={onToggle}
               expandedNodes={expandedNodes}
+              isAllLevels={isAllLevels}
             />
           ))}
         </div>

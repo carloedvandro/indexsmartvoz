@@ -56,8 +56,8 @@ export const NetworkNode = ({
     zIndex: 5
   } : {};
   
-  // Estilo específico para o status "Pendente"
-  const pendingStatusStyle: React.CSSProperties = !isActive ? {
+  // Estilo específico para o status "Pendente" - AGORA SÓ APLICA EM "TODOS OS NÍVEIS"
+  const pendingStatusStyle: React.CSSProperties = (!isActive && isAllLevels) ? {
     transform: 'translateY(-2px)',
     position: 'relative',
     zIndex: 5

@@ -40,6 +40,18 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
 
   // This effect is specific to level changes
   useEffect(() => {
+    // Add appropriate class based on selected level
+    const networkTree = document.querySelector('.network-tree');
+    if (networkTree) {
+      if (selectedLevel === "all") {
+        networkTree.classList.add('view-all-levels');
+        networkTree.classList.remove('view-individual-level');
+      } else {
+        networkTree.classList.remove('view-all-levels');
+        networkTree.classList.add('view-individual-level');
+      }
+    }
+    
     applyGesiaStyles(selectedLevel);
   }, [selectedLevel]);
 
@@ -67,7 +79,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   }
 
   return (
-    <div className="relative min-h-screen network-tree">
+    <div className={`relative min-h-screen network-tree ${selectedLevel === 'all' ? 'view-all-levels' : 'view-individual-level'}`}>
       <div className="relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="md:col-span-1 sticky top-20 z-20">

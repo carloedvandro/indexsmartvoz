@@ -77,22 +77,8 @@
   z-index: 5 !important;
 }
 
-/* APENAS movendo o texto "Pendente" 2px para cima */
-span.text-red-600:not([class*="background"]):not([class*="border"]) {
-  transform: translateY(-2px) !important;
-  position: relative !important;
-  z-index: 5 !important;
-}
-
-/* Aplicação direta para texto "Pendente" */
-span:contains("Pendente") {
-  transform: translateY(-2px) !important;
-  position: relative !important;
-  z-index: 5 !important;
-}
-
-/* Forçando para todos os textos vermelhos que contêm "Pendente" */
-.text-red-600 {
+/* Aplicar estilo "2px para cima" APENAS quando estiver vendo "Todos os níveis" */
+.view-all-levels span.text-red-600:not([class*="background"]):not([class*="border"]) {
   transform: translateY(-2px) !important;
   position: relative !important;
   z-index: 5 !important;
@@ -108,10 +94,8 @@ span:contains("Pendente") {
   /* Removendo estes estilos para não interferir com os níveis individuais */
 }
 
-/* Mantendo apenas o ajuste específico para o texto "Pendente" */
-body span.text-red-600,
-body .text-xs.font-semibold.text-red-600 {
-  transform: translateY(-2px) !important;
-  position: relative !important;
-  z-index: 10 !important;
+/* Nenhum movimento para NÍVEIS INDIVIDUAIS */
+.view-individual-level span.text-red-600 {
+  /* Não mexer no texto para visualizações de nível individual */
+  transform: none !important;
 }
