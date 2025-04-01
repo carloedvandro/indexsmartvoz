@@ -31,28 +31,28 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   let marginTop = '0px';
   
   if (isMarcioSilva) {
-    marginLeft = '28.5px'; // Movido 2px para esquerda (era 30.5px)
+    marginLeft = '29.5px'; // Movido 1px para direita (era 28.5px)
     marginTop = '2px';
   } else if (isMarcioSales) {
-    marginLeft = '28px'; // Movido 2px para esquerda (era 30px)
+    marginLeft = '29px'; // Movido 1px para direita (era 28px)
     marginTop = '2px';
   } else if (isCarloGoncalves) {
-    marginLeft = '0px'; // Movido 2px para esquerda (era 2px)
+    marginLeft = '1px'; // Movido 1px para direita (era 0px)
     marginTop = '8px';
   } else if (isDomingosPinto) {
-    marginLeft = '3px'; // Movido 5px para direita (era -2px)
+    marginLeft = '4px'; // Movido 1px para direita (era 3px)
     marginTop = '2px';
   } else if (isVandoMacedo) {
-    marginLeft = '-1px'; // Movido 2px para esquerda (era 1px)
+    marginLeft = '0px'; // Movido 1px para direita (era -1px)
     marginTop = '2px';
   } else if (isDierroLeal) {
-    marginLeft = '-3px'; // Movido 2px para esquerda (era -1px)
+    marginLeft = '-2px'; // Movido 1px para direita (era -3px)
     marginTop = '2px';
   } else if (isRudneyNobrega) {
-    marginLeft = '28px'; // Movido 2px para esquerda (era 30px)
+    marginLeft = '29px'; // Movido 1px para direita (era 28px)
     marginTop = '2px';
   } else if (isGesiaAlmeida) {
-    marginLeft = '3px'; // Movido 1px adicional para direita (era 2px)
+    marginLeft = '4px'; // Movido 1px para direita (era 3px)
     marginTop = '2px';
   }
 
