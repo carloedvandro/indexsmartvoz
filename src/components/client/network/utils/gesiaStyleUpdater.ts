@@ -6,8 +6,8 @@ export const applyGesiaStyles = (selectedLevel: string) => {
       console.log(`Encontrados ${gesiaNodes.length} nós da Gesia no modo "Todos os Níveis"`);
       
       gesiaNodes.forEach(node => {
-        console.log('Forçando margem exata de 3.4px para Gesia');
-        (node as HTMLElement).style.setProperty('margin-left', '3.4px', 'important');
+        console.log('Forçando margem exata de 3.2px para Gesia');
+        (node as HTMLElement).style.setProperty('margin-left', '3.2px', 'important');
         node.setAttribute('data-forced-style', 'true');
       });
     }

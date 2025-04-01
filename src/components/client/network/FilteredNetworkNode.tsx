@@ -52,7 +52,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     marginLeft = '30px'; // Movido 1px para direita (era 29px)
     marginTop = '2px';
   } else if (isGesiaAlmeida) {
-    marginLeft = '3.4px'; // Movido 0.4px para esquerda (era 3.8px)
+    marginLeft = '3.2px'; // Movido 0.2px para esquerda (era 3.4px)
     marginTop = '2px';
   }
 
