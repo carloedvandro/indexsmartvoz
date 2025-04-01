@@ -1,4 +1,5 @@
 
+
 .logo-image {
   max-width: 300px !important;
   width: auto !important;
@@ -6,7 +7,7 @@
   object-fit: contain !important;
   mix-blend-mode: multiply; /* This helps remove white background */
   padding: 0 !important;
-  margin: -4px auto 0 !important; /* Added -4px to top margin to move it up */
+  margin: -8px auto 0 !important; /* Changed from -4px to -8px to move it up more */
   display: block !important;
 }
 
@@ -24,3 +25,4 @@
     height: 90px !important;
   }
 }
+
