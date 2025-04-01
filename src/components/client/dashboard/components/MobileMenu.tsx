@@ -71,7 +71,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         ) : (
           <div className="flex flex-col gap-1.5 justify-center">
             <img 
-              src="/lovable-uploads/50aa20ec-1115-4fef-a24c-c15928c8414b.png" 
+              src="/lovable-uploads/9f671350-9c63-4746-bf9f-298c76c5253c.png" 
               alt="Menu icon" 
               className="w-31 h-30" 
             />
