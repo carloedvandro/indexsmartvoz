@@ -70,7 +70,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
           <X className="w-12 h-12 font-bold text-black" />
         ) : (
           <img 
-            src="/lovable-uploads/3e4b60b1-5415-4fe8-be6c-5f334313a216.png" 
+            src="/lovable-uploads/63f907a7-fc2d-40f6-b5df-d164d1377f35.png" 
             alt="Menu" 
             className="w-24 h-24"
           />
