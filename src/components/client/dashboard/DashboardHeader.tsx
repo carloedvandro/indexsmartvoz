@@ -46,11 +46,11 @@ export function DashboardHeader() {
   return (
     <header className="w-full bg-background border-b">
       <div className="container relative mx-auto flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center h-20 py-0">
-        <DesktopNavigation navigationItems={navigationItems} />
-        <div className="h-full flex-1 flex justify-center items-center">
+        <div className="h-full flex-1 flex lg:justify-center items-center order-2 lg:order-2">
           <Logo />
         </div>
-        <div className="flex items-center justify-end gap-2 ml-auto">
+        <DesktopNavigation navigationItems={navigationItems} />
+        <div className="flex items-center justify-end gap-2 ml-auto order-3 lg:order-3">
           <LogoutButton onLogout={handleLogout} className="hidden md:flex" />
           <MobileMenu 
             isOpen={isOpen}
