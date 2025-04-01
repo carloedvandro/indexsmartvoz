@@ -62,7 +62,7 @@
 /* Estilo para o nó da Gesia Almeida Dos Santos */
 [data-custom-id="Gesia89"],
 [data-member-name="Gesia Almeida Dos Santos"] {
-  margin-left: 3.8px !important; /* Movido 0.2px para esquerda (era 4px) */
+  margin-left: 3.4px !important; /* Movido 0.4px para esquerda (era 3.8px) */
   margin-top: 2px !important;
   max-width: 99% !important; /* Mantido largura máxima um pouco menor */
   transform: scale(0.99) !important; /* Mantido tamanho do texto ligeiramente reduzido */
@@ -116,5 +116,5 @@
 
 /* Forçando a aplicação do estilo para Gesia no modo Todos os Níveis com maior especificidade */
 .network-tree [data-custom-id="Gesia89"] {
-  margin-left: 3.8px !important;
+  margin-left: 3.4px !important;
 }

@@ -1,4 +1,3 @@
-
 import { NetworkMember } from "../types";
 
 export const calculateTotalTeamSize = (node: NetworkMember): number => {
@@ -43,7 +42,7 @@ export const calculateNodeMargin = (
   }
   
   if (isGesiaAlmeida) {
-    console.log('Aplicando margin-left para Gesia:', isAllLevels ? '3.8px' : '4px', 'com timestamp:', new Date().getTime());
+    console.log('Aplicando margin-left para Gesia:', isAllLevels ? '3.4px' : '4px', 'com timestamp:', new Date().getTime());
   }
   
   if (isMarcioSales) {
@@ -63,7 +62,7 @@ export const calculateNodeMargin = (
   }
   
   if (isGesiaAlmeida && isAllLevels) {
-    return '3.8px';
+    return '3.4px';
   }
   
   if (isRudneyNobrega) {
