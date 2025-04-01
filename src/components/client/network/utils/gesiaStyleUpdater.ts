@@ -28,7 +28,7 @@ export const applyGesiaStyles = (selectedLevel: string) => {
         
         if (statusElement) {
           console.log('Aplicando translateY(-2px) para o status da Gesia no modo "Todos os Níveis"');
-          (statusElement as HTMLElement).style.setProperty('transform', 'translateY(-2px)', 'important');
+          (statusElement as HTMLElement).style.setProperty('transform', 'translateY(2px)', 'important'); // ALTERADO: 2px para baixo
           (statusElement as HTMLElement).style.setProperty('position', 'relative', 'important');
           (statusElement as HTMLElement).style.setProperty('z-index', '10', 'important');
         }
@@ -36,14 +36,14 @@ export const applyGesiaStyles = (selectedLevel: string) => {
         node.setAttribute('data-forced-style', 'true');
       });
       
-      // Mover APENAS texto "Pendente" 2px para cima em "Todos os níveis"
+      // Mover APENAS texto "Pendente" 2px para BAIXO em "Todos os níveis"
       const pendingStatusElements = document.querySelectorAll('span.text-red-600');
       console.log(`Encontrados ${pendingStatusElements.length} elementos de status pendente no modo "Todos os Níveis"`);
       
       pendingStatusElements.forEach(element => {
         if (element.textContent?.trim() === 'Pendente') {
-          console.log('Aplicando translateY(-2px) para status Pendente em "Todos os Níveis"');
-          (element as HTMLElement).style.setProperty('transform', 'translateY(-2px)', 'important');
+          console.log('Aplicando translateY(2px) para status Pendente em "Todos os Níveis"'); // ALTERADO: 2px para baixo
+          (element as HTMLElement).style.setProperty('transform', 'translateY(2px)', 'important'); // ALTERADO: 2px para baixo
           (element as HTMLElement).style.setProperty('position', 'relative', 'important');
           (element as HTMLElement).style.setProperty('z-index', '10', 'important');
         }

@@ -52,7 +52,15 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
       }
     }
     
+    // Apply updated styles for Gesia and "Pendente" text
     applyGesiaStyles(selectedLevel);
+    
+    // Apply additional class to force style refresh when changing levels
+    document.body.classList.add('force-refresh-styles');
+    setTimeout(() => {
+      document.body.classList.remove('force-refresh-styles');
+    }, 100);
+    
   }, [selectedLevel]);
 
   const toggleNode = (nodeId: string) => {
