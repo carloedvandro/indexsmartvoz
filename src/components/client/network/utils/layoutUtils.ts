@@ -35,21 +35,21 @@ export const calculateNodeMargin = (
   const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
-  return isDavidForgat ? `calc(-15px + ${allLevelsMargin})` : // Moved 5px to the left (was -10px)
-         isCarolinaTree ? `calc(23mm + ${allLevelsMargin})` : // Moved 5px to the left (was 28mm)
-         isRubensTree ? `calc(-0.5mm + ${allLevelsMargin})` : // Moved 5px to the left (was 4.5mm)
-         isMarcioSilva ? `calc(24.5px + ${allLevelsMargin})` : // Moved 5px to the left (was 29.5px)
-         isMarcioSales ? `calc(24px + ${allLevelsMargin})` : // Moved 5px to the left (was 29px)
-         isCarloGoncalves ? `calc(4.5px + ${allLevelsMargin})` : // Restored to original 4.5px
-         isDomingosPinto ? `calc(5.5px + ${allLevelsMargin})` : // Restored to original 5.5px (4th user)
-         isVandoMacedo ? `calc(0.5px + ${allLevelsMargin})` : // Moved 5px to the left (was 5.5px)
-         isDierroLeal ? `calc(-7px + ${allLevelsMargin})` : // Moved 5px to the left (was -2px)
-         isRudneyNobrega ? `calc(24px + ${allLevelsMargin})` : // Moved 5px to the left (was 29px)
-         isGesiaAlmeida ? `calc(-1px + ${allLevelsMargin})` : // Moved 5px to the left (was 4px)
-         depth === 2 ? `calc(2px + ${allLevelsMargin})` : // Moved 5px to the left (was 7px)
-         isRuiTree ? `calc(4px + ${allLevelsMargin})` : // Moved 5px to the left (was 9px)
-         member.user.custom_id === 'vania' ? `calc(19.5px + ${allLevelsMargin})` : // Moved 5px to the left (was 24.5px)
-         (depth === 0 ? `calc(-9px + ${allLevelsMargin})` : `calc(-1px + ${allLevelsMargin})`); // Moved 5px to the left
+  return isDavidForgat ? `calc(-10px + ${allLevelsMargin})` : // Movido 1px para direita (era -11px)
+         isCarolinaTree ? `calc(28mm + ${allLevelsMargin})` : // Movido 1px para direita (era 27mm)
+         isRubensTree ? `calc(4.5mm + ${allLevelsMargin})` : // Movido 1px para direita (era 3.5mm)
+         isMarcioSilva ? `calc(29.5px + ${allLevelsMargin})` : // Movido 1px para direita (era 28.5px)
+         isMarcioSales ? `calc(29px + ${allLevelsMargin})` : // Movido 1px para direita (era 28px)
+         isCarloGoncalves ? `calc(4.5px + ${allLevelsMargin})` : // Movido 1px para direita (era 3.5px)
+         isDomingosPinto ? `calc(5.5px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 6px)
+         isVandoMacedo ? `calc(5.5px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 6px)
+         isDierroLeal ? `calc(-2px + ${allLevelsMargin})` : // Movido 1px para direita (era -3px)
+         isRudneyNobrega ? `calc(29px + ${allLevelsMargin})` : // Movido 1px para direita (era 28px)
+         isGesiaAlmeida ? `calc(4px + ${allLevelsMargin})` : // Movido 1px para direita (era 3px)
+         depth === 2 ? `calc(7px + ${allLevelsMargin})` : // Movido 1px para direita (era 6px)
+         isRuiTree ? `calc(9px + ${allLevelsMargin})` : // Movido 1px para direita (era 8px)
+         member.user.custom_id === 'vania' ? `calc(24.5px + ${allLevelsMargin})` : // Movido 1px para direita (era 23.5px)
+         (depth === 0 ? `calc(-4px + ${allLevelsMargin})` : `calc(4px + ${allLevelsMargin})`); // Movido 1px para direita
 };
 
 export const calculateNodeVerticalMargin = (
@@ -65,10 +65,10 @@ export const calculateNodeVerticalMargin = (
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
   if (isCarloGoncalves) {
-    return '8px'; // Mantido em 8px
+    return '8px'; // Ajustado para 8px (era 6px + 2px adicionais)
   } else if (isMarcioSilva || isMarcioSales || isDomingosPinto || 
             isVandoMacedo || isDierroLeal || isRudneyNobrega || isGesiaAlmeida) {
-    return '2px'; // Mantido em 2px
+    return '2px'; // Movido 2px para baixo
   }
   
   return '0px';
