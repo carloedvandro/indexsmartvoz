@@ -66,6 +66,13 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
 
   // Adicionando timestamp para forçar atualização de estilo
   const styleTimestamp = new Date().getTime();
+  
+  // Estilos específicos para o texto de Gesia
+  const gesiaTextStyle: React.CSSProperties = isGesiaAlmeida ? {
+    transform: 'translateY(-2px)',
+    position: 'relative',
+    zIndex: 5
+  } : {};
 
   return (
     <motion.div
@@ -116,12 +123,18 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
 
           <div className="flex-col min-w-0">
             <div className="flex flex-col" style={{ marginTop: '4mm', marginBottom: '2mm' }}>
-              <h3 className="text-base font-semibold text-black truncate">
+              <h3 
+                className="text-base font-semibold text-black truncate"
+                style={gesiaTextStyle}
+              >
                 {member.user.full_name || "Usuário"}
               </h3>
-              <span className={`text-xs font-semibold ${
-                isActive ? 'text-green-600' : 'text-red-600 pending-status'
-              }`}>
+              <span 
+                className={`text-xs font-semibold ${
+                  isActive ? 'text-green-600' : 'text-red-600 pending-status'
+                }`}
+                style={gesiaTextStyle}
+              >
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
             </div>

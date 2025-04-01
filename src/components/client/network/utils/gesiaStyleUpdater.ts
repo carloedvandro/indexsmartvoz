@@ -10,6 +10,25 @@ export const applyGesiaStyles = (selectedLevel: string) => {
         (node as HTMLElement).style.setProperty('margin-left', '3.2px', 'important');
         (node as HTMLElement).style.setProperty('max-width', '97%', 'important');
         (node as HTMLElement).style.setProperty('transform', 'scale(0.97)', 'important');
+        
+        // Adicionando força para mover o texto para cima
+        const nameElement = node.querySelector('h3');
+        const statusElement = node.querySelector('.text-red-600');
+        
+        if (nameElement) {
+          console.log('Aplicando translateY(-2px) para o nome da Gesia');
+          (nameElement as HTMLElement).style.setProperty('transform', 'translateY(-2px)', 'important');
+          (nameElement as HTMLElement).style.setProperty('position', 'relative', 'important');
+          (nameElement as HTMLElement).style.setProperty('z-index', '10', 'important');
+        }
+        
+        if (statusElement) {
+          console.log('Aplicando translateY(-2px) para o status da Gesia');
+          (statusElement as HTMLElement).style.setProperty('transform', 'translateY(-2px)', 'important');
+          (statusElement as HTMLElement).style.setProperty('position', 'relative', 'important');
+          (statusElement as HTMLElement).style.setProperty('z-index', '10', 'important');
+        }
+        
         node.setAttribute('data-forced-style', 'true');
       });
     }
@@ -37,6 +56,20 @@ export const logNodePositions = () => {
         // Verificação especial para Gesia
         if (customId === 'Gesia89' || memberName === 'Gesia Almeida Dos Santos') {
           console.log(`Nó da Gesia: marginLeft=${styles.marginLeft}, marginTop=${styles.marginTop}`);
+          
+          // Verificando estilos dos elementos de texto
+          const nameElement = node.querySelector('h3');
+          const statusElement = node.querySelector('.text-red-600');
+          
+          if (nameElement) {
+            const nameStyles = window.getComputedStyle(nameElement as Element);
+            console.log(`Estilo do texto do nome: transform=${nameStyles.transform}`);
+          }
+          
+          if (statusElement) {
+            const statusStyles = window.getComputedStyle(statusElement as Element);
+            console.log(`Estilo do texto do status: transform=${statusStyles.transform}`);
+          }
         }
       }
     });

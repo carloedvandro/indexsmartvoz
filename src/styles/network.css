@@ -69,12 +69,19 @@
   transform: scale(0.97) !important; /* Reduzido de 0.98 para 0.97 */
 }
 
-/* NOVO: Ajuste específico para o texto da Gesia */
+/* Ajuste específico para o texto da Gesia com maior especificidade */
 [data-custom-id="Gesia89"] h3,
-[data-member-name="Gesia Almeida Dos Santos"] h3,
+[data-member-name="Gesia Almeida Dos Santos"] h3 {
+  transform: translateY(-2px) !important; /* Move o texto 2px para cima */
+  position: relative !important;
+  z-index: 5 !important;
+}
+
 [data-custom-id="Gesia89"] .text-red-600,
 [data-member-name="Gesia Almeida Dos Santos"] .text-red-600 {
   transform: translateY(-2px) !important; /* Move o texto 2px para cima */
+  position: relative !important;
+  z-index: 5 !important;
 }
 
 /* NOVO: Status "Pendente" movido 2px para baixo para todos os níveis exceto "Todos os Níveis" */
@@ -126,14 +133,31 @@
 /* Forçando a aplicação do estilo para Gesia no modo Todos os Níveis com maior especificidade */
 .network-tree [data-custom-id="Gesia89"] {
   margin-left: 3.2px !important;
-  max-width: 97% !important; /* Alterado de 98% para 97% */
-  transform: scale(0.97) !important; /* Alterado de 0.98 para 0.97 */
+  max-width: 97% !important; 
+  transform: scale(0.97) !important;
 }
 
-/* NOVO: Aplicação específica para mover o texto da Gesia no modo Todos os Níveis para cima */
+/* Aplicação específica para mover o texto da Gesia no modo Todos os Níveis para cima com maior especificidade */
 .network-tree [data-custom-id="Gesia89"] h3,
-.network-tree [data-member-name="Gesia Almeida Dos Santos"] h3,
+.network-tree [data-member-name="Gesia Almeida Dos Santos"] h3 {
+  transform: translateY(-2px) !important; /* Move o texto 2px para cima */
+  position: relative !important;
+  z-index: 5 !important;
+}
+
 .network-tree [data-custom-id="Gesia89"] .text-red-600,
 .network-tree [data-member-name="Gesia Almeida Dos Santos"] .text-red-600 {
   transform: translateY(-2px) !important; /* Move o texto 2px para cima */
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+/* Regra mais forte para mover o texto da Gesia para cima em QUALQUER contexto */
+body [data-custom-id="Gesia89"] h3,
+body [data-member-name="Gesia Almeida Dos Santos"] h3,
+body [data-custom-id="Gesia89"] .text-red-600,
+body [data-member-name="Gesia Almeida Dos Santos"] .text-red-600 {
+  transform: translateY(-2px) !important;
+  position: relative !important;
+  z-index: 10 !important;
 }
