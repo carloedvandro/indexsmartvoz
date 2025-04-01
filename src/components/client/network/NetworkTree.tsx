@@ -43,6 +43,21 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
     
     console.log(`Forçando recarga de CSS com timestamp: ${timestamp}`);
     
+    // Aplica estilos para Gesia após um tempo para garantir que o DOM esteja pronto
+    setTimeout(() => {
+      // Verificar se estamos no modo "Todos os Níveis"
+      if (selectedLevel === "all") {
+        const gesiaNodes = document.querySelectorAll('[data-custom-id="Gesia89"], [data-member-name="Gesia Almeida Dos Santos"]');
+        console.log(`Encontrados ${gesiaNodes.length} nós da Gesia no modo "Todos os Níveis"`);
+        
+        gesiaNodes.forEach(node => {
+          console.log('Forçando margem exata de 3.8px para Gesia');
+          (node as HTMLElement).style.setProperty('margin-left', '3.8px', 'important');
+          node.setAttribute('data-forced-style', 'true');
+        });
+      }
+    }, 300);
+    
     const networkChannel = supabase
       .channel('network-changes')
       .on(
@@ -82,7 +97,23 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
         link.parentNode.removeChild(link);
       }
     };
-  }, [userId, queryClient]);
+  }, [userId, queryClient, selectedLevel]);
+
+  // Este efeito é específico para quando o nível muda
+  useEffect(() => {
+    if (selectedLevel === "all") {
+      setTimeout(() => {
+        const gesiaNodes = document.querySelectorAll('[data-custom-id="Gesia89"], [data-member-name="Gesia Almeida Dos Santos"]');
+        console.log(`Encontrados ${gesiaNodes.length} nós da Gesia após mudança para "Todos os Níveis"`);
+        
+        gesiaNodes.forEach(node => {
+          console.log('Forçando margem exata de 3.8px para Gesia');
+          (node as HTMLElement).style.setProperty('margin-left', '3.8px', 'important');
+          node.setAttribute('data-forced-style', 'true');
+        });
+      }, 300);
+    }
+  }, [selectedLevel]);
 
   const toggleNode = (nodeId: string) => {
     setExpandedNodes(prev => {
@@ -102,8 +133,8 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   console.log("Dados da rede originais:", networkData);
   console.log("Dados filtrados:", filteredData);
   console.log("Aplicando espaçamento vertical atualizado: 20px entre nós, 17px margem inferior");
-  console.log("Movendo todos os nós 2px para a esquerda");
 
+  // Este useEffect verifica as posições dos nós após renderização
   useEffect(() => {
     setTimeout(() => {
       const allNodes = document.querySelectorAll('[data-custom-id]');
@@ -121,19 +152,23 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
             marginLeft: styles.marginLeft,
             marginTop: styles.marginTop
           };
-          console.log(`Nó ${memberName} (${customId}): marginLeft=${styles.marginLeft}, marginTop=${styles.marginTop}`);
+          
+          // Verificação especial para Gesia
+          if (customId === 'Gesia89' || memberName === 'Gesia Almeida Dos Santos') {
+            console.log(`Nó da Gesia: marginLeft=${styles.marginLeft}, marginTop=${styles.marginTop}`);
+            
+            // Se estamos no modo "Todos os Níveis" e a margem não é 3.8px, forçamos
+            if (selectedLevel === "all" && styles.marginLeft !== '3.8px') {
+              console.log('Corrigindo margem da Gesia para exatamente 3.8px');
+              (node as HTMLElement).style.setProperty('margin-left', '3.8px', 'important');
+            }
+          }
         }
       });
       
       console.log('Posições atualizadas de todos os nós:', allPositions);
-      
-      // Verificando a aplicação dos novos espaçamentos
-      const spaceY6 = document.querySelector('.network-tree .space-y-6');
-      if (spaceY6) {
-        console.log('Espaçamento vertical aplicado:', window.getComputedStyle(spaceY6).marginBottom);
-      }
     }, 1000);
-  }, [filteredData]);
+  }, [filteredData, selectedLevel]);
 
   if (loading) {
     return (
@@ -150,7 +185,22 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
           <div className="md:col-span-1 sticky top-20 z-20">
             <NetworkFilter
               selectedLevel={selectedLevel}
-              onLevelChange={setSelectedLevel}
+              onLevelChange={(level) => {
+                setSelectedLevel(level);
+                
+                // Quando mudamos para "Todos os Níveis", precisamos garantir o estilo da Gesia
+                if (level === "all") {
+                  setTimeout(() => {
+                    const gesiaNodes = document.querySelectorAll('[data-custom-id="Gesia89"], [data-member-name="Gesia Almeida Dos Santos"]');
+                    console.log(`Encontrados ${gesiaNodes.length} nós da Gesia após mudança para "Todos os Níveis"`);
+                    
+                    gesiaNodes.forEach(node => {
+                      console.log('Forçando margem exata de 3.8px para Gesia após mudança de nível');
+                      (node as HTMLElement).style.setProperty('margin-left', '3.8px', 'important');
+                    });
+                  }, 300);
+                }
+              }}
             />
           </div>
 

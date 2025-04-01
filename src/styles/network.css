@@ -114,3 +114,8 @@
 .network-tree > div > div.space-y-4 > div {
   margin-bottom: 9px !important;
 }
+
+/* Forçando a aplicação do estilo para Gesia no modo Todos os Níveis com maior especificidade */
+.network-tree [data-custom-id="Gesia89"] {
+  margin-left: 3.8px !important;
+}

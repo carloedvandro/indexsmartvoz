@@ -31,13 +31,18 @@ export default function NetworkPage() {
     
     console.log(`NetworkPage forçando recarga de CSS: ${timestamp}`);
     
-    // Aplica limpeza de cache para os elementos específicos
+    // Aplica limpeza de cache para os elementos específicos da Gesia
     setTimeout(() => {
-      const gesiaNode = document.querySelector('[data-custom-id="Gesia89"]');
-      if (gesiaNode) {
-        console.log('Encontrou nó da Gesia, forçando atualização de estilo');
-        (gesiaNode as HTMLElement).style.marginLeft = '3.8px';
-      }
+      const gesiaNodes = document.querySelectorAll('[data-custom-id="Gesia89"], [data-member-name="Gesia Almeida Dos Santos"]');
+      console.log(`Encontrou ${gesiaNodes.length} nós da Gesia, forçando atualização de estilo`);
+      
+      gesiaNodes.forEach(node => {
+        console.log('Aplicando estilo direto no elemento da Gesia');
+        (node as HTMLElement).style.marginLeft = '3.8px';
+        
+        // Adiciona atributo para forçar "recálculo" de estilo
+        node.setAttribute('data-timestamp', timestamp.toString());
+      });
     }, 500);
     
     return () => {

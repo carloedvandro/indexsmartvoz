@@ -50,6 +50,11 @@ export const calculateNodeMargin = (
     console.log('Aplicando margin-left para Gesia:', isAllLevels ? '3.8px' : '4px', 'com timestamp:', new Date().getTime());
   }
   
+  // Precisamos garantir que no modo "Todos os Níveis", a Gesia terá exatamente 3.8px de margem
+  if (isGesiaAlmeida && isAllLevels) {
+    return '3.8px';
+  }
+  
   return isDavidForgat ? `calc(-10px + ${allLevelsMargin})` : // Movido 1px para direita (era -11px)
          isCarolinaTree ? `calc(28mm + ${allLevelsMargin})` : // Movido 1px para direita (era 27mm)
          isRubensTree ? `calc(4.5mm + ${allLevelsMargin})` : // Movido 1px para direita (era 3.5mm)
@@ -60,7 +65,7 @@ export const calculateNodeMargin = (
          isVandoMacedo ? `calc(6px + ${allLevelsMargin})` : // Movido 6px para direita (era 0px)
          isDierroLeal ? `calc(-2px + ${allLevelsMargin})` : // Movido 1px para direita (era -3px)
          isRudneyNobrega ? `calc(29px + ${allLevelsMargin})` : // Movido 1px para direita (era 28px)
-         isGesiaAlmeida ? isAllLevels ? 'calc(3.8px)' : 'calc(4px)' : // Movido 0.2px para esquerda no modo "Todos os Níveis"
+         isGesiaAlmeida ? '4px' : // Para não "Todos os Níveis", mantém 4px
          depth === 2 ? `calc(7px + ${allLevelsMargin})` : // Movido 1px para direita (era 6px)
          isRuiTree ? `calc(9px + ${allLevelsMargin})` : // Movido 1px para direita (era 8px)
          member.user.custom_id === 'vania' ? `calc(24.5px + ${allLevelsMargin})` : // Movido 1px para direita (era 23.5px)
