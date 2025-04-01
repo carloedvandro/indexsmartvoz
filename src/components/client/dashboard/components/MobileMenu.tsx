@@ -64,15 +64,15 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
       <Button 
         variant="ghost" 
         onClick={() => setOpen(!isOpen)}
-        className="hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent my-auto mobile-menu-button ml-4"
+        className="hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent my-auto mobile-menu-button ml-4 relative -top-[5px] right-[-5px]"
       >
         {isOpen ? (
           <X className="w-12 h-12 font-bold text-black" />
         ) : (
-          <div className="flex flex-col justify-center items-center w-[25px] h-[24px]">
-            <div className="w-full h-[10px] bg-black rounded-full mb-2"></div>
-            <div className="w-full h-[10px] bg-black rounded-full mb-2"></div>
-            <div className="w-full h-[10px] bg-black rounded-full"></div>
+          <div className="flex flex-col justify-center items-center w-[22px] h-[22px]">
+            <div className="w-full h-[8px] bg-black rounded-full mb-2"></div>
+            <div className="w-full h-[8px] bg-black rounded-full mb-2"></div>
+            <div className="w-full h-[8px] bg-black rounded-full"></div>
           </div>
         )}
       </Button>
