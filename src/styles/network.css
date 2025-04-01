@@ -77,9 +77,9 @@
   z-index: 5 !important;
 }
 
-/* Aplicar estilo "2px para baixo" APENAS quando estiver vendo "Todos os níveis" */
+/* Aplicar estilo "1.8px para baixo" APENAS quando estiver vendo "Todos os níveis" */
 .view-all-levels span.text-red-600:not([class*="background"]):not([class*="border"]) {
-  transform: translateY(2px) !important; /* ALTERADO: 2px para baixo (era -2px para cima) */
+  transform: translateY(1.8px) !important; /* AJUSTADO: 1.8px para baixo (era 2px) - movido 0.2px para cima */
   position: relative !important;
   z-index: 5 !important;
 }

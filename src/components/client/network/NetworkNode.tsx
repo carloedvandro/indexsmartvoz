@@ -56,9 +56,9 @@ export const NetworkNode = ({
     zIndex: 5
   } : {};
   
-  // Estilo específico para o status "Pendente" - AGORA move 2px para BAIXO em "Todos os níveis"
+  // Estilo específico para o status "Pendente" - AGORA move 1.8px para BAIXO em "Todos os níveis"
   const pendingStatusStyle: React.CSSProperties = (!isActive && isAllLevels) ? {
-    transform: 'translateY(2px)', // ALTERADO: 2px para baixo
+    transform: 'translateY(1.8px)', // ALTERADO: 1.8px para baixo (era 2px) - movido 0.2px para cima
     position: 'relative',
     zIndex: 5
   } : {};
