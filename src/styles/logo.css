@@ -1,4 +1,5 @@
 
+
 .logo-image {
   max-width: 300px !important;
   width: auto !important;
@@ -6,7 +7,7 @@
   object-fit: contain !important;
   mix-blend-mode: multiply; /* This helps remove white background */
   padding: 0 !important;
-  margin: -21px auto 0 !important; /* Updated from -24px to -21px to move it 3px more down */
+  margin: -20px auto 0 !important; /* Updated from -21px to -20px to move it 1px more down */
   display: block !important;
 }
 
@@ -17,7 +18,7 @@
   height: 100% !important;
   width: 100% !important;
   padding-top: 10px !important; /* Added padding to help with vertical centering */
-  padding-right: 46px !important; /* Increased from 26px to 46px to move 20px more to the left */
+  padding-right: 61px !important; /* Increased from 46px to 61px to move 15px more to the left */
 }
 
 @media (max-width: 768px) {
@@ -26,12 +27,13 @@
     height: 90px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    margin-top: -15px !important; /* Changed from -18px to -15px to move 3px more down */
+    margin-top: -14px !important; /* Changed from -15px to -14px to move 1px more down */
   }
   
   .logo-container {
     justify-content: center !important;
     padding-left: 0 !important;
-    padding-right: 46px !important; /* Increased from 26px to 46px to move 20px more to the left */
+    padding-right: 61px !important; /* Increased from 46px to 61px to move 15px more to the left */
   }
 }
+
