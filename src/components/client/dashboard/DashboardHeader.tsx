@@ -47,7 +47,7 @@ export function DashboardHeader() {
     <header className="w-full bg-background border-b">
       <div className="container relative mx-auto flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center h-20 py-0">
         <DesktopNavigation navigationItems={navigationItems} />
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center h-full">
           <Logo />
         </div>
         <div className="flex items-center justify-end gap-2 ml-auto">
