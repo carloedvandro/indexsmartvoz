@@ -42,7 +42,7 @@ export const calculateNodeMargin = (
   
   // Log para Carlo Gonçalves
   if (isCarloGoncalves) {
-    console.log('Aplicando margin-left 0.5px para Carlo com timestamp:', new Date().getTime());
+    console.log('Aplicando margin-left 0.3px para Carlo com timestamp:', new Date().getTime());
   }
   
   // Log para Gesia Almeida
@@ -60,7 +60,7 @@ export const calculateNodeMargin = (
          isRubensTree ? `calc(4.5mm + ${allLevelsMargin})` : // Movido 1px para direita (era 3.5mm)
          isMarcioSilva ? `calc(29.5px + ${allLevelsMargin})` : // Movido 1px para direita (era 28.5px)
          isMarcioSales ? `calc(29px + ${allLevelsMargin})` : // Movido 1px para direita (era 28px)
-         isCarloGoncalves ? `calc(0.5px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 1px)
+         isCarloGoncalves ? `calc(0.3px + ${allLevelsMargin})` : // Movido 0.2px para esquerda (era 0.5px)
          isDomingosPinto ? `calc(0px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 0.5px)
          isVandoMacedo ? `calc(6px + ${allLevelsMargin})` : // Movido 6px para direita (era 0px)
          isDierroLeal ? `calc(-2px + ${allLevelsMargin})` : // Movido 1px para direita (era -3px)
