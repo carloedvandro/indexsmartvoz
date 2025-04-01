@@ -10,7 +10,7 @@
   margin: -20px auto 0 auto !important; /* Updated to add auto on right side to center, plus 3px right margin */
   display: block !important;
   position: relative !important;
-  right: -6px !important; /* Updated from -3px to -6px to move the logo 3px more to the right */
+  right: 0 !important; /* Removed the right offset to center the logo */
 }
 
 .logo-container {
@@ -20,7 +20,7 @@
   height: 100% !important;
   width: 100% !important;
   padding-top: 10px !important; /* Added padding to help with vertical centering */
-  padding-right: 100px !important; /* Increased to 100px to make a more noticeable change (4px more) */
+  padding-right: 0 !important; /* Removed padding-right to center the logo */
 }
 
 @media (max-width: 768px) {
@@ -30,13 +30,13 @@
     margin-left: auto !important;
     margin-right: auto !important;
     margin-top: -14px !important; /* Changed from -15px to -14px to move 1px more down */
-    right: -6px !important; /* Updated from -3px to -6px to move the logo 3px more to the right in mobile too */
+    right: -6px !important; /* Keeping the mobile right offset as requested */
   }
   
   .logo-container {
     justify-content: center !important;
     padding-left: 0 !important;
-    padding-right: 100px !important; /* Increased to 100px to make a more noticeable change (4px more) */
+    padding-right: 100px !important; /* Keeping the mobile padding-right as requested */
   }
 }
 
