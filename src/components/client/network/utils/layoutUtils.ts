@@ -57,7 +57,7 @@ export const calculateNodeMargin = (
   
   // Log para Vando Macedo
   if (isVandoMacedo) {
-    console.log('Aplicando margin-left 0px para Vando Macedo com timestamp:', new Date().getTime());
+    console.log('Aplicando margin-left -0.5px para Vando Macedo com timestamp:', new Date().getTime());
   }
   
   // Precisamos garantir que no modo "Todos os Níveis", a Gesia terá exatamente 3.8px de margem
@@ -72,7 +72,7 @@ export const calculateNodeMargin = (
          isMarcioSales ? `calc(29.2px + ${allLevelsMargin})` : // Movido 0.2px para direita (era 29px)
          isCarloGoncalves ? `calc(0.3px + ${allLevelsMargin})` : // Movido 0.2px para esquerda (era 0.5px)
          isDomingosPinto ? `calc(0px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 0.5px)
-         isVandoMacedo ? `calc(0px + ${allLevelsMargin})` : // Movido 3px para esquerda (era 3px)
+         isVandoMacedo ? `calc(-0.5px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 0px)
          isDierroLeal ? `calc(-2px + ${allLevelsMargin})` : // Movido 1px para direita (era -3px)
          isRudneyNobrega ? `calc(29px + ${allLevelsMargin})` : // Movido 1px para direita (era 28px)
          isGesiaAlmeida ? '4px' : // Para não "Todos os Níveis", mantém 4px
