@@ -70,9 +70,11 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
           <X className="w-12 h-12 font-bold text-black" />
         ) : (
           <div className="flex flex-col gap-1.5 justify-center">
-            <div className="w-8 h-1.5 bg-[#ea384c] rounded-sm"></div>
-            <div className="w-8 h-1.5 bg-[#ea384c] rounded-sm"></div>
-            <div className="w-8 h-1.5 bg-[#ea384c] rounded-sm"></div>
+            <img 
+              src="/lovable-uploads/50aa20ec-1115-4fef-a24c-c15928c8414b.png" 
+              alt="Menu icon" 
+              className="w-8 h-7" 
+            />
           </div>
         )}
       </Button>
