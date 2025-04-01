@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from "react-router-dom";
 import { X, ArrowRight } from "lucide-react";
@@ -68,18 +69,18 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         {isOpen ? (
           <X className="w-12 h-12 font-bold text-black" />
         ) : (
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-1">
-              <div className="w-8 h-8 bg-[#5f0889] rounded-md border-2 border-black"></div>
-              <div className="w-40 h-2 bg-black rounded-md"></div>
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 bg-[#5f0889] rounded-md border-2 border-black"></div>
+              <div className="w-44 h-2 bg-black rounded-md"></div>
             </div>
-            <div className="flex items-center gap-1">
-              <div className="w-8 h-8 bg-[#5f0889] rounded-md border-2 border-black"></div>
-              <div className="w-40 h-2 bg-black rounded-md"></div>
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 bg-[#5f0889] rounded-md border-2 border-black"></div>
+              <div className="w-44 h-2 bg-black rounded-md"></div>
             </div>
-            <div className="flex items-center gap-1">
-              <div className="w-8 h-8 bg-[#5f0889] rounded-md border-2 border-black"></div>
-              <div className="w-40 h-2 bg-black rounded-md"></div>
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 bg-[#5f0889] rounded-md border-2 border-black"></div>
+              <div className="w-44 h-2 bg-black rounded-md"></div>
             </div>
           </div>
         )}
