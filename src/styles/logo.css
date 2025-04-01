@@ -6,8 +6,10 @@
   object-fit: contain !important;
   mix-blend-mode: multiply; /* This helps remove white background */
   padding: 0 !important;
-  margin: -20px auto 0 !important; /* Updated from -21px to -20px to move it 1px more down */
+  margin: -20px auto 0 auto !important; /* Updated to add auto on right side to center, plus 3px right margin */
   display: block !important;
+  position: relative !important;
+  right: -3px !important; /* Added to move the logo 3px to the right */
 }
 
 .logo-container {
@@ -27,6 +29,7 @@
     margin-left: auto !important;
     margin-right: auto !important;
     margin-top: -14px !important; /* Changed from -15px to -14px to move 1px more down */
+    right: -3px !important; /* Added to move the logo 3px to the right in mobile too */
   }
   
   .logo-container {
