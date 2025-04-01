@@ -1,4 +1,3 @@
-
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
   margin-left: 29.5px !important; /* Movido 1px para direita (era 28.5px) */
@@ -28,7 +27,7 @@
 /* Estilo para o nó do Carlo Edvandro */
 [data-custom-id="Carlo89"],
 [data-member-name="Carlo Edvandro Camera Gonçalves"] {
-  margin-left: 3.5px !important; /* Movido 2.5px para direita (era 1px) */
+  margin-left: 1px !important; /* Movido 1px para direita (era 0px) */
   margin-top: 8px !important;
 }
 
@@ -42,7 +41,7 @@
 /* Estilo para o nó do Vando Araujo Macedo */
 [data-custom-id="Vando89"],
 [data-member-name="Vando Araujo Macedo"] {
-  margin-left: 5.5px !important; /* Movido 0.5px para esquerda (era 6px) */
+  margin-left: 6px !important; /* Movido 6px para direita (era 0px) */
   margin-top: 2px !important;
 }
 
