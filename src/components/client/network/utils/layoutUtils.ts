@@ -1,3 +1,4 @@
+
 import { NetworkMember } from "../types";
 
 export const calculateTotalTeamSize = (node: NetworkMember): number => {
@@ -38,7 +39,7 @@ export const calculateNodeMargin = (
   }
   
   if (isCarloGoncalves) {
-    console.log('Aplicando margin-left 0.3px para Carlo com timestamp:', new Date().getTime());
+    console.log('Aplicando margin-left 0.1px para Carlo com timestamp:', new Date().getTime());
   }
   
   if (isGesiaAlmeida) {
@@ -74,7 +75,7 @@ export const calculateNodeMargin = (
          isRubensTree ? `calc(4.5mm + ${allLevelsMargin})` : // Movido 1px para direita (era 3.5mm)
          isMarcioSilva ? `calc(29px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 29.5px)
          isMarcioSales ? `calc(29.2px + ${allLevelsMargin})` : // Movido 0.2px para direita (era 29px)
-         isCarloGoncalves ? `calc(0.3px + ${allLevelsMargin})` : // Movido 0.2px para esquerda (era 0.5px)
+         isCarloGoncalves ? `calc(0.1px + ${allLevelsMargin})` : // Movido 0.2px para esquerda (era 0.3px)
          isDomingosPinto ? `calc(0px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 0.5px)
          isVandoMacedo ? `calc(-0.5px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 0px)
          isDierroLeal ? `calc(-1.3px + ${allLevelsMargin})` : // Movido 0.7px para direita (era -2px)
