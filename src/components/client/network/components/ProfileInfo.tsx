@@ -19,10 +19,12 @@ export const ProfileInfo = ({ member, isFilteredView = false }: ProfileInfoProps
 
   // Calculate margin and style based on view type
   const marginClass = isFilteredView ? "ml-[2.3px]" : "ml-[-17.5mm]"; 
-  const marginTop = isFilteredView ? "calc(3mm + 15.2px)" : "8mm";
+  
+  // Ajustado para 6px a mais (estava apenas 8mm)
+  const marginTop = isFilteredView ? "calc(3mm + 15.2px + 6px)" : "calc(8mm + 6px)";
 
   return (
-    <div className={`space-y-1 text-sm ${marginClass}`} style={{ marginTop }}>
+    <div className={`space-y-1 text-sm ${marginClass} profile-info-container`} style={{ marginTop }}>
       <div className="flex items-center gap-2 text-black">
         <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
         <span className="truncate">Meu ID: {member.user.custom_id || "Não definido"}</span>

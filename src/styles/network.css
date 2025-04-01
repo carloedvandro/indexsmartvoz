@@ -99,3 +99,9 @@
   /* Não mexer no texto para visualizações de nível individual */
   transform: none !important;
 }
+
+/* Movendo o conjunto de informações 6px para baixo */
+.profile-info-container {
+  margin-top: calc(6px + 8mm) !important;
+}
+
