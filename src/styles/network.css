@@ -49,7 +49,7 @@
 /* Estilo para o nó do Dierro Santana Leal */
 [data-custom-id="Dierro89"],
 [data-member-name="Dierro Santana Leal"] {
-  margin-left: -2px !important; /* Movido 1px para direita (era -3px) */
+  margin-left: -1.3px !important; /* Movido 0.7px para direita (era -2px) */
   margin-top: 2px !important;
 }
 
