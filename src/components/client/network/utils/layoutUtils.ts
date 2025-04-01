@@ -1,4 +1,3 @@
-
 import { NetworkMember } from "../types";
 
 export const calculateTotalTeamSize = (node: NetworkMember): number => {
@@ -16,7 +15,6 @@ export const calculateNodeMargin = (
   depth: number,
   isAllLevels: boolean
 ): string => {
-  // Adding 4px additional right margin when showing all levels
   const allLevelsMargin = isAllLevels ? '4px' : '0px';
   
   const isDavidForgat = member.user.full_name === 'David Forgat';
@@ -35,39 +33,36 @@ export const calculateNodeMargin = (
   const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
-  // Log do nome do usuário e margem que será aplicada para Domingos
   if (isDomingosPinto) {
     console.log('Aplicando margin-left 0px para Domingos com timestamp:', new Date().getTime());
   }
   
-  // Log para Carlo Gonçalves
   if (isCarloGoncalves) {
     console.log('Aplicando margin-left 0.3px para Carlo com timestamp:', new Date().getTime());
   }
   
-  // Log para Gesia Almeida
   if (isGesiaAlmeida) {
     console.log('Aplicando margin-left para Gesia:', isAllLevels ? '3.8px' : '4px', 'com timestamp:', new Date().getTime());
   }
   
-  // Log para Marcio Sales
   if (isMarcioSales) {
     console.log('Aplicando margin-left 29.2px para Marcio Sales com timestamp:', new Date().getTime());
   }
   
-  // Log para Vando Macedo
   if (isVandoMacedo) {
     console.log('Aplicando margin-left -0.5px para Vando Macedo com timestamp:', new Date().getTime());
   }
   
-  // Log para Dierro Leal
   if (isDierroLeal) {
     console.log('Aplicando margin-left -1.3px para Dierro Leal com timestamp:', new Date().getTime());
   }
   
-  // Precisamos garantir que no modo "Todos os Níveis", a Gesia terá exatamente 3.8px de margem
   if (isGesiaAlmeida && isAllLevels) {
     return '3.8px';
+  }
+  
+  if (isRudneyNobrega) {
+    console.log('Aplicando margin-left 30px para Rudney Nobrega com timestamp:', new Date().getTime());
   }
   
   return isDavidForgat ? `calc(-10px + ${allLevelsMargin})` : // Movido 1px para direita (era -11px)
@@ -79,7 +74,7 @@ export const calculateNodeMargin = (
          isDomingosPinto ? `calc(0px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 0.5px)
          isVandoMacedo ? `calc(-0.5px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 0px)
          isDierroLeal ? `calc(-1.3px + ${allLevelsMargin})` : // Movido 0.7px para direita (era -2px)
-         isRudneyNobrega ? `calc(29px + ${allLevelsMargin})` : // Movido 1px para direita (era 28px)
+         isRudneyNobrega ? `calc(30px + ${allLevelsMargin})` : // Movido 1px para direita (era 29px)
          isGesiaAlmeida ? '4px' : // Para não "Todos os Níveis", mantém 4px
          depth === 2 ? `calc(7px + ${allLevelsMargin})` : // Movido 1px para direita (era 6px)
          isRuiTree ? `calc(9px + ${allLevelsMargin})` : // Movido 1px para direita (era 8px)
@@ -100,10 +95,10 @@ export const calculateNodeVerticalMargin = (
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
   if (isCarloGoncalves) {
-    return '8px'; // Ajustado para 8px (era 6px + 2px adicionais)
+    return '8px';
   } else if (isMarcioSilva || isMarcioSales || isDomingosPinto || 
             isVandoMacedo || isDierroLeal || isRudneyNobrega || isGesiaAlmeida) {
-    return '2px'; // Movido 2px para baixo
+    return '2px';
   }
   
   return '0px';
