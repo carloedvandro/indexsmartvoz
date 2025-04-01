@@ -1,3 +1,4 @@
+
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
   margin-left: 29.5px !important; /* Movido 1px para direita (era 28.5px) */
@@ -34,7 +35,7 @@
 /* Estilo para o nó do Domingos Ferreira Pinto */
 [data-custom-id="Domingos89"],
 [data-member-name="Domingos Ferreira Pinto"] {
-  margin-left: 4px !important; /* Movido 1px para direita (era 3px) */
+  margin-left: 5px !important; /* Movido 1px para direita (era 4px) */
   margin-top: 2px !important;
 }
 
@@ -68,21 +69,6 @@
   transform: scale(0.99) !important; /* Mantido tamanho do texto ligeiramente reduzido */
 }
 
-/* Espaçamento padronizado para todas as áreas da rede */
-.network-tree .space-y-4 {
-  margin-bottom: 9px !important;
-}
-
-/* Espaçamento padrão entre todos os nós */
-.network-tree .space-y-4 > div {
-  margin-bottom: 9px !important;
-}
-
-/* Espaçamento consistente para toda a árvore */
-.network-tree > div > div.space-y-4 > div {
-  margin-bottom: 9px !important;
-}
-
 /* NOVO: Status "Pendente" movido 2px para baixo para todos os níveis exceto "Todos os Níveis" */
 .pending-status {
   padding-top: 6px !important; /* 2px para baixo */
@@ -112,4 +98,19 @@
 /* Forçando a margem de 2px para baixo no status pendente em todos os níveis 1 a 4 */
 .text-red-600:not(.network-tree .text-red-600) {
   transform: translateY(2px) !important;
+}
+
+/* Espaçamento padronizado para todas as áreas da rede */
+.network-tree .space-y-4 {
+  margin-bottom: 9px !important;
+}
+
+/* Espaçamento padrão entre todos os nós */
+.network-tree .space-y-4 > div {
+  margin-bottom: 9px !important;
+}
+
+/* Espaçamento consistente para toda a árvore */
+.network-tree > div > div.space-y-4 > div {
+  margin-bottom: 9px !important;
 }
