@@ -1,3 +1,4 @@
+
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
   margin-left: 29px !important; /* Movido 0.5px para esquerda (era 29.5px) */
@@ -99,7 +100,7 @@
   transform: none !important;
 }
 
-/* Movendo o conjunto de informações 6px para baixo */
+/* Aplicando a mesma distância para todos os conjuntos de informações */
 .profile-info-container {
-  margin-top: calc(6px + 8mm) !important;
+  margin-top: calc(8mm + 6px) !important;
 }
