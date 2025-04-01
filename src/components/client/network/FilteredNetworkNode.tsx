@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -42,7 +43,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     marginLeft = '5.5px'; // Movido 0.5px para esquerda (era 6px)
     marginTop = '2px';
   } else if (isVandoMacedo) {
-    marginLeft = '0px'; // Movido 1px para direita (era -1px)
+    marginLeft = '6px'; // Movido 6px para direita (era 0px)
     marginTop = '2px';
   } else if (isDierroLeal) {
     marginLeft = '-2px'; // Movido 1px para direita (era -3px)

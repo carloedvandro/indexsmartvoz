@@ -1,4 +1,3 @@
-
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
   margin-left: 29.5px !important; /* Movido 1px para direita (era 28.5px) */
@@ -42,7 +41,7 @@
 /* Estilo para o nó do Vando Araujo Macedo */
 [data-custom-id="Vando89"],
 [data-member-name="Vando Araujo Macedo"] {
-  margin-left: 0px !important; /* Movido 1px para direita (era -1px) */
+  margin-left: 6px !important; /* Movido 6px para direita (era 0px) */
   margin-top: 2px !important;
 }
 
