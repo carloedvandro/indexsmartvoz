@@ -38,7 +38,9 @@ export default function NetworkPage() {
       
       gesiaNodes.forEach(node => {
         console.log('Aplicando estilo direto no elemento da Gesia');
-        (node as HTMLElement).style.marginLeft = '3.8px';
+        (node as HTMLElement).style.marginLeft = '3.2px';
+        (node as HTMLElement).style.maxWidth = '98%';
+        (node as HTMLElement).style.transform = 'scale(0.98)';
         
         // Adiciona atributo para forçar "recálculo" de estilo
         node.setAttribute('data-timestamp', timestamp.toString());

@@ -65,8 +65,8 @@
 [data-member-name="Gesia Almeida Dos Santos"] {
   margin-left: 3.2px !important; /* Movido 0.2px para esquerda (era 3.4px) */
   margin-top: 2px !important;
-  max-width: 99% !important; /* Mantido largura máxima um pouco menor */
-  transform: scale(0.99) !important; /* Mantido tamanho do texto ligeiramente reduzido */
+  max-width: 98% !important; /* Reduzido de 99% para 98% */
+  transform: scale(0.98) !important; /* Reduzido de 0.99 para 0.98 */
 }
 
 /* NOVO: Status "Pendente" movido 2px para baixo para todos os níveis exceto "Todos os Níveis" */
@@ -118,4 +118,6 @@
 /* Forçando a aplicação do estilo para Gesia no modo Todos os Níveis com maior especificidade */
 .network-tree [data-custom-id="Gesia89"] {
   margin-left: 3.2px !important;
+  max-width: 98% !important; /* Adicionado max-width também aqui */
+  transform: scale(0.98) !important; /* Adicionado transform também aqui */
 }

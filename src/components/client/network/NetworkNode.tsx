@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -55,6 +54,13 @@ export const NetworkNode = ({
 
   // Timestamp para forçar atualização de estilos
   const styleTimestamp = new Date().getTime();
+  
+  // Configurações extras para Gesia
+  const extraStyles: React.CSSProperties = {};
+  if (isGesiaAlmeida) {
+    extraStyles.maxWidth = '98%';
+    extraStyles.transform = 'scale(0.98)';
+  }
 
   return (
     <motion.div
@@ -65,7 +71,8 @@ export const NetworkNode = ({
       style={{ 
         marginLeft: leftMargin, 
         marginTop: topMargin !== '0px' ? topMargin : undefined,
-        width 
+        width,
+        ...extraStyles
       }}
       data-user-id={member.user.custom_id}
       data-member-name={member.user.full_name}

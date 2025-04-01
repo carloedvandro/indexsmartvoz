@@ -29,6 +29,8 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   
   let marginLeft = '0px';
   let marginTop = '0px';
+  let maxWidth = undefined;
+  let transform = undefined;
   
   if (isMarcioSilva) {
     marginLeft = '29px'; // Movido 0.5px para esquerda (era 29.5px)
@@ -54,6 +56,8 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   } else if (isGesiaAlmeida) {
     marginLeft = '3.2px'; // Movido 0.2px para esquerda (era 3.4px)
     marginTop = '2px';
+    maxWidth = '98%'; // Reduzido de 99% para 98%
+    transform = 'scale(0.98)'; // Reduzido de 0.99 para 0.98
   }
 
   // Log for debugging
@@ -71,7 +75,9 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       className="relative w-full overflow-hidden mb-6"
       style={{ 
         marginLeft: marginLeft !== '0px' ? marginLeft : undefined,
-        marginTop: marginTop !== '0px' ? marginTop : undefined
+        marginTop: marginTop !== '0px' ? marginTop : undefined,
+        maxWidth: maxWidth,
+        transform: transform
       }}
       data-user-id={member.user.custom_id}
       data-member-name={member.user.full_name}
