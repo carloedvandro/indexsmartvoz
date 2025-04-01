@@ -9,7 +9,7 @@
   object-fit: contain !important;
   mix-blend-mode: multiply; /* This helps remove white background */
   padding: 0 !important;
-  margin: -28px auto 0 auto !important; /* Updated from -25px to -28px to move 3px more upwards */
+  margin: -26.5px auto 0 auto !important; /* Updated from -28px to -26.5px to move 1.5px down */
   display: block !important;
   position: relative !important;
   right: 0 !important; /* Removed the right offset to center the logo */
@@ -41,5 +41,4 @@
     padding-right: 100px !important; /* Keeping the mobile padding-right as requested */
   }
 }
-
 
