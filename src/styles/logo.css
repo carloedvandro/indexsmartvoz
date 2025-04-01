@@ -6,7 +6,7 @@
   object-fit: contain !important;
   mix-blend-mode: multiply; /* This helps remove white background */
   padding: 0 !important;
-  margin: -15px auto 0 !important; /* Added negative top margin to move it up */
+  margin: -35px auto 0 !important; /* Updated from -15px to -35px to move it 20px higher */
   display: block !important;
 }
 
