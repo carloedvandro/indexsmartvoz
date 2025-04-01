@@ -1,5 +1,6 @@
 
 
+
 .logo-image {
   max-width: 300px !important;
   width: auto !important;
@@ -7,7 +8,7 @@
   object-fit: contain !important;
   mix-blend-mode: multiply; /* This helps remove white background */
   padding: 0 !important;
-  margin: -20px auto 0 auto !important; /* Updated to add auto on right side to center, plus 3px right margin */
+  margin: -25px auto 0 auto !important; /* Updated from -20px to -25px to move 5px upwards */
   display: block !important;
   position: relative !important;
   right: 0 !important; /* Removed the right offset to center the logo */
@@ -39,4 +40,5 @@
     padding-right: 100px !important; /* Keeping the mobile padding-right as requested */
   }
 }
+
 
