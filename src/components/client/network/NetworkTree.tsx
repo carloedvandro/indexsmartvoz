@@ -80,7 +80,7 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   console.log("Nível selecionado:", selectedLevel);
   console.log("Dados da rede originais:", networkData);
   console.log("Dados filtrados:", filteredData);
-  console.log("Aplicando espaçamento vertical atualizado: 20px entre nós, 17px margem inferior");
+  console.log("Aplicando espaçamento vertical atualizado: 24px entre nós, 20px margem inferior");
 
   if (loading) {
     return <NetworkTreeLoading />;

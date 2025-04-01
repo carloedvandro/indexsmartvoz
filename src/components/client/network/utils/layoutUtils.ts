@@ -100,10 +100,10 @@ export const calculateNodeVerticalMargin = (
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
   if (isCarloGoncalves) {
-    return '8px';
+    return '12px'; // Aumentado de 8px para 12px
   } else if (isMarcioSilva || isMarcioSales || isDomingosPinto || 
             isVandoMacedo || isDierroLeal || isRudneyNobrega || isGesiaAlmeida) {
-    return '2px';
+    return '6px'; // Aumentado de 2px para 6px
   }
   
   return '0px';

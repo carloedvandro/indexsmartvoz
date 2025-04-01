@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -39,26 +38,22 @@ export const NetworkNode = ({
   const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
-  // Timestamp para forçar atualização de estilos
   const styleTimestamp = new Date().getTime();
   
-  // Configurações extras para Gesia
   const extraStyles: React.CSSProperties = {};
   if (isGesiaAlmeida) {
     extraStyles.maxWidth = '97%';
     extraStyles.transform = 'scale(0.97)';
   }
   
-  // Estilos específicos para o texto de Gesia
   const gesiaTextStyle: React.CSSProperties = isGesiaAlmeida ? {
     transform: 'translateY(-2px)',
     position: 'relative',
     zIndex: 5
   } : {};
   
-  // Estilo específico para o status "Pendente" - AGORA move 1.8px para BAIXO em "Todos os níveis"
   const pendingStatusStyle: React.CSSProperties = (!isActive && isAllLevels) ? {
-    transform: 'translateY(1.8px)', // ALTERADO: 1.8px para baixo (era 2px) - movido 0.2px para cima
+    transform: 'translateY(1.8px)',
     position: 'relative',
     zIndex: 5
   } : {};
@@ -68,7 +63,7 @@ export const NetworkNode = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className={`relative w-full ${depth > 0 ? 'mt-10' : ''} mb-6`}
+      className={`relative w-full ${depth > 0 ? 'mt-10' : ''} mb-12`}
       style={{ 
         marginLeft: leftMargin, 
         marginTop: topMargin !== '0px' ? topMargin : undefined,
@@ -133,7 +128,7 @@ export const NetworkNode = ({
         </div>
       </div>
       {hasChildren && isExpanded && (
-        <div className={`mt-6 space-y-6 mb-6 ${isVaniaTree ? 'ml-[25.5px]' : ''}`}>
+        <div className={`mt-8 space-y-12 mb-8 ${isVaniaTree ? 'ml-[25.5px]' : ''}`}>
           {member.children.map((child) => (
             <NetworkNode
               key={child.id}
