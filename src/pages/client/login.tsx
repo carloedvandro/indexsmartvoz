@@ -3,6 +3,8 @@ import { LoginForm } from "@/components/client/login/LoginForm";
 import { RegisterLink } from "@/components/client/login/RegisterLink";
 import { containerVariants, itemVariants } from "@/utils/animations";
 import { motion } from "framer-motion";
+import { LoginHeader } from "@/components/client/login/LoginHeader";
+import "@/styles/logo.css"; // Ensure the logo styles are imported
 
 export default function LoginPage() {
   return (
@@ -14,15 +16,7 @@ export default function LoginPage() {
         variants={containerVariants}
       >
         <div className="w-full max-w-[350px] space-y-6">
-          <div className="flex flex-col space-y-2 text-center">
-            <div className="-mt-10 flex justify-center">
-              <img 
-                src="/lovable-uploads/5bded3e2-dd4c-4996-9027-b3a0abbb766c.png" 
-                alt="Smartvoz" 
-                className="h-auto w-[240px]"
-              />
-            </div>
-          </div>
+          <LoginHeader itemVariants={itemVariants} />
           <LoginForm containerVariants={containerVariants} itemVariants={itemVariants} />
           <RegisterLink itemVariants={itemVariants} />
         </div>

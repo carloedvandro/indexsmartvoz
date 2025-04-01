@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
@@ -10,6 +9,7 @@ import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/format";
+import "@/styles/logo.css"; // Ensure the logo styles are imported
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
