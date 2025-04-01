@@ -1,6 +1,7 @@
 
 
 
+
 .logo-image {
   max-width: 300px !important;
   width: auto !important;
@@ -8,7 +9,7 @@
   object-fit: contain !important;
   mix-blend-mode: multiply; /* This helps remove white background */
   padding: 0 !important;
-  margin: -25px auto 0 auto !important; /* Updated from -20px to -25px to move 5px upwards */
+  margin: -28px auto 0 auto !important; /* Updated from -25px to -28px to move 3px more upwards */
   display: block !important;
   position: relative !important;
   right: 0 !important; /* Removed the right offset to center the logo */
