@@ -52,7 +52,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     marginLeft = '29px'; // Movido 1px para direita (era 28px)
     marginTop = '2px';
   } else if (isGesiaAlmeida) {
-    marginLeft = '4px'; // Movido 1px para direita (era 3px)
+    marginLeft = '4px'; // Não alteramos aqui pois esse componente é usado apenas nos níveis 1-4
     marginTop = '2px';
   }
 

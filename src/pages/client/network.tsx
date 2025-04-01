@@ -26,10 +26,19 @@ export default function NetworkPage() {
       document.head.appendChild(link);
     }
     
-    // Atualiza o href para forçar recarga
+    // Atualiza o href para forçar recarga com timestamp exclusivo
     link.href = `/src/styles/network.css?t=${timestamp}`;
     
     console.log(`NetworkPage forçando recarga de CSS: ${timestamp}`);
+    
+    // Aplica limpeza de cache para os elementos específicos
+    setTimeout(() => {
+      const gesiaNode = document.querySelector('[data-custom-id="Gesia89"]');
+      if (gesiaNode) {
+        console.log('Encontrou nó da Gesia, forçando atualização de estilo');
+        (gesiaNode as HTMLElement).style.marginLeft = '3.8px';
+      }
+    }, 500);
     
     return () => {
       // Opcional: remove o link ao sair da página

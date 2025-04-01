@@ -37,6 +37,7 @@ export const NetworkNode = ({
   const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
   const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
   const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
+  const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
   console.log('Nome do usuário:', member.user.full_name);
   console.log('ID personalizado:', member.user.custom_id);
@@ -46,6 +47,14 @@ export const NetworkNode = ({
     console.log('RUDNEY ENCONTRADO!', member);
     console.log('Margem que será aplicada:', leftMargin);
   }
+  
+  if (isGesiaAlmeida && isAllLevels) {
+    console.log('GESIA ENCONTRADA no modo TODOS OS NÍVEIS!');
+    console.log('Margem que será aplicada:', leftMargin);
+  }
+
+  // Timestamp para forçar atualização de estilos
+  const styleTimestamp = new Date().getTime();
 
   return (
     <motion.div
@@ -62,6 +71,7 @@ export const NetworkNode = ({
       data-member-name={member.user.full_name}
       data-node-id={member.id}
       data-custom-id={member.user.custom_id}
+      data-style-timestamp={styleTimestamp}
     >
       <div className="flex items-start gap-2 w-full">
         {hasChildren && (
