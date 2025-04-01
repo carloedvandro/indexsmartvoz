@@ -1,4 +1,6 @@
 
+import "@/styles/logo.css"; // Ensuring CSS is imported
+
 interface LoginHeaderProps {
   itemVariants: any;
 }

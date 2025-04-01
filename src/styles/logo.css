@@ -17,7 +17,7 @@
   height: 100% !important;
   width: 100% !important;
   padding-top: 10px !important; /* Added padding to help with vertical centering */
-  padding-right: 16px !important; /* Aumentado de 10px para 16px para mover mais 6px para esquerda */
+  padding-right: 26px !important; /* Increased from 16px to 26px to move 10px more to the left */
 }
 
 @media (max-width: 768px) {
@@ -26,12 +26,12 @@
     height: 90px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    margin-top: -22px !important; /* Alterado de -24px para -22px para mover mais 2px para baixo */
+    margin-top: -20px !important; /* Changed from -22px to -20px to move 2px more down */
   }
   
   .logo-container {
     justify-content: center !important;
     padding-left: 0 !important;
-    padding-right: 16px !important; /* Aumentado de 10px para 16px para mover mais 6px para esquerda */
+    padding-right: 26px !important; /* Increased from 16px to 26px to move 10px more to the left */
   }
 }
