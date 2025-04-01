@@ -35,7 +35,7 @@ export const calculateNodeMargin = (
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
   if (isDomingosPinto) {
-    console.log('Aplicando margin-left 0px para Domingos com timestamp:', new Date().getTime());
+    console.log('Aplicando margin-left -0.1px para Domingos com timestamp:', new Date().getTime());
   }
   
   if (isCarloGoncalves) {
@@ -76,7 +76,7 @@ export const calculateNodeMargin = (
          isMarcioSilva ? `calc(29px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 29.5px)
          isMarcioSales ? `calc(29.2px + ${allLevelsMargin})` : // Movido 0.2px para direita (era 29px)
          isCarloGoncalves ? `calc(0.1px + ${allLevelsMargin})` : // Movido 0.2px para esquerda (era 0.3px)
-         isDomingosPinto ? `calc(0px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 0.5px)
+         isDomingosPinto ? `calc(-0.1px + ${allLevelsMargin})` : // Movido 0.1px para esquerda (era 0px)
          isVandoMacedo ? `calc(-0.5px + ${allLevelsMargin})` : // Movido 0.5px para esquerda (era 0px)
          isDierroLeal ? `calc(-1.3px + ${allLevelsMargin})` : // Movido 0.7px para direita (era -2px)
          isRudneyNobrega ? `calc(30px + ${allLevelsMargin})` : // Movido 1px para direita (era 29px)
