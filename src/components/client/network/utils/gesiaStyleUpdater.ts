@@ -1,4 +1,3 @@
-
 // Esta função é usada para aplicar estilos específicos para usuária Gesia
 // e ajustar o texto do status "Pendente"
 export const applyGesiaStyles = (selectedLevel: string) => {
