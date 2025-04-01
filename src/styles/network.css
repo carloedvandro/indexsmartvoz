@@ -77,99 +77,38 @@
   z-index: 5 !important;
 }
 
-/* NOVO: Ajuste específico para o texto "Pendente" (movido 2px para cima) */
-.text-red-600.pending-status {
+/* APENAS movendo o texto "Pendente" 2px para cima */
+span.text-red-600:not([class*="background"]):not([class*="border"]) {
   transform: translateY(-2px) !important;
   position: relative !important;
   z-index: 5 !important;
 }
 
-/* NOVO: Status "Pendente" movido 2px para baixo para todos os níveis exceto "Todos os Níveis" */
-.pending-status {
-  padding-top: 6px !important; /* 2px para baixo */
-  display: block !important; 
-  transform: translateY(-2px) !important; /* Move o texto 2px para cima */
-  position: relative !important;
-  z-index: 5 !important;
-}
-
-/* Ajuste específico para o texto de status 'Pendente' no modo "Todos os Níveis" */
-.network-tree .text-red-600 {
-  padding-top: 5px !important; /* Reduzido para 5px (2px a menos que os 7px anteriores) */
-  transform: translateY(-2px) !important; /* Move o texto 2px para cima */
-  position: relative !important;
-  z-index: 5 !important;
-}
-
-/* NOVO: Aumentando o espaçamento vertical entre os nós da rede em 8px */
-.network-tree .space-y-6 {
-  margin-bottom: 20px !important; /* Aumentado de 17px para 20px (adicionado mais 3px) */
-}
-
-/* NOVO: Aumentando o espaçamento entre os nós filhos */
-.network-tree .space-y-6 > div {
-  margin-bottom: 20px !important; /* Aumentado de 17px para 20px (adicionado mais 3px) */
-}
-
-/* NOVO: Aumentando o espaçamento em todos os componentes da árvore */
-.network-tree .mb-6 {
-  margin-bottom: 17px !important; /* Aumentado de 14px para 17px (adicionado mais 3px) */
-}
-
-/* Forçando a margem de 2px para baixo no status pendente em todos os níveis 1 a 4 */
-.text-red-600:not(.network-tree .text-red-600) {
+/* Aplicação direta para texto "Pendente" */
+span:contains("Pendente") {
   transform: translateY(-2px) !important;
+  position: relative !important;
+  z-index: 5 !important;
 }
 
-/* Espaçamento padronizado para todas as áreas da rede */
-.network-tree .space-y-4 {
-  margin-bottom: 9px !important;
+/* Forçando para todos os textos vermelhos que contêm "Pendente" */
+.text-red-600 {
+  transform: translateY(-2px) !important;
+  position: relative !important;
+  z-index: 5 !important;
 }
 
-/* Espaçamento padrão entre todos os nós */
-.network-tree .space-y-4 > div {
-  margin-bottom: 9px !important;
-}
-
-/* Espaçamento consistente para toda a árvore */
+/* Removendo estilos que afetam o layout dos cartões de nível individual */
+.network-tree .space-y-6,
+.network-tree .space-y-6 > div,
+.network-tree .mb-6,
+.network-tree .space-y-4,
+.network-tree .space-y-4 > div,
 .network-tree > div > div.space-y-4 > div {
-  margin-bottom: 9px !important;
+  /* Removendo estes estilos para não interferir com os níveis individuais */
 }
 
-/* Forçando a aplicação do estilo para Gesia no modo Todos os Níveis com maior especificidade */
-.network-tree [data-custom-id="Gesia89"] {
-  margin-left: 3.2px !important;
-  max-width: 97% !important; 
-  transform: scale(0.97) !important;
-}
-
-/* Aplicação específica para mover o texto da Gesia no modo Todos os Níveis para cima com maior especificidade */
-.network-tree [data-custom-id="Gesia89"] h3,
-.network-tree [data-member-name="Gesia Almeida Dos Santos"] h3 {
-  transform: translateY(-2px) !important; /* Move o texto 2px para cima */
-  position: relative !important;
-  z-index: 5 !important;
-}
-
-.network-tree [data-custom-id="Gesia89"] .text-red-600,
-.network-tree [data-member-name="Gesia Almeida Dos Santos"] .text-red-600 {
-  transform: translateY(-2px) !important; /* Move o texto 2px para cima */
-  position: relative !important;
-  z-index: 5 !important;
-}
-
-/* Regra mais forte para mover o texto da Gesia para cima em QUALQUER contexto */
-body [data-custom-id="Gesia89"] h3,
-body [data-member-name="Gesia Almeida Dos Santos"] h3,
-body [data-custom-id="Gesia89"] .text-red-600,
-body [data-member-name="Gesia Almeida Dos Santos"] .text-red-600 {
-  transform: translateY(-2px) !important;
-  position: relative !important;
-  z-index: 10 !important;
-}
-
-/* Nova regra para mover TODOS os textos "Pendente" 2px para cima independente do nível */
-body .text-red-600.pending-status,
+/* Mantendo apenas o ajuste específico para o texto "Pendente" */
 body span.text-red-600,
 body .text-xs.font-semibold.text-red-600 {
   transform: translateY(-2px) !important;

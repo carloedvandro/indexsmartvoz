@@ -60,10 +60,6 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     transform = 'scale(0.97)'; // Reduzido de 0.98 para 0.97
   }
 
-  // Log for debugging
-  console.log("Renderizando membro:", member.user.full_name, "com ID:", member.user.id, "e custom_id:", member.user.custom_id);
-  console.log("Margin aplicada:", marginLeft, "marginTop:", marginTop);
-
   // Adicionando timestamp para forçar atualização de estilo
   const styleTimestamp = new Date().getTime();
   

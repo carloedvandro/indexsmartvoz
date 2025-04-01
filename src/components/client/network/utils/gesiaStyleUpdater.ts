@@ -33,8 +33,8 @@ export const applyGesiaStyles = (selectedLevel: string) => {
       });
     }
     
-    // Aplicar o estilo a todos os textos "Pendente" (status pendente) independente do nível
-    const pendingStatusElements = document.querySelectorAll('.text-red-600.pending-status, span.text-red-600');
+    // Aplicar o estilo APENAS ao texto "Pendente" sem alterar outros elementos
+    const pendingStatusElements = document.querySelectorAll('span.text-red-600');
     console.log(`Encontrados ${pendingStatusElements.length} elementos de status pendente`);
     
     pendingStatusElements.forEach(element => {

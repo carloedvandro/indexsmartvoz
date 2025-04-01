@@ -39,20 +39,6 @@ export const NetworkNode = ({
   const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
   const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
   
-  console.log('Nome do usuário:', member.user.full_name);
-  console.log('ID personalizado:', member.user.custom_id);
-  console.log('Margem aplicada:', leftMargin, 'Margem vertical:', topMargin);
-  
-  if (isRudneyNobrega) {
-    console.log('RUDNEY ENCONTRADO!', member);
-    console.log('Margem que será aplicada:', leftMargin);
-  }
-  
-  if (isGesiaAlmeida && isAllLevels) {
-    console.log('GESIA ENCONTRADA no modo TODOS OS NÍVEIS!');
-    console.log('Margem que será aplicada:', leftMargin);
-  }
-
   // Timestamp para forçar atualização de estilos
   const styleTimestamp = new Date().getTime();
   
