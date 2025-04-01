@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from "react-router-dom";
-import { X, ArrowRight } from "lucide-react";
+import { X, ArrowRight, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
@@ -69,11 +69,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         {isOpen ? (
           <X className="w-12 h-12 font-bold text-black" />
         ) : (
-          <img 
-            src="/lovable-uploads/63f907a7-fc2d-40f6-b5df-d164d1377f35.png" 
-            alt="Menu" 
-            className="w-24 h-24"
-          />
+          <RefreshCw className="w-12 h-12 text-[#5f0889] font-bold animate-spin-slow" />
         )}
       </Button>
       {isOpen && (
