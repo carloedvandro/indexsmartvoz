@@ -1,5 +1,6 @@
 
 import { Link } from "react-router-dom";
+import "@/styles/logo.css"; // Garantindo que o CSS seja importado
 
 export function Logo() {
   return (
