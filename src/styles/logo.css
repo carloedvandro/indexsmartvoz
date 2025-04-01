@@ -18,7 +18,7 @@
   height: 100% !important;
   width: 100% !important;
   padding-top: 10px !important; /* Added padding to help with vertical centering */
-  padding-right: 61px !important; /* Increased from 46px to 61px to move 15px more to the left */
+  padding-right: 81px !important; /* Increased from 61px to 81px to move 20px more to the left */
 }
 
 @media (max-width: 768px) {
@@ -33,7 +33,7 @@
   .logo-container {
     justify-content: center !important;
     padding-left: 0 !important;
-    padding-right: 61px !important; /* Increased from 46px to 61px to move 15px more to the left */
+    padding-right: 81px !important; /* Increased from 61px to 81px to move 20px more to the left */
   }
 }
 
