@@ -32,6 +32,20 @@ export const applyGesiaStyles = (selectedLevel: string) => {
         node.setAttribute('data-forced-style', 'true');
       });
     }
+    
+    // Aplicar o estilo a todos os textos "Pendente" (status pendente) independente do nível
+    const pendingStatusElements = document.querySelectorAll('.text-red-600.pending-status, span.text-red-600');
+    console.log(`Encontrados ${pendingStatusElements.length} elementos de status pendente`);
+    
+    pendingStatusElements.forEach(element => {
+      // Verifica se o elemento contém o texto "Pendente"
+      if (element.textContent?.trim() === 'Pendente') {
+        console.log('Aplicando translateY(-2px) para status Pendente');
+        (element as HTMLElement).style.setProperty('transform', 'translateY(-2px)', 'important');
+        (element as HTMLElement).style.setProperty('position', 'relative', 'important');
+        (element as HTMLElement).style.setProperty('z-index', '10', 'important');
+      }
+    });
   }, 300);
 };
 
@@ -75,5 +89,16 @@ export const logNodePositions = () => {
     });
     
     console.log('Posições atualizadas de todos os nós:', allPositions);
+    
+    // Verificação específica dos status "Pendente"
+    const pendingStatusElements = document.querySelectorAll('.text-red-600.pending-status, span.text-red-600');
+    console.log(`Verificando ${pendingStatusElements.length} elementos de status pendente`);
+    
+    pendingStatusElements.forEach(element => {
+      if (element.textContent?.trim() === 'Pendente') {
+        const styles = window.getComputedStyle(element as Element);
+        console.log(`Status Pendente: transform=${styles.transform}, position=${styles.position}, zIndex=${styles.zIndex}`);
+      }
+    });
   }, 1000);
 };

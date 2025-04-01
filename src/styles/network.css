@@ -77,9 +77,9 @@
   z-index: 5 !important;
 }
 
-[data-custom-id="Gesia89"] .text-red-600,
-[data-member-name="Gesia Almeida Dos Santos"] .text-red-600 {
-  transform: translateY(-2px) !important; /* Move o texto 2px para cima */
+/* NOVO: Ajuste específico para o texto "Pendente" (movido 2px para cima) */
+.text-red-600.pending-status {
+  transform: translateY(-2px) !important;
   position: relative !important;
   z-index: 5 !important;
 }
@@ -88,11 +88,17 @@
 .pending-status {
   padding-top: 6px !important; /* 2px para baixo */
   display: block !important; 
+  transform: translateY(-2px) !important; /* Move o texto 2px para cima */
+  position: relative !important;
+  z-index: 5 !important;
 }
 
 /* Ajuste específico para o texto de status 'Pendente' no modo "Todos os Níveis" */
 .network-tree .text-red-600 {
   padding-top: 5px !important; /* Reduzido para 5px (2px a menos que os 7px anteriores) */
+  transform: translateY(-2px) !important; /* Move o texto 2px para cima */
+  position: relative !important;
+  z-index: 5 !important;
 }
 
 /* NOVO: Aumentando o espaçamento vertical entre os nós da rede em 8px */
@@ -112,7 +118,7 @@
 
 /* Forçando a margem de 2px para baixo no status pendente em todos os níveis 1 a 4 */
 .text-red-600:not(.network-tree .text-red-600) {
-  transform: translateY(2px) !important;
+  transform: translateY(-2px) !important;
 }
 
 /* Espaçamento padronizado para todas as áreas da rede */
@@ -157,6 +163,15 @@ body [data-custom-id="Gesia89"] h3,
 body [data-member-name="Gesia Almeida Dos Santos"] h3,
 body [data-custom-id="Gesia89"] .text-red-600,
 body [data-member-name="Gesia Almeida Dos Santos"] .text-red-600 {
+  transform: translateY(-2px) !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+/* Nova regra para mover TODOS os textos "Pendente" 2px para cima independente do nível */
+body .text-red-600.pending-status,
+body span.text-red-600,
+body .text-xs.font-semibold.text-red-600 {
   transform: translateY(-2px) !important;
   position: relative !important;
   z-index: 10 !important;

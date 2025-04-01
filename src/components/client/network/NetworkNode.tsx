@@ -69,6 +69,13 @@ export const NetworkNode = ({
     position: 'relative',
     zIndex: 5
   } : {};
+  
+  // Estilo específico para o status "Pendente"
+  const pendingStatusStyle: React.CSSProperties = !isActive ? {
+    transform: 'translateY(-2px)',
+    position: 'relative',
+    zIndex: 5
+  } : {};
 
   return (
     <motion.div
@@ -129,7 +136,7 @@ export const NetworkNode = ({
                 className={`text-xs font-semibold ${
                   isActive ? 'text-green-600' : 'text-red-600 pending-status'
                 }`}
-                style={gesiaTextStyle}
+                style={pendingStatusStyle}
               >
                 {isActive ? 'Ativo' : 'Pendente'}
               </span>
