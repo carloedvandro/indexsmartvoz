@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { NetworkMember } from "./types";
@@ -40,7 +39,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
     marginLeft = '4.5px'; // Restored to original 4.5px
     marginTop = '8px';
   } else if (isDomingosPinto) {
-    marginLeft = '0.5px'; // Moved 5px to the left (was 5.5px)
+    marginLeft = '5.5px'; // Restored to original 5.5px (4th user)
     marginTop = '2px';
   } else if (isVandoMacedo) {
     marginLeft = '0.5px'; // Moved 5px to the left (was 5.5px)
