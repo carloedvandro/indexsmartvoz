@@ -58,8 +58,8 @@ export const NetworkNode = ({
   // Configurações extras para Gesia
   const extraStyles: React.CSSProperties = {};
   if (isGesiaAlmeida) {
-    extraStyles.maxWidth = '98%';
-    extraStyles.transform = 'scale(0.98)';
+    extraStyles.maxWidth = '97%';
+    extraStyles.transform = 'scale(0.97)';
   }
 
   return (

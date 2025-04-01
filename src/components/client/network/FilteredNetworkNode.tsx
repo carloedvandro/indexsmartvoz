@@ -56,8 +56,8 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   } else if (isGesiaAlmeida) {
     marginLeft = '3.2px'; // Movido 0.2px para esquerda (era 3.4px)
     marginTop = '2px';
-    maxWidth = '98%'; // Reduzido de 99% para 98%
-    transform = 'scale(0.98)'; // Reduzido de 0.99 para 0.98
+    maxWidth = '97%'; // Reduzido de 98% para 97%
+    transform = 'scale(0.97)'; // Reduzido de 0.98 para 0.97
   }
 
   // Log for debugging

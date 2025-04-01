@@ -8,8 +8,8 @@ export const applyGesiaStyles = (selectedLevel: string) => {
       gesiaNodes.forEach(node => {
         console.log('Forçando margem exata de 3.2px para Gesia');
         (node as HTMLElement).style.setProperty('margin-left', '3.2px', 'important');
-        (node as HTMLElement).style.setProperty('max-width', '98%', 'important');
-        (node as HTMLElement).style.setProperty('transform', 'scale(0.98)', 'important');
+        (node as HTMLElement).style.setProperty('max-width', '97%', 'important');
+        (node as HTMLElement).style.setProperty('transform', 'scale(0.97)', 'important');
         node.setAttribute('data-forced-style', 'true');
       });
     }
