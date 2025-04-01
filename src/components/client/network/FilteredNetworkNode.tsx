@@ -60,6 +60,9 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
   console.log("Renderizando membro:", member.user.full_name, "com ID:", member.user.id, "e custom_id:", member.user.custom_id);
   console.log("Margin aplicada:", marginLeft, "marginTop:", marginTop);
 
+  // Adicionando timestamp para forçar atualização de estilo
+  const styleTimestamp = new Date().getTime();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -74,6 +77,7 @@ export const FilteredNetworkNode = ({ member, onToggle, expandedNodes }: Filtere
       data-member-name={member.user.full_name}
       data-node-id={member.id}
       data-custom-id={member.user.custom_id}
+      data-style-timestamp={styleTimestamp}
     >
       <div className="flex items-start w-full">
         {hasChildren && (

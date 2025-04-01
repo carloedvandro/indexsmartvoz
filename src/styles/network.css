@@ -1,3 +1,4 @@
+
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
   margin-left: 29.5px !important; /* Movido 1px para direita (era 28.5px) */
@@ -31,7 +32,7 @@
   margin-top: 8px !important;
 }
 
-/* Estilo para o nó do Domingos Ferreira Pinto */
+/* Estilo para o nó do Domingos Ferreira Pinto - FORÇANDO APLICAÇÃO COM !IMPORTANT DUPLO */
 [data-custom-id="Domingos89"],
 [data-member-name="Domingos Ferreira Pinto"] {
   margin-left: 0px !important; /* Movido 0.5px para esquerda (era 0.5px) */

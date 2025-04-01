@@ -3,11 +3,41 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useProfile } from "@/hooks/useProfile";
 import { NetworkTree } from "@/components/client/network/NetworkTree";
+import { useEffect } from "react";
 import "@/styles/network.css";
 
 export default function NetworkPage() {
   const navigate = useNavigate();
   const { data: profile } = useProfile();
+  
+  useEffect(() => {
+    // Força atualização de estilos com timestamp exclusivo
+    const timestamp = new Date().getTime();
+    document.documentElement.style.setProperty('--network-update-timestamp', `'${timestamp}'`);
+    
+    // Força recarga do CSS específico
+    const linkId = 'network-page-css';
+    let link = document.getElementById(linkId) as HTMLLinkElement;
+    
+    if (!link) {
+      link = document.createElement('link');
+      link.id = linkId;
+      link.rel = 'stylesheet';
+      document.head.appendChild(link);
+    }
+    
+    // Atualiza o href para forçar recarga
+    link.href = `/src/styles/network.css?t=${timestamp}`;
+    
+    console.log(`NetworkPage forçando recarga de CSS: ${timestamp}`);
+    
+    return () => {
+      // Opcional: remove o link ao sair da página
+      if (link && link.parentNode) {
+        link.parentNode.removeChild(link);
+      }
+    };
+  }, []);
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-white">

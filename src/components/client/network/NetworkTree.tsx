@@ -26,7 +26,17 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   useEffect(() => {
     // Force reload network.css com um timestamp para evitar cache
     const timestamp = new Date().getTime();
+    const linkId = 'network-css-dynamic';
+    
+    // Remove o link anterior se existir
+    const existingLink = document.getElementById(linkId);
+    if (existingLink) {
+      existingLink.remove();
+    }
+    
+    // Cria um novo link com timestamp
     const link = document.createElement('link');
+    link.id = linkId;
     link.rel = 'stylesheet';
     link.href = `/src/styles/network.css?v=${timestamp}`;
     document.head.appendChild(link);
