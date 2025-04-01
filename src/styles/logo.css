@@ -26,6 +26,7 @@
     height: 90px !important;
     margin-left: auto !important;
     margin-right: auto !important;
+    margin-top: -24px !important; /* Added to move the mobile logo 2px down */
   }
   
   .logo-container {
