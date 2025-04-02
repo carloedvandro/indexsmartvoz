@@ -52,13 +52,13 @@ export const applyGesiaStyles = (selectedLevel: string) => {
         }
       });
       
-      // Aplicar ajuste uniforme para todos os containers de informações de perfil - MOVIDO 10PX PARA BAIXO
+      // Aplicar ajuste uniforme para todos os containers de informações de perfil
       const profileInfoContainers = document.querySelectorAll('.profile-info-container');
       console.log(`Encontrados ${profileInfoContainers.length} containers de informações de perfil`);
       
       profileInfoContainers.forEach(container => {
         console.log('Aplicando distância uniforme para todos os conjuntos de informações');
-        (container as HTMLElement).style.setProperty('margin-top', 'calc(8mm + 16px)', 'important'); // Aumentado de 6px para 16px (adicional de 10px)
+        (container as HTMLElement).style.setProperty('margin-top', 'calc(8mm + 6px)', 'important');
       });
       
     } else {

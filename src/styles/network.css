@@ -81,7 +81,7 @@
   margin-bottom: 20px !important;
 }
 
-/* Aplicando a mesma distância para todos os conjuntos de informações - MOVIDO 10PX PARA BAIXO */
+/* Aplicando a mesma distância para todos os conjuntos de informações */
 .profile-info-container {
-  margin-top: calc(8mm + 16px) !important; /* Aumentado de 6px para 16px (adicional de 10px) */
+  margin-top: calc(8mm + 6px) !important;
 }
