@@ -88,7 +88,7 @@ export const FilteredNetworkNode = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="relative w-full overflow-hidden mb-12" // Aumentei o mb de 6 para 12 para mais espaço vertical
+      className="relative w-full overflow-hidden mb-6"
       style={{ 
         marginLeft: marginLeft !== '0px' ? marginLeft : undefined,
         marginTop: marginTop !== '0px' ? marginTop : undefined,
@@ -154,7 +154,7 @@ export const FilteredNetworkNode = ({
       <ProfileInfo member={member} isFilteredView={true} />
       
       {hasChildren && isExpanded && (
-        <div className="mt-8 space-y-12 mb-8 ml-[25.5px]"> // Aumentei o mt, space-y e mb para mais espaço
+        <div className="mt-6 space-y-6 mb-6 ml-[25.5px]">
           {member.children.map((child) => (
             <FilteredNetworkNode
               key={child.id}

@@ -20,8 +20,8 @@ export const ProfileInfo = ({ member, isFilteredView = false }: ProfileInfoProps
   // Calculate margin and style based on view type
   const marginClass = isFilteredView ? "ml-[2.3px]" : "ml-[-17.5mm]"; 
   
-  // Usando a mesma margem para todos os perfis
-  const marginTop = "calc(8mm + 6px)";
+  // Ajustado para 6px a mais (estava apenas 8mm)
+  const marginTop = isFilteredView ? "calc(3mm + 15.2px + 6px)" : "calc(8mm + 6px)";
 
   return (
     <div className={`space-y-1 text-sm ${marginClass} profile-info-container`} style={{ marginTop }}>
