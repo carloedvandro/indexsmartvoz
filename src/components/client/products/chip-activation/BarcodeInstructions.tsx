@@ -11,31 +11,6 @@ export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsP
     <div className="space-y-6">
       <h2 className="text-2xl font-medium">Confira como você encontra o código de barras do SIM card</h2>
       
-      <div className="flex items-center justify-between max-w-[342px] mx-auto relative">
-        <div className="flex flex-col items-center space-y-2">
-          <div className="w-6 h-6 rounded-full bg-[#8425af] flex items-center justify-center text-white text-sm">✓</div>
-          <span className="text-sm font-medium text-gray-700">Identidade</span>
-        </div>
-
-        <div className="flex-1 h-[2px] bg-[#8425af]"></div>
-
-        <div className="flex flex-col items-center space-y-2">
-          <div className="w-6 h-6 rounded-full bg-[#8425af] border-2 border-white flex items-center justify-center">
-            <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
-          </div>
-          <span className="text-sm font-medium text-[#8425af]">SIM Card</span>
-        </div>
-
-        <div className="flex-1 h-[2px] bg-gray-200"></div>
-
-        <div className="flex flex-col items-center space-y-2">
-          <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">
-            <div className="w-1.5 h-1.5 rounded-full bg-gray-500"></div>
-          </div>
-          <span className="text-sm font-medium text-gray-500">Linhas</span>
-        </div>
-      </div>
-      
       <div className="space-y-4">
         <h3 className="text-lg font-semibold">COMO ENCONTRAR?</h3>
         <p className="text-gray-600">

@@ -10,7 +10,7 @@ interface AnalysisStepProps {
   totalSteps: number;
 }
 
-export const AnalysisStep = ({ onNext, title, description, step, totalSteps }: AnalysisStepProps) => {
+export const AnalysisStep = ({ onNext, title, description }: AnalysisStepProps) => {
   const [countdown, setCountdown] = useState(3);
 
   useEffect(() => {
@@ -31,7 +31,6 @@ export const AnalysisStep = ({ onNext, title, description, step, totalSteps }: A
         <div className="flex justify-center">
           <img src="/lovable-uploads/cb712966-b0ed-439a-ba83-8c50a897152e.png" alt="Vivo" className="h-8" />
         </div>
-        <p className="text-sm">Passo {step} de {totalSteps}</p>
         
         <div className="flex flex-col items-center justify-center py-4">
           <div className="w-20 h-20 mb-6">

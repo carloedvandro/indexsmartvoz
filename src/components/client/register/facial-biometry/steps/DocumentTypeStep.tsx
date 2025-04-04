@@ -1,6 +1,8 @@
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { FileText } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { FileImage, FileText } from "lucide-react";
 
 interface DocumentTypeStepProps {
   onSelectDocType: (type: 'rg' | 'cnh') => void;
@@ -8,63 +10,74 @@ interface DocumentTypeStepProps {
   totalSteps: number;
 }
 
-export const DocumentTypeStep = ({ onSelectDocType, step, totalSteps }: DocumentTypeStepProps) => {
+export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => {
+  const [selectedType, setSelectedType] = useState<'rg' | 'cnh' | null>(null);
+
+  const handleSelect = (type: 'rg' | 'cnh') => {
+    setSelectedType(type);
+  };
+
+  const handleContinue = () => {
+    if (selectedType) {
+      onSelectDocType(selectedType);
+    }
+  };
+
   return (
     <div className="bg-[#8425af] text-white p-8 rounded-lg">
-      <div className="text-center space-y-6">
-        <div className="flex justify-center">
-          <img src="/lovable-uploads/cb712966-b0ed-439a-ba83-8c50a897152e.png" alt="Vivo" className="h-8" />
-        </div>
-        <p className="text-sm">Passo {step} de {totalSteps}</p>
-        
-        <h2 className="text-xl font-semibold">Selecione o tipo de documento.</h2>
-        
-        <div className="space-y-4 mt-4">
-          <Button
-            variant="outline"
-            className="w-full h-14 flex justify-center items-center bg-transparent border border-white text-white hover:bg-white/10"
-            onClick={() => onSelectDocType('rg')}
+      <div className="space-y-6">
+        <h2 className="text-2xl font-semibold text-center">Selecione o tipo de documento</h2>
+        <p className="text-center">
+          Escolha qual documento de identificação você deseja utilizar:
+        </p>
+
+        <div className="flex flex-col gap-4 mt-4">
+          <Card 
+            className={`cursor-pointer transition-all ${
+              selectedType === 'rg' 
+              ? 'ring-2 ring-white bg-[#9636c0]' 
+              : 'bg-[#8425af]/70 hover:bg-[#9636c0]/80'
+            }`}
+            onClick={() => handleSelect('rg')}
           >
-            <div className="flex items-center">
-              <div className="w-8 h-8 mr-2">
-                <img 
-                  src="/lovable-uploads/7d33e958-7a68-47cc-af07-aee13e8e5c41.png" 
-                  alt="RG" 
-                  className="w-full h-full object-contain"
-                />
+            <CardContent className="p-4 flex items-center">
+              <div className="mr-4 bg-white/10 p-2 rounded-full">
+                <FileImage className="h-6 w-6 text-white" />
               </div>
-              <span>USAR MEU RG</span>
-            </div>
-          </Button>
-          
-          <Button
-            variant="outline"
-            className="w-full h-14 flex justify-center items-center bg-transparent border border-white text-white hover:bg-white/10"
-            onClick={() => onSelectDocType('cnh')}
-          >
-            <div className="flex items-center">
-              <div className="w-8 h-8 mr-2">
-                <img 
-                  src="/lovable-uploads/5a0cbe39-852f-4643-bfb6-5065205886b0.png" 
-                  alt="CNH" 
-                  className="w-full h-full object-contain"
-                />
+              <div>
+                <h3 className="font-medium">RG (Identidade)</h3>
+                <p className="text-sm text-white/80">Frente e verso</p>
               </div>
-              <span>USAR MINHA CNH</span>
-            </div>
-          </Button>
+            </CardContent>
+          </Card>
           
-          <Button
-            variant="outline"
-            className="w-full h-14 flex justify-center items-center bg-transparent border border-white text-white hover:bg-white/10 opacity-60"
-            disabled
+          <Card 
+            className={`cursor-pointer transition-all ${
+              selectedType === 'cnh' 
+              ? 'ring-2 ring-white bg-[#9636c0]' 
+              : 'bg-[#8425af]/70 hover:bg-[#9636c0]/80'
+            }`}
+            onClick={() => handleSelect('cnh')}
           >
-            <div className="flex items-center">
-              <FileText className="w-8 h-8 mr-2" />
-              <span>OUTRO DOCUMENTO</span>
-            </div>
-          </Button>
+            <CardContent className="p-4 flex items-center">
+              <div className="mr-4 bg-white/10 p-2 rounded-full">
+                <FileText className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h3 className="font-medium">CNH (Carteira de Motorista)</h3>
+                <p className="text-sm text-white/80">Apenas frente</p>
+              </div>
+            </CardContent>
+          </Card>
         </div>
+
+        <Button
+          onClick={handleContinue}
+          className="w-full mt-6 bg-white text-[#8425af] hover:bg-gray-100"
+          disabled={!selectedType}
+        >
+          Continuar
+        </Button>
       </div>
     </div>
   );

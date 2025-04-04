@@ -1,6 +1,5 @@
 
 import { useState } from "react";
-import { Steps } from "./Steps";
 import { CpfVerificationStep } from "./steps/CpfVerificationStep";
 import { CameraAccessStep } from "./steps/CameraAccessStep";
 import { CaptureInstructions } from "./CaptureInstructions";
@@ -12,7 +11,6 @@ import { useCameraManagement } from "@/hooks/useCameraManagement";
 import { useNavigate } from "react-router-dom";
 import { AnalysisStep } from "./steps/AnalysisStep";
 import { DocumentInstructionsStep } from "./steps/DocumentInstructionsStep";
-import { ChipActivationStepContent } from "../../products/chip-activation/ChipActivationStepContent";
 
 interface FacialBiometryFlowProps {
   onComplete?: (verificationData: {
@@ -48,8 +46,6 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   const { videoConstraints: facialVideoConstraints } = useCameraManagement();
   const { videoConstraints: documentVideoConstraints } = useCameraManagement(true);
   const navigate = useNavigate();
-  const [currentStepNumber, setCurrentStepNumber] = useState(1);
-  const totalSteps = 4;
 
   const handleBack = () => {
     // Map current step to previous step
@@ -73,31 +69,10 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
       return;
     }
 
-    // Update step number when going back
-    if (currentStep === 'document-front' || currentStep === 'document-back') {
-      // Don't change step number when moving between document sides
-    } else if (currentStep === 'facial-analysis' || currentStep === 'document-analysis') {
-      // Don't change step number during analysis
-    } else {
-      setCurrentStepNumber(prev => Math.max(prev - 1, 1));
-    }
-
     setCurrentStep(stepMap[currentStep]);
   };
 
   const handleContinue = (nextStep: Step) => {
-    // Update step number when advancing
-    if (nextStep === 'document-front' || nextStep === 'document-back') {
-      // Don't change step number when moving between document sides
-    } else if (nextStep === 'facial-analysis' || nextStep === 'document-analysis') {
-      // Don't change step number during analysis
-    } else if (
-      (currentStep === 'facial-analysis' && nextStep === 'document-instructions') ||
-      (currentStep === 'document-analysis' && nextStep === 'completion')
-    ) {
-      setCurrentStepNumber(prev => Math.min(prev + 1, totalSteps));
-    }
-
     setCurrentStep(nextStep);
   };
 
@@ -154,8 +129,8 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
             onNext={() => handleContinue('document-instructions')}
             title="Em análise"
             description="Aguarde um instante"
-            step={currentStepNumber}
-            totalSteps={totalSteps}
+            step={0}
+            totalSteps={0}
           />
         );
       
@@ -163,13 +138,13 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
         return (
           <DocumentInstructionsStep
             onNext={() => handleContinue('document-type')}
-            step={currentStepNumber}
-            totalSteps={totalSteps}
+            step={0}
+            totalSteps={0}
           />
         );
       
       case 'document-type':
-        return <DocumentTypeStep onSelectDocType={handleDocumentTypeSelection} step={currentStepNumber} totalSteps={totalSteps} />;
+        return <DocumentTypeStep onSelectDocType={handleDocumentTypeSelection} step={0} totalSteps={0} />;
       
       case 'document-front':
       case 'document-back':
@@ -192,8 +167,8 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
             selectedDocType={selectedDocType!}
             isBackSide={currentStep === 'document-back'}
             videoConstraints={documentVideoConstraints}
-            step={currentStepNumber}
-            totalSteps={totalSteps}
+            step={0}
+            totalSteps={0}
           />
         );
       
@@ -203,8 +178,8 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
             onNext={() => handleContinue('completion')}
             title="Em análise"
             description="Aguarde um instante"
-            step={currentStepNumber}
-            totalSteps={totalSteps}
+            step={0}
+            totalSteps={0}
           />
         );
       
@@ -218,7 +193,6 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
 
   return (
     <div className="space-y-8">
-      <Steps currentStep={currentStep} />
       {renderStep()}
     </div>
   );
