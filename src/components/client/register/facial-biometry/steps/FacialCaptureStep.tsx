@@ -43,6 +43,8 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
     checkSession();
   }, [toast]);
 
+  const { faceDetected } = useFaceDetection(webcamRef, false, true);
+
   const { 
     isProcessing, 
     cameraActive, 
@@ -50,18 +52,22 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
     toggleCamera 
   } = useFacialCapture({
     webcamRef,
-    faceDetected: false, // Initial value, will be updated by useFaceDetection
+    faceDetected: faceDetected,
     onComplete: onNext
   });
 
-  const { faceDetected } = useFaceDetection(webcamRef, isProcessing, cameraActive);
-
-  // Forçar o uso da câmera frontal
+  // Improved video constraints for better image quality
   const updatedVideoConstraints = {
     ...videoConstraints,
     facingMode: "user",
     width: { ideal: 1280 },
-    height: { ideal: 720 }
+    height: { ideal: 720 },
+    advanced: [
+      { 
+        exposureMode: "continuous",
+        whiteBalanceMode: "continuous" 
+      }
+    ]
   };
 
   return (
@@ -77,10 +83,8 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
         videoConstraints={updatedVideoConstraints}
       />
       
-      {/* Face oval guide - now receiving faceDetected prop */}
+      {/* Face oval guide */}
       <FaceOvalGuide faceDetected={faceDetected} />
-      
-      {/* Removed the "Centralize seu rosto" instruction bar that was here */}
       
       {/* Camera toggle button */}
       <CameraToggle 

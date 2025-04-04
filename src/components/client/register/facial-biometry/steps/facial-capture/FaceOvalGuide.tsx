@@ -27,11 +27,12 @@ export const FaceOvalGuide = ({ faceDetected }: FaceOvalGuideProps) => {
             ry="140" 
             fill="none" 
             stroke={strokeColor} 
-            strokeWidth="2"
+            strokeWidth="3" // Increased thickness for better visibility
+            strokeDasharray={faceDetected ? "0" : "8,4"} // Dashed when no face detected
           />
           
           {/* Simplified face guides - subtle eye, nose outlines */}
-          <g opacity="0.6" stroke="#ffffff">
+          <g opacity={faceDetected ? "0.4" : "0.6"} stroke="#ffffff">
             {/* Eyes */}
             <ellipse cx="90" cy="120" rx="18" ry="8" fill="none" strokeWidth="1" />
             <ellipse cx="166" cy="120" rx="18" ry="8" fill="none" strokeWidth="1" />
@@ -44,10 +45,10 @@ export const FaceOvalGuide = ({ faceDetected }: FaceOvalGuideProps) => {
           </g>
           
           {/* Corner guide dots */}
-          <circle cx="10" cy="10" r="3" fill="#000" />
-          <circle cx="246" cy="10" r="3" fill="#000" />
-          <circle cx="10" cy="310" r="3" fill="#000" />
-          <circle cx="246" cy="310" r="3" fill="#000" />
+          <circle cx="10" cy="10" r="3" fill={faceDetected ? "#22c55e" : "#ffffff"} />
+          <circle cx="246" cy="10" r="3" fill={faceDetected ? "#22c55e" : "#ffffff"} />
+          <circle cx="10" cy="310" r="3" fill={faceDetected ? "#22c55e" : "#ffffff"} />
+          <circle cx="246" cy="310" r="3" fill={faceDetected ? "#22c55e" : "#ffffff"} />
         </svg>
       </div>
     </div>

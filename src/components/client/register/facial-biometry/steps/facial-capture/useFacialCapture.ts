@@ -45,6 +45,8 @@ export const useFacialCapture = ({
             return;
           }
           
+          console.log("Capturing facial image for user:", sessionData.session.user.id);
+          
           // Save the facial image to Supabase Storage
           const userId = sessionData.session.user.id;
           const blob = await fetch(imageSrc).then(res => res.blob());
@@ -59,6 +61,8 @@ export const useFacialCapture = ({
             console.error('Error uploading facial image:', uploadError);
             throw uploadError;
           }
+          
+          console.log("Facial image uploaded successfully");
           
           // Add a small delay for better UX
           await new Promise(resolve => setTimeout(resolve, 1000));
