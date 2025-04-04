@@ -22,12 +22,12 @@ export const CaptureButton = ({
           Tentar Novamente
         </button>
       ) : (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center pb-4">
           {/* Capture button - circular white button */}
           <button
             onClick={onCapture}
             disabled={isCapturing}
-            className="w-16 h-16 mb-4 rounded-full bg-transparent border-2 border-white focus:outline-none disabled:opacity-50 flex items-center justify-center"
+            className="w-16 h-16 mb-6 rounded-full bg-transparent border-2 border-white focus:outline-none disabled:opacity-50 flex items-center justify-center"
           >
             <div className="w-12 h-12 rounded-full bg-white"></div>
             <span className="sr-only">Capturar documento</span>
