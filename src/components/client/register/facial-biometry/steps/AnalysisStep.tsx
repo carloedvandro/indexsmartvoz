@@ -40,14 +40,14 @@ export const AnalysisStep = ({ onNext, title, description }: AnalysisStepProps) 
   }, [countdown, onNext]);
 
   return (
-    <div className="bg-[#8425af] text-white p-8 rounded-lg">
-      <div className="text-center space-y-8">
+    <div className="bg-[#8425af] text-white p-6 rounded-lg">
+      <div className="text-center space-y-6">
         <div className="flex justify-center">
           <img src="/lovable-uploads/cb712966-b0ed-439a-ba83-8c50a897152e.png" alt="Vivo" className="h-8" />
         </div>
         
         <div className="flex flex-col items-center justify-center py-4">
-          <div className="w-24 h-24 mb-6">
+          <div className="w-20 h-20 mb-5">
             <div className="relative w-full h-full">
               <Clock className="w-full h-full absolute text-white animate-pulse" />
               <svg className="w-full h-full absolute" viewBox="0 0 100 100">
@@ -74,11 +74,11 @@ export const AnalysisStep = ({ onNext, title, description }: AnalysisStepProps) 
             </div>
           </div>
           
-          <h2 className="text-2xl font-semibold">{title}</h2>
-          <p className="text-base">{description}</p>
+          <h2 className="text-xl font-semibold">{title}</h2>
+          <p className="text-sm text-white/80">{description}</p>
           
-          <div className="mt-6 flex gap-2 items-center">
-            <div className="h-1 bg-white/20 rounded-full w-64 overflow-hidden">
+          <div className="mt-5 flex gap-2 items-center">
+            <div className="h-1 bg-white/20 rounded-full w-56 overflow-hidden">
               <div 
                 className="h-full bg-white transition-all duration-300 ease-in-out"
                 style={{ width: `${progress}%` }}
