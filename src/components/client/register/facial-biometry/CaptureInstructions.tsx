@@ -20,8 +20,8 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
         {/* Central icon */}
         <div className="flex flex-col items-center">
           <img 
-            src="/lovable-uploads/7bd3feb8-4aa8-4cd3-a350-70d1d416ec5a.png" 
-            alt="Celular com foto" 
+            src="/lovable-uploads/da489acc-c578-471e-8af1-0e0e9c1b4a57.png" 
+            alt="Celular com selfie" 
             className="h-32 w-32 object-contain mb-6"
           />
           
