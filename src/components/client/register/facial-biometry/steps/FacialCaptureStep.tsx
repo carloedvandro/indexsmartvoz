@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { FaceOvalGuide } from "./facial-capture/FaceOvalGuide";
-import { CaptureButton } from "./facial-capture/CaptureButton";
 import { CameraToggle } from "./facial-capture/CameraToggle";
 import { CameraView } from "./facial-capture/CameraView";
 import { useFaceDetection } from "./facial-capture/useFaceDetection";
@@ -43,16 +42,17 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
     checkSession();
   }, [toast]);
 
-  const { faceDetected, facePosition } = useFaceDetection(webcamRef, false, true);
+  const { faceDetected, facePosition, faceProximity } = useFaceDetection(webcamRef, false, true);
 
   const { 
     isProcessing, 
     cameraActive, 
-    handleFacialCapture, 
+    captureProgress,
     toggleCamera 
   } = useFacialCapture({
     webcamRef,
-    faceDetected: faceDetected,
+    faceDetected,
+    faceProximity,
     onComplete: onNext
   });
 
@@ -86,8 +86,12 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
         videoConstraints={updatedVideoConstraints}
       />
       
-      {/* Face oval guide */}
-      <FaceOvalGuide faceDetected={faceDetected} />
+      {/* Face oval guide with progress */}
+      <FaceOvalGuide 
+        faceDetected={faceDetected} 
+        captureProgress={captureProgress}
+        faceProximity={faceProximity}
+      />
       
       {/* Camera toggle button */}
       <CameraToggle 
@@ -95,14 +99,20 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
         onToggle={toggleCamera}
       />
       
-      {/* Capture button */}
-      <CaptureButton 
-        onClick={handleFacialCapture}
-        disabled={isProcessing || !faceDetected || !cameraActive}
-        isProcessing={isProcessing}
-        faceDetected={faceDetected}
-        cameraActive={cameraActive}
-      />
+      {/* Status indicator */}
+      <div className="absolute bottom-6 w-full flex justify-center items-center">
+        {isProcessing && (
+          <div className="bg-black bg-opacity-70 text-white px-3 py-2 rounded-full text-sm animate-pulse">
+            Processando...
+          </div>
+        )}
+        
+        {!isProcessing && faceDetected && faceProximity === "ideal" && captureProgress > 0 && (
+          <div className="bg-black bg-opacity-70 text-white px-3 py-2 rounded-full text-sm">
+            Mantenha-se imóvel ({Math.round(captureProgress)}%)
+          </div>
+        )}
+      </div>
     </div>
   );
 };

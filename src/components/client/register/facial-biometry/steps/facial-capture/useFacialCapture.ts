@@ -1,5 +1,5 @@
 
-import { useState, RefObject } from "react";
+import { useState, RefObject, useEffect } from "react";
 import Webcam from "react-webcam";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,28 +7,56 @@ import { supabase } from "@/integrations/supabase/client";
 interface UseFacialCaptureProps {
   webcamRef: RefObject<Webcam>;
   faceDetected: boolean;
+  faceProximity: "ideal" | "too-close" | "too-far" | "not-detected";
   onComplete: (imageSrc: string) => void;
 }
 
 export const useFacialCapture = ({ 
   webcamRef, 
-  faceDetected, 
+  faceDetected,
+  faceProximity,
   onComplete 
 }: UseFacialCaptureProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [cameraActive, setCameraActive] = useState(true);
+  const [captureProgress, setCaptureProgress] = useState(0);
+  const [captureTimer, setCaptureTimer] = useState<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
 
-  const handleFacialCapture = async () => {
-    if (!faceDetected) {
-      toast({
-        title: "Rosto não detectado",
-        description: "Por favor, posicione seu rosto dentro do oval",
-        variant: "destructive",
-      });
-      return;
+  // Reset progress when face is lost or not ideal
+  useEffect(() => {
+    if (!faceDetected || faceProximity !== "ideal") {
+      setCaptureProgress(0);
+      if (captureTimer) {
+        clearTimeout(captureTimer);
+        setCaptureTimer(null);
+      }
     }
+  }, [faceDetected, faceProximity, captureTimer]);
 
+  // Auto-increment progress when face is detected and in ideal position
+  useEffect(() => {
+    if (faceDetected && faceProximity === "ideal" && !isProcessing && cameraActive) {
+      // Increment progress steadily
+      const interval = setInterval(() => {
+        setCaptureProgress(prev => {
+          const newProgress = prev + 1;
+          if (newProgress >= 100) {
+            clearInterval(interval);
+            handleAutomaticCapture();
+            return 100;
+          }
+          return newProgress;
+        });
+      }, 30); // ~3 seconds to complete full circle (100 * 30ms)
+      
+      return () => clearInterval(interval);
+    }
+  }, [faceDetected, faceProximity, isProcessing, cameraActive]);
+
+  const handleAutomaticCapture = async () => {
+    if (isProcessing) return;
+    
     if (webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
       if (imageSrc) {
@@ -64,6 +92,12 @@ export const useFacialCapture = ({
           
           console.log("Facial image uploaded successfully");
           
+          // Success notification
+          toast({
+            title: "Captura Concluída",
+            description: "Seu rosto foi capturado com sucesso!",
+          });
+          
           // Add a small delay for better UX
           await new Promise(resolve => setTimeout(resolve, 1000));
           onComplete(imageSrc);
@@ -74,6 +108,7 @@ export const useFacialCapture = ({
             description: "Ocorreu um erro ao processar a imagem. Por favor, tente novamente.",
             variant: "destructive",
           });
+          setCaptureProgress(0);
         } finally {
           setIsProcessing(false);
         }
@@ -83,12 +118,13 @@ export const useFacialCapture = ({
 
   const toggleCamera = () => {
     setCameraActive(!cameraActive);
+    setCaptureProgress(0);
   };
 
   return {
     isProcessing,
     cameraActive,
-    handleFacialCapture,
+    captureProgress,
     toggleCamera
   };
 };

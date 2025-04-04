@@ -2,15 +2,22 @@
 import { useState, useEffect, RefObject } from "react";
 import Webcam from "react-webcam";
 
+interface FaceDetectionResult {
+  faceDetected: boolean;
+  facePosition: { x: number; y: number; size: number };
+  faceProximity: "ideal" | "too-close" | "too-far" | "not-detected";
+}
+
 export const useFaceDetection = (
   webcamRef: RefObject<Webcam>,
   isProcessing: boolean,
   cameraActive: boolean
-) => {
+): FaceDetectionResult => {
   const [faceDetected, setFaceDetected] = useState(false);
   const [facePosition, setFacePosition] = useState({ x: 0, y: 0, size: 0 });
+  const [faceProximity, setFaceProximity] = useState<"ideal" | "too-close" | "too-far" | "not-detected">("not-detected");
 
-  const checkFace = async (imageData: ImageData) => {
+  const checkFace = async (imageData: ImageData): Promise<{detected: boolean, position: {x: number, y: number, size: number}, proximity: "ideal" | "too-close" | "too-far" | "not-detected"}> => {
     // Enhanced face detection with better position checking
     const data = imageData.data;
     let skinTonePixels = 0;
@@ -63,7 +70,11 @@ export const useFaceDetection = (
     }
     
     const ratio = skinTonePixels / totalPixels;
-    console.log("Face detection ratio:", ratio, "threshold:", threshold);
+    
+    // Default values if no face detected
+    let proximity: "ideal" | "too-close" | "too-far" | "not-detected" = "not-detected";
+    let detectedFace = false;
+    let facePos = { x: 0, y: 0, size: 0 };
     
     // Check if we have enough skin pixels and calculate face position
     if (ratio > threshold && facePixelsCount > 0) {
@@ -71,27 +82,46 @@ export const useFaceDetection = (
       const avgX = facePixelsSum.x / facePixelsCount;
       const avgY = facePixelsSum.y / facePixelsCount;
       
+      // Normalized face size (percentage of frame)
+      const faceSize = Math.sqrt(facePixelsCount / totalPixels) * 2;
+      
       // Check if the detected face center is close to the frame center
       const distanceFromFrameCenter = Math.sqrt(
         Math.pow((avgX - centerX) / centerX, 2) + 
         Math.pow((avgY - centerY) / centerY, 2)
       );
       
-      // Face must be reasonably centered (within 30% of center)
-      const isCentered = distanceFromFrameCenter < 0.3;
+      // Face must be reasonably centered (within 20% of center - stricter than before)
+      const isCentered = distanceFromFrameCenter < 0.2;
       
       // Update face position data
-      setFacePosition({
+      facePos = {
         x: avgX / imageData.width,
         y: avgY / imageData.height,
-        size: Math.sqrt(facePixelsCount / totalPixels) * 2 // Normalized size estimate
-      });
+        size: faceSize
+      };
       
-      // Only return true if face is detected AND centered
-      return ratio > threshold && isCentered;
+      // Determine face proximity
+      if (isCentered) {
+        if (faceSize > 0.6) {
+          proximity = "too-close";
+        } else if (faceSize < 0.3) {
+          proximity = "too-far";
+        } else {
+          proximity = "ideal";
+        }
+        detectedFace = true;
+      } else {
+        proximity = "not-detected";
+        detectedFace = false;
+      }
     }
     
-    return false;
+    return { 
+      detected: detectedFace, 
+      position: facePos,
+      proximity: proximity 
+    };
   };
 
   useEffect(() => {
@@ -99,6 +129,7 @@ export const useFaceDetection = (
     const consecutiveDetectionsNeeded = 3; // More stable detection
     let noDetectionCount = 0;
     const consecutiveNoDetectionsNeeded = 2;
+    let lastProximity: "ideal" | "too-close" | "too-far" | "not-detected" = "not-detected";
     
     const interval = setInterval(async () => {
       if (webcamRef.current && !isProcessing && cameraActive) {
@@ -121,32 +152,39 @@ export const useFaceDetection = (
               
               const imageData = ctx.getImageData(centerX, centerY, width, height);
               
-              checkFace(imageData).then(detected => {
-                if (detected) {
+              checkFace(imageData).then(result => {
+                if (result.detected) {
                   detectionCount++;
                   noDetectionCount = 0;
+                  // Update proximity immediately for better UX
+                  setFaceProximity(result.proximity);
+                  lastProximity = result.proximity;
                 } else {
                   noDetectionCount++;
                   detectionCount = 0;
+                  lastProximity = "not-detected";
                 }
                 
                 // Only change state if we have enough consecutive detections or non-detections
                 if (detectionCount >= consecutiveDetectionsNeeded && !faceDetected) {
-                  console.log("Face correctly centered and detected");
                   setFaceDetected(true);
+                  setFacePosition(result.position);
                 } else if (noDetectionCount >= consecutiveNoDetectionsNeeded && faceDetected) {
-                  console.log("Face lost or not centered properly");
                   setFaceDetected(false);
+                  setFaceProximity("not-detected");
+                } else if (faceDetected) {
+                  // Update position regularly when face is detected
+                  setFacePosition(result.position);
                 }
               });
             }
           };
         }
       }
-    }, 200);
+    }, 150); // More frequent updates for smoother detection
 
     return () => clearInterval(interval);
   }, [isProcessing, cameraActive, webcamRef, faceDetected]);
 
-  return { faceDetected, facePosition };
+  return { faceDetected, facePosition, faceProximity };
 };

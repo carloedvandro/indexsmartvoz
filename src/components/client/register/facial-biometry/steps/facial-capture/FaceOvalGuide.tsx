@@ -3,11 +3,21 @@ import React from "react";
 
 interface FaceOvalGuideProps {
   faceDetected: boolean;
+  captureProgress: number; // 0-100 progress for animation
+  faceProximity: "ideal" | "too-close" | "too-far" | "not-detected";
 }
 
-export const FaceOvalGuide = ({ faceDetected }: FaceOvalGuideProps) => {
-  // Use red when no face detected, green when detected
+export const FaceOvalGuide = ({ 
+  faceDetected, 
+  captureProgress, 
+  faceProximity 
+}: FaceOvalGuideProps) => {
+  // Base colors
   const strokeColor = faceDetected ? "#22c55e" : "#ff3366";
+  
+  // Animation stroke dash offset calculation
+  const ovalCircumference = 2 * Math.PI * 140; // Approximate circumference of the oval
+  const dashOffset = ovalCircumference - (ovalCircumference * captureProgress / 100);
   
   return (
     <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
@@ -41,17 +51,64 @@ export const FaceOvalGuide = ({ faceDetected }: FaceOvalGuideProps) => {
             mask="url(#oval-mask)" 
           />
           
-          {/* Oval outline - changes color based on face detection */}
+          {/* Static oval outline - changes color based on face detection */}
           <ellipse 
             cx="128" 
             cy="160" 
             rx="110" 
             ry="140" 
             fill="none" 
-            stroke={strokeColor} 
-            strokeWidth="3" 
-            strokeDasharray={faceDetected ? "0" : "8,4"} 
+            stroke={faceDetected ? "#22c55e" : "#ff3366"} 
+            strokeWidth="1.5" 
+            strokeOpacity="0.4"
           />
+          
+          {/* Animated progress oval that runs around the outline */}
+          {faceDetected && (
+            <ellipse 
+              cx="128" 
+              cy="160" 
+              rx="110" 
+              ry="140" 
+              fill="none" 
+              stroke="#22c55e" 
+              strokeWidth="3" 
+              strokeDasharray={ovalCircumference}
+              strokeDashoffset={dashOffset}
+              strokeLinecap="round"
+              style={{ transition: "stroke-dashoffset 0.1s linear" }}
+            />
+          )}
+          
+          {/* Face proximity guide */}
+          {faceProximity !== "ideal" && faceDetected && (
+            <g>
+              {faceProximity === "too-close" && (
+                <text 
+                  x="128" 
+                  y="70" 
+                  textAnchor="middle" 
+                  fill="#ffffff" 
+                  fontSize="12" 
+                  fontWeight="medium"
+                >
+                  Afaste um pouco
+                </text>
+              )}
+              {faceProximity === "too-far" && (
+                <text 
+                  x="128" 
+                  y="70" 
+                  textAnchor="middle" 
+                  fill="#ffffff" 
+                  fontSize="12" 
+                  fontWeight="medium"
+                >
+                  Aproxime um pouco
+                </text>
+              )}
+            </g>
+          )}
           
           {/* Center crosshair for better alignment */}
           {!faceDetected && (

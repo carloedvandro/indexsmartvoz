@@ -1,3 +1,4 @@
+
 export const animations = {
   keyframes: {
     "accordion-down": {
@@ -23,6 +24,10 @@ export const animations = {
     "scan-line": {
       "0%": { top: "40%" },
       "100%": { top: "50%" }
+    },
+    "progress-circle": {
+      "0%": { "stroke-dashoffset": "100%" },
+      "100%": { "stroke-dashoffset": "0%" }
     }
   },
   animation: {
@@ -31,6 +36,7 @@ export const animations = {
     "rainbow": "rainbow var(--speed, 2s) infinite linear",
     "gradient": "gradient 8s ease-in-out infinite",
     "pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-    "scan-line": "scan-line 0.5s ease-in-out infinite alternate"
+    "scan-line": "scan-line 0.5s ease-in-out infinite alternate",
+    "progress-circle": "progress-circle 3s linear forwards"
   },
 };
