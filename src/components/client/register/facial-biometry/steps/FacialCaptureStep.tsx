@@ -77,8 +77,8 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
         videoConstraints={updatedVideoConstraints}
       />
       
-      {/* Face oval guide */}
-      <FaceOvalGuide />
+      {/* Face oval guide - now receiving faceDetected prop */}
+      <FaceOvalGuide faceDetected={faceDetected} />
       
       {/* Removed the "Centralize seu rosto" instruction bar that was here */}
       

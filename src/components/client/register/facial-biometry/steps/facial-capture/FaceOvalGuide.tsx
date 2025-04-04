@@ -1,7 +1,14 @@
 
 import React from "react";
 
-export const FaceOvalGuide = () => {
+interface FaceOvalGuideProps {
+  faceDetected: boolean;
+}
+
+export const FaceOvalGuide = ({ faceDetected }: FaceOvalGuideProps) => {
+  // Use red when no face detected, green when detected
+  const strokeColor = faceDetected ? "#22c55e" : "#ff3366";
+  
   return (
     <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
       <div className="w-64 h-80 flex items-center justify-center relative">
@@ -12,14 +19,14 @@ export const FaceOvalGuide = () => {
           viewBox="0 0 256 320" 
           className="absolute inset-0"
         >
-          {/* Oval outline - using red color similar to second image */}
+          {/* Oval outline - changes color based on face detection */}
           <ellipse 
             cx="128" 
             cy="160" 
             rx="110" 
             ry="140" 
             fill="none" 
-            stroke="#ff3366" 
+            stroke={strokeColor} 
             strokeWidth="2"
           />
           
