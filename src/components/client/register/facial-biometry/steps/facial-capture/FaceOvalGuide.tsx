@@ -19,6 +19,28 @@ export const FaceOvalGuide = ({ faceDetected }: FaceOvalGuideProps) => {
           viewBox="0 0 256 320" 
           className="absolute inset-0"
         >
+          {/* Overlay to darken outside the oval */}
+          <defs>
+            <mask id="oval-mask">
+              <rect width="100%" height="100%" fill="white" />
+              <ellipse 
+                cx="128" 
+                cy="160" 
+                rx="110" 
+                ry="140" 
+                fill="black" 
+              />
+            </mask>
+          </defs>
+          
+          {/* Semi-transparent overlay outside the oval */}
+          <rect 
+            width="100%" 
+            height="100%" 
+            fill="rgba(0,0,0,0.4)" 
+            mask="url(#oval-mask)" 
+          />
+          
           {/* Oval outline - changes color based on face detection */}
           <ellipse 
             cx="128" 
@@ -27,12 +49,20 @@ export const FaceOvalGuide = ({ faceDetected }: FaceOvalGuideProps) => {
             ry="140" 
             fill="none" 
             stroke={strokeColor} 
-            strokeWidth="3" // Increased thickness for better visibility
-            strokeDasharray={faceDetected ? "0" : "8,4"} // Dashed when no face detected
+            strokeWidth="3" 
+            strokeDasharray={faceDetected ? "0" : "8,4"} 
           />
           
+          {/* Center crosshair for better alignment */}
+          {!faceDetected && (
+            <g stroke="#ffffff" strokeWidth="1" opacity="0.6">
+              <line x1="128" y1="140" x2="128" y2="180" />
+              <line x1="108" y1="160" x2="148" y2="160" />
+            </g>
+          )}
+          
           {/* Simplified face guides - subtle eye, nose outlines */}
-          <g opacity={faceDetected ? "0.4" : "0.6"} stroke="#ffffff">
+          <g opacity={faceDetected ? "0.3" : "0.5"} stroke="#ffffff">
             {/* Eyes */}
             <ellipse cx="90" cy="120" rx="18" ry="8" fill="none" strokeWidth="1" />
             <ellipse cx="166" cy="120" rx="18" ry="8" fill="none" strokeWidth="1" />
@@ -49,6 +79,20 @@ export const FaceOvalGuide = ({ faceDetected }: FaceOvalGuideProps) => {
           <circle cx="246" cy="10" r="3" fill={faceDetected ? "#22c55e" : "#ffffff"} />
           <circle cx="10" cy="310" r="3" fill={faceDetected ? "#22c55e" : "#ffffff"} />
           <circle cx="246" cy="310" r="3" fill={faceDetected ? "#22c55e" : "#ffffff"} />
+          
+          {/* Text indicator when no face is detected */}
+          {!faceDetected && (
+            <text 
+              x="128" 
+              y="255" 
+              textAnchor="middle" 
+              fill="#ff3366" 
+              fontSize="12" 
+              fontWeight="bold"
+            >
+              Centralize o rosto no oval
+            </text>
+          )}
         </svg>
       </div>
     </div>

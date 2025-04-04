@@ -43,7 +43,7 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
     checkSession();
   }, [toast]);
 
-  const { faceDetected } = useFaceDetection(webcamRef, false, true);
+  const { faceDetected, facePosition } = useFaceDetection(webcamRef, false, true);
 
   const { 
     isProcessing, 
@@ -56,7 +56,7 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
     onComplete: onNext
   });
 
-  // Improved video constraints for better image quality
+  // Enhanced video constraints for better image quality
   const updatedVideoConstraints = {
     ...videoConstraints,
     facingMode: "user",
@@ -65,7 +65,10 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
     advanced: [
       { 
         exposureMode: "continuous",
-        whiteBalanceMode: "continuous" 
+        whiteBalanceMode: "continuous",
+        focusMode: "continuous",
+        brightness: { ideal: 1.0 },
+        contrast: { ideal: 1.0 }
       }
     ]
   };
