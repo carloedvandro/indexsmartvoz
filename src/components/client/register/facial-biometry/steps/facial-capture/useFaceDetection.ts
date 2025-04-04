@@ -24,7 +24,7 @@ export const useFaceDetection = (
     const totalPixels = data.length / 4;
     
     // Lower threshold to improve detection in low light
-    const threshold = 0.07; 
+    const threshold = 0.06; // Further lowered for better detection
     
     // Center region of interest where the face should be
     const centerX = imageData.width / 2;
@@ -53,10 +53,10 @@ export const useFaceDetection = (
           
           // Improved skin tone detection with more flexible criteria for various lighting conditions
           if (
-            r > 30 && g > 20 && b > 10 && // Lower thresholds for better detection in low light
-            r > g - 10 && r > b - 10 && // More flexible relationship for different lighting
-            Math.max(r, g, b) - Math.min(r, g, b) < 100 && // More tolerance for color variance
-            r + g + b > 100 // Lower brightness threshold
+            r > 25 && g > 15 && b > 10 && // Even lower thresholds for better detection in low light
+            r > g - 15 && r > b - 15 && // More flexible relationship for different lighting
+            Math.max(r, g, b) - Math.min(r, g, b) < 120 && // More tolerance for color variance
+            r + g + b > 80 // Lower brightness threshold
           ) {
             skinTonePixels++;
             facePixelsSum.x += x;
@@ -68,7 +68,6 @@ export const useFaceDetection = (
     }
     
     const ratio = skinTonePixels / totalPixels;
-    console.log("Face detection ratio:", ratio, "threshold:", threshold);
     
     // Default values if no face detected
     let proximity: "ideal" | "too-close" | "too-far" | "not-detected" = "not-detected";
@@ -90,8 +89,8 @@ export const useFaceDetection = (
         Math.pow((avgY - centerY) / centerY, 2)
       );
       
-      // Face must be reasonably centered (within 25% of center - slightly less strict)
-      const isCentered = distanceFromFrameCenter < 0.25;
+      // Face must be reasonably centered (within 30% of center - even less strict)
+      const isCentered = distanceFromFrameCenter < 0.3;
       
       // Update face position data
       facePos = {
@@ -104,7 +103,7 @@ export const useFaceDetection = (
       if (isCentered) {
         if (faceSize > 0.55) {
           proximity = "too-close";
-        } else if (faceSize < 0.25) {
+        } else if (faceSize < 0.22) { // Slightly raised from 0.25 to more easily detect "too-far"
           proximity = "too-far";
         } else {
           proximity = "ideal";
@@ -125,7 +124,7 @@ export const useFaceDetection = (
 
   useEffect(() => {
     let detectionCount = 0;
-    const consecutiveDetectionsNeeded = 2; // Reduced for faster detection
+    const consecutiveDetectionsNeeded = 1; // Reduced for immediate detection
     let noDetectionCount = 0;
     const consecutiveNoDetectionsNeeded = 2;
     let lastProximity: "ideal" | "too-close" | "too-far" | "not-detected" = "not-detected";
@@ -158,29 +157,28 @@ export const useFaceDetection = (
                   // Update proximity immediately for better UX
                   setFaceProximity(result.proximity);
                   lastProximity = result.proximity;
+                  
+                  // Update position immediately when detected
+                  if (detectionCount >= consecutiveDetectionsNeeded) {
+                    setFaceDetected(true);
+                    setFacePosition(result.position);
+                  }
                 } else {
                   noDetectionCount++;
                   detectionCount = 0;
                   lastProximity = "not-detected";
-                }
-                
-                // Only change state if we have enough consecutive detections or non-detections
-                if (detectionCount >= consecutiveDetectionsNeeded && !faceDetected) {
-                  setFaceDetected(true);
-                  setFacePosition(result.position);
-                } else if (noDetectionCount >= consecutiveNoDetectionsNeeded && faceDetected) {
-                  setFaceDetected(false);
-                  setFaceProximity("not-detected");
-                } else if (faceDetected) {
-                  // Update position regularly when face is detected
-                  setFacePosition(result.position);
+                  
+                  if (noDetectionCount >= consecutiveNoDetectionsNeeded && faceDetected) {
+                    setFaceDetected(false);
+                    setFaceProximity("not-detected");
+                  }
                 }
               });
             }
           };
         }
       }
-    }, 120); // More frequent updates for smoother detection
+    }, 100); // More frequent updates for smoother detection (was 120)
 
     return () => clearInterval(interval);
   }, [isProcessing, cameraActive, webcamRef, faceDetected]);

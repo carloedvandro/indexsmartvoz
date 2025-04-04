@@ -78,7 +78,7 @@ export const FaceOvalGuide = ({
               ry="140" 
               fill="none" 
               stroke="#22c55e" 
-              strokeWidth="4" 
+              strokeWidth="5" 
               strokeDasharray={ovalCircumference}
               strokeDashoffset={dashOffset}
               strokeLinecap="round"
@@ -99,7 +99,7 @@ export const FaceOvalGuide = ({
                   y="70" 
                   textAnchor="middle" 
                   fill="#ffffff" 
-                  fontSize="14" 
+                  fontSize="16" 
                   fontWeight="bold"
                   filter="url(#glow)"
                 >
@@ -112,7 +112,7 @@ export const FaceOvalGuide = ({
                   y="70" 
                   textAnchor="middle" 
                   fill="#ffffff" 
-                  fontSize="14" 
+                  fontSize="16" 
                   fontWeight="bold"
                   filter="url(#glow)"
                 >
@@ -124,7 +124,7 @@ export const FaceOvalGuide = ({
           
           {/* Center crosshair for better alignment */}
           {!faceDetected && (
-            <g stroke="#ffffff" strokeWidth="1" opacity="0.6">
+            <g stroke="#ffffff" strokeWidth="1.5" opacity="0.7">
               <line x1="128" y1="140" x2="128" y2="180" />
               <line x1="108" y1="160" x2="148" y2="160" />
             </g>
@@ -156,7 +156,7 @@ export const FaceOvalGuide = ({
               y="255" 
               textAnchor="middle" 
               fill="#ff3366" 
-              fontSize="14" 
+              fontSize="16" 
               fontWeight="bold"
               filter="url(#glow)"
             >
@@ -164,18 +164,33 @@ export const FaceOvalGuide = ({
             </text>
           )}
           
-          {/* Progress percentage for user feedback */}
+          {/* Progress percentage for user feedback - made larger and more visible */}
           {faceDetected && faceProximity === "ideal" && captureProgress > 0 && (
             <text 
               x="128" 
               y="255" 
               textAnchor="middle" 
               fill="#22c55e" 
-              fontSize="14" 
+              fontSize="18" 
               fontWeight="bold"
               filter="url(#glow)"
             >
               {Math.round(captureProgress)}%
+            </text>
+          )}
+          
+          {/* Added message for ideal positioning */}
+          {faceDetected && faceProximity === "ideal" && captureProgress > 0 && (
+            <text 
+              x="128" 
+              y="280" 
+              textAnchor="middle" 
+              fill="#ffffff" 
+              fontSize="14" 
+              fontWeight="bold"
+              filter="url(#glow)"
+            >
+              Mantenha-se imóvel
             </text>
           )}
         </svg>
