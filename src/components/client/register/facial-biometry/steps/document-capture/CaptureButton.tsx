@@ -17,7 +17,7 @@ export const CaptureButton = ({
       {captureAttempted ? (
         <button
           onClick={onRetry}
-          className="w-full h-14 bg-white text-black text-sm font-medium uppercase hover:bg-gray-100 transition-colors"
+          className="w-full h-12 bg-white text-black text-xs font-medium uppercase hover:bg-gray-100 transition-colors"
         >
           Tentar Novamente
         </button>
@@ -27,7 +27,7 @@ export const CaptureButton = ({
           <button
             onClick={onCapture}
             disabled={isCapturing}
-            className="w-16 h-16 mb-6 rounded-full bg-transparent border-2 border-white focus:outline-none disabled:opacity-50 flex items-center justify-center"
+            className="w-16 h-16 mb-4 rounded-full bg-transparent border-2 border-white focus:outline-none disabled:opacity-50 flex items-center justify-center"
           >
             <div className="w-12 h-12 rounded-full bg-white"></div>
             <span className="sr-only">Capturar documento</span>
@@ -35,7 +35,7 @@ export const CaptureButton = ({
           
           {/* Advance button - full width white button */}
           <button
-            className="w-full h-14 bg-white text-black text-sm font-medium uppercase hover:bg-gray-100 transition-colors"
+            className="w-full h-12 bg-white text-black text-xs font-medium uppercase hover:bg-gray-100 transition-colors"
           >
             Avançar
           </button>
