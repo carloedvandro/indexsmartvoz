@@ -2,9 +2,8 @@
 import { ChipInstructions } from "./ChipInstructions";
 import { BarcodeInstructions } from "./BarcodeInstructions";
 import { BarcodeScannerComponent } from "./BarcodeScanner";
-import { Button } from "@/components/ui/button";
-import { Line } from "../ChipActivationFlow";
 import { NavigationButtons } from "./NavigationButtons";
+import { Line } from "../ChipActivationFlow";
 
 interface ChipActivationStepContentProps {
   currentStep: number;
@@ -23,12 +22,29 @@ export function ChipActivationStepContent({
   onContinue,
   onStartScanning
 }: ChipActivationStepContentProps) {
+  // Each step is rendered as its own screen
   if (currentStep === 4) {
-    return <ChipInstructions />;
+    return (
+      <div className="flex flex-col space-y-6">
+        <ChipInstructions />
+        <NavigationButtons 
+          onBack={onBack} 
+          onContinue={onContinue}
+        />
+      </div>
+    );
   }
   
   if (currentStep === 5) {
-    return <BarcodeInstructions onBack={onBack} onContinue={onContinue} />;
+    return (
+      <div className="flex flex-col space-y-6">
+        <BarcodeInstructions />
+        <NavigationButtons 
+          onBack={onBack} 
+          onContinue={onContinue}
+        />
+      </div>
+    );
   }
   
   if (currentStep === 6) {

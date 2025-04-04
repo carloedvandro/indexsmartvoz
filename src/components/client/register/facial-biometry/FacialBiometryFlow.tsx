@@ -1,7 +1,5 @@
 
 import { useState } from "react";
-import { Clock, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Steps } from "./Steps";
 import { CpfVerificationStep } from "./steps/CpfVerificationStep";
 import { CameraAccessStep } from "./steps/CameraAccessStep";
@@ -14,6 +12,7 @@ import { useCameraManagement } from "@/hooks/useCameraManagement";
 import { useNavigate } from "react-router-dom";
 import { AnalysisStep } from "./steps/AnalysisStep";
 import { DocumentInstructionsStep } from "./steps/DocumentInstructionsStep";
+import { ChipActivationStepContent } from "../../products/chip-activation/ChipActivationStepContent";
 
 interface FacialBiometryFlowProps {
   onComplete?: (verificationData: {
@@ -49,10 +48,62 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   const { videoConstraints: facialVideoConstraints } = useCameraManagement();
   const { videoConstraints: documentVideoConstraints } = useCameraManagement(true);
   const navigate = useNavigate();
+  const [currentStepNumber, setCurrentStepNumber] = useState(1);
+  const totalSteps = 4;
+
+  const handleBack = () => {
+    // Map current step to previous step
+    const stepMap: Record<Step, Step> = {
+      'cpf-verification': 'cpf-verification', // Stay on first step
+      'camera-access': 'cpf-verification',
+      'capture-instructions': 'camera-access',
+      'facial-capture': 'capture-instructions',
+      'facial-analysis': 'facial-capture',
+      'document-instructions': 'facial-analysis',
+      'document-type': 'document-instructions',
+      'document-front': 'document-type',
+      'document-back': 'document-front',
+      'document-analysis': 'document-back',
+      'completion': 'document-analysis'
+    };
+
+    // If on first step, go back to previous page
+    if (currentStep === 'cpf-verification') {
+      onBack();
+      return;
+    }
+
+    // Update step number when going back
+    if (currentStep === 'document-front' || currentStep === 'document-back') {
+      // Don't change step number when moving between document sides
+    } else if (currentStep === 'facial-analysis' || currentStep === 'document-analysis') {
+      // Don't change step number during analysis
+    } else {
+      setCurrentStepNumber(prev => Math.max(prev - 1, 1));
+    }
+
+    setCurrentStep(stepMap[currentStep]);
+  };
+
+  const handleContinue = (nextStep: Step) => {
+    // Update step number when advancing
+    if (nextStep === 'document-front' || nextStep === 'document-back') {
+      // Don't change step number when moving between document sides
+    } else if (nextStep === 'facial-analysis' || nextStep === 'document-analysis') {
+      // Don't change step number during analysis
+    } else if (
+      (currentStep === 'facial-analysis' && nextStep === 'document-instructions') ||
+      (currentStep === 'document-analysis' && nextStep === 'completion')
+    ) {
+      setCurrentStepNumber(prev => Math.min(prev + 1, totalSteps));
+    }
+
+    setCurrentStep(nextStep);
+  };
 
   const handleDocumentTypeSelection = (type: 'rg' | 'cnh') => {
     setSelectedDocType(type);
-    setCurrentStep('document-front');
+    handleContinue('document-front');
   };
 
   const handleCompletion = () => {
@@ -73,16 +124,16 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   const renderStep = () => {
     switch (currentStep) {
       case 'cpf-verification':
-        return <CpfVerificationStep onNext={() => setCurrentStep('camera-access')} />;
+        return <CpfVerificationStep onNext={() => handleContinue('camera-access')} />;
       
       case 'camera-access':
-        return <CameraAccessStep onNext={() => setCurrentStep('capture-instructions')} />;
+        return <CameraAccessStep onNext={() => handleContinue('capture-instructions')} />;
       
       case 'capture-instructions':
         return (
           <CaptureInstructions
-            onNext={() => setCurrentStep('facial-capture')}
-            onBack={onBack}
+            onNext={() => handleContinue('facial-capture')}
+            onBack={handleBack}
           />
         );
       
@@ -91,7 +142,7 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
           <FacialCaptureStep
             onNext={(imageSrc) => {
               setCapturedImages(prev => ({ ...prev, facial: imageSrc }));
-              setCurrentStep('facial-analysis');
+              handleContinue('facial-analysis');
             }}
             videoConstraints={facialVideoConstraints}
           />
@@ -100,25 +151,25 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
       case 'facial-analysis':
         return (
           <AnalysisStep
-            onNext={() => setCurrentStep('document-instructions')}
+            onNext={() => handleContinue('document-instructions')}
             title="Em análise"
             description="Aguarde um instante"
-            step={3}
-            totalSteps={4}
+            step={currentStepNumber}
+            totalSteps={totalSteps}
           />
         );
       
       case 'document-instructions':
         return (
           <DocumentInstructionsStep
-            onNext={() => setCurrentStep('document-type')}
-            step={3}
-            totalSteps={4}
+            onNext={() => handleContinue('document-type')}
+            step={currentStepNumber}
+            totalSteps={totalSteps}
           />
         );
       
       case 'document-type':
-        return <DocumentTypeStep onSelectDocType={handleDocumentTypeSelection} step={3} totalSteps={4} />;
+        return <DocumentTypeStep onSelectDocType={handleDocumentTypeSelection} step={currentStepNumber} totalSteps={totalSteps} />;
       
       case 'document-front':
       case 'document-back':
@@ -129,31 +180,31 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
                 setCapturedImages(prev => ({ ...prev, documentFront: imageSrc }));
                 if (selectedDocType === 'cnh') {
                   // CNH só precisa de frente, então vai direto para análise
-                  setCurrentStep('document-analysis');
+                  handleContinue('document-analysis');
                 } else {
-                  setCurrentStep('document-back');
+                  handleContinue('document-back');
                 }
               } else {
                 setCapturedImages(prev => ({ ...prev, documentBack: imageSrc }));
-                setCurrentStep('document-analysis');
+                handleContinue('document-analysis');
               }
             }}
             selectedDocType={selectedDocType!}
             isBackSide={currentStep === 'document-back'}
             videoConstraints={documentVideoConstraints}
-            step={3}
-            totalSteps={4}
+            step={currentStepNumber}
+            totalSteps={totalSteps}
           />
         );
       
       case 'document-analysis':
         return (
           <AnalysisStep
-            onNext={() => setCurrentStep('completion')}
+            onNext={() => handleContinue('completion')}
             title="Em análise"
             description="Aguarde um instante"
-            step={3}
-            totalSteps={4}
+            step={currentStepNumber}
+            totalSteps={totalSteps}
           />
         );
       

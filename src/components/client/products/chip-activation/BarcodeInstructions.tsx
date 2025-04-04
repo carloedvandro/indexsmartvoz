@@ -2,8 +2,8 @@
 import { Button } from "@/components/ui/button";
 
 interface BarcodeInstructionsProps {
-  onBack: () => void;
-  onContinue: () => void;
+  onBack?: () => void;
+  onContinue?: () => void;
 }
 
 export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsProps) {
@@ -51,23 +51,30 @@ export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsP
         </div>
       </div>
 
-      <div className="flex justify-between gap-4">
-        <Button 
-          variant="outline"
-          className="hover:bg-[#8425af] hover:text-white border-[#8425af] text-[#8425af] flex-1"
-          onClick={onBack}
-          type="button"
-        >
-          Voltar
-        </Button>
-        <Button 
-          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white flex-1"
-          onClick={onContinue}
-          type="button"
-        >
-          Continuar
-        </Button>
-      </div>
+      {(onBack || onContinue) && (
+        <div className="flex justify-between gap-4">
+          {onBack && (
+            <Button 
+              variant="outline"
+              className="hover:bg-[#8425af] hover:text-white border-[#8425af] text-[#8425af] flex-1"
+              onClick={onBack}
+              type="button"
+            >
+              Voltar
+            </Button>
+          )}
+          
+          {onContinue && (
+            <Button 
+              className="bg-[#8425af] hover:bg-[#6c1e8f] text-white flex-1"
+              onClick={onContinue}
+              type="button"
+            >
+              Continuar
+            </Button>
+          )}
+        </div>
+      )}
     </div>
   );
 }
