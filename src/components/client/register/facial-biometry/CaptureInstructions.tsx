@@ -20,7 +20,7 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
         <div className="flex flex-col items-center">
           <div className="border border-white p-2 mb-6">
             <img 
-              src="/lovable-uploads/1293753f-d90a-403b-804b-e7f0365cc501.png" 
+              src="/lovable-uploads/069e81a0-53cc-42f6-a8fe-5b3a0acb8b96.png" 
               alt="Documento de identificação" 
               className="h-12 w-12 object-contain"
             />
