@@ -11,7 +11,7 @@ export const DocumentFrame = ({ documentDetected }: DocumentFrameProps) => {
       <div className={`relative w-[85%] h-[80%] border ${
         documentDetected ? 'border-green-500' : 'border-white'
       } border-opacity-70 transition-colors duration-300`}>
-        {/* Corner guides - more minimal */}
+        {/* Corner guides - mais minimalistas */}
         <div className="absolute left-0 top-0 w-5 h-1 bg-white"></div>
         <div className="absolute left-0 top-0 w-1 h-5 bg-white"></div>
         
