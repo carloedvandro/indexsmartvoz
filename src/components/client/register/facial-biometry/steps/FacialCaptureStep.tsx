@@ -1,9 +1,9 @@
 
 import { useRef, useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import Webcam from "react-webcam";
 import { supabase } from "@/integrations/supabase/client";
+import { Camera, CameraOff } from "lucide-react";
 
 interface FacialCaptureStepProps {
   onNext: (imageSrc: string) => void;
@@ -17,6 +17,7 @@ interface FacialCaptureStepProps {
 export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureStepProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [faceDetected, setFaceDetected] = useState(false);
+  const [cameraActive, setCameraActive] = useState(true);
   const webcamRef = useRef<Webcam>(null);
   const { toast } = useToast();
 
@@ -61,7 +62,7 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      if (webcamRef.current && !isProcessing) {
+      if (webcamRef.current && !isProcessing && cameraActive) {
         const imageSrc = webcamRef.current.getScreenshot();
         if (imageSrc) {
           const img = new Image();
@@ -87,7 +88,7 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
     }, 500);
 
     return () => clearInterval(interval);
-  }, [isProcessing]);
+  }, [isProcessing, cameraActive]);
 
   const handleFacialCapture = async () => {
     if (!faceDetected) {
@@ -147,6 +148,10 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
     }
   };
 
+  const toggleCamera = () => {
+    setCameraActive(!cameraActive);
+  };
+
   // Forçar o uso da câmera frontal
   const updatedVideoConstraints = {
     ...videoConstraints,
@@ -156,55 +161,151 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
   };
 
   return (
-    <div className="relative h-[540px] bg-gray-100 overflow-hidden">
+    <div className="relative h-[540px] bg-black overflow-hidden rounded-lg">
       <div className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 z-20 text-center">
-        <p className="text-sm">Centralize seu rosto</p>
+        <p className="text-xl font-medium">Centralize seu rosto</p>
       </div>
       
       <div className="relative h-full">
-        <Webcam
-          ref={webcamRef}
-          audio={false}
-          screenshotFormat="image/jpeg"
-          videoConstraints={updatedVideoConstraints}
-          className="w-full h-full object-cover"
-          mirrored={true}
-        />
+        {cameraActive ? (
+          <Webcam
+            ref={webcamRef}
+            audio={false}
+            screenshotFormat="image/jpeg"
+            videoConstraints={updatedVideoConstraints}
+            className="w-full h-full object-cover"
+            mirrored={true}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-black">
+            <CameraOff className="h-16 w-16 text-white/50" />
+            <p className="text-white/70 mt-4">Câmera desativada</p>
+          </div>
+        )}
         
-        <div className="absolute inset-0 flex items-center justify-center z-10">
-          <div className={`w-64 h-80 border-2 rounded-full ${faceDetected ? 'border-green-500' : 'border-[#8425af]'}`}>
-            <div className="relative w-full h-full">
-              {/* Face outline */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <svg viewBox="0 0 100 120" width="100%" height="100%" className="opacity-50">
-                  <path d="M50,10 C70,10 85,30 85,55 C85,75 70,90 50,90 C30,90 15,75 15,55 C15,30 30,10 50,10 Z" 
-                    fill="none" 
-                    stroke={faceDetected ? "#22c55e" : "#8425af"} 
-                    strokeWidth="1"
+        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+          {/* Face oval guide */}
+          <div className={`w-64 h-80 flex items-center justify-center relative`}>
+            <svg 
+              width="100%" 
+              height="100%" 
+              viewBox="0 0 256 320" 
+              className="absolute inset-0"
+            >
+              {/* Outer oval */}
+              <ellipse 
+                cx="128" 
+                cy="160" 
+                rx="110" 
+                ry="140" 
+                fill="none" 
+                stroke={faceDetected ? "#22c55e" : "rgba(34, 197, 94, 0.5)"}
+                strokeWidth="2"
+                className={faceDetected ? "animate-pulse" : ""}
+              />
+              
+              {/* Inner face guides */}
+              {faceDetected && (
+                <>
+                  {/* Eyes level line */}
+                  <path 
+                    d="M70,120 L186,120" 
+                    stroke="#22c55e" 
+                    strokeWidth="1.5" 
+                    strokeDasharray="4 2"
                   />
-                  <circle cx="35" cy="45" r="5" fill="none" stroke={faceDetected ? "#22c55e" : "#8425af"} strokeWidth="1" />
-                  <circle cx="65" cy="45" r="5" fill="none" stroke={faceDetected ? "#22c55e" : "#8425af"} strokeWidth="1" />
-                  <path d="M40,65 C43,70 47,72 50,72 C53,72 57,70 60,65" 
-                    fill="none" 
-                    stroke={faceDetected ? "#22c55e" : "#8425af"} 
-                    strokeWidth="1" 
+                  
+                  {/* Nose line */}
+                  <path 
+                    d="M128,120 L128,200" 
+                    stroke="#22c55e" 
+                    strokeWidth="1.5" 
+                    strokeDasharray="4 2"
                   />
-                </svg>
-              </div>
-            </div>
+                  
+                  {/* Mouth level line */}
+                  <path 
+                    d="M90,200 L166,200" 
+                    stroke="#22c55e" 
+                    strokeWidth="1.5" 
+                    strokeDasharray="4 2"
+                  />
+                  
+                  {/* Left eye circle */}
+                  <circle 
+                    cx="96" 
+                    cy="120" 
+                    r="12" 
+                    fill="none" 
+                    stroke="#22c55e" 
+                    strokeWidth="1.5"
+                  />
+                  
+                  {/* Right eye circle */}
+                  <circle 
+                    cx="160" 
+                    cy="120" 
+                    r="12" 
+                    fill="none" 
+                    stroke="#22c55e" 
+                    strokeWidth="1.5"
+                  />
+                  
+                  {/* Nose circle */}
+                  <circle 
+                    cx="128" 
+                    cy="160" 
+                    r="8" 
+                    fill="none" 
+                    stroke="#22c55e" 
+                    strokeWidth="1.5"
+                  />
+                </>
+              )}
+            </svg>
           </div>
         </div>
       </div>
       
-      <button 
-        onClick={handleFacialCapture}
-        disabled={isProcessing || !faceDetected}
-        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20"
+      {/* Camera toggle button */}
+      <button
+        onClick={toggleCamera}
+        className="absolute top-4 right-4 z-30 bg-white/10 p-2 rounded-full"
       >
-        <div className={`w-16 h-16 rounded-full border-4 ${faceDetected ? 'border-green-500' : 'border-white'} flex items-center justify-center`}>
-          <div className={`w-12 h-12 rounded-full ${faceDetected ? 'bg-green-500' : 'bg-white'}`}></div>
-        </div>
+        {cameraActive ? (
+          <CameraOff className="h-6 w-6 text-white" />
+        ) : (
+          <Camera className="h-6 w-6 text-white" />
+        )}
       </button>
+      
+      {/* Capture button */}
+      <div className="absolute bottom-8 left-0 right-0 flex justify-center z-20">
+        <button 
+          onClick={handleFacialCapture}
+          disabled={isProcessing || !faceDetected || !cameraActive}
+          className="focus:outline-none"
+        >
+          <div className={`w-16 h-16 rounded-full border-4 
+              ${faceDetected && cameraActive ? 'border-green-500' : 'border-white/50'} 
+              flex items-center justify-center relative
+              ${isProcessing ? 'opacity-70' : 'opacity-100'}`}
+          >
+            <div className={`w-12 h-12 rounded-full 
+              ${faceDetected && cameraActive ? 'bg-green-500' : 'bg-white/50'} 
+              ${isProcessing ? 'animate-pulse' : ''}`}
+            ></div>
+            
+            {faceDetected && cameraActive && (
+              <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                <span className="text-white text-sm px-2 py-1 bg-green-500/80 rounded-full">
+                  Pronto para capturar
+                </span>
+              </div>
+            )}
+          </div>
+        </button>
+      </div>
     </div>
   );
 };
