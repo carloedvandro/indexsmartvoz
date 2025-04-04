@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { CpfVerificationStep } from "./steps/CpfVerificationStep";
 import { CameraAccessStep } from "./steps/CameraAccessStep";
@@ -11,6 +10,7 @@ import { useCameraManagement } from "@/hooks/useCameraManagement";
 import { useNavigate } from "react-router-dom";
 import { AnalysisStep } from "./steps/AnalysisStep";
 import { DocumentInstructionsStep } from "./steps/DocumentInstructionsStep";
+import { Button } from "@/components/ui/button";
 
 interface FacialBiometryFlowProps {
   onComplete?: (verificationData: {
@@ -48,9 +48,8 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   const navigate = useNavigate();
 
   const handleBack = () => {
-    // Map current step to previous step
     const stepMap: Record<Step, Step> = {
-      'cpf-verification': 'cpf-verification', // Stay on first step
+      'cpf-verification': 'cpf-verification',
       'camera-access': 'cpf-verification',
       'capture-instructions': 'camera-access',
       'facial-capture': 'capture-instructions',
@@ -63,7 +62,6 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
       'completion': 'document-analysis'
     };
 
-    // If on first step, go back to previous page
     if (currentStep === 'cpf-verification') {
       onBack();
       return;
@@ -106,10 +104,18 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
       
       case 'capture-instructions':
         return (
-          <CaptureInstructions
-            onNext={() => handleContinue('facial-capture')}
-            onBack={handleBack}
-          />
+          <>
+            <CaptureInstructions
+              onNext={() => handleContinue('facial-capture')}
+              onBack={handleBack}
+            />
+            <Button 
+              onClick={() => handleContinue('facial-capture')}
+              className="w-full bg-white text-black hover:bg-white/90 rounded-none h-12 uppercase text-xs font-medium"
+            >
+              AVANÇAR
+            </Button>
+          </>
         );
       
       case 'facial-capture':
@@ -136,11 +142,19 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
       
       case 'document-instructions':
         return (
-          <DocumentInstructionsStep
-            onNext={() => handleContinue('document-type')}
-            step={0}
-            totalSteps={0}
-          />
+          <>
+            <DocumentInstructionsStep
+              onNext={() => handleContinue('document-type')}
+              step={0}
+              totalSteps={0}
+            />
+            <Button 
+              onClick={() => handleContinue('document-type')}
+              className="w-full bg-white text-black hover:bg-white/90 rounded-none h-12 uppercase text-xs font-medium"
+            >
+              AVANÇAR
+            </Button>
+          </>
         );
       
       case 'document-type':
@@ -154,7 +168,6 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
               if (currentStep === 'document-front') {
                 setCapturedImages(prev => ({ ...prev, documentFront: imageSrc }));
                 if (selectedDocType === 'cnh') {
-                  // CNH só precisa de frente, então vai direto para análise
                   handleContinue('document-analysis');
                 } else {
                   handleContinue('document-back');
@@ -192,7 +205,7 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-0">
       {renderStep()}
     </div>
   );

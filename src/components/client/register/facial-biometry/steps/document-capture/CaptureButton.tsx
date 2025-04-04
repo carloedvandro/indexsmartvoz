@@ -37,7 +37,7 @@ export const CaptureButton = ({
           <button
             className="w-full h-12 bg-white text-black text-xs font-medium uppercase hover:bg-gray-100 transition-colors"
           >
-            Avançar
+            AVANÇAR
           </button>
         </div>
       )}

@@ -1,8 +1,10 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FacialBiometryFlow } from "@/components/client/register/facial-biometry/FacialBiometryFlow";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
 
 export default function FacialBiometry() {
   const navigate = useNavigate();
