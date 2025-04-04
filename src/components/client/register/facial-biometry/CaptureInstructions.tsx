@@ -17,17 +17,17 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
       <div className="absolute bottom-4 right-4 w-1 h-1 rounded-full bg-white"></div>
       
       <div className="flex flex-col items-center justify-center flex-grow px-4">
-        {/* Central icon in white frame */}
+        {/* Central icon */}
         <div className="flex flex-col items-center">
           <div className="border border-white p-2 mb-6">
             <img 
-              src="/lovable-uploads/8b094491-5e59-4bc5-842a-d72f4224b7c5.png" 
-              alt="Documento de identificação" 
+              src="/lovable-uploads/da489acc-c578-471e-8af1-0e0e9c1b4a57.png" 
+              alt="Celular com foto" 
               className="h-12 w-12 object-contain"
             />
           </div>
           
-          {/* Text content - centered with correct spacing */}
+          {/* Text content */}
           <h2 className="text-base font-light mb-2">Olá,</h2>
           <p className="text-xs font-light leading-relaxed text-center">
             Hora de tirar sua foto de identificação.<br />
@@ -36,7 +36,7 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
         </div>
       </div>
 
-      {/* Progress dots - exact style from the image */}
+      {/* Progress dots */}
       <div className="flex justify-center space-x-2 mb-10">
         <div className="w-4 h-1 bg-white"></div>
         <div className="w-1 h-1 bg-white rounded-full"></div>
@@ -44,7 +44,7 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
         <div className="w-1 h-1 bg-white rounded-full"></div>
       </div>
 
-      {/* Button outside of the main container as shown in the image */}
+      {/* Button at bottom */}
       <button
         onClick={onNext}
         className="w-full h-12 bg-white text-black uppercase text-xs font-medium"
