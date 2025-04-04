@@ -44,9 +44,9 @@ export const DocumentInstructionsStep = ({ onNext }: DocumentInstructionsStepPro
           <Button 
             onClick={onNext} 
             variant="outline" 
-            className="w-full bg-transparent border-white text-white hover:bg-white/10 hover:text-white"
+            className="w-full bg-transparent border-white text-white hover:bg-white/10 hover:text-white uppercase"
           >
-            AVANÇAR
+            Avançar
           </Button>
         </div>
       </div>

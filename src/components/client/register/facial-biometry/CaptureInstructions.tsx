@@ -19,8 +19,8 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
         <div className="flex items-center justify-center mb-6">
           <div className="p-3 rounded-full bg-white/20 w-20 h-20 flex items-center justify-center">
             <img 
-              src="/lovable-uploads/b461f5a7-63c1-4851-b22a-1a786e6ecd32.png" 
-              alt="Documento de identificação" 
+              src="/lovable-uploads/2c39fd8d-902c-4e73-b9da-e5e7ff47b0ce.png" 
+              alt="Face outline with phone" 
               className="h-12 w-12 object-contain"
             />
           </div>
@@ -43,9 +43,9 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
           <Button 
             onClick={onNext} 
             variant="outline" 
-            className="w-full bg-transparent border-white text-white hover:bg-white/10 hover:text-white"
+            className="w-full bg-transparent border-white text-white hover:bg-white/10 hover:text-white uppercase"
           >
-            AVANÇAR
+            Avançar
           </Button>
         </div>
       </div>
