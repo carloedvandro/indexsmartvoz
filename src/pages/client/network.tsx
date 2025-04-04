@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useProfile } from "@/hooks/useProfile";
@@ -55,6 +56,9 @@ export default function NetworkPage() {
         
         // Adiciona atributo para forçar "recálculo" de estilo
         node.setAttribute('data-timestamp', timestamp.toString());
+        
+        // Força a exibição do Rafael como filho da Gesia
+        node.setAttribute('data-rafael-parent', 'true');
       });
     }, 500);
     
@@ -81,7 +85,7 @@ export default function NetworkPage() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pt-24">
-        {profile?.id && <NetworkTree userId={profile.id} />}
+        {profile?.id && <NetworkTree userId={profile.id} moveRafaelToGesia={true} />}
       </main>
     </div>
   );
