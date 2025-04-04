@@ -38,24 +38,25 @@ export const useFacialCapture = ({
     let progressInterval: NodeJS.Timeout | null = null;
     
     if (faceDetected && faceProximity === "ideal" && !isProcessing && cameraActive) {
-      // Increment the ideal position time counter
+      // Start incrementing the ideal position time counter
       const timeoutId = setTimeout(() => {
         setIdealPositionTime(prev => prev + 1);
       }, 100);
       
       // Only start incrementing progress after face has been in ideal position for a short time
-      if (idealPositionTime > 5) {
+      if (idealPositionTime > 3) { // Reduced from 5 to 3 for faster response
         // Increment progress steadily
         progressInterval = setInterval(() => {
           setCaptureProgress(prev => {
-            const newProgress = prev + 1.5; // Faster progress
+            const newProgress = prev + 2; // Increased from 1.5 to 2 for faster completion
             if (newProgress >= 100) {
-              handleAutomaticCapture();
+              // Don't call handleAutomaticCapture directly from here
+              // Just return 100 and let the effect below handle the capture
               return 100;
             }
             return newProgress;
           });
-        }, 30); // ~2 seconds to complete full circle (100 * 30ms / 1.5)
+        }, 30); // ~1.5 seconds to complete full circle (100 * 30ms / 2)
       }
       
       return () => {
@@ -72,6 +73,13 @@ export const useFacialCapture = ({
       }
     };
   }, [faceDetected, faceProximity, isProcessing, cameraActive, idealPositionTime]);
+
+  // Separate effect to trigger capture when progress reaches 100
+  useEffect(() => {
+    if (captureProgress >= 100 && !isProcessing) {
+      handleAutomaticCapture();
+    }
+  }, [captureProgress, isProcessing]);
 
   const handleAutomaticCapture = useCallback(async () => {
     if (isProcessing || !webcamRef.current || faceProximity !== "ideal") return;

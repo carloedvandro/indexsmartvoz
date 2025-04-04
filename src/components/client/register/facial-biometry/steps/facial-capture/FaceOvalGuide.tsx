@@ -41,6 +41,12 @@ export const FaceOvalGuide = ({
                 fill="black" 
               />
             </mask>
+            
+            {/* Add a glow effect filter */}
+            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
           </defs>
           
           {/* Semi-transparent overlay outside the oval */}
@@ -72,15 +78,19 @@ export const FaceOvalGuide = ({
               ry="140" 
               fill="none" 
               stroke="#22c55e" 
-              strokeWidth="3" 
+              strokeWidth="4" 
               strokeDasharray={ovalCircumference}
               strokeDashoffset={dashOffset}
               strokeLinecap="round"
-              style={{ transition: "stroke-dashoffset 0.1s linear" }}
+              filter="url(#glow)"
+              style={{ 
+                transition: "stroke-dashoffset 0.1s linear",
+                animation: captureProgress > 0 ? "pulse 2s infinite" : "none"
+              }}
             />
           )}
           
-          {/* Face proximity guide */}
+          {/* Face proximity guide with improved visibility */}
           {faceProximity !== "ideal" && faceDetected && (
             <g>
               {faceProximity === "too-close" && (
@@ -89,8 +99,9 @@ export const FaceOvalGuide = ({
                   y="70" 
                   textAnchor="middle" 
                   fill="#ffffff" 
-                  fontSize="12" 
-                  fontWeight="medium"
+                  fontSize="14" 
+                  fontWeight="bold"
+                  filter="url(#glow)"
                 >
                   Afaste um pouco
                 </text>
@@ -101,8 +112,9 @@ export const FaceOvalGuide = ({
                   y="70" 
                   textAnchor="middle" 
                   fill="#ffffff" 
-                  fontSize="12" 
-                  fontWeight="medium"
+                  fontSize="14" 
+                  fontWeight="bold"
+                  filter="url(#glow)"
                 >
                   Aproxime um pouco
                 </text>
@@ -144,10 +156,26 @@ export const FaceOvalGuide = ({
               y="255" 
               textAnchor="middle" 
               fill="#ff3366" 
-              fontSize="12" 
+              fontSize="14" 
               fontWeight="bold"
+              filter="url(#glow)"
             >
               Centralize o rosto no oval
+            </text>
+          )}
+          
+          {/* Progress percentage for user feedback */}
+          {faceDetected && faceProximity === "ideal" && captureProgress > 0 && (
+            <text 
+              x="128" 
+              y="255" 
+              textAnchor="middle" 
+              fill="#22c55e" 
+              fontSize="14" 
+              fontWeight="bold"
+              filter="url(#glow)"
+            >
+              {Math.round(captureProgress)}%
             </text>
           )}
         </svg>
