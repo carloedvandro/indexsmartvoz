@@ -10,17 +10,17 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
   return (
     <div className="bg-[#8425af] text-white min-h-[calc(100vh-100px)] relative flex flex-col justify-between">
       {/* Corner dots - tiny white dots in corners */}
-      <div className="absolute top-4 left-4 w-1.5 h-1.5 rounded-full bg-white opacity-70"></div>
-      <div className="absolute top-4 right-4 w-1.5 h-1.5 rounded-full bg-white opacity-70"></div>
-      <div className="absolute bottom-4 left-4 w-1.5 h-1.5 rounded-full bg-white opacity-70"></div>
-      <div className="absolute bottom-4 right-4 w-1.5 h-1.5 rounded-full bg-white opacity-70"></div>
+      <div className="absolute top-4 left-4 w-1 h-1 rounded-full bg-white"></div>
+      <div className="absolute top-4 right-4 w-1 h-1 rounded-full bg-white"></div>
+      <div className="absolute bottom-4 left-4 w-1 h-1 rounded-full bg-white"></div>
+      <div className="absolute bottom-4 right-4 w-1 h-1 rounded-full bg-white"></div>
       
       <div className="flex flex-col items-center justify-center flex-grow px-4">
         {/* Central icon in white frame */}
         <div className="flex flex-col items-center">
           <div className="border border-white p-2 mb-6">
             <img 
-              src="/lovable-uploads/c03393e5-7734-4f88-9ae0-099fbca380b2.png" 
+              src="/lovable-uploads/1293753f-d90a-403b-804b-e7f0365cc501.png" 
               alt="Documento de identificação" 
               className="h-12 w-12 object-contain"
             />
@@ -35,15 +35,21 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
         </div>
       </div>
 
-      {/* Progress dots - exact style from the image */}
+      {/* Progress dots - exact style from the second image */}
       <div className="flex justify-center space-x-2 mb-10">
         <div className="w-4 h-1 bg-white"></div>
-        <div className="w-1 h-1 bg-white/70 rounded-full"></div>
-        <div className="w-1 h-1 bg-white/70 rounded-full"></div>
-        <div className="w-1 h-1 bg-white/70 rounded-full"></div>
+        <div className="w-1 h-1 bg-white rounded-full"></div>
+        <div className="w-1 h-1 bg-white rounded-full"></div>
+        <div className="w-1 h-1 bg-white rounded-full"></div>
       </div>
 
-      {/* Button - outside of the main container as shown in the image */}
+      {/* Button outside of the main container as shown in the image */}
+      <button
+        onClick={onNext}
+        className="w-full h-12 bg-white text-black uppercase text-xs font-medium"
+      >
+        AVANÇAR
+      </button>
     </div>
   );
 };

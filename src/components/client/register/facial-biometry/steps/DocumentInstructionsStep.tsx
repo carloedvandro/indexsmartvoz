@@ -11,17 +11,17 @@ export const DocumentInstructionsStep = ({ onNext }: DocumentInstructionsStepPro
   return (
     <div className="bg-[#8425af] text-white min-h-[calc(100vh-100px)] relative flex flex-col justify-between">
       {/* Corner dots - tiny white dots in corners */}
-      <div className="absolute top-4 left-4 w-1.5 h-1.5 rounded-full bg-white opacity-70"></div>
-      <div className="absolute top-4 right-4 w-1.5 h-1.5 rounded-full bg-white opacity-70"></div>
-      <div className="absolute bottom-4 left-4 w-1.5 h-1.5 rounded-full bg-white opacity-70"></div>
-      <div className="absolute bottom-4 right-4 w-1.5 h-1.5 rounded-full bg-white opacity-70"></div>
+      <div className="absolute top-4 left-4 w-1 h-1 rounded-full bg-white"></div>
+      <div className="absolute top-4 right-4 w-1 h-1 rounded-full bg-white"></div>
+      <div className="absolute bottom-4 left-4 w-1 h-1 rounded-full bg-white"></div>
+      <div className="absolute bottom-4 right-4 w-1 h-1 rounded-full bg-white"></div>
       
       <div className="flex flex-col items-center justify-center flex-grow px-4">
         {/* Document icon in white frame */}
         <div className="flex flex-col items-center">
           <div className="border border-white p-2 mb-6">
             <img 
-              src="/lovable-uploads/f08e8d41-e68d-4da1-9fdd-aedd255b813d.png" 
+              src="/lovable-uploads/2855a994-0fac-406d-b04e-6ded0989c1be.png" 
               alt="Documento" 
               className="h-12 w-12 object-contain"
             />
@@ -39,9 +39,9 @@ export const DocumentInstructionsStep = ({ onNext }: DocumentInstructionsStepPro
       {/* Progress dots - exact style from the image */}
       <div className="flex justify-center space-x-2 mb-10">
         <div className="w-4 h-1 bg-white"></div>
-        <div className="w-1 h-1 bg-white/70 rounded-full"></div>
-        <div className="w-1 h-1 bg-white/70 rounded-full"></div>
-        <div className="w-1 h-1 bg-white/70 rounded-full"></div>
+        <div className="w-1 h-1 bg-white rounded-full"></div>
+        <div className="w-1 h-1 bg-white rounded-full"></div>
+        <div className="w-1 h-1 bg-white rounded-full"></div>
       </div>
     </div>
   );

@@ -10,7 +10,6 @@ import { useCameraManagement } from "@/hooks/useCameraManagement";
 import { useNavigate } from "react-router-dom";
 import { AnalysisStep } from "./steps/AnalysisStep";
 import { DocumentInstructionsStep } from "./steps/DocumentInstructionsStep";
-import { Button } from "@/components/ui/button";
 
 interface FacialBiometryFlowProps {
   onComplete?: (verificationData: {
@@ -104,18 +103,10 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
       
       case 'capture-instructions':
         return (
-          <>
-            <CaptureInstructions
-              onNext={() => handleContinue('facial-capture')}
-              onBack={handleBack}
-            />
-            <Button 
-              onClick={() => handleContinue('facial-capture')}
-              className="w-full bg-white text-black hover:bg-white/90 rounded-none h-12 uppercase text-xs font-medium"
-            >
-              AVANÇAR
-            </Button>
-          </>
+          <CaptureInstructions
+            onNext={() => handleContinue('facial-capture')}
+            onBack={handleBack}
+          />
         );
       
       case 'facial-capture':
@@ -148,12 +139,12 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
               step={0}
               totalSteps={0}
             />
-            <Button 
+            <button 
               onClick={() => handleContinue('document-type')}
-              className="w-full bg-white text-black hover:bg-white/90 rounded-none h-12 uppercase text-xs font-medium"
+              className="w-full bg-white text-black hover:bg-white/90 h-12 uppercase text-xs font-medium"
             >
               AVANÇAR
-            </Button>
+            </button>
           </>
         );
       
