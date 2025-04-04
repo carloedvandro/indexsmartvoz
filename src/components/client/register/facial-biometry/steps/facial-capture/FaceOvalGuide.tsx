@@ -80,7 +80,19 @@ export const FaceOvalGuide = ({ faceDetected }: FaceOvalGuideProps) => {
           <circle cx="10" cy="310" r="3" fill={faceDetected ? "#22c55e" : "#ffffff"} />
           <circle cx="246" cy="310" r="3" fill={faceDetected ? "#22c55e" : "#ffffff"} />
           
-          {/* Removed the redundant text indicator that was here */}
+          {/* Text indicator when no face is detected */}
+          {!faceDetected && (
+            <text 
+              x="128" 
+              y="255" 
+              textAnchor="middle" 
+              fill="#ff3366" 
+              fontSize="12" 
+              fontWeight="bold"
+            >
+              Centralize o rosto no oval
+            </text>
+          )}
         </svg>
       </div>
     </div>
