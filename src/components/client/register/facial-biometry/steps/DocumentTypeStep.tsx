@@ -24,10 +24,16 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
   };
 
   return (
-    <div className="bg-[#8425af] text-white p-8 rounded-lg">
+    <div className="bg-[#8425af] text-white p-8 rounded-lg relative">
+      {/* Corner guide dots */}
+      <div className="absolute top-4 left-4 w-2 h-2 rounded-full bg-white/80"></div>
+      <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-white/80"></div>
+      <div className="absolute bottom-4 left-4 w-2 h-2 rounded-full bg-white/80"></div>
+      <div className="absolute bottom-4 right-4 w-2 h-2 rounded-full bg-white/80"></div>
+      
       <div className="space-y-6">
-        <h2 className="text-2xl font-semibold text-center">Selecione o tipo de documento</h2>
-        <p className="text-center">
+        <h2 className="text-xl font-medium text-center">Selecione o tipo de documento</h2>
+        <p className="text-center text-sm">
           Escolha qual documento de identificação você deseja utilizar:
         </p>
 
@@ -71,12 +77,20 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
           </Card>
         </div>
 
+        <div className="flex justify-center space-x-2 mt-6">
+          <div className="w-1 h-1 bg-white/70 rounded-full"></div>
+          <div className="w-5 h-1 bg-white rounded"></div>
+          <div className="w-1 h-1 bg-white/70 rounded-full"></div>
+          <div className="w-1 h-1 bg-white/70 rounded-full"></div>
+        </div>
+
         <Button
           onClick={handleContinue}
-          className="w-full mt-6 bg-white text-[#8425af] hover:bg-gray-100"
+          variant="outline"
+          className="w-full mt-4 bg-transparent border-white text-white hover:bg-white/10 hover:text-white"
           disabled={!selectedType}
         >
-          Continuar
+          AVANÇAR
         </Button>
       </div>
     </div>

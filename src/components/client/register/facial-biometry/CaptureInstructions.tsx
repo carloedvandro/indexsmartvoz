@@ -1,41 +1,50 @@
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
 
 interface CaptureInstructionsProps {
   onNext: () => void;
   onBack: () => void;
 }
 
-export const CaptureInstructions = ({ onNext, onBack }: CaptureInstructionsProps) => {
+export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
   return (
-    <div className="bg-[#8425af] text-white p-8 rounded-lg">
+    <div className="bg-[#8425af] text-white p-8 rounded-lg relative">
+      {/* Corner guide dots */}
+      <div className="absolute top-4 left-4 w-2 h-2 rounded-full bg-white/80"></div>
+      <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-white/80"></div>
+      <div className="absolute bottom-4 left-4 w-2 h-2 rounded-full bg-white/80"></div>
+      <div className="absolute bottom-4 right-4 w-2 h-2 rounded-full bg-white/80"></div>
+      
       <div className="space-y-6 text-center">
-        <div className="flex items-center justify-center mb-4">
-          <div className="p-3 rounded-full bg-white/10">
+        <div className="flex items-center justify-center mb-6">
+          <div className="p-3 rounded-full bg-white/20 w-20 h-20 flex items-center justify-center">
             <img 
-              src="/lovable-uploads/f4b30617-4032-4f4b-8c3e-ec83632e0240.png" 
+              src="/lovable-uploads/b461f5a7-63c1-4851-b22a-1a786e6ecd32.png" 
               alt="Documento de identificação" 
-              className="h-16 w-16 object-contain"
+              className="h-12 w-12 object-contain"
             />
           </div>
         </div>
         
-        <h2 className="text-2xl font-semibold">Olá,</h2>
-        <p className="text-base">
+        <h2 className="text-xl font-medium">Olá,</h2>
+        <p className="text-sm mt-2">
           Hora de tirar sua foto de identificação.<br />
           Antes de começar, algumas dicas:
         </p>
 
-        <div className="flex justify-center space-x-2 mt-4">
-          <div className="w-2 h-2 bg-white rounded-full"></div>
-          <div className="w-2 h-2 bg-white/40 rounded-full"></div>
-          <div className="w-2 h-2 bg-white/40 rounded-full"></div>
-          <div className="w-2 h-2 bg-white/40 rounded-full"></div>
+        <div className="flex justify-center space-x-2 mt-6">
+          <div className="w-5 h-1 bg-white rounded"></div>
+          <div className="w-1 h-1 bg-white/70 rounded-full"></div>
+          <div className="w-1 h-1 bg-white/70 rounded-full"></div>
+          <div className="w-1 h-1 bg-white/70 rounded-full"></div>
         </div>
 
-        <div className="flex flex-col gap-2 max-w-xs mx-auto">
-          <Button onClick={onNext} className="w-full bg-white text-[#8425af] hover:bg-gray-100">
+        <div className="flex flex-col gap-2 mt-6">
+          <Button 
+            onClick={onNext} 
+            variant="outline" 
+            className="w-full bg-transparent border-white text-white hover:bg-white/10 hover:text-white"
+          >
             AVANÇAR
           </Button>
         </div>

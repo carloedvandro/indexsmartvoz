@@ -40,12 +40,14 @@ export const AnalysisStep = ({ onNext, title, description }: AnalysisStepProps) 
   }, [countdown, onNext]);
 
   return (
-    <div className="bg-[#8425af] text-white p-6 rounded-lg">
+    <div className="bg-[#8425af] text-white p-6 rounded-lg relative">
+      {/* Corner guide dots */}
+      <div className="absolute top-4 left-4 w-2 h-2 rounded-full bg-white/80"></div>
+      <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-white/80"></div>
+      <div className="absolute bottom-4 left-4 w-2 h-2 rounded-full bg-white/80"></div>
+      <div className="absolute bottom-4 right-4 w-2 h-2 rounded-full bg-white/80"></div>
+      
       <div className="text-center space-y-6">
-        <div className="flex justify-center">
-          <img src="/lovable-uploads/cb712966-b0ed-439a-ba83-8c50a897152e.png" alt="Vivo" className="h-8" />
-        </div>
-        
         <div className="flex flex-col items-center justify-center py-4">
           <div className="w-20 h-20 mb-5">
             <div className="relative w-full h-full">
@@ -74,8 +76,8 @@ export const AnalysisStep = ({ onNext, title, description }: AnalysisStepProps) 
             </div>
           </div>
           
-          <h2 className="text-xl font-semibold">{title}</h2>
-          <p className="text-sm text-white/80">{description}</p>
+          <h2 className="text-xl font-medium">{title}</h2>
+          <p className="text-sm text-white/80 mt-1">{description}</p>
           
           <div className="mt-5 flex gap-2 items-center">
             <div className="h-1 bg-white/20 rounded-full w-56 overflow-hidden">
