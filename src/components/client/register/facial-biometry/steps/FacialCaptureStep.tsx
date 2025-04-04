@@ -80,12 +80,7 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
       {/* Face oval guide */}
       <FaceOvalGuide />
       
-      {/* Centralize seu rosto instruction bar */}
-      <div className="absolute top-[35%] left-0 right-0 z-20 flex justify-center">
-        <div className="bg-black/70 px-6 py-1 rounded text-white text-sm">
-          Centralize seu rosto
-        </div>
-      </div>
+      {/* Removed the "Centralize seu rosto" instruction bar that was here */}
       
       {/* Camera toggle button */}
       <CameraToggle 
