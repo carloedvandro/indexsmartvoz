@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import Image from "@/components/ui/image";
+import { FileText } from "lucide-react";
 
 interface DocumentInstructionsStepProps {
   onNext: () => void;
@@ -20,11 +21,9 @@ export const DocumentInstructionsStep = ({ onNext }: DocumentInstructionsStepPro
       <div className="flex flex-col items-center justify-center flex-grow px-4">
         {/* Document icon */}
         <div className="flex flex-col items-center">
-          <img 
-            src="/lovable-uploads/2855a994-0fac-406d-b04e-6ded0989c1be.png" 
-            alt="Documento" 
-            className="h-32 w-32 object-contain mb-6"
-          />
+          <div className="bg-white/10 p-8 rounded-full mb-6 backdrop-blur-sm">
+            <FileText size={64} color="white" strokeWidth={1.5} />
+          </div>
           
           {/* Text content - centered with smaller text */}
           <h2 className="text-base font-light mb-2">Vamos lá!</h2>

@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import Image from "@/components/ui/image";
+import { Camera } from "lucide-react";
 
 interface CaptureInstructionsProps {
   onNext: () => void;
@@ -19,11 +20,9 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
       <div className="flex flex-col items-center justify-center flex-grow px-4">
         {/* Central icon */}
         <div className="flex flex-col items-center">
-          <img 
-            src="/lovable-uploads/da489acc-c578-471e-8af1-0e0e9c1b4a57.png" 
-            alt="Celular com selfie" 
-            className="h-32 w-32 object-contain mb-6"
-          />
+          <div className="bg-white/10 p-8 rounded-full mb-6 backdrop-blur-sm">
+            <Camera size={64} color="white" strokeWidth={1.5} />
+          </div>
           
           {/* Text content */}
           <h2 className="text-base font-light mb-2">Olá,</h2>
