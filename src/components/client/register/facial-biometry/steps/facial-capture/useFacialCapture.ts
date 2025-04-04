@@ -20,13 +20,17 @@ export const useFacialCapture = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [cameraActive, setCameraActive] = useState(true);
   const [captureProgress, setCaptureProgress] = useState(0);
+  const [idealPositionTime, setIdealPositionTime] = useState(0);
   const [captureTimer, setCaptureTimer] = useState<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
 
   // Reset progress when face is lost or not ideal
   useEffect(() => {
     if (!faceDetected || faceProximity !== "ideal") {
-      setCaptureProgress(0);
+      if (captureProgress > 0) {
+        setCaptureProgress(prev => Math.max(0, prev - 2)); // Gradually decrease progress
+      }
+      setIdealPositionTime(0);
       if (captureTimer) {
         clearTimeout(captureTimer);
         setCaptureTimer(null);
@@ -37,27 +41,33 @@ export const useFacialCapture = ({
   // Auto-increment progress when face is detected and in ideal position
   useEffect(() => {
     if (faceDetected && faceProximity === "ideal" && !isProcessing && cameraActive) {
-      // Increment progress steadily
-      const interval = setInterval(() => {
-        setCaptureProgress(prev => {
-          const newProgress = prev + 1;
-          if (newProgress >= 100) {
-            clearInterval(interval);
-            handleAutomaticCapture();
-            return 100;
-          }
-          return newProgress;
-        });
-      }, 30); // ~3 seconds to complete full circle (100 * 30ms)
+      // Increment the ideal position time counter
+      setIdealPositionTime(prev => prev + 1);
       
-      return () => clearInterval(interval);
+      // Only start incrementing progress after face has been in ideal position for a short time
+      if (idealPositionTime > 5) {
+        // Increment progress steadily
+        const interval = setInterval(() => {
+          setCaptureProgress(prev => {
+            const newProgress = prev + 1.5; // Faster progress
+            if (newProgress >= 100) {
+              clearInterval(interval);
+              handleAutomaticCapture();
+              return 100;
+            }
+            return newProgress;
+          });
+        }, 30); // ~2 seconds to complete full circle (100 * 30ms / 1.5)
+        
+        return () => clearInterval(interval);
+      }
     }
-  }, [faceDetected, faceProximity, isProcessing, cameraActive]);
+  }, [faceDetected, faceProximity, isProcessing, cameraActive, idealPositionTime]);
 
   const handleAutomaticCapture = async () => {
     if (isProcessing) return;
     
-    if (webcamRef.current) {
+    if (webcamRef.current && faceProximity === "ideal") {
       const imageSrc = webcamRef.current.getScreenshot();
       if (imageSrc) {
         setIsProcessing(true);
@@ -119,6 +129,7 @@ export const useFacialCapture = ({
   const toggleCamera = () => {
     setCameraActive(!cameraActive);
     setCaptureProgress(0);
+    setIdealPositionTime(0);
   };
 
   return {

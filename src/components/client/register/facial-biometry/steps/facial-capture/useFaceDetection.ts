@@ -23,8 +23,8 @@ export const useFaceDetection = (
     let skinTonePixels = 0;
     const totalPixels = data.length / 4;
     
-    // Higher threshold to prevent false positives
-    const threshold = 0.12; 
+    // Lower threshold to improve detection in low light
+    const threshold = 0.07; 
     
     // Center region of interest where the face should be
     const centerX = imageData.width / 2;
@@ -51,14 +51,12 @@ export const useFaceDetection = (
           const g = data[index + 1];
           const b = data[index + 2];
           
-          // Improved skin tone detection with stricter criteria
+          // Improved skin tone detection with more flexible criteria for various lighting conditions
           if (
-            r > 40 && g > 30 && b > 20 && // Base minimum values for skin tones
-            r > g && r > b && // Red component should be highest for skin
-            Math.abs(r - g) < 40 && // Relaxed color relationship for various skin tones
-            g > b && // Green usually higher than blue in skin
-            Math.max(r, g, b) - Math.min(r, g, b) < 80 && // Color variance check
-            r + g + b > 150 // Brightness threshold to avoid dark spots
+            r > 30 && g > 20 && b > 10 && // Lower thresholds for better detection in low light
+            r > g - 10 && r > b - 10 && // More flexible relationship for different lighting
+            Math.max(r, g, b) - Math.min(r, g, b) < 100 && // More tolerance for color variance
+            r + g + b > 100 // Lower brightness threshold
           ) {
             skinTonePixels++;
             facePixelsSum.x += x;
@@ -70,6 +68,7 @@ export const useFaceDetection = (
     }
     
     const ratio = skinTonePixels / totalPixels;
+    console.log("Face detection ratio:", ratio, "threshold:", threshold);
     
     // Default values if no face detected
     let proximity: "ideal" | "too-close" | "too-far" | "not-detected" = "not-detected";
@@ -91,8 +90,8 @@ export const useFaceDetection = (
         Math.pow((avgY - centerY) / centerY, 2)
       );
       
-      // Face must be reasonably centered (within 20% of center - stricter than before)
-      const isCentered = distanceFromFrameCenter < 0.2;
+      // Face must be reasonably centered (within 25% of center - slightly less strict)
+      const isCentered = distanceFromFrameCenter < 0.25;
       
       // Update face position data
       facePos = {
@@ -101,11 +100,11 @@ export const useFaceDetection = (
         size: faceSize
       };
       
-      // Determine face proximity
+      // Determine face proximity - adjusted thresholds for better detection
       if (isCentered) {
-        if (faceSize > 0.6) {
+        if (faceSize > 0.55) {
           proximity = "too-close";
-        } else if (faceSize < 0.3) {
+        } else if (faceSize < 0.25) {
           proximity = "too-far";
         } else {
           proximity = "ideal";
@@ -126,7 +125,7 @@ export const useFaceDetection = (
 
   useEffect(() => {
     let detectionCount = 0;
-    const consecutiveDetectionsNeeded = 3; // More stable detection
+    const consecutiveDetectionsNeeded = 2; // Reduced for faster detection
     let noDetectionCount = 0;
     const consecutiveNoDetectionsNeeded = 2;
     let lastProximity: "ideal" | "too-close" | "too-far" | "not-detected" = "not-detected";
@@ -181,7 +180,7 @@ export const useFaceDetection = (
           };
         }
       }
-    }, 150); // More frequent updates for smoother detection
+    }, 120); // More frequent updates for smoother detection
 
     return () => clearInterval(interval);
   }, [isProcessing, cameraActive, webcamRef, faceDetected]);
