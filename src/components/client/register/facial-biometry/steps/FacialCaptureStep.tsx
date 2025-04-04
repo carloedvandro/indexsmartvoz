@@ -75,8 +75,8 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
 
   return (
     <div className="relative h-[540px] bg-black overflow-hidden rounded-lg">
-      {/* Improved header with title - now as the only instruction text */}
-      <div className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-3 z-20 text-center">
+      {/* Header with title */}
+      <div className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 z-20 text-center">
         <p className="text-sm font-medium">Centralize seu rosto</p>
       </div>
       
