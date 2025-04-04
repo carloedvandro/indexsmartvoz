@@ -1,5 +1,6 @@
 
 import { Button } from "@/components/ui/button";
+import Image from "@/components/ui/image";
 
 interface DocumentInstructionsStepProps {
   onNext: () => void;

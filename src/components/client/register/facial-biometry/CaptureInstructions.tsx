@@ -1,5 +1,6 @@
 
 import { Button } from "@/components/ui/button";
+import Image from "@/components/ui/image";
 
 interface CaptureInstructionsProps {
   onNext: () => void;
@@ -20,7 +21,7 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
         <div className="flex flex-col items-center">
           <div className="border border-white p-2 mb-6">
             <img 
-              src="/lovable-uploads/069e81a0-53cc-42f6-a8fe-5b3a0acb8b96.png" 
+              src="/lovable-uploads/36c035ac-b823-4060-8f8d-7e683eba91ee.png" 
               alt="Documento de identificação" 
               className="h-12 w-12 object-contain"
             />
@@ -35,7 +36,7 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
         </div>
       </div>
 
-      {/* Progress dots - exact style from the second image */}
+      {/* Progress dots - exact style from the image */}
       <div className="flex justify-center space-x-2 mb-10">
         <div className="w-4 h-1 bg-white"></div>
         <div className="w-1 h-1 bg-white rounded-full"></div>
