@@ -1,8 +1,12 @@
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { DocumentFrame } from "./document-capture/DocumentFrame";
+import { CaptureButton } from "./document-capture/CaptureButton";
+import { useDocumentCapture } from "./document-capture/useDocumentCapture";
+import { useDocumentDetection } from "./document-capture/useDocumentDetection";
 
 interface DocumentCaptureStepProps {
   onNext: (imageSrc: string) => void;
@@ -26,61 +30,58 @@ export const DocumentCaptureStep = ({
   totalSteps
 }: DocumentCaptureStepProps) => {
   const webcamRef = useRef<Webcam>(null);
-  const [isCapturing, setIsCapturing] = useState(false);
   const { toast } = useToast();
+  const [cameraActive, setCameraActive] = useState(true);
 
-  const handleCapture = async () => {
-    try {
-      setIsCapturing(true);
-      
-      if (!webcamRef.current) {
-        throw new Error("Câmera não disponível");
-      }
-      
-      const imageSrc = webcamRef.current.getScreenshot();
-      if (!imageSrc) {
-        throw new Error("Falha ao capturar imagem");
-      }
-      
-      // Check if user is authenticated before proceeding
+  // Check user session when component mounts
+  useEffect(() => {
+    const checkSession = async () => {
       const { data: sessionData } = await supabase.auth.getSession();
-      if (!sessionData.session?.user) {
-        throw new Error("Usuário não está autenticado");
+      if (!sessionData.session) {
+        console.error("No active session found in DocumentCaptureStep");
+        toast({
+          title: "Erro de Autenticação",
+          description: "Sessão não encontrada. Por favor, faça login novamente.",
+          variant: "destructive",
+        });
+      } else {
+        console.log("User session found:", sessionData.session.user.id);
       }
-      
-      // Save the document image to Supabase Storage
-      const userId = sessionData.session.user.id;
-      const blob = await fetch(imageSrc).then(res => res.blob());
-      const fileName = `${selectedDocType}-${isBackSide ? 'back' : 'front'}-${Date.now()}.jpg`;
-      const file = new File([blob], fileName, { type: 'image/jpeg' });
-      const filePath = `${userId}/documents/${fileName}`;
-      
-      const { error: uploadError } = await supabase.storage
-        .from('documents')
-        .upload(filePath, file);
-        
-      if (uploadError) {
-        console.error('Error uploading document image:', uploadError);
-        throw uploadError;
-      }
-      
-      // Add a small delay for better UX
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      onNext(imageSrc);
-    } catch (error: any) {
-      console.error('Error during document capture:', error);
+    };
+    
+    checkSession();
+  }, [toast]);
+
+  // Use our custom hooks
+  const { 
+    isCapturing, 
+    captureAttempted, 
+    handleDocumentCapture, 
+    retryCapture 
+  } = useDocumentCapture({
+    selectedDocType,
+    isBackSide,
+    onNext
+  });
+
+  const { documentDetected } = useDocumentDetection(webcamRef, isCapturing);
+
+  // Handle the document capture
+  const handleCapture = async () => {
+    if (!webcamRef.current) {
       toast({
         title: "Erro na Captura",
-        description: error.message || "Ocorreu um erro ao capturar o documento. Por favor, tente novamente.",
+        description: "Câmera não disponível",
         variant: "destructive",
       });
-    } finally {
-      setIsCapturing(false);
+      return;
     }
+    
+    const imageSrc = webcamRef.current.getScreenshot();
+    await handleDocumentCapture(imageSrc);
   };
 
-  // Forçar o uso da câmera traseira
+  // Force environment camera for document capture
   const updatedVideoConstraints = {
     ...videoConstraints,
     facingMode: "environment",
@@ -89,7 +90,8 @@ export const DocumentCaptureStep = ({
   };
   
   return (
-    <div className="relative h-[540px] bg-gray-100 overflow-hidden">
+    <div className="relative h-[540px] bg-black overflow-hidden">
+      {/* Header with step indicator */}
       <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between bg-black bg-opacity-70 text-white p-4">
         <div className="text-sm">
           vivo
@@ -99,27 +101,42 @@ export const DocumentCaptureStep = ({
         </div>
       </div>
 
-      <Webcam
-        ref={webcamRef}
-        audio={false}
-        screenshotFormat="image/jpeg"
-        videoConstraints={updatedVideoConstraints}
-        className="w-full h-full object-cover"
-      />
-      
-      <div className="absolute inset-0 flex items-center justify-center z-10">
-        <div className="w-4/5 h-2/5 border-2 border-white border-opacity-70 rounded-md"></div>
+      {/* Camera View */}
+      <div className="relative h-full">
+        {cameraActive ? (
+          <Webcam
+            ref={webcamRef}
+            audio={false}
+            screenshotFormat="image/jpeg"
+            videoConstraints={updatedVideoConstraints}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center bg-black">
+            <div className="text-white/50 text-center">
+              <p className="mt-4">Câmera desativada</p>
+            </div>
+          </div>
+        )}
       </div>
       
-      <button 
-        onClick={handleCapture}
-        disabled={isCapturing}
-        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20"
-      >
-        <div className="w-16 h-16 rounded-full border-4 border-white flex items-center justify-center">
-          <div className="w-12 h-12 rounded-full bg-white"></div>
+      {/* Document frame overlay */}
+      <DocumentFrame documentDetected={documentDetected} />
+      
+      {/* Instructions bar */}
+      <div className="absolute top-1/4 left-0 right-0 z-20 flex justify-center">
+        <div className="bg-black/70 px-6 py-1 rounded text-white text-sm">
+          {isBackSide ? "Verso do documento" : "Frente do documento"}
         </div>
-      </button>
+      </div>
+      
+      {/* Capture button */}
+      <CaptureButton 
+        isCapturing={isCapturing}
+        captureAttempted={captureAttempted}
+        onCapture={handleCapture}
+        onRetry={retryCapture}
+      />
     </div>
   );
 };
