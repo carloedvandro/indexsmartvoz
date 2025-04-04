@@ -133,19 +133,11 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
       
       case 'document-instructions':
         return (
-          <>
-            <DocumentInstructionsStep
-              onNext={() => handleContinue('document-type')}
-              step={0}
-              totalSteps={0}
-            />
-            <button 
-              onClick={() => handleContinue('document-type')}
-              className="w-full bg-white text-black hover:bg-white/90 h-12 uppercase text-xs font-medium"
-            >
-              AVANÇAR
-            </button>
-          </>
+          <DocumentInstructionsStep
+            onNext={() => handleContinue('document-type')}
+            step={0}
+            totalSteps={0}
+          />
         );
       
       case 'document-type':

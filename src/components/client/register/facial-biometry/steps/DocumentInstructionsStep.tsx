@@ -43,6 +43,14 @@ export const DocumentInstructionsStep = ({ onNext }: DocumentInstructionsStepPro
         <div className="w-1 h-1 bg-white rounded-full"></div>
         <div className="w-1 h-1 bg-white rounded-full"></div>
       </div>
+
+      {/* Button outside of the main container as shown in the image */}
+      <button
+        onClick={onNext}
+        className="w-full h-12 bg-white text-black uppercase text-xs font-medium"
+      >
+        AVANÇAR
+      </button>
     </div>
   );
 };
