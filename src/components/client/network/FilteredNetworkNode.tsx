@@ -39,7 +39,7 @@ export const FilteredNetworkNode = ({
   let transform = undefined;
   
   if (isMarcioSilva) {
-    marginLeft = '29px'; // Movido 0.5px para esquerda (era 29.5px)
+    marginLeft = '29.5px'; // Movido 0.5px para direita (era 29px)
     marginTop = '2px';
   } else if (isMarcioSales) {
     marginLeft = '29.2px'; // Movido 0.2px para direita (era 29px)
