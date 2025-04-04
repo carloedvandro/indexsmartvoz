@@ -18,15 +18,13 @@ export const DocumentInstructionsStep = ({ onNext }: DocumentInstructionsStepPro
       <div className="absolute bottom-4 right-4 w-1 h-1 rounded-full bg-white"></div>
       
       <div className="flex flex-col items-center justify-center flex-grow px-4">
-        {/* Document icon in white frame */}
+        {/* Document icon */}
         <div className="flex flex-col items-center">
-          <div className="border border-white p-2 mb-6">
-            <img 
-              src="/lovable-uploads/2855a994-0fac-406d-b04e-6ded0989c1be.png" 
-              alt="Documento" 
-              className="h-12 w-12 object-contain"
-            />
-          </div>
+          <img 
+            src="/lovable-uploads/2855a994-0fac-406d-b04e-6ded0989c1be.png" 
+            alt="Documento" 
+            className="h-32 w-32 object-contain mb-6"
+          />
           
           {/* Text content - centered with smaller text */}
           <h2 className="text-base font-light mb-2">Vamos lá!</h2>
@@ -37,7 +35,7 @@ export const DocumentInstructionsStep = ({ onNext }: DocumentInstructionsStepPro
         </div>
       </div>
 
-      {/* Progress dots - exact style from the image */}
+      {/* Progress dots */}
       <div className="flex justify-center space-x-2 mb-10">
         <div className="w-4 h-1 bg-white"></div>
         <div className="w-1 h-1 bg-white rounded-full"></div>
@@ -45,7 +43,7 @@ export const DocumentInstructionsStep = ({ onNext }: DocumentInstructionsStepPro
         <div className="w-1 h-1 bg-white rounded-full"></div>
       </div>
 
-      {/* Button outside of the main container as shown in the image */}
+      {/* Button outside of the main container */}
       <button
         onClick={onNext}
         className="w-full h-12 bg-white text-black uppercase text-xs font-medium"
