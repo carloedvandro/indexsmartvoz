@@ -1,8 +1,9 @@
+
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useProfile } from "@/hooks/useProfile";
 import { NetworkTree } from "@/components/client/network/NetworkTree";
-import { useEffect } from "react";
 import "@/styles/network.css";
 
 export default function NetworkPage() {
