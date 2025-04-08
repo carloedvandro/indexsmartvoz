@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { formatCurrency } from '@/utils/format';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
@@ -129,7 +130,7 @@ export function FinancialSummary() {
       </div>
       
       {/* Para acontecer card - reduced size */}
-      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow" style={{ maxWidth: '450px' }}>
+      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow" style={{ maxWidth: '350px' }}>
         <div className="flex justify-between items-start">
           <div>
             <h2 className="text-xl font-bold mb-1">Para acontecer</h2>
