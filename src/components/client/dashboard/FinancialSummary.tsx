@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { formatCurrency } from '@/utils/format';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
@@ -12,9 +11,9 @@ const chartData = [
 
 export function FinancialSummary() {
   return (
-    <div className="px-6 grid grid-cols-1 lg:grid-cols-6 gap-4 mb-6">
-      {/* Até o momento card - slightly wider */}
-      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow" style={{ width: 'calc(100% + 10px)' }}>
+    <div className="px-6 grid grid-cols-1 lg:grid-cols-5 gap-4 mb-6">
+      {/* Até o momento card - slightly narrower */}
+      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow">
         <div className="flex justify-between flex-col lg:flex-row">
           <div className="flex-1">
             <h2 className="text-xl font-bold mb-1">Até o momento</h2>
@@ -130,7 +129,7 @@ export function FinancialSummary() {
       </div>
       
       {/* Para acontecer card */}
-      <div className="lg:col-span-3 bg-white p-6 rounded-xl shadow">
+      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow">
         <div className="flex justify-between items-start">
           <div>
             <h2 className="text-xl font-bold mb-1">Para acontecer</h2>
