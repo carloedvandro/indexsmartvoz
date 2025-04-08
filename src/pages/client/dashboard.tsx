@@ -10,12 +10,22 @@ import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/format";
+import { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import "@/styles/logo.css"; // Ensure the logo styles are imported
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
   const { data: profile } = useProfile();
   const { data: networkStats } = useNetworkStats(profile?.id);
+  const [activeMonth, setActiveMonth] = useState("Abr");
 
   const handleNetworkClick = () => {
     navigate("/client/network");
@@ -24,6 +34,15 @@ export default function ClientDashboard() {
   if (!profile) {
     return null;
   }
+
+  const months = [
+    { month: "Mar", day: "25", active: false },
+    { month: "Abr", day: "25", active: true },
+    { month: "Mai", day: "25", active: false },
+    { month: "Jun", day: "25", active: false },
+    { month: "Jul", day: "25", active: false },
+    { month: "Ago", day: "25", active: false },
+  ];
 
   return (
     <motion.div 
@@ -43,16 +62,24 @@ export default function ClientDashboard() {
               </div>
             </div>
 
-            {/* Meses com indicadores */}
-            <div className="px-6 mb-6">
-              <div className="flex overflow-x-auto py-2 gap-4">
-                <MonthCard month="Jan" day="25" active={false} />
-                <MonthCard month="Fev" day="25" active={true} />
-                <MonthCard month="Mar" day="25" active={false} />
-                <MonthCard month="Abr" day="25" active={false} />
-                <MonthCard month="Mai" day="25" active={false} />
-                <MonthCard month="Jun" day="25" active={false} />
-              </div>
+            {/* Meses com indicadores e setas de navegação */}
+            <div className="px-6 mb-6 relative">
+              <Carousel className="w-full" opts={{ align: "start" }}>
+                <CarouselPrevious className="left-2 lg:left-0 z-10 shadow-md hover:bg-gray-100 bg-white text-gray-800" />
+                <CarouselContent className="py-2">
+                  {months.map((monthData, index) => (
+                    <CarouselItem key={index} className="basis-auto md:basis-1/3 lg:basis-1/5 pl-2 pr-2 first:pl-2 last:pr-2">
+                      <MonthCard 
+                        month={monthData.month} 
+                        day={monthData.day} 
+                        active={monthData.month === activeMonth} 
+                        onClick={() => setActiveMonth(monthData.month)}
+                      />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselNext className="right-2 lg:right-0 z-10 shadow-md hover:bg-gray-100 bg-white text-gray-800" />
+              </Carousel>
             </div>
 
             {/* Resumo financeiro */}
@@ -152,9 +179,22 @@ export default function ClientDashboard() {
 }
 
 // Componente para os cards de mês
-function MonthCard({ month, day, active }: { month: string, day: string, active: boolean }) {
+function MonthCard({ 
+  month, 
+  day, 
+  active, 
+  onClick 
+}: { 
+  month: string, 
+  day: string, 
+  active: boolean,
+  onClick: () => void 
+}) {
   return (
-    <div className={`min-w-[120px] p-4 rounded-xl text-center ${active ? 'bg-[#0E1C36] text-white' : 'bg-white text-gray-700'} shadow`}>
+    <div 
+      className={`min-w-full p-4 rounded-xl text-center ${active ? 'bg-[#0E1C36] text-white' : 'bg-white text-gray-700'} shadow cursor-pointer transition-colors`}
+      onClick={onClick}
+    >
       <div className="font-medium">{month} {day}</div>
       <div className="flex justify-center mt-2 text-sm">
         <span className={`mr-2 ${active ? 'text-green-400' : 'text-green-500'}`}>↑ 0</span>
