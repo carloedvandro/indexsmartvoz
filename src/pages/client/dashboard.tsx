@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
@@ -49,40 +50,42 @@ export default function ClientDashboard() {
           <div className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
             <div className="px-6 mb-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Card de Saldo Total */}
                 <Card 
-                  className="relative px-6 py-4 bg-white text-black rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="relative px-6 py-5 bg-white text-black rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleBalanceCardClick}
                 >
                   <div className="flex items-center justify-between">
-                    <div>
+                    <div className="h-16 w-16 flex items-center justify-center">
                       <img 
-                        src="/lovable-uploads/9c458018-4e54-4993-92c1-bf40c3e95228.png" 
-                        alt="Dollar sign" 
-                        className="h-16 w-16" 
+                        src="/lovable-uploads/22c9cde5-ce80-49a3-ae65-a1f270b5817d.png" 
+                        alt="Ícone de cifrão dourado" 
+                        className="h-16 w-16 object-contain" 
                       />
                     </div>
                     <div className="text-right">
-                      <p className="text-[26px] font-bold text-black">{formatCurrency(610690.89)}</p>
-                      <p className="text-sm font-light mt-1 text-black">Total de saldo</p>
+                      <p className="text-[26px] font-bold text-black">R$ 610.690,89</p>
+                      <p className="text-sm font-light mt-1 text-gray-500">Total de saldo</p>
                     </div>
                   </div>
                 </Card>
 
+                {/* Card de Ganhos */}
                 <Card 
-                  className="relative px-6 py-4 bg-white text-black rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="relative px-6 py-5 bg-white text-black rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={handleEarningsCardClick}
                 >
                   <div className="flex items-center justify-between">
-                    <div>
+                    <div className="h-16 w-16 flex items-center justify-center">
                       <img 
-                        src="/lovable-uploads/9c458018-4e54-4993-92c1-bf40c3e95228.png" 
-                        alt="Dollar sign" 
-                        className="h-16 w-16" 
+                        src="/lovable-uploads/22c9cde5-ce80-49a3-ae65-a1f270b5817d.png" 
+                        alt="Ícone de cifrão dourado" 
+                        className="h-16 w-16 object-contain" 
                       />
                     </div>
                     <div className="text-right">
-                      <p className="text-[26px] font-bold text-black">{formatCurrency(42576.22)}</p>
-                      <p className="text-sm font-light mt-1 text-black">Ganhos até hoje</p>
+                      <p className="text-[26px] font-bold text-black">R$ 42.576,22</p>
+                      <p className="text-sm font-light mt-1 text-gray-500">Ganhos até hoje</p>
                     </div>
                   </div>
                 </Card>
