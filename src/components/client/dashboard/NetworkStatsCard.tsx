@@ -4,12 +4,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNetworkData } from "@/components/client/network/useNetworkData";
-import { countMembersByStatus } from "@/utils/networkStats";
 import { NetworkStatsHeader } from "./components/NetworkStatsHeader";
 import { NetworkStatsGrid } from "./components/NetworkStatsGrid";
-import { ExpenseDistributionCard } from "./charts/ExpenseDistributionCard";
-import { MonthlyPerformanceChart } from "./charts/MonthlyPerformanceChart";
-import { generateCardData, generateRevenueData } from "./utils/statsUtils";
+import { generateCardData } from "./utils/statsUtils";
 import { useNetworkMembersStatus } from "./hooks/useNetworkMembersStatus";
 
 export const NetworkStatsCard = () => {
@@ -95,14 +92,12 @@ export const NetworkStatsCard = () => {
     };
   }, [profile?.id, queryClient]);
 
-  const revenueData = generateRevenueData();
-
   return (
-    <div className="px-6">
+    <div className="px-6 mb-12">
       <NetworkStatsHeader />
-      <NetworkStatsGrid cardData={cardData} />
-      <ExpenseDistributionCard />
-      <MonthlyPerformanceChart />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <NetworkStatsGrid cardData={cardData} />
+      </div>
     </div>
   );
 };
