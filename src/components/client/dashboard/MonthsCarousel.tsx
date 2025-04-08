@@ -9,6 +9,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface MonthData {
   month: string;
@@ -27,6 +28,7 @@ interface MonthsCarouselProps {
 export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCarouselProps) {
   const totalUpValue = months.reduce((sum, month) => sum + month.upValue, 0);
   const totalDownValue = months.reduce((sum, month) => sum + month.downValue, 0);
+  const isMobile = useIsMobile();
   
   const [isTotalActive, setIsTotalActive] = useState(false);
 
@@ -60,7 +62,7 @@ export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCa
           
           <CarouselItem className="basis-auto md:basis-1/4 lg:basis-1/6">
             <div 
-              className={`min-w-[120px] p-4 rounded-xl text-center cursor-pointer transition-colors ${
+              className={`min-w-[140px] sm:min-w-[160px] p-4 rounded-xl text-center cursor-pointer transition-colors ${
                 isTotalActive ? 'bg-[#0E1C36] text-white' : 'bg-white text-gray-700 shadow border border-gray-200'
               }`}
               onClick={handleTotalClick}
