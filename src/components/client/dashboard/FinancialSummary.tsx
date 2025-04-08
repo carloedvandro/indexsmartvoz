@@ -16,7 +16,7 @@ export function FinancialSummary() {
       {/* Até o momento card */}
       <div className="lg:col-span-6 bg-white p-6 rounded-xl shadow">
         <div className="flex justify-between flex-col lg:flex-row">
-          <div className="flex-1">
+          <div className="flex-1 max-w-[400px]">
             <h2 className="text-3xl font-bold mb-1 text-gray-800">Até o momento</h2>
             <p className="text-sm text-gray-500 mb-4">Abr 25</p>
             
