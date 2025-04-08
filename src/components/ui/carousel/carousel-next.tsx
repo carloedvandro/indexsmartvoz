@@ -27,7 +27,7 @@ const CarouselNext = React.forwardRef<
       onClick={scrollNext}
       {...props}
     >
-      <ChevronRight className="h-14 w-14" />
+      <ChevronRight className="h-14 w-14 stroke-[3px]" />
       <span className="sr-only">Next slide</span>
     </Button>
   )
