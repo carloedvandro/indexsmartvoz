@@ -1,6 +1,6 @@
 
 import * as React from "react"
-import { ArrowRight } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { useCarousel } from "./context"
@@ -17,7 +17,7 @@ const CarouselNext = React.forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        "absolute h-8 w-8 rounded-full text-black",
+        "absolute h-8 w-8 rounded-full text-gray-500",
         orientation === "horizontal"
           ? "-right-12 top-1/2 -translate-y-1/2"
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
@@ -27,7 +27,7 @@ const CarouselNext = React.forwardRef<
       onClick={scrollNext}
       {...props}
     >
-      <ArrowRight className="h-4 w-4" />
+      <ChevronRight className="h-6 w-6" />
       <span className="sr-only">Next slide</span>
     </Button>
   )

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { MonthCard } from './MonthCard';
 import { ArrowDownIcon, ArrowUpIcon } from 'lucide-react';
@@ -25,29 +24,25 @@ interface MonthsCarouselProps {
 }
 
 export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCarouselProps) {
-  // Calculate total up and down values
   const totalUpValue = months.reduce((sum, month) => sum + month.upValue, 0);
   const totalDownValue = months.reduce((sum, month) => sum + month.downValue, 0);
   
-  // State to track if total card is active
   const [isTotalActive, setIsTotalActive] = useState(false);
 
-  // Function to handle total card click
   const handleTotalClick = () => {
     setIsTotalActive(true);
-    setActiveMonth('');  // Deactivate all month cards
+    setActiveMonth('');
   }
 
-  // Function to handle month card click
   const handleMonthClick = (month: string) => {
-    setIsTotalActive(false);  // Deactivate total card
-    setActiveMonth(month);    // Activate selected month
+    setIsTotalActive(false);
+    setActiveMonth(month);
   }
 
   return (
     <div className="px-6 mb-6 relative">
       <Carousel className="w-full" opts={{ align: "start" }}>
-        <CarouselPrevious className="absolute -left-3 top-1/2 -translate-y-1/2 z-10" />
+        <CarouselPrevious className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-gray-100/80" />
         <CarouselContent className="py-2">
           {months.map((monthData, index) => (
             <CarouselItem key={index} className="basis-auto md:basis-1/4 lg:basis-1/6 pl-2 pr-2 first:pl-2 last:pr-2">
@@ -62,7 +57,6 @@ export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCa
             </CarouselItem>
           ))}
           
-          {/* Total Card - can be toggled to active state */}
           <CarouselItem className="basis-auto md:basis-1/4 lg:basis-1/6 pl-2 pr-2 last:pr-2">
             <div 
               className={`min-w-[120px] p-4 rounded-xl text-center cursor-pointer transition-colors ${
@@ -84,7 +78,7 @@ export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCa
             </div>
           </CarouselItem>
         </CarouselContent>
-        <CarouselNext className="absolute -right-3 top-1/2 -translate-y-1/2 z-10" />
+        <CarouselNext className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-gray-100/80" />
       </Carousel>
     </div>
   );
