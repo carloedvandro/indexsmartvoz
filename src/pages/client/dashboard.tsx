@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
@@ -20,19 +21,6 @@ export default function ClientDashboard() {
     navigate("/client/network");
   };
 
-  const handleBalanceCardClick = () => {
-    navigate("/client/financial");
-  };
-
-  const handleEarningsCardClick = () => {
-    navigate("/client/financial/details", {
-      state: { 
-        type: "earnings",
-        showDetails: true
-      }
-    });
-  };
-
   if (!profile) {
     return null;
   }
@@ -52,51 +40,6 @@ export default function ClientDashboard() {
               <div className="bg-white p-6 rounded-xl shadow">
                 <h1 className="text-3xl font-bold text-[#0E1C36]">Olá, {profile.full_name?.split(' ')[0] || 'Usuário'}</h1>
                 <p className="text-gray-600 mt-1">Aqui está uma visão geral das contas da sua empresa:</p>
-              </div>
-            </div>
-
-            {/* Cards Financeiros */}
-            <div className="px-6 mb-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Card de Saldo Total */}
-                <Card 
-                  className="relative px-6 py-5 bg-white text-black rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
-                  onClick={handleBalanceCardClick}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="h-16 w-16 flex items-center justify-center">
-                      <img 
-                        src="/lovable-uploads/6a236bed-4542-4d66-a0b3-5bacb93aa949.png" 
-                        alt="Ícone de cifrão dourado" 
-                        className="h-16 w-16 object-contain" 
-                      />
-                    </div>
-                    <div className="text-right">
-                      <p className="text-[26px] font-bold text-black">{formatCurrency(610690.89)}</p>
-                      <p className="text-sm font-light mt-1 text-gray-500">Total de saldo</p>
-                    </div>
-                  </div>
-                </Card>
-
-                {/* Card de Ganhos */}
-                <Card 
-                  className="relative px-6 py-5 bg-white text-black rounded-xl border-0 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
-                  onClick={handleEarningsCardClick}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="h-16 w-16 flex items-center justify-center">
-                      <img 
-                        src="/lovable-uploads/6a236bed-4542-4d66-a0b3-5bacb93aa949.png" 
-                        alt="Ícone de cifrão dourado" 
-                        className="h-16 w-16 object-contain" 
-                      />
-                    </div>
-                    <div className="text-right">
-                      <p className="text-[26px] font-bold text-black">{formatCurrency(42576.22)}</p>
-                      <p className="text-sm font-light mt-1 text-gray-500">Ganhos até hoje</p>
-                    </div>
-                  </div>
-                </Card>
               </div>
             </div>
 
