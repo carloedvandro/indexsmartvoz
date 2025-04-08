@@ -69,9 +69,9 @@ export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCa
               }`}
               onClick={handleTotalClick}
             >
-              <div className="font-medium">Total</div>
-              <div className="flex justify-center mt-2 text-sm">
-                <span className={`mr-2 ${isTotalActive ? 'text-green-400' : 'text-green-500'}`}>↑ {totalUpValue}</span>
+              <div className="font-medium text-gray-600">Total</div>
+              <div className="flex justify-center mt-3 text-sm">
+                <span className={`mr-4 ${isTotalActive ? 'text-green-400' : 'text-green-500'}`}>↑ {totalUpValue}</span>
                 <span className={isTotalActive ? 'text-red-400' : 'text-red-500'}>↓ {totalDownValue}</span>
               </div>
             </div>

@@ -23,9 +23,9 @@ export function MonthCard({
       className={`min-w-full p-4 rounded-xl text-center ${active ? 'bg-[#0E1C36] text-white' : 'bg-white text-gray-700'} shadow cursor-pointer transition-colors`}
       onClick={onClick}
     >
-      <div className="font-medium">{month} {day}</div>
-      <div className="flex justify-center mt-2 text-sm">
-        <span className={`mr-2 ${active ? 'text-green-400' : 'text-green-500'}`}>↑ {upValue}</span>
+      <div className="font-medium text-gray-600">{month} {day}</div>
+      <div className="flex justify-center mt-3 text-sm">
+        <span className={`mr-4 ${active ? 'text-green-400' : 'text-green-500'}`}>↑ {upValue}</span>
         <span className={active ? 'text-red-400' : 'text-red-500'}>↓ {downValue}</span>
       </div>
     </div>
