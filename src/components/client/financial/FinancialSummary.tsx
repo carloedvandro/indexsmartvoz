@@ -19,28 +19,58 @@ export function FinancialSummary({
   return (
     <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-6 md:mb-8 mx-auto w-full md:w-[540px]">
       <div 
-        className="bg-[#580180] text-white py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer hover:bg-[#4a0066] transition-colors relative overflow-hidden"
+        className="bg-white text-black py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer hover:bg-gray-50 transition-colors shadow-md relative overflow-hidden border border-gray-100"
         onClick={() => onCardClick('earnings')}
       >
-        <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-white rounded-tl-md rounded-bl-md"></div>
-        <div className="text-lg font-bold mb-1">R$ 42.576,22</div>
-        <div className="text-xs">Total de ganhos em {monthLabel}/{selectedYear}</div>
+        <div className="flex items-center justify-between">
+          <div className="h-12 w-12 flex items-center justify-center">
+            <img 
+              src="/lovable-uploads/6a236bed-4542-4d66-a0b3-5bacb93aa949.png" 
+              alt="Ícone de cifrão dourado" 
+              className="h-12 w-12 object-contain" 
+            />
+          </div>
+          <div className="text-right">
+            <p className="text-lg font-bold text-black">R$ 42.576,22</p>
+            <p className="text-xs text-gray-500">Ganhos até hoje</p>
+          </div>
+        </div>
       </div>
       <div 
-        className="bg-[#580180] text-white py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer hover:bg-[#4a0066] transition-colors relative overflow-hidden"
+        className="bg-white text-black py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer hover:bg-gray-50 transition-colors shadow-md relative overflow-hidden border border-gray-100"
         onClick={() => onCardClick('balance')}
       >
-        <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-white rounded-tl-md rounded-bl-md"></div>
-        <div className="text-lg font-bold mb-1">R$ 47.576,23</div>
-        <div className="text-xs">Saldo em {monthLabel}/{selectedYear}</div>
+        <div className="flex items-center justify-between">
+          <div className="h-12 w-12 flex items-center justify-center">
+            <img 
+              src="/lovable-uploads/6a236bed-4542-4d66-a0b3-5bacb93aa949.png" 
+              alt="Ícone de cifrão dourado" 
+              className="h-12 w-12 object-contain" 
+            />
+          </div>
+          <div className="text-right">
+            <p className="text-lg font-bold text-black">R$ 610.690,89</p>
+            <p className="text-xs text-gray-500">Total de saldo</p>
+          </div>
+        </div>
       </div>
       <div 
-        className="bg-[#580180] text-white py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer hover:bg-[#4a0066] transition-colors relative overflow-hidden"
+        className="bg-white text-black py-3 px-5 rounded-lg w-full md:flex-1 cursor-pointer hover:bg-gray-50 transition-colors shadow-md relative overflow-hidden border border-gray-100"
         onClick={() => onCardClick('available')}
       >
-        <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-white rounded-tl-md rounded-bl-md"></div>
-        <div className="text-lg font-bold mb-1">R$ 5.000,01</div>
-        <div className="text-xs">Saldo disponível em {monthLabel}/{selectedYear}</div>
+        <div className="flex items-center justify-between">
+          <div className="h-12 w-12 flex items-center justify-center">
+            <img 
+              src="/lovable-uploads/6a236bed-4542-4d66-a0b3-5bacb93aa949.png" 
+              alt="Ícone de cifrão dourado" 
+              className="h-12 w-12 object-contain" 
+            />
+          </div>
+          <div className="text-right">
+            <p className="text-lg font-bold text-black">R$ 5.000,01</p>
+            <p className="text-xs text-gray-500">Saldo disponível</p>
+          </div>
+        </div>
       </div>
     </div>
   );

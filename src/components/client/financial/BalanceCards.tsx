@@ -22,12 +22,17 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
         }}
         onClick={() => onCardClick('available')}
       >
-        <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#580180]" />
         <div className="flex justify-between items-center">
-          <span className="text-[#580180] font-medium">Saldo disponível</span>
-          <div className="flex items-center gap-1">
-            <span className="text-[#580180]">R$</span>
-            <span className="text-[#580180] text-xl">5.000,01</span>
+          <div className="h-12 w-12 flex items-center justify-center">
+            <img 
+              src="/lovable-uploads/6a236bed-4542-4d66-a0b3-5bacb93aa949.png" 
+              alt="Ícone de cifrão dourado" 
+              className="h-12 w-12 object-contain" 
+            />
+          </div>
+          <div className="text-right">
+            <p className="text-lg font-bold text-black">R$ 5.000,01</p>
+            <p className="text-xs text-gray-500">Saldo disponível</p>
           </div>
         </div>
       </Card>
@@ -36,29 +41,33 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
         className="relative p-4 border rounded-lg bg-white cursor-pointer hover:bg-gray-50 transition-colors overflow-hidden"
         onClick={() => onCardClick('bonus')}
       >
-        <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#580180]" />
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-col gap-2">
-            <div className="flex justify-between items-start max-md:flex-col max-md:items-stretch">
-              <div className="text-gray-900 font-medium text-[15px] whitespace-nowrap">
-                Total de bônus recebido em {months.find(m => m.value === selectedMonth)?.label}/{selectedYear}
-              </div>
-              <div className="flex items-center gap-1 mt-2 md:mt-0 justify-end">
-                <span className="text-gray-500">R$</span>
-                <span className="text-gray-500 text-xl">42.576,22</span>
-              </div>
-            </div>
+        <div className="flex justify-between items-center mb-3">
+          <div className="h-12 w-12 flex items-center justify-center">
+            <img 
+              src="/lovable-uploads/6a236bed-4542-4d66-a0b3-5bacb93aa949.png" 
+              alt="Ícone de cifrão dourado" 
+              className="h-12 w-12 object-contain" 
+            />
           </div>
-          <div className="h-[1px] bg-gray-200 w-full"></div>
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-1">
-              <span className="text-gray-900 font-medium">Total de saldo</span>
-              <span className="text-red-500 font-medium mt-1">bloqueado</span>
-            </div>
-            <div className="flex items-baseline gap-1">
-              <span className="text-gray-500">R$</span>
-              <span className="text-gray-500 text-xl">0,00</span>
-            </div>
+          <div className="text-right">
+            <p className="text-lg font-bold text-black">R$ 42.576,22</p>
+            <p className="text-xs text-gray-500">Ganhos até hoje</p>
+          </div>
+        </div>
+        
+        <div className="h-[1px] bg-gray-200 w-full mb-3"></div>
+        
+        <div className="flex justify-between items-center">
+          <div className="h-12 w-12 flex items-center justify-center">
+            <img 
+              src="/lovable-uploads/6a236bed-4542-4d66-a0b3-5bacb93aa949.png" 
+              alt="Ícone de cifrão dourado" 
+              className="h-12 w-12 object-contain" 
+            />
+          </div>
+          <div className="text-right">
+            <p className="text-lg font-bold text-black">R$ 0,00</p>
+            <p className="text-xs text-gray-500">Saldo bloqueado</p>
           </div>
         </div>
       </Card>
