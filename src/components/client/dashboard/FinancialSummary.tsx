@@ -133,7 +133,7 @@ export function FinancialSummary() {
       </div>
       
       {/* Para acontecer card */}
-      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow">
+      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow" style={{ maxWidth: '400px' }}>
         <div className="flex justify-between items-start">
           <div>
             <h2 className="text-xl font-bold mb-1">Para acontecer</h2>
