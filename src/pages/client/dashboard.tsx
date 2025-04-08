@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
 import { DashboardHeader } from "@/components/client/dashboard/DashboardHeader";
-import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { WelcomeSection } from "@/components/client/dashboard/WelcomeSection";
@@ -51,7 +50,7 @@ export default function ClientDashboard() {
               networkStats={networkStats}
               handleNetworkClick={handleNetworkClick}
             />
-            <NetworkStatsCard />
+            {/* NetworkStatsCard has been removed */}
           </div>
         </div>
       </main>
