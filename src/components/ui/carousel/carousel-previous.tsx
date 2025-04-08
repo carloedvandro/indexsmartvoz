@@ -17,9 +17,9 @@ const CarouselPrevious = React.forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        "absolute text-gray-500 p-0 hover:bg-transparent",
+        "absolute h-12 w-12 rounded-full text-gray-500",
         orientation === "horizontal"
-          ? "-left-16 top-1/2 -translate-y-1/2"
+          ? "-left-12 top-1/2 -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
@@ -27,7 +27,7 @@ const CarouselPrevious = React.forwardRef<
       onClick={scrollPrev}
       {...props}
     >
-      <ChevronLeft className="h-10 w-10" />
+      <ChevronLeft className="h-8 w-8" />
       <span className="sr-only">Previous slide</span>
     </Button>
   )
