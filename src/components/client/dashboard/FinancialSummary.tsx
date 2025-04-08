@@ -92,7 +92,7 @@ export function FinancialSummary() {
       </div>
       
       {/* Comparação card */}
-      <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow ml-auto" style={{ maxWidth: '320px' }}>
+      <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow ml-auto" style={{ maxWidth: '400px' }}>
         <h2 className="text-xl font-bold mb-1">Comparação</h2>
         <p className="text-sm text-gray-500 mb-4">com o período anterior</p>
         
