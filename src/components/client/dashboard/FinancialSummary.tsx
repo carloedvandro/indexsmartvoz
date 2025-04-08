@@ -13,8 +13,8 @@ const chartData = [
 export function FinancialSummary() {
   return (
     <div className="px-6 grid grid-cols-1 lg:grid-cols-5 gap-4 mb-6">
-      {/* Até o momento card - width increased by 10px */}
-      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow" style={{ width: 'calc(100% + 10px)' }}>
+      {/* Até o momento card */}
+      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow">
         <div className="flex justify-between flex-col lg:flex-row">
           <div className="flex-1">
             <h2 className="text-xl font-bold mb-1">Até o momento</h2>
@@ -75,12 +75,15 @@ export function FinancialSummary() {
           
           {/* Circular chart summary */}
           <div className="flex items-center justify-center mt-6 lg:mt-0">
-            <div className="flex flex-col items-center">
-              <div className="relative">
-                <div className="w-32 h-32 rounded-full bg-gray-200"></div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <div className="text-green-500 text-sm">Entrou: R$ 0,00</div>
-                  <div className="text-red-500 text-sm mt-1">Saiu: R$ 0,00</div>
+            <div className="relative h-40 w-40 rounded-full bg-gray-200">
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <div className="flex items-center">
+                  <div className="h-3 w-3 rounded-full bg-green-500 mr-1"></div>
+                  <span className="text-sm text-green-600">Entrou: R$ 0,00</span>
+                </div>
+                <div className="flex items-center mt-1">
+                  <div className="h-3 w-3 rounded-full bg-red-500 mr-1"></div>
+                  <span className="text-sm text-red-600">Saiu: R$ 0,00</span>
                 </div>
               </div>
             </div>
@@ -89,7 +92,7 @@ export function FinancialSummary() {
       </div>
       
       {/* Comparação card */}
-      <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow" style={{ maxWidth: '320px' }}>
+      <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow">
         <h2 className="text-xl font-bold mb-1">Comparação</h2>
         <p className="text-sm text-gray-500 mb-4">com o período anterior</p>
         
@@ -129,8 +132,8 @@ export function FinancialSummary() {
         </div>
       </div>
       
-      {/* Para acontecer card - reduced size */}
-      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow" style={{ maxWidth: '320px' }}>
+      {/* Para acontecer card */}
+      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow">
         <div className="flex justify-between items-start">
           <div>
             <h2 className="text-xl font-bold mb-1">Para acontecer</h2>
@@ -138,14 +141,14 @@ export function FinancialSummary() {
           </div>
           <div className="space-y-1 text-right">
             <div className="text-teal-500 text-sm flex items-center justify-end">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="mr-1">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
               A Pagar
             </div>
             <div className="text-teal-500 text-sm flex items-center justify-end">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="mr-1">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
               A Receber
             </div>
