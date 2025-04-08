@@ -15,7 +15,7 @@ const CarouselContent = React.forwardRef<
         ref={ref}
         className={cn(
           "flex",
-          orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
+          orientation === "horizontal" ? "-mx-2" : "-mt-4 flex-col", // Changed from -ml-4 to -mx-2
           className
         )}
         {...props}

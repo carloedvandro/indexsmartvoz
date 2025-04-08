@@ -46,7 +46,7 @@ export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCa
         <CarouselPrevious className="absolute -left-6 top-1/2 -translate-y-1/2 z-10 hover:bg-transparent focus:bg-transparent" />
         <CarouselContent className="py-2">
           {months.map((monthData, index) => (
-            <CarouselItem key={index} className="basis-auto md:basis-1/4 lg:basis-1/6 pl-2 pr-2 first:pl-2 last:pr-2">
+            <CarouselItem key={index} className="basis-auto md:basis-1/4 lg:basis-1/6">
               <MonthCard 
                 month={monthData.month} 
                 day={monthData.day} 
@@ -58,7 +58,7 @@ export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCa
             </CarouselItem>
           ))}
           
-          <CarouselItem className="basis-auto md:basis-1/4 lg:basis-1/6 pl-2 pr-2 last:pr-2">
+          <CarouselItem className="basis-auto md:basis-1/4 lg:basis-1/6">
             <div 
               className={`min-w-[120px] p-4 rounded-xl text-center cursor-pointer transition-colors ${
                 isTotalActive ? 'bg-[#0E1C36] text-white' : 'bg-white text-gray-700 shadow border border-gray-200'
