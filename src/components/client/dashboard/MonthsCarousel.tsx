@@ -47,7 +47,7 @@ export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCa
   return (
     <div className="px-6 mb-6 relative">
       <Carousel className="w-full" opts={{ align: "start" }}>
-        <CarouselPrevious className="absolute -left-3 top-1/2 -translate-y-1/2 z-10 bg-gray-400/30 hover:bg-gray-400/50 text-white h-8 w-8 rounded-full" />
+        <CarouselPrevious className="absolute -left-3 top-1/2 -translate-y-1/2 z-10" />
         <CarouselContent className="py-2">
           {months.map((monthData, index) => (
             <CarouselItem key={index} className="basis-auto md:basis-1/4 lg:basis-1/6 pl-2 pr-2 first:pl-2 last:pr-2">
@@ -84,7 +84,7 @@ export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCa
             </div>
           </CarouselItem>
         </CarouselContent>
-        <CarouselNext className="absolute -right-3 top-1/2 -translate-y-1/2 z-10 bg-gray-400/30 hover:bg-gray-400/50 text-white h-8 w-8 rounded-full" />
+        <CarouselNext className="absolute -right-3 top-1/2 -translate-y-1/2 z-10" />
       </Carousel>
     </div>
   );
