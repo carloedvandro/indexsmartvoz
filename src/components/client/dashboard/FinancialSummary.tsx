@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { formatCurrency } from '@/utils/format';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
@@ -44,7 +43,7 @@ export function FinancialSummary() {
                 <div className="flex items-center">
                   <div className="text-red-500 mr-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M12 5v14M5 12l7 7 7-7"/>
+                      <path d="M12 5v14M5 12l7 7-7 7"/>
                     </svg>
                   </div>
                   <div>
@@ -92,7 +91,7 @@ export function FinancialSummary() {
       </div>
       
       {/* Comparação card */}
-      <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow ml-auto" style={{ maxWidth: '400px' }}>
+      <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow ml-auto" style={{ maxWidth: '320px' }}>
         <h2 className="text-xl font-bold mb-1">Comparação</h2>
         <p className="text-sm text-gray-500 mb-4">com o período anterior</p>
         
