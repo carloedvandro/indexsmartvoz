@@ -12,9 +12,9 @@ const chartData = [
 
 export function FinancialSummary() {
   return (
-    <div className="px-6 grid grid-cols-1 lg:grid-cols-5 gap-4 mb-6">
+    <div className="px-6 grid grid-cols-1 lg:grid-cols-12 gap-4 mb-6">
       {/* Até o momento card */}
-      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow">
+      <div className="lg:col-span-5 bg-white p-6 rounded-xl shadow">
         <div className="flex justify-between flex-col lg:flex-row">
           <div className="flex-1">
             <h2 className="text-3xl font-bold mb-1 text-gray-800">Até o momento</h2>
@@ -75,24 +75,24 @@ export function FinancialSummary() {
           
           {/* Circular chart summary */}
           <div className="flex items-center justify-center mt-6 lg:mt-0">
-            <div className="relative h-44 w-44 rounded-full bg-gray-200">
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                <div className="flex items-center mb-1">
+            <CircularProgress size={160} strokeWidth={15} percentage={0}>
+              <div className="text-center">
+                <div className="flex items-center mb-1 justify-center">
                   <div className="h-3 w-3 rounded-full bg-green-500 mr-1"></div>
                   <span className="text-sm">Entrou: R$ 0,00</span>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center justify-center">
                   <div className="h-3 w-3 rounded-full bg-red-500 mr-1"></div>
                   <span className="text-sm">Saiu: R$ 0,00</span>
                 </div>
               </div>
-            </div>
+            </CircularProgress>
           </div>
         </div>
       </div>
       
       {/* Comparação card */}
-      <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow">
+      <div className="lg:col-span-3 bg-white p-6 rounded-xl shadow">
         <h2 className="text-3xl font-bold mb-1 text-gray-800">Comparação</h2>
         <p className="text-sm text-gray-500 mb-4">com o período anterior</p>
         
@@ -133,7 +133,7 @@ export function FinancialSummary() {
       </div>
       
       {/* Para acontecer card */}
-      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow">
+      <div className="lg:col-span-4 bg-white p-6 rounded-xl shadow">
         <div className="flex justify-between items-start">
           <div>
             <h2 className="text-3xl font-bold mb-1 text-gray-800">Para acontecer</h2>
