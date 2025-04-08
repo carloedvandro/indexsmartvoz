@@ -12,9 +12,9 @@ const chartData = [
 
 export function FinancialSummary() {
   return (
-    <div className="px-6 grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+    <div className="px-6 grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
       {/* Até o momento card */}
-      <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow">
+      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow">
         <div className="flex justify-between flex-col lg:flex-row">
           <div className="flex-1">
             <h2 className="text-xl font-bold mb-1">Até o momento</h2>
@@ -88,7 +88,7 @@ export function FinancialSummary() {
         </div>
       </div>
       
-      {/* Comparação card */}
+      {/* Comparação card - reduced width */}
       <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow">
         <h2 className="text-xl font-bold mb-1">Comparação</h2>
         <p className="text-sm text-gray-500 mb-4">com o período anterior</p>
@@ -129,7 +129,7 @@ export function FinancialSummary() {
         </div>
       </div>
       
-      {/* Para acontecer card */}
+      {/* Para acontecer card - reduced width */}
       <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow">
         <div className="flex justify-between items-start">
           <div>
