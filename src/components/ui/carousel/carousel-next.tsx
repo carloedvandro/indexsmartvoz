@@ -19,7 +19,7 @@ const CarouselNext = React.forwardRef<
       className={cn(
         "absolute text-gray-500 p-0 hover:bg-transparent",
         orientation === "horizontal"
-          ? "-right-28 top-[calc(50%-15px)] -translate-y-1/2"
+          ? "-right-32 top-[calc(50%-15px)] -translate-y-1/2"
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
