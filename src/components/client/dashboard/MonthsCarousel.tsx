@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { MonthCard } from './MonthCard';
 import {
   Carousel,
@@ -27,6 +27,21 @@ export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCa
   // Calculate total up and down values
   const totalUpValue = months.reduce((sum, month) => sum + month.upValue, 0);
   const totalDownValue = months.reduce((sum, month) => sum + month.downValue, 0);
+  
+  // State to track if total card is active
+  const [isTotalActive, setIsTotalActive] = useState(false);
+
+  // Function to handle total card click
+  const handleTotalClick = () => {
+    setIsTotalActive(true);
+    setActiveMonth('');  // Deactivate all month cards
+  }
+
+  // Function to handle month card click
+  const handleMonthClick = (month: string) => {
+    setIsTotalActive(false);  // Deactivate total card
+    setActiveMonth(month);    // Activate selected month
+  }
 
   return (
     <div className="px-6 mb-6 relative">
@@ -38,21 +53,26 @@ export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCa
               <MonthCard 
                 month={monthData.month} 
                 day={monthData.day} 
-                active={monthData.month === activeMonth} 
-                onClick={() => setActiveMonth(monthData.month)}
+                active={monthData.month === activeMonth && !isTotalActive} 
+                onClick={() => handleMonthClick(monthData.month)}
                 upValue={monthData.upValue}
                 downValue={monthData.downValue}
               />
             </CarouselItem>
           ))}
           
-          {/* Total Card - Changed from dark blue to white */}
+          {/* Total Card - can be toggled to active state */}
           <CarouselItem className="basis-auto md:basis-1/3 lg:basis-1/5 pl-2 pr-2 last:pr-2">
-            <div className="min-w-full p-4 rounded-xl text-center bg-white text-gray-700 shadow border border-gray-200">
+            <div 
+              className={`min-w-full p-4 rounded-xl text-center cursor-pointer transition-colors ${
+                isTotalActive ? 'bg-[#0E1C36] text-white' : 'bg-white text-gray-700 shadow border border-gray-200'
+              }`}
+              onClick={handleTotalClick}
+            >
               <div className="font-medium">Total</div>
               <div className="flex justify-center mt-2 text-sm">
-                <span className="mr-2 text-green-500">↑ {totalUpValue}</span>
-                <span className="text-red-500">↓ {totalDownValue}</span>
+                <span className={`mr-2 ${isTotalActive ? 'text-green-400' : 'text-green-500'}`}>↑ {totalUpValue}</span>
+                <span className={isTotalActive ? 'text-red-400' : 'text-red-500'}>↓ {totalDownValue}</span>
               </div>
             </div>
           </CarouselItem>
