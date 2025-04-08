@@ -9,6 +9,7 @@ import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
+import { formatCurrency } from "@/utils/format";
 import "@/styles/logo.css"; // Ensure the logo styles are imported
 
 export default function ClientDashboard() {
@@ -50,7 +51,7 @@ export default function ClientDashboard() {
             {/* Seção de boas-vindas */}
             <div className="px-6 mb-6">
               <div className="bg-white p-6 rounded-xl shadow">
-                <h1 className="text-3xl font-bold text-[#0E1C36]">Olá, {profile.first_name || 'Usuário'}</h1>
+                <h1 className="text-3xl font-bold text-[#0E1C36]">Olá, {profile.firstName || 'Usuário'}</h1>
                 <p className="text-gray-600 mt-1">Aqui está uma visão geral das contas da sua empresa:</p>
               </div>
             </div>
@@ -72,7 +73,7 @@ export default function ClientDashboard() {
                       />
                     </div>
                     <div className="text-right">
-                      <p className="text-[26px] font-bold text-black">R$ 610.690,89</p>
+                      <p className="text-[26px] font-bold text-black">{formatCurrency(610690.89)}</p>
                       <p className="text-sm font-light mt-1 text-gray-500">Total de saldo</p>
                     </div>
                   </div>
@@ -92,7 +93,7 @@ export default function ClientDashboard() {
                       />
                     </div>
                     <div className="text-right">
-                      <p className="text-[26px] font-bold text-black">R$ 42.576,22</p>
+                      <p className="text-[26px] font-bold text-black">{formatCurrency(42576.22)}</p>
                       <p className="text-sm font-light mt-1 text-gray-500">Ganhos até hoje</p>
                     </div>
                   </div>
@@ -127,7 +128,7 @@ export default function ClientDashboard() {
                         <div className="text-sm text-green-500">Receitas</div>
                       </div>
                     </div>
-                    <div className="text-right">R$ 0,00</div>
+                    <div className="text-right">{formatCurrency(0)}</div>
                   </div>
                 </div>
                 
@@ -140,7 +141,7 @@ export default function ClientDashboard() {
                         <div className="text-sm text-red-500">Despesas</div>
                       </div>
                     </div>
-                    <div className="text-right">- R$ 0,00</div>
+                    <div className="text-right">- {formatCurrency(0)}</div>
                   </div>
                 </div>
                 
@@ -153,7 +154,7 @@ export default function ClientDashboard() {
                         <div className="text-sm text-gray-500">Saldo</div>
                       </div>
                     </div>
-                    <div className="text-right">R$ 0,00</div>
+                    <div className="text-right">{formatCurrency(0)}</div>
                   </div>
                 </div>
                 
@@ -180,7 +181,7 @@ export default function ClientDashboard() {
                 
                 <div className="flex justify-between items-center mt-6 border-t pt-4">
                   <div className="font-bold">Saldo total:</div>
-                  <div className="font-bold text-xl">R$ 0,00</div>
+                  <div className="font-bold text-xl">{formatCurrency(0)}</div>
                 </div>
               </div>
             </div>

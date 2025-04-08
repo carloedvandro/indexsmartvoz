@@ -31,7 +31,7 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
             />
           </div>
           <div className="text-right">
-            <p className="text-lg font-bold text-black">R$ 5.000,01</p>
+            <p className="text-lg font-bold text-black">{formatCurrency(5000.01)}</p>
             <p className="text-xs text-gray-500">Saldo disponível</p>
           </div>
         </div>
@@ -50,7 +50,7 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
             />
           </div>
           <div className="text-right">
-            <p className="text-lg font-bold text-black">R$ 42.576,22</p>
+            <p className="text-lg font-bold text-black">{formatCurrency(42576.22)}</p>
             <p className="text-xs text-gray-500">Ganhos até hoje</p>
           </div>
         </div>
@@ -66,7 +66,7 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
             />
           </div>
           <div className="text-right">
-            <p className="text-lg font-bold text-black">R$ 0,00</p>
+            <p className="text-lg font-bold text-black">{formatCurrency(0)}</p>
             <p className="text-xs text-gray-500">Saldo bloqueado</p>
           </div>
         </div>

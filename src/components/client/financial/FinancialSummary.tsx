@@ -1,4 +1,5 @@
 
+import { formatCurrency } from "@/utils/format";
 import { Transaction } from "./types";
 
 interface FinancialSummaryProps {
@@ -31,7 +32,7 @@ export function FinancialSummary({
             />
           </div>
           <div className="text-right">
-            <p className="text-lg font-bold text-black">R$ 42.576,22</p>
+            <p className="text-lg font-bold text-black">{formatCurrency(42576.22)}</p>
             <p className="text-xs text-gray-500">Ganhos até hoje</p>
           </div>
         </div>
@@ -49,7 +50,7 @@ export function FinancialSummary({
             />
           </div>
           <div className="text-right">
-            <p className="text-lg font-bold text-black">R$ 610.690,89</p>
+            <p className="text-lg font-bold text-black">{formatCurrency(610690.89)}</p>
             <p className="text-xs text-gray-500">Total de saldo</p>
           </div>
         </div>
@@ -67,7 +68,7 @@ export function FinancialSummary({
             />
           </div>
           <div className="text-right">
-            <p className="text-lg font-bold text-black">R$ 5.000,01</p>
+            <p className="text-lg font-bold text-black">{formatCurrency(5000.01)}</p>
             <p className="text-xs text-gray-500">Saldo disponível</p>
           </div>
         </div>
