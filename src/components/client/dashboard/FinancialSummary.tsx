@@ -128,8 +128,8 @@ export function FinancialSummary() {
         </div>
       </div>
       
-      {/* Para acontecer card */}
-      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow">
+      {/* Para acontecer card - reduced size */}
+      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow" style={{ maxWidth: '450px' }}>
         <div className="flex justify-between items-start">
           <div>
             <h2 className="text-xl font-bold mb-1">Para acontecer</h2>
