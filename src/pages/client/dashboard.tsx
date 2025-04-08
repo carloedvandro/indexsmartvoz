@@ -36,12 +36,18 @@ export default function ClientDashboard() {
   }
 
   const months = [
-    { month: "Mar", day: "25", active: false },
-    { month: "Abr", day: "25", active: true },
-    { month: "Mai", day: "25", active: false },
-    { month: "Jun", day: "25", active: false },
-    { month: "Jul", day: "25", active: false },
-    { month: "Ago", day: "25", active: false },
+    { month: "Jan", day: "25", active: false, upValue: 0, downValue: 0 },
+    { month: "Fev", day: "25", active: false, upValue: 0, downValue: 0 },
+    { month: "Mar", day: "25", active: false, upValue: 0, downValue: 0 },
+    { month: "Abr", day: "25", active: true, upValue: 0, downValue: 0 },
+    { month: "Mai", day: "25", active: false, upValue: 0, downValue: 0 },
+    { month: "Jun", day: "25", active: false, upValue: 0, downValue: 0 },
+    { month: "Jul", day: "25", active: false, upValue: 0, downValue: 0 },
+    { month: "Ago", day: "25", active: false, upValue: 0, downValue: 0 },
+    { month: "Set", day: "25", active: false, upValue: 0, downValue: 0 },
+    { month: "Out", day: "25", active: false, upValue: 0, downValue: 0 },
+    { month: "Nov", day: "25", active: false, upValue: 0, downValue: 0 },
+    { month: "Dez", day: "25", active: false, upValue: 0, downValue: 0 },
   ];
 
   return (
@@ -74,6 +80,8 @@ export default function ClientDashboard() {
                         day={monthData.day} 
                         active={monthData.month === activeMonth} 
                         onClick={() => setActiveMonth(monthData.month)}
+                        upValue={monthData.upValue}
+                        downValue={monthData.downValue}
                       />
                     </CarouselItem>
                   ))}
@@ -183,12 +191,16 @@ function MonthCard({
   month, 
   day, 
   active, 
-  onClick 
+  onClick,
+  upValue = 0,
+  downValue = 0
 }: { 
   month: string, 
   day: string, 
   active: boolean,
-  onClick: () => void 
+  onClick: () => void,
+  upValue?: number,
+  downValue?: number
 }) {
   return (
     <div 
@@ -197,8 +209,8 @@ function MonthCard({
     >
       <div className="font-medium">{month} {day}</div>
       <div className="flex justify-center mt-2 text-sm">
-        <span className={`mr-2 ${active ? 'text-green-400' : 'text-green-500'}`}>↑ 0</span>
-        <span className={active ? 'text-red-400' : 'text-red-500'}>↓ 0</span>
+        <span className={`mr-2 ${active ? 'text-green-400' : 'text-green-500'}`}>↑ {upValue}</span>
+        <span className={active ? 'text-red-400' : 'text-red-500'}>↓ {downValue}</span>
       </div>
     </div>
   );
