@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
@@ -51,7 +50,7 @@ export default function ClientDashboard() {
             {/* Seção de boas-vindas */}
             <div className="px-6 mb-6">
               <div className="bg-white p-6 rounded-xl shadow">
-                <h1 className="text-3xl font-bold text-[#0E1C36]">Olá, {profile.firstName || 'Usuário'}</h1>
+                <h1 className="text-3xl font-bold text-[#0E1C36]">Olá, {profile.full_name?.split(' ')[0] || 'Usuário'}</h1>
                 <p className="text-gray-600 mt-1">Aqui está uma visão geral das contas da sua empresa:</p>
               </div>
             </div>
