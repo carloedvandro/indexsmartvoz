@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { MonthCard } from './MonthCard';
+import { ArrowDownIcon, ArrowUpIcon } from 'lucide-react';
 import {
   Carousel,
   CarouselContent,
@@ -70,17 +71,13 @@ export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCa
               onClick={handleTotalClick}
             >
               <div className="font-semibold text-base text-gray-500">Total</div>
-              <div className="flex justify-center mt-2 text-sm space-x-6">
+              <div className="flex justify-center mt-2.5 text-sm space-x-6">
                 <span className="flex items-center">
-                  <svg className="w-4 h-4 mr-1.5" viewBox="0 0 24 24" fill={isTotalActive ? "#4ade80" : "#22c55e"} stroke={isTotalActive ? "#4ade80" : "#22c55e"} strokeWidth="2">
-                    <path d="M12 5l7 7H5z" />
-                  </svg>
+                  <ArrowUpIcon className="w-5 h-5 mr-1.5 stroke-[#22c55e] stroke-[2.5px]" />
                   <span className="text-gray-500 font-medium">{totalUpValue}</span>
                 </span>
                 <span className="flex items-center">
-                  <svg className="w-4 h-4 mr-1.5" viewBox="0 0 24 24" fill={isTotalActive ? "#f87171" : "#ef4444"} stroke={isTotalActive ? "#f87171" : "#ef4444"} strokeWidth="2">
-                    <path d="M12 19l-7-7h14z" />
-                  </svg>
+                  <ArrowDownIcon className="w-5 h-5 mr-1.5 stroke-[#ef4444] stroke-[2.5px]" />
                   <span className="text-gray-500 font-medium">{totalDownValue}</span>
                 </span>
               </div>
