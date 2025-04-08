@@ -89,7 +89,7 @@ export function FinancialSummary() {
       </div>
       
       {/* Comparação card */}
-      <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow">
+      <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow" style={{ maxWidth: '320px' }}>
         <h2 className="text-xl font-bold mb-1">Comparação</h2>
         <p className="text-sm text-gray-500 mb-4">com o período anterior</p>
         
@@ -130,7 +130,7 @@ export function FinancialSummary() {
       </div>
       
       {/* Para acontecer card - reduced size */}
-      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow" style={{ maxWidth: '350px' }}>
+      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow" style={{ maxWidth: '320px' }}>
         <div className="flex justify-between items-start">
           <div>
             <h2 className="text-xl font-bold mb-1">Para acontecer</h2>
