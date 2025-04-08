@@ -92,7 +92,7 @@ export function FinancialSummary() {
       </div>
       
       {/* Comparação card */}
-      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow">
+      <div className="lg:col-span-3 bg-white p-6 rounded-xl shadow">
         <h2 className="text-3xl font-bold mb-1 text-gray-800">Comparação</h2>
         <p className="text-sm text-gray-500 mb-4">com o período anterior</p>
         
@@ -133,7 +133,7 @@ export function FinancialSummary() {
       </div>
       
       {/* Para acontecer card */}
-      <div className="lg:col-span-4 bg-white p-6 rounded-xl shadow">
+      <div className="lg:col-span-3 bg-white p-6 rounded-xl shadow">
         <div className="flex justify-between items-start">
           <div>
             <h2 className="text-3xl font-bold mb-1 text-gray-800">Para acontecer</h2>
