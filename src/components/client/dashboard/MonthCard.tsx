@@ -21,7 +21,7 @@ export function MonthCard({
 }: MonthCardProps) {
   return (
     <div 
-      className={`min-w-full p-4 rounded-xl text-center ${active ? 'bg-[#0E1C36] text-white' : 'bg-white text-gray-700'} shadow cursor-pointer transition-colors`}
+      className={`min-w-[120px] p-4 rounded-xl text-center ${active ? 'bg-[#0E1C36] text-white' : 'bg-white text-gray-700'} shadow cursor-pointer transition-colors`}
       onClick={onClick}
     >
       <div className="font-semibold text-base text-gray-500">{month} {day}</div>
