@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { formatCurrency } from '@/utils/format';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
@@ -16,15 +17,15 @@ export function FinancialSummary() {
       <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow">
         <div className="flex justify-between flex-col lg:flex-row">
           <div className="flex-1">
-            <h2 className="text-xl font-bold mb-1">Até o momento</h2>
+            <h2 className="text-3xl font-bold mb-1 text-gray-800">Até o momento</h2>
             <p className="text-sm text-gray-500 mb-4">Abr 25</p>
             
             {/* Entrou section */}
-            <div className="bg-green-50 p-3 rounded-md mb-3">
+            <div className="bg-green-50 p-4 rounded-md mb-3">
               <div className="flex justify-between items-center">
                 <div className="flex items-center">
                   <div className="text-green-500 mr-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M12 19V5M5 12l7-7 7 7"/>
                     </svg>
                   </div>
@@ -38,12 +39,12 @@ export function FinancialSummary() {
             </div>
             
             {/* Saiu section */}
-            <div className="bg-red-50 p-3 rounded-md mb-3">
+            <div className="bg-red-50 p-4 rounded-md mb-3">
               <div className="flex justify-between items-center">
                 <div className="flex items-center">
                   <div className="text-red-500 mr-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M12 5v14M5 12l7 7-7 7"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 5v14M5 12l7 7 7-7"/>
                     </svg>
                   </div>
                   <div>
@@ -56,7 +57,7 @@ export function FinancialSummary() {
             </div>
             
             {/* Sobrou section */}
-            <div className="p-3 rounded-md border border-gray-100">
+            <div className="p-4 rounded-md border border-gray-100">
               <div className="flex justify-between items-center">
                 <div className="flex items-center">
                   <div className="text-gray-800 mr-2">→</div>
@@ -69,20 +70,20 @@ export function FinancialSummary() {
               </div>
             </div>
             
-            <p className="text-xs text-gray-500 mt-4">*Estes valores não consideram retiradas e aportes de sócio. Representam só as movimentações da operação da empresa.</p>
+            <p className="text-xs text-gray-500 mt-4 leading-tight">*Estes valores não consideram retiradas e aportes de sócio. Representam só as movimentações da operação da empresa.</p>
           </div>
           
           {/* Circular chart summary */}
           <div className="flex items-center justify-center mt-6 lg:mt-0">
-            <div className="relative h-40 w-40 rounded-full bg-gray-200">
+            <div className="relative h-44 w-44 rounded-full bg-gray-200">
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                <div className="flex items-center">
+                <div className="flex items-center mb-1">
                   <div className="h-3 w-3 rounded-full bg-green-500 mr-1"></div>
-                  <span className="text-sm text-green-600">Entrou: R$ 0,00</span>
+                  <span className="text-sm">Entrou: R$ 0,00</span>
                 </div>
-                <div className="flex items-center mt-1">
+                <div className="flex items-center">
                   <div className="h-3 w-3 rounded-full bg-red-500 mr-1"></div>
-                  <span className="text-sm text-red-600">Saiu: R$ 0,00</span>
+                  <span className="text-sm">Saiu: R$ 0,00</span>
                 </div>
               </div>
             </div>
@@ -91,8 +92,8 @@ export function FinancialSummary() {
       </div>
       
       {/* Comparação card */}
-      <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow ml-auto" style={{ maxWidth: '320px' }}>
-        <h2 className="text-xl font-bold mb-1">Comparação</h2>
+      <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow">
+        <h2 className="text-3xl font-bold mb-1 text-gray-800">Comparação</h2>
         <p className="text-sm text-gray-500 mb-4">com o período anterior</p>
         
         <div className="h-64">
@@ -132,10 +133,10 @@ export function FinancialSummary() {
       </div>
       
       {/* Para acontecer card */}
-      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow ml-auto" style={{ maxWidth: '320px' }}>
+      <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow">
         <div className="flex justify-between items-start">
           <div>
-            <h2 className="text-xl font-bold mb-1">Para acontecer</h2>
+            <h2 className="text-3xl font-bold mb-1 text-gray-800">Para acontecer</h2>
             <p className="text-sm text-gray-500 mb-4">próximas 25 receitas e despesas futuras</p>
           </div>
           <div className="space-y-1 text-right">
@@ -143,13 +144,13 @@ export function FinancialSummary() {
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
-              A Pagar
+              <span className="text-teal-500">A Pagar</span>
             </div>
             <div className="text-teal-500 text-sm flex items-center justify-end">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
-              A Receber
+              <span className="text-teal-500">A Receber</span>
             </div>
           </div>
         </div>
@@ -160,7 +161,7 @@ export function FinancialSummary() {
         </div>
         
         <div className="flex justify-between items-center mt-6 pt-4 border-t">
-          <div className="font-bold">Saldo total:</div>
+          <div className="font-semibold text-lg">Saldo total:</div>
           <div className="font-bold text-xl">R$ 0,00</div>
         </div>
       </div>
