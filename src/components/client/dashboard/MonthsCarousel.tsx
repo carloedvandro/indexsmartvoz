@@ -70,18 +70,18 @@ export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCa
               onClick={handleTotalClick}
             >
               <div className="font-semibold text-base text-gray-500">Total</div>
-              <div className="flex justify-center mt-2 text-sm space-x-4">
+              <div className="flex justify-center mt-2 text-sm space-x-6">
                 <span className="flex items-center">
-                  <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill={isTotalActive ? "#4ade80" : "#22c55e"}>
-                    <path d="M7 14l5-5 5 5H7z" />
+                  <svg className="w-4 h-4 mr-1.5" viewBox="0 0 24 24" fill={isTotalActive ? "#4ade80" : "#22c55e"} stroke={isTotalActive ? "#4ade80" : "#22c55e"} strokeWidth="2">
+                    <path d="M12 5l7 7H5z" />
                   </svg>
-                  <span className="text-gray-500">{totalUpValue}</span>
+                  <span className="text-gray-500 font-medium">{totalUpValue}</span>
                 </span>
                 <span className="flex items-center">
-                  <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill={isTotalActive ? "#f87171" : "#ef4444"}>
-                    <path d="M7 10l5 5 5-5H7z" />
+                  <svg className="w-4 h-4 mr-1.5" viewBox="0 0 24 24" fill={isTotalActive ? "#f87171" : "#ef4444"} stroke={isTotalActive ? "#f87171" : "#ef4444"} strokeWidth="2">
+                    <path d="M12 19l-7-7h14z" />
                   </svg>
-                  <span className="text-gray-500">{totalDownValue}</span>
+                  <span className="text-gray-500 font-medium">{totalDownValue}</span>
                 </span>
               </div>
             </div>
