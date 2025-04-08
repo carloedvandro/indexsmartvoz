@@ -27,7 +27,7 @@ const CarouselPrevious = React.forwardRef<
       onClick={scrollPrev}
       {...props}
     >
-      <ChevronLeft className="h-10 w-10" />
+      <ChevronLeft className="h-14 w-14" />
       <span className="sr-only">Previous slide</span>
     </Button>
   )
