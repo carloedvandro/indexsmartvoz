@@ -81,7 +81,7 @@ export function MainContent({
       animate="visible"
       variants={containerVariants}
     >
-      <div className="w-full max-w-[350px] mx-auto">
+      <div className="w-full max-w-[360px] mx-auto">
         <Card className="relative z-10 shadow-none bg-transparent border-0">
           <CardContent className="w-full px-0">
             <motion.div variants={itemVariants} className="w-full">
