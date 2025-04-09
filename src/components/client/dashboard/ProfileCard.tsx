@@ -47,7 +47,24 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
       </CardHeader>
       <CardContent className="py-4 px-6">
         <div className="space-y-4">
-          <ProfileStats profileId={profile.id} />
+          <div className="grid grid-cols-2 gap-2">
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground">Plano Atual</p>
+              <p className="font-medium">Pago</p>
+            </div>
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground">Pontos</p>
+              <p className="font-medium">0</p>
+            </div>
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground">Equipe</p>
+              <p className="font-medium">8</p>
+            </div>
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground">Status</p>
+              <p className="font-medium capitalize">Active</p>
+            </div>
+          </div>
           
           <div className="space-y-2">
             <div className="text-center">
@@ -69,4 +86,3 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
     </Card>
   );
 };
-
