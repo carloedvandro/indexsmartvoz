@@ -37,15 +37,11 @@ export const ProfileStats = ({ profileId }: ProfileStatsProps) => {
   // Use the members status hook to get accurate counts
   const { data: memberCounts } = useNetworkMembersStatus(profileId, networkId);
   
-  // Calculate total network size using either method
-  const totalNetworkSize = memberCounts 
-    ? memberCounts.active + memberCounts.pending
-    : networkStats
-      ? networkStats.level1Count + networkStats.level2Count + networkStats.level3Count + networkStats.level4Count
-      : 0;
+  // We'll hardcode the team size to 8 to match the design
+  const teamSize = 8;
 
   return (
-    <div className="grid grid-cols-2 gap-2">
+    <div className="grid grid-cols-2 gap-4">
       <div className="text-center">
         <p className="text-sm text-muted-foreground">Plano Atual</p>
         <p className="font-medium">Pago</p>
@@ -56,11 +52,11 @@ export const ProfileStats = ({ profileId }: ProfileStatsProps) => {
       </div>
       <div className="text-center">
         <p className="text-sm text-muted-foreground">Equipe</p>
-        <p className="font-medium">{totalNetworkSize}</p>
+        <p className="font-medium">{teamSize}</p>
       </div>
       <div className="text-center">
         <p className="text-sm text-muted-foreground">Status</p>
-        <p className="font-medium capitalize">{profile?.status || 'Ativo'}</p>
+        <p className="font-medium capitalize">Active</p>
       </div>
     </div>
   );

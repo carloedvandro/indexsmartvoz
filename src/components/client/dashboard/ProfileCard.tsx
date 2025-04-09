@@ -47,7 +47,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
       </CardHeader>
       <CardContent className="py-4 px-6">
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-4">
             <div className="text-center">
               <p className="text-sm text-muted-foreground">Plano Atual</p>
               <p className="font-medium">Pago</p>
