@@ -40,7 +40,7 @@ export const navigationItems: NavigationItem[] = [
   },
   {
     title: "Site Oficial",
-    href: "/site/home",
+    href: "/site",
     icon: "external",
   },
 ];
