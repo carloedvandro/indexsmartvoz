@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { WelcomeSection } from "@/components/client/dashboard/WelcomeSection";
 import { MonthsCarousel } from "@/components/client/dashboard/MonthsCarousel";
-import { FinancialSummary } from "@/components/client/dashboard/FinancialSummary";
 import { DashboardCards } from "@/components/client/dashboard/DashboardCards";
 import { getMonthsData, getDailyData } from "@/utils/monthsData";
 import "@/styles/logo.css"; // Ensure the logo styles are imported
@@ -48,10 +47,9 @@ export default function ClientDashboard() {
               activeDay={activeDay}
               setActiveDay={setActiveDay}
             />
-            <FinancialSummary 
-              activeMonth={activeMonth}
-              monthsData={dailyData}
-            />
+            
+            {/* FinancialSummary component removed */}
+            
             <DashboardCards 
               profile={profile}
               networkStats={networkStats}
