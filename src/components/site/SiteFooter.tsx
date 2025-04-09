@@ -5,7 +5,7 @@ import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 
 export function SiteFooter() {
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-gray-900 dark:bg-gray-950 text-white">
       <div className="container px-4 mx-auto py-12">
         <div className="grid md:grid-cols-4 gap-8">
           <div>

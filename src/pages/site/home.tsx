@@ -1,7 +1,5 @@
 
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import React, { useEffect } from 'react';
 import { SiteHeader } from '@/components/site/SiteHeader';
 import { SiteHero } from '@/components/site/SiteHero';
 import { SiteFeatures } from '@/components/site/SiteFeatures';
@@ -11,8 +9,19 @@ import { SiteContact } from '@/components/site/SiteContact';
 import { SiteFooter } from '@/components/site/SiteFooter';
 
 export default function SiteHome() {
+  // Add the dark class to the html element on component mount
+  useEffect(() => {
+    // You can uncomment this to set dark mode by default
+    // document.documentElement.classList.add('dark');
+    
+    // Clean up function to remove the class when component unmounts
+    return () => {
+      // document.documentElement.classList.remove('dark');
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       <SiteHeader />
       <main>
         <SiteHero />
