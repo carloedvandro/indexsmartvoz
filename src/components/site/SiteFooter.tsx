@@ -9,7 +9,7 @@ export function SiteFooter() {
       <div className="container px-4 mx-auto py-12">
         <div className="grid md:grid-cols-4 gap-8">
           <div>
-            <Link to="/site/home" className="flex items-center space-x-2 mb-6">
+            <Link to="/site" className="flex items-center space-x-2 mb-6">
               <img 
                 src="https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images//smartvoz_chip_favicon.png" 
                 alt="Smartvoz Logo" 
@@ -117,11 +117,6 @@ export function SiteFooter() {
 
         <div className="mt-12 pt-8 border-t border-gray-800 text-center text-gray-400">
           <p>&copy; {new Date().getFullYear()} Smartvoz. Todos os direitos reservados.</p>
-          <p className="mt-2">
-            <Link to="/home" className="text-purple-400 hover:text-purple-300">
-              Portal do Cliente
-            </Link>
-          </p>
         </div>
       </div>
     </footer>

@@ -93,7 +93,7 @@ export function SiteHeader() {
           >
             {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
           </button>
-          <Link to="/home">
+          <Link to="/">
             <Button variant="outline" className="mr-2 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800">
               Portal do Cliente
             </Button>
@@ -154,7 +154,7 @@ export function SiteHeader() {
               Contato
             </button>
             <Link
-              to="/home"
+              to="/"
               className="block px-3 py-2 text-base font-medium text-purple-800 dark:text-purple-400"
               onClick={() => setIsMenuOpen(false)}
             >
