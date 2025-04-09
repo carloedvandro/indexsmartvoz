@@ -18,7 +18,7 @@ export function NavigationButtons({
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-between gap-4 mt-6 max-w-[340px] mx-auto">
+    <div className="flex justify-between gap-4 mt-6 max-w-[365px] mx-auto w-full">
       <Button 
         variant="outline"
         className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1"
