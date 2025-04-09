@@ -6,6 +6,7 @@ import { DDDInput } from "@/components/client/products/DDDInput";
 import { DueDateSelector } from "@/components/client/products/DueDateSelector";
 import { PriceSummary } from "@/components/client/products/PriceSummary";
 import { NavigationButtons } from "@/components/client/products/chip-activation/NavigationButtons";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface PlanSelectionStepProps {
   onBack: () => void;
@@ -21,6 +22,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   const [selectedInternet, setSelectedInternet] = useState<string>("");
   const [selectedDDD, setSelectedDDD] = useState<string>("");
   const [selectedDueDate, setSelectedDueDate] = useState<number | null>(null);
+  const isMobile = useIsMobile();
 
   const internetOptions = [
     { value: "120GB", label: "Plano 120GB", price: 119.99 },
@@ -48,7 +50,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   };
 
   return (
-    <div className="max-w-[420px] mx-auto w-full" style={{ marginTop: "74px" }}>
+    <div className="mx-auto w-full" style={{ width: isMobile ? "95%" : "460px", marginTop: "74px" }}>
       <div className="space-y-6">
         <div className="space-y-3 text-center">
           <div className="w-full flex justify-center mb-4">
@@ -62,7 +64,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
         </div>
 
         <div className="space-y-6">
-          <div className="w-full max-w-[400px] mx-auto">
+          <div className="w-full mx-auto">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <InternetSelector
@@ -80,7 +82,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             </div>
           </div>
 
-          <div className="w-full max-w-[400px] mx-auto">
+          <div className="w-full mx-auto">
             <DueDateSelector
               selectedDueDate={selectedDueDate}
               setSelectedDueDate={setSelectedDueDate}
@@ -88,7 +90,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             />
           </div>
 
-          <div className="w-full max-w-[400px] mx-auto">
+          <div className="w-full mx-auto">
             <PriceSummary
               linePrice={getLinePrice()}
               totalPrice={getLinePrice()}
@@ -96,7 +98,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           </div>
         </div>
 
-        <div className="w-full max-w-[400px] mx-auto flex gap-4 pt-4">
+        <div className="w-full mx-auto flex gap-4 pt-4">
           <Button 
             variant="outline" 
             className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1"

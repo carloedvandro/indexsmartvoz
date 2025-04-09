@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface NavigationButtonsProps {
   currentStep: number;
@@ -16,9 +17,10 @@ export function NavigationButtons({
   disabled = false
 }: NavigationButtonsProps) {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   return (
-    <div className="flex justify-between gap-4 mt-6 max-w-[400px] mx-auto">
+    <div className="flex justify-between gap-4 mt-6 mx-auto" style={{ width: isMobile ? "100%" : "400px" }}>
       <Button 
         variant="outline"
         className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1"

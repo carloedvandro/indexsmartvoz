@@ -3,6 +3,7 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { CalendarStyle } from "@/hooks/useCalendarStyles";
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface DueDateSelectorProps {
   selectedDueDate: number | null;
@@ -17,6 +18,7 @@ export function DueDateSelector({
   calendarStyle,
   selectedCardClassName
 }: DueDateSelectorProps) {
+  const isMobile = useIsMobile();
   const dueDates = [
     [2, 5, 7, 10],
     [15, 20, 25, 30]
@@ -45,7 +47,7 @@ export function DueDateSelector({
         </h2>
       </div>
 
-      <div className="w-full max-w-[400px] mx-auto">
+      <div className="w-full mx-auto">
         <div className="grid grid-cols-4 gap-2 w-full mt-1">
           {dueDates.map((row, rowIndex) => (
             <React.Fragment key={rowIndex}>
