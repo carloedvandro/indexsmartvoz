@@ -136,31 +136,52 @@ export function FinancialSummary({ activeMonth, monthsData }) {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={chartData}
+              barGap={0}
               margin={{
                 top: 5,
-                right: 5,
-                left: 5,
+                right: 0,
+                left: 0,
                 bottom: 5,
               }}
             >
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="name" />
-              <YAxis 
-                domain={[0, 'dataMax + 5']}
-                tickFormatter={(tick) => `R$${tick}k`} 
+              <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
+              <XAxis 
+                dataKey="name" 
+                tickLine={false}
+                axisLine={false}
+                tick={{ fontSize: 12, fill: '#666' }}
               />
-              <Bar dataKey="entrou" fill="#22c55e" />
-              <Bar dataKey="saiu" fill="#ef4444" />
+              <YAxis 
+                domain={[0, 'dataMax + 0.5']}
+                tickFormatter={(tick) => `R$${tick}`}
+                tickLine={false}
+                axisLine={false}
+                tick={{ fontSize: 12, fill: '#666' }}
+              />
+              <Bar 
+                dataKey="entrou" 
+                fill="#22c55e" 
+                radius={[4, 4, 0, 0]} 
+                barSize={30}
+                name="Entrou"
+              />
+              <Bar 
+                dataKey="saiu" 
+                fill="#ef4444" 
+                radius={[4, 4, 0, 0]} 
+                barSize={30}
+                name="Saiu"
+              />
             </BarChart>
           </ResponsiveContainer>
           
-          <div className="flex justify-center gap-6 mt-2">
+          <div className="flex justify-center gap-6 mt-4">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <div className="w-4 h-4 bg-green-500 rounded-full"></div>
               <span className="text-sm">Entrou</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+              <div className="w-4 h-4 bg-red-500 rounded-full"></div>
               <span className="text-sm">Saiu</span>
             </div>
           </div>
