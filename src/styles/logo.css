@@ -35,15 +35,16 @@
     margin-top: -14px !important;
     right: 0 !important;
     position: relative !important;
-    left: -20px !important; /* Changed from -50px to -20px to move more to the right */
+    left: -18px !important; /* Changed from -20px to -18px to move 2px more to the right */
   }
   
   .logo-container {
     justify-content: flex-start !important;
-    padding-left: 30px !important; /* Increased from 15px to 30px to align with cards */
+    padding-left: 30px !important;
     padding-right: 0 !important;
   }
 }
+
 
 
 
