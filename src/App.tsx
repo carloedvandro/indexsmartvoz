@@ -1,6 +1,6 @@
 
 import * as React from 'react';
-import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route, Navigate } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster";
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import Index from '@/pages/Index';
@@ -29,7 +29,6 @@ import AdminUsers from '@/pages/admin/users';
 import PublicStore from '@/pages/public/store';
 import ResetPassword from '@/pages/client/reset-password';
 import UpdatePassword from '@/pages/client/update-password';
-import SiteHome from '@/pages/site/home';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -43,8 +42,6 @@ const router = createBrowserRouter(
       <Route path="/client/update-password" element={<UpdatePassword />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/store/:storeUrl" element={<PublicStore />} />
-      <Route path="/site/home" element={<SiteHome />} />
-      <Route path="/site" element={<Navigate to="/site/home" replace />} />
 
       {/* Protected Client Routes */}
       <Route element={<ProtectedRoute />}>

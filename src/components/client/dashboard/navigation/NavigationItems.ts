@@ -38,9 +38,4 @@ export const navigationItems: NavigationItem[] = [
       }
     ],
   },
-  {
-    title: "Site Oficial",
-    href: "/site/home",
-    icon: "external",
-  },
 ];

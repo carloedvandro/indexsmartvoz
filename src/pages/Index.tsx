@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "@/components/LanguageSelector";
-import { ExternalLink } from "lucide-react";
 
 export default function Index() {
   const { t } = useTranslation();
@@ -41,12 +40,6 @@ export default function Index() {
           <Link to="/admin/login" className="block">
             <Button size="lg" className="w-full text-lg py-6 bg-secondary hover:bg-secondary/90 text-white bg-[#660099]">
               {t('admin_area')}
-            </Button>
-          </Link>
-          
-          <Link to="/site/home" className="block">
-            <Button size="lg" className="w-full text-lg py-6 bg-[#333] hover:bg-[#222] text-white flex items-center justify-center gap-2">
-              {t('site_oficial')} <ExternalLink className="h-5 w-5" />
             </Button>
           </Link>
         </div>

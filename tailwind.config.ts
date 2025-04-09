@@ -7,7 +7,7 @@ import { borderRadius } from "./src/theme/radius";
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 
 export default {
-  darkMode: ['class'],
+  darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
