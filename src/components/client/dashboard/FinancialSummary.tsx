@@ -59,8 +59,8 @@ export function FinancialSummary({ activeMonth, monthsData }: FinancialSummaryPr
     <div className="px-6 mb-6">
       {/* Até o momento card */}
       <div className="bg-white p-6 rounded-xl shadow">
-        <div className="flex justify-between flex-col lg:flex-row">
-          <div className="flex-1 max-w-[400px]">
+        <div>
+          <div className="max-w-[600px] mx-auto">
             <h2 className="text-3xl font-bold mb-1 text-gray-800">Até o momento</h2>
             <p className="text-sm text-gray-500 mb-4">{displayDate}</p>
             
@@ -115,25 +115,6 @@ export function FinancialSummary({ activeMonth, monthsData }: FinancialSummaryPr
             </div>
             
             <p className="text-xs text-gray-500 mt-4 leading-tight">*Estes valores não consideram retiradas e aportes de sócio. Representam só as movimentações da operação da empresa.</p>
-          </div>
-          
-          {/* Circular chart summary */}
-          <div className="flex items-center justify-center mt-6 lg:mt-0">
-            <div className="relative w-[200px] h-[200px]">
-              <div className="absolute inset-0 rounded-full bg-gray-200"></div>
-              <div className="absolute inset-[15px] rounded-full bg-white flex items-center justify-center">
-                <div className="text-center">
-                  <div className="flex items-center mb-2 justify-center">
-                    <div className="h-3 w-3 rounded-full bg-green-500 mr-2"></div>
-                    <span className="text-sm text-gray-700">Entrou: {formatStyledCurrency(activeMonthData.upValue)}</span>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <div className="h-3 w-3 rounded-full bg-red-500 mr-2"></div>
-                    <span className="text-sm text-gray-700">Saiu: {formatStyledCurrency(activeMonthData.downValue)}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
