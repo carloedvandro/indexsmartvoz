@@ -26,13 +26,17 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
           <DropdownMenuTrigger asChild>
             <Button 
               variant="ghost" 
-              className="p-0 h-auto border-0 shadow-none bg-[#0a3845] hover:bg-[#0a3845] text-[#1eaedb] flex items-center gap-2 pl-4 pr-4 py-3 rounded-none"
+              className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-center pl-0 gap-2"
               style={{ pointerEvents: 'auto' }}
             >
               <Home className="h-5 w-5" />
               <span 
-                className="font-medium text-left" 
-                style={{ pointerEvents: 'none' }}
+                className="font-bold text-left" 
+                style={{
+                  color: '#5f0889',
+                  pointerEvents: 'none',
+                  fontSize: '1.3rem'
+                }}
               >
                 Início
               </span>
@@ -43,8 +47,8 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <>
                 <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
-                    <Home className="h-5 w-5 text-[#1eaedb]" />
-                    <span className="font-medium text-gray-800">Início</span>
+                    <Home className="h-5 w-5 text-[#5f0889]" />
+                    <span className="font-bold self-center text-[#5f0889] text-lg">Início</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
