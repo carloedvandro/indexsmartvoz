@@ -80,7 +80,7 @@ export function PlanSelectionStep({
   };
 
   return (
-    <div className="space-y-6 -mt-[0px] pt-5 mx-auto w-full" style={{ maxWidth: isMobile ? "95%" : "520px" }}>
+    <div className="space-y-6 -mt-[0px] pt-5 mx-auto w-full" style={{ maxWidth: isMobile ? "96%" : "520px" }}>
       <motion.div 
         className="space-y-3 mx-auto text-center"
         variants={itemVariants}

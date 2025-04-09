@@ -21,7 +21,7 @@ export function PlanSelectionHeader({ variants }: PlanSelectionHeaderProps) {
     <motion.div 
       className="space-y-3 mx-auto text-center pt-5"
       variants={variants}
-      style={{ width: isMobile ? "95%" : "520px" }}
+      style={{ width: isMobile ? "96%" : "520px" }}
     >
       <div className="w-full flex justify-center mb-4">
         <img 
