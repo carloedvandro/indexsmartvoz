@@ -9,6 +9,7 @@ interface MonthCardProps {
   onClick: () => void;
   upValue?: number;
   downValue?: number;
+  date?: Date;
 }
 
 export function MonthCard({ 
@@ -17,14 +18,20 @@ export function MonthCard({
   active, 
   onClick,
   upValue = 0,
-  downValue = 0
+  downValue = 0,
+  date
 }: MonthCardProps) {
+  // Format day for display
+  const displayDay = date 
+    ? `${day}/${month.substring(0, 3)}`
+    : `${month} ${day}`;
+
   return (
     <div 
-      className={`min-w-[160px] sm:min-w-[170px] p-4 rounded-xl text-center ${active ? 'bg-[#0E1C36] text-white' : 'bg-white text-gray-700'} shadow cursor-pointer transition-colors`}
+      className={`min-w-[120px] sm:min-w-[140px] p-4 rounded-xl text-center ${active ? 'bg-[#0E1C36] text-white' : 'bg-white text-gray-700'} shadow cursor-pointer transition-colors`}
       onClick={onClick}
     >
-      <div className="font-semibold text-base text-gray-500">{month} {day}</div>
+      <div className="font-semibold text-base text-gray-500">{displayDay}</div>
       <div className="flex justify-center mt-2.5 text-sm space-x-6">
         <span className="flex items-center">
           <ArrowUpIcon className="w-5 h-5 mr-1.5 stroke-[#22c55e] stroke-[2.5px]" />

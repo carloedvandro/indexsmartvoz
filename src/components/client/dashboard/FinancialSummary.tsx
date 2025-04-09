@@ -1,11 +1,31 @@
 
 import React, { useMemo } from 'react';
 import { formatCurrency } from '@/utils/format';
+import { MonthData } from '@/utils/monthsData';
 
-export function FinancialSummary({ activeMonth, monthsData }) {
+interface FinancialSummaryProps {
+  activeMonth: string;
+  monthsData: MonthData[];
+}
+
+export function FinancialSummary({ activeMonth, monthsData }: FinancialSummaryProps) {
   const activeMonthData = useMemo(() => {
-    return monthsData.find(m => m.month === activeMonth) || 
-           { month: "Abr", day: "25", active: true, upValue: 16200, downValue: 9800 };
+    // First try to find by active flag
+    const active = monthsData.find(m => m.active);
+    if (active) return active;
+    
+    // If no active flag, find by month name
+    const byMonth = monthsData.find(m => m.month === activeMonth);
+    if (byMonth) return byMonth;
+    
+    // Fallback to default
+    return { 
+      month: "Abr", 
+      day: "25", 
+      active: true, 
+      upValue: 16200, 
+      downValue: 9800 
+    };
   }, [activeMonth, monthsData]);
 
   const balance = activeMonthData.upValue - activeMonthData.downValue;
@@ -30,6 +50,11 @@ export function FinancialSummary({ activeMonth, monthsData }) {
     );
   };
 
+  // Format the display date
+  const displayDate = activeMonthData.date 
+    ? new Intl.DateTimeFormat('pt-BR', { day: 'numeric', month: 'long' }).format(activeMonthData.date)
+    : `${activeMonthData.month} ${activeMonthData.day}`;
+
   return (
     <div className="px-6 mb-6">
       {/* Até o momento card */}
@@ -37,7 +62,7 @@ export function FinancialSummary({ activeMonth, monthsData }) {
         <div className="flex justify-between flex-col lg:flex-row">
           <div className="flex-1 max-w-[400px]">
             <h2 className="text-3xl font-bold mb-1 text-gray-800">Até o momento</h2>
-            <p className="text-sm text-gray-500 mb-4">{activeMonthData.month} {activeMonthData.day}</p>
+            <p className="text-sm text-gray-500 mb-4">{displayDate}</p>
             
             {/* Entrou section */}
             <div className="bg-green-50 p-4 rounded-md mb-3">

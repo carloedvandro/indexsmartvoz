@@ -9,7 +9,7 @@ import { WelcomeSection } from "@/components/client/dashboard/WelcomeSection";
 import { MonthsCarousel } from "@/components/client/dashboard/MonthsCarousel";
 import { FinancialSummary } from "@/components/client/dashboard/FinancialSummary";
 import { DashboardCards } from "@/components/client/dashboard/DashboardCards";
-import { getMonthsData } from "@/utils/monthsData";
+import { getMonthsData, getDailyData } from "@/utils/monthsData";
 import "@/styles/logo.css"; // Ensure the logo styles are imported
 
 export default function ClientDashboard() {
@@ -17,6 +17,7 @@ export default function ClientDashboard() {
   const { data: profile } = useProfile();
   const { data: networkStats } = useNetworkStats(profile?.id);
   const [activeMonth, setActiveMonth] = useState("Abr");
+  const [activeDay, setActiveDay] = useState("");
 
   const handleNetworkClick = () => {
     navigate("/client/network");
@@ -26,7 +27,8 @@ export default function ClientDashboard() {
     return null;
   }
 
-  const months = getMonthsData(activeMonth);
+  // Use daily data instead of monthly data
+  const dailyData = getDailyData(activeDay);
 
   return (
     <motion.div 
@@ -40,13 +42,15 @@ export default function ClientDashboard() {
           <div className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
             <WelcomeSection profile={profile} />
             <MonthsCarousel 
-              months={months} 
-              activeMonth={activeMonth} 
-              setActiveMonth={setActiveMonth} 
+              months={dailyData} 
+              activeMonth={activeMonth}
+              setActiveMonth={setActiveMonth}
+              activeDay={activeDay}
+              setActiveDay={setActiveDay}
             />
             <FinancialSummary 
               activeMonth={activeMonth}
-              monthsData={months}
+              monthsData={dailyData}
             />
             <DashboardCards 
               profile={profile}

@@ -10,22 +10,23 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useIsMobile } from '@/hooks/use-mobile';
-
-interface MonthData {
-  month: string;
-  day: string;
-  active: boolean;
-  upValue: number;
-  downValue: number;
-}
+import { MonthData } from '@/utils/monthsData';
 
 interface MonthsCarouselProps {
   months: MonthData[];
   activeMonth: string;
   setActiveMonth: (month: string) => void;
+  activeDay?: string;
+  setActiveDay?: (day: string) => void;
 }
 
-export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCarouselProps) {
+export function MonthsCarousel({ 
+  months, 
+  activeMonth, 
+  setActiveMonth,
+  activeDay,
+  setActiveDay
+}: MonthsCarouselProps) {
   const totalUpValue = months.reduce((sum, month) => sum + month.upValue, 0);
   const totalDownValue = months.reduce((sum, month) => sum + month.downValue, 0);
   const isMobile = useIsMobile();
@@ -35,11 +36,21 @@ export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCa
   const handleTotalClick = () => {
     setIsTotalActive(true);
     setActiveMonth('');
+    if (setActiveDay) setActiveDay('');
   }
 
-  const handleMonthClick = (month: string) => {
+  const handleDayClick = (month: MonthData) => {
     setIsTotalActive(false);
-    setActiveMonth(month);
+    
+    // If we have daily data (with date property)
+    if (month.date && setActiveDay) {
+      const formattedDay = `${month.day}/${month.month.substring(0, 3)}`;
+      setActiveDay(formattedDay);
+      setActiveMonth(month.month);
+    } else {
+      // Old month-based selection
+      setActiveMonth(month.month);
+    }
   }
 
   return (
@@ -48,21 +59,22 @@ export function MonthsCarousel({ months, activeMonth, setActiveMonth }: MonthsCa
         <CarouselPrevious className="absolute -left-10 top-1/2 -translate-y-1/2 z-10 hover:bg-transparent focus:bg-transparent focus:outline-none" />
         <CarouselContent className="py-2">
           {months.map((monthData, index) => (
-            <CarouselItem key={index} className="basis-auto md:basis-1/3 lg:basis-1/5">
+            <CarouselItem key={index} className="basis-auto md:basis-1/5 lg:basis-1/7">
               <MonthCard 
                 month={monthData.month} 
                 day={monthData.day} 
-                active={monthData.month === activeMonth && !isTotalActive} 
-                onClick={() => handleMonthClick(monthData.month)}
+                date={monthData.date}
+                active={monthData.active && !isTotalActive} 
+                onClick={() => handleDayClick(monthData)}
                 upValue={monthData.upValue}
                 downValue={monthData.downValue}
               />
             </CarouselItem>
           ))}
           
-          <CarouselItem className="basis-auto md:basis-1/3 lg:basis-1/5">
+          <CarouselItem className="basis-auto md:basis-1/5 lg:basis-1/7">
             <div 
-              className={`min-w-[160px] sm:min-w-[170px] p-4 rounded-xl text-center cursor-pointer transition-colors ${
+              className={`min-w-[120px] sm:min-w-[140px] p-4 rounded-xl text-center cursor-pointer transition-colors ${
                 isTotalActive ? 'bg-[#0E1C36] text-white' : 'bg-white text-gray-700 shadow border border-gray-200'
               }`}
               onClick={handleTotalClick}

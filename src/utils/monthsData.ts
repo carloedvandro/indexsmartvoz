@@ -1,11 +1,43 @@
-
 export interface MonthData {
   month: string;
   day: string;
   active: boolean;
   upValue: number;
   downValue: number;
+  date?: Date;
 }
+
+export const getDailyData = (activeDay: string = ""): MonthData[] => {
+  const now = new Date();
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  
+  const result: MonthData[] = [];
+  
+  for (let i = 1; i <= daysInMonth; i++) {
+    const date = new Date(currentYear, currentMonth, i);
+    const day = i.toString();
+    const month = new Intl.DateTimeFormat('pt-BR', { month: 'short' }).format(date).replace('.', '');
+    const monthDay = `${day}/${month}`;
+    
+    const baseUp = 10000 + (i * 200);
+    const baseDown = 7000 + (i * 100);
+    const randomVariationUp = Math.floor(Math.random() * 2000);
+    const randomVariationDown = Math.floor(Math.random() * 1500);
+    
+    result.push({
+      month: month.charAt(0).toUpperCase() + month.slice(1),
+      day,
+      active: activeDay === monthDay,
+      upValue: baseUp + randomVariationUp,
+      downValue: baseDown + randomVariationDown,
+      date
+    });
+  }
+  
+  return result;
+};
 
 export const getMonthsData = (activeMonth: string = "Abr"): MonthData[] => {
   return [
@@ -23,4 +55,3 @@ export const getMonthsData = (activeMonth: string = "Abr"): MonthData[] => {
     { month: "Dez", day: "25", active: activeMonth === "Dez", upValue: 26700, downValue: 18500 },
   ];
 };
-
