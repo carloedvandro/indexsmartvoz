@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { CalendarStyle } from "@/hooks/useCalendarStyles";
@@ -44,7 +45,7 @@ export function DueDateSelector({
         </h2>
       </div>
 
-      <div className="w-full max-w-[340px] mx-auto">
+      <div className="w-full max-w-[400px] mx-auto">
         <div className="grid grid-cols-4 gap-2 w-full mt-1">
           {dueDates.map((row, rowIndex) => (
             <React.Fragment key={rowIndex}>

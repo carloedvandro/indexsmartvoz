@@ -78,9 +78,9 @@ export function PlanSelectionStep({
   };
 
   return (
-    <div className="space-y-6 -mt-[0px] pt-5 max-w-[342px] mx-auto w-full">
+    <div className="space-y-6 -mt-[0px] pt-5 max-w-[420px] mx-auto w-full">
       <motion.div 
-        className="space-y-3 max-w-[342px] mx-auto text-center"
+        className="space-y-3 max-w-[420px] mx-auto text-center"
         variants={itemVariants}
       >
         <div className="w-full flex justify-center mb-4">
