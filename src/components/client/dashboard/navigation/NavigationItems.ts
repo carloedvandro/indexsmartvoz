@@ -40,8 +40,7 @@ export const navigationItems: NavigationItem[] = [
   },
   {
     title: "Site Oficial",
-    href: "https://github.com/carloedvandro/smartvoz.git",
+    href: "/site",
     icon: "external",
   },
 ];
-

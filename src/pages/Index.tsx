@@ -44,14 +44,13 @@ export default function Index() {
             </Button>
           </Link>
           
-          <a href="https://github.com/carloedvandro/smartvoz.git" target="_blank" rel="noopener noreferrer" className="block">
+          <Link to="/site" className="block">
             <Button size="lg" className="w-full text-lg py-6 bg-[#333] hover:bg-[#222] text-white flex items-center justify-center gap-2">
               {t('site_oficial')} <ExternalLink className="h-5 w-5" />
             </Button>
-          </a>
+          </Link>
         </div>
       </motion.div>
     </div>
   );
 }
-

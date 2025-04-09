@@ -23,17 +23,29 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
         <div className="flex flex-col gap-0.5">
           {item.href ? (
             item.icon === "external" ? (
-              <a
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap ml-0"
-              >
-                <div className="flex items-center">
-                  <ExternalLink className="h-4 w-4 mr-2" />
-                  <span className="text-base font-medium">{item.title}</span>
-                </div>
-              </a>
+              item.href.startsWith("http") ? (
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap ml-0"
+                >
+                  <div className="flex items-center">
+                    <ExternalLink className="h-4 w-4 mr-2" />
+                    <span className="text-base font-medium">{item.title}</span>
+                  </div>
+                </a>
+              ) : (
+                <Link
+                  to={item.href}
+                  className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap ml-0"
+                >
+                  <div className="flex items-center">
+                    <ExternalLink className="h-4 w-4 mr-2" />
+                    <span className="text-base font-medium">{item.title}</span>
+                  </div>
+                </Link>
+              )
             ) : (
               <Link
                 to={item.href}
@@ -103,4 +115,3 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
     </div>
   );
 }
-
