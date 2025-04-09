@@ -47,7 +47,7 @@ export function DueDateSelector({
         </h2>
       </div>
 
-      <div className="w-full mx-auto">
+      <div className="w-full mx-auto" style={{ maxWidth: isMobile ? "100%" : "480px" }}>
         <div className="grid grid-cols-4 gap-2 w-full mt-1">
           {dueDates.map((row, rowIndex) => (
             <React.Fragment key={rowIndex}>

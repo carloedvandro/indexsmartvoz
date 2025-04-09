@@ -50,7 +50,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   };
 
   return (
-    <div className="mx-auto w-full" style={{ width: isMobile ? "95%" : "460px", marginTop: "74px" }}>
+    <div className="mx-auto w-full" style={{ width: isMobile ? "100%" : "520px", marginTop: "74px" }}>
       <div className="space-y-6">
         <div className="space-y-3 text-center">
           <div className="w-full flex justify-center mb-4">
