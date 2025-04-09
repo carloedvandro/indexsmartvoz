@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
 import { NavigationItem } from "../types";
-import { ArrowRight, Home } from "lucide-react";
+import { ArrowRight, Home, ExternalLink } from "lucide-react";
 
 interface DesktopNavigationProps {
   navigationItems: NavigationItem[];
@@ -17,7 +17,8 @@ interface DesktopNavigationProps {
 
 export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) => {
   const homeItem = navigationItems.find(item => item.icon === "home");
-  const otherItems = navigationItems.filter(item => item.icon !== "home");
+  const externalItems = navigationItems.filter(item => item.icon === "external");
+  const otherItems = navigationItems.filter(item => item.icon !== "home" && item.icon !== "external");
 
   return (
     <div className="justify-start items-center gap-2 lg:flex hidden flex-row pl-0">
@@ -95,9 +96,46 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 )}
               </div>
             ))}
+
+            {/* External links section */}
+            {externalItems.length > 0 && (
+              <>
+                <DropdownMenuSeparator />
+                {externalItems.map((item) => (
+                  <DropdownMenuItem key={item.title} asChild>
+                    <a 
+                      href={item.href} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="w-full whitespace-nowrap flex items-center justify-between"
+                    >
+                      <div className="flex items-center">
+                        <ExternalLink className="h-4 w-4 mr-2" />
+                        <span>{item.title}</span>
+                      </div>
+                    </a>
+                  </DropdownMenuItem>
+                ))}
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       )}
+
+      {/* Display external links directly in the navigation bar */}
+      {externalItems.map((item) => (
+        <a 
+          key={item.title}
+          href={item.href} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="ml-4 text-[#5f0889] hover:text-[#7a0cb0] font-bold flex items-center gap-1"
+        >
+          <span>{item.title}</span>
+          <ExternalLink className="h-4 w-4" />
+        </a>
+      ))}
     </div>
   );
 };
+

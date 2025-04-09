@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from "react-router-dom";
-import { X, ArrowRight } from "lucide-react";
+import { X, ArrowRight, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
@@ -22,22 +22,36 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
       <div key={item.title} className="mb-1">
         <div className="flex flex-col gap-0.5">
           {item.href ? (
-            <Link
-              to={item.href}
-              className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap ml-0"
-            >
-              {item.icon === "home" && (
+            item.icon === "external" ? (
+              <a
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap ml-0"
+              >
                 <div className="flex items-center">
-                  <span className="text-base font-bold text-lg pl-0">Início</span>
+                  <ExternalLink className="h-4 w-4 mr-2" />
+                  <span className="text-base font-medium">{item.title}</span>
                 </div>
-              )}
-              {!item.iconOnly && item.icon !== "home" && (
-                <div className="flex items-center">
-                  <ArrowRight className="h-4 w-4 mr-2" />
-                  <span className="text-base">{item.title}</span>
-                </div>
-              )}
-            </Link>
+              </a>
+            ) : (
+              <Link
+                to={item.href}
+                className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap ml-0"
+              >
+                {item.icon === "home" && (
+                  <div className="flex items-center">
+                    <span className="text-base font-bold text-lg pl-0">Início</span>
+                  </div>
+                )}
+                {!item.iconOnly && item.icon !== "home" && (
+                  <div className="flex items-center">
+                    <ArrowRight className="h-4 w-4 mr-2" />
+                    <span className="text-base">{item.title}</span>
+                  </div>
+                )}
+              </Link>
+            )
           ) : (
             <>
               <div className="flex items-center">
@@ -89,3 +103,4 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
     </div>
   );
 }
+

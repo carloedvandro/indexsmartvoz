@@ -7,3 +7,4 @@ export interface NavigationItem {
   icon?: string;
   iconOnly?: boolean;
 }
+
