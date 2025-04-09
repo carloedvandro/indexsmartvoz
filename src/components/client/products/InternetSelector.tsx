@@ -6,6 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface InternetOption {
   value: string;
@@ -24,8 +25,10 @@ export function InternetSelector({
   onInternetChange, 
   internetOptions 
 }: InternetSelectorProps) {
+  const isMobile = useIsMobile();
+  
   return (
-    <div className="space-y-1 w-full">
+    <div className="space-y-1 w-full" style={{ maxWidth: isMobile ? "96%" : "100%" }}>
       <label className="block text-sm font-medium">Internet</label>
       <Select value={selectedInternet} onValueChange={onInternetChange}>
         <SelectTrigger className="bg-white h-[40px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] focus:border-[#8425af] text-sm w-full">
