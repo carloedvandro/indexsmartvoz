@@ -2,6 +2,7 @@
 import { useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
+import { LogOut } from "lucide-react";
 
 interface LogoutButtonProps {
   onLogout: () => void;
@@ -39,15 +40,14 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         className={cn(
-          "text-gray-700 hover:text-red-600 font-medium rounded-md h-14 w-14 flex items-center justify-center transition-all duration-300 bg-transparent",
+          "text-gray-700 hover:text-red-600 font-medium rounded-md h-14 w-14 flex items-center justify-center transition-all duration-300",
+          hover ? "bg-red-50" : "bg-transparent",
           className
         )}
         aria-label="Logout"
       >
-        <img 
-          src="/lovable-uploads/78dbfd4e-37c2-4b7c-8bb9-b400c2cdb84d.png" 
-          alt="Logout" 
-          className="h-9 w-9 transition-transform duration-300 hover:scale-110" 
+        <LogOut 
+          className="h-6 w-6 transition-transform duration-300 hover:scale-110" 
         />
       </button>
     </div>
