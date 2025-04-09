@@ -44,13 +44,15 @@ export default function ClientDashboard() {
               activeMonth={activeMonth} 
               setActiveMonth={setActiveMonth} 
             />
-            <FinancialSummary />
+            <FinancialSummary 
+              activeMonth={activeMonth}
+              monthsData={months}
+            />
             <DashboardCards 
               profile={profile}
               networkStats={networkStats}
               handleNetworkClick={handleNetworkClick}
             />
-            {/* NetworkStatsCard has been removed */}
           </div>
         </div>
       </main>

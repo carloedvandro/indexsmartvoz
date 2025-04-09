@@ -1,16 +1,29 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { formatCurrency } from '@/utils/format';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { Card, CardContent } from "@/components/ui/card";
 import { CircularProgress } from './charts/CircularProgress';
+import { useChartData } from '@/hooks/useChartData';
 
-const chartData = [
-  { name: 'Mar 25', entrou: 0, saiu: 0 },
-  { name: 'Abr 25', entrou: 0, saiu: 0 },
-];
+export function FinancialSummary({ activeMonth, monthsData }) {
+  const activeMonthData = useMemo(() => {
+    return monthsData.find(m => m.month === activeMonth) || 
+           { month: "Abr", day: "25", active: true, upValue: 16200, downValue: 9800 };
+  }, [activeMonth, monthsData]);
 
-export function FinancialSummary() {
+  const balance = activeMonthData.upValue - activeMonthData.downValue;
+
+  // Find previous month data
+  const currentMonthIndex = monthsData.findIndex(m => m.month === activeMonth);
+  const previousMonthIndex = currentMonthIndex > 0 ? currentMonthIndex - 1 : 11;
+  const previousMonthData = monthsData[previousMonthIndex];
+
+  const chartData = [
+    { name: `${previousMonthData.month} ${previousMonthData.day}`, entrou: previousMonthData.upValue / 1000, saiu: previousMonthData.downValue / 1000 },
+    { name: `${activeMonthData.month} ${activeMonthData.day}`, entrou: activeMonthData.upValue / 1000, saiu: activeMonthData.downValue / 1000 },
+  ];
+
   return (
     <div className="px-6 grid grid-cols-1 lg:grid-cols-12 gap-4 mb-6">
       {/* Até o momento card */}
@@ -18,7 +31,7 @@ export function FinancialSummary() {
         <div className="flex justify-between flex-col lg:flex-row">
           <div className="flex-1 max-w-[400px]">
             <h2 className="text-3xl font-bold mb-1 text-gray-800">Até o momento</h2>
-            <p className="text-sm text-gray-500 mb-4">Abr 25</p>
+            <p className="text-sm text-gray-500 mb-4">{activeMonthData.month} {activeMonthData.day}</p>
             
             {/* Entrou section */}
             <div className="bg-green-50 p-4 rounded-md mb-3">
@@ -34,7 +47,7 @@ export function FinancialSummary() {
                     <div className="text-sm text-green-500">Receitas</div>
                   </div>
                 </div>
-                <div className="text-right">R$ 0,00</div>
+                <div className="text-right">{formatCurrency(activeMonthData.upValue)}</div>
               </div>
             </div>
             
@@ -52,7 +65,7 @@ export function FinancialSummary() {
                     <div className="text-sm text-red-500">Despesas</div>
                   </div>
                 </div>
-                <div className="text-right">- R$ 0,00</div>
+                <div className="text-right">- {formatCurrency(activeMonthData.downValue)}</div>
               </div>
             </div>
             
@@ -66,7 +79,7 @@ export function FinancialSummary() {
                     <div className="text-sm text-gray-500">Saldo</div>
                   </div>
                 </div>
-                <div className="text-right">R$ 0,00</div>
+                <div className="text-right">{formatCurrency(balance)}</div>
               </div>
             </div>
             
@@ -81,11 +94,11 @@ export function FinancialSummary() {
                 <div className="text-center">
                   <div className="flex items-center mb-2 justify-center">
                     <div className="h-3 w-3 rounded-full bg-green-500 mr-2"></div>
-                    <span className="text-sm text-gray-700">Entrou: R$ 0,00</span>
+                    <span className="text-sm text-gray-700">Entrou: {formatCurrency(activeMonthData.upValue)}</span>
                   </div>
                   <div className="flex items-center justify-center">
                     <div className="h-3 w-3 rounded-full bg-red-500 mr-2"></div>
-                    <span className="text-sm text-gray-700">Saiu: R$ 0,00</span>
+                    <span className="text-sm text-gray-700">Saiu: {formatCurrency(activeMonthData.downValue)}</span>
                   </div>
                 </div>
               </div>
@@ -113,9 +126,8 @@ export function FinancialSummary() {
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis dataKey="name" />
               <YAxis 
-                domain={[0, 1]}
-                ticks={[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]} 
-                tickFormatter={(tick) => `R$${tick}`} 
+                domain={[0, 'dataMax + 5']}
+                tickFormatter={(tick) => `R$${tick}k`} 
               />
               <Bar dataKey="entrou" fill="#22c55e" />
               <Bar dataKey="saiu" fill="#ef4444" />
@@ -165,7 +177,7 @@ export function FinancialSummary() {
         
         <div className="flex justify-between items-center mt-6 pt-4 border-t">
           <div className="font-semibold text-lg">Saldo total:</div>
-          <div className="font-bold text-xl">R$ 0,00</div>
+          <div className="font-bold text-xl">{formatCurrency(balance)}</div>
         </div>
       </div>
     </div>
