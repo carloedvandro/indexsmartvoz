@@ -9,8 +9,8 @@ export function PriceSummary({ linePrice, totalPrice }: PriceSummaryProps) {
     <div className="w-full max-w-[365px] mx-auto">
       <div className="p-2 bg-purple-50 rounded-lg">
         <div className="flex justify-between items-center font-medium">
-          <span>Total mensal:</span>
-          <span>R$ {totalPrice.toFixed(2)}/mês</span>
+          <span className="pl-[4px]">Total mensal:</span>
+          <span className="pr-[4px]">R$ {totalPrice.toFixed(2)}/mês</span>
         </div>
       </div>
     </div>
