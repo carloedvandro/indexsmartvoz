@@ -45,7 +45,7 @@ export function DashboardHeader() {
   };
 
   return (
-    <header className="w-full bg-background border-b">
+    <header className="w-full bg-[#0a3845] border-b border-[#062a34]">
       <div className="container relative mx-auto flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center h-20 py-0 px-4 sm:px-6">
         <div className="h-full flex-1 flex lg:justify-center items-center order-2 lg:order-2">
           <Logo />

@@ -37,3 +37,25 @@
   text-align: left;
   padding-left: 0;
 }
+
+/* Dashboard header menu styling */
+.dashboard-header {
+  background-color: #0a3845;
+  border-bottom: 1px solid #062a34;
+}
+
+.dashboard-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #1eaedb;
+  padding: 0.75rem 1rem;
+}
+
+.dashboard-menu-item:hover {
+  background-color: #0c4352;
+}
+
+.dashboard-menu-item svg {
+  color: #1eaedb;
+}
