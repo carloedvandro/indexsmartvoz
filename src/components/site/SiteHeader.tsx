@@ -1,13 +1,20 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true); // Set initial state to true
   const navigate = useNavigate();
+
+  // Initialize dark mode state on component mount
+  useEffect(() => {
+    // Sync state with document class (in case it was set elsewhere)
+    const isDark = document.documentElement.classList.contains('dark');
+    setIsDarkMode(isDark);
+  }, []);
 
   const handleNavigation = (id: string) => {
     if (id.startsWith('#')) {

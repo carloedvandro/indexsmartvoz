@@ -11,8 +11,8 @@ import { SiteFooter } from '@/components/site/SiteFooter';
 export default function SiteHome() {
   // Add the dark class to the html element on component mount
   useEffect(() => {
-    // You can uncomment this to set dark mode by default
-    // document.documentElement.classList.add('dark');
+    // Enable dark mode by default
+    document.documentElement.classList.add('dark');
     
     // Clean up function to remove the class when component unmounts
     return () => {
