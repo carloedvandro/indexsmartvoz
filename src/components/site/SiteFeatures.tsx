@@ -7,7 +7,7 @@ const features = [
   {
     icon: <PhoneCall className="w-8 h-8 text-purple-800" />,
     title: 'Telefonia de Qualidade',
-    description: 'Ligações cristalinas e estáveis para todos os DDD's do Brasil com tarifas competitivas.'
+    description: 'Ligações cristalinas e estáveis para todos os DDDs do Brasil com tarifas competitivas.'
   },
   {
     icon: <Wifi className="w-8 h-8 text-purple-800" />,
