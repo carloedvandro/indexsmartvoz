@@ -4,6 +4,7 @@
 
 
 
+
 .logo-image {
   max-width: 300px !important;
   width: auto !important;
@@ -36,7 +37,7 @@
     margin-top: -14px !important;
     right: 0 !important;
     position: relative !important;
-    left: -20px !important; /* Changed from -18px back to -20px to move 2px more to the left */
+    left: -22px !important; /* Changed from -20px to -22px to move 2px more to the left */
   }
   
   .logo-container {
@@ -45,6 +46,7 @@
     padding-right: 0 !important;
   }
 }
+
 
 
 
