@@ -1,7 +1,6 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 interface PlanSelectionHeaderProps {
   variants: {
@@ -15,13 +14,10 @@ interface PlanSelectionHeaderProps {
 }
 
 export function PlanSelectionHeader({ variants }: PlanSelectionHeaderProps) {
-  const isMobile = useIsMobile();
-  
   return (
     <motion.div 
-      className="space-y-3 mx-auto text-center pt-5"
+      className="space-y-3 max-w-[340px] mx-auto text-center pt-5"
       variants={variants}
-      style={{ width: isMobile ? "97%" : "520px" }}
     >
       <div className="w-full flex justify-center mb-4">
         <img 

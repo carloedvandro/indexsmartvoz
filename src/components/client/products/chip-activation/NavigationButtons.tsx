@@ -1,6 +1,5 @@
 
 import { Button } from "@/components/ui/button";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 interface NavigationButtonsProps {
   onBack: () => void;
@@ -13,10 +12,8 @@ export function NavigationButtons({
   onContinue, 
   disabled = false 
 }: NavigationButtonsProps) {
-  const isMobile = useIsMobile();
-
   return (
-    <div className="flex justify-between w-full gap-4 mx-auto mt-6" style={{ maxWidth: isMobile ? "96%" : "480px" }}>
+    <div className="flex justify-between w-full gap-4 max-w-[340px] mx-auto mt-6">
       <Button 
         variant="outline" 
         className="bg-white border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white px-4 h-[42px] flex-1 items-center"

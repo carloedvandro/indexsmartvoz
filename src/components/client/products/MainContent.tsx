@@ -6,7 +6,6 @@ import { PlanSelectionStep } from "./PlanSelectionStep";
 import { NavigationButtons } from "./NavigationButtons";
 import { useStepValidator } from "./StepValidator";
 import { motion } from "framer-motion";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 interface MainContentProps {
   currentStep: number;
@@ -38,8 +37,6 @@ export function MainContent({
     acceptedTerms,
     handleContinue 
   });
-  
-  const isMobile = useIsMobile();
 
   // Check if continue button should be disabled
   const isContinueDisabled = () => {
@@ -84,7 +81,7 @@ export function MainContent({
       animate="visible"
       variants={containerVariants}
     >
-      <div className="w-full mx-auto" style={{ maxWidth: isMobile ? "97%" : "520px" }}>
+      <div className="w-full max-w-[342px] mx-auto">
         <Card className="relative z-10 shadow-none bg-transparent border-0">
           <CardContent className="w-full px-0">
             <motion.div variants={itemVariants} className="w-full">

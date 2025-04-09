@@ -6,7 +6,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 interface DDDInputProps {
   ddd: string;
@@ -15,8 +14,6 @@ interface DDDInputProps {
 }
 
 export function DDDInput({ ddd, onDDDChange, disabled = false }: DDDInputProps) {
-  const isMobile = useIsMobile();
-  
   // Lista de DDDs do Brasil
   const ddds = [
     "11", "12", "13", "14", "15", "16", "17", "18", "19", // São Paulo
@@ -49,7 +46,7 @@ export function DDDInput({ ddd, onDDDChange, disabled = false }: DDDInputProps) 
   ];
 
   return (
-    <div className="space-y-1 w-full" style={{ maxWidth: isMobile ? "96%" : "100%" }}>
+    <div className="space-y-1 w-full">
       <label className="block text-sm font-medium">DDD</label>
       <Select value={ddd} onValueChange={onDDDChange} disabled={disabled}>
         <SelectTrigger 
