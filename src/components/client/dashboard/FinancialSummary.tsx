@@ -73,20 +73,23 @@ export function FinancialSummary() {
             <p className="text-xs text-gray-500 mt-4 leading-tight">*Estes valores não consideram retiradas e aportes de sócio. Representam só as movimentações da operação da empresa.</p>
           </div>
           
-          {/* Circular chart summary */}
+          {/* Updated Circular chart summary */}
           <div className="flex items-center justify-center mt-6 lg:mt-0">
-            <CircularProgress size={160} strokeWidth={15} percentage={0}>
-              <div className="text-center">
-                <div className="flex items-center mb-1 justify-center">
-                  <div className="h-3 w-3 rounded-full bg-green-500 mr-1"></div>
-                  <span className="text-sm">Entrou: R$ 0,00</span>
-                </div>
-                <div className="flex items-center justify-center">
-                  <div className="h-3 w-3 rounded-full bg-red-500 mr-1"></div>
-                  <span className="text-sm">Saiu: R$ 0,00</span>
+            <div className="relative w-[200px] h-[200px]">
+              <div className="absolute inset-0 rounded-full bg-gray-200"></div>
+              <div className="absolute inset-[15px] rounded-full bg-white flex items-center justify-center">
+                <div className="text-center">
+                  <div className="flex items-center mb-2 justify-center">
+                    <div className="h-3 w-3 rounded-full bg-green-500 mr-2"></div>
+                    <span className="text-sm text-gray-700">Entrou: R$ 0,00</span>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <div className="h-3 w-3 rounded-full bg-red-500 mr-2"></div>
+                    <span className="text-sm text-gray-700">Saiu: R$ 0,00</span>
+                  </div>
                 </div>
               </div>
-            </CircularProgress>
+            </div>
           </div>
         </div>
       </div>
