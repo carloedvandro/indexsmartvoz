@@ -35,7 +35,8 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       {/* Public Routes */}
-      <Route path="/" element={<Index />} />
+      <Route path="/" element={<Navigate to="/site/home" replace />} />
+      <Route path="/home" element={<Index />} />
       <Route path="/client/login" element={<ClientLogin />} />
       <Route path="/client/register" element={<ClientRegister />} />
       <Route path="/client/facial-biometry" element={<ClientFacialBiometry />} />
