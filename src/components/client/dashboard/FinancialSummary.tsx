@@ -1,10 +1,6 @@
 
 import React, { useMemo } from 'react';
 import { formatCurrency } from '@/utils/format';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
-import { Card, CardContent } from "@/components/ui/card";
-import { CircularProgress } from './charts/CircularProgress';
-import { useChartData } from '@/hooks/useChartData';
 
 export function FinancialSummary({ activeMonth, monthsData }) {
   const activeMonthData = useMemo(() => {
@@ -13,16 +9,6 @@ export function FinancialSummary({ activeMonth, monthsData }) {
   }, [activeMonth, monthsData]);
 
   const balance = activeMonthData.upValue - activeMonthData.downValue;
-
-  // Find previous month data
-  const currentMonthIndex = monthsData.findIndex(m => m.month === activeMonth);
-  const previousMonthIndex = currentMonthIndex > 0 ? currentMonthIndex - 1 : 11;
-  const previousMonthData = monthsData[previousMonthIndex];
-
-  const chartData = [
-    { name: `${previousMonthData.month} ${previousMonthData.day}`, entrou: previousMonthData.upValue / 1000, saiu: previousMonthData.downValue / 1000 },
-    { name: `${activeMonthData.month} ${activeMonthData.day}`, entrou: activeMonthData.upValue / 1000, saiu: activeMonthData.downValue / 1000 },
-  ];
 
   // Function to style the numbers in currency format
   const formatStyledCurrency = (value) => {
@@ -45,9 +31,9 @@ export function FinancialSummary({ activeMonth, monthsData }) {
   };
 
   return (
-    <div className="px-6 grid grid-cols-1 lg:grid-cols-12 gap-4 mb-6">
+    <div className="px-6 mb-6">
       {/* Até o momento card */}
-      <div className="lg:col-span-6 bg-white p-6 rounded-xl shadow">
+      <div className="bg-white p-6 rounded-xl shadow">
         <div className="flex justify-between flex-col lg:flex-row">
           <div className="flex-1 max-w-[400px]">
             <h2 className="text-3xl font-bold mb-1 text-gray-800">Até o momento</h2>
@@ -106,7 +92,7 @@ export function FinancialSummary({ activeMonth, monthsData }) {
             <p className="text-xs text-gray-500 mt-4 leading-tight">*Estes valores não consideram retiradas e aportes de sócio. Representam só as movimentações da operação da empresa.</p>
           </div>
           
-          {/* Updated Circular chart summary */}
+          {/* Circular chart summary */}
           <div className="flex items-center justify-center mt-6 lg:mt-0">
             <div className="relative w-[200px] h-[200px]">
               <div className="absolute inset-0 rounded-full bg-gray-200"></div>
@@ -124,101 +110,6 @@ export function FinancialSummary({ activeMonth, monthsData }) {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      
-      {/* Comparação card */}
-      <div className="lg:col-span-3 bg-white p-6 rounded-xl shadow">
-        <h2 className="text-3xl font-bold mb-1 text-gray-800">Comparação</h2>
-        <p className="text-sm text-gray-500 mb-4">com o período anterior</p>
-        
-        <div className="h-64">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={chartData}
-              barGap={0}
-              margin={{
-                top: 5,
-                right: 0,
-                left: 0,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
-              <XAxis 
-                dataKey="name" 
-                tickLine={false}
-                axisLine={false}
-                tick={{ fontSize: 12, fill: '#666' }}
-              />
-              <YAxis 
-                domain={[0, 'dataMax + 0.5']}
-                tickFormatter={(tick) => `R$${tick}`}
-                tickLine={false}
-                axisLine={false}
-                tick={{ fontSize: 12, fill: '#666' }}
-              />
-              <Bar 
-                dataKey="entrou" 
-                fill="#22c55e" 
-                radius={[4, 4, 0, 0]} 
-                barSize={30}
-                name="Entrou"
-              />
-              <Bar 
-                dataKey="saiu" 
-                fill="#ef4444" 
-                radius={[4, 4, 0, 0]} 
-                barSize={30}
-                name="Saiu"
-              />
-            </BarChart>
-          </ResponsiveContainer>
-          
-          <div className="flex justify-center gap-6 mt-4">
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 bg-green-500 rounded-full"></div>
-              <span className="text-sm">Entrou</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 bg-red-500 rounded-full"></div>
-              <span className="text-sm">Saiu</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Para acontecer card */}
-      <div className="lg:col-span-3 bg-white p-6 rounded-xl shadow">
-        <div className="flex justify-between items-start">
-          <div>
-            <h2 className="text-3xl font-bold mb-1 text-gray-800">Para acontecer</h2>
-            <p className="text-sm text-gray-500 mb-4">próximas 25 receitas e despesas futuras</p>
-          </div>
-          <div className="space-y-1 text-right">
-            <div className="text-teal-500 text-sm flex items-center justify-end">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-              <span className="text-teal-500">A Pagar</span>
-            </div>
-            <div className="text-teal-500 text-sm flex items-center justify-end">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-              <span className="text-teal-500">A Receber</span>
-            </div>
-          </div>
-        </div>
-        
-        <div className="flex flex-col items-center justify-center h-48">
-          <img src="/lovable-uploads/827312bb-9514-49ad-abe8-a83fa4a06324.png" alt="Nada por aqui" className="w-24 opacity-30" />
-          <p className="text-gray-400 mt-2">Nada por aqui...</p>
-        </div>
-        
-        <div className="flex justify-between items-center mt-6 pt-4 border-t">
-          <div className="font-semibold text-lg">Saldo total:</div>
-          <div className="font-bold text-xl">{formatStyledCurrency(balance)}</div>
         </div>
       </div>
     </div>
