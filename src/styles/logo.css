@@ -29,16 +29,19 @@
   .logo-image {
     max-width: 240px !important;
     height: 90px !important;
-    margin-left: auto !important;
+    margin-left: 0 !important; /* Changed from auto to 0 to align left */
     margin-right: auto !important;
     margin-top: -14px !important; /* Changed from -15px to -14px to move 1px more down */
-    right: -6px !important; /* Keeping the mobile right offset as requested */
+    right: 0 !important; /* Removed the mobile right offset */
+    position: relative !important;
+    left: -50px !important; /* Adding left offset to move logo more to the left */
   }
   
   .logo-container {
-    justify-content: center !important;
-    padding-left: 0 !important;
-    padding-right: 100px !important; /* Keeping the mobile padding-right as requested */
+    justify-content: flex-start !important; /* Changed from center to flex-start to align left */
+    padding-left: 15px !important; /* Added left padding to prevent logo from touching the edge */
+    padding-right: 0 !important; /* Removed right padding */
   }
 }
+
 
