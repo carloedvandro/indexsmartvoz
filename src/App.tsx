@@ -43,6 +43,7 @@ const router = createBrowserRouter(
       <Route path="/client/update-password" element={<UpdatePassword />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/store/:storeUrl" element={<PublicStore />} />
+      <Route path="/site/home" element={<SiteHome />} />
       <Route path="/site" element={<SiteHome />} />
 
       {/* Protected Client Routes */}

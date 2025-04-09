@@ -44,7 +44,7 @@ export default function Index() {
             </Button>
           </Link>
           
-          <Link to="/site" className="block">
+          <Link to="/site/home" className="block">
             <Button size="lg" className="w-full text-lg py-6 bg-[#333] hover:bg-[#222] text-white flex items-center justify-center gap-2">
               {t('site_oficial')} <ExternalLink className="h-5 w-5" />
             </Button>
