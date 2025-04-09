@@ -54,12 +54,12 @@ export function MonthsCarousel({
   }
 
   return (
-    <div className="px-10 mb-6 relative">
+    <div className="px-6 mb-6 relative">
       <Carousel className="w-full" opts={{ align: "start" }}>
-        <CarouselPrevious className="absolute -left-10 top-1/2 -translate-y-1/2 z-10 hover:bg-transparent focus:bg-transparent focus:outline-none" />
+        <CarouselPrevious className="absolute -left-3 top-1/2 -translate-y-1/2 z-10 hover:bg-transparent focus:bg-transparent focus:outline-none" />
         <CarouselContent className="py-2">
           {months.map((monthData, index) => (
-            <CarouselItem key={index} className="basis-auto md:basis-1/5 lg:basis-1/7">
+            <CarouselItem key={index} className="basis-auto md:basis-1/4 lg:basis-1/6">
               <MonthCard 
                 month={monthData.month} 
                 day={monthData.day} 
@@ -72,9 +72,9 @@ export function MonthsCarousel({
             </CarouselItem>
           ))}
           
-          <CarouselItem className="basis-auto md:basis-1/5 lg:basis-1/7">
+          <CarouselItem className="basis-auto md:basis-1/4 lg:basis-1/6">
             <div 
-              className={`min-w-[120px] sm:min-w-[140px] p-4 rounded-xl text-center cursor-pointer transition-colors ${
+              className={`min-w-[140px] sm:min-w-[160px] p-4 rounded-xl text-center cursor-pointer transition-colors ${
                 isTotalActive ? 'bg-[#0E1C36] text-white' : 'bg-white text-gray-700 shadow border border-gray-200'
               }`}
               onClick={handleTotalClick}
@@ -93,7 +93,7 @@ export function MonthsCarousel({
             </div>
           </CarouselItem>
         </CarouselContent>
-        <CarouselNext className="absolute -right-10 top-1/2 -translate-y-1/2 z-10 hover:bg-transparent focus:bg-transparent focus:outline-none" />
+        <CarouselNext className="absolute -right-3 top-1/2 -translate-y-1/2 z-10 hover:bg-transparent focus:bg-transparent focus:outline-none" />
       </Carousel>
     </div>
   );
