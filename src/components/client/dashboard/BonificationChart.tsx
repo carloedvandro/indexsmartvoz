@@ -184,9 +184,6 @@ function CustomTooltip({ active, payload, label, commissionTiers, purchaseValue 
   return (
     <div className="bg-white p-3 border border-gray-200 shadow-sm rounded-md" style={{minWidth: "180px"}}>
       <p className="font-medium mb-2">{label}</p>
-      {isPurchase && (
-        <p className="text-gray-700 text-sm mb-2">Valor: {formatCurrency(purchaseValue)}</p>
-      )}
       <p className="text-emerald-600 font-bold mb-2">
         {formatCurrency(payload[0].value)}
       </p>
