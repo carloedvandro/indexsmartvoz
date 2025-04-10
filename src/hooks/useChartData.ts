@@ -1,3 +1,4 @@
+
 export const useChartData = () => {
   const barData = [];
   const today = new Date();
@@ -12,11 +13,54 @@ export const useChartData = () => {
     const value = baseValues[14 - i] + randomVariation;
     
     barData.push({
-      name: `Nov ${date.getDate()}`,
+      name: `${date.toLocaleString('pt-BR', { month: 'short' })} ${date.getDate()}`,
       value: value,
       previousValue: value - Math.floor(Math.random() * 8)
     });
   }
 
-  return { barData };
+  // Commission data calculation based on network size
+  const calculateCommissions = () => {
+    // Fictional network data
+    const networkSize = {
+      level1: 12, // members in level 1
+      level2: 35, // members in level 2
+      level3: 87, // members in level 3
+      level4: 124, // members in level 4
+    };
+    
+    // Commission rates per level
+    const commissionRates = {
+      level1: 20, // R$20.00 per member
+      level2: 5,  // R$5.00 per member
+      level3: 5,  // R$5.00 per member
+      level4: 5,  // R$5.00 per member
+    };
+    
+    // Calculate commission totals
+    const commissions = {
+      level1: networkSize.level1 * commissionRates.level1,
+      level2: networkSize.level2 * commissionRates.level2,
+      level3: networkSize.level3 * commissionRates.level3,
+      level4: networkSize.level4 * commissionRates.level4,
+    };
+    
+    const totalCommission = 
+      commissions.level1 + 
+      commissions.level2 + 
+      commissions.level3 + 
+      commissions.level4;
+    
+    return {
+      networkSize,
+      commissionRates,
+      commissions,
+      totalCommission
+    };
+  };
+
+  return { 
+    barData,
+    commissionData: calculateCommissions()
+  };
 };

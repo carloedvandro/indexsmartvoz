@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/format";
 import { 
@@ -10,17 +10,28 @@ import {
   CartesianGrid, 
   Tooltip, 
   ResponsiveContainer, 
-  ReferenceLine 
+  ReferenceLine,
+  Legend
 } from 'recharts';
 import { 
   ChartContainer, 
   ChartTooltip, 
   ChartTooltipContent 
 } from "@/components/ui/chart";
+import { useChartData } from "@/hooks/useChartData";
 
-const data = [
-  { name: 'Adesão', total: 4.5 },
-  { name: 'Compras', total: 6.8 },
+// Commission tiers data
+const commissionTiers = [
+  { level: 1, value: 20.00, label: "1° Nível" },
+  { level: 2, value: 5.00, label: "2° Nível" },
+  { level: 3, value: 5.00, label: "3° Nível" },
+  { level: 4, value: 5.00, label: "4° Nível" },
+];
+
+// Updated data for the area chart
+const chartData = [
+  { name: 'Adesão', total: 4.5, commissions: commissionTiers.map(tier => tier.value) },
+  { name: 'Compras', total: 6.8, commissions: commissionTiers.map(tier => tier.value * 1.3) },
 ];
 
 export function BonificationChart() {
@@ -28,6 +39,27 @@ export function BonificationChart() {
   const paidBonus = 1250.75;
   const forecastBonus = 3780.42;
   const totalBonus = 5031.17;
+  
+  // State to track active commission tier for display
+  const [activeTier, setActiveTier] = useState(0); // 0 = all tiers
+
+  // Calculate monthly commissions based on the data
+  const calculateMonthlyCommission = (tier: number) => {
+    // Assume we have 10 adhesions per month
+    const adhesionsPerMonth = 10;
+    
+    if (tier === 0) {
+      // Total of all tiers
+      return commissionTiers.reduce((acc, t) => acc + (t.value * adhesionsPerMonth), 0);
+    }
+    
+    // Individual tier calculation
+    const tierData = commissionTiers.find(t => t.level === tier);
+    return tierData ? tierData.value * adhesionsPerMonth : 0;
+  };
+
+  // Monthly commissions display value
+  const monthlyCommission = calculateMonthlyCommission(activeTier);
   
   return (
     <Card className="p-5 my-6 shadow-sm border border-gray-200">
@@ -49,6 +81,31 @@ export function BonificationChart() {
         </div>
       </div>
       
+      {/* Commission tiers display */}
+      <div className="bg-white border border-gray-200 rounded-lg p-4 mb-4">
+        <h4 className="text-md font-medium text-gray-800 mb-3">Comissões por Nível</h4>
+        <div className="grid grid-cols-4 gap-3">
+          {commissionTiers.map((tier) => (
+            <div 
+              key={tier.level} 
+              className="bg-gray-50 border border-gray-200 rounded-lg p-3 flex flex-col items-center cursor-pointer hover:bg-gray-100 transition-colors"
+              onClick={() => setActiveTier(tier.level)}
+            >
+              <p className="text-sm font-medium text-gray-700">{tier.label}</p>
+              <p className="text-lg font-bold text-emerald-600">{formatCurrency(tier.value)}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+          <div className="flex justify-between items-center">
+            <p className="text-sm font-medium text-gray-700">
+              {activeTier === 0 ? "Comissão mensal total (estimada)" : `Comissão mensal ${commissionTiers.find(t => t.level === activeTier)?.label} (estimada)`}
+            </p>
+            <p className="text-lg font-bold text-emerald-600">{formatCurrency(monthlyCommission)}</p>
+          </div>
+        </div>
+      </div>
+      
       <div className="h-[300px] w-full">
         <ChartContainer 
           className="h-full" 
@@ -63,7 +120,7 @@ export function BonificationChart() {
         >
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
-              data={data}
+              data={chartData}
               margin={{
                 top: 10,
                 right: 30,
@@ -91,7 +148,7 @@ export function BonificationChart() {
                 ticks={[-8, -6, -4, -2, 0, 2, 4, 6, 8]}
               />
               <ReferenceLine y={0} stroke="#ccc" />
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<CustomTooltip commissionTiers={commissionTiers} />} />
               <Area 
                 type="monotone" 
                 dataKey="total" 
@@ -111,19 +168,34 @@ interface CustomTooltipProps {
   active?: boolean;
   payload?: any[];
   label?: string;
+  commissionTiers: Array<{level: number, value: number, label: string}>;
 }
 
-function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
+function CustomTooltip({ active, payload, label, commissionTiers }: CustomTooltipProps) {
   if (!active || !payload || !payload.length) {
     return null;
   }
 
+  const data = payload[0].payload;
+
   return (
-    <div className="bg-white p-2 border border-gray-200 shadow-sm rounded-md">
-      <p className="font-medium">{label}</p>
-      <p className="text-emerald-600">
+    <div className="bg-white p-3 border border-gray-200 shadow-sm rounded-md" style={{minWidth: "180px"}}>
+      <p className="font-medium mb-2">{label}</p>
+      <p className="text-emerald-600 font-bold mb-2">
         {formatCurrency(payload[0].value)}
       </p>
+      
+      <div className="pt-2 border-t border-gray-200">
+        <p className="text-xs text-gray-500 mb-1">Comissões por nível:</p>
+        {commissionTiers.map((tier, index) => (
+          <div key={tier.level} className="flex justify-between text-xs">
+            <span>{tier.label}:</span>
+            <span className="font-medium">
+              {formatCurrency(data.commissions ? data.commissions[index] : tier.value)}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
