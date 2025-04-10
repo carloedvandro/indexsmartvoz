@@ -10,7 +10,7 @@ import { MonthsCarousel } from "@/components/client/dashboard/MonthsCarousel";
 import { DashboardCards } from "@/components/client/dashboard/DashboardCards";
 import { getMonthsData, getDailyData } from "@/utils/monthsData";
 import { FinancialCards } from "@/components/client/dashboard/financial-cards";
-import { BonificationChart } from "@/components/client/dashboard/bonification/BonificationChart";
+import { BonificationChart } from "@/components/client/dashboard/bonification";
 import "@/styles/logo.css"; // Ensure the logo styles are imported
 
 export default function ClientDashboard() {
