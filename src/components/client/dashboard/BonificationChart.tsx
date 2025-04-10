@@ -28,19 +28,10 @@ const commissionTiers = [
   { level: 4, value: 5.00, label: "4° Nível" },
 ];
 
-// Updated data for the area chart with purchase value of R$119.99
+// Updated data for the area chart
 const chartData = [
-  { 
-    name: 'Adesão', 
-    total: 4.5, 
-    commissions: commissionTiers.map(tier => tier.value)
-  },
-  { 
-    name: 'Compras', 
-    total: 6.8, 
-    commissions: [26.00, 6.50, 6.50, 6.50], // Updated purchase commission values
-    purchaseValue: 119.99
-  },
+  { name: 'Adesão', total: 4.5, commissions: commissionTiers.map(tier => tier.value) },
+  { name: 'Compras', total: 6.8, commissions: commissionTiers.map(tier => tier.value * 1.3) },
 ];
 
 export function BonificationChart() {
@@ -52,35 +43,19 @@ export function BonificationChart() {
   // State to track active commission tier for display
   const [activeTier, setActiveTier] = useState(0); // 0 = all tiers
 
-  // Get commission data from the hook
-  const { commissionData } = useChartData();
-
   // Calculate monthly commissions based on the data
   const calculateMonthlyCommission = (tier: number) => {
     // Assume we have 10 adhesions per month
     const adhesionsPerMonth = 10;
-    // Assume we have 5 purchases per month with value of R$119.99
-    const purchasesPerMonth = 5;
-    const purchaseValue = 119.99;
     
     if (tier === 0) {
-      // Total of all tiers (adhesions + purchases)
-      const adhesionCommission = commissionTiers.reduce((acc, t) => acc + (t.value * adhesionsPerMonth), 0);
-      const purchaseCommission = commissionData.purchaseCommissionRates.level1 * purchasesPerMonth + 
-                                 commissionData.purchaseCommissionRates.level2 * purchasesPerMonth + 
-                                 commissionData.purchaseCommissionRates.level3 * purchasesPerMonth + 
-                                 commissionData.purchaseCommissionRates.level4 * purchasesPerMonth;
-      return adhesionCommission + purchaseCommission;
+      // Total of all tiers
+      return commissionTiers.reduce((acc, t) => acc + (t.value * adhesionsPerMonth), 0);
     }
     
-    // Individual tier calculation for both adhesions and purchases
-    const tierAdhesionValue = commissionTiers.find(t => t.level === tier)?.value || 0;
-    const tierPurchaseValue = tier === 1 ? commissionData.purchaseCommissionRates.level1 : 
-                             tier === 2 ? commissionData.purchaseCommissionRates.level2 :
-                             tier === 3 ? commissionData.purchaseCommissionRates.level3 :
-                             tier === 4 ? commissionData.purchaseCommissionRates.level4 : 0;
-    
-    return (tierAdhesionValue * adhesionsPerMonth) + (tierPurchaseValue * purchasesPerMonth);
+    // Individual tier calculation
+    const tierData = commissionTiers.find(t => t.level === tier);
+    return tierData ? tierData.value * adhesionsPerMonth : 0;
   };
 
   // Monthly commissions display value
@@ -173,7 +148,7 @@ export function BonificationChart() {
                 ticks={[-8, -6, -4, -2, 0, 2, 4, 6, 8]}
               />
               <ReferenceLine y={0} stroke="#ccc" />
-              <Tooltip content={<CustomTooltip commissionTiers={commissionTiers} purchaseCommissionRates={commissionData.purchaseCommissionRates} />} />
+              <Tooltip content={<CustomTooltip commissionTiers={commissionTiers} />} />
               <Area 
                 type="monotone" 
                 dataKey="total" 
@@ -194,17 +169,14 @@ interface CustomTooltipProps {
   payload?: any[];
   label?: string;
   commissionTiers: Array<{level: number, value: number, label: string}>;
-  purchaseCommissionRates: any;
 }
 
-function CustomTooltip({ active, payload, label, commissionTiers, purchaseCommissionRates }: CustomTooltipProps) {
+function CustomTooltip({ active, payload, label, commissionTiers }: CustomTooltipProps) {
   if (!active || !payload || !payload.length) {
     return null;
   }
 
   const data = payload[0].payload;
-  const isCompra = data.name === 'Compras';
-  const purchaseValue = isCompra ? 119.99 : 0;
 
   return (
     <div className="bg-white p-3 border border-gray-200 shadow-sm rounded-md" style={{minWidth: "180px"}}>
@@ -213,31 +185,16 @@ function CustomTooltip({ active, payload, label, commissionTiers, purchaseCommis
         {formatCurrency(payload[0].value)}
       </p>
       
-      {isCompra && (
-        <p className="text-gray-700 text-sm mb-2">
-          Valor da compra: {formatCurrency(purchaseValue)}
-        </p>
-      )}
-      
       <div className="pt-2 border-t border-gray-200">
         <p className="text-xs text-gray-500 mb-1">Comissões por nível:</p>
-        {commissionTiers.map((tier, index) => {
-          const commissionValue = isCompra ? 
-            (tier.level === 1 ? purchaseCommissionRates.level1 : 
-             tier.level === 2 ? purchaseCommissionRates.level2 :
-             tier.level === 3 ? purchaseCommissionRates.level3 :
-             purchaseCommissionRates.level4) : 
-            tier.value;
-          
-          return (
-            <div key={tier.level} className="flex justify-between text-xs">
-              <span>{tier.label}:</span>
-              <span className="font-medium">
-                {formatCurrency(commissionValue)}
-              </span>
-            </div>
-          );
-        })}
+        {commissionTiers.map((tier, index) => (
+          <div key={tier.level} className="flex justify-between text-xs">
+            <span>{tier.label}:</span>
+            <span className="font-medium">
+              {formatCurrency(data.commissions ? data.commissions[index] : tier.value)}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
