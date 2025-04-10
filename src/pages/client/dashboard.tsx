@@ -10,6 +10,7 @@ import { MonthsCarousel } from "@/components/client/dashboard/MonthsCarousel";
 import { DashboardCards } from "@/components/client/dashboard/DashboardCards";
 import { getMonthsData, getDailyData } from "@/utils/monthsData";
 import { FinancialCards } from "@/components/client/dashboard/FinancialCards";
+import { BonificationChart } from "@/components/client/dashboard/BonificationChart";
 import "@/styles/logo.css"; // Ensure the logo styles are imported
 
 export default function ClientDashboard() {
@@ -52,6 +53,9 @@ export default function ClientDashboard() {
               activeDay={activeDay}
               setActiveDay={setActiveDay}
             />
+            
+            {/* Bonification Chart below the carousel */}
+            <BonificationChart />
             
             <DashboardCards 
               profile={profile}
