@@ -7,7 +7,7 @@ export function FinancialCards() {
   // These would typically come from an API call in a real app
   const availableBalance = 5000.01;
   const totalEarnings = 42576.22;
-  const blockedBalance = 0;
+  const forecastBonus = 3780.42;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-4 mb-6">
@@ -22,7 +22,7 @@ export function FinancialCards() {
               <AreaChart className="w-6 h-6 text-gray-600" />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-medium">{formatCurrency(blockedBalance)}</span>
+              <span className="text-lg font-medium">{formatCurrency(forecastBonus)}</span>
               <span className="text-xs text-gray-500 uppercase">Previsão de bônus</span>
             </div>
           </div>

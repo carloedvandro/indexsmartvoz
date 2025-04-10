@@ -19,15 +19,15 @@ import {
 } from "@/components/ui/chart";
 
 const data = [
-  { name: 'Adesão', total: 0 },
-  { name: 'Compras', total: 0 },
+  { name: 'Adesão', total: 4.5 },
+  { name: 'Compras', total: 6.8 },
 ];
 
 export function BonificationChart() {
   // Fictional values for the cards
-  const paidBonus = 0;
-  const forecastBonus = 0;
-  const totalBonus = 0;
+  const paidBonus = 1250.75;
+  const forecastBonus = 3780.42;
+  const totalBonus = 5031.17;
   
   return (
     <Card className="p-5 my-6 shadow-sm border border-gray-200">

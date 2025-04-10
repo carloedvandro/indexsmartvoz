@@ -10,7 +10,7 @@ interface BalanceDialogProps {
 export function BalanceDialog({ open, onOpenChange }: BalanceDialogProps) {
   // These would typically come from an API call in a real app
   const totalBonus = 42576.22;
-  const blockedBalance = 0;
+  const blockedBalance = 1843.55;
   const availableBalance = 5000.01;
 
   return (
