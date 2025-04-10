@@ -29,13 +29,16 @@ export const useChartData = () => {
       level4: 124, // members in level 4
     };
     
-    // Commission rates per level
+    // Updated commission rates per level
     const commissionRates = {
       level1: 20, // R$20.00 per member
       level2: 5,  // R$5.00 per member
       level3: 5,  // R$5.00 per member
       level4: 5,  // R$5.00 per member
     };
+    
+    // Purchase value
+    const purchaseValue = 119.99;
     
     // Calculate commission totals
     const commissions = {
@@ -55,7 +58,8 @@ export const useChartData = () => {
       networkSize,
       commissionRates,
       commissions,
-      totalCommission
+      totalCommission,
+      purchaseValue
     };
   };
 

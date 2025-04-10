@@ -28,7 +28,7 @@ const commissionTiers = [
   { level: 4, value: 5.00, label: "4° Nível" },
 ];
 
-// Updated data for the area chart
+// Updated data for the area chart with the new purchase value
 const chartData = [
   { name: 'Adesão', total: 4.5, commissions: commissionTiers.map(tier => tier.value) },
   { name: 'Compras', total: 6.8, commissions: commissionTiers.map(tier => tier.value * 1.3) },
@@ -47,6 +47,8 @@ export function BonificationChart() {
   const calculateMonthlyCommission = (tier: number) => {
     // Assume we have 10 adhesions per month
     const adhesionsPerMonth = 10;
+    // New purchase value of R$119.99
+    const purchaseValue = 119.99;
     
     if (tier === 0) {
       // Total of all tiers
@@ -148,7 +150,7 @@ export function BonificationChart() {
                 ticks={[-8, -6, -4, -2, 0, 2, 4, 6, 8]}
               />
               <ReferenceLine y={0} stroke="#ccc" />
-              <Tooltip content={<CustomTooltip commissionTiers={commissionTiers} />} />
+              <Tooltip content={<CustomTooltip commissionTiers={commissionTiers} purchaseValue={119.99} />} />
               <Area 
                 type="monotone" 
                 dataKey="total" 
@@ -169,18 +171,23 @@ interface CustomTooltipProps {
   payload?: any[];
   label?: string;
   commissionTiers: Array<{level: number, value: number, label: string}>;
+  purchaseValue: number;
 }
 
-function CustomTooltip({ active, payload, label, commissionTiers }: CustomTooltipProps) {
+function CustomTooltip({ active, payload, label, commissionTiers, purchaseValue }: CustomTooltipProps) {
   if (!active || !payload || !payload.length) {
     return null;
   }
 
   const data = payload[0].payload;
+  const isPurchase = label === 'Compras';
 
   return (
     <div className="bg-white p-3 border border-gray-200 shadow-sm rounded-md" style={{minWidth: "180px"}}>
       <p className="font-medium mb-2">{label}</p>
+      {isPurchase && (
+        <p className="text-gray-700 text-sm mb-2">Valor: {formatCurrency(purchaseValue)}</p>
+      )}
       <p className="text-emerald-600 font-bold mb-2">
         {formatCurrency(payload[0].value)}
       </p>
@@ -191,7 +198,7 @@ function CustomTooltip({ active, payload, label, commissionTiers }: CustomToolti
           <div key={tier.level} className="flex justify-between text-xs">
             <span>{tier.label}:</span>
             <span className="font-medium">
-              {formatCurrency(data.commissions ? data.commissions[index] : tier.value)}
+              {formatCurrency(isPurchase && data.commissions ? tier.value : tier.value)}
             </span>
           </div>
         ))}
