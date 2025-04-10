@@ -25,7 +25,7 @@ export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
       </div>
       
       <div className="space-y-2 text-center">
-        <h2 className="text-xl font-medium text-[#8425af]">Confirme seu pedido</h2>
+        <h2 className="text-xl font-medium text-black">Confirme seu pedido</h2>
         <p className="text-gray-600">
           Revise os planos selecionados e os valores antes de prosseguir
         </p>
