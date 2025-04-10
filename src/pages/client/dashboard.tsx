@@ -9,6 +9,7 @@ import { WelcomeSection } from "@/components/client/dashboard/WelcomeSection";
 import { MonthsCarousel } from "@/components/client/dashboard/MonthsCarousel";
 import { DashboardCards } from "@/components/client/dashboard/DashboardCards";
 import { getMonthsData, getDailyData } from "@/utils/monthsData";
+import { FinancialCards } from "@/components/client/dashboard/FinancialCards";
 import "@/styles/logo.css"; // Ensure the logo styles are imported
 
 export default function ClientDashboard() {
@@ -40,6 +41,10 @@ export default function ClientDashboard() {
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           <div className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
             <WelcomeSection profile={profile} />
+            
+            {/* Financial Cards above the carousel */}
+            <FinancialCards />
+            
             <MonthsCarousel 
               months={dailyData} 
               activeMonth={activeMonth}
@@ -47,8 +52,6 @@ export default function ClientDashboard() {
               activeDay={activeDay}
               setActiveDay={setActiveDay}
             />
-            
-            {/* FinancialSummary component removed */}
             
             <DashboardCards 
               profile={profile}

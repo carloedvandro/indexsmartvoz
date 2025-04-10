@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/format";
+import { AreaChart, CreditCard, DollarSign } from "lucide-react";
 
 interface BalanceCardsProps {
   selectedMonth: string;
@@ -11,6 +12,11 @@ interface BalanceCardsProps {
 }
 
 export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick }: BalanceCardsProps) {
+  // These would typically come from an API call in a real app
+  const availableBalance = 5000.01;
+  const totalEarnings = 42576.22;
+  const blockedBalance = 0;
+
   return (
     <div className="grid grid-cols-1 gap-4">
       <Card 
@@ -23,15 +29,11 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
         onClick={() => onCardClick('available')}
       >
         <div className="flex justify-between items-center">
-          <div className="h-12 w-12 flex items-center justify-center">
-            <img 
-              src="/lovable-uploads/6a236bed-4542-4d66-a0b3-5bacb93aa949.png" 
-              alt="Ícone de cifrão dourado" 
-              className="h-12 w-12 object-contain" 
-            />
+          <div className="h-12 w-12 flex items-center justify-center bg-gray-200 rounded-md">
+            <CreditCard className="h-6 w-6 text-gray-600" />
           </div>
           <div className="text-right">
-            <p className="text-lg font-bold text-black">{formatCurrency(5000.01)}</p>
+            <p className="text-lg font-bold text-black">{formatCurrency(availableBalance)}</p>
             <p className="text-xs text-gray-500">Saldo disponível</p>
           </div>
         </div>
@@ -42,15 +44,11 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
         onClick={() => onCardClick('bonus')}
       >
         <div className="flex justify-between items-center mb-3">
-          <div className="h-12 w-12 flex items-center justify-center">
-            <img 
-              src="/lovable-uploads/6a236bed-4542-4d66-a0b3-5bacb93aa949.png" 
-              alt="Ícone de cifrão dourado" 
-              className="h-12 w-12 object-contain" 
-            />
+          <div className="h-12 w-12 flex items-center justify-center bg-gray-200 rounded-md">
+            <AreaChart className="h-6 w-6 text-gray-600" />
           </div>
           <div className="text-right">
-            <p className="text-lg font-bold text-black">{formatCurrency(42576.22)}</p>
+            <p className="text-lg font-bold text-black">{formatCurrency(totalEarnings)}</p>
             <p className="text-xs text-gray-500">Ganhos até hoje</p>
           </div>
         </div>
@@ -58,15 +56,11 @@ export function BalanceCards({ selectedMonth, selectedYear, months, onCardClick 
         <div className="h-[1px] bg-gray-200 w-full mb-3"></div>
         
         <div className="flex justify-between items-center">
-          <div className="h-12 w-12 flex items-center justify-center">
-            <img 
-              src="/lovable-uploads/6a236bed-4542-4d66-a0b3-5bacb93aa949.png" 
-              alt="Ícone de cifrão dourado" 
-              className="h-12 w-12 object-contain" 
-            />
+          <div className="h-12 w-12 flex items-center justify-center bg-gray-200 rounded-md">
+            <DollarSign className="h-6 w-6 text-gray-600" />
           </div>
           <div className="text-right">
-            <p className="text-lg font-bold text-black">{formatCurrency(0)}</p>
+            <p className="text-lg font-bold text-black">{formatCurrency(blockedBalance)}</p>
             <p className="text-xs text-gray-500">Saldo bloqueado</p>
           </div>
         </div>
