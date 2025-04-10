@@ -13,7 +13,6 @@ export function FinancialCardsContainer() {
       <FinancialCard
         to="/client/financial"
         bgColor="bg-green-500"
-        hoverColor="hover:bg-green-600"
         icon={DollarSign}
         amount={availableBalance}
         label="Saldo Disponível"
@@ -23,7 +22,6 @@ export function FinancialCardsContainer() {
       <FinancialCard
         to="/client/financial"
         bgColor="bg-yellow-400"
-        hoverColor="hover:bg-yellow-500"
         icon={AreaChart}
         amount={totalEarnings}
         label="Ganhos até hoje"
@@ -33,7 +31,6 @@ export function FinancialCardsContainer() {
       <FinancialCard
         to="/client/earnings-forecast"
         bgColor="bg-cyan-500"
-        hoverColor="hover:bg-cyan-600"
         icon={AreaChart}
         amount={forecastBonus}
         label="Previsão de Ganhos"

@@ -6,7 +6,6 @@ import { formatCurrency } from "@/utils/format";
 interface FinancialCardProps {
   to: string;
   bgColor: string;
-  hoverColor: string;
   icon: LucideIcon;
   amount: number;
   label: string;
@@ -15,7 +14,6 @@ interface FinancialCardProps {
 export function FinancialCard({ 
   to, 
   bgColor, 
-  hoverColor, 
   icon: Icon, 
   amount, 
   label 
@@ -23,16 +21,16 @@ export function FinancialCard({
   return (
     <Link 
       to={to}
-      className={`${bgColor} rounded-xl shadow-sm p-4 ${hoverColor} transition-colors`}
+      className={`${bgColor} rounded-xl p-5 flex items-center justify-between shadow-sm transition-transform hover:scale-[1.01] w-full`}
     >
-      <div className="flex flex-col">
-        <div className="flex items-center justify-center mb-2">
-          <Icon className="w-8 h-8 text-white" />
+      <div className="flex items-center">
+        <div className="mr-4 text-white">
+          <Icon className="w-8 h-8" />
         </div>
-        <div className="flex flex-col items-center text-center">
-          <span className="text-xl font-bold text-white">{formatCurrency(amount)}</span>
-          <span className="text-sm text-white">{label}</span>
-        </div>
+      </div>
+      <div className="flex flex-col items-end">
+        <span className="text-2xl font-bold text-white">{formatCurrency(amount)}</span>
+        <span className="text-sm text-white">{label}</span>
       </div>
     </Link>
   );
