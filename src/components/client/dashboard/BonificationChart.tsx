@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/format";
@@ -31,7 +30,7 @@ const commissionTiers = [
 // Updated data for the area chart with the new purchase value
 const chartData = [
   { name: 'Adesão', total: 4.5, commissions: commissionTiers.map(tier => tier.value) },
-  { name: 'Compras', total: 6.8, commissions: commissionTiers.map(tier => tier.value * 1.3) },
+  { name: 'Compras', total: 119.99, commissions: commissionTiers.map(tier => tier.value * 1.3) },
 ];
 
 export function BonificationChart() {
