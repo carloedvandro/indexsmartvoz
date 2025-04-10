@@ -51,6 +51,7 @@ export function BonificationChart() {
             total: {
               theme: {
                 light: "#10b981",
+                dark: "#10b981", // Added the dark theme color
               },
             },
           }}
