@@ -1,12 +1,12 @@
 
 import { Link } from "react-router-dom";
-import { LucideIcon } from "lucide-react";
 import { formatCurrency } from "@/utils/format";
+import Image from "@/components/ui/image";
 
 interface FinancialCardProps {
   to: string;
   bgColor: string;
-  icon: LucideIcon;
+  imageSrc: string;
   amount: number;
   label: string;
 }
@@ -14,7 +14,7 @@ interface FinancialCardProps {
 export function FinancialCard({ 
   to, 
   bgColor, 
-  icon: Icon, 
+  imageSrc, 
   amount, 
   label 
 }: FinancialCardProps) {
@@ -25,7 +25,7 @@ export function FinancialCard({
     >
       <div className="flex items-center">
         <div className="mr-4 text-white">
-          <Icon className="w-8 h-8" />
+          <Image src={imageSrc} alt="Cifrão" className="w-10 h-10 object-contain" />
         </div>
       </div>
       <div className="flex flex-col items-end">
