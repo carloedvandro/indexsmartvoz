@@ -15,7 +15,7 @@ export function BalanceDialog({ open, onOpenChange }: BalanceDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="relative">
+      <DialogContent className="relative top-[-25%] translate-y-0 sm:top-0 sm:-translate-y-1/4">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold text-gray-900 mb-4">
             Detalhes do Saldo
