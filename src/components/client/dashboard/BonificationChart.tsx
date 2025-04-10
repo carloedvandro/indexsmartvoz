@@ -29,7 +29,7 @@ const commissionTiers = [
 
 // Updated data for the area chart with the new purchase value
 const chartData = [
-  { name: 'Adesão', total: 4.5, commissions: commissionTiers.map(tier => tier.value) },
+  { name: 'Adesão', total: 40.00, commissions: commissionTiers.map(tier => tier.value) },
   { name: 'Compras', total: 119.99, commissions: commissionTiers.map(tier => tier.value * 1.3) },
 ];
 
