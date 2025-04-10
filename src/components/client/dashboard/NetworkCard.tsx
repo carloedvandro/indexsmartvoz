@@ -1,6 +1,5 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users } from "lucide-react";
 
 interface NetworkCardProps {
   networkStats: {
@@ -26,7 +25,12 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
     >
       <CardHeader className="pb-2 space-y-0 py-4">
         <CardTitle className="text-center flex items-center justify-center gap-2">
-          <Users className="h-5 w-5" />
+          <img 
+            src="/lovable-uploads/45e4529e-207c-4c72-bcc0-c0466235e892.png" 
+            alt="Rede" 
+            className="h-5 w-5 object-contain"
+            style={{ filter: "drop-shadow(0px 1px 1px rgba(0,0,0,0.1))" }}
+          />
           Minha Rede
         </CardTitle>
         <p className="text-center text-muted-foreground text-sm">
