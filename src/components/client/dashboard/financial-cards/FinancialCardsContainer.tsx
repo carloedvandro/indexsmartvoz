@@ -18,6 +18,7 @@ export function FinancialCardsContainer() {
         imageSrc={dollarIconPath}
         amount={availableBalance}
         label="Saldo Disponível"
+        particleStyle="matrix"
       />
 
       {/* Ganhos até hoje Card */}
@@ -27,6 +28,7 @@ export function FinancialCardsContainer() {
         imageSrc={dollarIconPath}
         amount={totalEarnings}
         label="Ganhos até hoje"
+        particleStyle="fireflies"
       />
 
       {/* Previsão de Ganhos Card */}
@@ -36,6 +38,7 @@ export function FinancialCardsContainer() {
         imageSrc={dollarIconPath}
         amount={forecastBonus}
         label="Previsão de Ganhos"
+        particleStyle="stars"
       />
     </div>
   );
