@@ -14,7 +14,7 @@ export function FinancialCardsContainer() {
       {/* Saldo Disponível Card */}
       <FinancialCard
         to="/client/financial"
-        bgColor="bg-green-500"
+        bgColor="bg-[#5f0889]"
         imageSrc={dollarIconPath}
         amount={availableBalance}
         label="Saldo Disponível"
