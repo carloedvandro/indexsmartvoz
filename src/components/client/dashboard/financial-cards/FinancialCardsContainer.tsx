@@ -14,7 +14,7 @@ export function FinancialCardsContainer() {
       {/* Saldo Disponível Card */}
       <FinancialCard
         to="/client/financial"
-        bgColor="bg-green-500"
+        bgColor="bg-white"
         imageSrc={dollarIconPath}
         amount={availableBalance}
         label="Saldo Disponível"
@@ -23,7 +23,7 @@ export function FinancialCardsContainer() {
       {/* Ganhos até hoje Card */}
       <FinancialCard
         to="/client/financial"
-        bgColor="bg-yellow-400"
+        bgColor="bg-white"
         imageSrc={dollarIconPath}
         amount={totalEarnings}
         label="Ganhos até hoje"
@@ -32,7 +32,7 @@ export function FinancialCardsContainer() {
       {/* Previsão de Ganhos Card */}
       <FinancialCard
         to="/client/earnings-forecast"
-        bgColor="bg-cyan-500"
+        bgColor="bg-white"
         imageSrc={dollarIconPath}
         amount={forecastBonus}
         label="Previsão de Ganhos"
