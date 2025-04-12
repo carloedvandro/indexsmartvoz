@@ -1,9 +1,10 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "@/components/LanguageSelector";
-import { Globe, Box } from "lucide-react";
+import { Globe, Box, Sparkles } from "lucide-react";
 
 export default function Index() {
   const { t } = useTranslation();
@@ -54,6 +55,13 @@ export default function Index() {
             <Button size="lg" className="w-full text-lg py-6 bg-purple-600 hover:bg-purple-700 text-white flex items-center justify-center gap-2">
               <Box size={20} />
               Site 3D Model (360°)
+            </Button>
+          </Link>
+          
+          <Link to="/modern-site" className="block">
+            <Button size="lg" className="w-full text-lg py-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white flex items-center justify-center gap-2">
+              <Sparkles size={20} />
+              Site Moderno
             </Button>
           </Link>
         </div>
