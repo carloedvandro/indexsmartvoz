@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } 
 import { Toaster } from "@/components/ui/toaster";
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import Index from '@/pages/Index';
+import SiteModel from '@/pages/SiteModel';
 import ClientDashboard from '@/pages/client/dashboard';
 import ClientLogin from '@/pages/client/login';
 import ClientRegister from '@/pages/client/register';
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
     <Route>
       {/* Public Routes */}
       <Route path="/" element={<Index />} />
+      <Route path="/site-model" element={<SiteModel />} />
       <Route path="/client/login" element={<ClientLogin />} />
       <Route path="/client/register" element={<ClientRegister />} />
       <Route path="/client/facial-biometry" element={<ClientFacialBiometry />} />
