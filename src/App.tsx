@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster";
@@ -6,6 +7,7 @@ import Index from '@/pages/Index';
 import ClientLogin from '@/pages/client/login';
 import ClientRegister from '@/pages/client/register';
 import ClientFacialBiometry from '@/pages/client/facial-biometry';
+import ClientDashboard from '@/pages/client/dashboard';
 import ClientNetwork from '@/pages/client/network';
 import ClientStore from '@/pages/client/store';
 import ClientEvents from '@/pages/client/events';
