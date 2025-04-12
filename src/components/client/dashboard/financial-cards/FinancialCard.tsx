@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { formatCurrency } from "@/utils/format";
 import Image from "@/components/ui/image";
 import { motion } from "framer-motion";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
+import ParticlesBackground from "@/components/client/products/ParticlesBackground";
 import { useState } from "react";
 import { ParticleStyle } from "@/components/client/products/particles/types";
 
