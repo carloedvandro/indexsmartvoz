@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { Globe } from "lucide-react";
 
 export default function Index() {
   const { t } = useTranslation();
@@ -42,6 +43,13 @@ export default function Index() {
               {t('admin_area')}
             </Button>
           </Link>
+          
+          <a href="https://smartvoz.com.br" target="_blank" rel="noopener noreferrer" className="block">
+            <Button size="lg" className="w-full text-lg py-6 bg-indigo-600 hover:bg-indigo-700 text-white flex items-center justify-center gap-2">
+              <Globe size={20} />
+              Site
+            </Button>
+          </a>
         </div>
       </motion.div>
     </div>
