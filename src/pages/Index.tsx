@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "@/components/LanguageSelector";
-import { Globe, Cube } from "lucide-react";
+import { Globe, Box3D } from "lucide-react";
 
 export default function Index() {
   const { t } = useTranslation();
@@ -53,7 +53,7 @@ export default function Index() {
           
           <Link to="/site-model" className="block">
             <Button size="lg" className="w-full text-lg py-6 bg-purple-600 hover:bg-purple-700 text-white flex items-center justify-center gap-2">
-              <Cube size={20} />
+              <Box3D size={20} />
               Site 3D Model (360°)
             </Button>
           </Link>
