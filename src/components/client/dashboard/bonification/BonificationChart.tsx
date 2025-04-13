@@ -1,47 +1,37 @@
 
-import React, { useState } from 'react';
-import { Card } from "@/components/ui/card";
-import { BonificationStatusCards } from './BonificationStatusCards';
-import { CommissionTiersSection } from './CommissionTiersSection';
+import React from 'react';
 import { BonificationAreaChart } from './BonificationAreaChart';
-import { 
-  commissionTiers, 
-  chartData, 
-  calculateMonthlyCommission 
-} from './bonificationConfig';
+import { BonificationStatusCards } from './BonificationStatusCards';
+import { BonificationTooltip } from './BonificationTooltip';
+import { CommissionTiersSection } from './CommissionTiersSection';
+import { bonificationConfig } from './bonificationConfig';
 
 export function BonificationChart() {
-  // Fictional values for the cards
-  const paidBonus = 1250.75;
-  const forecastBonus = 3780.42;
-  const totalBonus = 5031.17;
-  
-  // State to track active commission tier for display
-  const [activeTier, setActiveTier] = useState(0); // 0 = all tiers
+  // In a real app, this data would be fetched from an API
+  const { paidBonus, forecastBonus, totalBonus } = {
+    paidBonus: 3200,
+    forecastBonus: 0,
+    totalBonus: 3200,
+  };
 
-  // Monthly commissions display value
-  const monthlyCommission = calculateMonthlyCommission(activeTier);
-  
   return (
-    <Card className="p-5 my-6 shadow-sm border border-gray-200">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-800">Bonificações <span className="text-sm text-gray-500 font-medium">04/25</span></h3>
+    <div className="px-4 mb-8">
+      <div className="bg-white p-6 rounded-xl shadow">
+        <h2 className="text-xl font-bold mb-4 text-gray-800">Bonificações e Comissões</h2>
+        
+        <BonificationStatusCards 
+          paidBonus={paidBonus}
+          forecastBonus={forecastBonus}
+          totalBonus={totalBonus}
+        />
+        
+        <div className="relative h-[220px] mt-6">
+          <BonificationAreaChart data={bonificationConfig.chartData} />
+          <BonificationTooltip />
+        </div>
+        
+        <CommissionTiersSection />
       </div>
-      
-      <BonificationStatusCards 
-        paidBonus={paidBonus} 
-        forecastBonus={forecastBonus} 
-        totalBonus={totalBonus} 
-      />
-      
-      <CommissionTiersSection 
-        commissionTiers={commissionTiers}
-        activeTier={activeTier}
-        setActiveTier={setActiveTier}
-        monthlyCommission={monthlyCommission}
-      />
-      
-      <BonificationAreaChart chartData={chartData} />
-    </Card>
+    </div>
   );
 }
