@@ -1,8 +1,6 @@
 
 import React from 'react';
-import { BonificationAreaChart } from './BonificationAreaChart';
 import { BonificationStatusCards } from './BonificationStatusCards';
-import { BonificationTooltip } from './BonificationTooltip';
 import { CommissionTiersSection } from './CommissionTiersSection';
 import { 
   commissionTiers, 
@@ -34,14 +32,6 @@ export function BonificationChart() {
           forecastBonus={forecastBonus}
           totalBonus={totalBonus}
         />
-        
-        <div className="relative h-[220px] mt-6">
-          <BonificationAreaChart chartData={chartData} />
-          <BonificationTooltip 
-            commissionTiers={commissionTiers} 
-            purchaseValue={119.99} 
-          />
-        </div>
         
         <CommissionTiersSection 
           commissionTiers={commissionTiers}
