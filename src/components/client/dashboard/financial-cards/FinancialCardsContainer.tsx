@@ -1,45 +1,41 @@
 
 import { FinancialCard } from "./FinancialCard";
 import { defaultFinancialCardsData } from "./FinancialCardsData";
-import { ParticleStyle } from "@/components/client/products/particles/types";
 
 export function FinancialCardsContainer() {
-  // These would typically come from an API call in a real app
+  // Estes valores normalmente viriam de uma chamada de API em um aplicativo real
   const { availableBalance, totalEarnings, forecastBonus } = defaultFinancialCardsData;
-  
-  // Usando a mesma imagem para todos os cards
-  const dollarIconPath = "/lovable-uploads/5a0ae515-1262-43ad-9324-72c3408c828b.png";
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-4 mb-6">
       {/* Saldo Disponível Card */}
       <FinancialCard
         to="/client/financial"
-        bgColor="bg-white"
-        imageSrc={dollarIconPath}
+        bgColor="bg-[#8BC34A]" 
+        color="text-white"
+        icon="dollar"
         amount={availableBalance}
         label="Saldo Disponível"
-        particleStyle="matrix"
       />
 
       {/* Ganhos até hoje Card */}
       <FinancialCard
         to="/client/financial"
-        bgColor="bg-white"
-        imageSrc={dollarIconPath}
+        bgColor="bg-[#FFC107]"
+        color="text-white"
+        icon="chart"
         amount={totalEarnings}
         label="Ganhos até hoje"
-        particleStyle="fireflies"
       />
 
       {/* Previsão de Ganhos Card */}
       <FinancialCard
         to="/client/earnings-forecast"
-        bgColor="bg-white"
-        imageSrc={dollarIconPath}
+        bgColor="bg-[#29B6F6]"
+        color="text-white"
+        icon="trending"
         amount={forecastBonus}
         label="Previsão de Ganhos"
-        particleStyle="stars"
       />
     </div>
   );
