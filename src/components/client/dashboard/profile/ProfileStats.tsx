@@ -47,10 +47,6 @@ export const ProfileStats = ({ profileId }: ProfileStatsProps) => {
         <p className="font-medium">Pago</p>
       </div>
       <div className="text-center">
-        <p className="text-sm text-muted-foreground">Pontos</p>
-        <p className="font-medium">0</p>
-      </div>
-      <div className="text-center">
         <p className="text-sm text-muted-foreground">Equipe</p>
         <p className="font-medium">{teamSize}</p>
       </div>
