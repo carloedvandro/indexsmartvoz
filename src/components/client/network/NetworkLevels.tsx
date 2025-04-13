@@ -1,43 +1,37 @@
-
+import { useSearchParams } from "react-router-dom";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useIsMobile } from "@/hooks/use-mobile";
 
-interface NetworkLevelsProps {
-  selectedLevel: string;
-  onSelect: (level: string) => void;
-}
+export function NetworkLevels() {
+  const [searchParams, setSearchParams] = useSearchParams();
 
-const NETWORK_LEVELS = [
-  { value: "1", label: "1° Nível" },
-  { value: "2", label: "2° Nível" },
-  { value: "3", label: "3° Nível" },
-  { value: "4", label: "4° Nível" },
-  { value: "all", label: "Todos os Níveis" },
-] as const;
+  const levels = [
+    { title: "1° Nível", value: "1" },
+    { title: "2° Nível", value: "2" },
+    { title: "3° Nível", value: "3" },
+    { title: "4° Nível", value: "4" },
+  ];
 
-export const NetworkLevels = ({ selectedLevel, onSelect }: NetworkLevelsProps) => {
-  const isMobile = useIsMobile();
-  
+  const currentLevel = searchParams.get("level") || "1";
+
+  const handleLevelClick = (level: string) => {
+    setSearchParams({ level });
+  };
+
   return (
-    <div className="sticky top-20 z-10 flex justify-center w-full">
-      <div className="w-full max-w-[370px] space-y-2">
-        {NETWORK_LEVELS.map((level) => (
+    <Card className="p-4 mb-6">
+      <div className="flex flex-col gap-2">
+        {levels.map((level) => (
           <Button
             key={level.value}
-            variant="outline"
-            className={`w-full text-left px-4 py-3 rounded-lg transition-all relative hover:bg-transparent
-              ${level.value === selectedLevel && level.value !== 'all'
-                ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px] text-[#8425af]'
-                : level.value === 'all'
-                  ? "bg-[#5f0889] text-white hover:bg-[#5f0889]"
-                  : "border border-[#8425af] hover:border-[#8425af] hover:text-[#8425af]"
-              }`}
-            onClick={() => onSelect(level.value)}
+            variant={currentLevel === level.value ? "default" : "outline"}
+            className="w-full justify-start"
+            onClick={() => handleLevelClick(level.value)}
           >
-            <span>{level.label}</span>
+            {level.title}
           </Button>
         ))}
       </div>
-    </div>
+    </Card>
   );
-};
+}

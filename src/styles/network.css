@@ -1,4 +1,3 @@
-
 /* Estilos específicos para a árvore de rede */
 [data-user-id="Marcio89"] {
   margin-left: 29.5px !important; /* Movido 0.5px para direita (era 29px) */
@@ -84,6 +83,16 @@
   z-index: 5 !important;
 }
 
+/* Removendo estilos que afetam o layout dos cartões de nível individual */
+.network-tree .space-y-6,
+.network-tree .space-y-6 > div,
+.network-tree .mb-6,
+.network-tree .space-y-4,
+.network-tree .space-y-4 > div,
+.network-tree > div > div.space-y-4 > div {
+  /* Removendo estes estilos para não interferir com os níveis individuais */
+}
+
 /* Nenhum movimento para NÍVEIS INDIVIDUAIS */
 .view-individual-level span.text-red-600 {
   /* Não mexer no texto para visualizações de nível individual */
@@ -93,23 +102,4 @@
 /* Movendo o conjunto de informações 6px para baixo */
 .profile-info-container {
   margin-top: calc(6px + 8mm) !important;
-}
-
-/* Novos estilos para GARANTIR a visibilidade dos nós - 04/07/2025 */
-.network-node, .filtered-network-node {
-  opacity: 1 !important;
-  visibility: visible !important;
-  display: flex !important;
-}
-
-/* Garantir espaçamento adequado entre nós */
-.space-y-6 > div {
-  margin-bottom: 20px !important; 
-}
-
-/* Melhorar a visibilidade do status pendente */
-span.text-red-600 {
-  opacity: 1 !important;
-  color: #ef4444 !important;
-  font-weight: 500 !important;
 }
