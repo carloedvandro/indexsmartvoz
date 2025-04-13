@@ -1,2 +1,0 @@
-
-export { BonificationChart } from "./BonificationChart";
