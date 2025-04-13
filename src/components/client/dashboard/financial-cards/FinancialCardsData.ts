@@ -33,8 +33,8 @@ export const financialCardsConfig = [
   {
     key: "totalEarnings",
     path: "/client/financial",
-    bgColor: "bg-[#FFC107]",
-    hoverColor: "hover:bg-[#FFB300]",
+    bgColor: "bg-[#FFCC80]",
+    hoverColor: "hover:bg-[#FFB74D]",
     icon: "chart" as const,
     label: "Ganhos até hoje"
   },
