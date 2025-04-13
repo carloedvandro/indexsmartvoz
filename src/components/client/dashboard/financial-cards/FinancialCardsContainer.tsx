@@ -1,9 +1,10 @@
 
+import { DollarSign, AreaChart } from "lucide-react";
 import { FinancialCard } from "./FinancialCard";
 import { defaultFinancialCardsData } from "./FinancialCardsData";
 
 export function FinancialCardsContainer() {
-  // Estes valores normalmente viriam de uma chamada de API em um aplicativo real
+  // These would typically come from an API call in a real app
   const { availableBalance, totalEarnings, forecastBonus } = defaultFinancialCardsData;
 
   return (
@@ -11,9 +12,8 @@ export function FinancialCardsContainer() {
       {/* Saldo Disponível Card */}
       <FinancialCard
         to="/client/financial"
-        bgColor="bg-[#8BC34A]" 
-        color="text-white"
-        icon="dollar"
+        bgColor="bg-green-500"
+        icon={DollarSign}
         amount={availableBalance}
         label="Saldo Disponível"
       />
@@ -21,9 +21,8 @@ export function FinancialCardsContainer() {
       {/* Ganhos até hoje Card */}
       <FinancialCard
         to="/client/financial"
-        bgColor="bg-[#FFC107]"
-        color="text-white"
-        icon="chart"
+        bgColor="bg-yellow-400"
+        icon={AreaChart}
         amount={totalEarnings}
         label="Ganhos até hoje"
       />
@@ -31,9 +30,8 @@ export function FinancialCardsContainer() {
       {/* Previsão de Ganhos Card */}
       <FinancialCard
         to="/client/earnings-forecast"
-        bgColor="bg-[#29B6F6]"
-        color="text-white"
-        icon="trending"
+        bgColor="bg-cyan-500"
+        icon={AreaChart}
         amount={forecastBonus}
         label="Previsão de Ganhos"
       />
