@@ -22,8 +22,8 @@ export const NetworkView = ({
     <div className="h-auto max-h-[calc(100vh-140px)] overflow-y-auto pb-60">
       <div className="pr-4">
         <AnimatePresence>
-          {filteredData.length > 0 ? (
-            <div className="space-y-6 mb-32">
+          {filteredData && filteredData.length > 0 ? (
+            <div className={`space-y-6 mb-32 ${selectedLevel === "all" ? "view-all-levels" : "view-individual-level"}`}>
               {filteredData.map((member) => (
                 selectedLevel === "all" ? (
                   <NetworkNode
@@ -46,7 +46,7 @@ export const NetworkView = ({
           ) : (
             <div className="text-center py-8">
               <p className="text-gray-500 text-sm">
-                Nenhum membro encontrado em sua rede.
+                Nenhum membro encontrado em sua rede para o nível selecionado.
               </p>
             </div>
           )}

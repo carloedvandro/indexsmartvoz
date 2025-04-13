@@ -1,12 +1,11 @@
 
-import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { NetworkMember } from "./types";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 
 export const useNetworkData = (userId: string) => {
-  const { data: networkData = [], isLoading: loading } = useQuery({
+  const { data: networkData = [], isLoading: loading, isError } = useQuery({
     queryKey: ['networkData', userId],
     queryFn: async () => {
       try {
@@ -31,7 +30,7 @@ export const useNetworkData = (userId: string) => {
 
         console.log("User network found:", userNetwork);
 
-        // Busca todos os membros da rede usando a função get_all_network_members
+        // Fetch all network members using the get_all_network_members function
         const { data: allNetworkMembers, error } = await supabase
           .rpc('get_all_network_members', { root_network_id: userNetwork.id });
 
@@ -41,7 +40,7 @@ export const useNetworkData = (userId: string) => {
           return [];
         }
 
-        console.log("Raw network members data:", allNetworkMembers);
+        console.log("Raw network members data received:", allNetworkMembers?.length || 0, "members");
 
         if (allNetworkMembers && allNetworkMembers.length > 0) {
           // Get all unique user_ids from network members
@@ -59,7 +58,7 @@ export const useNetworkData = (userId: string) => {
             return [];
           }
 
-          console.log("Profiles data:", profilesData);
+          console.log("Profiles data received:", profilesData?.length || 0, "profiles");
 
           // Create a map of profiles for easy lookup
           const profilesMap = new Map(
@@ -68,14 +67,13 @@ export const useNetworkData = (userId: string) => {
             
           const membersMap = new Map();
           
-          // Adicionando logs para debug
-          console.log("Criando estrutura de membros...");
+          console.log("Building network member structure...");
           
           // Only include members that have valid profiles
           allNetworkMembers.forEach(member => {
             const profileData = profilesMap.get(member.user_id);
             if (profileData) { // Only add member if profile data exists
-              console.log(`Processando membro: ID=${member.id}, user_id=${member.user_id}, level=${member.level}, parent_id=${member.parent_id}`);
+              console.log(`Processing member: ID=${member.id}, user_id=${member.user_id}, level=${member.level}, parent_id=${member.parent_id}`);
               
               membersMap.set(member.id, {
                 id: member.id,
@@ -93,35 +91,37 @@ export const useNetworkData = (userId: string) => {
                 children: []
               });
             } else {
-              console.log(`Pulando membro (perfil não encontrado): ID=${member.id}, user_id=${member.user_id}`);
+              console.log(`Skipping member (profile not found): ID=${member.id}, user_id=${member.user_id}`);
             }
           });
 
           // Build the tree structure
           const rootMembers: NetworkMember[] = [];
           
-          console.log("Construindo árvore de rede...");
+          console.log("Building network tree...");
           
           membersMap.forEach((member, id) => {
-            console.log(`Verificando onde posicionar membro: ID=${id}, parent_id=${member.parent_id}`);
+            console.log(`Checking where to position member: ID=${id}, parent_id=${member.parent_id}`);
             
             if (member.parent_id === userNetwork.id) {
-              console.log(`Adicionando como membro raiz: ${member.user.full_name}`);
+              console.log(`Adding as root member: ${member.user.full_name}`);
               rootMembers.push(member);
             } else if (membersMap.has(member.parent_id)) {
               const parent = membersMap.get(member.parent_id);
               if (!parent.children) parent.children = [];
               
-              console.log(`Adicionando como filho de ${parent.user.full_name}: ${member.user.full_name}`);
+              console.log(`Adding as child of ${parent.user.full_name}: ${member.user.full_name}`);
               parent.children.push(member);
             } else {
-              console.log(`ALERTA: Não encontrou pai para membro: ${member.user.full_name} (parent_id=${member.parent_id})`);
+              console.log(`WARNING: Parent not found for member: ${member.user.full_name} (parent_id=${member.parent_id})`);
             }
           });
 
-          console.log("Final network data:", rootMembers);
+          console.log("Final network structure:", rootMembers.length, "root members");
           return rootMembers;
         }
+        
+        console.log("No network members found");
         return [];
       } catch (error) {
         console.error("Error in fetchNetworkData:", error);
@@ -130,7 +130,14 @@ export const useNetworkData = (userId: string) => {
       }
     },
     refetchOnWindowFocus: false,
+    staleTime: 300000, // Cache for 5 minutes
+    retry: 2, // Retry failed requests twice
+    refetchOnMount: true,
   });
 
-  return { networkData, loading };
+  return { 
+    networkData: networkData || [], 
+    loading, 
+    isError 
+  };
 };
