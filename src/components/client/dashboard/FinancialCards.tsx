@@ -30,7 +30,7 @@ export function FinancialCards() {
         </div>
       </Link>
 
-      {/* Total de Bônus Card */}
+      {/* Total de Adesão Card */}
       <Link 
         to="/client/financial" 
         className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 hover:bg-gray-50 transition-colors"
@@ -42,7 +42,7 @@ export function FinancialCards() {
             </div>
             <div className="flex flex-col">
               <span className="text-lg font-medium">{formatCurrency(totalEarnings)}</span>
-              <span className="text-xs text-gray-500 uppercase">Total de bônus</span>
+              <span className="text-xs text-gray-500 uppercase">Total de Adesão</span>
             </div>
           </div>
         </div>
