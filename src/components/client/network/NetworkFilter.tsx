@@ -4,7 +4,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
-interface NetworkFilterProps {
+export interface NetworkFilterProps {
   filterTerm: string;
   setFilterTerm: (value: string) => void;
 }
