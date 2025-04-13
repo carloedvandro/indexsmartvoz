@@ -1,43 +1,29 @@
 
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 interface NetworkFilterProps {
-  selectedLevel: string;
-  onLevelChange: (level: string) => void;
+  filterTerm: string;
+  setFilterTerm: (value: string) => void;
 }
 
-const NETWORK_LEVELS = [
-  { value: "1", label: "1° Nível" },
-  { value: "2", label: "2° Nível" },
-  { value: "3", label: "3° Nível" },
-  { value: "4", label: "4° Nível" },
-  { value: "all", label: "Todos os Níveis" },
-] as const;
-
-export const NetworkFilter = ({ selectedLevel, onLevelChange }: NetworkFilterProps) => {
+export const NetworkFilter = ({ filterTerm, setFilterTerm }: NetworkFilterProps) => {
   const isMobile = useIsMobile();
   
   return (
-    <div className="sticky top-20 z-10 flex justify-center w-full">
-      <div className="w-full max-w-[370px] space-y-2">
-        {NETWORK_LEVELS.map((level) => (
-          <Button
-            key={level.value}
-            variant="outline"
-            className={`w-full text-left px-4 py-3 rounded-lg transition-all relative hover:bg-transparent
-              ${level.value === selectedLevel && level.value !== 'all'
-                ? 'ring-2 ring-[#8425af] ring-offset-0 border-none bg-transparent before:absolute before:inset-[1px] before:border before:border-[#8425af] before:rounded-[7px] text-[#8425af]'
-                : level.value === 'all'
-                  ? "bg-[#5f0889] text-white hover:bg-[#5f0889]"
-                  : "border border-[#8425af] hover:border-[#8425af] hover:text-[#8425af]"
-              }`}
-            onClick={() => onLevelChange(level.value)}
-          >
-            <span>{level.label}</span>
-          </Button>
-        ))}
+    <div className="mt-4 mb-6">
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+        <Input
+          type="text"
+          placeholder="Buscar membro na rede..."
+          value={filterTerm}
+          onChange={(e) => setFilterTerm(e.target.value)}
+          className="pl-10 py-2 w-full border border-gray-300 rounded-md"
+        />
       </div>
     </div>
   );
-}
+};
