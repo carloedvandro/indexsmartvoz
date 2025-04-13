@@ -1,14 +1,14 @@
 
 import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
-import { BonificationStatusCards } from './bonification/BonificationStatusCards';
-import { CommissionTiersSection } from './bonification/CommissionTiersSection';
-import { BonificationAreaChart } from './bonification/BonificationAreaChart';
+import { BonificationStatusCards } from './BonificationStatusCards';
+import { CommissionTiersSection } from './CommissionTiersSection';
+import { BonificationAreaChart } from './BonificationAreaChart';
 import { 
   commissionTiers, 
   chartData, 
   calculateMonthlyCommission 
-} from './bonification/bonificationConfig';
+} from './bonificationConfig';
 
 export function BonificationChart() {
   // Fictional values for the cards
