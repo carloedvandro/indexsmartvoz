@@ -4,7 +4,11 @@ import { BonificationAreaChart } from './BonificationAreaChart';
 import { BonificationStatusCards } from './BonificationStatusCards';
 import { BonificationTooltip } from './BonificationTooltip';
 import { CommissionTiersSection } from './CommissionTiersSection';
-import { bonificationConfig } from './bonificationConfig';
+import { 
+  commissionTiers, 
+  chartData, 
+  calculateMonthlyCommission 
+} from './bonificationConfig';
 
 export function BonificationChart() {
   // In a real app, this data would be fetched from an API
@@ -13,6 +17,12 @@ export function BonificationChart() {
     forecastBonus: 0,
     totalBonus: 3200,
   };
+
+  // Add state for active tier
+  const [activeTier, setActiveTier] = React.useState(0);
+  
+  // Calculate monthly commission
+  const monthlyCommission = calculateMonthlyCommission(activeTier);
 
   return (
     <div className="px-4 mb-8">
@@ -26,11 +36,19 @@ export function BonificationChart() {
         />
         
         <div className="relative h-[220px] mt-6">
-          <BonificationAreaChart data={bonificationConfig.chartData} />
-          <BonificationTooltip />
+          <BonificationAreaChart chartData={chartData} />
+          <BonificationTooltip 
+            commissionTiers={commissionTiers} 
+            purchaseValue={119.99} 
+          />
         </div>
         
-        <CommissionTiersSection />
+        <CommissionTiersSection 
+          commissionTiers={commissionTiers}
+          activeTier={activeTier}
+          setActiveTier={setActiveTier}
+          monthlyCommission={monthlyCommission}
+        />
       </div>
     </div>
   );
