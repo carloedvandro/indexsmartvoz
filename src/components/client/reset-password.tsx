@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { resetPassword } from "@/services/user/userReset";
 import { Mail } from "lucide-react";
 import { RainbowButton } from "@/components/ui/rainbow-button";
-import ParticlesBackground from "@/components/client/products/ParticlesBackground";
+import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 import { motion } from "framer-motion";
 
 export default function ResetPassword() {

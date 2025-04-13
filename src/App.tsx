@@ -4,10 +4,10 @@ import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } 
 import { Toaster } from "@/components/ui/toaster";
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import Index from '@/pages/Index';
+import ClientDashboard from '@/pages/client/dashboard';
 import ClientLogin from '@/pages/client/login';
 import ClientRegister from '@/pages/client/register';
 import ClientFacialBiometry from '@/pages/client/facial-biometry';
-import ClientDashboard from '@/pages/client/dashboard';
 import ClientNetwork from '@/pages/client/network';
 import ClientStore from '@/pages/client/store';
 import ClientEvents from '@/pages/client/events';
