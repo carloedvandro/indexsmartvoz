@@ -27,7 +27,7 @@ export const ProfileInfo = ({ member, isFilteredView = false }: ProfileInfoProps
     <div className={`space-y-1 text-sm ${marginClass} profile-info-container`} style={{ marginTop }}>
       <div className="flex items-center gap-2 text-black">
         <GraduationCap className="h-4 w-4 flex-shrink-0" style={{ color: '#660099' }} />
-        <span className="truncate">Meu ID: Smartvoz</span>
+        <span className="truncate">Meu ID: {member.user.custom_id || "Não definido"}</span>
       </div>
       
       {formattedDate && (
