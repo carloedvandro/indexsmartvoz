@@ -56,7 +56,7 @@ export const ProfileStats = ({ profileId }: ProfileStatsProps) => {
       </div>
       <div className="text-center">
         <p className="text-sm text-muted-foreground">Status</p>
-        <p className="font-medium capitalize">Active</p>
+        <p className="font-medium capitalize">Ativo</p>
       </div>
     </div>
   );
