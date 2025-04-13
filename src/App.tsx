@@ -29,6 +29,9 @@ import AdminUsers from '@/pages/admin/users';
 import PublicStore from '@/pages/public/store';
 import ResetPassword from '@/pages/client/reset-password';
 import UpdatePassword from '@/pages/client/update-password';
+import SiteModel from '@/pages/SiteModel';
+import ModernSite from '@/pages/ModernSite';
+import CompanySite from '@/pages/CompanySite';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,6 +45,11 @@ const router = createBrowserRouter(
       <Route path="/client/update-password" element={<UpdatePassword />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/store/:storeUrl" element={<PublicStore />} />
+      
+      {/* Site Routes */}
+      <Route path="/site-model" element={<SiteModel />} />
+      <Route path="/modern-site" element={<ModernSite />} />
+      <Route path="/site" element={<CompanySite />} />
 
       {/* Protected Client Routes */}
       <Route element={<ProtectedRoute />}>
