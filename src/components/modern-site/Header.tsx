@@ -20,11 +20,6 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
         </Link>
         
         <div className="flex items-center gap-2">
-          <img 
-            src="/lovable-uploads/47efea31-de1c-4dff-9668-f0789cdd7471.png" 
-            alt="SmartVoz Logo" 
-            className="h-8 w-auto"
-          />
           <div className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
             SmartVoz
           </div>
@@ -61,3 +56,4 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
     </header>
   );
 }
+
