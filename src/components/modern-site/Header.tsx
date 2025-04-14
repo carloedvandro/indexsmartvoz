@@ -21,7 +21,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
         
         <div className="flex items-center gap-2">
           <img 
-            src="/lovable-uploads/f517a3fd-046d-4a20-9997-61a2bd1417b4.png" 
+            src="/lovable-uploads/ced30205-7362-4aa6-882d-4e55a0f46378.png" 
             alt="SmartVoz Logo" 
             className="h-10 w-auto"
           />
