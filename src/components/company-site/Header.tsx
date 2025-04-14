@@ -1,6 +1,5 @@
 
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 
 interface HeaderProps {
   activeSection: string;
@@ -44,22 +43,8 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
           ))}
         </nav>
         
-        <div className="flex items-center gap-3">
-          <Link to="/client/login">
-            <Button variant="outline" size="sm" className="hidden md:flex">
-              Login
-            </Button>
-          </Link>
-          <Link to="/client/register">
-            <Button size="sm" className="bg-purple-600 hover:bg-purple-700 hidden md:flex">
-              Cadastre-se
-            </Button>
-          </Link>
-          <div className="md:hidden">
-            <Button variant="ghost" size="sm" className="text-gray-700">
-              Menu
-            </Button>
-          </div>
+        <div className="md:hidden">
+          <button className="text-gray-700">Menu</button>
         </div>
       </div>
     </header>
