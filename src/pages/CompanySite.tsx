@@ -65,17 +65,23 @@ export default function CompanySite() {
           </div>
           
           <nav className="hidden md:flex items-center space-x-8">
-            {['home', 'features', 'services', 'about', 'contact'].map((section) => (
+            {[
+              { id: 'home', label: 'Início' },
+              { id: 'features', label: 'Recursos' },
+              { id: 'services', label: 'Serviços' },
+              { id: 'about', label: 'Sobre' },
+              { id: 'contact', label: 'Contato' }
+            ].map((section) => (
               <button
-                key={section}
-                onClick={() => scrollToSection(section)}
+                key={section.id}
+                onClick={() => scrollToSection(section.id)}
                 className={`text-sm font-medium transition-colors ${
-                  activeSection === section 
+                  activeSection === section.id 
                     ? 'text-purple-600' 
                     : 'text-gray-600 hover:text-purple-500'
                 }`}
               >
-                {section.charAt(0).toUpperCase() + section.slice(1)}
+                {section.label}
               </button>
             ))}
           </nav>
