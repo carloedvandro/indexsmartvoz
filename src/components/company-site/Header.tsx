@@ -12,7 +12,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <img 
-            src="https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images//smartvoz_chip_favicon.png" 
+            src="/lovable-uploads/990cc0d8-6d4e-4907-a8a4-6ee15fa3ff68.png" 
             alt="SmartVoz Logo" 
             className="h-8 w-8"
           />
