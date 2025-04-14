@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster";
@@ -29,7 +28,6 @@ import AdminUsers from '@/pages/admin/users';
 import PublicStore from '@/pages/public/store';
 import ResetPassword from '@/pages/client/reset-password';
 import UpdatePassword from '@/pages/client/update-password';
-import SiteModel from '@/pages/SiteModel';
 import ModernSite from '@/pages/ModernSite';
 import CompanySite from '@/pages/CompanySite';
 
@@ -47,7 +45,6 @@ const router = createBrowserRouter(
       <Route path="/store/:storeUrl" element={<PublicStore />} />
       
       {/* Site Routes */}
-      <Route path="/site-model" element={<SiteModel />} />
       <Route path="/modern-site" element={<ModernSite />} />
       <Route path="/site" element={<CompanySite />} />
 
