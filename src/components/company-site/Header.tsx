@@ -11,9 +11,11 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
     <header className="fixed top-0 left-0 right-0 bg-white bg-opacity-90 backdrop-blur-sm z-50 shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
-            SmartVoz
-          </div>
+          <img 
+            src="/lovable-uploads/f517a3fd-046d-4a20-9997-61a2bd1417b4.png" 
+            alt="SmartVoz Logo" 
+            className="h-10 w-auto"
+          />
         </div>
         
         <nav className="hidden md:flex items-center space-x-8">
@@ -45,4 +47,3 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
     </header>
   );
 }
-
