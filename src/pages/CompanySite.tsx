@@ -9,6 +9,7 @@ import { TestimonialsSection } from '@/components/company-site/TestimonialsSecti
 import { ContactSection } from '@/components/company-site/ContactSection';
 import { ClosingSection } from '@/components/company-site/ClosingSection';
 import { Footer } from '@/components/company-site/Footer';
+import '@/styles/playtec.css';
 
 export default function CompanySite() {
   const { activeSection, scrollToSection } = useActiveSection();
@@ -26,7 +27,7 @@ export default function CompanySite() {
   }, []);
   
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen site-background">
       <Header activeSection={activeSection} scrollToSection={scrollToSection} />
       <HeroSection />
       <FeaturesSection />
@@ -39,7 +40,7 @@ export default function CompanySite() {
       {/* Botão de WhatsApp fixo */}
       <a 
         href="#" 
-        className="fixed right-6 bottom-6 bg-green-500 hover:bg-green-600 text-white rounded-full p-3 shadow-lg z-50 transition-transform hover:scale-110"
+        className="fixed right-6 bottom-6 bg-green-500 hover:bg-green-600 text-white rounded-full p-3 shadow-lg z-50 transition-transform hover:scale-110 whatsapp-button"
         aria-label="Contato via WhatsApp"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
