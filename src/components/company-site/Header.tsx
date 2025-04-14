@@ -14,7 +14,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
           <img 
             src="/lovable-uploads/ced30205-7362-4aa6-882d-4e55a0f46378.png" 
             alt="SmartVoz Logo" 
-            className="h-10 w-auto"
+            className="h-16 w-auto"  // Increased from h-10 to h-16
           />
         </div>
         
