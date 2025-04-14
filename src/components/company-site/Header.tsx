@@ -8,22 +8,23 @@ interface HeaderProps {
 
 export function Header({ activeSection, scrollToSection }: HeaderProps) {
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white bg-opacity-90 backdrop-blur-sm z-50 shadow-sm">
+    <header className="fixed top-0 left-0 right-0 bg-[#030225] z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img 
-            src="/lovable-uploads/ced30205-7362-4aa6-882d-4e55a0f46378.png" 
-            alt="SmartVoz Logo" 
-            className="h-16 w-auto"  // Increased from h-10 to h-16
-          />
+          <Link to="/">
+            <img 
+              src="/lovable-uploads/ced30205-7362-4aa6-882d-4e55a0f46378.png" 
+              alt="SmartVoz Logo" 
+              className="h-12 w-auto"
+            />
+          </Link>
         </div>
         
         <nav className="hidden md:flex items-center space-x-8">
           {[
             { id: 'home', label: 'Início' },
-            { id: 'features', label: 'Recursos' },
-            { id: 'services', label: 'Serviços' },
-            { id: 'about', label: 'Sobre' },
+            { id: 'features', label: 'Credenciar Sua Marca' },
+            { id: 'about', label: 'Quem Somos' },
             { id: 'contact', label: 'Contato' }
           ].map((section) => (
             <button
@@ -31,8 +32,8 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
               onClick={() => scrollToSection(section.id)}
               className={`text-sm font-medium transition-colors ${
                 activeSection === section.id 
-                  ? 'text-purple-600' 
-                  : 'text-gray-600 hover:text-purple-500'
+                  ? 'text-[#ff0066]' 
+                  : 'text-white hover:text-[#ff0066]'
               }`}
             >
               {section.label}
@@ -41,7 +42,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
         </nav>
         
         <div className="md:hidden">
-          <button className="text-gray-700">Menu</button>
+          <button className="text-white">Menu</button>
         </div>
       </div>
     </header>
