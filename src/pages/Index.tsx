@@ -117,24 +117,6 @@ export default function Index() {
             </div>
           </motion.div>
 
-          {/* 3D Site Model */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="bg-white rounded-xl shadow-md overflow-hidden"
-          >
-            <div className="p-6">
-              <h2 className="text-2xl font-bold mb-3 text-purple-700">Modelo 3D</h2>
-              <p className="text-gray-600 mb-6">
-                Visualize um modelo 3D interativo do nosso site.
-              </p>
-              <Link to="/site-model">
-                <Button className="w-full">Explorar 3D</Button>
-              </Link>
-            </div>
-          </motion.div>
-
           {/* Store Card */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
