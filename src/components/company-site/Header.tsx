@@ -1,8 +1,6 @@
 
-import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { LanguageSelector } from '@/components/LanguageSelector';
 
 interface HeaderProps {
   activeSection: string;
@@ -10,8 +8,6 @@ interface HeaderProps {
 }
 
 export function Header({ activeSection, scrollToSection }: HeaderProps) {
-  const { t } = useTranslation();
-  
   return (
     <header className="fixed top-0 left-0 right-0 bg-white bg-opacity-90 backdrop-blur-sm z-50 shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -28,11 +24,11 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
         
         <nav className="hidden md:flex items-center space-x-8">
           {[
-            { id: 'home', label: t('navigation.home') },
-            { id: 'features', label: t('navigation.features') },
-            { id: 'services', label: t('navigation.services') },
-            { id: 'about', label: t('navigation.about') },
-            { id: 'contact', label: t('navigation.contact') }
+            { id: 'home', label: 'Início' },
+            { id: 'features', label: 'Recursos' },
+            { id: 'services', label: 'Serviços' },
+            { id: 'about', label: 'Sobre' },
+            { id: 'contact', label: 'Contato' }
           ].map((section) => (
             <button
               key={section.id}
@@ -49,7 +45,6 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
         </nav>
         
         <div className="flex items-center gap-3">
-          <LanguageSelector />
           <Link to="/client/login">
             <Button variant="outline" size="sm" className="hidden md:flex">
               Login
