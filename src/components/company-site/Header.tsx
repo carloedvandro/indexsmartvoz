@@ -10,7 +10,17 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
   return (
     <header className="fixed top-0 left-0 right-0 bg-[#030225] z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <nav className="hidden md:flex items-center space-x-8 mr-auto">
+        <div className="flex items-center gap-2">
+          <Link to="/">
+            <img 
+              src="/lovable-uploads/ced30205-7362-4aa6-882d-4e55a0f46378.png" 
+              alt="SmartVoz Logo" 
+              className="h-12 w-auto"
+            />
+          </Link>
+        </div>
+        
+        <nav className="hidden md:flex items-center space-x-8">
           {[
             { id: 'home', label: 'Início' },
             { id: 'features', label: 'Credenciar Sua Marca' },
@@ -30,16 +40,6 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
             </button>
           ))}
         </nav>
-        
-        <div className="absolute left-1/2 transform -translate-x-1/2">
-          <Link to="/">
-            <img 
-              src="/lovable-uploads/ced30205-7362-4aa6-882d-4e55a0f46378.png" 
-              alt="SmartVoz Logo" 
-              className="h-12 w-auto"
-            />
-          </Link>
-        </div>
         
         <div className="md:hidden">
           <button className="text-white">Menu</button>
