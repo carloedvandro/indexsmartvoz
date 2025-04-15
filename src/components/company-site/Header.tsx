@@ -12,7 +12,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <img 
-            src="/lovable-uploads/b4296a05-cf41-49a8-a40f-4666754b788f.png" 
+            src="/lovable-uploads/36908592-cb8d-4c15-9e3a-89d70637e3a3.png" 
             alt="PlayTec Logo" 
             className="h-10 w-auto"
           />
