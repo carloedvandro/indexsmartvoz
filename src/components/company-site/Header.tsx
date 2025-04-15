@@ -31,7 +31,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
           ))}
         </nav>
         
-        <div className="flex items-center justify-center absolute left-1/2 transform -translate-x-1/2">
+        <div className="absolute left-1/2 transform -translate-x-1/2">
           <Link to="/">
             <img 
               src="/lovable-uploads/ced30205-7362-4aa6-882d-4e55a0f46378.png" 
