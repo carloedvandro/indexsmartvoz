@@ -35,12 +35,11 @@ export function AboutSection() {
               beamDuration={12}
             >
               <div className="relative overflow-hidden rounded-lg shadow-xl">
-                <div className="absolute inset-0 z-0 opacity-30 bg-[url('/lovable-uploads/eee4dc6b-8a9f-4613-b581-72e7626627a4.png')] bg-center bg-cover"></div>
                 <div className="absolute inset-0 bg-gradient-to-tl from-pink-600/30 to-pink-400/20 mix-blend-overlay z-10"></div>
                 <img 
                   src="/lovable-uploads/70692291-9fc0-41c7-817c-4f1e2ed36bec.png" 
                   alt="Suporte Técnico" 
-                  className="w-full h-auto rounded-lg relative z-20"
+                  className="w-full h-auto rounded-lg relative"
                 />
               </div>
             </WarpBackground>

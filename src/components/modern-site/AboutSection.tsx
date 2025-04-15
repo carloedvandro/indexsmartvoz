@@ -23,7 +23,6 @@ export function AboutSection() {
               beamDuration={12}
             >
               <div className="bg-gradient-to-r from-blue-600 to-violet-600 rounded-lg aspect-video flex items-center justify-center text-white text-4xl font-bold shadow-lg border border-indigo-200 overflow-hidden relative">
-                <div className="absolute inset-0 z-0 opacity-30 bg-[url('/lovable-uploads/eee4dc6b-8a9f-4613-b581-72e7626627a4.png')] bg-center bg-cover"></div>
                 <div className="absolute inset-0 opacity-20 bg-[url('/lovable-uploads/f022b81e-7533-4e36-ae24-0a886fa5c775.png')] bg-center"></div>
                 <span className="relative z-10">SmartVoz</span>
               </div>
