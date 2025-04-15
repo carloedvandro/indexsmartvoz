@@ -31,7 +31,7 @@ export function AboutSection() {
               ))}
             </div>
             <img 
-              src="/lovable-uploads/a3e6b937-6f88-4592-87a1-a89764e3b167.png" 
+              src="/lovable-uploads/70692291-9fc0-41c7-817c-4f1e2ed36bec.png" 
               alt="Suporte Técnico" 
               className="w-full h-auto rounded-md"
             />
