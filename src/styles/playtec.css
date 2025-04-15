@@ -77,27 +77,4 @@
   animation: pulse 2s infinite;
 }
 
-/* Animação para rede de pontos */
-@keyframes floatAnimation {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-10px) rotate(1deg);
-  }
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-}
-
-.float-animation {
-  animation: floatAnimation 8s ease-in-out infinite;
-}
-
-/* Fundo escuro para o site inteiro */
-.site-background {
-  background-color: #010120;
-  background-image: linear-gradient(to bottom, #010120, #030225);
-}
-
 /* Adicionar o estilo à importação principal */
