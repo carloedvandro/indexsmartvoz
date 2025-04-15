@@ -6,15 +6,6 @@ import { Button } from '@/components/ui/button';
 export function HeroSection() {
   return (
     <section id="home" className="pt-28 pb-20 bg-[#030225] min-h-screen flex items-center relative overflow-hidden">
-      {/* Rede de pontos à direita - decorativa */}
-      <div className="absolute right-0 bottom-0">
-        <img
-          src="/lovable-uploads/6b03e1aa-3ebb-4ac3-b299-f2b4fb8f89d0.png"
-          alt="Network Mesh"
-          className="w-[400px] h-auto opacity-80"
-        />
-      </div>
-      
       <div className="container mx-auto px-4 z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
