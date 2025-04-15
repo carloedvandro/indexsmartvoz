@@ -23,11 +23,11 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
           <img 
             src="/lovable-uploads/ced30205-7362-4aa6-882d-4e55a0f46378.png" 
             alt="SmartVoz Logo" 
-            className="h-16 w-auto"  // Increased from h-10 to h-16
+            className="h-16 w-auto"
           />
         </div>
         
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center justify-center flex-grow space-x-8">
           {[
             { id: 'home', label: 'Início' },
             { id: 'features', label: 'Recursos' },
