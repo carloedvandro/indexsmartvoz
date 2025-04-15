@@ -16,13 +16,13 @@ export function AboutSection() {
             className="md:w-1/2"
           >
             <WarpBackground 
-              perspective={350}
-              beamsPerSide={3}
-              beamSize={6}
-              gridColor="rgba(139, 92, 246, 0.15)"
-              beamDuration={5}
+              perspective={500}
+              beamsPerSide={2}
+              beamSize={10}
+              gridColor="rgba(79, 70, 229, 0.08)"
+              beamDuration={8}
             >
-              <div className="bg-gradient-to-br from-purple-700 via-indigo-600 to-blue-500 rounded-2xl aspect-video flex items-center justify-center text-white text-4xl font-bold shadow-xl">
+              <div className="bg-gradient-to-tl from-indigo-800 via-purple-600 to-violet-500 rounded-xl aspect-video flex items-center justify-center text-white text-4xl font-bold shadow-2xl border-2 border-indigo-100">
                 SmartVoz
               </div>
             </WarpBackground>
