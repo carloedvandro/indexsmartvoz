@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -25,22 +24,11 @@ export function AboutSection() {
             viewport={{ once: true }}
             className="relative"
           >
-            {/* Dot grid pattern behind the image */}
-            <div className="absolute -top-6 -left-6 grid grid-cols-10 gap-2">
-              {Array(100).fill(null).map((_, i) => (
-                <div key={i} className="w-2 h-2 rounded-full bg-[#ff0066]"></div>
-              ))}
-            </div>
             <img 
               src="/lovable-uploads/70692291-9fc0-41c7-817c-4f1e2ed36bec.png" 
               alt="Suporte Técnico" 
-              className="w-full h-auto rounded-md relative z-10"
+              className="w-11/12 h-auto rounded-md mx-auto" 
             />
-            <div className="absolute -bottom-6 -right-6 grid grid-cols-10 gap-2">
-              {Array(100).fill(null).map((_, i) => (
-                <div key={i} className="w-2 h-2 rounded-full bg-[#ff0066]"></div>
-              ))}
-            </div>
           </motion.div>
           
           <motion.div
