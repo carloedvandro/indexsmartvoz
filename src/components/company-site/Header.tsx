@@ -20,7 +20,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
           </Link>
         </div>
         
-        <nav className="hidden md:flex items-center justify-center flex-grow space-x-12">
+        <nav className="hidden md:flex items-center justify-center flex-grow space-x-8">
           {[
             { id: 'home', label: 'Início' },
             { id: 'features', label: 'Credenciar Sua Marca' },
