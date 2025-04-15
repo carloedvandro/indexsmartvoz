@@ -117,24 +117,6 @@ export default function Index() {
             </div>
           </motion.div>
 
-          {/* Deep Research Guide Card - NEW */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="bg-white rounded-xl shadow-md overflow-hidden"
-          >
-            <div className="p-6">
-              <h2 className="text-2xl font-bold mb-3 text-purple-700">Guia Deep Research</h2>
-              <p className="text-gray-600 mb-6">
-                Aprenda a utilizar o modo Deep Research do ChatGPT para pesquisas avançadas.
-              </p>
-              <Link to="/deep-research">
-                <Button className="w-full">Ver Guia</Button>
-              </Link>
-            </div>
-          </motion.div>
-
           {/* Store Card */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}

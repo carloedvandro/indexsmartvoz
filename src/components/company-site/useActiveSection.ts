@@ -6,7 +6,7 @@ export function useActiveSection() {
   
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'features', 'services', 'support', 'testimonials', 'contact'];
+      const sections = ['home', 'features', 'services', 'about', 'contact'];
       const currentPosition = window.scrollY + 200;
       
       for (const section of sections) {

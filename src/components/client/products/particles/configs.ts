@@ -24,9 +24,9 @@ export const particleConfigs: Record<ParticleStyle, ParticleConfig> = {
     spread: 15,
   },
   matrix: {
-    count: 2000,
-    size: 0.02,
-    color: '#ff1d8e',
+    count: 5000,
+    size: 0.015,
+    color: '#00ff00',
     opacity: 0.6,
     spread: 25,
   },

@@ -1,68 +1,51 @@
 
 import { motion } from 'framer-motion';
-import { Radio, Monitor, Smartphone, Shield } from 'lucide-react';
+import { Users, Award, ShoppingBag } from 'lucide-react';
 
 export function FeaturesSection() {
+  const features = [
+    { 
+      icon: <Users className="h-8 w-8 text-purple-500" />, 
+      title: "Rede de Negócios", 
+      description: "Construa e gerencie sua rede de contatos de forma eficiente e lucrativa." 
+    },
+    { 
+      icon: <Award className="h-8 w-8 text-indigo-500" />, 
+      title: "Planos Exclusivos", 
+      description: "Produtos e serviços com qualidade premium e preços competitivos." 
+    },
+    { 
+      icon: <ShoppingBag className="h-8 w-8 text-pink-500" />, 
+      title: "Loja Virtual", 
+      description: "Tenha sua própria loja para comercializar produtos e expandir seus negócios." 
+    }
+  ];
+
   return (
-    <section id="features" className="py-16 bg-[#0c0c2a] relative overflow-hidden">
+    <section id="features" className="py-20 bg-white bg-opacity-80">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold mb-4 text-white"
-          >
-            Crie e Transforme sua Operadora com a Parceria PlayTec
-          </motion.h2>
+          <h2 className="text-3xl font-bold mb-4">Por que escolher a SmartVoz?</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Nossa plataforma foi projetada para oferecer as melhores soluções em networking e oportunidades de negócio.
+          </p>
         </div>
         
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          viewport={{ once: true }}
-          className="text-lg text-gray-300 text-center max-w-4xl mx-auto mb-16"
-        >
-          Com a PlayTec, sua empresa se torna uma operadora móvel virtual (MVNO) facilmente. 
-          Somos autorizados pela Anatel para credenciar outras operadoras e cuidamos de toda a 
-          infraestrutura, operação e suporte, enquanto você foca em marketing e vendas. 
-          Oferecemos Banda Larga Móvel 5G, voz e SMS com cobertura nacional, garantindo 
-          o sucesso da sua operadora com nossa expertise.
-        </motion.p>
-        
         <div className="grid md:grid-cols-3 gap-8">
-          {[
-            { 
-              icon: <Radio className="h-10 w-10 text-[#ff1d8e]" />, 
-              title: "A Melhor Cobertura", 
-              description: "Sua empresa terá a oportunidade de utilizar as redes da VIVO e TIM, duas das maiores coberturas do país." 
-            },
-            { 
-              icon: <Monitor className="h-10 w-10 text-[#ff1d8e]" />, 
-              title: "Gestão Eficiente", 
-              description: "Nossa plataforma white-label é ágil, simples e flexível, oferecendo gestão personalizada para controle de consumo e ativação de planos com eficiência e facilidade." 
-            },
-            { 
-              icon: <Smartphone className="h-10 w-10 text-[#ff1d8e]" />, 
-              title: "e-Sim e Chips com Sua Marca", 
-              description: "Com o e-SIM, ative os serviços sem chip físico, garantindo conveniência e facilidade para atualizações e trocas de plano. Além disso, tenha chips triplo corte para compatibilidade com qualquer dispositivo." 
-            },
-          ].map((feature, index) => (
+          {features.map((feature, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="bg-white bg-opacity-5 p-8 rounded-lg hover:bg-opacity-10 transition-all"
+              className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow"
             >
-              <div className="mb-4">
+              <div className="bg-purple-50 p-3 rounded-lg w-fit mb-4">
                 {feature.icon}
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-[#ff1d8e]">{feature.title}</h3>
-              <p className="text-gray-300">{feature.description}</p>
+              <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
+              <p className="text-gray-600">{feature.description}</p>
             </motion.div>
           ))}
         </div>
