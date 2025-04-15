@@ -1,8 +1,8 @@
 
 .logo-image {
-  max-width: 500px !important; /* Increased from 400px to 500px */
+  max-width: 600px !important; /* Increased from 500px to 600px */
   width: auto !important;
-  height: 180px !important; /* Increased from 140px to 180px */
+  height: 220px !important; /* Increased from 180px to 220px */
   object-fit: contain !important;
   mix-blend-mode: multiply; /* Helps remove white background */
   padding: 0 !important;
@@ -25,8 +25,8 @@
 
 @media (max-width: 768px) {
   .logo-image {
-    max-width: 400px !important; /* Increased from 320px to 400px */
-    height: 150px !important; /* Increased from 120px to 150px */
+    max-width: 450px !important; /* Increased from 400px to 450px */
+    height: 180px !important; /* Increased from 150px to 180px */
     margin-left: 0 !important; 
     margin-right: auto !important;
     margin-top: -8px !important;
