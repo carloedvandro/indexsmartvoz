@@ -2,7 +2,6 @@
 import { FilterIcon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 interface FilterSectionProps {
   selectedMonth: string;
@@ -23,8 +22,6 @@ export function FilterSection({
   onYearChange,
   onFilter
 }: FilterSectionProps) {
-  const isMobile = useIsMobile();
-  
   const handleBack = () => {
     window.history.back();
   };
@@ -36,14 +33,14 @@ export function FilterSection({
         <span className="text-base font-medium">Filtros</span>
       </div>
       
-      <div className="flex flex-row justify-between gap-4 mb-6">
-        <div className="w-full md:w-[200px]">
+      <div className="flex justify-between mb-6">
+        <div className="w-[150px]">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Mês
           </label>
           <Select value={selectedMonth} onValueChange={onMonthChange}>
             <SelectTrigger 
-              className="w-full bg-white text-gray-800 border-gray-300 rounded-md h-10"
+              className="w-full bg-white text-gray-800 border-gray-300 rounded-md"
             >
               <SelectValue />
             </SelectTrigger>
@@ -52,7 +49,7 @@ export function FilterSection({
                 <SelectItem 
                   key={month.value} 
                   value={month.value}
-                  className="cursor-pointer py-1.5 px-2 bg-white hover:bg-white focus:bg-white focus:text-[#5f0889] data-[state=checked]:bg-white data-[state=checked]:text-[#5f0889]"
+                  className="cursor-pointer py-1.5 px-2 bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white selected:bg-[#5f0889] selected:text-white"
                 >
                   {month.label}
                 </SelectItem>
@@ -61,13 +58,13 @@ export function FilterSection({
           </Select>
         </div>
         
-        <div className="w-full md:w-[200px]">
+        <div className="w-[150px]">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Ano
           </label>
           <Select value={selectedYear} onValueChange={onYearChange}>
             <SelectTrigger 
-              className="w-full bg-white text-gray-800 border-gray-300 rounded-md h-10"
+              className="w-full bg-white text-gray-800 border-gray-300 rounded-md"
             >
               <SelectValue />
             </SelectTrigger>
@@ -76,7 +73,7 @@ export function FilterSection({
                 <SelectItem 
                   key={year.value} 
                   value={year.value}
-                  className="cursor-pointer py-1.5 px-2 bg-white hover:bg-white focus:bg-white focus:text-[#5f0889] data-[state=checked]:bg-white data-[state=checked]:text-[#5f0889]"
+                  className="cursor-pointer py-1.5 px-2 bg-white hover:bg-[#5f0889] hover:text-white focus:bg-[#5f0889] focus:text-white data-[state=checked]:bg-[#5f0889] data-[state=checked]:text-white selected:bg-[#5f0889] selected:text-white"
                 >
                   {year.label}
                 </SelectItem>
@@ -86,17 +83,17 @@ export function FilterSection({
         </div>
       </div>
       
-      <div className="flex flex-row justify-between gap-4">
+      <div className="flex justify-between gap-4">
         <Button
           variant="outline"
           onClick={handleBack}
-          className="h-9 px-3 py-1 border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white rounded-md text-sm w-full"
+          className="min-w-[80px] h-9 px-3 py-1 border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white rounded-md text-sm"
         >
           Voltar
         </Button>
         <Button 
           onClick={onFilter}
-          className="h-9 px-3 py-1 bg-[#5f0889] hover:bg-[#5f0889]/90 text-white rounded-md text-sm w-full"
+          className="min-w-[80px] h-9 px-3 py-1 bg-[#5f0889] hover:bg-[#5f0889]/90 text-white rounded-md text-sm"
         >
           Filtrar
         </Button>

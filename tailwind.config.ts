@@ -43,14 +43,8 @@ export default {
         gradient: "gradient 8s linear infinite",
       },
       maxWidth: {
-        'sm': '384px',
-        'custom': '320px',
-        'mobile': '320px',
-        'network-filter': '370px'
-      },
-      fontFamily: {
-        decalotype: ['Decalotype', 'Arial', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', "Helvetica Neue", 'sans-serif'],
-        sans: ['Arial', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', "Helvetica Neue", 'sans-serif'],
+        'sm': '384px', // Increased from default 24rem (384px)
+        'custom': '400px' // Adding custom max-width
       }
     },
   },
@@ -60,6 +54,7 @@ export default {
   ],
 } satisfies Config;
 
+// This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
 function addVariablesForColors({ addBase, theme }: any) {
   let allColors = flattenColorPalette(theme("colors"));
   let newVars = Object.fromEntries(

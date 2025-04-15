@@ -112,35 +112,32 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
   };
 
   return (
-    <div className="bg-[#8425af] text-white p-8 rounded-lg">
-      <div className="text-center space-y-6">
-        <h2 className="text-2xl font-semibold">Para iniciar libere o acesso à câmera do aparelho</h2>
-        
-        {showError && (
-          <Alert variant="destructive" className="mb-4">
-            <AlertTitle>Erro de Acesso</AlertTitle>
-            <AlertDescription>
-              Por favor, permita o acesso à câmera para continuar.
-            </AlertDescription>
-          </Alert>
-        )}
-
-        <div className="flex flex-col items-center justify-center py-4">
-          <div className="bg-white rounded-full p-6 mb-4">
-            <Camera className="h-12 w-12 text-[#8425af]" />
-          </div>
-          <p className="text-sm">Aperte o botão acima para iniciar</p>
-        </div>
-
-        <Button 
-          onClick={handleCameraAccess} 
-          className="w-full max-w-xs bg-white text-[#8425af] hover:bg-gray-100"
-          size="lg"
-          disabled={isLoading}
-        >
-          {isLoading ? "Verificando câmera..." : "LIBERAR CÂMERA"}
-        </Button>
+    <div className="space-y-6">
+      <div className="text-center space-y-2">
+        <h2 className="text-2xl font-semibold">Acesso à Câmera</h2>
+        <p className="text-gray-600">
+          Para iniciar, libere o acesso à câmera do aparelho
+        </p>
       </div>
+
+      {showError && (
+        <Alert variant="destructive" className="mb-4">
+          <AlertTitle>Erro de Acesso</AlertTitle>
+          <AlertDescription>
+            Por favor, permita o acesso à câmera para continuar.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      <Button 
+        onClick={handleCameraAccess} 
+        className="w-full bg-purple-600 hover:bg-purple-700"
+        size="lg"
+        disabled={isLoading}
+      >
+        <Camera className="mr-2 h-5 w-5" />
+        {isLoading ? "Verificando câmera..." : "Liberar Câmera"}
+      </Button>
     </div>
   );
 };

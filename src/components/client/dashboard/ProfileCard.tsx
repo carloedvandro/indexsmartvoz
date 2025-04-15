@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tables } from "@/integrations/supabase/types";
 import { Badge } from "@/components/ui/badge";
 import { ProfileAvatar } from "./profile/ProfileAvatar";
+import { ProfileStats } from "./profile/ProfileStats";
 
 type Profile = Tables<"profiles">;
 
@@ -46,20 +47,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
       </CardHeader>
       <CardContent className="py-4 px-6">
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground">Plano Atual</p>
-              <p className="font-medium">Pago</p>
-            </div>
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground">Equipe</p>
-              <p className="font-medium">8</p>
-            </div>
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground">Status</p>
-              <p className="font-medium capitalize">Ativo</p>
-            </div>
-          </div>
+          <ProfileStats profileId={profile.id} />
           
           <div className="space-y-2">
             <div className="text-center">
@@ -81,3 +69,4 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
     </Card>
   );
 };
+

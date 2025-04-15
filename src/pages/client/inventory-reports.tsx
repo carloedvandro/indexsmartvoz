@@ -10,11 +10,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function InventoryReports() {
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
   const [selectedMonth, setSelectedMonth] = useState("6");
   const [selectedYear, setSelectedYear] = useState("2025");
   
@@ -69,20 +67,20 @@ export default function InventoryReports() {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
-        <div className="w-full md:w-[540px] mx-auto">
-          <div className="flex items-center gap-2 mb-4">
+        <div className="border rounded-lg bg-white p-6 shadow-sm w-full md:w-[780px] mx-auto mb-6">
+          <div className="flex items-center gap-2 mb-6">
             <Filter className="w-5 h-5 text-[#5f0889]" />
             <span className="text-base font-medium text-[#5f0889]">Filtros</span>
           </div>
           
-          <div className="flex flex-row justify-between gap-4 mb-6">
-            <div className="w-full md:w-[200px]">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+            <div>
               <label className="block text-sm font-medium text-gray-900 mb-2">
                 Mês
               </label>
               <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
                 <SelectTrigger 
-                  className="w-full bg-white text-gray-900 border-gray-300 h-10"
+                  className="w-full max-w-[200px] bg-white text-gray-900 border-gray-300 h-12"
                 >
                   <SelectValue />
                 </SelectTrigger>
@@ -91,7 +89,7 @@ export default function InventoryReports() {
                     <SelectItem 
                       key={month.value} 
                       value={month.value}
-                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-1.5 px-2"
+                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-2 px-2"
                     >
                       {month.label}
                     </SelectItem>
@@ -100,13 +98,13 @@ export default function InventoryReports() {
               </Select>
             </div>
             
-            <div className="w-full md:w-[200px]">
+            <div>
               <label className="block text-sm font-medium text-gray-900 mb-2">
                 Ano
               </label>
               <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
                 <SelectTrigger 
-                  className="w-full bg-white text-gray-900 border-gray-300 h-10"
+                  className="w-full max-w-[200px] bg-white text-gray-900 border-gray-300 h-12"
                 >
                   <SelectValue />
                 </SelectTrigger>
@@ -115,7 +113,7 @@ export default function InventoryReports() {
                     <SelectItem 
                       key={year.value} 
                       value={year.value}
-                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-1.5 px-2"
+                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-2 px-2"
                     >
                       {year.label}
                     </SelectItem>
@@ -125,66 +123,68 @@ export default function InventoryReports() {
             </div>
           </div>
           
-          <div className="flex flex-row gap-4 justify-between w-full mb-6">
+          <div className="flex flex-col sm:flex-row gap-4 sm:justify-between w-full">
             <button 
               onClick={handleBack}
-              className="border border-[#5f0889] text-[#5f0889] h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-full px-4"
+              className="border border-[#5f0889] text-[#5f0889] h-10 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-full sm:w-auto px-4 sm:px-10"
             >
               Voltar
             </button>
             
             <button 
-              className="bg-[#5f0889] text-white h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors w-full px-4"
+              className="bg-[#5f0889] text-white h-10 rounded-md hover:bg-[#5f0889]/90 transition-colors w-full sm:w-auto px-4 sm:px-10"
             >
               Filtrar
             </button>
           </div>
+        </div>
         
-          <div className="bg-white border rounded-lg overflow-hidden mb-4">
-            <div className="flex items-center gap-3 p-4 bg-[#5f0889]/10 border-b border-gray-200">
-              <Database className="w-5 h-5 text-[#5f0889]" />
-              <h3 className="font-medium text-[#5f0889]">Resumo do Estoque</h3>
-            </div>
-            
-            <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 grid grid-cols-4 text-sm font-medium text-gray-600">
-              <div>Item</div>
-              <div className="text-center">Total</div>
-              <div className="text-center">Disponível</div>
-              <div className="text-center">Alocado</div>
-            </div>
-            
-            {inventoryItems.map((item, index) => (
-              <div 
-                key={index} 
-                className={`px-4 py-3 grid grid-cols-4 text-sm ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}
-              >
-                <div className="flex items-center gap-2">
-                  <Box className="w-4 h-4 text-gray-500" />
-                  <span className="font-medium text-gray-700">{item.type}</span>
-                </div>
-                <div className="text-center text-gray-900">{item.total}</div>
-                <div className="text-center text-green-600">{item.available}</div>
-                <div className="text-center text-amber-600">{item.allocated}</div>
-              </div>
-            ))}
+        {/* Tabela de Estoque */}
+        <div className="bg-white border rounded-lg overflow-hidden w-full md:w-[780px] mx-auto mb-4">
+          <div className="flex items-center gap-3 p-4 bg-[#5f0889]/10 border-b border-gray-200">
+            <Database className="w-5 h-5 text-[#5f0889]" />
+            <h3 className="font-medium text-[#5f0889]">Resumo do Estoque</h3>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card className="p-4 border border-l-[10px] border-l-purple-600">
-              <p className="text-sm text-gray-500">Total em Estoque</p>
-              <p className="text-2xl font-semibold text-gray-900">750</p>
-            </Card>
-            
-            <Card className="p-4 border border-l-[10px] border-l-green-600">
-              <p className="text-sm text-gray-500">Disponíveis</p>
-              <p className="text-2xl font-semibold text-green-600">600</p>
-            </Card>
-            
-            <Card className="p-4 border border-l-[10px] border-l-amber-600">
-              <p className="text-sm text-gray-500">Alocados</p>
-              <p className="text-2xl font-semibold text-amber-600">150</p>
-            </Card>
+          <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 grid grid-cols-4 text-sm font-medium text-gray-600">
+            <div>Item</div>
+            <div className="text-center">Total</div>
+            <div className="text-center">Disponível</div>
+            <div className="text-center">Alocado</div>
           </div>
+          
+          {inventoryItems.map((item, index) => (
+            <div 
+              key={index} 
+              className={`px-4 py-3 grid grid-cols-4 text-sm ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}
+            >
+              <div className="flex items-center gap-2">
+                <Box className="w-4 h-4 text-gray-500" />
+                <span className="font-medium text-gray-700">{item.type}</span>
+              </div>
+              <div className="text-center text-gray-900">{item.total}</div>
+              <div className="text-center text-green-600">{item.available}</div>
+              <div className="text-center text-amber-600">{item.allocated}</div>
+            </div>
+          ))}
+        </div>
+        
+        {/* Cards de resumo */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-[780px] mx-auto">
+          <Card className="p-4 border border-l-[10px] border-l-purple-600">
+            <p className="text-sm text-gray-500">Total em Estoque</p>
+            <p className="text-2xl font-semibold text-gray-900">750</p>
+          </Card>
+          
+          <Card className="p-4 border border-l-[10px] border-l-green-600">
+            <p className="text-sm text-gray-500">Disponíveis</p>
+            <p className="text-2xl font-semibold text-green-600">600</p>
+          </Card>
+          
+          <Card className="p-4 border border-l-[10px] border-l-amber-600">
+            <p className="text-sm text-gray-500">Alocados</p>
+            <p className="text-2xl font-semibold text-amber-600">150</p>
+          </Card>
         </div>
       </div>
     </div>

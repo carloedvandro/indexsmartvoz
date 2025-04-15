@@ -3,7 +3,7 @@ import { NavigationItem } from "../types";
 
 export const navigationItems: NavigationItem[] = [
   {
-    title: "Início",
+    title: "Dashboard",
     href: "/client/dashboard",
     icon: "home",
     iconOnly: true,

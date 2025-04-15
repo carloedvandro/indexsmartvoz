@@ -1,4 +1,3 @@
-
 import { useToast } from "@/hooks/use-toast";
 
 interface StepValidatorProps {
@@ -20,15 +19,6 @@ export function useStepValidator({
 
   const validateAndContinue = () => {
     if (currentStep === 1) {
-      if (!selectedLines[0]?.internet) {
-        toast({
-          title: "Campo obrigatório",
-          description: "Por favor, selecione um plano de internet antes de continuar",
-          variant: "destructive",
-        });
-        return;
-      }
-      
       if (!selectedLines[0]?.ddd) {
         toast({
           title: "Campo obrigatório",

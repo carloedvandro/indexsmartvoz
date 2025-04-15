@@ -1,15 +1,18 @@
 
-import { Link } from "react-router-dom";
-import "@/styles/logo.css"; // Garantindo que o CSS seja importado
+import React from 'react';
 
-export function Logo() {
+export const Logo = () => {
   return (
-    <Link to="/client/dashboard" className="logo-container">
+    <div className="flex justify-center items-center h-full">
       <img 
-        src="/lovable-uploads/a4a911e3-a6ea-47f3-a5c0-a855aa60803b.png" 
+        src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
         alt="Smartvoz" 
-        className="logo-image"
+        className="h-[200px] w-auto object-contain"
+        style={{ 
+          maxWidth: '200px',
+          filter: 'drop-shadow(0 0 0.1rem rgba(0,0,0,0.05))'
+        }}
       />
-    </Link>
+    </div>
   );
-}
+};

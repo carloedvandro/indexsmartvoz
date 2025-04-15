@@ -1,7 +1,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Line } from "../ChipActivationFlow";
-import { Info } from "lucide-react";
 
 interface BarcodeScannerProps {
   selectedLines: Line[];
@@ -10,22 +9,8 @@ interface BarcodeScannerProps {
 
 export function BarcodeScannerComponent({ selectedLines, onStartScanning }: BarcodeScannerProps) {
   return (
-    <div className="flex flex-col items-center w-full max-w-[342px] mx-auto">
-      <div className="w-full flex justify-center mb-4">
-        <img 
-          src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 
-          alt="Smartvoz Logo" 
-          className="h-[140px] object-contain"
-        />
-      </div>
-      
-      <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-2 w-full">
-        <Info size={16} className="text-blue-500 mt-0.5 flex-shrink-0" />
-        <p className="text-xs text-blue-700">
-          O código de barras do chip deve ter 20 dígitos e começar com 8955. Posicione o código no centro da câmera.
-        </p>
-      </div>
-      
+    <div className="flex flex-col items-center w-full max-w-[400px] mx-auto">
+      <h2 className="text-lg font-semibold text-center mb-6 max-w-[300px]">Escaneie o código de barra do chip</h2>
       <div className="space-y-4 w-full">
         {selectedLines.map((line, index) => (
           <div key={line.id} className="flex flex-col space-y-3 w-full">

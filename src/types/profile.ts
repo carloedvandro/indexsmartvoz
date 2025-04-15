@@ -1,13 +1,6 @@
-
 import { Tables } from "@/integrations/supabase/types";
 
-export type Profile = Tables<"profiles"> & {
-  bank_name?: string | null;
-  account_number?: string | null;
-  account_name?: string | null;
-  ifsc_code?: string | null;
-  paypal_email?: string | null;
-};
+export type Profile = Tables<"profiles">;
 
 export type Sponsor = {
   id: string;

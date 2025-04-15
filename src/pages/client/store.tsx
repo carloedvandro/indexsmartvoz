@@ -10,6 +10,7 @@ import { useProfile } from "@/hooks/useProfile";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
+import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 export default function Store() {
   const { getSession } = useSession();
@@ -58,6 +59,7 @@ export default function Store() {
 
   return (
     <div className="relative min-h-screen bg-background">
+      <ParticlesBackground />
       <div className="relative z-10 container mx-auto p-4 pb-16 space-y-6">
         <div className="flex items-center gap-4">
           <Button

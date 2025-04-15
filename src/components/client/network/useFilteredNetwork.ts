@@ -12,35 +12,31 @@ export const useFilteredNetwork = (data: NetworkMember[], selectedLevel: string)
   
   const level = parseInt(selectedLevel);
   
-  // Para armazenar os resultados filtrados
-  const result: NetworkMember[] = [];
-  
-  // Função para encontrar membros de um nível específico
-  const findMembersByLevel = (members: NetworkMember[], currentLevel: number = 1) => {
-    if (!members || members.length === 0) return;
+  const filterByLevel = (members: NetworkMember[], currentLevel: number = 1): NetworkMember[] => {
+    if (!members || members.length === 0) return [];
     
-    members.forEach(member => {
-      // Se estamos no nível desejado, adicione o membro ao resultado
-      if (currentLevel === level) {
-        // Verificação para evitar duplicação de membros com mesmo user.id
-        if (!result.some(m => m.user.id === member.user.id)) {
-          result.push({
-            ...member,
-            children: [] // Remover filhos ao encontrar o nível desejado
-          });
-        }
+    if (currentLevel === level) {
+      return members.map(member => ({
+        ...member,
+        children: [] // Remove os filhos quando encontra o nível desejado
+      }));
+    }
+    
+    return members.reduce<NetworkMember[]>((acc, member) => {
+      const filteredChildren = filterByLevel(member.children || [], currentLevel + 1);
+      
+      if (filteredChildren.length > 0) {
+        acc.push({
+          ...member,
+          children: filteredChildren
+        });
       }
       
-      // Continue procurando nos filhos se ainda não atingimos o nível desejado
-      if (currentLevel < level && member.children && member.children.length > 0) {
-        findMembersByLevel(member.children, currentLevel + 1);
-      }
-    });
+      return acc;
+    }, []);
   };
-  
-  // Inicie a busca a partir do nível 1
-  findMembersByLevel(data);
-  
-  console.log("Dados filtrados:", result);
-  return result;
+
+  const filteredData = filterByLevel(data);
+  console.log("Dados filtrados:", filteredData);
+  return filteredData;
 };

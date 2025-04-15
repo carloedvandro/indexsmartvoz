@@ -7,6 +7,7 @@ import { SuccessScreen } from "./SuccessScreen";
 import { StepIndicator } from "./StepIndicator";
 import { PlanSelectionStep } from "./PlanSelectionStep";
 import { ESIMActivation } from "@/services/esim/esimActivationService";
+import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
 
 type ESIMActivationFlowProps = {
   currentStep: number;
@@ -80,11 +81,10 @@ export function ESIMActivationFlow({
   };
 
   return (
-    <main className="relative min-h-screen flex flex-col items-center justify-start pt-0 gap-12 overflow-hidden scrollbar-hide mt-[-20px]">
+    <main className="relative min-h-screen flex flex-col items-center justify-start pt-20 gap-12 overflow-hidden scrollbar-hide">
+      <ParticlesBackground />
       <StepIndicator currentStep={getCurrentStepId()} />
-      <div className="w-full max-w-[380px] mx-auto">
-        {renderCurrentStep()}
-      </div>
+      {renderCurrentStep()}
     </main>
   );
 }

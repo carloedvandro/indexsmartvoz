@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { ESIMActivationFlow } from "@/components/client/esim/ChipActivationFlow";
 import { useNavigate } from "react-router-dom";
@@ -53,18 +52,12 @@ export default function ClientESIM() {
   };
 
   const handleIMEISubmit = (imei: string) => {
-    // Verificar se o IMEI já não foi definido ou se mudou
-    if (!activationData.imei || activationData.imei !== imei) {
-      setActivationData({ ...activationData, imei });
-    }
+    setActivationData({ ...activationData, imei });
     handleContinue();
   };
 
   const handleEIDSubmit = (eid: string) => {
-    // Verificar se o EID já não foi definido ou se mudou
-    if (!activationData.eid || activationData.eid !== eid) {
-      setActivationData({ ...activationData, eid });
-    }
+    setActivationData({ ...activationData, eid });
     handleContinue();
   };
 

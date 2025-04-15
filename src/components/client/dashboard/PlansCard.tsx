@@ -30,7 +30,7 @@ export function PlansCard() {
         <h2 className="text-xl font-semibold mb-4">Planos</h2>
         <ScrollArea className="h-[calc(100vh-280px)] pr-4">
           <div className="space-y-6">
-            {plans?.filter(plan => plan.code !== "FREE_PLAN").map((plan) => (
+            {plans?.map((plan) => (
               <div key={plan.id} className="space-y-3">
                 <div className="flex justify-between items-center">
                   <h3 className="font-medium text-lg">{plan.name}</h3>
@@ -55,6 +55,14 @@ export function PlansCard() {
                     ))}
                   </div>
                 </div>
+
+                {plan.code === "FREE_PLAN" && (
+                  <div className="mt-2">
+                    <span className="text-sm bg-purple-100 text-purple-700 px-2 py-1 rounded">
+                      Seu plano atual
+                    </span>
+                  </div>
+                )}
 
                 <div className="border-t border-gray-200 pt-2 mt-2" />
               </div>

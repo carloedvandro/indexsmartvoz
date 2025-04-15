@@ -783,11 +783,8 @@ export type Database = {
       }
       profiles: {
         Row: {
-          account_name: string | null
-          account_number: string | null
           address: string | null
           approval_date: string | null
-          bank_name: string | null
           birth_date: string | null
           block_date: string | null
           block_reason: string | null
@@ -814,12 +811,10 @@ export type Database = {
           gender: string | null
           graduation_type: string | null
           id: string
-          ifsc_code: string | null
           kba_verified: boolean | null
           license_type: string | null
           mobile: string | null
           monthly_graduation: boolean | null
-          paypal_email: string | null
           person_type: string | null
           phone: string | null
           phone_verified: boolean | null
@@ -836,11 +831,8 @@ export type Database = {
           zip_code: string | null
         }
         Insert: {
-          account_name?: string | null
-          account_number?: string | null
           address?: string | null
           approval_date?: string | null
-          bank_name?: string | null
           birth_date?: string | null
           block_date?: string | null
           block_reason?: string | null
@@ -867,12 +859,10 @@ export type Database = {
           gender?: string | null
           graduation_type?: string | null
           id: string
-          ifsc_code?: string | null
           kba_verified?: boolean | null
           license_type?: string | null
           mobile?: string | null
           monthly_graduation?: boolean | null
-          paypal_email?: string | null
           person_type?: string | null
           phone?: string | null
           phone_verified?: boolean | null
@@ -889,11 +879,8 @@ export type Database = {
           zip_code?: string | null
         }
         Update: {
-          account_name?: string | null
-          account_number?: string | null
           address?: string | null
           approval_date?: string | null
-          bank_name?: string | null
           birth_date?: string | null
           block_date?: string | null
           block_reason?: string | null
@@ -920,12 +907,10 @@ export type Database = {
           gender?: string | null
           graduation_type?: string | null
           id?: string
-          ifsc_code?: string | null
           kba_verified?: boolean | null
           license_type?: string | null
           mobile?: string | null
           monthly_graduation?: boolean | null
-          paypal_email?: string | null
           person_type?: string | null
           phone?: string | null
           phone_verified?: boolean | null
@@ -1069,27 +1054,6 @@ export type Database = {
           },
         ]
       }
-      user_groups: {
-        Row: {
-          created_at: string | null
-          group_name: string
-          id: string
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          group_name: string
-          id?: string
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          group_name?: string
-          id?: string
-          user_id?: string | null
-        }
-        Relationships: []
-      }
       user_verifications: {
         Row: {
           attempt_count: number | null
@@ -1143,7 +1107,11 @@ export type Database = {
         Returns: undefined
       }
       check_device_compatibility: {
-        Args: { p_brand: string; p_model: string; p_device_type: string }
+        Args: {
+          p_brand: string
+          p_model: string
+          p_device_type: string
+        }
         Returns: {
           is_compatible: boolean
           device_brand: string
@@ -1152,15 +1120,21 @@ export type Database = {
         }[]
       }
       delete_user_and_profile: {
-        Args: { user_id: string }
+        Args: {
+          user_id: string
+        }
         Returns: undefined
       }
       delete_user_and_related_data: {
-        Args: { user_id: string }
+        Args: {
+          user_id: string
+        }
         Returns: undefined
       }
       get_all_network_members: {
-        Args: { root_network_id: string }
+        Args: {
+          root_network_id: string
+        }
         Returns: {
           id: string
           user_id: string
@@ -1169,7 +1143,9 @@ export type Database = {
         }[]
       }
       parse_imei: {
-        Args: { p_imei: string }
+        Args: {
+          p_imei: string
+        }
         Returns: {
           is_valid: boolean
           tac: string
@@ -1193,7 +1169,9 @@ export type Database = {
         }[]
       }
       validate_esim_device: {
-        Args: { p_imei: string }
+        Args: {
+          p_imei: string
+        }
         Returns: {
           is_valid: boolean
           brand: string
@@ -1217,29 +1195,27 @@ export type Database = {
   }
 }
 
-type DefaultSchema = Database[Extract<keyof Database, "public">]
+type PublicSchema = Database[Extract<keyof Database, "public">]
 
 export type Tables<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+  PublicTableNameOrOptions extends
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
     | { schema: keyof Database },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
     : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-      Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])
-    ? (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
         Row: infer R
       }
       ? R
@@ -1247,22 +1223,20 @@ export type Tables<
     : never
 
 export type TablesInsert<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
     : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
         Insert: infer I
       }
       ? I
@@ -1270,22 +1244,20 @@ export type TablesInsert<
     : never
 
 export type TablesUpdate<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
     : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
         Update: infer U
       }
       ? U
@@ -1293,23 +1265,21 @@ export type TablesUpdate<
     : never
 
 export type Enums<
-  DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
+  PublicEnumNameOrOptions extends
+    | keyof PublicSchema["Enums"]
     | { schema: keyof Database },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
-> = DefaultSchemaEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
-    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
+    | keyof PublicSchema["CompositeTypes"]
     | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof Database
@@ -1318,22 +1288,6 @@ export type CompositeTypes<
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
   ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
-
-export const Constants = {
-  public: {
-    Enums: {
-      verification_type: [
-        "document_ocr",
-        "face_match",
-        "email_verification",
-        "phone_verification",
-        "token_verification",
-        "kba_quiz",
-        "cpf_validation",
-      ],
-    },
-  },
-} as const

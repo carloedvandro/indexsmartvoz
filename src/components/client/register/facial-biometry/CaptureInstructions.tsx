@@ -1,53 +1,48 @@
 
 import { Button } from "@/components/ui/button";
-import Image from "@/components/ui/image";
-import { Camera } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 interface CaptureInstructionsProps {
   onNext: () => void;
   onBack: () => void;
 }
 
-export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
+export const CaptureInstructions = ({ onNext, onBack }: CaptureInstructionsProps) => {
   return (
-    <div className="bg-[#8425af] text-white min-h-[calc(100vh-100px)] relative flex flex-col justify-between">
-      {/* Corner dots - tiny white dots in corners */}
-      <div className="absolute top-4 left-4 w-1 h-1 rounded-full bg-white"></div>
-      <div className="absolute top-4 right-4 w-1 h-1 rounded-full bg-white"></div>
-      <div className="absolute bottom-4 left-4 w-1 h-1 rounded-full bg-white"></div>
-      <div className="absolute bottom-4 right-4 w-1 h-1 rounded-full bg-white"></div>
-      
-      <div className="flex flex-col items-center justify-center flex-grow px-4">
-        {/* Central icon */}
-        <div className="flex flex-col items-center">
-          <div className="bg-white/10 p-8 rounded-full mb-6 backdrop-blur-sm">
-            <Camera size={64} color="white" strokeWidth={1.5} />
+    <div className="space-y-6">
+      <div className="text-center">
+        <h2 className="text-2xl font-semibold mb-4">Instruções para Captura</h2>
+        <div className="space-y-4 text-left max-w-md mx-auto">
+          <div className="p-4 bg-gray-50 rounded-lg">
+            <h3 className="font-medium mb-2">Prepare o ambiente:</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-600">
+              <li>Escolha um local bem iluminado</li>
+              <li>Evite fundos muito claros ou escuros</li>
+              <li>Remova óculos, máscaras ou outros acessórios</li>
+            </ul>
           </div>
-          
-          {/* Text content */}
-          <h2 className="text-base font-light mb-2">Olá,</h2>
-          <p className="text-xs font-light leading-relaxed text-center">
-            Hora de tirar sua foto de identificação.<br />
-            Antes de começar, algumas dicas.
-          </p>
+
+          <div className="p-4 bg-gray-50 rounded-lg">
+            <h3 className="font-medium mb-2">Durante a captura:</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-600">
+              <li>Mantenha uma expressão neutra</li>
+              <li>Olhe diretamente para a câmera</li>
+              <li>Evite movimentos bruscos</li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      {/* Progress dots */}
-      <div className="flex justify-center space-x-2 mb-10">
-        <div className="w-4 h-1 bg-white"></div>
-        <div className="w-1 h-1 bg-white rounded-full"></div>
-        <div className="w-1 h-1 bg-white rounded-full"></div>
-        <div className="w-1 h-1 bg-white rounded-full"></div>
+      <div className="flex flex-col gap-2 max-w-xs mx-auto">
+        <Button onClick={onNext} className="w-full">
+          Continuar
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
+        
+        <Button variant="outline" onClick={onBack}>
+          Voltar
+        </Button>
       </div>
-
-      {/* Button at bottom */}
-      <button
-        onClick={onNext}
-        className="w-full h-12 bg-white text-black uppercase text-xs font-medium"
-      >
-        AVANÇAR
-      </button>
     </div>
   );
 };

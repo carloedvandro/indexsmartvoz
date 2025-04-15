@@ -81,20 +81,20 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
   return (
     <motion.form 
       onSubmit={handleSubmit} 
-      className="space-y-6 -mt-17 w-full"
+      className="space-y-6"
       variants={containerVariants}
     >
       <motion.div className="space-y-2" variants={itemVariants}>
         <Label htmlFor="email">Email</Label>
-        <div className="relative rounded-md">
-          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-4 w-4" />
+        <div className="relative">
+          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
           <Input
             id="email"
             type="email"
             placeholder="seu@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="pl-10 bg-white rounded-md h-9 text-black"
+            className="pl-10 bg-transparent"
             required
           />
         </div>
@@ -102,15 +102,15 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
 
       <motion.div className="space-y-2" variants={itemVariants}>
         <Label htmlFor="password">Senha</Label>
-        <div className="relative rounded-md">
-          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-4 w-4" />
+        <div className="relative">
+          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
           <Input
             id="password"
             type={showPassword ? "text" : "password"}
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="pl-10 bg-white rounded-md h-9 text-black"
+            className="pl-10 bg-transparent"
             required
           />
           <button
@@ -119,9 +119,9 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
           >
             {showPassword ? (
-              <EyeOff className="h-4 w-4 text-[#580180]" />
+              <EyeOff className="h-4 w-4" />
             ) : (
-              <Eye className="h-4 w-4 text-[#580180]" />
+              <Eye className="h-4 w-4" />
             )}
           </button>
         </div>
@@ -148,7 +148,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       <motion.div variants={itemVariants}>
         <RainbowButton
           type="submit"
-          className="w-full !bg-[#580180] hover:!bg-[#4a0668]"
+          className="w-full !bg-[#5f0889] hover:!bg-[#4a0668]"
           disabled={isLoading}
         >
           {isLoading ? "Entrando..." : "Entrar"}

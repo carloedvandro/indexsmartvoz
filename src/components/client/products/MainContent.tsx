@@ -5,6 +5,7 @@ import { ContractTermsStep } from "./ContractTermsStep";
 import { PlanSelectionStep } from "./PlanSelectionStep";
 import { NavigationButtons } from "./NavigationButtons";
 import { useStepValidator } from "./StepValidator";
+import { ParticlesBackground } from "./ParticlesBackground";
 import { motion } from "framer-motion";
 
 interface MainContentProps {
@@ -38,20 +39,6 @@ export function MainContent({
     handleContinue 
   });
 
-  // Check if continue button should be disabled
-  const isContinueDisabled = () => {
-    if (currentStep === 1) {
-      // Only enable if internet plan, DDD and due date are selected
-      return !selectedLines[0]?.internet || !selectedLines[0]?.ddd || !selectedDueDate;
-    }
-    
-    if (currentStep === 3) {
-      return !acceptedTerms;
-    }
-    
-    return false;
-  };
-
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { 
@@ -76,47 +63,45 @@ export function MainContent({
 
   return (
     <motion.div 
-      className="flex flex-col items-center min-h-screen bg-gray-50/80 pt-12 relative"
+      className="flex flex-col items-center min-h-screen bg-gray-50/80 pt-32 relative"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
     >
-      <div className="w-full max-w-[365px] mx-auto">
-        <Card className="relative z-10 shadow-none bg-transparent border-0">
-          <CardContent className="w-full px-0">
-            <motion.div variants={itemVariants} className="w-full">
-              {currentStep === 1 && (
-                <PlanSelectionStep 
-                  selectedLines={selectedLines}
-                  setSelectedLines={setSelectedLines}
-                  selectedDueDate={selectedDueDate}
-                  setSelectedDueDate={setSelectedDueDate}
-                />
-              )}
-
-              {currentStep === 2 && (
-                <OrderReviewStep selectedLines={selectedLines} />
-              )}
-
-              {currentStep === 3 && (
-                <ContractTermsStep
-                  acceptedTerms={acceptedTerms}
-                  onTermsChange={setAcceptedTerms}
-                />
-              )}
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="w-full mx-auto mt-6">
-              <NavigationButtons 
-                currentStep={currentStep}
-                handleBack={handleBack}
-                handleContinue={validateAndContinue}
-                disabled={isContinueDisabled()}
+      <ParticlesBackground />
+      <Card className="relative z-10 w-full max-w-[400px] shadow-none bg-transparent border-0">
+        <CardContent>
+          <motion.div variants={itemVariants}>
+            {currentStep === 1 && (
+              <PlanSelectionStep 
+                selectedLines={selectedLines}
+                setSelectedLines={setSelectedLines}
+                selectedDueDate={selectedDueDate}
+                setSelectedDueDate={setSelectedDueDate}
               />
-            </motion.div>
-          </CardContent>
-        </Card>
-      </div>
+            )}
+
+            {currentStep === 2 && (
+              <OrderReviewStep selectedLines={selectedLines} />
+            )}
+
+            {currentStep === 3 && (
+              <ContractTermsStep
+                acceptedTerms={acceptedTerms}
+                onTermsChange={setAcceptedTerms}
+              />
+            )}
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <NavigationButtons 
+              currentStep={currentStep}
+              handleBack={handleBack}
+              handleContinue={validateAndContinue}
+            />
+          </motion.div>
+        </CardContent>
+      </Card>
     </motion.div>
   );
 }

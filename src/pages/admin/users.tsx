@@ -2,14 +2,20 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { UserSearchForm } from "@/components/admin/UserSearchForm";
+import { UsersTable } from "@/components/admin/UsersTable";
 import { UserEditDialog } from "@/components/admin/UserEditDialog";
 import { useToast } from "@/hooks/use-toast";
-import { AdminUsersList } from "@/components/admin/AdminUsersList";
-import { UserCheck } from "lucide-react";
-import { mapSponsor } from "@/utils/mappers/profileMapper";
-import { ProfileWithSponsor } from "@/types/profile";
 
 export default function AdminUsers() {
   const navigate = useNavigate();
@@ -24,6 +30,7 @@ export default function AdminUsers() {
     cnpj: "",
   });
 
+  // Verificar autenticação e papel do usuário
   useEffect(() => {
     const checkAdmin = async () => {
       const { data: { session } } = await supabase.auth.getSession();
@@ -47,6 +54,7 @@ export default function AdminUsers() {
     checkAdmin();
   }, [navigate]);
 
+  // Monitorar mudanças no estado da autenticação
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT' || !session) {
@@ -68,15 +76,7 @@ export default function AdminUsers() {
 
       let query = supabase
         .from("profiles")
-        .select(`
-          *,
-          sponsor:sponsor_id (
-            id,
-            full_name,
-            email,
-            custom_id
-          )
-        `)
+        .select("*")
         .order("created_at", { ascending: false });
 
       if (filters.fullName) {
@@ -105,13 +105,17 @@ export default function AdminUsers() {
         throw error;
       }
       
-      return data as ProfileWithSponsor[];
+      return data;
     },
   });
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/admin/login");
+  };
+
+  const handleSearch = () => {
+    refetch();
   };
 
   const handleEdit = (user) => {
@@ -128,26 +132,55 @@ export default function AdminUsers() {
       <div className="min-h-screen flex w-full bg-gray-50">
         <AdminSidebar />
         <main className="flex-1 p-4 md:p-8 overflow-auto">
-          <div className="w-full mx-auto">
-            <div className="flex flex-col">
-              <div className="bg-indigo-700 text-white p-4 mb-4 rounded-t-lg flex items-center gap-3 w-full">
-                <div className="bg-indigo-600 p-2 rounded-full">
-                  <UserCheck className="h-6 w-6" />
-                </div>
-                <h1 className="text-xl font-bold">Lista de Usuário</h1>
-                <div className="ml-auto flex items-center">
-                  <span className="text-sm">
-                    Página inicial do administrador &gt; Lista de Usuário
-                  </span>
-                </div>
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+              <div>
+                <h1 className="text-2xl font-bold">Usuários</h1>
+                <p className="text-muted-foreground">
+                  Gerencie os usuários do sistema
+                </p>
               </div>
-
-              {isLoading ? (
-                <div className="p-8 text-center">Carregando...</div>
-              ) : (
-                <AdminUsersList users={users} onEdit={handleEdit} />
-              )}
+              <div className="flex items-center gap-4">
+                <SidebarTrigger />
+                <Button variant="outline" onClick={handleLogout}>
+                  Sair
+                </Button>
+              </div>
             </div>
+
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Busca Avançada</CardTitle>
+                <CardDescription>
+                  Use os filtros abaixo para encontrar usuários específicos
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <UserSearchForm
+                  filters={filters}
+                  setFilters={setFilters}
+                  onSearch={handleSearch}
+                />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Resultados da Busca</CardTitle>
+                {users && (
+                  <CardDescription>
+                    {users.length} usuário(s) encontrado(s)
+                  </CardDescription>
+                )}
+              </CardHeader>
+              <CardContent>
+                {isLoading ? (
+                  <p>Carregando...</p>
+                ) : (
+                  <UsersTable users={users} onEdit={handleEdit} />
+                )}
+              </CardContent>
+            </Card>
           </div>
         </main>
 

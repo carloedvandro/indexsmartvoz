@@ -1,6 +1,5 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { formatCurrency } from "@/utils/format";
 
 interface BalanceDialogProps {
   open: boolean;
@@ -8,14 +7,9 @@ interface BalanceDialogProps {
 }
 
 export function BalanceDialog({ open, onOpenChange }: BalanceDialogProps) {
-  // These would typically come from an API call in a real app
-  const totalBonus = 42576.22;
-  const blockedBalance = 1843.55;
-  const availableBalance = 5000.01;
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="fixed top-24 translate-y-0 max-h-[85vh] overflow-y-auto">
+      <DialogContent className="relative">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold text-gray-900 mb-4">
             Detalhes do Saldo
@@ -24,15 +18,15 @@ export function BalanceDialog({ open, onOpenChange }: BalanceDialogProps) {
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <span className="text-gray-700">Total de bônus recebido:</span>
-            <span className="text-gray-900 font-medium">{formatCurrency(totalBonus)}</span>
+            <span className="text-gray-900 font-medium">R$ 42.576,22</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-700">Total de saldo bloqueado:</span>
-            <span className="text-red-500 font-medium">{formatCurrency(blockedBalance)}</span>
+            <span className="text-red-500 font-medium">R$ 0,00</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-700">Saldo disponível:</span>
-            <span className="text-[#02951e] font-medium">{formatCurrency(availableBalance)}</span>
+            <span className="text-[#02951e] font-medium">R$ 5.000,01</span>
           </div>
         </div>
       </DialogContent>

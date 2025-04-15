@@ -78,13 +78,6 @@ const resources = {
         "already_have_account": "Já tem uma conta? Entre aqui",
         "forgot_password": "Esqueceu sua senha?",
         "create_account": "Não tem uma conta? Cadastre-se"
-      },
-      navigation: {
-        home: 'Início',
-        features: 'Recursos',
-        services: 'Serviços',
-        about: 'Sobre',
-        contact: 'Contato'
       }
     }
   },
@@ -115,13 +108,6 @@ const resources = {
         "submit_button": "Reset Password",
         "success_message": "Instructions sent to your email",
         "already_have_account": "Already have an account? Sign in"
-      },
-      navigation: {
-        home: 'Home',
-        features: 'Features',
-        services: 'Services',
-        about: 'About',
-        contact: 'Contact'
       }
     }
   }

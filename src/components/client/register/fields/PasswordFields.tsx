@@ -24,12 +24,12 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">Senha</FormLabel>
             <FormControl>
-              <div className="relative overflow-hidden rounded-md">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-3.5 w-3.5" />
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8425af] h-3.5 w-3.5" />
                 <Input 
                   type={showPassword ? "text" : "password"} 
                   {...field} 
-                  className="pl-9 text-sm h-9 pt-[3px] rounded-md"
+                  className="pl-9 text-sm h-9"
                 />
                 <Button
                   type="button"
@@ -39,9 +39,9 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeOff className="h-3.5 w-3.5 text-[#580180]" />
+                    <EyeOff className="h-3.5 w-3.5 text-[#8425af]" />
                   ) : (
-                    <Eye className="h-3.5 w-3.5 text-[#580180]" />
+                    <Eye className="h-3.5 w-3.5 text-[#8425af]" />
                   )}
                 </Button>
               </div>
@@ -58,12 +58,12 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
           <FormItem>
             <FormLabel className="text-sm">Confirmar Senha</FormLabel>
             <FormControl>
-              <div className="relative overflow-hidden rounded-md">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-3.5 w-3.5" />
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8425af] h-3.5 w-3.5" />
                 <Input 
                   type={showPasswordConfirmation ? "text" : "password"} 
                   {...field} 
-                  className="pl-9 text-sm h-9 pt-[3px] rounded-md"
+                  className="pl-9 text-sm h-9"
                 />
                 <Button
                   type="button"
@@ -73,9 +73,9 @@ export const PasswordFields = ({ form }: PasswordFieldsProps) => {
                   onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
                 >
                   {showPasswordConfirmation ? (
-                    <EyeOff className="h-3.5 w-3.5 text-[#580180]" />
+                    <EyeOff className="h-3.5 w-3.5 text-[#8425af]" />
                   ) : (
-                    <Eye className="h-3.5 w-3.5 text-[#580180]" />
+                    <Eye className="h-3.5 w-3.5 text-[#8425af]" />
                   )}
                 </Button>
               </div>
