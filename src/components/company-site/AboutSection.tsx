@@ -32,7 +32,7 @@ export function AboutSection() {
               ))}
             </div>
             <img 
-              src="/lovable-uploads/8d3535c5-1e7c-4da0-a550-0b015ff735cd.png" 
+              src="/lovable-uploads/70692291-9fc0-41c7-817c-4f1e2ed36bec.png" 
               alt="Suporte Técnico" 
               className="w-full h-auto rounded-md relative z-10"
             />
