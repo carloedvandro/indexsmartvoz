@@ -6,14 +6,7 @@ import { Button } from '@/components/ui/button';
 export function HeroSection() {
   return (
     <section id="home" className="pt-28 pb-20 bg-[#030225] min-h-screen flex items-center relative overflow-hidden">
-      {/* Rede de pontos à esquerda - decorativa */}
-      <div className="absolute left-0 top-1/4 -translate-y-1/2">
-        <img
-          src="/lovable-uploads/979653e9-7956-495c-8934-c2c232085a8c.png"
-          alt="Network Globe"
-          className="w-[350px] h-auto"
-        />
-      </div>
+      {/* Removida a imagem de rede à esquerda */}
       
       {/* Rede de pontos à direita - decorativa */}
       <div className="absolute right-0 bottom-0">
