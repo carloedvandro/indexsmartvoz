@@ -16,6 +16,14 @@ export default function CompanySite() {
   useEffect(() => {
     // Set document title
     document.title = "SmartVoz - Sua operadora digital de telefonia móvel";
+    
+    // Set background color for the body
+    document.body.style.backgroundColor = "#020721";
+    
+    return () => {
+      // Reset background color when unmounting
+      document.body.style.backgroundColor = "";
+    };
   }, []);
   
   return (
