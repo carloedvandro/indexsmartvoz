@@ -17,27 +17,6 @@ export function AboutSection() {
   return (
     <section id="about" className="py-20">
       <div className="container mx-auto px-4">
-        <div className="bg-[#030225] py-16 text-center mb-16">
-          <h2 className="text-3xl font-bold mb-6 text-white">
-            Nossa operação proporciona soluções tecnológicas eficientes, suporte contínuo, e ferramentas de gerenciamento personalizadas para garantir o sucesso e crescimento de cada operadora.
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mt-12">
-            <div className="text-center">
-              <div className="text-5xl font-bold text-white">95+</div>
-              <div className="text-sm text-[#ff0066] uppercase mt-2">Operadoras Homologadas</div>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold text-white">100%</div>
-              <div className="text-sm text-[#ff0066] uppercase mt-2">Dos Municípios Atendidos</div>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold text-white">90 dias</div>
-              <div className="text-sm text-[#ff0066] uppercase mt-2">Regulamentação Completa</div>
-            </div>
-          </div>
-        </div>
-        
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -110,3 +89,4 @@ export function AboutSection() {
     </section>
   );
 }
+
