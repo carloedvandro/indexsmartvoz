@@ -1,141 +1,96 @@
 
-import { motion } from 'framer-motion';
+import { Mail, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { useState } from 'react';
 
 export function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    cnpj: '',
-    investment: ''
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Form data submitted:', formData);
-    alert('Formulário enviado com sucesso!');
-  };
-
   return (
-    <section id="contact" className="py-20 bg-[#030225]">
+    <section id="contact" className="py-20">
       <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-white"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-8">
-              Já imaginou o potencial da sua marca com cobertura nacional?
-            </h2>
-            <p className="text-xl text-gray-300 mb-6">
-              Alavanque sua Marca: Nossa equipe comercial está ansiosa para entender suas Metas e traçar juntos o caminho para o sucesso!
-            </p>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="bg-[#2a1f45] p-8 rounded-lg"
-          >
-            <h3 className="text-xl font-bold text-white mb-6 uppercase text-center">
-              Inscreva-se para expandir sua marca
-            </h3>
-            <form onSubmit={handleSubmit}>
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="name" className="text-white">Nome</Label>
-                  <input 
-                    id="name" 
-                    name="name" 
-                    placeholder="Nome" 
-                    className="w-full bg-white rounded-md border border-input px-3 py-2 text-sm ring-offset-background"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                  />
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold mb-4">Entre em Contato</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Estamos à disposição para atender suas dúvidas e oferecer o suporte necessário.
+          </p>
+        </div>
+        
+        <div className="max-w-3xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 mb-10">
+            <div className="bg-white p-6 rounded-xl shadow-sm">
+              <div className="flex items-center mb-4">
+                <div className="bg-purple-100 p-3 rounded-lg mr-4">
+                  <Mail className="h-6 w-6 text-purple-600" />
                 </div>
-                
                 <div>
-                  <Label htmlFor="phone" className="text-white">Telefone</Label>
-                  <input 
-                    id="phone" 
-                    name="phone" 
-                    placeholder="Telefone" 
-                    className="w-full bg-white rounded-md border border-input px-3 py-2 text-sm ring-offset-background"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                  />
+                  <h3 className="font-medium text-gray-900">Email</h3>
+                  <p className="text-gray-600">contato@smartvoz.com.br</p>
                 </div>
-                
-                <div>
-                  <Label htmlFor="email" className="text-white">Email</Label>
-                  <input 
-                    id="email" 
-                    name="email" 
-                    type="email" 
-                    placeholder="E-mail" 
-                    className="w-full bg-white rounded-md border border-input px-3 py-2 text-sm ring-offset-background"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="cnpj" className="text-white">CNPJ</Label>
-                  <input 
-                    id="cnpj" 
-                    name="cnpj" 
-                    placeholder="CNPJ" 
-                    className="w-full bg-white rounded-md border border-input px-3 py-2 text-sm ring-offset-background"
-                    value={formData.cnpj}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="investment" className="text-white">Seu nível de investimento</Label>
-                  <select
-                    id="investment"
-                    name="investment"
-                    className="w-full bg-white rounded-md border border-input px-3 py-2 text-sm ring-offset-background"
-                    value={formData.investment}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="" disabled>Selecione uma opção</option>
-                    <option value="40-60">R$ 40 mil a R$ 60 mil</option>
-                    <option value="60-80">R$ 60 mil a R$ 80 mil</option>
-                    <option value="80-100">R$ 80 mil a R$ 100 mil</option>
-                    <option value="100+">Acima de R$ 100 mil</option>
-                  </select>
-                </div>
-                
-                <Button type="submit" className="w-full bg-[#ff0066] hover:bg-[#e5005c] text-white rounded-full">
-                  ENVIAR
-                </Button>
-                
-                <p className="text-xs text-gray-400 text-center mt-4">
-                  Ao enviar, concordo com os Termos de Uso e Política de Privacidade do site e concordo em receber mensagens e e-mails.
-                </p>
               </div>
-            </form>
-          </motion.div>
+            </div>
+            
+            <div className="bg-white p-6 rounded-xl shadow-sm">
+              <div className="flex items-center mb-4">
+                <div className="bg-purple-100 p-3 rounded-lg mr-4">
+                  <Phone className="h-6 w-6 text-purple-600" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-gray-900">Telefone</h3>
+                  <p className="text-gray-600">(11) 4140-3444</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <form className="bg-white p-8 rounded-xl shadow-sm">
+            <div className="grid md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                  Nome
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                />
+              </div>
+            </div>
+            
+            <div className="mb-6">
+              <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+                Assunto
+              </label>
+              <input
+                type="text"
+                id="subject"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+              />
+            </div>
+            
+            <div className="mb-6">
+              <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                Mensagem
+              </label>
+              <textarea
+                id="message"
+                rows={5}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+              ></textarea>
+            </div>
+            
+            <Button className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white">
+              Enviar Mensagem
+            </Button>
+          </form>
         </div>
       </div>
     </section>

@@ -5,48 +5,39 @@ import { Button } from '@/components/ui/button';
 
 export function HeroSection() {
   return (
-    <section id="home" className="pt-24 pb-20 bg-[#030225] min-h-screen flex items-center relative overflow-hidden">
-      {/* Rede de pontos à esquerda - decorativa */}
-      <div className="absolute left-0 top-1/3 -translate-y-1/2">
-        <img
-          src="/lovable-uploads/979653e9-7956-495c-8934-c2c232085a8c.png"
-          alt="Network Globe"
-          className="w-[350px] h-auto"
-        />
-      </div>
-      
-      {/* Rede de pontos à direita - decorativa */}
-      <div className="absolute right-0 bottom-20">
-        <img
-          src="/lovable-uploads/6b03e1aa-3ebb-4ac3-b299-f2b4fb8f89d0.png"
-          alt="Network Mesh"
-          className="w-[400px] h-auto opacity-80"
-        />
-      </div>
-      
-      <div className="container mx-auto px-4 z-10">
+    <section id="home" className="pt-32 pb-20">
+      <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center md:text-center max-w-6xl mx-auto"
+          className="max-w-3xl mx-auto text-center"
         >
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
-            Seu Parceiro de <span className="text-[#ff0066]">Confiança</span> no Mercado <span className="text-[#ff0066]">Móvel</span> Com <span className="text-[#ff0066]">Cobertura Imbatível</span>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600">
+            Desperte o Potencial da sua Rede
           </h1>
-          
-          <p className="text-lg text-gray-300 mb-10 max-w-4xl mx-auto">
-            Transforme sua empresa em uma operadora digital de telefonia móvel com a Play Tec. Oferecemos uma plataforma completa, da infraestrutura ao atendimento, para impulsionar seu sucesso e garantir o crescimento da sua empresa no mercado de telecomunicações.
+          <p className="text-xl text-gray-700 mb-10">
+            A SmartVoz oferece uma plataforma completa de networking, produtos tecnológicos e oportunidades para transformar seu negócio.
           </p>
-          
-          <Link to="/client/register">
-            <Button 
-              size="lg" 
-              className="bg-[#ff0066] hover:bg-[#e5005c] text-white rounded-full px-8 py-4 text-base"
-            >
-              Inscreva-se para Expandir Sua Marca
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/client/register">
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white"
+              >
+                Cadastre-se Agora
+              </Button>
+            </Link>
+            <Link to="/client/login">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-purple-300 text-purple-700 hover:bg-purple-50"
+              >
+                Acessar Plataforma
+              </Button>
+            </Link>
+          </div>
         </motion.div>
       </div>
     </section>
