@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { useActiveSection } from '@/components/company-site/useActiveSection';
 import { Header } from '@/components/company-site/Header';
 import { HeroSection } from '@/components/company-site/HeroSection';
-import { FeaturesSection } from '@/components/company-site/FeaturesSection';
 import { AboutSection } from '@/components/company-site/AboutSection';
 import { TestimonialsSection } from '@/components/company-site/TestimonialsSection';
 import { ContactSection } from '@/components/company-site/ContactSection';
@@ -29,7 +28,6 @@ export default function CompanySite() {
     <div className="min-h-screen bg-white">
       <Header activeSection={activeSection} scrollToSection={scrollToSection} />
       <HeroSection />
-      <FeaturesSection />
       <AboutSection />
       <TestimonialsSection />
       <ContactSection />

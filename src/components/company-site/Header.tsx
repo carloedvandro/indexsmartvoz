@@ -23,7 +23,6 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
         <nav className="hidden md:flex items-center space-x-8">
           {[
             { id: 'home', label: 'Início' },
-            { id: 'features', label: 'Credenciar Sua Marca' },
             { id: 'about', label: 'Quem Somos' },
             { id: 'contact', label: 'Contato' }
           ].map((section) => (
