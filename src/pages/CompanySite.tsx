@@ -1,13 +1,15 @@
 
 import { useEffect } from 'react';
-import ParticlesBackground from '@/components/client/products/ParticlesBackground';
 import { useActiveSection } from '@/components/company-site/useActiveSection';
 import { Header } from '@/components/company-site/Header';
 import { HeroSection } from '@/components/company-site/HeroSection';
 import { FeaturesSection } from '@/components/company-site/FeaturesSection';
-import { ProductsSection } from '@/components/company-site/ProductsSection';
-import { AboutSection } from '@/components/company-site/AboutSection';
+import { ServicesSection } from '@/components/company-site/ServicesSection';
+import { StatsSection } from '@/components/company-site/StatsSection';
+import { TestimonialsSection } from '@/components/company-site/TestimonialsSection';
+import { SupportSection } from '@/components/company-site/SupportSection';
 import { ContactSection } from '@/components/company-site/ContactSection';
+import { ClosingSection } from '@/components/company-site/ClosingSection';
 import { Footer } from '@/components/company-site/Footer';
 
 export default function CompanySite() {
@@ -15,19 +17,20 @@ export default function CompanySite() {
   
   useEffect(() => {
     // Set document title
-    document.title = "PlayTec - Sua solução em jogos e entretenimento";
+    document.title = "PlayTec - Seu parceiro de confiança no mercado móvel";
   }, []);
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-indigo-50">
-      <ParticlesBackground style="stars" />
-      
+    <div className="min-h-screen bg-[#0a0a20] text-white font-sans">
       <Header activeSection={activeSection} scrollToSection={scrollToSection} />
       <HeroSection />
       <FeaturesSection />
-      <ProductsSection />
-      <AboutSection />
+      <ServicesSection />
+      <StatsSection />
+      <SupportSection />
+      <TestimonialsSection />
       <ContactSection />
+      <ClosingSection />
       <Footer />
     </div>
   );
