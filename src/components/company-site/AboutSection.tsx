@@ -31,7 +31,7 @@ export function AboutSection() {
               ))}
             </div>
             <img 
-              src="/lovable-uploads/65ec319a-5f33-4699-a4d1-9111f5c10632.png" 
+              src="/lovable-uploads/a3e6b937-6f88-4592-87a1-a89764e3b167.png" 
               alt="Suporte Técnico" 
               className="w-full h-auto rounded-md"
             />
@@ -89,4 +89,3 @@ export function AboutSection() {
     </section>
   );
 }
-
