@@ -18,7 +18,7 @@ export function AboutSection() {
     <section id="about" className="py-20">
       <div className="container mx-auto px-4">
         <div className="bg-[#030225] py-16 text-center mb-16">
-          <h2 className="text-3xl font-bold mb-6 text-white">
+          <h2 className="text-2xl font-bold mb-16 text-white px-4">
             Nossa operação proporciona soluções tecnológicas eficientes, suporte contínuo, e ferramentas de gerenciamento personalizadas para garantir o sucesso e crescimento de cada operadora.
           </h2>
           
@@ -52,7 +52,7 @@ export function AboutSection() {
               ))}
             </div>
             <img 
-              src="/lovable-uploads/65ec319a-5f33-4699-a4d1-9111f5c10632.png" 
+              src="/lovable-uploads/bd865fe1-2a3e-4444-ab97-5d01b27fbab0.png" 
               alt="Suporte Técnico" 
               className="w-full h-auto rounded-md"
             />
@@ -100,7 +100,7 @@ export function AboutSection() {
             </div>
             
             <Link to="/client/register">
-              <Button className="bg-[#ff0066] hover:bg-[#d4004f] text-white rounded-full px-6">
+              <Button className="bg-[#ff0066] hover:bg-[#e5005c] text-white rounded-full px-6">
                 Inscreva-se para Expandir Sua Marca
               </Button>
             </Link>

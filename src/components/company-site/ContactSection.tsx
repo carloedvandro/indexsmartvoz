@@ -1,9 +1,7 @@
 
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select } from '@/components/ui/select';
 import { useState } from 'react';
 
 export function ContactSection() {
@@ -23,12 +21,11 @@ export function ContactSection() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form data submitted:', formData);
-    // Adicionar lógica de envio aqui
     alert('Formulário enviado com sucesso!');
   };
 
   return (
-    <section id="contact" className="py-20 bg-[#030225] relative">
+    <section id="contact" className="py-20 bg-[#030225]">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <motion.div
@@ -60,11 +57,11 @@ export function ContactSection() {
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="name" className="text-white">Nome</Label>
-                  <Input 
+                  <input 
                     id="name" 
                     name="name" 
                     placeholder="Nome" 
-                    className="bg-white" 
+                    className="w-full bg-white rounded-md border border-input px-3 py-2 text-sm ring-offset-background"
                     value={formData.name}
                     onChange={handleChange}
                     required
@@ -73,11 +70,11 @@ export function ContactSection() {
                 
                 <div>
                   <Label htmlFor="phone" className="text-white">Telefone</Label>
-                  <Input 
+                  <input 
                     id="phone" 
                     name="phone" 
                     placeholder="Telefone" 
-                    className="bg-white" 
+                    className="w-full bg-white rounded-md border border-input px-3 py-2 text-sm ring-offset-background"
                     value={formData.phone}
                     onChange={handleChange}
                     required
@@ -86,12 +83,12 @@ export function ContactSection() {
                 
                 <div>
                   <Label htmlFor="email" className="text-white">Email</Label>
-                  <Input 
+                  <input 
                     id="email" 
                     name="email" 
                     type="email" 
                     placeholder="E-mail" 
-                    className="bg-white" 
+                    className="w-full bg-white rounded-md border border-input px-3 py-2 text-sm ring-offset-background"
                     value={formData.email}
                     onChange={handleChange}
                     required
@@ -100,11 +97,11 @@ export function ContactSection() {
                 
                 <div>
                   <Label htmlFor="cnpj" className="text-white">CNPJ</Label>
-                  <Input 
+                  <input 
                     id="cnpj" 
                     name="cnpj" 
                     placeholder="CNPJ" 
-                    className="bg-white" 
+                    className="w-full bg-white rounded-md border border-input px-3 py-2 text-sm ring-offset-background"
                     value={formData.cnpj}
                     onChange={handleChange}
                     required
@@ -129,7 +126,7 @@ export function ContactSection() {
                   </select>
                 </div>
                 
-                <Button type="submit" className="w-full bg-[#ff0066] hover:bg-[#d4004f] text-white">
+                <Button type="submit" className="w-full bg-[#ff0066] hover:bg-[#e5005c] text-white rounded-full">
                   ENVIAR
                 </Button>
                 

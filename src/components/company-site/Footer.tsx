@@ -11,21 +11,21 @@ export function Footer() {
             <div className="flex items-center gap-2 mb-4">
               <img 
                 src="/lovable-uploads/ced30205-7362-4aa6-882d-4e55a0f46378.png" 
-                alt="SmartVoz Logo" 
+                alt="PlayTec Logo" 
                 className="h-10 w-auto"
               />
               <div className="text-2xl font-bold">
-                SMARTVOZ
+                PLAYTEC
               </div>
             </div>
             <p className="text-gray-400 mb-4">
-              CNPJ: 12.345.678/0001-90
+              CNPJ: 33.093.462/0001-50
             </p>
           </div>
           
           <div>
             <h3 className="text-lg font-semibold mb-4">
-              Conquiste Fronteiras com a SmartVoz: De Empresário a Operadora Nacional. 
+              Conquiste Fronteiras com a Play: De Empresário a Operadora Nacional. 
             </h3>
             <p className="text-gray-400 mb-4">
               Nossa expertise em telecomunicações não apenas garante sua Homologação na Anatel, mas também oferece suporte para posicionar sua marca como líder em um mercado dinâmico.
@@ -45,7 +45,7 @@ export function Footer() {
         </div>
         
         <div className="border-t border-gray-800 pt-6 text-center text-gray-400 text-sm">
-          SmartVoz - Copyright © {new Date().getFullYear()} | Desenvolvido por Lovable
+          Play Tecnologia - Copyright © {new Date().getFullYear()} | Produzido por We Connect
         </div>
       </div>
     </footer>

@@ -28,11 +28,11 @@ export function TestimonialsSection() {
               />
             </div>
             
-            <div className="text-6xl text-[#ff0066] opacity-30 absolute top-6 left-8">"</div>
+            <div className="text-6xl text-[#ff0066] opacity-30 absolute top-6 left-8">&#8220;</div>
             <p className="text-gray-300 text-lg relative z-10 mb-6">
-              A SmartVoz oferece não só uma parceria e sim um compromisso de alavancar o nosso negócio. Com um sistema dinâmico e simples temos facilidade de gerir e ainda contamos com um canal direto para sugestões de melhoria. Somos gratos por todo empenho e pela cordialidade em tratar as demandas de com o máximo de agilidade e eficiência.
+              A Play oferece á ICON NEXT não só uma parceria e sim um compromisso de alavancar o nosso negócio. Com um sistema dinâmico e simples temos facilidade de gerir e ainda contamos com um canal direto para sugestões de melhoria. Somos gratos por todo empenho e pela cordialidade em tratar as demandas de com o máximo de agilidade e eficiência.
             </p>
-            <div className="text-6xl text-[#ff0066] opacity-30 absolute bottom-6 right-8">"</div>
+            <div className="text-6xl text-[#ff0066] opacity-30 absolute bottom-6 right-8">&#8221;</div>
             
             <div className="text-xl font-semibold text-white mt-4">ICON NEXT</div>
             <div className="text-sm text-gray-400">Gerente – Camila</div>

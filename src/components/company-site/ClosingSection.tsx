@@ -18,12 +18,12 @@ export function ClosingSection() {
             Seu Salto Tecnológico Para um Futuro Lucrativo
           </h2>
           <p className="text-lg text-gray-700 mb-10">
-            Na SmartVoz, entregamos mais do que uma solução. Oferecemos uma plataforma completa, desde a base estrutural até o atendimento ao cliente. Assuma o controle com uma experiência fluida e eficiente que impulsiona o seu sucesso na indústria de telecomunicações. Descubra como nossa abordagem integrada redefine o caminho para o crescimento da sua operadora de telefonia.
+            Na Play Tecnologia, entregamos mais do que uma solução. Oferecemos uma plataforma completa, desde a base estrutural até o atendimento ao cliente. Assuma o controle com uma experiência fluida e eficiente que impulsiona o seu sucesso na indústria de telecomunicações. Descubra como nossa abordagem integrada redefine o caminho para o crescimento da sua operadora de telefonia.
           </p>
           
           <Link to="/client/register">
             <Button 
-              className="bg-[#ff0066] hover:bg-[#d4004f] text-white rounded-full px-8 py-6 text-lg"
+              className="bg-[#ff0066] hover:bg-[#e5005c] text-white rounded-full px-8 py-6 text-lg"
             >
               Seja a Próxima Operadora de Sucesso!
             </Button>

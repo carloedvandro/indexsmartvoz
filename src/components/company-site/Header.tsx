@@ -10,17 +10,17 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
   return (
     <header className="fixed top-0 left-0 right-0 bg-[#030225] z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center">
           <Link to="/">
             <img 
               src="/lovable-uploads/ced30205-7362-4aa6-882d-4e55a0f46378.png" 
-              alt="SmartVoz Logo" 
-              className="h-12 w-auto"
+              alt="PlayTec Logo" 
+              className="h-10 w-auto"
             />
           </Link>
         </div>
         
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-12">
           {[
             { id: 'home', label: 'Início' },
             { id: 'features', label: 'Credenciar Sua Marca' },
@@ -30,7 +30,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
             <button
               key={section.id}
               onClick={() => scrollToSection(section.id)}
-              className={`text-sm font-medium transition-colors ${
+              className={`text-base font-normal transition-colors ${
                 activeSection === section.id 
                   ? 'text-[#ff0066]' 
                   : 'text-white hover:text-[#ff0066]'
