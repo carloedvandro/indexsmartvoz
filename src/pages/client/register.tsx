@@ -1,14 +1,43 @@
 
 import { RegisterFormContainer } from "@/components/client/register/RegisterFormContainer";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function ClientRegister() {
+  const location = useLocation();
+
+  // Este efeito ajuda a prevenir o reset inesperado do formulário
+  useEffect(() => {
+    console.log("Register page mounted/updated", location.key);
+    
+    // Adiciona aviso antes do usuário tentar sair da página com formulário não enviado
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      const message = "Suas alterações serão perdidas. Tem certeza que deseja sair?";
+      e.returnValue = message;
+      return message;
+    };
+    
+    // Adiciona o listener para o evento beforeunload
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [location]);
+
   return (
-    <div className="min-h-screen w-full overflow-y-auto scrollbar-hide">
-      <div className="relative flex flex-col justify-center items-center min-h-[90vh] py-10 px-5 sm:px-4">
-        <div className="w-full max-w-xl mt-4">
-          <h1 className="text-[2.4rem] leading-[3.6rem] tracking-wide font-black text-center bg-gradient-to-r from-color-1 via-color-2 to-color-3 bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:200%_auto] -mt-4 mb-6">
-            Smartvoz
-          </h1>
+    <div className="min-h-screen w-full">
+      <div className="flex flex-col justify-center items-center min-h-screen py-10 px-5 sm:px-4 -mt-14">
+        <div className="w-full max-w-[400px] mt-4">
+          <div className="flex flex-col items-center mb-2 -mt-5">
+            <div className="flex justify-center">
+              <img 
+                src="/lovable-uploads/5bded3e2-dd4c-4996-9027-b3a0abbb766c.png" 
+                alt="Smartvoz" 
+                className="h-auto w-[240px] object-contain"
+              />
+            </div>
+          </div>
           <RegisterFormContainer />
         </div>
       </div>

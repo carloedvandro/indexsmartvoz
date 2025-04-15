@@ -12,10 +12,10 @@ export function SuccessScreen({ data }: SuccessScreenProps) {
   const navigate = useNavigate();
 
   return (
-    <div className="text-center space-y-6">
+    <div className="text-center space-y-6 pt-28">
       <div className="flex justify-center">
-        <div className="w-16 h-16 bg-[#9b87f5]/10 rounded-full flex items-center justify-center">
-          <Check className="w-8 h-8 text-[#9b87f5]" />
+        <div className="w-16 h-16 bg-[#580180]/10 rounded-full flex items-center justify-center">
+          <Check className="w-8 h-8 text-[#580180]" />
         </div>
       </div>
 
@@ -27,16 +27,16 @@ export function SuccessScreen({ data }: SuccessScreenProps) {
 
       <div className="bg-gray-50 p-4 rounded-lg max-w-sm mx-auto">
         <div className="space-y-2 text-left">
-          <p><strong>Tipo:</strong> {data.activation_type === 'self' ? 'Para Mim' : 'Para Colaborador'}</p>
+          <p><strong>Tipo:</strong> {data.activation_type === 'self' ? 'Para Uso Pessoal' : 'Para Colaborador'}</p>
           <p><strong>Dispositivo:</strong> {data.device_type === 'ios' ? 'iOS (iPhone)' : 'Android'}</p>
-          <p><strong>IMEI:</strong> {data.imei}</p>
-          <p><strong>EID:</strong> {data.eid}</p>
+          {data.imei && <p><strong>IMEI:</strong> {data.imei}</p>}
+          {data.eid && <p><strong>EID:</strong> {data.eid}</p>}
         </div>
       </div>
 
       <Button 
         onClick={() => navigate("/client/dashboard")}
-        className="bg-[#9b87f5] hover:bg-[#8b77e5] text-white"
+        className="bg-[#580180] hover:bg-[#4a0066] text-white"
       >
         Voltar para o Dashboard
       </Button>

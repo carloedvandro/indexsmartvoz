@@ -1,10 +1,12 @@
 
-import { ParticlesBackgroundProps } from './particles/types';
+import { useEffect, useRef } from 'react';
+import * as THREE from 'three';
 import { useParticlesSetup } from './particles/useParticlesSetup';
 import { useParticlesAnimation } from './particles/useParticlesAnimation';
 import { useWindowResize } from './particles/useWindowResize';
+import { ParticlesBackgroundProps } from './particles/types';
 
-export function ParticlesBackground({ style = "default" }: ParticlesBackgroundProps) {
+const ParticlesBackground = ({ style = 'default' }: ParticlesBackgroundProps) => {
   const {
     containerRef,
     sceneRef,
@@ -13,10 +15,23 @@ export function ParticlesBackground({ style = "default" }: ParticlesBackgroundPr
     particlesRef,
   } = useParticlesSetup(style);
 
-  useParticlesAnimation(style, sceneRef, rendererRef, cameraRef, particlesRef);
+  useParticlesAnimation(
+    style,
+    sceneRef,
+    rendererRef,
+    cameraRef,
+    particlesRef
+  );
+
   useWindowResize(cameraRef, rendererRef);
 
   return (
-    <div ref={containerRef} className="fixed inset-0 pointer-events-none" />
+    <div
+      ref={containerRef}
+      className="fixed inset-0 -z-10 opacity-60"
+      style={{ pointerEvents: 'none' }}
+    />
   );
-}
+};
+
+export default ParticlesBackground;

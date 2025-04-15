@@ -6,12 +6,35 @@ import { useToast } from "@/hooks/use-toast";
 import { resetPassword } from "@/services/user/userReset";
 import { Mail } from "lucide-react";
 import { RainbowButton } from "@/components/ui/rainbow-button";
-import { ParticlesBackground } from "@/components/client/products/ParticlesBackground";
+import ParticlesBackground from "@/components/client/products/ParticlesBackground";
+import { motion } from "framer-motion";
 
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+      },
+    },
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,42 +70,55 @@ export default function ResetPassword() {
             </h1>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
+          <motion.form 
+            onSubmit={handleSubmit} 
+            className="space-y-6" 
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.div className="space-y-2" variants={itemVariants}>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email
               </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
+              <div className="relative rounded-md">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-4 w-4" />
                 <Input
                   id="email"
                   type="email"
                   placeholder="seu@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 bg-transparent"
+                  className="pl-10 bg-transparent rounded-md"
                   required
                 />
               </div>
-            </div>
+            </motion.div>
 
-            <RainbowButton
-              type="submit"
-              className="w-full !bg-[#5f0889] hover:!bg-[#4a0668]"
-              disabled={loading}
-            >
-              {loading ? "Enviando..." : "Continuar"}
-            </RainbowButton>
-          </form>
+            <motion.div variants={itemVariants}>
+              <RainbowButton
+                type="submit"
+                className="w-full !bg-[#580180] hover:!bg-[#4a0668]"
+                disabled={loading}
+              >
+                {loading ? "Enviando..." : "Continuar"}
+              </RainbowButton>
+            </motion.div>
+          </motion.form>
 
-          <div className="text-center">
+          <motion.div 
+            className="text-center" 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
             <Link
               to="/client/login"
               className="text-sm text-gray-600 hover:text-gray-700 hover:underline"
             >
               Voltar para login
             </Link>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

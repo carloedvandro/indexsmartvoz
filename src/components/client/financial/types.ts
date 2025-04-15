@@ -39,3 +39,5 @@ export interface BalanceDetails {
   blockedBalance: string;
   availableBalance: string;
 }
+
+export type CardType = 'earnings' | 'balance' | 'available' | 'bonus';

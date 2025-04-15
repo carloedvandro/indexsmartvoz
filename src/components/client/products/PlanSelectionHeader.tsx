@@ -16,13 +16,17 @@ interface PlanSelectionHeaderProps {
 export function PlanSelectionHeader({ variants }: PlanSelectionHeaderProps) {
   return (
     <motion.div 
-      className="space-y-2 max-w-[480px] mx-auto text-center"
+      className="space-y-3 max-w-[365px] mx-auto text-center pt-5"
       variants={variants}
     >
-      <h2 className="text-xl font-medium">Personalize seu pedido</h2>
-      <p className="text-gray-600 max-w-[340px] mx-auto">
-        Confira aqui as melhores ofertas para você, cliente Smatvoz.
-      </p>
+      <div className="w-full flex justify-center mb-4">
+        <img 
+          src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 
+          alt="Smartvoz Logo" 
+          className="h-[140px] object-contain mix-blend-multiply opacity-90 contrast-125"
+        />
+      </div>
+      <h2 className="text-xl font-medium text-black">Personalize seu pedido</h2>
     </motion.div>
   );
 }

@@ -32,8 +32,7 @@ export function PlanSelectionStep({
   const { data: calendarStyle } = useCalendarStyles();
   
   const internetOptions = [
-    { value: "FREE", label: "Plano Gratuito", price: 0 },
-    { value: "120GB", label: "Plano 120GB", price: 129.99 },
+    { value: "120GB", label: "Plano 120GB", price: 119.99 },
   ];
 
   useState(() => {
@@ -79,8 +78,20 @@ export function PlanSelectionStep({
   };
 
   return (
-    <div className="space-y-6 -mt-[15px]">
-      <PlanSelectionHeader variants={itemVariants} />
+    <div className="space-y-6 -mt-[0px] pt-5 max-w-[365px] mx-auto w-full">
+      <motion.div 
+        className="space-y-3 max-w-[365px] mx-auto text-center"
+        variants={itemVariants}
+      >
+        <div className="w-full flex justify-center mb-4">
+          <img 
+            src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 
+            alt="Smartvoz Logo" 
+            className="h-[140px] object-contain mix-blend-multiply opacity-90 contrast-125"
+          />
+        </div>
+        <h2 className="text-xl font-medium text-black">Personalize seu pedido</h2>
+      </motion.div>
 
       <div className="space-y-4 w-full">
         <motion.div 

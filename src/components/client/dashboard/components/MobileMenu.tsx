@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from "react-router-dom";
-import { X, Menu, ArrowRight } from "lucide-react";
+import { X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
@@ -19,22 +19,16 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
 
   const renderItems = (items: NavigationItem[], level = 0) => {
     return items.map((item) => (
-      <div key={item.title}>
-        <div className="flex flex-col gap-1">
+      <div key={item.title} className="mb-1">
+        <div className="flex flex-col gap-0.5">
           {item.href ? (
             <Link
               to={item.href}
-              className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap ml-1"
+              className="flex items-center gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap ml-0"
             >
               {item.icon === "home" && (
-                <div className="flex items-end gap-1 -ml-2">
-                  <img 
-                    src="/lovable-uploads/4466d3c0-c9b2-44c7-9f5a-3797eb461412.png" 
-                    alt="Home" 
-                    className="w-10 h-10 border-0 outline-none focus:outline-none active:outline-none" 
-                    style={{outline: 'none'}}
-                  />
-                  <span className="text-base font-bold pb-[6px]">Home</span>
+                <div className="flex items-center">
+                  <span className="text-base font-bold text-lg pl-0">Início</span>
                 </div>
               )}
               {!item.iconOnly && item.icon !== "home" && (
@@ -54,7 +48,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                 <p className="text-base font-medium">{item.title}</p>
               </div>
               {item.items && (
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-0.5 mt-1">
                   {renderItems(item.items, level + 1)}
                 </div>
               )}
@@ -66,22 +60,32 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
   };
 
   return (
-    <div className="flex lg:hidden ml-auto">
+    <div className="flex lg:hidden ml-auto items-center h-full">
       <Button 
         variant="ghost" 
         onClick={() => setOpen(!isOpen)}
-        className="hover:text-primary hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent"
+        className="hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent my-auto mobile-menu-button ml-4 relative -top-[5px] right-[-7px]"
       >
-        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        {isOpen ? (
+          <X className="w-12 h-12 font-bold text-black" />
+        ) : (
+          <div className="flex flex-col justify-center items-center w-[22px] h-[22px]">
+            <div className="w-full h-[8px] bg-black rounded-full mb-2"></div>
+            <div className="w-full h-[8px] bg-black rounded-full mb-2"></div>
+            <div className="w-full h-[8px] bg-black rounded-full"></div>
+          </div>
+        )}
       </Button>
       {isOpen && (
-        <div className="fixed top-16 left-0 right-0 border-t flex flex-col w-full bg-white shadow-lg py-3 container max-w-sm mx-auto gap-4 z-50">
-          {renderItems(navigationItems)}
-          <div>
-            <LogoutButton onLogout={onLogout} className="w-full p-0 justify-start hover:bg-transparent active:bg-transparent focus:bg-transparent" />
+        <div className="fixed top-20 left-0 right-0 flex flex-col w-[370px] mx-auto bg-white shadow-lg py-2 container mobile-menu-container gap-2 z-50 rounded-b-lg">
+          <div className="flex flex-col gap-2">
+            {renderItems(navigationItems)}
+          </div>
+          <div className="mt-2 pt-4 pb-2 px-2">
+            <LogoutButton onLogout={onLogout} className="w-full flex justify-center" />
           </div>
         </div>
       )}
     </div>
   );
-};
+}

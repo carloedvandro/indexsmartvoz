@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/utils/format";
@@ -64,7 +65,7 @@ export function ProductCard({
   };
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden relative">
       {product.image_url && (
         <div className="aspect-video w-full overflow-hidden">
           <img
@@ -108,3 +109,4 @@ export function ProductCard({
     </Card>
   );
 }
+

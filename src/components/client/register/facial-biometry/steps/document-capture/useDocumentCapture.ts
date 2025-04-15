@@ -32,16 +32,20 @@ export const useDocumentCapture = ({
       setIsCapturing(true);
       setCaptureAttempted(true);
 
-      // Get user session
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
+      // Get user session - check if user is logged in
+      const { data: sessionData } = await supabase.auth.getSession();
+      
+      if (!sessionData.session?.user) {
+        console.error("No authenticated user found");
         toast({
           title: "Erro de Autenticação",
-          description: "Usuário não está autenticado.",
+          description: "Usuário não está autenticado. Por favor, faça login novamente.",
           variant: "destructive",
         });
         return;
       }
+      
+      const user = sessionData.session.user;
 
       // Convert base64 to blob
       const blob = await fetch(imageSrc).then(res => res.blob());

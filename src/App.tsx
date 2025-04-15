@@ -1,12 +1,12 @@
-
 import * as React from 'react';
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster";
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import Index from '@/pages/Index';
-import ClientDashboard from '@/pages/client/dashboard';
 import ClientLogin from '@/pages/client/login';
 import ClientRegister from '@/pages/client/register';
+import ClientFacialBiometry from '@/pages/client/facial-biometry';
+import ClientDashboard from '@/pages/client/dashboard';
 import ClientNetwork from '@/pages/client/network';
 import ClientStore from '@/pages/client/store';
 import ClientEvents from '@/pages/client/events';
@@ -28,6 +28,8 @@ import AdminUsers from '@/pages/admin/users';
 import PublicStore from '@/pages/public/store';
 import ResetPassword from '@/pages/client/reset-password';
 import UpdatePassword from '@/pages/client/update-password';
+import ModernSite from '@/pages/ModernSite';
+import CompanySite from '@/pages/CompanySite';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,10 +38,15 @@ const router = createBrowserRouter(
       <Route path="/" element={<Index />} />
       <Route path="/client/login" element={<ClientLogin />} />
       <Route path="/client/register" element={<ClientRegister />} />
+      <Route path="/client/facial-biometry" element={<ClientFacialBiometry />} />
       <Route path="/client/reset-password" element={<ResetPassword />} />
       <Route path="/client/update-password" element={<UpdatePassword />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/store/:storeUrl" element={<PublicStore />} />
+      
+      {/* Site Routes */}
+      <Route path="/modern-site" element={<ModernSite />} />
+      <Route path="/site" element={<CompanySite />} />
 
       {/* Protected Client Routes */}
       <Route element={<ProtectedRoute />}>
@@ -70,19 +77,11 @@ const router = createBrowserRouter(
   )
 );
 
-const AppContent = () => {
-  return (
-    <>
-      <RouterProvider router={router} />
-      <Toaster />
-    </>
-  );
-};
-
 const App = () => {
   return (
     <React.StrictMode>
-      <AppContent />
+      <RouterProvider router={router} />
+      <Toaster />
     </React.StrictMode>
   );
 };

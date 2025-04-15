@@ -60,7 +60,7 @@ export default function UpdatePassword() {
 
   return (
     <div className="container relative min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-[350px] space-y-6">
+      <div className="w-full max-w-[400px] space-y-6">
         <div className="flex flex-col space-y-2 text-center">
           <h1 className="text-5xl tracking-tighter font-black bg-gradient-to-r from-color-1 via-color-2 to-color-3 bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:200%_auto] -mt-16 mb-12">
             Smartvoz
@@ -74,15 +74,16 @@ export default function UpdatePassword() {
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Nova Senha
             </label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
+            <div className="relative overflow-hidden rounded-md">
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#580180]" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-4 w-4" />
               <Input
                 id="password"
                 type="password"
                 placeholder="Digite sua nova senha"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="pl-10"
+                className="pl-10 border-l-0 rounded-none w-full pr-2"
                 required
                 minLength={6}
               />
@@ -91,7 +92,7 @@ export default function UpdatePassword() {
 
           <RainbowButton
             type="submit"
-            className="w-full !bg-purple-600 hover:!bg-purple-700"
+            className="w-full !bg-[#580180] hover:!bg-[#4a0668]"
             disabled={loading}
           >
             {loading ? "Atualizando..." : "Atualizar Senha"}

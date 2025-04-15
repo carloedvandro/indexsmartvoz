@@ -44,11 +44,14 @@ export const useNetworkData = (userId: string) => {
         console.log("Raw network members data:", allNetworkMembers);
 
         if (allNetworkMembers && allNetworkMembers.length > 0) {
-          // Fetch all profiles in a single query
+          // Get all unique user_ids from network members
+          const memberUserIds = allNetworkMembers.map(member => member.user_id);
+          
+          // Fetch only profiles that still exist in the system
           const { data: profilesData, error: profilesError } = await supabase
             .from("profiles")
             .select("id, full_name, email, custom_id, status, registration_date")
-            .in('id', allNetworkMembers.map(member => member.user_id));
+            .in('id', memberUserIds);
 
           if (profilesError) {
             console.error("Error fetching profiles:", profilesError);
@@ -65,14 +68,22 @@ export const useNetworkData = (userId: string) => {
             
           const membersMap = new Map();
           
+          // Adicionando logs para debug
+          console.log("Criando estrutura de membros...");
+          
+          // Only include members that have valid profiles
           allNetworkMembers.forEach(member => {
             const profileData = profilesMap.get(member.user_id);
             if (profileData) { // Only add member if profile data exists
+              console.log(`Processando membro: ID=${member.id}, user_id=${member.user_id}, level=${member.level}, parent_id=${member.parent_id}`);
+              
               membersMap.set(member.id, {
                 id: member.id,
+                user_id: member.user_id,
                 level: member.level,
-                parentId: member.parent_id,
+                parent_id: member.parent_id,
                 user: {
+                  id: member.user_id,
                   full_name: profileData.full_name || null,
                   email: profileData.email || '',
                   custom_id: profileData.custom_id || null,
@@ -81,18 +92,30 @@ export const useNetworkData = (userId: string) => {
                 },
                 children: []
               });
+            } else {
+              console.log(`Pulando membro (perfil não encontrado): ID=${member.id}, user_id=${member.user_id}`);
             }
           });
 
           // Build the tree structure
           const rootMembers: NetworkMember[] = [];
+          
+          console.log("Construindo árvore de rede...");
+          
           membersMap.forEach((member, id) => {
-            if (member.parentId === userNetwork.id) {
+            console.log(`Verificando onde posicionar membro: ID=${id}, parent_id=${member.parent_id}`);
+            
+            if (member.parent_id === userNetwork.id) {
+              console.log(`Adicionando como membro raiz: ${member.user.full_name}`);
               rootMembers.push(member);
-            } else if (membersMap.has(member.parentId)) {
-              const parent = membersMap.get(member.parentId);
+            } else if (membersMap.has(member.parent_id)) {
+              const parent = membersMap.get(member.parent_id);
               if (!parent.children) parent.children = [];
+              
+              console.log(`Adicionando como filho de ${parent.user.full_name}: ${member.user.full_name}`);
               parent.children.push(member);
+            } else {
+              console.log(`ALERTA: Não encontrou pai para membro: ${member.user.full_name} (parent_id=${member.parent_id})`);
             }
           });
 

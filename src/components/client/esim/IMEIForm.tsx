@@ -81,12 +81,14 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
   };
 
   return (
-    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6">
+    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6 pt-44">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-semibold">
-          Digite o IMEI do {deviceType === 'android' ? 'Android' : 'iPhone'} com eSIM
-        </h2>
-        <p className="text-black text-sm">
+        <img 
+          src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
+          alt="Smartvoz Logo" 
+          className="h-[140px] object-contain mx-auto mix-blend-multiply opacity-90 contrast-125"
+        />
+        <p className="text-black text-[15.7px] text-center mx-auto max-w-[320px]">
           O número precisa ser idêntico ao que aparece nas configurações do seu celular
         </p>
       </div>
@@ -161,18 +163,18 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           É só ir nas configurações do aparelho e digitar IMEI no campo de busca. O número que você precisa vai estar em status como IMEI (eSIM)
         </p>
 
-        <div className="flex justify-between items-center w-full mt-8">
+        <div className="flex justify-between items-center w-full mt-8 gap-4">
           <Button 
             type="button"
             variant="outline"
-            className="w-[120px] border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg py-3"
+            className="flex-1 border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg py-3"
             onClick={onBack}
           >
             Voltar
           </Button>
           <Button 
             type="submit"
-            className="w-[120px] bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3"
+            className="flex-1 bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3"
             disabled={!isValidIMEI || isValidating || imei.length !== 15}
           >
             Continuar

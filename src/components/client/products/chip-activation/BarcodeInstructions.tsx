@@ -1,8 +1,10 @@
+
 import { Button } from "@/components/ui/button";
+import { Check, Circle } from "lucide-react";
 
 interface BarcodeInstructionsProps {
-  onBack: () => void;
-  onContinue: () => void;
+  onBack?: () => void;
+  onContinue?: () => void;
 }
 
 export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsProps) {
@@ -10,28 +12,27 @@ export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsP
     <div className="space-y-6">
       <h2 className="text-2xl font-medium">Confira como você encontra o código de barras do SIM card</h2>
       
-      <div className="flex items-center justify-between max-w-xl mx-auto relative">
-        <div className="flex flex-col items-center space-y-2">
-          <div className="w-6 h-6 rounded-full bg-[#8425af] flex items-center justify-center text-white text-sm">✓</div>
-          <span className="text-sm font-medium text-gray-700">Identidade</span>
-        </div>
-
-        <div className="flex-1 h-[2px] bg-[#8425af]"></div>
-
-        <div className="flex flex-col items-center space-y-2">
-          <div className="w-6 h-6 rounded-full bg-[#8425af] border-2 border-white flex items-center justify-center">
-            <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+      {/* Stepper indicator */}
+      <div className="flex items-center justify-between max-w-md mx-auto mb-4">
+        <div className="flex flex-col items-center">
+          <div className="w-8 h-8 rounded-full bg-[#8425af] flex items-center justify-center text-white">
+            <Check className="w-5 h-5" />
           </div>
-          <span className="text-sm font-medium text-[#8425af]">SIM Card</span>
+          <span className="text-sm mt-1 text-[#8425af] font-medium">Identidade</span>
         </div>
-
-        <div className="flex-1 h-[2px] bg-gray-200"></div>
-
-        <div className="flex flex-col items-center space-y-2">
-          <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">
-            <div className="w-1.5 h-1.5 rounded-full bg-gray-500"></div>
+        <div className="h-0.5 flex-1 bg-[#8425af] mx-2"></div>
+        <div className="flex flex-col items-center">
+          <div className="w-8 h-8 rounded-full border-2 border-[#8425af] flex items-center justify-center text-[#8425af]">
+            <Circle className="w-4 h-4 fill-[#8425af] stroke-[#8425af]" />
           </div>
-          <span className="text-sm font-medium text-gray-500">Linhas</span>
+          <span className="text-sm mt-1 text-[#8425af] font-medium">SIM Card</span>
+        </div>
+        <div className="h-0.5 flex-1 bg-gray-200 mx-2"></div>
+        <div className="flex flex-col items-center">
+          <div className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center text-gray-300">
+            <Circle className="w-4 h-4 fill-gray-200 stroke-gray-300" />
+          </div>
+          <span className="text-sm mt-1 text-gray-400">Linhas</span>
         </div>
       </div>
       
@@ -45,28 +46,35 @@ export function BarcodeInstructions({ onBack, onContinue }: BarcodeInstructionsP
           <img 
             src="/lovable-uploads/c1471528-92f5-409a-a0c9-a520defbecf5.png" 
             alt="Exemplo de código de barras do chip"
-            className="max-w-[1200px] w-full"
+            className="max-w-[340px] w-full"
           />
         </div>
       </div>
 
-      <div className="flex justify-between">
-        <Button 
-          variant="outline"
-          className="hover:bg-[#8425af] hover:text-white border-[#8425af] text-[#8425af]"
-          onClick={onBack}
-          type="button"
-        >
-          Voltar
-        </Button>
-        <Button 
-          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white"
-          onClick={onContinue}
-          type="button"
-        >
-          Continuar
-        </Button>
-      </div>
+      {(onBack || onContinue) && (
+        <div className="flex justify-between gap-4">
+          {onBack && (
+            <Button 
+              variant="outline"
+              className="hover:bg-[#8425af] hover:text-white border-[#8425af] text-[#8425af] flex-1"
+              onClick={onBack}
+              type="button"
+            >
+              Voltar
+            </Button>
+          )}
+          
+          {onContinue && (
+            <Button 
+              className="bg-[#8425af] hover:bg-[#6c1e8f] text-white flex-1"
+              onClick={onContinue}
+              type="button"
+            >
+              Continuar
+            </Button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

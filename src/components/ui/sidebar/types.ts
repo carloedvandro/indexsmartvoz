@@ -1,3 +1,4 @@
+
 export type SidebarState = "expanded" | "collapsed"
 
 export type SidebarContext = {

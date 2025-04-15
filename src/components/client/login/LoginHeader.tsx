@@ -1,5 +1,5 @@
 
-import { motion } from "framer-motion";
+import "@/styles/logo.css"; // Ensuring CSS is imported
 
 interface LoginHeaderProps {
   itemVariants: any;
@@ -7,13 +7,14 @@ interface LoginHeaderProps {
 
 export function LoginHeader({ itemVariants }: LoginHeaderProps) {
   return (
-    <motion.div 
-      className="flex flex-col space-y-2 text-center"
-      variants={itemVariants}
-    >
-      <div className="text-[2.4rem] leading-[3.6rem] tracking-wide font-black bg-gradient-to-r from-color-1 via-color-2 to-color-3 bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:200%_auto] -mt-16 mb-16">
-        Smartvoz
+    <div className="flex flex-col space-y-2 text-center">
+      <div className="-mt-10 logo-container">
+        <img 
+          src="/lovable-uploads/a4a911e3-a6ea-47f3-a5c0-a855aa60803b.png" 
+          alt="Smartvoz" 
+          className="logo-image"
+        />
       </div>
-    </motion.div>
+    </div>
   );
 }

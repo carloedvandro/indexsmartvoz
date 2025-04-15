@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 import { useTranslation } from 'react-i18next';
-import { LanguageSelector } from "@/components/LanguageSelector";
 import '@/i18n';
 
 export default function AdminLogin() {
@@ -102,7 +101,6 @@ export default function AdminLogin() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left side - Login form */}
       <div className="w-full md:w-[480px] p-4 sm:p-8 flex flex-col justify-between bg-white">
         <div>
           <div className="w-full flex justify-center">
@@ -164,9 +162,6 @@ export default function AdminLogin() {
           </form>
         </div>
         <div className="text-center text-sm text-gray-500 mt-8">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <LanguageSelector />
-          </div>
           <p>
             {t('technology_by')}{" "}
             <a href="#" className="underline">
@@ -175,7 +170,6 @@ export default function AdminLogin() {
           </p>
         </div>
       </div>
-      {/* Right side - Background image */}
       <div 
         className="hidden md:block flex-1 bg-[url('https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images/smartvozparedeepessoas1.jpg?t=2025-01-21T16%3A50%3A20.958Z')] bg-cover bg-center"
       />
