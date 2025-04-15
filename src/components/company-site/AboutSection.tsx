@@ -28,16 +28,16 @@ export function AboutSection() {
           >
             <WarpBackground 
               className="p-6 border-0"
-              beamSize={4} 
-              beamsPerSide={5}
-              gridColor="rgba(255, 0, 102, 0.2)"
-              perspective={250}
-              beamDuration={4}
+              beamSize={3} 
+              beamsPerSide={4}
+              gridColor="rgba(255, 0, 102, 0.12)"
+              perspective={350}
+              beamDuration={5}
             >
               <img 
                 src="/lovable-uploads/70692291-9fc0-41c7-817c-4f1e2ed36bec.png" 
                 alt="Suporte Técnico" 
-                className="w-full h-auto rounded-md relative z-10"
+                className="w-full h-auto rounded-md relative z-10 shadow-lg"
               />
             </WarpBackground>
           </motion.div>
