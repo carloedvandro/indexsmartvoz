@@ -1,12 +1,12 @@
 
 .logo-image {
-  max-width: 600px !important; /* Increased from 500px to 600px */
+  max-width: 300px !important;
   width: auto !important;
-  height: 220px !important; /* Increased from 180px to 220px */
+  height: 110px !important;
   object-fit: contain !important;
   mix-blend-mode: multiply; /* Helps remove white background */
   padding: 0 !important;
-  margin: -15px auto 0 auto !important;
+  margin: -15px auto 0 auto !important; /* Reduced top margin from -26.5px to -15px */
   display: block !important;
   position: relative !important;
   right: 0 !important;
@@ -19,26 +19,26 @@
   justify-content: center !important;
   height: 100% !important;
   width: 100% !important;
-  padding-top: 5px !important;
+  padding-top: 5px !important; /* Reduced padding from 10px to 5px */
   padding-right: 0 !important;
 }
 
 @media (max-width: 768px) {
   .logo-image {
-    max-width: 450px !important; /* Increased from 400px to 450px */
-    height: 180px !important; /* Increased from 150px to 180px */
+    max-width: 240px !important;
+    height: 90px !important;
     margin-left: 0 !important; 
     margin-right: auto !important;
-    margin-top: -8px !important;
+    margin-top: -8px !important; /* Reduced top margin from -14px to -8px */
     right: 0 !important;
     position: relative !important;
-    left: -15px !important;
+    left: -15px !important; /* Reduced from -26px to -15px */
     background-color: rgba(255, 255, 255, 0.7); /* Add a slight white background for mobile */
   }
   
   .logo-container {
     justify-content: flex-start !important;
-    padding-left: 20px !important;
+    padding-left: 20px !important; /* Reduced from 30px to 20px */
     padding-right: 0 !important;
   }
 }
