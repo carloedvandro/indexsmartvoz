@@ -1,17 +1,20 @@
 
+
 .logo-image {
-  max-width: 600px !important; /* Increased significantly from 400px */
+  max-width: 700px !important; /* Further increased from 600px */
   width: auto !important;
-  height: 200px !important; /* Increased from 150px */
+  height: 250px !important; /* Further increased from 200px */
   object-fit: contain !important;
   mix-blend-mode: multiply; /* Helps remove white background */
   padding: 0 !important;
-  margin: -10px auto 0 auto !important; /* Reduced margin to remove spacing */
+  margin: 0 auto !important; /* Completely removed margin */
   display: block !important;
   position: relative !important;
   right: 0 !important;
-  background-color: transparent; /* Removed background to eliminate border effect */
-  border: none !important; /* Ensuring no border */
+  background-color: transparent !important; /* Ensured no background */
+  border: none !important; /* No border */
+  box-shadow: none !important; /* No shadow */
+  outline: none !important; /* No outline */
 }
 
 .logo-container {
@@ -20,25 +23,32 @@
   justify-content: center !important;
   height: 100% !important;
   width: 100% !important;
-  padding: 0 !important; /* Removed padding to maximize space */
-  margin: 0 !important; /* Removed margin to maximize space */
+  padding: 0 !important; /* No padding */
+  margin: 0 !important; /* No margin */
+  background-color: transparent !important; /* No background */
+  border: none !important; /* No border */
 }
 
 @media (max-width: 768px) {
   .logo-image {
-    max-width: 480px !important; /* Increased significantly from 320px */
-    height: 160px !important; /* Increased from 120px */
+    max-width: 550px !important; /* Further increased from 480px */
+    height: 200px !important; /* Further increased from 160px */
     margin: 0 !important; 
     padding: 0 !important;
     position: relative !important;
     left: 0 !important; /* Centered the logo */
-    background-color: transparent; /* Removed background to eliminate border effect */
-    border: none !important; /* Ensuring no border */
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
   }
   
   .logo-container {
-    justify-content: center !important; /* Centered for better mobile appearance */
+    justify-content: center !important;
     padding: 0 !important;
     margin: 0 !important;
+    background-color: transparent !important;
+    border: none !important;
   }
 }
+
