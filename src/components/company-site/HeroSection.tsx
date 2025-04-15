@@ -14,10 +14,11 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-5xl mx-auto"
+          className="text-center max-w-4xl mx-auto"
         >
           <h1 className="text-hero-title font-bold mb-6 text-white">
-            Seu Parceiro de <span className="text-brand-pink">Confiança</span> no Mercado Móvel <span className="text-brand-pink">Com Cobertura Imbatível</span>
+            Seu Parceiro de <span className="text-brand-pink">Confiança</span> no Mercado Móvel<br />
+            <span className="text-brand-pink">Com Cobertura Imbatível</span>
           </h1>
           
           <p className="text-hero-subtitle text-gray-300 mb-10 max-w-3xl mx-auto">
