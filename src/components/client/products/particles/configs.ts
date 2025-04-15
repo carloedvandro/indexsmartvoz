@@ -34,7 +34,7 @@ export const particleConfigs: Record<ParticleStyle, ParticleConfig> = {
     count: 300,
     size: 0.02,
     color: '#ff0066',
-    opacity: 0.7,
+    opacity: 0.9,
     spread: 30,
   },
   default: {
