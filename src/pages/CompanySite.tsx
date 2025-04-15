@@ -15,7 +15,7 @@ export default function CompanySite() {
   
   useEffect(() => {
     // Set document title
-    document.title = "PlayTec - Sua operadora digital de telefonia móvel";
+    document.title = "SmartVoz - Sua operadora digital de telefonia móvel";
   }, []);
   
   return (

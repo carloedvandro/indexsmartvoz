@@ -12,8 +12,8 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         <div className="flex items-center">
           <img 
-            src="/lovable-uploads/48064803-d84e-4dbc-ac4e-49c2be038c8d.png" 
-            alt="PlayTec Logo" 
+            src="/lovable-uploads/49635a23-d82d-406f-949c-9a8dc02dc345.png" 
+            alt="SmartVoz Logo" 
             className="h-10 w-auto"
           />
         </div>
