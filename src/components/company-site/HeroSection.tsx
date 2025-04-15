@@ -13,8 +13,9 @@ export function HeroSection() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-5xl mx-auto"
         >
-          <h1 className="text-2xl md:text-4xl font-bold mb-6 text-white">
-            Seu Parceiro de <span className="text-[#ff0066]">Confiança</span> no Mercado Móvel Com Cobertura Imbatível
+          <h1 className="text-2xl md:text-4xl font-extrabold mb-6 text-white font-sans tracking-tight">
+            Seu Parceiro de <span className="text-[#ff0066]">Confiança</span> no Mercado <br />
+            Móvel <span className="text-[#ff0066]">Com Cobertura Imbatível</span>
           </h1>
           
           <p className="text-lg text-gray-300 mb-10 max-w-3xl mx-auto">
