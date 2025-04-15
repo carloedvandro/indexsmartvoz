@@ -8,22 +8,24 @@ interface HeaderProps {
 
 export function Header({ activeSection, scrollToSection }: HeaderProps) {
   return (
-    <header className="fixed top-0 left-0 right-0 bg-[#050118] z-50">
+    <header className="fixed top-0 left-0 right-0 bg-[#030225] z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center">
-          <img 
-            src="/lovable-uploads/e65ccdf5-8066-4d38-b0b6-ce48ff7ea28c.png" 
-            alt="PlayTec Logo" 
-            className="h-10 w-auto"
-          />
+        <div className="flex items-center gap-2">
+          <Link to="/">
+            <img 
+              src="/lovable-uploads/ced30205-7362-4aa6-882d-4e55a0f46378.png" 
+              alt="SmartVoz Logo" 
+              className="h-12 w-auto"
+            />
+          </Link>
         </div>
         
-        <nav className="hidden md:flex items-center space-x-12">
+        <nav className="hidden md:flex items-center space-x-8">
           {[
-            { id: 'home', label: 'Início', color: 'text-[#ff0066]' },
-            { id: 'features', label: 'Credenciar Sua Marca', color: 'text-white' },
-            { id: 'about', label: 'Quem Somos', color: 'text-white' },
-            { id: 'contact', label: 'Contato', color: 'text-white' }
+            { id: 'home', label: 'Início' },
+            { id: 'features', label: 'Credenciar Sua Marca' },
+            { id: 'about', label: 'Quem Somos' },
+            { id: 'contact', label: 'Contato' }
           ].map((section) => (
             <button
               key={section.id}
@@ -31,7 +33,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
               className={`text-sm font-medium transition-colors ${
                 activeSection === section.id 
                   ? 'text-[#ff0066]' 
-                  : section.color + ' hover:text-[#ff0066]'
+                  : 'text-white hover:text-[#ff0066]'
               }`}
             >
               {section.label}

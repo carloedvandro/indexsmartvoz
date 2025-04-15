@@ -1,5 +1,5 @@
 
-export type ParticleStyle = "default" | "stars" | "fireflies" | "snow" | "matrix" | "network";
+export type ParticleStyle = "default" | "stars" | "fireflies" | "snow" | "matrix";
 
 export interface ParticlesBackgroundProps {
   style?: ParticleStyle;
