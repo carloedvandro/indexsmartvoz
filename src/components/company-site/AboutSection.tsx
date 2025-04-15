@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
+import { WarpBackground } from '@/components/ui/warp-background';
 
 export function AboutSection() {
   const supportItems = [
@@ -25,22 +26,19 @@ export function AboutSection() {
             viewport={{ once: true }}
             className="relative"
           >
-            {/* Dot grid pattern behind the image */}
-            <div className="absolute -top-6 -left-6 grid grid-cols-10 gap-2">
-              {Array(100).fill(null).map((_, i) => (
-                <div key={i} className="w-2 h-2 rounded-full bg-[#ff0066]"></div>
-              ))}
-            </div>
-            <img 
-              src="/lovable-uploads/70692291-9fc0-41c7-817c-4f1e2ed36bec.png" 
-              alt="Suporte Técnico" 
-              className="w-full h-auto rounded-md relative z-10"
-            />
-            <div className="absolute -bottom-6 -right-6 grid grid-cols-10 gap-2">
-              {Array(100).fill(null).map((_, i) => (
-                <div key={i} className="w-2 h-2 rounded-full bg-[#ff0066]"></div>
-              ))}
-            </div>
+            <WarpBackground 
+              className="p-6 border-0"
+              beamSize={5} 
+              beamsPerSide={4}
+              gridColor="rgba(255, 0, 102, 0.3)"
+              perspective={200}
+            >
+              <img 
+                src="/lovable-uploads/70692291-9fc0-41c7-817c-4f1e2ed36bec.png" 
+                alt="Suporte Técnico" 
+                className="w-full h-auto rounded-md relative z-10"
+              />
+            </WarpBackground>
           </motion.div>
           
           <motion.div

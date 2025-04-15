@@ -1,6 +1,7 @@
 
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import { WarpBackground } from '@/components/ui/warp-background';
 
 export function AboutSection() {
   return (
@@ -14,9 +15,16 @@ export function AboutSection() {
             viewport={{ once: true }}
             className="md:w-1/2"
           >
-            <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl aspect-video flex items-center justify-center text-white text-4xl font-bold">
-              SmartVoz
-            </div>
+            <WarpBackground 
+              perspective={200}
+              beamsPerSide={3}
+              beamSize={6}
+              gridColor="rgba(168, 85, 247, 0.3)"
+            >
+              <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl aspect-video flex items-center justify-center text-white text-4xl font-bold">
+                SmartVoz
+              </div>
+            </WarpBackground>
           </motion.div>
           
           <motion.div
