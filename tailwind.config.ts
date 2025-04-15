@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 import { colors } from "./src/theme/colors";
 import { animations } from "./src/theme/animations";
@@ -48,7 +49,7 @@ export default {
         'network-filter': '370px'
       },
       fontFamily: {
-        dosis: ['Dosis', 'sans-serif'],
+        sans: ['Arial', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', "Helvetica Neue", 'sans-serif'],
       }
     },
   },
