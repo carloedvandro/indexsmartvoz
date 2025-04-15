@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 import { colors } from "./src/theme/colors";
 import { animations } from "./src/theme/animations";
@@ -47,6 +46,9 @@ export default {
         'custom': '320px',
         'mobile': '320px',
         'network-filter': '370px'
+      },
+      fontFamily: {
+        dosis: ['Dosis', 'sans-serif'],
       }
     },
   },
@@ -56,7 +58,6 @@ export default {
   ],
 } satisfies Config;
 
-// This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
 function addVariablesForColors({ addBase, theme }: any) {
   let allColors = flattenColorPalette(theme("colors"));
   let newVars = Object.fromEntries(
