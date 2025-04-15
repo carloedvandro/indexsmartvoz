@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
-import { WarpBackground } from '@/components/ui/warp-background';
 
 export function AboutSection() {
   const supportItems = [
@@ -26,23 +25,23 @@ export function AboutSection() {
             viewport={{ once: true }}
             className="relative"
           >
-            <WarpBackground 
-              className="p-6 border-0"
-              beamSize={20} 
-              beamsPerSide={1}
-              gridColor="rgba(255, 0, 102, 0.04)"
-              perspective={800}
-              beamDuration={12}
-            >
-              <div className="relative overflow-hidden rounded-lg shadow-xl">
-                <div className="absolute inset-0 bg-gradient-to-tl from-pink-600/30 to-pink-400/20 mix-blend-overlay z-10"></div>
+            <div className="relative overflow-hidden rounded-lg shadow-xl">
+              <div 
+                className="absolute inset-0 bg-repeat opacity-20 z-10" 
+                style={{ 
+                  backgroundImage: "url('/lovable-uploads/7a9bfc7a-c5e7-4139-8032-6095c30d35ae.png')",
+                  backgroundSize: "300px 300px"
+                }}
+              ></div>
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-tl from-pink-600/30 to-pink-400/20 mix-blend-overlay z-20"></div>
                 <img 
                   src="/lovable-uploads/70692291-9fc0-41c7-817c-4f1e2ed36bec.png" 
                   alt="Suporte Técnico" 
                   className="w-full h-auto rounded-lg relative"
                 />
               </div>
-            </WarpBackground>
+            </div>
           </motion.div>
           
           <motion.div

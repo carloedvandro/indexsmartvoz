@@ -1,7 +1,6 @@
 
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { WarpBackground } from '@/components/ui/warp-background';
 
 export function AboutSection() {
   return (
@@ -15,18 +14,19 @@ export function AboutSection() {
             viewport={{ once: true }}
             className="md:w-1/2"
           >
-            <WarpBackground 
-              perspective={800}
-              beamsPerSide={1}
-              beamSize={20}
-              gridColor="rgba(111, 66, 193, 0.05)"
-              beamDuration={12}
-            >
-              <div className="bg-gradient-to-r from-blue-600 to-violet-600 rounded-lg aspect-video flex items-center justify-center text-white text-4xl font-bold shadow-lg border border-indigo-200 overflow-hidden relative">
+            <div className="relative rounded-lg aspect-video shadow-lg border border-indigo-200 overflow-hidden">
+              <div 
+                className="absolute inset-0 bg-repeat opacity-20" 
+                style={{ 
+                  backgroundImage: "url('/lovable-uploads/7a9bfc7a-c5e7-4139-8032-6095c30d35ae.png')",
+                  backgroundSize: "300px 300px"
+                }}
+              ></div>
+              <div className="bg-gradient-to-r from-blue-600 to-violet-600 h-full w-full flex items-center justify-center text-white text-4xl font-bold relative">
                 <div className="absolute inset-0 opacity-20 bg-[url('/lovable-uploads/f022b81e-7533-4e36-ae24-0a886fa5c775.png')] bg-center"></div>
                 <span className="relative z-10">SmartVoz</span>
               </div>
-            </WarpBackground>
+            </div>
           </motion.div>
           
           <motion.div
