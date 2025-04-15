@@ -28,10 +28,11 @@ export function AboutSection() {
           >
             <WarpBackground 
               className="p-6 border-0"
-              beamSize={5} 
-              beamsPerSide={4}
-              gridColor="rgba(255, 0, 102, 0.3)"
-              perspective={200}
+              beamSize={4} 
+              beamsPerSide={5}
+              gridColor="rgba(255, 0, 102, 0.2)"
+              perspective={250}
+              beamDuration={4}
             >
               <img 
                 src="/lovable-uploads/70692291-9fc0-41c7-817c-4f1e2ed36bec.png" 
