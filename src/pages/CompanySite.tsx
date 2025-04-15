@@ -15,12 +15,12 @@ export default function CompanySite() {
   
   useEffect(() => {
     // Set document title
-    document.title = "SmartVoz - Sua plataforma completa de networking";
+    document.title = "PlayTec - Sua operadora digital de telefonia móvel";
   }, []);
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-pink-50">
-      <ParticlesBackground style="stars" />
+    <div className="min-h-screen bg-[#050118]">
+      <ParticlesBackground style="network" />
       
       <Header activeSection={activeSection} scrollToSection={scrollToSection} />
       <HeroSection />
