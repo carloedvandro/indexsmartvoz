@@ -21,9 +21,16 @@ export default function CompanySite() {
   }, []);
   
   return (
-    <div className="min-h-screen bg-[#0a0a20] text-white font-sans">
+    <div className="min-h-screen bg-[#020017] text-white font-sans">
       <Header activeSection={activeSection} scrollToSection={scrollToSection} />
       <HeroSection />
+      <div className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-center text-[#ff1d8e]">
+            Crie e Transforme sua Operadora com a Parceria PlayTec
+          </h2>
+        </div>
+      </div>
       <FeaturesSection />
       <ServicesSection />
       <StatsSection />
