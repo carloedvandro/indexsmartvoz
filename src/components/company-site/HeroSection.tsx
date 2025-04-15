@@ -13,19 +13,19 @@ export function HeroSection() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-5xl mx-auto"
         >
-          <h1 className="text-2xl md:text-4xl font-extrabold mb-6 text-white font-sans tracking-tight">
+          <h1 className="text-2xl md:text-4xl font-extrabold mb-6 text-white font-decalotype tracking-tight">
             Seu Parceiro de <span className="text-[#ff0066]">Confiança</span> no Mercado <br />
             Móvel <span className="text-[#ff0066]">Com Cobertura Imbatível</span>
           </h1>
           
-          <p className="text-lg text-gray-300 mb-10 max-w-3xl mx-auto font-sans">
+          <p className="text-lg text-gray-300 mb-10 max-w-3xl mx-auto font-decalotype">
             Transforme sua empresa em uma operadora digital de telefonia móvel com a SmartVoz. Oferecemos uma plataforma completa, da infraestrutura ao atendimento, para impulsionar seu sucesso e garantir o crescimento da sua empresa no mercado de telecomunicações.
           </p>
           
           <Link to="/client/register">
             <Button 
               size="lg" 
-              className="bg-[#ff0066] hover:bg-[#d4004f] text-white rounded-full px-8 py-3 text-base font-sans"
+              className="bg-[#ff0066] hover:bg-[#d4004f] text-white rounded-full px-8 py-3 text-base font-decalotype"
             >
               Inscreva-se para Expandir Sua Marca
             </Button>

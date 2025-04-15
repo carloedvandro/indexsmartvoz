@@ -49,6 +49,7 @@ export default {
         'network-filter': '370px'
       },
       fontFamily: {
+        decalotype: ['Decalotype', 'Arial', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', "Helvetica Neue", 'sans-serif'],
         sans: ['Arial', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', "Helvetica Neue", 'sans-serif'],
       }
     },

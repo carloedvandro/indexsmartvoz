@@ -20,29 +20,13 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
           </Link>
         </div>
         
-        <nav className="hidden md:flex items-center justify-center flex-grow space-x-12">
-          {[
-            { id: 'home', label: 'Início' },
-            { id: 'features', label: 'Credenciar Sua Marca' },
-            { id: 'about', label: 'Quem Somos' },
-            { id: 'contact', label: 'Contato' }
-          ].map((section) => (
-            <button
-              key={section.id}
-              onClick={() => scrollToSection(section.id)}
-              className={`text-sm font-medium transition-colors ${
-                activeSection === section.id 
-                  ? 'text-[#ff0066]' 
-                  : 'text-white hover:text-[#ff0066]'
-              }`}
-            >
-              {section.label}
-            </button>
-          ))}
-        </nav>
-        
-        <div className="md:hidden">
-          <button className="text-white">Menu</button>
+        <div className="flex items-center gap-4">
+          <Link to="/client/login" className="text-white hover:text-[#ff0066] transition-colors">
+            Login
+          </Link>
+          <Link to="/client/register" className="bg-[#ff0066] hover:bg-[#d4004f] text-white px-6 py-2 rounded-full transition-colors">
+            Cadastre-se
+          </Link>
         </div>
       </div>
     </header>
