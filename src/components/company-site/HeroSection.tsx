@@ -6,8 +6,6 @@ import { Button } from '@/components/ui/button';
 export function HeroSection() {
   return (
     <section id="home" className="pt-28 pb-20 bg-[#030225] min-h-screen flex items-center relative overflow-hidden">
-      {/* Removida a imagem de rede à esquerda */}
-      
       {/* Rede de pontos à direita - decorativa */}
       <div className="absolute right-0 bottom-0">
         <img
