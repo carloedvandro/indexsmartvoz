@@ -1,16 +1,17 @@
 
 .logo-image {
-  max-width: 400px !important; /* Increased from 300px */
+  max-width: 600px !important; /* Increased significantly from 400px */
   width: auto !important;
-  height: 150px !important; /* Increased from 110px */
+  height: 200px !important; /* Increased from 150px */
   object-fit: contain !important;
   mix-blend-mode: multiply; /* Helps remove white background */
   padding: 0 !important;
-  margin: -15px auto 0 auto !important;
+  margin: -10px auto 0 auto !important; /* Reduced margin to remove spacing */
   display: block !important;
   position: relative !important;
   right: 0 !important;
-  background-color: rgba(255, 255, 255, 0.7); /* Add a slight white background */
+  background-color: transparent; /* Removed background to eliminate border effect */
+  border: none !important; /* Ensuring no border */
 }
 
 .logo-container {
@@ -19,26 +20,25 @@
   justify-content: center !important;
   height: 100% !important;
   width: 100% !important;
-  padding-top: 5px !important;
-  padding-right: 0 !important;
+  padding: 0 !important; /* Removed padding to maximize space */
+  margin: 0 !important; /* Removed margin to maximize space */
 }
 
 @media (max-width: 768px) {
   .logo-image {
-    max-width: 320px !important; /* Increased from 240px */
-    height: 120px !important; /* Increased from 90px */
-    margin-left: 0 !important; 
-    margin-right: auto !important;
-    margin-top: -8px !important;
-    right: 0 !important;
+    max-width: 480px !important; /* Increased significantly from 320px */
+    height: 160px !important; /* Increased from 120px */
+    margin: 0 !important; 
+    padding: 0 !important;
     position: relative !important;
-    left: -15px !important;
-    background-color: rgba(255, 255, 255, 0.7);
+    left: 0 !important; /* Centered the logo */
+    background-color: transparent; /* Removed background to eliminate border effect */
+    border: none !important; /* Ensuring no border */
   }
   
   .logo-container {
-    justify-content: flex-start !important;
-    padding-left: 20px !important;
-    padding-right: 0 !important;
+    justify-content: center !important; /* Centered for better mobile appearance */
+    padding: 0 !important;
+    margin: 0 !important;
   }
 }
