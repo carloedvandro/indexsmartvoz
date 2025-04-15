@@ -1,3 +1,4 @@
+
 import type { Config } from 'tailwindcss'
 import { fontFamily } from 'tailwindcss/defaultTheme'
 
@@ -21,7 +22,7 @@ const config = {
       },
       fontSize: {
         // Custom sizes to match the image
-        'hero-title': ['3.5rem', { lineHeight: '1.2', fontWeight: '900' }],
+        'hero-title': ['4rem', { lineHeight: '1.2', fontWeight: '700' }],
         'hero-subtitle': ['1.125rem', { lineHeight: '1.6' }],
       },
       colors: {
