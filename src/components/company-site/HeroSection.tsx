@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { ParticlesBackground } from '@/components/client/products/ParticlesBackground';
+import ParticlesBackground from '@/components/client/products/ParticlesBackground';
 
 export function HeroSection() {
   const [mounted, setMounted] = useState(false);
