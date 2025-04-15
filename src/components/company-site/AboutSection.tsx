@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -26,21 +25,11 @@ export function AboutSection() {
             className="relative"
           >
             <div className="relative overflow-hidden rounded-lg shadow-xl">
-              <div 
-                className="absolute inset-0 bg-repeat opacity-20 z-10" 
-                style={{ 
-                  backgroundImage: "url('/lovable-uploads/7a9bfc7a-c5e7-4139-8032-6095c30d35ae.png')",
-                  backgroundSize: "300px 300px"
-                }}
-              ></div>
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-tl from-pink-600/30 to-pink-400/20 mix-blend-overlay z-20"></div>
-                <img 
-                  src="/lovable-uploads/70692291-9fc0-41c7-817c-4f1e2ed36bec.png" 
-                  alt="Suporte Técnico" 
-                  className="w-full h-auto rounded-lg relative"
-                />
-              </div>
+              <img 
+                src="/lovable-uploads/70692291-9fc0-41c7-817c-4f1e2ed36bec.png" 
+                alt="Suporte Técnico" 
+                className="w-full h-auto rounded-lg"
+              />
             </div>
           </motion.div>
           
