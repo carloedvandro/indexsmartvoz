@@ -8,7 +8,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center gap-2 mb-4 md:mb-0">
             <img 
-              src="/lovable-uploads/49635a23-d82d-406f-949c-9a8dc02dc345.png" 
+              src="https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images//smartvoz_chip_favicon.png" 
               alt="SmartVoz Logo" 
               className="h-8 w-8"
             />
@@ -18,10 +18,10 @@ export function Footer() {
           </div>
           
           <div className="flex space-x-6">
-            <Link to="#" className="hover:text-[#ff2c78] transition-colors">Facebook</Link>
-            <Link to="#" className="hover:text-[#ff2c78] transition-colors">Instagram</Link>
-            <Link to="#" className="hover:text-[#ff2c78] transition-colors">Twitter</Link>
-            <Link to="#" className="hover:text-[#ff2c78] transition-colors">LinkedIn</Link>
+            <Link to="#" className="hover:text-purple-400 transition-colors">Facebook</Link>
+            <Link to="#" className="hover:text-purple-400 transition-colors">Instagram</Link>
+            <Link to="#" className="hover:text-purple-400 transition-colors">Twitter</Link>
+            <Link to="#" className="hover:text-purple-400 transition-colors">LinkedIn</Link>
           </div>
         </div>
         
