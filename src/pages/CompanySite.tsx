@@ -1,9 +1,9 @@
 
 import { useEffect } from 'react';
-import ParticlesBackground from '@/components/client/products/ParticlesBackground';
 import { useActiveSection } from '@/components/company-site/useActiveSection';
 import { Header } from '@/components/company-site/Header';
 import { HeroSection } from '@/components/company-site/HeroSection';
+import { TransformSection } from '@/components/company-site/TransformSection';
 import { FeaturesSection } from '@/components/company-site/FeaturesSection';
 import { ServicesSection } from '@/components/company-site/ServicesSection';
 import { AboutSection } from '@/components/company-site/AboutSection';
@@ -15,15 +15,14 @@ export default function CompanySite() {
   
   useEffect(() => {
     // Set document title
-    document.title = "SmartVoz - Sua plataforma completa de networking";
+    document.title = "PlayTec - Sua operadora digital de telefonia móvel";
   }, []);
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-pink-50">
-      <ParticlesBackground style="stars" />
-      
+    <div className="min-h-screen bg-[#020721]">
       <Header activeSection={activeSection} scrollToSection={scrollToSection} />
       <HeroSection />
+      <TransformSection />
       <FeaturesSection />
       <ServicesSection />
       <AboutSection />
