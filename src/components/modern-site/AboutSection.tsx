@@ -1,3 +1,4 @@
+
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 
@@ -13,8 +14,8 @@ export function AboutSection() {
             viewport={{ once: true }}
             className="md:w-1/2"
           >
-            <div className="bg-gradient-to-r from-blue-600 to-violet-600 rounded-lg aspect-video flex items-center justify-center text-white text-4xl font-bold shadow-lg border border-indigo-200 overflow-hidden">
-              <span>SmartVoz</span>
+            <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl aspect-video flex items-center justify-center text-white text-4xl font-bold">
+              SmartVoz
             </div>
           </motion.div>
           
