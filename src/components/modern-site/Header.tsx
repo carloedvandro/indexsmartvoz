@@ -27,7 +27,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
           />
         </div>
         
-        <nav className="hidden md:flex items-center justify-center flex-grow space-x-8">
+        <nav className="hidden md:flex items-center justify-center flex-grow space-x-12">
           {[
             { id: 'home', label: 'Início' },
             { id: 'features', label: 'Recursos' },
