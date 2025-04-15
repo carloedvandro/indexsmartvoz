@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster";
@@ -30,6 +31,7 @@ import ResetPassword from '@/pages/client/reset-password';
 import UpdatePassword from '@/pages/client/update-password';
 import ModernSite from '@/pages/ModernSite';
 import CompanySite from '@/pages/CompanySite';
+import DeepResearchGuide from '@/pages/DeepResearchGuide';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -47,6 +49,7 @@ const router = createBrowserRouter(
       {/* Site Routes */}
       <Route path="/modern-site" element={<ModernSite />} />
       <Route path="/site" element={<CompanySite />} />
+      <Route path="/deep-research" element={<DeepResearchGuide />} />
 
       {/* Protected Client Routes */}
       <Route element={<ProtectedRoute />}>
