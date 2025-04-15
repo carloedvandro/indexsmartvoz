@@ -17,8 +17,8 @@ export function AboutSection() {
           >
             <div className="rounded-2xl overflow-hidden shadow-md">
               <img 
-                src="https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images//smartvoz_parede_ultimate.png" 
-                alt="SmartVoz Team" 
+                src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2071&auto=format&fit=crop" 
+                alt="PlayTec Gaming" 
                 className="w-full h-auto"
               />
             </div>
@@ -31,18 +31,25 @@ export function AboutSection() {
             viewport={{ once: true }}
             className="md:w-1/2"
           >
-            <h2 className="text-3xl font-bold mb-6">Sobre a SmartVoz</h2>
-            <p className="text-gray-700 mb-4">
-              A SmartVoz é uma empresa brasileira especializada em soluções de comunicação e networking, criada com a missão de conectar pessoas e expandir oportunidades de negócio.
+            <h2 className="text-3xl font-bold mb-6 text-gray-800">Sobre a PlayTec</h2>
+            <p className="text-gray-700 mb-4 leading-relaxed">
+              A PlayTec é uma empresa brasileira especializada em soluções de entretenimento digital e jogos, criada com a missão de proporcionar experiências únicas e acessíveis a jogadores de todos os níveis.
             </p>
-            <p className="text-gray-700 mb-6">
-              Com uma equipe de profissionais experientes e dedicados, oferecemos produtos e serviços inovadores que atendem às necessidades de nossos clientes, sempre com qualidade e excelência.
+            <p className="text-gray-700 mb-6 leading-relaxed">
+              Nossa plataforma reúne os melhores jogos, tecnologias avançadas e uma comunidade vibrante, oferecendo um ecossistema completo para os amantes de games. Com uma equipe apaixonada por jogos, trabalhamos continuamente para trazer as melhores experiências para nossos usuários.
             </p>
-            <Link to="/client/register">
-              <Button className="bg-purple-600 hover:bg-purple-700 text-white">
-                Faça Parte da Nossa Rede
-              </Button>
-            </Link>
+            <div className="flex gap-4">
+              <Link to="/client/register">
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                  Junte-se a Nós
+                </Button>
+              </Link>
+              <Link to="/client/store">
+                <Button variant="outline" className="border-blue-300 text-blue-600 hover:bg-blue-50">
+                  Nossa Loja
+                </Button>
+              </Link>
+            </div>
           </motion.div>
         </div>
       </div>
