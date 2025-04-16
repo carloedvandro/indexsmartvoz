@@ -6,7 +6,7 @@ import { SalesDetailsCard } from "./SalesDetailsCard";
 
 export function StatsCardsGrid() {
   return (
-    <div className="px-4 mb-6">
+    <div className="px-4">
       <div className="grid grid-cols-1 gap-4 mb-6 w-full">
         <LineStatusCard />
       </div>
