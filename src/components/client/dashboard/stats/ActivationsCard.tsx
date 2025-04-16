@@ -1,13 +1,22 @@
 
 import { Card } from "@/components/ui/card";
+import { BarChart, Bar, XAxis, ResponsiveContainer } from "recharts";
+import { useChartData } from "@/hooks/useChartData";
 
 export function ActivationsCard() {
-  // No futuro, esses dados viriam de uma API
+  // Dados fictícios para os últimos 6 meses
+  const { barData } = useChartData();
   const totalActivations = 0;
   
-  const months = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-  const currentMonth = new Date().getMonth();
-  const displayMonths = months.slice(currentMonth - 5, currentMonth + 1);
+  const months = ["Jan", "Mar", "Mai", "Jul", "Set", "Nov"];
+  
+  // Pegando apenas os dados dos meses que queremos mostrar
+  const chartData = months.map(month => {
+    return {
+      name: month,
+      value: Math.floor(Math.random() * 40)
+    };
+  });
   
   return (
     <Card className="p-5 shadow-sm">
@@ -23,13 +32,30 @@ export function ActivationsCard() {
       </div>
       <p className="text-sm text-gray-700">{totalActivations} ICCID</p>
       
-      <div className="mt-6 h-32 flex items-end justify-between">
-        {displayMonths.map((month, index) => (
-          <div key={index} className="flex flex-col items-center">
-            <div className="h-16 w-8 bg-gray-200 rounded-t-md mb-2"></div>
-            <span className="text-xs text-gray-500">{month}</span>
-          </div>
-        ))}
+      <div className="mt-6 h-32">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={chartData}>
+            <defs>
+              <linearGradient id="activationGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#4ADE80" stopOpacity={0.8} />
+                <stop offset="100%" stopColor="#4ADE80" stopOpacity={0.1} />
+              </linearGradient>
+            </defs>
+            <XAxis 
+              dataKey="name" 
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: '#94a3b8', fontSize: 12 }}
+              dy={10}
+            />
+            <Bar 
+              dataKey="value" 
+              fill="url(#activationGradient)" 
+              radius={[2, 2, 0, 0]}
+              barSize={20}
+            />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
     </Card>
   );
