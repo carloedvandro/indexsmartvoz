@@ -22,29 +22,33 @@ export function SalesDetailsCard() {
         </button>
       </div>
       
-      <div className="flex justify-center items-center my-6">
-        <div className="text-center">
+      <div className="flex items-start mt-4">
+        <div className="w-1/2">
           <p className="text-2xl font-bold text-gray-800">R$ 0,00</p>
           <p className="text-sm text-gray-500">Vendas do Mês</p>
         </div>
-      </div>
-      
-      <div className="flex items-center mt-10 mb-2">
-        <div className="flex items-center gap-2">
-          <Receipt className="h-5 w-5 text-indigo-400" />
-          <p className="text-sm font-medium text-gray-600">Valor total de vendas</p>
-        </div>
-        <p className="ml-auto text-sm font-semibold">R$ 0,00</p>
-      </div>
-      
-      <div className="mt-8">
-        <p className="text-sm font-medium text-gray-600 mb-3">Planos mais vendidos</p>
-        {bestSellingPlans.map((plan, index) => (
-          <div key={index} className="flex items-center mb-2">
-            <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: plan.color }}></div>
-            <p className="text-sm text-gray-600">{plan.name}</p>
+        
+        <div className="w-1/2">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="p-2 bg-purple-100 rounded-md">
+              <Receipt className="h-5 w-5 text-purple-500" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-600">Valor total de vendas</p>
+              <p className="text-sm font-semibold">R$ 0,00</p>
+            </div>
           </div>
-        ))}
+          
+          <div className="mt-4">
+            <p className="text-sm font-medium text-gray-600 mb-3">Planos mais vendidos</p>
+            {bestSellingPlans.map((plan, index) => (
+              <div key={index} className="flex items-center mb-2">
+                <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: plan.color }}></div>
+                <p className="text-sm text-gray-600">{plan.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </Card>
   );
