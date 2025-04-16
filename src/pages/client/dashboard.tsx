@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
@@ -50,7 +49,6 @@ export default function ClientDashboard() {
             {/* Stats Cards Grid with increased width */}
             <StatsCardsGrid />
             
-            {/* DashboardCards with consistent spacing */}
             <DashboardCards 
               profile={profile}
               networkStats={networkStats}
