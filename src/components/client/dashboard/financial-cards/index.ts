@@ -1,2 +1,2 @@
 
-export { FinancialCardsContainer } from "./FinancialCardsContainer";
+export { FinancialCardsContainer as FinancialCards } from "./FinancialCardsContainer";
