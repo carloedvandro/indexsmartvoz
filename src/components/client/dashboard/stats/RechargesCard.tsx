@@ -1,11 +1,14 @@
 
 import { Card } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, ResponsiveContainer, LineChart, Line, CartesianGrid, Tooltip } from "recharts";
+import { LineChart, Line, XAxis, ResponsiveContainer, Tooltip } from "recharts";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent
+} from "@/components/ui/chart";
 
 export function RechargesCard() {
   // Sample data for the line chart
-  const months = ["Jan", "Mar", "Mai", "Jul", "Set", "Nov"];
-  
   const chartData = [
     { name: "Jan", value: 800 },
     { name: "Fev", value: 780 },
@@ -35,7 +38,7 @@ export function RechargesCard() {
       <p className="text-sm text-gray-700 font-medium">12982 ICCID's</p>
       
       <div className="mt-4 h-32">
-        <ResponsiveContainer width="100%" height="100%">
+        <ChartContainer config={{}} className="h-full">
           <LineChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
             <defs>
               <linearGradient id="rechargeGradient" x1="0" y1="0" x2="0" y2="1">
@@ -50,16 +53,17 @@ export function RechargesCard() {
               tick={{ fill: '#94a3b8', fontSize: 10 }}
               dy={10}
             />
-            <Tooltip 
-              contentStyle={{
-                backgroundColor: "white",
-                border: "none",
-                borderRadius: "8px",
-                boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-                padding: "8px 12px"
-              }}
-              formatter={(value) => [`R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, '']}
-              labelFormatter={(name) => `${name}`}
+            <ChartTooltip 
+              content={({ active, payload, label }) => (
+                <ChartTooltipContent
+                  active={active}
+                  payload={payload}
+                  label={label}
+                  hideIndicator={true}
+                  formatter={(value) => [`R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, '']}
+                  labelFormatter={(name) => `${name}`}
+                />
+              )}
             />
             <Line 
               type="monotone" 
@@ -71,7 +75,7 @@ export function RechargesCard() {
               fill="url(#rechargeGradient)"
             />
           </LineChart>
-        </ResponsiveContainer>
+        </ChartContainer>
       </div>
     </Card>
   );
