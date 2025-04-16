@@ -1,8 +1,8 @@
 
 .logo-image {
-  max-width: 400px !important; /* Increased from 300px to 400px */
+  max-width: 300px !important; /* Reduced from 400px to 300px */
   width: auto !important;
-  height: 140px !important; /* Increased from 110px to 140px */
+  height: 140px !important;
   object-fit: contain !important;
   mix-blend-mode: multiply; /* Helps remove white background */
   padding: 0 !important;
