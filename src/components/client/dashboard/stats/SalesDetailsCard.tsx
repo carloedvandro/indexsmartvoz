@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Receipt } from "lucide-react";
@@ -34,8 +33,8 @@ export function SalesDetailsCard() {
               <PieChart>
                 <Pie
                   data={pieData}
-                  innerRadius={55}  // Increased from 45
-                  outerRadius={75}  // Increased from 60
+                  innerRadius={55}
+                  outerRadius={75}
                   paddingAngle={2}
                   dataKey="value"
                 >
@@ -54,7 +53,7 @@ export function SalesDetailsCard() {
                   Vendas do Mês
                 </text>
                 <Tooltip 
-                  formatter={(value) => [`${value} vendas`, '']}
+                  formatter={(value) => [`${value.toLocaleString('pt-BR')} vendas`, '']}
                   contentStyle={{
                     backgroundColor: "white", 
                     border: "none",
@@ -89,4 +88,3 @@ export function SalesDetailsCard() {
     </Card>
   );
 }
-

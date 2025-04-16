@@ -59,6 +59,8 @@ export function RechargesCard() {
                 boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
                 padding: "8px 12px"
               }}
+              formatter={(value) => [`valor : ${value.toLocaleString('pt-BR')}`, '']}
+              labelFormatter={(name) => `${name}`}
             />
             <Line 
               type="monotone" 
