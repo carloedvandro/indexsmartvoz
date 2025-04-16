@@ -3,6 +3,7 @@ import { LineStatusCard } from "./LineStatusCard";
 import { RechargesCard } from "./RechargesCard";
 import { ActivationsCard } from "./ActivationsCard";
 import { SalesDetailsCard } from "./SalesDetailsCard";
+import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
 
 export function StatsCardsGrid() {
   return (
@@ -19,6 +20,11 @@ export function StatsCardsGrid() {
         </div>
         <div className="md:col-span-1 w-full">
           <SalesDetailsCard />
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-4 w-full mt-6">
+        <div className="w-full">
+          <NetworkStatsCard />
         </div>
       </div>
     </div>
