@@ -42,14 +42,13 @@ export default function ClientDashboard() {
           <div className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
             <WelcomeSection profile={profile} />
             
-            {/* Financial Cards above the carousel */}
+            {/* Financial Cards with consistent spacing */}
             <FinancialCards />
             
-            {/* Stats Cards Grid below financial cards */}
+            {/* Stats Cards Grid with consistent spacing */}
             <StatsCardsGrid />
             
-            {/* MonthsCarousel has been removed */}
-            
+            {/* Dashboard Cards with consistent spacing */}
             <DashboardCards 
               profile={profile}
               networkStats={networkStats}
