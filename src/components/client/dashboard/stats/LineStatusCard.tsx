@@ -9,8 +9,8 @@ export function LineStatusCard() {
   const inactiveLines = 0;
 
   return (
-    <Card className="p-5 shadow-sm">
-      <div className="flex justify-between items-center mb-1">
+    <Card className="p-4 shadow-sm">
+      <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-medium">Linhas</h3>
         <button className="text-gray-400 hover:text-gray-600">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -20,36 +20,36 @@ export function LineStatusCard() {
           </svg>
         </button>
       </div>
-      <p className="text-sm text-gray-500 mb-4">Visualize o total de linhas de sua operadora.</p>
+      <p className="text-sm text-gray-500 mb-3">Visualize o total de linhas de sua operadora.</p>
       
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-purple-500 mr-3">
-            <Clock className="h-5 w-5 text-white" />
+      <div className="grid grid-cols-3 gap-4">
+        <div className="flex items-center bg-purple-50 rounded-lg p-3">
+          <div className="mr-3 flex items-center justify-center">
+            <Clock className="h-5 w-5 text-purple-500" />
           </div>
           <div>
             <p className="text-xs text-gray-500">Totais</p>
-            <p className="text-lg font-semibold">{totalLines}</p>
+            <p className="text-lg font-semibold text-purple-600">{totalLines}</p>
           </div>
         </div>
         
-        <div className="flex items-center">
-          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-green-500 mr-3">
-            <Smartphone className="h-5 w-5 text-white" />
+        <div className="flex items-center bg-green-50 rounded-lg p-3">
+          <div className="mr-3 flex items-center justify-center">
+            <Smartphone className="h-5 w-5 text-green-500" />
           </div>
           <div>
             <p className="text-xs text-gray-500">Ativas</p>
-            <p className="text-lg font-semibold">{activeLines}</p>
+            <p className="text-lg font-semibold text-green-600">{activeLines}</p>
           </div>
         </div>
         
-        <div className="flex items-center">
-          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-red-500 mr-3">
-            <PhoneOff className="h-5 w-5 text-white" />
+        <div className="flex items-center bg-red-50 rounded-lg p-3">
+          <div className="mr-3 flex items-center justify-center">
+            <PhoneOff className="h-5 w-5 text-red-500" />
           </div>
           <div>
             <p className="text-xs text-gray-500">Inativas</p>
-            <p className="text-lg font-semibold">{inactiveLines}</p>
+            <p className="text-lg font-semibold text-red-600">{inactiveLines}</p>
           </div>
         </div>
       </div>
