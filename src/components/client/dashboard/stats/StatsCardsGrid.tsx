@@ -11,13 +11,13 @@ export function StatsCardsGrid() {
         <LineStatusCard />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-1">
+        <div className="md:col-span-1 w-full">
           <RechargesCard />
         </div>
-        <div className="md:col-span-1">
+        <div className="md:col-span-1 w-full">
           <ActivationsCard />
         </div>
-        <div className="md:col-span-1">
+        <div className="md:col-span-1 w-full">
           <SalesDetailsCard />
         </div>
       </div>
