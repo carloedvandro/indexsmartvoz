@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
@@ -7,7 +8,7 @@ import { useState } from "react";
 import { WelcomeSection } from "@/components/client/dashboard/WelcomeSection";
 import { DashboardCards } from "@/components/client/dashboard/DashboardCards";
 import { getMonthsData, getDailyData } from "@/utils/monthsData";
-import { FinancialCards } from "@/components/client/dashboard/financial-cards";
+import { FinancialCardsContainer } from "@/components/client/dashboard/financial-cards";
 import { StatsCardsGrid } from "@/components/client/dashboard/stats/StatsCardsGrid";
 import "@/styles/logo.css";
 
@@ -38,12 +39,13 @@ export default function ClientDashboard() {
           <div className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
             <WelcomeSection profile={profile} />
             
-            {/* Financial Cards above the carousel */}
-            <FinancialCards />
+            {/* Financial Cards */}
+            <FinancialCardsContainer />
             
-            {/* Stats Cards Grid below financial cards */}
+            {/* Stats Cards Grid */}
             <StatsCardsGrid />
             
+            {/* Dashboard Cards */}
             <DashboardCards 
               profile={profile}
               networkStats={networkStats}
