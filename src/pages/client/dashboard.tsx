@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
@@ -9,7 +10,8 @@ import { MonthsCarousel } from "@/components/client/dashboard/MonthsCarousel";
 import { DashboardCards } from "@/components/client/dashboard/DashboardCards";
 import { getMonthsData, getDailyData } from "@/utils/monthsData";
 import { FinancialCards } from "@/components/client/dashboard/financial-cards";
-import "@/styles/logo.css"; // Ensure the logo styles are imported
+import { StatsCardsGrid } from "@/components/client/dashboard/stats/StatsCardsGrid";
+import "@/styles/logo.css";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -43,6 +45,9 @@ export default function ClientDashboard() {
             
             {/* Financial Cards above the carousel */}
             <FinancialCards />
+            
+            {/* Stats Cards Grid below financial cards */}
+            <StatsCardsGrid />
             
             <MonthsCarousel 
               months={dailyData} 
