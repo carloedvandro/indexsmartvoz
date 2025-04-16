@@ -1,3 +1,4 @@
+
 import * as React from "react"
 import * as RechartsPrimitive from "recharts"
 
@@ -118,7 +119,7 @@ const ChartTooltipContent = React.forwardRef<
       className,
       indicator = "dot",
       hideLabel = false,
-      hideIndicator = true,
+      hideIndicator = true, // Default to true to hide indicators
       label,
       labelFormatter,
       labelClassName,
