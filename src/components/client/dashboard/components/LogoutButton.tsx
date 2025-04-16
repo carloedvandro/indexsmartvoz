@@ -39,7 +39,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         className={cn(
-          "text-gray-700 hover:text-red-600 font-medium rounded-md h-14 w-14 flex items-center justify-center transition-all duration-300 bg-transparent",
+          "text-gray-700 hover:text-red-600 font-medium rounded-md h-12 w-12 flex items-center justify-center transition-all duration-300 bg-transparent mt-1",
           className
         )}
         aria-label="Logout"
@@ -47,7 +47,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         <img 
           src="/lovable-uploads/78dbfd4e-37c2-4b7c-8bb9-b400c2cdb84d.png" 
           alt="Logout" 
-          className="h-9 w-9 transition-transform duration-300 hover:scale-110" 
+          className="h-8 w-8 transition-transform duration-300 hover:scale-110" 
         />
       </button>
     </div>
