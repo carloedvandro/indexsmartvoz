@@ -36,7 +36,7 @@ export default function ClientDashboard() {
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
-          <div className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
+          <div className="w-full mx-auto pt-24 -mt-[72px]">
             <WelcomeSection profile={profile} />
             
             {/* Financial Cards */}
