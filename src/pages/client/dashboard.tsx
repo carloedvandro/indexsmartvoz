@@ -26,7 +26,6 @@ export default function ClientDashboard() {
     return null;
   }
 
-  // Use daily data instead of monthly data
   const dailyData = getDailyData(activeDay);
 
   return (
@@ -41,13 +40,13 @@ export default function ClientDashboard() {
           <div className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
             <WelcomeSection profile={profile} />
             
-            {/* Financial Cards with consistent width */}
-            <div className="px-4">
+            <div className="w-full">
               <FinancialCards />
             </div>
             
-            {/* Stats Cards Grid with increased width */}
-            <StatsCardsGrid />
+            <div className="w-full">
+              <StatsCardsGrid />
+            </div>
             
             <DashboardCards 
               profile={profile}
