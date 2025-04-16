@@ -1,7 +1,5 @@
-
 import { Card } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, ResponsiveContainer, LineChart, Line, CartesianGrid, Tooltip } from "recharts";
-import { useChartData } from "@/hooks/useChartData";
 
 export function RechargesCard() {
   // Sample data for the line chart
@@ -59,7 +57,7 @@ export function RechargesCard() {
                 boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
                 padding: "8px 12px"
               }}
-              formatter={(value) => [`valor : ${value.toLocaleString('pt-BR')}`, '']}
+              formatter={(value) => [`valor ${value.toLocaleString('pt-BR')}`, '']}
               labelFormatter={(name) => `${name}`}
             />
             <Line 
