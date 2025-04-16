@@ -3,11 +3,11 @@ import { LineStatusCard } from "./LineStatusCard";
 import { RechargesCard } from "./RechargesCard";
 import { ActivationsCard } from "./ActivationsCard";
 import { SalesDetailsCard } from "./SalesDetailsCard";
-import { NetworkStatsCard } from "@/components/client/dashboard/NetworkStatsCard";
+import { NetworkStatsCard } from "../NetworkStatsCard";
 
 export function StatsCardsGrid() {
   return (
-    <div className="px-4">
+    <div className="px-4 mb-6">
       <div className="grid grid-cols-1 gap-4 mb-6 w-full">
         <LineStatusCard />
       </div>
@@ -22,10 +22,8 @@ export function StatsCardsGrid() {
           <SalesDetailsCard />
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-1 gap-4 w-full mt-6">
-        <div className="w-full">
-          <NetworkStatsCard />
-        </div>
+      <div className="grid grid-cols-1 gap-4 mt-6 w-full">
+        <NetworkStatsCard />
       </div>
     </div>
   );
