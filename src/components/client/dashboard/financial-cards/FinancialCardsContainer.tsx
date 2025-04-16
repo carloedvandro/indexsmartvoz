@@ -7,7 +7,7 @@ export function FinancialCardsContainer() {
   const { availableBalance, totalEarnings, forecastBonus } = defaultFinancialCardsData;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-5 px-6 mt-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-4 mb-6">
       {financialCardsConfig.map((config) => (
         <FinancialCard
           key={config.key}
