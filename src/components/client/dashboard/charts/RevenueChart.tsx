@@ -47,7 +47,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               top: 20,
               right: 40,
               left: 0,
-              bottom: 50, // Increased bottom margin
+              bottom: 50,
             }}
           >
             <defs>
@@ -63,7 +63,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               tickLine={false}
               axisLine={true}
               strokeWidth={0.5}
-              dy={30} // Increased dy to move labels lower
+              dy={30}
               tick={{ fill: '#888888' }}
               interval={0}
             />
