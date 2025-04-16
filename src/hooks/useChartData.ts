@@ -1,3 +1,4 @@
+
 export const useChartData = () => {
   const barData = [];
   const today = new Date();

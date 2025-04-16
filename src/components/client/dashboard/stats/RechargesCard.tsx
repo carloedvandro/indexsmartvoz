@@ -21,6 +21,7 @@ export function RechargesCard() {
     { name: "Set", value: 450 },
     { name: "Out", value: 400 },
     { name: "Nov", value: 350 },
+    { name: "Dez", value: 320 },
   ];
   
   return (
@@ -39,7 +40,7 @@ export function RechargesCard() {
       
       <div className="mt-4 h-32">
         <ChartContainer config={{}} className="h-full">
-          <LineChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+          <LineChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 20 }}>
             <defs>
               <linearGradient id="rechargeGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#4ADE80" stopOpacity={1} />
@@ -51,7 +52,7 @@ export function RechargesCard() {
               axisLine={false}
               tickLine={false}
               tick={{ fill: '#94a3b8', fontSize: 10 }}
-              dy={10}
+              dy={15}
             />
             <ChartTooltip 
               content={({ active, payload, label }) => (

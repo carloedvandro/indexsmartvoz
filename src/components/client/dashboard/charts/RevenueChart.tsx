@@ -37,7 +37,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               top: 20,
               right: 40,
               left: 0,
-              bottom: 20,
+              bottom: 25,
             }}
           >
             <defs>
@@ -53,7 +53,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               tickLine={false}
               axisLine={true}
               strokeWidth={0.5}
-              dy={10}
+              dy={15}
               tick={{ fill: '#888888' }}
             />
             <YAxis
