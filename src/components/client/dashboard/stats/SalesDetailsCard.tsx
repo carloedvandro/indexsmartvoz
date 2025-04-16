@@ -38,7 +38,6 @@ export function SalesDetailsCard() {
                   outerRadius={60}
                   paddingAngle={2}
                   dataKey="value"
-                  stroke="none"
                 >
                   {pieData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
