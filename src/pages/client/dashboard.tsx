@@ -8,7 +8,7 @@ import { useState } from "react";
 import { WelcomeSection } from "@/components/client/dashboard/WelcomeSection";
 import { DashboardCards } from "@/components/client/dashboard/DashboardCards";
 import { getMonthsData, getDailyData } from "@/utils/monthsData";
-import { FinancialCardsContainer } from "@/components/client/dashboard/financial-cards";
+import { FinancialCards } from "@/components/client/dashboard/financial-cards";
 import { StatsCardsGrid } from "@/components/client/dashboard/stats/StatsCardsGrid";
 import "@/styles/logo.css";
 
@@ -27,6 +27,9 @@ export default function ClientDashboard() {
     return null;
   }
 
+  // Use daily data instead of monthly data
+  const dailyData = getDailyData(activeDay);
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -36,16 +39,17 @@ export default function ClientDashboard() {
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
-          <div className="w-full mx-auto pt-24 -mt-[72px]">
+          <div className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
             <WelcomeSection profile={profile} />
             
-            {/* Financial Cards */}
-            <FinancialCardsContainer />
+            {/* Financial Cards above the carousel */}
+            <FinancialCards />
             
-            {/* Stats Cards Grid */}
+            {/* Stats Cards Grid below financial cards */}
             <StatsCardsGrid />
             
-            {/* Dashboard Cards */}
+            {/* MonthsCarousel has been removed */}
+            
             <DashboardCards 
               profile={profile}
               networkStats={networkStats}
