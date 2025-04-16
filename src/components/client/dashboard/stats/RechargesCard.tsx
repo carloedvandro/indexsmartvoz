@@ -22,7 +22,7 @@ export function RechargesCard() {
   ];
   
   return (
-    <Card className="p-5 shadow-sm h-full">
+    <Card className="p-5 shadow-sm h-full bg-white rounded-xl">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-medium">Total Recargas</h3>
         <button className="text-gray-400 hover:text-gray-600">
