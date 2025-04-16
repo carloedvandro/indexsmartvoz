@@ -6,7 +6,6 @@ import { DashboardHeader } from "@/components/client/dashboard/DashboardHeader";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { WelcomeSection } from "@/components/client/dashboard/WelcomeSection";
-import { MonthsCarousel } from "@/components/client/dashboard/MonthsCarousel";
 import { DashboardCards } from "@/components/client/dashboard/DashboardCards";
 import { getMonthsData, getDailyData } from "@/utils/monthsData";
 import { FinancialCards } from "@/components/client/dashboard/financial-cards";
@@ -49,13 +48,7 @@ export default function ClientDashboard() {
             {/* Stats Cards Grid below financial cards */}
             <StatsCardsGrid />
             
-            <MonthsCarousel 
-              months={dailyData} 
-              activeMonth={activeMonth}
-              setActiveMonth={setActiveMonth}
-              activeDay={activeDay}
-              setActiveDay={setActiveDay}
-            />
+            {/* MonthsCarousel has been removed */}
             
             <DashboardCards 
               profile={profile}
