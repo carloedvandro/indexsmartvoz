@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/chart";
 
 export function ActivationsCard() {
-  // Sample data for the line chart
+  // Complete year of sample data
   const chartData = [
     { name: "Jan", value: 500 },
     { name: "Fev", value: 480 },
@@ -40,7 +40,7 @@ export function ActivationsCard() {
       
       <div className="mt-4 h-32">
         <ChartContainer config={{}} className="h-full">
-          <LineChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 20 }}>
+          <LineChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 40 }}>
             <defs>
               <linearGradient id="activationGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#4ADE80" stopOpacity={1} />
@@ -52,7 +52,7 @@ export function ActivationsCard() {
               axisLine={false}
               tickLine={false}
               tick={{ fill: '#94a3b8', fontSize: 10 }}
-              dy={15}
+              dy={25} // Increased dy to move labels lower
             />
             <ChartTooltip 
               content={({ active, payload, label }) => (
@@ -61,7 +61,7 @@ export function ActivationsCard() {
                   payload={payload}
                   label={label}
                   hideIndicator={true}
-                  formatter={(value) => [`R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, '']}
+                  formatter={(value) => [`${value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 'Ativações']}
                   labelFormatter={(name) => `${name}`}
                 />
               )}

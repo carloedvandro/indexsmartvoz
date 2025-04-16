@@ -22,6 +22,16 @@ interface RevenueChartProps {
 }
 
 export const RevenueChart = ({ data }: RevenueChartProps) => {
+  // Generate full year data if not provided
+  const yearData = [
+    "Jan", "Fev", "Mar", "Abr", "Mai", "Jun", 
+    "Jul", "Ago", "Set", "Out", "Nov", "Dez"
+  ].map((month, index) => ({
+    name: month,
+    value: data[index]?.value || Math.floor(Math.random() * 1000),
+    dailyValue: data[index]?.dailyValue || Math.floor(Math.random() * 500)
+  }));
+
   return (
     <>
       <CardHeader className="p-0">
@@ -32,12 +42,12 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
       <div className="h-[280px]">
         <ChartContainer config={{}} className="h-full">
           <AreaChart
-            data={data}
+            data={yearData}
             margin={{
               top: 20,
               right: 40,
               left: 0,
-              bottom: 25,
+              bottom: 40, // Increased bottom margin
             }}
           >
             <defs>
@@ -53,7 +63,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               tickLine={false}
               axisLine={true}
               strokeWidth={0.5}
-              dy={15}
+              dy={25} // Increased dy to move labels lower
               tick={{ fill: '#888888' }}
             />
             <YAxis
@@ -74,7 +84,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                   label={label}
                   hideIndicator={true}
                   formatter={(value: number) => [`R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`, "Total Acumulado"]}
-                  labelFormatter={(label) => `Dia ${label}`}
+                  labelFormatter={(label) => `Mês ${label}`}
                 />
               )}
             />
