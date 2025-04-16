@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
@@ -27,9 +26,6 @@ export default function ClientDashboard() {
     return null;
   }
 
-  // Use daily data instead of monthly data
-  const dailyData = getDailyData(activeDay);
-
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -47,8 +43,6 @@ export default function ClientDashboard() {
             
             {/* Stats Cards Grid below financial cards */}
             <StatsCardsGrid />
-            
-            {/* MonthsCarousel has been removed */}
             
             <DashboardCards 
               profile={profile}
