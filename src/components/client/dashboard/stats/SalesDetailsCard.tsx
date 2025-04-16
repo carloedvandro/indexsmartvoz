@@ -15,7 +15,7 @@ export function SalesDetailsCard() {
   const totalSales = "R$ 691.526,00";
   
   return (
-    <Card className="p-6 shadow-sm h-full bg-white rounded-xl">
+    <Card className="p-6 shadow-sm h-full bg-white">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-medium">Detalhe das Vendas</h3>
         <button className="text-gray-400 hover:text-gray-600">
@@ -38,7 +38,6 @@ export function SalesDetailsCard() {
                   outerRadius={60}
                   paddingAngle={2}
                   dataKey="value"
-                  stroke="none"
                 >
                   {pieData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />

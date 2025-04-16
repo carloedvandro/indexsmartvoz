@@ -9,7 +9,7 @@ export function LineStatusCard() {
   const inactiveLines = 0;
 
   return (
-    <Card className="p-5 shadow-sm bg-white rounded-xl">
+    <Card className="p-5 shadow-sm">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-medium">Linhas</h3>
         <button className="text-gray-400 hover:text-gray-600">
