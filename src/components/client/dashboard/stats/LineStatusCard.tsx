@@ -22,29 +22,29 @@ export function LineStatusCard() {
       </div>
       <p className="text-sm text-gray-500 mb-5">Visualize o total de linhas de sua operadora.</p>
       
-      <div className="flex justify-between gap-2">
-        <div className="flex flex-col items-center bg-purple-100 rounded-lg py-4 px-6 flex-1">
-          <div className="w-10 h-10 flex items-center justify-center bg-purple-500 rounded-full mb-2">
-            <Clock className="h-5 w-5 text-white" />
+      <div className="flex justify-between gap-4">
+        <div className="flex-1 bg-purple-100 rounded-lg p-4 flex flex-col items-center">
+          <div className="w-12 h-12 flex items-center justify-center bg-purple-500 rounded-full mb-3">
+            <Clock className="h-6 w-6 text-white" />
           </div>
-          <p className="text-xs font-medium text-gray-600 mb-1">Totais</p>
-          <p className="text-xl font-bold text-purple-600">{totalLines}</p>
+          <span className="text-sm text-gray-600 mb-1">Totais</span>
+          <span className="text-2xl font-bold text-purple-600">{totalLines}</span>
         </div>
         
-        <div className="flex flex-col items-center bg-green-100 rounded-lg py-4 px-6 flex-1">
-          <div className="w-10 h-10 flex items-center justify-center bg-green-500 rounded-full mb-2">
-            <Smartphone className="h-5 w-5 text-white" />
+        <div className="flex-1 bg-green-100 rounded-lg p-4 flex flex-col items-center">
+          <div className="w-12 h-12 flex items-center justify-center bg-green-500 rounded-full mb-3">
+            <Smartphone className="h-6 w-6 text-white" />
           </div>
-          <p className="text-xs font-medium text-gray-600 mb-1">Ativas</p>
-          <p className="text-xl font-bold text-green-600">{activeLines}</p>
+          <span className="text-sm text-gray-600 mb-1">Ativas</span>
+          <span className="text-2xl font-bold text-green-600">{activeLines}</span>
         </div>
         
-        <div className="flex flex-col items-center bg-red-100 rounded-lg py-4 px-6 flex-1">
-          <div className="w-10 h-10 flex items-center justify-center bg-red-500 rounded-full mb-2">
-            <PhoneOff className="h-5 w-5 text-white" />
+        <div className="flex-1 bg-red-100 rounded-lg p-4 flex flex-col items-center">
+          <div className="w-12 h-12 flex items-center justify-center bg-red-500 rounded-full mb-3">
+            <PhoneOff className="h-6 w-6 text-white" />
           </div>
-          <p className="text-xs font-medium text-gray-600 mb-1">Inativas</p>
-          <p className="text-xl font-bold text-red-600">{inactiveLines}</p>
+          <span className="text-sm text-gray-600 mb-1">Inativas</span>
+          <span className="text-2xl font-bold text-red-600">{inactiveLines}</span>
         </div>
       </div>
     </Card>
