@@ -1,12 +1,15 @@
 
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { NetworkStatsHeader } from "./components/NetworkStatsHeader";
 import { NetworkStatsGrid } from "./components/NetworkStatsGrid";
 
 export const NetworkStatsCard = () => {
   return (
-    <div className="px-6 mb-12">
+    <Card className="w-full">
       <NetworkStatsHeader />
-      <NetworkStatsGrid />
-    </div>
+      <CardContent className="py-4">
+        <NetworkStatsGrid />
+      </CardContent>
+    </Card>
   );
 };
