@@ -3,7 +3,6 @@ import { LineStatusCard } from "./LineStatusCard";
 import { RechargesCard } from "./RechargesCard";
 import { ActivationsCard } from "./ActivationsCard";
 import { SalesDetailsCard } from "./SalesDetailsCard";
-import { BonificationCard } from "../bonification/BonificationCard";
 
 export function StatsCardsGrid() {
   return (
