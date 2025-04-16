@@ -9,15 +9,15 @@ export function ActivationsCard() {
   
   const chartData = [
     { name: "Jan", value: 500 },
-    { name: "Feb", value: 480 },
+    { name: "Fev", value: 480 },
     { name: "Mar", value: 520 },
-    { name: "Apr", value: 490 },
-    { name: "May", value: 540 },
+    { name: "Abr", value: 490 },
+    { name: "Mai", value: 540 },
     { name: "Jun", value: 510 },
     { name: "Jul", value: 560 },
-    { name: "Aug", value: 530 },
-    { name: "Sep", value: 580 },
-    { name: "Oct", value: 550 },
+    { name: "Ago", value: 530 },
+    { name: "Set", value: 580 },
+    { name: "Out", value: 550 },
     { name: "Nov", value: 600 },
   ];
   

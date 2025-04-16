@@ -1,9 +1,13 @@
-
 export const useChartData = () => {
   const barData = [];
   const today = new Date();
   
   const baseValues = [15, 18, 22, 25, 28, 32, 35, 38, 42, 45, 48, 52, 55, 58, 62];
+  
+  const monthAbbreviations = [
+    'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 
+    'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+  ];
   
   for (let i = 14; i >= 0; i--) {
     const date = new Date(today);
@@ -13,7 +17,7 @@ export const useChartData = () => {
     const value = baseValues[14 - i] + randomVariation;
     
     barData.push({
-      name: `${date.toLocaleString('pt-BR', { month: 'short' })} ${date.getDate()}`,
+      name: `${monthAbbreviations[date.getMonth()]} ${date.getDate()}`,
       value: value,
       previousValue: value - Math.floor(Math.random() * 8)
     });

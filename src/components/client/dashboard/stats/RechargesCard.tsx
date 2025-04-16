@@ -9,15 +9,15 @@ export function RechargesCard() {
   
   const chartData = [
     { name: "Jan", value: 800 },
-    { name: "Feb", value: 780 },
+    { name: "Fev", value: 780 },
     { name: "Mar", value: 750 },
-    { name: "Apr", value: 690 },
-    { name: "May", value: 650 },
+    { name: "Abr", value: 690 },
+    { name: "Mai", value: 650 },
     { name: "Jun", value: 600 },
     { name: "Jul", value: 550 },
-    { name: "Aug", value: 500 },
-    { name: "Sep", value: 450 },
-    { name: "Oct", value: 400 },
+    { name: "Ago", value: 500 },
+    { name: "Set", value: 450 },
+    { name: "Out", value: 400 },
     { name: "Nov", value: 350 },
   ];
   
