@@ -3,7 +3,6 @@ import { LineStatusCard } from "./LineStatusCard";
 import { RechargesCard } from "./RechargesCard";
 import { ActivationsCard } from "./ActivationsCard";
 import { SalesDetailsCard } from "./SalesDetailsCard";
-import { NetworkStatsCard } from "../NetworkStatsCard";
 
 export function StatsCardsGrid() {
   return (
@@ -21,9 +20,6 @@ export function StatsCardsGrid() {
         <div className="md:col-span-1 w-full">
           <SalesDetailsCard />
         </div>
-      </div>
-      <div className="grid grid-cols-1 gap-4 mt-6 w-full">
-        <NetworkStatsCard />
       </div>
     </div>
   );
