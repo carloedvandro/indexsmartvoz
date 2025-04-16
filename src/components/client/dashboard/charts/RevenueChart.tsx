@@ -22,14 +22,13 @@ interface RevenueChartProps {
 }
 
 export const RevenueChart = ({ data }: RevenueChartProps) => {
-  // Generate full year data if not provided
+  // Generate bimonthly data if not provided
   const yearData = [
-    "Jan", "Fev", "Mar", "Abr", "Mai", "Jun", 
-    "Jul", "Ago", "Set", "Out", "Nov", "Dez"
+    "Jan", "Mar", "Mai", "Jul", "Set", "Nov"
   ].map((month, index) => ({
     name: month,
-    value: data[index]?.value || Math.floor(Math.random() * 1000),
-    dailyValue: data[index]?.dailyValue || Math.floor(Math.random() * 500)
+    value: data[index*2]?.value || Math.floor(Math.random() * 1000),
+    dailyValue: data[index*2]?.dailyValue || Math.floor(Math.random() * 500)
   }));
 
   return (
@@ -97,7 +96,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               fillOpacity={1}
               fill="url(#colorGradient)"
               name="value"
-              dot={{ stroke: '#4F46E5', strokeWidth: 1, fill: '#ffffff', r: 2 }}
+              dot={false}
               activeDot={{ stroke: '#4F46E5', strokeWidth: 2, fill: '#ffffff', r: 4 }}
             />
           </AreaChart>

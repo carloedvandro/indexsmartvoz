@@ -11,17 +11,11 @@ export function RechargesCard() {
   // Complete year of sample data
   const chartData = [
     { name: "Jan", value: 800 },
-    { name: "Fev", value: 780 },
-    { name: "Mar", value: 750 },
-    { name: "Abr", value: 690 },
-    { name: "Mai", value: 650 },
-    { name: "Jun", value: 600 },
-    { name: "Jul", value: 550 },
-    { name: "Ago", value: 500 },
-    { name: "Set", value: 450 },
-    { name: "Out", value: 400 },
-    { name: "Nov", value: 350 },
-    { name: "Dez", value: 320 },
+    { name: "Mar", value: 780 },
+    { name: "Mai", value: 750 },
+    { name: "Jul", value: 690 },
+    { name: "Set", value: 650 },
+    { name: "Nov", value: 600 },
   ];
   
   return (
@@ -40,7 +34,7 @@ export function RechargesCard() {
       
       <div className="mt-4 h-32">
         <ChartContainer config={{}} className="h-full">
-          <LineChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 50 }}>
+          <LineChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 20 }}>
             <defs>
               <linearGradient id="rechargeGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#4ADE80" stopOpacity={1} />
@@ -52,7 +46,7 @@ export function RechargesCard() {
               axisLine={false}
               tickLine={false}
               tick={{ fill: '#94a3b8', fontSize: 10 }}
-              dy={30}
+              dy={10}
               interval={0}
             />
             <ChartTooltip 
@@ -74,7 +68,6 @@ export function RechargesCard() {
               strokeWidth={2}
               dot={false}
               activeDot={{ r: 4, fill: "#4ADE80" }}
-              fill="url(#rechargeGradient)"
             />
           </LineChart>
         </ChartContainer>

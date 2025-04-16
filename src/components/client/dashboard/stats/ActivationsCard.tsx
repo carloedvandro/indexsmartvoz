@@ -11,17 +11,11 @@ export function ActivationsCard() {
   // Complete year of sample data
   const chartData = [
     { name: "Jan", value: 500 },
-    { name: "Fev", value: 480 },
-    { name: "Mar", value: 520 },
-    { name: "Abr", value: 490 },
-    { name: "Mai", value: 540 },
-    { name: "Jun", value: 510 },
-    { name: "Jul", value: 560 },
-    { name: "Ago", value: 530 },
+    { name: "Mar", value: 480 },
+    { name: "Mai", value: 520 },
+    { name: "Jul", value: 490 },
     { name: "Set", value: 580 },
-    { name: "Out", value: 550 },
     { name: "Nov", value: 600 },
-    { name: "Dez", value: 620 },
   ];
   
   return (
@@ -40,7 +34,7 @@ export function ActivationsCard() {
       
       <div className="mt-4 h-32">
         <ChartContainer config={{}} className="h-full">
-          <LineChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 50 }}>
+          <LineChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 20 }}>
             <defs>
               <linearGradient id="activationGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#4ADE80" stopOpacity={1} />
@@ -52,7 +46,7 @@ export function ActivationsCard() {
               axisLine={false}
               tickLine={false}
               tick={{ fill: '#94a3b8', fontSize: 10 }}
-              dy={30}
+              dy={10}
               interval={0}
             />
             <ChartTooltip 
@@ -74,7 +68,6 @@ export function ActivationsCard() {
               strokeWidth={2}
               dot={false}
               activeDot={{ r: 4, fill: "#4ADE80" }}
-              fill="url(#activationGradient)"
             />
           </LineChart>
         </ChartContainer>
