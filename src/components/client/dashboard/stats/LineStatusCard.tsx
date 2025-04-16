@@ -23,7 +23,7 @@ export function LineStatusCard() {
       <p className="text-sm text-gray-500 mb-3">Visualize o total de linhas de sua operadora.</p>
       
       <div className="grid grid-cols-3 gap-4">
-        <div className="flex items-center bg-purple-50 rounded-lg p-3">
+        <div className="flex items-center rounded-lg p-3">
           <div className="mr-3 flex items-center justify-center">
             <Clock className="h-5 w-5 text-purple-500" />
           </div>
@@ -33,7 +33,7 @@ export function LineStatusCard() {
           </div>
         </div>
         
-        <div className="flex items-center bg-green-50 rounded-lg p-3">
+        <div className="flex items-center rounded-lg p-3">
           <div className="mr-3 flex items-center justify-center">
             <Smartphone className="h-5 w-5 text-green-500" />
           </div>
@@ -43,7 +43,7 @@ export function LineStatusCard() {
           </div>
         </div>
         
-        <div className="flex items-center bg-red-50 rounded-lg p-3">
+        <div className="flex items-center rounded-lg p-3">
           <div className="mr-3 flex items-center justify-center">
             <PhoneOff className="h-5 w-5 text-red-500" />
           </div>
