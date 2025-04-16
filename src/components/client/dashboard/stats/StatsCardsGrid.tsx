@@ -17,7 +17,9 @@ export function StatsCardsGrid() {
         <div className="md:col-span-1 w-full max-w-[280px]">
           <ActivationsCard />
         </div>
-        <SalesDetailsCard />
+        <div className="md:col-span-1 w-full max-w-[400px]">
+          <SalesDetailsCard />
+        </div>
       </div>
     </div>
   );
