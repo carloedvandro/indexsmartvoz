@@ -34,8 +34,8 @@ export function SalesDetailsCard() {
               <PieChart>
                 <Pie
                   data={pieData}
-                  innerRadius={45}
-                  outerRadius={60}
+                  innerRadius={55}  // Increased from 45
+                  outerRadius={75}  // Increased from 60
                   paddingAngle={2}
                   dataKey="value"
                 >
@@ -89,3 +89,4 @@ export function SalesDetailsCard() {
     </Card>
   );
 }
+
