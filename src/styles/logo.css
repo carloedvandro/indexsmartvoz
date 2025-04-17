@@ -5,10 +5,10 @@
     height: 100px !important;
     margin-left: 0 !important; 
     margin-right: auto !important;
-    margin-top: -8px !important; /* Reduced from -18px to -8px to move down */
+    margin-top: -8px !important;
     right: 0 !important;
     position: relative !important;
-    left: -15px !important;
+    left: 0 !important; /* Changed from -15px to 0 to align more to the left */
     background-color: rgba(255, 255, 255, 0.7);
   }
   
