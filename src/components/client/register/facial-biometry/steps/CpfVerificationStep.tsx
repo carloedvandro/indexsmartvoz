@@ -73,7 +73,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
             Para dar continuidade precisamos realizar a sua biometria.
           </h2>
           
-          <p className="text-xs opacity-80 text-white">
+          <p className="text-xs/2 opacity-80 text-white">
             Biometria é uma solução que utiliza a tecnologia para identificação do cliente.
           </p>
         </div>
