@@ -1,10 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Lock, Columns2 } from 'lucide-react';
+import { Lock, Columns2, Slash } from 'lucide-react';
 import Image from "@/components/ui/image";
 
 interface CpfVerificationStepProps {
@@ -106,30 +106,32 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
             />
           </div>
 
-          <div className="flex justify-center mt-16">
-            <div className="flex items-center bg-[#8425af] px-4 py-2 rounded-lg relative">
-              <div className="flex flex-col items-center space-y-1">
-                <div className="flex flex-col items-center relative">
-                  <span className="text-sm text-white font-normal">Verified by</span>
-                  <div className="relative flex items-center">
-                    <Lock 
-                      className="mr-2 w-5 h-5 text-white opacity-50" 
-                      strokeWidth={2.5} 
-                    />
-                    <Columns2 
-                      className="absolute -left-8 top-1/2 -translate-y-1/2 w-6 h-6 text-white opacity-30" 
-                      strokeWidth={1.5} 
-                    />
-                    <span className="font-bold text-sm text-white relative z-10 ml-[2px]">Serasa Experian</span>
-                  </div>
-                  
-                  <div className="absolute inset-0 -z-10 flex justify-center items-center opacity-30">
-                    <Image 
-                      src="/lovable-uploads/888448ab-a82a-4454-a816-c89d591e73f3.png" 
-                      alt="Lock Icon" 
-                      className="w-24 h-24 object-contain"
-                    />
-                  </div>
+          <div className="flex items-center bg-[#8425af] px-4 py-2 rounded-lg relative">
+            <div className="flex flex-col items-center space-y-1">
+              <div className="flex flex-col items-center relative">
+                <span className="text-sm text-white font-normal">Verified by</span>
+                <div className="relative flex items-center">
+                  <Slash 
+                    className="mr-2 w-4 h-4 text-white opacity-50" 
+                    strokeWidth={2.5} 
+                  />
+                  <Lock 
+                    className="mr-2 w-5 h-5 text-white opacity-50" 
+                    strokeWidth={2.5} 
+                  />
+                  <Columns2 
+                    className="absolute -left-8 top-1/2 -translate-y-1/2 w-6 h-6 text-white opacity-30" 
+                    strokeWidth={1.5} 
+                  />
+                  <span className="font-bold text-sm text-white relative z-10 ml-[2px]">Serasa Experian</span>
+                </div>
+                
+                <div className="absolute inset-0 -z-10 flex justify-center items-center opacity-30">
+                  <Image 
+                    src="/lovable-uploads/888448ab-a82a-4454-a816-c89d591e73f3.png" 
+                    alt="Lock Icon" 
+                    className="w-24 h-24 object-contain"
+                  />
                 </div>
               </div>
             </div>
