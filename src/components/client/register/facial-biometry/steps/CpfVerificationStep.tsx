@@ -113,8 +113,8 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
                   <span className="font-bold text-sm text-white relative z-10 ml-[2px]">Serasa Experian</span>
                   <div className="absolute inset-0 -z-10 flex justify-center items-center opacity-30">
                     <Image 
-                      src="/lovable-uploads/b08196be-7b0e-452e-ab09-ba7b0ff37552.png" 
-                      alt="Security Shield" 
+                      src="/lovable-uploads/61f5d9c9-0644-4149-b0fc-54bf8c3c887d.png" 
+                      alt="Verified Icon" 
                       className="w-32 h-32 object-contain"
                     />
                   </div>
