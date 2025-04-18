@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
 import ReCAPTCHA from "react-google-recaptcha";
-import Image from "@/components/ui/image";
 import { Lock } from 'lucide-react';
 
 interface CpfVerificationStepProps {
