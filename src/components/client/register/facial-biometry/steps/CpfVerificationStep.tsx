@@ -111,10 +111,12 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
               <div className="flex flex-col items-center space-y-1">
                 <div className="flex flex-col items-center relative">
                   <span className="text-sm text-white font-normal">Verified by</span>
-                  <span className="font-bold text-sm text-white relative z-10 ml-[2px]">Serasa Experian</span>
-                  
-                  <div className="mt-1">
-                    <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
+                  <div className="relative">
+                    <Lock 
+                      className="absolute -left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-white opacity-50" 
+                      strokeWidth={2.5} 
+                    />
+                    <span className="font-bold text-sm text-white relative z-10 ml-[2px]">Serasa Experian</span>
                   </div>
                   
                   <div className="absolute inset-0 -z-10 flex justify-center items-center opacity-30">
