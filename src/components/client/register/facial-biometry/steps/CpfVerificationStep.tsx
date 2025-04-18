@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -100,7 +101,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
 
           <div className="flex justify-center">
             <ReCAPTCHA
-              sitekey="your-recaptcha-site-key"
+              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
               onChange={(value) => setCaptchaValue(value)}
               theme="light"
             />
