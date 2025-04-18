@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -68,18 +69,18 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
         </div>
 
         <div className="text-center space-y-6">
-          <h2 className="text-2xl font-light">
+          <h2 className="text-2xl font-light text-white">
             Olá, verificamos que você está realizando a consulta/contratação dos nossos serviços VIVO. Para dar continuidade precisamos realizar a sua biometria.
           </h2>
           
-          <p className="text-sm opacity-80">
+          <p className="text-sm opacity-80 text-white">
             Biometria é uma solução que utiliza a tecnologia para identificação do cliente.
           </p>
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <label htmlFor="cpf" className="block text-lg font-medium text-center">
+            <label htmlFor="cpf" className="block text-lg font-medium text-center text-white">
               Insira os primeiros 5 dígitos do seu CPF:
             </label>
             <Input
