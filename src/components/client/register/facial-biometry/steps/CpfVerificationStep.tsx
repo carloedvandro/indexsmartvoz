@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Lock } from 'lucide-react';
 import Image from "@/components/ui/image";
 
 interface CpfVerificationStepProps {
@@ -109,27 +108,6 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
           <div className="flex justify-center mt-16">
             <div className="flex items-center bg-[#8425af] px-4 py-2 rounded-lg relative">
               <div className="flex flex-col items-center space-y-1">
-                <div className="flex items-center">
-                  <div className="h-5 w-[1px] bg-white mr-2"></div>
-                  <div className="relative">
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="text-white"
-                      >
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                    </div>
-                    <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
-                  </div>
-                </div>
                 <div className="flex flex-col items-center relative">
                   <span className="text-sm text-white font-normal">Verified by</span>
                   <span className="font-bold text-sm text-white relative z-10 ml-[2px]">Serasa Experian</span>
