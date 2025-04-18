@@ -68,12 +68,12 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
         </div>
 
         <div className="text-center space-y-6">
-          <h2 className="text-sm font-light text-white max-w-xs mx-auto line-clamp-3">
-            Olá, verificamos se você está realizando uma consulta/contratação de nossos serviços Smartvoz. Para dar continuidade precisamos realizar sua biometria.
+          <h2 className="text-base font-light text-white max-w-xs mx-auto line-clamp-3">
+            Olá, verificamos que você está realizando a consulta/contratação dos nossos serviços VIVO. Para dar continuidade precisamos realizar a sua biometria.
           </h2>
           
-          <p className="text-xs opacity-80 text-white">
-            Biometria: solução segura de identificação digital
+          <p className="text-sm opacity-80 text-white">
+            Biometria é uma solução que utiliza a tecnologia para identificação do cliente.
           </p>
         </div>
         
