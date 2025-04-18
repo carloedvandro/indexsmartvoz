@@ -107,7 +107,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
           </div>
 
           <div className="flex justify-center mt-16">
-            <div className="flex items-center bg-[#8425af] px-4 py-2 rounded-lg">
+            <div className="flex items-center bg-[#8425af] px-4 py-2 rounded-lg relative">
               <div className="flex flex-col items-center space-y-1">
                 <div className="flex items-center">
                   <div className="h-5 w-[1px] bg-white mr-2"></div>
@@ -130,9 +130,16 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
                     <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
                   </div>
                 </div>
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center relative">
                   <span className="text-sm text-white font-normal">Verified by</span>
-                  <span className="font-bold text-sm text-white">Serasa Experian</span>
+                  <span className="font-bold text-sm text-white relative z-10">Serasa Experian</span>
+                  <div className="absolute inset-0 -z-10 flex justify-center items-center opacity-30">
+                    <Image 
+                      src="/lovable-uploads/888448ab-a82a-4454-a816-c89d591e73f3.png" 
+                      alt="Lock Icon" 
+                      className="w-24 h-24 object-contain"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
