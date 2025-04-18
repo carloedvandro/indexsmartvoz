@@ -1,9 +1,9 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
+import ReCAPTCHA from "react-google-recaptcha";
 
 interface CpfVerificationStepProps {
   onNext: () => void;
@@ -12,6 +12,7 @@ interface CpfVerificationStepProps {
 export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
   const [cpfDigits, setCpfDigits] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -80,23 +81,20 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
             />
           </div>
 
-          <div className="flex justify-center mt-16">
-            <div className="flex items-center bg-[#47016a] px-4 py-2 rounded-lg relative">
-              <div className="flex flex-col items-center space-y-1">
-                <div className="flex flex-col items-center relative">
-                  <span className="text-sm text-white font-normal">Verified by</span>
-                  <div className="relative flex items-center">
-                    <span className="font-bold text-sm text-white relative z-10">Serasa Experian</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="flex justify-center">
+            <ReCAPTCHA
+              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+              onChange={(value) => setRecaptchaValue(value)}
+              theme="dark"
+              hl="pt-BR"
+              className="transform scale-90"
+            />
           </div>
           
           <Button 
             type="submit"
             className="w-full h-11 bg-white text-[#47016a] hover:bg-gray-100 font-medium uppercase"
-            disabled={isLoading || cpfDigits.length < 5}
+            disabled={isLoading || cpfDigits.length < 5 || !recaptchaValue}
           >
             {isLoading ? "Validando..." : "Validar"}
           </Button>
