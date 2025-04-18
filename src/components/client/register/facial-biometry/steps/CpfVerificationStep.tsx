@@ -68,7 +68,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
         </div>
 
         <div className="text-center space-y-6">
-          <h2 className="text-base font-light text-white max-w-xs mx-auto line-clamp-3">
+          <h2 className="text-xl font-light text-white max-w-sm mx-auto">
             Olá, verificamos que você está realizando a consulta/contratação dos nossos serviços VIVO. Para dar continuidade precisamos realizar a sua biometria.
           </h2>
           
