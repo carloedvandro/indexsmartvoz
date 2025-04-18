@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -73,7 +74,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
             Para dar continuidade precisamos realizar a sua biometria.
           </h2>
           
-          <p className="text-sm opacity-80 text-white">
+          <p className="text-xs opacity-80 text-white">
             Biometria é uma solução que utiliza a tecnologia para identificação do cliente.
           </p>
         </div>
