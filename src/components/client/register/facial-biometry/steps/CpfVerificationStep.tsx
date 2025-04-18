@@ -66,7 +66,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
           <Image 
             src="/lovable-uploads/adf6e7ac-29f8-4ffe-abbf-45db71f86250.png" 
             alt="SmartVoz Logo" 
-            className="max-w-[180px] max-h-[72px] object-contain"
+            className="max-w-[220px] max-h-[88px] object-contain"
           />
         </div>
 
