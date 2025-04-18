@@ -1,9 +1,9 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
-import ReCAPTCHA from "react-google-recaptcha";
 import Image from "@/components/ui/image";
 
 interface CpfVerificationStepProps {
@@ -13,7 +13,6 @@ interface CpfVerificationStepProps {
 export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
   const [cpfDigits, setCpfDigits] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -23,15 +22,6 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
       toast({
         title: "CPF inválido",
         description: "Por favor, insira os primeiros 5 dígitos do seu CPF/CNPJ.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!captchaValue) {
-      toast({
-        title: "Verificação necessária",
-        description: "Por favor, complete a verificação reCAPTCHA.",
         variant: "destructive",
       });
       return;
@@ -97,14 +87,6 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
             />
           </div>
 
-          <div className="flex justify-center">
-            <ReCAPTCHA
-              sitekey="your-recaptcha-site-key"
-              onChange={(value) => setCaptchaValue(value)}
-              theme="light"
-            />
-          </div>
-
           <div className="flex justify-center mt-16">
             <div className="flex items-center bg-[#47016a] px-4 py-2 rounded-lg relative">
               <div className="flex flex-col items-center space-y-1">
@@ -127,7 +109,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
           <Button 
             type="submit"
             className="w-full h-11 bg-white text-[#47016a] hover:bg-gray-100 font-medium uppercase"
-            disabled={isLoading || !captchaValue || cpfDigits.length < 5}
+            disabled={isLoading || cpfDigits.length < 5}
           >
             {isLoading ? "Validando..." : "Validar"}
           </Button>
