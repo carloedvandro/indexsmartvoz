@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -113,19 +112,13 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
                 <div className="flex flex-col items-center relative">
                   <span className="text-sm text-white font-normal">Verified by</span>
                   <div className="relative flex items-center">
-                    <Columns2 
-                      className="absolute -left-8 top-1/2 -translate-y-1/2 w-6 h-6 text-white opacity-30" 
-                      strokeWidth={1.5} 
+                    <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-[2px] h-5 bg-white opacity-30"></div>
+                    <Image
+                      src="/lovable-uploads/bb6bbb1b-5489-47a6-aa61-0461dc06837a.png"
+                      alt="Lock Icon"
+                      className="w-5 h-5 mr-2"
                     />
-                    <span className="font-bold text-sm text-white relative z-10 ml-[2px]">Serasa Experian</span>
-                  </div>
-                  
-                  <div className="absolute inset-0 -z-10 flex justify-center items-center">
-                    <Image 
-                      src="/lovable-uploads/7bdad345-49f3-425f-a965-7dff44d5e1bc.png" 
-                      alt="Digital Lock Shield" 
-                      className="w-24 h-24 object-contain opacity-30 grayscale hover:grayscale-0 transition-all duration-300 ease-in-out"
-                    />
+                    <span className="font-bold text-sm text-white relative z-10">Serasa Experian</span>
                   </div>
                 </div>
               </div>
