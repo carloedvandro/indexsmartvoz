@@ -117,7 +117,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
           
           <Button 
             type="submit"
-            className="w-full h-12 bg-white text-[#8425af] hover:bg-gray-100 font-medium uppercase"
+            className="w-full h-11 bg-white text-[#8425af] hover:bg-gray-100 font-medium uppercase"
             disabled={isLoading || !captchaValue || cpfDigits.length < 5}
           >
             {isLoading ? "Validando..." : "Validar"}
