@@ -59,7 +59,8 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#8425af] text-white p-6">
+    <div className="min-h-screen bg-[#8425af] text-white pt-[54px] p-6">
+      {/* Added pt-[54px] to move the entire content 4px down */}
       <div className="max-w-custom mx-auto space-y-8">
         <div className="flex justify-center mb-12">
           <svg width="120" height="48" viewBox="0 0 120 48" fill="none" xmlns="http://www.w3.org/2000/svg">
