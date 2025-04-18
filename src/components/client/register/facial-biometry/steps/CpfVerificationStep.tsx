@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -60,7 +59,6 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
 
   return (
     <div className="min-h-screen bg-[#8425af] text-white pt-[54px] p-6">
-      {/* Added pt-[54px] to move the entire content 4px down */}
       <div className="max-w-custom mx-auto space-y-8">
         <div className="flex justify-center mb-12">
           <svg width="120" height="48" viewBox="0 0 120 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -107,7 +105,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
             />
           </div>
 
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center mt-16">
             <div className="flex items-center space-x-2 bg-[#8425af] px-4 py-2 rounded-lg">
               <div className="flex items-center">
                 <div className="h-5 w-[1px] bg-white mr-2"></div>
