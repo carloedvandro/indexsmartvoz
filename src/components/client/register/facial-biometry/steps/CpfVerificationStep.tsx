@@ -103,6 +103,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
               sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
               onChange={(value) => setCaptchaValue(value)}
               theme="light"
+              style={{ transform: "scale(0.85)", transformOrigin: "center center" }}
             />
           </div>
 
