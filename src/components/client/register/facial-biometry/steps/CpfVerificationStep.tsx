@@ -69,7 +69,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
 
         <div className="text-center space-y-6">
           <h2 className="text-sm font-light text-white max-w-xs mx-auto line-clamp-3">
-            Bem-vindo à verificação biométrica da VIVO. Precisamos confirmar sua identidade para continuar.
+            Olá, verificamos se você está realizando uma consulta/contratação de nossos serviços Smartvoz. Para dar continuidade precisamos realizar sua biometria.
           </h2>
           
           <p className="text-xs opacity-80 text-white">
