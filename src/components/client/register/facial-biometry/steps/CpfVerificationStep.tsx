@@ -69,8 +69,8 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
 
         <div className="text-center space-y-6">
           <h2 className="text-xs font-bold text-white max-w-[281px] mx-auto">
-            Olá, verificamos que você está realizando a consulta/contratação dos nossos serviços SmartVoz. 
-            Para dar continuidade precisamos realizar a sua biometria.
+            Olá, verificamos que você está realizando a consulta/contratação 
+            dos nossos serviços SmartVoz.
           </h2>
           
           <p className="text-xs opacity-80 text-white">
