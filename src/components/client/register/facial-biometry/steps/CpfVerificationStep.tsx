@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
 import ReCAPTCHA from "react-google-recaptcha";
 import Image from "@/components/ui/image";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Columns2 } from "lucide-react";
 
 interface CpfVerificationStepProps {
   onNext: () => void;
@@ -117,6 +117,11 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
                         size={128} 
                         color="white" 
                         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      />
+                      <Columns2 
+                        size={100} 
+                        color="white" 
+                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -ml-20 opacity-20"
                       />
                     </div>
                     <span className="font-bold text-sm text-white relative z-10 ml-4">Serasa Experian</span>
