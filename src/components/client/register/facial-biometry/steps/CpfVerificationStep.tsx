@@ -1,12 +1,11 @@
-
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
 import ReCAPTCHA from "react-google-recaptcha";
+import { Lock } from 'lucide-react';
 import Image from "@/components/ui/image";
-import { Lock, Columns2 } from "lucide-react";
 
 interface CpfVerificationStepProps {
   onNext: () => void;
@@ -110,22 +109,36 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
           <div className="flex justify-center mt-16">
             <div className="flex items-center bg-[#8425af] px-4 py-2 rounded-lg relative">
               <div className="flex flex-col items-center space-y-1">
+                <div className="flex items-center">
+                  <div className="h-5 w-[1px] bg-white mr-2"></div>
+                  <div className="relative">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="text-white"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </div>
+                    <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
+                  </div>
+                </div>
                 <div className="flex flex-col items-center relative">
                   <span className="text-sm text-white font-normal">Verified by</span>
-                  <div className="relative flex items-center">
-                    <div className="absolute left-0">
-                      <Lock 
-                        size={24} 
-                        color="white" 
-                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -ml-32"
-                      />
-                      <Columns2 
-                        size={100} 
-                        color="white" 
-                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -ml-20 opacity-30"
-                      />
-                    </div>
-                    <span className="font-bold text-sm text-white relative z-10 ml-20">Serasa Experian</span>
+                  <span className="font-bold text-sm text-white relative z-10 ml-[2px]">Serasa Experian</span>
+                  <div className="absolute inset-0 -z-10 flex justify-center items-center opacity-30">
+                    <Image 
+                      src="/lovable-uploads/888448ab-a82a-4454-a816-c89d591e73f3.png" 
+                      alt="Lock Icon" 
+                      className="w-24 h-24 object-contain"
+                    />
                   </div>
                 </div>
               </div>
