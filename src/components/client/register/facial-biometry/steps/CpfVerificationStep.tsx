@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -101,11 +102,6 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
               sitekey="your-recaptcha-site-key"
               onChange={(value) => setCaptchaValue(value)}
               theme="light"
-              className="recaptcha-container"
-              style={{ 
-                transform: 'scale(0.85)', 
-                transformOrigin: 'center center',
-              }}
             />
           </div>
 
