@@ -1,82 +1,149 @@
 
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 export default function Index() {
   return (
-    <div className="min-h-screen bg-white p-4">
-      <header className="mb-8">
-        <div className="flex items-center gap-2">
-          <img 
-            src="https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images//smartvoz_chip_favicon.png" 
-            alt="SmartVoz" 
-            className="h-6"
-          />
-          <span className="font-bold">SmartVoz</span>
-        </div>
-        <div className="mt-2">
-          <Link to="/client/login" className="border border-gray-300 px-2 py-1 mr-2 bg-gray-100">
-            Login
-          </Link>
-          <Link to="/client/register" className="border border-gray-300 px-2 py-1 bg-gray-100">
-            Cadastre-se
-          </Link>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col">
+      {/* Header */}
+      <header className="w-full py-4 px-6 bg-white shadow-sm">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <img 
+              src="https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images//smartvoz_chip_favicon.png" 
+              alt="SmartVoz" 
+              className="h-8 w-8"
+            />
+            <span className="font-bold text-xl text-purple-700">SmartVoz</span>
+          </div>
+          <div className="flex gap-4">
+            <Link to="/client/login">
+              <Button variant="outline">Login</Button>
+            </Link>
+            <Link to="/client/register">
+              <Button>Cadastre-se</Button>
+            </Link>
+          </div>
         </div>
       </header>
 
-      <main>
-        <h1 className="text-4xl font-bold mb-4">Bem-vindo à Plataforma SmartVoz</h1>
-        <p className="mb-8">Escolha uma opção abaixo para continuar</p>
+      {/* Main Content */}
+      <main className="flex-grow container mx-auto px-4 py-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
+        >
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+            Bem-vindo à Plataforma SmartVoz
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Escolha uma opção abaixo para continuar
+          </p>
+        </motion.div>
 
-        <div className="space-y-8">
-          {/* Site Oficial */}
-          <div>
-            <h2 className="text-2xl font-bold mb-2">Site Oficial</h2>
-            <p className="mb-3">Visite nosso site oficial para conhecer nossos produtos e serviços.</p>
-            <Link to="/site" className="border border-gray-300 px-2 py-1 bg-gray-100 inline-block">
-              Acessar Site
-            </Link>
-          </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {/* Main Site Card */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="bg-white rounded-xl shadow-md overflow-hidden"
+          >
+            <div className="p-6">
+              <h2 className="text-2xl font-bold mb-3 text-purple-700">Site Oficial</h2>
+              <p className="text-gray-600 mb-6">
+                Visite nosso site oficial para conhecer nossos produtos e serviços.
+              </p>
+              <Link to="/site">
+                <Button className="w-full">Acessar Site</Button>
+              </Link>
+            </div>
+          </motion.div>
 
-          {/* Área de Cliente */}
-          <div>
-            <h2 className="text-2xl font-bold mb-2">Área de Cliente</h2>
-            <p className="mb-3">Acesse sua conta para gerenciar sua rede e visualizar seus ganhos.</p>
-            <Link to="/client/login" className="border border-gray-300 px-2 py-1 bg-gray-100 inline-block">
-              Entrar
-            </Link>
-          </div>
+          {/* Dashboard Card */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="bg-white rounded-xl shadow-md overflow-hidden"
+          >
+            <div className="p-6">
+              <h2 className="text-2xl font-bold mb-3 text-purple-700">Área de Cliente</h2>
+              <p className="text-gray-600 mb-6">
+                Acesse sua conta para gerenciar sua rede e visualizar seus ganhos.
+              </p>
+              <Link to="/client/login">
+                <Button className="w-full">Entrar</Button>
+              </Link>
+            </div>
+          </motion.div>
 
-          {/* Área Administrativa */}
-          <div>
-            <h2 className="text-2xl font-bold mb-2">Área Administrativa</h2>
-            <p className="mb-3">Painel de administração para gestores da plataforma.</p>
-            <Link to="/admin/login" className="border border-gray-300 px-2 py-1 bg-gray-100 inline-block">
-              Admin
-            </Link>
-          </div>
+          {/* Admin Card */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="bg-white rounded-xl shadow-md overflow-hidden"
+          >
+            <div className="p-6">
+              <h2 className="text-2xl font-bold mb-3 text-purple-700">Área Administrativa</h2>
+              <p className="text-gray-600 mb-6">
+                Painel de administração para gestores da plataforma.
+              </p>
+              <Link to="/admin/login">
+                <Button className="w-full">Admin</Button>
+              </Link>
+            </div>
+          </motion.div>
 
-          {/* Template Moderno */}
-          <div>
-            <h2 className="text-2xl font-bold mb-2">Template Moderno</h2>
-            <p className="mb-3">Exemplo de site com design moderno e responsivo.</p>
-            <Link to="/modern-site" className="border border-gray-300 px-2 py-1 bg-gray-100 inline-block">
-              Ver Demo
-            </Link>
-          </div>
+          {/* Demo Site Templates */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="bg-white rounded-xl shadow-md overflow-hidden"
+          >
+            <div className="p-6">
+              <h2 className="text-2xl font-bold mb-3 text-purple-700">Template Moderno</h2>
+              <p className="text-gray-600 mb-6">
+                Exemplo de site com design moderno e responsivo.
+              </p>
+              <Link to="/modern-site">
+                <Button className="w-full">Ver Demo</Button>
+              </Link>
+            </div>
+          </motion.div>
 
-          {/* Loja Virtual */}
-          <div>
-            <h2 className="text-2xl font-bold mb-2">Loja Virtual</h2>
-            <p className="mb-3">Acesse nossa loja virtual e conheça nossos produtos.</p>
-            <Link to="/client/store" className="border border-gray-300 px-2 py-1 bg-gray-100 inline-block">
-              Visitar Loja
-            </Link>
-          </div>
+          {/* Store Card */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="bg-white rounded-xl shadow-md overflow-hidden"
+          >
+            <div className="p-6">
+              <h2 className="text-2xl font-bold mb-3 text-purple-700">Loja Virtual</h2>
+              <p className="text-gray-600 mb-6">
+                Acesse nossa loja virtual e conheça nossos produtos.
+              </p>
+              <Link to="/client/store">
+                <Button className="w-full">Visitar Loja</Button>
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </main>
 
-      <footer className="mt-12 pt-4 border-t text-center text-sm text-gray-600">
-        &copy; {new Date().getFullYear()} SmartVoz. Todos os direitos reservados.
+      {/* Footer */}
+      <footer className="bg-white py-6 border-t">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-gray-600">
+            &copy; {new Date().getFullYear()} SmartVoz. Todos os direitos reservados.
+          </p>
+        </div>
       </footer>
     </div>
   );
