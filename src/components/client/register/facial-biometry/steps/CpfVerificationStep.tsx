@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -5,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Lock } from 'lucide-react';
+import Image from "@/components/ui/image";
 
 interface CpfVerificationStepProps {
   onNext: () => void;
@@ -61,10 +63,11 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
     <div className="min-h-screen bg-[#8425af] text-white pt-[54px] p-6">
       <div className="max-w-custom mx-auto space-y-8">
         <div className="flex justify-center mb-12">
-          <svg width="120" height="48" viewBox="0 0 120 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M60 24C60 37.2548 49.2548 48 36 48C22.7452 48 12 37.2548 12 24C12 10.7452 22.7452 0 36 0C49.2548 0 60 10.7452 60 24Z" fill="white"/>
-            <path d="M108 24C108 37.2548 97.2548 48 84 48C70.7452 48 60 37.2548 60 24C60 10.7452 70.7452 0 84 0C97.2548 0 108 10.7452 108 24Z" fill="white"/>
-          </svg>
+          <Image 
+            src="/lovable-uploads/adf6e7ac-29f8-4ffe-abbf-45db71f86250.png" 
+            alt="SmartVoz Logo" 
+            className="max-w-[120px] max-h-[48px] object-contain"
+          />
         </div>
 
         <div className="text-center space-y-6">
