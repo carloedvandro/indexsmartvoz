@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 import { colors } from "./src/theme/colors";
 import { animations } from "./src/theme/animations";
@@ -44,7 +43,7 @@ export default {
       },
       maxWidth: {
         'sm': '384px',
-        'custom': '320px',
+        'custom': '280px',
         'mobile': '320px',
         'network-filter': '370px'
       },

@@ -59,7 +59,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
 
   return (
     <div className="min-h-screen bg-[#8425af] text-white p-6">
-      <div className="max-w-sm mx-auto space-y-8">
+      <div className="max-w-custom mx-auto space-y-8">
         <div className="flex justify-center mb-12">
           <svg width="120" height="48" viewBox="0 0 120 48" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M60 24C60 37.2548 49.2548 48 36 48C22.7452 48 12 37.2548 12 24C12 10.7452 22.7452 0 36 0C49.2548 0 60 10.7452 60 24Z" fill="white"/>
