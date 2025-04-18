@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -92,7 +91,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
                 setCpfDigits(value);
               }}
               placeholder=""
-              className="w-full h-12 text-black text-center text-lg bg-white"
+              className="w-48 h-10 text-black text-center text-base bg-white"
               maxLength={5}
             />
           </div>
