@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -135,9 +136,9 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
                   <span className="font-bold text-sm text-white relative z-10 ml-[2px]">Serasa Experian</span>
                   <div className="absolute inset-0 -z-10 flex justify-center items-center opacity-30">
                     <Image 
-                      src="/lovable-uploads/888448ab-a82a-4454-a816-c89d591e73f3.png" 
-                      alt="Lock Icon" 
-                      className="w-24 h-24 object-contain"
+                      src="/lovable-uploads/b08196be-7b0e-452e-ab09-ba7b0ff37552.png" 
+                      alt="Security Shield" 
+                      className="w-32 h-32 object-contain"
                     />
                   </div>
                 </div>
