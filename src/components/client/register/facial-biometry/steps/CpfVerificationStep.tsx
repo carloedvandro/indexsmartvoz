@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -60,15 +61,13 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
 
   return (
     <div className="min-h-screen bg-[#8425af] text-white pt-[54px] p-6">
-      <div className="flex justify-center mb-12">
-        <Image 
-          src="/lovable-uploads/adf6e7ac-29f8-4ffe-abbf-45db71f86250.png" 
-          alt="SmartVoz Logo" 
-          className="max-w-[220px] max-h-[88px] object-contain"
-        />
-      </div>
+      <Image 
+        src="/lovable-uploads/adf6e7ac-29f8-4ffe-abbf-45db71f86250.png" 
+        alt="SmartVoz Logo" 
+        className="max-w-[220px] max-h-[88px] object-contain mx-auto mb-12"
+      />
 
-      <h2 className="text-xs font-bold text-white max-w-[320px] mx-auto text-center space-y-6">
+      <h2 className="text-xs font-bold text-white max-w-[320px] mx-auto text-center">
         Olá, verificamos que você está realizando a consulta/contratação dos nossos serviços
         <br />
         SmartVoz.
