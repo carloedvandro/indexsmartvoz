@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -69,7 +70,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
 
         <div className="text-center space-y-6">
           <h2 className="text-xl font-light text-white max-w-sm mx-auto">
-            Olá, verificamos que você está realizando a consulta/contratação dos nossos serviços VIVO. Para dar continuidade precisamos realizar a sua biometria.
+            Olá, verificamos se você está realizando uma consulta/contratação de nossos serviços Smartvoz. Para dar continuidade precisamos realizar sua biometria.
           </h2>
           
           <p className="text-sm opacity-80 text-white">
