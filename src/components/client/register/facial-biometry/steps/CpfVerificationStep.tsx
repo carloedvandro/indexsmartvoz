@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
 import ReCAPTCHA from "react-google-recaptcha";
 import Image from "@/components/ui/image";
+import { Lock } from 'lucide-react';
 
 interface CpfVerificationStepProps {
   onNext: () => void;
@@ -109,11 +109,8 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
 
           {/* Serasa Experian Badge */}
           <div className="flex justify-center mt-8">
-            <div className="flex items-center space-x-2">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="white" strokeWidth="2"/>
-                <path d="M8 12L11 15L16 9" stroke="white" strokeWidth="2"/>
-              </svg>
+            <div className="flex items-center space-x-2 bg-[#7200c2] px-4 py-2 rounded-lg">
+              <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
               <span className="text-sm text-white">Verified by</span>
               <span className="font-semibold text-sm text-white">Serasa Experian</span>
             </div>
