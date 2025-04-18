@@ -61,7 +61,6 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
   return (
     <div className="min-h-screen bg-[#8425af] text-white p-6">
       <div className="max-w-md mx-auto space-y-8">
-        {/* Vivo Logo */}
         <div className="flex justify-center mb-12">
           <svg width="120" height="48" viewBox="0 0 120 48" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M60 24C60 37.2548 49.2548 48 36 48C22.7452 48 12 37.2548 12 24C12 10.7452 22.7452 0 36 0C49.2548 0 60 10.7452 60 24Z" fill="white"/>
@@ -98,7 +97,6 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
             />
           </div>
 
-          {/* reCAPTCHA */}
           <div className="flex justify-center">
             <ReCAPTCHA
               sitekey="your-recaptcha-site-key"
@@ -107,10 +105,12 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
             />
           </div>
 
-          {/* Serasa Experian Badge */}
           <div className="flex justify-center mt-8">
             <div className="flex items-center space-x-2 bg-[#7200c2] px-4 py-2 rounded-lg">
-              <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
+              <div className="flex items-center">
+                <div className="h-5 w-[1px] bg-white mr-2"></div>
+                <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
+              </div>
               <span className="text-sm text-white">Verified by</span>
               <span className="font-semibold text-sm text-white">Serasa Experian</span>
             </div>
