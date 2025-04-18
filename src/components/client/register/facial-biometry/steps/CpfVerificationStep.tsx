@@ -80,7 +80,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <label htmlFor="cpf" className="block text-lg font-medium text-center">
-              Insira os primeiros 5 dígitos do seu CPF/CNPJ:
+              Insira os primeiros 5 dígitos do seu CPF:
             </label>
             <Input
               id="cpf"
