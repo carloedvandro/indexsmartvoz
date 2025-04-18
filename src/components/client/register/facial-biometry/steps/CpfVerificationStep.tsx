@@ -91,7 +91,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
                 setCpfDigits(value);
               }}
               placeholder=""
-              className="w-48 h-10 text-black text-center text-base bg-white"
+              className="w-full h-10 text-black text-center text-base bg-white"
               maxLength={5}
             />
           </div>
