@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -112,15 +111,15 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
               <div className="flex flex-col items-center space-y-1">
                 <div className="flex flex-col items-center relative">
                   <span className="text-sm text-white font-normal">Verified by</span>
-                  <div className="relative">
-                    <span className="font-bold text-sm text-white relative z-10 ml-[6px]">Serasa Experian</span>
-                    <div className="absolute inset-0 -z-10 flex justify-center items-center opacity-30">
+                  <div className="relative flex items-center">
+                    <div className="absolute left-0 -ml-[140px] opacity-30">
                       <ShieldCheck 
                         size={128} 
                         color="white" 
                         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                       />
                     </div>
+                    <span className="font-bold text-sm text-white relative z-10 ml-4">Serasa Experian</span>
                   </div>
                 </div>
               </div>
