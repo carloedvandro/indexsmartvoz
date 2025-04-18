@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
 import ReCAPTCHA from "react-google-recaptcha";
 import Image from "@/components/ui/image";
-import { ShieldCheck, Columns2 } from "lucide-react";
+import { Columns2 } from "lucide-react";
 
 interface CpfVerificationStepProps {
   onNext: () => void;
@@ -113,11 +113,6 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
                   <span className="text-sm text-white font-normal">Verified by</span>
                   <div className="relative flex items-center">
                     <div className="absolute left-0 -ml-[140px] opacity-30">
-                      <ShieldCheck 
-                        size={128} 
-                        color="white" 
-                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                      />
                       <Columns2 
                         size={100} 
                         color="white" 
