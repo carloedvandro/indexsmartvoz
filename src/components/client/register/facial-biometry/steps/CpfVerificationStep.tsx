@@ -113,7 +113,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
                 <div className="h-5 w-[1px] bg-white mr-2"></div>
                 <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
               </div>
-              <div className="text-center ml-[6px]">
+              <div className="text-center ml-[6px] -mt-[2px]">
                 <span className="text-sm text-[#ff00fc] block">Verified by</span>
                 <span className="font-semibold text-sm text-white ml-8">Serasa Experian</span>
               </div>
