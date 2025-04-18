@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -60,7 +61,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
 
   return (
     <div className="min-h-screen bg-[#8425af] text-white pt-[54px] p-6">
-      <div className="max-w-custom mx-auto space-y-8">
+      <div className="text-center space-y-8">
         <div className="flex justify-center mb-12">
           <Image 
             src="/lovable-uploads/adf6e7ac-29f8-4ffe-abbf-45db71f86250.png" 
@@ -135,3 +136,4 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
 };
 
 export default CpfVerificationStep;
+
