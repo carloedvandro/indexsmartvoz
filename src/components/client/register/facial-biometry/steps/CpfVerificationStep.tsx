@@ -124,7 +124,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
                         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -ml-20 opacity-20"
                       />
                     </div>
-                    <span className="font-bold text-sm text-white relative z-10 ml-4">Serasa Experian</span>
+                    <span className="font-bold text-sm text-white relative z-10 ml-10">Serasa Experian</span>
                   </div>
                 </div>
               </div>
