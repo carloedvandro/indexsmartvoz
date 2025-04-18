@@ -1,11 +1,10 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Lock } from 'lucide-react';
-import Image from "@/components/ui/image";
 
 interface CpfVerificationStepProps {
   onNext: () => void;
@@ -61,12 +60,6 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
   return (
     <div className="min-h-screen bg-[#8425af] text-white pt-[54px] flex items-center justify-center p-6">
       <div className="w-full max-w-[320px] bg-[#8425af] rounded-lg space-y-6">
-        <Image 
-          src="/lovable-uploads/adf6e7ac-29f8-4ffe-abbf-45db71f86250.png" 
-          alt="SmartVoz Logo" 
-          className="max-w-[220px] max-h-[88px] object-contain mx-auto mb-12"
-        />
-
         <h2 className="text-xs font-bold text-white max-w-[320px] mx-auto text-center">
           Olá, verificamos que você está realizando a 
           <br />
@@ -104,29 +97,6 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
               onChange={(value) => setCaptchaValue(value)}
               theme="light"
             />
-          </div>
-
-          <div className="flex justify-center mt-16">
-            <div className="flex items-center bg-[#8425af] px-4 py-2 rounded-lg relative">
-              <div className="flex flex-col items-center space-y-1">
-                <div className="flex flex-col items-center relative">
-                  <span className="text-sm text-white font-normal">Verified by</span>
-                  <span className="font-bold text-sm text-white relative z-10 ml-[2px]">Serasa Experian</span>
-                  
-                  <div className="mt-1">
-                    <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
-                  </div>
-                  
-                  <div className="absolute inset-0 -z-10 flex justify-center items-center opacity-30">
-                    <Image 
-                      src="/lovable-uploads/888448ab-a82a-4454-a816-c89d591e73f3.png" 
-                      alt="Lock Icon" 
-                      className="w-24 h-24 object-contain"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
           
           <Button 
