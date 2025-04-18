@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -123,7 +124,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
                     <Image 
                       src="/lovable-uploads/7bdad345-49f3-425f-a965-7dff44d5e1bc.png" 
                       alt="Digital Lock Shield" 
-                      className="w-24 h-24 object-contain opacity-30"
+                      className="w-24 h-24 object-contain opacity-30 grayscale hover:grayscale-0 transition-all duration-300 ease-in-out"
                     />
                   </div>
                 </div>
