@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -115,7 +114,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
               </div>
               <div className="text-center">
                 <span className="text-sm text-white block">Verified by</span>
-                <span className="font-semibold text-sm text-white ml-1.5">Serasa Experian</span>
+                <span className="font-semibold text-sm text-white ml-[0.125rem]">Serasa Experian</span>
               </div>
             </div>
           </div>
