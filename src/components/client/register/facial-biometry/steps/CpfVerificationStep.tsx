@@ -107,14 +107,16 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
           </div>
 
           <div className="flex justify-center mt-16">
-            <div className="flex flex-col items-center bg-[#8425af] px-4 py-2 rounded-lg">
-              <div className="flex items-center">
-                <div className="h-5 w-[1px] bg-white mr-2"></div>
-                <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-sm text-white">Verified by</span>
-                <span className="font-semibold text-sm text-white">Serasa Experian</span>
+            <div className="flex items-center bg-[#8425af] px-4 py-2 rounded-lg">
+              <div className="flex flex-col items-center space-y-1">
+                <div className="flex items-center">
+                  <div className="h-5 w-[1px] bg-white mr-2"></div>
+                  <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
+                </div>
+                <div className="flex flex-col items-center">
+                  <span className="text-sm text-white font-medium">Verified by</span>
+                  <span className="font-semibold text-sm text-white">Serasa Experian</span>
+                </div>
               </div>
             </div>
           </div>
