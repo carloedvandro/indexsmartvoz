@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Columns2 } from 'lucide-react';
 import Image from "@/components/ui/image";
 
 interface CpfVerificationStepProps {
@@ -59,8 +58,8 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#8425af] text-white pt-[54px] flex items-center justify-center p-6">
-      <div className="w-full max-w-[320px] bg-[#8425af] rounded-lg space-y-6">
+    <div className="min-h-screen bg-[#47016a] text-white pt-[54px] flex items-center justify-center p-6">
+      <div className="w-full max-w-[320px] bg-[#47016a] rounded-lg space-y-6">
         <Image 
           src="/lovable-uploads/adf6e7ac-29f8-4ffe-abbf-45db71f86250.png" 
           alt="SmartVoz Logo" 
@@ -107,7 +106,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
           </div>
 
           <div className="flex justify-center mt-16">
-            <div className="flex items-center bg-[#8425af] px-4 py-2 rounded-lg relative">
+            <div className="flex items-center bg-[#47016a] px-4 py-2 rounded-lg relative">
               <div className="flex flex-col items-center space-y-1">
                 <div className="flex flex-col items-center relative">
                   <span className="text-sm text-white font-normal">Verified by</span>
@@ -127,7 +126,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
           
           <Button 
             type="submit"
-            className="w-full h-11 bg-white text-[#8425af] hover:bg-gray-100 font-medium uppercase"
+            className="w-full h-11 bg-white text-[#47016a] hover:bg-gray-100 font-medium uppercase"
             disabled={isLoading || !captchaValue || cpfDigits.length < 5}
           >
             {isLoading ? "Validando..." : "Validar"}
