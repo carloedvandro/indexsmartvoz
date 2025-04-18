@@ -115,7 +115,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
               </div>
               <div className="text-center ml-[6px]">
                 <span className="text-sm text-[#ff00fc] block">Verified by</span>
-                <span className="font-semibold text-sm text-white ml-2">Serasa Experian</span>
+                <span className="font-semibold text-sm text-white ml-8">Serasa Experian</span>
               </div>
             </div>
           </div>
