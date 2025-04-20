@@ -7,8 +7,8 @@ interface LoginHeaderProps {
 
 export function LoginHeader({ itemVariants }: LoginHeaderProps) {
   return (
-    <div className="flex flex-col space-y-2 text-center">
-      <div className="-mt-10 logo-container">
+    <div className="flex flex-col items-center justify-center space-y-2 text-center min-h-[160px]">
+      <div className="logo-container">
         <img 
           src="/lovable-uploads/a4a911e3-a6ea-47f3-a5c0-a855aa60803b.png" 
           alt="Smartvoz" 
