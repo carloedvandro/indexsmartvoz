@@ -27,18 +27,18 @@
   .logo-image {
     max-width: 320px !important;
     height: 100px !important; /* Reduzido de 120px para 100px */
-    margin-left: 0 !important; 
+    margin-left: auto !important;
     margin-right: auto !important;
-    margin-top: -18px !important; /* Aumentado de -8px para -18px */
+    margin-top: -18px !important; /* Mantido para mover o logo para cima */
     right: 0 !important;
     position: relative !important;
-    left: -15px !important;
+    left: 0 !important; /* Removido o deslocamento para a esquerda */
     background-color: rgba(255, 255, 255, 0.7);
   }
   
   .logo-container {
-    justify-content: flex-start !important;
-    padding-left: 20px !important;
+    justify-content: center !important; /* Centralizar o logo no mobile */
+    padding-left: 0 !important; /* Remove padding-left para centralizar */
     padding-right: 0 !important;
   }
 }
