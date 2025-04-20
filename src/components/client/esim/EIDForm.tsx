@@ -1,8 +1,9 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { validateDeviceIdentifier } from "@/services/esim/deviceValidationService";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 type EIDFormProps = {
   onSubmit: (eid: string) => void;
@@ -61,11 +62,10 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
         validatedEidRef.current = value; // Armazenar o EID exato validado
         playBeep();
         
-        // Commenting out the toast notification
-        // toast({
-        //   title: "Dispositivo identificado",
-        //   description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
-        // });
+        toast({
+          title: "Dispositivo identificado",
+          description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
+        });
       } else {
         setIsValidEID(false);
         setDeviceInfo(null);
