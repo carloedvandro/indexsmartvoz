@@ -22,7 +22,18 @@ export function useIMEIValidation(deviceType: 'android' | 'ios') {
       
       if (validation.isValid && validation.deviceInfo) {
         setIsValidIMEI(true);
-        setDeviceInfo(validation.deviceInfo);
+        
+        // Extract modelNumber from specs if available or provide a fallback
+        const modelNumber = validation.deviceInfo.specs?.modelNumber || validation.deviceInfo.model;
+        
+        // Create a properly structured DeviceInfo object
+        const deviceInfoData: DeviceInfo = {
+          brand: validation.deviceInfo.brand,
+          model: validation.deviceInfo.model,
+          modelNumber: modelNumber
+        };
+        
+        setDeviceInfo(deviceInfoData);
       } else {
         setIsValidIMEI(false);
         setDeviceInfo(null);
