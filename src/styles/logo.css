@@ -2,17 +2,26 @@
 .logo-container {
   display: flex !important;
   align-items: center !important;
-  justify-content: flex-start !important; /* Ensure left alignment */
+  justify-content: flex-start !important;
   height: 100% !important;
   width: 100% !important;
-  padding-top: 0 !important;
-  padding-right: 0 !important;
+  padding: 0 !important;
+}
+
+.logo-image {
+  max-width: 250px !important;
+  width: auto !important;
+  height: 90px !important;
+  object-fit: contain !important;
+  mix-blend-mode: multiply;
+  margin: 0 !important;
+  display: block !important;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 @media (max-width: 768px) {
   .logo-container {
-    justify-content: flex-start !important; /* Left alignment for mobile */
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    justify-content: flex-start !important;
+    padding: 0 !important;
   }
 }
