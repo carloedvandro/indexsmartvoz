@@ -91,6 +91,8 @@ export function MainContent({
                   setSelectedLines={setSelectedLines}
                   selectedDueDate={selectedDueDate}
                   setSelectedDueDate={setSelectedDueDate}
+                  onBack={handleBack}
+                  onContinue={validateAndContinue}
                 />
               )}
 
