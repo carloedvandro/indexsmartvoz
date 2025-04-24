@@ -1,5 +1,5 @@
 
-import "@/styles/logo.css";
+import "@/styles/logo.css"; // Ensuring CSS is imported
 
 interface LoginHeaderProps {
   itemVariants: any;
@@ -8,14 +8,12 @@ interface LoginHeaderProps {
 export function LoginHeader({ itemVariants }: LoginHeaderProps) {
   return (
     <div className="flex flex-col items-center justify-center space-y-2 text-center min-h-[160px]">
-      <div className="w-full flex items-center justify-center">
-        <div className="w-4/5 max-w-[280px]">
-          <img 
-            src="/lovable-uploads/a4a911e3-a6ea-47f3-a5c0-a855aa60803b.png" 
-            alt="Smartvoz" 
-            className="w-full h-auto object-contain"
-          />
-        </div>
+      <div className="logo-container">
+        <img 
+          src="/lovable-uploads/a4a911e3-a6ea-47f3-a5c0-a855aa60803b.png" 
+          alt="Smartvoz" 
+          className="w-auto h-[90px] object-contain"
+        />
       </div>
     </div>
   );
