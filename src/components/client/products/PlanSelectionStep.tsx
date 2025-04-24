@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
@@ -21,13 +20,17 @@ interface PlanSelectionStepProps {
   setSelectedLines: (lines: Line[]) => void;
   selectedDueDate: number | null;
   setSelectedDueDate: (date: number) => void;
+  onBack: () => void;
+  onContinue: () => void;
 }
 
 export function PlanSelectionStep({ 
   selectedLines, 
   setSelectedLines,
   selectedDueDate,
-  setSelectedDueDate 
+  setSelectedDueDate,
+  onBack,
+  onContinue 
 }: PlanSelectionStepProps) {
   const { data: calendarStyle } = useCalendarStyles();
   
@@ -78,55 +81,54 @@ export function PlanSelectionStep({
   };
 
   return (
-    <div className="space-y-6 -mt-[0px] pt-5 max-w-[365px] mx-auto w-full">
-      <motion.div 
-        className="space-y-3 max-w-[365px] mx-auto text-center"
-        variants={itemVariants}
-      >
-        <div className="w-full flex justify-center mb-4">
-          <img 
-            src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 
-            alt="Smartvoz Logo" 
-            className="h-[140px] object-contain mix-blend-multiply opacity-90 contrast-125"
-          />
+    <div className="max-w-[379px] mx-auto w-full" style={{ marginTop: "74px" }}>
+      <div className="space-y-6">
+        <div className="space-y-3 text-center">
+          <div className="w-full flex justify-center mb-4">
+            <img 
+              src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 
+              alt="Smartvoz Logo" 
+              className="h-16 object-contain mix-blend-multiply opacity-90 contrast-125"
+            />
+          </div>
+          <h2 className="text-xl font-medium text-black">Personalize seu pedido</h2>
         </div>
-        <h2 className="text-xl font-medium text-black">Personalize seu pedido</h2>
-      </motion.div>
 
-      <div className="space-y-4 w-full">
-        <motion.div 
-          className="grid grid-cols-2 gap-4"
-          variants={itemVariants}
-        >
-          <div className="w-full">
-            <InternetSelector
-              selectedInternet={selectedLines[0]?.internet || undefined}
-              onInternetChange={handleInternetChange}
-              internetOptions={internetOptions}
+        <div className="space-y-4 w-full">
+          <motion.div 
+            className="grid grid-cols-2 gap-4"
+            variants={itemVariants}
+          >
+            <div className="w-full">
+              <InternetSelector
+                selectedInternet={selectedLines[0]?.internet || undefined}
+                onInternetChange={handleInternetChange}
+                internetOptions={internetOptions}
+              />
+            </div>
+            <div className="w-full">
+              <DDDInput
+                ddd={selectedLines[0]?.ddd || ""}
+                onDDDChange={handleDDDChange}
+              />
+            </div>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <DueDateSelector
+              selectedDueDate={selectedDueDate}
+              setSelectedDueDate={setSelectedDueDate}
+              calendarStyle={calendarStyle}
             />
-          </div>
-          <div className="w-full">
-            <DDDInput
-              ddd={selectedLines[0]?.ddd || ""}
-              onDDDChange={handleDDDChange}
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <PriceSummary
+              linePrice={selectedLines[0]?.price || 0}
+              totalPrice={totalPrice}
             />
-          </div>
-        </motion.div>
-
-        <motion.div variants={itemVariants}>
-          <DueDateSelector
-            selectedDueDate={selectedDueDate}
-            setSelectedDueDate={setSelectedDueDate}
-            calendarStyle={calendarStyle}
-          />
-        </motion.div>
-
-        <motion.div variants={itemVariants}>
-          <PriceSummary
-            linePrice={selectedLines[0]?.price || 0}
-            totalPrice={totalPrice}
-          />
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </div>
   );

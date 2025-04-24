@@ -34,7 +34,7 @@ export default function ClientRegister() {
               <img 
                 src="/lovable-uploads/5bded3e2-dd4c-4996-9027-b3a0abbb766c.png" 
                 alt="Smartvoz" 
-                className="h-auto w-[200px] object-contain" // Reduced from 240px
+                className="h-16 w-auto object-contain"
               />
             </div>
           </div>
