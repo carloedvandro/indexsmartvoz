@@ -25,6 +25,10 @@
     justify-content: flex-start !important;
     padding: 0 !important;
   }
+  
+  .logo-image {
+    margin: 0 !important;
+  }
 }
 
 /* Novos estilos específicos para a página de login */
