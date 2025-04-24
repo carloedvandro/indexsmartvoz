@@ -1,8 +1,9 @@
 
+/* Estilos originais para o logo no dashboard */
 .logo-container {
   display: flex !important;
   align-items: center !important;
-  justify-content: center !important;
+  justify-content: flex-start !important;
   height: 100% !important;
   width: 100% !important;
   padding: 0 !important;
@@ -14,13 +15,40 @@
   height: 90px !important;
   object-fit: contain !important;
   mix-blend-mode: multiply;
-  margin: 0 auto !important;
+  margin: 0 !important;
   display: block !important;
   background-color: rgba(255, 255, 255, 0.7);
 }
 
 @media (max-width: 768px) {
   .logo-container {
+    justify-content: flex-start !important;
+    padding: 0 !important;
+  }
+}
+
+/* Novos estilos específicos para a página de login */
+.login-logo-container {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  padding: 0 !important;
+}
+
+.login-logo-image {
+  max-width: 250px !important;
+  width: auto !important;
+  height: 90px !important;
+  object-fit: contain !important;
+  mix-blend-mode: multiply;
+  margin: 0 auto !important;
+  display: block !important;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 768px) {
+  .login-logo-container {
     justify-content: center !important;
     padding: 0 !important;
   }
