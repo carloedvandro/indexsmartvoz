@@ -24,7 +24,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
           {item.href ? (
             <Link
               to={item.href}
-              className="flex items-center justify-between gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap px-2"
+              className="flex items-center justify-between gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap px-3"
             >
               {item.icon === "home" && (
                 <div className="flex items-center">
@@ -40,7 +40,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
             </Link>
           ) : (
             <>
-              <div className="flex items-center justify-between px-2">
+              <div className="flex items-center justify-between px-3">
                 <p className="text-base font-medium">{item.title}</p>
                 {/* No arrow for "Loja Virtual" and "Rede" */}
                 {item.title !== "Loja Virtual" && item.title !== "Rede" && (
