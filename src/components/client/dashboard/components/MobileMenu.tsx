@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from "react-router-dom";
 import { X, ArrowRight } from "lucide-react";
@@ -24,7 +23,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
           {item.href ? (
             <Link
               to={item.href}
-              className="flex items-center justify-between gap-1 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap px-3"
+              className="flex items-center justify-start gap-2 hover:text-primary active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 whitespace-nowrap px-4"
             >
               {item.icon === "home" && (
                 <div className="flex items-center">
@@ -33,14 +32,14 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
               )}
               {!item.iconOnly && item.icon !== "home" && (
                 <>
-                  <span className="text-base">{item.title}</span>
+                  <span className="text-base flex-grow">{item.title}</span>
                   <ArrowRight className="h-4 w-4" />
                 </>
               )}
             </Link>
           ) : (
             <>
-              <div className="flex items-center justify-between px-3">
+              <div className="flex items-center justify-between px-4">
                 <p className="text-base font-medium">{item.title}</p>
                 {/* No arrow for "Loja Virtual" and "Rede" */}
                 {item.title !== "Loja Virtual" && item.title !== "Rede" && (
