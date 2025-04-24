@@ -1,16 +1,16 @@
 
 .logo-image {
-  max-width: 250px !important; /* Reduced from 300px */
+  max-width: 250px !important;
   width: auto !important;
-  height: 100px !important; /* Reduced from 120px */
+  height: 90px !important;
   object-fit: contain !important;
-  mix-blend-mode: multiply; /* Ajuda a remover o fundo branco */
+  mix-blend-mode: multiply;
   padding: 0 !important;
-  margin: -15px auto 0 auto !important; /* Slightly adjusted margin */
+  margin: -15px auto 0 auto !important;
   display: block !important;
   position: relative !important;
   right: 0 !important;
-  background-color: rgba(255, 255, 255, 0.7); /* Leve fundo branco */
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 .logo-container {
@@ -25,11 +25,11 @@
 
 @media (max-width: 768px) {
   .logo-image {
-    max-width: 280px !important; /* Reduced from 320px */
-    height: 90px !important; /* Reduced from 100px */
+    max-width: 280px !important;
+    height: 90px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    margin-top: -15px !important; /* Slightly adjusted */
+    margin-top: -15px !important;
     right: 0 !important;
     position: relative !important;
     left: 0 !important;

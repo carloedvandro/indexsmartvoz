@@ -7,7 +7,7 @@ export function PageHeader() {
       <img 
         src="/lovable-uploads/61e64db5-0dc5-4b80-b6ae-1305fcfa5fe5.png" 
         alt="Smartvoz Logo" 
-        className="h-16 object-contain mb-4 mix-blend-multiply opacity-90 contrast-125"
+        className="w-auto h-[90px] object-contain mb-4"
       />
     </div>
   );

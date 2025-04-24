@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { InternetSelector } from "@/components/client/products/InternetSelector";
@@ -54,7 +55,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             <img 
               src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 
               alt="Smartvoz Logo" 
-              className="h-[120px] object-contain mix-blend-multiply opacity-90 contrast-125"
+              className="w-auto h-[90px] object-contain"
             />
           </div>
           <h2 className="text-xl font-medium text-center text-black">Personalize seu pedido</h2>

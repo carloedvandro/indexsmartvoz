@@ -51,7 +51,7 @@ export default function ResetPassword() {
               <img 
                 src="/lovable-uploads/5bded3e2-dd4c-4996-9027-b3a0abbb766c.png" 
                 alt="Smartvoz" 
-                className="h-auto w-[240px]"
+                className="w-auto h-[90px] object-contain"
               />
             </div>
           </div>

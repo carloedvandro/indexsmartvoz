@@ -14,7 +14,7 @@ export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
         <img 
           src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
           alt="Smartvoz Logo" 
-          className="h-16 object-contain mb-4 mix-blend-multiply opacity-90 contrast-125"
+          className="w-auto h-[90px] object-contain mb-4"
         />
       </div>
       <p className="text-black text-center mt-2">
