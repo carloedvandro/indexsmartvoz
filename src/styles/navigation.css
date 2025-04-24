@@ -1,4 +1,3 @@
-
 .mobile-menu-button {
   display: flex;
   align-items: center;
@@ -58,4 +57,48 @@
 
 .dashboard-menu-item svg {
   color: #1eaedb;
+}
+
+.dots-animation {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.dots-animation svg {
+  transition: transform 0.3s ease;
+  opacity: 0.7;
+}
+
+.dots-animation:hover svg {
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+.dots-animation::before,
+.dots-animation::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: currentColor;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.dots-animation:hover::before,
+.dots-animation:hover::after {
+  opacity: 0.7;
+}
+
+.dots-animation::before {
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.dots-animation::after {
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
 }
