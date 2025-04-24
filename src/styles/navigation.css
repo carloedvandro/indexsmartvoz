@@ -1,3 +1,4 @@
+
 .mobile-menu-button {
   display: flex;
   align-items: center;
@@ -18,8 +19,8 @@
 
 @media (max-width: 1024px) {
   .mobile-menu-container {
-    width: 360px !important;
-    max-width: 360px !important;
+    width: 380px !important;
+    max-width: 380px !important;
     padding-top: 0.5rem !important;
     padding-bottom: 0.75rem !important;
     border-radius: 0 0 12px 12px !important;
