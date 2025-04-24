@@ -102,3 +102,19 @@
   top: 50%;
   transform: translateY(-50%);
 }
+
+.menu-dots {
+  display: flex;
+  align-items: center;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.menu-dots:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.menu-dots svg {
+  stroke-width: 2.5px;
+}

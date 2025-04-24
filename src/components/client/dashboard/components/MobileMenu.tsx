@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from "react-router-dom";
-import { X, MoreVertical } from "lucide-react";
+import { X, EllipsisVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
@@ -35,7 +35,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                 <>
                   <span className="text-base">{item.title}</span>
                   <div className="menu-dots">
-                    <MoreVertical className="h-4 w-4" />
+                    <EllipsisVertical className="h-4 w-4" />
                   </div>
                 </>
               )}
@@ -46,7 +46,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
                 <p className="text-base font-medium">{item.title}</p>
                 {item.title !== "Loja Virtual" && item.title !== "Rede" && (
                   <div className="menu-dots">
-                    <MoreVertical className="h-4 w-4" />
+                    <EllipsisVertical className="h-4 w-4" />
                   </div>
                 )}
               </div>
