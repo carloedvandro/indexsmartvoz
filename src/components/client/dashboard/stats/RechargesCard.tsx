@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/chart";
 
 export function RechargesCard() {
-  // Complete year of sample data with declining trend
+  // Updated year of sample data with May value matching the image
   const chartData = [
     { name: "Jan", value: 13500 },
     { name: "Fev", value: 13200 },
@@ -36,7 +36,7 @@ export function RechargesCard() {
           </svg>
         </button>
       </div>
-      <p className="text-sm text-gray-700 font-medium">12982 ICCID's</p>
+      <p className="text-sm text-gray-700 font-medium">12.500,00 Recargas</p>
       
       <div className="mt-3 h-32">
         <ChartContainer config={{}} className="h-full w-full">
@@ -91,3 +91,4 @@ export function RechargesCard() {
     </Card>
   );
 }
+
