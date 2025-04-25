@@ -1,5 +1,4 @@
 
-import { Clock } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import Image from "@/components/ui/image";
 
@@ -26,7 +25,11 @@ export function LineStatusCard() {
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <div className="w-10 h-10 rounded-md flex items-center justify-center mr-3">
-            <Clock className="h-5 w-5 text-gray-500" />
+            <Image 
+              src="/lovable-uploads/aa2bacf8-c5da-4ad5-bfb5-6ec14b524ae7.png" 
+              alt="Linhas Totais" 
+              className="w-full h-full object-contain"
+            />
           </div>
           <div>
             <p className="text-xs text-gray-500">Totais</p>
