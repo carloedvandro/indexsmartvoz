@@ -1,14 +1,12 @@
-
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Receipt } from "lucide-react";
 
 export function SalesDetailsCard() {
-  // Dados para o gráfico de pizza
   const pieData = [
     { name: "START 6 *GESIA", value: 300, color: "#9b87f5" },
     { name: "START 5GB + Minutos illimit.", value: 200, color: "#33C3F0" },
-    { name: "START 6", value: 150, color: "#DFCCFB" },
+    { name: "START 6", value: 150, color: "#D6BCFA" },
     { name: "Outros Planos", value: 100, color: "#E5E7EB" }
   ];
   
@@ -38,13 +36,16 @@ export function SalesDetailsCard() {
                   outerRadius={75}
                   paddingAngle={2}
                   dataKey="value"
-                  className="pointer-events-none" // Disable all interactions
+                  animationBegin={0}
+                  animationDuration={1200}
+                  animationEasing="ease-in-out"
                 >
                   {pieData.map((entry, index) => (
                     <Cell 
                       key={`cell-${index}`} 
                       fill={entry.color}
-                      className="pointer-events-none" // Disable interactions on cells
+                      className="pointer-events-none"
+                      strokeWidth={0}
                     />
                   ))}
                 </Pie>
@@ -53,7 +54,7 @@ export function SalesDetailsCard() {
                   y="50%"
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  className="text-xs"
+                  className="text-xs font-medium"
                   fill="#4B5563"
                 >
                   Vendas do Mês
@@ -61,7 +62,7 @@ export function SalesDetailsCard() {
                 <Tooltip 
                   formatter={(value) => [`${value.toLocaleString('pt-BR')} vendas`, '']}
                   contentStyle={{
-                    backgroundColor: "white", 
+                    backgroundColor: "white",
                     border: "none",
                     borderRadius: "8px",
                     boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
@@ -73,7 +74,6 @@ export function SalesDetailsCard() {
           </div>
         </div>
         
-        {/* Resto do código permanece igual */}
         <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4">
           <div className="p-2 bg-purple-100 rounded-md inline-flex mb-2">
             <Receipt className="h-5 w-5 text-purple-500" />
@@ -95,4 +95,3 @@ export function SalesDetailsCard() {
     </Card>
   );
 }
-
