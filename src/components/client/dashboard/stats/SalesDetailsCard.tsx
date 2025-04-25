@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Receipt } from "lucide-react";
@@ -27,7 +26,7 @@ export function SalesDetailsCard() {
         </button>
       </div>
       
-      <div className="flex flex-col md:flex-row items-center">
+      <div className="md:flex items-center">
         <div className="w-full md:w-[40%] mb-4 md:mb-0">
           <div className="h-40 relative">
             <ResponsiveContainer width="100%" height="100%">
@@ -68,7 +67,7 @@ export function SalesDetailsCard() {
           </div>
         </div>
         
-        <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4"> {/* Increased left padding and added margin */}
+        <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4">
           <div className="p-2 bg-purple-100 rounded-md inline-flex mb-2">
             <Receipt className="h-5 w-5 text-purple-500" />
           </div>
@@ -89,4 +88,3 @@ export function SalesDetailsCard() {
     </Card>
   );
 }
-
