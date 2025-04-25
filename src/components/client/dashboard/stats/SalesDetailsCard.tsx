@@ -38,14 +38,13 @@ export function SalesDetailsCard() {
                   outerRadius={75}
                   paddingAngle={2}
                   dataKey="value"
-                  // Removendo a opção de destaque
-                  className="transition-none"
+                  className="pointer-events-none" // Disable all interactions
                 >
                   {pieData.map((entry, index) => (
                     <Cell 
                       key={`cell-${index}`} 
                       fill={entry.color}
-                      className="hover:opacity-100" // Remove qualquer efeito de hover
+                      className="pointer-events-none" // Disable interactions on cells
                     />
                   ))}
                 </Pie>
@@ -96,3 +95,4 @@ export function SalesDetailsCard() {
     </Card>
   );
 }
+
