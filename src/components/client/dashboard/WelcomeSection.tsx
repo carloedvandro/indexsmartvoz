@@ -7,8 +7,10 @@ interface WelcomeSectionProps {
 }
 
 export function WelcomeSection({ profile }: WelcomeSectionProps) {
-  // Construct full name using the existing properties
-  const fullName = profile.full_name || "Usuário";
+  // Construct full name by combining first and last name, or using full_name
+  const fullName = profile.first_name && profile.last_name
+    ? `${profile.first_name} ${profile.last_name}`
+    : profile.full_name || "Usuário";
   
   return (
     <div className="px-4 mb-6">
@@ -18,3 +20,4 @@ export function WelcomeSection({ profile }: WelcomeSectionProps) {
     </div>
   );
 }
+
