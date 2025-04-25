@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
@@ -57,7 +58,7 @@ export function ActivationsCard() {
                 tick={{ fill: '#94a3b8', fontSize: 10 }}
                 dy={10}
                 interval={0}
-                padding={{ left: 80, right: 80 }}
+                padding={{ left: -0.1, right: -0.1 }}
                 tickCount={12}
                 tickFormatter={(tick) => tick}
               />
