@@ -18,17 +18,17 @@ interface DashboardCardsProps {
 
 export function DashboardCards({ profile, networkStats, handleNetworkClick }: DashboardCardsProps) {
   return (
-    <div className="px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      <div className="w-full bg-transparent">
+    <div className="px-4 max-w-[1800px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-6">
+      <div className="w-full">
         <ProfileCard profile={profile} />
       </div>
-      <div className="w-full bg-transparent">
+      <div className="w-full">
         <NetworkCard 
           networkStats={networkStats} 
           onClick={handleNetworkClick} 
         />
       </div>
-      <div className="w-full bg-transparent">
+      <div className="w-full">
         <PlansCard />
       </div>
     </div>

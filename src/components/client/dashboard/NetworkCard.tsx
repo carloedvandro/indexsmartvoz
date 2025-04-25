@@ -20,7 +20,7 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
 
   return (
     <Card 
-      className="h-full cursor-pointer hover:shadow-lg transition-shadow"
+      className="h-full cursor-pointer hover:shadow-lg transition-shadow shadow-sm"
       onClick={onClick}
     >
       <CardHeader className="pb-2 space-y-0 py-4">

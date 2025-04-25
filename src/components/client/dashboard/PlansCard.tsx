@@ -18,14 +18,14 @@ export function PlansCard() {
 
   if (isLoading) {
     return (
-      <Card className="h-full flex items-center justify-center">
+      <Card className="h-full flex items-center justify-center shadow-sm">
         <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
       </Card>
     );
   }
 
   return (
-    <Card className="h-full">
+    <Card className="h-full shadow-sm">
       <div className="p-6">
         <h2 className="text-xl font-semibold mb-4">Planos</h2>
         <ScrollArea className="h-[calc(100vh-280px)] pr-4">
