@@ -18,7 +18,7 @@ interface DashboardCardsProps {
 
 export function DashboardCards({ profile, networkStats, handleNetworkClick }: DashboardCardsProps) {
   return (
-    <div className="px-4 max-w-[1800px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+    <div className="px-4 max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-3">
       <div className="w-full">
         <ProfileCard profile={profile} />
       </div>
