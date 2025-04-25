@@ -20,7 +20,7 @@ export function LineStatusCard() {
           </svg>
         </button>
       </div>
-      <p className="text-sm text-gray-500 mb-4">Visualize o total de linhas de sua operadora.</p>
+      <p className="text-sm text-gray-500 mb-4">Visualize o total de linhas de sua equipe.</p>
       
       <div className="flex items-center justify-between">
         <div className="flex items-center">
@@ -56,3 +56,4 @@ export function LineStatusCard() {
     </Card>
   );
 }
+
