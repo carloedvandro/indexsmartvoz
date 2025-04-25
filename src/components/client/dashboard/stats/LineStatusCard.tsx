@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import Image from "@/components/ui/image";
 
@@ -21,7 +22,7 @@ export function LineStatusCard() {
       </div>
       <p className="text-sm text-gray-500 mb-4">Visualize o total de linhas de sua equipe.</p>
       
-      <div className="grid grid-cols-3 gap-1">
+      <div className="grid grid-cols-3 gap-1 -ml-[10px]"> {/* Moved 6px more to the left with -ml-[10px] */}
         <div className="flex items-center space-x-1">
           <div className="w-16 h-17 rounded-md flex items-center justify-center">
             <Image 
@@ -30,7 +31,7 @@ export function LineStatusCard() {
               className="w-full h-full object-contain"
             />
           </div>
-          <div className="-ml-2">
+          <div>
             <p className="text-xs text-gray-500">Totais</p>
             <p className="text-lg font-semibold">{totalLines}</p>
           </div>
@@ -44,7 +45,7 @@ export function LineStatusCard() {
               className="w-full h-full object-contain"
             />
           </div>
-          <div className="-ml-2">
+          <div>
             <p className="text-xs text-gray-500">Ativas</p>
             <p className="text-lg font-semibold">{activeLines}</p>
           </div>
@@ -58,7 +59,7 @@ export function LineStatusCard() {
               className="w-full h-full object-contain"
             />
           </div>
-          <div className="-ml-2">
+          <div>
             <p className="text-xs text-gray-500">Inativas</p>
             <p className="text-lg font-semibold">{inactiveLines}</p>
           </div>
