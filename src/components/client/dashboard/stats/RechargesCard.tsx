@@ -58,7 +58,7 @@ export function RechargesCard() {
                 tick={{ fill: '#94a3b8', fontSize: 10 }}
                 dy={10}
                 interval={0}
-                padding={{ left: -4, right: -4 }}
+                padding={{ left: -6, right: -6 }}
                 tickCount={12}
                 tickFormatter={(tick) => tick}
               />
