@@ -45,7 +45,7 @@ export function RechargesCard() {
     "Mai": "Maio",
     "Jun": "Junho",
     "Jul": "Julho",
-    "Ago": "Agosto",
+    "Ago": "Agosto", 
     "Set": "Setembro",
     "Out": "Outubro",
     "Nov": "Novembro",
@@ -116,7 +116,7 @@ export function RechargesCard() {
                                 {`R$ ${monthlyValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} no mês`}
                               </span>
                               <span className="text-sm font-bold text-green-500">
-                                {`R$ ${accumulatedValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} comissões pagas`}
+                                {`R$ ${accumulatedValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} comissões total já pagas`}
                               </span>
                             </div>
                           </>,
