@@ -22,8 +22,8 @@ export function LineStatusCard() {
       </div>
       <p className="text-sm text-gray-500 mb-4">Visualize o total de linhas de sua equipe.</p>
       
-      <div className="flex items-center justify-between -ml-4"> {/* Moved further left */}
-        <div className="flex items-center -ml-2"> {/* Added additional left margin */}
+      <div className="flex items-center justify-between -ml-4 mr-1"> {/* Added 4px to the right with mr-1 */}
+        <div className="flex items-center -ml-2">
           <div className="w-16 h-17 rounded-md flex items-center justify-center">
             <Image 
               src="/lovable-uploads/aa2bacf8-c5da-4ad5-bfb5-6ec14b524ae7.png" 
@@ -37,7 +37,7 @@ export function LineStatusCard() {
           </div>
         </div>
         
-        <div className="flex items-center -ml-2"> {/* Added additional left margin */}
+        <div className="flex items-center -ml-2">
           <div className="w-16 h-17 rounded-md flex items-center justify-center">
             <Image 
               src="/lovable-uploads/5cd2c244-1d2c-41d6-9de7-76865f32923d.png" 
@@ -51,7 +51,7 @@ export function LineStatusCard() {
           </div>
         </div>
         
-        <div className="flex items-center -ml-2"> {/* Added additional left margin */}
+        <div className="flex items-center -ml-2">
           <div className="w-16 h-17 rounded-md flex items-center justify-center">
             <Image 
               src="/lovable-uploads/55a072a8-cbbf-4b4d-8546-448bcacdfd3e.png" 
