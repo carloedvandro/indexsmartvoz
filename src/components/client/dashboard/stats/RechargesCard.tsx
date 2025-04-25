@@ -80,8 +80,8 @@ export function RechargesCard() {
                         currency: 'BRL', 
                         minimumFractionDigits: 2, 
                         maximumFractionDigits: 2 
-                      });
-                      return [formattedValue, 'Recargas'];
+                      }) + 'Recargas';
+                      return [formattedValue, ''];
                     }}
                     labelFormatter={(name) => `${name}`}
                   />
