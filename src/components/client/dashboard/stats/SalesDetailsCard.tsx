@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Receipt } from "lucide-react";
@@ -37,9 +38,15 @@ export function SalesDetailsCard() {
                   outerRadius={75}
                   paddingAngle={2}
                   dataKey="value"
+                  // Removendo a opção de destaque
+                  className="transition-none"
                 >
                   {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
+                    <Cell 
+                      key={`cell-${index}`} 
+                      fill={entry.color}
+                      className="hover:opacity-100" // Remove qualquer efeito de hover
+                    />
                   ))}
                 </Pie>
                 <text
@@ -67,6 +74,7 @@ export function SalesDetailsCard() {
           </div>
         </div>
         
+        {/* Resto do código permanece igual */}
         <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4">
           <div className="p-2 bg-purple-100 rounded-md inline-flex mb-2">
             <Receipt className="h-5 w-5 text-purple-500" />
