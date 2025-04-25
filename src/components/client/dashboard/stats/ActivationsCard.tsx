@@ -8,20 +8,20 @@ import {
 } from "@/components/ui/chart";
 
 export function ActivationsCard() {
-  // Complete year of sample data with increasing trend
+  // Complete year of sample data with varying trend
   const chartData = [
     { name: "Jan", value: 500 },
-    { name: "Fev", value: 520 },
+    { name: "Fev", value: 580 },
     { name: "Mar", value: 540 },
-    { name: "Abr", value: 560 },
-    { name: "Mai", value: 580 },
-    { name: "Jun", value: 600 },
-    { name: "Jul", value: 620 },
-    { name: "Ago", value: 640 },
-    { name: "Set", value: 660 },
-    { name: "Out", value: 680 },
-    { name: "Nov", value: 700 },
-    { name: "Dez", value: 720 }
+    { name: "Abr", value: 620 },
+    { name: "Mai", value: 590 },
+    { name: "Jun", value: 650 },
+    { name: "Jul", value: 630 },
+    { name: "Ago", value: 680 },
+    { name: "Set", value: 640 },
+    { name: "Out", value: 720 },
+    { name: "Nov", value: 690 },
+    { name: "Dez", value: 750 }
   ];
   
   const fullMonthNames = {
@@ -58,12 +58,12 @@ export function ActivationsCard() {
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart 
               data={chartData} 
-              margin={{ top: 0, right: 10, left: 10, bottom: 0 }}
+              margin={{ top: 5, right: 10, left: 10, bottom: 0 }}
             >
               <defs>
                 <linearGradient id="activationGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#9b87f5" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#9b87f5" stopOpacity={0.1} />
+                  <stop offset="5%" stopColor="#9b87f5" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#9b87f5" stopOpacity={0.05} />
                 </linearGradient>
               </defs>
               <XAxis 
@@ -72,13 +72,12 @@ export function ActivationsCard() {
                 tickLine={false}
                 tick={{ fill: '#94a3b8', fontSize: 10 }}
                 dy={10}
-                interval={0}
                 padding={{ left: 10, right: 10 }}
-                tickCount={12}
-                tickFormatter={(tick) => tick}
+                interval={0}
               />
               <YAxis 
                 hide={true}
+                domain={['auto', 'auto']}
               />
               <ChartTooltip 
                 content={({ active, payload, label }) => (
@@ -88,7 +87,7 @@ export function ActivationsCard() {
                     label={label}
                     hideIndicator={true}
                     labelFormatter={(name) => fullMonthNames[name] || name}
-                    formatter={(value) => [`${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Ativações`, '']}
+                    formatter={(value) => [`${value.toLocaleString('pt-BR')} Ativações`, '']}
                   />
                 )}
               />
@@ -96,8 +95,16 @@ export function ActivationsCard() {
                 type="monotone"
                 dataKey="value"
                 stroke="#9b87f5"
-                strokeWidth={2}
+                strokeWidth={2.5}
                 fill="url(#activationGradient)"
+                dot={false}
+                activeDot={{
+                  r: 6,
+                  stroke: '#9b87f5',
+                  strokeWidth: 2,
+                  fill: '#fff',
+                  filter: 'drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.2))'
+                }}
               />
             </AreaChart>
           </ResponsiveContainer>

@@ -10,17 +10,17 @@ import {
 export function RechargesCard() {
   const chartData = [
     { name: "Jan", value: 13500 },
-    { name: "Fev", value: 180600.80 },
-    { name: "Mar", value: 12900 },
-    { name: "Abr", value: 12700 },
-    { name: "Mai", value: 12500 },
-    { name: "Jun", value: 12200 },
-    { name: "Jul", value: 11900 },
-    { name: "Ago", value: 11600 },
-    { name: "Set", value: 11300 },
-    { name: "Out", value: 11000 },
-    { name: "Nov", value: 10700 },
-    { name: "Dez", value: 10400 }
+    { name: "Fev", value: 14200 },
+    { name: "Mar", value: 13800 },
+    { name: "Abr", value: 14500 },
+    { name: "Mai", value: 14100 },
+    { name: "Jun", value: 15200 },
+    { name: "Jul", value: 14800 },
+    { name: "Ago", value: 15500 },
+    { name: "Set", value: 15100 },
+    { name: "Out", value: 16200 },
+    { name: "Nov", value: 15800 },
+    { name: "Dez", value: 16500 }
   ];
   
   const fullMonthNames = {
@@ -57,12 +57,12 @@ export function RechargesCard() {
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart 
               data={chartData} 
-              margin={{ top: 10, right: 10, left: 10, bottom: 0 }}
+              margin={{ top: 5, right: 10, left: 10, bottom: 0 }}
             >
               <defs>
                 <linearGradient id="rechargeGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#4ADE80" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#4ADE80" stopOpacity={0.1} />
+                  <stop offset="5%" stopColor="#4ADE80" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#4ADE80" stopOpacity={0.05} />
                 </linearGradient>
               </defs>
               <XAxis 
@@ -71,15 +71,12 @@ export function RechargesCard() {
                 tickLine={false}
                 tick={{ fill: '#94a3b8', fontSize: 10 }}
                 dy={10}
-                interval={0}
                 padding={{ left: 10, right: 10 }}
-                tickCount={12}
-                tickFormatter={(tick) => tick}
+                interval={0}
               />
               <YAxis 
                 hide={true}
                 domain={['auto', 'auto']}
-                allowDataOverflow={false}
               />
               <ChartTooltip 
                 content={({ active, payload, label }) => (
@@ -90,12 +87,10 @@ export function RechargesCard() {
                     hideIndicator={true}
                     labelFormatter={(name) => fullMonthNames[name] || name}
                     formatter={(value) => {
-                      const formattedValue = value.toLocaleString('en-US', { 
-                        style: 'currency', 
-                        currency: 'BRL', 
-                        minimumFractionDigits: 2, 
-                        maximumFractionDigits: 2 
-                      }).replace(/\s/g, '') + ' Recargas';
+                      const formattedValue = value.toLocaleString('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                      }) + ' Recargas';
                       return [formattedValue, ''];
                     }}
                   />
@@ -105,8 +100,16 @@ export function RechargesCard() {
                 type="monotone"
                 dataKey="value"
                 stroke="#4ADE80"
-                strokeWidth={2}
+                strokeWidth={2.5}
                 fill="url(#rechargeGradient)"
+                dot={false}
+                activeDot={{
+                  r: 6,
+                  stroke: '#4ADE80',
+                  strokeWidth: 2,
+                  fill: '#fff',
+                  filter: 'drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.2))'
+                }}
               />
             </AreaChart>
           </ResponsiveContainer>
