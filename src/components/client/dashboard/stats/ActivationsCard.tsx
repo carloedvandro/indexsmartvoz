@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
@@ -42,7 +43,7 @@ export function ActivationsCard() {
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart 
               data={chartData} 
-              margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+              margin={{ top: 0, right: 10, left: 10, bottom: 0 }}
             >
               <defs>
                 <linearGradient id="activationGradient" x1="0" y1="0" x2="0" y2="1">
@@ -57,7 +58,7 @@ export function ActivationsCard() {
                 tick={{ fill: '#94a3b8', fontSize: 10 }}
                 dy={10}
                 interval={0}
-                padding={{ left: -0.1, right: -0.1 }}
+                padding={{ left: 10, right: 10 }}
                 tickCount={12}
                 tickFormatter={(tick) => tick}
               />
@@ -90,3 +91,4 @@ export function ActivationsCard() {
     </Card>
   );
 }
+
