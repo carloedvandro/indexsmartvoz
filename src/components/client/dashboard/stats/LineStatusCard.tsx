@@ -37,7 +37,7 @@ export function LineStatusCard() {
         <div className="flex items-center">
           <div className="w-16 h-16 rounded-md flex items-center justify-center mr-3">
             <Image 
-              src="/lovable-uploads/8f6f9898-1756-48be-8513-fc6f61a412e2.png" 
+              src="/lovable-uploads/5cd2c244-1d2c-41d6-9de7-76865f32923d.png" 
               alt="Linhas Ativas" 
               className="w-full h-full object-contain"
             />
