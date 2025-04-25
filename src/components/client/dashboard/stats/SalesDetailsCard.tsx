@@ -16,7 +16,7 @@ export function SalesDetailsCard() {
   
   return (
     <Card className="p-6 shadow-sm h-full w-full bg-transparent border-none">
-      <div className="flex justify-between items-center mb-2">
+      <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-medium">Detalhe das Vendas</h3>
         <button className="text-gray-400 hover:text-gray-600">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -27,8 +27,8 @@ export function SalesDetailsCard() {
         </button>
       </div>
       
-      <div className="flex items-center">
-        <div className="w-[40%]">
+      <div className="flex flex-col md:flex-row items-center">
+        <div className="w-full md:w-[40%] mb-4 md:mb-0">
           <div className="h-40 relative">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -68,19 +68,19 @@ export function SalesDetailsCard() {
           </div>
         </div>
         
-        <div className="w-[60%] pl-4">
-          <div className="p-2 bg-purple-100 rounded-md inline-flex mb-1">
+        <div className="w-full md:w-[60%] pl-0 md:pl-4">
+          <div className="p-2 bg-purple-100 rounded-md inline-flex mb-2">
             <Receipt className="h-5 w-5 text-purple-500" />
           </div>
           <p className="text-sm font-medium text-gray-600">Valor total de vendas</p>
-          <p className="text-lg font-bold text-purple-600 mb-3">{totalSales}</p>
+          <p className="text-lg font-bold text-purple-600 mb-4">{totalSales}</p>
           
-          <p className="text-sm font-medium text-gray-600 mb-2">Planos mais vendidos</p>
-          <div className="grid grid-cols-2 gap-y-2">
+          <p className="text-sm font-medium text-gray-600 mb-3">Planos mais vendidos</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {pieData.map((plan, index) => (
               <div key={index} className="flex items-center">
-                <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: plan.color }}></div>
-                <p className="text-xs text-gray-600">{plan.name}</p>
+                <div className="min-w-3 h-3 rounded-full mr-2" style={{ backgroundColor: plan.color }}></div>
+                <p className="text-xs text-gray-600 whitespace-normal">{plan.name}</p>
               </div>
             ))}
           </div>
@@ -89,4 +89,3 @@ export function SalesDetailsCard() {
     </Card>
   );
 }
-
