@@ -116,7 +116,7 @@ export function RechargesCard() {
                                 {`R$ ${monthlyValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} no mês`}
                               </span>
                               <span className="text-sm font-bold text-green-500">
-                                {`R$ ${accumulatedValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} acumulado`}
+                                {`R$ ${accumulatedValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} comissões pagas`}
                               </span>
                             </div>
                           </>,
