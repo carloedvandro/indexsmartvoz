@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
@@ -97,10 +96,10 @@ export function RechargesCard() {
                 )}
               />
               <Area
-                type="monotone"
+                type="basis"
                 dataKey="value"
                 stroke="#4ADE80"
-                strokeWidth={2.5}
+                strokeWidth={3}
                 fill="url(#rechargeGradient)"
                 dot={false}
                 activeDot={{
