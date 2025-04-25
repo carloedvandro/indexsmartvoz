@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
@@ -23,6 +22,21 @@ export function ActivationsCard() {
     { name: "Nov", value: 700 },
     { name: "Dez", value: 720 }
   ];
+  
+  const fullMonthNames = {
+    "Jan": "Janeiro",
+    "Fev": "Fevereiro",
+    "Mar": "Março",
+    "Abr": "Abril",
+    "Mai": "Maio",
+    "Jun": "Junho",
+    "Jul": "Julho",
+    "Ago": "Agosto", 
+    "Set": "Setembro",
+    "Out": "Outubro",
+    "Nov": "Novembro",
+    "Dez": "Dezembro"
+  };
   
   return (
     <Card className="p-6 shadow-sm h-full w-full">
@@ -72,8 +86,8 @@ export function ActivationsCard() {
                     payload={payload}
                     label={label}
                     hideIndicator={true}
+                    labelFormatter={(name) => fullMonthNames[name] || name}
                     formatter={(value) => [`${value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 'Ativações']}
-                    labelFormatter={(name) => `${name}`}
                   />
                 )}
               />
