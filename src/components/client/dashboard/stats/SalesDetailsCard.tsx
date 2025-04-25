@@ -1,5 +1,3 @@
-
-
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Receipt } from "lucide-react";
@@ -90,4 +88,3 @@ export function SalesDetailsCard() {
     </Card>
   );
 }
-
