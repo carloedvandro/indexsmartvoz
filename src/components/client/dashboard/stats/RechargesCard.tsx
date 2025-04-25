@@ -8,20 +8,20 @@ import {
 } from "@/components/ui/chart";
 
 export function RechargesCard() {
-  // Updated year of sample data with modified February value
+  // Updated to use full month names
   const chartData = [
-    { name: "Jan", value: 13500 },
-    { name: "Fev", value: 180600.80 }, // Updated value as specified
-    { name: "Mar", value: 12900 },
-    { name: "Abr", value: 12700 },
-    { name: "Mai", value: 12500 },
-    { name: "Jun", value: 12200 },
-    { name: "Jul", value: 11900 },
-    { name: "Ago", value: 11600 },
-    { name: "Set", value: 11300 },
-    { name: "Out", value: 11000 },
-    { name: "Nov", value: 10700 },
-    { name: "Dez", value: 10400 }
+    { name: "Janeiro", value: 13500 },
+    { name: "Fevereiro", value: 180600.80 },
+    { name: "Março", value: 12900 },
+    { name: "Abril", value: 12700 },
+    { name: "Maio", value: 12500 },
+    { name: "Junho", value: 12200 },
+    { name: "Julho", value: 11900 },
+    { name: "Agosto", value: 11600 },
+    { name: "Setembro", value: 11300 },
+    { name: "Outubro", value: 11000 },
+    { name: "Novembro", value: 10700 },
+    { name: "Dezembro", value: 10400 }
   ];
   
   return (
