@@ -10,7 +10,7 @@ export function StatsCardsGrid() {
       <div className="grid grid-cols-1 gap-4 mb-4 max-w-[1800px] mx-auto">
         <LineStatusCard />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-[1800px] mx-auto w-[calc(100%+1px)]">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-[1800px] mx-auto">
         <div className="w-full">
           <RechargesCard />
         </div>
