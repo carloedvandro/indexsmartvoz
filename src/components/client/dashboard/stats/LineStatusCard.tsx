@@ -22,8 +22,8 @@ export function LineStatusCard() {
       </div>
       <p className="text-sm text-gray-500 mb-4">Visualize o total de linhas de sua equipe.</p>
       
-      <div className="grid grid-cols-3 gap-1 -ml-2"> {/* Moved closer to left with -ml-2 */}
-        <div className="flex items-center space-x-1"> {/* Reduced space between icon and text */}
+      <div className="grid grid-cols-3 gap-1 -ml-[10px]"> {/* Moved 6px more to the left with -ml-[10px] */}
+        <div className="flex items-center space-x-1">
           <div className="w-16 h-17 rounded-md flex items-center justify-center">
             <Image 
               src="/lovable-uploads/aa2bacf8-c5da-4ad5-bfb5-6ec14b524ae7.png" 
