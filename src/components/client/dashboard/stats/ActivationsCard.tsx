@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
@@ -26,7 +27,7 @@ export function ActivationsCard() {
   return (
     <Card className="p-6 shadow-sm h-full w-full">
       <div className="flex justify-between items-center mb-1">
-        <h3 className="text-lg font-bold">Total Ativações</h3>
+        <h3 className="text-lg font-bold">Total de Ativações Ativas</h3>
         <button className="text-gray-400 hover:text-gray-600">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="1" />
