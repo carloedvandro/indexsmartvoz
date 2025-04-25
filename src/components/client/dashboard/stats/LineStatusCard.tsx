@@ -1,12 +1,14 @@
 
 import { Card } from "@/components/ui/card";
 import Image from "@/components/ui/image";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function LineStatusCard() {
   // No futuro, esses dados viriam de uma API
   const totalLines = 1;
   const activeLines = 1;
   const inactiveLines = 0;
+  const isMobile = useIsMobile();
 
   return (
     <Card className="p-6 shadow-sm w-full">
@@ -24,7 +26,7 @@ export function LineStatusCard() {
       
       <div className="grid grid-cols-3 gap-1 -ml-[10px]">
         <div className="flex items-center space-x-1 -ml-[3px]">
-          <div className="w-12 h-12 rounded-md flex items-center justify-center">
+          <div className={`${isMobile ? 'w-16 h-17' : 'w-12 h-12'} rounded-md flex items-center justify-center`}>
             <Image 
               src="/lovable-uploads/aa2bacf8-c5da-4ad5-bfb5-6ec14b524ae7.png" 
               alt="Linhas Totais" 
@@ -38,7 +40,7 @@ export function LineStatusCard() {
         </div>
         
         <div className="flex items-center space-x-1 ml-[14px]">
-          <div className="w-12 h-12 rounded-md flex items-center justify-center">
+          <div className={`${isMobile ? 'w-16 h-17' : 'w-12 h-12'} rounded-md flex items-center justify-center`}>
             <Image 
               src="/lovable-uploads/5cd2c244-1d2c-41d6-9de7-76865f32923d.png" 
               alt="Linhas Ativas" 
@@ -52,7 +54,7 @@ export function LineStatusCard() {
         </div>
         
         <div className="flex items-center space-x-1 ml-[28px]">
-          <div className="w-12 h-12 rounded-md flex items-center justify-center">
+          <div className={`${isMobile ? 'w-16 h-17' : 'w-12 h-12'} rounded-md flex items-center justify-center`}>
             <Image 
               src="/lovable-uploads/55a072a8-cbbf-4b4d-8546-448bcacdfd3e.png" 
               alt="Linhas Inativas" 
