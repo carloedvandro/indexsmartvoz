@@ -1,6 +1,6 @@
 
 import { Card } from "@/components/ui/card";
-import { LineChart, Line, XAxis, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
@@ -40,11 +40,11 @@ export function ActivationsCard() {
       
       <div className="mt-4 h-32">
         <ChartContainer config={{}} className="h-full">
-          <LineChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 20 }}>
+          <AreaChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 20 }}>
             <defs>
               <linearGradient id="activationGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#4ADE80" stopOpacity={1} />
-                <stop offset="100%" stopColor="#4ADE80" stopOpacity={0.1} />
+                <stop offset="5%" stopColor="#9b87f5" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#9b87f5" stopOpacity={0.1} />
               </linearGradient>
             </defs>
             <XAxis 
@@ -55,6 +55,9 @@ export function ActivationsCard() {
               dy={10}
               interval={0}
               width={500}
+            />
+            <YAxis 
+              hide={true}
             />
             <ChartTooltip 
               content={({ active, payload, label }) => (
@@ -68,15 +71,14 @@ export function ActivationsCard() {
                 />
               )}
             />
-            <Line 
-              type="monotone" 
-              dataKey="value" 
-              stroke="#4ADE80" 
+            <Area
+              type="monotone"
+              dataKey="value"
+              stroke="#9b87f5"
               strokeWidth={2}
-              dot={false}
-              activeDot={{ r: 4, fill: "#4ADE80" }}
+              fill="url(#activationGradient)"
             />
-          </LineChart>
+          </AreaChart>
         </ChartContainer>
       </div>
     </Card>
