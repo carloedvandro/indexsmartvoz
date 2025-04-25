@@ -6,9 +6,10 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from "@/components/ui/chart";
+import { useMemo } from "react";
 
 export function RechargesCard() {
-  const chartData = [
+  const monthlyData = [
     { name: "Jan", value: 13500 },
     { name: "Fev", value: 14200 },
     { name: "Mar", value: 13800 },
@@ -22,6 +23,19 @@ export function RechargesCard() {
     { name: "Nov", value: 15800 },
     { name: "Dez", value: 16500 }
   ];
+  
+  // Calcular valores acumulados
+  const chartData = useMemo(() => {
+    let accumulatedValue = 0;
+    return monthlyData.map(item => {
+      accumulatedValue += item.value;
+      return {
+        name: item.name,
+        value: accumulatedValue,
+        monthlyValue: item.value  // Mantemos o valor mensal para o tooltip
+      };
+    });
+  }, []);
   
   const fullMonthNames = {
     "Jan": "Janeiro",
@@ -38,6 +52,9 @@ export function RechargesCard() {
     "Dez": "Dezembro"
   };
   
+  // Calcular o total final
+  const totalRecharges = chartData[chartData.length - 1]?.value || 0;
+  
   return (
     <Card className="p-6 shadow-sm h-full w-full">
       <div className="flex justify-between items-center mb-1">
@@ -50,7 +67,7 @@ export function RechargesCard() {
           </svg>
         </button>
       </div>
-      <p className="text-sm text-gray-700 font-medium">12.982 ICCID's</p>
+      <p className="text-sm text-gray-700 font-medium">{totalRecharges.toLocaleString('pt-BR')} ICCID's</p>
       
       <div className="mt-3 h-32">
         <ChartContainer config={{}} className="h-full w-full">
@@ -86,12 +103,28 @@ export function RechargesCard() {
                     label={label}
                     hideIndicator={true}
                     labelFormatter={(name) => fullMonthNames[name] || name}
-                    formatter={(value) => {
-                      const formattedValue = value.toLocaleString('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL'
-                      }) + ' Recargas';
-                      return [formattedValue, ''];
+                    formatter={(value, name, entry) => {
+                      // Exibir valor mensal e acumulado no tooltip
+                      if (entry && entry.payload) {
+                        const monthlyValue = entry.payload.monthlyValue;
+                        const accumulatedValue = entry.payload.value;
+                        
+                        return [
+                          <>
+                            <div className="flex flex-col">
+                              <span className="text-sm font-semibold">
+                                {`R$ ${monthlyValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} no mês`}
+                              </span>
+                              <span className="text-sm font-bold text-green-500">
+                                {`R$ ${accumulatedValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} acumulado`}
+                              </span>
+                            </div>
+                          </>,
+                          ''
+                        ];
+                      }
+                      
+                      return [`R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`, ''];
                     }}
                   />
                 )}
