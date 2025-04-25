@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/chart";
 
 export function ActivationsCard() {
+  // Complete year of sample data with increasing trend
   const chartData = [
     { name: "Jan", value: 500 },
     { name: "Fev", value: 520 },
@@ -61,8 +62,8 @@ export function ActivationsCard() {
             >
               <defs>
                 <linearGradient id="activationGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#9b87f5" stopOpacity={0.15} />
-                  <stop offset="95%" stopColor="#9b87f5" stopOpacity={0.05} />
+                  <stop offset="5%" stopColor="#9b87f5" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#9b87f5" stopOpacity={0.1} />
                 </linearGradient>
               </defs>
               <XAxis 
@@ -87,9 +88,7 @@ export function ActivationsCard() {
                     label={label}
                     hideIndicator={true}
                     labelFormatter={(name) => fullMonthNames[name] || name}
-                    formatter={(value) => {
-                      return [`${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Ativações`, '']
-                    }}
+                    formatter={(value) => [`${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Ativações`, '']}
                   />
                 )}
               />
@@ -97,16 +96,8 @@ export function ActivationsCard() {
                 type="monotone"
                 dataKey="value"
                 stroke="#9b87f5"
-                strokeWidth={2.5}
+                strokeWidth={2}
                 fill="url(#activationGradient)"
-                dot={false}
-                activeDot={{ 
-                  stroke: '#9b87f5', 
-                  strokeWidth: 2, 
-                  fill: '#ffffff', 
-                  r: 4,
-                  className: "drop-shadow-md" 
-                }}
               />
             </AreaChart>
           </ResponsiveContainer>
