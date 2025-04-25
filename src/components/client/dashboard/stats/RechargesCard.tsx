@@ -72,7 +72,7 @@ export function RechargesCard() {
                     payload={payload}
                     label={label}
                     hideIndicator={true}
-                    formatter={(value) => [`R$${value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Recargas`, 'Recargas']}
+                    formatter={(value) => [`R$${value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Recargas`, null]}
                     labelFormatter={(name) => `${name}`}
                   />
                 )}
