@@ -1,4 +1,5 @@
-import { Clock, PhoneOff } from "lucide-react";
+
+import { Clock, PhoneOff, Smartphone } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 export function LineStatusCard() {
@@ -33,12 +34,8 @@ export function LineStatusCard() {
         </div>
         
         <div className="flex items-center">
-          <div className="w-12 h-12 rounded-md flex items-center justify-center mr-3">
-            <img 
-              src="/lovable-uploads/f449f26e-fac9-4f76-b1b4-7c3a34e6b205.png" 
-              alt="Active SIM Card" 
-              className="h-9 w-9"
-            />
+          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-green-500 mr-3">
+            <Smartphone className="h-5 w-5 text-white" />
           </div>
           <div>
             <p className="text-xs text-gray-500">Ativas</p>
@@ -59,3 +56,4 @@ export function LineStatusCard() {
     </Card>
   );
 }
+

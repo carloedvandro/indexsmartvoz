@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
@@ -5,10 +6,10 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from "@/components/ui/chart";
-import { useChartRealtime } from "@/hooks/useChartRealtime";
 
 export function ActivationsCard() {
-  const initialData = [
+  // Complete year of sample data with varying trend
+  const chartData = [
     { name: "Jan", value: 500 },
     { name: "Fev", value: 580 },
     { name: "Mar", value: 540 },
@@ -22,8 +23,6 @@ export function ActivationsCard() {
     { name: "Nov", value: 690 },
     { name: "Dez", value: 750 }
   ];
-
-  const chartData = useChartRealtime(initialData);
   
   const fullMonthNames = {
     "Jan": "Janeiro",
