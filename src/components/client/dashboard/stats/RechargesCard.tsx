@@ -8,10 +8,10 @@ import {
 } from "@/components/ui/chart";
 
 export function RechargesCard() {
-  // Complete year of sample data with updated February value
+  // Updated year of sample data with modified February value
   const chartData = [
     { name: "Jan", value: 13500 },
-    { name: "Fev", value: 1200000 }, // Updated value
+    { name: "Fev", value: 180600.80 }, // Updated value as specified
     { name: "Mar", value: 12900 },
     { name: "Abr", value: 12700 },
     { name: "Mai", value: 12500 },
