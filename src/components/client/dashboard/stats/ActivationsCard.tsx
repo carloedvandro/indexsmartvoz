@@ -51,7 +51,7 @@ export function ActivationsCard() {
           </svg>
         </button>
       </div>
-      <p className="text-sm text-gray-700 font-medium">582 ICCID's</p>
+      <p className="text-sm text-gray-700 font-medium">1.932 ICCID's</p>
       
       <div className="mt-3 h-32">
         <ChartContainer config={{}} className="h-full w-full">
