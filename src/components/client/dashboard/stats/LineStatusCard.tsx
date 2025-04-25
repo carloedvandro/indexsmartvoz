@@ -50,7 +50,7 @@ export function LineStatusCard() {
           </div>
         </div>
         
-        <div className="flex items-center space-x-1 ml-[26px]">
+        <div className="flex items-center space-x-1 ml-[28px]">
           <div className="w-16 h-17 rounded-md flex items-center justify-center">
             <Image 
               src="/lovable-uploads/55a072a8-cbbf-4b4d-8546-448bcacdfd3e.png" 
