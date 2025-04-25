@@ -45,7 +45,7 @@ export function RechargesCard() {
     "Mai": "Maio",
     "Jun": "Junho",
     "Jul": "Julho",
-    "Ago": "Agosto", 
+    "Ago": "Agosto",
     "Set": "Setembro",
     "Out": "Outubro",
     "Nov": "Novembro",
@@ -74,7 +74,7 @@ export function RechargesCard() {
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart 
               data={chartData} 
-              margin={{ top: 5, right: 65, left: 10, bottom: 0 }}
+              margin={{ top: 5, right: 30, left: 10, bottom: 0 }}
             >
               <defs>
                 <linearGradient id="rechargeGradient" x1="0" y1="0" x2="0" y2="1">
@@ -88,7 +88,7 @@ export function RechargesCard() {
                 tickLine={false}
                 tick={{ fill: '#94a3b8', fontSize: 10 }}
                 dy={10}
-                padding={{ left: 10, right: 65 }}
+                padding={{ left: 10, right: 30 }}
                 interval={0}
               />
               <YAxis 
@@ -116,7 +116,7 @@ export function RechargesCard() {
                                 {`R$ ${monthlyValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} no mês`}
                               </span>
                               <span className="text-sm font-bold text-green-500">
-                                {`R$ ${accumulatedValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} comissões total já pagas`}
+                                {`R$ ${accumulatedValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} acumulado`}
                               </span>
                             </div>
                           </>,
