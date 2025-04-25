@@ -33,11 +33,11 @@ export function LineStatusCard() {
         </div>
         
         <div className="flex items-center">
-          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-white mr-3">
+          <div className="w-12 h-12 rounded-md flex items-center justify-center mr-3">
             <img 
               src="/lovable-uploads/f449f26e-fac9-4f76-b1b4-7c3a34e6b205.png" 
               alt="Active SIM Card" 
-              className="h-7 w-7"
+              className="h-9 w-9"
             />
           </div>
           <div>
