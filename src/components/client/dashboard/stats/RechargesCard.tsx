@@ -11,11 +11,17 @@ export function RechargesCard() {
   // Complete year of sample data
   const chartData = [
     { name: "Jan", value: 800 },
+    { name: "Fev", value: 790 },
     { name: "Mar", value: 780 },
+    { name: "Abr", value: 770 },
     { name: "Mai", value: 750 },
+    { name: "Jun", value: 720 },
     { name: "Jul", value: 690 },
+    { name: "Ago", value: 670 },
     { name: "Set", value: 650 },
+    { name: "Out", value: 630 },
     { name: "Nov", value: 600 },
+    { name: "Dez", value: 580 }
   ];
   
   return (

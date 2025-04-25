@@ -11,11 +11,17 @@ export function ActivationsCard() {
   // Complete year of sample data
   const chartData = [
     { name: "Jan", value: 500 },
+    { name: "Fev", value: 490 },
     { name: "Mar", value: 480 },
+    { name: "Abr", value: 500 },
     { name: "Mai", value: 520 },
+    { name: "Jun", value: 510 },
     { name: "Jul", value: 490 },
+    { name: "Ago", value: 530 },
     { name: "Set", value: 580 },
+    { name: "Out", value: 590 },
     { name: "Nov", value: 600 },
+    { name: "Dez", value: 610 }
   ];
   
   return (
