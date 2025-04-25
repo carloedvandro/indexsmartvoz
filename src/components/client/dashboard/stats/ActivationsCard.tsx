@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
@@ -91,4 +90,3 @@ export function ActivationsCard() {
     </Card>
   );
 }
-

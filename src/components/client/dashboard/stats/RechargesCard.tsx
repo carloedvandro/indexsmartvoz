@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
@@ -36,7 +35,7 @@ export function RechargesCard() {
           </svg>
         </button>
       </div>
-      <p className="text-sm text-gray-700 font-medium">12982 ICCID's</p>
+      <p className="text-sm text-gray-700 font-medium">12.982 ICCID's</p>
       
       <div className="mt-3 h-32">
         <ChartContainer config={{}} className="h-full w-full">
@@ -93,4 +92,3 @@ export function RechargesCard() {
     </Card>
   );
 }
-
