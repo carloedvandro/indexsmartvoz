@@ -38,7 +38,7 @@ export function ActivationsCard() {
       </div>
       <p className="text-sm text-gray-700 font-medium">582 ICCID's</p>
       
-      <div className="mt-4 h-32">
+      <div className="mt-3 h-32">
         <ChartContainer config={{}} className="h-full w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart 
