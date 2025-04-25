@@ -68,7 +68,7 @@ export function SalesDetailsCard() {
           </div>
         </div>
         
-        <div className="w-full md:w-[60%] pl-0 md:pl-4">
+        <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4"> {/* Increased left padding and added margin */}
           <div className="p-2 bg-purple-100 rounded-md inline-flex mb-2">
             <Receipt className="h-5 w-5 text-purple-500" />
           </div>
@@ -89,3 +89,4 @@ export function SalesDetailsCard() {
     </Card>
   );
 }
+
