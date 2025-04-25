@@ -24,12 +24,8 @@ export function LineStatusCard() {
       
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <div className="w-16 h-16 rounded-md flex items-center justify-center mr-3">
-            <Image 
-              src="/lovable-uploads/dc14be53-c8fb-4720-9220-e4da2da483c5.png" 
-              alt="Total de Linhas" 
-              className="w-full h-full object-contain"
-            />
+          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-gray-100 mr-3">
+            <Clock className="h-5 w-5 text-gray-500" />
           </div>
           <div>
             <p className="text-xs text-gray-500">Totais</p>
@@ -38,12 +34,8 @@ export function LineStatusCard() {
         </div>
         
         <div className="flex items-center">
-          <div className="w-16 h-16 rounded-md flex items-center justify-center mr-3">
-            <Image 
-              src="/lovable-uploads/dc14be53-c8fb-4720-9220-e4da2da483c5.png" 
-              alt="Linhas Ativas" 
-              className="w-full h-full object-contain"
-            />
+          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-green-100 mr-3">
+            <Smartphone className="h-5 w-5 text-green-500" />
           </div>
           <div>
             <p className="text-xs text-gray-500">Ativas</p>
