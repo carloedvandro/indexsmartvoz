@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
@@ -57,7 +58,7 @@ export function RechargesCard() {
                 tick={{ fill: '#94a3b8', fontSize: 10 }}
                 dy={10}
                 interval={0}
-                padding={{ left: -0.5, right: -0.5 }}
+                padding={{ left: -1, right: -1 }}
                 tickCount={12}
                 tickFormatter={(tick) => tick}
               />
