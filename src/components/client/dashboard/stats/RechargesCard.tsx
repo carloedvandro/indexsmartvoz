@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/chart";
 
 export function RechargesCard() {
-  // Complete year of sample data with declining trend
+  // Complete year of sample data with updated March value
   const chartData = [
     { name: "Jan", value: 13500 },
     { name: "Fev", value: 13200 },
@@ -72,7 +72,7 @@ export function RechargesCard() {
                     payload={payload}
                     label={label}
                     hideIndicator={true}
-                    formatter={(value) => [`${value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 'Recargas']}
+                    formatter={(value) => [`R$${value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Recargas`, 'Recargas']}
                     labelFormatter={(name) => `${name}`}
                   />
                 )}
