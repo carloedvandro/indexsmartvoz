@@ -10,14 +10,14 @@ export function StatsCardsGrid() {
       <div className="grid grid-cols-1 gap-4 mb-4 w-full">
         <LineStatusCard />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-[4.1rem] w-full">
-        <div className="md:col-span-1 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-[1800px] mx-auto">
+        <div className="md:col-span-1">
           <RechargesCard />
         </div>
-        <div className="md:col-span-1 w-full">
+        <div className="md:col-span-1">
           <ActivationsCard />
         </div>
-        <div className="md:col-span-1 w-full">
+        <div className="md:col-span-1">
           <SalesDetailsCard />
         </div>
       </div>
