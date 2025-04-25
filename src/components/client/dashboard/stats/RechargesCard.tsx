@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
@@ -37,12 +38,12 @@ export function RechargesCard() {
       </div>
       <p className="text-sm text-gray-700 font-medium">12982 ICCID's</p>
       
-      <div className="mt-4 h-32 -ml-5">
+      <div className="mt-4 h-32">
         <ChartContainer config={{}} className="h-full w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart 
               data={chartData} 
-              margin={{ top: 0, right: 0, left: -20, bottom: 0 }}
+              margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             >
               <defs>
                 <linearGradient id="rechargeGradient" x1="0" y1="0" x2="0" y2="1">
