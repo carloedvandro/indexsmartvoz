@@ -1,5 +1,5 @@
 
-import { SimCard } from "lucide-react";
+import { ScanCard } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 export function LineStatusCard() {
@@ -25,7 +25,7 @@ export function LineStatusCard() {
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <div className="w-10 h-10 rounded-md flex items-center justify-center bg-purple-500 mr-3">
-            <SimCard className="h-5 w-5 text-white" />
+            <ScanCard className="h-5 w-5 text-white" />
           </div>
           <div>
             <p className="text-xs text-gray-500">Totais</p>
@@ -35,7 +35,7 @@ export function LineStatusCard() {
         
         <div className="flex items-center">
           <div className="w-10 h-10 rounded-md flex items-center justify-center bg-green-500 mr-3">
-            <SimCard className="h-5 w-5 text-white" />
+            <ScanCard className="h-5 w-5 text-white" />
           </div>
           <div>
             <p className="text-xs text-gray-500">Ativas</p>
@@ -45,7 +45,7 @@ export function LineStatusCard() {
         
         <div className="flex items-center">
           <div className="w-10 h-10 rounded-md flex items-center justify-center bg-red-500 mr-3">
-            <SimCard className="h-5 w-5 text-white" />
+            <ScanCard className="h-5 w-5 text-white" />
           </div>
           <div>
             <p className="text-xs text-gray-500">Inativas</p>
