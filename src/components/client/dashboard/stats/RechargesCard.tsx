@@ -8,20 +8,20 @@ import {
 } from "@/components/ui/chart";
 
 export function RechargesCard() {
-  // Complete year of sample data
+  // Complete year of sample data with declining trend
   const chartData = [
-    { name: "Jan", value: 800 },
-    { name: "Fev", value: 790 },
-    { name: "Mar", value: 780 },
-    { name: "Abr", value: 770 },
-    { name: "Mai", value: 750 },
-    { name: "Jun", value: 720 },
-    { name: "Jul", value: 690 },
-    { name: "Ago", value: 670 },
-    { name: "Set", value: 650 },
-    { name: "Out", value: 630 },
-    { name: "Nov", value: 600 },
-    { name: "Dez", value: 580 }
+    { name: "Jan", value: 13500 },
+    { name: "Fev", value: 13200 },
+    { name: "Mar", value: 12900 },
+    { name: "Abr", value: 12700 },
+    { name: "Mai", value: 12500 },
+    { name: "Jun", value: 12200 },
+    { name: "Jul", value: 11900 },
+    { name: "Ago", value: 11600 },
+    { name: "Set", value: 11300 },
+    { name: "Out", value: 11000 },
+    { name: "Nov", value: 10700 },
+    { name: "Dez", value: 10400 }
   ];
   
   return (
@@ -54,7 +54,7 @@ export function RechargesCard() {
               tick={{ fill: '#94a3b8', fontSize: 10 }}
               dy={10}
               interval={0}
-              width={500}
+              width={300}
             />
             <ChartTooltip 
               content={({ active, payload, label }) => (
@@ -82,4 +82,3 @@ export function RechargesCard() {
     </Card>
   );
 }
-

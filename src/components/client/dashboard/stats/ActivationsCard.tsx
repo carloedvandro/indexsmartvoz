@@ -8,20 +8,20 @@ import {
 } from "@/components/ui/chart";
 
 export function ActivationsCard() {
-  // Complete year of sample data
+  // Complete year of sample data with increasing trend
   const chartData = [
     { name: "Jan", value: 500 },
-    { name: "Fev", value: 490 },
-    { name: "Mar", value: 480 },
-    { name: "Abr", value: 500 },
-    { name: "Mai", value: 520 },
-    { name: "Jun", value: 510 },
-    { name: "Jul", value: 490 },
-    { name: "Ago", value: 530 },
-    { name: "Set", value: 580 },
-    { name: "Out", value: 590 },
-    { name: "Nov", value: 600 },
-    { name: "Dez", value: 610 }
+    { name: "Fev", value: 520 },
+    { name: "Mar", value: 540 },
+    { name: "Abr", value: 560 },
+    { name: "Mai", value: 580 },
+    { name: "Jun", value: 600 },
+    { name: "Jul", value: 620 },
+    { name: "Ago", value: 640 },
+    { name: "Set", value: 660 },
+    { name: "Out", value: 680 },
+    { name: "Nov", value: 700 },
+    { name: "Dez", value: 720 }
   ];
   
   return (
@@ -54,7 +54,7 @@ export function ActivationsCard() {
               tick={{ fill: '#94a3b8', fontSize: 10 }}
               dy={10}
               interval={0}
-              width={500}
+              width={300}
             />
             <ChartTooltip 
               content={({ active, payload, label }) => (
@@ -82,4 +82,3 @@ export function ActivationsCard() {
     </Card>
   );
 }
-
