@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import Image from "@/components/ui/image";
 
@@ -51,7 +50,7 @@ export function LineStatusCard() {
           </div>
         </div>
         
-        <div className="flex items-center space-x-1 ml-[12px]">
+        <div className="flex items-center space-x-1 ml-[22px]">
           <div className="w-16 h-17 rounded-md flex items-center justify-center">
             <Image 
               src="/lovable-uploads/55a072a8-cbbf-4b4d-8546-448bcacdfd3e.png" 
