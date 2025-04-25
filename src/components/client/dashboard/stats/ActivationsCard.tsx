@@ -62,8 +62,8 @@ export function ActivationsCard() {
             >
               <defs>
                 <linearGradient id="activationGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#9b87f5" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#9b87f5" stopOpacity={0.05} />
+                  <stop offset="5%" stopColor="#4F46E5" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#4F46E5" stopOpacity={0.05} />
                 </linearGradient>
               </defs>
               <XAxis 
@@ -92,15 +92,15 @@ export function ActivationsCard() {
                 )}
               />
               <Area
-                type="monotone"
+                type="basis"
                 dataKey="value"
-                stroke="#9b87f5"
-                strokeWidth={2.5}
+                stroke="#4F46E5"
+                strokeWidth={3}
                 fill="url(#activationGradient)"
                 dot={false}
                 activeDot={{
                   r: 6,
-                  stroke: '#9b87f5',
+                  stroke: '#4F46E5',
                   strokeWidth: 2,
                   fill: '#fff',
                   filter: 'drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.2))'
