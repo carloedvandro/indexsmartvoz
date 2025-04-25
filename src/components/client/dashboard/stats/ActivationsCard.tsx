@@ -38,46 +38,47 @@ export function ActivationsCard() {
       <p className="text-sm text-gray-700 font-medium">582 ICCID's</p>
       
       <div className="mt-4 h-32">
-        <ChartContainer config={{}} className="h-full">
-          <AreaChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 20 }}>
-            <defs>
-              <linearGradient id="activationGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#9b87f5" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#9b87f5" stopOpacity={0.1} />
-              </linearGradient>
-            </defs>
-            <XAxis 
-              dataKey="name" 
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: '#94a3b8', fontSize: 10 }}
-              dy={10}
-              interval={0}
-              width={800}
-            />
-            <YAxis 
-              hide={true}
-            />
-            <ChartTooltip 
-              content={({ active, payload, label }) => (
-                <ChartTooltipContent
-                  active={active}
-                  payload={payload}
-                  label={label}
-                  hideIndicator={true}
-                  formatter={(value) => [`${value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 'Ativações']}
-                  labelFormatter={(name) => `${name}`}
-                />
-              )}
-            />
-            <Area
-              type="monotone"
-              dataKey="value"
-              stroke="#9b87f5"
-              strokeWidth={2}
-              fill="url(#activationGradient)"
-            />
-          </AreaChart>
+        <ChartContainer config={{}} className="h-full w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={chartData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+              <defs>
+                <linearGradient id="activationGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#9b87f5" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#9b87f5" stopOpacity={0.1} />
+                </linearGradient>
+              </defs>
+              <XAxis 
+                dataKey="name" 
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: '#94a3b8', fontSize: 10 }}
+                dy={10}
+                interval={0}
+              />
+              <YAxis 
+                hide={true}
+              />
+              <ChartTooltip 
+                content={({ active, payload, label }) => (
+                  <ChartTooltipContent
+                    active={active}
+                    payload={payload}
+                    label={label}
+                    hideIndicator={true}
+                    formatter={(value) => [`${value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 'Ativações']}
+                    labelFormatter={(name) => `${name}`}
+                  />
+                )}
+              />
+              <Area
+                type="monotone"
+                dataKey="value"
+                stroke="#9b87f5"
+                strokeWidth={2}
+                fill="url(#activationGradient)"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
         </ChartContainer>
       </div>
     </Card>
