@@ -8,21 +8,35 @@ import {
 } from "@/components/ui/chart";
 
 export function RechargesCard() {
-  // Updated to use full month names
   const chartData = [
-    { name: "Janeiro", value: 13500 },
-    { name: "Fevereiro", value: 180600.80 },
-    { name: "Março", value: 12900 },
-    { name: "Abril", value: 12700 },
-    { name: "Maio", value: 12500 },
-    { name: "Junho", value: 12200 },
-    { name: "Julho", value: 11900 },
-    { name: "Agosto", value: 11600 },
-    { name: "Setembro", value: 11300 },
-    { name: "Outubro", value: 11000 },
-    { name: "Novembro", value: 10700 },
-    { name: "Dezembro", value: 10400 }
+    { name: "Jan", value: 13500 },
+    { name: "Fev", value: 180600.80 },
+    { name: "Mar", value: 12900 },
+    { name: "Abr", value: 12700 },
+    { name: "Mai", value: 12500 },
+    { name: "Jun", value: 12200 },
+    { name: "Jul", value: 11900 },
+    { name: "Ago", value: 11600 },
+    { name: "Set", value: 11300 },
+    { name: "Out", value: 11000 },
+    { name: "Nov", value: 10700 },
+    { name: "Dez", value: 10400 }
   ];
+  
+  const fullMonthNames = {
+    "Jan": "Janeiro",
+    "Fev": "Fevereiro",
+    "Mar": "Março",
+    "Abr": "Abril",
+    "Mai": "Maio",
+    "Jun": "Junho",
+    "Jul": "Julho",
+    "Ago": "Agosto",
+    "Set": "Setembro",
+    "Out": "Outubro",
+    "Nov": "Novembro",
+    "Dez": "Dezembro"
+  };
   
   return (
     <Card className="p-6 shadow-sm h-full w-full">
@@ -74,6 +88,7 @@ export function RechargesCard() {
                     payload={payload}
                     label={label}
                     hideIndicator={true}
+                    labelFormatter={(name) => fullMonthNames[name] || name}
                     formatter={(value) => {
                       const formattedValue = value.toLocaleString('pt-BR', { 
                         style: 'currency', 
@@ -83,7 +98,6 @@ export function RechargesCard() {
                       }).replace(/\s/g, '') + ' Recargas';
                       return [formattedValue, ''];
                     }}
-                    labelFormatter={(name) => `${name}`}
                   />
                 )}
               />
