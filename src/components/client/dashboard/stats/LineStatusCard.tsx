@@ -1,5 +1,5 @@
 
-import { Smartphone } from "lucide-react";
+import { Clock, PhoneOff, Smartphone } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import Image from "@/components/ui/image";
 
