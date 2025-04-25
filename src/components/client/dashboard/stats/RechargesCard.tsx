@@ -5,9 +5,10 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from "@/components/ui/chart";
+import { useChartRealtime } from "@/hooks/useChartRealtime";
 
 export function RechargesCard() {
-  const chartData = [
+  const initialData = [
     { name: "Jan", value: 13500 },
     { name: "Fev", value: 14200 },
     { name: "Mar", value: 13800 },
@@ -21,6 +22,8 @@ export function RechargesCard() {
     { name: "Nov", value: 15800 },
     { name: "Dez", value: 16500 }
   ];
+
+  const chartData = useChartRealtime(initialData);
   
   const fullMonthNames = {
     "Jan": "Janeiro",
