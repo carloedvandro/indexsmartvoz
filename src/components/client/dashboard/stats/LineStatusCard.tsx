@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import Image from "@/components/ui/image";
 
@@ -31,7 +30,7 @@ export function LineStatusCard() {
               className="w-full h-full object-contain"
             />
           </div>
-          <div>
+          <div className="-ml-2">
             <p className="text-xs text-gray-500">Totais</p>
             <p className="text-lg font-semibold">{totalLines}</p>
           </div>
@@ -45,7 +44,7 @@ export function LineStatusCard() {
               className="w-full h-full object-contain"
             />
           </div>
-          <div>
+          <div className="-ml-2">
             <p className="text-xs text-gray-500">Ativas</p>
             <p className="text-lg font-semibold">{activeLines}</p>
           </div>
@@ -59,7 +58,7 @@ export function LineStatusCard() {
               className="w-full h-full object-contain"
             />
           </div>
-          <div>
+          <div className="-ml-2">
             <p className="text-xs text-gray-500">Inativas</p>
             <p className="text-lg font-semibold">{inactiveLines}</p>
           </div>
