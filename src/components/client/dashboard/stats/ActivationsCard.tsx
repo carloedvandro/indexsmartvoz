@@ -54,7 +54,7 @@ export function ActivationsCard() {
               tick={{ fill: '#94a3b8', fontSize: 10 }}
               dy={10}
               interval={0}
-              width={300}
+              width={500}
             />
             <ChartTooltip 
               content={({ active, payload, label }) => (
