@@ -24,7 +24,7 @@ export function LineStatusCard() {
       
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-purple-500 mr-3 -ml-1">
+          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-purple-500 mr-3">
             <Clock className="h-5 w-5 text-white" />
           </div>
           <div>
@@ -34,7 +34,7 @@ export function LineStatusCard() {
         </div>
         
         <div className="flex items-center">
-          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-green-500 mr-3 -ml-1">
+          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-green-500 mr-3">
             <Smartphone className="h-5 w-5 text-white" />
           </div>
           <div>
@@ -44,7 +44,7 @@ export function LineStatusCard() {
         </div>
         
         <div className="flex items-center">
-          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-red-500 mr-3 -ml-1">
+          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-red-500 mr-3">
             <PhoneOff className="h-5 w-5 text-white" />
           </div>
           <div>
