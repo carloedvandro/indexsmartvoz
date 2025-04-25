@@ -1,5 +1,5 @@
 
-import { Clock, PhoneOff, Smartphone } from "lucide-react";
+import { Clock, PhoneOff } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import Image from "@/components/ui/image";
 
@@ -37,7 +37,7 @@ export function LineStatusCard() {
         <div className="flex items-center">
           <div className="w-16 h-16 rounded-md flex items-center justify-center mr-3">
             <Image 
-              src="/lovable-uploads/1c7d4c40-3d27-4d9c-8c26-19ba3393d95e.png" 
+              src="/lovable-uploads/8f6f9898-1756-48be-8513-fc6f61a412e2.png" 
               alt="Linhas Ativas" 
               className="w-full h-full object-contain"
             />
