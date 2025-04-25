@@ -90,7 +90,7 @@ export function RechargesCard() {
                     hideIndicator={true}
                     labelFormatter={(name) => fullMonthNames[name] || name}
                     formatter={(value) => {
-                      const formattedValue = value.toLocaleString('pt-BR', { 
+                      const formattedValue = value.toLocaleString('en-US', { 
                         style: 'currency', 
                         currency: 'BRL', 
                         minimumFractionDigits: 2, 

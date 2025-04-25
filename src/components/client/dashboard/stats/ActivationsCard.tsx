@@ -88,7 +88,7 @@ export function ActivationsCard() {
                     label={label}
                     hideIndicator={true}
                     labelFormatter={(name) => fullMonthNames[name] || name}
-                    formatter={(value) => [`${value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Ativações`, '']}
+                    formatter={(value) => [`${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Ativações`, '']}
                   />
                 )}
               />
