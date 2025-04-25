@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
@@ -73,7 +74,15 @@ export function RechargesCard() {
                     payload={payload}
                     label={label}
                     hideIndicator={true}
-                    formatter={(value) => [`R$${value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 'Recargas']}
+                    formatter={(value) => {
+                      const formattedValue = value.toLocaleString('pt-BR', { 
+                        style: 'currency', 
+                        currency: 'BRL', 
+                        minimumFractionDigits: 2, 
+                        maximumFractionDigits: 2 
+                      });
+                      return [formattedValue, 'Recargas'];
+                    }}
                     labelFormatter={(name) => `${name}`}
                   />
                 )}
