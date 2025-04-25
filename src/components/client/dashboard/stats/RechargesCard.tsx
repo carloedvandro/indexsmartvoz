@@ -25,7 +25,7 @@ export function RechargesCard() {
   
   return (
     <Card className="p-6 shadow-sm h-full w-full">
-      <div className="flex justify-between items-center mb-1">
+      <div className="flex justify-between items-center mb-1 pl-1">
         <h3 className="text-lg font-bold">Total Recargas</h3>
         <button className="text-gray-400 hover:text-gray-600">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -35,7 +35,7 @@ export function RechargesCard() {
           </svg>
         </button>
       </div>
-      <p className="text-sm text-gray-700 font-medium">12982 ICCID's</p>
+      <p className="text-sm text-gray-700 font-medium pl-1">12982 ICCID's</p>
       
       <div className="mt-3 h-32">
         <ChartContainer config={{}} className="h-full w-full">
