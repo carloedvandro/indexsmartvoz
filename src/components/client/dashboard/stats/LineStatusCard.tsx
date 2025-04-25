@@ -1,4 +1,5 @@
-import { Clock, PhoneOff } from "lucide-react";
+
+import { Clock } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import Image from "@/components/ui/image";
 
@@ -48,7 +49,7 @@ export function LineStatusCard() {
         </div>
         
         <div className="flex items-center">
-          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-red-500 mr-3">
+          <div className="w-10 h-10 rounded-md flex items-center justify-center mr-3">
             <Image 
               src="/lovable-uploads/55a072a8-cbbf-4b4d-8546-448bcacdfd3e.png" 
               alt="Linhas Inativas" 
