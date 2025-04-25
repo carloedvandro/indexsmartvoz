@@ -1,7 +1,6 @@
 
 import { Link } from "react-router-dom";
 import { formatCurrency } from "@/utils/format";
-import { TrendingUp, DollarSign, LineChart } from "lucide-react";
 
 interface FinancialCardProps {
   to: string;
@@ -16,7 +15,6 @@ export function FinancialCard({
   to, 
   bgColor, 
   hoverColor,
-  icon,
   amount, 
   label
 }: FinancialCardProps) {
@@ -27,9 +25,6 @@ export function FinancialCard({
     >
       <div className="flex items-center gap-3 mb-1">
         <span className="text-2xl font-bold">{formatCurrency(amount)}</span>
-        {icon === "chart" && <LineChart className="w-8 h-8 text-white opacity-90" />}
-        {icon === "trending" && <TrendingUp className="w-8 h-8 text-white opacity-90" />}
-        {icon === "dollar" && <DollarSign className="w-8 h-8 text-white opacity-90" />}
       </div>
       <div className="flex flex-col">
         <span className="text-base opacity-90">{label}</span>
