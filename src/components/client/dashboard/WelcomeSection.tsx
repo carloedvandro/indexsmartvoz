@@ -7,7 +7,7 @@ interface WelcomeSectionProps {
 }
 
 export function WelcomeSection({ profile }: WelcomeSectionProps) {
-  // Use full_name property which is available in the ProfileWithSponsor type
+  // Use full_name property or fallback to a default greeting
   const fullName = profile.full_name || "Usuário";
   
   return (
