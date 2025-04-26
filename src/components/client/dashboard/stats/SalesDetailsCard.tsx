@@ -54,8 +54,8 @@ export function SalesDetailsCard() {
       <div className="md:flex items-center">
         <div className="w-full md:w-[40%] mb-4 md:mb-0">
           <div className="h-40 relative">
-            <ResponsiveContainer width="100%" height="100%" className="overflow-visible">
-              <PieChart margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
                 <Pie
                   data={pieData}
                   innerRadius={55}
@@ -68,7 +68,6 @@ export function SalesDetailsCard() {
                   cursor="pointer"
                   onMouseEnter={onPieEnter}
                   onMouseLeave={onPieLeave}
-                  isAnimationActive={true}
                 >
                   {pieData.map((entry, index) => {
                     const isActive = index === activeIndex;
@@ -78,8 +77,8 @@ export function SalesDetailsCard() {
                       <Cell 
                         key={`cell-${index}`} 
                         fill={entry.color}
-                        strokeWidth={0}
-                        stroke="none"
+                        strokeWidth={isActive ? 2 : 0}
+                        stroke={isActive ? "#6E59A5" : "none"}
                         style={{
                           filter: isActive ? "drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.2))" : "none",
                           transition: "all 0.3s ease-in-out",
@@ -101,13 +100,7 @@ export function SalesDetailsCard() {
                 >
                   Vendas do Mês
                 </text>
-                <Tooltip 
-                  content={<CustomTooltip />} 
-                  wrapperStyle={{ zIndex: 1000, pointerEvents: 'none' }}
-                  allowEscapeViewBox={{ x: true, y: true }}
-                  position={{ x: 0, y: -30 }}
-                  offset={20}
-                />
+                <Tooltip content={<CustomTooltip />} />
               </PieChart>
             </ResponsiveContainer>
           </div>
