@@ -4,7 +4,6 @@ export interface FinancialCardData {
   path: string;
   bgColor: string;
   hoverColor: string;
-  icon: "dollar" | "chart" | "trending";
   amount: number;
   label: string;
 }
@@ -27,7 +26,6 @@ export const financialCardsConfig = [
     path: "/client/financial",
     bgColor: "bg-[#8BC34A]",
     hoverColor: "hover:bg-[#7CB342]",
-    icon: "dollar" as const,
     label: "Saldo Disponível"
   },
   {
@@ -35,7 +33,6 @@ export const financialCardsConfig = [
     path: "/client/financial",
     bgColor: "bg-[#FFCC80]",
     hoverColor: "hover:bg-[#FFB74D]",
-    icon: "chart" as const,
     label: "Ganhos até hoje"
   },
   {
@@ -43,7 +40,6 @@ export const financialCardsConfig = [
     path: "/client/earnings-forecast",
     bgColor: "bg-[#29B6F6]", 
     hoverColor: "hover:bg-[#03A9F4]",
-    icon: "trending" as const,
     label: "Previsão de Ganhos"
   }
 ];

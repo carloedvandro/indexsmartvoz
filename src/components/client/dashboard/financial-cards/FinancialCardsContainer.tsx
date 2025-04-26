@@ -14,7 +14,6 @@ export function FinancialCardsContainer() {
           to={config.path}
           bgColor={config.bgColor}
           hoverColor={config.hoverColor}
-          icon={config.icon}
           amount={defaultFinancialCardsData[config.key as keyof typeof defaultFinancialCardsData]}
           label={config.label}
         />
