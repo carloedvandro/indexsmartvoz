@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -13,7 +12,6 @@ import { NavigationItem } from "../types";
 import { Home } from "lucide-react";
 import { LucideIcon } from "lucide-react";
 
-// Helper function to render dynamic icons
 const renderIcon = (Icon: LucideIcon | string, className?: string) => {
   if (typeof Icon === 'string') return null;
   return <Icon className={className || "h-4 w-4 mr-2"} />;
@@ -40,7 +38,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <img 
                 src="/lovable-uploads/d6d0cfaa-60fb-4950-9674-400bbfc06650.png" 
                 alt="Home" 
-                className="h-[20px] w-auto ml-[-20px]" 
+                className="h-[30px] w-auto ml-[-20px]" 
               />
               <span 
                 className="font-bold text-left text-gray-600 -ml-[20px] pl-[20px] mt-[2px]" 
@@ -60,7 +58,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                     <img 
                       src="/lovable-uploads/d6d0cfaa-60fb-4950-9674-400bbfc06650.png" 
                       alt="Home" 
-                      className="h-[20px] w-auto ml-[5px]" 
+                      className="h-[30px] w-auto ml-[5px]" 
                     />
                     <span className="font-bold self-center text-gray-600 text-lg pl-[10px] mt-[2px]">Home</span>
                   </Link>
