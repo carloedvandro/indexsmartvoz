@@ -19,6 +19,23 @@ const renderIcon = (Icon: LucideIcon | string, className?: string) => {
   return <Icon className={className || "h-4 w-4 mr-2"} />;
 };
 
+// Custom Home Icon Component
+const CustomHomeIcon = ({ className }: { className?: string }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+    <polyline points="9 22 9 12 15 12 15 22" />
+  </svg>
+);
+
 interface DesktopNavigationProps {
   navigationItems: NavigationItem[];
 }
@@ -37,7 +54,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-center pl-0 gap-2"
               style={{ pointerEvents: 'auto' }}
             >
-              <Home className="h-5 w-5 text-gray-600" />
+              <CustomHomeIcon className="h-5 w-5 text-gray-600" />
               <span 
                 className="font-bold text-left text-gray-600" 
                 style={{
@@ -53,7 +70,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <>
                 <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
-                    <Home className="h-5 w-5 text-gray-600" />
+                    <CustomHomeIcon className="h-5 w-5 text-gray-600" />
                     <span className="font-bold self-center text-gray-600 text-lg">Home</span>
                   </Link>
                 </DropdownMenuItem>
