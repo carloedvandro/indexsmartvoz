@@ -37,13 +37,11 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-center pl-0 gap-2"
               style={{ pointerEvents: 'auto' }}
             >
-              <Home className="h-5 w-5" />
+              <Home className="h-5 w-5 text-[#9b87f5]" />
               <span 
-                className="font-bold text-left" 
+                className="font-bold text-left text-[#9b87f5]" 
                 style={{
-                  color: '#5f0889',
-                  pointerEvents: 'none',
-                  fontSize: '1.1rem'
+                  fontSize: '1rem'
                 }}
               >
                 Início
@@ -55,8 +53,8 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <>
                 <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
-                    <Home className="h-5 w-5 text-[#5f0889]" />
-                    <span className="font-bold self-center text-[#5f0889] text-lg">Início</span>
+                    <Home className="h-5 w-5 text-[#9b87f5]" />
+                    <span className="font-bold self-center text-[#9b87f5] text-lg">Início</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
