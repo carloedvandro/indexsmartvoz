@@ -70,7 +70,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <>
                 <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
-                    <CustomHomeIcon className="h-5 w-5 text-gray-600" />
+                    <CustomHomeIcon className="h-[10px] w-[10px] text-gray-600" />
                     <span className="font-bold self-center text-gray-600 text-lg">Home</span>
                   </Link>
                 </DropdownMenuItem>
