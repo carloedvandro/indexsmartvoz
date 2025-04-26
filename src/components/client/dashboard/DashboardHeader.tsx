@@ -52,11 +52,11 @@ export function DashboardHeader() {
           <Logo />
         </div>
         <DesktopNavigation navigationItems={navigationItems} />
-        <div className="flex items-center justify-end gap-2 ml-auto order-3 lg:order-3 pr-8">
+        <div className="flex items-center justify-end gap-2 ml-auto order-3 lg:order-3 pr-12">
           <div className="desktop-logout-container">
             <LogoutButton 
               onLogout={handleLogout} 
-              className="hidden md:flex md:translate-x-[20px]" 
+              className="hidden md:flex md:translate-x-[40px]" 
             />
           </div>
           <MobileMenu 
