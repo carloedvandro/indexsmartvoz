@@ -54,8 +54,8 @@ export function SalesDetailsCard() {
       <div className="md:flex items-center">
         <div className="w-full md:w-[40%] mb-4 md:mb-0">
           <div className="h-40 relative">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
+            <ResponsiveContainer width="100%" height="100%" className="overflow-visible">
+              <PieChart margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
                 <Pie
                   data={pieData}
                   innerRadius={55}
@@ -68,6 +68,7 @@ export function SalesDetailsCard() {
                   cursor="pointer"
                   onMouseEnter={onPieEnter}
                   onMouseLeave={onPieLeave}
+                  isAnimationActive={true}
                 >
                   {pieData.map((entry, index) => {
                     const isActive = index === activeIndex;
@@ -100,7 +101,12 @@ export function SalesDetailsCard() {
                 >
                   Vendas do Mês
                 </text>
-                <Tooltip content={<CustomTooltip />} />
+                <Tooltip 
+                  content={<CustomTooltip />} 
+                  wrapperStyle={{ zIndex: 1000, pointerEvents: 'none' }}
+                  allowEscapeViewBox={{ x: true, y: true }}
+                  position={{ x: 0, y: -10 }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>
