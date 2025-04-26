@@ -1,6 +1,7 @@
 
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { formatCurrency } from "@/utils/format";
 
 export function SalesDetailsCard() {
   const pieData = [
@@ -12,6 +13,19 @@ export function SalesDetailsCard() {
   
   const totalSales = "R$ 691.526,00";
   
+  // Custom tooltip formatter to show both plan name and value
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-2 border border-gray-200 shadow-md rounded-md">
+          <p className="text-sm font-medium">{payload[0].name}</p>
+          <p className="text-sm font-bold">{`${payload[0].value} vendas`}</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <Card className="p-6 shadow-sm h-full w-full">
       <div className="flex justify-between items-center mb-4">
@@ -39,13 +53,14 @@ export function SalesDetailsCard() {
                   animationBegin={0}
                   animationDuration={1200}
                   animationEasing="ease-in-out"
+                  cursor="pointer"
                 >
                   {pieData.map((entry, index) => (
                     <Cell 
                       key={`cell-${index}`} 
                       fill={entry.color}
-                      className="pointer-events-none"
                       strokeWidth={0}
+                      className="hover:opacity-80 transition-opacity"
                     />
                   ))}
                 </Pie>
@@ -59,16 +74,7 @@ export function SalesDetailsCard() {
                 >
                   Vendas do Mês
                 </text>
-                <Tooltip 
-                  formatter={(value) => [`${value.toLocaleString('pt-BR')} vendas`, '']}
-                  contentStyle={{
-                    backgroundColor: "white",
-                    border: "none",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-                    padding: "8px 12px"
-                  }}
-                />
+                <Tooltip content={<CustomTooltip />} />
               </PieChart>
             </ResponsiveContainer>
           </div>
