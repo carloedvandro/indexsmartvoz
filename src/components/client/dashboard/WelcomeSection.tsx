@@ -7,8 +7,8 @@ interface WelcomeSectionProps {
 }
 
 export function WelcomeSection({ profile }: WelcomeSectionProps) {
-  // Use full_name property or fallback to a default greeting
-  const fullName = profile.full_name || "Usuário";
+  // Updated to include full name 'Shalon David'
+  const fullName = "Shalon David";
   
   return (
     <div className="px-4 mb-6">
