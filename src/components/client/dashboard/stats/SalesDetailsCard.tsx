@@ -1,6 +1,6 @@
+
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
-import { Receipt } from "lucide-react";
 
 export function SalesDetailsCard() {
   const pieData = [
@@ -75,9 +75,6 @@ export function SalesDetailsCard() {
         </div>
         
         <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4">
-          <div className="p-2 bg-purple-100 rounded-md inline-flex mb-2">
-            <Receipt className="h-5 w-5 text-purple-500" />
-          </div>
           <p className="text-sm font-medium text-gray-600">Valor total de vendas</p>
           <p className="text-lg font-bold text-purple-600 mb-4">{totalSales}</p>
           
