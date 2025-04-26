@@ -78,8 +78,8 @@ export function SalesDetailsCard() {
                       <Cell 
                         key={`cell-${index}`} 
                         fill={entry.color}
-                        strokeWidth={isActive ? 2 : 0}
-                        stroke={isActive ? "#6E59A5" : "none"}
+                        strokeWidth={0}
+                        stroke="none"
                         style={{
                           filter: isActive ? "drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.2))" : "none",
                           transition: "all 0.3s ease-in-out",
@@ -105,7 +105,8 @@ export function SalesDetailsCard() {
                   content={<CustomTooltip />} 
                   wrapperStyle={{ zIndex: 1000, pointerEvents: 'none' }}
                   allowEscapeViewBox={{ x: true, y: true }}
-                  position={{ x: 0, y: -10 }}
+                  position={{ x: 0, y: -30 }}
+                  offset={20}
                 />
               </PieChart>
             </ResponsiveContainer>
