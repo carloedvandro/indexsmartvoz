@@ -38,7 +38,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               style={{ pointerEvents: 'auto' }}
             >
               <img 
-                src="/images/golden-network-icon.png" 
+                src="/lovable-uploads/d6d0cfaa-60fb-4950-9674-400bbfc06650.png" 
                 alt="Home" 
                 className="h-[20px] w-auto ml-[-20px]" 
               />
@@ -58,7 +58,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
                     <img 
-                      src="/images/golden-network-icon.png" 
+                      src="/lovable-uploads/d6d0cfaa-60fb-4950-9674-400bbfc06650.png" 
                       alt="Home" 
                       className="h-[20px] w-auto ml-[5px]" 
                     />
