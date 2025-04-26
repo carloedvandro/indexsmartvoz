@@ -1,4 +1,5 @@
 
+import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,6 +11,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { NavigationItem } from "../types";
 import { Home } from "lucide-react";
+import { LucideIcon } from "lucide-react";
+
+// Helper function to render dynamic icons
+const renderIcon = (Icon: LucideIcon | string, className?: string) => {
+  if (typeof Icon === 'string') return null;
+  return <Icon className={className || "h-4 w-4 mr-2"} />;
+};
 
 interface DesktopNavigationProps {
   navigationItems: NavigationItem[];
@@ -61,7 +69,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                   <DropdownMenuItem asChild>
                     <Link to={item.href} className="w-full whitespace-nowrap flex items-center justify-between">
                       <div className="flex items-center">
-                        {item.icon && item.icon !== "home" && <item.icon className="h-4 w-4 mr-2" />}
+                        {item.icon && item.icon !== "home" && renderIcon(item.icon as LucideIcon)}
                         <span>{item.title}</span>
                       </div>
                     </Link>
@@ -69,7 +77,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 ) : (
                   <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap flex items-center">
                     {item.title !== "Loja Virtual" && item.title !== "Rede" && (
-                      <item.icon className="h-4 w-4 mr-2" />
+                      renderIcon(item.icon as LucideIcon)
                     )}
                     <span>{item.title}</span>
                   </DropdownMenuItem>
@@ -84,7 +92,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                           className="w-full text-sm py-1 whitespace-nowrap flex items-center"
                         >
                           <div className="flex items-center">
-                            <subItem.icon className="h-4 w-4 mr-2" />
+                            {renderIcon(subItem.icon as LucideIcon)}
                             <span>{subItem.title}</span>
                           </div>
                         </Link>
