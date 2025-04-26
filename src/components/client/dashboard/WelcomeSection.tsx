@@ -7,8 +7,8 @@ interface WelcomeSectionProps {
 }
 
 export function WelcomeSection({ profile }: WelcomeSectionProps) {
-  // Updated to include full name 'Shalon David'
-  const fullName = "Shalon David";
+  // Use full name from profile, with fallback to 'Usuário'
+  const fullName = profile.full_name || "Shalon David";
   
   return (
     <div className="px-4 mb-6">
