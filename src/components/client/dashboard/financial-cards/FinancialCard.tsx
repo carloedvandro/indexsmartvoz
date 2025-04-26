@@ -6,7 +6,6 @@ interface FinancialCardProps {
   to: string;
   bgColor: string;
   hoverColor: string;
-  icon: "chart" | "trending" | "dollar";
   amount: number;
   label: string;
 }
