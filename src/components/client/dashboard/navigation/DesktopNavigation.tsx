@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
 import { NavigationItem } from "../types";
-import { ArrowRight, Home } from "lucide-react";
+import { Home } from "lucide-react";
 
 interface DesktopNavigationProps {
   navigationItems: NavigationItem[];
@@ -35,7 +35,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 style={{
                   color: '#5f0889',
                   pointerEvents: 'none',
-                  fontSize: '1.3rem'
+                  fontSize: '1.1rem'
                 }}
               >
                 Início
@@ -61,16 +61,15 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                   <DropdownMenuItem asChild>
                     <Link to={item.href} className="w-full whitespace-nowrap flex items-center justify-between">
                       <div className="flex items-center">
-                        <ArrowRight className="h-4 w-4 mr-2" />
+                        {item.icon && item.icon !== "home" && <item.icon className="h-4 w-4 mr-2" />}
                         <span>{item.title}</span>
                       </div>
                     </Link>
                   </DropdownMenuItem>
                 ) : (
                   <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap flex items-center">
-                    {/* No arrow for "Loja Virtual" and "Rede" */}
                     {item.title !== "Loja Virtual" && item.title !== "Rede" && (
-                      <ArrowRight className="h-4 w-4 mr-2" />
+                      <item.icon className="h-4 w-4 mr-2" />
                     )}
                     <span>{item.title}</span>
                   </DropdownMenuItem>
@@ -85,7 +84,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                           className="w-full text-sm py-1 whitespace-nowrap flex items-center"
                         >
                           <div className="flex items-center">
-                            <ArrowRight className="h-4 w-4 mr-2" />
+                            <subItem.icon className="h-4 w-4 mr-2" />
                             <span>{subItem.title}</span>
                           </div>
                         </Link>
