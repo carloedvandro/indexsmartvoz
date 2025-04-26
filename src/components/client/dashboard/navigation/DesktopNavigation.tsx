@@ -56,7 +56,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
             >
               <CustomHomeIcon className="h-[10px] w-[10px] text-gray-600 -ml-[30px]" />
               <span 
-                className="font-bold text-left text-gray-600 -ml-[20px] pl-[20px]" 
+                className="font-bold text-left text-gray-600 -ml-[20px] pl-[20px] -mt-[1px]" 
                 style={{
                   fontSize: '1rem'
                 }}
@@ -71,7 +71,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
                     <CustomHomeIcon className="h-[10px] w-[10px] text-gray-600" />
-                    <span className="font-bold self-center text-gray-600 text-lg pl-[20px]">Home</span>
+                    <span className="font-bold self-center text-gray-600 text-lg pl-[20px] -mt-[1px]">Home</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
