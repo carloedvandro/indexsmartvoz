@@ -54,7 +54,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-center pl-0 gap-2 ml-[-30px]"
               style={{ pointerEvents: 'auto' }}
             >
-              <CustomHomeIcon className="h-[10px] w-[10px] text-gray-600 -ml-[30px]" />
+              <CustomHomeIcon className="h-[10px] w-[10px] text-gray-600 -ml-[30px] ml-[5px]" />
               <span 
                 className="font-bold text-left text-gray-600 -ml-[20px]" 
                 style={{
@@ -70,7 +70,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <>
                 <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
-                    <CustomHomeIcon className="h-[10px] w-[10px] text-gray-600" />
+                    <CustomHomeIcon className="h-[10px] w-[10px] text-gray-600 ml-[5px]" />
                     <span className="font-bold self-center text-gray-600 text-lg">Home</span>
                   </Link>
                 </DropdownMenuItem>
