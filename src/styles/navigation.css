@@ -106,12 +106,12 @@
 /* Logout button desktop positioning */
 .desktop-logout-container {
   position: relative;
-  right: 20px;
-  margin-right: 20px;
+  right: 30px;
+  margin-right: 40px;
 }
 
 @media (min-width: 768px) {
   .desktop-logout-container {
-    margin-right: 40px;
+    margin-right: 50px;
   }
 }

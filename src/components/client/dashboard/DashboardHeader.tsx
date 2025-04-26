@@ -56,7 +56,7 @@ export function DashboardHeader() {
           <div className="desktop-logout-container">
             <LogoutButton 
               onLogout={handleLogout} 
-              className="hidden md:flex md:translate-x-[40px]" 
+              className="hidden md:flex md:translate-x-[50px]" // Adicionei mais 10px no translate-x
             />
           </div>
           <MobileMenu 
