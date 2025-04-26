@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { InternetSelector } from "@/components/client/products/InternetSelector";
@@ -23,7 +22,9 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   const [selectedDueDate, setSelectedDueDate] = useState<number | null>(null);
 
   const internetOptions = [
+    { value: "110GB", label: "Plano 110GB", price: 109.99 },
     { value: "120GB", label: "Plano 120GB", price: 119.99 },
+    { value: "130GB", label: "Plano 130GB", price: 129.99 },
   ];
 
   const getLinePrice = () => {
