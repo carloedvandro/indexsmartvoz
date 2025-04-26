@@ -2,8 +2,12 @@
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatCurrency } from "@/utils/format";
+import { useState } from "react";
+import { TooltipProvider, Tooltip as UITooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function SalesDetailsCard() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  
   const pieData = [
     { name: "START 6 *GESIA", value: 300, color: "#9b87f5" },
     { name: "START 5GB + Minutos illimit.", value: 200, color: "#33C3F0" },
@@ -26,8 +30,16 @@ export function SalesDetailsCard() {
     return null;
   };
 
+  const onPieEnter = (_: any, index: number) => {
+    setActiveIndex(index);
+  };
+
+  const onPieLeave = () => {
+    setActiveIndex(null);
+  };
+
   return (
-    <Card className="p-6 shadow-sm h-full w-full">
+    <Card className="p-6 shadow-sm h-full w-full border-0 rounded-xl shadow-lg">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-bold text-black">Detalhe das Vendas</h3>
         <button className="text-gray-400 hover:text-gray-600">
@@ -54,15 +66,29 @@ export function SalesDetailsCard() {
                   animationDuration={1200}
                   animationEasing="ease-in-out"
                   cursor="pointer"
+                  onMouseEnter={onPieEnter}
+                  onMouseLeave={onPieLeave}
                 >
-                  {pieData.map((entry, index) => (
-                    <Cell 
-                      key={`cell-${index}`} 
-                      fill={entry.color}
-                      strokeWidth={0}
-                      className="hover:opacity-80 transition-opacity"
-                    />
-                  ))}
+                  {pieData.map((entry, index) => {
+                    const isActive = index === activeIndex;
+                    const scale = isActive ? 1.15 : 1;
+                    
+                    return (
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={entry.color}
+                        strokeWidth={isActive ? 2 : 0}
+                        stroke={isActive ? "#6E59A5" : "none"}
+                        style={{
+                          filter: isActive ? "drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.2))" : "none",
+                          transition: "all 0.3s ease-in-out",
+                          transformOrigin: "center center",
+                          transform: `scale(${scale})`,
+                          zIndex: isActive ? 100 : 1,
+                        }}
+                      />
+                    );
+                  })}
                 </Pie>
                 <text
                   x="50%"
