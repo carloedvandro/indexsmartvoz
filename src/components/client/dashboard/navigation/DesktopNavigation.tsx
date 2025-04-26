@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -18,19 +19,6 @@ const renderIcon = (Icon: LucideIcon | string, className?: string) => {
   return <Icon className={className || "h-4 w-4 mr-2"} />;
 };
 
-// Custom Home Icon Component
-const CustomHomeIcon = ({ className }: { className?: string }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    viewBox="0 0 1000 1000" 
-    fill="currentColor"
-    className={className}
-  >
-    <path d="M800 450v450H600V600H400v300H200V450L500 150l300 300zm50-40L500 60 150 410v540h200V550h300v400h200V410z"/>
-    <path d="M500 250c-27.6 0-50 22.4-50 50s22.4 50 50 50 50-22.4 50-50-22.4-50-50-50z"/>
-  </svg>
-);
-
 interface DesktopNavigationProps {
   navigationItems: NavigationItem[];
 }
@@ -49,7 +37,11 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-center pl-0 gap-2 ml-[-30px]"
               style={{ pointerEvents: 'auto' }}
             >
-              <CustomHomeIcon className="h-[10px] w-[10px] text-gray-600 -ml-[30px]" />
+              <img 
+                src="/images/golden-network-icon.png" 
+                alt="Home" 
+                className="h-[20px] w-auto ml-[-20px]" 
+              />
               <span 
                 className="font-bold text-left text-gray-600 -ml-[20px] pl-[20px] mt-[2px]" 
                 style={{
@@ -65,8 +57,12 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <>
                 <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
-                    <CustomHomeIcon className="h-[10px] w-[10px] text-gray-600" />
-                    <span className="font-bold self-center text-gray-600 text-lg pl-[20px] mt-[2px]">Home</span>
+                    <img 
+                      src="/images/golden-network-icon.png" 
+                      alt="Home" 
+                      className="h-[20px] w-auto ml-[5px]" 
+                    />
+                    <span className="font-bold self-center text-gray-600 text-lg pl-[10px] mt-[2px]">Home</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
