@@ -102,16 +102,3 @@
   top: 50%;
   transform: translateY(-50%);
 }
-
-/* Logout button desktop positioning */
-.desktop-logout-container {
-  position: relative;
-  right: 30px;
-  margin-right: 40px;
-}
-
-@media (min-width: 768px) {
-  .desktop-logout-container {
-    margin-right: 50px;
-  }
-}

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -8,7 +7,6 @@ import { MobileMenu } from "./components/MobileMenu";
 import { DesktopNavigation } from "./navigation/DesktopNavigation";
 import { navigationItems } from "./navigation/NavigationItems";
 import "@/styles/logo.css";
-import "@/styles/navigation.css";
 
 export function DashboardHeader() {
   const { toast } = useToast();
@@ -52,13 +50,8 @@ export function DashboardHeader() {
           <Logo />
         </div>
         <DesktopNavigation navigationItems={navigationItems} />
-        <div className="flex items-center justify-end gap-2 ml-auto order-3 lg:order-3 pr-12">
-          <div className="desktop-logout-container">
-            <LogoutButton 
-              onLogout={handleLogout} 
-              className="hidden md:flex md:translate-x-[50px]" // Adicionei mais 10px no translate-x
-            />
-          </div>
+        <div className="flex items-center justify-end gap-2 ml-auto order-3 lg:order-3">
+          <LogoutButton onLogout={handleLogout} className="hidden md:flex" />
           <MobileMenu 
             isOpen={isOpen}
             setOpen={setOpen}
