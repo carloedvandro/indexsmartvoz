@@ -2,6 +2,7 @@
 import { useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
+import { Power } from "lucide-react";
 
 interface LogoutButtonProps {
   onLogout: () => void;
@@ -33,7 +34,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   };
 
   return (
-    <div className={cn("relative ml-auto mr-[20px]", className)}>
+    <div className={cn("relative ml-auto mr-[40px]", className)}>
       <button 
         onClick={handleLogout}
         onMouseEnter={() => setHover(true)}
@@ -44,10 +45,8 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         )}
         aria-label="Logout"
       >
-        <img 
-          src="/lovable-uploads/a67cad9d-5595-4695-8026-b968edc985a4.png" 
-          alt="Logout" 
-          className="h-8 w-8 transition-transform duration-300 hover:scale-110" 
+        <Power 
+          className="h-8 w-8 text-red-500 transition-transform duration-300 hover:scale-110" 
         />
       </button>
     </div>
