@@ -36,11 +36,11 @@
  
     --radius: 0.5rem;
 
-    --color-1: 0 100% 63%;
-    --color-2: 270 100% 63%;
-    --color-3: 210 100% 63%;
-    --color-4: 259 94.4% 51.4%;
-    --color-5: 259 94.4% 51.4%;
+    --color-1: 60 100% 50%;  /* Yellow */
+    --color-2: 120 100% 45%; /* Green */
+    --color-3: 85 100% 45%;  /* Yellow-Green */
+    --color-4: 45 100% 50%;  /* Golden Yellow */
+    --color-5: 140 100% 45%; /* Emerald Green */
   }
 }
 
