@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatCurrency } from "@/utils/format";
@@ -36,8 +37,8 @@ export function SalesDetailsCard() {
   };
 
   return (
-    <Card className="p-6 shadow-sm h-[467px] w-full rounded-xl shadow-lg relative">
-      <div className="flex justify-between items-center mb-4">
+    <Card className="p-6 shadow-sm h-[467px] w-full rounded-xl bg-white">
+      <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-bold text-black">Detalhe das Vendas</h3>
         <button className="text-gray-400 hover:text-gray-600">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -48,78 +49,74 @@ export function SalesDetailsCard() {
         </button>
       </div>
       
-      <div className="md:flex items-center mt-[-60px]">
-        <div className="w-full md:w-[35%] mb-4 md:mb-0">
-          <div className="h-[300px] relative" style={{ zIndex: 10, border: 'none' }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart style={{ border: 'none' }}>
-                <Pie
-                  data={pieData}
-                  innerRadius={55}
-                  outerRadius={75}
-                  paddingAngle={2}
-                  dataKey="value"
-                  animationBegin={0}
-                  animationDuration={1200}
-                  animationEasing="ease-in-out"
-                  onMouseEnter={onPieEnter}
-                  onMouseLeave={onPieLeave}
-                  cursor="pointer"
-                  style={{ border: 'none' }}
-                >
-                  {pieData.map((entry, index) => {
-                    const isActive = index === activeIndex;
-                    const scale = isActive ? 1.15 : 1;
-                    
-                    return (
-                      <Cell 
-                        key={`cell-${index}`} 
-                        fill={entry.color}
-                        stroke="none"
-                        style={{
-                          filter: isActive ? "drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.2))" : "none",
-                          transition: "all 0.3s ease-in-out",
-                          transformOrigin: "center center",
-                          transform: `scale(${scale})`,
-                          zIndex: isActive ? 10 : 1,
-                          border: 'none'
-                        }}
-                      />
-                    );
-                  })}
-                </Pie>
-                <text
-                  x="50%"
-                  y="50%"
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  className="text-xs font-medium"
-                  fill="#4B5563"
-                >
-                  Vendas do Mês
-                </text>
-                <Tooltip 
-                  content={<CustomTooltip />}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
+      <div className="flex flex-col items-center space-y-6">
+        <div className="w-full max-w-[300px] h-[220px] relative">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={pieData}
+                innerRadius={55}
+                outerRadius={75}
+                paddingAngle={2}
+                dataKey="value"
+                animationBegin={0}
+                animationDuration={1200}
+                animationEasing="ease-in-out"
+                onMouseEnter={onPieEnter}
+                onMouseLeave={onPieLeave}
+                cursor="pointer"
+              >
+                {pieData.map((entry, index) => {
+                  const isActive = index === activeIndex;
+                  const scale = isActive ? 1.15 : 1;
+                  
+                  return (
+                    <Cell 
+                      key={`cell-${index}`} 
+                      fill={entry.color}
+                      stroke="none"
+                      style={{
+                        filter: isActive ? "drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.2))" : "none",
+                        transition: "all 0.3s ease-in-out",
+                        transformOrigin: "center center",
+                        transform: `scale(${scale})`,
+                        zIndex: isActive ? 10 : 1
+                      }}
+                    />
+                  );
+                })}
+              </Pie>
+              <text
+                x="50%"
+                y="50%"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                className="text-xs font-medium"
+                fill="#4B5563"
+              >
+                Vendas do Mês
+              </text>
+              <Tooltip content={<CustomTooltip />} />
+            </PieChart>
+          </ResponsiveContainer>
         </div>
-        
-        <div className="w-full md:w-[55%] pl-0 md:pl-8 md:ml-4 mt-[-60px]">
-          <div className="flex items-center gap-2 mb-4">
-            <p className="text-sm font-medium text-gray-600">Valor total de vendas</p>
+
+        <div className="w-full space-y-4">
+          <div className="text-center">
+            <p className="text-sm text-gray-600 mb-1">Valor total de vendas</p>
             <p className="text-lg font-bold text-purple-600">{totalSales}</p>
           </div>
           
-          <p className="text-sm font-medium text-gray-600 mb-3">Planos mais vendidos</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {pieData.map((plan, index) => (
-              <div key={index} className="flex items-center">
-                <div className="min-w-3 h-3 rounded-full mr-2" style={{ backgroundColor: plan.color }}></div>
-                <p className="text-xs text-gray-600 whitespace-normal">{plan.name}</p>
-              </div>
-            ))}
+          <div className="space-y-2">
+            <p className="text-sm font-medium text-gray-600">Planos mais vendidos</p>
+            <div className="grid gap-2">
+              {pieData.map((plan, index) => (
+                <div key={index} className="flex items-center">
+                  <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: plan.color }}></div>
+                  <p className="text-sm text-gray-600">{plan.name}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
