@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatCurrency } from "@/utils/format";
@@ -9,15 +8,14 @@ export function SalesDetailsCard() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   
   const pieData = [
-    { name: "START 6 *GESIA", value: 300, color: "#9b87f5" },
-    { name: "START 5GB + Minutos illimit.", value: 200, color: "#33C3F0" },
-    { name: "START 6", value: 150, color: "#D6BCFA" },
+    { name: "START 110GB + Minutos ilimit.", value: 300, color: "#9b87f5" },
+    { name: "START 120GB + Minutos ilimit.", value: 200, color: "#33C3F0" },
+    { name: "START 130GB + Minutos ilimit.", value: 150, color: "#D6BCFA" },
     { name: "Outros Planos", value: 100, color: "#E5E7EB" }
   ];
   
   const totalSales = "R$ 691.526,00";
   
-  // Enhanced tooltip with better positioning
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (
