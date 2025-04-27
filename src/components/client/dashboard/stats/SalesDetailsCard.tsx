@@ -2,9 +2,11 @@ import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatCurrency } from "@/utils/format";
 import { useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function SalesDetailsCard() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const isMobile = useIsMobile();
   
   const pieData = [
     { name: "START 110GB + Minutos ilimit.", value: 300, color: "#9b87f5" },
@@ -49,7 +51,7 @@ export function SalesDetailsCard() {
       </div>
       
       <div className="flex flex-col items-center">
-        <div className="w-full max-w-[300px] h-[180px] relative">
+        <div className={`w-full max-w-[300px] h-[180px] relative ${isMobile ? "mt-2" : ""}`}>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
