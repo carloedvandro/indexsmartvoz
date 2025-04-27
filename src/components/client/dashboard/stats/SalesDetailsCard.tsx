@@ -36,7 +36,7 @@ export function SalesDetailsCard() {
   };
 
   return (
-    <Card className="p-6 shadow-sm h-[600px] w-full rounded-xl shadow-lg relative">
+    <Card className="p-6 shadow-sm h-[467px] w-full rounded-xl shadow-lg relative">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-bold text-black">Detalhe das Vendas</h3>
         <button className="text-gray-400 hover:text-gray-600">
@@ -48,11 +48,11 @@ export function SalesDetailsCard() {
         </button>
       </div>
       
-      <div className="md:flex items-start">
-        <div className="w-full md:w-[40%] mb-4 md:mb-0">
-          <div className="h-[300px] relative">
+      <div className="md:flex items-center mt-[-60px]">
+        <div className="w-full md:w-[35%] mb-4 md:mb-0">
+          <div className="h-[300px] relative" style={{ zIndex: 10, border: 'none' }}>
             <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
+              <PieChart style={{ border: 'none' }}>
                 <Pie
                   data={pieData}
                   innerRadius={55}
@@ -65,6 +65,7 @@ export function SalesDetailsCard() {
                   onMouseEnter={onPieEnter}
                   onMouseLeave={onPieLeave}
                   cursor="pointer"
+                  style={{ border: 'none' }}
                 >
                   {pieData.map((entry, index) => {
                     const isActive = index === activeIndex;
@@ -80,7 +81,8 @@ export function SalesDetailsCard() {
                           transition: "all 0.3s ease-in-out",
                           transformOrigin: "center center",
                           transform: `scale(${scale})`,
-                          zIndex: isActive ? 10 : 1
+                          zIndex: isActive ? 10 : 1,
+                          border: 'none'
                         }}
                       />
                     );
@@ -96,29 +98,29 @@ export function SalesDetailsCard() {
                 >
                   Vendas do Mês
                 </text>
-                <Tooltip content={<CustomTooltip />} />
+                <Tooltip 
+                  content={<CustomTooltip />}
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>
         </div>
-      </div>
-
-      <div className="absolute bottom-32 left-6">
-        <div className="flex items-center gap-2">
-          <p className="text-sm font-medium text-gray-600">Valor total de vendas</p>
-          <p className="text-lg font-bold text-purple-600">{totalSales}</p>
-        </div>
-      </div>
         
-      <div className="absolute bottom-6 left-6">
-        <p className="text-sm font-medium text-gray-600 mb-3">Planos mais vendidos</p>
-        <div className="grid grid-cols-1 gap-3">
-          {pieData.map((plan, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <div className="min-w-3 h-3 rounded-full" style={{ backgroundColor: plan.color }}></div>
-              <p className="text-xs text-gray-600">{plan.name}</p>
-            </div>
-          ))}
+        <div className="w-full md:w-[55%] pl-0 md:pl-8 md:ml-4 mt-[-60px]">
+          <div className="flex items-center gap-2 mb-4">
+            <p className="text-sm font-medium text-gray-600">Valor total de vendas</p>
+            <p className="text-lg font-bold text-purple-600">{totalSales}</p>
+          </div>
+          
+          <p className="text-sm font-medium text-gray-600 mb-3">Planos mais vendidos</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {pieData.map((plan, index) => (
+              <div key={index} className="flex items-center">
+                <div className="min-w-3 h-3 rounded-full mr-2" style={{ backgroundColor: plan.color }}></div>
+                <p className="text-xs text-gray-600 whitespace-normal">{plan.name}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </Card>
