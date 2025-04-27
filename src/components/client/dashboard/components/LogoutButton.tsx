@@ -1,3 +1,4 @@
+
 import { useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
@@ -46,7 +47,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         <img 
           src="/lovable-uploads/1e48eb29-8dad-4a8b-aa91-916b630795f0.png" 
           alt="Logout" 
-          className="object-contain h-[70px] w-[70px] transition-transform duration-300 hover:scale-110"
+          className="object-contain h-[70px] w-[70px] transition-transform duration-300 hover:scale-110 border-none outline-none rounded-none"
         />
       </button>
     </div>
