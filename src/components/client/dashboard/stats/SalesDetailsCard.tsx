@@ -20,7 +20,7 @@ export function SalesDetailsCard() {
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-3 border border-gray-200 shadow-lg rounded-md z-[9999]">
+        <div className="bg-white p-3 border border-gray-200 shadow-lg rounded-md z-50">
           <p className="text-sm font-medium">{payload[0].name}</p>
           <p className="text-sm font-bold">{`${payload[0].value} vendas`}</p>
         </div>
@@ -67,7 +67,6 @@ export function SalesDetailsCard() {
                   onMouseEnter={onPieEnter}
                   onMouseLeave={onPieLeave}
                   cursor="pointer"
-                  isAnimationActive={true}
                 >
                   {pieData.map((entry, index) => {
                     const isActive = index === activeIndex;
@@ -101,19 +100,6 @@ export function SalesDetailsCard() {
                 </text>
                 <Tooltip 
                   content={<CustomTooltip />}
-                  active={true}
-                  position={{ x: 0, y: 0 }}
-                  wrapperStyle={{ 
-                    zIndex: 9999, 
-                    position: 'fixed', 
-                    pointerEvents: 'auto',
-                    visibility: 'visible',
-                    top: 'auto',
-                    left: 'auto'
-                  }}
-                  allowEscapeViewBox={{ x: true, y: true }}
-                  offset={10}
-                  cursor={{ stroke: 'none', strokeWidth: 0 }}
                 />
               </PieChart>
             </ResponsiveContainer>
