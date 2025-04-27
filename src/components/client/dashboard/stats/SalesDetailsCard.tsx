@@ -102,7 +102,7 @@ export function SalesDetailsCard() {
           </ResponsiveContainer>
         </div>
 
-        <div className="w-full space-y-4 -mt-2">
+        <div className="w-full space-y-4 -mt-1">
           <div className="flex items-center gap-2 mt-4">
             <p className="text-sm text-gray-600">Valor total de vendas</p>
             <p className="text-lg font-bold text-purple-600">{totalSales}</p>
