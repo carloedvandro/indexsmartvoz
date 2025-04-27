@@ -67,7 +67,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
       <Button 
         variant="ghost" 
         onClick={() => setOpen(!isOpen)}
-        className="hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent my-auto mobile-menu-button ml-4 relative -top-[6px] right-[-7px]"
+        className="hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent my-auto mobile-menu-button ml-4 relative -top-[11px] right-[-7px]"
       >
         {isOpen ? (
           <X className="w-10 h-10 font-bold text-black" />
