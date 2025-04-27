@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatCurrency } from "@/utils/format";
@@ -70,7 +69,7 @@ export function SalesDetailsCard() {
               >
                 {pieData.map((entry, index) => {
                   const isActive = index === activeIndex;
-                  const scale = isActive ? 1.15 : 1;
+                  const scale = isActive ? 1.1 : 1;
                   
                   return (
                     <Cell 
@@ -78,11 +77,12 @@ export function SalesDetailsCard() {
                       fill={entry.color}
                       stroke="transparent"
                       style={{
-                        filter: isActive ? "drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.2))" : "none",
-                        transition: "all 0.3s ease-in-out",
+                        filter: isActive ? "drop-shadow(0px 6px 8px rgba(0, 0, 0, 0.12))" : "none",
+                        transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
                         transformOrigin: "center center",
-                        transform: `scale(${scale})`,
-                        zIndex: isActive ? 10 : 1
+                        transform: `scale(${scale}) translateY(${isActive ? -4 : 0}px)`,
+                        zIndex: isActive ? 10 : 1,
+                        outline: "none"
                       }}
                     />
                   );
