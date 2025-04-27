@@ -49,7 +49,7 @@ export function SalesDetailsCard() {
         </button>
       </div>
       
-      <div className="md:flex items-center mt-[-40px]">
+      <div className="md:flex items-center mt-[-60px]">
         <div className="w-full md:w-[40%] mb-4 md:mb-0">
           <div className="h-[300px] relative" style={{ zIndex: 10 }}>
             <ResponsiveContainer width="100%" height="100%">
