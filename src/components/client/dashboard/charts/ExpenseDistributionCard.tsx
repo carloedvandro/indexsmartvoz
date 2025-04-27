@@ -13,11 +13,11 @@ export const ExpenseDistributionCard = () => {
     { name: "Outros", value: 10, color: "#E5E7EB" }
   ];
   
-  // Custom tooltip with better positioning
+  // Enhanced tooltip with better positioning
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-3 border border-gray-200 shadow-lg rounded-md z-50">
+        <div className="bg-white p-3 border border-gray-200 shadow-lg rounded-md z-[9999]">
           <p className="text-sm font-medium">{payload[0].name}</p>
           <p className="text-sm font-bold">{`${payload[0].value}%`}</p>
         </div>
@@ -87,8 +87,18 @@ export const ExpenseDistributionCard = () => {
               </Pie>
               <Tooltip 
                 content={<CustomTooltip />} 
-                wrapperStyle={{ zIndex: 100, position: 'absolute', pointerEvents: 'none' }}
-                allowEscapeViewBox={{ x: true, y: true }} 
+                position={{ x: 0, y: 0 }}
+                wrapperStyle={{ 
+                  zIndex: 9999, 
+                  position: 'fixed', 
+                  pointerEvents: 'auto',
+                  visibility: 'visible',
+                  top: 'auto',
+                  left: 'auto'
+                }}
+                allowEscapeViewBox={{ x: true, y: true }}
+                offset={10}
+                cursor={{ stroke: 'none', strokeWidth: 0 }}
               />
             </PieChart>
           </ResponsiveContainer>
