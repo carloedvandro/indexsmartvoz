@@ -9,10 +9,10 @@ export function SalesDetailsCard() {
   const isMobile = useIsMobile();
   
   const pieData = [
-    { name: "START 110GB + Minutos ilimit.", value: 300, color: "#9b87f5" },
-    { name: "START 120GB + Minutos ilimit.", value: 200, color: "#33C3F0" },
-    { name: "START 130GB + Minutos ilimit.", value: 150, color: "#D6BCFA" },
-    { name: "START 140GB + Minutos ilimit.", value: 100, color: "#E5E7EB" }
+    { name: "START 110GB + Minutos ilimit.", value: 300, color: "#9b87f5", sales: 180000 },
+    { name: "START 120GB + Minutos ilimit.", value: 200, color: "#33C3F0", sales: 160000 },
+    { name: "START 130GB + Minutos ilimit.", value: 150, color: "#D6BCFA", sales: 201526 },
+    { name: "START 140GB + Minutos ilimit.", value: 100, color: "#E5E7EB", sales: 150000 }
   ];
   
   const totalSales = "R$ 691.526,00";
@@ -94,14 +94,26 @@ export function SalesDetailsCard() {
               </Pie>
               <text
                 x="50%"
-                y="50%"
+                y="45%"
                 textAnchor="middle"
                 dominantBaseline="middle"
                 className="text-xs font-medium"
                 fill="#4B5563"
               >
-                Vendas do Mês
+                {activeIndex !== null ? formatCurrency(pieData[activeIndex].sales) : "Vendas do Mês"}
               </text>
+              {activeIndex !== null && (
+                <text
+                  x="50%"
+                  y="55%"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className="text-[10px]"
+                  fill="#6B7280"
+                >
+                  {pieData[activeIndex].name}
+                </text>
+              )}
               <Tooltip content={<CustomTooltip />} />
             </PieChart>
           </ResponsiveContainer>
