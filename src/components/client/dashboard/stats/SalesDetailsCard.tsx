@@ -53,7 +53,7 @@ export function SalesDetailsCard() {
         <div className="w-full md:w-[40%] mb-4 md:mb-0">
           <div className="h-[300px] relative" style={{ zIndex: 10, border: 'none' }}>
             <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
+              <PieChart style={{ border: 'none' }}>
                 <Pie
                   data={pieData}
                   innerRadius={55}
@@ -66,6 +66,7 @@ export function SalesDetailsCard() {
                   onMouseEnter={onPieEnter}
                   onMouseLeave={onPieLeave}
                   cursor="pointer"
+                  style={{ border: 'none' }}
                 >
                   {pieData.map((entry, index) => {
                     const isActive = index === activeIndex;
@@ -82,6 +83,7 @@ export function SalesDetailsCard() {
                           transformOrigin: "center center",
                           transform: `scale(${scale})`,
                           zIndex: isActive ? 10 : 1,
+                          border: 'none'
                         }}
                       />
                     );
