@@ -22,7 +22,7 @@ export function StatsCardsGrid() {
           </div>
         </div>
         <div className="flex justify-start">
-          <div className="w-[95%]">
+          <div className="w-[100%]">
             <SalesDetailsCard />
           </div>
         </div>
