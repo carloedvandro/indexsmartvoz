@@ -5,9 +5,11 @@ import "@/styles/logo.css";
 export function Logo() {
   return (
     <Link to="/client/dashboard" className="logo-container flex items-center justify-center w-full">
-      <span className="logo-text text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#F36B44] via-[#8E44AD] to-[#2980B9]">
-        SMARTVOZ
-      </span>
+      <img 
+        src="/lovable-uploads/a4a911e3-a6ea-47f3-a5c0-a855aa60803b.png" 
+        alt="Smartvoz" 
+        className="logo-image mx-auto"
+      />
     </Link>
   );
 }
