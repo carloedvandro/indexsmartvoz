@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatCurrency } from "@/utils/format";
@@ -75,8 +76,7 @@ export function SalesDetailsCard() {
                       <Cell 
                         key={`cell-${index}`} 
                         fill={entry.color}
-                        strokeWidth={isActive ? 2 : 0}
-                        stroke={isActive ? "#6E59A5" : "none"}
+                        stroke="none"
                         style={{
                           filter: isActive ? "drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.2))" : "none",
                           transition: "all 0.3s ease-in-out",
