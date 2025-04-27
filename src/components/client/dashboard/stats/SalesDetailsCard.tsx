@@ -37,7 +37,7 @@ export function SalesDetailsCard() {
   };
 
   return (
-    <Card className="p-6 shadow-sm h-[500px] w-full border-0 rounded-xl shadow-lg relative">
+    <Card className="p-6 shadow-sm h-[467px] w-full border-0 rounded-xl shadow-lg relative">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-bold text-black">Detalhe das Vendas</h3>
         <button className="text-gray-400 hover:text-gray-600">
@@ -124,7 +124,7 @@ export function SalesDetailsCard() {
             <p className="text-lg font-bold text-purple-600">{totalSales}</p>
           </div>
           
-          <p className="text-sm font-medium text-gray-600 mb-3">Planos mais vendidos</p>
+          <p className="text-lg font-bold text-black mb-3">Planos mais vendidos</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {pieData.map((plan, index) => (
               <div key={index} className="flex items-center">
