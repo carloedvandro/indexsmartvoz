@@ -106,13 +106,13 @@ export function SalesDetailsCard() {
             </ResponsiveContainer>
           </div>
           
-          <div className="flex flex-col gap-1 absolute bottom-0 left-0">
-            <p className="text-sm font-medium text-gray-600">Valor total de vendas</p>
+          <div className="flex items-center absolute bottom-0 left-0">
+            <p className="text-sm font-medium text-gray-600 mr-2">Valor total de vendas</p>
             <p className="text-lg font-bold text-purple-600">{totalSales}</p>
           </div>
         </div>
         
-        <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4 md:mt-40">
+        <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4 md:mt-48">
           <p className="text-sm font-medium text-gray-600 mb-3">Planos mais vendidos</p>
           <div className="grid grid-cols-1 gap-3">
             {pieData.map((plan, index) => (
