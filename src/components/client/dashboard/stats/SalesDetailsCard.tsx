@@ -36,7 +36,7 @@ export function SalesDetailsCard() {
   };
 
   return (
-    <Card className="p-6 shadow-sm h-[467px] w-full rounded-xl shadow-lg relative">
+    <Card className="p-6 shadow-sm h-[467px] w-[90%] mx-auto rounded-xl shadow-lg relative">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-bold text-black">Detalhe das Vendas</h3>
         <button className="text-gray-400 hover:text-gray-600">
