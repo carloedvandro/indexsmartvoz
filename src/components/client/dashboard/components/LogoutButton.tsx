@@ -1,4 +1,3 @@
-
 import { useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
@@ -33,7 +32,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   };
 
   return (
-    <div className={cn("relative ml-[140px]", className)}>
+    <div className={cn("relative", className)}>
       <button 
         onClick={handleLogout}
         onMouseEnter={() => setHover(true)}
@@ -53,4 +52,3 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
     </div>
   );
 }
-
