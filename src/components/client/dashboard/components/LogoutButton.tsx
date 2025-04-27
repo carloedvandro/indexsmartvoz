@@ -44,22 +44,12 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         )}
         aria-label="Logout"
       >
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          viewBox="0 0 512 512"
+        <img 
+          src="/lovable-uploads/ae6c3ea9-bc90-43c6-bf07-a9c1f316de88.png" 
+          alt="Logout" 
           className="h-8 w-8 transition-transform duration-300 hover:scale-110"
-        >
-          <circle cx="256" cy="256" r="256" fill="#ff0000"/>
-          <path 
-            d="M256 164v184M256 164c35.346 0 64 28.654 64 64v56c0 35.346-28.654 64-64 64s-64-28.654-64-64v-56c0-35.346 28.654-64 64-64z" 
-            stroke="white" 
-            strokeWidth="40" 
-            strokeLinecap="round"
-            fill="none"
-          />
-        </svg>
+        />
       </button>
     </div>
   );
 }
-
