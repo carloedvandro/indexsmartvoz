@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -42,9 +41,9 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 className="h-[30px] w-auto ml-[-20px]" 
               />
               <span 
-                className="font-bold text-left text-gray-600 -ml-[20px] pl-[20px] mt-[16px]" 
+                className="font-bold text-left text-gray-600 -ml-[20px] pl-[20px] mt-[16px] text-xl" 
                 style={{
-                  fontSize: '1rem'
+                  fontSize: '1.25rem'
                 }}
               >
                 Home
@@ -61,7 +60,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                       alt="Home" 
                       className="h-[30px] w-auto ml-[5px]" 
                     />
-                    <span className="font-bold self-center text-gray-600 text-lg pl-[10px] mt-[16px]">Home</span>
+                    <span className="font-bold self-center text-gray-600 text-xl pl-[10px] mt-[16px]">Home</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -113,4 +112,3 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
     </div>
   );
 };
-
