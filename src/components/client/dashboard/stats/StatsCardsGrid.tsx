@@ -11,17 +11,17 @@ export function StatsCardsGrid() {
         <LineStatusCard />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1800px] mx-auto">
-        <div className="flex">
+        <div className="flex justify-start">
           <div className="w-[95%]">
             <RechargesCard />
           </div>
         </div>
-        <div className="flex">
+        <div className="flex justify-start">
           <div className="w-[95%]">
             <ActivationsCard />
           </div>
         </div>
-        <div className="flex justify-end">
+        <div className="flex justify-start">
           <div className="w-[95%]">
             <SalesDetailsCard />
           </div>
