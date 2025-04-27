@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatCurrency } from "@/utils/format";
@@ -28,6 +27,10 @@ export function SalesDetailsCard() {
       );
     }
     return null;
+  };
+
+  const onCircleClick = (index: number) => {
+    setActiveIndex(index === activeIndex ? null : index);
   };
 
   const onPieEnter = (_: any, index: number) => {
@@ -114,8 +117,17 @@ export function SalesDetailsCard() {
             <p className="text-sm font-medium text-gray-600">Planos mais vendidos</p>
             <div className="grid gap-2">
               {pieData.map((plan, index) => (
-                <div key={index} className="flex items-center">
-                  <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: plan.color }}></div>
+                <div 
+                  key={index} 
+                  className="flex items-center"
+                  onClick={() => onCircleClick(index)}
+                >
+                  <div 
+                    className={`w-3 h-3 rounded-full mr-2 cursor-pointer transition-all duration-300 hover:scale-125 ${
+                      index === activeIndex ? 'transform scale-125 ring-2 ring-offset-2 ring-purple-300' : ''
+                    }`} 
+                    style={{ backgroundColor: plan.color }}
+                  ></div>
                   <p className="text-sm text-gray-600">{plan.name}</p>
                 </div>
               ))}
