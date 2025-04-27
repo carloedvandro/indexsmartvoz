@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from "react-router-dom";
 import { X, CircleEllipsis } from "lucide-react";
@@ -66,20 +67,20 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
       <Button 
         variant="ghost" 
         onClick={() => setOpen(!isOpen)}
-        className="hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent my-auto mobile-menu-button ml-4 relative -top-[10px] right-[-7px]"
+        className="hover:bg-transparent active:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 data-[state=open]:bg-transparent my-auto mobile-menu-button ml-4 relative -top-[6px] right-[-7px]"
       >
         {isOpen ? (
-          <X className="w-12 h-12 font-bold text-black" />
+          <X className="w-10 h-10 font-bold text-black" />
         ) : (
-          <div className="flex flex-col justify-center items-center w-[22px] h-[22px]">
-            <div className="w-full h-[8px] bg-black rounded-full mb-2"></div>
-            <div className="w-full h-[8px] bg-black rounded-full mb-2"></div>
-            <div className="w-full h-[8px] bg-black rounded-full"></div>
+          <div className="flex flex-col justify-center items-center w-[20px] h-[16px]">
+            <div className="w-full h-[6px] bg-black rounded-full mb-1"></div>
+            <div className="w-full h-[6px] bg-black rounded-full mb-1"></div>
+            <div className="w-full h-[6px] bg-black rounded-full"></div>
           </div>
         )}
       </Button>
       {isOpen && (
-        <div className="fixed top-20 left-0 right-0 flex flex-col w-[380px] mx-auto bg-white shadow-lg py-2 container mobile-menu-container gap-2 z-50 rounded-b-lg">
+        <div className="fixed top-16 left-0 right-0 flex flex-col w-[380px] mx-auto bg-white shadow-lg py-2 container mobile-menu-container gap-2 z-50 rounded-b-lg">
           <div className="flex flex-col gap-2">
             {renderItems(navigationItems)}
           </div>
