@@ -32,19 +32,19 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   };
 
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn("relative ml-auto", className)}>
       <button 
         onClick={handleLogout}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         className={cn(
-          "text-gray-700 hover:text-red-600 font-medium rounded-md h-12 w-12 flex items-center justify-center transition-all duration-300 bg-transparent border border-white/5 mt-1",
+          "text-gray-700 hover:text-red-600 font-medium rounded-md h-12 w-12 flex items-center justify-center transition-all duration-300 bg-transparent",
           className
         )}
         aria-label="Logout"
       >
         <img 
-          src="/lovable-uploads/78dbfd4e-37c2-4b7c-8bb9-b400c2cdb84d.png" 
+          src="/lovable-uploads/a67cad9d-5595-4695-8026-b968edc985a4.png" 
           alt="Logout" 
           className="h-8 w-8 transition-transform duration-300 hover:scale-110" 
         />
