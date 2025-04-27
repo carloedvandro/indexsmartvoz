@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
@@ -20,11 +19,9 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
         </Link>
         
         <div className="flex items-center gap-2">
-          <img 
-            src="/lovable-uploads/ced30205-7362-4aa6-882d-4e55a0f46378.png" 
-            alt="SmartVoz Logo" 
-            className="h-16 w-auto"
-          />
+          <div className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
+            Smartvoz
+          </div>
         </div>
         
         <nav className="hidden md:flex items-center justify-center flex-grow space-x-12">

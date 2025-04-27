@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 
 interface HeaderProps {
@@ -12,11 +11,9 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Link to="/">
-            <img 
-              src="/lovable-uploads/ced30205-7362-4aa6-882d-4e55a0f46378.png" 
-              alt="SmartVoz Logo" 
-              className="h-12 w-auto"
-            />
+            <div className="text-2xl font-bold text-white">
+              Smartvoz
+            </div>
           </Link>
         </div>
         

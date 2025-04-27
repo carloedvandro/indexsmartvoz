@@ -1,5 +1,5 @@
 
-import "@/styles/logo.css"; // Ensuring CSS is imported
+import "@/styles/logo.css";
 
 interface LoginHeaderProps {
   itemVariants: any;
@@ -9,11 +9,9 @@ export function LoginHeader({ itemVariants }: LoginHeaderProps) {
   return (
     <div className="flex flex-col items-center justify-center space-y-2 text-center min-h-[160px]">
       <div className="login-logo-container">
-        <img 
-          src="/lovable-uploads/a4a911e3-a6ea-47f3-a5c0-a855aa60803b.png" 
-          alt="Smartvoz" 
-          className="login-logo-image"
-        />
+        <div className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500">
+          Smartvoz
+        </div>
       </div>
     </div>
   );

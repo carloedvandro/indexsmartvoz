@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -6,16 +5,12 @@ import { motion } from "framer-motion";
 export default function Index() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col">
-      {/* Header */}
       <header className="w-full py-4 px-6 bg-white shadow-sm">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <img 
-              src="https://maelrohlhrhihntydydh.supabase.co/storage/v1/object/public/images//smartvoz_chip_favicon.png" 
-              alt="SmartVoz" 
-              className="h-8 w-8"
-            />
-            <span className="font-bold text-xl text-purple-700">SmartVoz</span>
+            <div className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
+              Smartvoz
+            </div>
           </div>
           <div className="flex gap-4">
             <Link to="/client/login">
@@ -28,7 +23,6 @@ export default function Index() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="flex-grow container mx-auto px-4 py-12">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -45,7 +39,6 @@ export default function Index() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {/* Main Site Card */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -63,7 +56,6 @@ export default function Index() {
             </div>
           </motion.div>
 
-          {/* Dashboard Card */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -81,7 +73,6 @@ export default function Index() {
             </div>
           </motion.div>
 
-          {/* Admin Card */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -99,7 +90,6 @@ export default function Index() {
             </div>
           </motion.div>
 
-          {/* Demo Site Templates */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -117,7 +107,6 @@ export default function Index() {
             </div>
           </motion.div>
 
-          {/* Store Card */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -137,7 +126,6 @@ export default function Index() {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="bg-white py-6 border-t">
         <div className="container mx-auto px-4 text-center">
           <p className="text-gray-600">
