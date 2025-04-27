@@ -113,9 +113,9 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
         )}
       </div>
       
-      <div className="flex items-center justify-center w-full">
+      <div className="flex items-center justify-center mx-auto">
         <span 
-          className="font-bold text-center text-gray-600 text-xl"
+          className="font-bold text-center text-gray-600 text-xl" 
         >
           Smartvoz
         </span>
