@@ -21,8 +21,8 @@ export function SalesDetailsCard() {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-4 shadow-lg rounded-lg border-none transform -translate-y-1 transition-all duration-200 z-50">
-          <p className="text-base font-semibold text-gray-900 mb-1">{payload[0].name}</p>
-          <p className="text-lg font-bold text-purple-600">{`${payload[0].value} vendas`}</p>
+          <p className="text-base text-gray-900 mb-1">{payload[0].name}</p>
+          <p className="text-lg text-purple-600">{`${payload[0].value} vendas`}</p>
         </div>
       );
     }
