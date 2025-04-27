@@ -50,7 +50,7 @@ export function SalesDetailsCard() {
       </div>
       
       <div className="md:flex items-center mt-[-60px]">
-        <div className="w-full md:w-[40%] mb-4 md:mb-0">
+        <div className="w-full md:w-[40%] mb-4 md:mb-0 relative">
           <div className="h-[300px] relative" style={{ zIndex: 10, border: 'none' }}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart style={{ border: 'none' }}>
@@ -105,14 +105,14 @@ export function SalesDetailsCard() {
               </PieChart>
             </ResponsiveContainer>
           </div>
-        </div>
-        
-        <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4">
-          <div className="flex flex-col gap-1 mb-4 mt-[-60px] md:mt-20">
+          
+          <div className="flex flex-col gap-1 absolute bottom-0 left-0">
             <p className="text-sm font-medium text-gray-600">Valor total de vendas</p>
             <p className="text-lg font-bold text-purple-600">{totalSales}</p>
           </div>
-          
+        </div>
+        
+        <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4">
           <p className="text-sm font-medium text-gray-600 mb-3 md:mt-10">Planos mais vendidos</p>
           <div className="grid grid-cols-1 gap-3">
             {pieData.map((plan, index) => (
