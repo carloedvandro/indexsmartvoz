@@ -85,10 +85,13 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
             {renderItems(navigationItems)}
           </div>
           <div className="mt-2 pt-4 pb-2 px-2 flex items-center justify-center">
-            <LogoutButton onLogout={onLogout} className="w-auto" />
+            <div className="flex items-center justify-center w-full">
+              <LogoutButton onLogout={onLogout} className="w-auto" />
+            </div>
           </div>
         </div>
       )}
     </div>
   );
 }
+
