@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from "react-router-dom";
 import { X, CircleEllipsis } from "lucide-react";
@@ -84,7 +85,7 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
             {renderItems(navigationItems)}
           </div>
           <div className="mt-2 pt-4 pb-2 px-2">
-            <LogoutButton onLogout={onLogout} className="mx-auto" />
+            <LogoutButton onLogout={onLogout} className="w-full flex justify-center" />
           </div>
         </div>
       )}
