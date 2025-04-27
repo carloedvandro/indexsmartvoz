@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -46,7 +47,7 @@ export function DashboardHeader() {
   return (
     <header className="w-full bg-background border-b">
       <div className="container relative mx-auto flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center h-20 py-0 px-4 sm:px-6">
-        <div className="flex items-center justify-center order-1 lg:order-2 flex-1">
+        <div className="flex items-center justify-center order-1 lg:order-2 flex-1 -ml-[15px]">
           <Logo />
         </div>
         <DesktopNavigation navigationItems={navigationItems} />
