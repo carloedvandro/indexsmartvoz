@@ -26,55 +26,57 @@ export const PieChartStats = ({ data, title, value }: PieChartStatsProps) => {
   };
 
   return (
-    <div className="relative w-full h-full bg-white rounded-xl p-4 flex flex-col items-center justify-center">
+    <div className="relative w-full h-full bg-white rounded-xl p-4 flex flex-col items-center justify-center overflow-visible">
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-3xl font-semibold text-gray-800">{value}%</span>
         <span className="text-sm text-gray-500 mt-1">{title}</span>
       </div>
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart>
-          <defs>
-            <linearGradient id="pieGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#D6BCFA" stopOpacity={0.6} />
-              <stop offset="100%" stopColor="#D6BCFA" stopOpacity={0.1} />
-            </linearGradient>
-          </defs>
-          <Pie
-            data={data}
-            cx="50%"
-            cy="50%"
-            innerRadius="70%"
-            outerRadius="90%"
-            startAngle={90}
-            endAngle={-270}
-            dataKey="value"
-            strokeWidth={0}
-          >
-            {data.map((entry, index) => (
-              <Cell 
-                key={`cell-${index}`} 
-                fill={entry.color}
-                className="transition-all duration-300 hover:opacity-80"
-              />
-            ))}
-          </Pie>
-          <Tooltip 
-            content={<CustomTooltip />}
-            position={{ x: 0, y: 0 }}
-            wrapperStyle={{ 
-              zIndex: 9999, 
-              position: 'fixed', 
-              pointerEvents: 'auto',
-              visibility: 'visible',
-              top: 'auto',
-              left: 'auto'
-            }}
-            allowEscapeViewBox={{ x: true, y: true }}
-            offset={10}
-            cursor={{ stroke: 'none', strokeWidth: 0 }}
-          />
-        </PieChart>
-      </ResponsiveContainer>
+      <div style={{ overflow: "visible", width: "100%", height: "100%" }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <defs>
+              <linearGradient id="pieGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#D6BCFA" stopOpacity={0.6} />
+                <stop offset="100%" stopColor="#D6BCFA" stopOpacity={0.1} />
+              </linearGradient>
+            </defs>
+            <Pie
+              data={data}
+              cx="50%"
+              cy="50%"
+              innerRadius="70%"
+              outerRadius="90%"
+              startAngle={90}
+              endAngle={-270}
+              dataKey="value"
+              strokeWidth={0}
+            >
+              {data.map((entry, index) => (
+                <Cell 
+                  key={`cell-${index}`} 
+                  fill={entry.color}
+                  className="transition-all duration-300 hover:opacity-80 hover:scale-110 origin-center"
+                />
+              ))}
+            </Pie>
+            <Tooltip 
+              content={<CustomTooltip />}
+              position={{ x: 0, y: 0 }}
+              wrapperStyle={{ 
+                zIndex: 9999, 
+                position: 'fixed', 
+                pointerEvents: 'auto',
+                visibility: 'visible',
+                top: 'auto',
+                left: 'auto'
+              }}
+              allowEscapeViewBox={{ x: true, y: true }}
+              offset={10}
+              cursor={{ stroke: 'none', strokeWidth: 0 }}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
       <div className="absolute bottom-0 left-0 right-0 h-12">
         <svg className="w-full h-full opacity-20">
           <defs>

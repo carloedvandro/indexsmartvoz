@@ -53,7 +53,7 @@ export function SalesDetailsCard() {
       
       <div className="md:flex items-center">
         <div className="w-full md:w-[40%] mb-4 md:mb-0">
-          <div className="h-40 relative" style={{ zIndex: 10 }}>
+          <div className="h-40 relative" style={{ zIndex: 10, overflow: "visible" }}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie

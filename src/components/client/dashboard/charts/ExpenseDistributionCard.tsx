@@ -48,7 +48,7 @@ export const ExpenseDistributionCard = () => {
       </div>
       
       <div className="flex flex-col">
-        <div className="h-48 relative" style={{ zIndex: 10 }}>
+        <div className="h-48 relative" style={{ zIndex: 10, overflow: "visible" }}>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
