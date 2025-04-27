@@ -20,7 +20,7 @@ export function SalesDetailsCard() {
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-3 border border-gray-200 shadow-lg rounded-md z-50">
+        <div className="bg-white p-3 shadow-lg rounded-md z-50">
           <p className="text-sm font-medium">{payload[0].name}</p>
           <p className="text-sm font-bold">{`${payload[0].value} vendas`}</p>
         </div>
