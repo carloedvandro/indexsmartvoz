@@ -118,7 +118,7 @@ export function SalesDetailsCard() {
           </div>
         </div>
         
-        <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4">
+        <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4 mt-[-40px]">
           <div className="flex items-center gap-2 mb-4">
             <p className="text-sm font-medium text-gray-600">Valor total de vendas</p>
             <p className="text-lg font-bold text-purple-600">{totalSales}</p>
