@@ -10,9 +10,9 @@ export function SalesDetailsCard() {
   
   const pieData = [
     { name: "START 6 *GESIA", value: 300, color: "#9b87f5" },
-    { name: "START 110GB + Minutos illimit.", value: 200, color: "#33C3F0" },
-    { name: "START 120GB + Minutos illimit.", value: 150, color: "#D6BCFA" },
-    { name: "START 130GB + Minutos illimit.", value: 100, color: "#E5E7EB" }
+    { name: "START 5GB + Minutos illimit.", value: 200, color: "#33C3F0" },
+    { name: "START 6", value: 150, color: "#D6BCFA" },
+    { name: "Outros Planos", value: 100, color: "#E5E7EB" }
   ];
   
   const totalSales = "R$ 691.526,00";
@@ -53,7 +53,7 @@ export function SalesDetailsCard() {
       
       <div className="md:flex items-center">
         <div className="w-full md:w-[40%] mb-4 md:mb-0">
-          <div className="h-40 relative" style={{ zIndex: 10, overflow: "visible" }}>
+          <div className="h-40 relative" style={{ zIndex: 10 }}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
