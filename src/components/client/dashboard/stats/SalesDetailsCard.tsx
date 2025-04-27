@@ -64,9 +64,10 @@ export function SalesDetailsCard() {
                   animationBegin={0}
                   animationDuration={1200}
                   animationEasing="ease-in-out"
-                  cursor="pointer"
                   onMouseEnter={onPieEnter}
                   onMouseLeave={onPieLeave}
+                  cursor="pointer"
+                  isAnimationActive={true}
                 >
                   {pieData.map((entry, index) => {
                     const isActive = index === activeIndex;
@@ -99,7 +100,8 @@ export function SalesDetailsCard() {
                   Vendas do Mês
                 </text>
                 <Tooltip 
-                  content={<CustomTooltip />} 
+                  content={<CustomTooltip />}
+                  active={true}
                   position={{ x: 0, y: 0 }}
                   wrapperStyle={{ 
                     zIndex: 9999, 
