@@ -12,8 +12,10 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
+    // Create audio element for beep sound
     audioRef.current = new Audio('/beep.mp3');
     
+    // Clean up
     return () => {
       if (audioRef.current) {
         audioRef.current = null;
@@ -22,6 +24,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   }, []);
   
   const handleLogout = () => {
+    // Play beep sound on logout
     if (audioRef.current) {
       audioRef.current.play().catch(err => console.log('Audio play error:', err));
     }
@@ -29,7 +32,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   };
 
   return (
-    <div className={cn("relative ml-auto -mt-[10px] mr-[100px]", className)}>
+    <div className={cn("relative ml-auto mr-[-58px]", className)}>
       <button 
         onClick={handleLogout}
         onMouseEnter={() => setHover(true)}
@@ -41,9 +44,9 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         aria-label="Logout"
       >
         <img 
-          src="/lovable-uploads/9359887d-11de-431a-99fe-a9c542364d8e.png" 
+          src="/lovable-uploads/1e48eb29-8dad-4a8b-aa91-916b630795f0.png" 
           alt="Logout" 
-          className="object-contain h-[70px] w-[70px] transition-transform duration-300 hover:scale-110 border-none outline-none rounded-none"
+          className="object-contain h-[70px] w-[70px] transition-transform duration-300 hover:scale-110"
         />
       </button>
     </div>
