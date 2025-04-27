@@ -49,8 +49,8 @@ export function SalesDetailsCard() {
         </button>
       </div>
       
-      <div className="flex flex-col items-center space-y-6">
-        <div className="w-full max-w-[300px] h-[220px] relative">
+      <div className="flex flex-col items-center space-y-4">
+        <div className="w-full max-w-[300px] h-[200px] relative mt-2">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -101,7 +101,7 @@ export function SalesDetailsCard() {
           </ResponsiveContainer>
         </div>
 
-        <div className="w-full space-y-4">
+        <div className="w-full space-y-4 mt-4">
           <div className="text-center">
             <p className="text-sm text-gray-600 mb-1">Valor total de vendas</p>
             <p className="text-lg font-bold text-purple-600">{totalSales}</p>
@@ -123,3 +123,4 @@ export function SalesDetailsCard() {
     </Card>
   );
 }
+
