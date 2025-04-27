@@ -33,7 +33,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   };
 
   return (
-    <div className={cn("relative ml-auto mr-[-68px]", className)}>
+    <div className={cn("relative ml-auto mr-[-78px]", className)}>
       <button 
         onClick={handleLogout}
         onMouseEnter={() => setHover(true)}
