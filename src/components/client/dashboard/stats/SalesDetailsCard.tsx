@@ -17,11 +17,11 @@ export function SalesDetailsCard() {
   
   const totalSales = "R$ 691.526,00";
   
-  // Custom tooltip formatter to show both plan name and value
+  // Custom tooltip formatter with better positioning
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-2 border border-gray-200 shadow-md rounded-md">
+        <div className="bg-white p-3 border border-gray-200 shadow-lg rounded-md z-50">
           <p className="text-sm font-medium">{payload[0].name}</p>
           <p className="text-sm font-bold">{`${payload[0].value} vendas`}</p>
         </div>
@@ -39,7 +39,7 @@ export function SalesDetailsCard() {
   };
 
   return (
-    <Card className="p-6 shadow-sm h-full w-full border-0 rounded-xl shadow-lg">
+    <Card className="p-6 shadow-sm h-full w-full border-0 rounded-xl shadow-lg relative">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-bold text-black">Detalhe das Vendas</h3>
         <button className="text-gray-400 hover:text-gray-600">
@@ -53,7 +53,7 @@ export function SalesDetailsCard() {
       
       <div className="md:flex items-center">
         <div className="w-full md:w-[40%] mb-4 md:mb-0">
-          <div className="h-40 relative">
+          <div className="h-40 relative" style={{ zIndex: 10 }}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -84,7 +84,7 @@ export function SalesDetailsCard() {
                           transition: "all 0.3s ease-in-out",
                           transformOrigin: "center center",
                           transform: `scale(${scale})`,
-                          zIndex: isActive ? 100 : 1,
+                          zIndex: isActive ? 10 : 1,
                         }}
                       />
                     );
@@ -100,7 +100,11 @@ export function SalesDetailsCard() {
                 >
                   Vendas do Mês
                 </text>
-                <Tooltip content={<CustomTooltip />} />
+                <Tooltip 
+                  content={<CustomTooltip />} 
+                  wrapperStyle={{ zIndex: 100, position: 'absolute', pointerEvents: 'none' }}
+                  allowEscapeViewBox={{ x: true, y: true }} 
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>

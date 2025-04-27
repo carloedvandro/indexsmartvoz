@@ -1,4 +1,5 @@
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 interface PieChartStatsProps {
   data: Array<{
@@ -11,6 +12,19 @@ interface PieChartStatsProps {
 }
 
 export const PieChartStats = ({ data, title, value }: PieChartStatsProps) => {
+  // Custom tooltip that won't get cut off
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-2 border border-gray-200 shadow-md rounded-md z-50">
+          <p className="text-sm font-medium">{payload[0].name}</p>
+          <p className="text-sm font-bold">{`${payload[0].value}`}</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="relative w-full h-full bg-white rounded-xl p-4 flex flex-col items-center justify-center">
       <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -44,6 +58,11 @@ export const PieChartStats = ({ data, title, value }: PieChartStatsProps) => {
               />
             ))}
           </Pie>
+          <Tooltip 
+            content={<CustomTooltip />}
+            wrapperStyle={{ zIndex: 100, position: 'absolute' }}
+            allowEscapeViewBox={{ x: true, y: true }}
+          />
         </PieChart>
       </ResponsiveContainer>
       <div className="absolute bottom-0 left-0 right-0 h-12">
