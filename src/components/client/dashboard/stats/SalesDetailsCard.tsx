@@ -119,8 +119,10 @@ export function SalesDetailsCard() {
         </div>
         
         <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4">
-          <p className="text-sm font-medium text-gray-600">Valor total de vendas</p>
-          <p className="text-lg font-bold text-purple-600 mb-4">{totalSales}</p>
+          <div className="flex items-center gap-2 mb-4">
+            <p className="text-sm font-medium text-gray-600">Valor total de vendas</p>
+            <p className="text-lg font-bold text-purple-600">{totalSales}</p>
+          </div>
           
           <p className="text-sm font-medium text-gray-600 mb-3">Planos mais vendidos</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
