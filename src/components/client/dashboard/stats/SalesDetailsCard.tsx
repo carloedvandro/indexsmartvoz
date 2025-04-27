@@ -128,7 +128,7 @@ export function SalesDetailsCard() {
                     }`} 
                     style={{ backgroundColor: plan.color }}
                   ></div>
-                  <p className="text-sm text-gray-600">{plan.name}</p>
+                  <p className="text-sm font-normal text-gray-700">{plan.name}</p>
                 </div>
               ))}
             </div>
