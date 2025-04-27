@@ -37,7 +37,7 @@ export function SalesDetailsCard() {
   };
 
   return (
-    <Card className="p-6 shadow-sm h-[467px] w-full rounded-xl shadow-lg relative">
+    <Card className="p-6 shadow-sm h-[600px] w-full rounded-xl shadow-lg relative">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-bold text-black">Detalhe das Vendas</h3>
         <button className="text-gray-400 hover:text-gray-600">
@@ -49,7 +49,7 @@ export function SalesDetailsCard() {
         </button>
       </div>
       
-      <div className="md:flex items-center mt-[-60px]">
+      <div className="md:flex items-start mt-[-60px]">
         <div className="w-full md:w-[40%] mb-4 md:mb-0 relative">
           <div className="h-[300px] relative" style={{ zIndex: 10, border: 'none' }}>
             <ResponsiveContainer width="100%" height="100%">
@@ -112,8 +112,8 @@ export function SalesDetailsCard() {
           </div>
         </div>
         
-        <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4">
-          <p className="text-sm font-medium text-gray-600 mb-3 md:mt-10">Planos mais vendidos</p>
+        <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4 md:mt-40">
+          <p className="text-sm font-medium text-gray-600 mb-3">Planos mais vendidos</p>
           <div className="grid grid-cols-1 gap-3">
             {pieData.map((plan, index) => (
               <div key={index} className="flex items-center">
