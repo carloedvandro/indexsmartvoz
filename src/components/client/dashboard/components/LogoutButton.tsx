@@ -2,7 +2,6 @@
 import { useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
-import { LogOut } from "lucide-react";
 
 interface LogoutButtonProps {
   onLogout: () => void;
@@ -45,9 +44,10 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         )}
         aria-label="Logout"
       >
-        <LogOut 
-          size={32} 
-          className="transition-transform duration-300 hover:scale-110"
+        <img 
+          src="/lovable-uploads/1e48eb29-8dad-4a8b-aa91-916b630795f0.png" 
+          alt="Logout" 
+          className="h-[40px] w-[40px] transition-transform duration-300 hover:scale-110"
         />
       </button>
     </div>
