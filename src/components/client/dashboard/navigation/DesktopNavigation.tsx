@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -36,18 +35,10 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-center pl-0 gap-2 ml-[-30px]"
               style={{ pointerEvents: 'auto' }}
             >
-              <img 
-                src="/lovable-uploads/d6d0cfaa-60fb-4950-9674-400bbfc06650.png" 
-                alt="Home" 
-                className="h-[30px] w-auto ml-[-20px]" 
-              />
               <span 
-                className="font-bold text-left text-gray-600 -ml-[20px] pl-[20px] mt-[15.5px] text-xl" 
-                style={{
-                  fontSize: '1.25rem'
-                }}
+                className="font-bold text-left text-gray-600 -ml-[20px] pl-[20px] mt-[15.5px] text-2xl font-sans"
               >
-                Home
+                Smartvoz
               </span>
             </Button>
           </DropdownMenuTrigger>
@@ -56,12 +47,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <>
                 <DropdownMenuItem asChild>
                   <Link to={homeItem.href} className="flex items-center gap-2 cursor-pointer focus:outline-none focus:border-0 w-full py-3 bg-white rounded-md border border-gray-100">
-                    <img 
-                      src="/lovable-uploads/d6d0cfaa-60fb-4950-9674-400bbfc06650.png" 
-                      alt="Home" 
-                      className="h-[30px] w-auto ml-[5px]" 
-                    />
-                    <span className="font-bold self-center text-gray-600 text-xl pl-[10px] mt-[15.5px]">Home</span>
+                    <span className="font-bold self-center text-gray-600 text-xl pl-[10px] mt-[15.5px]">Smartvoz</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -113,4 +99,3 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
     </div>
   );
 };
-
