@@ -112,7 +112,7 @@ export function SalesDetailsCard() {
           </div>
         </div>
         
-        <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4 md:mt-48">
+        <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4 absolute bottom-6 left-6">
           <p className="text-sm font-medium text-gray-600 mb-3">Planos mais vendidos</p>
           <div className="grid grid-cols-1 gap-3">
             {pieData.map((plan, index) => (
@@ -127,3 +127,4 @@ export function SalesDetailsCard() {
     </Card>
   );
 }
+
