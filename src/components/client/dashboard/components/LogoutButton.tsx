@@ -1,3 +1,4 @@
+
 import { useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
@@ -44,11 +45,12 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         aria-label="Logout"
       >
         <svg 
+          xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512" 
           className="h-8 w-8 transition-transform duration-300 hover:scale-110"
-          fill="#ea384c"
         >
-          <path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0 0 114.6 0 256s114.6 256 256 256zm-27.3-297.3l-64 64c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l23-23V392c0 13.3 10.7 24 24 24s24-10.7 24-24V289.7l23 23c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-64-64c-9.4-9.4-24.6-9.4-33.9 0z"/>
+          <circle cx="256" cy="256" r="256" fill="#ff0000"/>
+          <path d="M256 128c-22.1 0-40 17.9-40 40v176c0 22.1 17.9 40 40 40s40-17.9 40-40V168c0-22.1-17.9-40-40-40zm0-64c-88.4 0-160 71.6-160 160v176c0 88.4 71.6 160 160 160s160-71.6 160-160V224c0-88.4-71.6-160-160-160zm0 416c-44.2 0-80-35.8-80-80V168c0-44.2 35.8-80 80-80s80 35.8 80 80v272c0 44.2-35.8 80-80 80z" fill="white"/>
         </svg>
       </button>
     </div>
