@@ -101,7 +101,7 @@ export function SalesDetailsCard() {
         </div>
 
         <div className="w-full space-y-4 mt-2">
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center gap-2">
             <p className="text-sm text-gray-600">Valor total de vendas</p>
             <p className="text-lg font-bold text-purple-600">{totalSales}</p>
           </div>
