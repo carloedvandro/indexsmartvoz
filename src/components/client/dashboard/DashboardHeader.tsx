@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -51,7 +52,9 @@ export function DashboardHeader() {
         </div>
         <DesktopNavigation navigationItems={navigationItems} />
         <div className="flex items-center justify-end gap-2 ml-auto order-3 lg:order-3">
-          <LogoutButton onLogout={handleLogout} className="hidden md:flex" />
+          <div className="hidden md:flex justify-center w-full">
+            <LogoutButton onLogout={handleLogout} />
+          </div>
           <MobileMenu 
             isOpen={isOpen}
             setOpen={setOpen}
