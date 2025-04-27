@@ -1,4 +1,3 @@
-
 import { useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
@@ -13,10 +12,8 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Create audio element for beep sound
     audioRef.current = new Audio('/beep.mp3');
     
-    // Clean up
     return () => {
       if (audioRef.current) {
         audioRef.current = null;
@@ -25,7 +22,6 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   }, []);
   
   const handleLogout = () => {
-    // Play beep sound on logout
     if (audioRef.current) {
       audioRef.current.play().catch(err => console.log('Audio play error:', err));
     }
@@ -33,7 +29,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   };
 
   return (
-    <div className={cn("relative ml-auto -mt-[10px] mr-[50px]", className)}>
+    <div className={cn("relative ml-auto -mt-[10px] mr-[100px]", className)}>
       <button 
         onClick={handleLogout}
         onMouseEnter={() => setHover(true)}
