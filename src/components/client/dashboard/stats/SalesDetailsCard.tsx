@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatCurrency } from "@/utils/format";
@@ -49,11 +48,11 @@ export function SalesDetailsCard() {
         </button>
       </div>
       
-      <div className="md:flex items-start mt-[-60px]">
-        <div className="w-full md:w-[40%] mb-4 md:mb-0 relative">
-          <div className="h-[300px] relative" style={{ zIndex: 10, border: 'none' }}>
+      <div className="md:flex items-start">
+        <div className="w-full md:w-[40%] mb-4 md:mb-0">
+          <div className="h-[300px] relative">
             <ResponsiveContainer width="100%" height="100%">
-              <PieChart style={{ border: 'none' }}>
+              <PieChart>
                 <Pie
                   data={pieData}
                   innerRadius={55}
@@ -66,7 +65,6 @@ export function SalesDetailsCard() {
                   onMouseEnter={onPieEnter}
                   onMouseLeave={onPieLeave}
                   cursor="pointer"
-                  style={{ border: 'none' }}
                 >
                   {pieData.map((entry, index) => {
                     const isActive = index === activeIndex;
@@ -82,8 +80,7 @@ export function SalesDetailsCard() {
                           transition: "all 0.3s ease-in-out",
                           transformOrigin: "center center",
                           transform: `scale(${scale})`,
-                          zIndex: isActive ? 10 : 1,
-                          border: 'none'
+                          zIndex: isActive ? 10 : 1
                         }}
                       />
                     );
@@ -99,32 +96,31 @@ export function SalesDetailsCard() {
                 >
                   Vendas do Mês
                 </text>
-                <Tooltip 
-                  content={<CustomTooltip />}
-                />
+                <Tooltip content={<CustomTooltip />} />
               </PieChart>
             </ResponsiveContainer>
           </div>
-          
-          <div className="flex items-center absolute bottom-0 left-0">
-            <p className="text-sm font-medium text-gray-600 mr-2">Valor total de vendas</p>
-            <p className="text-lg font-bold text-purple-600">{totalSales}</p>
-          </div>
         </div>
+      </div>
+
+      <div className="absolute bottom-32 left-6">
+        <div className="flex items-center gap-2">
+          <p className="text-sm font-medium text-gray-600">Valor total de vendas</p>
+          <p className="text-lg font-bold text-purple-600">{totalSales}</p>
+        </div>
+      </div>
         
-        <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4 absolute bottom-6 left-6">
-          <p className="text-sm font-medium text-gray-600 mb-3">Planos mais vendidos</p>
-          <div className="grid grid-cols-1 gap-3">
-            {pieData.map((plan, index) => (
-              <div key={index} className="flex items-center">
-                <div className="min-w-3 h-3 rounded-full mr-2" style={{ backgroundColor: plan.color }}></div>
-                <p className="text-xs text-gray-600 whitespace-normal">{plan.name}</p>
-              </div>
-            ))}
-          </div>
+      <div className="absolute bottom-6 left-6">
+        <p className="text-sm font-medium text-gray-600 mb-3">Planos mais vendidos</p>
+        <div className="grid grid-cols-1 gap-3">
+          {pieData.map((plan, index) => (
+            <div key={index} className="flex items-center gap-2">
+              <div className="min-w-3 h-3 rounded-full" style={{ backgroundColor: plan.color }}></div>
+              <p className="text-xs text-gray-600">{plan.name}</p>
+            </div>
+          ))}
         </div>
       </div>
     </Card>
   );
 }
-
