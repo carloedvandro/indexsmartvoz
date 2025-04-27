@@ -2,7 +2,6 @@ import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatCurrency } from "@/utils/format";
 import { useState } from "react";
-import { TooltipProvider, Tooltip as UITooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function SalesDetailsCard() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -113,7 +112,7 @@ export function SalesDetailsCard() {
             <p className="text-lg font-bold text-purple-600">{totalSales}</p>
           </div>
           
-          <p className="text-sm font-medium text-gray-600 mb-3 mt-10">Planos mais vendidos</p>
+          <p className="text-sm font-medium text-gray-600 mb-3 md:mt-10">Planos mais vendidos</p>
           <div className="grid grid-cols-1 gap-3">
             {pieData.map((plan, index) => (
               <div key={index} className="flex items-center">
