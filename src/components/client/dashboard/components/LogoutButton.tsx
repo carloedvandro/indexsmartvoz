@@ -1,8 +1,6 @@
-
 import { useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
-import { CirclePower } from "lucide-react";
 
 interface LogoutButtonProps {
   onLogout: () => void;
@@ -45,10 +43,13 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         )}
         aria-label="Logout"
       >
-        <CirclePower
-          className="h-8 w-8 text-red-500 transition-transform duration-300 hover:scale-110"
-          strokeWidth={2.5}
-        />
+        <svg 
+          viewBox="0 0 512 512" 
+          className="h-8 w-8 transition-transform duration-300 hover:scale-110"
+          fill="#ea384c"
+        >
+          <path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0 0 114.6 0 256s114.6 256 256 256zm-27.3-297.3l-64 64c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l23-23V392c0 13.3 10.7 24 24 24s24-10.7 24-24V289.7l23 23c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-64-64c-9.4-9.4-24.6-9.4-33.9 0z"/>
+        </svg>
       </button>
     </div>
   );
