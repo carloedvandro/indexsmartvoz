@@ -1,3 +1,4 @@
+
 import { useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
@@ -38,7 +39,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         className={cn(
-          "text-gray-700 hover:text-gray-900 font-medium rounded-md h-24 w-24 flex items-center justify-center transition-all duration-300 bg-transparent border-none p-0 outline-none focus:outline-none",
+          "text-gray-700 hover:text-gray-900 font-medium rounded-md h-16 w-16 flex items-center justify-center transition-all duration-300 bg-transparent border-none p-0",
           className
         )}
         aria-label="Logout"
@@ -46,7 +47,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         <img 
           src="/lovable-uploads/1e48eb29-8dad-4a8b-aa91-916b630795f0.png" 
           alt="Logout" 
-          className="object-contain h-[70px] w-[70px] transition-transform duration-300 hover:scale-110"
+          className="object-contain h-[40px] w-[40px] transition-transform duration-300 hover:scale-110"
         />
       </button>
     </div>
