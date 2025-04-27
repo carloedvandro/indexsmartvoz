@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -112,7 +113,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
         )}
       </div>
       
-      <div className="flex items-center justify-center mx-auto">
+      <div className="flex items-center justify-center w-full">
         <span 
           className="font-bold text-center text-gray-600 text-xl" 
         >
