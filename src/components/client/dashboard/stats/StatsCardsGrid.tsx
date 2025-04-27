@@ -12,12 +12,12 @@ export function StatsCardsGrid() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1800px] mx-auto">
         <div className="flex justify-start">
-          <div className="w-[95%]">
+          <div className="w-[100%]">
             <RechargesCard />
           </div>
         </div>
         <div className="flex justify-start">
-          <div className="w-[95%]">
+          <div className="w-[100%]">
             <ActivationsCard />
           </div>
         </div>
