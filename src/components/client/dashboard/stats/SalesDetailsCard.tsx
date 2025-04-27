@@ -2,7 +2,6 @@ import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatCurrency } from "@/utils/format";
 import { useState } from "react";
-import { TooltipProvider, Tooltip as UITooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function SalesDetailsCard() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -50,7 +49,7 @@ export function SalesDetailsCard() {
       </div>
       
       <div className="md:flex items-center mt-[-60px]">
-        <div className="w-full md:w-[40%] mb-4 md:mb-0">
+        <div className="w-full md:w-[35%] mb-4 md:mb-0">
           <div className="h-[300px] relative" style={{ zIndex: 10, border: 'none' }}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart style={{ border: 'none' }}>
@@ -107,7 +106,7 @@ export function SalesDetailsCard() {
           </div>
         </div>
         
-        <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4 mt-[-60px]">
+        <div className="w-full md:w-[55%] pl-0 md:pl-8 md:ml-4 mt-[-60px]">
           <div className="flex items-center gap-2 mb-4">
             <p className="text-sm font-medium text-gray-600">Valor total de vendas</p>
             <p className="text-lg font-bold text-purple-600">{totalSales}</p>
