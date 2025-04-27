@@ -38,7 +38,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         className={cn(
-          "text-gray-700 hover:text-gray-900 font-medium rounded-md h-24 w-24 flex items-center justify-center transition-all duration-300 bg-transparent border-none p-0",
+          "text-gray-700 hover:text-gray-900 font-medium rounded-md h-24 w-24 flex items-center justify-center transition-all duration-300 bg-transparent border-none p-0 outline-none focus:outline-none",
           className
         )}
         aria-label="Logout"
