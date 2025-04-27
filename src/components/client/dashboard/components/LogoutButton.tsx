@@ -45,9 +45,9 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         aria-label="Logout"
       >
         <img 
-          src="/lovable-uploads/5be78e67-bfc6-4be1-a0f2-bda2a38be39f.png" 
+          src="/lovable-uploads/1e48eb29-8dad-4a8b-aa91-916b630795f0.png" 
           alt="Logout" 
-          className="h-10 w-10 transition-transform duration-300 hover:scale-110"
+          className="h-12 w-12 transition-transform duration-300 hover:scale-110"
         />
       </button>
     </div>
