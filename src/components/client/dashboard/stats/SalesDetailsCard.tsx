@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatCurrency } from "@/utils/format";
@@ -107,7 +108,7 @@ export function SalesDetailsCard() {
         </div>
         
         <div className="w-full md:w-[60%] pl-0 md:pl-8 md:ml-4">
-          <div className="flex items-center gap-2 mb-4 mt-[-60px] md:mt-20">
+          <div className="flex flex-col gap-1 mb-4 mt-[-60px] md:mt-20">
             <p className="text-sm font-medium text-gray-600">Valor total de vendas</p>
             <p className="text-lg font-bold text-purple-600">{totalSales}</p>
           </div>
