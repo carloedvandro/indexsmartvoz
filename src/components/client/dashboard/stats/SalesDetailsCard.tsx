@@ -1,4 +1,3 @@
-
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useState } from "react";
 import { formatCurrency } from "@/utils/format";
@@ -9,12 +8,11 @@ export function SalesDetailsCard() {
   const [selectedPlanValue, setSelectedPlanValue] = useState<number | null>(null);
   const isMobile = useIsMobile();
   
-  // Updated color palette to match image with proper blue gradient
   const pieData = [
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>110GB</span></strong> + Minutos ilimit.", value: 300, color: "#4842F5" },
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>120GB</span></strong> + Minutos ilimit.", value: 200, color: "#6C63FF" },
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>130GB</span></strong> + Minutos ilimit.", value: 150, color: "#A5A0FF" },
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>140GB</span></strong> + Minutos ilimit.", value: 100, color: "#E0E0FF" }
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>110GB</span></strong> + Minutos ilimit.", value: 300, color: "#5f0889" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>120GB</span></strong> + Minutos ilimit.", value: 200, color: "#3300ff" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>130GB</span></strong> + Minutos ilimit.", value: 150, color: "#ff00c9" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>140GB</span></strong> + Minutos ilimit.", value: 100, color: "#8425af" }
   ];
   
   const totalSales = "R$ 691.526,00";
@@ -64,10 +62,10 @@ export function SalesDetailsCard() {
                     <Cell 
                       key={`cell-${index}`} 
                       fill={entry.color}
-                      stroke={isActive ? "#4842F5" : "transparent"}
+                      stroke={isActive ? "#5f0889" : "transparent"}
                       strokeWidth={isActive ? 2 : 0}
                       style={{
-                        filter: isActive ? "drop-shadow(0px 4px 8px rgba(79, 70, 229, 0.25))" : "none",
+                        filter: isActive ? "drop-shadow(0px 4px 8px rgba(95, 8, 137, 0.25))" : "none",
                         transition: "all 0.3s ease",
                         transformOrigin: "center center",
                         transform: `scale(${scale})`,
