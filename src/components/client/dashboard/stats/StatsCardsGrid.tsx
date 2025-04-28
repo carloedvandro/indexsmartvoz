@@ -11,9 +11,6 @@ export function StatsCardsGrid() {
       <div className="grid grid-cols-1 gap-3 mb-3 max-w-[1800px] mx-auto">
         <LineStatusCard />
       </div>
-      <div className="grid grid-cols-1 gap-3 mb-3 max-w-[1800px] mx-auto">
-        <IncomeCard />
-      </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-[1800px] mx-auto">
         <div className="w-full">
           <RechargesCard />
@@ -24,6 +21,9 @@ export function StatsCardsGrid() {
         <div className="w-full">
           <SalesDetailsCard />
         </div>
+      </div>
+      <div className="grid grid-cols-1 gap-3 mt-3 max-w-[1800px] mx-auto">
+        <IncomeCard />
       </div>
     </div>
   );
