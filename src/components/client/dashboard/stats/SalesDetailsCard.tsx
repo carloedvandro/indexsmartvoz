@@ -1,8 +1,6 @@
-
-import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { formatCurrency } from "@/utils/format";
 import { useState } from "react";
+import { formatCurrency } from "@/utils/format";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export function SalesDetailsCard() {
@@ -32,7 +30,7 @@ export function SalesDetailsCard() {
   };
 
   return (
-    <Card className="p-6 shadow-sm h-[550px] w-full rounded-xl bg-white">
+    <div className="p-6 h-[550px]">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-bold text-black">Detalhe das Vendas</h3>
         <button className="text-gray-400 hover:text-gray-600">
@@ -159,6 +157,6 @@ export function SalesDetailsCard() {
           100% { background-position: 0% 50%; }
         }
       `}</style>
-    </Card>
+    </div>
   );
 }
