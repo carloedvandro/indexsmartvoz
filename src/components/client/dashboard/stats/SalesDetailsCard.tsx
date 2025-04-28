@@ -97,7 +97,7 @@ export function SalesDetailsCard() {
           </div>
           
           <div className="space-y-2 mt-[12px]">
-            <p className="text-sm font-medium text-gray-600">Planos mais vendidos</p>
+            <p className="text-sm font-medium text-gray-600 pt-[2px]">Planos mais vendidos</p>
             <div className="grid gap-[9px]">
               {pieData.map((plan, index) => (
                 <div key={index} className="flex items-center">
@@ -108,7 +108,7 @@ export function SalesDetailsCard() {
                   />
                   <div className="flex-1">
                     <p 
-                      className="text-sm text-gray-600" 
+                      className="text-sm text-gray-600 pt-[2px]" 
                       dangerouslySetInnerHTML={{ 
                         __html: plan.name 
                       }}
