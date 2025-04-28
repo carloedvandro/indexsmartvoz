@@ -96,7 +96,7 @@ export function SalesDetailsCard() {
             <p className="text-[22px] font-bold leading-none" style={{ color: "#03de12" }}>{totalSales}</p>
           </div>
           
-          <div className="space-y-2 mt-[6px]">
+          <div className="space-y-2 mt-[8px]">
             <p className="text-sm font-medium text-gray-600">Planos mais vendidos</p>
             <div className="grid gap-[9px]">
               {pieData.map((plan, index) => (
