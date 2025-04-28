@@ -9,10 +9,10 @@ export function SalesDetailsCard() {
   const isMobile = useIsMobile();
   
   const pieData = [
-    { name: "Plano Smartvoz <strong>110GB</strong> + Minutos ilimit.", value: 300, color: "#9b87f5" },
-    { name: "Plano Smartvoz <strong>120GB</strong> + Minutos ilimit.", value: 200, color: "#33C3F0" },
-    { name: "Plano Smartvoz <strong>130GB</strong> + Minutos ilimit.", value: 150, color: "#D6BCFA" },
-    { name: "Plano Smartvoz <strong>140GB</strong> + Minutos ilimit.", value: 100, color: "#E5E7EB" }
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>110GB</span></strong> + Minutos ilimit.", value: 300, color: "#9b87f5" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>120GB</span></strong> + Minutos ilimit.", value: 200, color: "#33C3F0" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>130GB</span></strong> + Minutos ilimit.", value: 150, color: "#D6BCFA" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>140GB</span></strong> + Minutos ilimit.", value: 100, color: "#E5E7EB" }
   ];
   
   const totalSales = "R$ 691.526,00";
@@ -102,13 +102,45 @@ export function SalesDetailsCard() {
               {pieData.map((plan, index) => (
                 <div key={index} className="flex items-center">
                   <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: plan.color }}></div>
-                  <p className="text-sm text-gray-600" dangerouslySetInnerHTML={{ __html: plan.name }}></p>
+                  <p 
+                    className="text-sm text-gray-600" 
+                    dangerouslySetInnerHTML={{ 
+                      __html: plan.name 
+                    }}
+                  />
                 </div>
               ))}
             </div>
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .gradient-text {
+          background: linear-gradient(
+            135deg,
+            hsl(var(--color-1)) 0%,
+            hsl(var(--color-2)) 50%,
+            hsl(var(--color-3)) 100%
+          );
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          font-weight: bold;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          animation: rainbow 8s linear infinite;
+          background-size: 200% auto;
+          font-size: 1.05em;
+          margin-top: -1px;
+          display: inline-block;
+        }
+
+        @keyframes rainbow {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+      `}</style>
     </Card>
   );
 }
