@@ -61,9 +61,9 @@ export function SalesDetailsCard() {
                     fill={entry.color}
                     stroke="none"
                     style={{
-                      transform: activeIndex === index ? 'scale(1.1)' : 'scale(1)',
-                      filter: activeIndex === index ? 'brightness(1.1)' : 'none',
-                      transition: 'all 0.3s ease-in-out'
+                      transform: activeIndex === index ? 'translateY(-8px)' : 'translateY(0)',
+                      opacity: activeIndex === null || activeIndex === index ? 1 : 0.6,
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
                     }}
                   />
                 ))}
