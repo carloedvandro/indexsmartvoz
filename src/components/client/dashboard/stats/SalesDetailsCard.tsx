@@ -42,6 +42,7 @@ export function SalesDetailsCard() {
                 cursor="pointer"
                 startAngle={90}
                 endAngle={-270}
+                stroke="none"
                 onClick={(_, index) => handlePlanClick(pieData[index].name)}
               >
                 {pieData.map((entry, index) => (
