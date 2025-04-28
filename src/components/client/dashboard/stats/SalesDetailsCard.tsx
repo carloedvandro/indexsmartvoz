@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { formatCurrency } from "@/utils/format";
@@ -6,6 +7,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 export function SalesDetailsCard() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [selectedPlanValue, setSelectedPlanValue] = useState<number | null>(null);
   const isMobile = useIsMobile();
   
   const pieData = [
@@ -23,6 +25,10 @@ export function SalesDetailsCard() {
 
   const onPieLeave = () => {
     setActiveIndex(null);
+  };
+
+  const handleColorClick = (value: number) => {
+    setSelectedPlanValue(value);
   };
 
   return (
@@ -101,13 +107,24 @@ export function SalesDetailsCard() {
             <div className="grid gap-[9px]">
               {pieData.map((plan, index) => (
                 <div key={index} className="flex items-center">
-                  <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: plan.color }}></div>
-                  <p 
-                    className="text-sm text-gray-600" 
-                    dangerouslySetInnerHTML={{ 
-                      __html: plan.name 
-                    }}
+                  <div 
+                    className="w-3 h-3 rounded-full mr-2 cursor-pointer hover:opacity-80 transition-opacity"
+                    style={{ backgroundColor: plan.color }}
+                    onClick={() => handleColorClick(plan.value)}
                   />
+                  <div className="flex-1">
+                    <p 
+                      className="text-sm text-gray-600" 
+                      dangerouslySetInnerHTML={{ 
+                        __html: plan.name 
+                      }}
+                    />
+                    {selectedPlanValue === plan.value && (
+                      <p className="text-sm font-medium mt-1" style={{ color: plan.color }}>
+                        Vendas do mês: {formatCurrency(plan.value * 1000)}
+                      </p>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
