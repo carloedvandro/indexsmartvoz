@@ -92,7 +92,7 @@ export function SalesDetailsCard() {
 
         <div className="w-full space-y-4 -mt-[0.5px] ml-[9px]">
           <div className="flex items-center gap-2 mt-4">
-            <p className="text-sm text-gray-600">Valor total de vendas</p>
+            <p className="text-sm text-gray-600 pt-[2px]">Valor total de vendas</p>
             <p className="text-[22px] font-bold leading-none" style={{ color: "#03de12" }}>{totalSales}</p>
           </div>
           
@@ -114,7 +114,7 @@ export function SalesDetailsCard() {
                       }}
                     />
                     {selectedPlanValue === plan.value && (
-                      <p className="text-sm font-medium mt-1" style={{ color: plan.color }}>
+                      <p className="text-sm font-medium mt-1 pt-[2px]" style={{ color: plan.color }}>
                         Vendas do mês: {formatCurrency(plan.value * 1000)}
                       </p>
                     )}
