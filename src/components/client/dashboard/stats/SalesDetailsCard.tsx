@@ -1,4 +1,3 @@
-
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useState } from "react";
 import { formatCurrency } from "@/utils/format";
@@ -91,11 +90,7 @@ export function SalesDetailsCard() {
                 <div key={index} className="flex items-center">
                   <div 
                     className="w-3 h-3 rounded-full mr-2 cursor-pointer hover:opacity-80 transition-all duration-300"
-                    style={{ 
-                      backgroundColor: plan.color,
-                      transform: selectedPlanValue === plan.value ? 'scale(1.2)' : 'scale(1)',
-                      boxShadow: selectedPlanValue === plan.value ? `0 0 10px ${plan.color}` : 'none'
-                    }}
+                    style={{ backgroundColor: plan.color }}
                     onClick={() => handleColorClick(plan.value)}
                   />
                   <div className="flex-1">
@@ -115,4 +110,3 @@ export function SalesDetailsCard() {
     </div>
   );
 }
-
