@@ -101,12 +101,12 @@ export function SalesDetailsCard() {
 
         <div className="w-full space-y-4 -mt-[0.5px] ml-[9px]">
           <div className="flex items-center gap-2 mt-4">
-            <p className="text-sm text-gray-600 pt-[2px]">Valor total de vendas</p>
+            <p className="text-sm text-gray-600 pt-[4px]">Valor total de vendas</p>
             <p className="text-[22px] font-bold leading-none" style={{ color: "#03de12" }}>{totalSales}</p>
           </div>
           
           <div className="space-y-2 mt-[12px]">
-            <p className="text-sm font-medium text-gray-600 pt-[2px]">Planos mais vendidos</p>
+            <p className="text-sm font-medium text-gray-600 pt-[4px]">Planos mais vendidos</p>
             <div className="grid gap-[9px]">
               {pieData.map((plan, index) => (
                 <div key={index} className="flex items-center">
@@ -117,13 +117,13 @@ export function SalesDetailsCard() {
                   />
                   <div className="flex-1">
                     <p 
-                      className="text-sm text-gray-600 pt-[2px]" 
+                      className="text-sm text-gray-600 pt-[4px]" 
                       dangerouslySetInnerHTML={{ 
                         __html: plan.name 
                       }}
                     />
                     {selectedPlanValue === plan.value && (
-                      <p className="text-sm font-medium mt-1 pt-[2px]" style={{ color: plan.color }}>
+                      <p className="text-sm font-medium mt-1 pt-[4px]" style={{ color: plan.color }}>
                         Vendas do mês: {formatCurrency(plan.value * 1000)}
                       </p>
                     )}
