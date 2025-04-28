@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
@@ -69,8 +70,7 @@ export function ActivationsCard() {
                 dataKey="name" 
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#94a3b8', fontSize: 10 }}
-                dy={10}
+                tick={{ fill: '#94a3b8', fontSize: 10, dy: 10, fontFamily: 'Arial' }}
                 padding={{ left: 10, right: 10 }}
                 interval={0}
               />
@@ -91,19 +91,12 @@ export function ActivationsCard() {
                 )}
               />
               <Area
-                type="basis"
+                type="monotone"
                 dataKey="value"
                 stroke="#4F46E5"
-                strokeWidth={3}
+                strokeWidth={2}
                 fill="url(#activationGradient)"
                 dot={false}
-                activeDot={{
-                  r: 6,
-                  stroke: '#4F46E5',
-                  strokeWidth: 2,
-                  fill: '#fff',
-                  filter: 'drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.2))'
-                }}
               />
             </AreaChart>
           </ResponsiveContainer>
