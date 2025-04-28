@@ -18,6 +18,7 @@ const CustomTooltip = ({ active, payload }: any) => {
 export function SalesDetailsCard() {
   const isMobile = useIsMobile();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [activeButton, setActiveButton] = useState<number | null>(null);
   
   const pieData = [
     { name: "110GB", fullName: "Plano Smartvoz 110GB + Minutos Ilimt.", value: 300, color: "#8425af" },
@@ -27,6 +28,12 @@ export function SalesDetailsCard() {
   ];
 
   const onPieClick = (_: any, index: number) => {
+    setActiveIndex(index === activeIndex ? null : index);
+    setActiveButton(index === activeIndex ? null : index);
+  };
+
+  const onButtonClick = (index: number) => {
+    setActiveButton(index === activeButton ? null : index);
     setActiveIndex(index === activeIndex ? null : index);
   };
 
@@ -99,13 +106,24 @@ export function SalesDetailsCard() {
             <p className="text-sm font-medium text-gray-600 pt-[4px]">Planos mais vendidos</p>
             <div className="grid gap-[9px]">
               {pieData.map((plan, index) => (
-                <div key={index} className="flex items-center">
+                <div 
+                  key={index} 
+                  className="flex items-center"
+                  onClick={() => onButtonClick(index)}
+                >
                   <div 
-                    className="w-3 h-3 rounded-full mr-2 hover:opacity-80 transition-all duration-300"
-                    style={{ backgroundColor: plan.color }}
+                    className={`w-3 h-3 rounded-full mr-2 cursor-pointer transition-all duration-300 hover:scale-110 ${activeButton === index ? 'scale-125 shadow-lg' : ''}`}
+                    style={{ 
+                      backgroundColor: plan.color,
+                      transform: activeButton === index ? 'scale(1.25)' : 'scale(1)',
+                      transition: 'transform 0.3s ease-in-out',
+                      boxShadow: activeButton === index ? '0 2px 4px rgba(0,0,0,0.2)' : 'none'
+                    }}
                   />
                   <div className="flex-1">
-                    <p className="text-sm text-gray-600 pt-[4px]">{plan.fullName}</p>
+                    <p className={`text-sm text-gray-600 pt-[4px] transition-opacity duration-300 ${activeButton === index ? 'opacity-100' : activeButton !== null ? 'opacity-60' : 'opacity-100'}`}>
+                      {plan.fullName}
+                    </p>
                   </div>
                 </div>
               ))}
