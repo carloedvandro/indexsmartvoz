@@ -1,4 +1,3 @@
-
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -46,18 +45,14 @@ export function SalesDetailsCard() {
                 cursor="pointer"
                 startAngle={90}
                 endAngle={-270}
-                stroke="transparent"
+                stroke="none"
                 strokeWidth={0}
               >
                 {pieData.map((entry, index) => (
                   <Cell 
                     key={`cell-${index}`} 
                     fill={entry.color}
-                    stroke="transparent"
-                    style={{
-                      filter: "drop-shadow(0px 4px 8px rgba(95, 8, 137, 0.15))",
-                      transition: "all 0.3s ease",
-                    }}
+                    stroke="none"
                   />
                 ))}
               </Pie>
