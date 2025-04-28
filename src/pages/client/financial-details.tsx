@@ -1,107 +1,58 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FinancialHeader } from "@/components/client/financial/FinancialDetailsHeader";
+import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
 import { FinancialFilter } from "@/components/client/financial/FinancialFilter";
 import { FinancialSummary } from "@/components/client/financial/FinancialSummary";
 import { FinancialTable } from "@/components/client/financial/FinancialTable";
 import { ExportPDFButton } from "@/components/client/financial/ExportPDFButton";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { BalanceDialog } from "@/components/client/financial/BalanceDialog";
-import { Transaction } from "@/components/client/financial/types";
-import { useToast } from "@/hooks/use-toast";
+import { SearchBar } from "@/components/client/financial/SearchBar";
+import { useFinancial } from "@/contexts/financial/FinancialContext";
+import { useFinancialData } from "@/hooks/useFinancialData";
+import { FinancialProvider } from "@/contexts/financial/FinancialContext";
 
 export default function FinancialDetails() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const location = useLocation();
-  const { toast } = useToast();
-  const { type } = location.state || {};
-
-  const transactions = [
-    { date: '10/02/2025', type: 'Bônus de equipe', description: 'Lançamento financeiro', value: 'R$ 4.059,05', balance: 'R$ 10.848,84' },
-    { date: '11/02/2025', type: 'Bônus de indicação', description: 'Lançamento financeiro', value: 'R$ 10,00', balance: 'R$ 10.858,84' },
-    { date: '13/02/2025', type: 'Bônus de equipe', description: 'Lançamento financeiro', value: 'R$ 9.012,98', balance: 'R$ 24.738,96' },
-    { date: '15/02/2025', type: 'Bônus de indicação', description: 'Lançamento financeiro', value: 'R$ 30,00', balance: 'R$ 24.938,33' },
-    { date: '18/02/2025', type: 'Bônus de equipe', description: 'Lançamento financeiro', value: 'R$ 6.495,92', balance: 'R$ 31.434,25' },
-    { date: '18/02/2025', type: 'Bônus de equipe', description: 'Lançamento financeiro', value: 'R$ 6.589,96', balance: 'R$ 38.024,21' },
-    { date: '23/02/2025', type: 'Bônus de indicação', description: 'Lançamento financeiro', value: 'R$ 30,00', balance: 'R$ 47.129,34' },
-  ];
-
-  const [selectedMonth, setSelectedMonth] = useState("2");
-  const [selectedYear, setSelectedYear] = useState("2025");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredTransactions, setFilteredTransactions] = useState(transactions);
   const [balanceDialogOpen, setBalanceDialogOpen] = useState(false);
-  const [selectedCardType, setSelectedCardType] = useState<string | null>(null);
-  const [detailedViewTitle, setDetailedViewTitle] = useState("");
 
-  const filterTransactions = () => {
-    let filtered = transactions.filter(transaction => {
-      const [transactionDay, transactionMonth, transactionYear] = transaction.date.split('/').map(Number);
-      const matchesMonthYear = transactionMonth === parseInt(selectedMonth) && transactionYear === parseInt(selectedYear);
-      
-      const matchesSearch = searchTerm === "" || 
-        transaction.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        transaction.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        transaction.value.includes(searchTerm) ||
-        transaction.date.includes(searchTerm);
-      
-      // Base filtering by month/year and search term
-      let shouldInclude = matchesMonthYear && (searchTerm === "" || matchesSearch);
-      
-      // Additional filtering based on selected card type
-      if (selectedCardType) {
-        if (selectedCardType === 'bonus' || selectedCardType === 'earnings') {
-          shouldInclude = shouldInclude && transaction.type.toLowerCase().includes('bônus');
-        }
-        // For 'balance' and 'available', we show all transactions as they all affect the balance
-      }
-      
-      return shouldInclude;
-    });
-    
-    setFilteredTransactions(filtered);
-  };
+  return (
+    <FinancialProvider>
+      <FinancialContent 
+        navigate={navigate}
+        isMobile={isMobile}
+        balanceDialogOpen={balanceDialogOpen}
+        setBalanceDialogOpen={setBalanceDialogOpen}
+      />
+    </FinancialProvider>
+  );
+}
+
+function FinancialContent({ 
+  navigate, 
+  isMobile, 
+  balanceDialogOpen, 
+  setBalanceDialogOpen 
+}: {
+  navigate: (path: string) => void;
+  isMobile: boolean;
+  balanceDialogOpen: boolean;
+  setBalanceDialogOpen: (open: boolean) => void;
+}) {
+  const { filterTransactions, handleCardClick } = useFinancialData();
+  const { 
+    selectedMonth, 
+    selectedYear, 
+    filteredTransactions,
+    detailedViewTitle,
+    selectedCardType
+  } = useFinancial();
 
   const handleBack = () => {
     navigate('/client/dashboard');
-  };
-
-  const handleCardClick = (cardType: string) => {
-    setSelectedCardType(cardType);
-    
-    // Set the detailed view title based on the selected card
-    const monthLabel = months.find(m => m.value === selectedMonth)?.label || "Fevereiro";
-    
-    switch(cardType) {
-      case 'earnings':
-        setDetailedViewTitle(`Total de ganhos em ${monthLabel}/${selectedYear}`);
-        break;
-      case 'balance':
-        setDetailedViewTitle(`Saldo em ${monthLabel}/${selectedYear}`);
-        break;
-      case 'available':
-        setDetailedViewTitle(`Saldo disponível em ${monthLabel}/${selectedYear}`);
-        break;
-      case 'bonus':
-        setDetailedViewTitle(`Total de bônus recebido em ${monthLabel}/${selectedYear}`);
-        break;
-      default:
-        setDetailedViewTitle(`Extratos em ${monthLabel}/${selectedYear}`);
-    }
-    
-    // Filter transactions based on the selected card
-    filterTransactions();
-    
-    // Show a toast notification
-    toast({
-      title: "Extratos detalhados",
-      description: `Mostrando os extratos para ${cardType === 'earnings' ? 'ganhos' : 
-                   cardType === 'balance' ? 'saldo' : 
-                   cardType === 'available' ? 'saldo disponível' : 
-                   'bônus'} em ${monthLabel}/${selectedYear}`,
-    });
   };
 
   const months = [
@@ -135,25 +86,17 @@ export default function FinancialDetails() {
     { value: "2026", label: "2026" }
   ];
 
-  useEffect(() => {
-    filterTransactions();
-  }, [selectedMonth, selectedYear, searchTerm, selectedCardType]);
-
-  const monthLabel = months.find(m => m.value === selectedMonth)?.label || "Fevereiro";
-
   return (
     <div className="min-h-screen bg-white">
       <FinancialHeader
-        monthLabel={monthLabel}
+        monthLabel={months.find(m => m.value === selectedMonth)?.label || "Fevereiro"}
         selectedYear={selectedYear}
       />
 
       <div className="max-w-[1080px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">
         <FinancialFilter 
           selectedMonth={selectedMonth}
-          setSelectedMonth={setSelectedMonth}
           selectedYear={selectedYear}
-          setSelectedYear={setSelectedYear}
           months={months}
           years={years}
           handleBack={handleBack}
@@ -174,15 +117,7 @@ export default function FinancialDetails() {
         )}
 
         <div className="flex flex-row justify-between items-center gap-3 w-full md:w-[680px] mx-auto mb-6">
-          <input
-            type="text"
-            placeholder="Pesquisar"
-            className="border rounded-md px-4 h-9 w-full md:w-64"
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-            }}
-          />
+          <SearchBar />
           <ExportPDFButton 
             filteredTransactions={filteredTransactions}
             selectedMonth={selectedMonth}
