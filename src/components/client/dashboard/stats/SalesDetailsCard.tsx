@@ -1,5 +1,6 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useState } from "react";
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
@@ -15,6 +16,7 @@ const CustomTooltip = ({ active, payload }: any) => {
 
 export function SalesDetailsCard() {
   const isMobile = useIsMobile();
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   
   const pieData = [
     { name: "110GB", fullName: "Plano Smartvoz 110GB + Minutos Ilimt.", value: 300, color: "#8425af" },
@@ -22,6 +24,10 @@ export function SalesDetailsCard() {
     { name: "130GB", fullName: "Plano Smartvoz 130GB + Minutos Ilimt.", value: 200, color: "#4CAF50" },
     { name: "140GB", fullName: "Plano Smartvoz 140GB + Minutos Ilimt.", value: 150, color: "#FFC107" }
   ];
+
+  const onPieClick = (data: any, index: number) => {
+    setActiveIndex(index === activeIndex ? null : index);
+  };
 
   return (
     <div className="pl-0 h-[550px]">
@@ -42,6 +48,7 @@ export function SalesDetailsCard() {
                 animationBegin={0}
                 animationDuration={1200}
                 animationEasing="ease-in-out"
+                onClick={onPieClick}
                 cursor="pointer"
                 startAngle={90}
                 endAngle={-270}
@@ -53,6 +60,11 @@ export function SalesDetailsCard() {
                     key={`cell-${index}`} 
                     fill={entry.color}
                     stroke="none"
+                    style={{
+                      transform: activeIndex === index ? 'scale(1.1)' : 'scale(1)',
+                      filter: activeIndex === index ? 'brightness(1.1)' : 'none',
+                      transition: 'all 0.3s ease-in-out'
+                    }}
                   />
                 ))}
               </Pie>
