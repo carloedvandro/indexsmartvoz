@@ -29,8 +29,8 @@ export function SalesDetailsCard() {
       name: "110GB", 
       fullName: "Plano Smartvoz 110GB", 
       value: 300, 
-      price: 119.90,
-      totalAmount: 300 * 119.90,
+      price: 109.99,
+      totalAmount: 300 * 109.99,
       color: "#8425af" 
     },
     { 
