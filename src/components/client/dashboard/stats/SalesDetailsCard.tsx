@@ -1,3 +1,4 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
@@ -19,10 +20,10 @@ export function SalesDetailsCard() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   
   const pieData = [
-    { name: "110GB", fullName: "Plano Smartvoz 110GB + Minutos Ilimt.", value: 300, color: "#8425af" },
-    { name: "120GB", fullName: "Plano Smartvoz 120GB + Minutos Ilimt.", value: 250, color: "#33C3F0" },
-    { name: "130GB", fullName: "Plano Smartvoz 130GB + Minutos Ilimt.", value: 200, color: "#4CAF50" },
-    { name: "140GB", fullName: "Plano Smartvoz 140GB + Minutos Ilimt.", value: 150, color: "#FFC107" }
+    { name: "110GB", fullName: "Plano Smartvoz 110GB + Minutos Ilimt.", value: 300, color: "#9b87f5" },
+    { name: "120GB", fullName: "Plano Smartvoz 120GB + Minutos Ilimt.", value: 250, color: "#1EAEDB" },
+    { name: "130GB", fullName: "Plano Smartvoz 130GB + Minutos Ilimt.", value: 200, color: "#D6BCFA" },
+    { name: "140GB", fullName: "Plano Smartvoz 140GB + Minutos Ilimt.", value: 150, color: "#F1F0FB" }
   ];
 
   const onPieClick = (data: any, index: number) => {
@@ -61,9 +62,10 @@ export function SalesDetailsCard() {
                     fill={entry.color}
                     stroke="none"
                     style={{
-                      transform: activeIndex === index ? 'translateY(-8px)' : 'translateY(0)',
-                      opacity: activeIndex === null || activeIndex === index ? 1 : 0.6,
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                      transform: activeIndex === index ? 'scale(1.05)' : 'scale(1)',
+                      filter: activeIndex === index ? 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1))' : 'none',
+                      opacity: activeIndex === null || activeIndex === index ? 1 : 0.5,
+                      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
                     }}
                   />
                 ))}
@@ -105,3 +107,4 @@ export function SalesDetailsCard() {
     </div>
   );
 }
+
