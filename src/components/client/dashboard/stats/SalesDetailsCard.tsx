@@ -111,8 +111,13 @@ export function SalesDetailsCard() {
               {pieData.map((plan, index) => (
                 <div key={index} className="flex items-center">
                   <div 
-                    className="w-3 h-3 rounded-full mr-2 cursor-pointer hover:opacity-80 transition-opacity"
-                    style={{ backgroundColor: plan.color }}
+                    className="w-3 h-3 rounded-full mr-2 cursor-pointer hover:opacity-80 transition-all duration-300 transform hover:scale-110"
+                    style={{ 
+                      backgroundColor: plan.color,
+                      transform: selectedPlanValue === plan.value ? 'scale(1.2)' : 'scale(1)',
+                      boxShadow: selectedPlanValue === plan.value ? `0 0 12px ${plan.color}` : 'none',
+                      transition: 'all 0.3s ease'
+                    }}
                     onClick={() => handleColorClick(plan.value)}
                   />
                   <div className="flex-1">
