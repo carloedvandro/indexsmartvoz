@@ -45,14 +45,12 @@ export function SalesDetailsCard() {
                 cursor="pointer"
                 startAngle={90}
                 endAngle={-270}
-                stroke="#FFFFFF"
                 strokeWidth={0}
               >
                 {pieData.map((entry, index) => (
                   <Cell 
                     key={`cell-${index}`} 
                     fill={entry.color}
-                    stroke="#FFFFFF"
                     strokeWidth={0}
                     style={{
                       filter: "drop-shadow(0px 4px 8px rgba(95, 8, 137, 0.15))",
