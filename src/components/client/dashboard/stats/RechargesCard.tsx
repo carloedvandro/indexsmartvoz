@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
@@ -6,7 +5,6 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from "@/components/ui/chart";
-import { useMemo } from "react";
 
 export function RechargesCard() {
   // Complete year of sample data with varying trend
@@ -41,7 +39,7 @@ export function RechargesCard() {
   };
   
   return (
-    <Card className="p-6 shadow-sm w-full">
+    <Card className="p-6 shadow-sm w-full bg-transparent border-0">
       <div className="flex justify-between items-center mb-1">
         <h3 className="text-lg font-bold">Total de recargas pagas</h3>
         <button className="text-gray-400 hover:text-gray-600">
