@@ -1,5 +1,6 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { formatCurrency } from "@/utils/format";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -26,7 +27,19 @@ export function SalesDetailsCard() {
   };
 
   const handleColorClick = (value: number) => {
-    setSelectedPlanValue(value);
+    // Toggle selection: if the same value is clicked again, clear the selection
+    setSelectedPlanValue(prevValue => prevValue === value ? null : value);
+    
+    // Play a subtle sound effect when clicking
+    const audio = new Audio('/beep.mp3');
+    audio.volume = 0.2;
+    audio.play().catch(e => console.log("Audio play failed:", e));
+  };
+
+  // When pie chart sector is clicked, also show the details
+  const handlePieClick = (_: any, index: number) => {
+    const value = pieData[index].value;
+    handleColorClick(value);
   };
 
   return (
@@ -50,6 +63,7 @@ export function SalesDetailsCard() {
                 animationEasing="ease-in-out"
                 onMouseEnter={onPieEnter}
                 onMouseLeave={onPieLeave}
+                onClick={handlePieClick}
                 cursor="pointer"
                 startAngle={90}
                 endAngle={-270}
