@@ -44,8 +44,8 @@ export function SalesDetailsCard() {
       name: "130GB", 
       fullName: "Plano Smartvoz 130GB", 
       value: 200, 
-      price: 139.99,
-      totalAmount: 200 * 139.99,
+      price: 129.99,
+      totalAmount: 200 * 129.99,
       color: "#4CAF50" 
     },
     { 
@@ -59,8 +59,8 @@ export function SalesDetailsCard() {
   ];
 
   const totalSalesAmount = pieData.reduce((acc, plan) => {
-    const planTotal = Number((plan.value * plan.price).toFixed(2));
-    return acc + planTotal;
+    const planTotalCents = Math.round(plan.value * plan.price * 100);
+    return acc + (planTotalCents / 100);
   }, 0);
 
   const onButtonClick = (index: number, event: React.MouseEvent) => {
