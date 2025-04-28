@@ -6,7 +6,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { formatCurrency } from "@/utils/format";
 
 interface InternetOption {
   value: string;
@@ -34,7 +33,7 @@ export function InternetSelector({
         </SelectTrigger>
         <SelectContent 
           position="popper" 
-          className="bg-white max-h-[179px] overflow-y-auto w-[200px]"
+          className="bg-white max-h-[179px] overflow-y-auto w-[157px]"
           align="start"
           sideOffset={5}
         >
@@ -44,12 +43,7 @@ export function InternetSelector({
               value={option.value}
               className="cursor-pointer py-1.5 px-2 bg-white hover:bg-white focus:bg-white focus:text-[#8425af] data-[state=checked]:bg-white data-[state=checked]:text-[#8425af]"
             >
-              <div className="flex justify-between w-full">
-                <span>{option.label}</span>
-                <span className="font-medium text-[#8425af]">
-                  {formatCurrency(option.price)}
-                </span>
-              </div>
+              {option.label}
             </SelectItem>
           ))}
         </SelectContent>
