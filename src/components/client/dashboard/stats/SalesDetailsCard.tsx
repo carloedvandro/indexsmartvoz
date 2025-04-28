@@ -30,7 +30,7 @@ export function SalesDetailsCard() {
   };
 
   return (
-    <div className="p-5 h-[550px]">
+    <div className="p-6 h-[550px]">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-bold text-black">Detalhe das Vendas</h3>
         <button className="text-gray-400 hover:text-gray-600">
