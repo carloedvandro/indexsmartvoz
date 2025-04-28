@@ -58,6 +58,12 @@ export function RevenueByMonthChart() {
               <Tooltip
                 content={({ active, payload }) => {
                   if (active && payload && payload.length) {
+                    const value = payload[0].value;
+                    // Format the value based on its type
+                    const formattedValue = typeof value === 'number' 
+                      ? `R$ ${value.toFixed(2)} Mi`
+                      : `R$ ${value} Mi`;
+                    
                     return (
                       <div className="rounded-lg border bg-white p-2 shadow-sm">
                         <div className="grid grid-cols-2 gap-2">
@@ -66,7 +72,7 @@ export function RevenueByMonthChart() {
                               Valor
                             </span>
                             <span className="font-bold text-black">
-                              R$ {payload[0].value.toFixed(2)} Mi
+                              {formattedValue}
                             </span>
                           </div>
                         </div>
