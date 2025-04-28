@@ -98,7 +98,7 @@ export function SalesDetailsCard() {
           
           <div className="space-y-2">
             <p className="text-sm font-medium text-gray-600">Planos mais vendidos</p>
-            <div className="grid gap-2">
+            <div className="grid gap-[9px]">
               {pieData.map((plan, index) => (
                 <div key={index} className="flex items-center">
                   <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: plan.color }}></div>
