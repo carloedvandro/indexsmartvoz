@@ -49,6 +49,7 @@ export function SalesDetailsCard() {
                   <Cell 
                     key={`cell-${index}`} 
                     fill={entry.color}
+                    stroke="none"
                     opacity={selectedPlan === null || selectedPlan === entry.name ? 1 : 0.3}
                     style={{
                       transition: "all 0.3s ease",
@@ -124,3 +125,4 @@ export function SalesDetailsCard() {
     </div>
   );
 }
+
