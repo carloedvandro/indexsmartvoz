@@ -1,4 +1,3 @@
-
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
@@ -112,7 +111,7 @@ export function SalesDetailsCard() {
                   onClick={() => onButtonClick(index)}
                 >
                   <div 
-                    className={`w-3 h-3 rounded-full mr-2 cursor-pointer transition-all duration-300 hover:scale-110 ${activeButton === index ? 'scale-125 shadow-lg' : ''}`}
+                    className={`w-3 h-3 rounded-full mr-2 cursor-pointer transition-all duration-300 ${activeButton === index ? 'scale-125 shadow-lg' : ''}`}
                     style={{ 
                       backgroundColor: plan.color,
                       transform: activeButton === index ? 'scale(1.25)' : 'scale(1)',
