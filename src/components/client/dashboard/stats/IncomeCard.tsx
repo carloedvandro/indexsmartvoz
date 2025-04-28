@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import {
@@ -14,6 +13,12 @@ const chartData = [
   { name: "Abr", value: 172000 },
   { name: "Mai", value: 168000 },
   { name: "Jun", value: 179542 },
+  { name: "Jul", value: 185000 },
+  { name: "Ago", value: 190000 },
+  { name: "Set", value: 188000 },
+  { name: "Out", value: 195000 },
+  { name: "Nov", value: 205000 },
+  { name: "Dez", value: 215000 }
 ];
 
 export function IncomeCard() {
@@ -24,6 +29,12 @@ export function IncomeCard() {
     "Abr": "Abril",
     "Mai": "Maio",
     "Jun": "Junho",
+    "Jul": "Julho",
+    "Ago": "Agosto",
+    "Set": "Setembro",
+    "Out": "Outubro",
+    "Nov": "Novembro",
+    "Dez": "Dezembro"
   };
 
   return (
@@ -49,6 +60,7 @@ export function IncomeCard() {
                 axisLine={false}
                 tickLine={false}
                 tick={{ fill: '#94a3b8', fontSize: 10 }}
+                interval={1}
               />
               <YAxis 
                 hide={true}
