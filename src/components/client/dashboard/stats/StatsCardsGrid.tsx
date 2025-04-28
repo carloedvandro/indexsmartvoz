@@ -22,7 +22,7 @@ export function StatsCardsGrid() {
           <SalesDetailsCard />
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-3 mt-3 max-w-[1200px] mx-auto">
+      <div className="grid grid-cols-1 gap-3 mt-3 max-w-[800px] mx-auto">
         <RevenueByMonthChart />
       </div>
     </div>
