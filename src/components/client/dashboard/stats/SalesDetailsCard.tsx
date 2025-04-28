@@ -39,13 +39,13 @@ export function SalesDetailsCard() {
       </div>
       
       <div className="flex flex-col items-center">
-        <div className={`w-full max-w-[300px] h-[180px] relative ${isMobile ? "mt-2" : ""}`}>
+        <div className={`w-full max-w-[400px] h-[250px] relative ${isMobile ? "mt-2" : ""}`}>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={pieData}
-                innerRadius={55}
-                outerRadius={75}
+                innerRadius={70}
+                outerRadius={95}
                 paddingAngle={2}
                 dataKey="value"
                 animationBegin={0}
@@ -81,7 +81,7 @@ export function SalesDetailsCard() {
                 y="50%"
                 textAnchor="middle"
                 dominantBaseline="middle"
-                className="text-xs font-medium"
+                className="text-sm font-medium"
                 fill="#4B5563"
               >
                 Vendas do Mês
