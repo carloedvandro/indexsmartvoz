@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import {
@@ -59,8 +60,13 @@ export function IncomeCard() {
                 dataKey="name"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#94a3b8', fontSize: 10 }}
-                interval={1}
+                tick={{ 
+                  fill: '#94a3b8', 
+                  fontSize: 12,
+                  dy: 5
+                }}
+                interval={0}
+                padding={{ left: 10, right: 10 }}
               />
               <YAxis 
                 hide={true}
