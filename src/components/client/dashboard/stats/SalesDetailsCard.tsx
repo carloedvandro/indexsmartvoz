@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { formatCurrency } from "@/utils/format";
@@ -120,7 +119,7 @@ export function SalesDetailsCard() {
         .gradient-text {
           background: linear-gradient(
             135deg,
-            #00000005 0%,
+            #5f0889 0%,
             hsl(var(--color-1)) 25%,
             hsl(var(--color-2)) 50%,
             hsl(var(--color-3)) 100%
@@ -146,4 +145,3 @@ export function SalesDetailsCard() {
     </Card>
   );
 }
-
