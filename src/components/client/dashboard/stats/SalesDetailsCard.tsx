@@ -2,6 +2,7 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
+import { formatCurrency } from "@/utils/format";
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
@@ -9,6 +10,7 @@ const CustomTooltip = ({ active, payload }: any) => {
       <div className="bg-white p-2 rounded-md shadow-lg border border-gray-200">
         <p className="text-sm font-medium">{payload[0].payload.fullName}</p>
         <p className="text-sm">{payload[0].value} vendas</p>
+        <p className="text-sm font-medium">{formatCurrency(payload[0].payload.totalAmount)}</p>
       </div>
     );
   }
@@ -23,11 +25,41 @@ export function SalesDetailsCard() {
   const [tooltipData, setTooltipData] = useState<{ x: number; y: number; data: any } | null>(null);
   
   const pieData = [
-    { name: "110GB", fullName: "Plano Smartvoz 110GB", value: 300, color: "#8425af" },
-    { name: "120GB", fullName: "Plano Smartvoz 120GB", value: 250, color: "#33C3F0" },
-    { name: "130GB", fullName: "Plano Smartvoz 130GB", value: 200, color: "#4CAF50" },
-    { name: "140GB", fullName: "Plano Smartvoz 140GB", value: 150, color: "#FFC107" }
+    { 
+      name: "110GB", 
+      fullName: "Plano Smartvoz 110GB", 
+      value: 300, 
+      price: 119.90,
+      totalAmount: 300 * 119.90,
+      color: "#8425af" 
+    },
+    { 
+      name: "120GB", 
+      fullName: "Plano Smartvoz 120GB", 
+      value: 250, 
+      price: 129.90,
+      totalAmount: 250 * 129.90,
+      color: "#33C3F0" 
+    },
+    { 
+      name: "130GB", 
+      fullName: "Plano Smartvoz 130GB", 
+      value: 200, 
+      price: 139.90,
+      totalAmount: 200 * 139.90,
+      color: "#4CAF50" 
+    },
+    { 
+      name: "140GB", 
+      fullName: "Plano Smartvoz 140GB", 
+      value: 150, 
+      price: 149.90,
+      totalAmount: 150 * 149.90,
+      color: "#FFC107" 
+    }
   ];
+
+  const totalSalesAmount = pieData.reduce((acc, plan) => acc + plan.totalAmount, 0);
 
   const onButtonClick = (index: number, event: React.MouseEvent) => {
     setActiveButton(index === activeButton ? null : index);
@@ -94,13 +126,23 @@ export function SalesDetailsCard() {
               </Pie>
               <text
                 x="50%"
-                y="50%"
+                y="45%"
                 textAnchor="middle"
                 dominantBaseline="middle"
                 className="text-sm font-medium"
                 fill="#4B5563"
               >
                 Vendas do Mês
+              </text>
+              <text
+                x="50%"
+                y="60%"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                className="text-base font-bold"
+                fill="#1F2937"
+              >
+                {formatCurrency(totalSalesAmount)}
               </text>
             </PieChart>
           </ResponsiveContainer>
@@ -141,6 +183,7 @@ export function SalesDetailsCard() {
                     >
                       <p className="text-sm font-medium">{plan.fullName}</p>
                       <p className="text-sm">{plan.value} vendas</p>
+                      <p className="text-sm font-medium">{formatCurrency(plan.totalAmount)}</p>
                     </div>
                   )}
                 </div>
