@@ -8,7 +8,7 @@ export function LineStatusCard() {
   const inactiveLines = 0;
 
   return (
-    <Card className="p-6 shadow-sm w-full">
+    <div className="p-6">
       <div className="flex justify-between items-center mb-1">
         <h3 className="text-lg font-medium">Linhas</h3>
         <button className="text-gray-400 hover:text-gray-600">
@@ -64,6 +64,6 @@ export function LineStatusCard() {
           </div>
         </div>
       </div>
-    </Card>
+    </div>
   );
 }
