@@ -10,10 +10,10 @@ export function SalesDetailsCard() {
   const isMobile = useIsMobile();
   
   const pieData = [
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>110GB</span></strong> + Minutos ilimit.", value: 300, color: "#4F46E5" },
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>120GB</span></strong> + Minutos ilimit.", value: 200, color: "#818CF8" },
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>130GB</span></strong> + Minutos ilimit.", value: 150, color: "#C7D2FE" },
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>140GB</span></strong> + Minutos ilimit.", value: 100, color: "#E0E7FF" }
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>110GB</span></strong> + Minutos ilimit.", value: 300, color: "#33C3F0" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>120GB</span></strong> + Minutos ilimit.", value: 200, color: "#63D3F4" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>130GB</span></strong> + Minutos ilimit.", value: 150, color: "#93E3F8" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>140GB</span></strong> + Minutos ilimit.", value: 100, color: "#C3F3FC" }
   ];
   
   const totalSales = "R$ 691.526,00";
@@ -61,10 +61,10 @@ export function SalesDetailsCard() {
                     <Cell 
                       key={`cell-${index}`} 
                       fill={entry.color}
-                      stroke={isActive ? "#4F46E5" : "transparent"}
+                      stroke={isActive ? "#33C3F0" : "transparent"}
                       strokeWidth={isActive ? 2 : 0}
                       style={{
-                        filter: isActive ? "drop-shadow(0px 8px 12px rgba(79, 70, 229, 0.2))" : "none",
+                        filter: isActive ? "drop-shadow(0px 8px 12px rgba(51, 195, 240, 0.2))" : "none",
                         transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
                         transformOrigin: "center center",
                         transform: `scale(${scale}) translateY(${isActive ? -4 : 0}px)`,
