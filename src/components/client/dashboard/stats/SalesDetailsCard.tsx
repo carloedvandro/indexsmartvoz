@@ -119,10 +119,10 @@ export function SalesDetailsCard() {
         .gradient-text {
           background: linear-gradient(
             135deg,
-            #ff00c9 0%,
-            hsl(var(--color-1)) 25%,
-            hsl(var(--color-2)) 50%,
-            hsl(var(--color-3)) 100%
+            #000000 0%,
+            #000000 25%,
+            #000000 50%,
+            #000000 100%
           );
           -webkit-background-clip: text;
           background-clip: text;
