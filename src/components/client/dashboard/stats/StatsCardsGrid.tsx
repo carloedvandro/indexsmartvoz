@@ -2,7 +2,6 @@
 import { LineStatusCard } from "./LineStatusCard";
 import { RechargesCard } from "./RechargesCard";
 import { ActivationsCard } from "./ActivationsCard";
-import { SalesDetailsCard } from "./SalesDetailsCard";
 import { RevenueByMonthChart } from "../charts/RevenueByMonthChart";
 
 export function StatsCardsGrid() {
