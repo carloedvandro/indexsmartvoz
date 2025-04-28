@@ -39,10 +39,8 @@ export function IncomeCard() {
   };
 
   return (
-    <Card className="h-[200px] w-full bg-white shadow-sm p-6">
-      <div className="flex justify-between items-center mb-1">
-        <h3 className="text-lg font-bold">Histórico de Rendimentos</h3>
-      </div>
+    <Card className="h-[200px] shadow-sm p-6">
+      <h3 className="text-lg font-bold">Histórico de Rendimentos</h3>
       <div className="h-[140px]">
         <ChartContainer config={{}} className="h-full w-full">
           <ResponsiveContainer width="100%" height="100%">
