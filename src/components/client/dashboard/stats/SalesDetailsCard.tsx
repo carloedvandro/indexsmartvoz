@@ -21,8 +21,10 @@ export function SalesDetailsCard() {
   const isMobile = useIsMobile();
   
   const pieData = [
-    { name: "START 6", fullName: "START 6 *GESIA", value: 300, color: "#8425af" },
-    { name: "START 8", fullName: "START 8 *GESIA", value: 200, color: "#33C3F0" }
+    { name: "110GB", fullName: "Plano Smartvoz 110GB + Minutos Ilimt.", value: 300, color: "#8425af" },
+    { name: "120GB", fullName: "Plano Smartvoz 120GB + Minutos Ilimt.", value: 250, color: "#33C3F0" },
+    { name: "130GB", fullName: "Plano Smartvoz 130GB + Minutos Ilimt.", value: 200, color: "#4CAF50" },
+    { name: "140GB", fullName: "Plano Smartvoz 140GB + Minutos Ilimt.", value: 150, color: "#FFC107" }
   ];
   
   const handleColorClick = (value: number) => {
@@ -113,3 +115,4 @@ export function SalesDetailsCard() {
     </div>
   );
 }
+
