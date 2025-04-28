@@ -33,7 +33,7 @@ export function InternetSelector({
         </SelectTrigger>
         <SelectContent 
           position="popper" 
-          className="bg-white max-h-[179px] overflow-y-auto w-full"
+          className="bg-white max-h-[179px] overflow-y-auto w-[156px]"
           align="start"
           sideOffset={5}
         >
