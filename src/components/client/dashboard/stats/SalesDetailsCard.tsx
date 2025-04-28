@@ -1,4 +1,4 @@
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
 
@@ -64,7 +64,7 @@ export function SalesDetailsCard() {
                 endAngle={-270}
                 stroke="none"
                 strokeWidth={0}
-                style={{ outline: 'none' }}
+                style={{ outline: 'none', pointerEvents: 'none' }}
               >
                 {pieData.map((entry, index) => {
                   const isActive = index === activeIndex;
@@ -84,13 +84,13 @@ export function SalesDetailsCard() {
                         zIndex: zIndex,
                         opacity: opacity,
                         filter: isActive ? 'drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.2))' : 'none',
-                        outline: 'none'
+                        outline: 'none',
+                        pointerEvents: 'none'
                       }}
                     />
                   );
                 })}
               </Pie>
-              <Tooltip content={<CustomTooltip />} />
               <text
                 x="50%"
                 y="50%"
