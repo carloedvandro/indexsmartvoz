@@ -31,15 +31,17 @@ export function SalesDetailsCard() {
 
   return (
     <div className="p-5 h-[550px]">
-      <div className="flex justify-between items-center mb-2">
+      <div className="flex justify-start items-center mb-2">
         <h3 className="text-lg font-bold text-black">Detalhe das Vendas</h3>
-        <button className="text-gray-400 hover:text-gray-600">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="1" />
-            <circle cx="19" cy="12" r="1" />
-            <circle cx="5" cy="12" r="1" />
-          </svg>
-        </button>
+        <div className="ml-auto">
+          <button className="text-gray-400 hover:text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="1" />
+              <circle cx="19" cy="12" r="1" />
+              <circle cx="5" cy="12" r="1" />
+            </svg>
+          </button>
+        </div>
       </div>
       
       <div className="flex flex-col items-center">
