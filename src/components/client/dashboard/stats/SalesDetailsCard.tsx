@@ -1,3 +1,4 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
@@ -22,10 +23,10 @@ export function SalesDetailsCard() {
   const [tooltipData, setTooltipData] = useState<{ x: number; y: number; data: any } | null>(null);
   
   const pieData = [
-    { name: "110GB", fullName: "Plano Smartvoz 110GB + Minutos Ilimt.", value: 300, color: "#8425af" },
-    { name: "120GB", fullName: "Plano Smartvoz 120GB + Minutos Ilimt.", value: 250, color: "#33C3F0" },
-    { name: "130GB", fullName: "Plano Smartvoz 130GB + Minutos Ilimt.", value: 200, color: "#4CAF50" },
-    { name: "140GB", fullName: "Plano Smartvoz 140GB + Minutos Ilimt.", value: 150, color: "#FFC107" }
+    { name: "110GB", fullName: "Plano Smartvoz 110GB", value: 300, color: "#8425af" },
+    { name: "120GB", fullName: "Plano Smartvoz 120GB", value: 250, color: "#33C3F0" },
+    { name: "130GB", fullName: "Plano Smartvoz 130GB", value: 200, color: "#4CAF50" },
+    { name: "140GB", fullName: "Plano Smartvoz 140GB", value: 150, color: "#FFC107" }
   ];
 
   const onButtonClick = (index: number, event: React.MouseEvent) => {
