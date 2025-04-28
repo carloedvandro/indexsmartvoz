@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import {
@@ -38,7 +39,7 @@ const fullMonthNames = {
 
 export function IncomeCard() {
   return (
-    <Card className="h-[200px] p-6">
+    <div className="p-6">
       <h3 className="text-lg font-bold">Histórico de Rendimentos</h3>
       <ChartContainer config={{}} className="h-[140px] w-full">
         <ResponsiveContainer width="100%" height="100%">
@@ -97,6 +98,6 @@ export function IncomeCard() {
           </AreaChart>
         </ResponsiveContainer>
       </ChartContainer>
-    </Card>
+    </div>
   );
 }
