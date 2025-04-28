@@ -1,3 +1,4 @@
+
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Area,
@@ -21,11 +22,11 @@ const data = [
 export function RevenueByMonthChart() {
   return (
     <Card className="p-6 pb-2 shadow-sm w-full rounded-xl bg-[#1A1F2C] text-white">
-      <CardHeader className="p-0 -mt-4">
+      <CardHeader className="p-0 -mt-6">
         <CardTitle className="text-xl font-semibold">Receita por Ano e Mês</CardTitle>
       </CardHeader>
       
-      <div className="h-[300px] mt-2">
+      <div className="h-[300px] mt-0">
         <ChartContainer config={{}} className="h-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
