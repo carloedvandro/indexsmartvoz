@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
@@ -38,6 +39,7 @@ export function PlanSelectionStep({
     { value: "110GB", label: "Plano 110GB", price: 109.99 },
     { value: "120GB", label: "Plano 120GB", price: 119.99 },
     { value: "130GB", label: "Plano 130GB", price: 129.99 },
+    { value: "140GB", label: "Plano 140GB", price: 149.99 },
   ];
 
   useState(() => {
