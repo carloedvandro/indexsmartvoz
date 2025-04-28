@@ -119,7 +119,7 @@ export function SalesDetailsCard() {
         .gradient-text {
           background: linear-gradient(
             135deg,
-            #5f0889 0%,
+            #3300ff 0%,
             hsl(var(--color-1)) 25%,
             hsl(var(--color-2)) 50%,
             hsl(var(--color-3)) 100%
