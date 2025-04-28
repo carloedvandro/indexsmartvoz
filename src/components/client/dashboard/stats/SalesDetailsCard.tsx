@@ -1,19 +1,7 @@
 
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
-
-const CustomTooltip = ({ active, payload }: any) => {
-  if (active && payload && payload.length) {
-    return (
-      <div className="bg-white p-2 rounded-md shadow-lg border border-gray-200">
-        <p className="text-sm font-medium">{payload[0].payload.fullName}</p>
-        <p className="text-sm">{payload[0].value} vendas</p>
-      </div>
-    );
-  }
-  return null;
-};
 
 export function SalesDetailsCard() {
   const isMobile = useIsMobile();
@@ -67,7 +55,6 @@ export function SalesDetailsCard() {
                   />
                 ))}
               </Pie>
-              <Tooltip content={<CustomTooltip />} />
               {selectedPlanData ? (
                 <>
                   <text
