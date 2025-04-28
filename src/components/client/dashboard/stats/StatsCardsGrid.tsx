@@ -16,15 +16,15 @@ export function StatsCardsGrid() {
           <RechargesCard />
         </div>
         <div className="w-full">
-          <ActivationsCard />
+          <RevenueByMonthChart />
         </div>
         <div className="w-full">
-          <SalesDetailsCard />
+          <ActivationsCard />
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3 max-w-[1800px] mx-auto">
         <div className="w-full col-span-2">
-          <RevenueByMonthChart />
+          <SalesDetailsCard />
         </div>
         <div className="w-full"></div>
       </div>
