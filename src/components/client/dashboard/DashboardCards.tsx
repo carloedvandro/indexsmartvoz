@@ -24,15 +24,16 @@ export function DashboardCards({ profile, networkStats, handleNetworkClick }: Da
           <SalesDetailsCard />
         </div>
         <div className="w-full">
+          <ProfileCard profile={profile} />
+        </div>
+        <div className="w-full">
           <NetworkCard 
             networkStats={networkStats} 
             onClick={handleNetworkClick} 
           />
         </div>
-        <div className="w-full">
-          <ProfileCard profile={profile} />
-        </div>
       </div>
     </div>
   );
 }
+
