@@ -1,6 +1,7 @@
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useState } from "react";
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
@@ -16,6 +17,7 @@ const CustomTooltip = ({ active, payload }: any) => {
 
 export function SalesDetailsCard() {
   const isMobile = useIsMobile();
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   
   const pieData = [
     { name: "110GB", fullName: "Plano Smartvoz 110GB + Minutos Ilimt.", value: 300, color: "#8425af" },
@@ -23,6 +25,10 @@ export function SalesDetailsCard() {
     { name: "130GB", fullName: "Plano Smartvoz 130GB + Minutos Ilimt.", value: 200, color: "#4CAF50" },
     { name: "140GB", fullName: "Plano Smartvoz 140GB + Minutos Ilimt.", value: 150, color: "#FFC107" }
   ];
+
+  const handlePlanClick = (name: string) => {
+    setSelectedPlan(prev => prev === name ? null : name);
+  };
 
   return (
     <div className="pl-0 h-[550px]">
@@ -46,13 +52,14 @@ export function SalesDetailsCard() {
                 cursor="pointer"
                 startAngle={90}
                 endAngle={-270}
+                onClick={(_, index) => handlePlanClick(pieData[index].name)}
               >
                 {pieData.map((entry, index) => (
                   <Cell 
                     key={`cell-${index}`} 
                     fill={entry.color}
+                    opacity={selectedPlan === null || selectedPlan === entry.name ? 1 : 0.3}
                     style={{
-                      filter: "drop-shadow(0px 4px 8px rgba(95, 8, 137, 0.15))",
                       transition: "all 0.3s ease",
                     }}
                   />
@@ -67,7 +74,7 @@ export function SalesDetailsCard() {
                 className="text-sm font-medium"
                 fill="#4B5563"
               >
-                Vendas do Mês
+                {selectedPlan ? pieData.find(p => p.name === selectedPlan)?.fullName + "\n" + pieData.find(p => p.name === selectedPlan)?.value + " vendas" : "Vendas do Mês"}
               </text>
             </PieChart>
           </ResponsiveContainer>
@@ -78,10 +85,17 @@ export function SalesDetailsCard() {
             <p className="text-sm font-medium text-gray-600 pt-[4px]">Planos mais vendidos</p>
             <div className="grid gap-[9px]">
               {pieData.map((plan, index) => (
-                <div key={index} className="flex items-center">
+                <div 
+                  key={index} 
+                  className="flex items-center cursor-pointer"
+                  onClick={() => handlePlanClick(plan.name)}
+                >
                   <div 
                     className="w-3 h-3 rounded-full mr-2 hover:opacity-80 transition-all duration-300"
-                    style={{ backgroundColor: plan.color }}
+                    style={{ 
+                      backgroundColor: plan.color,
+                      opacity: selectedPlan === null || selectedPlan === plan.name ? 1 : 0.3
+                    }}
                   />
                   <div className="flex-1">
                     <p className="text-sm text-gray-600 pt-[4px]">{plan.fullName}</p>
