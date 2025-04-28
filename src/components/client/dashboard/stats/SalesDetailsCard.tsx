@@ -87,7 +87,7 @@ export function SalesDetailsCard() {
           </ResponsiveContainer>
         </div>
 
-        <div className="w-full space-y-4 -mt-[0.5px] ml-[4px]">
+        <div className="w-full space-y-4 -mt-[0.5px] ml-[5px]">
           <div className="flex items-start gap-2 mt-4">
             <p className="text-sm text-gray-600">Valor total de vendas</p>
             <p className="text-lg font-bold" style={{ color: "#03de12" }}>{totalSales}</p>
