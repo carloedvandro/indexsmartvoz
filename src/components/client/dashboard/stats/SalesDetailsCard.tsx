@@ -1,5 +1,6 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { formatCurrency } from "@/utils/format";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -9,13 +10,13 @@ export function SalesDetailsCard() {
   const isMobile = useIsMobile();
   
   const pieData = [
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>110GB</span></strong> + Minutos ilimit.", value: 300, color: "#5f0889" },
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>120GB</span></strong> + Minutos ilimit.", value: 200, color: "#3300ff" },
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>130GB</span></strong> + Minutos ilimit.", value: 150, color: "#ff00c9" },
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>140GB</span></strong> + Minutos ilimit.", value: 100, color: "#8425af" }
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>110GB</span></strong> + Minutos ilimit.", value: 45, quantity: 45, color: "#5f0889" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>120GB</span></strong> + Minutos ilimit.", value: 32, quantity: 32, color: "#3300ff" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>130GB</span></strong> + Minutos ilimit.", value: 28, quantity: 28, color: "#ff00c9" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>140GB</span></strong> + Minutos ilimit.", value: 15, quantity: 15, color: "#8425af" }
   ];
   
-  const totalSales = "R$ 691.526,00";
+  const totalSales = pieData.reduce((acc, curr) => acc + curr.quantity, 0);
   
   const onPieEnter = (_: any, index: number) => {
     setActiveIndex(index);
@@ -93,7 +94,7 @@ export function SalesDetailsCard() {
                 className="text-sm font-medium"
                 fill="#4B5563"
               >
-                Vendas do Mês
+                Total: {totalSales}
               </text>
             </PieChart>
           </ResponsiveContainer>
@@ -101,8 +102,8 @@ export function SalesDetailsCard() {
 
         <div className="w-full space-y-4 -mt-[0.5px] ml-[9px]">
           <div className="flex items-center gap-2 mt-4">
-            <p className="text-sm text-gray-600 pt-[4px]">Valor total de vendas</p>
-            <p className="text-[22px] font-bold leading-none" style={{ color: "#03de12" }}>{totalSales}</p>
+            <p className="text-sm text-gray-600 pt-[4px]">Total de vendas no mês</p>
+            <p className="text-[22px] font-bold leading-none" style={{ color: "#03de12" }}>{totalSales} vendas</p>
           </div>
           
           <div className="space-y-2 mt-[12px]">
@@ -129,7 +130,7 @@ export function SalesDetailsCard() {
                     />
                     {selectedPlanValue === plan.value && (
                       <p className="text-sm font-medium mt-1 pt-[4px]" style={{ color: plan.color }}>
-                        Vendas do mês: {formatCurrency(plan.value * 1000)}
+                        Vendas do mês: {plan.quantity} vendas
                       </p>
                     )}
                   </div>
