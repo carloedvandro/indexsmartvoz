@@ -38,13 +38,13 @@ export function ActivationsCard() {
   };
   
   return (
-    <div className="p-4 sm:p-6">
+    <div className="p-5">
       <div className="flex justify-between items-center mb-1">
         <h3 className="text-lg font-bold">Total de ativações ativas</h3>
       </div>
       <p className="text-sm text-gray-700 font-medium">1.932 ICCID's</p>
       
-      <div className="mt-3 h-24 -mx-4 sm:mx-0">
+      <div className="mt-3 h-24">
         <ChartContainer config={{}} className="h-full w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart 
