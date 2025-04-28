@@ -144,8 +144,9 @@ export default function FinancialDetails() {
   return (
     <div className="min-h-screen bg-white">
       <FinancialHeader
-        monthLabel={monthLabel}
+        selectedMonth={selectedMonth}
         selectedYear={selectedYear}
+        months={months}
       />
 
       <div className="max-w-[1080px] mx-auto px-4 py-6 md:px-6 md:py-8 mt-16">

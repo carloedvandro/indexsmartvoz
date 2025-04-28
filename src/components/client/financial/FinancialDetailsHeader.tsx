@@ -1,10 +1,13 @@
 
 interface FinancialHeaderProps {
-  monthLabel: string;
-  selectedYear: string;
+  selectedMonth?: string;
+  selectedYear?: string;
+  months?: Array<{ value: string; label: string }>;
 }
 
-export function FinancialHeader({ monthLabel, selectedYear }: FinancialHeaderProps) {
+export function FinancialHeader({ selectedMonth = "5", selectedYear = "2018", months = [] }: FinancialHeaderProps) {
+  const monthLabel = months.find(m => m.value === selectedMonth)?.label || "Maio";
+  
   return (
     <div className="fixed top-0 left-0 right-0 h-16 bg-[#5f0889] border-b border-white/10 z-50">
       <div className="h-full flex items-center px-6 relative z-10">
