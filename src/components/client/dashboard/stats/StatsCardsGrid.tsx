@@ -28,4 +28,3 @@ export function StatsCardsGrid() {
     </div>
   );
 }
-
