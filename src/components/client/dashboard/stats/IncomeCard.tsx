@@ -62,8 +62,9 @@ export function IncomeCard() {
                 tickLine={false}
                 tick={{ 
                   fill: '#94a3b8', 
-                  fontSize: 12,
-                  dy: 5
+                  fontSize: 10,
+                  dy: 10,
+                  fontFamily: 'Arial'
                 }}
                 interval={0}
                 padding={{ left: 10, right: 10 }}
