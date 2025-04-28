@@ -26,11 +26,6 @@ export function SalesDetailsCard() {
     { name: "140GB", fullName: "Plano Smartvoz 140GB + Minutos Ilimt.", value: 150, color: "#FFC107" }
   ];
 
-  const onPieClick = (_: any, index: number) => {
-    setActiveIndex(index === activeIndex ? null : index);
-    setActiveButton(index === activeIndex ? null : index);
-  };
-
   const onButtonClick = (index: number) => {
     setActiveButton(index === activeButton ? null : index);
     setActiveIndex(index === activeIndex ? null : index);
@@ -55,8 +50,6 @@ export function SalesDetailsCard() {
                 animationBegin={0}
                 animationDuration={1200}
                 animationEasing="ease-in-out"
-                onClick={onPieClick}
-                cursor="pointer"
                 startAngle={90}
                 endAngle={-270}
                 stroke="none"
