@@ -1,3 +1,4 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useState } from "react";
 import { formatCurrency } from "@/utils/format";
@@ -9,10 +10,10 @@ export function SalesDetailsCard() {
   const isMobile = useIsMobile();
   
   const pieData = [
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>110GB</span></strong> + Minutos ilimit.", value: 300, color: "#8A85FF" },
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>120GB</span></strong> + Minutos ilimit.", value: 200, color: "#33BFFF" },
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>130GB</span></strong> + Minutos ilimit.", value: 150, color: "#D6BCFA" },
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>140GB</span></strong> + Minutos ilimit.", value: 100, color: "#E5E7EB" }
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>110GB</span></strong> + Minutos ilimit.", value: 300, color: "#4F46E5" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>120GB</span></strong> + Minutos ilimit.", value: 200, color: "#818CF8" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>130GB</span></strong> + Minutos ilimit.", value: 150, color: "#C7D2FE" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>140GB</span></strong> + Minutos ilimit.", value: 100, color: "#E0E7FF" }
   ];
   
   const totalSales = "R$ 691.526,00";
@@ -31,7 +32,7 @@ export function SalesDetailsCard() {
 
   return (
     <div className="pl-0 h-[550px]">
-      <div className="flex items-start mb-4 ml-[4px]">
+      <div className="flex items-start mb-4 ml-[9px]">
         <h3 className="text-lg font-bold text-black">Detalhe das Vendas</h3>
       </div>
       
@@ -60,9 +61,10 @@ export function SalesDetailsCard() {
                     <Cell 
                       key={`cell-${index}`} 
                       fill={entry.color}
-                      stroke="transparent"
+                      stroke={isActive ? "#4F46E5" : "transparent"}
+                      strokeWidth={isActive ? 2 : 0}
                       style={{
-                        filter: isActive ? "drop-shadow(0px 6px 8px rgba(0, 0, 0, 0.12))" : "none",
+                        filter: isActive ? "drop-shadow(0px 8px 12px rgba(79, 70, 229, 0.2))" : "none",
                         transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
                         transformOrigin: "center center",
                         transform: `scale(${scale}) translateY(${isActive ? -4 : 0}px)`,
