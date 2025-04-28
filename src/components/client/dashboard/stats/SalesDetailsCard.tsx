@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatCurrency } from "@/utils/format";
@@ -10,10 +9,10 @@ export function SalesDetailsCard() {
   const isMobile = useIsMobile();
   
   const pieData = [
-    { name: "START 110GB + Minutos ilimit.", value: 300, color: "#9b87f5", sales: 180000 },
-    { name: "START 120GB + Minutos ilimit.", value: 200, color: "#33C3F0", sales: 160000 },
-    { name: "START 130GB + Minutos ilimit.", value: 150, color: "#D6BCFA", sales: 201526 },
-    { name: "START 140GB + Minutos ilimit.", value: 100, color: "#E5E7EB", sales: 150000 }
+    { name: "START 110GB + Minutos ilimit.", value: 300, color: "#9b87f5" },
+    { name: "START 120GB + Minutos ilimit.", value: 200, color: "#33C3F0" },
+    { name: "START 130GB + Minutos ilimit.", value: 150, color: "#D6BCFA" },
+    { name: "Outros Planos", value: 100, color: "#E5E7EB" }
   ];
   
   const totalSales = "R$ 691.526,00";
@@ -21,17 +20,13 @@ export function SalesDetailsCard() {
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-4 shadow-lg rounded-lg border-none transform -translate-y-1 transition-all duration-200 z-50">
-          <p className="text-base text-gray-900 mb-1">{payload[0].name}</p>
-          <p className="text-lg text-purple-600 font-semibold">{formatCurrency(payload[0].payload.sales)}</p>
+        <div className="bg-white p-3 shadow-lg rounded-md z-50">
+          <p className="text-sm font-medium">{payload[0].name}</p>
+          <p className="text-sm font-bold">{`${payload[0].value} vendas`}</p>
         </div>
       );
     }
     return null;
-  };
-
-  const onCircleClick = (index: number) => {
-    setActiveIndex(index === activeIndex ? null : index);
   };
 
   const onPieEnter = (_: any, index: number) => {
@@ -95,26 +90,14 @@ export function SalesDetailsCard() {
               </Pie>
               <text
                 x="50%"
-                y="45%"
+                y="50%"
                 textAnchor="middle"
                 dominantBaseline="middle"
-                className="text-base font-semibold text-purple-600"
-                fill="currentColor"
+                className="text-xs font-medium"
+                fill="#4B5563"
               >
-                {activeIndex !== null ? `${pieData[activeIndex].value} vendas` : "Vendas do Mês"}
+                Vendas do Mês
               </text>
-              {activeIndex !== null && (
-                <text
-                  x="50%"
-                  y="55%"
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  className="text-xs text-gray-600"
-                  fill="currentColor"
-                >
-                  {pieData[activeIndex].name}
-                </text>
-              )}
               <Tooltip content={<CustomTooltip />} />
             </PieChart>
           </ResponsiveContainer>
@@ -130,18 +113,9 @@ export function SalesDetailsCard() {
             <p className="text-sm font-medium text-gray-600">Planos mais vendidos</p>
             <div className="grid gap-2">
               {pieData.map((plan, index) => (
-                <div 
-                  key={index} 
-                  className="flex items-center cursor-pointer"
-                  onClick={() => onCircleClick(index)}
-                >
-                  <div 
-                    className={`w-3 h-3 rounded-full mr-2 transition-all duration-300 hover:scale-125 ${
-                      index === activeIndex ? 'transform scale-125 ring-2 ring-offset-2 ring-purple-300' : ''
-                    }`} 
-                    style={{ backgroundColor: plan.color }}
-                  ></div>
-                  <p className="text-sm text-gray-700">{plan.name}</p>
+                <div key={index} className="flex items-center">
+                  <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: plan.color }}></div>
+                  <p className="text-sm text-gray-600">{plan.name}</p>
                 </div>
               ))}
             </div>
