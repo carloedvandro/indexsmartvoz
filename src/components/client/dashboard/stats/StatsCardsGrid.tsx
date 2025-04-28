@@ -7,7 +7,7 @@ import { IncomeCard } from "./IncomeCard";
 
 export function StatsCardsGrid() {
   return (
-    <div className="px-4">
+    <>
       <div className="grid grid-cols-1 gap-3 mb-3 max-w-[1800px] mx-auto">
         <LineStatusCard />
       </div>
@@ -25,6 +25,7 @@ export function StatsCardsGrid() {
       <div className="grid grid-cols-1 gap-3 mt-3 max-w-[1800px] mx-auto">
         <IncomeCard />
       </div>
-    </div>
+    </>
   );
 }
+
