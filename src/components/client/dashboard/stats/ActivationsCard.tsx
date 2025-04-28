@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
@@ -40,7 +39,7 @@ export function ActivationsCard() {
   };
   
   return (
-    <Card className="p-6 shadow-sm h-full w-full">
+    <Card className="p-6 shadow-sm w-full">
       <div className="flex justify-between items-center mb-1">
         <h3 className="text-lg font-bold">Total de ativações ativas</h3>
         <button className="text-gray-400 hover:text-gray-600">
@@ -53,7 +52,7 @@ export function ActivationsCard() {
       </div>
       <p className="text-sm text-gray-700 font-medium">1.932 ICCID's</p>
       
-      <div className="mt-3 h-32">
+      <div className="mt-3 h-24">
         <ChartContainer config={{}} className="h-full w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart 

@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
@@ -24,7 +23,6 @@ export function RechargesCard() {
     { name: "Dez", value: 16500 }
   ];
   
-  // Calcular valores acumulados
   const chartData = useMemo(() => {
     let accumulatedValue = 0;
     return monthlyData.map(item => {
@@ -32,7 +30,7 @@ export function RechargesCard() {
       return {
         name: item.name,
         value: accumulatedValue,
-        monthlyValue: item.value  // Mantemos o valor mensal para o tooltip
+        monthlyValue: item.value
       };
     });
   }, []);
@@ -52,11 +50,10 @@ export function RechargesCard() {
     "Dez": "Dezembro"
   };
   
-  // Calcular o total final
   const totalRecharges = chartData[chartData.length - 1]?.value || 0;
   
   return (
-    <Card className="p-6 shadow-sm h-full w-full">
+    <Card className="p-6 shadow-sm w-full">
       <div className="flex justify-between items-center mb-1">
         <h3 className="text-lg font-bold">Total de recargas pagas</h3>
         <button className="text-gray-400 hover:text-gray-600">
@@ -69,7 +66,7 @@ export function RechargesCard() {
       </div>
       <p className="text-sm text-gray-700 font-medium">{totalRecharges.toLocaleString('pt-BR')} ICCID's</p>
       
-      <div className="mt-3 h-32">
+      <div className="mt-3 h-24">
         <ChartContainer config={{}} className="h-full w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart 
@@ -104,7 +101,6 @@ export function RechargesCard() {
                     hideIndicator={true}
                     labelFormatter={(name) => fullMonthNames[name] || name}
                     formatter={(value, name, entry) => {
-                      // Exibir valor mensal e acumulado no tooltip
                       if (entry && entry.payload) {
                         const monthlyValue = entry.payload.monthlyValue;
                         const accumulatedValue = entry.payload.value;
