@@ -30,6 +30,8 @@ export function SalesDetailsCard() {
     setSelectedPlan(prev => prev === name ? null : name);
   };
 
+  const selectedPlanData = selectedPlan ? pieData.find(p => p.name === selectedPlan) : null;
+
   return (
     <div className="pl-0 h-[550px]">
       <div className="flex items-start mb-4 ml-[9px]">
@@ -66,16 +68,41 @@ export function SalesDetailsCard() {
                 ))}
               </Pie>
               <Tooltip content={<CustomTooltip />} />
-              <text
-                x="50%"
-                y="50%"
-                textAnchor="middle"
-                dominantBaseline="middle"
-                className="text-sm font-medium"
-                fill="#4B5563"
-              >
-                {selectedPlan ? pieData.find(p => p.name === selectedPlan)?.fullName + "\n" + pieData.find(p => p.name === selectedPlan)?.value + " vendas" : "Vendas do Mês"}
-              </text>
+              {selectedPlanData ? (
+                <>
+                  <text
+                    x="50%"
+                    y="45%"
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    className="text-sm font-medium"
+                    fill="#4B5563"
+                  >
+                    {selectedPlanData.fullName}
+                  </text>
+                  <text
+                    x="50%"
+                    y="55%"
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    className="text-sm font-medium"
+                    fill="#4B5563"
+                  >
+                    {selectedPlanData.value} vendas
+                  </text>
+                </>
+              ) : (
+                <text
+                  x="50%"
+                  y="50%"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className="text-sm font-medium"
+                  fill="#4B5563"
+                >
+                  Vendas do Mês
+                </text>
+              )}
             </PieChart>
           </ResponsiveContainer>
         </div>
