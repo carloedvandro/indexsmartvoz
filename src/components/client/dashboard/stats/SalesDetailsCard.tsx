@@ -1,4 +1,3 @@
-
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useState } from "react";
 import { formatCurrency } from "@/utils/format";
@@ -31,7 +30,7 @@ export function SalesDetailsCard() {
   };
 
   return (
-    <div className="p-6 h-[550px]">
+    <div className="p-6 h-[400px]">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-bold text-black">Detalhe das Vendas</h3>
         <button className="text-gray-400 hover:text-gray-600">
@@ -44,7 +43,7 @@ export function SalesDetailsCard() {
       </div>
       
       <div className="flex flex-col items-center">
-        <div className={`w-full max-w-[400px] h-[180px] relative ${isMobile ? "mt-2" : ""}`}>
+        <div className={`w-full max-w-[400px] h-[150px] relative ${isMobile ? "mt-2" : ""}`}>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -95,15 +94,15 @@ export function SalesDetailsCard() {
           </ResponsiveContainer>
         </div>
 
-        <div className="w-full space-y-4 mt-4">
+        <div className="w-full space-y-2 mt-2">
           <div className="flex items-center gap-2">
             <p className="text-sm text-gray-600">Valor total de vendas</p>
             <p className="text-lg font-bold" style={{ color: "#03de12" }}>{totalSales}</p>
           </div>
           
-          <div className="space-y-2">
+          <div className="space-y-1">
             <p className="text-sm font-medium text-gray-600">Planos mais vendidos</p>
-            <div className="grid gap-[9px]">
+            <div className="grid gap-[6px]">
               {pieData.map((plan, index) => (
                 <div key={index} className="flex items-center">
                   <div 
