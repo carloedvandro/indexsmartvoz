@@ -1,6 +1,5 @@
-
 import { Card } from "@/components/ui/card";
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { formatCurrency } from "@/utils/format";
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -18,18 +17,6 @@ export function SalesDetailsCard() {
   
   const totalSales = "R$ 691.526,00";
   
-  const CustomTooltip = ({ active, payload }: any) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="bg-white p-3 shadow-lg rounded-md z-50">
-          <p className="text-sm font-medium">{payload[0].name}</p>
-          <p className="text-sm font-bold">{`${payload[0].value} vendas`}</p>
-        </div>
-      );
-    }
-    return null;
-  };
-
   const onPieEnter = (_: any, index: number) => {
     setActiveIndex(index);
   };
@@ -99,7 +86,6 @@ export function SalesDetailsCard() {
               >
                 Vendas do Mês
               </text>
-              <Tooltip content={<CustomTooltip />} />
             </PieChart>
           </ResponsiveContainer>
         </div>
