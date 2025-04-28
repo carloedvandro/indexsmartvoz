@@ -1,4 +1,3 @@
-
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
@@ -37,29 +36,32 @@ export function SalesDetailsCard() {
       name: "120GB", 
       fullName: "Plano Smartvoz 120GB", 
       value: 250, 
-      price: 129.90,
-      totalAmount: 250 * 129.90,
+      price: 119.99,
+      totalAmount: 250 * 119.99,
       color: "#33C3F0" 
     },
     { 
       name: "130GB", 
       fullName: "Plano Smartvoz 130GB", 
       value: 200, 
-      price: 139.90,
-      totalAmount: 200 * 139.90,
+      price: 139.99,
+      totalAmount: 200 * 139.99,
       color: "#4CAF50" 
     },
     { 
       name: "140GB", 
       fullName: "Plano Smartvoz 140GB", 
       value: 150, 
-      price: 149.90,
-      totalAmount: 150 * 149.90,
+      price: 149.99,
+      totalAmount: 150 * 149.99,
       color: "#FFC107" 
     }
   ];
 
-  const totalSalesAmount = pieData.reduce((acc, plan) => acc + plan.totalAmount, 0);
+  const totalSalesAmount = pieData.reduce((acc, plan) => {
+    const planTotal = Number((plan.value * plan.price).toFixed(2));
+    return acc + planTotal;
+  }, 0);
 
   const onButtonClick = (index: number, event: React.MouseEvent) => {
     setActiveButton(index === activeButton ? null : index);
