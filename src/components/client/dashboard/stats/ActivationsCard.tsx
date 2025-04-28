@@ -1,3 +1,4 @@
+
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
   ChartContainer,
@@ -38,7 +39,7 @@ export function ActivationsCard() {
   };
   
   return (
-    <div className="p-6">
+    <div className="p-4 sm:p-6">
       <div className="flex justify-between items-center mb-1">
         <h3 className="text-lg font-bold">Total de ativações ativas</h3>
         <button className="text-gray-400 hover:text-gray-600">
@@ -51,12 +52,12 @@ export function ActivationsCard() {
       </div>
       <p className="text-sm text-gray-700 font-medium">1.932 ICCID's</p>
       
-      <div className="mt-3 h-24">
+      <div className="mt-3 h-24 -mx-4 sm:mx-0">
         <ChartContainer config={{}} className="h-full w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart 
               data={chartData} 
-              margin={{ top: 5, right: 10, left: 10, bottom: 0 }}
+              margin={{ top: 5, right: 0, left: 0, bottom: 0 }}
             >
               <defs>
                 <linearGradient id="activationGradient" x1="0" y1="0" x2="0" y2="1">
