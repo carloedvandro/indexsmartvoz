@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatCurrency } from "@/utils/format";
@@ -9,10 +10,10 @@ export function SalesDetailsCard() {
   const isMobile = useIsMobile();
   
   const pieData = [
-    { name: "Plano Gold 110GB + Minutos ilimit.", value: 300, color: "#9b87f5" },
-    { name: "Plano Plus 120GB + Minutos ilimit.", value: 200, color: "#33C3F0" },
-    { name: "Plano Family 130GB + Minutos ilimit.", value: 150, color: "#D6BCFA" },
-    { name: "Plano Ultra 140GB + Minutos ilimit.", value: 100, color: "#E5E7EB" }
+    { name: "Plano Gold <strong>110GB</strong> + Minutos ilimit.", value: 300, color: "#9b87f5" },
+    { name: "Plano Plus <strong>120GB</strong> + Minutos ilimit.", value: 200, color: "#33C3F0" },
+    { name: "Plano Family <strong>130GB</strong> + Minutos ilimit.", value: 150, color: "#D6BCFA" },
+    { name: "Plano Ultra <strong>140GB</strong> + Minutos ilimit.", value: 100, color: "#E5E7EB" }
   ];
   
   const totalSales = "R$ 691.526,00";
@@ -115,7 +116,7 @@ export function SalesDetailsCard() {
               {pieData.map((plan, index) => (
                 <div key={index} className="flex items-center">
                   <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: plan.color }}></div>
-                  <p className="text-sm text-gray-600">{plan.name}</p>
+                  <p className="text-sm text-gray-600" dangerouslySetInnerHTML={{ __html: plan.name }}></p>
                 </div>
               ))}
             </div>
