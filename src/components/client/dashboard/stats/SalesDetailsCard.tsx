@@ -1,6 +1,5 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
-import { useState } from "react";
-import { formatCurrency } from "@/utils/format";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const CustomTooltip = ({ active, payload }: any) => {
@@ -16,7 +15,6 @@ const CustomTooltip = ({ active, payload }: any) => {
 };
 
 export function SalesDetailsCard() {
-  const [selectedPlanValue, setSelectedPlanValue] = useState<number | null>(null);
   const isMobile = useIsMobile();
   
   const pieData = [
@@ -25,13 +23,6 @@ export function SalesDetailsCard() {
     { name: "130GB", fullName: "Plano Smartvoz 130GB + Minutos Ilimt.", value: 200, color: "#4CAF50" },
     { name: "140GB", fullName: "Plano Smartvoz 140GB + Minutos Ilimt.", value: 150, color: "#FFC107" }
   ];
-  
-  const handleColorClick = (value: number) => {
-    setSelectedPlanValue(prevValue => prevValue === value ? null : value);
-    const audio = new Audio('/beep.mp3');
-    audio.volume = 0.2;
-    audio.play().catch(e => console.log("Audio play failed:", e));
-  };
 
   return (
     <div className="pl-0 h-[550px]">
@@ -89,17 +80,11 @@ export function SalesDetailsCard() {
               {pieData.map((plan, index) => (
                 <div key={index} className="flex items-center">
                   <div 
-                    className="w-3 h-3 rounded-full mr-2 cursor-pointer hover:opacity-80 transition-all duration-300"
+                    className="w-3 h-3 rounded-full mr-2 hover:opacity-80 transition-all duration-300"
                     style={{ backgroundColor: plan.color }}
-                    onClick={() => handleColorClick(plan.value)}
                   />
                   <div className="flex-1">
                     <p className="text-sm text-gray-600 pt-[4px]">{plan.fullName}</p>
-                    {selectedPlanValue === plan.value && (
-                      <p className="text-sm font-medium mt-1 pt-[4px]" style={{ color: plan.color }}>
-                        Vendas do mês: {plan.value}
-                      </p>
-                    )}
                   </div>
                 </div>
               ))}
