@@ -9,10 +9,10 @@ export function SalesDetailsCard() {
   const isMobile = useIsMobile();
   
   const pieData = [
-    { name: "Plano Gold <strong>110GB</strong> + Minutos ilimit.", value: 300, color: "#9b87f5" },
-    { name: "Plano Plus <strong>120GB</strong> + Minutos ilimit.", value: 200, color: "#33C3F0" },
-    { name: "Plano Family <strong>130GB</strong> + Minutos ilimit.", value: 150, color: "#D6BCFA" },
-    { name: "Plano Ultra <strong>140GB</strong> + Minutos ilimit.", value: 100, color: "#E5E7EB" }
+    { name: "Plano Smartvoz <strong>110GB</strong> + Minutos ilimit.", value: 300, color: "#9b87f5" },
+    { name: "Plano Smartvoz <strong>120GB</strong> + Minutos ilimit.", value: 200, color: "#33C3F0" },
+    { name: "Plano Smartvoz <strong>130GB</strong> + Minutos ilimit.", value: 150, color: "#D6BCFA" },
+    { name: "Plano Smartvoz <strong>140GB</strong> + Minutos ilimit.", value: 100, color: "#E5E7EB" }
   ];
   
   const totalSales = "R$ 691.526,00";
