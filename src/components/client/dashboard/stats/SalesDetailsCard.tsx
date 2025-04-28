@@ -1,4 +1,3 @@
-
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
@@ -19,6 +18,8 @@ export function SalesDetailsCard() {
   const isMobile = useIsMobile();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [activeButton, setActiveButton] = useState<number | null>(null);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipData, setTooltipData] = useState<{ x: number; y: number; data: any } | null>(null);
   
   const pieData = [
     { name: "110GB", fullName: "Plano Smartvoz 110GB + Minutos Ilimt.", value: 300, color: "#8425af" },
@@ -27,9 +28,17 @@ export function SalesDetailsCard() {
     { name: "140GB", fullName: "Plano Smartvoz 140GB + Minutos Ilimt.", value: 150, color: "#FFC107" }
   ];
 
-  const onButtonClick = (index: number) => {
+  const onButtonClick = (index: number, event: React.MouseEvent) => {
     setActiveButton(index === activeButton ? null : index);
     setActiveIndex(index === activeIndex ? null : index);
+    
+    const rect = event.currentTarget.getBoundingClientRect();
+    setTooltipData({
+      x: rect.x + window.scrollX + rect.width + 10,
+      y: rect.y + window.scrollY,
+      data: pieData[index]
+    });
+    setShowTooltip(index === activeIndex ? false : true);
   };
 
   return (
@@ -103,8 +112,7 @@ export function SalesDetailsCard() {
               {pieData.map((plan, index) => (
                 <div 
                   key={index} 
-                  className="flex items-center"
-                  onClick={() => onButtonClick(index)}
+                  className="flex items-center relative"
                 >
                   <div 
                     className={`w-3 h-3 rounded-full mr-2 cursor-pointer transition-all duration-300 ${activeButton === index ? 'scale-125 shadow-lg' : ''}`}
@@ -114,12 +122,26 @@ export function SalesDetailsCard() {
                       transition: 'transform 0.3s ease-in-out',
                       boxShadow: activeButton === index ? '0 2px 4px rgba(0,0,0,0.2)' : 'none'
                     }}
+                    onClick={(e) => onButtonClick(index, e)}
                   />
                   <div className="flex-1">
                     <p className={`text-sm text-gray-600 pt-[4px] transition-opacity duration-300 ${activeButton === index ? 'opacity-100' : activeButton !== null ? 'opacity-60' : 'opacity-100'}`}>
                       {plan.fullName}
                     </p>
                   </div>
+                  {showTooltip && tooltipData && activeButton === index && (
+                    <div 
+                      className="absolute left-6 -top-1 bg-white p-2 rounded-md shadow-lg border border-gray-200 z-50"
+                      style={{
+                        position: 'absolute',
+                        left: '1.5rem',
+                        top: '-0.25rem'
+                      }}
+                    >
+                      <p className="text-sm font-medium">{plan.fullName}</p>
+                      <p className="text-sm">{plan.value} vendas</p>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
