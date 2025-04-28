@@ -36,7 +36,7 @@ export function SalesDetailsCard() {
       </div>
       
       <div className="flex flex-col items-center">
-        <div className={`w-full max-w-[400px] h-[250px] relative ${isMobile ? "mt-2" : ""}`}>
+        <div className={`w-full max-w-[400px] h-[250px] relative flex items-center justify-center ${isMobile ? "mt-2" : ""}`}>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
