@@ -2,7 +2,7 @@
 import React from 'react';
 import { ProfileCard } from "./ProfileCard";
 import { NetworkCard } from "./NetworkCard";
-import { PlansCard } from "./PlansCard";
+import { SalesDetailsCard } from "./stats/SalesDetailsCard";
 import { ProfileWithSponsor } from '@/types/profile';
 
 interface DashboardCardsProps {
@@ -30,7 +30,7 @@ export function DashboardCards({ profile, networkStats, handleNetworkClick }: Da
           />
         </div>
         <div className="w-full">
-          <PlansCard />
+          <SalesDetailsCard />
         </div>
       </div>
     </div>
