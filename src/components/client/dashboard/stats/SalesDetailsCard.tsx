@@ -1,3 +1,4 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
@@ -28,6 +29,8 @@ export function SalesDetailsCard() {
   const handlePlanClick = (name: string) => {
     setSelectedPlan(prev => prev === name ? null : name);
   };
+
+  const selectedPlanData = selectedPlan ? pieData.find(p => p.name === selectedPlan) : null;
 
   return (
     <div className="pl-0 h-[550px]">
@@ -65,16 +68,41 @@ export function SalesDetailsCard() {
                 ))}
               </Pie>
               <Tooltip content={<CustomTooltip />} />
-              <text
-                x="50%"
-                y="50%"
-                textAnchor="middle"
-                dominantBaseline="middle"
-                className="text-sm font-medium"
-                fill="#4B5563"
-              >
-                Vendas do Mês
-              </text>
+              {selectedPlanData ? (
+                <>
+                  <text
+                    x="50%"
+                    y="45%"
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    className="text-xs font-medium"
+                    fill="#4B5563"
+                  >
+                    {selectedPlanData.fullName}
+                  </text>
+                  <text
+                    x="50%"
+                    y="60%"
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    className="text-sm font-medium"
+                    fill="#4B5563"
+                  >
+                    {selectedPlanData.value} vendas
+                  </text>
+                </>
+              ) : (
+                <text
+                  x="50%"
+                  y="50%"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className="text-sm font-medium"
+                  fill="#4B5563"
+                >
+                  Vendas do Mês
+                </text>
+              )}
             </PieChart>
           </ResponsiveContainer>
         </div>
