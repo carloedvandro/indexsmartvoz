@@ -31,7 +31,7 @@ export function SalesDetailsCard() {
 
   return (
     <div className="pl-0 h-[550px]">
-      <div className="flex items-start mb-4 ml-[2px]">
+      <div className="flex items-start mb-4 ml-[4px]">
         <h3 className="text-lg font-bold text-black">Detalhe das Vendas</h3>
       </div>
       
