@@ -26,7 +26,7 @@ export function SalesDetailsCard() {
   };
 
   return (
-    <Card className="p-6 shadow-sm h-[467px] w-full rounded-xl bg-white">
+    <Card className="p-6 shadow-sm h-[550px] w-full rounded-xl bg-white">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-bold text-black">Detalhe das Vendas</h3>
         <button className="text-gray-400 hover:text-gray-600">
