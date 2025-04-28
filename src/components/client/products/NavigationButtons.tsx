@@ -21,13 +21,13 @@ export function NavigationButtons({
     <div className="flex justify-between gap-4 mt-6 max-w-[365px] mx-auto w-full">
       <Button 
         variant="outline"
-        className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1"
+        className="border-[#5f0889] text-[#5f0889] hover:bg-[#5f0889] hover:text-white flex-1"
         onClick={() => currentStep === 1 ? navigate("/client/dashboard") : handleBack()}
       >
         Voltar
       </Button>
       <Button 
-        className="bg-[#8425af] hover:bg-[#6c1e8f] text-white flex-1"
+        className="bg-[#5f0889] hover:bg-[#5f0889]/90 text-white flex-1"
         onClick={handleContinue}
         disabled={disabled}
       >
