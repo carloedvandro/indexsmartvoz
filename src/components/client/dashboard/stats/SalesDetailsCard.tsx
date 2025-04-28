@@ -1,4 +1,3 @@
-
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -43,11 +42,9 @@ export function SalesDetailsCard() {
                 animationBegin={0}
                 animationDuration={1200}
                 animationEasing="ease-in-out"
-                startAngle={90}
-                endAngle={450}
-                isAnimationActive={true}
-                className="[animation:spin_15s_linear_infinite]"
                 cursor="pointer"
+                startAngle={90}
+                endAngle={-270}
                 stroke="none"
                 strokeWidth={0}
               >
@@ -56,7 +53,6 @@ export function SalesDetailsCard() {
                     key={`cell-${index}`} 
                     fill={entry.color}
                     stroke="none"
-                    className="hover:opacity-90 transition-all duration-300 hover:drop-shadow-xl"
                   />
                 ))}
               </Pie>
@@ -97,4 +93,3 @@ export function SalesDetailsCard() {
     </div>
   );
 }
-

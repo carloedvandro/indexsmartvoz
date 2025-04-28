@@ -27,10 +27,6 @@ export const animations = {
     "progress-circle": {
       "0%": { "stroke-dashoffset": "100%" },
       "100%": { "stroke-dashoffset": "0%" }
-    },
-    spin: {
-      from: { transform: 'rotate(0deg)' },
-      to: { transform: 'rotate(360deg)' }
     }
   },
   animation: {
@@ -40,7 +36,6 @@ export const animations = {
     "gradient": "gradient 8s ease-in-out infinite",
     "pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
     "scan-line": "scan-line 0.5s ease-in-out infinite alternate",
-    "progress-circle": "progress-circle 3s linear forwards",
-    spin: "spin 15s linear infinite"
+    "progress-circle": "progress-circle 3s linear forwards"
   },
 };
