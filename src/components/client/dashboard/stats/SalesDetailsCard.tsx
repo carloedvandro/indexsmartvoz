@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatCurrency } from "@/utils/format";
@@ -10,10 +9,10 @@ export function SalesDetailsCard() {
   const isMobile = useIsMobile();
   
   const pieData = [
-    { name: "START 110GB + Minutos ilimit.", value: 300, color: "#9b87f5" },
-    { name: "START 120GB + Minutos ilimit.", value: 200, color: "#33C3F0" },
-    { name: "START 130GB + Minutos ilimit.", value: 150, color: "#D6BCFA" },
-    { name: "START 140GB + Minutos ilimit.", value: 100, color: "#E5E7EB" }
+    { name: "Plano Gold 110GB + Minutos ilimit.", value: 300, color: "#9b87f5" },
+    { name: "Plano Plus 120GB + Minutos ilimit.", value: 200, color: "#33C3F0" },
+    { name: "Plano Family 130GB + Minutos ilimit.", value: 150, color: "#D6BCFA" },
+    { name: "Plano Ultra 140GB + Minutos ilimit.", value: 100, color: "#E5E7EB" }
   ];
   
   const totalSales = "R$ 691.526,00";
