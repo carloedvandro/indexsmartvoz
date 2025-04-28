@@ -1,4 +1,3 @@
-
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
   ChartContainer,
@@ -42,13 +41,6 @@ export function ActivationsCard() {
     <div className="p-4 sm:p-6">
       <div className="flex justify-between items-center mb-1">
         <h3 className="text-lg font-bold">Total de ativações ativas</h3>
-        <button className="text-gray-400 hover:text-gray-600">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="1" />
-            <circle cx="19" cy="12" r="1" />
-            <circle cx="5" cy="12" r="1" />
-          </svg>
-        </button>
       </div>
       <p className="text-sm text-gray-700 font-medium">1.932 ICCID's</p>
       
