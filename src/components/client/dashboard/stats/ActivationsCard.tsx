@@ -40,7 +40,7 @@ export function ActivationsCard() {
   };
   
   return (
-    <Card className="p-6 shadow-sm w-full bg-transparent border-0">
+    <Card className="p-6 shadow-sm w-full">
       <div className="flex justify-between items-center mb-1">
         <h3 className="text-lg font-bold">Total de ativações ativas</h3>
         <button className="text-gray-400 hover:text-gray-600">

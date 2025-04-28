@@ -7,14 +7,24 @@ import { IncomeCard } from "./IncomeCard";
 
 export function StatsCardsGrid() {
   return (
-    <>
-      <LineStatusCard />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <RechargesCard />
-        <SalesDetailsCard />
-        <ActivationsCard />
+    <div className="px-4">
+      <div className="grid grid-cols-1 gap-3 mb-3 max-w-[1800px] mx-auto">
+        <LineStatusCard />
       </div>
-      <IncomeCard />
-    </>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-[1800px] mx-auto">
+        <div className="w-full">
+          <RechargesCard />
+        </div>
+        <div className="w-full">
+          <ActivationsCard />
+        </div>
+        <div className="w-full">
+          <SalesDetailsCard />
+        </div>
+      </div>
+      <div className="grid grid-cols-1 gap-3 mt-3 max-w-[1800px] mx-auto">
+        <IncomeCard />
+      </div>
+    </div>
   );
 }
