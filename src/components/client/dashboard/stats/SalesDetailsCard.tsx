@@ -9,11 +9,12 @@ export function SalesDetailsCard() {
   const [selectedPlanValue, setSelectedPlanValue] = useState<number | null>(null);
   const isMobile = useIsMobile();
   
+  // Updated color palette to match image with proper blue gradient
   const pieData = [
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>110GB</span></strong> + Minutos ilimit.", value: 300, color: "#33C3F0" },
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>120GB</span></strong> + Minutos ilimit.", value: 200, color: "#63D3F4" },
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>130GB</span></strong> + Minutos ilimit.", value: 150, color: "#93E3F8" },
-    { name: "Plano Smartvoz <strong><span class='gradient-text'>140GB</span></strong> + Minutos ilimit.", value: 100, color: "#C3F3FC" }
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>110GB</span></strong> + Minutos ilimit.", value: 300, color: "#4842F5" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>120GB</span></strong> + Minutos ilimit.", value: 200, color: "#6C63FF" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>130GB</span></strong> + Minutos ilimit.", value: 150, color: "#A5A0FF" },
+    { name: "Plano Smartvoz <strong><span class='gradient-text'>140GB</span></strong> + Minutos ilimit.", value: 100, color: "#E0E0FF" }
   ];
   
   const totalSales = "R$ 691.526,00";
@@ -52,22 +53,24 @@ export function SalesDetailsCard() {
                 onMouseEnter={onPieEnter}
                 onMouseLeave={onPieLeave}
                 cursor="pointer"
+                startAngle={90}
+                endAngle={-270}
               >
                 {pieData.map((entry, index) => {
                   const isActive = index === activeIndex;
-                  const scale = isActive ? 1.1 : 1;
+                  const scale = isActive ? 1.05 : 1;
                   
                   return (
                     <Cell 
                       key={`cell-${index}`} 
                       fill={entry.color}
-                      stroke={isActive ? "#33C3F0" : "transparent"}
+                      stroke={isActive ? "#4842F5" : "transparent"}
                       strokeWidth={isActive ? 2 : 0}
                       style={{
-                        filter: isActive ? "drop-shadow(0px 8px 12px rgba(51, 195, 240, 0.2))" : "none",
-                        transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                        filter: isActive ? "drop-shadow(0px 4px 8px rgba(79, 70, 229, 0.25))" : "none",
+                        transition: "all 0.3s ease",
                         transformOrigin: "center center",
-                        transform: `scale(${scale}) translateY(${isActive ? -4 : 0}px)`,
+                        transform: `scale(${scale})`,
                         zIndex: isActive ? 10 : 1,
                         outline: "none"
                       }}
