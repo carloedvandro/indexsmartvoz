@@ -8,7 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { ChartContainer } from "@/components/ui/chart";
+import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
 
 const data = [
   { month: "jan 2019", value: 278.25 },
@@ -21,12 +21,12 @@ const data = [
 
 export function RevenueByMonthChart() {
   return (
-    <Card className="p-6 pb-2 shadow-sm w-full rounded-xl bg-[#1A1F2C] text-white">
-      <CardHeader className="p-0 -mt-6">
-        <CardTitle className="text-xl font-semibold">Receita por Ano e Mês</CardTitle>
+    <Card className="p-6 shadow-sm w-full rounded-xl bg-[#1A1F2C] text-white">
+      <CardHeader className="p-0">
+        <CardTitle className="text-lg font-medium">Receita por Ano e Mês</CardTitle>
       </CardHeader>
       
-      <div className="h-[300px] mt-0">
+      <div className="h-[300px] mt-4">
         <ChartContainer config={{}} className="h-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
@@ -36,7 +36,7 @@ export function RevenueByMonthChart() {
               <defs>
                 <linearGradient id="gradientArea" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#9b87f5" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#9b87f5" stopOpacity={0.1} />
+                  <stop offset="100%" stopColor="#9b87f5" stopOpacity={0.1} />
                 </linearGradient>
               </defs>
               <XAxis
@@ -53,14 +53,17 @@ export function RevenueByMonthChart() {
                 tickLine={false}
                 axisLine={true}
                 tickFormatter={(value) => `${value} Mi`}
-                ticks={[0, 150, 300, 450, 600]}
-                domain={[0, 600]}
                 width={60}
               />
               <Tooltip
                 content={({ active, payload }) => {
                   if (active && payload && payload.length) {
                     const value = payload[0].value;
+                    // Format the value based on its type
+                    const formattedValue = typeof value === 'number' 
+                      ? `R$ ${value.toFixed(2)} Mi`
+                      : `R$ ${value} Mi`;
+                    
                     return (
                       <div className="rounded-lg border bg-white p-2 shadow-sm">
                         <div className="grid grid-cols-2 gap-2">
@@ -69,7 +72,7 @@ export function RevenueByMonthChart() {
                               Valor
                             </span>
                             <span className="font-bold text-black">
-                              {`R$ ${Number(value).toFixed(2)} Mi`}
+                              {formattedValue}
                             </span>
                           </div>
                         </div>
