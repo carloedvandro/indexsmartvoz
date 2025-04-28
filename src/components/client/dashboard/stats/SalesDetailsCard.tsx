@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatCurrency } from "@/utils/format";
@@ -22,7 +23,7 @@ export function SalesDetailsCard() {
       return (
         <div className="bg-white p-4 shadow-lg rounded-lg border-none transform -translate-y-1 transition-all duration-200 z-50">
           <p className="text-base text-gray-900 mb-1">{payload[0].name}</p>
-          <p className="text-lg text-purple-600">{`${payload[0].value} vendas`}</p>
+          <p className="text-lg text-purple-600 font-semibold">{formatCurrency(payload[0].payload.sales)}</p>
         </div>
       );
     }
@@ -97,10 +98,10 @@ export function SalesDetailsCard() {
                 y="45%"
                 textAnchor="middle"
                 dominantBaseline="middle"
-                className="text-xs font-medium"
-                fill="#4B5563"
+                className="text-base font-semibold text-purple-600"
+                fill="currentColor"
               >
-                {activeIndex !== null ? formatCurrency(pieData[activeIndex].sales) : "Vendas do Mês"}
+                {activeIndex !== null ? `${pieData[activeIndex].value} vendas` : "Vendas do Mês"}
               </text>
               {activeIndex !== null && (
                 <text
@@ -108,8 +109,8 @@ export function SalesDetailsCard() {
                   y="55%"
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  className="text-[10px]"
-                  fill="#6B7280"
+                  className="text-xs text-gray-600"
+                  fill="currentColor"
                 >
                   {pieData[activeIndex].name}
                 </text>
@@ -131,16 +132,16 @@ export function SalesDetailsCard() {
               {pieData.map((plan, index) => (
                 <div 
                   key={index} 
-                  className="flex items-center"
+                  className="flex items-center cursor-pointer"
                   onClick={() => onCircleClick(index)}
                 >
                   <div 
-                    className={`w-3 h-3 rounded-full mr-2 cursor-pointer transition-all duration-300 hover:scale-125 ${
+                    className={`w-3 h-3 rounded-full mr-2 transition-all duration-300 hover:scale-125 ${
                       index === activeIndex ? 'transform scale-125 ring-2 ring-offset-2 ring-purple-300' : ''
                     }`} 
                     style={{ backgroundColor: plan.color }}
                   ></div>
-                  <p className="text-sm font-normal text-gray-700">{plan.name}</p>
+                  <p className="text-sm text-gray-700">{plan.name}</p>
                 </div>
               ))}
             </div>
