@@ -10,7 +10,13 @@ export function LineStatusCard() {
   const inactiveLines = 0;
   const isMobile = useIsMobile();
   
-  const imageStyle = { width: '60px', height: '60px' }; // Increased from 40px to 60px
+  // Defina o mesmo tamanho para todos os dispositivos
+  const imageStyle = { 
+    width: '60px', 
+    height: '60px',
+    minWidth: '60px',  // Isso evita que o ícone seja comprimido no mobile
+    minHeight: '60px'  // Isso evita que o ícone seja comprimido no mobile
+  };
 
   return (
     <div className="p-6">
@@ -26,15 +32,15 @@ export function LineStatusCard() {
       </div>
       <p className="text-sm text-gray-500 mb-4">Visualize o total de linhas de sua equipe.</p>
       
-      <div className="grid grid-cols-3 gap-6">
+      <div className={`grid ${isMobile ? 'grid-cols-1 gap-4' : 'grid-cols-3 gap-6'}`}>
         <div className="flex items-center">
-          <div className="mr-3"> {/* Increased margin for larger icons */}
+          <div className="mr-3">
             <Image 
               src="/lovable-uploads/aa2bacf8-c5da-4ad5-bfb5-6ec14b524ae7.png" 
               alt="Linhas Totais" 
               className="object-contain"
-              width={60} // Increased from 40 to 60
-              height={60} // Increased from 40 to 60
+              width={60}
+              height={60}
               style={imageStyle}
             />
           </div>
@@ -45,13 +51,13 @@ export function LineStatusCard() {
         </div>
         
         <div className="flex items-center">
-          <div className="mr-3"> {/* Increased margin for larger icons */}
+          <div className="mr-3">
             <Image 
               src="/lovable-uploads/5cd2c244-1d2c-41d6-9de7-76865f32923d.png" 
               alt="Linhas Ativas" 
               className="object-contain"
-              width={60} // Increased from 40 to 60
-              height={60} // Increased from 40 to 60
+              width={60}
+              height={60}
               style={imageStyle}
             />
           </div>
@@ -62,13 +68,13 @@ export function LineStatusCard() {
         </div>
         
         <div className="flex items-center">
-          <div className="mr-3"> {/* Increased margin for larger icons */}
+          <div className="mr-3">
             <Image 
               src="/lovable-uploads/55a072a8-cbbf-4b4d-8546-448bcacdfd3e.png" 
               alt="Linhas Inativas" 
               className="object-contain"
-              width={60} // Increased from 40 to 60
-              height={60} // Increased from 40 to 60
+              width={60}
+              height={60}
               style={imageStyle}
             />
           </div>
