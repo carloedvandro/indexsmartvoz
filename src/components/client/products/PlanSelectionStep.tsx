@@ -98,25 +98,30 @@ export function PlanSelectionStep({
 
         <div className="space-y-4 w-full">
           <motion.div 
-            className="grid grid-cols-2 gap-4"
+            className="w-full max-w-[340px] mx-auto"
             variants={itemVariants}
           >
-            <div className="w-full">
-              <InternetSelector
-                selectedInternet={selectedLines[0]?.internet || undefined}
-                onInternetChange={handleInternetChange}
-                internetOptions={internetOptions}
-              />
-            </div>
-            <div className="w-full">
-              <DDDInput
-                ddd={selectedLines[0]?.ddd || ""}
-                onDDDChange={handleDDDChange}
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <InternetSelector
+                  selectedInternet={selectedLines[0]?.internet || undefined}
+                  onInternetChange={handleInternetChange}
+                  internetOptions={internetOptions}
+                />
+              </div>
+              <div>
+                <DDDInput
+                  ddd={selectedLines[0]?.ddd || ""}
+                  onDDDChange={handleDDDChange}
+                />
+              </div>
             </div>
           </motion.div>
 
-          <motion.div variants={itemVariants}>
+          <motion.div 
+            className="w-full max-w-[340px] mx-auto"
+            variants={itemVariants}
+          >
             <DueDateSelector
               selectedDueDate={selectedDueDate}
               setSelectedDueDate={setSelectedDueDate}
@@ -124,7 +129,10 @@ export function PlanSelectionStep({
             />
           </motion.div>
 
-          <motion.div variants={itemVariants}>
+          <motion.div 
+            className="w-full max-w-[340px] mx-auto"
+            variants={itemVariants}
+          >
             <PriceSummary
               linePrice={selectedLines[0]?.price || 0}
               totalPrice={totalPrice}
