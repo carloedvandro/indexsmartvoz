@@ -20,7 +20,8 @@ export function LineStatusCard() {
 
   // Estilo para mover apenas o texto para a esquerda
   const textStyle = {
-    marginLeft: '-20px'
+    marginLeft: '-20px',
+    marginTop: '2px'  // Adicionado 2px para baixo
   };
 
   return (
