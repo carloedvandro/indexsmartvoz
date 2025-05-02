@@ -36,7 +36,7 @@ export function LineStatusCard() {
           </svg>
         </button>
       </div>
-      <p className="text-sm text-gray-500 mb-4" style={{ marginLeft: '-1px' }}>Visualize o total de linhas de sua equipe.</p>
+      <p className="text-sm text-black mb-4" style={{ marginLeft: '-1px' }}>Visualize o total de linhas de sua equipe.</p>
       
       <div className="grid grid-cols-3 gap-6" style={{ marginLeft: '-15px' }}>
         <div className="flex items-center">
@@ -51,8 +51,8 @@ export function LineStatusCard() {
             />
           </div>
           <div style={textStyle}>
-            <p className="text-xs text-gray-500">Totais</p>
-            <p className="text-lg font-semibold">{totalLines}</p>
+            <p className="text-xs text-black">Totais</p>
+            <p className="text-lg font-semibold text-black">{totalLines}</p>
           </div>
         </div>
         
@@ -68,8 +68,8 @@ export function LineStatusCard() {
             />
           </div>
           <div style={textStyle}>
-            <p className="text-xs text-gray-500">Ativas</p>
-            <p className="text-lg font-semibold">{activeLines}</p>
+            <p className="text-xs text-black">Ativas</p>
+            <p className="text-lg font-semibold text-black">{activeLines}</p>
           </div>
         </div>
         
@@ -85,8 +85,8 @@ export function LineStatusCard() {
             />
           </div>
           <div style={textStyle}>
-            <p className="text-xs text-gray-500">Inativas</p>
-            <p className="text-lg font-semibold">{inactiveLines}</p>
+            <p className="text-xs text-black">Inativas</p>
+            <p className="text-lg font-semibold text-black">{inactiveLines}</p>
           </div>
         </div>
       </div>

@@ -132,7 +132,7 @@ export function SalesDetailsCard() {
                 textAnchor="middle"
                 dominantBaseline="middle"
                 className="text-sm font-medium"
-                fill="#4B5563"
+                fill="#000000"
               >
                 Vendas do Mês
               </text>
@@ -142,7 +142,7 @@ export function SalesDetailsCard() {
                 textAnchor="middle"
                 dominantBaseline="middle"
                 className="text-base font-bold"
-                fill="#1F2937"
+                fill="#000000"
               >
                 {formatCurrency(totalSalesAmount)}
               </text>
@@ -152,7 +152,7 @@ export function SalesDetailsCard() {
 
         <div className="w-full space-y-4 -mt-[0.5px] ml-[9px]">
           <div className="space-y-2 mt-[12px]">
-            <p className="text-sm font-medium text-gray-600 pt-[4px]">Planos mais vendidos</p>
+            <p className="text-sm font-medium text-black pt-[4px]">Planos mais vendidos</p>
             <div className="grid gap-[9px]">
               {pieData.map((plan, index) => (
                 <div 
@@ -170,7 +170,7 @@ export function SalesDetailsCard() {
                     onClick={(e) => onButtonClick(index, e)}
                   />
                   <div className="flex-1">
-                    <p className={`text-sm text-gray-600 pt-[4px] transition-opacity duration-300 ${activeButton === index ? 'opacity-100' : activeButton !== null ? 'opacity-60' : 'opacity-100'}`}>
+                    <p className={`text-sm text-black pt-[4px] transition-opacity duration-300 ${activeButton === index ? 'opacity-100' : activeButton !== null ? 'opacity-60' : 'opacity-100'}`}>
                       {plan.fullName}
                     </p>
                   </div>

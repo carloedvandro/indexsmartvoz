@@ -1,3 +1,4 @@
+
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import {
   ChartContainer,
@@ -42,7 +43,7 @@ export function RechargesCard() {
       <div className="flex justify-between items-center mb-1">
         <h3 className="text-lg font-bold">Total de recargas pagas</h3>
       </div>
-      <p className="text-sm text-gray-700 font-medium">179.200 ICCID's</p>
+      <p className="text-sm text-black font-medium">179.200 ICCID's</p>
       
       <div className="mt-3 h-24">
         <ChartContainer config={{}} className="h-full w-full">
