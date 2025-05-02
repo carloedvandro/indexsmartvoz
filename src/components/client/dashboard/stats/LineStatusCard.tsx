@@ -32,8 +32,8 @@ export function LineStatusCard() {
       </div>
       <p className="text-sm text-gray-500 mb-4">Visualize o total de linhas de sua equipe.</p>
       
-      {/* Alinhado à esquerda em vez de distribuído igualmente */}
-      <div className="flex flex-wrap gap-8">
+      {/* Alinhado à esquerda com 5px de ajuste para a esquerda */}
+      <div className="flex flex-wrap gap-8" style={{ marginLeft: '-5px' }}>
         <div className="flex items-center">
           <div className="mr-3">
             <Image 
