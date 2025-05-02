@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { useCalendarStyles } from "@/hooks/useCalendarStyles";
 import { DueDateSelector } from "./DueDateSelector";
 import { PlanSelectionHeader } from "./PlanSelectionHeader";
+import { Button } from "@/components/ui/button";
 
 type Line = {
   id: number;
@@ -82,6 +83,8 @@ export function PlanSelectionStep({
     }
   };
 
+  const isContinueDisabled = !selectedLines[0]?.internet || !selectedLines[0]?.ddd || !selectedDueDate;
+
   return (
     <div className="max-w-[379px] mx-auto w-full" style={{ marginTop: "74px" }}>
       <div className="space-y-6">
@@ -139,6 +142,24 @@ export function PlanSelectionStep({
             />
           </motion.div>
         </div>
+      </div>
+      
+      {/* Updated navigation buttons to match eSIM style */}
+      <div className="flex justify-between w-full gap-4 max-w-[340px] mx-auto mt-6">
+        <Button 
+          variant="outline" 
+          className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1"
+          onClick={onBack}
+        >
+          Voltar
+        </Button>
+        <Button 
+          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white flex-1"
+          onClick={onContinue}
+          disabled={isContinueDisabled}
+        >
+          Continuar
+        </Button>
       </div>
     </div>
   );
