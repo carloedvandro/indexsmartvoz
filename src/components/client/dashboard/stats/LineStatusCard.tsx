@@ -10,7 +10,7 @@ export function LineStatusCard() {
   const inactiveLines = 0;
   const isMobile = useIsMobile();
   
-  const imageStyle = { width: '40px', height: '40px' };
+  const imageStyle = { width: '60px', height: '60px' }; // Increased from 40px to 60px
 
   return (
     <div className="p-6">
@@ -28,13 +28,13 @@ export function LineStatusCard() {
       
       <div className="grid grid-cols-3 gap-6">
         <div className="flex items-center">
-          <div className="mr-2">
+          <div className="mr-3"> {/* Increased margin for larger icons */}
             <Image 
               src="/lovable-uploads/aa2bacf8-c5da-4ad5-bfb5-6ec14b524ae7.png" 
               alt="Linhas Totais" 
               className="object-contain"
-              width={40}
-              height={40}
+              width={60} // Increased from 40 to 60
+              height={60} // Increased from 40 to 60
               style={imageStyle}
             />
           </div>
@@ -45,13 +45,13 @@ export function LineStatusCard() {
         </div>
         
         <div className="flex items-center">
-          <div className="mr-2">
+          <div className="mr-3"> {/* Increased margin for larger icons */}
             <Image 
               src="/lovable-uploads/5cd2c244-1d2c-41d6-9de7-76865f32923d.png" 
               alt="Linhas Ativas" 
               className="object-contain"
-              width={40}
-              height={40}
+              width={60} // Increased from 40 to 60
+              height={60} // Increased from 40 to 60
               style={imageStyle}
             />
           </div>
@@ -62,13 +62,13 @@ export function LineStatusCard() {
         </div>
         
         <div className="flex items-center">
-          <div className="mr-2">
+          <div className="mr-3"> {/* Increased margin for larger icons */}
             <Image 
               src="/lovable-uploads/55a072a8-cbbf-4b4d-8546-448bcacdfd3e.png" 
               alt="Linhas Inativas" 
               className="object-contain"
-              width={40}
-              height={40}
+              width={60} // Increased from 40 to 60
+              height={60} // Increased from 40 to 60
               style={imageStyle}
             />
           </div>
