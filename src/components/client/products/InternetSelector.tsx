@@ -45,7 +45,6 @@ export function InternetSelector({
             >
               <div className="flex justify-between w-full">
                 <span>{option.label}</span>
-                <span className="font-medium">R$ {option.price.toFixed(2)}</span>
               </div>
             </SelectItem>
           ))}
