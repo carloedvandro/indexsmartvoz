@@ -10,7 +10,7 @@ export function LineStatusCard() {
   const inactiveLines = 0;
   const isMobile = useIsMobile();
   
-  const imageStyle = { width: '37px', height: '37px' };
+  const imageStyle = { width: '40px', height: '40px' };
 
   return (
     <div className="p-6">
@@ -33,8 +33,8 @@ export function LineStatusCard() {
               src="/lovable-uploads/aa2bacf8-c5da-4ad5-bfb5-6ec14b524ae7.png" 
               alt="Linhas Totais" 
               className="object-contain"
-              width={37}
-              height={37}
+              width={40}
+              height={40}
               style={imageStyle}
             />
           </div>
@@ -50,8 +50,8 @@ export function LineStatusCard() {
               src="/lovable-uploads/5cd2c244-1d2c-41d6-9de7-76865f32923d.png" 
               alt="Linhas Ativas" 
               className="object-contain"
-              width={37}
-              height={37}
+              width={40}
+              height={40}
               style={imageStyle}
             />
           </div>
@@ -67,8 +67,8 @@ export function LineStatusCard() {
               src="/lovable-uploads/55a072a8-cbbf-4b4d-8546-448bcacdfd3e.png" 
               alt="Linhas Inativas" 
               className="object-contain"
-              width={37}
-              height={37}
+              width={40}
+              height={40}
               style={imageStyle}
             />
           </div>
