@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import Image from "@/components/ui/image";
 
@@ -55,7 +56,7 @@ export function LineStatusCard() {
             <Image 
               src="/lovable-uploads/55a072a8-cbbf-4b4d-8546-448bcacdfd3e.png" 
               alt="Linhas Inativas" 
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain max-w-[37px]"
             />
           </div>
           <div>
