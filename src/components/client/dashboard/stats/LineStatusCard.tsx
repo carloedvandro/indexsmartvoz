@@ -31,6 +31,8 @@ export function LineStatusCard() {
               src="/lovable-uploads/aa2bacf8-c5da-4ad5-bfb5-6ec14b524ae7.png" 
               alt="Linhas Totais" 
               className="w-full h-full object-contain"
+              width={isMobile ? 37 : undefined}
+              height={isMobile ? 37 : undefined}
             />
           </div>
           <div>
@@ -45,6 +47,8 @@ export function LineStatusCard() {
               src="/lovable-uploads/5cd2c244-1d2c-41d6-9de7-76865f32923d.png" 
               alt="Linhas Ativas" 
               className="w-full h-full object-contain"
+              width={isMobile ? 37 : undefined}
+              height={isMobile ? 37 : undefined}
             />
           </div>
           <div>
@@ -58,9 +62,7 @@ export function LineStatusCard() {
             <Image 
               src="/lovable-uploads/55a072a8-cbbf-4b4d-8546-448bcacdfd3e.png" 
               alt="Linhas Inativas" 
-              className="w-full h-full object-contain"
-              width={isMobile ? 40 : undefined}
-              height={isMobile ? 40 : undefined}
+              className={`w-full h-full object-contain ${isMobile ? "!w-[37px] !h-[37px]" : ""}`}
             />
           </div>
           <div>
