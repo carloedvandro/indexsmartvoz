@@ -23,8 +23,8 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   const [selectedDueDate, setSelectedDueDate] = useState<number | null>(null);
 
   const internetOptions = [
-    { value: "110GB", label: "Smartvoz 110GB", price: 109.99 },
-    { value: "120GB", label: "Smartvoz 120GB", price: 119.99 },
+    { value: "100GB", label: "Smartvoz 100GB", price: 119.99 },
+    { value: "120GB", label: "Smartvoz 120GB", price: 129.99 },
   ];
 
   const getLinePrice = () => {
