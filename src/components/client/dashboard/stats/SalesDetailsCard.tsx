@@ -24,11 +24,11 @@ export function SalesDetailsCard() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipData, setTooltipData] = useState<{ x: number; y: number; data: any } | null>(null);
   
-  // Modified pieData to remove 130GB and 140GB plans
+  // Updated plan names to include "+ Minutos ilimitados"
   const pieData = [
     { 
-      name: "110GB", 
-      fullName: "Plano Smartvoz 110GB", 
+      name: "100GB", 
+      fullName: "Plano Smartvoz 100GB + Minutos ilimitados", 
       value: 300, 
       price: 109.99,
       totalAmount: 300 * 109.99,
@@ -36,7 +36,7 @@ export function SalesDetailsCard() {
     },
     { 
       name: "120GB", 
-      fullName: "Plano Smartvoz 120GB", 
+      fullName: "Plano Smartvoz 120GB + Minutos ilimitados", 
       value: 250, 
       price: 119.99,
       totalAmount: 250 * 119.99,
