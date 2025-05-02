@@ -144,7 +144,7 @@ export function PlanSelectionStep({
         </div>
       </div>
       
-      {/* Updated navigation buttons to match eSIM style */}
+      {/* Navigation buttons */}
       <div className="flex justify-between w-full gap-4 max-w-[340px] mx-auto mt-6">
         <Button 
           variant="outline" 
