@@ -45,14 +45,7 @@ export function InternetSelector({
               value={option.value}
               className="cursor-pointer py-1.5 px-2 bg-white hover:bg-white focus:bg-white focus:text-[#8425af] data-[state=checked]:bg-white data-[state=checked]:text-[#8425af]"
             >
-              <div className="flex justify-between w-full">
-                <span>{option.label}</span>
-                {showPrice && (
-                  <span className="ml-1 text-gray-500">
-                    R${option.price.toFixed(2).replace('.', ',')}
-                  </span>
-                )}
-              </div>
+              <span>{option.label}</span>
             </SelectItem>
           ))}
         </SelectContent>
