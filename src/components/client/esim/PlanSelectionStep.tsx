@@ -25,8 +25,6 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   const internetOptions = [
     { value: "110GB", label: "Smartvoz 110GB", price: 109.99 },
     { value: "120GB", label: "Smartvoz 120GB", price: 119.99 },
-    { value: "130GB", label: "Smartvoz 130GB", price: 129.99 },
-    { value: "140GB", label: "Smartvoz 140GB", price: 149.99 },
   ];
 
   const getLinePrice = () => {
