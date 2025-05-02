@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { useCalendarStyles } from "@/hooks/useCalendarStyles";
 import { DueDateSelector } from "./DueDateSelector";
 import { PlanSelectionHeader } from "./PlanSelectionHeader";
-import { Button } from "@/components/ui/button";
+import { NavigationButtons } from "./NavigationButtons";
 
 type Line = {
   id: number;
@@ -145,22 +145,12 @@ export function PlanSelectionStep({
       </div>
       
       {/* Navigation buttons */}
-      <div className="flex justify-between w-full gap-4 max-w-[340px] mx-auto mt-6">
-        <Button 
-          variant="outline" 
-          className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1"
-          onClick={onBack}
-        >
-          Voltar
-        </Button>
-        <Button 
-          className="bg-[#8425af] hover:bg-[#6c1e8f] text-white flex-1"
-          onClick={onContinue}
-          disabled={isContinueDisabled}
-        >
-          Continuar
-        </Button>
-      </div>
+      <NavigationButtons 
+        currentStep={1}
+        handleBack={onBack}
+        handleContinue={onContinue}
+        disabled={isContinueDisabled}
+      />
     </div>
   );
 }
