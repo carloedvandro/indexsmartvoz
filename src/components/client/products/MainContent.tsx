@@ -108,14 +108,17 @@ export function MainContent({
               )}
             </motion.div>
 
-            <motion.div variants={itemVariants} className="w-full mx-auto mt-6">
-              <NavigationButtons 
-                currentStep={currentStep}
-                handleBack={handleBack}
-                handleContinue={validateAndContinue}
-                disabled={isContinueDisabled()}
-              />
-            </motion.div>
+            {/* Only show navigation buttons for steps 2 and 3 */}
+            {currentStep > 1 && (
+              <motion.div variants={itemVariants} className="w-full mx-auto mt-6">
+                <NavigationButtons 
+                  currentStep={currentStep}
+                  handleBack={handleBack}
+                  handleContinue={validateAndContinue}
+                  disabled={isContinueDisabled()}
+                />
+              </motion.div>
+            )}
           </CardContent>
         </Card>
       </div>
