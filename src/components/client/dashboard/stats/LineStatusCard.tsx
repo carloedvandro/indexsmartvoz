@@ -1,12 +1,14 @@
 
 import { Card } from "@/components/ui/card";
 import Image from "@/components/ui/image";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function LineStatusCard() {
   // No futuro, esses dados viriam de uma API
   const totalLines = 1;
   const activeLines = 1;
   const inactiveLines = 0;
+  const isMobile = useIsMobile();
 
   return (
     <div className="p-6">
@@ -56,7 +58,7 @@ export function LineStatusCard() {
             <Image 
               src="/lovable-uploads/55a072a8-cbbf-4b4d-8546-448bcacdfd3e.png" 
               alt="Linhas Inativas" 
-              className="w-full h-full object-contain"
+              className={`w-full h-full object-contain ${isMobile ? "max-w-[40px]" : ""}`}
             />
           </div>
           <div>
