@@ -32,7 +32,8 @@ export function LineStatusCard() {
       </div>
       <p className="text-sm text-gray-500 mb-4">Visualize o total de linhas de sua equipe.</p>
       
-      <div className={`grid ${isMobile ? 'grid-cols-1 gap-4' : 'grid-cols-3 gap-6'}`}>
+      {/* Alterado para sempre usar grid-cols-3, mesmo no mobile */}
+      <div className="grid grid-cols-3 gap-4 md:gap-6">
         <div className="flex items-center">
           <div className="mr-3">
             <Image 
