@@ -1,11 +1,10 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { InternetSelector } from "@/components/client/products/InternetSelector";
 import { DDDInput } from "@/components/client/products/DDDInput";
 import { DueDateSelector } from "@/components/client/products/DueDateSelector";
 import { PriceSummary } from "@/components/client/products/PriceSummary";
-import { NavigationButtons } from "@/components/client/products/chip-activation/NavigationButtons";
 
 interface PlanSelectionStepProps {
   onBack: () => void;
@@ -42,10 +41,6 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
       dueDate: selectedDueDate,
       price: getLinePrice()
     });
-  };
-
-  const handleBack = () => {
-    onBack();
   };
 
   return (
@@ -101,7 +96,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
           <Button 
             variant="outline" 
             className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1"
-            onClick={handleBack}
+            onClick={onBack}
           >
             Voltar
           </Button>

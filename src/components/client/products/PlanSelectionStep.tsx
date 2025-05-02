@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";

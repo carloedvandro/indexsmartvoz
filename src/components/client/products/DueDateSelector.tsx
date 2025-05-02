@@ -17,9 +17,10 @@ export function DueDateSelector({
   calendarStyle,
   selectedCardClassName
 }: DueDateSelectorProps) {
+  // Atualizando as datas conforme solicitado: 2-5-8-11-14 e 17-20-23-26-29
   const dueDates = [
-    [2, 5, 7, 10],
-    [15, 20, 25, 30]
+    [2, 5, 8, 11, 14],
+    [17, 20, 23, 26, 29]
   ];
 
   const numberVariants = {
@@ -46,7 +47,7 @@ export function DueDateSelector({
       </div>
 
       <div className="w-full max-w-[365px] mx-auto">
-        <div className="grid grid-cols-4 gap-2 w-full mt-1">
+        <div className="grid grid-cols-5 gap-2 w-full mt-1">
           {dueDates.map((row, rowIndex) => (
             <React.Fragment key={rowIndex}>
               {row.map((date) => (
