@@ -17,12 +17,14 @@ interface InternetSelectorProps {
   selectedInternet: string | undefined;
   onInternetChange: (value: string) => void;
   internetOptions: InternetOption[];
+  showPrice?: boolean;
 }
 
 export function InternetSelector({ 
   selectedInternet, 
   onInternetChange, 
-  internetOptions 
+  internetOptions,
+  showPrice = true
 }: InternetSelectorProps) {
   return (
     <div className="space-y-1 w-full">
@@ -45,6 +47,11 @@ export function InternetSelector({
             >
               <div className="flex justify-between w-full">
                 <span>{option.label}</span>
+                {showPrice && (
+                  <span className="ml-1 text-gray-500">
+                    R${option.price.toFixed(2).replace('.', ',')}
+                  </span>
+                )}
               </div>
             </SelectItem>
           ))}
