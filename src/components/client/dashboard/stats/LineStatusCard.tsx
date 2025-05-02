@@ -26,9 +26,9 @@ export function LineStatusCard() {
       </div>
       <p className="text-sm text-gray-500 mb-4">Visualize o total de linhas de sua equipe.</p>
       
-      <div className="grid grid-cols-3 gap-4">
-        <div className="flex items-center space-x-2">
-          <div className="w-10 h-10 flex items-center justify-center">
+      <div className="grid grid-cols-3 gap-6">
+        <div className="flex items-center">
+          <div className="mr-2">
             <Image 
               src="/lovable-uploads/aa2bacf8-c5da-4ad5-bfb5-6ec14b524ae7.png" 
               alt="Linhas Totais" 
@@ -44,8 +44,8 @@ export function LineStatusCard() {
           </div>
         </div>
         
-        <div className="flex items-center space-x-2">
-          <div className="w-10 h-10 flex items-center justify-center">
+        <div className="flex items-center">
+          <div className="mr-2">
             <Image 
               src="/lovable-uploads/5cd2c244-1d2c-41d6-9de7-76865f32923d.png" 
               alt="Linhas Ativas" 
@@ -61,8 +61,8 @@ export function LineStatusCard() {
           </div>
         </div>
         
-        <div className="flex items-center space-x-2">
-          <div className="w-10 h-10 flex items-center justify-center">
+        <div className="flex items-center">
+          <div className="mr-2">
             <Image 
               src="/lovable-uploads/55a072a8-cbbf-4b4d-8546-448bcacdfd3e.png" 
               alt="Linhas Inativas" 
