@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
@@ -41,7 +41,7 @@ export function PlanSelectionStep({
     { value: "120GB", label: "Smartvoz 120GB", price: 129.99 },
   ];
 
-  useState(() => {
+  useEffect(() => {
     if (selectedLines.length === 0) {
       setSelectedLines([
         {
@@ -53,7 +53,7 @@ export function PlanSelectionStep({
         },
       ]);
     }
-  });
+  }, []);
 
   const handleInternetChange = (value: string) => {
     const newPrice = internetOptions.find(option => option.value === value)?.price || 0;
