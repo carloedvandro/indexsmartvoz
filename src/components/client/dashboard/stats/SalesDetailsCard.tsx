@@ -1,3 +1,4 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
@@ -23,6 +24,7 @@ export function SalesDetailsCard() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipData, setTooltipData] = useState<{ x: number; y: number; data: any } | null>(null);
   
+  // Modified pieData to remove 130GB and 140GB plans
   const pieData = [
     { 
       name: "110GB", 
@@ -39,22 +41,6 @@ export function SalesDetailsCard() {
       price: 119.99,
       totalAmount: 250 * 119.99,
       color: "#33C3F0" 
-    },
-    { 
-      name: "130GB", 
-      fullName: "Plano Smartvoz 130GB", 
-      value: 200, 
-      price: 139.99,
-      totalAmount: 200 * 139.99,
-      color: "#4CAF50" 
-    },
-    { 
-      name: "140GB", 
-      fullName: "Plano Smartvoz 140GB", 
-      value: 150, 
-      price: 149.99,
-      totalAmount: 150 * 149.99,
-      color: "#FFC107" 
     }
   ];
 
@@ -80,6 +66,7 @@ export function SalesDetailsCard() {
     <div className="pl-0 h-[550px]">
       <div className="flex items-start mb-4 ml-[9px]">
         <h3 className="text-lg font-bold text-black pt-[4px]">Detalhe das Vendas</h3>
+        {/* Removed the ellipsis button */}
       </div>
       
       <div className="flex flex-col items-center">
