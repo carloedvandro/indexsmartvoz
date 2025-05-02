@@ -33,6 +33,7 @@ export function LineStatusCard() {
               className="w-full h-full object-contain"
               width={isMobile ? 37 : undefined}
               height={isMobile ? 37 : undefined}
+              style={isMobile ? { width: '37px', height: '37px' } : undefined}
             />
           </div>
           <div>
@@ -49,6 +50,7 @@ export function LineStatusCard() {
               className="w-full h-full object-contain"
               width={isMobile ? 37 : undefined}
               height={isMobile ? 37 : undefined}
+              style={isMobile ? { width: '37px', height: '37px' } : undefined}
             />
           </div>
           <div>
@@ -62,7 +64,10 @@ export function LineStatusCard() {
             <Image 
               src="/lovable-uploads/55a072a8-cbbf-4b4d-8546-448bcacdfd3e.png" 
               alt="Linhas Inativas" 
-              className={`w-full h-full object-contain ${isMobile ? "!w-[37px] !h-[37px]" : ""}`}
+              className="w-full h-full object-contain"
+              width={isMobile ? 37 : undefined}
+              height={isMobile ? 37 : undefined}
+              style={isMobile ? { width: '37px', height: '37px' } : undefined}
             />
           </div>
           <div>
