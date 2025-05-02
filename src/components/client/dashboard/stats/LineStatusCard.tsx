@@ -30,7 +30,7 @@ export function LineStatusCard() {
           </svg>
         </button>
       </div>
-      <p className="text-sm text-gray-500 mb-4">Visualize o total de linhas de sua equipe.</p>
+      <p className="text-sm text-gray-500 mb-4" style={{ marginLeft: '-1px' }}>Visualize o total de linhas de sua equipe.</p>
       
       <div className="grid grid-cols-3 gap-6" style={{ marginLeft: '-15px' }}>
         <div className="flex items-center">
