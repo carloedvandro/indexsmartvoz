@@ -18,6 +18,11 @@ export function LineStatusCard() {
     minHeight: '60px'  // Isso evita que o ícone seja comprimido no mobile
   };
 
+  // Estilo para mover apenas o texto para a esquerda
+  const textStyle = {
+    marginLeft: '-15px'
+  };
+
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-1">
@@ -44,7 +49,7 @@ export function LineStatusCard() {
               style={imageStyle}
             />
           </div>
-          <div>
+          <div style={textStyle}>
             <p className="text-xs text-gray-500">Totais</p>
             <p className="text-lg font-semibold">{totalLines}</p>
           </div>
@@ -61,7 +66,7 @@ export function LineStatusCard() {
               style={imageStyle}
             />
           </div>
-          <div>
+          <div style={textStyle}>
             <p className="text-xs text-gray-500">Ativas</p>
             <p className="text-lg font-semibold">{activeLines}</p>
           </div>
@@ -78,7 +83,7 @@ export function LineStatusCard() {
               style={imageStyle}
             />
           </div>
-          <div>
+          <div style={textStyle}>
             <p className="text-xs text-gray-500">Inativas</p>
             <p className="text-lg font-semibold">{inactiveLines}</p>
           </div>
