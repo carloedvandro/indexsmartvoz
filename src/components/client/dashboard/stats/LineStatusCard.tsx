@@ -59,7 +59,8 @@ export function LineStatusCard() {
               src="/lovable-uploads/55a072a8-cbbf-4b4d-8546-448bcacdfd3e.png" 
               alt="Linhas Inativas" 
               className="w-full h-full object-contain"
-              style={isMobile ? {width: '37px', height: '37px'} : {}}
+              width={isMobile ? 40 : undefined}
+              height={isMobile ? 40 : undefined}
             />
           </div>
           <div>
