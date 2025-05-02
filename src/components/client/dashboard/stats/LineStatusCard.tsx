@@ -9,6 +9,8 @@ export function LineStatusCard() {
   const activeLines = 1;
   const inactiveLines = 0;
   const isMobile = useIsMobile();
+  
+  const imageStyle = { width: '37px', height: '37px' };
 
   return (
     <div className="p-6">
@@ -30,10 +32,10 @@ export function LineStatusCard() {
             <Image 
               src="/lovable-uploads/aa2bacf8-c5da-4ad5-bfb5-6ec14b524ae7.png" 
               alt="Linhas Totais" 
-              className="w-full h-full object-contain"
-              width={isMobile ? 37 : undefined}
-              height={isMobile ? 37 : undefined}
-              style={isMobile ? { width: '37px', height: '37px' } : undefined}
+              className="object-contain"
+              width={37}
+              height={37}
+              style={imageStyle}
             />
           </div>
           <div>
@@ -47,10 +49,10 @@ export function LineStatusCard() {
             <Image 
               src="/lovable-uploads/5cd2c244-1d2c-41d6-9de7-76865f32923d.png" 
               alt="Linhas Ativas" 
-              className="w-full h-full object-contain"
-              width={isMobile ? 37 : undefined}
-              height={isMobile ? 37 : undefined}
-              style={isMobile ? { width: '37px', height: '37px' } : undefined}
+              className="object-contain"
+              width={37}
+              height={37}
+              style={imageStyle}
             />
           </div>
           <div>
@@ -64,10 +66,10 @@ export function LineStatusCard() {
             <Image 
               src="/lovable-uploads/55a072a8-cbbf-4b4d-8546-448bcacdfd3e.png" 
               alt="Linhas Inativas" 
-              className="w-full h-full object-contain"
-              width={isMobile ? 37 : undefined}
-              height={isMobile ? 37 : undefined}
-              style={isMobile ? { width: '37px', height: '37px' } : undefined}
+              className="object-contain"
+              width={37}
+              height={37}
+              style={imageStyle}
             />
           </div>
           <div>
