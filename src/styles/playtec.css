@@ -77,21 +77,4 @@
   animation: pulse 2s infinite;
 }
 
-/* Efeitos 3D para o RiskGauge */
-.risk-gauge-segment {
-  transition: transform 0.3s ease-out;
-}
-
-.risk-gauge-segment:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.1);
-}
-
-/* Estilo específico para o medidor de risco */
-.risk-percentage {
-  font-weight: 600;
-  color: #333;
-  font-size: 0.875rem;
-}
-
 /* Adicionar o estilo à importação principal */
