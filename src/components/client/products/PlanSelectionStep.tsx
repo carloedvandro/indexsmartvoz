@@ -112,7 +112,7 @@ export function PlanSelectionStep({
                   selectedInternet={selectedLines[0]?.internet || undefined}
                   onInternetChange={handleInternetChange}
                   internetOptions={internetOptions}
-                  showPrice={true}
+                  showPrice={false}
                 />
               </div>
               <div>

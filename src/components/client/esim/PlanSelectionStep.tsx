@@ -69,7 +69,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
                   selectedInternet={selectedInternet}
                   onInternetChange={setSelectedInternet}
                   internetOptions={internetOptions}
-                  showPrice={true}
+                  showPrice={false}
                 />
               </div>
               <div>
