@@ -17,10 +17,10 @@ export const PlansList: React.FC<PlansListProps> = ({
   onItemClick,
 }) => {
   return (
-    <div className="w-full space-y-4 -mt-[0.5px] ml-[9px]">
-      <div className="space-y-2 mt-[12px]">
-        <p className="text-sm font-medium text-black pt-[4px]">Planos mais vendidos</p>
-        <div className="grid gap-[9px]">
+    <div className="w-full space-y-4 mt-10">
+      <div className="space-y-2">
+        <p className="text-lg font-medium text-black">Planos mais vendidos</p>
+        <div className="grid gap-3">
           {pieData.map((plan, index) => (
             <PlanListItem
               key={index}

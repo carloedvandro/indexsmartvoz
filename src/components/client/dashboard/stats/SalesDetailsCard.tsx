@@ -28,13 +28,13 @@ export function SalesDetailsCard() {
   };
 
   return (
-    <div className="pl-0 h-[550px]">
-      <div className="flex items-start mb-4 ml-[9px]">
+    <div className="pl-0 h-auto pb-8">
+      <div className="flex items-start mb-6 ml-[9px]">
         <h3 className="text-lg font-bold text-black pt-[4px]">Detalhe das Vendas</h3>
       </div>
       
       <div className="flex flex-col items-center">
-        <div className={`w-full max-w-[420px] h-[300px] relative flex items-center justify-center -mt-[2px] ${isMobile ? "mt-2" : ""}`}>
+        <div className={`w-full max-w-[500px] relative flex items-center justify-center`}>
           <SalesPieChart 
             pieData={pieData}
             activeIndex={activeIndex}
@@ -43,12 +43,14 @@ export function SalesDetailsCard() {
           />
         </div>
 
-        <PlansList
-          pieData={pieData}
-          activeButton={activeButton}
-          showTooltip={showTooltip}
-          onItemClick={onButtonClick}
-        />
+        <div className="max-w-[500px] w-full mt-8">
+          <PlansList
+            pieData={pieData}
+            activeButton={activeButton}
+            showTooltip={showTooltip}
+            onItemClick={onButtonClick}
+          />
+        </div>
       </div>
     </div>
   );

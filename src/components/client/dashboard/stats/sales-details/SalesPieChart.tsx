@@ -1,6 +1,6 @@
 
 import React from "react";
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Rectangle } from "recharts";
 import { formatCurrency } from "@/utils/format";
 import { PieChartItem } from "./salesDetailsData";
 
@@ -11,6 +11,30 @@ interface SalesPieChartProps {
   totalSalesAmount: number;
 }
 
+// Componente para as barras na parte inferior
+const BarChart = ({ data }: { data: PieChartItem[] }) => {
+  return (
+    <div className="flex justify-between w-full mt-4 px-6">
+      {data.map((entry, index) => (
+        <div key={`bar-${index}`} className="flex flex-col items-center">
+          <div className="h-36 w-14 bg-gray-200 relative flex items-end">
+            <div 
+              className="w-full absolute bottom-0" 
+              style={{ 
+                backgroundColor: entry.color, 
+                height: entry.percentage,
+                borderTopLeftRadius: '4px',
+                borderTopRightRadius: '4px'
+              }}
+            />
+          </div>
+          <p className="text-gray-500 mt-2 font-medium text-lg">{entry.percentage}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export const SalesPieChart: React.FC<SalesPieChartProps> = ({
   pieData,
   activeIndex,
@@ -18,140 +42,116 @@ export const SalesPieChart: React.FC<SalesPieChartProps> = ({
   totalSalesAmount,
 }) => {
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <PieChart>
-        <defs>
-          {pieData.map((entry, index) => (
-            <linearGradient 
-              key={`gradient-${index}`}
-              id={`gradient-${index}`}
-              x1="0%" 
-              y1="0%" 
-              x2="100%" 
-              y2="100%"
+    <div className="flex flex-col items-center w-full">
+      <div className="relative w-full h-56">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={pieData}
+              innerRadius={80}
+              outerRadius={130}
+              startAngle={180}
+              endAngle={0}
+              paddingAngle={0}
+              dataKey="value"
+              animationBegin={0}
+              animationDuration={1200}
+              animationEasing="ease-out"
+              stroke="#ffffff"
+              strokeWidth={2}
+              style={{ 
+                filter: 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.15))',
+              }}
             >
-              <stop 
-                offset="0%" 
-                stopColor={entry.color} 
-                stopOpacity={1}
-              />
-              <stop 
-                offset="100%" 
-                stopColor={entry.color} 
-                stopOpacity={0.7}
-              />
-            </linearGradient>
-          ))}
-        </defs>
-        
-        <Pie
-          data={pieData}
-          innerRadius={60}
-          outerRadius={130}
-          paddingAngle={2}
-          dataKey="value"
-          animationBegin={0}
-          animationDuration={1200}
-          animationEasing="ease-out"
-          startAngle={90}
-          endAngle={-270}
-          stroke="#ffffff"
-          strokeWidth={3}
-          style={{ 
-            filter: 'drop-shadow(2px 4px 12px rgba(0, 0, 0, 0.25))',
-          }}
-        >
-          {pieData.map((entry, index) => {
-            const isActive = index === activeIndex;
-            const scale = isActive ? 1.08 : 1;
-            const translateX = isActive ? Math.cos((90 - index * 72) * Math.PI / 180) * 10 : 0;
-            const translateY = isActive ? -Math.sin((90 - index * 72) * Math.PI / 180) * 10 : 0;
+              {pieData.map((entry, index) => {
+                const isActive = index === activeIndex;
+                
+                return (
+                  <Cell 
+                    key={`cell-${index}`} 
+                    fill={entry.color}
+                    stroke="#ffffff"
+                    strokeWidth={2}
+                    style={{
+                      filter: isActive ? 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.3))' : 'none',
+                      cursor: 'pointer',
+                    }}
+                    onClick={(e) => onButtonClick(index, e as unknown as React.MouseEvent)}
+                  />
+                );
+              })}
+              
+              {/* Percentagens destacadas */}
+              {pieData.map((entry, index) => {
+                const RADIAN = Math.PI / 180;
+                const radius = 105;
+                const x = Math.cos(-RADIAN * ((index * 40) + 170)) * radius + 200;
+                const y = Math.sin(-RADIAN * ((index * 40) + 170)) * radius + 120;
+                
+                return (
+                  <text
+                    key={`percentage-${index}`}
+                    x={x}
+                    y={y}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fill="#ffffff"
+                    fontWeight="bold"
+                    fontSize="30px"
+                    style={{
+                      filter: 'drop-shadow(1px 1px 2px rgba(0,0,0,0.5))',
+                      textShadow: '1px 1px 3px rgba(0,0,0,0.7)'
+                    }}
+                    pointerEvents="none"
+                  >
+                    {entry.percentage}
+                  </text>
+                );
+              })}
+            </Pie>
             
-            return (
-              <Cell 
-                key={`cell-${index}`} 
-                fill={`url(#gradient-${index})`}
-                stroke="#ffffff"
-                strokeWidth={3}
-                style={{
-                  transform: `scale(${scale}) translate(${translateX}px, ${translateY}px)`,
-                  transformOrigin: 'center center',
-                  transition: 'all 0.4s ease-out',
-                  filter: isActive ? 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.3))' : 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.15))',
-                  cursor: 'pointer',
-                }}
-                onClick={(e) => onButtonClick(index, e as unknown as React.MouseEvent)}
-              />
-            );
-          })}
-          
-          {/* Porcentagens mais destacadas no centro de cada segmento */}
-          {pieData.map((entry, index) => {
-            const angle = 90 - (index * 360 / pieData.length) - (360 / pieData.length / 2);
-            const radius = 95; // Posicionamento mais para o centro do segmento
-            const x = Math.cos((angle * Math.PI) / 180) * radius;
-            const y = -Math.sin((angle * Math.PI) / 180) * radius;
+            {/* Círculo central */}
+            <circle 
+              cx="50%" 
+              cy="120" 
+              r="70" 
+              fill="#f5f5f5" 
+              stroke="#e0e0e0" 
+              strokeWidth={1}
+              filter="url(#shadow)"
+            />
             
-            return (
-              <text
-                key={`percentage-${index}`}
-                x={x}
-                y={y}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fill="#ffffff"
-                fontWeight="bold"
-                fontSize="16px"
-                style={{
-                  filter: 'drop-shadow(0px 1px 2px rgba(0,0,0,0.5))',
-                  textShadow: '0px 1px 2px rgba(0,0,0,0.5)'
-                }}
-                pointerEvents="none"
-              >
-                {entry.percentage}
-              </text>
-            );
-          })}
-        </Pie>
-        
-        {/* Círculo central com informações */}
-        <circle 
-          cx="50%" 
-          cy="50%" 
-          r="55" 
-          fill="#ffffff" 
-          stroke="#f0f0f0" 
-          strokeWidth={2}
-          filter="url(#shadow)"
-        />
-        
-        <defs>
-          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.2" />
-          </filter>
-        </defs>
-        
-        <text
-          x="50%"
-          y="40%"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          className="text-sm font-medium"
-          fill="#666666"
-        >
-          Vendas do Mês
-        </text>
-        <text
-          x="50%"
-          y="60%"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          className="text-lg font-bold"
-          fill="#000000"
-        >
-          {formatCurrency(totalSalesAmount)}
-        </text>
-      </PieChart>
-    </ResponsiveContainer>
+            <defs>
+              <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.2" />
+              </filter>
+            </defs>
+            
+            <text
+              x="50%"
+              y="110"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className="text-lg font-bold"
+              fill="#1D4E89"
+            >
+              PERCENTAGE
+            </text>
+            <text
+              x="50%"
+              y="135"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className="text-sm"
+              fill="#666666"
+            >
+              infographic
+            </text>
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+      
+      <BarChart data={pieData} />
+    </div>
   );
 };

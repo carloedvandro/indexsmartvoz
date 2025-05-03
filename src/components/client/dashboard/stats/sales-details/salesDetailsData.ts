@@ -11,49 +11,49 @@ export interface PieChartItem {
 
 export const pieData: PieChartItem[] = [
   { 
-    name: "100GB", 
+    name: "15%", 
     fullName: "Plano Smartvoz 100GB + Minutos ilimitados", 
-    value: 300, 
+    value: 150, 
     price: 119.99,
-    totalAmount: 300 * 119.99,
-    color: "#8e44ad",
-    percentage: "30%" 
+    totalAmount: 150 * 119.99,
+    color: "#F1D302", // amarelo
+    percentage: "15%" 
   },
   { 
-    name: "120GB", 
+    name: "30%", 
     fullName: "Plano Smartvoz 120GB + Minutos ilimitados", 
-    value: 250, 
+    value: 300, 
     price: 129.99,
-    totalAmount: 250 * 129.99,
-    color: "#e67e22",
-    percentage: "25%" 
+    totalAmount: 300 * 129.99,
+    color: "#F28123", // laranja
+    percentage: "30%" 
   },
   {
-    name: "150GB",
+    name: "50%",
     fullName: "Plano Smartvoz 150GB + Minutos ilimitados",
-    value: 200,
+    value: 500,
     price: 149.99,
-    totalAmount: 200 * 149.99,
-    color: "#e74c3c",
-    percentage: "20%"
+    totalAmount: 500 * 149.99,
+    color: "#F24236", // vermelho
+    percentage: "50%"
   },
   {
-    name: "200GB",
+    name: "60%",
     fullName: "Plano Smartvoz 200GB + Minutos ilimitados",
-    value: 100,
+    value: 600,
     price: 179.99,
-    totalAmount: 100 * 179.99,
-    color: "#f1c40f",
-    percentage: "10%"
+    totalAmount: 600 * 179.99,
+    color: "#36D2CF", // turquesa
+    percentage: "60%"
   },
   {
-    name: "Unlimited",
+    name: "90%",
     fullName: "Plano Smartvoz Unlimited + Minutos ilimitados",
-    value: 150,
+    value: 900,
     price: 199.99,
-    totalAmount: 150 * 199.99,
-    color: "#27ae60",
-    percentage: "15%"
+    totalAmount: 900 * 199.99,
+    color: "#1D4E89", // azul escuro
+    percentage: "90%"
   },
 ];
 
