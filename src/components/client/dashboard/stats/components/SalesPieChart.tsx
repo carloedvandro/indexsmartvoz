@@ -84,8 +84,8 @@ export const SalesPieChart = ({
       <PieChart>
         <Pie
           data={pieData}
-          innerRadius={88}  // Decreased from 90
-          outerRadius={138} // Decreased from 140
+          innerRadius={85}  // Decreased from 88
+          outerRadius={135} // Decreased from 138
           paddingAngle={0}
           dataKey="value" // This ensures the pie slices are sized according to the value property
           animationBegin={0}
