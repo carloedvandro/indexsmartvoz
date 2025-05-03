@@ -4,6 +4,7 @@ import { RechargesCard } from "./RechargesCard";
 import { ActivationsCard } from "./ActivationsCard";
 import { IncomeCard } from "./IncomeCard";
 import { SalesDetailsCard } from "./SalesDetailsCard";
+import { RiskGaugeCard } from "./RiskGaugeCard";
 
 export function StatsCardsGrid() {
   return (
@@ -14,6 +15,7 @@ export function StatsCardsGrid() {
         <ActivationsCard />
       </div>
       <IncomeCard />
+      <RiskGaugeCard />
       <SalesDetailsCard />
     </>
   );
