@@ -5,12 +5,14 @@ import { formatCurrency } from "@/utils/format";
 import { SalesChartTooltip } from "./components/SalesChartTooltip";
 import { SalesPieChart } from "./components/SalesPieChart";
 import { SalesLegend } from "./components/SalesLegend";
-import { PieDataItem } from "./types/salesTypes";
+import { PieDataItem, TooltipData } from "./types/salesTypes";
 
 export function SalesDetailsCard() {
   const isMobile = useIsMobile();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [activeButton, setActiveButton] = useState<number | null>(null);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipData, setTooltipData] = useState<TooltipData | null>(null);
   
   // Data with both percentage values and sales counts
   const pieData: PieDataItem[] = [
@@ -65,12 +67,28 @@ export function SalesDetailsCard() {
   const onButtonClick = (index: number, event: React.MouseEvent) => {
     setActiveButton(index === activeButton ? null : index);
     setActiveIndex(index === activeIndex ? null : index);
+    
+    const rect = event.currentTarget.getBoundingClientRect();
+    setTooltipData({
+      x: rect.x + window.scrollX + rect.width + 10,
+      y: rect.y + window.scrollY,
+      data: pieData[index]
+    });
+    setShowTooltip(index === activeIndex ? false : true);
   };
 
   // Handle clicking on a pie chart slice
   const handlePieSliceClick = (index: number | null) => {
     setActiveIndex(index);
     setActiveButton(index);
+    setShowTooltip(index !== null);
+    if (index !== null) {
+      setTooltipData({
+        x: 0, // These values won't be used for the pie chart tooltip
+        y: 0,
+        data: pieData[index]
+      });
+    }
   };
 
   return (
@@ -93,6 +111,8 @@ export function SalesDetailsCard() {
           pieData={pieData}
           activeButton={activeButton}
           onButtonClick={onButtonClick}
+          showTooltip={showTooltip}
+          tooltipData={tooltipData}
         />
       </div>
     </div>

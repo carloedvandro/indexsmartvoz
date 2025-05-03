@@ -7,12 +7,16 @@ interface SalesLegendProps {
   pieData: PieDataItem[];
   activeButton: number | null;
   onButtonClick: (index: number, event: React.MouseEvent) => void;
+  showTooltip: boolean;
+  tooltipData: { x: number; y: number; data: any } | null;
 }
 
 export const SalesLegend = ({ 
   pieData, 
   activeButton, 
-  onButtonClick
+  onButtonClick, 
+  showTooltip,
+  tooltipData 
 }: SalesLegendProps) => {
   return (
     <div className="w-full space-y-4 -mt-[0.5px] ml-[9px]">
@@ -39,6 +43,21 @@ export const SalesLegend = ({
                   {plan.fullName}
                 </p>
               </div>
+              {showTooltip && tooltipData && activeButton === index && (
+                <div 
+                  className="absolute left-6 -top-1 bg-white p-2 rounded-md shadow-lg border border-gray-200 z-50"
+                  style={{
+                    position: 'absolute',
+                    left: '1.5rem',
+                    top: '-0.25rem'
+                  }}
+                >
+                  <p className="text-sm font-medium">{plan.fullName}</p>
+                  <p className="text-sm">
+                    {plan.salesCount} vendas <span className="relative -top-[2px]">{formatCurrency(plan.totalAmount)}</span>
+                  </p>
+                </div>
+              )}
             </div>
           ))}
         </div>
