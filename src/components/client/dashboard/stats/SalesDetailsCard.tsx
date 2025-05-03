@@ -1,3 +1,4 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
@@ -30,8 +31,7 @@ export function SalesDetailsCard() {
       value: 300, 
       price: 119.99,
       totalAmount: 300 * 119.99,
-      color: "#8e44ad",
-      percentage: "30%" 
+      color: "#33C3F0" 
     },
     { 
       name: "120GB", 
@@ -39,36 +39,8 @@ export function SalesDetailsCard() {
       value: 250, 
       price: 129.99,
       totalAmount: 250 * 129.99,
-      color: "#e67e22",
-      percentage: "25%" 
-    },
-    {
-      name: "150GB",
-      fullName: "Plano Smartvoz 150GB + Minutos ilimitados",
-      value: 200,
-      price: 149.99,
-      totalAmount: 200 * 149.99,
-      color: "#e74c3c",
-      percentage: "20%"
-    },
-    {
-      name: "200GB",
-      fullName: "Plano Smartvoz 200GB + Minutos ilimitados",
-      value: 100,
-      price: 179.99,
-      totalAmount: 100 * 179.99,
-      color: "#f1c40f",
-      percentage: "10%"
-    },
-    {
-      name: "Unlimited",
-      fullName: "Plano Smartvoz Unlimited + Minutos ilimitados",
-      value: 150,
-      price: 199.99,
-      totalAmount: 150 * 199.99,
-      color: "#27ae60",
-      percentage: "15%"
-    },
+      color: "#8425af" 
+    }
   ];
 
   const totalSalesAmount = pieData.reduce((acc, plan) => {
@@ -103,24 +75,26 @@ export function SalesDetailsCard() {
                 data={pieData}
                 innerRadius={75}
                 outerRadius={120}
-                paddingAngle={4}
+                paddingAngle={0}
                 dataKey="value"
                 animationBegin={0}
                 animationDuration={1200}
                 animationEasing="ease-in-out"
                 startAngle={90}
                 endAngle={-270}
-                stroke="#ffffff"
-                strokeWidth={3}
+                stroke="none"
+                strokeWidth={0}
                 style={{ 
-                  filter: 'drop-shadow(2px 4px 8px rgba(0, 0, 0, 0.15))',
+                  filter: 'drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.25))',
+                  transform: 'perspective(1200px) rotateX(20deg)',
                 }}
               >
                 {pieData.map((entry, index) => {
                   const isActive = index === activeIndex;
-                  const scale = isActive ? 1.08 : 1;
-                  const translateX = isActive ? Math.cos((90 - index * 72) * Math.PI / 180) * 10 : 0;
-                  const translateY = isActive ? -Math.sin((90 - index * 72) * Math.PI / 180) * 10 : 0;
+                  const scale = isActive ? 1.05 : 1;
+                  const zIndex = isActive ? 10 : 1;
+                  const opacity = activeIndex !== null && !isActive ? 0.8 : 1;
+                  const elevation = isActive ? 5 : 0;
                   
                   return (
                     <Cell 
@@ -129,38 +103,15 @@ export function SalesDetailsCard() {
                       stroke="#ffffff"
                       strokeWidth={2}
                       style={{
-                        transform: `scale(${scale}) translate(${translateX}px, ${translateY}px)`,
+                        transform: `scale(${scale}) translateY(${isActive ? -elevation : 0}px)`,
                         transformOrigin: 'center center',
-                        transition: 'all 0.4s ease-out',
-                        filter: isActive ? 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.3))' : 'none',
-                        cursor: 'pointer',
+                        transition: 'all 0.3s ease-in-out',
+                        zIndex: zIndex,
+                        opacity: opacity,
+                        filter: isActive ? 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.35))' : 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25))',
+                        outline: 'none',
                       }}
-                      onClick={(e) => onButtonClick(index, e as unknown as React.MouseEvent)}
                     />
-                  );
-                })}
-                
-                {pieData.map((entry, index) => {
-                  // Position percentage labels on the pie chart segments
-                  const angle = 90 - (index * 360 / pieData.length) - (360 / pieData.length / 2);
-                  const radius = 100;
-                  const x = Math.cos((angle * Math.PI) / 180) * radius;
-                  const y = -Math.sin((angle * Math.PI) / 180) * radius;
-                  
-                  return (
-                    <text
-                      key={`percentage-${index}`}
-                      x={x}
-                      y={y}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      fill="#ffffff"
-                      fontWeight="bold"
-                      fontSize="14px"
-                      pointerEvents="none"
-                    >
-                      {entry.percentage}
-                    </text>
                   );
                 })}
               </Pie>
