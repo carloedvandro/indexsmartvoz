@@ -119,24 +119,32 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
             })}
           </Pie>
           
+          {/* Center text showing "Vendas do Mês" */}
           <Text
             x="50%"
             y="45%"
             textAnchor="middle"
             dominantBaseline="middle"
-            className="text-sm font-medium"
-            fill="#000000"
+            style={{
+              fontSize: "14px",
+              fontWeight: "500",
+              fill: "#000000"
+            }}
           >
             Vendas do Mês
           </Text>
           
+          {/* Center text showing the total amount */}
           <Text
             x="50%"
-            y="60%"
+            y="55%"
             textAnchor="middle"
             dominantBaseline="middle"
-            className="text-base font-bold"
-            fill="#000000"
+            style={{
+              fontSize: "16px",
+              fontWeight: "700",
+              fill: "#000000"
+            }}
           >
             {formatCurrency(totalSalesAmount)}
           </Text>
