@@ -126,8 +126,8 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
             textAnchor="middle"
             dominantBaseline="middle"
             style={{
-              fontSize: "14px",
-              fontWeight: "500",
+              fontSize: "16px",
+              fontWeight: "600",
               fill: "#000000"
             }}
           >
@@ -141,7 +141,7 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
             textAnchor="middle"
             dominantBaseline="middle"
             style={{
-              fontSize: "16px",
+              fontSize: "18px",
               fontWeight: "700",
               fill: "#000000"
             }}
