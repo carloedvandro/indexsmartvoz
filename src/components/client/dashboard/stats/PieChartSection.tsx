@@ -57,7 +57,7 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
                   key={`cell-${index}`} 
                   fill={entry.color}
                   stroke="#ffffff"
-                  strokeWidth={2}
+                  strokeWidth={4}
                   style={{
                     transform: `translateZ(${offset.z}px) scale(${scale})`,
                     transformOrigin: 'center center',
