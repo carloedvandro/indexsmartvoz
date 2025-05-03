@@ -77,4 +77,14 @@
   animation: pulse 2s infinite;
 }
 
+/* Efeitos 3D para o RiskGauge */
+.risk-gauge-segment {
+  transition: transform 0.3s ease-out;
+}
+
+.risk-gauge-segment:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
 /* Adicionar o estilo à importação principal */
