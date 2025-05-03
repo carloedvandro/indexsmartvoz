@@ -85,47 +85,12 @@ export function SalesDetailsCard() {
     setShowTooltip(index === activeIndex ? false : true);
   };
 
-  // Calculate start and end angles for each slice
-  const getSliceAngles = (index: number) => {
-    const total = pieData.reduce((sum, entry) => sum + entry.value, 0);
-    const startAngle = 90; // Top position (in degrees)
-    
-    // Calculate the start angle for the specific slice
-    let currentStartAngle = startAngle;
-    for (let i = 0; i < index; i++) {
-      currentStartAngle -= (pieData[i].value / total) * 360;
-    }
-    
-    // Calculate the end angle for the specific slice
-    const sliceAngle = (pieData[index].value / total) * 360;
-    const endAngle = currentStartAngle - sliceAngle;
-    
-    // Calculate the middle angle of the slice (for the pop-out direction)
-    const midAngle = (currentStartAngle + endAngle) / 2;
-    
-    return {
-      startAngle: currentStartAngle,
-      endAngle: endAngle,
-      midAngle: midAngle
-    };
-  };
-
-  // Calculate the offset position for the active slice
+  // Get forward offset for the active slice
   const getPopOutOffset = (index: number) => {
-    if (index !== activeIndex) return { x: 0, y: 0 };
+    if (index !== activeIndex) return { z: 0 };
     
-    // Get the middle angle of the slice in radians
-    const { midAngle } = getSliceAngles(index);
-    const midAngleRad = (midAngle * Math.PI) / 180;
-    
-    // Distance to pop out
-    const distance = 10;
-    
-    // Calculate the offset using the correct direction
-    return {
-      x: Math.cos(midAngleRad) * distance,
-      y: Math.sin(midAngleRad) * distance
-    };
+    // Pop the slice forward instead of radially
+    return { z: 25 };
   };
 
   return (
@@ -170,12 +135,12 @@ export function SalesDetailsCard() {
                       stroke="#ffffff"
                       strokeWidth={2}
                       style={{
-                        transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
+                        transform: `translateZ(${offset.z}px) scale(${scale})`,
                         transformOrigin: 'center center',
                         transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                         zIndex: zIndex,
                         opacity: opacity,
-                        filter: isActive ? 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.35))' : 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25))',
+                        filter: isActive ? 'drop-shadow(0px 10px 18px rgba(0, 0, 0, 0.45))' : 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25))',
                         outline: 'none',
                       }}
                     />
