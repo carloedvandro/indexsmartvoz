@@ -50,16 +50,8 @@ export function SalesDetailsCard() {
       totalAmount: 150 * 149.99,
       percentage: 25,
       color: "#0EA5E9" 
-    },
-    { 
-      name: "150GB", 
-      fullName: "Smartvoz 150GB + Minutos ilimitados", 
-      value: 100, 
-      price: 159.99,
-      totalAmount: 100 * 159.99,
-      percentage: 24,
-      color: "#F97316" 
     }
+    // Removed the 150GB plan
   ];
 
   const totalSalesAmount = pieData.reduce((acc, plan) => {
