@@ -42,8 +42,13 @@ export const useChartData = () => {
       level4: 5,  // R$5.00 per member
     };
     
-    // Purchase value - updated to match the 100GB plan price
-    const purchaseValue = 119.99;
+    // Purchase values for all plans
+    const purchaseValues = {
+      plan100GB: 119.99,
+      plan120GB: 129.99,
+      plan150GB: 149.99,
+      plan200GB: 169.99
+    };
     
     // Calculate commission totals
     const commissions = {
@@ -64,7 +69,7 @@ export const useChartData = () => {
       commissionRates,
       commissions,
       totalCommission,
-      purchaseValue
+      purchaseValues
     };
   };
 
