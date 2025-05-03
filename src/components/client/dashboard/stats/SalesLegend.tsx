@@ -50,15 +50,26 @@ export function SalesLegend({
               className="flex items-center relative"
             >
               <div 
-                className={`w-3 h-3 rounded-full mr-2 cursor-pointer transition-all duration-300 ${activeButton === index ? 'scale-125 shadow-lg' : ''}`}
+                className={`w-4 h-4 rounded-full mr-2 cursor-pointer transition-all duration-300 flex items-center justify-center ${activeButton === index ? 'scale-125 shadow-lg' : 'hover:scale-110'}`}
                 style={{ 
                   backgroundColor: plan.color,
                   transform: activeButton === index ? 'scale(1.25)' : 'scale(1)',
                   transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-                  boxShadow: activeButton === index ? '0 2px 8px rgba(0,0,0,0.3)' : 'none'
+                  boxShadow: activeButton === index ? '0 2px 8px rgba(0,0,0,0.3)' : '0 1px 3px rgba(0,0,0,0.1)',
+                  position: 'relative',
+                  border: '2px solid white'
                 }}
                 onClick={(e) => onButtonClick(index, e)}
-              />
+              >
+                {activeButton !== index && (
+                  <div className="absolute -top-3 -right-3 animate-pulse">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                    </span>
+                  </div>
+                )}
+              </div>
               <div className="flex-1">
                 <p className={`text-sm text-black pt-[4px] transition-opacity duration-300 ${activeButton === index ? 'opacity-100 font-medium' : activeButton !== null ? 'opacity-60' : 'opacity-100'}`}>
                   {plan.fullName}
