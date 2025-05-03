@@ -54,7 +54,7 @@ export const SalesLegend = ({
                 >
                   <p className="text-sm font-medium">{plan.fullName}</p>
                   <p className="text-sm">
-                    {plan.salesCount} vendas {formatCurrency(plan.totalAmount)}
+                    {plan.salesCount} vendas <span className="relative -top-[2px]">{formatCurrency(plan.totalAmount)}</span>
                   </p>
                 </div>
               )}
@@ -64,4 +64,4 @@ export const SalesLegend = ({
       </div>
     </div>
   );
-};
+}
