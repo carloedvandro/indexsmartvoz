@@ -18,7 +18,7 @@ export function SalesDetailsCard() {
   const pieData: PieDataItem[] = [
     { 
       name: "110GB", 
-      fullName: "Smartvoz 110GB", 
+      fullName: "Smartvoz 110GB + Minutos ilimitados", 
       value: 22, // Percentage value for pie chart sizing
       price: 109.99,
       totalAmount: 305 * 109.99, // Total = sales count * price
@@ -28,7 +28,7 @@ export function SalesDetailsCard() {
     },
     { 
       name: "120GB", 
-      fullName: "Smartvoz 120GB", 
+      fullName: "Smartvoz 120GB + Minutos ilimitados", 
       value: 36,
       price: 119.99,
       totalAmount: 428 * 119.99, // Total = sales count * price
@@ -38,7 +38,7 @@ export function SalesDetailsCard() {
     },
     { 
       name: "140GB", 
-      fullName: "Smartvoz 140GB", 
+      fullName: "Smartvoz 140GB + Minutos ilimitados", 
       value: 42,
       price: 139.99,
       totalAmount: 501 * 139.99, // Total = sales count * price
