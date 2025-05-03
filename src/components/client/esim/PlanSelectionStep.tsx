@@ -21,11 +21,11 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   const [selectedDDD, setSelectedDDD] = useState<string>("");
   const [selectedDueDate, setSelectedDueDate] = useState<number | null>(null);
 
-  // Updated plan options with the correct descriptions and prices
+  // Updated plan options with the correct values and prices
   const internetOptions = [
-    { value: "110GB", label: "Plano Smartvoz 110GB + Minutos ilimitados", price: 109.99 },
-    { value: "120GB", label: "Plano Smartvoz 120GB + Minutos ilimitados", price: 119.99 },
-    { value: "140GB", label: "Plano Smartvoz 140GB + Minutos ilimitados", price: 139.99 },
+    { value: "110GB", label: "Smartvoz 110GB", price: 109.99 },
+    { value: "120GB", label: "Smartvoz 120GB", price: 119.99 },
+    { value: "140GB", label: "Smartvoz 140GB", price: 139.99 },
   ];
 
   const getLinePrice = () => {

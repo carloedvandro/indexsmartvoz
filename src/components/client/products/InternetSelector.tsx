@@ -46,7 +46,7 @@ export function InternetSelector({
               className="cursor-pointer py-1.5 px-2 bg-white hover:bg-white focus:bg-white focus:text-[#8425af] data-[state=checked]:bg-white data-[state=checked]:text-[#8425af]"
             >
               <div className="flex flex-col">
-                <span>{option.label}</span>
+                <span>Smartvoz {option.value}</span>
                 {showPrice && <span className="text-xs text-gray-500">R$ {option.price.toFixed(2)}</span>}
               </div>
             </SelectItem>
