@@ -21,7 +21,7 @@ export function SalesDetailsCard() {
       totalAmount: 17 * 119.99,
       percentage: 17,
       salesCount: 305, // Added actual number of sales 
-      color: "#9b87f5" 
+      color: "#8B5CF6" // Updated to vibrant purple
     },
     { 
       name: "120GB", 
@@ -31,7 +31,7 @@ export function SalesDetailsCard() {
       totalAmount: 21 * 129.99,
       percentage: 21,
       salesCount: 378, // Added actual number of sales
-      color: "#33C3F0" 
+      color: "#22D3EE" // Updated to bright cyan
     },
     { 
       name: "130GB", 
@@ -41,7 +41,7 @@ export function SalesDetailsCard() {
       totalAmount: 13 * 139.99,
       percentage: 13,
       salesCount: 234, // Added actual number of sales
-      color: "#8B5CF6" 
+      color: "#A855F7" // Updated to bright purple
     },
     { 
       name: "140GB", 
@@ -51,7 +51,7 @@ export function SalesDetailsCard() {
       totalAmount: 25 * 149.99,
       percentage: 25,
       salesCount: 433, // Added actual number of sales
-      color: "#0EA5E9" 
+      color: "#0EA5E9" // Updated to vibrant blue
     }
   ];
 

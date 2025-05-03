@@ -1,3 +1,4 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer, Text, Label } from "recharts";
 import { formatCurrency } from "@/utils/format";
 import { PieDataItem } from "../types/salesTypes";
