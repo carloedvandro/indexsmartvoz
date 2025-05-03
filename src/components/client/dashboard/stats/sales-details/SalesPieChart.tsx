@@ -11,6 +11,31 @@ interface SalesPieChartProps {
   totalSalesAmount: number;
 }
 
+// Componente para as barras na parte inferior
+const BarChart = ({ data }: { data: PieChartItem[] }) => {
+  return (
+    <div className="flex justify-between w-full mt-4 px-6">
+      {data.map((entry, index) => (
+        <div key={`bar-${index}`} className="flex flex-col items-center">
+          <div className="h-36 w-14 bg-gray-200 relative flex items-end">
+            <div 
+              className="w-full absolute bottom-0" 
+              style={{ 
+                backgroundColor: entry.color, 
+                height: `${parseFloat(entry.percentage) * 1.5}px`,
+                maxHeight: '100%',
+                borderTopLeftRadius: '4px',
+                borderTopRightRadius: '4px'
+              }}
+            />
+          </div>
+          <p className="text-gray-500 mt-2 font-medium text-lg">{entry.percentage}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export const SalesPieChart: React.FC<SalesPieChartProps> = ({
   pieData,
   activeIndex,
@@ -91,7 +116,7 @@ export const SalesPieChart: React.FC<SalesPieChartProps> = ({
               cx="50%" 
               cy="120" 
               r="70" 
-              fill="#ffffff" 
+              fill="#f5f5f5" 
               stroke="#e0e0e0" 
               strokeWidth={1}
               filter="url(#shadow)"
@@ -126,6 +151,8 @@ export const SalesPieChart: React.FC<SalesPieChartProps> = ({
           </PieChart>
         </ResponsiveContainer>
       </div>
+      
+      <BarChart data={pieData} />
     </div>
   );
 };

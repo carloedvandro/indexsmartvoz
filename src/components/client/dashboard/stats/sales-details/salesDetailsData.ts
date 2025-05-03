@@ -16,7 +16,7 @@ export const pieData: PieChartItem[] = [
     value: 150, 
     price: 119.99,
     totalAmount: 150 * 119.99,
-    color: "#F1D302", // amarelo
+    color: "#FFDE59", // amarelo
     percentage: "15%" 
   },
   { 
