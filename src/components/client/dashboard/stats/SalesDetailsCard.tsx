@@ -26,12 +26,12 @@ export function SalesDetailsCard() {
   
   const pieData = [
     { 
-      name: "100GB", 
-      fullName: "Plano Smartvoz 100GB + Minutos ilimitados", 
+      name: "110GB", 
+      fullName: "Plano Smartvoz 110GB + Minutos ilimitados", 
       value: 300, 
       price: 119.99,
       totalAmount: 300 * 119.99,
-      color: "#33C3F0" 
+      color: "#9b87f5" 
     },
     { 
       name: "120GB", 
@@ -39,7 +39,31 @@ export function SalesDetailsCard() {
       value: 250, 
       price: 129.99,
       totalAmount: 250 * 129.99,
-      color: "#8425af" 
+      color: "#33C3F0" 
+    },
+    { 
+      name: "130GB", 
+      fullName: "Plano Smartvoz 130GB + Minutos ilimitados", 
+      value: 200, 
+      price: 139.99,
+      totalAmount: 200 * 139.99,
+      color: "#8B5CF6" 
+    },
+    { 
+      name: "140GB", 
+      fullName: "Plano Smartvoz 140GB + Minutos ilimitados", 
+      value: 150, 
+      price: 149.99,
+      totalAmount: 150 * 149.99,
+      color: "#0EA5E9" 
+    },
+    { 
+      name: "150GB", 
+      fullName: "Plano Smartvoz 150GB + Minutos ilimitados", 
+      value: 100, 
+      price: 159.99,
+      totalAmount: 100 * 159.99,
+      color: "#F97316" 
     }
   ];
 
