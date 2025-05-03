@@ -82,7 +82,10 @@ export const SalesPieChart = ({
     <PieChart 
       width={420} 
       height={300}
-      style={{ background: 'transparent' }}
+      style={{ 
+        background: 'transparent',
+        border: 'none'
+      }}
     >
       <Pie
         data={pieData}
@@ -96,13 +99,13 @@ export const SalesPieChart = ({
         startAngle={90}
         endAngle={-270}
         stroke="transparent"
-        strokeWidth={2}
+        strokeWidth={0}
         style={{ 
           transform: 'perspective(800px) rotateX(25deg)',
           transformOrigin: 'center center',
           transition: 'transform 0.5s ease-out',
           filter: 'drop-shadow(0px 1px 3px rgba(255, 255, 255, 0.3))',
-          outline: '2px solid transparent'
+          outline: 'none'
         }}
         labelLine={false}
         label={renderCustomizedLabel}
@@ -135,8 +138,8 @@ export const SalesPieChart = ({
                 opacity: opacity,
                 cursor: 'pointer',
                 stroke: "transparent",
-                strokeWidth: 2,
-                outline: isActive ? '2px solid transparent' : 'none'
+                strokeWidth: 0,
+                outline: 'none'
               }}
               onClick={() => setActiveIndex(index === activeIndex ? null : index)}
             />
