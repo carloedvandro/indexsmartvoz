@@ -81,89 +81,87 @@ export const SalesPieChart = ({
   };
 
   return (
-    <PieChart 
-      width={420} 
-      height={300}
-      style={{ background: 'transparent' }}
-    >
-      <Pie
-        data={pieData}
-        innerRadius={85}
-        outerRadius={135}
-        paddingAngle={0}
-        dataKey="value"
-        animationBegin={0}
-        animationDuration={1200}
-        animationEasing="ease-in-out"
-        startAngle={90}
-        endAngle={-270}
-        stroke="#ffffff"
-        strokeWidth={2}
-        style={{ 
-          filter: 'drop-shadow(0px 12px 20px rgba(0, 0, 0, 0.25))',
-          transform: 'perspective(800px) rotateX(25deg) scale3d(1.05, 1.05, 1.05) translateY(5px)',
-          transformOrigin: 'center center',
-          transition: 'transform 0.5s ease-out',
-        }}
-        labelLine={false}
-        label={renderCustomizedLabel}
-      >
-        {pieData.map((entry, index) => {
-          const isActive = index === activeIndex;
-          const scale = isActive ? 1.08 : 1;
-          const zIndex = isActive ? 10 : 1;
-          const opacity = activeIndex !== null && !isActive ? 0.7 : 1;
-          const offset = getPopOutOffset(index);
-          
-          // Apply a 3D transform that pushes the active slice forward
-          const transform = isActive 
-            ? `translateZ(${offset.z}px) scale(${scale})` 
-            : `scale(${scale})`;
+    <ResponsiveContainer width="100%" height="100%">
+      <PieChart style={{ background: 'transparent' }}>
+        <Pie
+          data={pieData}
+          innerRadius={85}
+          outerRadius={135}
+          paddingAngle={0}
+          dataKey="value"
+          animationBegin={0}
+          animationDuration={1200}
+          animationEasing="ease-in-out"
+          startAngle={90}
+          endAngle={-270}
+          stroke="#ffffff"
+          strokeWidth={2}
+          style={{ 
+            filter: 'drop-shadow(0px 12px 20px rgba(0, 0, 0, 0.25))',
+            transform: 'perspective(800px) rotateX(25deg) scale3d(1.05, 1.05, 1.05) translateY(5px)',
+            transformOrigin: 'center center',
+            transition: 'transform 0.5s ease-out',
+          }}
+          labelLine={false}
+          label={renderCustomizedLabel}
+        >
+          {pieData.map((entry, index) => {
+            const isActive = index === activeIndex;
+            const scale = isActive ? 1.08 : 1;
+            const zIndex = isActive ? 10 : 1;
+            const opacity = activeIndex !== null && !isActive ? 0.7 : 1;
+            const offset = getPopOutOffset(index);
             
-          // Get pie slice angles for label positioning
-          const { midAngle, startAngle, endAngle } = getSliceAngles(index);
-            
-          return (
-            <Cell 
-              key={`cell-${index}`} 
-              fill={entry.color}
-              style={{
-                transform,
-                transformStyle: 'preserve-3d',
-                transformOrigin: 'center center',
-                transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                zIndex: zIndex,
-                opacity: opacity,
-                filter: isActive ? 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.35))' : 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25))',
-                cursor: 'pointer',
-              }}
-              onClick={() => setActiveIndex(index === activeIndex ? null : index)}
-            />
-          );
-        })}
-      </Pie>
-      <text
-        x="50%"
-        y="43%"
-        textAnchor="middle"
-        dominantBaseline="middle"
-        className="text-base"
-        style={{ fontSize: '16px', fontWeight: 'normal' }}
-        fill="#000000"
-      >
-        Vendas do Mês
-      </text>
-      <text
-        x="50%"
-        y="58%"
-        textAnchor="middle"
-        dominantBaseline="middle"
-        className="text-lg font-bold"
-        style={{ fontWeight: 700, fontSize: '18px' }}
-        fill="#13a302"
-      >
-        {formatCurrency(totalSalesAmount)}
-      </text>
-    </PieChart>
+            // Apply a 3D transform that pushes the active slice forward
+            const transform = isActive 
+              ? `translateZ(${offset.z}px) scale(${scale})` 
+              : `scale(${scale})`;
+              
+            // Get pie slice angles for label positioning
+            const { midAngle, startAngle, endAngle } = getSliceAngles(index);
+              
+            return (
+              <Cell 
+                key={`cell-${index}`} 
+                fill={entry.color}
+                style={{
+                  transform,
+                  transformStyle: 'preserve-3d',
+                  transformOrigin: 'center center',
+                  transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                  zIndex: zIndex,
+                  opacity: opacity,
+                  filter: isActive ? 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.35))' : 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25))',
+                  cursor: 'pointer',
+                }}
+                onClick={() => setActiveIndex(index === activeIndex ? null : index)}
+              />
+            );
+          })}
+        </Pie>
+        <text
+          x="50%"
+          y="43%"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          className="text-base"
+          style={{ fontSize: '16px', fontWeight: 'normal' }}
+          fill="#000000"
+        >
+          Vendas do Mês
+        </text>
+        <text
+          x="50%"
+          y="58%"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          className="text-lg font-bold"
+          style={{ fontWeight: 700, fontSize: '18px' }}
+          fill="#13a302"
+        >
+          {formatCurrency(totalSalesAmount)}
+        </text>
+      </PieChart>
+    </ResponsiveContainer>
   );
 };
