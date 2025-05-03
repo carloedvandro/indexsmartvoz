@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SalesDataItem } from "./types";
 
 interface SalesLegendProps {
@@ -12,6 +12,7 @@ interface SalesLegendProps {
   setTooltipData: (data: { x: number; y: number; data: any } | null) => void;
   activeButton: number | null;
   setActiveButton: (index: number | null) => void;
+  colorCycle?: number;
 }
 
 export function SalesLegend({ 
@@ -23,7 +24,8 @@ export function SalesLegend({
   tooltipData,
   setTooltipData,
   activeButton,
-  setActiveButton
+  setActiveButton,
+  colorCycle = 0
 }: SalesLegendProps) {
   
   const onButtonClick = (index: number, event: React.MouseEvent) => {
@@ -39,6 +41,20 @@ export function SalesLegend({
     setShowTooltip(index === activeIndex ? false : true);
   };
   
+  // Chameleon color dots - subtle color animation
+  const [dotColors, setDotColors] = useState<string[]>(pieData.map(item => item.color));
+  
+  useEffect(() => {
+    // Apply chameleon effect - subtle color transitions
+    const newColors = pieData.map((item, idx) => {
+      const shiftedIdx = (idx + colorCycle) % pieData.length;
+      const targetColor = pieData[shiftedIdx].gradientColor || pieData[shiftedIdx].color;
+      return targetColor;
+    });
+    
+    setDotColors(newColors);
+  }, [colorCycle, pieData]);
+  
   return (
     <div className="w-full space-y-4 -mt-[0.5px] ml-[9px]">
       <div className="space-y-2 mt-[12px]">
@@ -52,8 +68,8 @@ export function SalesLegend({
               <div 
                 className={`w-4 h-4 rounded-full mr-2 cursor-pointer transition-all duration-300 flex items-center justify-center ${activeButton === index ? '' : ''}`}
                 style={{ 
-                  backgroundColor: plan.color,
-                  transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+                  backgroundColor: activeButton === index ? plan.color : dotColors[index],
+                  transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 1.5s ease-in-out',
                   position: 'relative',
                   border: '2px solid white',
                   boxShadow: activeButton === index ? '0 0 0 2px rgba(255,255,255,0.8), 0 0 10px rgba(0,0,0,0.25)' : 'none',
@@ -66,7 +82,7 @@ export function SalesLegend({
                   style={{
                     animation: activeButton !== index ? 'ping 3s cubic-bezier(0, 0, 0.2, 1) infinite' : 'none',
                     background: 'transparent',
-                    border: `2px solid ${plan.color}`,
+                    border: `2px solid ${dotColors[index]}`,
                     opacity: 0.6
                   }}
                 ></span>

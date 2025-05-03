@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { formatCurrency } from "@/utils/format";
 import { PieChartSection } from "./PieChartSection";
@@ -21,6 +21,7 @@ export function SalesDetailsCard() {
       price: 119.99,
       totalAmount: 180 * 119.99,
       color: "#D946EF", // Magenta Pink (more vibrant)
+      gradientColor: "#FF00FF", // Bright magenta for chameleon effect
       percentage: 9
     },
     { 
@@ -30,6 +31,7 @@ export function SalesDetailsCard() {
       price: 129.99,
       totalAmount: 340 * 129.99,
       color: "#1EAEDB", // Bright Blue (more vibrant)
+      gradientColor: "#00BFFF", // Deep sky blue for chameleon effect
       percentage: 17
     },
     { 
@@ -39,6 +41,7 @@ export function SalesDetailsCard() {
       price: 139.99,
       totalAmount: 380 * 139.99,
       color: "#8B5CF6", // Vivid Purple (more vibrant)
+      gradientColor: "#9370DB", // Medium purple for chameleon effect
       percentage: 19
     },
     { 
@@ -48,6 +51,7 @@ export function SalesDetailsCard() {
       price: 149.99,
       totalAmount: 480 * 149.99,
       color: "#9b87f5", // Primary Purple (more vibrant)
+      gradientColor: "#7B68EE", // Medium slate blue for chameleon effect
       percentage: 24
     },
     { 
@@ -57,6 +61,7 @@ export function SalesDetailsCard() {
       price: 159.99,
       totalAmount: 620 * 159.99,
       color: "#F97316", // Bright Orange (more vibrant)
+      gradientColor: "#FF8C00", // Dark orange for chameleon effect
       percentage: 31
     }
   ];
@@ -66,6 +71,17 @@ export function SalesDetailsCard() {
     ...item,
     formattedAmount: formatCurrency(item.totalAmount)
   }));
+
+  // Chameleon effect - color cycling for dot indicators
+  const [colorCycle, setColorCycle] = useState(0);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setColorCycle(prev => (prev + 1) % 5);
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="pl-0 h-[550px]">
@@ -90,6 +106,7 @@ export function SalesDetailsCard() {
           setTooltipData={setTooltipData}
           activeButton={activeButton}
           setActiveButton={setActiveButton}
+          colorCycle={colorCycle}
         />
       </div>
     </div>

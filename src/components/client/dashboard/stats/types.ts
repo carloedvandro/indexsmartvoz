@@ -7,6 +7,7 @@ export interface SalesDataItem {
   totalAmount: number;
   formattedAmount?: string;
   color: string;
+  gradientColor?: string;
   percentage?: number;
 }
 

@@ -64,6 +64,14 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
     <div className="w-full max-w-[420px] h-[300px] relative flex items-center justify-center -mt-[7px]">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
+          <defs>
+            {pieData.map((entry, index) => (
+              <linearGradient key={`gradient-${index}`} id={`colorGradient-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor={entry.color} stopOpacity={0.9} />
+                <stop offset="100%" stopColor={entry.gradientColor || entry.color} stopOpacity={1} />
+              </linearGradient>
+            ))}
+          </defs>
           <Pie
             data={pieData}
             innerRadius={75}
@@ -94,7 +102,7 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
               return (
                 <Cell 
                   key={`cell-${index}`} 
-                  fill={entry.color}
+                  fill={`url(#colorGradient-${index})`}
                   stroke="#FFFFFF"
                   strokeWidth={2}
                   style={{
