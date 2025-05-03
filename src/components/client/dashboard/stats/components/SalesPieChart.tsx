@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { PieDataItem } from "../types/salesTypes";
 import { ChartGradients } from "./ChartGradients";
@@ -21,6 +21,8 @@ export const SalesPieChart = ({
   setActiveIndex, 
   totalSalesAmount 
 }: SalesPieChartProps) => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <PieChart style={{ background: 'transparent' }}>
@@ -48,19 +50,31 @@ export const SalesPieChart = ({
           }}
           labelLine={false}
           label={(props) => renderCustomizedLabel(props, pieData, activeIndex)}
+          onMouseEnter={(_, index) => setHoveredIndex(index)}
+          onMouseLeave={() => setHoveredIndex(null)}
         >
           {pieData.map((entry, index) => {
             const isActive = index === activeIndex;
-            const scale = isActive ? 1.08 : 1;
-            const zIndex = isActive ? 10 : 1;
-            const opacity = activeIndex !== null && !isActive ? 0.7 : 1;
+            const isHovered = index === hoveredIndex;
+            const scale = isActive ? 1.12 : isHovered ? 1.06 : 1;
+            const zIndex = isActive ? 10 : isHovered ? 5 : 1;
+            const opacity = (activeIndex !== null && !isActive && !isHovered) ? 0.7 : 1;
             const offset = getPopOutOffset(index, activeIndex);
             
             // Apply a 3D transform that pushes the active slice forward
             const transform = isActive 
               ? `translateZ(${offset.z}px) scale(${scale})` 
-              : `scale(${scale})`;
-              
+              : isHovered 
+                ? `translateZ(10px) scale(${scale})` 
+                : `scale(${scale})`;
+            
+            // Apply enhanced filter for active or hovered state
+            const filter = isActive 
+              ? 'drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.4))' 
+              : isHovered 
+                ? 'drop-shadow(0px 6px 12px rgba(0, 0, 0, 0.3))' 
+                : 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25))';
+                
             return (
               <Cell 
                 key={`cell-${index}`} 
@@ -69,11 +83,13 @@ export const SalesPieChart = ({
                   transform,
                   transformStyle: 'preserve-3d',
                   transformOrigin: 'center center',
-                  transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                  transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                   zIndex: zIndex,
                   opacity: opacity,
-                  filter: isActive ? 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.35))' : 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25))',
+                  filter: filter,
                   cursor: 'pointer',
+                  stroke: isHovered && !isActive ? '#ffffff' : undefined,
+                  strokeWidth: isHovered && !isActive ? 3 : 2,
                 }}
                 onClick={() => setActiveIndex(index === activeIndex ? null : index)}
               />

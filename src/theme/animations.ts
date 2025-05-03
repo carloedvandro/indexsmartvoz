@@ -1,3 +1,4 @@
+
 export const animations = {
   keyframes: {
     "accordion-down": {
@@ -27,6 +28,19 @@ export const animations = {
     "progress-circle": {
       "0%": { "stroke-dashoffset": "100%" },
       "100%": { "stroke-dashoffset": "0%" }
+    },
+    "slice-pop": {
+      "0%": { transform: "scale(1) translateZ(0px)" },
+      "50%": { transform: "scale(1.1) translateZ(15px)" },
+      "100%": { transform: "scale(1.05) translateZ(10px)" }
+    },
+    "fadeIn": {
+      "0%": { opacity: "0", transform: "translateY(5px)" },
+      "100%": { opacity: "1", transform: "translateY(0)" }
+    },
+    "fadeOut": {
+      "0%": { opacity: "1", transform: "translateY(0)" },
+      "100%": { opacity: "0", transform: "translateY(5px)" }
     }
   },
   animation: {
@@ -36,6 +50,9 @@ export const animations = {
     "gradient": "gradient 8s ease-in-out infinite",
     "pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
     "scan-line": "scan-line 0.5s ease-in-out infinite alternate",
-    "progress-circle": "progress-circle 3s linear forwards"
+    "progress-circle": "progress-circle 3s linear forwards",
+    "slice-pop": "slice-pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards",
+    "fade-in": "fadeIn 0.3s ease-out forwards",
+    "fade-out": "fadeOut 0.3s ease-out forwards"
   },
 };

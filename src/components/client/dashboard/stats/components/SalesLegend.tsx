@@ -36,7 +36,7 @@ export const SalesLegend = ({
                     ? `0 2px 8px rgba(0,0,0,0.3)` 
                     : '0 1px 3px rgba(0,0,0,0.2)',
                   transform: activeButton === index ? 'scale(1.25)' : 'scale(1)',
-                  transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+                  transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                 }}
                 onClick={(e) => onButtonClick(index, e)}
               />
@@ -47,11 +47,12 @@ export const SalesLegend = ({
               </div>
               {showTooltip && tooltipData && activeButton === index && (
                 <div 
-                  className="absolute left-6 -top-1 bg-white p-2 rounded-md shadow-lg border border-gray-200 z-50"
+                  className="absolute left-6 -top-1 bg-white p-2 rounded-md shadow-lg border border-gray-200 z-50 animate-fade-in"
                   style={{
                     position: 'absolute',
                     left: '1.5rem',
-                    top: '-0.25rem'
+                    top: '-0.25rem',
+                    animation: 'fadeIn 0.3s ease-out'
                   }}
                 >
                   <p className="text-sm font-medium">{plan.fullName}</p>

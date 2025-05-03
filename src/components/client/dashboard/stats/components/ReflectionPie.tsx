@@ -23,6 +23,9 @@ export const ReflectionPie: React.FC<ReflectionPieProps> = ({ pieData }) => {
         opacity: 0.6,
         mixBlendMode: 'overlay',
       }}
+      animationBegin={0}
+      animationDuration={800}
+      animationEasing="ease-out"
     >
       {pieData.map((_, index) => (
         <Cell 
@@ -31,6 +34,7 @@ export const ReflectionPie: React.FC<ReflectionPieProps> = ({ pieData }) => {
           style={{
             transformOrigin: 'center center',
             pointerEvents: 'none', // Ensure clicks pass through to the main pie
+            transition: 'all 0.4s ease',
           }}
         />
       ))}
