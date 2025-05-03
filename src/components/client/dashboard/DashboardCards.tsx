@@ -20,7 +20,7 @@ export function DashboardCards({ profile, networkStats, handleNetworkClick }: Da
   return (
     <div className="px-4 mt-3">
       <div className="max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-3">
-        <div className="w-full" style={{ background: 'transparent' }}>
+        <div className="w-full">
           <SalesDetailsCard />
         </div>
         <div className="w-full">
@@ -36,3 +36,4 @@ export function DashboardCards({ profile, networkStats, handleNetworkClick }: Da
     </div>
   );
 }
+

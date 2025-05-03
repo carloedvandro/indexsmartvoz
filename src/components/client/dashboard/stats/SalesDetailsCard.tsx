@@ -14,46 +14,46 @@ export function SalesDetailsCard() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipData, setTooltipData] = useState<TooltipData | null>(null);
   
-  // Updated data with more varied and realistic values
+  // Data with both percentage values and sales counts - updated with vibrant colors
   const pieData: PieDataItem[] = [
     { 
       name: "110GB", 
       fullName: "Smartvoz 110GB + Minutos ilimitados", 
-      value: 22, // Updated percentage value
+      value: 17, // Percentage value for pie chart sizing
       price: 119.99,
-      totalAmount: 22 * 119.99,
-      percentage: 22,
-      salesCount: 428, // Updated sales count
+      totalAmount: 17 * 119.99,
+      percentage: 17,
+      salesCount: 305, // Added actual number of sales 
       color: "#8a5cf6" // Bright purple
     },
     { 
       name: "120GB", 
       fullName: "Smartvoz 120GB + Minutos ilimitados", 
-      value: 36, // Updated percentage value
+      value: 21,
       price: 129.99,
-      totalAmount: 36 * 129.99,
-      percentage: 36,
-      salesCount: 692, // Updated sales count
+      totalAmount: 21 * 129.99,
+      percentage: 21,
+      salesCount: 378, // Added actual number of sales
       color: "#0cc7f0" // Bright cyan
     },
     { 
       name: "130GB", 
       fullName: "Smartvoz 130GB + Minutos ilimitados", 
-      value: 15, // Updated percentage value
+      value: 13,
       price: 139.99,
-      totalAmount: 15 * 139.99,
-      percentage: 15,
-      salesCount: 287, // Updated sales count
+      totalAmount: 13 * 139.99,
+      percentage: 13,
+      salesCount: 234, // Added actual number of sales
       color: "#9b5bf5" // Medium purple
     },
     { 
       name: "140GB", 
       fullName: "Smartvoz 140GB + Minutos ilimitados", 
-      value: 27, // Updated percentage value
+      value: 25,
       price: 149.99,
-      totalAmount: 27 * 149.99,
-      percentage: 27,
-      salesCount: 519, // Updated sales count
+      totalAmount: 25 * 149.99,
+      percentage: 25,
+      salesCount: 433, // Added actual number of sales
       color: "#0ea5e9" // Bright blue
     }
   ];
@@ -92,8 +92,8 @@ export function SalesDetailsCard() {
   };
 
   return (
-    <>
-      <div className="items-start mb-4 ml-[9px]">
+    <div className="pl-0 h-[550px]">
+      <div className="flex items-start mb-4 ml-[9px]">
         <h3 className="text-lg font-bold text-black pt-[4px]">Detalhe das Vendas</h3>
       </div>
       
@@ -115,6 +115,6 @@ export function SalesDetailsCard() {
           tooltipData={tooltipData}
         />
       </div>
-    </>
+    </div>
   );
 }

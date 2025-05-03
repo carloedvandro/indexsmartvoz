@@ -5,15 +5,3 @@
 @import './styles/navigation.css';
 @import './styles/forms.css';
 @import './styles/network.css';
-
-body {
-  background-color: transparent !important;
-}
-
-.bg-card {
-  background-color: transparent !important;
-}
-
-.rounded-lg, .card {
-  background-color: transparent !important;
-}
