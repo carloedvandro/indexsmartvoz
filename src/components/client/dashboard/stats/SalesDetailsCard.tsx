@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { formatCurrency } from "@/utils/format";
@@ -21,7 +20,7 @@ export function SalesDetailsCard() {
       totalAmount: 17 * 119.99,
       percentage: 17,
       salesCount: 305, // Added actual number of sales 
-      color: "#8425af" // Primary color from theme
+      color: "#8B30E0" // Bright vivid purple
     },
     { 
       name: "120GB", 
@@ -31,7 +30,7 @@ export function SalesDetailsCard() {
       totalAmount: 21 * 129.99,
       percentage: 21,
       salesCount: 378, // Added actual number of sales
-      color: "#9b87f5" // Secondary color from theme
+      color: "#A992F9" // Soft lavender purple
     },
     { 
       name: "130GB", 
@@ -41,7 +40,7 @@ export function SalesDetailsCard() {
       totalAmount: 13 * 139.99,
       percentage: 13,
       salesCount: 234, // Added actual number of sales
-      color: "#6E59A5" // Accent color from theme
+      color: "#7251C8" // Medium purple
     },
     { 
       name: "140GB", 
@@ -51,7 +50,7 @@ export function SalesDetailsCard() {
       totalAmount: 25 * 149.99,
       percentage: 25,
       salesCount: 433, // Added actual number of sales
-      color: "#8425af" // Primary color variant from theme
+      color: "#5636A8" // Deep rich purple
     }
   ];
 
