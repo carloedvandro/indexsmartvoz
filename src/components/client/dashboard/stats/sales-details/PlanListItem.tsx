@@ -1,7 +1,6 @@
 
 import React from "react";
 import { PieChartItem } from "./salesDetailsData";
-import { formatCurrency } from "@/utils/format";
 
 interface PlanListItemProps {
   plan: PieChartItem;
