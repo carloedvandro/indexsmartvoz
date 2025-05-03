@@ -1,3 +1,4 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
@@ -39,6 +40,22 @@ export function SalesDetailsCard() {
       price: 129.99,
       totalAmount: 250 * 129.99,
       color: "#33C3F0" 
+    },
+    { 
+      name: "140GB", 
+      fullName: "Plano Smartvoz 140GB + Minutos ilimitados", 
+      value: 180, 
+      price: 139.99,
+      totalAmount: 180 * 139.99,
+      color: "#0ea5e9" 
+    },
+    { 
+      name: "160GB", 
+      fullName: "Plano Smartvoz 160GB + Minutos ilimitados", 
+      value: 120, 
+      price: 149.99,
+      totalAmount: 120 * 149.99,
+      color: "#f97316" 
     }
   ];
 

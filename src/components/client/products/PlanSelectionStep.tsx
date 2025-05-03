@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
@@ -38,6 +39,8 @@ export function PlanSelectionStep({
   const internetOptions = [
     { value: "100GB", label: "Plano Smartvoz 100GB + Minutos ilimitados", price: 119.99 },
     { value: "120GB", label: "Plano Smartvoz 120GB + Minutos ilimitados", price: 129.99 },
+    { value: "140GB", label: "Plano Smartvoz 140GB + Minutos ilimitados", price: 139.99 },
+    { value: "160GB", label: "Plano Smartvoz 160GB + Minutos ilimitados", price: 149.99 },
   ];
 
   useEffect(() => {
