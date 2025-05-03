@@ -36,6 +36,46 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
   const startAngle = isGauge ? 135 : 0;
   const rotation = isGauge ? -startAngle : -90;
   
+  // Generate tick marks for the gauge
+  const generateTickMarks = () => {
+    if (!isGauge) return null;
+    
+    const ticks = [];
+    const numTicks = 24; // Number of tick marks around the gauge
+    const tickLength = 8; // Length of tick marks
+    const tickWidth = 2; // Width of tick marks
+    
+    for (let i = 0; i <= numTicks; i++) {
+      // Only show ticks in the visible part of the gauge (270 degrees)
+      if (i <= numTicks * 0.75) {
+        const angle = startAngle + (i / numTicks) * 360;
+        const radian = (angle * Math.PI) / 180;
+        
+        const x1 = center + (radius - strokeWidth / 2) * Math.cos(radian);
+        const y1 = center + (radius - strokeWidth / 2) * Math.sin(radian);
+        const x2 = center + (radius + tickLength - strokeWidth / 2) * Math.cos(radian);
+        const y2 = center + (radius + tickLength - strokeWidth / 2) * Math.sin(radian);
+        
+        const isMajor = i % 4 === 0; // Make every 4th tick larger
+        
+        ticks.push(
+          <line
+            key={i}
+            x1={x1}
+            y1={y1}
+            x2={x2}
+            y2={y2}
+            stroke="#888"
+            strokeWidth={isMajor ? tickWidth * 1.5 : tickWidth}
+            strokeLinecap="round"
+          />
+        );
+      }
+    }
+    
+    return ticks;
+  };
+  
   return (
     <div className="relative" style={{ width: size, height: size }}>
       <svg 
@@ -66,29 +106,34 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
               strokeDasharray={`${gaugeCircumference - offset} ${circumference}`}
               strokeDashoffset="0"
             />
+            
+            {generateTickMarks()}
+            
             {/* Needle */}
-            <line
-              x1={center}
-              y1={center}
-              x2={center}
-              y2={strokeWidth * 1.5}
-              stroke="white"
-              strokeWidth={4}
-              transform={`rotate(${135 + (percentage * 270 / 100)}, ${center}, ${center})`}
-              strokeLinecap="round"
-            />
-            <circle
-              cx={center}
-              cy={center}
-              r={strokeWidth / 2}
-              fill="#e2e8f0"
-            />
-            <circle
-              cx={center}
-              cy={center}
-              r={strokeWidth / 3}
-              fill="#1A1F2C"
-            />
+            <g transform={`rotate(${135 + (percentage * 270 / 100)}, ${center}, ${center})`}>
+              <line
+                x1={center}
+                y1={center}
+                x2={center}
+                y2={strokeWidth * 1.5}
+                stroke="white"
+                strokeWidth={3}
+                strokeLinecap="round"
+              />
+              <circle
+                cx={center}
+                cy={center}
+                r={8}
+                fill="white"
+                filter="drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.5))"
+              />
+              <circle
+                cx={center}
+                cy={center}
+                r={3}
+                fill="#1A1F2C"
+              />
+            </g>
           </>
         ) : (
           // Regular circular progress

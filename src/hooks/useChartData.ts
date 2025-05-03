@@ -68,11 +68,11 @@ export const useChartData = () => {
     };
   };
 
-  // Sales data for pie chart - updated to match the image
+  // Sales data for gauge chart - matched to the reference image
   const salesData = {
-    actualSales: 48048,
+    actualSales: 54023, // Between 40k and 60k as shown in image
     targetSales: 93332,
-    performance: 51.5, // percentage
+    performance: 58, // percentage - needle position between 40k and 60k
     distributions: [
       { name: "Plano 50GB", value: 35 },
       { name: "Plano 100GB", value: 40 },
