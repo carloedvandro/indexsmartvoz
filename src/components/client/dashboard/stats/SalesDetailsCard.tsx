@@ -1,4 +1,3 @@
-
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
@@ -27,7 +26,7 @@ export function SalesDetailsCard() {
   const pieData = [
     { 
       name: "110GB", 
-      fullName: "Plano Smartvoz 110GB + Minutos ilimitados", 
+      fullName: "Smartvoz 110GB + Minutos ilimitados", 
       value: 300, 
       price: 119.99,
       totalAmount: 300 * 119.99,
@@ -35,7 +34,7 @@ export function SalesDetailsCard() {
     },
     { 
       name: "120GB", 
-      fullName: "Plano Smartvoz 120GB + Minutos ilimitados", 
+      fullName: "Smartvoz 120GB + Minutos ilimitados", 
       value: 250, 
       price: 129.99,
       totalAmount: 250 * 129.99,
@@ -43,7 +42,7 @@ export function SalesDetailsCard() {
     },
     { 
       name: "130GB", 
-      fullName: "Plano Smartvoz 130GB + Minutos ilimitados", 
+      fullName: "Smartvoz 130GB + Minutos ilimitados", 
       value: 200, 
       price: 139.99,
       totalAmount: 200 * 139.99,
@@ -51,7 +50,7 @@ export function SalesDetailsCard() {
     },
     { 
       name: "140GB", 
-      fullName: "Plano Smartvoz 140GB + Minutos ilimitados", 
+      fullName: "Smartvoz 140GB + Minutos ilimitados", 
       value: 150, 
       price: 149.99,
       totalAmount: 150 * 149.99,
@@ -59,7 +58,7 @@ export function SalesDetailsCard() {
     },
     { 
       name: "150GB", 
-      fullName: "Plano Smartvoz 150GB + Minutos ilimitados", 
+      fullName: "Smartvoz 150GB + Minutos ilimitados", 
       value: 100, 
       price: 159.99,
       totalAmount: 100 * 159.99,
@@ -187,7 +186,7 @@ export function SalesDetailsCard() {
                 y="45%"
                 textAnchor="middle"
                 dominantBaseline="middle"
-                className="text-sm font-medium"
+                className="text-base font-semibold"
                 fill="#000000"
               >
                 Vendas do Mês
@@ -197,7 +196,7 @@ export function SalesDetailsCard() {
                 y="60%"
                 textAnchor="middle"
                 dominantBaseline="middle"
-                className="text-base font-bold"
+                className="text-lg font-bold"
                 fill="#000000"
               >
                 {formatCurrency(totalSalesAmount)}
@@ -227,7 +226,7 @@ export function SalesDetailsCard() {
                   />
                   <div className="flex-1">
                     <p className={`text-sm text-black pt-[4px] transition-opacity duration-300 ${activeButton === index ? 'opacity-100 font-medium' : activeButton !== null ? 'opacity-60' : 'opacity-100'}`}>
-                      {plan.fullName}
+                      {plan.name} + Minutos ilimitados
                     </p>
                   </div>
                   {showTooltip && tooltipData && activeButton === index && (
