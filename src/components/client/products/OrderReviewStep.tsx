@@ -1,5 +1,6 @@
 
 import { Button } from "@/components/ui/button";
+import { formatCurrency } from "@/utils/format";
 
 type Line = {
   id: number;
@@ -41,7 +42,7 @@ export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
                 </span>
                 <span className="ml-2">{line.internet} + Minutos ilimitados</span>
               </div>
-              <span className="font-medium">R$ {line.price.toFixed(2)}/mês</span>
+              <span className="font-medium">{formatCurrency(line.price)}/mês</span>
             </div>
           </div>
         ))}
@@ -49,7 +50,7 @@ export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
         <div className="p-4 bg-purple-50 rounded-lg">
           <div className="flex justify-between items-center font-medium">
             <span>Total mensal:</span>
-            <span>R$ {(selectedLines.reduce((acc, line) => acc + line.price, 0)).toFixed(2)}/mês</span>
+            <span>{formatCurrency(selectedLines.reduce((acc, line) => acc + line.price, 0))}/mês</span>
           </div>
         </div>
       </div>
