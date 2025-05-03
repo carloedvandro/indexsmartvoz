@@ -68,8 +68,16 @@ export const useChartData = () => {
     };
   };
 
+  // Sales data for the gauge chart
+  const salesData = {
+    actualSales: 48048,
+    targetSales: 93332,
+    performance: 51.5, // percentage
+  };
+
   return { 
     barData,
-    commissionData: calculateCommissions()
+    commissionData: calculateCommissions(),
+    salesData
   };
 };
