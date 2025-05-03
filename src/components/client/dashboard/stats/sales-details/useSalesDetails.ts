@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SalesPlanData, generateSalesData, calculateTotalSalesAmount } from "./salesDetailsData";
 
 export function useSalesDetails() {
@@ -10,6 +10,13 @@ export function useSalesDetails() {
   
   const pieData = generateSalesData();
   const totalSalesAmount = calculateTotalSalesAmount(pieData);
+
+  // Reset active states when data changes
+  useEffect(() => {
+    setActiveIndex(null);
+    setActiveButton(null);
+    setShowTooltip(false);
+  }, [pieData]);
 
   const onButtonClick = (index: number, event: React.MouseEvent) => {
     setActiveButton(index === activeButton ? null : index);

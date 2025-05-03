@@ -1,7 +1,8 @@
 
 import React from "react";
-import { PieChart, Pie, Cell, ResponsiveContainer, Text } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Text, Legend } from "recharts";
 import { formatCurrency } from "@/utils/format";
+import { motion } from "framer-motion";
 
 interface SalesChartProps {
   pieData: {
@@ -17,6 +18,33 @@ interface SalesChartProps {
 }
 
 export function SalesChart({ pieData, activeIndex, totalSalesAmount }: SalesChartProps) {
+  // Custom Legend renderer
+  const renderCustomLegend = (props: any) => {
+    const { payload } = props;
+    
+    return (
+      <div className="flex flex-wrap justify-center gap-4 mt-4">
+        {payload.map((entry: any, index: number) => {
+          const isActive = index === activeIndex;
+          return (
+            <div 
+              key={`legend-${index}`} 
+              className={`flex items-center transition-all duration-300 ${isActive ? 'scale-105' : ''}`}
+            >
+              <div 
+                className="w-3 h-3 mr-2 rounded-sm" 
+                style={{ backgroundColor: entry.color }}
+              />
+              <span className={`text-xs ${isActive ? 'font-bold' : 'font-medium'}`}>
+                {entry.value}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   return (
     <div className="w-full max-w-[420px] h-[300px] relative flex items-center justify-center -mt-[2px]">
       <ResponsiveContainer width="100%" height="100%">
@@ -34,7 +62,6 @@ export function SalesChart({ pieData, activeIndex, totalSalesAmount }: SalesChar
             endAngle={-270}
             stroke="none"
             strokeWidth={0}
-            style={{ outline: 'none', pointerEvents: 'none' }}
           >
             {pieData.map((entry, index) => {
               const isActive = index === activeIndex;
@@ -54,8 +81,7 @@ export function SalesChart({ pieData, activeIndex, totalSalesAmount }: SalesChar
                     zIndex: zIndex,
                     opacity: opacity,
                     filter: isActive ? 'drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.2))' : 'none',
-                    outline: 'none',
-                    pointerEvents: 'none'
+                    cursor: 'pointer',
                   }}
                 />
               );
@@ -81,6 +107,12 @@ export function SalesChart({ pieData, activeIndex, totalSalesAmount }: SalesChar
           >
             {formatCurrency(totalSalesAmount)}
           </Text>
+          <Legend 
+            content={renderCustomLegend}
+            verticalAlign="bottom"
+            align="center"
+            layout="horizontal"
+          />
         </PieChart>
       </ResponsiveContainer>
     </div>
