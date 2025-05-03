@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BarChart, Bar, PieChart, Pie, Cell, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { formatCurrency } from '@/utils/format';
 
 interface DataItem {
@@ -16,24 +16,11 @@ interface CombinedBarPieChartProps {
   data: DataItem[];
 }
 
-const CustomBarTooltip = ({ active, payload }: any) => {
+const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white p-2 rounded-md shadow-lg border border-gray-200">
         <p className="text-sm font-medium">{payload[0].payload.fullName}</p>
-        <p className="text-sm">{payload[0].value} vendas</p>
-        <p className="text-sm font-medium">{formatCurrency(payload[0].payload.totalAmount)}</p>
-      </div>
-    );
-  }
-  return null;
-};
-
-const CustomPieTooltip = ({ active, payload }: any) => {
-  if (active && payload && payload.length) {
-    return (
-      <div className="bg-white p-2 rounded-md shadow-lg border border-gray-200">
-        <p className="text-sm font-medium">{payload[0].name} - {payload[0].payload.percentage}%</p>
         <p className="text-sm">{payload[0].value} vendas</p>
         <p className="text-sm font-medium">{formatCurrency(payload[0].payload.totalAmount)}</p>
       </div>
@@ -51,117 +38,133 @@ export function CombinedBarPieChart({ data }: CombinedBarPieChartProps) {
     ...item,
     percentage: Math.round((item.value / total) * 100)
   }));
+  
+  // Calculate positions for percentage labels and lines
+  const getLabelPosition = (index: number, total: number) => {
+    // Positions for the 4 segments (assuming the order is: 40%, 23%, 17%, 20%)
+    const positions = [
+      { x: 75, y: 10 },   // Top right (40%)
+      { x: 85, y: 70 },   // Bottom right (23%)
+      { x: 45, y: 85 },   // Bottom left (17%)
+      { x: 10, y: 30 }    // Top left (20%)
+    ];
+    
+    return positions[index % positions.length];
+  };
 
-  // Get highlighted item (for the arrow effect) - using the second item in the data
-  const highlightedItem = data.length > 1 ? data[1] : data[0];
+  // Calculate line connector points
+  const getConnectorPoints = (index: number) => {
+    // Start points for connectors on the pie chart
+    const piePoints = [
+      { x: 58, y: 42 },   // 40% segment
+      { x: 58, y: 65 },   // 23% segment
+      { x: 42, y: 65 },   // 17% segment
+      { x: 35, y: 45 }    // 20% segment
+    ];
+    
+    const labelPosition = getLabelPosition(index, data.length);
+    return {
+      start: piePoints[index % piePoints.length],
+      end: labelPosition
+    };
+  };
   
   return (
     <div className="w-full">
-      {/* Bar chart section */}
-      <div className="h-[200px] mb-12 relative">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
-            <XAxis dataKey="name" hide />
-            <Tooltip content={<CustomBarTooltip />} />
-            <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-              {data.map((entry, index) => (
-                <Cell 
-                  key={`cell-${index}`} 
-                  fill={entry.color} 
-                  style={{
-                    filter: 'drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.1))',
-                  }}
-                />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-        
-        {/* Text labels on bars */}
-        <div className="absolute inset-0 pointer-events-none flex justify-around items-end pb-20">
-          {data.map((item, index) => (
-            <div 
-              key={index} 
-              className="text-center text-white font-medium text-sm flex-1 px-2"
-              style={{ 
-                transform: `translateY(-${item.value * 0.3}px)`,
-                textShadow: '0 1px 2px rgba(0,0,0,0.3)'
-              }}
-            >
-              {item.name}
-            </div>
-          ))}
-        </div>
-      </div>
-      
-      {/* Connection arrow from bar to pie chart */}
-      <div className="relative h-16 mx-auto w-full flex justify-center">
+      <div className="h-[380px] relative">
+        {/* 3D Pie Chart Base Shadow (to create depth illusion) */}
         <div 
-          className="absolute h-16 w-1 bg-gradient-to-b from-transparent to-green-500"
-          style={{ left: `calc(${(data.indexOf(highlightedItem) + 0.5) * (100 / data.length)}%)` }}
-        ></div>
-        <div 
-          className="absolute bottom-0 w-12 h-12 flex items-center justify-center"
-          style={{ 
-            left: `calc(${(data.indexOf(highlightedItem) + 0.5) * (100 / data.length)}% - 24px)`,
+          className="absolute rounded-full bg-gray-100" 
+          style={{
+            width: '70%',
+            height: '20%',
+            left: '15%',
+            bottom: '5%',
+            transform: 'rotateX(65deg)',
+            filter: 'blur(15px)',
+            opacity: 0.5,
+            zIndex: 1
           }}
-        >
-          <svg height="48" width="48" className="transform rotate-90">
-            <polygon points="0,0 48,24 0,48" fill="#4ade80" />
-          </svg>
-        </div>
-      </div>
-      
-      {/* Pie chart section */}
-      <div className="h-[250px] relative">
+        />
+        
+        {/* Main Pie Chart */}
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={pieData}
               cx="50%"
               cy="50%"
-              innerRadius={60}
-              outerRadius={90}
-              paddingAngle={4}
+              innerRadius={0}
+              outerRadius="70%"
+              paddingAngle={0}
               dataKey="value"
+              stroke="none"
               startAngle={90}
               endAngle={-270}
-              stroke="none"
             >
               {pieData.map((entry, index) => (
                 <Cell 
                   key={`pie-cell-${index}`} 
-                  fill={entry.color} 
+                  fill={entry.color}
                   style={{
-                    filter: 'drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.15))',
+                    filter: 'drop-shadow(2px 5px 3px rgba(0, 0, 0, 0.15))',
                   }}
                 />
               ))}
             </Pie>
-            <Tooltip content={<CustomPieTooltip />} />
+            <Tooltip content={<CustomTooltip />} />
           </PieChart>
         </ResponsiveContainer>
         
-        {/* Percentage labels */}
+        {/* Percentage labels and connector lines */}
         {pieData.map((entry, index) => {
-          // Calculate position for labels
-          const angle = 90 - 360 * (index / pieData.length);
-          const radian = (angle * Math.PI) / 180;
-          const x = 50 + (110 * Math.cos(radian));
-          const y = 50 - (110 * Math.sin(radian));
+          const labelPosition = getLabelPosition(index, pieData.length);
+          const connector = getConnectorPoints(index);
           
           return (
-            <div 
-              key={`label-${index}`}
-              className="absolute text-base font-bold"
-              style={{
-                top: `${y}%`,
-                left: `${x}%`,
-                transform: 'translate(-50%, -50%)',
-              }}
-            >
-              {entry.percentage}%
-            </div>
+            <React.Fragment key={`label-${index}`}>
+              {/* Connector line */}
+              <svg 
+                className="absolute top-0 left-0 w-full h-full pointer-events-none" 
+                style={{ zIndex: 5 }}
+              >
+                <line
+                  x1={`${connector.start.x}%`}
+                  y1={`${connector.start.y}%`}
+                  x2={`${connector.end.x}%`}
+                  y2={`${connector.end.y}%`}
+                  stroke={entry.color}
+                  strokeWidth="1"
+                />
+              </svg>
+              
+              {/* Percentage label in circle */}
+              <div 
+                className="absolute flex items-center justify-center bg-white rounded-full shadow-md border border-gray-100 w-16 h-16"
+                style={{
+                  top: `${labelPosition.y}%`,
+                  left: `${labelPosition.x}%`,
+                  transform: 'translate(-50%, -50%)',
+                  zIndex: 10
+                }}
+              >
+                <span className="text-xl font-bold text-gray-700">{entry.percentage}%</span>
+              </div>
+              
+              {/* Label text */}
+              <div
+                className="absolute max-w-[150px] text-xs text-gray-600"
+                style={{
+                  top: `${labelPosition.y + (index % 2 === 0 ? -15 : 15)}%`,
+                  left: `${labelPosition.x + (index === 0 || index === 3 ? -15 : 15)}%`,
+                  transform: 'translate(-50%, -50%)',
+                  zIndex: 10
+                }}
+              >
+                <p className="font-semibold">{entry.name}</p>
+                <p>{formatCurrency(entry.price)}</p>
+              </div>
+            </React.Fragment>
           );
         })}
       </div>

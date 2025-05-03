@@ -1,6 +1,5 @@
 
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useState } from "react";
 import { formatCurrency } from "@/utils/format";
 import { CombinedBarPieChart } from "../charts/CombinedBarPieChart";
 
@@ -14,7 +13,7 @@ export function SalesDetailsCard() {
       value: 300, 
       price: 119.99,
       totalAmount: 300 * 119.99,
-      color: "#33C3F0" 
+      color: "#0078D4" // Dark blue
     },
     { 
       name: "120GB", 
@@ -22,7 +21,7 @@ export function SalesDetailsCard() {
       value: 250, 
       price: 129.99,
       totalAmount: 250 * 129.99,
-      color: "#4ade80" 
+      color: "#50E6FF" // Light blue
     },
     { 
       name: "150GB", 
@@ -30,7 +29,7 @@ export function SalesDetailsCard() {
       value: 180, 
       price: 149.99,
       totalAmount: 180 * 149.99,
-      color: "#8425af" 
+      color: "#79E562" // Green
     },
     { 
       name: "200GB", 
@@ -38,7 +37,7 @@ export function SalesDetailsCard() {
       value: 120, 
       price: 169.99,
       totalAmount: 120 * 169.99,
-      color: "#3b82f6" 
+      color: "#FF8C00" // Orange
     }
   ];
 
