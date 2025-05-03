@@ -50,7 +50,7 @@ export const SalesLegend = ({
                   className="absolute left-6 -top-1 bg-white p-2 rounded-md shadow-lg border border-gray-200 z-50"
                   style={{
                     position: 'absolute',
-                    left: '1.3rem', // Moved 2px to the left (from 1.5rem to 1.3rem)
+                    left: '1.2rem', // Moved 1px more to the left (from 1.3rem to 1.2rem)
                     top: '-0.25rem'
                   }}
                 >
