@@ -67,7 +67,7 @@ export const SalesPieChart = ({
           textAnchor="middle" 
           dominantBaseline="central"
           style={{ 
-            fontSize: '16px', // Increased from 15px
+            fontSize: '15px', 
             fontWeight: 'bold',
             filter: 'drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.8))',
             textShadow: '1px 1px 3px rgba(0, 0, 0, 0.7)'
@@ -85,8 +85,8 @@ export const SalesPieChart = ({
       <PieChart>
         <Pie
           data={pieData}
-          innerRadius={75}
-          outerRadius={120}
+          innerRadius={90}  // Increased from 75
+          outerRadius={140} // Increased from 120
           paddingAngle={0}
           dataKey="value" // This ensures the pie slices are sized according to the value property
           animationBegin={0}
@@ -145,7 +145,7 @@ export const SalesPieChart = ({
           textAnchor="middle"
           dominantBaseline="middle"
           className="text-base"
-          style={{ fontSize: '18px', fontWeight: 'normal' }} // Increased from 16px
+          style={{ fontSize: '16px', fontWeight: 'normal' }}
           fill="#000000"
         >
           Vendas do Mês
@@ -156,7 +156,7 @@ export const SalesPieChart = ({
           textAnchor="middle"
           dominantBaseline="middle"
           className="text-lg font-bold"
-          style={{ fontWeight: 700, fontSize: '22px' }} // Increased from 18px
+          style={{ fontWeight: 700, fontSize: '18px' }}
           fill="#13a302"
         >
           {formatCurrency(totalSalesAmount)}
