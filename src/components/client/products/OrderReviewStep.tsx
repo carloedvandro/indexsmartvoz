@@ -39,7 +39,7 @@ export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
                 <span className="font-medium">
                   {line.id === 1 || line.id === 2 ? "Plano Smartvoz" : `Linha ${String(line.id).padStart(2, '0')}`}
                 </span>
-                <span className="ml-2">{line.internet}</span>
+                <span className="ml-2">{line.internet} + Minutos ilimitados</span>
               </div>
               <span className="font-medium">R$ {line.price.toFixed(2)}/mês</span>
             </div>

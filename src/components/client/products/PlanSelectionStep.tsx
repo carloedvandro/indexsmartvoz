@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
@@ -36,10 +35,9 @@ export function PlanSelectionStep({
 }: PlanSelectionStepProps) {
   const { data: calendarStyle } = useCalendarStyles();
   
-  // Updated plan names to remove "+ Minutos ilimitados"
   const internetOptions = [
-    { value: "100GB", label: "Smartvoz 100GB", price: 119.99 },
-    { value: "120GB", label: "Smartvoz 120GB", price: 129.99 },
+    { value: "100GB", label: "Plano Smartvoz 100GB + Minutos ilimitados", price: 119.99 },
+    { value: "120GB", label: "Plano Smartvoz 120GB + Minutos ilimitados", price: 129.99 },
   ];
 
   useEffect(() => {

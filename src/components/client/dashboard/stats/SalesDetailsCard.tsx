@@ -1,3 +1,4 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
@@ -26,7 +27,7 @@ export function SalesDetailsCard() {
   const pieData = [
     { 
       name: "100GB", 
-      fullName: "Plano Smartvoz 100GB", 
+      fullName: "Plano Smartvoz 100GB + Minutos ilimitados", 
       value: 300, 
       price: 109.99,
       totalAmount: 300 * 109.99,
@@ -34,7 +35,7 @@ export function SalesDetailsCard() {
     },
     { 
       name: "120GB", 
-      fullName: "Plano Smartvoz 120GB", 
+      fullName: "Plano Smartvoz 120GB + Minutos ilimitados", 
       value: 250, 
       price: 119.99,
       totalAmount: 250 * 119.99,
