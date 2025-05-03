@@ -1,6 +1,5 @@
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Text } from "recharts";
-import { useState } from "react";
 import { formatCurrency } from "@/utils/format";
 import { SalesDataItem } from "./types";
 
