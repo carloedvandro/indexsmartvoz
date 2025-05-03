@@ -53,10 +53,9 @@ export const SalesLegend = ({
                   }}
                 >
                   <p className="text-sm font-medium">{plan.fullName}</p>
-                  <div className="flex flex-col">
-                    <p className="text-sm">{plan.salesCount} vendas</p>
-                    <p className="text-sm font-medium">{formatCurrency(plan.totalAmount)}</p>
-                  </div>
+                  <p className="text-sm">
+                    {plan.salesCount} vendas {formatCurrency(plan.totalAmount)}
+                  </p>
                 </div>
               )}
             </div>
