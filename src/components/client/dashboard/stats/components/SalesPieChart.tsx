@@ -97,12 +97,11 @@ export const SalesPieChart = ({
         startAngle={90}
         endAngle={-270}
         stroke="#ffffff"
-        strokeWidth={3}
+        strokeWidth={1}
         style={{ 
           transform: 'perspective(800px) rotateX(25deg)',
           transformOrigin: 'center center',
           transition: 'transform 0.5s ease-out',
-          filter: 'drop-shadow(0px 4px 8px rgba(255, 255, 255, 0.3))'
         }}
         labelLine={false}
         label={renderCustomizedLabel}
@@ -134,8 +133,6 @@ export const SalesPieChart = ({
                 zIndex: zIndex,
                 opacity: opacity,
                 cursor: 'pointer',
-                stroke: "#ffffff",
-                strokeWidth: isActive ? 3 : 2
               }}
               onClick={() => setActiveIndex(index === activeIndex ? null : index)}
             />
