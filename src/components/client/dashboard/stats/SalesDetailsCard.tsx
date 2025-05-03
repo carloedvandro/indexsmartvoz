@@ -1,7 +1,9 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
 import { formatCurrency } from "@/utils/format";
+import { CircularProgress } from "../charts/CircularProgress";
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
@@ -30,7 +32,8 @@ export function SalesDetailsCard() {
       value: 300, 
       price: 119.99,
       totalAmount: 300 * 119.99,
-      color: "#8425af" 
+      color: "#8e44ad",
+      percentage: "30%" 
     },
     { 
       name: "120GB", 
@@ -38,8 +41,36 @@ export function SalesDetailsCard() {
       value: 250, 
       price: 129.99,
       totalAmount: 250 * 129.99,
-      color: "#33C3F0" 
-    }
+      color: "#e67e22",
+      percentage: "25%" 
+    },
+    {
+      name: "150GB",
+      fullName: "Plano Smartvoz 150GB + Minutos ilimitados",
+      value: 200,
+      price: 149.99,
+      totalAmount: 200 * 149.99,
+      color: "#e74c3c",
+      percentage: "20%"
+    },
+    {
+      name: "200GB",
+      fullName: "Plano Smartvoz 200GB + Minutos ilimitados",
+      value: 100,
+      price: 179.99,
+      totalAmount: 100 * 179.99,
+      color: "#f1c40f",
+      percentage: "10%"
+    },
+    {
+      name: "Unlimited",
+      fullName: "Plano Smartvoz Unlimited + Minutos ilimitados",
+      value: 150,
+      price: 199.99,
+      totalAmount: 150 * 199.99,
+      color: "#27ae60",
+      percentage: "15%"
+    },
   ];
 
   const totalSalesAmount = pieData.reduce((acc, plan) => {
@@ -70,53 +101,124 @@ export function SalesDetailsCard() {
         <div className={`w-full max-w-[420px] h-[300px] relative flex items-center justify-center -mt-[2px] ${isMobile ? "mt-2" : ""}`}>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
+              <defs>
+                {pieData.map((entry, index) => (
+                  <linearGradient 
+                    key={`gradient-${index}`}
+                    id={`gradient-${index}`}
+                    x1="0%" 
+                    y1="0%" 
+                    x2="100%" 
+                    y2="100%"
+                  >
+                    <stop 
+                      offset="0%" 
+                      stopColor={entry.color} 
+                      stopOpacity={1}
+                    />
+                    <stop 
+                      offset="100%" 
+                      stopColor={entry.color} 
+                      stopOpacity={0.7}
+                    />
+                  </linearGradient>
+                ))}
+              </defs>
+              
               <Pie
                 data={pieData}
-                innerRadius={90}
-                outerRadius={120}
+                innerRadius={60}
+                outerRadius={130}
                 paddingAngle={2}
                 dataKey="value"
                 animationBegin={0}
                 animationDuration={1200}
-                animationEasing="ease-in-out"
+                animationEasing="ease-out"
                 startAngle={90}
                 endAngle={-270}
-                stroke="none"
-                strokeWidth={0}
-                style={{ outline: 'none', pointerEvents: 'none' }}
+                stroke="#ffffff"
+                strokeWidth={3}
+                style={{ 
+                  filter: 'drop-shadow(2px 4px 12px rgba(0, 0, 0, 0.25))',
+                }}
               >
                 {pieData.map((entry, index) => {
                   const isActive = index === activeIndex;
-                  const scale = isActive ? 1.1 : 1;
-                  const zIndex = isActive ? 10 : 1;
-                  const opacity = activeIndex !== null && !isActive ? 0.7 : 1;
+                  const scale = isActive ? 1.08 : 1;
+                  const translateX = isActive ? Math.cos((90 - index * 72) * Math.PI / 180) * 10 : 0;
+                  const translateY = isActive ? -Math.sin((90 - index * 72) * Math.PI / 180) * 10 : 0;
                   
                   return (
                     <Cell 
                       key={`cell-${index}`} 
-                      fill={entry.color}
-                      stroke="none"
+                      fill={`url(#gradient-${index})`}
+                      stroke="#ffffff"
+                      strokeWidth={3}
                       style={{
-                        transform: `scale(${scale})`,
+                        transform: `scale(${scale}) translate(${translateX}px, ${translateY}px)`,
                         transformOrigin: 'center center',
-                        transition: 'all 0.3s ease-in-out',
-                        zIndex: zIndex,
-                        opacity: opacity,
-                        filter: isActive ? 'drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.2))' : 'none',
-                        outline: 'none',
-                        pointerEvents: 'none'
+                        transition: 'all 0.4s ease-out',
+                        filter: isActive ? 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.3))' : 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.15))',
+                        cursor: 'pointer',
                       }}
+                      onClick={(e) => onButtonClick(index, e as unknown as React.MouseEvent)}
                     />
                   );
                 })}
+                
+                {/* Porcentagens mais destacadas no centro de cada segmento */}
+                {pieData.map((entry, index) => {
+                  const angle = 90 - (index * 360 / pieData.length) - (360 / pieData.length / 2);
+                  const radius = 95; // Posicionamento mais para o centro do segmento
+                  const x = Math.cos((angle * Math.PI) / 180) * radius;
+                  const y = -Math.sin((angle * Math.PI) / 180) * radius;
+                  
+                  return (
+                    <text
+                      key={`percentage-${index}`}
+                      x={x}
+                      y={y}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fill="#ffffff"
+                      fontWeight="bold"
+                      fontSize="16px"
+                      style={{
+                        filter: 'drop-shadow(0px 1px 2px rgba(0,0,0,0.5))',
+                        textShadow: '0px 1px 2px rgba(0,0,0,0.5)'
+                      }}
+                      pointerEvents="none"
+                    >
+                      {entry.percentage}
+                    </text>
+                  );
+                })}
               </Pie>
+              
+              {/* Círculo central com informações */}
+              <circle 
+                cx="50%" 
+                cy="50%" 
+                r="55" 
+                fill="#ffffff" 
+                stroke="#f0f0f0" 
+                strokeWidth={2}
+                filter="url(#shadow)"
+              />
+              
+              <defs>
+                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.2" />
+                </filter>
+              </defs>
+              
               <text
                 x="50%"
-                y="45%"
+                y="40%"
                 textAnchor="middle"
                 dominantBaseline="middle"
                 className="text-sm font-medium"
-                fill="#000000"
+                fill="#666666"
               >
                 Vendas do Mês
               </text>
@@ -125,7 +227,7 @@ export function SalesDetailsCard() {
                 y="60%"
                 textAnchor="middle"
                 dominantBaseline="middle"
-                className="text-base font-bold"
+                className="text-lg font-bold"
                 fill="#000000"
               >
                 {formatCurrency(totalSalesAmount)}
