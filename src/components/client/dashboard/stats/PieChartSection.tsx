@@ -33,13 +33,12 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
     // Use the defined percentages from the data
     const percent = pieData[index].percentage || Math.round((pieData[index].value / totalValue) * 100);
     
-    // Skip very small slices (less than 5%)
-    if (percent < 5) return null;
+    // Don't skip any slices, we want to show all percentages
     
-    // Calculate the position of the text - position further out for better visibility
+    // Calculate the position of the text - position for better visibility
     const RADIAN = Math.PI / 180;
-    // Move labels further out from center (0.8 instead of 0.5)
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.75;
+    // Position the labels in the middle of each slice
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
