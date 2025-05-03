@@ -87,4 +87,11 @@
   filter: brightness(1.1);
 }
 
+/* Estilo específico para o medidor de risco */
+.risk-percentage {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.875rem;
+}
+
 /* Adicionar o estilo à importação principal */

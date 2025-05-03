@@ -15,6 +15,7 @@ interface GaugeSegment {
 
 export function RiskGaugeCard() {
   // Dados aprimorados para o medidor de risco com cores 3D
+  // Alterando o esquema de cores para seguir o padrão da imagem fornecida
   const gaugeData: GaugeSegment[] = [
     { 
       name: "100%", 
@@ -83,7 +84,7 @@ export function RiskGaugeCard() {
   ];
 
   // Valor atual do ponteiro (entre 100 e 800)
-  const needleValue = 350; // Valor entre 100 e 800
+  const needleValue = 750; // Alterado para 750 para corresponder à imagem (perto de 800%)
   const needleAngle = ((needleValue - 100) / 700) * 180 - 90; // Converte para ângulo entre -90 e 90 graus
 
   // Função para criar o efeito 3D nos segmentos do medidor
@@ -121,14 +122,18 @@ export function RiskGaugeCard() {
       </div>
       
       <div className="flex flex-col items-center">
-        {/* Categorias nos lados */}
-        <div className="w-full flex justify-between mb-0 px-4">
-          <span className="text-gray-600 text-sm font-bold">BAIXO</span>
-          <span className="text-gray-600 text-sm font-bold text-center">MÉDIO</span>
-          <span className="text-gray-600 text-sm font-bold">ALTO</span>
-        </div>
+        {/* Gauge percentages around the gauge */}
+        <div className="relative w-full h-60">
+          {/* Percentages positioned strategically around the dial */}
+          <div className="absolute top-10 left-5 text-gray-700 font-medium">100%</div>
+          <div className="absolute top-2 left-1/4 text-gray-700 font-medium">200%</div>
+          <div className="absolute top-0 left-1/3 text-gray-700 font-medium">300%</div>
+          <div className="absolute top-0 left-1/2 text-gray-700 font-medium">400%</div>
+          <div className="absolute top-0 right-1/3 text-gray-700 font-medium">500%</div>
+          <div className="absolute top-2 right-1/4 text-gray-700 font-medium">600%</div>
+          <div className="absolute top-10 right-5 text-gray-700 font-medium">700%</div>
+          <div className="absolute top-20 right-0 text-gray-700 font-medium">800%</div>
 
-        <div className="h-60 w-full relative">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               {/* Filtro SVG para sombras */}
@@ -169,32 +174,6 @@ export function RiskGaugeCard() {
                 ))}
               </Pie>
               
-              {/* Porcentagens nos segmentos */}
-              {gaugeData.map((entry, index) => {
-                const RADIAN = Math.PI / 180;
-                // Calculando a posição para colocar as percentagens no meio de cada segmento
-                const angle = 180 - (index * 22.5 + 11.25);
-                const radius = 105;
-                const x = 200 + radius * Math.cos(-angle * RADIAN);
-                const y = 240 + radius * Math.sin(-angle * RADIAN);
-                
-                return (
-                  <text
-                    key={`percentage-${index}`}
-                    x={x}
-                    y={y}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    fill="#444444"
-                    fontWeight="bold"
-                    fontSize="14"
-                    filter={index === activeSegment ? "drop-shadow(0 1px 1px rgba(255,255,255,0.7))" : "none"}
-                  >
-                    {entry.percentage}
-                  </text>
-                );
-              })}
-
               {/* Círculo central com efeito 3D */}
               <circle 
                 cx="50%" 
@@ -237,18 +216,6 @@ export function RiskGaugeCard() {
               </g>
             </PieChart>
           </ResponsiveContainer>
-        </div>
-        
-        {/* Marcadores de percentagem abaixo do medidor */}
-        <div className="flex justify-between w-full px-2 mt-4 mb-2">
-          {gaugeData.map((segment, index) => (
-            <div 
-              key={`marker-${index}`} 
-              className={`text-xs ${index === activeSegment ? 'font-bold' : 'text-gray-600'}`}
-            >
-              {segment.name}
-            </div>
-          ))}
         </div>
       </div>
     </Card>
