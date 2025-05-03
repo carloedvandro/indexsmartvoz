@@ -11,8 +11,10 @@ export const SalesChartTooltip = ({ active, payload }: SalesChartTooltipProps) =
     return (
       <div className="bg-white p-2 rounded-md shadow-lg border border-gray-200">
         <p className="text-sm font-medium">{payload[0].payload.fullName}</p>
-        <p className="text-sm">{payload[0].payload.salesCount} vendas</p>
-        <p className="text-sm font-medium">{formatCurrency(payload[0].payload.totalAmount)}</p>
+        <div className="flex flex-col">
+          <p className="text-sm">{payload[0].payload.salesCount} vendas</p>
+          <p className="text-sm font-medium">{formatCurrency(payload[0].payload.totalAmount)}</p>
+        </div>
       </div>
     );
   }
