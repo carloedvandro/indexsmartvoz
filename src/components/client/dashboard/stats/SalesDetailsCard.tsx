@@ -62,6 +62,7 @@ export function SalesDetailsCard() {
     return acc + planTotal;
   }, 0);
 
+  // Handle clicking on a legend button
   const onButtonClick = (index: number, event: React.MouseEvent) => {
     setActiveButton(index === activeButton ? null : index);
     setActiveIndex(index === activeIndex ? null : index);
@@ -75,6 +76,7 @@ export function SalesDetailsCard() {
     setShowTooltip(index === activeIndex ? false : true);
   };
 
+  // Handle clicking on a pie chart slice
   const handlePieSliceClick = (index: number | null) => {
     setActiveIndex(index);
     setActiveButton(index);

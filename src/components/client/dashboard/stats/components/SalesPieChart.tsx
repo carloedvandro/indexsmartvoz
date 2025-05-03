@@ -49,10 +49,10 @@ export const SalesPieChart = ({
     const { midAngle } = getSliceAngles(index);
     const midAngleRad = (midAngle * Math.PI) / 180;
     
-    // Distance to pop out - increased for more visible effect
-    const distance = 15;
+    // Distance to pop out - increased for better visibility
+    const distance = 20;
     
-    // Calculate the offset using the correct direction
+    // Calculate the offset using the angle
     return {
       x: Math.cos(midAngleRad) * distance,
       y: Math.sin(midAngleRad) * distance
@@ -102,7 +102,7 @@ export const SalesPieChart = ({
                   zIndex: zIndex,
                   opacity: opacity,
                   filter: isActive ? 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.35))' : 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25))',
-                  outline: 'none',
+                  cursor: 'pointer',
                 }}
                 onClick={() => setActiveIndex(index === activeIndex ? null : index)}
               />
