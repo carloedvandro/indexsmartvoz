@@ -1,0 +1,21 @@
+
+import React from "react";
+import { formatCurrency } from "@/utils/format";
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: any[];
+}
+
+export const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white p-2 rounded-md shadow-lg border border-gray-200">
+        <p className="text-sm font-medium">{payload[0].payload.fullName}</p>
+        <p className="text-sm">{payload[0].value} vendas</p>
+        <p className="text-sm font-medium">{formatCurrency(payload[0].payload.totalAmount)}</p>
+      </div>
+    );
+  }
+  return null;
+};
