@@ -49,7 +49,7 @@ export const SalesPieChart = ({
     };
   };
 
-  // Custom label component to render percentage and sales count labels inside pie slices
+  // Custom label component to render only percentage labels inside pie slices
   const renderCustomizedLabel = (props: any) => {
     const { cx, cy, midAngle, innerRadius, outerRadius, index } = props;
     // Position the label inside the slice rather than outside
@@ -60,41 +60,21 @@ export const SalesPieChart = ({
     // Only render if this slice is active or if there's no active slice
     if (activeIndex === null || activeIndex === index) {
       return (
-        <>
-          {/* Percentage Label */}
-          <text 
-            x={x} 
-            y={y - 10} 
-            fill="#FFFFFF" 
-            textAnchor="middle" 
-            dominantBaseline="central"
-            style={{ 
-              fontSize: '15px', 
-              fontWeight: 'bold',
-              filter: 'drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.8))',
-              textShadow: '1px 1px 3px rgba(0, 0, 0, 0.7)'
-            }}
-          >
-            {`${pieData[index].percentage}%`}
-          </text>
-          
-          {/* Sales Count Label */}
-          <text 
-            x={x} 
-            y={y + 10} 
-            fill="#FFFFFF" 
-            textAnchor="middle" 
-            dominantBaseline="central"
-            style={{ 
-              fontSize: '13px', 
-              fontWeight: 'bold',
-              filter: 'drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.8))',
-              textShadow: '1px 1px 3px rgba(0, 0, 0, 0.7)'
-            }}
-          >
-            {`${pieData[index].salesCount} vendas`}
-          </text>
-        </>
+        <text 
+          x={x} 
+          y={y} 
+          fill="#FFFFFF" 
+          textAnchor="middle" 
+          dominantBaseline="central"
+          style={{ 
+            fontSize: '15px', 
+            fontWeight: 'bold',
+            filter: 'drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.8))',
+            textShadow: '1px 1px 3px rgba(0, 0, 0, 0.7)'
+          }}
+        >
+          {`${pieData[index].percentage}%`}
+        </text>
       );
     }
     return null;
