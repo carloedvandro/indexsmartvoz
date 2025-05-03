@@ -1,5 +1,5 @@
 
-import { PieChart, Pie, Cell, ResponsiveContainer, Text } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Text, Label } from "recharts";
 import { formatCurrency } from "@/utils/format";
 import { PieDataItem } from "../types/salesTypes";
 
@@ -33,7 +33,7 @@ export const SalesPieChart = ({
     // Middle angle is the direction the slice should move when selected
     const midAngle = (startAngle + endAngle) / 2;
     
-    return { midAngle };
+    return { midAngle, startAngle, endAngle };
   };
   
   // For 3D effect, we'll create a uniform forward projection instead of radial
@@ -47,6 +47,35 @@ export const SalesPieChart = ({
       y: 0,
       z: 25 // This will be used for the 3D transform
     };
+  };
+
+  // Custom label component to render percentage labels
+  const renderCustomizedLabel = (props: any) => {
+    const { cx, cy, midAngle, innerRadius, outerRadius, index } = props;
+    const radius = innerRadius + (outerRadius - innerRadius) * 1.1;
+    const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
+    const y = cy + radius * Math.sin(-midAngle * Math.PI / 180);
+    
+    // Only render if this slice is active or if there's no active slice
+    if (activeIndex === null || activeIndex === index) {
+      return (
+        <text 
+          x={x} 
+          y={y} 
+          fill="#000000" 
+          textAnchor={x > cx ? 'start' : 'end'} 
+          dominantBaseline="central"
+          style={{ 
+            fontSize: '14px', 
+            fontWeight: 'bold',
+            filter: 'drop-shadow(0px 1px 2px rgba(255, 255, 255, 0.8))'
+          }}
+        >
+          {`${pieData[index].percentage}%`}
+        </text>
+      );
+    }
+    return null;
   };
 
   return (
@@ -71,6 +100,8 @@ export const SalesPieChart = ({
             transformOrigin: 'center center',
             transition: 'transform 0.5s ease-out',
           }}
+          labelLine={false}
+          label={renderCustomizedLabel}
         >
           {pieData.map((entry, index) => {
             const isActive = index === activeIndex;
@@ -83,6 +114,9 @@ export const SalesPieChart = ({
             const transform = isActive 
               ? `translateZ(${offset.z}px) scale(${scale})` 
               : `scale(${scale})`;
+              
+            // Get pie slice angles for label positioning
+            const { midAngle, startAngle, endAngle } = getSliceAngles(index);
               
             return (
               <Cell 

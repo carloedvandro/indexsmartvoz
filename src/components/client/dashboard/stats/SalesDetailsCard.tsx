@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { formatCurrency } from "@/utils/format";
@@ -20,6 +21,7 @@ export function SalesDetailsCard() {
       value: 300, 
       price: 119.99,
       totalAmount: 300 * 119.99,
+      percentage: 17,
       color: "#9b87f5" 
     },
     { 
@@ -28,6 +30,7 @@ export function SalesDetailsCard() {
       value: 250, 
       price: 129.99,
       totalAmount: 250 * 129.99,
+      percentage: 21,
       color: "#33C3F0" 
     },
     { 
@@ -36,6 +39,7 @@ export function SalesDetailsCard() {
       value: 200, 
       price: 139.99,
       totalAmount: 200 * 139.99,
+      percentage: 13,
       color: "#8B5CF6" 
     },
     { 
@@ -44,6 +48,7 @@ export function SalesDetailsCard() {
       value: 150, 
       price: 149.99,
       totalAmount: 150 * 149.99,
+      percentage: 25,
       color: "#0EA5E9" 
     },
     { 
@@ -52,6 +57,7 @@ export function SalesDetailsCard() {
       value: 100, 
       price: 159.99,
       totalAmount: 100 * 159.99,
+      percentage: 24,
       color: "#F97316" 
     }
   ];
