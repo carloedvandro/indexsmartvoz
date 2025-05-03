@@ -12,7 +12,7 @@ interface CircularProgressProps {
 
 export const CircularProgress: React.FC<CircularProgressProps> = ({
   percentage = 75,
-  size = 150,
+  size = 190, // Increased the default size from 150 to 190
   strokeWidth = 15,
   circleOneStroke = '#e6e6e6',
   circleTwoStroke = '#22c55e',

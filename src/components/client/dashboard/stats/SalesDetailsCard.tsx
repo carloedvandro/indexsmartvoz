@@ -1,4 +1,3 @@
-
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
@@ -24,11 +23,10 @@ export function SalesDetailsCard() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipData, setTooltipData] = useState<{ x: number; y: number; data: any } | null>(null);
   
-  // Updated plan names to include "+ Minutos ilimitados"
   const pieData = [
     { 
       name: "100GB", 
-      fullName: "Plano Smartvoz 100GB + Minutos ilimitados", 
+      fullName: "Plano Smartvoz 100GB", 
       value: 300, 
       price: 109.99,
       totalAmount: 300 * 109.99,
@@ -36,7 +34,7 @@ export function SalesDetailsCard() {
     },
     { 
       name: "120GB", 
-      fullName: "Plano Smartvoz 120GB + Minutos ilimitados", 
+      fullName: "Plano Smartvoz 120GB", 
       value: 250, 
       price: 119.99,
       totalAmount: 250 * 119.99,
@@ -66,17 +64,16 @@ export function SalesDetailsCard() {
     <div className="pl-0 h-[550px]">
       <div className="flex items-start mb-4 ml-[9px]">
         <h3 className="text-lg font-bold text-black pt-[4px]">Detalhe das Vendas</h3>
-        {/* Removed the ellipsis button */}
       </div>
       
       <div className="flex flex-col items-center">
-        <div className={`w-full max-w-[400px] h-[250px] relative flex items-center justify-center -mt-[2px] ${isMobile ? "mt-2" : ""}`}>
+        <div className={`w-full max-w-[420px] h-[300px] relative flex items-center justify-center -mt-[2px] ${isMobile ? "mt-2" : ""}`}>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={pieData}
-                innerRadius={70}
-                outerRadius={95}
+                innerRadius={90}
+                outerRadius={120}
                 paddingAngle={2}
                 dataKey="value"
                 animationBegin={0}
