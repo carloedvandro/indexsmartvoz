@@ -85,32 +85,46 @@ export function SalesDetailsCard() {
     setShowTooltip(index === activeIndex ? false : true);
   };
 
-  // Calculate angles for each slice to position them correctly when popped out
-  const getSliceAngle = (index: number) => {
+  // Calculate start and end angles for each slice
+  const getSliceAngles = (index: number) => {
     const total = pieData.reduce((sum, entry) => sum + entry.value, 0);
-    const startAngle = 90; // degrees
+    const startAngle = 90; // Top position (in degrees)
     
-    let currentAngle = startAngle;
+    // Calculate the start angle for the specific slice
+    let currentStartAngle = startAngle;
     for (let i = 0; i < index; i++) {
-      currentAngle -= (pieData[i].value / total) * 360;
+      currentStartAngle -= (pieData[i].value / total) * 360;
     }
     
+    // Calculate the end angle for the specific slice
     const sliceAngle = (pieData[index].value / total) * 360;
-    const midAngle = currentAngle - (sliceAngle / 2);
+    const endAngle = currentStartAngle - sliceAngle;
     
-    return midAngle * Math.PI / 180; // Convert to radians
+    // Calculate the middle angle of the slice (for the pop-out direction)
+    const midAngle = (currentStartAngle + endAngle) / 2;
+    
+    return {
+      startAngle: currentStartAngle,
+      endAngle: endAngle,
+      midAngle: midAngle
+    };
   };
 
   // Calculate the offset position for the active slice
   const getPopOutOffset = (index: number) => {
     if (index !== activeIndex) return { x: 0, y: 0 };
     
-    const angle = getSliceAngle(index);
-    const distance = 15; // How far the slice pops out
+    // Get the middle angle of the slice in radians
+    const { midAngle } = getSliceAngles(index);
+    const midAngleRad = (midAngle * Math.PI) / 180;
     
+    // Distance to pop out
+    const distance = 10;
+    
+    // Calculate the offset using the correct direction
     return {
-      x: Math.cos(angle) * distance,
-      y: Math.sin(angle) * distance
+      x: Math.cos(midAngleRad) * distance,
+      y: Math.sin(midAngleRad) * distance
     };
   };
 
