@@ -83,6 +83,38 @@ export const SalesPieChart = ({
   return (
     <ResponsiveContainer width="100%" height="100%">
       <PieChart style={{ background: 'transparent' }}>
+        <defs>
+          {pieData.map((entry, index) => (
+            <linearGradient 
+              key={`gradient-${index}`} 
+              id={`glossyGradient${index}`} 
+              x1="0%" 
+              y1="0%" 
+              x2="100%" 
+              y2="100%"
+            >
+              <stop offset="0%" stopColor={entry.color} stopOpacity={1} />
+              <stop offset="40%" stopColor={entry.color} stopOpacity={1} />
+              <stop offset="100%" stopColor={`${entry.color}dd`} stopOpacity={0.85} />
+            </linearGradient>
+            
+            // Reflection gradient for glossy effect
+            <linearGradient 
+              key={`reflection-${index}`} 
+              id={`reflectionGradient${index}`} 
+              x1="0%" 
+              y1="0%" 
+              x2="0%" 
+              y2="100%"
+            >
+              <stop offset="0%" stopColor="#ffffff" stopOpacity={0.5} />
+              <stop offset="30%" stopColor="#ffffff" stopOpacity={0.2} />
+              <stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
+            </linearGradient>
+          ))}
+        </defs>
+        
+        {/* Main pie with glossy gradients */}
         <Pie
           data={pieData}
           innerRadius={85}
@@ -123,7 +155,7 @@ export const SalesPieChart = ({
             return (
               <Cell 
                 key={`cell-${index}`} 
-                fill={entry.color}
+                fill={`url(#glossyGradient${index})`}
                 style={{
                   transform,
                   transformStyle: 'preserve-3d',
@@ -139,6 +171,35 @@ export const SalesPieChart = ({
             );
           })}
         </Pie>
+        
+        {/* Reflection overlay pie for glossy effect */}
+        <Pie
+          data={pieData}
+          innerRadius={85}
+          outerRadius={135}
+          paddingAngle={0}
+          dataKey="value"
+          startAngle={90}
+          endAngle={-270}
+          stroke="none"
+          style={{
+            pointerEvents: 'none', // Make this pie non-interactive
+            opacity: 0.6,
+            mixBlendMode: 'overlay',
+          }}
+        >
+          {pieData.map((entry, index) => (
+            <Cell 
+              key={`reflection-${index}`} 
+              fill={`url(#reflectionGradient${index})`}
+              style={{
+                transformOrigin: 'center center',
+                pointerEvents: 'none', // Ensure clicks pass through to the main pie
+              }}
+            />
+          ))}
+        </Pie>
+        
         <text
           x="50%"
           y="43%"

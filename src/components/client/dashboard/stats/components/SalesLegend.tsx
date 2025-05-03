@@ -31,10 +31,12 @@ export const SalesLegend = ({
               <div 
                 className={`w-3 h-3 rounded-full mr-2 cursor-pointer transition-all duration-300 ${activeButton === index ? 'scale-125 shadow-lg' : ''}`}
                 style={{ 
-                  backgroundColor: plan.color,
+                  background: `linear-gradient(135deg, ${plan.color}, ${plan.color}dd)`,
+                  boxShadow: activeButton === index 
+                    ? `0 2px 8px rgba(0,0,0,0.3)` 
+                    : '0 1px 3px rgba(0,0,0,0.2)',
                   transform: activeButton === index ? 'scale(1.25)' : 'scale(1)',
                   transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-                  boxShadow: activeButton === index ? '0 2px 8px rgba(0,0,0,0.3)' : 'none'
                 }}
                 onClick={(e) => onButtonClick(index, e)}
               />

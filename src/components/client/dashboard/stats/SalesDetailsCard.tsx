@@ -14,7 +14,7 @@ export function SalesDetailsCard() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipData, setTooltipData] = useState<TooltipData | null>(null);
   
-  // Data with both percentage values and sales counts
+  // Data with both percentage values and sales counts - updated with vibrant colors
   const pieData: PieDataItem[] = [
     { 
       name: "110GB", 
@@ -24,7 +24,7 @@ export function SalesDetailsCard() {
       totalAmount: 17 * 119.99,
       percentage: 17,
       salesCount: 305, // Added actual number of sales 
-      color: "#9b87f5" 
+      color: "#8a5cf6" // Bright purple
     },
     { 
       name: "120GB", 
@@ -34,7 +34,7 @@ export function SalesDetailsCard() {
       totalAmount: 21 * 129.99,
       percentage: 21,
       salesCount: 378, // Added actual number of sales
-      color: "#33C3F0" 
+      color: "#0cc7f0" // Bright cyan
     },
     { 
       name: "130GB", 
@@ -44,7 +44,7 @@ export function SalesDetailsCard() {
       totalAmount: 13 * 139.99,
       percentage: 13,
       salesCount: 234, // Added actual number of sales
-      color: "#8B5CF6" 
+      color: "#9b5bf5" // Medium purple
     },
     { 
       name: "140GB", 
@@ -54,7 +54,7 @@ export function SalesDetailsCard() {
       totalAmount: 25 * 149.99,
       percentage: 25,
       salesCount: 433, // Added actual number of sales
-      color: "#0EA5E9" 
+      color: "#0ea5e9" // Bright blue
     }
   ];
 
