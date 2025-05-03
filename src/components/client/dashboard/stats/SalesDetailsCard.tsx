@@ -85,6 +85,35 @@ export function SalesDetailsCard() {
     setShowTooltip(index === activeIndex ? false : true);
   };
 
+  // Calculate angles for each slice to position them correctly when popped out
+  const getSliceAngle = (index: number) => {
+    const total = pieData.reduce((sum, entry) => sum + entry.value, 0);
+    const startAngle = 90; // degrees
+    
+    let currentAngle = startAngle;
+    for (let i = 0; i < index; i++) {
+      currentAngle -= (pieData[i].value / total) * 360;
+    }
+    
+    const sliceAngle = (pieData[index].value / total) * 360;
+    const midAngle = currentAngle - (sliceAngle / 2);
+    
+    return midAngle * Math.PI / 180; // Convert to radians
+  };
+
+  // Calculate the offset position for the active slice
+  const getPopOutOffset = (index: number) => {
+    if (index !== activeIndex) return { x: 0, y: 0 };
+    
+    const angle = getSliceAngle(index);
+    const distance = 15; // How far the slice pops out
+    
+    return {
+      x: Math.cos(angle) * distance,
+      y: Math.sin(angle) * distance
+    };
+  };
+
   return (
     <div className="pl-0 h-[550px]">
       <div className="flex items-start mb-4 ml-[9px]">
@@ -115,10 +144,10 @@ export function SalesDetailsCard() {
               >
                 {pieData.map((entry, index) => {
                   const isActive = index === activeIndex;
-                  const scale = isActive ? 1.05 : 1;
+                  const scale = isActive ? 1.1 : 1;
                   const zIndex = isActive ? 10 : 1;
-                  const opacity = activeIndex !== null && !isActive ? 0.8 : 1;
-                  const elevation = isActive ? 5 : 0;
+                  const opacity = activeIndex !== null && !isActive ? 0.7 : 1;
+                  const offset = getPopOutOffset(index);
                   
                   return (
                     <Cell 
@@ -127,9 +156,9 @@ export function SalesDetailsCard() {
                       stroke="#ffffff"
                       strokeWidth={2}
                       style={{
-                        transform: `scale(${scale}) translateY(${isActive ? -elevation : 0}px)`,
+                        transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
                         transformOrigin: 'center center',
-                        transition: 'all 0.3s ease-in-out',
+                        transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                         zIndex: zIndex,
                         opacity: opacity,
                         filter: isActive ? 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.35))' : 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25))',
@@ -177,13 +206,13 @@ export function SalesDetailsCard() {
                     style={{ 
                       backgroundColor: plan.color,
                       transform: activeButton === index ? 'scale(1.25)' : 'scale(1)',
-                      transition: 'transform 0.3s ease-in-out',
-                      boxShadow: activeButton === index ? '0 2px 4px rgba(0,0,0,0.2)' : 'none'
+                      transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+                      boxShadow: activeButton === index ? '0 2px 8px rgba(0,0,0,0.3)' : 'none'
                     }}
                     onClick={(e) => onButtonClick(index, e)}
                   />
                   <div className="flex-1">
-                    <p className={`text-sm text-black pt-[4px] transition-opacity duration-300 ${activeButton === index ? 'opacity-100' : activeButton !== null ? 'opacity-60' : 'opacity-100'}`}>
+                    <p className={`text-sm text-black pt-[4px] transition-opacity duration-300 ${activeButton === index ? 'opacity-100 font-medium' : activeButton !== null ? 'opacity-60' : 'opacity-100'}`}>
                       {plan.fullName}
                     </p>
                   </div>
