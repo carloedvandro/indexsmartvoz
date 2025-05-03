@@ -68,8 +68,32 @@ export const useChartData = () => {
     };
   };
 
+  // Sales data for the donut chart
+  const salesData = {
+    totalAmount: 68494.50,
+    plans: [
+      { 
+        name: "100GB", 
+        fullName: "Plano Smartvoz 100GB + Minutos ilimitados", 
+        value: 300, 
+        price: 119.99,
+        totalAmount: 300 * 119.99,
+        color: "#33C3F0" 
+      },
+      { 
+        name: "120GB", 
+        fullName: "Plano Smartvoz 120GB + Minutos ilimitados", 
+        value: 250, 
+        price: 129.99,
+        totalAmount: 250 * 129.99,
+        color: "#8425af" 
+      }
+    ]
+  };
+
   return { 
     barData,
-    commissionData: calculateCommissions()
+    commissionData: calculateCommissions(),
+    salesData
   };
 };
