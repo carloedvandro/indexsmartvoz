@@ -69,8 +69,7 @@ export const SalesPieChart = ({
           style={{ 
             fontSize: '15px', 
             fontWeight: 'bold',
-            filter: 'drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.8))',
-            textShadow: '1px 1px 3px rgba(0, 0, 0, 0.7)'
+            textShadow: '1px 1px 1px rgba(0, 0, 0, 0.5)'
           }}
         >
           {`${pieData[index].percentage}%`}
@@ -98,10 +97,9 @@ export const SalesPieChart = ({
         startAngle={90}
         endAngle={-270}
         stroke="#ffffff"
-        strokeWidth={2}
+        strokeWidth={1}
         style={{ 
-          filter: 'drop-shadow(0px 12px 20px rgba(0, 0, 0, 0.25))',
-          transform: 'perspective(800px) rotateX(25deg) scale3d(1.05, 1.05, 1.05) translateY(5px)',
+          transform: 'perspective(800px) rotateX(25deg)',
           transformOrigin: 'center center',
           transition: 'transform 0.5s ease-out',
         }}
@@ -134,7 +132,6 @@ export const SalesPieChart = ({
                 transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                 zIndex: zIndex,
                 opacity: opacity,
-                filter: isActive ? 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.35))' : 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25))',
                 cursor: 'pointer',
               }}
               onClick={() => setActiveIndex(index === activeIndex ? null : index)}
