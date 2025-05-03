@@ -14,45 +14,48 @@ export function SalesDetailsCard() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipData, setTooltipData] = useState<TooltipData | null>(null);
   
-  // Update the data so the value property reflects the actual percentage
+  // Data with both percentage values and sales counts
   const pieData: PieDataItem[] = [
     { 
       name: "110GB", 
       fullName: "Smartvoz 110GB + Minutos ilimitados", 
-      value: 17, // Adjusted to match percentage
+      value: 17, // Percentage value for pie chart sizing
       price: 119.99,
       totalAmount: 17 * 119.99,
       percentage: 17,
+      salesCount: 305, // Added actual number of sales 
       color: "#9b87f5" 
     },
     { 
       name: "120GB", 
       fullName: "Smartvoz 120GB + Minutos ilimitados", 
-      value: 21, // Adjusted to match percentage
+      value: 21,
       price: 129.99,
       totalAmount: 21 * 129.99,
       percentage: 21,
+      salesCount: 378, // Added actual number of sales
       color: "#33C3F0" 
     },
     { 
       name: "130GB", 
       fullName: "Smartvoz 130GB + Minutos ilimitados", 
-      value: 13, // Adjusted to match percentage
+      value: 13,
       price: 139.99,
       totalAmount: 13 * 139.99,
       percentage: 13,
+      salesCount: 234, // Added actual number of sales
       color: "#8B5CF6" 
     },
     { 
       name: "140GB", 
       fullName: "Smartvoz 140GB + Minutos ilimitados", 
-      value: 25, // Adjusted to match percentage
+      value: 25,
       price: 149.99,
       totalAmount: 25 * 149.99,
       percentage: 25,
+      salesCount: 433, // Added actual number of sales
       color: "#0EA5E9" 
     }
-    // Removed the 150GB plan
   ];
 
   const totalSalesAmount = pieData.reduce((acc, plan) => {

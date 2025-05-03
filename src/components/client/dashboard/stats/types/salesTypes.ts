@@ -6,6 +6,7 @@ export interface PieDataItem {
   price: number;
   totalAmount: number;
   percentage: number;
+  salesCount: number;
   color: string;
 }
 
