@@ -49,10 +49,11 @@ export const SalesPieChart = ({
     };
   };
 
-  // Custom label component to render percentage labels
+  // Custom label component to render percentage labels inside pie slices
   const renderCustomizedLabel = (props: any) => {
     const { cx, cy, midAngle, innerRadius, outerRadius, index } = props;
-    const radius = innerRadius + (outerRadius - innerRadius) * 1.1;
+    // Position the label inside the slice rather than outside
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
     const y = cy + radius * Math.sin(-midAngle * Math.PI / 180);
     
@@ -62,13 +63,14 @@ export const SalesPieChart = ({
         <text 
           x={x} 
           y={y} 
-          fill="#000000" 
-          textAnchor={x > cx ? 'start' : 'end'} 
+          fill="#FFFFFF" 
+          textAnchor="middle" 
           dominantBaseline="central"
           style={{ 
-            fontSize: '14px', 
+            fontSize: '16px', 
             fontWeight: 'bold',
-            filter: 'drop-shadow(0px 1px 2px rgba(255, 255, 255, 0.8))'
+            filter: 'drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.8))',
+            textShadow: '1px 1px 3px rgba(0, 0, 0, 0.7)'
           }}
         >
           {`${pieData[index].percentage}%`}
