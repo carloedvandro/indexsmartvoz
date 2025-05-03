@@ -1,3 +1,4 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
@@ -128,6 +129,7 @@ export function SalesDetailsCard() {
                       fill={entry.color}
                       stroke="#ffffff"
                       strokeWidth={2}
+                      cornerRadius={4}
                       style={{
                         transform: `scale(${scale}) translate(${translateX}px, ${translateY}px)`,
                         transformOrigin: 'center center',
