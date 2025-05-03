@@ -5,17 +5,17 @@ interface CircularProgressProps {
   percentage?: number;
   size?: number;
   strokeWidth?: number;
-  circleOneStroke?: string;
-  circleTwoStroke?: string;
+  primaryColor?: string;
+  secondaryColor?: string;
   children?: React.ReactNode;
 }
 
 export const CircularProgress: React.FC<CircularProgressProps> = ({
   percentage = 75,
-  size = 190, // Increased the default size from 150 to 190
-  strokeWidth = 15,
-  circleOneStroke = '#e6e6e6',
-  circleTwoStroke = '#22c55e',
+  size = 220,
+  strokeWidth = 24,
+  primaryColor = '#33C3F0',
+  secondaryColor = '#8425af',
   children,
 }) => {
   const center = size / 2;
@@ -27,7 +27,7 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
     <div className="relative" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="transform -rotate-90">
         <circle
-          stroke={circleOneStroke}
+          stroke={primaryColor}
           fill="none"
           cx={center}
           cy={center}
@@ -35,7 +35,7 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
           strokeWidth={strokeWidth}
         />
         <circle
-          stroke={circleTwoStroke}
+          stroke={secondaryColor}
           fill="none"
           cx={center}
           cy={center}
@@ -43,10 +43,10 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
           strokeWidth={strokeWidth}
           strokeDasharray={circumference}
           strokeDashoffset={offset}
-          strokeLinecap="round"
+          strokeLinecap="butt"
         />
       </svg>
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
         {children}
       </div>
     </div>
