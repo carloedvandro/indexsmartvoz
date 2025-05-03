@@ -44,7 +44,7 @@ export const ExpenseDistributionCard = () => {
       <div className="flex flex-col">
         <div className="h-48 relative" style={{ zIndex: 10 }}>
           <ResponsiveContainer width="100%" height="100%">
-            <PieChart style={{ border: '1px solid transparent' }}>  {/* Updated border to transparent */}
+            <PieChart style={{ border: '1px solid transparent' }}>
               <Pie
                 data={expenseData}
                 innerRadius={60}
@@ -57,8 +57,8 @@ export const ExpenseDistributionCard = () => {
                 cursor="pointer"
                 onMouseEnter={onPieEnter}
                 onMouseLeave={onPieLeave}
-                stroke="transparent"  {/* Changed from null to transparent */}
-                strokeWidth={0}  {/* Added to ensure no border */}
+                stroke="transparent"
+                strokeWidth={0}
               >
                 {expenseData.map((entry, index) => {
                   const isActive = index === activeIndex;
@@ -68,8 +68,8 @@ export const ExpenseDistributionCard = () => {
                     <Cell 
                       key={`cell-${index}`} 
                       fill={entry.color}
-                      strokeWidth={isActive ? 0 : 0}  {/* Changed to always be 0 */}
-                      stroke="transparent"  {/* Changed to transparent */}
+                      strokeWidth={isActive ? 0 : 0}
+                      stroke="transparent"
                       style={{
                         filter: isActive ? "drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.2))" : "none",
                         transition: "all 0.3s ease-in-out",
