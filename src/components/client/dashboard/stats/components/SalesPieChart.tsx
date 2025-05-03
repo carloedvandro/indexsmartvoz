@@ -16,32 +16,31 @@ export const SalesPieChart = ({
   setActiveIndex, 
   totalSalesAmount 
 }: SalesPieChartProps) => {
-  // Calculate start and end angles for each slice
+  // Calculate full angles for proper direction calculation
   const getSliceAngles = (index: number) => {
     const total = pieData.reduce((sum, entry) => sum + entry.value, 0);
-    const startAngle = 90; // Top position (in degrees)
+    let startAngle = 90; // Start at top (90 degrees in recharts coordinates)
     
-    // Calculate the start angle for the specific slice
-    let currentStartAngle = startAngle;
+    // Calculate start angle by summing up angles of previous slices
     for (let i = 0; i < index; i++) {
-      currentStartAngle -= (pieData[i].value / total) * 360;
+      startAngle -= (pieData[i].value / total) * 360;
     }
     
-    // Calculate the end angle for the specific slice
+    // Calculate end angle
     const sliceAngle = (pieData[index].value / total) * 360;
-    const endAngle = currentStartAngle - sliceAngle;
+    const endAngle = startAngle - sliceAngle;
     
-    // Calculate the middle angle of the slice (for the pop-out direction)
-    const midAngle = (currentStartAngle + endAngle) / 2;
+    // Middle angle is the direction the slice should move when selected
+    const midAngle = (startAngle + endAngle) / 2;
     
     return {
-      startAngle: currentStartAngle,
-      endAngle: endAngle,
-      midAngle: midAngle
+      startAngle,
+      endAngle,
+      midAngle
     };
   };
-
-  // Calculate the offset position for the active slice
+  
+  // Calculate proper pop-out offset based on angle
   const getPopOutOffset = (index: number) => {
     if (index !== activeIndex) return { x: 0, y: 0 };
     
@@ -49,10 +48,9 @@ export const SalesPieChart = ({
     const { midAngle } = getSliceAngles(index);
     const midAngleRad = (midAngle * Math.PI) / 180;
     
-    // Distance to pop out - increased for better visibility
-    const distance = 20;
+    // Increase pop-out distance for better visual effect
+    const distance = 15;
     
-    // Calculate the offset using the angle
     return {
       x: Math.cos(midAngleRad) * distance,
       y: Math.sin(midAngleRad) * distance
@@ -73,8 +71,8 @@ export const SalesPieChart = ({
           animationEasing="ease-in-out"
           startAngle={90}
           endAngle={-270}
-          stroke="none"
-          strokeWidth={0}
+          stroke="#ffffff"
+          strokeWidth={2}
           style={{ 
             filter: 'drop-shadow(0px 12px 20px rgba(0, 0, 0, 0.25))',
             transform: 'perspective(800px) rotateX(25deg) scale3d(1.05, 1.05, 1.05)',
@@ -84,7 +82,7 @@ export const SalesPieChart = ({
         >
           {pieData.map((entry, index) => {
             const isActive = index === activeIndex;
-            const scale = isActive ? 1.1 : 1;
+            const scale = isActive ? 1.08 : 1;
             const zIndex = isActive ? 10 : 1;
             const opacity = activeIndex !== null && !isActive ? 0.7 : 1;
             const offset = getPopOutOffset(index);
@@ -93,12 +91,10 @@ export const SalesPieChart = ({
               <Cell 
                 key={`cell-${index}`} 
                 fill={entry.color}
-                stroke="#ffffff"
-                strokeWidth={2}
                 style={{
                   transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
                   transformOrigin: 'center center',
-                  transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                  transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                   zIndex: zIndex,
                   opacity: opacity,
                   filter: isActive ? 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.35))' : 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25))',
