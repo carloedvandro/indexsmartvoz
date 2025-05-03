@@ -73,15 +73,21 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
               x2={center}
               y2={strokeWidth * 1.5}
               stroke="white"
-              strokeWidth={2}
+              strokeWidth={4}
               transform={`rotate(${135 + (percentage * 270 / 100)}, ${center}, ${center})`}
               strokeLinecap="round"
             />
             <circle
               cx={center}
               cy={center}
+              r={strokeWidth / 2}
+              fill="#e2e8f0"
+            />
+            <circle
+              cx={center}
+              cy={center}
               r={strokeWidth / 3}
-              fill="white"
+              fill="#1A1F2C"
             />
           </>
         ) : (

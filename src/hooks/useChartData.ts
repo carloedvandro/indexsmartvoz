@@ -68,7 +68,7 @@ export const useChartData = () => {
     };
   };
 
-  // Sales data for pie chart
+  // Sales data for pie chart - updated to match the image
   const salesData = {
     actualSales: 48048,
     targetSales: 93332,
