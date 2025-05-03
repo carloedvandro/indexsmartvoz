@@ -50,7 +50,7 @@ export function SalesLegend({
               className="flex items-center relative"
             >
               <div 
-                className={`w-4 h-4 rounded-full mr-2 cursor-pointer transition-all duration-300 flex items-center justify-center ${activeButton === index ? '' : 'animate-pulse'}`}
+                className={`w-4 h-4 rounded-full mr-2 cursor-pointer transition-all duration-300 flex items-center justify-center ${activeButton === index ? '' : ''}`}
                 style={{ 
                   backgroundColor: plan.color,
                   transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
@@ -64,7 +64,7 @@ export function SalesLegend({
                 <span 
                   className="absolute inset-0 rounded-full" 
                   style={{
-                    animation: activeButton !== index ? 'ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite' : 'none',
+                    animation: activeButton !== index ? 'ping 3s cubic-bezier(0, 0, 0.2, 1) infinite' : 'none',
                     background: 'transparent',
                     border: `2px solid ${plan.color}`,
                     opacity: 0.6

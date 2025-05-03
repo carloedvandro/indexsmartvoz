@@ -42,6 +42,6 @@ export const animations = {
     "pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
     "scan-line": "scan-line 0.5s ease-in-out infinite alternate",
     "progress-circle": "progress-circle 3s linear forwards",
-    "ping": "ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite"
+    "ping": "ping 3s cubic-bezier(0, 0, 0.2, 1) infinite"
   },
 };
