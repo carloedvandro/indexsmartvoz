@@ -1,9 +1,7 @@
-
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
 import { formatCurrency } from "@/utils/format";
-import { CircularProgress } from "../charts/CircularProgress";
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
@@ -101,45 +99,21 @@ export function SalesDetailsCard() {
         <div className={`w-full max-w-[420px] h-[300px] relative flex items-center justify-center -mt-[2px] ${isMobile ? "mt-2" : ""}`}>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <defs>
-                {pieData.map((entry, index) => (
-                  <linearGradient 
-                    key={`gradient-${index}`}
-                    id={`gradient-${index}`}
-                    x1="0%" 
-                    y1="0%" 
-                    x2="100%" 
-                    y2="100%"
-                  >
-                    <stop 
-                      offset="0%" 
-                      stopColor={entry.color} 
-                      stopOpacity={1}
-                    />
-                    <stop 
-                      offset="100%" 
-                      stopColor={entry.color} 
-                      stopOpacity={0.7}
-                    />
-                  </linearGradient>
-                ))}
-              </defs>
-              
               <Pie
                 data={pieData}
-                innerRadius={60}
-                outerRadius={130}
-                paddingAngle={2}
+                innerRadius={75}
+                outerRadius={120}
+                paddingAngle={4}
                 dataKey="value"
                 animationBegin={0}
                 animationDuration={1200}
-                animationEasing="ease-out"
+                animationEasing="ease-in-out"
                 startAngle={90}
                 endAngle={-270}
                 stroke="#ffffff"
                 strokeWidth={3}
                 style={{ 
-                  filter: 'drop-shadow(2px 4px 12px rgba(0, 0, 0, 0.25))',
+                  filter: 'drop-shadow(2px 4px 8px rgba(0, 0, 0, 0.15))',
                 }}
               >
                 {pieData.map((entry, index) => {
@@ -151,14 +125,14 @@ export function SalesDetailsCard() {
                   return (
                     <Cell 
                       key={`cell-${index}`} 
-                      fill={`url(#gradient-${index})`}
+                      fill={entry.color}
                       stroke="#ffffff"
-                      strokeWidth={3}
+                      strokeWidth={2}
                       style={{
                         transform: `scale(${scale}) translate(${translateX}px, ${translateY}px)`,
                         transformOrigin: 'center center',
                         transition: 'all 0.4s ease-out',
-                        filter: isActive ? 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.3))' : 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.15))',
+                        filter: isActive ? 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.3))' : 'none',
                         cursor: 'pointer',
                       }}
                       onClick={(e) => onButtonClick(index, e as unknown as React.MouseEvent)}
@@ -166,10 +140,10 @@ export function SalesDetailsCard() {
                   );
                 })}
                 
-                {/* Porcentagens mais destacadas no centro de cada segmento */}
                 {pieData.map((entry, index) => {
+                  // Position percentage labels on the pie chart segments
                   const angle = 90 - (index * 360 / pieData.length) - (360 / pieData.length / 2);
-                  const radius = 95; // Posicionamento mais para o centro do segmento
+                  const radius = 100;
                   const x = Math.cos((angle * Math.PI) / 180) * radius;
                   const y = -Math.sin((angle * Math.PI) / 180) * radius;
                   
@@ -182,11 +156,7 @@ export function SalesDetailsCard() {
                       dominantBaseline="middle"
                       fill="#ffffff"
                       fontWeight="bold"
-                      fontSize="16px"
-                      style={{
-                        filter: 'drop-shadow(0px 1px 2px rgba(0,0,0,0.5))',
-                        textShadow: '0px 1px 2px rgba(0,0,0,0.5)'
-                      }}
+                      fontSize="14px"
                       pointerEvents="none"
                     >
                       {entry.percentage}
@@ -194,31 +164,13 @@ export function SalesDetailsCard() {
                   );
                 })}
               </Pie>
-              
-              {/* Círculo central com informações */}
-              <circle 
-                cx="50%" 
-                cy="50%" 
-                r="55" 
-                fill="#ffffff" 
-                stroke="#f0f0f0" 
-                strokeWidth={2}
-                filter="url(#shadow)"
-              />
-              
-              <defs>
-                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.2" />
-                </filter>
-              </defs>
-              
               <text
                 x="50%"
-                y="40%"
+                y="45%"
                 textAnchor="middle"
                 dominantBaseline="middle"
                 className="text-sm font-medium"
-                fill="#666666"
+                fill="#000000"
               >
                 Vendas do Mês
               </text>
@@ -227,7 +179,7 @@ export function SalesDetailsCard() {
                 y="60%"
                 textAnchor="middle"
                 dominantBaseline="middle"
-                className="text-lg font-bold"
+                className="text-base font-bold"
                 fill="#000000"
               >
                 {formatCurrency(totalSalesAmount)}
