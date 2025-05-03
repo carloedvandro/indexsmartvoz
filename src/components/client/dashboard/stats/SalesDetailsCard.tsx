@@ -75,6 +75,19 @@ export function SalesDetailsCard() {
     setShowTooltip(index === activeIndex ? false : true);
   };
 
+  const handlePieSliceClick = (index: number | null) => {
+    setActiveIndex(index);
+    setActiveButton(index);
+    setShowTooltip(index !== null);
+    if (index !== null) {
+      setTooltipData({
+        x: 0, // These values won't be used for the pie chart tooltip
+        y: 0,
+        data: pieData[index]
+      });
+    }
+  };
+
   return (
     <div className="pl-0 h-[550px]">
       <div className="flex items-start mb-4 ml-[9px]">
@@ -86,7 +99,7 @@ export function SalesDetailsCard() {
           <SalesPieChart 
             pieData={pieData}
             activeIndex={activeIndex}
-            setActiveIndex={setActiveIndex}
+            setActiveIndex={handlePieSliceClick}
             totalSalesAmount={totalSalesAmount}
           />
         </div>
