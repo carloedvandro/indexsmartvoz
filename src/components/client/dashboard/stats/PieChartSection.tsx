@@ -71,6 +71,7 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
               );
             })}
           </Pie>
+          
           <Text
             x="50%"
             y="45%"
@@ -81,6 +82,7 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
           >
             Vendas do Mês
           </Text>
+          
           <Text
             x="50%"
             y="60%"

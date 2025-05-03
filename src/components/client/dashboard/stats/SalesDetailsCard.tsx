@@ -16,7 +16,7 @@ export function SalesDetailsCard() {
   const pieData: SalesDataItem[] = [
     { 
       name: "110GB", 
-      fullName: "Plano Smartvoz 110GB + Minutos ilimitados", 
+      fullName: "Smartvoz 110GB + Minutos ilimitados", 
       value: 300, 
       price: 119.99,
       totalAmount: 300 * 119.99,
@@ -24,7 +24,7 @@ export function SalesDetailsCard() {
     },
     { 
       name: "120GB", 
-      fullName: "Plano Smartvoz 120GB + Minutos ilimitados", 
+      fullName: "Smartvoz 120GB + Minutos ilimitados", 
       value: 250, 
       price: 129.99,
       totalAmount: 250 * 129.99,
@@ -32,7 +32,7 @@ export function SalesDetailsCard() {
     },
     { 
       name: "130GB", 
-      fullName: "Plano Smartvoz 130GB + Minutos ilimitados", 
+      fullName: "Smartvoz 130GB + Minutos ilimitados", 
       value: 200, 
       price: 139.99,
       totalAmount: 200 * 139.99,
@@ -40,7 +40,7 @@ export function SalesDetailsCard() {
     },
     { 
       name: "140GB", 
-      fullName: "Plano Smartvoz 140GB + Minutos ilimitados", 
+      fullName: "Smartvoz 140GB + Minutos ilimitados", 
       value: 150, 
       price: 149.99,
       totalAmount: 150 * 149.99,
@@ -48,7 +48,7 @@ export function SalesDetailsCard() {
     },
     { 
       name: "150GB", 
-      fullName: "Plano Smartvoz 150GB + Minutos ilimitados", 
+      fullName: "Smartvoz 150GB + Minutos ilimitados", 
       value: 100, 
       price: 159.99,
       totalAmount: 100 * 159.99,
