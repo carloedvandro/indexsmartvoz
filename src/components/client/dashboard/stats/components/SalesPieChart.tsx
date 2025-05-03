@@ -1,4 +1,3 @@
-
 import { PieChart, Pie, Cell, ResponsiveContainer, Text, Label } from "recharts";
 import { formatCurrency } from "@/utils/format";
 import { PieDataItem } from "../types/salesTypes";
@@ -85,8 +84,8 @@ export const SalesPieChart = ({
       <PieChart>
         <Pie
           data={pieData}
-          innerRadius={90}  // Increased from 75
-          outerRadius={140} // Increased from 120
+          innerRadius={88}  // Decreased from 90
+          outerRadius={138} // Decreased from 140
           paddingAngle={0}
           dataKey="value" // This ensures the pie slices are sized according to the value property
           animationBegin={0}
