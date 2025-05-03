@@ -31,7 +31,7 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
     const { cx, cy, innerRadius, outerRadius, midAngle, index } = props;
     
     // Custom percentages instead of calculated ones (odd and even values)
-    const customPercentages = [17, 24, 31, 19, 9];
+    const customPercentages = [9, 17, 19, 24, 31];
     const percent = customPercentages[index] || Math.round((pieData[index].value / totalValue) * 100);
     
     // Skip very small slices (less than 5%)
@@ -137,4 +137,3 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
     </div>
   );
 }
-
