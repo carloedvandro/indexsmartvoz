@@ -36,6 +36,7 @@ export function PlanSelectionStep({
 }: PlanSelectionStepProps) {
   const { data: calendarStyle } = useCalendarStyles();
   
+  // Updated plan options with the correct descriptions and prices
   const internetOptions = [
     { value: "110GB", label: "Plano Smartvoz 110GB + Minutos ilimitados", price: 109.99 },
     { value: "120GB", label: "Plano Smartvoz 120GB + Minutos ilimitados", price: 119.99 },
@@ -111,7 +112,7 @@ export function PlanSelectionStep({
                   selectedInternet={selectedLines[0]?.internet || undefined}
                   onInternetChange={handleInternetChange}
                   internetOptions={internetOptions}
-                  showPrice={false}
+                  showPrice={true}
                 />
               </div>
               <div>

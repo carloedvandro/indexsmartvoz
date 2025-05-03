@@ -35,7 +35,7 @@ export function InternetSelector({
         </SelectTrigger>
         <SelectContent 
           position="popper" 
-          className="bg-white max-h-[179px] overflow-y-auto w-[162px]"
+          className="bg-white max-h-[179px] overflow-y-auto w-auto min-w-[200px]"
           align="start"
           sideOffset={5}
         >
@@ -45,7 +45,10 @@ export function InternetSelector({
               value={option.value}
               className="cursor-pointer py-1.5 px-2 bg-white hover:bg-white focus:bg-white focus:text-[#8425af] data-[state=checked]:bg-white data-[state=checked]:text-[#8425af]"
             >
-              <span>{option.label}</span>
+              <div className="flex flex-col">
+                <span>{option.label}</span>
+                {showPrice && <span className="text-xs text-gray-500">R$ {option.price.toFixed(2)}</span>}
+              </div>
             </SelectItem>
           ))}
         </SelectContent>

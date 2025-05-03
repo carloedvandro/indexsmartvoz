@@ -21,6 +21,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   const [selectedDDD, setSelectedDDD] = useState<string>("");
   const [selectedDueDate, setSelectedDueDate] = useState<number | null>(null);
 
+  // Updated plan options with the correct descriptions and prices
   const internetOptions = [
     { value: "110GB", label: "Plano Smartvoz 110GB + Minutos ilimitados", price: 109.99 },
     { value: "120GB", label: "Plano Smartvoz 120GB + Minutos ilimitados", price: 119.99 },
@@ -68,7 +69,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
                   selectedInternet={selectedInternet}
                   onInternetChange={setSelectedInternet}
                   internetOptions={internetOptions}
-                  showPrice={false}
+                  showPrice={true}
                 />
               </div>
               <div>
