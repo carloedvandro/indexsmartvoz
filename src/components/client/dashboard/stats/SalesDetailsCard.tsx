@@ -1,3 +1,4 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
@@ -30,7 +31,7 @@ export function SalesDetailsCard() {
       value: 300, 
       price: 119.99,
       totalAmount: 300 * 119.99,
-      color: "#8425af" 
+      color: "#33C3F0" 
     },
     { 
       name: "120GB", 
@@ -38,7 +39,7 @@ export function SalesDetailsCard() {
       value: 250, 
       price: 129.99,
       totalAmount: 250 * 129.99,
-      color: "#33C3F0" 
+      color: "#8425af" 
     }
   ];
 
@@ -72,9 +73,9 @@ export function SalesDetailsCard() {
             <PieChart>
               <Pie
                 data={pieData}
-                innerRadius={90}
+                innerRadius={75}
                 outerRadius={120}
-                paddingAngle={2}
+                paddingAngle={0}
                 dataKey="value"
                 animationBegin={0}
                 animationDuration={1200}
@@ -83,28 +84,32 @@ export function SalesDetailsCard() {
                 endAngle={-270}
                 stroke="none"
                 strokeWidth={0}
-                style={{ outline: 'none', pointerEvents: 'none' }}
+                style={{ 
+                  filter: 'drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.25))',
+                  transform: 'perspective(1200px) rotateX(20deg)',
+                }}
               >
                 {pieData.map((entry, index) => {
                   const isActive = index === activeIndex;
-                  const scale = isActive ? 1.1 : 1;
+                  const scale = isActive ? 1.05 : 1;
                   const zIndex = isActive ? 10 : 1;
-                  const opacity = activeIndex !== null && !isActive ? 0.7 : 1;
+                  const opacity = activeIndex !== null && !isActive ? 0.8 : 1;
+                  const elevation = isActive ? 5 : 0;
                   
                   return (
                     <Cell 
                       key={`cell-${index}`} 
                       fill={entry.color}
-                      stroke="none"
+                      stroke="#ffffff"
+                      strokeWidth={2}
                       style={{
-                        transform: `scale(${scale})`,
+                        transform: `scale(${scale}) translateY(${isActive ? -elevation : 0}px)`,
                         transformOrigin: 'center center',
                         transition: 'all 0.3s ease-in-out',
                         zIndex: zIndex,
                         opacity: opacity,
-                        filter: isActive ? 'drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.2))' : 'none',
+                        filter: isActive ? 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.35))' : 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25))',
                         outline: 'none',
-                        pointerEvents: 'none'
                       }}
                     />
                   );
