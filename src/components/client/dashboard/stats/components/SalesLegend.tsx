@@ -20,13 +20,13 @@ export const SalesLegend = ({
 }: SalesLegendProps) => {
   return (
     <div className="w-full space-y-4 -mt-[0.5px] ml-[9px] bg-transparent">
-      <div className="space-y-2 mt-[12px]">
+      <div className="space-y-2 mt-[12px] bg-transparent">
         <p className="text-sm font-medium text-black pt-[4px]">Planos mais vendidos</p>
-        <div className="grid gap-[9px]">
+        <div className="grid gap-[9px] bg-transparent">
           {pieData.map((plan, index) => (
             <div 
               key={index} 
-              className="flex items-center relative"
+              className="flex items-center relative bg-transparent"
             >
               <div 
                 className={`w-3 h-3 rounded-full mr-2 cursor-pointer transition-all duration-300 ${activeButton === index ? 'scale-125 shadow-lg' : ''}`}
@@ -40,7 +40,7 @@ export const SalesLegend = ({
                 }}
                 onClick={(e) => onButtonClick(index, e)}
               />
-              <div className="flex-1">
+              <div className="flex-1 bg-transparent">
                 <p className={`text-sm text-black pt-[4px] transition-opacity duration-300 ${activeButton === index ? 'opacity-100 font-medium' : activeButton !== null ? 'opacity-60' : 'opacity-100'}`}>
                   {plan.fullName}
                 </p>
@@ -51,11 +51,12 @@ export const SalesLegend = ({
                   style={{
                     position: 'absolute',
                     left: '1.2rem',
-                    top: '-0.25rem'
+                    top: '-0.25rem',
+                    backgroundColor: 'transparent'
                   }}
                 >
-                  <p className="text-sm font-medium">{plan.fullName}</p>
-                  <p className="text-sm">
+                  <p className="text-sm font-medium bg-transparent">{plan.fullName}</p>
+                  <p className="text-sm bg-transparent">
                     {plan.salesCount} vendas = {formatCurrency(plan.totalAmount)}
                   </p>
                 </div>
