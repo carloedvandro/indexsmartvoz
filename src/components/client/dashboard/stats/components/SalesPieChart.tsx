@@ -63,8 +63,8 @@ export const SalesPieChart = ({
           animationEasing="ease-in-out"
           startAngle={90}
           endAngle={-270}
-          stroke="#ffffff"
-          strokeWidth={2}
+          stroke="none" {/* Removed the white stroke/border */}
+          strokeWidth={0} {/* Set stroke width to 0 */}
           style={{ 
             filter: 'drop-shadow(0px 12px 20px rgba(0, 0, 0, 0.25))',
             transform: 'perspective(800px) rotateX(25deg) scale3d(1.05, 1.05, 1.05)',
