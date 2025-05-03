@@ -34,7 +34,7 @@ export function SalesDetailsCard() {
       </div>
       
       <div className="flex flex-col items-center">
-        <div className={`w-full max-w-[420px] h-[300px] relative flex items-center justify-center -mt-[2px] ${isMobile ? "mt-2" : ""}`}>
+        <div className={`w-full max-w-[420px] h-[350px] relative flex items-center justify-center -mt-[2px] ${isMobile ? "mt-2" : ""}`}>
           <SalesPieChart 
             pieData={pieData}
             activeIndex={activeIndex}

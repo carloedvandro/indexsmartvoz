@@ -55,6 +55,28 @@
   border-radius: 9999px;
 }
 
+/* Risk Gauge Styles */
+.risk-gauge {
+  filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.risk-gauge-segment {
+  transition: transform 0.3s ease;
+}
+
+.risk-gauge-segment:hover {
+  transform: translateY(-3px);
+}
+
+.risk-gauge-needle {
+  transform-origin: center bottom;
+  transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.risk-gauge-center {
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.4));
+}
+
 /* WhatsApp button animation */
 @keyframes pulse {
   0% {
