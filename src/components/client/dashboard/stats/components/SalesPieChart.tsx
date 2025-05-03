@@ -16,7 +16,7 @@ export const SalesPieChart = ({
   setActiveIndex, 
   totalSalesAmount 
 }: SalesPieChartProps) => {
-  // Calculate full angles for proper direction calculation
+  // Get angles for visual purposes only
   const getSliceAngles = (index: number) => {
     const total = pieData.reduce((sum, entry) => sum + entry.value, 0);
     let startAngle = 90; // Start at top (90 degrees in recharts coordinates)
@@ -33,27 +33,19 @@ export const SalesPieChart = ({
     // Middle angle is the direction the slice should move when selected
     const midAngle = (startAngle + endAngle) / 2;
     
-    return {
-      startAngle,
-      endAngle,
-      midAngle
-    };
+    return { midAngle };
   };
   
-  // Calculate proper pop-out offset based on angle
+  // For 3D effect, we'll create a uniform forward projection instead of radial
   const getPopOutOffset = (index: number) => {
-    if (index !== activeIndex) return { x: 0, y: 0 };
+    if (index !== activeIndex) return { x: 0, y: 0, z: 0 };
     
-    // Get the middle angle of the slice in radians
-    const { midAngle } = getSliceAngles(index);
-    const midAngleRad = (midAngle * Math.PI) / 180;
-    
-    // Increase pop-out distance for better visual effect
-    const distance = 15;
-    
+    // Instead of using angles for x/y movement, we'll use a simpler z-projection effect
     return {
-      x: Math.cos(midAngleRad) * distance,
-      y: Math.sin(midAngleRad) * distance
+      // Much smaller x/y offset - just enough for slight direction hint
+      x: 0,
+      y: 0,
+      z: 25 // This will be used for the 3D transform
     };
   };
 
@@ -87,12 +79,18 @@ export const SalesPieChart = ({
             const opacity = activeIndex !== null && !isActive ? 0.7 : 1;
             const offset = getPopOutOffset(index);
             
+            // Apply a 3D transform that pushes the active slice forward
+            const transform = isActive 
+              ? `translateZ(${offset.z}px) scale(${scale})` 
+              : `scale(${scale})`;
+              
             return (
               <Cell 
                 key={`cell-${index}`} 
                 fill={entry.color}
                 style={{
-                  transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
+                  transform,
+                  transformStyle: 'preserve-3d',
                   transformOrigin: 'center center',
                   transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                   zIndex: zIndex,
