@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { InternetSelector } from "@/components/client/products/InternetSelector";
 import { DDDInput } from "@/components/client/products/DDDInput";
@@ -22,11 +21,8 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   const [selectedDueDate, setSelectedDueDate] = useState<number | null>(null);
 
   const internetOptions = [
-    { value: "110GB", label: "Plano Smartvoz 110GB + Minutos ilimitados", price: 109.99 },
-    { value: "120GB", label: "Plano Smartvoz 120GB + Minutos ilimitados", price: 119.99 },
-    { value: "130GB", label: "Plano Smartvoz 130GB + Minutos ilimitados", price: 129.99 },
-    { value: "140GB", label: "Plano Smartvoz 140GB + Minutos ilimitados", price: 139.99 },
-    { value: "150GB", label: "Plano Smartvoz 150GB + Minutos ilimitados", price: 149.99 },
+    { value: "100GB", label: "Plano Smartvoz 100GB + Minutos ilimitados", price: 119.99 },
+    { value: "120GB", label: "Plano Smartvoz 120GB + Minutos ilimitados", price: 129.99 },
   ];
 
   const getLinePrice = () => {

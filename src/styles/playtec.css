@@ -77,17 +77,4 @@
   animation: pulse 2s infinite;
 }
 
-/* Plan colors */
-.plan-color-110gb { color: #8425af; }
-.plan-color-120gb { color: #33C3F0; }
-.plan-color-130gb { color: #8B5CF6; }
-.plan-color-140gb { color: #0ea5e9; }
-.plan-color-150gb { color: #f97316; }
-
-.plan-bg-110gb { background-color: #8425af; }
-.plan-bg-120gb { background-color: #33C3F0; }
-.plan-bg-130gb { background-color: #8B5CF6; }
-.plan-bg-140gb { background-color: #0ea5e9; }
-.plan-bg-150gb { background-color: #f97316; }
-
 /* Adicionar o estilo à importação principal */

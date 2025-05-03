@@ -42,8 +42,8 @@ export const useChartData = () => {
       level4: 5,  // R$5.00 per member
     };
     
-    // Purchase value - plans range from 109.99 to 149.99
-    const purchaseValue = 129.99; // Average of the plan prices
+    // Purchase value - updated to match the 100GB plan price
+    const purchaseValue = 119.99;
     
     // Calculate commission totals
     const commissions = {
