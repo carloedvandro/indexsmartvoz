@@ -43,7 +43,7 @@ export const SalesPieChart: React.FC<SalesPieChartProps> = ({
 }) => {
   return (
     <div className="flex flex-col items-center w-full">
-      <div className="relative w-full h-56">
+      <div className="relative w-full h-56 mt-10"> {/* Added mt-10 here to move the chart 10px down */}
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
