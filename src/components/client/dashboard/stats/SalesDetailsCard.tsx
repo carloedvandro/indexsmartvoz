@@ -1,8 +1,6 @@
-
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { formatCurrency } from "@/utils/format";
-import { SalesChartTooltip } from "./components/SalesChartTooltip";
 import { SalesPieChart } from "./components/SalesPieChart";
 import { SalesLegend } from "./components/SalesLegend";
 import { PieDataItem } from "./types/salesTypes";
@@ -74,20 +72,18 @@ export function SalesDetailsCard() {
   };
 
   return (
-    <div className="pl-0 h-[550px]">
+    <div className="pl-0">
       <div className="flex items-start mb-4 ml-[9px]">
         <h3 className="text-lg font-bold text-black pt-[4px]">Detalhe das Vendas</h3>
       </div>
       
       <div className="flex flex-col items-center">
-        <div className={`w-full max-w-[420px] h-[300px] relative flex items-center justify-center -mt-[2px] ${isMobile ? "mt-2" : ""}`}>
-          <SalesPieChart 
-            pieData={pieData}
-            activeIndex={activeIndex}
-            setActiveIndex={handlePieSliceClick}
-            totalSalesAmount={totalSalesAmount}
-          />
-        </div>
+        <SalesPieChart 
+          pieData={pieData}
+          activeIndex={activeIndex}
+          setActiveIndex={handlePieSliceClick}
+          totalSalesAmount={totalSalesAmount}
+        />
 
         <SalesLegend 
           pieData={pieData}
