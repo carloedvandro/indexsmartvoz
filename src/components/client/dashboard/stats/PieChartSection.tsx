@@ -30,17 +30,18 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
   const renderCustomizedLabel = (props: any) => {
     const { cx, cy, innerRadius, outerRadius, midAngle, index } = props;
     
-    // Custom percentages instead of calculated ones (odd and even values)
-    const customPercentages = [9, 17, 19, 24, 31];
-    const percent = customPercentages[index] || Math.round((pieData[index].value / totalValue) * 100);
+    // Use the defined percentages from the data
+    const percent = pieData[index].percentage || Math.round((pieData[index].value / totalValue) * 100);
     
     // Skip very small slices (less than 5%)
     if (percent < 5) return null;
     
-    // Calculate the position of the text
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
-    const y = cy + radius * Math.sin(-midAngle * Math.PI / 180);
+    // Calculate the position of the text - position further out for better visibility
+    const RADIAN = Math.PI / 180;
+    // Move labels further out from center (0.8 instead of 0.5)
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.75;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
     return (
       <text 
@@ -51,8 +52,8 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
         dominantBaseline="middle"
         style={{ 
           fontWeight: "bold",
-          fontSize: "14px",
-          textShadow: "0px 0px 3px rgba(0,0,0,0.5)"
+          fontSize: "16px",
+          textShadow: "0px 0px 4px rgba(0,0,0,0.7)"
         }}
       >
         {`${percent}%`}
