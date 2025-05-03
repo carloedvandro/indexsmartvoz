@@ -19,7 +19,7 @@ export const SalesLegend = ({
   tooltipData 
 }: SalesLegendProps) => {
   return (
-    <div className="w-full space-y-4 -mt-[0.5px] ml-[9px]">
+    <div className="w-full space-y-4 -mt-[0.5px] ml-[9px] bg-transparent">
       <div className="space-y-2 mt-[12px]">
         <p className="text-sm font-medium text-black pt-[4px]">Planos mais vendidos</p>
         <div className="grid gap-[9px]">
@@ -47,10 +47,10 @@ export const SalesLegend = ({
               </div>
               {showTooltip && tooltipData && activeButton === index && (
                 <div 
-                  className="absolute left-6 -top-1 bg-white p-2 rounded-md shadow-lg border border-gray-200 z-50"
+                  className="absolute left-6 -top-1 bg-transparent p-2 rounded-md shadow-lg border border-gray-200 z-50"
                   style={{
                     position: 'absolute',
-                    left: '1.2rem', // Moved 1px more to the left (from 1.3rem to 1.2rem)
+                    left: '1.2rem',
                     top: '-0.25rem'
                   }}
                 >

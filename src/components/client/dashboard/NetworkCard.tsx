@@ -20,10 +20,10 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
 
   return (
     <Card 
-      className="h-full cursor-pointer hover:shadow-lg transition-shadow shadow-sm"
+      className="h-full cursor-pointer hover:shadow-lg transition-shadow shadow-sm bg-transparent border-none"
       onClick={onClick}
     >
-      <CardHeader className="pb-2 space-y-0 py-4">
+      <CardHeader className="pb-2 space-y-0 py-4 bg-transparent">
         <CardTitle className="text-center flex items-center justify-center gap-2">
           <img 
             src="/lovable-uploads/45e4529e-207c-4c72-bcc0-c0466235e892.png" 
@@ -37,7 +37,7 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
           Total de Indicados: {totalMembers}
         </p>
       </CardHeader>
-      <CardContent className="py-4">
+      <CardContent className="py-4 bg-transparent">
         <div className="grid grid-cols-2 gap-4">
           <div className="p-4 bg-red-50 rounded-lg text-center">
             <p className="text-sm text-red-600 font-medium">Nível 1</p>
