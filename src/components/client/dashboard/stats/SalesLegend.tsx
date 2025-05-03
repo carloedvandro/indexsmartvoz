@@ -50,18 +50,29 @@ export function SalesLegend({
               className="flex items-center relative"
             >
               <div 
-                className={`w-4 h-4 rounded-full mr-2 cursor-pointer transition-all duration-300 flex items-center justify-center`}
+                className={`w-4 h-4 rounded-full mr-2 cursor-pointer transition-all duration-300 flex items-center justify-center ${activeButton === index ? '' : 'animate-pulse'}`}
                 style={{ 
                   backgroundColor: plan.color,
                   transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
                   position: 'relative',
-                  border: '2px solid white'
+                  border: '2px solid white',
+                  boxShadow: activeButton === index ? '0 0 0 2px rgba(255,255,255,0.8), 0 0 10px rgba(0,0,0,0.25)' : 'none',
+                  transform: activeButton === index ? 'scale(1.2)' : 'scale(1)'
                 }}
                 onClick={(e) => onButtonClick(index, e)}
               >
+                <span 
+                  className="absolute inset-0 rounded-full" 
+                  style={{
+                    animation: activeButton !== index ? 'ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite' : 'none',
+                    background: 'transparent',
+                    border: `2px solid ${plan.color}`,
+                    opacity: 0.6
+                  }}
+                ></span>
               </div>
               <div className="flex-1">
-                <p className={`text-sm text-black pt-[4px]`}>
+                <p className={`text-sm text-black pt-[4px] ${activeButton === index ? 'font-medium' : ''}`}>
                   {plan.fullName}
                 </p>
               </div>

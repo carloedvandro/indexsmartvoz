@@ -1,3 +1,4 @@
+
 export const animations = {
   keyframes: {
     "accordion-down": {
@@ -27,6 +28,10 @@ export const animations = {
     "progress-circle": {
       "0%": { "stroke-dashoffset": "100%" },
       "100%": { "stroke-dashoffset": "0%" }
+    },
+    ping: {
+      "0%": { transform: "scale(1)", opacity: "1" },
+      "75%, 100%": { transform: "scale(1.6)", opacity: "0" }
     }
   },
   animation: {
@@ -36,6 +41,7 @@ export const animations = {
     "gradient": "gradient 8s ease-in-out infinite",
     "pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
     "scan-line": "scan-line 0.5s ease-in-out infinite alternate",
-    "progress-circle": "progress-circle 3s linear forwards"
+    "progress-circle": "progress-circle 3s linear forwards",
+    "ping": "ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite"
   },
 };
