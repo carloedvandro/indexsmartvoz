@@ -42,8 +42,8 @@ export const useChartData = () => {
       level4: 5,  // R$5.00 per member
     };
     
-    // Purchase value - plans range from 119.99 to 149.99
-    const purchaseValue = 139.99; // Average of the plan prices
+    // Purchase value - plans range from 109.99 to 149.99
+    const purchaseValue = 129.99; // Average of the plan prices
     
     // Calculate commission totals
     const commissions = {
