@@ -20,7 +20,7 @@ export function SalesDetailsCard() {
       value: 300, 
       price: 119.99,
       totalAmount: 300 * 119.99,
-      color: "#9b87f5" 
+      color: "#D946EF" // Magenta Pink (more vibrant)
     },
     { 
       name: "120GB", 
@@ -28,7 +28,7 @@ export function SalesDetailsCard() {
       value: 250, 
       price: 129.99,
       totalAmount: 250 * 129.99,
-      color: "#33C3F0" 
+      color: "#1EAEDB" // Bright Blue (more vibrant)
     },
     { 
       name: "130GB", 
@@ -36,7 +36,7 @@ export function SalesDetailsCard() {
       value: 200, 
       price: 139.99,
       totalAmount: 200 * 139.99,
-      color: "#8B5CF6" 
+      color: "#8B5CF6" // Vivid Purple (more vibrant)
     },
     { 
       name: "140GB", 
@@ -44,7 +44,7 @@ export function SalesDetailsCard() {
       value: 150, 
       price: 149.99,
       totalAmount: 150 * 149.99,
-      color: "#0EA5E9" 
+      color: "#9b87f5" // Primary Purple (more vibrant)
     },
     { 
       name: "150GB", 
@@ -52,7 +52,7 @@ export function SalesDetailsCard() {
       value: 100, 
       price: 159.99,
       totalAmount: 100 * 159.99,
-      color: "#F97316" 
+      color: "#F97316" // Bright Orange (more vibrant)
     }
   ];
 
