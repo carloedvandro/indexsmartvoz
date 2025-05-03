@@ -33,8 +33,6 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
     // Use the defined percentages from the data
     const percent = pieData[index].percentage || Math.round((pieData[index].value / totalValue) * 100);
     
-    // Don't skip any slices, we want to show all percentages
-    
     // Calculate the position of the text - position for better visibility
     const RADIAN = Math.PI / 180;
     // Position the labels in the middle of each slice
@@ -119,7 +117,7 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
             })}
           </Pie>
           
-          {/* Center text showing "Vendas do Mês" */}
+          {/* Center text showing "Vendas do Mês" with updated styling */}
           <Text
             x="50%"
             y="45%"
@@ -134,7 +132,7 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
             Vendas do Mês
           </Text>
           
-          {/* Center text showing the total amount */}
+          {/* Center text showing the total amount with updated styling */}
           <Text
             x="50%"
             y="55%"
