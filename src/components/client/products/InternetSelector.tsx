@@ -30,12 +30,12 @@ export function InternetSelector({
     <div className="space-y-1 w-full">
       <label className="block text-sm font-medium">Internet</label>
       <Select value={selectedInternet} onValueChange={onInternetChange}>
-        <SelectTrigger className="bg-white h-[40px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] focus:border-[#8425af] text-sm w-full">
+        <SelectTrigger className="bg-white h-[40px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] focus:border-[#8425af] text-sm w-[161px]">
           <SelectValue placeholder="Escolher o plano" />
         </SelectTrigger>
         <SelectContent 
           position="popper" 
-          className="bg-white max-h-[179px] overflow-y-auto w-auto min-w-[200px]"
+          className="bg-white max-h-[179px] overflow-y-auto w-auto min-w-[161px]"
           align="start"
           sideOffset={5}
         >
