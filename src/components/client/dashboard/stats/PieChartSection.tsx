@@ -26,12 +26,13 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
   // Calculate total value for percentage calculation
   const totalValue = pieData.reduce((sum, entry) => sum + entry.value, 0);
 
-  // Custom label for pie slices showing percentage
+  // Custom label for pie slices showing percentage with custom values
   const renderCustomizedLabel = (props: any) => {
-    const { cx, cy, innerRadius, outerRadius, midAngle, value, index } = props;
+    const { cx, cy, innerRadius, outerRadius, midAngle, index } = props;
     
-    // Calculate percentage
-    const percent = Math.round((value / totalValue) * 100);
+    // Custom percentages instead of calculated ones (odd and even values)
+    const customPercentages = [17, 24, 31, 19, 9];
+    const percent = customPercentages[index] || Math.round((pieData[index].value / totalValue) * 100);
     
     // Skip very small slices (less than 5%)
     if (percent < 5) return null;
@@ -136,3 +137,4 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
     </div>
   );
 }
+

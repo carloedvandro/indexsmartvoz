@@ -17,42 +17,47 @@ export function SalesDetailsCard() {
     { 
       name: "110GB", 
       fullName: "Smartvoz 110GB + Minutos ilimitados", 
-      value: 300, 
+      value: 340, 
       price: 119.99,
-      totalAmount: 300 * 119.99,
-      color: "#D946EF" // Magenta Pink (more vibrant)
+      totalAmount: 340 * 119.99,
+      color: "#D946EF", // Magenta Pink (more vibrant)
+      percentage: 17
     },
     { 
       name: "120GB", 
       fullName: "Smartvoz 120GB + Minutos ilimitados", 
-      value: 250, 
+      value: 480, 
       price: 129.99,
-      totalAmount: 250 * 129.99,
-      color: "#1EAEDB" // Bright Blue (more vibrant)
+      totalAmount: 480 * 129.99,
+      color: "#1EAEDB", // Bright Blue (more vibrant)
+      percentage: 24
     },
     { 
       name: "130GB", 
       fullName: "Smartvoz 130GB + Minutos ilimitados", 
-      value: 200, 
+      value: 620, 
       price: 139.99,
-      totalAmount: 200 * 139.99,
-      color: "#8B5CF6" // Vivid Purple (more vibrant)
+      totalAmount: 620 * 139.99,
+      color: "#8B5CF6", // Vivid Purple (more vibrant)
+      percentage: 31
     },
     { 
       name: "140GB", 
       fullName: "Smartvoz 140GB + Minutos ilimitados", 
-      value: 150, 
+      value: 380, 
       price: 149.99,
-      totalAmount: 150 * 149.99,
-      color: "#9b87f5" // Primary Purple (more vibrant)
+      totalAmount: 380 * 149.99,
+      color: "#9b87f5", // Primary Purple (more vibrant)
+      percentage: 19
     },
     { 
       name: "150GB", 
       fullName: "Smartvoz 150GB + Minutos ilimitados", 
-      value: 100, 
+      value: 180, 
       price: 159.99,
-      totalAmount: 100 * 159.99,
-      color: "#F97316" // Bright Orange (more vibrant)
+      totalAmount: 180 * 159.99,
+      color: "#F97316", // Bright Orange (more vibrant)
+      percentage: 9
     }
   ];
 
@@ -90,3 +95,4 @@ export function SalesDetailsCard() {
     </div>
   );
 }
+
