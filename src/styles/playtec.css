@@ -56,6 +56,15 @@
 }
 
 /* Risk Gauge Styles */
+.risk-gauge-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
 .risk-gauge {
   filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.2));
 }
@@ -71,6 +80,7 @@
 .risk-gauge-needle {
   transform-origin: center bottom;
   transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.5));
 }
 
 .risk-gauge-center {
