@@ -33,7 +33,8 @@ export default function ClientDashboard() {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden relative"
+      className="flex h-screen w-full overflow-hidden relative"
+      style={{ background: 'transparent' }}
     >
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <DashboardHeader />

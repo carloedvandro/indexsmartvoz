@@ -92,8 +92,8 @@ export function SalesDetailsCard() {
   };
 
   return (
-    <div className="pl-0 h-[550px]">
-      <div className="flex items-start mb-4 ml-[9px]">
+    <>
+      <div className="items-start mb-4 ml-[9px]">
         <h3 className="text-lg font-bold text-black pt-[4px]">Detalhe das Vendas</h3>
       </div>
       
@@ -115,6 +115,6 @@ export function SalesDetailsCard() {
           tooltipData={tooltipData}
         />
       </div>
-    </div>
+    </>
   );
 }
