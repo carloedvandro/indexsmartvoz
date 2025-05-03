@@ -1,14 +1,15 @@
 
 import { useState, useEffect } from "react";
-import { SalesPlanData, generateSalesData, calculateTotalSalesAmount } from "./salesDetailsData";
+import { SalesPlanData, generateSalesData, calculateTotalSalesAmount, TimePeriod } from "./salesDetailsData";
 
 export function useSalesDetails() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [activeButton, setActiveButton] = useState<number | null>(null);
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipData, setTooltipData] = useState<{ x: number; y: number; data: SalesPlanData } | null>(null);
+  const [timePeriod, setTimePeriod] = useState<TimePeriod>("monthly");
   
-  const pieData = generateSalesData();
+  const pieData = generateSalesData(timePeriod);
   const totalSalesAmount = calculateTotalSalesAmount(pieData);
 
   // Reset active states when data changes
@@ -30,6 +31,10 @@ export function useSalesDetails() {
     });
     setShowTooltip(index === activeIndex ? false : true);
   };
+  
+  const handlePeriodChange = (period: TimePeriod) => {
+    setTimePeriod(period);
+  };
 
   return {
     pieData,
@@ -38,6 +43,8 @@ export function useSalesDetails() {
     showTooltip,
     tooltipData,
     totalSalesAmount,
-    onButtonClick
+    onButtonClick,
+    timePeriod,
+    handlePeriodChange
   };
 }

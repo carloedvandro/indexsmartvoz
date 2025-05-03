@@ -95,7 +95,7 @@ export function SalesChart({ pieData, activeIndex, totalSalesAmount }: SalesChar
             className="text-sm font-medium"
             fill="#000000"
           >
-            Vendas do Mês
+            Vendas do Período
           </Text>
           <Text
             x="50%"

@@ -8,8 +8,12 @@ export interface SalesPlanData {
   color: string;
 }
 
-export const generateSalesData = (): SalesPlanData[] => {
-  return [
+export type TimePeriod = "daily" | "weekly" | "monthly";
+
+// Function to generate simulated sales data based on time period
+export const generateSalesData = (period: TimePeriod = "monthly"): SalesPlanData[] => {
+  // Base data - this is our monthly data
+  const baseData = [
     { 
       name: "110GB", 
       fullName: "Plano Smartvoz 110GB + Minutos ilimitados", 
@@ -51,6 +55,23 @@ export const generateSalesData = (): SalesPlanData[] => {
       color: "#f97316" 
     }
   ];
+  
+  // Scale factors for different time periods
+  const scaleFactor = {
+    daily: 1/30,
+    weekly: 7/30,
+    monthly: 1
+  };
+  
+  // Apply scaling based on selected period
+  return baseData.map(item => {
+    const scaledValue = Math.round(item.value * scaleFactor[period]);
+    return {
+      ...item,
+      value: scaledValue,
+      totalAmount: Number((scaledValue * item.price).toFixed(2))
+    };
+  });
 };
 
 export const calculateTotalSalesAmount = (data: SalesPlanData[]): number => {
@@ -58,4 +79,14 @@ export const calculateTotalSalesAmount = (data: SalesPlanData[]): number => {
     const planTotal = Number((plan.value * plan.price).toFixed(2));
     return acc + planTotal;
   }, 0);
+};
+
+// Get a formatted label for the time period
+export const getTimePeriodLabel = (period: TimePeriod): string => {
+  switch(period) {
+    case "daily": return "Hoje";
+    case "weekly": return "Esta semana";
+    case "monthly": return "Este mês";
+    default: return "Este mês";
+  }
 };
