@@ -121,7 +121,7 @@ export const SalesPieChart = ({
           dominantBaseline="middle"
           className="text-lg font-bold"
           style={{ fontWeight: 700, fontSize: '18px' }}
-          fill="#000000"
+          fill="#13a302"
         >
           {formatCurrency(totalSalesAmount)}
         </text>
