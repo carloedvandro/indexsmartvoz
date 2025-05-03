@@ -1,5 +1,5 @@
 
-import { PieChart, Pie, Cell, ResponsiveContainer, text } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Text } from "recharts";
 import { useState } from "react";
 import { formatCurrency } from "@/utils/format";
 import { SalesDataItem } from "./types";
@@ -25,7 +25,7 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
   };
 
   return (
-    <div className="w-full max-w-[420px] h-[300px] relative flex items-center justify-center -mt-[2px]">
+    <div className="w-full max-w-[420px] h-[300px] relative flex items-center justify-center -mt-[7px]">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
@@ -72,7 +72,7 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
               );
             })}
           </Pie>
-          <text
+          <Text
             x="50%"
             y="45%"
             textAnchor="middle"
@@ -81,8 +81,8 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
             fill="#000000"
           >
             Vendas do Mês
-          </text>
-          <text
+          </Text>
+          <Text
             x="50%"
             y="60%"
             textAnchor="middle"
@@ -91,7 +91,7 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
             fill="#000000"
           >
             {formatCurrency(totalSalesAmount)}
-          </text>
+          </Text>
         </PieChart>
       </ResponsiveContainer>
     </div>
