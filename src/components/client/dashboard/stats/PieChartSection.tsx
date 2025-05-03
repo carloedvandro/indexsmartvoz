@@ -1,5 +1,5 @@
 
-import { PieChart, Pie, Cell, ResponsiveContainer, Text } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Text, Label } from "recharts";
 import { formatCurrency } from "@/utils/format";
 import { SalesDataItem } from "./types";
 
@@ -23,6 +23,42 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
     return { z: 25 };
   };
 
+  // Calculate total value for percentage calculation
+  const totalValue = pieData.reduce((sum, entry) => sum + entry.value, 0);
+
+  // Custom label for pie slices showing percentage
+  const renderCustomizedLabel = (props: any) => {
+    const { cx, cy, innerRadius, outerRadius, midAngle, value, index } = props;
+    
+    // Calculate percentage
+    const percent = Math.round((value / totalValue) * 100);
+    
+    // Skip very small slices (less than 5%)
+    if (percent < 5) return null;
+    
+    // Calculate the position of the text
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
+    const y = cy + radius * Math.sin(-midAngle * Math.PI / 180);
+
+    return (
+      <text 
+        x={x} 
+        y={y} 
+        fill="#FFFFFF"
+        textAnchor="middle" 
+        dominantBaseline="middle"
+        style={{ 
+          fontWeight: "bold",
+          fontSize: "14px",
+          textShadow: "0px 0px 3px rgba(0,0,0,0.5)"
+        }}
+      >
+        {`${percent}%`}
+      </text>
+    );
+  };
+
   return (
     <div className="w-full max-w-[420px] h-[300px] relative flex items-center justify-center -mt-[7px]">
       <ResponsiveContainer width="100%" height="100%">
@@ -40,6 +76,8 @@ export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieCha
             endAngle={-270}
             stroke="none"
             strokeWidth={0}
+            label={renderCustomizedLabel}
+            labelLine={false}
             style={{ 
               filter: 'drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.25))',
               transform: 'perspective(1200px) rotateX(20deg)',
