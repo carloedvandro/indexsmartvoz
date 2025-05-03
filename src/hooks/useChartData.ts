@@ -68,11 +68,16 @@ export const useChartData = () => {
     };
   };
 
-  // Sales data for the gauge chart
+  // Sales data for pie chart
   const salesData = {
     actualSales: 48048,
     targetSales: 93332,
     performance: 51.5, // percentage
+    distributions: [
+      { name: "Plano 50GB", value: 35 },
+      { name: "Plano 100GB", value: 40 },
+      { name: "Plano 200GB", value: 25 }
+    ]
   };
 
   return { 

@@ -4,79 +4,87 @@ import { useState } from "react";
 import { formatCurrency } from "@/utils/format";
 import { CircularProgress } from "../charts/CircularProgress";
 import { useChartData } from "@/hooks/useChartData";
+import { Card } from "@/components/ui/card";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 export function SalesDetailsCard() {
   const isMobile = useIsMobile();
   const { salesData } = useChartData();
   
-  // Calculate percentage of target reached
-  const percentageReached = Math.min(Math.round((salesData.actualSales / salesData.targetSales) * 100), 100);
+  // Sales data for the pie chart
+  const pieData = [
+    { name: "Plano 50GB", value: 35, color: "#6E59A5" },
+    { name: "Plano 100GB", value: 40, color: "#33C3F0" },
+    { name: "Plano 200GB", value: 25, color: "#D6BCFA" }
+  ];
   
-  // Determine gauge color based on percentage
-  const getGaugeColor = (percentage: number) => {
-    if (percentage < 30) return "#FF5252"; // Red for low performance
-    if (percentage < 70) return "#FFC107"; // Yellow for medium performance
-    return "#4CAF50"; // Green for good performance
-  };
-  
-  const gaugeColor = getGaugeColor(percentageReached);
-
   return (
-    <div className="pl-0 h-[550px]">
-      <div className="flex items-start mb-4 ml-[9px]">
-        <h3 className="text-lg font-bold text-black pt-[4px]">Detalhe das Vendas</h3>
+    <Card className="p-6 shadow-sm h-[550px] w-full border-0 rounded-xl shadow-lg">
+      <div className="flex items-start mb-4">
+        <h3 className="text-lg font-bold text-black">Detalhe das Vendas</h3>
       </div>
       
       <div className="flex flex-col items-center">
         <div className="w-full max-w-[420px] h-[300px] flex items-center justify-center">
-          <div className="bg-gray-900 p-6 rounded-lg w-full relative">
-            <div className="text-white mb-2 flex justify-between items-center">
-              <span className="text-sm">Project Cost Performance</span>
-              <span className="text-sm">Actual Cost</span>
-            </div>
-            
-            <div className="flex justify-center items-center flex-col mb-4">
-              <CircularProgress
-                percentage={percentageReached}
-                size={180}
-                strokeWidth={12}
-                circleOneStroke="#3e4047"
-                circleTwoStroke={gaugeColor}
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={pieData}
+                cx="50%"
+                cy="50%"
+                innerRadius={60}
+                outerRadius={120}
+                paddingAngle={2}
+                dataKey="value"
+                labelLine={true}
+                label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
               >
-                <div className="flex flex-col items-center">
-                  <p className="text-gray-400 text-xs">Vendas do Mês</p>
-                  <p className="text-white text-xl font-bold">
-                    {formatCurrency(salesData.actualSales)}
-                  </p>
-                </div>
-              </CircularProgress>
-              
-              <div className="mt-6 w-full">
-                <div className="flex justify-between text-white">
-                  <div>
-                    <p className="text-xl font-bold">{formatCurrency(salesData.targetSales)}</p>
-                    <p className="text-xs text-gray-400">Total budget</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xl font-bold">{formatCurrency(salesData.actualSales)}</p>
-                    <p className="text-xs text-gray-400">Actual Cost</p>
-                  </div>
-                </div>
+                {pieData.map((entry, index) => (
+                  <Cell 
+                    key={`cell-${index}`} 
+                    fill={entry.color} 
+                    stroke="#fff"
+                    strokeWidth={2}
+                  />
+                ))}
+              </Pie>
+              <Tooltip 
+                formatter={(value) => [`${value}%`, "Percentual"]}
+                contentStyle={{
+                  borderRadius: "8px",
+                  border: "1px solid #e2e8f0",
+                  boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)"
+                }}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+        
+        <div className="mt-6 w-full">
+          <div className="grid grid-cols-3 gap-4 mt-2">
+            {pieData.map((entry, index) => (
+              <div key={index} className="flex flex-col items-center">
+                <div className="w-4 h-4 rounded-full mb-2" style={{ backgroundColor: entry.color }}></div>
+                <p className="text-sm text-gray-600 text-center">{entry.name}</p>
+                <p className="text-lg font-bold text-center">{entry.value}%</p>
               </div>
-            </div>
-            
-            {/* Gauge markings */}
-            <div className="absolute top-[168px] left-0 right-0 flex justify-between px-12 text-xs text-gray-500">
-              <span>0k</span>
-              <span>20k</span>
-              <span>40k</span>
-              <span>60k</span>
-              <span>80k</span>
-              <span>100k</span>
+            ))}
+          </div>
+          
+          <div className="mt-4 border-t pt-4">
+            <div className="flex justify-between text-sm">
+              <div>
+                <p className="font-medium text-gray-500">Total de Vendas</p>
+                <p className="text-xl font-bold">{formatCurrency(salesData.actualSales)}</p>
+              </div>
+              <div className="text-right">
+                <p className="font-medium text-gray-500">Meta Mensal</p>
+                <p className="text-xl font-bold">{formatCurrency(salesData.targetSales)}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }
