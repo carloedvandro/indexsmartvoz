@@ -1,3 +1,4 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
@@ -226,7 +227,7 @@ export function SalesDetailsCard() {
                   />
                   <div className="flex-1">
                     <p className={`text-sm text-black pt-[4px] transition-opacity duration-300 ${activeButton === index ? 'opacity-100 font-medium' : activeButton !== null ? 'opacity-60' : 'opacity-100'}`}>
-                      {plan.name} + Minutos ilimitados
+                      {plan.fullName}
                     </p>
                   </div>
                   {showTooltip && tooltipData && activeButton === index && (
