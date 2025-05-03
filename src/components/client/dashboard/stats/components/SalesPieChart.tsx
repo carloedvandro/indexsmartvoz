@@ -63,8 +63,8 @@ export const SalesPieChart = ({
           animationEasing="ease-in-out"
           startAngle={90}
           endAngle={-270}
-          stroke="#ffffff"
-          strokeWidth={2}
+          stroke="none"
+          strokeWidth={0}
           style={{ 
             filter: 'drop-shadow(0px 12px 20px rgba(0, 0, 0, 0.25))',
             transform: 'perspective(800px) rotateX(25deg) scale3d(1.05, 1.05, 1.05)',
@@ -108,8 +108,8 @@ export const SalesPieChart = ({
           y="43%"
           textAnchor="middle"
           dominantBaseline="middle"
-          className="text-base font-semibold"
-          style={{ fontWeight: 600, fontSize: '16px' }}
+          className="text-base"
+          style={{ fontSize: '16px', fontWeight: 'normal' }}
           fill="#000000"
         >
           Vendas do Mês
