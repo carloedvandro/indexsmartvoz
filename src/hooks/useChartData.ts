@@ -68,21 +68,8 @@ export const useChartData = () => {
     };
   };
 
-  // Sales data for gauge chart - matched to the reference image
-  const salesData = {
-    actualSales: 54023, // Between 40k and 60k as shown in image
-    targetSales: 93332,
-    performance: 58, // percentage - needle position between 40k and 60k
-    distributions: [
-      { name: "Plano 50GB", value: 35 },
-      { name: "Plano 100GB", value: 40 },
-      { name: "Plano 200GB", value: 25 }
-    ]
-  };
-
   return { 
     barData,
-    commissionData: calculateCommissions(),
-    salesData
+    commissionData: calculateCommissions()
   };
 };
