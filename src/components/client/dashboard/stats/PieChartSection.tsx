@@ -1,0 +1,99 @@
+
+import { PieChart, Pie, Cell, ResponsiveContainer, text } from "recharts";
+import { useState } from "react";
+import { formatCurrency } from "@/utils/format";
+import { SalesDataItem } from "./types";
+
+interface PieChartSectionProps {
+  pieData: SalesDataItem[];
+  activeIndex: number | null;
+  setActiveIndex: (index: number | null) => void;
+}
+
+export function PieChartSection({ pieData, activeIndex, setActiveIndex }: PieChartSectionProps) {
+  const totalSalesAmount = pieData.reduce((acc, plan) => {
+    const planTotal = Number((plan.value * plan.price).toFixed(2));
+    return acc + planTotal;
+  }, 0);
+  
+  // Get forward offset for the active slice
+  const getPopOutOffset = (index: number) => {
+    if (index !== activeIndex) return { z: 0 };
+    
+    // Pop the slice forward instead of radially
+    return { z: 25 };
+  };
+
+  return (
+    <div className="w-full max-w-[420px] h-[300px] relative flex items-center justify-center -mt-[2px]">
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie
+            data={pieData}
+            innerRadius={75}
+            outerRadius={120}
+            paddingAngle={0}
+            dataKey="value"
+            animationBegin={0}
+            animationDuration={1200}
+            animationEasing="ease-in-out"
+            startAngle={90}
+            endAngle={-270}
+            stroke="none"
+            strokeWidth={0}
+            style={{ 
+              filter: 'drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.25))',
+              transform: 'perspective(1200px) rotateX(20deg)',
+            }}
+          >
+            {pieData.map((entry, index) => {
+              const isActive = index === activeIndex;
+              const scale = isActive ? 1.1 : 1;
+              const zIndex = isActive ? 10 : 1;
+              const opacity = activeIndex !== null && !isActive ? 0.7 : 1;
+              const offset = getPopOutOffset(index);
+              
+              return (
+                <Cell 
+                  key={`cell-${index}`} 
+                  fill={entry.color}
+                  stroke="#ffffff"
+                  strokeWidth={2}
+                  style={{
+                    transform: `translateZ(${offset.z}px) scale(${scale})`,
+                    transformOrigin: 'center center',
+                    transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                    zIndex: zIndex,
+                    opacity: opacity,
+                    filter: isActive ? 'drop-shadow(0px 10px 18px rgba(0, 0, 0, 0.45))' : 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25))',
+                    outline: 'none',
+                  }}
+                />
+              );
+            })}
+          </Pie>
+          <text
+            x="50%"
+            y="45%"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            className="text-sm font-medium"
+            fill="#000000"
+          >
+            Vendas do Mês
+          </text>
+          <text
+            x="50%"
+            y="60%"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            className="text-base font-bold"
+            fill="#000000"
+          >
+            {formatCurrency(totalSalesAmount)}
+          </text>
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
