@@ -1,3 +1,4 @@
+
 import { PieChart, Pie, Cell, ResponsiveContainer, Text, Label } from "recharts";
 import { formatCurrency } from "@/utils/format";
 import { PieDataItem } from "../types/salesTypes";
@@ -101,7 +102,8 @@ export const SalesPieChart = ({
           transform: 'perspective(800px) rotateX(25deg)',
           transformOrigin: 'center center',
           transition: 'transform 0.5s ease-out',
-          filter: 'drop-shadow(0px 2px 4px rgba(255, 255, 255, 0.2))'
+          filter: 'drop-shadow(0px 1px 3px rgba(255, 255, 255, 0.3))',
+          outline: '2px solid #FFFFFF'
         }}
         labelLine={false}
         label={renderCustomizedLabel}
@@ -134,7 +136,8 @@ export const SalesPieChart = ({
                 opacity: opacity,
                 cursor: 'pointer',
                 stroke: "#ffffff",
-                strokeWidth: 2
+                strokeWidth: 2,
+                outline: isActive ? '2px solid #FFFFFF' : 'none'
               }}
               onClick={() => setActiveIndex(index === activeIndex ? null : index)}
             />
