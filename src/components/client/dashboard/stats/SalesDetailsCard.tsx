@@ -14,46 +14,46 @@ export function SalesDetailsCard() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipData, setTooltipData] = useState<TooltipData | null>(null);
   
-  // Data with both percentage values and sales counts - updated with vibrant colors
+  // Updated data with more varied and realistic values
   const pieData: PieDataItem[] = [
     { 
       name: "110GB", 
       fullName: "Smartvoz 110GB + Minutos ilimitados", 
-      value: 17, // Percentage value for pie chart sizing
+      value: 22, // Updated percentage value
       price: 119.99,
-      totalAmount: 17 * 119.99,
-      percentage: 17,
-      salesCount: 305, // Added actual number of sales 
+      totalAmount: 22 * 119.99,
+      percentage: 22,
+      salesCount: 428, // Updated sales count
       color: "#8a5cf6" // Bright purple
     },
     { 
       name: "120GB", 
       fullName: "Smartvoz 120GB + Minutos ilimitados", 
-      value: 21,
+      value: 36, // Updated percentage value
       price: 129.99,
-      totalAmount: 21 * 129.99,
-      percentage: 21,
-      salesCount: 378, // Added actual number of sales
+      totalAmount: 36 * 129.99,
+      percentage: 36,
+      salesCount: 692, // Updated sales count
       color: "#0cc7f0" // Bright cyan
     },
     { 
       name: "130GB", 
       fullName: "Smartvoz 130GB + Minutos ilimitados", 
-      value: 13,
+      value: 15, // Updated percentage value
       price: 139.99,
-      totalAmount: 13 * 139.99,
-      percentage: 13,
-      salesCount: 234, // Added actual number of sales
+      totalAmount: 15 * 139.99,
+      percentage: 15,
+      salesCount: 287, // Updated sales count
       color: "#9b5bf5" // Medium purple
     },
     { 
       name: "140GB", 
       fullName: "Smartvoz 140GB + Minutos ilimitados", 
-      value: 25,
+      value: 27, // Updated percentage value
       price: 149.99,
-      totalAmount: 25 * 149.99,
-      percentage: 25,
-      salesCount: 433, // Added actual number of sales
+      totalAmount: 27 * 149.99,
+      percentage: 27,
+      salesCount: 519, // Updated sales count
       color: "#0ea5e9" // Bright blue
     }
   ];
