@@ -14,43 +14,53 @@ export function SalesDetailsCard() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipData, setTooltipData] = useState<TooltipData | null>(null);
   
-  // Data with both percentage values and sales counts - updated with accurate sales values and prices
+  // Data with both percentage values and sales counts - updated with vibrant colors
   const pieData: PieDataItem[] = [
     { 
       name: "110GB", 
       fullName: "Smartvoz 110GB + Minutos ilimitados", 
-      value: 22, // Percentage value for pie chart sizing
-      price: 109.99,
-      totalAmount: 305 * 109.99, // Total = sales count * price
-      percentage: 22,
-      salesCount: 305, // Actual number of sales 
+      value: 17, // Percentage value for pie chart sizing
+      price: 119.99,
+      totalAmount: 17 * 119.99,
+      percentage: 17,
+      salesCount: 305, // Added actual number of sales 
       color: "#8a5cf6" // Bright purple
     },
     { 
       name: "120GB", 
       fullName: "Smartvoz 120GB + Minutos ilimitados", 
-      value: 36,
-      price: 119.99,
-      totalAmount: 428 * 119.99, // Total = sales count * price
-      percentage: 36,
-      salesCount: 428, // Actual number of sales
+      value: 21,
+      price: 129.99,
+      totalAmount: 21 * 129.99,
+      percentage: 21,
+      salesCount: 378, // Added actual number of sales
       color: "#0cc7f0" // Bright cyan
+    },
+    { 
+      name: "130GB", 
+      fullName: "Smartvoz 130GB + Minutos ilimitados", 
+      value: 13,
+      price: 139.99,
+      totalAmount: 13 * 139.99,
+      percentage: 13,
+      salesCount: 234, // Added actual number of sales
+      color: "#9b5bf5" // Medium purple
     },
     { 
       name: "140GB", 
       fullName: "Smartvoz 140GB + Minutos ilimitados", 
-      value: 42,
-      price: 139.99,
-      totalAmount: 501 * 139.99, // Total = sales count * price
-      percentage: 42,
-      salesCount: 501, // Actual number of sales
+      value: 25,
+      price: 149.99,
+      totalAmount: 25 * 149.99,
+      percentage: 25,
+      salesCount: 433, // Added actual number of sales
       color: "#0ea5e9" // Bright blue
     }
   ];
 
-  // Calculate the actual total sales amount by summing the totalAmount of each plan
   const totalSalesAmount = pieData.reduce((acc, plan) => {
-    return acc + plan.totalAmount;
+    const planTotal = Number((plan.value * plan.price).toFixed(2));
+    return acc + planTotal;
   }, 0);
 
   // Handle clicking on a legend button
