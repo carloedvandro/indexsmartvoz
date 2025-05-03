@@ -98,8 +98,8 @@ export const SalesPieChart = ({
         animationEasing="ease-in-out"
         startAngle={90}
         endAngle={-270}
-        stroke="transparent"
-        strokeWidth={0}
+        stroke="#FFFFFF"
+        strokeWidth={2}
         style={{ 
           transform: 'perspective(800px) rotateX(25deg)',
           transformOrigin: 'center center',
@@ -137,8 +137,8 @@ export const SalesPieChart = ({
                 zIndex: zIndex,
                 opacity: opacity,
                 cursor: 'pointer',
-                stroke: "transparent",
-                strokeWidth: 0,
+                stroke: "#FFFFFF",
+                strokeWidth: 2,
                 outline: 'none'
               }}
               onClick={() => setActiveIndex(index === activeIndex ? null : index)}
