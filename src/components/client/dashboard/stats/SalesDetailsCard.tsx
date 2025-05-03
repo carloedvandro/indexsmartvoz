@@ -152,8 +152,10 @@ export function SalesDetailsCard() {
                 stroke="none"
                 strokeWidth={0}
                 style={{ 
-                  filter: 'drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.25))',
-                  transform: 'perspective(1200px) rotateX(20deg)',
+                  filter: 'drop-shadow(0px 12px 20px rgba(0, 0, 0, 0.25))',
+                  transform: 'perspective(800px) rotateX(25deg) scale3d(1.05, 1.05, 1.05)',
+                  transformOrigin: 'center center',
+                  transition: 'transform 0.5s ease-out',
                 }}
               >
                 {pieData.map((entry, index) => {
@@ -184,20 +186,22 @@ export function SalesDetailsCard() {
               </Pie>
               <text
                 x="50%"
-                y="45%"
+                y="43%"
                 textAnchor="middle"
                 dominantBaseline="middle"
                 className="text-base font-semibold"
+                style={{ fontWeight: 600, fontSize: '16px' }}
                 fill="#000000"
               >
                 Vendas do Mês
               </text>
               <text
                 x="50%"
-                y="60%"
+                y="58%"
                 textAnchor="middle"
                 dominantBaseline="middle"
                 className="text-lg font-bold"
+                style={{ fontWeight: 700, fontSize: '18px' }}
                 fill="#000000"
               >
                 {formatCurrency(totalSalesAmount)}
