@@ -47,16 +47,17 @@ export const SalesLegend = ({
               </div>
               {showTooltip && tooltipData && activeButton === index && (
                 <div 
-                  className="absolute left-6 -top-1 bg-transparent p-2 rounded-md shadow-lg border border-gray-200 z-50"
+                  className="absolute left-6 -top-1 bg-white p-2 rounded-md shadow-lg border border-gray-200 z-50"
                   style={{
                     position: 'absolute',
                     left: '1.2rem',
                     top: '-0.25rem',
-                    backgroundColor: 'transparent'
+                    backgroundColor: 'white',
+                    zIndex: 50
                   }}
                 >
-                  <p className="text-sm font-medium bg-transparent">{plan.fullName}</p>
-                  <p className="text-sm bg-transparent">
+                  <p className="text-sm font-medium">{plan.fullName}</p>
+                  <p className="text-sm">
                     {plan.salesCount} vendas = {formatCurrency(plan.totalAmount)}
                   </p>
                 </div>
