@@ -14,7 +14,7 @@ import "@/styles/logo.css";
 
 export default function ClientDashboard() {
   const navigate = useNavigate();
-  const { data: profile } = useProfile();
+  const { data: profile, refetch } = useProfile();
   const { data: networkStats } = useNetworkStats(profile?.id);
   const [activeMonth, setActiveMonth] = useState("Abr");
   const [activeDay, setActiveDay] = useState("");
