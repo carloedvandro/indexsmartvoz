@@ -21,7 +21,7 @@ export const SalesLegend = ({
   return (
     <div className="w-full space-y-4 -mt-[0.5px] ml-[9px] bg-transparent mt-5">
       <div className="space-y-2 mt-[12px] bg-transparent">
-        <p className="text-sm font-medium text-black pt-[4px]">Planos mais vendidos</p>
+        <p className="text-sm font-medium text-black pt-0">Planos mais vendidos</p>
         <div className="grid gap-[9px] bg-transparent">
           {pieData.map((plan, index) => (
             <div 
