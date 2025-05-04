@@ -25,7 +25,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
   const isActive = profile?.status === 'active';
 
   return (
-    <div className="flex flex-col items-center space-y-4">
+    <div className="flex flex-col items-center space-y-4 pt-5">
       <ProfileAvatar 
         profileImage={profileImage}
         fullName={profile?.full_name}
