@@ -49,3 +49,25 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
     throw error;
   }
 };
+
+// Add a function to update the profile's full_name
+export const updateFullName = async (userId: string, fullName: string): Promise<void> => {
+  try {
+    console.log(`Updating full name for user ${userId} to "${fullName}"`);
+    
+    const { error } = await supabase
+      .from("profiles")
+      .update({ full_name: fullName })
+      .eq("id", userId);
+    
+    if (error) {
+      console.error("Error updating full name:", error);
+      throw error;
+    }
+    
+    console.log("Full name updated successfully");
+  } catch (error) {
+    console.error("Error in updateFullName:", error);
+    throw error;
+  }
+};
