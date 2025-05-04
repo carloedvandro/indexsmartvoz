@@ -1,4 +1,3 @@
-
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts";
 
 interface BarChartStatsProps {
@@ -47,10 +46,8 @@ export const BarChartStats = ({ data }: BarChartStatsProps) => {
               border: 'none',
               borderRadius: '8px',
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-              padding: '8px 12px',
-              zIndex: 50
+              padding: '8px 12px'
             }}
-            wrapperStyle={{ zIndex: 50 }}
             cursor={{ fill: 'transparent' }}
           />
           <Bar 
