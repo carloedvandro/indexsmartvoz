@@ -23,17 +23,20 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
 
   const profileImage = "https://images.unsplash.com/photo-1649972904349-6e44c42644a7";
   const isActive = profile?.status === 'active';
+  
+  // Always show the full name from profile.full_name
+  const displayName = profile?.full_name || "Nome não informado";
 
   return (
     <div className="flex flex-col items-center space-y-4 pt-5">
       <ProfileAvatar 
         profileImage={profileImage}
-        fullName={profile?.full_name}
+        fullName={displayName}
         isActive={isActive}
       />
       
       <div className="text-center">
-        <h3 className="text-xl font-semibold">{profile?.full_name || "Nome não informado"}</h3>
+        <h3 className="text-xl font-semibold">{displayName}</h3>
         <p className="text-sm text-muted-foreground break-all">{profile?.email || "Não informado"}</p>
         <Badge 
           className="mt-2" 
