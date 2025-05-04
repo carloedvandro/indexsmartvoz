@@ -17,14 +17,14 @@ export const ProfileAvatar = ({ profileImage, fullName, isActive }: ProfileAvata
       <Tooltip>
         <TooltipTrigger>
           <div className="relative">
-            <Avatar className={`h-24 w-24 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
+            <Avatar className={`h-32 w-32 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
               <AvatarImage src={profileImage} alt={fullName || "Profile"} />
               <AvatarFallback>
-                <Users className="h-10 w-10" />
+                <Users className="h-14 w-14" />
               </AvatarFallback>
             </Avatar>
             <StatusIcon 
-              className={`absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-white p-0.5 ${
+              className={`absolute -bottom-1 -right-1 h-8 w-8 rounded-full bg-white p-0.5 ${
                 isActive ? 'text-green-500' : 'text-red-500'
               }`}
             />
