@@ -1,3 +1,4 @@
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Users, UserCheck, UserX } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -16,14 +17,14 @@ export const ProfileAvatar = ({ profileImage, fullName, isActive }: ProfileAvata
       <Tooltip>
         <TooltipTrigger>
           <div className="relative">
-            <Avatar className={`h-16 w-16 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
+            <Avatar className={`h-24 w-24 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
               <AvatarImage src={profileImage} alt={fullName || "Profile"} />
               <AvatarFallback>
-                <Users className="h-8 w-8" />
+                <Users className="h-10 w-10" />
               </AvatarFallback>
             </Avatar>
             <StatusIcon 
-              className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-white p-0.5 ${
+              className={`absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-white p-0.5 ${
                 isActive ? 'text-green-500' : 'text-red-500'
               }`}
             />
