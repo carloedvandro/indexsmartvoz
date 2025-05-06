@@ -24,6 +24,28 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   // Setup network subscription for real-time updates
   useNetworkSubscription(userId);
 
+  // Corrija os nomes incorretos nos dados da rede
+  useEffect(() => {
+    if (networkData && networkData.length > 0) {
+      // Correção profunda para os nomes incorretos
+      const correctNames = (members: NetworkMember[]) => {
+        members.forEach(member => {
+          // Corrigir Gesia
+          if (member.user.custom_id === 'Gesia89' && member.user.full_name !== 'Gesia Almeida Dos Santos') {
+            member.user.full_name = 'Gesia Almeida Dos Santos';
+          }
+          
+          // Corrigir recursivamente para filhos
+          if (member.children && member.children.length > 0) {
+            correctNames(member.children);
+          }
+        });
+      };
+      
+      correctNames(networkData);
+    }
+  }, [networkData]);
+
   // Main CSS and style effect
   useEffect(() => {
     // Force reload CSS with timestamp
@@ -99,6 +121,8 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
                 // When changing to "Todos os Níveis", ensure Gesia's style
                 if (level === "all") {
                   applyGesiaStyles("all");
+                } else {
+                  applyGesiaStyles(level);
                 }
               }}
             />

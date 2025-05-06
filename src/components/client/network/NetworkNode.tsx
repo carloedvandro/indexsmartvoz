@@ -37,7 +37,7 @@ export const NetworkNode = ({
   const isMarcioSilva = member.user.full_name === 'Marcio Bettanzos da Silva';
   const isCarloGoncalves = member.user.full_name === 'Carlo Edvandro Camera Gonçalves';
   const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
-  const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
+  const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos' || member.user.custom_id === 'Gesia89';
   
   // Timestamp para forçar atualização de estilos
   const styleTimestamp = new Date().getTime();
@@ -58,10 +58,13 @@ export const NetworkNode = ({
   
   // Estilo específico para o status "Pendente" - AGORA move 1.8px para BAIXO em "Todos os níveis"
   const pendingStatusStyle: React.CSSProperties = (!isActive && isAllLevels) ? {
-    transform: 'translateY(1.8px)', // ALTERADO: 1.8px para baixo (era 2px) - movido 0.2px para cima
+    transform: 'translateY(1.8px)',
     position: 'relative',
     zIndex: 5
   } : {};
+  
+  // Corrigir o nome para Gesia se necessário
+  const displayName = isGesiaAlmeida ? 'Gesia Almeida Dos Santos' : (member.user.full_name || "Usuário");
 
   return (
     <motion.div
@@ -76,7 +79,7 @@ export const NetworkNode = ({
         ...extraStyles
       }}
       data-user-id={member.user.custom_id}
-      data-member-name={member.user.full_name}
+      data-member-name={displayName}
       data-node-id={member.id}
       data-custom-id={member.user.custom_id}
       data-style-timestamp={styleTimestamp}
@@ -105,7 +108,7 @@ export const NetworkNode = ({
         
         <div className="flex items-start gap-3 flex-1">
           <UserAvatar 
-            name={member.user.full_name} 
+            name={displayName} 
             isActive={isActive} 
             currentLevel={currentLevel} 
           />
@@ -116,7 +119,7 @@ export const NetworkNode = ({
                 className="text-base font-semibold text-black truncate"
                 style={gesiaTextStyle}
               >
-                {member.user.full_name || "Usuário"}
+                {displayName}
               </h3>
               <span 
                 className={`text-xs font-semibold ${

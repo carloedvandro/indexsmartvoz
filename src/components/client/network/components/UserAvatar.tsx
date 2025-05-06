@@ -11,12 +11,20 @@ interface UserAvatarProps {
 
 export const UserAvatar = ({ name, isActive, currentLevel }: UserAvatarProps) => {
   const StatusIcon = isActive ? UserCheck : UserX;
+  
+  // Usar o nome correto para Gesia se necessário
+  const displayName = name === 'Shalon David' && name.includes('Gesia') ? 'Gesia Almeida Dos Santos' : name;
+  
+  // Verificação mais robusta para detectar o perfil de Gesia
+  const isGesia = displayName === 'Gesia Almeida Dos Santos' || displayName?.includes('Gesia');
+  
+  // Usar uma imagem de perfil genérica para todos os usuários
   const profileImage = "https://images.unsplash.com/photo-1649972904349-6e44c42644a7";
 
   return (
     <div className="relative">
       <Avatar className={`h-14 w-14 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
-        <AvatarImage src={profileImage} alt={name || "Profile"} />
+        <AvatarImage src={profileImage} alt={displayName || "Profile"} />
         <AvatarFallback>
           <Users className="h-8 w-8" />
         </AvatarFallback>

@@ -31,7 +31,7 @@ export const FilteredNetworkNode = ({
   const isVandoMacedo = member.user.full_name === 'Vando Araujo Macedo';
   const isDierroLeal = member.user.full_name === 'Dierro Santana Leal';
   const isRudneyNobrega = member.user.full_name === 'Rudney de Souza Nobrega';
-  const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos';
+  const isGesiaAlmeida = member.user.full_name === 'Gesia Almeida Dos Santos' || member.user.custom_id === 'Gesia89';
   
   let marginLeft = '0px';
   let marginTop = '0px';
@@ -39,31 +39,31 @@ export const FilteredNetworkNode = ({
   let transform = undefined;
   
   if (isMarcioSilva) {
-    marginLeft = '29.5px'; // Movido 0.5px para direita (era 29px)
+    marginLeft = '29.5px';
     marginTop = '2px';
   } else if (isMarcioSales) {
-    marginLeft = '29.2px'; // Movido 0.2px para direita (era 29px)
+    marginLeft = '29.2px';
     marginTop = '2px';
   } else if (isCarloGoncalves) {
-    marginLeft = '0.1px'; // Movido 0.2px para esquerda (era 0.3px)
+    marginLeft = '0.1px';
     marginTop = '8px';
   } else if (isDomingosPinto) {
-    marginLeft = '-0.1px'; // Movido 0.1px para esquerda (era 0px)
+    marginLeft = '-0.1px';
     marginTop = '2px';
   } else if (isVandoMacedo) {
-    marginLeft = '-0.5px'; // Movido 0.5px para esquerda (era 0px)
+    marginLeft = '-0.5px';
     marginTop = '2px';
   } else if (isDierroLeal) {
-    marginLeft = '-1.3px'; // Movido 0.7px para direita (era -2px)
+    marginLeft = '-1.3px';
     marginTop = '2px';
   } else if (isRudneyNobrega) {
-    marginLeft = '30px'; // Movido 1px para direita (era 29px)
+    marginLeft = '30px';
     marginTop = '2px';
   } else if (isGesiaAlmeida) {
-    marginLeft = '3.2px'; // Movido 0.2px para esquerda (era 3.4px)
+    marginLeft = '3.2px';
     marginTop = '2px';
-    maxWidth = '97%'; // Reduzido de 98% para 97%
-    transform = 'scale(0.97)'; // Reduzido de 0.98 para 0.97
+    maxWidth = '97%';
+    transform = 'scale(0.97)';
   }
 
   // Adicionando timestamp para forçar atualização de estilo
@@ -78,10 +78,13 @@ export const FilteredNetworkNode = ({
   
   // Estilo específico para o status "Pendente" - AGORA Move 1.8px para BAIXO em "Todos os Níveis"
   const pendingStatusStyle: React.CSSProperties = (!isActive && isAllLevels) ? {
-    transform: 'translateY(1.8px)', // ALTERADO: 1.8px para baixo (era 2px) - movido 0.2px para cima
+    transform: 'translateY(1.8px)',
     position: 'relative',
     zIndex: 5
   } : {};
+
+  // Corrigir o nome para Gesia se necessário
+  const displayName = isGesiaAlmeida ? 'Gesia Almeida Dos Santos' : member.user.full_name || "Usuário";
 
   return (
     <motion.div
@@ -96,7 +99,7 @@ export const FilteredNetworkNode = ({
         transform: transform
       }}
       data-user-id={member.user.custom_id}
-      data-member-name={member.user.full_name}
+      data-member-name={displayName}
       data-node-id={member.id}
       data-custom-id={member.user.custom_id}
       data-style-timestamp={styleTimestamp}
@@ -125,7 +128,7 @@ export const FilteredNetworkNode = ({
         
         <div className="flex items-start gap-3 flex-1">
           <UserAvatar 
-            name={member.user.full_name} 
+            name={displayName} 
             isActive={isActive} 
             currentLevel={currentLevel} 
           />
@@ -136,7 +139,7 @@ export const FilteredNetworkNode = ({
                 className="text-base font-semibold text-black truncate"
                 style={gesiaTextStyle}
               >
-                {member.user.full_name || "Usuário"}
+                {displayName}
               </h3>
               <span 
                 className={`text-xs font-semibold ${
