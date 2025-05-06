@@ -39,7 +39,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
       
       <div className="text-center w-full">
         <h3 className="text-xl font-semibold">{displayName}</h3>
-        <p className="text-sm text-muted-foreground break-all">{profile?.email || "Não informado"}</p>
+        <p className="text-sm text-blue-500 break-all">{profile?.email || "Não informado"}</p>
       </div>
       
       <div className="w-full space-y-4">
