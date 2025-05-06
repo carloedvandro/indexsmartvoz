@@ -41,11 +41,13 @@ export const ProfileStats = ({ profileId }: ProfileStatsProps) => {
   const teamSize = 8;
 
   return (
-    <div className="grid grid-cols-2 gap-4">
-      <div className="text-center -ml-[15px]">
+    <div className="grid grid-cols-3 gap-4">
+      <div className="text-center">
         <p className="text-sm text-muted-foreground">Plano Atual</p>
         <p className="font-medium">Pago</p>
-        <p className="text-sm text-muted-foreground mt-2">Status</p>
+      </div>
+      <div className="text-center">
+        <p className="text-sm text-muted-foreground">Status</p>
         <p className="font-medium capitalize">Ativo</p>
       </div>
       <div className="text-center">
