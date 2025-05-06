@@ -1,9 +1,7 @@
 
-import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { NetworkMember } from "../types";
 import { NetworkNode } from "../NetworkNode";
 import { FilteredNetworkNode } from "../FilteredNetworkNode";
-import { NetworkMember } from "../types";
 
 interface NetworkViewProps {
   filteredData: NetworkMember[];
@@ -12,46 +10,45 @@ interface NetworkViewProps {
   toggleNode: (nodeId: string) => void;
 }
 
-export const NetworkView = ({ 
-  filteredData, 
-  selectedLevel, 
-  expandedNodes, 
-  toggleNode 
+export const NetworkView = ({
+  filteredData,
+  selectedLevel,
+  expandedNodes,
+  toggleNode
 }: NetworkViewProps) => {
-  return (
-    <div className="h-auto max-h-[calc(100vh-140px)] overflow-y-auto pb-60">
-      <div className="pr-4">
-        <AnimatePresence>
-          {filteredData.length > 0 ? (
-            <div className="space-y-6 mb-32">
-              {filteredData.map((member) => (
-                selectedLevel === "all" ? (
-                  <NetworkNode
-                    key={member.id}
-                    member={member}
-                    onToggle={toggleNode}
-                    expandedNodes={expandedNodes}
-                    isAllLevels={selectedLevel === "all"}
-                  />
-                ) : (
-                  <FilteredNetworkNode
-                    key={member.id}
-                    member={member}
-                    onToggle={toggleNode}
-                    expandedNodes={expandedNodes}
-                  />
-                )
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-8">
-              <p className="text-gray-500 text-sm">
-                Nenhum membro encontrado em sua rede.
-              </p>
-            </div>
-          )}
-        </AnimatePresence>
+  const isAllLevels = selectedLevel === "all";
+
+  if (!filteredData || filteredData.length === 0) {
+    return (
+      <div className="p-6 bg-white rounded-lg shadow text-center">
+        <p className="text-gray-700 text-lg">Nenhum membro encontrado neste nível.</p>
       </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {selectedLevel === "all" ? (
+        filteredData.map((member) => (
+          <NetworkNode
+            key={member.id}
+            member={member}
+            onToggle={toggleNode}
+            expandedNodes={expandedNodes}
+            isAllLevels={true}
+          />
+        ))
+      ) : (
+        filteredData.map((member) => (
+          <FilteredNetworkNode
+            key={member.id}
+            member={member}
+            onToggle={toggleNode}
+            expandedNodes={expandedNodes}
+            isAllLevels={false}
+          />
+        ))
+      )}
     </div>
   );
 };
