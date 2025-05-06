@@ -50,24 +50,25 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
   }
 };
 
-// Add a function to update the profile's full_name
-export const updateFullName = async (userId: string, fullName: string): Promise<void> => {
+// Remove the function that automatically updates the name to "Shalon David"
+// Instead, provide a general update function that can be used when needed
+export const updateProfileField = async (userId: string, field: string, value: any): Promise<void> => {
   try {
-    console.log(`Updating full name for user ${userId} to "${fullName}"`);
+    console.log(`Updating ${field} for user ${userId}`);
     
     const { error } = await supabase
       .from("profiles")
-      .update({ full_name: fullName })
+      .update({ [field]: value })
       .eq("id", userId);
     
     if (error) {
-      console.error("Error updating full name:", error);
+      console.error(`Error updating ${field}:`, error);
       throw error;
     }
     
-    console.log("Full name updated successfully");
+    console.log(`${field} updated successfully`);
   } catch (error) {
-    console.error("Error in updateFullName:", error);
+    console.error(`Error in update${field}:`, error);
     throw error;
   }
 };
