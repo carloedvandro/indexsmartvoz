@@ -53,7 +53,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
         <div className="grid grid-cols-3 gap-4">
           <div className="text-center">
             <p className="text-sm text-muted-foreground">Plano Atual</p>
-            <p className="font-medium">Pago</p>
+            <p className="font-medium pl-5">Pago</p>
           </div>
           <div className="text-center">
             <p className="text-sm text-muted-foreground">Status</p>
