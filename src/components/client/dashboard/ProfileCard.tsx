@@ -46,7 +46,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
         <div className="flex justify-center gap-16">
           <div className="text-center">
             <p className="text-sm text-black">Status</p>
-            <p className="font-medium capitalize">Ativo</p>
+            <p className="font-medium text-[#8B5CF6]">Ativo</p>
           </div>
           <div className="text-center">
             <p className="text-sm text-black">Equipe</p>
