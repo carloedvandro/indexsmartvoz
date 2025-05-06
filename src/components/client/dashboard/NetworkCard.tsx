@@ -20,10 +20,10 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
 
   return (
     <div 
-      className="h-full cursor-pointer hover:opacity-95 transition-opacity"
+      className="h-full cursor-pointer hover:opacity-95 transition-opacity pl-5"
       onClick={onClick}
     >
-      <div className="pb-2 space-y-0 py-4 bg-transparent mt-10">
+      <div className="pb-2 space-y-0 py-4 bg-transparent">
         <div className="text-center flex items-center justify-center gap-2">
           <img 
             src="/lovable-uploads/45e4529e-207c-4c72-bcc0-c0466235e892.png" 
