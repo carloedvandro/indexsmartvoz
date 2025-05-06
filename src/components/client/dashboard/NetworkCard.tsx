@@ -23,7 +23,7 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
       className="h-full cursor-pointer hover:opacity-95 transition-opacity pl-5"
       onClick={onClick}
     >
-      <div className="pb-2 space-y-0 py-4 bg-transparent pt-5"> {/* Added pt-5 to move text down by 5px */}
+      <div className="pb-2 space-y-0 py-4 bg-transparent pt-10"> {/* Changed pt-5 to pt-10 to move text down by an additional 5px */}
         <div className="text-center flex items-center justify-center gap-2">
           <img 
             src="/lovable-uploads/45e4529e-207c-4c72-bcc0-c0466235e892.png" 
