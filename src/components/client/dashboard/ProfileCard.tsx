@@ -40,13 +40,6 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
       <div className="text-center w-full">
         <h3 className="text-xl font-semibold">{displayName}</h3>
         <p className="text-sm text-muted-foreground break-all">{profile?.email || "Não informado"}</p>
-        <div className="flex justify-center mt-2">
-          <Badge 
-            variant={isActive ? "default" : "destructive"}
-          >
-            {profile?.status === 'active' ? 'Ativo' : 'Pendente'}
-          </Badge>
-        </div>
       </div>
       
       <div className="w-full space-y-4">
