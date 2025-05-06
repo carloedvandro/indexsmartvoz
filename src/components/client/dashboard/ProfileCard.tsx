@@ -45,11 +45,11 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
       <div className="w-full space-y-4">
         <div className="flex justify-center gap-16">
           <div className="text-center">
-            <p className="text-sm text-muted-foreground">Status</p>
+            <p className="text-sm text-black">Status</p>
             <p className="font-medium capitalize">Ativo</p>
           </div>
           <div className="text-center">
-            <p className="text-sm text-muted-foreground">Equipe</p>
+            <p className="text-sm text-black">Equipe</p>
             <p className="font-medium">8</p>
           </div>
         </div>
