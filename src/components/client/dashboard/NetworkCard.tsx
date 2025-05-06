@@ -23,7 +23,7 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
       className="h-full cursor-pointer hover:opacity-95 transition-opacity pl-5"
       onClick={onClick}
     >
-      <div className="pb-2 space-y-0 py-4 bg-transparent">
+      <div className="pb-2 space-y-0 py-4 bg-transparent pt-5"> {/* Added pt-5 to move text down by 5px */}
         <div className="text-center flex items-center justify-center gap-2">
           <img 
             src="/lovable-uploads/45e4529e-207c-4c72-bcc0-c0466235e892.png" 
@@ -37,7 +37,7 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
           Total de Indicados: {totalMembers}
         </p>
       </div>
-      <div className="py-4 bg-transparent pt-9"> {/* Added 5px of top padding by changing pt-4 to pt-9 */}
+      <div className="py-4 bg-transparent pt-9"> {/* Previously modified - keeping as is */}
         <div className="grid grid-cols-2 gap-4">
           <div className="p-4 bg-red-50 rounded-lg text-center">
             <p className="text-sm text-red-600 font-medium">Nível 1</p>
