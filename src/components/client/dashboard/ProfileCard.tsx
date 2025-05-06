@@ -50,7 +50,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
           </div>
           <div className="text-center">
             <p className="text-sm text-black">Equipe</p>
-            <p className="font-medium">8</p>
+            <p className="font-bold text-blue-500">8</p>
           </div>
         </div>
         
