@@ -45,14 +45,12 @@ export const ProfileStats = ({ profileId }: ProfileStatsProps) => {
       <div className="text-center -ml-[15px]">
         <p className="text-sm text-muted-foreground">Plano Atual</p>
         <p className="font-medium">Pago</p>
+        <p className="text-sm text-muted-foreground mt-2">Status</p>
+        <p className="font-medium capitalize">Ativo</p>
       </div>
       <div className="text-center">
         <p className="text-sm text-muted-foreground">Equipe</p>
         <p className="font-medium">{teamSize}</p>
-      </div>
-      <div className="text-center">
-        <p className="text-sm text-muted-foreground">Status</p>
-        <p className="font-medium capitalize">Ativo</p>
       </div>
     </div>
   );
