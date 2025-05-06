@@ -28,12 +28,12 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
           <img 
             src="/lovable-uploads/45e4529e-207c-4c72-bcc0-c0466235e892.png" 
             alt="Rede" 
-            className="h-5 w-5 object-contain"
+            className="h-6 w-6 object-contain"
             style={{ filter: "drop-shadow(0px 1px 1px rgba(0,0,0,0.1))" }}
           />
-          Minha Rede
+          <span className="text-lg font-medium">Minha Rede</span>
         </div>
-        <p className="text-center text-muted-foreground text-sm">
+        <p className="text-center text-muted-foreground text-base mt-1">
           Total de Indicados: {totalMembers}
         </p>
       </div>
