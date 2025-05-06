@@ -16,7 +16,7 @@ export const ProfileAvatar = ({ profileImage, fullName, isActive }: ProfileAvata
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger>
-          <div className="relative">
+          <div className="relative flex justify-center w-full">
             <Avatar className={`h-32 w-32 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
               <AvatarImage src={profileImage} alt={fullName || "Profile"} />
               <AvatarFallback>
