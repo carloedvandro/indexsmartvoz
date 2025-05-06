@@ -50,8 +50,7 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
   }
 };
 
-// Remove the function that automatically updates the name to "Shalon David"
-// Instead, provide a general update function that can be used when needed
+// General update function that can be used to update any profile field
 export const updateProfileField = async (userId: string, field: string, value: any): Promise<void> => {
   try {
     console.log(`Updating ${field} for user ${userId}`);
