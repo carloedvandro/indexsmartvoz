@@ -42,7 +42,7 @@ export const ProfileStats = ({ profileId }: ProfileStatsProps) => {
 
   return (
     <div className="grid grid-cols-2 gap-4">
-      <div className="text-center">
+      <div className="text-center -ml-[5px]">
         <p className="text-sm text-muted-foreground">Plano Atual</p>
         <p className="font-medium">Pago</p>
       </div>
