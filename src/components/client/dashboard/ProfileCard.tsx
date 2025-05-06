@@ -51,7 +51,11 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
           .single();
         
         if (!directsError && directsData) {
-          const directsCount = parseInt(directsData.count, 10);
+          // Make sure we're converting to number properly
+          const directsCount = typeof directsData.count === 'number' 
+            ? directsData.count 
+            : parseInt(String(directsData.count), 10);
+          
           setDirectCount(isNaN(directsCount) ? 0 : directsCount);
         } else {
           // If count doesn't work, try counting records
