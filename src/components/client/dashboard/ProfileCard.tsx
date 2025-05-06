@@ -52,16 +52,15 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
       <div className="w-full space-y-4">
         <div className="grid grid-cols-3 gap-4">
           <div className="text-center">
-            <p className="text-sm text-muted-foreground">Plano Atual</p>
-            <p className="font-medium">Pago</p>
-          </div>
-          <div className="text-center">
             <p className="text-sm text-muted-foreground">Status</p>
             <p className="font-medium capitalize">Ativo</p>
           </div>
           <div className="text-center">
             <p className="text-sm text-muted-foreground">Equipe</p>
             <p className="font-medium">8</p>
+          </div>
+          <div className="text-center">
+            {/* This cell is intentionally left empty to maintain the grid layout */}
           </div>
         </div>
         
