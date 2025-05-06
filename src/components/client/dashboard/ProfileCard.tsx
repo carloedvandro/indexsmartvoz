@@ -51,7 +51,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
       
       <div className="w-full space-y-4">
         <div className="grid grid-cols-3 gap-4">
-          <div className="text-center pl-15">
+          <div className="text-center">
             <p className="text-sm text-muted-foreground">Plano Atual</p>
             <p className="font-medium">Pago</p>
           </div>
