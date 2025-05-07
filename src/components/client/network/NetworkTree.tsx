@@ -9,6 +9,7 @@ import { NetworkTreeLoading } from "./components/NetworkTreeLoading";
 import { useNetworkSubscription } from "./hooks/useNetworkSubscription";
 import { forceCssReload } from "./utils/cssLoader";
 import { applyGesiaStyles, logNodePositions } from "./utils/gesiaStyleUpdater";
+import { NetworkMember } from "./types";
 import "@/styles/network.css";
 
 interface NetworkTreeProps {
