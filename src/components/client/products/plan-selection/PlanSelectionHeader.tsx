@@ -1,7 +1,22 @@
 
 import React from "react";
 
-export function PlanSelectionHeader() {
+interface PlanSelectionHeaderProps {
+  variants?: {
+    hidden: { opacity: number; y: number };
+    visible: {
+      opacity: number;
+      y: number;
+      transition: { duration: number; ease: string };
+    };
+  };
+}
+
+export function PlanSelectionHeader({ variants }: PlanSelectionHeaderProps) {
+  // If we have variants, render with motion div, otherwise use regular div
+  const Component = variants ? "div" : "div";
+  const motionProps = variants ? { variants } : {};
+
   return (
     <div className="space-y-3 text-center">
       <div className="w-full flex justify-center mb-4">

@@ -16,12 +16,22 @@ interface PlanSelectionStepProps {
     dueDate: number;
     price: number;
   }) => void;
+  selectedLines: any[];
+  setSelectedLines: (lines: any[]) => void;
+  selectedDueDate: number | null;
+  setSelectedDueDate: (date: number) => void;
 }
 
-export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps) {
+export function PlanSelectionStep({ 
+  onBack, 
+  onContinue, 
+  selectedLines, 
+  setSelectedLines, 
+  selectedDueDate, 
+  setSelectedDueDate 
+}: PlanSelectionStepProps) {
   const [selectedInternet, setSelectedInternet] = useState<string>("");
   const [selectedDDD, setSelectedDDD] = useState<string>("");
-  const [selectedDueDate, setSelectedDueDate] = useState<number | null>(null);
   const [searchParams] = useSearchParams();
   const planIdFromUrl = searchParams.get('plan');
   
@@ -35,6 +45,15 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
     }
   }, [planIdFromUrl, selectedInternet]);
 
+  // Initialize selectedInternet and selectedDDD from selectedLines if available
+  useEffect(() => {
+    if (selectedLines.length > 0 && !selectedInternet) {
+      const line = selectedLines[0];
+      if (line?.internet) setSelectedInternet(line.internet);
+      if (line?.ddd) setSelectedDDD(line.ddd);
+    }
+  }, [selectedLines, selectedInternet]);
+
   const getLinePrice = () => {
     return internetOptions.find(option => option.value === selectedInternet)?.price || 0;
   };
@@ -42,6 +61,26 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   const handleContinue = () => {
     if (!selectedInternet || !selectedDDD || !selectedDueDate) {
       return;
+    }
+
+    // Update selectedLines when continuing
+    if (selectedLines.length === 0) {
+      setSelectedLines([{
+        id: 1,
+        internet: selectedInternet,
+        ddd: selectedDDD,
+        price: getLinePrice(),
+        type: 'chip'
+      }]);
+    } else {
+      const updatedLines = [...selectedLines];
+      updatedLines[0] = {
+        ...updatedLines[0],
+        internet: selectedInternet,
+        ddd: selectedDDD,
+        price: getLinePrice()
+      };
+      setSelectedLines(updatedLines);
     }
 
     onContinue({
