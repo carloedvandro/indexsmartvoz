@@ -1,3 +1,4 @@
+
 import React from "react";
 import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +15,7 @@ const PLANS = [
       "Internet: 5GB",
       "Recorrência: 1GB",
       "WhatsApp Grátis",
-      "Chip e-sim ou físico",
+      "Chip eSIM ou SIM CARD",
       "Escolha seu DDD"
     ]
   },
@@ -29,7 +30,7 @@ const PLANS = [
       "Internet: 9GB",
       "Recorrência: 2GB",
       "WhatsApp Grátis",
-      "Chip e-sim ou físico",
+      "Chip eSIM ou SIM CARD",
       "Escolha seu DDD"
     ],
     isHighlighted: true
@@ -45,7 +46,7 @@ const PLANS = [
       "Internet: 19GB",
       "Recorrência: 1GB",
       "WhatsApp Grátis, Skeelo, Waze Grátis",
-      "Chip e-sim ou físico",
+      "Chip eSIM ou SIM CARD",
       "Escolha seu DDD"
     ]
   },
@@ -60,7 +61,7 @@ const PLANS = [
       "Internet: 40GB",
       "Recorrência: 2GB",
       "WhatsApp Grátis, Skeelo, Waze Grátis",
-      "Chip e-sim ou físico",
+      "Chip eSIM ou SIM CARD",
       "Escolha seu DDD"
     ]
   },
