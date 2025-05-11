@@ -92,14 +92,7 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
         ))}
       </div>
       
-      <div className="mt-10 text-center">
-        <button 
-          onClick={() => handleSelectPlan(PLANS.find(p => p.isHighlighted) || PLANS[1])}
-          className="rounded-full bg-green-500 hover:bg-green-600 text-white px-16 py-6 text-xl font-bold transition-colors"
-        >
-          Clique para Adquirir !!
-        </button>
-      </div>
+      {/* Button removed */}
     </div>
   );
 }
