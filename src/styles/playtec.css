@@ -100,14 +100,18 @@
 .plan-card {
   max-width: 400px;
   min-width: 300px;
-  margin: 0 auto;
+  margin: 0;
   height: 100%;
+  border-radius: 0;
 }
 
 .plan-card-container {
   max-width: 400px !important;
   min-width: 300px !important;
   width: 100% !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .plan-feature {
@@ -118,3 +122,4 @@
   gap: 0.5rem;
   text-align: center;
 }
+
