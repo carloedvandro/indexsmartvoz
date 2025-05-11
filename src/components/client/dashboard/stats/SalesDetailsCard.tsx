@@ -14,45 +14,45 @@ export function SalesDetailsCard() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipData, setTooltipData] = useState<TooltipData | null>(null);
   
-  // Data with both percentage values and sales counts - updated with accurate sales values and prices
+  // Data with both percentage values and sales counts - updated with odd and even percentages
   const pieData: PieDataItem[] = [
     { 
       name: "100GB", 
       fullName: "Smartvoz 100GB + Minutos ilimitados", 
-      value: 20, // Percentage value for pie chart sizing
+      value: 21, // Odd percentage value for pie chart sizing
       price: 114.99,
       totalAmount: 265 * 114.99, // Total = sales count * price
-      percentage: 20,
+      percentage: 21, // Odd percentage
       salesCount: 265, // Actual number of sales 
       color: "#8a5cf6" // Bright purple
     },
     { 
       name: "120GB", 
       fullName: "Smartvoz 120GB + Minutos ilimitados", 
-      value: 28,
+      value: 28, // Even percentage
       price: 124.99,
       totalAmount: 348 * 124.99, // Total = sales count * price
-      percentage: 28,
+      percentage: 28, // Even percentage
       salesCount: 348, // Actual number of sales
       color: "#0cc7f0" // Bright cyan
     },
     { 
       name: "140GB", 
       fullName: "Smartvoz 140GB + Minutos ilimitados", 
-      value: 32,
+      value: 31, // Odd percentage
       price: 154.99,
       totalAmount: 401 * 154.99, // Total = sales count * price
-      percentage: 32,
+      percentage: 31, // Odd percentage
       salesCount: 401, // Actual number of sales
       color: "#0ea5e9" // Bright blue
     },
     { 
       name: "160GB", 
       fullName: "Smartvoz 160GB + Minutos ilimitados", 
-      value: 20,
+      value: 20, // Even percentage
       price: 184.99,
       totalAmount: 250 * 184.99, // Total = sales count * price
-      percentage: 20,
+      percentage: 20, // Even percentage
       salesCount: 250, // Actual number of sales
       color: "#3b82f6" // Medium blue
     }
