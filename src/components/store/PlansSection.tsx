@@ -5,23 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 const PLANS = [
   {
-    id: "teste-tegg",
-    name: "Teste a Tegg",
-    gb: "2GB",
-    originalPrice: 29.90,
-    price: 9.99,
-    features: [
-      "Minutos: Ilimitados",
-      "Internet: 2GB",
-      "Recorrência: 1GB",
-      "Portabilidade: 1GB",
-      "WhatsApp Grátis",
-      "Chip e-sim ou físico",
-      "Frete Grátis",
-      "Escolha seu DDD"
-    ]
-  },
-  {
     id: "basic",
     name: "BASIC",
     gb: "7GB",
@@ -110,7 +93,7 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
   return (
     <div className="py-8">
       <h2 className="text-2xl font-bold text-center mb-8">Nossos Planos</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {PLANS.map((plan) => (
           <PlanCard 
             key={plan.id} 
