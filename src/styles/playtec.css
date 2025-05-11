@@ -120,11 +120,3 @@
   gap: 0.5rem;
   text-align: center;
 }
-
-/* Ajuste para visualização dos planos em tela cheia */
-@media (min-width: 1280px) {
-  .flex.flex-wrap.justify-center {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-}
