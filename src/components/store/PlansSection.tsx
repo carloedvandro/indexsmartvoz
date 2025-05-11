@@ -10,7 +10,7 @@ const PLANS = [
   {
     id: "basic",
     name: "BASIC",
-    gb: "7GB",
+    gb: "80GB",
     price: 29.70,
     features: [
       "5 Gb de internet",
@@ -23,7 +23,7 @@ const PLANS = [
   {
     id: "start",
     name: "START",
-    gb: "13GB",
+    gb: "100GB",
     price: 39.70,
     features: [
       "9 Gb de internet",
@@ -37,7 +37,7 @@ const PLANS = [
   {
     id: "gold",
     name: "GOLD",
-    gb: "21GB",
+    gb: "120GB",
     price: 49.70,
     features: [
       "19 Gb de internet",
@@ -50,7 +50,7 @@ const PLANS = [
   {
     id: "plus",
     name: "PLUS",
-    gb: "44GB",
+    gb: "140GB",
     price: 69.70,
     features: [
       "40 Gb de internet",
