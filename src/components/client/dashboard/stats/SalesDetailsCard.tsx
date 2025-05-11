@@ -17,11 +17,11 @@ export function SalesDetailsCard() {
   // Data with both percentage values and sales counts - updated with accurate sales values and prices
   const pieData: PieDataItem[] = [
     { 
-      name: "110GB", 
-      fullName: "Smartvoz 110GB + Minutos ilimitados", 
+      name: "100GB", 
+      fullName: "Smartvoz 100GB + Minutos ilimitados", 
       value: 22, // Percentage value for pie chart sizing
-      price: 109.99,
-      totalAmount: 305 * 109.99, // Total = sales count * price
+      price: 114.99,
+      totalAmount: 305 * 114.99, // Total = sales count * price
       percentage: 22,
       salesCount: 305, // Actual number of sales 
       color: "#8a5cf6" // Bright purple
@@ -30,8 +30,8 @@ export function SalesDetailsCard() {
       name: "120GB", 
       fullName: "Smartvoz 120GB + Minutos ilimitados", 
       value: 36,
-      price: 119.99,
-      totalAmount: 428 * 119.99, // Total = sales count * price
+      price: 124.99,
+      totalAmount: 428 * 124.99, // Total = sales count * price
       percentage: 36,
       salesCount: 428, // Actual number of sales
       color: "#0cc7f0" // Bright cyan
@@ -40,8 +40,8 @@ export function SalesDetailsCard() {
       name: "140GB", 
       fullName: "Smartvoz 140GB + Minutos ilimitados", 
       value: 42,
-      price: 139.99,
-      totalAmount: 501 * 139.99, // Total = sales count * price
+      price: 154.99,
+      totalAmount: 501 * 154.99, // Total = sales count * price
       percentage: 42,
       salesCount: 501, // Actual number of sales
       color: "#0ea5e9" // Bright blue
