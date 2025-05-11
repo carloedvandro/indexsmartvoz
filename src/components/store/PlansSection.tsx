@@ -15,7 +15,7 @@ const PLANS = [
       "Internet: 5GB",
       "Recorrência: 1GB",
       "WhatsApp Grátis",
-      "Chip eSIM ou SIM CARD",
+      "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
     ]
   },
@@ -30,7 +30,7 @@ const PLANS = [
       "Internet: 9GB",
       "Recorrência: 2GB",
       "WhatsApp Grátis",
-      "Chip eSIM ou SIM CARD",
+      "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
     ],
     isHighlighted: true
@@ -46,7 +46,7 @@ const PLANS = [
       "Internet: 19GB",
       "Recorrência: 1GB",
       "WhatsApp Grátis, Skeelo, Waze Grátis",
-      "Chip eSIM ou SIM CARD",
+      "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
     ]
   },
@@ -61,7 +61,7 @@ const PLANS = [
       "Internet: 40GB",
       "Recorrência: 2GB",
       "WhatsApp Grátis, Skeelo, Waze Grátis",
-      "Chip eSIM ou SIM CARD",
+      "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
     ]
   },
