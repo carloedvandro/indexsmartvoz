@@ -87,7 +87,7 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
         </p>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 max-w-7xl mx-auto px-4">
         {PLANS.map((plan) => (
           <div key={plan.id} className="flex justify-center">
             <PlanCard 

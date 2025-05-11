@@ -111,6 +111,7 @@
   max-width: 360px !important;
   width: 100% !important;
   min-width: 340px !important;
+  margin: 0 auto !important;
 }
 
 .plan-feature {
@@ -121,3 +122,11 @@
   gap: 0.5rem;
   text-align: center;
 }
+
+/* Ajustes adicionais para o layout responsivo dos cards */
+@media (min-width: 1024px) {
+  .plan-card-container {
+    margin: 0 0.5rem !important;
+  }
+}
+
