@@ -1,201 +1,96 @@
 
-import React, { useEffect, useState } from "react";
-import { InternetSelector } from "./InternetSelector";
-import { DDDInput } from "./DDDInput";
-import { PriceSummary } from "./PriceSummary";
-import { motion } from "framer-motion";
-import { useCalendarStyles } from "@/hooks/useCalendarStyles";
-import { DueDateSelector } from "./DueDateSelector";
-import { PlanSelectionHeader } from "./PlanSelectionHeader";
-import { NavigationButtons } from "./NavigationButtons";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-
-type Line = {
-  id: number;
-  internet: string;
-  type: string;
-  ddd: string;
-  price: number;
-};
+import { DueDateSelector } from "@/components/client/products/DueDateSelector";
+import { PriceSummary } from "@/components/client/products/PriceSummary";
+import { NavigationButtons } from "@/components/client/products/NavigationButtons";
+import { PlanSelectionHeader } from "@/components/client/products/plan-selection/PlanSelectionHeader";
+import { PlanSelectionForm } from "@/components/client/products/plan-selection/PlanSelectionForm";
+import { internetOptions, mapUrlPlanToInternet } from "@/components/client/products/plan-selection/planOptions";
 
 interface PlanSelectionStepProps {
-  selectedLines: Line[];
-  setSelectedLines: (lines: Line[]) => void;
-  selectedDueDate: number | null;
-  setSelectedDueDate: (date: number) => void;
   onBack: () => void;
-  onContinue: () => void;
+  onContinue: (planData: {
+    internet: string;
+    ddd: string;
+    dueDate: number;
+    price: number;
+  }) => void;
 }
 
-export function PlanSelectionStep({ 
-  selectedLines, 
-  setSelectedLines,
-  selectedDueDate,
-  setSelectedDueDate,
-  onBack,
-  onContinue 
-}: PlanSelectionStepProps) {
-  const { data: calendarStyle } = useCalendarStyles();
+export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps) {
+  const [selectedInternet, setSelectedInternet] = useState<string>("");
+  const [selectedDDD, setSelectedDDD] = useState<string>("");
+  const [selectedDueDate, setSelectedDueDate] = useState<number | null>(null);
   const [searchParams] = useSearchParams();
   const planIdFromUrl = searchParams.get('plan');
   
-  // Updated plan options with the correct values and prices
-  const internetOptions = [
-    { value: "2GB", label: "Teste a Tegg - 2GB", price: 9.99 },
-    { value: "80GB", label: "BASIC - 80GB", price: 104.99 },
-    { value: "100GB", label: "START - 100GB", price: 114.99 },
-    { value: "120GB", label: "GOLD - 120GB", price: 124.99 },
-    { value: "140GB", label: "PLUS - 140GB", price: 154.99 },
-  ];
-
+  // Set initial plan based on URL parameter if present
   useEffect(() => {
-    if (selectedLines.length === 0) {
-      setSelectedLines([
-        {
-          id: 1,
-          internet: "",
-          type: "Nova Linha",
-          ddd: "",
-          price: 0,
-        },
-      ]);
-    }
-    
-    // Set initial plan based on URL parameter if present
-    if (planIdFromUrl && selectedLines[0] && !selectedLines[0].internet) {
-      let initialPlan = "";
-      let initialPrice = 0;
-      
-      switch (planIdFromUrl) {
-        case "teste-tegg":
-          initialPlan = "2GB";
-          initialPrice = 9.99;
-          break;
-        case "basic":
-          initialPlan = "7GB";
-          initialPrice = 29.70;
-          break;
-        case "start":
-          initialPlan = "13GB";
-          initialPrice = 39.70;
-          break;
-        case "gold":
-          initialPlan = "21GB";
-          initialPrice = 49.70;
-          break;
-        case "plus":
-          initialPlan = "44GB";
-          initialPrice = 69.70;
-          break;
-      }
-      
-      if (initialPlan) {
-        setSelectedLines(selectedLines.map(line => 
-          line.id === 1 
-            ? { ...line, internet: initialPlan, price: initialPrice }
-            : line
-        ));
+    if (planIdFromUrl && !selectedInternet) {
+      const mappedPlan = mapUrlPlanToInternet(planIdFromUrl);
+      if (mappedPlan) {
+        setSelectedInternet(mappedPlan.plan);
       }
     }
-  }, [planIdFromUrl]);
+  }, [planIdFromUrl, selectedInternet]);
 
-  const handleInternetChange = (value: string) => {
-    const newPrice = internetOptions.find(option => option.value === value)?.price || 0;
-    setSelectedLines(selectedLines.map(line => 
-      line.id === 1 
-        ? { ...line, internet: value, price: newPrice }
-        : line
-    ));
+  const getLinePrice = () => {
+    return internetOptions.find(option => option.value === selectedInternet)?.price || 0;
   };
 
-  const handleDDDChange = (value: string) => {
-    setSelectedLines(selectedLines.map(line => 
-      line.id === 1 
-        ? { ...line, ddd: value }
-        : line
-    ));
-  };
-
-  const totalPrice = selectedLines.reduce((acc, line) => acc + line.price, 0);
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.5, ease: "easeOut" }
+  const handleContinue = () => {
+    if (!selectedInternet || !selectedDDD || !selectedDueDate) {
+      return;
     }
-  };
 
-  const isContinueDisabled = !selectedLines[0]?.internet || !selectedLines[0]?.ddd || !selectedDueDate;
+    onContinue({
+      internet: selectedInternet,
+      ddd: selectedDDD,
+      dueDate: selectedDueDate,
+      price: getLinePrice()
+    });
+  };
+  
+  const isDisabled = !selectedInternet || !selectedDDD || !selectedDueDate;
 
   return (
     <div className="max-w-[379px] mx-auto w-full" style={{ marginTop: "74px" }}>
       <div className="space-y-6">
-        <div className="space-y-3 text-center">
-          <div className="w-full flex justify-center mb-4">
-            <img 
-              src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 
-              alt="Smartvoz Logo" 
-              className="w-auto h-[90px] object-contain"
-            />
-          </div>
-          <h2 className="text-xl font-medium text-black">Personalize seu pedido</h2>
-        </div>
+        <PlanSelectionHeader />
 
-        <div className="space-y-4 w-full">
-          <motion.div 
-            className="w-full max-w-[340px] mx-auto"
-            variants={itemVariants}
-          >
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <InternetSelector
-                  selectedInternet={selectedLines[0]?.internet || undefined}
-                  onInternetChange={handleInternetChange}
-                  internetOptions={internetOptions}
-                  showPrice={false}
-                />
-              </div>
-              <div>
-                <DDDInput
-                  ddd={selectedLines[0]?.ddd || ""}
-                  onDDDChange={handleDDDChange}
-                />
-              </div>
-            </div>
-          </motion.div>
+        <div className="space-y-6">
+          <PlanSelectionForm 
+            selectedInternet={selectedInternet}
+            setSelectedInternet={setSelectedInternet}
+            selectedDDD={selectedDDD}
+            setSelectedDDD={setSelectedDDD}
+            internetOptions={internetOptions}
+          />
 
-          <motion.div 
-            className="w-full max-w-[340px] mx-auto"
-            variants={itemVariants}
-          >
+          <div className="w-full max-w-[340px] mx-auto">
             <DueDateSelector
               selectedDueDate={selectedDueDate}
               setSelectedDueDate={setSelectedDueDate}
-              calendarStyle={calendarStyle}
+              selectedCardClassName="bg-white"
             />
-          </motion.div>
+          </div>
 
-          <motion.div 
-            className="w-full max-w-[340px] mx-auto"
-            variants={itemVariants}
-          >
+          <div className="w-full max-w-[340px] mx-auto">
             <PriceSummary
-              linePrice={selectedLines[0]?.price || 0}
-              totalPrice={totalPrice}
+              linePrice={getLinePrice()}
+              totalPrice={getLinePrice()}
             />
-          </motion.div>
+          </div>
         </div>
+
+        <NavigationButtons 
+          currentStep={1}
+          handleBack={onBack}
+          handleContinue={handleContinue}
+          disabled={isDisabled}
+        />
       </div>
-      
-      {/* Navigation buttons */}
-      <NavigationButtons 
-        currentStep={1}
-        handleBack={onBack}
-        handleContinue={onContinue}
-        disabled={isContinueDisabled}
-      />
     </div>
   );
 }
