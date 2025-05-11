@@ -89,7 +89,7 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
       </div>
       
       <div className="flex justify-center mb-8">
-        <div className="bg-gray-900 text-white rounded-full px-6 py-2 flex items-center gap-2 shadow-md">
+        <div className="bg-[#1A1F2C] text-white rounded-full px-6 py-2 flex items-center gap-2 shadow-md">
           <Check className="text-green-500 h-5 w-5" />
           <span className="text-lg font-medium">Sem fidelidade, apenas benefícios</span>
         </div>
