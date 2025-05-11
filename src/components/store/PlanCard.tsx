@@ -10,7 +10,6 @@ type Plan = {
   gb: string;
   price: number;
   originalPrice?: number;
-  features: string[];
   isHighlighted?: boolean;
 };
 
