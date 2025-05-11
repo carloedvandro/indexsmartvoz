@@ -108,7 +108,7 @@
 /* Responsividade para mobile - largura maior nos dispositivos móveis */
 @media (max-width: 768px) {
   .plan-card {
-    width: 360px;
+    width: 370px;
   }
 }
 
