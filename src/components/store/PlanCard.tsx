@@ -34,7 +34,7 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
   const bgColor = plan.isHighlighted ? 'bg-[#660099]' : 'bg-[#660099]';
   
   return (
-    <Card className={`h-full flex flex-col overflow-hidden transition-all w-full max-w-[272px] mx-auto rounded-3xl relative ${bgColor} text-white`}>
+    <Card className={`h-full flex flex-col overflow-hidden transition-all w-full max-w-[275px] mx-auto rounded-3xl relative ${bgColor} text-white`}>
       <CardHeader className="pb-2 flex flex-col items-center justify-center text-center">
         <h3 className="font-bold text-xl text-center">- {plan.name} -</h3>
         <div className="mt-6 mb-4 flex justify-center items-center w-full">
