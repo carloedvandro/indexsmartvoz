@@ -3,6 +3,7 @@ export const internetOptions = [
   { value: "2GB", label: "Teste a Tegg - 2GB", price: 9.99 },
   { value: "80GB", label: "BASIC - 80GB", price: 104.99 },
   { value: "100GB", label: "START - 100GB", price: 114.99 },
+  { value: "110GB", label: "SMARTVOZ - 110GB", price: 119.99 },
   { value: "120GB", label: "GOLD - 120GB", price: 124.99 },
   { value: "140GB", label: "PLUS - 140GB", price: 154.99 },
 ];
@@ -17,6 +18,8 @@ export const mapUrlPlanToInternet = (planIdFromUrl: string | null): { plan: stri
       return { plan: "80GB", price: 104.99 };
     case "start":
       return { plan: "100GB", price: 114.99 };
+    case "smartvoz":
+      return { plan: "110GB", price: 119.99 };
     case "gold":
       return { plan: "120GB", price: 124.99 };
     case "plus":
