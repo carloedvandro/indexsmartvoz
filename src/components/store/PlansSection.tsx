@@ -8,8 +8,8 @@ import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
 const PLANS = [
   {
     id: "basic",
-    name: "BASIC",
-    gb: "80GB",
+    name: "Smartvoz 100GB",
+    gb: "100GB",
     price: 104.99,
     features: [
       "5 Gb de internet",
@@ -21,8 +21,8 @@ const PLANS = [
   },
   {
     id: "start",
-    name: "START",
-    gb: "100GB",
+    name: "Smartvoz 120GB",
+    gb: "120GB",
     price: 114.99,
     features: [
       "9 Gb de internet",
@@ -35,8 +35,8 @@ const PLANS = [
   },
   {
     id: "gold",
-    name: "GOLD",
-    gb: "120GB",
+    name: "Smartvoz 140GB",
+    gb: "140GB",
     price: 124.99,
     features: [
       "19 Gb de internet",
@@ -48,8 +48,8 @@ const PLANS = [
   },
   {
     id: "plus",
-    name: "PLUS",
-    gb: "140GB",
+    name: "Smartvoz 160GB",
+    gb: "160GB",
     price: 154.99,
     features: [
       "40 Gb de internet",
