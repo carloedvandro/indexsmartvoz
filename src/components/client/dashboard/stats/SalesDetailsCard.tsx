@@ -19,32 +19,42 @@ export function SalesDetailsCard() {
     { 
       name: "100GB", 
       fullName: "Smartvoz 100GB + Minutos ilimitados", 
-      value: 22, // Percentage value for pie chart sizing
+      value: 20, // Percentage value for pie chart sizing
       price: 114.99,
-      totalAmount: 305 * 114.99, // Total = sales count * price
-      percentage: 22,
-      salesCount: 305, // Actual number of sales 
+      totalAmount: 265 * 114.99, // Total = sales count * price
+      percentage: 20,
+      salesCount: 265, // Actual number of sales 
       color: "#8a5cf6" // Bright purple
     },
     { 
       name: "120GB", 
       fullName: "Smartvoz 120GB + Minutos ilimitados", 
-      value: 36,
+      value: 28,
       price: 124.99,
-      totalAmount: 428 * 124.99, // Total = sales count * price
-      percentage: 36,
-      salesCount: 428, // Actual number of sales
+      totalAmount: 348 * 124.99, // Total = sales count * price
+      percentage: 28,
+      salesCount: 348, // Actual number of sales
       color: "#0cc7f0" // Bright cyan
     },
     { 
       name: "140GB", 
       fullName: "Smartvoz 140GB + Minutos ilimitados", 
-      value: 42,
+      value: 32,
       price: 154.99,
-      totalAmount: 501 * 154.99, // Total = sales count * price
-      percentage: 42,
-      salesCount: 501, // Actual number of sales
+      totalAmount: 401 * 154.99, // Total = sales count * price
+      percentage: 32,
+      salesCount: 401, // Actual number of sales
       color: "#0ea5e9" // Bright blue
+    },
+    { 
+      name: "160GB", 
+      fullName: "Smartvoz 160GB + Minutos ilimitados", 
+      value: 20,
+      price: 184.99,
+      totalAmount: 250 * 184.99, // Total = sales count * price
+      percentage: 20,
+      salesCount: 250, // Actual number of sales
+      color: "#3b82f6" // Medium blue
     }
   ];
 
