@@ -23,6 +23,7 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
   // Filter out the features we want to remove
   const filteredFeatures = plan.features.filter(feature => 
     !feature.includes("Portabilidade:") && 
+    !feature.includes("portabilidade") &&
     !feature.includes("Frete Grátis") &&
     !feature.includes("WhatsApp Grátis") &&
     !feature.includes("Skeelo") &&
@@ -65,11 +66,6 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
       
       <CardFooter className="flex flex-col space-y-2 pt-4 pb-6">
         <div className="text-center w-full">
-          {plan.originalPrice && (
-            <div className="text-gray-400 line-through text-sm">
-              R$ {plan.originalPrice.toFixed(2).replace('.', ',')}
-            </div>
-          )}
           <div className="font-bold text-3xl mt-1">
             R$ <span className="text-4xl">{plan.price.toFixed(2).replace('.', ',')}</span>
           </div>

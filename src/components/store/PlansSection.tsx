@@ -8,12 +8,10 @@ const PLANS = [
     id: "basic",
     name: "BASIC",
     gb: "7GB",
-    originalPrice: 44.90,
     price: 29.70,
     features: [
       "5 Gb de internet",
       "1 Gb de recorrência",
-      "1 Gb de portabilidade",
       "Minutos: Ilimitados",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
@@ -23,12 +21,10 @@ const PLANS = [
     id: "start",
     name: "START",
     gb: "13GB",
-    originalPrice: 54.90,
     price: 39.70,
     features: [
       "9 Gb de internet",
       "2 Gb de recorrência",
-      "2 Gb de portabilidade",
       "Minutos: Ilimitados",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
@@ -39,12 +35,10 @@ const PLANS = [
     id: "gold",
     name: "GOLD",
     gb: "21GB",
-    originalPrice: 64.90,
     price: 49.70,
     features: [
       "19 Gb de internet",
       "2 Gb de recorrência",
-      "2 Gb de portabilidade", 
       "Minutos: Ilimitados",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
@@ -54,12 +48,10 @@ const PLANS = [
     id: "plus",
     name: "PLUS",
     gb: "44GB",
-    originalPrice: 99.70,
     price: 69.70,
     features: [
       "40 Gb de internet",
       "2 Gb de recorrência",
-      "2 Gb de portabilidade",
       "Minutos: Ilimitados",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
