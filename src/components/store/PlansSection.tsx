@@ -82,6 +82,9 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
         <h1 className="text-4xl font-bold bg-gradient-to-r from-green-300 to-green-500 bg-clip-text text-transparent">
           Conecte-se ao Futuro
         </h1>
+        <p className="text-gray-700 mt-2 mx-auto max-w-3xl px-4">
+          Escolha o plano ideal para suas necessidades com a melhor relação custo-benefício do mercado
+        </p>
       </div>
       <h2 className="text-2xl font-bold text-center mb-8">Nossos Planos</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto px-4">
