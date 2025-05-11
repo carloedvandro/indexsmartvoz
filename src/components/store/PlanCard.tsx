@@ -27,7 +27,7 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
   );
 
   return (
-    <Card className={`h-full flex flex-col overflow-hidden transition-all w-full max-w-md mx-auto ${
+    <Card className={`h-full flex flex-col overflow-hidden transition-all w-full ${
       plan.isHighlighted ? 'border-2 border-green-500 shadow-lg' : 'border border-gray-200'
     }`}>
       <CardHeader className="pb-2">
