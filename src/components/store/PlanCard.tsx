@@ -30,7 +30,8 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
     !feature.includes("Waze")
   );
 
-  const bgColor = plan.isHighlighted ? 'bg-black' : 'bg-gray-800';
+  // Usar a cor #660099 para o fundo de todos os planos
+  const bgColor = plan.isHighlighted ? 'bg-[#660099]' : 'bg-[#660099]';
   
   return (
     <Card className={`h-full flex flex-col overflow-hidden transition-all w-full rounded-3xl relative ${bgColor} text-white`}>
