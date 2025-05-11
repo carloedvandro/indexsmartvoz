@@ -31,16 +31,7 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
         </div>
       </CardHeader>
       <CardContent className="flex-grow">
-        <div className="space-y-1">
-          {plan.features.map((feature, index) => (
-            <div 
-              key={index} 
-              className="bg-gray-50 p-2 rounded-md text-sm text-center"
-            >
-              {feature}
-            </div>
-          ))}
-        </div>
+        {/* Features list removed from here */}
       </CardContent>
       <CardFooter className="flex flex-col space-y-2 pt-4">
         <div className="text-center w-full">
