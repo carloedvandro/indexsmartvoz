@@ -78,7 +78,7 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
   };
 
   return (
-    <div className="py-8 bg-gradient-to-b from-gray-100 to-gray-200 rounded-xl">
+    <div className="py-8 rounded-xl">
       <div className="text-center mb-6">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-green-300 to-green-500 bg-clip-text text-transparent">
           Conecte-se ao Futuro
