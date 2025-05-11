@@ -89,7 +89,7 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto px-4">
         {PLANS.map((plan) => (
-          <div key={plan.id} className="flex flex-col items-center">
+          <div key={plan.id} className="flex flex-col items-center justify-center">
             <div className="w-full max-w-xs">
               <PlanCard 
                 key={plan.id} 
@@ -100,8 +100,6 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
           </div>
         ))}
       </div>
-      
-      
     </div>
   );
 }
