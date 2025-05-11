@@ -1,3 +1,4 @@
+
 import React from "react";
 import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
@@ -83,7 +84,7 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
           Conecte-se ao Futuro
         </h1>
         <p className="text-gray-700 mt-2 mx-auto max-w-3xl px-4">
-          Escolha o plano ideal para suas necessidades com a melhor relação custo-benefício do mercado
+          Escolha o plano ideal para suas necessidades com a melhor relação custo-benefício do mercado digital
         </p>
       </div>
       
