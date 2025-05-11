@@ -11,6 +11,7 @@ type Plan = {
   price: number;
   originalPrice?: number;
   isHighlighted?: boolean;
+  features: string[];
 };
 
 interface PlanCardProps {
@@ -30,7 +31,16 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
         </div>
       </CardHeader>
       <CardContent className="flex-grow">
-        {/* Área de contenido intencionalmente vacía */}
+        <div className="space-y-1">
+          {plan.features.map((feature, index) => (
+            <div 
+              key={index} 
+              className="bg-gray-100 py-2 px-3 rounded text-sm text-center border-l-4 border-green-500"
+            >
+              {feature}
+            </div>
+          ))}
+        </div>
       </CardContent>
       <CardFooter className="flex flex-col space-y-2 pt-4">
         <div className="text-center w-full">

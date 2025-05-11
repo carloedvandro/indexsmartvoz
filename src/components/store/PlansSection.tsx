@@ -10,6 +10,16 @@ const PLANS = [
     gb: "2GB",
     originalPrice: 29.90,
     price: 9.99,
+    features: [
+      "Minutos: Ilimitados",
+      "Internet: 2GB",
+      "Recorrência: 1GB",
+      "Portabilidade: 1GB",
+      "WhatsApp Grátis",
+      "Chip e-sim ou físico",
+      "Frete Grátis",
+      "Escolha seu DDD"
+    ]
   },
   {
     id: "basic",
@@ -17,6 +27,16 @@ const PLANS = [
     gb: "7GB",
     originalPrice: 44.90,
     price: 29.70,
+    features: [
+      "Minutos: Ilimitados",
+      "Internet: 5GB",
+      "Recorrência: 1GB",
+      "Portabilidade: 1GB",
+      "WhatsApp Grátis",
+      "Chip e-sim ou físico",
+      "Frete Grátis",
+      "Escolha seu DDD"
+    ]
   },
   {
     id: "start",
@@ -24,6 +44,17 @@ const PLANS = [
     gb: "13GB",
     originalPrice: 54.90,
     price: 39.70,
+    features: [
+      "Minutos: Ilimitados",
+      "Internet: 9GB",
+      "Recorrência: 2GB",
+      "Portabilidade: 2GB",
+      "WhatsApp Grátis",
+      "Chip e-sim ou físico",
+      "Frete Grátis",
+      "Escolha seu DDD"
+    ],
+    isHighlighted: true
   },
   {
     id: "gold",
@@ -31,7 +62,16 @@ const PLANS = [
     gb: "21GB",
     originalPrice: 64.90,
     price: 49.70,
-    isHighlighted: true,
+    features: [
+      "Minutos: Ilimitados",
+      "Internet: 19GB",
+      "Recorrência: 1GB",
+      "Portabilidade: 1GB",
+      "WhatsApp Grátis, Skeelo, Waze Grátis",
+      "Chip e-sim ou físico",
+      "Frete Grátis",
+      "Escolha seu DDD"
+    ]
   },
   {
     id: "plus",
@@ -39,6 +79,16 @@ const PLANS = [
     gb: "44GB",
     originalPrice: 99.70,
     price: 69.70,
+    features: [
+      "Minutos: Ilimitados",
+      "Internet: 40GB",
+      "Recorrência: 2GB",
+      "Portabilidade: 2GB",
+      "WhatsApp Grátis, Skeelo, Waze Grátis",
+      "Chip e-sim ou físico",
+      "Frete Grátis",
+      "Escolha seu DDD"
+    ]
   },
 ];
 
