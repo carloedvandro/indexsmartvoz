@@ -1,5 +1,5 @@
 
-/* Estilos específicos para o tema da PlayTec */
+/* ... keep existing code (grid-dots styles) */
 
 .grid-dots {
   display: grid;
@@ -13,6 +13,8 @@
   background-color: #ff0066;
   border-radius: 50%;
 }
+
+/* ... keep existing code (testimonial-card styles) */
 
 .testimonial-card {
   position: relative;
@@ -41,6 +43,8 @@
   bottom: 1rem;
   right: 2rem;
 }
+
+/* ... keep existing code (progress-bar styles) */
 
 .progress-bar {
   width: 100%;
@@ -98,15 +102,15 @@
 
 /* Estilos adicionais para os cards de planos */
 .plan-card {
-  max-width: 400px;
+  max-width: 360px;
   margin: 0 auto;
   height: 100%;
 }
 
 .plan-card-container {
-  max-width: 400px !important;
+  max-width: 360px !important;
   width: 100% !important;
-  min-width: 380px !important;
+  min-width: 340px !important;
 }
 
 .plan-feature {
