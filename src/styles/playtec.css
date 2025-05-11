@@ -98,13 +98,15 @@
 
 /* Estilos adicionais para os cards de planos */
 .plan-card {
-  max-width: 350px;
+  max-width: 400px;
+  min-width: 300px;
   margin: 0 auto;
   height: 100%;
 }
 
 .plan-card-container {
-  max-width: 350px !important;
+  max-width: 400px !important;
+  min-width: 300px !important;
   width: 100% !important;
 }
 
