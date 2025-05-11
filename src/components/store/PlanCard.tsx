@@ -34,13 +34,6 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
   
   return (
     <Card className={`h-full flex flex-col overflow-hidden transition-all w-full rounded-3xl relative ${bgColor} text-white`}>
-      {/* Promotion ribbon */}
-      <div className="absolute top-0 right-0">
-        <div className="bg-green-500 text-white py-1 px-6 rotate-45 translate-x-6 translate-y-3 shadow-md">
-          Promoção
-        </div>
-      </div>
-
       <CardHeader className="pb-2 text-center">
         <h3 className="font-bold text-xl">- {plan.name} -</h3>
         <div className="mt-6 mb-4">
