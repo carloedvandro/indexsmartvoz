@@ -30,7 +30,7 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
         </div>
       </CardHeader>
       <CardContent className="flex-grow">
-        {/* Content area kept empty as requested */}
+        {/* Área de contenido intencionalmente vacía */}
       </CardContent>
       <CardFooter className="flex flex-col space-y-2 pt-4">
         <div className="text-center w-full">
