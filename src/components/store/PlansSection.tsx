@@ -4,7 +4,6 @@ import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
-import { Check } from "lucide-react";
 
 const PLANS = [
   {
@@ -86,13 +85,6 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
         <p className="text-gray-700 mt-2 mx-auto max-w-3xl px-4">
           Escolha o plano ideal para suas necessidades com a melhor relação custo-benefício do mercado digital
         </p>
-      </div>
-      
-      <div className="flex justify-center mb-8">
-        <div className="bg-[#1A1F2C] text-white rounded-full px-6 py-2 flex items-center gap-2 shadow-md">
-          <Check className="text-green-500 h-5 w-5" />
-          <span className="text-lg font-medium">Sem fidelidade, apenas benefícios</span>
-        </div>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto px-4">
