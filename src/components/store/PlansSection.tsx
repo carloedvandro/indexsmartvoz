@@ -1,4 +1,3 @@
-
 import React from "react";
 import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
@@ -59,6 +58,14 @@ const PLANS = [
       "Escolha seu DDD"
     ]
   },
+];
+
+// Reordering the plans for display while keeping the original data intact for other functions
+const DISPLAY_ORDER_PLANS = [
+  PLANS[0], // BASIC
+  PLANS[1], // START
+  PLANS[2], // GOLD
+  PLANS[3], // PLUS
 ];
 
 interface PlansSectionProps {
