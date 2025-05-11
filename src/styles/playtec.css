@@ -98,7 +98,7 @@
 
 /* Estilos adicionais para os cards de planos */
 .plan-card {
-  width: 270px;
+  width: 220px;
   margin: 0;
   height: 100%;
   border-radius: 0;
@@ -109,6 +109,12 @@
 @media (max-width: 768px) {
   .plan-card {
     width: 370px;
+  }
+  
+  /* Para mobile exibir um card por vez */
+  .flex.flex-wrap {
+    flex-direction: column;
+    align-items: center;
   }
 }
 
