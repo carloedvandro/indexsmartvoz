@@ -81,7 +81,7 @@ export default function Store() {
         {/* Plans Section */}
         <PlansSection />
 
-        <h2 className="text-xl font-bold mt-8">Produtos</h2>
+        {/* "Produtos" heading removed */}
         {products.length > 0 ? (
           <ProductList
             products={products}

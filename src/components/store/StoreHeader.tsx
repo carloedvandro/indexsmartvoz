@@ -1,8 +1,9 @@
+
 import { Button } from "@/components/ui/button";
 import { useProfile } from "@/hooks/useProfile";
 import { useToast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
-import { Copy, Settings, PlusCircle } from "lucide-react";
+import { Copy, Settings } from "lucide-react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { ProductForm } from "./ProductForm";
 
@@ -50,21 +51,7 @@ export function StoreHeader({ isLoading, onSubmit, selectedProduct, isManager }:
               <Settings className="h-4 w-4" />
             </Button>
           </Link>
-          {isManager && (
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button>
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  Adicionar Produto
-                </Button>
-              </DialogTrigger>
-              <ProductForm
-                selectedProduct={selectedProduct}
-                isLoading={isLoading}
-                onSubmit={onSubmit}
-              />
-            </Dialog>
-          )}
+          {/* "Adicionar Produto" button removed */}
         </div>
       </div>
 
