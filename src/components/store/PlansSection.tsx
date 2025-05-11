@@ -1,3 +1,4 @@
+
 import React from "react";
 import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +10,7 @@ const PLANS = [
     id: "smartvoz-100",
     name: "SMARTVOZ",
     gb: "100GB",
-    price: 114.99,
+    price: 119.99,
     features: [
       "Smartvoz 100GB",
       "Minutos: Ilimitados",
@@ -21,7 +22,7 @@ const PLANS = [
     id: "smartvoz-120",
     name: "SMARTVOZ",
     gb: "120GB",
-    price: 124.99,
+    price: 129.99,
     features: [
       "Smartvoz 120GB",
       "Minutos: Ilimitados",
@@ -33,7 +34,7 @@ const PLANS = [
     id: "smartvoz-140",
     name: "SMARTVOZ",
     gb: "140GB",
-    price: 154.99,
+    price: 139.99,
     features: [
       "Smartvoz 140GB",
       "Minutos: Ilimitados",
@@ -46,7 +47,7 @@ const PLANS = [
     id: "smartvoz-160",
     name: "SMARTVOZ",
     gb: "160GB",
-    price: 184.99,
+    price: 159.99,
     features: [
       "Smartvoz 160GB",
       "Minutos: Ilimitados",
