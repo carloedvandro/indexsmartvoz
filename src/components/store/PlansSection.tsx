@@ -1,3 +1,4 @@
+
 import React from "react";
 import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
@@ -92,12 +93,12 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
       </div>
       
       <div className="mt-10 text-center">
-        <Button 
+        <button 
           onClick={() => handleSelectPlan(PLANS.find(p => p.isHighlighted) || PLANS[1])}
-          className="rounded-full bg-green-500 hover:bg-green-600 text-white px-16 py-6 text-xl font-bold"
+          className="rounded-full bg-green-500 hover:bg-green-600 text-white px-16 py-6 text-xl font-bold transition-colors"
         >
           Clique para Adquirir !!
-        </Button>
+        </button>
       </div>
     </div>
   );

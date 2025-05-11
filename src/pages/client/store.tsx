@@ -98,15 +98,6 @@ export default function Store() {
             onDelete={handleDelete}
           />
         )}
-
-        <div className="mt-8 text-center">
-          <Link
-            to="/client/register"
-            className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
-          >
-            Criar Conta
-          </Link>
-        </div>
       </div>
     </div>
   );
