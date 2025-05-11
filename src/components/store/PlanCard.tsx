@@ -64,6 +64,12 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
             R$ <span className="text-4xl">{plan.price.toFixed(2).replace('.', ',')}</span>
           </div>
         </div>
+        <Button
+          onClick={() => onSelect(plan)}
+          className="w-full bg-green-600 hover:bg-green-700 text-white"
+        >
+          Selecionar
+        </Button>
       </CardFooter>
     </Card>
   );
