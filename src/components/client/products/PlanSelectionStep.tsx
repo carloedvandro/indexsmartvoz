@@ -39,13 +39,13 @@ export function PlanSelectionStep({
   const [searchParams] = useSearchParams();
   const planIdFromUrl = searchParams.get('plan');
   
-  // Updated plan options with the correct values and prices based on the new designs
+  // Updated plan options with the correct values and prices
   const internetOptions = [
     { value: "2GB", label: "Teste a Tegg - 2GB", price: 9.99 },
-    { value: "80GB", label: "BASIC - 80GB", price: 29.70 },
-    { value: "100GB", label: "START - 100GB", price: 39.70 },
-    { value: "120GB", label: "GOLD - 120GB", price: 49.70 },
-    { value: "140GB", label: "PLUS - 140GB", price: 69.70 },
+    { value: "80GB", label: "BASIC - 80GB", price: 104.99 },
+    { value: "100GB", label: "START - 100GB", price: 114.99 },
+    { value: "120GB", label: "GOLD - 120GB", price: 124.99 },
+    { value: "140GB", label: "PLUS - 140GB", price: 154.99 },
   ];
 
   useEffect(() => {

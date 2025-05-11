@@ -11,7 +11,7 @@ const PLANS = [
     id: "basic",
     name: "BASIC",
     gb: "80GB",
-    price: 29.70,
+    price: 104.99,
     features: [
       "5 Gb de internet",
       "1 Gb de recorrência",
@@ -24,7 +24,7 @@ const PLANS = [
     id: "start",
     name: "START",
     gb: "100GB",
-    price: 39.70,
+    price: 114.99,
     features: [
       "9 Gb de internet",
       "2 Gb de recorrência",
@@ -38,7 +38,7 @@ const PLANS = [
     id: "gold",
     name: "GOLD",
     gb: "120GB",
-    price: 49.70,
+    price: 124.99,
     features: [
       "19 Gb de internet",
       "2 Gb de recorrência",
@@ -51,7 +51,7 @@ const PLANS = [
     id: "plus",
     name: "PLUS",
     gb: "140GB",
-    price: 69.70,
+    price: 154.99,
     features: [
       "40 Gb de internet",
       "2 Gb de recorrência",
