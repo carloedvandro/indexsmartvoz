@@ -35,9 +35,9 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
   
   return (
     <Card className={`h-full flex flex-col overflow-hidden transition-all w-full rounded-3xl relative ${bgColor} text-white`}>
-      <CardHeader className="pb-2 text-center">
+      <CardHeader className="pb-2 flex flex-col items-center">
         <h3 className="font-bold text-xl text-center">- {plan.name} -</h3>
-        <div className="mt-6 mb-4">
+        <div className="mt-6 mb-4 text-center w-full">
           <div className="text-green-500 font-bold text-6xl text-center">{plan.gb}</div>
         </div>
       </CardHeader>

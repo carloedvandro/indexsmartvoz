@@ -77,4 +77,21 @@
   animation: pulse 2s infinite;
 }
 
-/* Adicionar o estilo à importação principal */
+/* Estilos para centralização dos cards de planos */
+.plan-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+}
+
+.plan-gb-text {
+  font-weight: 700;
+  font-size: 3.75rem;
+  line-height: 1;
+  color: #10b981;
+  text-align: center;
+  width: 100%;
+}
