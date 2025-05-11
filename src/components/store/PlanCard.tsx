@@ -43,22 +43,22 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
       </CardHeader>
       
       <CardContent className="flex-grow px-6">
-        <div className="space-y-3 flex flex-col items-center">
+        <div className="space-y-3">
           {filteredFeatures.map((feature, index) => (
-            <div key={index} className="flex items-center gap-2 w-full justify-center">
+            <div key={index} className="flex items-center gap-2">
               <span className="text-green-500 text-lg">•</span>
               <span className="text-sm">{feature}</span>
             </div>
           ))}
           
-          <div className="flex items-center gap-2 mt-2 w-full justify-center">
+          <div className="flex items-center gap-2 mt-2">
             <span className="text-green-500 text-lg">•</span>
             <span className="text-sm">Validade: 30 Dias</span>
           </div>
         </div>
       </CardContent>
       
-      <CardFooter className="flex flex-col items-center space-y-2 pt-4 pb-6">
+      <CardFooter className="flex flex-col space-y-2 pt-4 pb-6">
         <div className="text-center w-full">
           <div className="font-bold text-3xl mt-1">
             R$ <span className="text-4xl">{plan.price.toFixed(2).replace('.', ',')}</span>
