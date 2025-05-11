@@ -14,17 +14,17 @@ export function SalesDetailsCard() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipData, setTooltipData] = useState<TooltipData | null>(null);
   
-  // Data with both percentage values and sales counts - updated with accurate sales values and prices
+  // Updated data with the three plans from the image - Smartvoz 110GB, 120GB, and 140GB
   const pieData: PieDataItem[] = [
     { 
       name: "110GB", 
       fullName: "Smartvoz 110GB + Minutos ilimitados", 
-      value: 22, // Percentage value for pie chart sizing
+      value: 32, // Percentage value for pie chart sizing
       price: 109.99,
       totalAmount: 305 * 109.99, // Total = sales count * price
-      percentage: 22,
+      percentage: 32,
       salesCount: 305, // Actual number of sales 
-      color: "#8a5cf6" // Bright purple
+      color: "#8a5cf6" // Bright purple (matching the image)
     },
     { 
       name: "120GB", 
@@ -34,17 +34,17 @@ export function SalesDetailsCard() {
       totalAmount: 428 * 119.99, // Total = sales count * price
       percentage: 36,
       salesCount: 428, // Actual number of sales
-      color: "#0cc7f0" // Bright cyan
+      color: "#0cc7f0" // Bright cyan (matching the image)
     },
     { 
       name: "140GB", 
       fullName: "Smartvoz 140GB + Minutos ilimitados", 
-      value: 42,
+      value: 32,
       price: 139.99,
       totalAmount: 501 * 139.99, // Total = sales count * price
-      percentage: 42,
+      percentage: 32,
       salesCount: 501, // Actual number of sales
-      color: "#0ea5e9" // Bright blue
+      color: "#0ea5e9" // Bright blue (matching the image)
     }
   ];
 
@@ -84,7 +84,7 @@ export function SalesDetailsCard() {
   return (
     <div className="pl-0 h-[550px] bg-transparent">
       <div className="flex items-start mb-4 ml-[9px] bg-transparent">
-        <h3 className="text-lg font-bold text-black pt-[4px]">Detalhe das Vendas</h3>
+        <h3 className="text-lg font-bold text-black pt-[4px]">Planos mais vendidos</h3>
       </div>
       
       <div className="flex flex-col items-center bg-transparent">
