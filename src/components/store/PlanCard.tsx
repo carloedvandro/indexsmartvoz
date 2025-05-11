@@ -20,6 +20,12 @@ interface PlanCardProps {
 }
 
 export function PlanCard({ plan, onSelect }: PlanCardProps) {
+  // Filter out the features we want to remove
+  const filteredFeatures = plan.features.filter(feature => 
+    !feature.includes("Portabilidade:") && 
+    !feature.includes("Frete Grátis")
+  );
+
   return (
     <Card className={`h-full flex flex-col overflow-hidden transition-all ${
       plan.isHighlighted ? 'border-2 border-green-500 shadow-lg' : 'border border-gray-200'
@@ -32,7 +38,7 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
       </CardHeader>
       <CardContent className="flex-grow">
         <div className="space-y-1">
-          {plan.features.map((feature, index) => (
+          {filteredFeatures.map((feature, index) => (
             <div 
               key={index} 
               className="bg-gray-100 py-2 px-3 rounded text-sm text-center border-l-4 border-green-500"
