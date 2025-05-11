@@ -8,8 +8,8 @@ import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
 const PLANS = [
   {
     id: "basic",
-    name: "Smartvoz 100GB",
-    gb: "100GB",
+    name: "BASIC",
+    gb: "80GB",
     price: 104.99,
     features: [
       "5 Gb de internet",
@@ -21,8 +21,8 @@ const PLANS = [
   },
   {
     id: "start",
-    name: "Smartvoz 120GB",
-    gb: "120GB",
+    name: "START",
+    gb: "100GB",
     price: 114.99,
     features: [
       "9 Gb de internet",
@@ -34,9 +34,48 @@ const PLANS = [
     isHighlighted: true
   },
   {
+    id: "smartvoz-100",
+    name: "SMARTVOZ",
+    gb: "100GB",
+    price: 119.99,
+    features: [
+      "12 Gb de internet",
+      "2 Gb de recorrência",
+      "Minutos: Ilimitados",
+      "Chip eSIM ou Fisico Card",
+      "Escolha seu DDD"
+    ]
+  },
+  {
+    id: "smartvoz",
+    name: "SMARTVOZ",
+    gb: "110GB",
+    price: 119.99,
+    features: [
+      "15 Gb de internet",
+      "2 Gb de recorrência",
+      "Minutos: Ilimitados",
+      "Chip eSIM ou Fisico Card",
+      "Escolha seu DDD"
+    ]
+  },
+  {
+    id: "smartvoz-120",
+    name: "SMARTVOZ",
+    gb: "120GB",
+    price: 124.99,
+    features: [
+      "18 Gb de internet",
+      "2 Gb de recorrência",
+      "Minutos: Ilimitados",
+      "Chip eSIM ou Fisico Card",
+      "Escolha seu DDD"
+    ]
+  },
+  {
     id: "gold",
-    name: "Smartvoz 140GB",
-    gb: "140GB",
+    name: "GOLD",
+    gb: "120GB",
     price: 124.99,
     features: [
       "19 Gb de internet",
@@ -47,9 +86,22 @@ const PLANS = [
     ]
   },
   {
+    id: "smartvoz-140",
+    name: "SMARTVOZ",
+    gb: "140GB",
+    price: 139.99,
+    features: [
+      "25 Gb de internet",
+      "2 Gb de recorrência",
+      "Minutos: Ilimitados",
+      "Chip eSIM ou Fisico Card",
+      "Escolha seu DDD"
+    ]
+  },
+  {
     id: "plus",
-    name: "Smartvoz 160GB",
-    gb: "160GB",
+    name: "PLUS",
+    gb: "140GB",
     price: 154.99,
     features: [
       "40 Gb de internet",
@@ -59,14 +111,32 @@ const PLANS = [
       "Escolha seu DDD"
     ]
   },
+  {
+    id: "smartvoz-160",
+    name: "SMARTVOZ",
+    gb: "160GB",
+    price: 159.99,
+    features: [
+      "45 Gb de internet",
+      "2 Gb de recorrência",
+      "Minutos: Ilimitados",
+      "Chip eSIM ou Fisico Card",
+      "Escolha seu DDD"
+    ]
+  },
 ];
 
-// Reordering the plans for display while keeping the original data intact for other functions
+// Reordering the plans for display following the new sequence from the image
 const DISPLAY_ORDER_PLANS = [
-  PLANS[0], // BASIC
-  PLANS[1], // START
-  PLANS[2], // GOLD
-  PLANS[3], // PLUS
+  PLANS[0], // BASIC - 80GB
+  PLANS[1], // START - 100GB
+  PLANS[2], // SMARTVOZ - 100GB
+  PLANS[3], // SMARTVOZ - 110GB
+  PLANS[4], // SMARTVOZ - 120GB
+  PLANS[5], // GOLD - 120GB
+  PLANS[6], // SMARTVOZ - 140GB
+  PLANS[7], // PLUS - 140GB
+  PLANS[8], // SMARTVOZ - 160GB
 ];
 
 interface PlansSectionProps {
@@ -96,7 +166,7 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
       </div>
       
       <div className="flex flex-wrap justify-center gap-3 mx-auto px-4">
-        {PLANS.map((plan) => (
+        {DISPLAY_ORDER_PLANS.map((plan) => (
           <div key={plan.id} className="flex justify-center">
             <PlanCard 
               plan={plan} 
