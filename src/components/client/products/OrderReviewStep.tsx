@@ -15,6 +15,18 @@ interface OrderReviewStepProps {
 }
 
 export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
+  // Get plan name based on selected internet GB
+  const getPlanName = (internet: string) => {
+    switch (internet) {
+      case "2GB": return "Teste a Tegg";
+      case "7GB": return "BASIC";
+      case "13GB": return "START";
+      case "21GB": return "GOLD";
+      case "44GB": return "PLUS";
+      default: return "Plano Smartvoz";
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="w-full flex justify-center mb-4">
@@ -38,11 +50,14 @@ export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
             <div className="flex justify-between items-center">
               <div>
                 <span className="font-medium">
-                  {line.id === 1 || line.id === 2 ? "Plano Smartvoz" : `Linha ${String(line.id).padStart(2, '0')}`}
+                  {getPlanName(line.internet)}
                 </span>
-                <span className="ml-2">{line.internet} + Minutos ilimitados</span>
+                <span className="ml-2">{line.internet} + Minutos {line.internet === "2GB" ? "100" : "ilimitados"}</span>
               </div>
               <span className="font-medium">{formatCurrency(line.price)}/mês</span>
+            </div>
+            <div className="mt-2 text-sm text-gray-500">
+              <p>DDD: {line.ddd}</p>
             </div>
           </div>
         ))}

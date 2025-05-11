@@ -1,10 +1,11 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { InternetSelector } from "@/components/client/products/InternetSelector";
 import { DDDInput } from "@/components/client/products/DDDInput";
 import { DueDateSelector } from "@/components/client/products/DueDateSelector";
 import { PriceSummary } from "@/components/client/products/PriceSummary";
 import { NavigationButtons } from "@/components/client/products/NavigationButtons";
+import { useSearchParams } from "react-router-dom";
 
 interface PlanSelectionStepProps {
   onBack: () => void;
@@ -20,13 +21,40 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   const [selectedInternet, setSelectedInternet] = useState<string>("");
   const [selectedDDD, setSelectedDDD] = useState<string>("");
   const [selectedDueDate, setSelectedDueDate] = useState<number | null>(null);
+  const [searchParams] = useSearchParams();
+  const planIdFromUrl = searchParams.get('plan');
 
-  // Updated plan options with the correct values and prices
+  // Updated plan options with the correct values and prices based on the new designs
   const internetOptions = [
-    { value: "110GB", label: "Smartvoz 110GB", price: 109.99 },
-    { value: "120GB", label: "Smartvoz 120GB", price: 119.99 },
-    { value: "140GB", label: "Smartvoz 140GB", price: 139.99 },
+    { value: "2GB", label: "Teste a Tegg - 2GB", price: 9.99 },
+    { value: "7GB", label: "BASIC - 7GB", price: 29.70 },
+    { value: "13GB", label: "START - 13GB", price: 39.70 },
+    { value: "21GB", label: "GOLD - 21GB", price: 49.70 },
+    { value: "44GB", label: "PLUS - 44GB", price: 69.70 },
   ];
+  
+  // Set initial plan based on URL parameter if present
+  useEffect(() => {
+    if (planIdFromUrl && !selectedInternet) {
+      switch (planIdFromUrl) {
+        case "teste-tegg":
+          setSelectedInternet("2GB");
+          break;
+        case "basic":
+          setSelectedInternet("7GB");
+          break;
+        case "start":
+          setSelectedInternet("13GB");
+          break;
+        case "gold":
+          setSelectedInternet("21GB");
+          break;
+        case "plus":
+          setSelectedInternet("44GB");
+          break;
+      }
+    }
+  }, [planIdFromUrl]);
 
   const getLinePrice = () => {
     return internetOptions.find(option => option.value === selectedInternet)?.price || 0;

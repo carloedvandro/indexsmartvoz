@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { InternetSelector } from "./InternetSelector";
 import { DDDInput } from "./DDDInput";
 import { PriceSummary } from "./PriceSummary";
@@ -8,6 +8,7 @@ import { useCalendarStyles } from "@/hooks/useCalendarStyles";
 import { DueDateSelector } from "./DueDateSelector";
 import { PlanSelectionHeader } from "./PlanSelectionHeader";
 import { NavigationButtons } from "./NavigationButtons";
+import { useSearchParams } from "react-router-dom";
 
 type Line = {
   id: number;
@@ -35,12 +36,16 @@ export function PlanSelectionStep({
   onContinue 
 }: PlanSelectionStepProps) {
   const { data: calendarStyle } = useCalendarStyles();
+  const [searchParams] = useSearchParams();
+  const planIdFromUrl = searchParams.get('plan');
   
-  // Updated plan options with the correct values and prices
+  // Updated plan options with the correct values and prices based on the new designs
   const internetOptions = [
-    { value: "110GB", label: "Smartvoz 110GB", price: 109.99 },
-    { value: "120GB", label: "Smartvoz 120GB", price: 119.99 },
-    { value: "140GB", label: "Smartvoz 140GB", price: 139.99 },
+    { value: "2GB", label: "Teste a Tegg - 2GB", price: 9.99 },
+    { value: "7GB", label: "BASIC - 7GB", price: 29.70 },
+    { value: "13GB", label: "START - 13GB", price: 39.70 },
+    { value: "21GB", label: "GOLD - 21GB", price: 49.70 },
+    { value: "44GB", label: "PLUS - 44GB", price: 69.70 },
   ];
 
   useEffect(() => {
@@ -55,7 +60,44 @@ export function PlanSelectionStep({
         },
       ]);
     }
-  }, []);
+    
+    // Set initial plan based on URL parameter if present
+    if (planIdFromUrl && selectedLines[0] && !selectedLines[0].internet) {
+      let initialPlan = "";
+      let initialPrice = 0;
+      
+      switch (planIdFromUrl) {
+        case "teste-tegg":
+          initialPlan = "2GB";
+          initialPrice = 9.99;
+          break;
+        case "basic":
+          initialPlan = "7GB";
+          initialPrice = 29.70;
+          break;
+        case "start":
+          initialPlan = "13GB";
+          initialPrice = 39.70;
+          break;
+        case "gold":
+          initialPlan = "21GB";
+          initialPrice = 49.70;
+          break;
+        case "plus":
+          initialPlan = "44GB";
+          initialPrice = 69.70;
+          break;
+      }
+      
+      if (initialPlan) {
+        setSelectedLines(selectedLines.map(line => 
+          line.id === 1 
+            ? { ...line, internet: initialPlan, price: initialPrice }
+            : line
+        ));
+      }
+    }
+  }, [planIdFromUrl]);
 
   const handleInternetChange = (value: string) => {
     const newPrice = internetOptions.find(option => option.value === value)?.price || 0;

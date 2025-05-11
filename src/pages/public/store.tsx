@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -6,6 +5,7 @@ import { LoadingState } from "@/components/store/public/LoadingState";
 import { StoreNotFound } from "@/components/store/public/StoreNotFound";
 import { ProductList } from "@/components/store/ProductList";
 import { StoreHeader } from "@/components/store/public/StoreHeader";
+import { PlansSection } from "@/components/store/PlansSection";
 import { useToast } from "@/hooks/use-toast";
 import { useStoreProducts } from "@/components/store/hooks/useStoreProducts";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -128,7 +128,12 @@ export default function PublicStore() {
           <div className="space-y-8">
             <StoreHeader ownerName={storeOwner.full_name} />
             
+            {/* Plans section */}
+            <PlansSection storeOwnerCustomId={storeOwner.custom_id || undefined} />
+            
+            {/* Existing products section */}
             <div className="grid gap-8">
+              <h2 className="text-2xl font-bold">Produtos</h2>
               <ProductList
                 products={products}
                 isLoading={productsLoading}

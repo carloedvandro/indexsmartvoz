@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { StoreHeader } from "@/components/store/StoreHeader";
 import { ProductList } from "@/components/store/ProductList";
+import { PlansSection } from "@/components/store/PlansSection";
 import { ExampleProducts } from "@/components/store/ExampleProducts";
 import { useStoreProducts } from "@/components/store/hooks/useStoreProducts";
 import { useProductActions } from "@/components/store/hooks/useProductActions";
@@ -77,6 +78,10 @@ export default function Store() {
           </div>
         </div>
 
+        {/* Plans Section */}
+        <PlansSection />
+
+        <h2 className="text-xl font-bold mt-8">Produtos</h2>
         {products.length > 0 ? (
           <ProductList
             products={products}
