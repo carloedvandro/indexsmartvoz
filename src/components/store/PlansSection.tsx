@@ -1,3 +1,4 @@
+
 import React from "react";
 import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
@@ -6,36 +7,26 @@ import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
 
 const PLANS = [
   {
-    id: "smartvoz-100",
-    name: "SMARTVOZ",
+    id: "basic",
+    name: "BASIC",
+    gb: "80GB",
+    price: 104.99,
+    features: [
+      "5 Gb de internet",
+      "1 Gb de recorrência",
+      "Minutos: Ilimitados",
+      "Chip eSIM ou Fisico Card",
+      "Escolha seu DDD"
+    ]
+  },
+  {
+    id: "start",
+    name: "START",
     gb: "100GB",
     price: 114.99,
     features: [
-      "Smartvoz 100GB",
-      "Minutos: Ilimitados",
-      "Chip eSIM ou Fisico Card",
-      "Escolha seu DDD"
-    ]
-  },
-  {
-    id: "smartvoz-120",
-    name: "SMARTVOZ",
-    gb: "120GB",
-    price: 124.99,
-    features: [
-      "Smartvoz 120GB",
-      "Minutos: Ilimitados",
-      "Chip eSIM ou Fisico Card",
-      "Escolha seu DDD"
-    ]
-  },
-  {
-    id: "smartvoz-140",
-    name: "SMARTVOZ",
-    gb: "140GB",
-    price: 154.99,
-    features: [
-      "Smartvoz 140GB",
+      "9 Gb de internet",
+      "2 Gb de recorrência",
       "Minutos: Ilimitados",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
@@ -43,12 +34,26 @@ const PLANS = [
     isHighlighted: true
   },
   {
-    id: "smartvoz-160",
-    name: "SMARTVOZ",
-    gb: "160GB",
-    price: 184.99,
+    id: "gold",
+    name: "GOLD",
+    gb: "120GB",
+    price: 124.99,
     features: [
-      "Smartvoz 160GB",
+      "19 Gb de internet",
+      "2 Gb de recorrência",
+      "Minutos: Ilimitados",
+      "Chip eSIM ou Fisico Card",
+      "Escolha seu DDD"
+    ]
+  },
+  {
+    id: "plus",
+    name: "PLUS",
+    gb: "140GB",
+    price: 154.99,
+    features: [
+      "40 Gb de internet",
+      "2 Gb de recorrência",
       "Minutos: Ilimitados",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
@@ -58,10 +63,10 @@ const PLANS = [
 
 // Reordering the plans for display while keeping the original data intact for other functions
 const DISPLAY_ORDER_PLANS = [
-  PLANS[0], // SMARTVOZ 100GB
-  PLANS[1], // SMARTVOZ 120GB
-  PLANS[2], // SMARTVOZ 140GB 
-  PLANS[3], // SMARTVOZ 160GB
+  PLANS[0], // BASIC
+  PLANS[1], // START
+  PLANS[2], // GOLD
+  PLANS[3], // PLUS
 ];
 
 interface PlansSectionProps {
