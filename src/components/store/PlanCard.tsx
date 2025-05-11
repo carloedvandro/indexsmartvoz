@@ -34,31 +34,31 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
   const bgColor = plan.isHighlighted ? 'bg-[#660099]' : 'bg-[#660099]';
   
   return (
-    <Card className={`h-full flex flex-col overflow-hidden transition-all w-full rounded-3xl relative ${bgColor} text-white`}>
+    <Card className={`h-full flex flex-col overflow-hidden transition-all w-full max-w-[270px] mx-auto rounded-3xl relative ${bgColor} text-white`}>
       <CardHeader className="pb-2 flex flex-col items-center justify-center text-center">
         <h3 className="font-bold text-xl text-center">- {plan.name} -</h3>
         <div className="mt-6 mb-4 text-center w-full">
-          <div className="text-[#10FE00] font-bold text-7xl text-center">{plan.gb}</div>
+          <div className="text-[#10FE00] font-bold text-6xl text-center">{plan.gb}</div>
         </div>
       </CardHeader>
       
       <CardContent className="flex-grow px-6">
-        <div className="space-y-3">
+        <div className="space-y-3 flex flex-col items-center">
           {filteredFeatures.map((feature, index) => (
-            <div key={index} className="flex items-center gap-2">
+            <div key={index} className="flex items-center gap-2 w-full justify-center">
               <span className="text-green-500 text-lg">•</span>
               <span className="text-sm">{feature}</span>
             </div>
           ))}
           
-          <div className="flex items-center gap-2 mt-2">
+          <div className="flex items-center gap-2 mt-2 w-full justify-center">
             <span className="text-green-500 text-lg">•</span>
             <span className="text-sm">Validade: 30 Dias</span>
           </div>
         </div>
       </CardContent>
       
-      <CardFooter className="flex flex-col space-y-2 pt-4 pb-6">
+      <CardFooter className="flex flex-col items-center space-y-2 pt-4 pb-6">
         <div className="text-center w-full">
           <div className="font-bold text-3xl mt-1">
             R$ <span className="text-4xl">{plan.price.toFixed(2).replace('.', ',')}</span>

@@ -95,3 +95,19 @@
   text-align: center;
   width: 100%;
 }
+
+/* Estilos adicionais para os cards de planos */
+.plan-card {
+  max-width: 270px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.plan-feature {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 0.5rem;
+  text-align: center;
+}
