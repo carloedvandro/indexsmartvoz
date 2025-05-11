@@ -33,14 +33,15 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
 
     console.log("Fetched profile data:", profileData);
 
-    // Create a copy of the profile data with the sponsor property handled properly
-    const profile = profileData as ProfileWithSponsor;
+    // Create a copy of the profile data
+    const profile: ProfileWithSponsor = {
+      ...profileData,
+      sponsor: null // Initialize as null, will be updated if sponsor exists
+    };
     
     // Handle the sponsor separately to ensure proper typing
-    if (profile.sponsor) {
-      profile.sponsor = mapSponsor(profile.sponsor);
-    } else {
-      profile.sponsor = null;
+    if (profileData.sponsor) {
+      profile.sponsor = mapSponsor(profileData.sponsor);
     }
 
     return profile;

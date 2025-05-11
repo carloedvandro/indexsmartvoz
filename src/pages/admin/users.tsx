@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -105,7 +106,14 @@ export default function AdminUsers() {
         throw error;
       }
       
-      return data as ProfileWithSponsor[];
+      // Map the returned data to ensure it matches the ProfileWithSponsor type
+      return (data || []).map(profile => {
+        const mappedProfile: ProfileWithSponsor = {
+          ...profile,
+          sponsor: profile.sponsor ? mapSponsor(profile.sponsor) : null
+        };
+        return mappedProfile;
+      });
     },
   });
 
