@@ -2,6 +2,7 @@
 import React from "react";
 import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const PLANS = [
   {
@@ -11,9 +12,10 @@ const PLANS = [
     originalPrice: 44.90,
     price: 29.70,
     features: [
+      "5 Gb de internet",
+      "1 Gb de recorrência",
+      "1 Gb de portabilidade",
       "Minutos: Ilimitados",
-      "Internet: 5GB",
-      "Recorrência: 1GB",
       "WhatsApp Grátis",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
@@ -26,9 +28,10 @@ const PLANS = [
     originalPrice: 54.90,
     price: 39.70,
     features: [
+      "9 Gb de internet",
+      "2 Gb de recorrência",
+      "2 Gb de portabilidade",
       "Minutos: Ilimitados",
-      "Internet: 9GB",
-      "Recorrência: 2GB",
       "WhatsApp Grátis",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
@@ -42,9 +45,10 @@ const PLANS = [
     originalPrice: 64.90,
     price: 49.70,
     features: [
+      "19 Gb de internet",
+      "2 Gb de recorrência",
+      "2 Gb de portabilidade", 
       "Minutos: Ilimitados",
-      "Internet: 19GB",
-      "Recorrência: 1GB",
       "WhatsApp Grátis, Skeelo, Waze Grátis",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
@@ -57,9 +61,10 @@ const PLANS = [
     originalPrice: 99.70,
     price: 69.70,
     features: [
+      "40 Gb de internet",
+      "2 Gb de recorrência",
+      "2 Gb de portabilidade",
       "Minutos: Ilimitados",
-      "Internet: 40GB",
-      "Recorrência: 2GB",
       "WhatsApp Grátis, Skeelo, Waze Grátis",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
@@ -83,16 +88,29 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
   };
 
   return (
-    <div className="py-8">
+    <div className="py-8 bg-gradient-to-b from-gray-100 to-gray-200 rounded-xl">
       <h2 className="text-2xl font-bold text-center mb-8">Nossos Planos</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto px-4">
         {PLANS.map((plan) => (
-          <PlanCard 
-            key={plan.id} 
-            plan={plan} 
-            onSelect={handleSelectPlan} 
-          />
+          <div key={plan.id} className="flex flex-col items-center">
+            <div className="w-full max-w-xs">
+              <PlanCard 
+                key={plan.id} 
+                plan={plan} 
+                onSelect={handleSelectPlan} 
+              />
+            </div>
+          </div>
         ))}
+      </div>
+      
+      <div className="mt-10 text-center">
+        <Button 
+          onClick={() => handleSelectPlan(PLANS.find(p => p.isHighlighted) || PLANS[1])}
+          className="rounded-full bg-green-500 hover:bg-green-600 text-white px-16 py-6 text-xl font-bold"
+        >
+          Clique para Adquirir !!
+        </Button>
       </div>
     </div>
   );
