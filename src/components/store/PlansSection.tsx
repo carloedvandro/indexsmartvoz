@@ -1,4 +1,3 @@
-
 import React from "react";
 import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +15,6 @@ const PLANS = [
       "1 Gb de recorrência",
       "1 Gb de portabilidade",
       "Minutos: Ilimitados",
-      "WhatsApp Grátis",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
     ]
@@ -32,7 +30,6 @@ const PLANS = [
       "2 Gb de recorrência",
       "2 Gb de portabilidade",
       "Minutos: Ilimitados",
-      "WhatsApp Grátis",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
     ],
@@ -49,7 +46,6 @@ const PLANS = [
       "2 Gb de recorrência",
       "2 Gb de portabilidade", 
       "Minutos: Ilimitados",
-      "WhatsApp Grátis, Skeelo, Waze Grátis",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
     ]
@@ -65,7 +61,6 @@ const PLANS = [
       "2 Gb de recorrência",
       "2 Gb de portabilidade",
       "Minutos: Ilimitados",
-      "WhatsApp Grátis, Skeelo, Waze Grátis",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
     ]
