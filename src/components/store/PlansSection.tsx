@@ -1,9 +1,9 @@
-
 import React from "react";
 import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
+import { Check } from "lucide-react";
 
 const PLANS = [
   {
@@ -86,7 +86,14 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
           Escolha o plano ideal para suas necessidades com a melhor relação custo-benefício do mercado
         </p>
       </div>
-      <h2 className="text-2xl font-bold text-center mb-8">Nossos Planos</h2>
+      
+      <div className="flex justify-center mb-8">
+        <div className="bg-gray-900 text-white rounded-full px-6 py-2 flex items-center gap-2 shadow-md">
+          <Check className="text-green-500 h-5 w-5" />
+          <span className="text-lg font-medium">Sem fidelidade, apenas benefícios</span>
+        </div>
+      </div>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto px-4">
         {PLANS.map((plan) => (
           <div key={plan.id} className="flex flex-col items-center">
@@ -101,7 +108,7 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
         ))}
       </div>
       
-      {/* Button removed */}
+      
     </div>
   );
 }
