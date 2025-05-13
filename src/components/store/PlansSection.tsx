@@ -86,10 +86,10 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
     <div className="py-8 rounded-xl">
       <div className="text-center mb-8">
         <h2 className="text-3xl sm:text-4xl font-bold text-pink-600 mb-2">
-          Planos de Internet
+          Conecte-se ao Futuro
         </h2>
         <p className="text-gray-600 mt-2 mx-auto max-w-3xl px-4">
-          Alta velocidade e estabilidade para todas as suas necessidades com os melhores preços do mercado
+          Escolha o plano ideal para suas necessidades com a melhor relação custo-benefício do mercado digital
         </p>
       </div>
       
