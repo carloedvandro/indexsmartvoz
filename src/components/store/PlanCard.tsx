@@ -13,6 +13,7 @@ type Plan = {
   originalPrice?: number;
   isHighlighted?: boolean;
   features: string[];
+  cashback?: number;
 };
 
 interface PlanCardProps {
@@ -115,6 +116,11 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
         {plan.isHighlighted && (
           <div className="text-xs text-center w-full">
             Use o cupom e aproveite: EASYAPP45
+          </div>
+        )}
+        {plan.cashback && (
+          <div className="text-xs text-center w-full bg-white/20 py-1 px-2 rounded-md font-medium">
+            + R${plan.cashback.toFixed(2).replace(".", ",")} CASHBACK
           </div>
         )}
       </CardFooter>

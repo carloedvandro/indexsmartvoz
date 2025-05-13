@@ -54,7 +54,8 @@ const PLANS = [
       "Minutos: Ilimitados",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
-    ]
+    ],
+    cashback: 10.00
   },
 ];
 
