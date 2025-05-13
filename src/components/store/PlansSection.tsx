@@ -4,6 +4,7 @@ import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
+import { PhoneShowcase } from "@/components/ui/3d-models/PhoneShowcase";
 
 const PLANS = [
   {
@@ -89,6 +90,11 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
         <p className="text-gray-700 mt-2 mx-auto max-w-3xl px-4">
           Escolha o plano ideal para suas necessidades com a melhor relação custo-benefício do mercado digital
         </p>
+      </div>
+      
+      {/* Phone Showcase 3D Models */}
+      <div className="w-full max-w-4xl mx-auto mb-8">
+        <PhoneShowcase />
       </div>
       
       <div className="flex flex-wrap justify-center gap-3 mx-auto px-4">
