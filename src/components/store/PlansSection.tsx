@@ -3,7 +3,7 @@ import React from "react";
 import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
+import Image from "@/components/ui/image";
 
 const PLANS = [
   {
@@ -82,24 +82,41 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
 
   return (
     <div className="py-8 rounded-xl">
-      <div className="text-center mb-6">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-green-300 to-green-500 bg-clip-text text-transparent">
-          Conecte-se ao Futuro
-        </h1>
-        <p className="text-gray-700 mt-2 mx-auto max-w-3xl px-4">
-          Escolha o plano ideal para suas necessidades com a melhor relação custo-benefício do mercado digital
+      <div className="text-center mb-8">
+        <h2 className="text-3xl sm:text-4xl font-bold text-purple-800 mb-2">
+          Planos de Internet
+        </h2>
+        <p className="text-gray-600 mt-2 mx-auto max-w-3xl px-4">
+          Alta velocidade e estabilidade para todas as suas necessidades com os melhores preços do mercado
         </p>
       </div>
       
-      <div className="flex flex-wrap justify-center gap-3 mx-auto px-4">
-        {PLANS.map((plan) => (
-          <div key={plan.id} className="flex justify-center">
-            <PlanCard 
-              plan={plan} 
-              onSelect={handleSelectPlan} 
-            />
+      <div className="bg-gradient-to-r from-purple-50 to-pink-50 py-8 rounded-xl">
+        <div className="flex flex-wrap justify-center gap-6 mx-auto px-4 max-w-7xl">
+          {PLANS.map((plan) => (
+            <div key={plan.id} className="flex justify-center">
+              <PlanCard 
+                plan={plan} 
+                onSelect={handleSelectPlan} 
+              />
+            </div>
+          ))}
+        </div>
+        
+        <div className="mt-8 text-center">
+          <p className="text-sm text-gray-600 mb-2">Internet de alta qualidade sem contratos longos</p>
+          <div className="flex justify-center gap-4 flex-wrap px-4">
+            <div className="bg-white px-4 py-2 rounded-md shadow-sm flex items-center gap-2">
+              <span className="text-purple-700 font-medium">Sem taxas ocultas</span>
+            </div>
+            <div className="bg-white px-4 py-2 rounded-md shadow-sm flex items-center gap-2">
+              <span className="text-purple-700 font-medium">Conexão estável</span>
+            </div>
+            <div className="bg-white px-4 py-2 rounded-md shadow-sm flex items-center gap-2">
+              <span className="text-purple-700 font-medium">Serviço completo</span>
+            </div>
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
