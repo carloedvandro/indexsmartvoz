@@ -3,14 +3,15 @@ import React from "react";
 import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
+import Image from "@/components/ui/image";
+import { EasyPlanCard } from "./EasyPlanCard";
 
 const PLANS = [
   {
     id: "smartvoz-100",
     name: "SMARTVOZ",
     gb: "100GB",
-    price: 119.99,
+    price: 45.00,
     features: [
       "Smartvoz 100GB",
       "Minutos: Ilimitados",
@@ -22,7 +23,7 @@ const PLANS = [
     id: "smartvoz-120",
     name: "SMARTVOZ",
     gb: "120GB",
-    price: 129.99,
+    price: 55.00,
     features: [
       "Smartvoz 120GB",
       "Minutos: Ilimitados",
@@ -34,7 +35,7 @@ const PLANS = [
     id: "smartvoz-140",
     name: "SMARTVOZ",
     gb: "140GB",
-    price: 139.99,
+    price: 65.00,
     features: [
       "Smartvoz 140GB",
       "Minutos: Ilimitados",
@@ -47,7 +48,7 @@ const PLANS = [
     id: "smartvoz-160",
     name: "SMARTVOZ",
     gb: "160GB",
-    price: 159.99,
+    price: 75.00,
     features: [
       "Smartvoz 160GB",
       "Minutos: Ilimitados",
@@ -57,13 +58,14 @@ const PLANS = [
   },
 ];
 
-// Reordering the plans for display while keeping the original data intact for other functions
-const DISPLAY_ORDER_PLANS = [
-  PLANS[0], // SMARTVOZ 100GB
-  PLANS[1], // SMARTVOZ 120GB
-  PLANS[2], // SMARTVOZ 140GB 
-  PLANS[3], // SMARTVOZ 160GB
-];
+const EASY_PLAN = {
+  id: "easy-19",
+  name: "EASY",
+  gb: "19",
+  price: 45.00,
+  cashback: 10.00,
+  couponCode: "EASYAPP45"
+};
 
 interface PlansSectionProps {
   storeOwnerCustomId?: string;
@@ -82,24 +84,58 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
 
   return (
     <div className="py-8 rounded-xl">
-      <div className="text-center mb-6">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-green-300 to-green-500 bg-clip-text text-transparent">
-          Conecte-se ao Futuro
-        </h1>
-        <p className="text-gray-700 mt-2 mx-auto max-w-3xl px-4">
-          Escolha o plano ideal para suas necessidades com a melhor relação custo-benefício do mercado digital
+      <div className="text-center mb-8">
+        <h2 className="text-3xl sm:text-4xl font-bold text-pink-600 mb-2">
+          Planos de Internet
+        </h2>
+        <p className="text-gray-600 mt-2 mx-auto max-w-3xl px-4">
+          Alta velocidade e estabilidade para todas as suas necessidades com os melhores preços do mercado
         </p>
       </div>
       
-      <div className="flex flex-wrap justify-center gap-3 mx-auto px-4">
-        {PLANS.map((plan) => (
-          <div key={plan.id} className="flex justify-center">
-            <PlanCard 
-              plan={plan} 
-              onSelect={handleSelectPlan} 
+      <div className="bg-gradient-to-r from-pink-50 to-fuchsia-50 py-8 rounded-xl">
+        <div className="flex flex-wrap justify-center gap-6 mx-auto px-4 max-w-7xl">
+          {PLANS.slice(0, 3).map((plan) => (
+            <div key={plan.id} className="flex justify-center">
+              <PlanCard 
+                plan={plan} 
+                onSelect={handleSelectPlan} 
+              />
+            </div>
+          ))}
+          
+          {/* Easy Mobile Card */}
+          <div className="flex justify-center">
+            <EasyPlanCard 
+              plan={EASY_PLAN} 
+              onSelect={handleSelectPlan}
             />
           </div>
-        ))}
+          
+          {PLANS.slice(3).map((plan) => (
+            <div key={plan.id} className="flex justify-center">
+              <PlanCard 
+                plan={plan} 
+                onSelect={handleSelectPlan} 
+              />
+            </div>
+          ))}
+        </div>
+        
+        <div className="mt-8 text-center">
+          <p className="text-sm text-gray-600 mb-2">Internet de alta qualidade sem contratos longos</p>
+          <div className="flex justify-center gap-4 flex-wrap px-4">
+            <div className="bg-white px-4 py-2 rounded-md shadow-sm flex items-center gap-2">
+              <span className="text-pink-600 font-medium">Sem taxas ocultas</span>
+            </div>
+            <div className="bg-white px-4 py-2 rounded-md shadow-sm flex items-center gap-2">
+              <span className="text-pink-600 font-medium">Conexão estável</span>
+            </div>
+            <div className="bg-white px-4 py-2 rounded-md shadow-sm flex items-center gap-2">
+              <span className="text-pink-600 font-medium">Serviço completo</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
