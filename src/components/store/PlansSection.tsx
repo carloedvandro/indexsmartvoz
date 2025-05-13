@@ -4,6 +4,7 @@ import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Image from "@/components/ui/image";
+import { EasyPlanCard } from "./EasyPlanCard";
 
 const PLANS = [
   {
@@ -57,6 +58,15 @@ const PLANS = [
   },
 ];
 
+const EASY_PLAN = {
+  id: "easy-19",
+  name: "EASY",
+  gb: "19",
+  price: 45.00,
+  cashback: 10.00,
+  couponCode: "EASYAPP45"
+};
+
 interface PlansSectionProps {
   storeOwnerCustomId?: string;
 }
@@ -85,7 +95,24 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
       
       <div className="bg-gradient-to-r from-pink-50 to-fuchsia-50 py-8 rounded-xl">
         <div className="flex flex-wrap justify-center gap-6 mx-auto px-4 max-w-7xl">
-          {PLANS.map((plan) => (
+          {PLANS.slice(0, 3).map((plan) => (
+            <div key={plan.id} className="flex justify-center">
+              <PlanCard 
+                plan={plan} 
+                onSelect={handleSelectPlan} 
+              />
+            </div>
+          ))}
+          
+          {/* Easy Mobile Card */}
+          <div className="flex justify-center">
+            <EasyPlanCard 
+              plan={EASY_PLAN} 
+              onSelect={handleSelectPlan}
+            />
+          </div>
+          
+          {PLANS.slice(3).map((plan) => (
             <div key={plan.id} className="flex justify-center">
               <PlanCard 
                 plan={plan} 

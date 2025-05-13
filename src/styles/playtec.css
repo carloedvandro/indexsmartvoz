@@ -169,6 +169,13 @@
   padding: 1.5rem;
   position: relative;
   overflow: hidden;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  box-shadow: 0 10px 15px -3px rgba(255, 91, 174, 0.3);
+}
+
+.easy-plan-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(255, 91, 174, 0.4);
 }
 
 .easy-plan-title {
