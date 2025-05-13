@@ -34,43 +34,51 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
   // Get plan type based on data size for display
   const getPlanType = (gb: string) => {
     const value = parseInt(gb);
-    if (value <= 100) return "Economy Package";
-    if (value <= 120) return "Standard Package";
-    if (value <= 140) return "Premium Package";
-    return "Ultimate Package";
+    if (value <= 100) return "Oferta Prime";
+    if (value <= 120) return "Oferta Premium";
+    if (value <= 140) return "Oferta Ultra";
+    return "Oferta Master";
   };
 
   const planType = getPlanType(plan.gb);
   
   // Calculate appropriate colors based on plan type
   const getBgColor = () => {
-    if (plan.gb === "100GB") return "bg-gradient-to-b from-purple-600 to-purple-800";
-    if (plan.gb === "120GB") return "bg-gradient-to-b from-pink-500 to-pink-700";
-    if (plan.gb === "140GB") return "bg-gradient-to-b from-purple-700 to-purple-900";
-    return "bg-gradient-to-b from-purple-800 to-purple-950";
+    if (plan.gb === "100GB") return "bg-gradient-to-r from-pink-500 to-pink-400";
+    if (plan.gb === "120GB") return "bg-gradient-to-r from-purple-500 to-pink-500";
+    if (plan.gb === "140GB") return "bg-gradient-to-r from-fuchsia-600 to-pink-600";
+    return "bg-gradient-to-r from-fuchsia-700 to-pink-500";
   };
+
+  // Extract the GB number without the "GB" suffix for display
+  const gbNumber = plan.gb.replace("GB", "");
   
   return (
     <Card className={`plan-card flex flex-col overflow-hidden transition-all shadow-lg ${getBgColor()} text-white rounded-xl`}>
-      <CardHeader className="pb-1 pt-4 flex flex-col items-center justify-center text-center border-b border-white/10">
-        <div className="text-sm font-medium opacity-90">{planType}</div>
-        <div className="mt-2 mb-1 flex justify-center items-baseline w-full">
-          <span className="text-3xl font-bold mr-1">R$</span>
-          <span className="text-4xl font-bold">{plan.price.toFixed(2).split('.')[0]}</span>
-          <span className="text-xl">,{plan.price.toFixed(2).split('.')[1]}</span>
-          <span className="text-sm ml-1 opacity-80">/month</span>
+      <CardHeader className="pb-1 pt-4 flex flex-col items-start justify-start text-left border-b border-white/10">
+        <div className="text-sm font-medium opacity-90">
+          Plano 100% digital.<br/>
+          Fácil e flexível.<br/>
+          Com Gigas que não expiram.
+        </div>
+        <div className="mt-2 mb-1">
+          <div className="text-lg font-semibold">{planType}</div>
+          <div className="flex items-baseline">
+            <div className="text-5xl font-bold">{gbNumber}</div>
+            <div className="ml-1 text-lg">GIGAS</div>
+            <div className="ml-2 text-sm opacity-90">por mês</div>
+          </div>
+          <div className="flex items-baseline mt-2">
+            <div className="text-sm">R$</div>
+            <div className="text-4xl font-bold">{Math.floor(plan.price)}</div>
+            <div className="text-xl">,{(plan.price % 1).toFixed(2).substring(2)}</div>
+            <div className="text-sm ml-1">/mês</div>
+          </div>
         </div>
       </CardHeader>
       
       <CardContent className="flex-grow p-4 pt-4">
-        <div className="flex items-center justify-center mb-3">
-          <div className="text-xl font-bold text-center">
-            {plan.gb}
-            <span className="ml-1 opacity-80 text-base">Internet</span>
-          </div>
-        </div>
-        
-        <div className="space-y-2.5">
+        <div className="space-y-2">
           {filteredFeatures.map((feature, index) => (
             <div key={index} className="flex items-center gap-2">
               <span className="text-green-300">✓</span>
@@ -100,10 +108,15 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
       <CardFooter className="flex flex-col space-y-2 pt-0 pb-4 px-4">
         <Button
           onClick={() => onSelect(plan)}
-          className="w-full bg-white hover:bg-gray-100 text-purple-800 font-medium"
+          className="w-full bg-white hover:bg-gray-100 text-pink-600 font-medium"
         >
           Selecionar
         </Button>
+        {plan.isHighlighted && (
+          <div className="text-xs text-center w-full">
+            Use o cupom e aproveite: EASYAPP45
+          </div>
+        )}
       </CardFooter>
     </Card>
   );
