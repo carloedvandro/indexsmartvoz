@@ -17,7 +17,8 @@ const PLANS = [
       "Minutos: Ilimitados",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
-    ]
+    ],
+    cashback: 10.00
   },
   {
     id: "smartvoz-120",
@@ -29,7 +30,8 @@ const PLANS = [
       "Minutos: Ilimitados",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
-    ]
+    ],
+    cashback: 10.00
   },
   {
     id: "smartvoz-140",
@@ -42,7 +44,8 @@ const PLANS = [
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
     ],
-    isHighlighted: true
+    isHighlighted: true,
+    cashback: 10.00
   },
   {
     id: "smartvoz-160",
