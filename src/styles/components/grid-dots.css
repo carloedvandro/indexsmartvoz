@@ -1,0 +1,14 @@
+
+/* Grid dots styles */
+.grid-dots {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 0.5rem;
+}
+
+.grid-dots-item {
+  width: 0.25rem;
+  height: 0.25rem;
+  background-color: #ff0066;
+  border-radius: 50%;
+}

@@ -1,0 +1,29 @@
+
+/* Testimonial card styles */
+.testimonial-card {
+  position: relative;
+  background-color: #05052d;
+  border: 1px solid #ff0066;
+  border-radius: 0.75rem;
+  padding: 3rem;
+  margin-bottom: 4rem;
+}
+
+.testimonial-card::before,
+.testimonial-card::after {
+  content: '"';
+  position: absolute;
+  font-size: 4rem;
+  color: #ff0066;
+  opacity: 0.3;
+}
+
+.testimonial-card::before {
+  top: 1rem;
+  left: 2rem;
+}
+
+.testimonial-card::after {
+  bottom: 1rem;
+  right: 2rem;
+}

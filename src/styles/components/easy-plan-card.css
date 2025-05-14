@@ -1,0 +1,43 @@
+
+/* Easy mobile plan styles */
+.easy-plan-card {
+  background: linear-gradient(135deg, #ff5bae 0%, #f46b95 100%);
+  color: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  box-shadow: 0 10px 15px -3px rgba(255, 91, 174, 0.3);
+}
+
+.easy-plan-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(255, 91, 174, 0.4);
+}
+
+.easy-plan-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.easy-plan-data {
+  font-size: 2.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+
+.easy-plan-price {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0.75rem 0;
+}
+
+.easy-plan-cashback {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}

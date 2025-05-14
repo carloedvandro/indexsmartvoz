@@ -1,0 +1,83 @@
+
+/* Plan card styles */
+.plan-card {
+  width: 270px;
+  margin: 0;
+  height: 100%;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.plan-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsividade para mobile - largura maior nos dispositivos móveis */
+@media (max-width: 768px) {
+  .plan-card {
+    width: 360px;
+  }
+}
+
+.plan-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+}
+
+.plan-gb-text {
+  font-weight: 700;
+  font-size: 3.75rem;
+  line-height: 1;
+  color: #10FE00;
+  text-align: center;
+  width: 100%;
+}
+
+.plan-feature {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+/* Modern plan card styles */
+.plan-type-label {
+  font-size: 0.875rem;
+  opacity: 0.9;
+  margin-bottom: 0.25rem;
+}
+
+.plan-price-container {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.plan-price-currency {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.plan-price-amount {
+  font-size: 2.5rem;
+  font-weight: 800;
+}
+
+.plan-price-decimal {
+  font-size: 1.25rem;
+  opacity: 0.8;
+}
+
+.plan-price-period {
+  font-size: 0.875rem;
+  opacity: 0.7;
+  margin-left: 0.25rem;
+}
