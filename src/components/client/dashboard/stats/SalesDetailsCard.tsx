@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { formatCurrency } from "@/utils/format";
@@ -20,8 +19,8 @@ export function SalesDetailsCard() {
       name: "110GB", 
       fullName: "Smartvoz 110GB + Minutos ilimitados", 
       value: 21, // Odd percentage value for pie chart sizing
-      price: 119.99,
-      totalAmount: 265 * 119.99, // Total = sales count * price
+      price: 109.99,
+      totalAmount: 265 * 109.99, // Total = sales count * price
       percentage: 21, // Odd percentage
       salesCount: 265, // Actual number of sales 
       color: "#8a5cf6" // Bright purple
@@ -30,8 +29,8 @@ export function SalesDetailsCard() {
       name: "120GB", 
       fullName: "Smartvoz 120GB + Minutos ilimitados", 
       value: 28, // Even percentage
-      price: 129.99,
-      totalAmount: 348 * 129.99, // Total = sales count * price
+      price: 119.99,
+      totalAmount: 348 * 119.99, // Total = sales count * price
       percentage: 28, // Even percentage
       salesCount: 348, // Actual number of sales
       color: "#0cc7f0" // Bright cyan
@@ -40,8 +39,8 @@ export function SalesDetailsCard() {
       name: "130GB", 
       fullName: "Smartvoz 130GB + Minutos ilimitados", 
       value: 31, // Odd percentage
-      price: 139.99,
-      totalAmount: 401 * 139.99, // Total = sales count * price
+      price: 129.99,
+      totalAmount: 401 * 129.99, // Total = sales count * price
       percentage: 31, // Odd percentage
       salesCount: 401, // Actual number of sales
       color: "#0ea5e9" // Bright blue
@@ -50,8 +49,8 @@ export function SalesDetailsCard() {
       name: "140GB", 
       fullName: "Smartvoz 140GB + Minutos ilimitados", 
       value: 20, // Even percentage
-      price: 159.99,
-      totalAmount: 250 * 159.99, // Total = sales count * price
+      price: 139.99,
+      totalAmount: 250 * 139.99, // Total = sales count * price
       percentage: 20, // Even percentage
       salesCount: 250, // Actual number of sales
       color: "#3b82f6" // Medium blue
