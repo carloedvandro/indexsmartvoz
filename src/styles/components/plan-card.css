@@ -1,23 +1,36 @@
 
 /* Plan card styles */
 .plan-card {
-  width: 270px;
+  width: 280px;
   margin: 0;
   height: 100%;
-  border-radius: 12px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border-radius: 16px;
+  box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.plan-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.4), rgba(255,255,255,0.8), rgba(255,255,255,0.4));
+  z-index: 10;
 }
 
 .plan-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  transform: translateY(-8px);
+  box-shadow: 0 25px 35px -5px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsividade para mobile - largura maior nos dispositivos móveis */
 @media (max-width: 768px) {
   .plan-card {
-    width: 360px;
+    width: 340px;
   }
 }
 
@@ -28,24 +41,38 @@
   justify-content: center;
   width: 100%;
   text-align: center;
+  position: relative;
 }
 
 .plan-gb-text {
-  font-weight: 700;
-  font-size: 3.75rem;
+  font-weight: 800;
+  font-size: 4rem;
   line-height: 1;
-  color: #10FE00;
+  color: #ffffff;
   text-align: center;
   width: 100%;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .plan-feature {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   gap: 0.5rem;
-  text-align: center;
+  text-align: left;
+  padding: 0.5rem 0;
+  position: relative;
+}
+
+.plan-feature::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
 }
 
 /* Modern plan card styles */
@@ -53,12 +80,18 @@
   font-size: 0.875rem;
   opacity: 0.9;
   margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .plan-price-container {
   display: flex;
   align-items: baseline;
   justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  margin: 0.75rem 0;
 }
 
 .plan-price-currency {
@@ -67,8 +100,8 @@
 }
 
 .plan-price-amount {
-  font-size: 2.5rem;
-  font-weight: 800;
+  font-size: 2.75rem;
+  font-weight: 900;
 }
 
 .plan-price-decimal {
@@ -80,4 +113,37 @@
   font-size: 0.875rem;
   opacity: 0.7;
   margin-left: 0.25rem;
+}
+
+/* Button enhancements */
+.plan-card .plan-select-button {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.plan-card .plan-select-button:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.05);
+}
+
+.plan-card .plan-select-button:active {
+  transform: scale(0.98);
+}
+
+/* Add subtle pulse animation to highlighted card */
+@keyframes subtle-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+.plan-card[data-highlighted="true"] {
+  animation: subtle-pulse 2s infinite;
+  border: 2px solid rgba(255, 255, 255, 0.6);
 }

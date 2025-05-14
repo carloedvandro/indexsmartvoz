@@ -17,8 +17,8 @@ export function SalesDetailsCard() {
   // Data with both percentage values and sales counts - updated with odd and even percentages
   const pieData: PieDataItem[] = [
     { 
-      name: "100GB", 
-      fullName: "Smartvoz 100GB + Minutos ilimitados", 
+      name: "110GB", 
+      fullName: "Smartvoz 110GB + Minutos ilimitados", 
       value: 21, // Odd percentage value for pie chart sizing
       price: 119.99,
       totalAmount: 265 * 119.99, // Total = sales count * price

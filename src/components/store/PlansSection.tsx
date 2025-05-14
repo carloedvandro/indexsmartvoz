@@ -7,12 +7,12 @@ import Image from "@/components/ui/image";
 
 const PLANS = [
   {
-    id: "smartvoz-100",
+    id: "smartvoz-110",
     name: "SMARTVOZ",
-    gb: "100GB",
+    gb: "110GB",
     price: 45.00,
     features: [
-      "Smartvoz 100GB",
+      "Smartvoz 110GB",
       "Minutos: Ilimitados",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
