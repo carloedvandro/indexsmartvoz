@@ -33,12 +33,12 @@ const PLANS = [
     cashback: 10.00
   },
   {
-    id: "smartvoz-140",
+    id: "smartvoz-130",
     name: "SMARTVOZ",
-    gb: "140GB",
+    gb: "130GB",
     price: 65.00,
     features: [
-      "Smartvoz 140GB",
+      "Smartvoz 130GB",
       "Minutos: Ilimitados",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"
@@ -47,12 +47,12 @@ const PLANS = [
     cashback: 10.00
   },
   {
-    id: "smartvoz-160",
+    id: "smartvoz-140",
     name: "SMARTVOZ",
-    gb: "160GB",
+    gb: "140GB",
     price: 75.00,
     features: [
-      "Smartvoz 160GB",
+      "Smartvoz 140GB",
       "Minutos: Ilimitados",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"

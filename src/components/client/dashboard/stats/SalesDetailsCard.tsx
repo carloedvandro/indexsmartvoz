@@ -37,8 +37,8 @@ export function SalesDetailsCard() {
       color: "#0cc7f0" // Bright cyan
     },
     { 
-      name: "140GB", 
-      fullName: "Smartvoz 140GB + Minutos ilimitados", 
+      name: "130GB", 
+      fullName: "Smartvoz 130GB + Minutos ilimitados", 
       value: 31, // Odd percentage
       price: 139.99,
       totalAmount: 401 * 139.99, // Total = sales count * price
@@ -47,8 +47,8 @@ export function SalesDetailsCard() {
       color: "#0ea5e9" // Bright blue
     },
     { 
-      name: "160GB", 
-      fullName: "Smartvoz 160GB + Minutos ilimitados", 
+      name: "140GB", 
+      fullName: "Smartvoz 140GB + Minutos ilimitados", 
       value: 20, // Even percentage
       price: 159.99,
       totalAmount: 250 * 159.99, // Total = sales count * price
