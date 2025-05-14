@@ -69,6 +69,11 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
             <div className="ml-1 text-lg">GIGAS</div>
             <div className="ml-2 text-sm opacity-90">por mês</div>
           </div>
+          {plan.cashback && (
+            <div className="py-1 px-2 bg-pink-100 text-pink-600 rounded mt-2 inline-block font-medium text-sm">
+              + R${plan.cashback.toFixed(2).replace(".", ",")} CASHBACK
+            </div>
+          )}
           <div className="flex items-baseline mt-2">
             <div className="text-sm">R$</div>
             <div className="text-4xl font-bold">{Math.floor(plan.price)}</div>
@@ -116,11 +121,6 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
         {plan.isHighlighted && (
           <div className="text-xs text-center w-full">
             Use o cupom e aproveite: EASYAPP45
-          </div>
-        )}
-        {plan.cashback && (
-          <div className="text-xs text-center w-full bg-white/20 py-1 px-2 rounded-md font-medium">
-            + R${plan.cashback.toFixed(2).replace(".", ",")} CASHBACK
           </div>
         )}
       </CardFooter>
