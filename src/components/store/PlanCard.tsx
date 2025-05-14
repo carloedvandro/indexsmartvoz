@@ -72,7 +72,7 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
           {plan.cashback && (
             <div className="relative mt-2">
               <span className="absolute -left-4 top-1/2 -translate-y-1/2 text-white text-lg font-bold">+</span>
-              <span className="py-1 px-2 bg-white/20 text-white rounded inline-block font-medium text-sm ml-2">
+              <span className="py-1 px-2 bg-white/20 text-white rounded inline-block font-medium text-sm">
                 R${plan.cashback.toFixed(2).replace(".", ",")} CASHBACK
               </span>
             </div>

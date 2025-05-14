@@ -1,61 +1,82 @@
 
 import React from "react";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-type EasyPlanType = {
+type EasyPlan = {
   id: string;
   name: string;
   gb: string;
   price: number;
-  cashback: number;
-  couponCode: string;
+  cashback?: number;
+  couponCode?: string;
 };
 
 interface EasyPlanCardProps {
-  plan: EasyPlanType;
-  onSelect: (plan: EasyPlanType) => void;
+  plan: EasyPlan;
+  onSelect: (plan: EasyPlan) => void;
 }
 
 export function EasyPlanCard({ plan, onSelect }: EasyPlanCardProps) {
   return (
-    <div className="easy-plan-card h-full w-[270px] flex flex-col">
-      <div className="flex-grow p-5">
-        <div className="text-sm opacity-90">
-          Plano 100% digital.<br/>
-          Fácil e flexível.<br/>
-          Com Gigas que não expiram.
-        </div>
-        
-        <div className="mt-4 mb-2">
-          <div className="text-lg font-semibold">Oferta Prime</div>
-          <div className="flex items-baseline">
-            <div className="text-6xl font-bold">{plan.gb}</div>
-            <div className="ml-1 text-lg">GIGAS</div>
+    <div className="plan-card">
+      <Card className="easy-plan-card h-full border-none">
+        <div className="space-y-4">
+          <div>
+            <h3 className="easy-plan-title">EASY Mobile</h3>
+            <div className="easy-plan-data">
+              {plan.gb}<span className="text-base ml-1">GB</span>
+            </div>
+            <div className="text-sm opacity-80 mt-1">Plano 100% digital</div>
           </div>
-          <div className="flex items-center gap-2 my-2">
-            <div className="text-lg font-medium">+</div>
-            <div className="easy-plan-cashback">
-              R${plan.cashback.toFixed(2).replace(".", ",")} CASHBACK
+          
+          {plan.cashback && (
+            <div className="relative">
+              <span className="absolute -left-4 top-1/2 -translate-y-1/2 text-white text-lg font-bold">+</span>
+              <span className="py-1 px-2 bg-white/20 text-white rounded inline-block font-medium text-sm">
+                R${plan.cashback.toFixed(2).replace(".", ",")} CASHBACK
+              </span>
+            </div>
+          )}
+          
+          <div className="easy-plan-price">
+            R$ {plan.price.toFixed(2).replace(".", ",")}
+            <span className="text-sm opacity-80">/mês</span>
+          </div>
+          
+          <div className="space-y-1 text-sm">
+            <div className="flex items-center gap-2">
+              <span>✓</span>
+              <span>Minutos ilimitados</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span>✓</span>
+              <span>Chip eSIM ou Físico</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span>✓</span>
+              <span>Escolha seu DDD</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span>✓</span>
+              <span>Validade: 30 dias</span>
             </div>
           </div>
+          
+          <Button 
+            onClick={() => onSelect(plan)}
+            className="w-full bg-white text-pink-600 hover:bg-gray-100"
+          >
+            Selecionar
+          </Button>
+          
+          {plan.couponCode && (
+            <div className="text-xs text-center">
+              Use o cupom: {plan.couponCode}
+            </div>
+          )}
         </div>
-        
-        <div className="easy-plan-price">
-          R${plan.price.toFixed(2).replace(".", ",")}/mês
-        </div>
-      </div>
-      
-      <div className="p-4 pt-2">
-        <Button
-          onClick={() => onSelect(plan)}
-          className="w-full bg-white hover:bg-gray-100 text-pink-600 font-medium"
-        >
-          Selecionar
-        </Button>
-        <div className="text-xs text-center w-full mt-2">
-          Use o cupom e aproveite: {plan.couponCode}
-        </div>
-      </div>
+      </Card>
     </div>
   );
 }

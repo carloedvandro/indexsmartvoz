@@ -97,7 +97,7 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
         </p>
       </div>
       
-      <div className="bg-gradient-to-r from-pink-50 to-fuchsia-50 py-8 rounded-xl">
+      <div className="py-8 rounded-xl">
         <div className="flex flex-wrap justify-center gap-6 mx-auto px-4 max-w-7xl">
           {PLANS.slice(0, 3).map((plan) => (
             <div key={plan.id} className="flex justify-center">
