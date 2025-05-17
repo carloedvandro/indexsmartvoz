@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { formatCurrency } from "@/utils/format";
@@ -37,11 +36,11 @@ export function SalesDetailsCard() {
       color: "#0cc7f0" // Bright cyan
     },
     { 
-      name: "130GB", 
-      fullName: "Smartvoz 130GB + Minutos ilimitados", 
+      name: "400GB", 
+      fullName: "Smartvoz 400GB + Minutos ilimitados", 
       value: 31, // Odd percentage
-      price: 129.99,
-      totalAmount: 401 * 129.99, // Total = sales count * price
+      price: 244.99,
+      totalAmount: 401 * 244.99, // Total = sales count * price
       percentage: 31, // Odd percentage
       salesCount: 401, // Actual number of sales
       color: "#0ea5e9" // Bright blue
