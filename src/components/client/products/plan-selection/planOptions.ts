@@ -4,7 +4,6 @@ export const internetOptions = [
   { value: "110GB", label: "Smartvoz 110GB + Minutos ilimitados", price: 109.99 },
   { value: "120GB", label: "Smartvoz 120GB + Minutos ilimitados", price: 119.99 },
   { value: "130GB", label: "Smartvoz 130GB + Minutos ilimitados", price: 129.99 },
-  { value: "140GB", label: "Smartvoz 140GB + Minutos ilimitados", price: 139.99 },
   { value: "19GB", label: "Easy 19GB + Cashback R$10,00", price: 45.00 },
 ];
 
@@ -18,12 +17,9 @@ export const mapUrlPlanToInternet = (planIdFromUrl: string | null): { plan: stri
       return { plan: "120GB", price: 119.99 };
     case "smartvoz-130":
       return { plan: "130GB", price: 129.99 };
-    case "smartvoz-140":
-      return { plan: "140GB", price: 139.99 };
     case "easy-19":
       return { plan: "19GB", price: 45.00 };
     default:
       return null;
   }
 };
-

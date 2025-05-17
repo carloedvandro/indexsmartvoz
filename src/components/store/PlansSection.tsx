@@ -45,19 +45,6 @@ const PLANS = [
     isHighlighted: true,
     cashback: 10.00
   },
-  {
-    id: "smartvoz-140",
-    name: "SMARTVOZ",
-    gb: "140GB",
-    price: 139.99,
-    features: [
-      "Smartvoz 140GB",
-      "Minutos: Ilimitados",
-      "Chip eSIM ou Fisico Card",
-      "Escolha seu DDD"
-    ],
-    cashback: 10.00
-  },
 ];
 
 interface PlansSectionProps {
