@@ -1,3 +1,4 @@
+
 import React from "react";
 import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
@@ -6,12 +7,12 @@ import Image from "@/components/ui/image";
 
 const PLANS = [
   {
-    id: "smartvoz-110",
+    id: "smartvoz-100",
     name: "SMARTVOZ",
-    gb: "110GB",
-    price: 109.99,
+    gb: "100GB",
+    price: 99.99,
     features: [
-      "Smartvoz 110GB",
+      "Smartvoz 100GB",
       "Minutos: Ilimitados",
       "Chip eSIM ou Fisico Card",
       "Escolha seu DDD"

@@ -16,11 +16,11 @@ export function SalesDetailsCard() {
   // Data with both percentage values and sales counts - updated with odd and even percentages
   const pieData: PieDataItem[] = [
     { 
-      name: "110GB", 
-      fullName: "Smartvoz 110GB + Minutos ilimitados", 
+      name: "100GB", 
+      fullName: "Smartvoz 100GB + Minutos ilimitados", 
       value: 21, // Odd percentage value for pie chart sizing
-      price: 109.99,
-      totalAmount: 265 * 109.99, // Total = sales count * price
+      price: 99.99,
+      totalAmount: 265 * 99.99, // Total = sales count * price
       percentage: 21, // Odd percentage
       salesCount: 265, // Actual number of sales 
       color: "#8a5cf6" // Bright purple
@@ -46,11 +46,11 @@ export function SalesDetailsCard() {
       color: "#0ea5e9" // Bright blue
     },
     { 
-      name: "140GB", 
-      fullName: "Smartvoz 140GB + Minutos ilimitados", 
+      name: "19GB", 
+      fullName: "Easy 19GB + Cashback R$10,00", 
       value: 20, // Even percentage
-      price: 139.99,
-      totalAmount: 250 * 139.99, // Total = sales count * price
+      price: 45.00,
+      totalAmount: 250 * 45.00, // Total = sales count * price
       percentage: 20, // Even percentage
       salesCount: 250, // Actual number of sales
       color: "#3b82f6" // Medium blue
