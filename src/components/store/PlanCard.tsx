@@ -121,11 +121,6 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
         >
           Selecionar
         </Button>
-        {plan.isHighlighted && (
-          <div className="text-xs text-center w-full">
-            Use o cupom e aproveite: EASYAPP45
-          </div>
-        )}
       </CardFooter>
     </Card>
   );
