@@ -10,7 +10,7 @@ const PLANS = [
     id: "smartvoz-100",
     name: "SMARTVOZ",
     gb: "100GB",
-    price: 99.99,
+    price: 104.99,
     features: [
       "Smartvoz 100GB",
       "Minutos: Ilimitados",
@@ -23,7 +23,7 @@ const PLANS = [
     id: "smartvoz-120",
     name: "SMARTVOZ",
     gb: "120GB",
-    price: 119.99,
+    price: 124.99,
     features: [
       "Smartvoz 120GB",
       "Minutos: Ilimitados",

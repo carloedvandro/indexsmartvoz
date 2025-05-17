@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { formatCurrency } from "@/utils/format";
@@ -19,8 +20,8 @@ export function SalesDetailsCard() {
       name: "100GB", 
       fullName: "Smartvoz 100GB + Minutos ilimitados", 
       value: 21, // Odd percentage value for pie chart sizing
-      price: 99.99,
-      totalAmount: 265 * 99.99, // Total = sales count * price
+      price: 104.99,
+      totalAmount: 265 * 104.99, // Total = sales count * price
       percentage: 21, // Odd percentage
       salesCount: 265, // Actual number of sales 
       color: "#8a5cf6" // Bright purple
@@ -29,8 +30,8 @@ export function SalesDetailsCard() {
       name: "120GB", 
       fullName: "Smartvoz 120GB + Minutos ilimitados", 
       value: 28, // Even percentage
-      price: 119.99,
-      totalAmount: 348 * 119.99, // Total = sales count * price
+      price: 124.99,
+      totalAmount: 348 * 124.99, // Total = sales count * price
       percentage: 28, // Even percentage
       salesCount: 348, // Actual number of sales
       color: "#0cc7f0" // Bright cyan
