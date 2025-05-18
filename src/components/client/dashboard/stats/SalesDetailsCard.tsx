@@ -18,42 +18,32 @@ export function SalesDetailsCard() {
     { 
       name: "100GB", 
       fullName: "Smartvoz 100GB + Minutos ilimitados", 
-      value: 21, // Odd percentage value for pie chart sizing
+      value: 26, // Adjusted percentage value for pie chart sizing
       price: 104.99,
       totalAmount: 265 * 104.99, // Total = sales count * price
-      percentage: 21, // Odd percentage
+      percentage: 26, // Adjusted percentage
       salesCount: 265, // Actual number of sales 
       color: "#8a5cf6" // Bright purple
     },
     { 
       name: "120GB", 
       fullName: "Smartvoz 120GB + Minutos ilimitados", 
-      value: 28, // Even percentage
+      value: 34, // Adjusted percentage
       price: 124.99,
       totalAmount: 348 * 124.99, // Total = sales count * price
-      percentage: 28, // Even percentage
+      percentage: 34, // Adjusted percentage
       salesCount: 348, // Actual number of sales
       color: "#0cc7f0" // Bright cyan
     },
     { 
       name: "400GB", 
       fullName: "Smartvoz 400GB + Minutos ilimitados", 
-      value: 31, // Odd percentage
+      value: 40, // Adjusted percentage
       price: 244.99,
       totalAmount: 401 * 244.99, // Total = sales count * price
-      percentage: 31, // Odd percentage
+      percentage: 40, // Adjusted percentage
       salesCount: 401, // Actual number of sales
       color: "#0ea5e9" // Bright blue
-    },
-    { 
-      name: "19GB", 
-      fullName: "Easy 19GB + Cashback R$10,00", 
-      value: 20, // Even percentage
-      price: 45.00,
-      totalAmount: 250 * 45.00, // Total = sales count * price
-      percentage: 20, // Even percentage
-      salesCount: 250, // Actual number of sales
-      color: "#3b82f6" // Medium blue
     }
   ];
 
