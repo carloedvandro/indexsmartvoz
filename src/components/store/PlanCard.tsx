@@ -103,12 +103,12 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
       </CardContent>
       
       <CardFooter className="flex flex-col space-y-2 pt-0 pb-4 px-4">
-        <Button
+        <button
           onClick={() => onSelect(plan)}
-          className="w-full bg-white hover:bg-gray-100 text-pink-600 font-medium"
+          className="w-full py-2.5 rounded-md bg-pink-600 hover:bg-pink-700 text-white font-medium transition-all"
         >
           Selecionar
-        </Button>
+        </button>
       </CardFooter>
     </Card>
   );

@@ -115,25 +115,28 @@
   margin-left: 0.25rem;
 }
 
-/* Button enhancements */
-.plan-card .plan-select-button {
-  background: rgba(255, 255, 255, 0.9);
+/* Button enhancements - updated to match "Recarregue" button style */
+.plan-card button {
+  background: #d51152;
   border: none;
-  border-radius: 12px;
-  font-weight: 700;
+  border-radius: 6px;
+  font-weight: 600;
   padding: 0.75rem 1.5rem;
   transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.plan-card .plan-select-button:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: scale(1.05);
+.plan-card button:hover {
+  background: #c00d48;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-.plan-card .plan-select-button:active {
-  transform: scale(0.98);
+.plan-card button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 /* Add subtle pulse animation to highlighted card */

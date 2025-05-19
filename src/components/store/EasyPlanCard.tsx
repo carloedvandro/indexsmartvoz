@@ -63,12 +63,12 @@ export function EasyPlanCard({ plan, onSelect }: EasyPlanCardProps) {
             </div>
           </div>
           
-          <Button 
+          <button 
             onClick={() => onSelect(plan)}
-            className="w-full bg-white text-pink-600 hover:bg-gray-100"
+            className="w-full py-2.5 rounded-md bg-pink-600 hover:bg-pink-700 text-white font-medium transition-all"
           >
             Selecionar
-          </Button>
+          </button>
           
           {plan.couponCode && (
             <div className="text-xs text-center">
