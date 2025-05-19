@@ -99,18 +99,6 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
             <span className="text-green-300">✓</span>
             <span className="text-sm">Validade: 30 Dias</span>
           </div>
-          
-          <div className="flex items-center gap-2">
-            <span className="text-green-300">✓</span>
-            <span className="text-sm">Conexão estável</span>
-          </div>
-          
-          {parseInt(plan.gb) >= 140 && (
-            <div className="flex items-center gap-2">
-              <span className="text-green-300">✓</span>
-              <span className="text-sm">Suporte prioritário</span>
-            </div>
-          )}
         </div>
       </CardContent>
       

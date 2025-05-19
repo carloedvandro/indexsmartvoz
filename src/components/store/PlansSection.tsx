@@ -93,9 +93,6 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
               <span className="text-pink-600 font-medium">Sem taxas ocultas</span>
             </div>
             <div className="bg-white px-4 py-2 rounded-md shadow-sm flex items-center gap-2">
-              <span className="text-pink-600 font-medium">Conexão estável</span>
-            </div>
-            <div className="bg-white px-4 py-2 rounded-md shadow-sm flex items-center gap-2">
               <span className="text-pink-600 font-medium">Serviço completo</span>
             </div>
           </div>
