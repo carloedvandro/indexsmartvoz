@@ -36,7 +36,7 @@ export function SalesDetailsCard() {
       percentage: 34, // Adjusted percentage
       salesCount: 348, // Actual number of sales
       color: "#0cc7f0", // Bright cyan
-      cashback: 60.00 // Updated cashback value
+      cashback: 50.00 // Updated cashback value
     },
     { 
       name: "400GB", 
@@ -47,7 +47,7 @@ export function SalesDetailsCard() {
       percentage: 40, // Adjusted percentage
       salesCount: 401, // Actual number of sales
       color: "#0ea5e9", // Bright blue
-      cashback: 80.00 // Updated cashback value
+      cashback: 100.00 // Updated cashback value
     }
   ];
 

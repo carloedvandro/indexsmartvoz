@@ -8,6 +8,7 @@ export interface PieDataItem {
   percentage: number;
   salesCount: number;
   color: string;
+  cashback?: number;
 }
 
 export interface TooltipData {
