@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { formatCurrency } from "@/utils/format";
@@ -23,7 +24,8 @@ export function SalesDetailsCard() {
       totalAmount: 265 * 104.99, // Total = sales count * price
       percentage: 26, // Adjusted percentage
       salesCount: 265, // Actual number of sales 
-      color: "#8a5cf6" // Bright purple
+      color: "#8a5cf6", // Bright purple
+      cashback: 40.00 // Updated cashback value
     },
     { 
       name: "120GB", 
@@ -33,7 +35,8 @@ export function SalesDetailsCard() {
       totalAmount: 348 * 124.99, // Total = sales count * price
       percentage: 34, // Adjusted percentage
       salesCount: 348, // Actual number of sales
-      color: "#0cc7f0" // Bright cyan
+      color: "#0cc7f0", // Bright cyan
+      cashback: 60.00 // Updated cashback value
     },
     { 
       name: "400GB", 
@@ -43,7 +46,8 @@ export function SalesDetailsCard() {
       totalAmount: 401 * 244.99, // Total = sales count * price
       percentage: 40, // Adjusted percentage
       salesCount: 401, // Actual number of sales
-      color: "#0ea5e9" // Bright blue
+      color: "#0ea5e9", // Bright blue
+      cashback: 80.00 // Updated cashback value
     }
   ];
 
