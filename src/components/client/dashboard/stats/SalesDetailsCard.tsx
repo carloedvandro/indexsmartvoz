@@ -17,8 +17,8 @@ export function SalesDetailsCard() {
   // Data with both percentage values and sales counts - updated with odd and even percentages
   const pieData: PieDataItem[] = [
     { 
-      name: "100GB", 
-      fullName: "Smartvoz 100GB + Minutos ilimitados", 
+      name: "80GB", 
+      fullName: "Smartvoz 80GB + Minutos ilimitados", 
       value: 26, // Adjusted percentage value for pie chart sizing
       price: 104.99,
       totalAmount: 265 * 104.99, // Total = sales count * price
@@ -28,8 +28,8 @@ export function SalesDetailsCard() {
       cashback: 40.00 // Updated cashback value
     },
     { 
-      name: "120GB", 
-      fullName: "Smartvoz 120GB + Minutos ilimitados", 
+      name: "100GB", 
+      fullName: "Smartvoz 100GB + Minutos ilimitados", 
       value: 34, // Adjusted percentage
       price: 124.99,
       totalAmount: 348 * 124.99, // Total = sales count * price
@@ -39,15 +39,26 @@ export function SalesDetailsCard() {
       cashback: 50.00 // Updated cashback value
     },
     { 
-      name: "400GB", 
-      fullName: "Smartvoz 400GB + Minutos ilimitados", 
-      value: 40, // Adjusted percentage
+      name: "120GB", 
+      fullName: "Smartvoz 120GB + Minutos ilimitados", 
+      value: 25, // Adjusted percentage
       price: 244.99,
-      totalAmount: 401 * 244.99, // Total = sales count * price
-      percentage: 40, // Adjusted percentage
-      salesCount: 401, // Actual number of sales
+      totalAmount: 254 * 244.99, // Total = sales count * price
+      percentage: 25, // Adjusted percentage
+      salesCount: 254, // Actual number of sales
       color: "#0ea5e9", // Bright blue
       cashback: 100.00 // Updated cashback value
+    },
+    { 
+      name: "140GB", 
+      fullName: "Smartvoz Gold 140GB + Minutos ilimitados", 
+      value: 15, // Adjusted percentage
+      price: 299.99,
+      totalAmount: 147 * 299.99, // Total = sales count * price
+      percentage: 15, // Adjusted percentage
+      salesCount: 147, // Actual number of sales
+      color: "#eab308", // Gold
+      cashback: 120.00 // Updated cashback value
     }
   ];
 

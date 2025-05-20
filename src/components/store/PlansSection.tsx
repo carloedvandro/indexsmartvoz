@@ -7,12 +7,12 @@ import Image from "@/components/ui/image";
 
 const PLANS = [
   {
-    id: "smartvoz-100",
+    id: "smartvoz-80",
     name: "SMARTVOZ",
-    gb: "100GB",
+    gb: "80GB",
     price: 104.99,
     features: [
-      "Smartvoz 100GB",
+      "Smartvoz 80GB",
       "Minutos: Ilimitados",
       "Chip eSIM ou Sim Card Fisico",
       "Escolha seu DDD"
@@ -20,12 +20,12 @@ const PLANS = [
     cashback: 40.00
   },
   {
-    id: "smartvoz-120",
+    id: "smartvoz-100",
     name: "SMARTVOZ",
-    gb: "120GB",
+    gb: "100GB",
     price: 124.99,
     features: [
-      "Smartvoz 120GB",
+      "Smartvoz 100GB",
       "Minutos: Ilimitados",
       "Chip eSIM ou Sim Card Fisico",
       "Escolha seu DDD"
@@ -33,18 +33,31 @@ const PLANS = [
     cashback: 50.00
   },
   {
-    id: "smartvoz-400",
+    id: "smartvoz-120",
     name: "SMARTVOZ",
-    gb: "400GB",
+    gb: "120GB",
     price: 244.99,
     features: [
-      "Smartvoz 400GB",
+      "Smartvoz 120GB",
       "Minutos: Ilimitados",
       "Chip eSIM ou Sim Card Fisico",
       "Escolha seu DDD"
     ],
     isHighlighted: true,
     cashback: 100.00
+  },
+  {
+    id: "smartvoz-140",
+    name: "SMARTVOZ GOLD",
+    gb: "140GB",
+    price: 299.99,
+    features: [
+      "Smartvoz 140GB",
+      "Minutos: Ilimitados",
+      "Chip eSIM ou Sim Card Fisico",
+      "Escolha seu DDD"
+    ],
+    cashback: 120.00
   },
 ];
 
