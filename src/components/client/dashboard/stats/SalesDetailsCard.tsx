@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { formatCurrency } from "@/utils/format";
@@ -20,8 +19,8 @@ export function SalesDetailsCard() {
       name: "80GB", 
       fullName: "Smartvoz 80GB + Minutos ilimitados", 
       value: 26, // Adjusted percentage value for pie chart sizing
-      price: 104.99,
-      totalAmount: 265 * 104.99, // Total = sales count * price
+      price: 84.99,
+      totalAmount: 265 * 84.99, // Total = sales count * price
       percentage: 26, // Adjusted percentage
       salesCount: 265, // Actual number of sales 
       color: "#8a5cf6", // Bright purple
@@ -31,8 +30,8 @@ export function SalesDetailsCard() {
       name: "100GB", 
       fullName: "Smartvoz 100GB + Minutos ilimitados", 
       value: 34, // Adjusted percentage
-      price: 124.99,
-      totalAmount: 348 * 124.99, // Total = sales count * price
+      price: 104.99,
+      totalAmount: 348 * 104.99, // Total = sales count * price
       percentage: 34, // Adjusted percentage
       salesCount: 348, // Actual number of sales
       color: "#0cc7f0", // Bright cyan
@@ -42,8 +41,8 @@ export function SalesDetailsCard() {
       name: "120GB", 
       fullName: "Smartvoz 120GB + Minutos ilimitados", 
       value: 25, // Adjusted percentage
-      price: 244.99,
-      totalAmount: 254 * 244.99, // Total = sales count * price
+      price: 124.99,
+      totalAmount: 254 * 124.99, // Total = sales count * price
       percentage: 25, // Adjusted percentage
       salesCount: 254, // Actual number of sales
       color: "#0ea5e9", // Bright blue
@@ -53,8 +52,8 @@ export function SalesDetailsCard() {
       name: "140GB", 
       fullName: "Smartvoz Gold 140GB + Minutos ilimitados", 
       value: 15, // Adjusted percentage
-      price: 299.99,
-      totalAmount: 147 * 299.99, // Total = sales count * price
+      price: 144.99,
+      totalAmount: 147 * 144.99, // Total = sales count * price
       percentage: 15, // Adjusted percentage
       salesCount: 147, // Actual number of sales
       color: "#eab308", // Gold
