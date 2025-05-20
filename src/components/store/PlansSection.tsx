@@ -1,3 +1,4 @@
+
 import React from "react";
 import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +17,7 @@ const PLANS = [
       "Chip eSIM ou Sim Card Fisico",
       "Escolha seu DDD"
     ],
-    cashback: 40.00
+    cashback: 30.00
   },
   {
     id: "smartvoz-100",
@@ -29,7 +30,7 @@ const PLANS = [
       "Chip eSIM ou Sim Card Fisico",
       "Escolha seu DDD"
     ],
-    cashback: 50.00
+    cashback: 40.00
   },
   {
     id: "smartvoz-120",
@@ -43,7 +44,7 @@ const PLANS = [
       "Escolha seu DDD"
     ],
     isHighlighted: true,
-    cashback: 100.00
+    cashback: 50.00
   },
   {
     id: "smartvoz-140",
@@ -56,7 +57,7 @@ const PLANS = [
       "Chip eSIM ou Sim Card Fisico",
       "Escolha seu DDD"
     ],
-    cashback: 120.00
+    cashback: 60.00
   },
 ];
 

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { formatCurrency } from "@/utils/format";
@@ -24,7 +25,7 @@ export function SalesDetailsCard() {
       percentage: 26, // Adjusted percentage
       salesCount: 265, // Actual number of sales 
       color: "#8a5cf6", // Bright purple
-      cashback: 40.00 // Updated cashback value
+      cashback: 30.00 // Updated cashback value
     },
     { 
       name: "100GB", 
@@ -35,7 +36,7 @@ export function SalesDetailsCard() {
       percentage: 34, // Adjusted percentage
       salesCount: 348, // Actual number of sales
       color: "#0cc7f0", // Bright cyan
-      cashback: 50.00 // Updated cashback value
+      cashback: 40.00 // Updated cashback value
     },
     { 
       name: "120GB", 
@@ -46,7 +47,7 @@ export function SalesDetailsCard() {
       percentage: 25, // Adjusted percentage
       salesCount: 254, // Actual number of sales
       color: "#0ea5e9", // Bright blue
-      cashback: 100.00 // Updated cashback value
+      cashback: 50.00 // Updated cashback value
     },
     { 
       name: "140GB", 
@@ -57,7 +58,7 @@ export function SalesDetailsCard() {
       percentage: 15, // Adjusted percentage
       salesCount: 147, // Actual number of sales
       color: "#eab308", // Gold
-      cashback: 120.00 // Updated cashback value
+      cashback: 60.00 // Updated cashback value
     }
   ];
 
