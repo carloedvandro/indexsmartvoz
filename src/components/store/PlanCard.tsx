@@ -108,7 +108,7 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
           onClick={() => onSelect(plan)}
           className="w-full py-2.5 rounded-md bg-pink-600 hover:bg-pink-700 text-white font-medium transition-all"
         >
-          Selecionar
+          Recarregue
         </button>
       </CardFooter>
     </Card>
