@@ -37,13 +37,61 @@ export function PlanSelectionStep({
   
   // Set initial plan based on URL parameter if present
   useEffect(() => {
-    if (planIdFromUrl && !selectedInternet) {
+    if (planIdFromUrl) {
       const mappedPlan = mapUrlPlanToInternet(planIdFromUrl);
       if (mappedPlan) {
         setSelectedInternet(mappedPlan.plan);
+        
+        // Auto-set a default DDD if we have a plan from the URL
+        if (!selectedDDD) {
+          setSelectedDDD("11"); // Default to São Paulo DDD
+        }
+        
+        // Auto-select a default due date if we have a plan from the URL
+        if (!selectedDueDate) {
+          setSelectedDueDate(10); // Default to day 10
+        }
+        
+        // If we have all the required data and coming from a direct plan selection,
+        // automatically continue to the next step after a short delay
+        if (planIdFromUrl) {
+          const timer = setTimeout(() => {
+            const linePrice = mappedPlan.price;
+            
+            // Update selectedLines
+            if (selectedLines.length === 0) {
+              setSelectedLines([{
+                id: 1,
+                internet: mappedPlan.plan,
+                ddd: "11", // Default DDD
+                price: linePrice,
+                type: 'chip'
+              }]);
+            } else {
+              const updatedLines = [...selectedLines];
+              updatedLines[0] = {
+                ...updatedLines[0],
+                internet: mappedPlan.plan,
+                ddd: "11", // Default DDD
+                price: linePrice
+              };
+              setSelectedLines(updatedLines);
+            }
+            
+            // Continue to next step
+            onContinue({
+              internet: mappedPlan.plan,
+              ddd: "11", // Default DDD
+              dueDate: 10, // Default due date
+              price: linePrice
+            });
+          }, 500); // Short delay to allow state to update
+          
+          return () => clearTimeout(timer);
+        }
       }
     }
-  }, [planIdFromUrl, selectedInternet]);
+  }, [planIdFromUrl]);
 
   // Initialize selectedInternet and selectedDDD from selectedLines if available
   useEffect(() => {

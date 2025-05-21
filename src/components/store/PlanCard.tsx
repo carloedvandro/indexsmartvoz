@@ -55,6 +55,10 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
   // Extract the GB number without the "GB" suffix for display
   const gbNumber = plan.gb.replace("GB", "");
   
+  const handleClick = () => {
+    onSelect(plan);
+  };
+  
   return (
     <Card className={`plan-card flex flex-col overflow-hidden transition-all shadow-lg ${getBgColor()} text-white rounded-xl`}>
       <CardHeader className="pb-1 pt-4 flex flex-col items-start justify-start text-left border-b border-white/10">
@@ -105,7 +109,7 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
       
       <CardFooter className="flex flex-col space-y-2 pt-0 pb-4 px-4">
         <button
-          onClick={() => onSelect(plan)}
+          onClick={handleClick}
           className="w-full py-2.5 rounded-md bg-pink-600 hover:bg-pink-700 text-white font-medium transition-all"
         >
           Recarregue

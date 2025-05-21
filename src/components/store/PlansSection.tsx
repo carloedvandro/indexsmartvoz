@@ -1,3 +1,4 @@
+
 import React from "react";
 import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
@@ -68,10 +69,11 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
   const navigate = useNavigate();
 
   const handleSelectPlan = (plan: any) => {
+    // Navigate directly to the products page with the plan selected
     if (storeOwnerCustomId) {
-      navigate(`/client/register?sponsor=${storeOwnerCustomId}&plan=${plan.id}`);
+      navigate(`/client/products?sponsor=${storeOwnerCustomId}&plan=${plan.id}`);
     } else {
-      navigate(`/client/register?plan=${plan.id}`);
+      navigate(`/client/products?plan=${plan.id}`);
     }
   };
 
