@@ -7,6 +7,7 @@ import { NavigationButtons } from "@/components/client/products/NavigationButton
 import { PlanSelectionHeader } from "@/components/client/products/plan-selection/PlanSelectionHeader";
 import { PlanSelectionForm } from "@/components/client/products/plan-selection/PlanSelectionForm";
 import { internetOptions, mapUrlPlanToInternet } from "@/components/client/products/plan-selection/planOptions";
+import { useToast } from "@/hooks/use-toast";
 
 interface PlanSelectionStepProps {
   onBack: () => void;
@@ -34,6 +35,7 @@ export function PlanSelectionStep({
   const [selectedDDD, setSelectedDDD] = useState<string>("");
   const [searchParams] = useSearchParams();
   const planIdFromUrl = searchParams.get('plan');
+  const { toast } = useToast();
   
   // Set initial plan based on URL parameter if present
   useEffect(() => {
@@ -43,55 +45,34 @@ export function PlanSelectionStep({
         setSelectedInternet(mappedPlan.plan);
         
         // Auto-set a default DDD if we have a plan from the URL
-        if (!selectedDDD) {
-          setSelectedDDD("11"); // Default to São Paulo DDD
-        }
+        setSelectedDDD("11"); // Default to São Paulo DDD
         
         // Auto-select a default due date if we have a plan from the URL
-        if (!selectedDueDate) {
-          setSelectedDueDate(10); // Default to day 10
-        }
+        setSelectedDueDate(10); // Default to day 10
         
-        // If we have all the required data and coming from a direct plan selection,
-        // automatically continue to the next step after a short delay
-        if (planIdFromUrl) {
-          const timer = setTimeout(() => {
-            const linePrice = mappedPlan.price;
-            
-            // Update selectedLines
-            if (selectedLines.length === 0) {
-              setSelectedLines([{
-                id: 1,
-                internet: mappedPlan.plan,
-                ddd: "11", // Default DDD
-                price: linePrice,
-                type: 'chip'
-              }]);
-            } else {
-              const updatedLines = [...selectedLines];
-              updatedLines[0] = {
-                ...updatedLines[0],
-                internet: mappedPlan.plan,
-                ddd: "11", // Default DDD
-                price: linePrice
-              };
-              setSelectedLines(updatedLines);
-            }
-            
-            // Continue to next step
-            onContinue({
-              internet: mappedPlan.plan,
-              ddd: "11", // Default DDD
-              dueDate: 10, // Default due date
-              price: linePrice
-            });
-          }, 500); // Short delay to allow state to update
-          
-          return () => clearTimeout(timer);
+        // Update selectedLines with the selected plan information
+        const linePrice = mappedPlan.price;
+        if (selectedLines.length === 0) {
+          setSelectedLines([{
+            id: 1,
+            internet: mappedPlan.plan,
+            ddd: "11", // Default DDD
+            price: linePrice,
+            type: 'chip'
+          }]);
+        } else {
+          const updatedLines = [...selectedLines];
+          updatedLines[0] = {
+            ...updatedLines[0],
+            internet: mappedPlan.plan,
+            ddd: "11", // Default DDD
+            price: linePrice
+          };
+          setSelectedLines(updatedLines);
         }
       }
     }
-  }, [planIdFromUrl]);
+  }, [planIdFromUrl, setSelectedDueDate, setSelectedLines]);
 
   // Initialize selectedInternet and selectedDDD from selectedLines if available
   useEffect(() => {
@@ -108,6 +89,25 @@ export function PlanSelectionStep({
 
   const handleContinue = () => {
     if (!selectedInternet || !selectedDDD || !selectedDueDate) {
+      if (!selectedInternet) {
+        toast({
+          title: "Campo obrigatório",
+          description: "Por favor, selecione um plano de internet antes de continuar",
+          variant: "destructive",
+        });
+      } else if (!selectedDDD) {
+        toast({
+          title: "Campo obrigatório",
+          description: "Por favor, preencha o DDD antes de continuar",
+          variant: "destructive",
+        });
+      } else if (!selectedDueDate) {
+        toast({
+          title: "Erro",
+          description: "Selecione uma data de vencimento para continuar",
+          variant: "destructive",
+        });
+      }
       return;
     }
 

@@ -20,7 +20,11 @@ export function useStepValidator({
 
   const validateAndContinue = () => {
     if (currentStep === 1) {
-      if (!selectedLines[0]?.internet) {
+      // Verificar se as informações já estão preenchidas
+      const hasInternetSelected = selectedLines[0]?.internet;
+      const hasDDDSelected = selectedLines[0]?.ddd;
+      
+      if (!hasInternetSelected) {
         toast({
           title: "Campo obrigatório",
           description: "Por favor, selecione um plano de internet antes de continuar",
@@ -29,7 +33,7 @@ export function useStepValidator({
         return;
       }
       
-      if (!selectedLines[0]?.ddd) {
+      if (!hasDDDSelected) {
         toast({
           title: "Campo obrigatório",
           description: "Por favor, preencha o DDD antes de continuar",
@@ -37,6 +41,7 @@ export function useStepValidator({
         });
         return;
       }
+      
       if (!selectedDueDate) {
         toast({
           title: "Erro",
