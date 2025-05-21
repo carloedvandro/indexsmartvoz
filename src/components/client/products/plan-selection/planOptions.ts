@@ -3,7 +3,7 @@ export const internetOptions = [
   { value: "80GB", label: "Smartvoz 80GB + Minutos ilimitados", price: 84.99 },
   { value: "100GB", label: "Smartvoz 100GB + Minutos ilimitados", price: 104.99 },
   { value: "120GB", label: "Smartvoz 120GB + Minutos ilimitados", price: 124.99 },
-  { value: "140GB", label: "Smartvoz Gold 140GB + Minutos ilimitados", price: 144.99 },
+  { value: "140GB", label: "Smartvoz 140GB + Minutos ilimitados", price: 144.99 },
 ];
 
 export const mapUrlPlanToInternet = (planIdFromUrl: string | null): { plan: string, price: number } | null => {

@@ -51,7 +51,7 @@ export function SalesDetailsCard() {
     },
     { 
       name: "140GB", 
-      fullName: "Smartvoz Gold 140GB + Minutos ilimitados", 
+      fullName: "Smartvoz 140GB + Minutos ilimitados", 
       value: 15, // Adjusted percentage
       price: 144.99,
       totalAmount: 147 * 144.99, // Total = sales count * price
