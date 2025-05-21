@@ -1,12 +1,37 @@
 
 import { motion } from 'framer-motion';
+import { useProfile } from "@/hooks/useProfile";
+import { useNetworkStats } from "@/hooks/useNetworkStats";
 
 export const NetworkStatsGrid = () => {
+  const { data: profile } = useProfile();
+  const { data: networkStats } = useNetworkStats(profile?.id);
+
   const levels = [
-    { title: 'Nível 1', value: 1, color: '#FF6B6B', description: 'Indicados Diretos' },
-    { title: 'Nível 2', value: 3, color: '#4ADE80', description: 'Indicados Indiretos' },
-    { title: 'Nível 3', value: 1, color: '#8B5CF6', description: 'Indicados Indiretos' },
-    { title: 'Nível 4', value: 1, color: '#FF9F1C', description: 'Indicados Indiretos' }
+    { 
+      title: 'Nível 1', 
+      value: networkStats?.level1Count || 0, 
+      color: '#FF6B6B', 
+      description: 'Indicados Diretos' 
+    },
+    { 
+      title: 'Nível 2', 
+      value: networkStats?.level2Count || 0, 
+      color: '#4ADE80', 
+      description: 'Indicados Indiretos' 
+    },
+    { 
+      title: 'Nível 3', 
+      value: networkStats?.level3Count || 0, 
+      color: '#8B5CF6', 
+      description: 'Indicados Indiretos' 
+    },
+    { 
+      title: 'Nível 4', 
+      value: networkStats?.level4Count || 0, 
+      color: '#FF9F1C', 
+      description: 'Indicados Indiretos' 
+    }
   ];
 
   return (

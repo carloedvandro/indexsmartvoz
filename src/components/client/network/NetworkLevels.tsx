@@ -1,37 +1,54 @@
-import { useSearchParams } from "react-router-dom";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 
-export function NetworkLevels() {
-  const [searchParams, setSearchParams] = useSearchParams();
+import React from "react";
+import { ChevronDown } from "lucide-react";
 
+interface NetworkLevelsProps {
+  level: string;
+  onChange: (level: string) => void;
+}
+
+export const NetworkLevels: React.FC<NetworkLevelsProps> = ({ level, onChange }) => {
   const levels = [
-    { title: "1° Nível", value: "1" },
-    { title: "2° Nível", value: "2" },
-    { title: "3° Nível", value: "3" },
-    { title: "4° Nível", value: "4" },
+    { value: "all", label: "Todos os Níveis" },
+    { value: "1", label: "Nível 1" },
+    { value: "2", label: "Nível 2" },
+    { value: "3", label: "Nível 3" },
+    { value: "4", label: "Nível 4" }
+    // Removido níveis acima de 4
   ];
 
-  const currentLevel = searchParams.get("level") || "1";
+  const [isOpen, setIsOpen] = React.useState(false);
 
-  const handleLevelClick = (level: string) => {
-    setSearchParams({ level });
-  };
+  const selectedLabel = levels.find((l) => l.value === level)?.label || "Todos os Níveis";
 
   return (
-    <Card className="p-4 mb-6">
-      <div className="flex flex-col gap-2">
-        {levels.map((level) => (
-          <Button
-            key={level.value}
-            variant={currentLevel === level.value ? "default" : "outline"}
-            className="w-full justify-start"
-            onClick={() => handleLevelClick(level.value)}
-          >
-            {level.title}
-          </Button>
-        ))}
-      </div>
-    </Card>
+    <div className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="bg-white w-full flex items-center justify-between px-4 py-2 border rounded-md"
+      >
+        <span>{selectedLabel}</span>
+        <ChevronDown className="h-4 w-4" />
+      </button>
+
+      {isOpen && (
+        <div className="absolute z-10 mt-1 w-full bg-white border rounded-md shadow-lg">
+          {levels.map((l) => (
+            <button
+              key={l.value}
+              className={`w-full text-left px-4 py-2 hover:bg-gray-100 ${
+                l.value === level ? "bg-gray-100" : ""
+              }`}
+              onClick={() => {
+                onChange(l.value);
+                setIsOpen(false);
+              }}
+            >
+              {l.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   );
-}
+};
