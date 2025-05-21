@@ -17,12 +17,21 @@ export function NavigationButtons({
 }: NavigationButtonsProps) {
   const navigate = useNavigate();
 
+  // Always use the provided handler for back navigation
+  const handleBackNavigation = () => {
+    if (currentStep === 1) {
+      navigate("/client/dashboard");
+    } else {
+      handleBack();
+    }
+  };
+
   return (
     <div className="flex justify-between gap-4 mt-6 max-w-[340px] mx-auto w-full">
       <Button 
         variant="outline"
         className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1"
-        onClick={() => currentStep === 1 ? navigate("/client/dashboard") : handleBack()}
+        onClick={handleBackNavigation}
       >
         Voltar
       </Button>

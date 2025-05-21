@@ -37,18 +37,22 @@ export function PlanSelectionStep({
   const planIdFromUrl = searchParams.get('plan');
   const { toast } = useToast();
   
-  // Set initial plan based on URL parameter if present
+  // Set initial plan based on URL parameter if present and no plan is already selected
   useEffect(() => {
-    if (planIdFromUrl) {
+    if (planIdFromUrl && !selectedInternet) {
       const mappedPlan = mapUrlPlanToInternet(planIdFromUrl);
       if (mappedPlan) {
         setSelectedInternet(mappedPlan.plan);
         
-        // Auto-set a default DDD if we have a plan from the URL
-        setSelectedDDD("11"); // Default to São Paulo DDD
+        // Auto-set a default DDD if we have a plan from the URL and no DDD is already selected
+        if (!selectedDDD) {
+          setSelectedDDD("11"); // Default to São Paulo DDD
+        }
         
-        // Auto-select a default due date if we have a plan from the URL
-        setSelectedDueDate(10); // Default to day 10
+        // Auto-select a default due date if we have a plan from the URL and no due date is already selected
+        if (!selectedDueDate) {
+          setSelectedDueDate(10); // Default to day 10
+        }
         
         // Update selectedLines with the selected plan information
         const linePrice = mappedPlan.price;
@@ -56,7 +60,7 @@ export function PlanSelectionStep({
           setSelectedLines([{
             id: 1,
             internet: mappedPlan.plan,
-            ddd: "11", // Default DDD
+            ddd: selectedDDD || "11", // Default DDD
             price: linePrice,
             type: 'chip'
           }]);
@@ -65,23 +69,48 @@ export function PlanSelectionStep({
           updatedLines[0] = {
             ...updatedLines[0],
             internet: mappedPlan.plan,
-            ddd: "11", // Default DDD
+            ddd: selectedDDD || "11", // Default DDD
             price: linePrice
           };
           setSelectedLines(updatedLines);
         }
       }
     }
-  }, [planIdFromUrl, setSelectedDueDate, setSelectedLines]);
+  }, [planIdFromUrl, selectedDueDate, setSelectedDueDate, selectedDDD, selectedInternet, selectedLines, setSelectedLines]);
 
   // Initialize selectedInternet and selectedDDD from selectedLines if available
   useEffect(() => {
-    if (selectedLines.length > 0 && !selectedInternet) {
+    if (selectedLines.length > 0) {
       const line = selectedLines[0];
-      if (line?.internet) setSelectedInternet(line.internet);
-      if (line?.ddd) setSelectedDDD(line.ddd);
+      if (line?.internet && !selectedInternet) setSelectedInternet(line.internet);
+      if (line?.ddd && !selectedDDD) setSelectedDDD(line.ddd);
     }
-  }, [selectedLines, selectedInternet]);
+  }, [selectedLines, selectedInternet, selectedDDD]);
+
+  // Update selected lines when internet or DDD changes
+  useEffect(() => {
+    if (selectedInternet && selectedDDD) {
+      const linePrice = getLinePrice();
+      if (selectedLines.length === 0) {
+        setSelectedLines([{
+          id: 1,
+          internet: selectedInternet,
+          ddd: selectedDDD,
+          price: linePrice,
+          type: 'chip'
+        }]);
+      } else {
+        const updatedLines = [...selectedLines];
+        updatedLines[0] = {
+          ...updatedLines[0],
+          internet: selectedInternet,
+          ddd: selectedDDD,
+          price: linePrice
+        };
+        setSelectedLines(updatedLines);
+      }
+    }
+  }, [selectedInternet, selectedDDD]);
 
   const getLinePrice = () => {
     return internetOptions.find(option => option.value === selectedInternet)?.price || 0;
@@ -109,26 +138,6 @@ export function PlanSelectionStep({
         });
       }
       return;
-    }
-
-    // Update selectedLines when continuing
-    if (selectedLines.length === 0) {
-      setSelectedLines([{
-        id: 1,
-        internet: selectedInternet,
-        ddd: selectedDDD,
-        price: getLinePrice(),
-        type: 'chip'
-      }]);
-    } else {
-      const updatedLines = [...selectedLines];
-      updatedLines[0] = {
-        ...updatedLines[0],
-        internet: selectedInternet,
-        ddd: selectedDDD,
-        price: getLinePrice()
-      };
-      setSelectedLines(updatedLines);
     }
 
     onContinue({
