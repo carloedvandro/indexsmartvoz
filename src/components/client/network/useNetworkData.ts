@@ -32,7 +32,6 @@ export const useNetworkData = (userId: string) => {
         console.log("User network found:", userNetwork);
 
         // Busca todos os membros da rede usando a função get_all_network_members
-        // A função já está limitada para retornar apenas até o 4º nível
         const { data: allNetworkMembers, error } = await supabase
           .rpc('get_all_network_members', { root_network_id: userNetwork.id });
 
@@ -72,14 +71,8 @@ export const useNetworkData = (userId: string) => {
           // Adicionando logs para debug
           console.log("Criando estrutura de membros...");
           
-          // Only include members that have valid profiles and are level 4 or below
+          // Only include members that have valid profiles
           allNetworkMembers.forEach(member => {
-            // Garantir que só processamos até o nível 4
-            if (member.level > 4) {
-              console.log(`Ignorando membro do nível ${member.level}: ID=${member.id}, user_id=${member.user_id}`);
-              return;
-            }
-            
             const profileData = profilesMap.get(member.user_id);
             if (profileData) { // Only add member if profile data exists
               console.log(`Processando membro: ID=${member.id}, user_id=${member.user_id}, level=${member.level}, parent_id=${member.parent_id}`);

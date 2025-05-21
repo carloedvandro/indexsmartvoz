@@ -1,4 +1,3 @@
-
 import {
   Bar,
   BarChart,
@@ -10,22 +9,16 @@ import {
   YAxis,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useProfile } from "@/hooks/useProfile";
-import { useNetworkStats } from "@/hooks/useNetworkStats";
+
+const data = [
+  { nivel: "Nível 1", ativos: 8, inativos: 0 },
+  { nivel: "Nível 2", ativos: 12, inativos: 3 },
+  { nivel: "Nível 3", ativos: 8, inativos: 56 },
+  { nivel: "Nível 4", ativos: 15, inativos: 25 },
+  { nivel: "Nível 5", ativos: 19, inativos: 39 },
+];
 
 export const NetworkLevelsChart = () => {
-  const { data: profile } = useProfile();
-  const { data: networkStats } = useNetworkStats(profile?.id);
-  
-  // Usando os dados reais da rede
-  const data = [
-    { nivel: "Nível 1", ativos: networkStats?.level1Count || 0, inativos: 0 },
-    { nivel: "Nível 2", ativos: networkStats?.level2Count || 0, inativos: 0 },
-    { nivel: "Nível 3", ativos: networkStats?.level3Count || 0, inativos: 0 },
-    { nivel: "Nível 4", ativos: networkStats?.level4Count || 0, inativos: 0 }
-    // Removido o nível 5 que foi mostrado anteriormente
-  ];
-
   return (
     <Card className="w-full col-span-2">
       <CardHeader className="pb-0">
