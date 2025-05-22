@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { LogoutButton } from './LogoutButton';
 import { NavigationItem } from '../types';
 import { useIsMobile } from '@/hooks/use-mobile';
-import Image from "@/components/ui/image";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -29,13 +28,6 @@ export const MobileMenu = ({ isOpen, setOpen, navigationItems, onLogout }: Mobil
             >
               {item.icon === "home" && (
                 <div className="flex items-center">
-                  <Image 
-                    src="/lovable-uploads/33b3bd2c-db7a-4114-889c-e8210ac00cf6.png" 
-                    alt="Home" 
-                    width={24} 
-                    height={24} 
-                    className="mr-2"
-                  />
                   <span className="text-base font-bold text-lg">Início</span>
                 </div>
               )}

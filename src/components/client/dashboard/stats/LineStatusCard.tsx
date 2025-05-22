@@ -10,17 +10,18 @@ export function LineStatusCard() {
   const inactiveLines = 0;
   const isMobile = useIsMobile();
   
-  // Estilo para os ícones
+  // Defina o mesmo tamanho para todos os dispositivos
   const imageStyle = { 
-    width: '56px', 
-    height: '56px',
-    minWidth: '56px',
-    minHeight: '56px'
+    width: '60px', 
+    height: '60px',
+    minWidth: '60px',  // Isso evita que o ícone seja comprimido no mobile
+    minHeight: '60px'  // Isso evita que o ícone seja comprimido no mobile
   };
 
-  // Estilo para o texto
+  // Estilo para mover apenas o texto para a esquerda
   const textStyle = {
-    marginLeft: '-12px'
+    marginLeft: '-20px',
+    marginTop: '3px'  // Adicionado 3px para baixo
   };
 
   return (
@@ -41,11 +42,11 @@ export function LineStatusCard() {
         <div className="flex items-center">
           <div className="mr-3">
             <Image 
-              src="/lovable-uploads/11b68cb8-d58d-42ba-a911-7c58f10346ca.png" 
+              src="/lovable-uploads/aa2bacf8-c5da-4ad5-bfb5-6ec14b524ae7.png" 
               alt="Linhas Totais" 
               className="object-contain"
-              width={56}
-              height={56}
+              width={60}
+              height={60}
               style={imageStyle}
             />
           </div>
@@ -58,12 +59,12 @@ export function LineStatusCard() {
         <div className="flex items-center">
           <div className="mr-3">
             <Image 
-              src="/lovable-uploads/11b68cb8-d58d-42ba-a911-7c58f10346ca.png" 
+              src="/lovable-uploads/5cd2c244-1d2c-41d6-9de7-76865f32923d.png" 
               alt="Linhas Ativas" 
               className="object-contain"
-              width={56}
-              height={56}
-              style={{...imageStyle, marginLeft: '12px'}}
+              width={60}
+              height={60}
+              style={imageStyle}
             />
           </div>
           <div style={textStyle}>
@@ -75,11 +76,11 @@ export function LineStatusCard() {
         <div className="flex items-center">
           <div className="mr-3">
             <Image 
-              src="/lovable-uploads/11b68cb8-d58d-42ba-a911-7c58f10346ca.png" 
+              src="/lovable-uploads/55a072a8-cbbf-4b4d-8546-448bcacdfd3e.png" 
               alt="Linhas Inativas" 
               className="object-contain"
-              width={56}
-              height={56}
+              width={60}
+              height={60}
               style={imageStyle}
             />
           </div>
