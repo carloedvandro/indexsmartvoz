@@ -12,12 +12,11 @@
 .logo-image {
   max-width: 250px !important;
   width: auto !important;
-  height: 90px !important;
+  height: auto !important;
   object-fit: contain !important;
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;
   margin: 0 auto !important;
   display: block !important;
-  background-color: rgba(255, 255, 255, 0.7);
 }
 
 @media (max-width: 768px) {
@@ -43,12 +42,11 @@
 .login-logo-image {
   max-width: 250px !important;
   width: auto !important;
-  height: 90px !important;
+  height: auto !important;
   object-fit: contain !important;
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;
   margin: 0 auto !important;
   display: block !important;
-  background-color: rgba(255, 255, 255, 0.7);
 }
 
 @media (max-width: 768px) {
