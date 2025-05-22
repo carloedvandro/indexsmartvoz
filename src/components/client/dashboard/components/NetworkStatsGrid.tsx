@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 
 export const NetworkStatsGrid = () => {
+  // Show only 4 levels as requested
   const levels = [
     { title: 'Nível 1', value: 1, color: '#FF6B6B', description: 'Indicados Diretos' },
     { title: 'Nível 2', value: 3, color: '#4ADE80', description: 'Indicados Indiretos' },

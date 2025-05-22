@@ -31,9 +31,13 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
       const mappedPlan = mapUrlPlanToInternet(planIdFromUrl);
       if (mappedPlan) {
         setSelectedInternet(mappedPlan.plan);
+        // Auto-set a default DDD if none is selected
+        if (!selectedDDD) {
+          setSelectedDDD("11");
+        }
       }
     }
-  }, [planIdFromUrl, selectedInternet]);
+  }, [planIdFromUrl, selectedInternet, selectedDDD]);
 
   const getLinePrice = () => {
     return internetOptions.find(option => option.value === selectedInternet)?.price || 0;
@@ -47,12 +51,13 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
     onContinue({
       internet: selectedInternet,
       ddd: selectedDDD,
-      dueDate: selectedDueDate,
+      dueDate: selectedDueDate || 5, // Provide a default value if somehow null
       price: getLinePrice()
     });
   };
   
-  const isDisabled = !selectedInternet || !selectedDDD || !selectedDueDate;
+  // The button should be enabled as soon as both plan and DDD are selected
+  const isDisabled = !selectedInternet || !selectedDDD;
 
   return (
     <div className="max-w-[379px] mx-auto w-full" style={{ marginTop: "74px" }}>

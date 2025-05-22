@@ -4,10 +4,21 @@ import { NetworkMember } from "./types";
 export const useFilteredNetwork = (data: NetworkMember[], selectedLevel: string) => {
   if (!data) return [];
   
-  // Se for "all", retorna a estrutura completa sem filtragem
+  // Se for "all", retorna a estrutura completa sem filtragem, mas limitada a 4 níveis
   if (selectedLevel === "all") {
-    console.log("Retornando todos os níveis:", data);
-    return data;
+    // Limitar a profundidade máxima a 4 níveis
+    const limitDepth = (members: NetworkMember[], currentDepth: number = 1): NetworkMember[] => {
+      if (currentDepth > 4 || !members) return [];
+      
+      return members.map(member => ({
+        ...member,
+        children: currentDepth < 4 ? limitDepth(member.children || [], currentDepth + 1) : []
+      }));
+    };
+    
+    const limitedData = limitDepth(data);
+    console.log("Retornando todos os níveis (limitados a 4):", limitedData);
+    return limitedData;
   }
   
   const level = parseInt(selectedLevel);
@@ -32,7 +43,8 @@ export const useFilteredNetwork = (data: NetworkMember[], selectedLevel: string)
       }
       
       // Continue procurando nos filhos se ainda não atingimos o nível desejado
-      if (currentLevel < level && member.children && member.children.length > 0) {
+      // e se o nível desejado for menor ou igual a 4
+      if (currentLevel < level && level <= 4 && member.children && member.children.length > 0) {
         findMembersByLevel(member.children, currentLevel + 1);
       }
     });

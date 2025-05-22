@@ -1,3 +1,4 @@
+
 import { useSearchParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,7 @@ import { Button } from "@/components/ui/button";
 export function NetworkLevels() {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // Only showing 4 levels as specified
   const levels = [
     { title: "1° Nível", value: "1" },
     { title: "2° Nível", value: "2" },
