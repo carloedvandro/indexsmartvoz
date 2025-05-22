@@ -49,11 +49,6 @@ export function PlanSelectionStep({
           setSelectedDDD("11"); // Default to São Paulo DDD
         }
         
-        // Auto-select a default due date if we have a plan from the URL and no due date is already selected
-        if (!selectedDueDate) {
-          setSelectedDueDate(10); // Default to day 10
-        }
-        
         // Update selectedLines with the selected plan information
         const linePrice = mappedPlan.price;
         if (selectedLines.length === 0) {
@@ -76,7 +71,7 @@ export function PlanSelectionStep({
         }
       }
     }
-  }, [planIdFromUrl, selectedDueDate, setSelectedDueDate, selectedDDD, selectedInternet, selectedLines, setSelectedLines]);
+  }, [planIdFromUrl, selectedDDD, selectedInternet, selectedLines, setSelectedLines]);
 
   // Initialize selectedInternet and selectedDDD from selectedLines if available
   useEffect(() => {
@@ -132,8 +127,8 @@ export function PlanSelectionStep({
         });
       } else if (!selectedDueDate) {
         toast({
-          title: "Erro",
-          description: "Selecione uma data de vencimento para continuar",
+          title: "Campo obrigatório",
+          description: "Por favor, selecione uma data de vencimento antes de continuar",
           variant: "destructive",
         });
       }
@@ -148,6 +143,7 @@ export function PlanSelectionStep({
     });
   };
   
+  // Fix: The button should only be enabled when all three fields are filled
   const isDisabled = !selectedInternet || !selectedDDD || !selectedDueDate;
 
   return (

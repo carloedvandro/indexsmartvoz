@@ -7,6 +7,7 @@ import { NavigationButtons } from "@/components/client/products/NavigationButton
 import { PlanSelectionHeader } from "@/components/client/products/plan-selection/PlanSelectionHeader";
 import { PlanSelectionForm } from "@/components/client/products/plan-selection/PlanSelectionForm";
 import { internetOptions, mapUrlPlanToInternet } from "@/components/client/products/plan-selection/planOptions";
+import { useToast } from "@/hooks/use-toast";
 
 interface PlanSelectionStepProps {
   onBack: () => void;
@@ -24,6 +25,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   const [selectedDueDate, setSelectedDueDate] = useState<number | null>(null);
   const [searchParams] = useSearchParams();
   const planIdFromUrl = searchParams.get('plan');
+  const { toast } = useToast();
   
   // Set initial plan based on URL parameter if present
   useEffect(() => {
@@ -45,19 +47,38 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
 
   const handleContinue = () => {
     if (!selectedInternet || !selectedDDD || !selectedDueDate) {
+      if (!selectedInternet) {
+        toast({
+          title: "Campo obrigatório",
+          description: "Por favor, selecione um plano de internet antes de continuar",
+          variant: "destructive",
+        });
+      } else if (!selectedDDD) {
+        toast({
+          title: "Campo obrigatório",
+          description: "Por favor, preencha o DDD antes de continuar",
+          variant: "destructive",
+        });
+      } else if (!selectedDueDate) {
+        toast({
+          title: "Campo obrigatório", 
+          description: "Por favor, selecione uma data de vencimento antes de continuar",
+          variant: "destructive",
+        });
+      }
       return;
     }
 
     onContinue({
       internet: selectedInternet,
       ddd: selectedDDD,
-      dueDate: selectedDueDate || 5, // Provide a default value if somehow null
+      dueDate: selectedDueDate,
       price: getLinePrice()
     });
   };
   
-  // The button should be enabled as soon as both plan and DDD are selected
-  const isDisabled = !selectedInternet || !selectedDDD;
+  // Fix: The button should only be enabled when all three fields are filled
+  const isDisabled = !selectedInternet || !selectedDDD || !selectedDueDate;
 
   return (
     <div className="max-w-[379px] mx-auto w-full" style={{ marginTop: "74px" }}>
