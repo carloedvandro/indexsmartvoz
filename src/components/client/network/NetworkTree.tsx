@@ -21,7 +21,6 @@ export const NetworkTree = ({ userId }: NetworkTreeProps) => {
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set());
   const { networkData, loading } = useNetworkData(userId);
   const isMobile = useIsMobile();
-
   // Setup network subscription for real-time updates
   useNetworkSubscription(userId);
 

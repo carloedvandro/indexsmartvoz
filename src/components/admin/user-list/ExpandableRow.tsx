@@ -78,7 +78,6 @@ export const ExpandableRow = ({
 
     fetchUserAndUpdateMobile();
   }, [user.id]);
-  
   return (
     <>
       <TableRow className="border-b">
