@@ -1,5 +1,11 @@
 
 import { Info, User, FileText } from "lucide-react";
+import { useState } from "react";
+import { 
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from "@/components/ui/popover";
 
 export function BillingStatusCards() {
   // Sample data - would typically come from an API
@@ -10,7 +16,8 @@ export function BillingStatusCards() {
       clients: 5,
       bills: 6,
       color: "text-[#27ae60]",
-      progressColor: "bg-[#27ae60]"
+      progressColor: "bg-[#27ae60]",
+      tooltip: "Cobranças recebidas dentro do período."
     },
     confirmed: {
       amount: 0,
@@ -18,7 +25,8 @@ export function BillingStatusCards() {
       clients: 0,
       bills: 0,
       color: "text-[#3498db]",
-      progressColor: "bg-[#3498db]/30 bg-stripe"
+      progressColor: "bg-[#3498db]/30 bg-stripe",
+      tooltip: "Cobranças recebidas dentro do período, mas que estão aguardando o repasse."
     },
     awaiting: {
       amount: 0,
@@ -26,7 +34,8 @@ export function BillingStatusCards() {
       clients: 0,
       bills: 0,
       color: "text-[#f39c12]",
-      progressColor: "bg-[#f39c12]/30 bg-stripe"
+      progressColor: "bg-[#f39c12]/30 bg-stripe",
+      tooltip: "Cobranças previstas para recebimento dentro do período."
     },
     overdue: {
       amount: 769.97,
@@ -34,7 +43,8 @@ export function BillingStatusCards() {
       clients: 3,
       bills: 3,
       color: "text-[#e74c3c]",
-      progressColor: "bg-[#e74c3c]"
+      progressColor: "bg-[#e74c3c]",
+      tooltip: "Cobranças vencidas dentro do período e que não foram pagas."
     }
   };
 
@@ -44,6 +54,8 @@ export function BillingStatusCards() {
       currency: 'BRL'
     }).format(value);
   };
+
+  const [openPopover, setOpenPopover] = useState<string | null>(null);
 
   return (
     <div>
@@ -73,9 +85,22 @@ export function BillingStatusCards() {
         <div className="p-5 border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Recebidas</h3>
-            <button className="text-gray-400">
-              <Info size={18} />
-            </button>
+            <Popover open={openPopover === 'received'} onOpenChange={(open) => setOpenPopover(open ? 'received' : null)}>
+              <PopoverTrigger asChild>
+                <button className="text-gray-400 focus:outline-none" data-testid="info-received">
+                  <Info size={18} />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
+                {billingStatus.received.tooltip}
+                <button 
+                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                  onClick={() => setOpenPopover(null)}
+                >
+                  ✕
+                </button>
+              </PopoverContent>
+            </Popover>
           </div>
           <p className={`text-2xl font-semibold ${billingStatus.received.color} mb-1`}>{formatCurrencyBR(billingStatus.received.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.received.liquid)} líquido</p>
@@ -102,9 +127,22 @@ export function BillingStatusCards() {
         <div className="p-5 border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Confirmadas</h3>
-            <button className="text-gray-400">
-              <Info size={18} />
-            </button>
+            <Popover open={openPopover === 'confirmed'} onOpenChange={(open) => setOpenPopover(open ? 'confirmed' : null)}>
+              <PopoverTrigger asChild>
+                <button className="text-gray-400 focus:outline-none" data-testid="info-confirmed">
+                  <Info size={18} />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
+                {billingStatus.confirmed.tooltip}
+                <button 
+                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                  onClick={() => setOpenPopover(null)}
+                >
+                  ✕
+                </button>
+              </PopoverContent>
+            </Popover>
           </div>
           <p className={`text-2xl font-semibold ${billingStatus.confirmed.color} mb-1`}>{formatCurrencyBR(billingStatus.confirmed.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.confirmed.liquid)} líquido</p>
@@ -131,9 +169,22 @@ export function BillingStatusCards() {
         <div className="p-5 border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Aguardando pagamento</h3>
-            <button className="text-gray-400">
-              <Info size={18} />
-            </button>
+            <Popover open={openPopover === 'awaiting'} onOpenChange={(open) => setOpenPopover(open ? 'awaiting' : null)}>
+              <PopoverTrigger asChild>
+                <button className="text-gray-400 focus:outline-none" data-testid="info-awaiting">
+                  <Info size={18} />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
+                {billingStatus.awaiting.tooltip}
+                <button 
+                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                  onClick={() => setOpenPopover(null)}
+                >
+                  ✕
+                </button>
+              </PopoverContent>
+            </Popover>
           </div>
           <p className={`text-2xl font-semibold ${billingStatus.awaiting.color} mb-1`}>{formatCurrencyBR(billingStatus.awaiting.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.awaiting.liquid)} líquido</p>
@@ -160,9 +211,22 @@ export function BillingStatusCards() {
         <div className="p-5 border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Vencidas</h3>
-            <button className="text-gray-400">
-              <Info size={18} />
-            </button>
+            <Popover open={openPopover === 'overdue'} onOpenChange={(open) => setOpenPopover(open ? 'overdue' : null)}>
+              <PopoverTrigger asChild>
+                <button className="text-gray-400 focus:outline-none" data-testid="info-overdue">
+                  <Info size={18} />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
+                {billingStatus.overdue.tooltip}
+                <button 
+                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                  onClick={() => setOpenPopover(null)}
+                >
+                  ✕
+                </button>
+              </PopoverContent>
+            </Popover>
           </div>
           <p className={`text-2xl font-semibold ${billingStatus.overdue.color} mb-1`}>{formatCurrencyBR(billingStatus.overdue.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.overdue.liquid)} líquido</p>
