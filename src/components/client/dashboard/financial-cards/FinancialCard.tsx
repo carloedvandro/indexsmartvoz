@@ -1,6 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { formatCurrency } from "@/utils/format";
+import { ArrowRight } from "lucide-react"; 
 
 interface FinancialCardProps {
   to: string;
@@ -20,13 +21,14 @@ export function FinancialCard({
   return (
     <Link 
       to={to}
-      className={`${bgColor} ${hoverColor} rounded-xl px-5 py-6 flex flex-col text-white shadow-sm w-full h-full relative overflow-hidden transition-colors`}
+      className={`${bgColor} ${hoverColor} rounded-xl px-5 py-6 flex flex-col text-white shadow-sm w-full h-full relative overflow-hidden transition-all duration-300 hover:scale-[1.02]`}
     >
       <div className="flex items-center gap-3 mb-1">
         <span className="text-3xl font-bold">{formatCurrency(amount)}</span>
       </div>
-      <div className="flex flex-col">
+      <div className="flex items-center justify-between">
         <span className="text-lg">{label}</span>
+        <ArrowRight className="h-5 w-5 opacity-70" />
       </div>
     </Link>
   );
