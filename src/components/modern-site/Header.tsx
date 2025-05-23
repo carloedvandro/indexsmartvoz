@@ -17,13 +17,15 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
             Voltar
           </Button>
         </Link>
-        
+
         <div className="flex items-center gap-2">
-          <div className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
-            Smartvoz
-          </div>
+          <img
+            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
+            alt="Smartvoz Logo"
+            className="h-[140px] object-contain mx-auto mix-blend-multiply opacity-90 contrast-125"
+          />
         </div>
-        
+
         <nav className="hidden md:flex items-center justify-center flex-grow space-x-12">
           {[
             { id: 'home', label: 'Início' },
@@ -35,17 +37,16 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
             <button
               key={section.id}
               onClick={() => scrollToSection(section.id)}
-              className={`text-sm font-medium transition-colors ${
-                activeSection === section.id 
-                  ? 'text-purple-600' 
+              className={`text-sm font-medium transition-colors ${activeSection === section.id
+                  ? 'text-purple-600'
                   : 'text-gray-600 hover:text-purple-500'
-              }`}
+                }`}
             >
               {section.label}
             </button>
           ))}
         </nav>
-        
+
         <div className="md:hidden">
           <Button variant="ghost" size="sm" className="text-gray-700">
             Menu

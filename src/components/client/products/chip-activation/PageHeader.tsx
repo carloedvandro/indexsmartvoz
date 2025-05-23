@@ -6,9 +6,11 @@ export function PageHeader() {
 
   return (
     <div className="flex flex-col items-center justify-center mb-6">
-      <h1 className={titleStyle}>
-        Smartvoz
-      </h1>
+     <img 
+          src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
+          alt="Smartvoz Logo" 
+          className="h-[140px] object-contain mx-auto mix-blend-multiply opacity-90 contrast-125"
+        />
     </div>
   );
 }

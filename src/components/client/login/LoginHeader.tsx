@@ -10,11 +10,11 @@ export function LoginHeader({ itemVariants }: LoginHeaderProps) {
 
   return (
     <div className="flex flex-col items-center justify-center space-y-2 text-center min-h-[160px]">
-      <div className="login-logo-container">
-        <h1 className={titleStyle}>
-          Smartvoz
-        </h1>
-      </div>
+      <img
+        src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
+        alt="Smartvoz Logo"
+        className="h-[140px] object-contain mx-auto mix-blend-multiply opacity-90 contrast-125"
+      />
     </div>
   );
 }
