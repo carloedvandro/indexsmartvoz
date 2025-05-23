@@ -33,7 +33,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   };
 
   return (
-    <div className={"w-full "}>
+    <div className={"w-full ml-[-15px] "}>
       <button 
         onClick={handleLogout}
         onMouseEnter={() => setHover(true)}
