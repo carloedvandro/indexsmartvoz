@@ -5,6 +5,7 @@ import { FinancialHeader } from "@/components/client/financial/FinancialHeader";
 import { FilterSection } from "@/components/client/financial/FilterSection";
 import { BalanceCards } from "@/components/client/financial/BalanceCards";
 import { BalanceDialog } from "@/components/client/financial/BalanceDialog";
+import { BillingStatusCards } from "@/components/client/financial/BillingStatusCards";
 
 export default function Financial() {
   const location = useLocation();
@@ -64,7 +65,7 @@ export default function Financial() {
       />
 
       <div className="flex-1 overflow-auto bg-white">
-        <div className="max-w-[600px] mx-auto h-full flex flex-col">
+        <div className="max-w-[800px] mx-auto h-full flex flex-col">
           <div className="mt-[116px] px-4 sm:px-6">
             <FilterSection
               selectedMonth={selectedMonth}
@@ -79,12 +80,18 @@ export default function Financial() {
 
           <div className="px-4 sm:px-6 mt-3">
             {showFinancialData && (
-              <BalanceCards
-                selectedMonth={selectedMonth}
-                selectedYear={selectedYear}
-                months={months}
-                onCardClick={() => setShowBalanceDialog(true)}
-              />
+              <>
+                <BalanceCards
+                  selectedMonth={selectedMonth}
+                  selectedYear={selectedYear}
+                  months={months}
+                  onCardClick={() => setShowBalanceDialog(true)}
+                />
+                
+                <div className="mt-8">
+                  <BillingStatusCards />
+                </div>
+              </>
             )}
           </div>
         </div>
