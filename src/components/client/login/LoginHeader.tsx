@@ -13,7 +13,7 @@ export function LoginHeader({ itemVariants }: LoginHeaderProps) {
       <img
         src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
         alt="Smartvoz Logo"
-        className="h-[140px] object-contain mx-auto mix-blend-multiply opacity-90 contrast-125"
+        className="h-[90px] object-contain mx-auto mix-blend-multiply opacity-90 contrast-125"
       />
     </div>
   );
