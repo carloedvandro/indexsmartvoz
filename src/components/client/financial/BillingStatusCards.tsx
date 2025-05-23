@@ -1,6 +1,5 @@
 
 import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Info, User, FileText } from "lucide-react";
 
 export function BillingStatusCards() {
@@ -11,7 +10,7 @@ export function BillingStatusCards() {
       liquid: 895.53,
       clients: 5,
       bills: 6,
-      color: "bg-[#27ae60]",
+      color: "text-[#27ae60]",
       progressColor: "bg-[#27ae60]"
     },
     confirmed: {
@@ -19,7 +18,7 @@ export function BillingStatusCards() {
       liquid: 0,
       clients: 0,
       bills: 0,
-      color: "bg-[#3498db]",
+      color: "text-[#3498db]",
       progressColor: "bg-[#3498db]/30 bg-stripe"
     },
     awaiting: {
@@ -27,7 +26,7 @@ export function BillingStatusCards() {
       liquid: 0,
       clients: 0,
       bills: 0,
-      color: "bg-[#f39c12]",
+      color: "text-[#f39c12]",
       progressColor: "bg-[#f39c12]/30 bg-stripe"
     },
     overdue: {
@@ -35,7 +34,7 @@ export function BillingStatusCards() {
       liquid: 764.00,
       clients: 3,
       bills: 3,
-      color: "bg-[#e74c3c]",
+      color: "text-[#e74c3c]",
       progressColor: "bg-[#e74c3c]"
     }
   };
@@ -79,7 +78,7 @@ export function BillingStatusCards() {
               <Info size={18} />
             </button>
           </div>
-          <p className={`text-2xl font-semibold text-[#27ae60] mb-1`}>{formatCurrencyBR(billingStatus.received.amount)}</p>
+          <p className={`text-2xl font-semibold ${billingStatus.received.color} mb-1`}>{formatCurrencyBR(billingStatus.received.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.received.liquid)} líquido</p>
           
           <div className="w-full h-2 bg-gray-100 rounded-full mb-4 overflow-hidden">
@@ -108,7 +107,7 @@ export function BillingStatusCards() {
               <Info size={18} />
             </button>
           </div>
-          <p className={`text-2xl font-semibold text-[#3498db] mb-1`}>{formatCurrencyBR(billingStatus.confirmed.amount)}</p>
+          <p className={`text-2xl font-semibold ${billingStatus.confirmed.color} mb-1`}>{formatCurrencyBR(billingStatus.confirmed.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.confirmed.liquid)} líquido</p>
           
           <div className="w-full h-2 bg-gray-100 rounded-full mb-4 overflow-hidden">
@@ -137,7 +136,7 @@ export function BillingStatusCards() {
               <Info size={18} />
             </button>
           </div>
-          <p className={`text-2xl font-semibold text-[#f39c12] mb-1`}>{formatCurrencyBR(billingStatus.awaiting.amount)}</p>
+          <p className={`text-2xl font-semibold ${billingStatus.awaiting.color} mb-1`}>{formatCurrencyBR(billingStatus.awaiting.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.awaiting.liquid)} líquido</p>
           
           <div className="w-full h-2 bg-gray-100 rounded-full mb-4 overflow-hidden">
@@ -166,7 +165,7 @@ export function BillingStatusCards() {
               <Info size={18} />
             </button>
           </div>
-          <p className={`text-2xl font-semibold text-[#e74c3c] mb-1`}>{formatCurrencyBR(billingStatus.overdue.amount)}</p>
+          <p className={`text-2xl font-semibold ${billingStatus.overdue.color} mb-1`}>{formatCurrencyBR(billingStatus.overdue.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.overdue.liquid)} líquido</p>
           
           <div className="w-full h-2 bg-gray-100 rounded-full mb-4 overflow-hidden">
