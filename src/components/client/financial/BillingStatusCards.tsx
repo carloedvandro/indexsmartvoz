@@ -1,5 +1,4 @@
 
-import React from "react";
 import { Info, User, FileText } from "lucide-react";
 
 export function BillingStatusCards() {
@@ -47,7 +46,7 @@ export function BillingStatusCards() {
   };
 
   return (
-    <div data-testid="billing-status-cards">
+    <div>
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-semibold text-gray-800">Situação das cobranças</h2>
         <div className="flex gap-2">
@@ -71,7 +70,7 @@ export function BillingStatusCards() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Received/Recebidas */}
-        <div className="p-5 border rounded-xl shadow-sm bg-white financial-status-card">
+        <div className="p-5 border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Recebidas</h3>
             <button className="text-gray-400">
@@ -100,7 +99,7 @@ export function BillingStatusCards() {
         </div>
 
         {/* Confirmed/Confirmadas */}
-        <div className="p-5 border rounded-xl shadow-sm bg-white financial-status-card">
+        <div className="p-5 border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Confirmadas</h3>
             <button className="text-gray-400">
@@ -111,7 +110,7 @@ export function BillingStatusCards() {
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.confirmed.liquid)} líquido</p>
           
           <div className="w-full h-2 bg-gray-100 rounded-full mb-4 overflow-hidden">
-            <div className={`h-full ${billingStatus.confirmed.progressColor} rounded-full animate-pulse`} style={{ width: '0%' }}></div>
+            <div className={`h-full ${billingStatus.confirmed.progressColor} rounded-full`} style={{ width: '100%' }}></div>
           </div>
           
           <div className="flex flex-col gap-3">
@@ -129,7 +128,7 @@ export function BillingStatusCards() {
         </div>
 
         {/* Awaiting Payment/Aguardando pagamento */}
-        <div className="p-5 border rounded-xl shadow-sm bg-white financial-status-card">
+        <div className="p-5 border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Aguardando pagamento</h3>
             <button className="text-gray-400">
@@ -140,7 +139,7 @@ export function BillingStatusCards() {
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.awaiting.liquid)} líquido</p>
           
           <div className="w-full h-2 bg-gray-100 rounded-full mb-4 overflow-hidden">
-            <div className={`h-full ${billingStatus.awaiting.progressColor} rounded-full animate-pulse`} style={{ width: '0%' }}></div>
+            <div className={`h-full ${billingStatus.awaiting.progressColor} rounded-full`} style={{ width: '100%' }}></div>
           </div>
           
           <div className="flex flex-col gap-3">
@@ -158,7 +157,7 @@ export function BillingStatusCards() {
         </div>
 
         {/* Overdue/Vencidas */}
-        <div className="p-5 border rounded-xl shadow-sm bg-white financial-status-card">
+        <div className="p-5 border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Vencidas</h3>
             <button className="text-gray-400">
