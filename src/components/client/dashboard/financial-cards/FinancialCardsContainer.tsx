@@ -3,6 +3,8 @@ import { BillingStatusCards } from "@/components/client/financial/BillingStatusC
 
 export function FinancialCardsContainer() {
   return (
-    <BillingStatusCards />
+    <div className="w-full px-4 mb-6">
+      <BillingStatusCards />
+    </div>
   );
 }
