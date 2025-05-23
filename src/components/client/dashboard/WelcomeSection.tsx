@@ -11,7 +11,7 @@ export function WelcomeSection({ profile }: WelcomeSectionProps) {
   const fullName = profile.full_name || "Usuário";
   
   return (
-    <div className="px-4 mb-6">
+    <div className="container">
       <div className="bg-white p-6 rounded-xl shadow w-full">
         <h1 className="text-3xl font-bold text-[#0E1C36]">Olá, {fullName}</h1>
       </div>

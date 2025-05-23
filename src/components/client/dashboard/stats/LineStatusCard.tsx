@@ -25,7 +25,7 @@ export function LineStatusCard() {
   };
 
   return (
-    <div className="p-6">
+    <>
       <div className="flex justify-between items-center mb-1">
         <h3 className="text-lg font-medium" style={{ marginLeft: '-2px' }}>Linhas</h3>
         <button className="text-gray-400 hover:text-gray-600">
@@ -90,6 +90,6 @@ export function LineStatusCard() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

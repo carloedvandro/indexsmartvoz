@@ -30,7 +30,7 @@ export default function ClientDashboard() {
   const dailyData = getDailyData(activeDay);
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden relative"
@@ -40,16 +40,12 @@ export default function ClientDashboard() {
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           <div className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
             <WelcomeSection profile={profile} />
-            
-            <div className="w-full">
-              <FinancialCards />
-            </div>
-            
-            <div className="w-full">
-              <StatsCardsGrid />
-            </div>
-            
-            <DashboardCards 
+
+            <FinancialCards />
+
+            <StatsCardsGrid />
+
+            <DashboardCards
               profile={profile}
               networkStats={networkStats}
               handleNetworkClick={handleNetworkClick}

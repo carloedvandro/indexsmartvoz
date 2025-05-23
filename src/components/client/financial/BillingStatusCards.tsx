@@ -58,7 +58,7 @@ export function BillingStatusCards() {
   const [openPopover, setOpenPopover] = useState<string | null>(null);
 
   return (
-    <div>
+    <div className="container">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-semibold text-gray-800">Situação das cobranças</h2>
         <div className="flex gap-2">
@@ -82,7 +82,7 @@ export function BillingStatusCards() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Received/Recebidas */}
-        <div className="p-5 border rounded-xl card-no-bg">
+        <div className="border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Recebidas</h3>
             <Popover open={openPopover === 'received'} onOpenChange={(open) => setOpenPopover(open ? 'received' : null)}>
@@ -124,7 +124,7 @@ export function BillingStatusCards() {
         </div>
 
         {/* Confirmed/Confirmadas */}
-        <div className="p-5 border rounded-xl card-no-bg">
+        <div className=" border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Confirmadas</h3>
             <Popover open={openPopover === 'confirmed'} onOpenChange={(open) => setOpenPopover(open ? 'confirmed' : null)}>
@@ -166,7 +166,7 @@ export function BillingStatusCards() {
         </div>
 
         {/* Awaiting Payment/Aguardando pagamento */}
-        <div className="p-5 border rounded-xl card-no-bg">
+        <div className=" border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Aguardando pagamento</h3>
             <Popover open={openPopover === 'awaiting'} onOpenChange={(open) => setOpenPopover(open ? 'awaiting' : null)}>
@@ -208,7 +208,7 @@ export function BillingStatusCards() {
         </div>
 
         {/* Overdue/Vencidas */}
-        <div className="p-5 border rounded-xl card-no-bg">
+        <div className=" border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Vencidas</h3>
             <Popover open={openPopover === 'overdue'} onOpenChange={(open) => setOpenPopover(open ? 'overdue' : null)}>

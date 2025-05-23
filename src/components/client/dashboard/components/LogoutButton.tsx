@@ -33,7 +33,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
   };
 
   return (
-    <div className={"w-full ml-[-15px] "}>
+    <div className={"w-full  "}>
       <button 
         onClick={handleLogout}
         onMouseEnter={() => setHover(true)}
@@ -47,6 +47,7 @@ export function LogoutButton({ onLogout, className }: LogoutButtonProps) {
         <img 
           src="/lovable-uploads/cde64109-d71e-43a4-a3b4-9bd0b6e2a03a.png" 
           alt="Logout" 
+          style={{ clipPath: 'inset(0 0 0 30%);'}}
           className="h-[60px] w-[60px] object-contain transition-transform duration-300 hover:scale-110"
         />
       </button>

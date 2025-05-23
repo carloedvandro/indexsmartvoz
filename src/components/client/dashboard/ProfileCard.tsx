@@ -38,52 +38,52 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
     }
   }, [networkStats]);
 
-  const fetchNetworkCounts = async (userId: string) => {
-    try {
-      // Get user's network ID
-      const { data: networkData } = await supabase
-        .from("network")
-        .select("id")
-        .eq("user_id", userId)
-        .maybeSingle();
+  // const fetchNetworkCounts = async (userId: string) => {
+  //   try {
+  //     // Get user's network ID
+  //     const { data: networkData } = await supabase
+  //       .from("network")
+  //       .select("id")
+  //       .eq("user_id", userId)
+  //       .maybeSingle();
 
-      if (networkData?.id) {
-        // Get direct count (level 1)
-        const { data: directsData, error: directsError } = await supabase
-          .from("network")
-          .select("count")
-          .eq("parent_id", networkData.id)
-          .single();
+  //     if (networkData?.id) {
+  //       // Get direct count (level 1)
+  //       const { data: directsData, error: directsError } = await supabase
+  //         .from("network")
+  //         .select("count")
+  //         .eq("parent_id", networkData.id)
+  //         .single();
 
-        if (!directsError && directsData) {
-          // Make sure we're converting to number properly
-          const directsCount = typeof directsData.count === 'number'
-            ? directsData.count
-            : parseInt(String(directsData.count), 10);
+  //       if (!directsError && directsData) {
+  //         // Make sure we're converting to number properly
+  //         const directsCount = typeof directsData.count === 'number'
+  //           ? directsData.count
+  //           : parseInt(String(directsData.count), 10);
 
-          setDirectCount(isNaN(directsCount) ? 0 : directsCount);
-        } else {
-          // If count doesn't work, try counting records
-          const { data: directMembers, error } = await supabase
-            .from("network")
-            .select("id")
-            .eq("parent_id", networkData.id);
+  //         setDirectCount(isNaN(directsCount) ? 0 : directsCount);
+  //       } else {
+  //         // If count doesn't work, try counting records
+  //         const { data: directMembers, error } = await supabase
+  //           .from("network")
+  //           .select("id")
+  //           .eq("parent_id", networkData.id);
 
-          if (!error && directMembers) {
-            setDirectCount(directMembers.length);
-          }
-        }
+  //         if (!error && directMembers) {
+  //           setDirectCount(directMembers.length);
+  //         }
+  //       }
 
-        // Use network stats for total team size
-        if (networkStats) {
+  //       // Use network stats for total team size
+  //       if (networkStats) {
 
-          setTeamCount(totalTeamSize);
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching network counts:", error);
-    }
-  };
+  //         setTeamCount(totalTeamSize);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching network counts:", error);
+  //   }
+  // };
 
   if (!profile) {
     return null;

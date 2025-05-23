@@ -39,7 +39,7 @@ export function RechargesCard() {
   };
   
   return (
-    <div className="p-5">
+    <div className="">
       <div className="flex justify-between items-center mb-1">
         <h3 className="text-lg font-bold">Total de recargas pagas</h3>
       </div>

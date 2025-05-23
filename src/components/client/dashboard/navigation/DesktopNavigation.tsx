@@ -32,13 +32,13 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
           <DropdownMenuTrigger asChild>
             <Button 
               variant="ghost" 
-              className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-center pl-0 gap-2 ml-[-30px]"
+              className="p-0 h-auto border-0 shadow-none bg-transparent hover:bg-transparent focus:bg-transparent focus:border-0 focus:outline-none focus:ring-0 flex items-center pl-0 gap-2 ]"
               style={{ pointerEvents: 'auto' }}
             >
               <img 
                 src="/lovable-uploads/d6d0cfaa-60fb-4950-9674-400bbfc06650.png" 
                 alt="Home" 
-                className="h-[30px] w-auto ml-[-20px]" 
+                className="h-[30px] " 
               />
               <span 
                 className="font-bold text-left text-black -ml-[20px] pl-[20px] mt-[15.5px] text-xl" 
