@@ -15,10 +15,10 @@ export default function LoginPage() {
         animate="visible"
         variants={containerVariants}
       >
-        <div className="w-full max-w-[350px] space-y-6">
+        <div className="w-full max-w-[350px] ">
           <LoginHeader itemVariants={itemVariants} />
           <LoginForm containerVariants={containerVariants} itemVariants={itemVariants} />
-          <RegisterLink itemVariants={itemVariants} />
+          <RegisterLink itemVariants={itemVariants}  />
         </div>
       </motion.div>
     </div>

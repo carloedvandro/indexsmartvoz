@@ -16,7 +16,7 @@ export function RegisterLink({ itemVariants }: RegisterLinkProps) {
       className="space-y-2 text-center text-sm"
       variants={itemVariants}
     >
-      <div className="text-gray-700">
+      <div className="text-gray-700 mt-3">
         <span className="font-semibold">Não tem uma conta?</span> <Link to={registerUrl} className="text-black hover:underline">
           Criar nova conta
         </Link>

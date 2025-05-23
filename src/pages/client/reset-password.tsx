@@ -46,14 +46,12 @@ export default function ResetPassword() {
         variants={containerVariants}
       >
         <div className="w-full max-w-[400px] space-y-6">
-          <div className="flex flex-col space-y-2 text-center">
-            <div className="-mt-10 flex justify-center">
-              <img 
+          <div className="mb-[-25px]">
+            <img 
                 src="/lovable-uploads/5bded3e2-dd4c-4996-9027-b3a0abbb766c.png" 
                 alt="Smartvoz" 
-                className="w-auto h-[90px] object-contain"
+                className="w-auto mx-auto h-[90px] object-contain"
               />
-            </div>
           </div>
 
           <motion.form onSubmit={handleSubmit} className="space-y-6" variants={containerVariants}>
