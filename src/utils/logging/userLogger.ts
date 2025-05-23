@@ -1,4 +1,5 @@
-type LogLevel = "info" | "error";
+
+type LogLevel = "info" | "error" | "warning";
 
 export const log = (level: LogLevel, message: string, data?: any) => {
   const sanitizedData = data ? JSON.parse(JSON.stringify(data, (key, value) => {
@@ -6,5 +7,6 @@ export const log = (level: LogLevel, message: string, data?: any) => {
     return value;
   })) : '';
   
-  console[level](`[UserFormUtils] ${message}`, sanitizedData);
+  const logFunction = level === 'warning' ? 'warn' : level;
+  console[logFunction](`[UserFormUtils] ${message}`, sanitizedData);
 };
