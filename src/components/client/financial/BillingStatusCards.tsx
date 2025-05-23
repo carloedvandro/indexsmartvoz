@@ -80,7 +80,7 @@ export function BillingStatusCards() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {/* Received/Recebidas */}
         <div className="border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
