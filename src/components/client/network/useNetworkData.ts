@@ -12,6 +12,19 @@ export const useNetworkData = (userId: string) => {
       try {
         console.log("Fetching network data for user ID:", userId);
         
+        // First check if user still exists
+        const { data: userProfile, error: userError } = await supabase
+          .from("profiles")
+          .select("id")
+          .eq("id", userId)
+          .single();
+          
+        if (userError || !userProfile) {
+          console.error("User profile not found:", userError);
+          toast.error("Erro ao carregar perfil do usuário");
+          return [];
+        }
+        
         const { data: userNetwork, error: userNetworkError } = await supabase
           .from("network")
           .select("id")
@@ -20,7 +33,7 @@ export const useNetworkData = (userId: string) => {
 
         if (userNetworkError) {
           console.error("Error fetching user network:", userNetworkError);
-          toast.error("Error fetching network data");
+          toast.error("Erro ao carregar dados da rede");
           return [];
         }
 
@@ -37,7 +50,7 @@ export const useNetworkData = (userId: string) => {
 
         if (error) {
           console.error("Error fetching network members:", error);
-          toast.error("Error fetching network members");
+          toast.error("Erro ao carregar membros da rede");
           return [];
         }
 
@@ -55,7 +68,7 @@ export const useNetworkData = (userId: string) => {
 
           if (profilesError) {
             console.error("Error fetching profiles:", profilesError);
-            toast.error("Error fetching profiles");
+            toast.error("Erro ao carregar perfis dos usuários");
             return [];
           }
 
@@ -114,6 +127,10 @@ export const useNetworkData = (userId: string) => {
               
               console.log(`Adicionando como filho de ${parent.user.full_name}: ${member.user.full_name}`);
               parent.children.push(member);
+            } else if (member.parent_id) {
+              // Se o pai não existe no mapa atual, trata como membro raiz
+              console.log(`Pai não encontrado, adicionando como membro raiz: ${member.user.full_name}`);
+              rootMembers.push(member);
             } else {
               console.log(`ALERTA: Não encontrou pai para membro: ${member.user.full_name} (parent_id=${member.parent_id})`);
             }
@@ -125,11 +142,13 @@ export const useNetworkData = (userId: string) => {
         return [];
       } catch (error) {
         console.error("Error in fetchNetworkData:", error);
-        toast.error("Error fetching network data");
+        toast.error("Erro ao carregar dados da rede");
         return [];
       }
     },
     refetchOnWindowFocus: false,
+    refetchInterval: 30000, // Refetch every 30 seconds to catch deleted users
+    retry: 3
   });
 
   return { networkData, loading };

@@ -29,50 +29,58 @@ export const useNetworkStats = (userId: string | undefined) => {
         level4Count: 0,
       };
 
-      // First, get the network ID for the current user
-      const { data: userNetwork, error: userNetworkError } = await supabase
-        .from("network")
-        .select("id")
-        .eq("user_id", userId)
-        .maybeSingle();
+      try {
+        // Check if user exists
+        const { data: userProfile, error: userError } = await supabase
+          .from("profiles")
+          .select("id")
+          .eq("id", userId)
+          .single();
 
-      if (userNetworkError) {
-        console.error("Error fetching user network:", userNetworkError);
-        throw userNetworkError;
-      }
+        if (userError || !userProfile) {
+          console.error("User profile not found:", userError);
+          return stats;
+        }
 
-      if (!userNetwork) {
-        console.log("No network found for user");
-        return stats;
-      }
+        // First, get the network ID for the current user
+        const { data: userNetwork, error: userNetworkError } = await supabase
+          .from("network")
+          .select("id")
+          .eq("user_id", userId)
+          .maybeSingle();
 
-      // Set the network ID
-      stats.id = userNetwork.id;
+        if (userNetworkError) {
+          console.error("Error fetching user network:", userNetworkError);
+          return stats;
+        }
 
-      // Then, get all network members that have this network ID as parent
-      const { data: networkData, error } = await supabase
-        .from("network")
-        .select(`
-          id,
-          level,
-          user_id,
-          parent_id
-        `)
-        .eq("parent_id", userNetwork.id);
+        if (!userNetwork) {
+          console.log("No network found for user");
+          return stats;
+        }
 
-      if (error) {
-        console.error("Error fetching network stats:", error);
-        throw error;
-      }
+        // Set the network ID
+        stats.id = userNetwork.id;
 
-      console.log("Network stats data received:", networkData);
+        // Buscar todos os membros usando a função RPC
+        const { data: allNetworkMembers, error: networkError } = await supabase
+          .rpc('get_all_network_members', { root_network_id: userNetwork.id });
 
-      // Filter out members whose profiles don't exist (deleted users)
-      if (networkData && networkData.length > 0) {
-        // Get all user IDs from network data to check which ones still exist in profiles
-        const networkUserIds = networkData.map(member => member.user_id);
+        if (networkError) {
+          console.error("Error fetching network members:", networkError);
+          return stats;
+        }
+
+        console.log("Raw network data for stats:", allNetworkMembers);
+
+        if (!allNetworkMembers || !Array.isArray(allNetworkMembers)) {
+          return stats;
+        }
         
-        // Check which profiles actually exist (to filter out deleted users)
+        // Get all user IDs to check which ones still exist
+        const networkUserIds = allNetworkMembers.map(member => member.user_id);
+        
+        // Check which profiles actually exist
         const { data: existingProfiles, error: profilesError } = await supabase
           .from('profiles')
           .select('id')
@@ -80,108 +88,30 @@ export const useNetworkStats = (userId: string | undefined) => {
 
         if (profilesError) {
           console.error("Error fetching profiles for network stats:", profilesError);
-          throw profilesError;
+          return stats;
         }
 
         // Create a set of existing user IDs for quick lookup
         const existingUserIds = new Set(existingProfiles?.map(profile => profile.id) || []);
         
-        // Filter network data to only include members with existing profiles
-        const validNetworkData = networkData.filter(member => existingUserIds.has(member.user_id));
+        // Filter by levels and count only members who have existing profiles
+        const validMembers = allNetworkMembers.filter(member => existingUserIds.has(member.user_id));
         
-        console.log("Valid network members after filtering:", validNetworkData.length);
+        // Group by level
+        stats.level1Count = validMembers.filter(m => m.level === 1).length;
+        stats.level2Count = validMembers.filter(m => m.level === 2).length;
+        stats.level3Count = validMembers.filter(m => m.level === 3).length;
+        stats.level4Count = validMembers.filter(m => m.level === 4).length;
         
-        // Count level 1 members (direct referrals)
-        stats.level1Count = validNetworkData.length;
-
-        // Now get second level members (members whose parent is one of our direct members)
-        if (validNetworkData.length > 0) {
-          const directMemberIds = validNetworkData.map(member => member.id);
-          const { data: level2Data, error: level2Error } = await supabase
-            .from("network")
-            .select()
-            .in("parent_id", directMemberIds);
-
-          if (level2Error) {
-            console.error("Error fetching level 2 stats:", level2Error);
-            throw level2Error;
-          }
-
-          if (level2Data && level2Data.length > 0) {
-            // Filter out level 2 members whose profiles don't exist
-            const level2UserIds = level2Data.map(member => member.user_id);
-            const { data: level2Profiles } = await supabase
-              .from('profiles')
-              .select('id')
-              .in('id', level2UserIds);
-            
-            const validLevel2UserIds = new Set(level2Profiles?.map(profile => profile.id) || []);
-            const validLevel2Data = level2Data.filter(member => validLevel2UserIds.has(member.user_id));
-            
-            stats.level2Count = validLevel2Data.length;
-
-            // Get third level members
-            if (validLevel2Data.length > 0) {
-              const level2MemberIds = validLevel2Data.map(member => member.id);
-              const { data: level3Data, error: level3Error } = await supabase
-                .from("network")
-                .select()
-                .in("parent_id", level2MemberIds);
-
-              if (level3Error) {
-                console.error("Error fetching level 3 stats:", level3Error);
-                throw level3Error;
-              }
-
-              if (level3Data && level3Data.length > 0) {
-                // Filter out level 3 members whose profiles don't exist
-                const level3UserIds = level3Data.map(member => member.user_id);
-                const { data: level3Profiles } = await supabase
-                  .from('profiles')
-                  .select('id')
-                  .in('id', level3UserIds);
-                
-                const validLevel3UserIds = new Set(level3Profiles?.map(profile => profile.id) || []);
-                const validLevel3Data = level3Data.filter(member => validLevel3UserIds.has(member.user_id));
-                
-                stats.level3Count = validLevel3Data.length;
-
-                // Get fourth level members
-                if (validLevel3Data.length > 0) {
-                  const level3MemberIds = validLevel3Data.map(member => member.id);
-                  const { data: level4Data, error: level4Error } = await supabase
-                    .from("network")
-                    .select()
-                    .in("parent_id", level3MemberIds);
-
-                  if (level4Error) {
-                    console.error("Error fetching level 4 stats:", level4Error);
-                    throw level4Error;
-                  }
-
-                  if (level4Data && level4Data.length > 0) {
-                    // Filter out level 4 members whose profiles don't exist
-                    const level4UserIds = level4Data.map(member => member.user_id);
-                    const { data: level4Profiles } = await supabase
-                      .from('profiles')
-                      .select('id')
-                      .in('id', level4UserIds);
-                    
-                    const validLevel4UserIds = new Set(level4Profiles?.map(profile => profile.id) || []);
-                    const validLevel4Data = level4Data.filter(member => validLevel4UserIds.has(member.user_id));
-                    
-                    stats.level4Count = validLevel4Data.length;
-                  }
-                }
-              }
-            }
-          }
-        }
+        console.log("Final network stats:", stats);
+      } catch (error) {
+        console.error("Error calculating network stats:", error);
       }
 
-      console.log("Calculated network stats:", stats);
       return stats;
     },
-    enabled: !!userId
+    enabled: !!userId,
+    refetchInterval: 30000, // Refetch every 30 seconds to keep updated
+    staleTime: 10000 // Consider data stale after 10 seconds
   });
 };
