@@ -1,5 +1,4 @@
 
-import { Card } from "@/components/ui/card";
 import { Info, User, FileText } from "lucide-react";
 
 export function BillingStatusCards() {
@@ -71,7 +70,7 @@ export function BillingStatusCards() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Received/Recebidas */}
-        <Card className="p-5 border relative">
+        <div className="p-5 border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Recebidas</h3>
             <button className="text-gray-400">
@@ -97,10 +96,10 @@ export function BillingStatusCards() {
               <span className="ml-auto text-[#27ae60]">&#8250;</span>
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Confirmed/Confirmadas */}
-        <Card className="p-5 border relative">
+        <div className="p-5 border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Confirmadas</h3>
             <button className="text-gray-400">
@@ -126,10 +125,10 @@ export function BillingStatusCards() {
               <span className="ml-auto text-[#3498db]">&#8250;</span>
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Awaiting Payment/Aguardando pagamento */}
-        <Card className="p-5 border relative">
+        <div className="p-5 border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Aguardando pagamento</h3>
             <button className="text-gray-400">
@@ -155,10 +154,10 @@ export function BillingStatusCards() {
               <span className="ml-auto text-[#f39c12]">&#8250;</span>
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Overdue/Vencidas */}
-        <Card className="p-5 border relative">
+        <div className="p-5 border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Vencidas</h3>
             <button className="text-gray-400">
@@ -184,7 +183,7 @@ export function BillingStatusCards() {
               <span className="ml-auto text-[#e74c3c]">&#8250;</span>
             </div>
           </div>
-        </Card>
+        </div>
       </div>
     </div>
   );
