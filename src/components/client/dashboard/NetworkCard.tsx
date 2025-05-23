@@ -21,7 +21,7 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
 
   return (
     <div 
-      className="h-full cursor-pointer hover:opacity-95 transition-opacity pl-5"
+      className="h-full cursor-pointer hover:opacity-95 transition-opacity "
       onClick={onClick}
     >
       <div className="pb-2 space-y-0 py-4 bg-transparent pt-10">
