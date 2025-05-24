@@ -51,10 +51,6 @@ export function ClientsModal({ isOpen, onOpenChange, title, clients }: ClientsMo
                 <span>📥</span>
                 Exportar Dados
               </button>
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2">
-                <span>+</span>
-                Adicionar cliente
-              </button>
             </div>
           </div>
 
