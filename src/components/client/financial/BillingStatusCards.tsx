@@ -6,93 +6,10 @@ import {
   PopoverTrigger
 } from "@/components/ui/popover";
 import { ClientsModal } from "./ClientsModal";
+import { useBillingData } from "@/hooks/useBillingData";
 
 export function BillingStatusCards() {
-  // Sample data - would typically come from an API
-  const billingStatus = {
-    received: {
-      amount: 895.53,
-      liquid: 895.53,
-      clients: 5,
-      bills: 6,
-      color: "text-[#27ae60]",
-      progressColor: "bg-[#27ae60]",
-      tooltip: "Cobranças recebidas dentro do período.",
-      clientsData: [
-        {
-          id: "1",
-          name: "Gisele Santos Oliveira",
-          email: "gsantosoliveira3@gmail.com",
-          phone: "(94) 99110-1362",
-          subscription: "R$ 1.097,05",
-          charges: "R$ 1.097,05"
-        },
-        {
-          id: "2",
-          name: "Agda de Castro Resende",
-          email: "thaysalexia@hotmail.com",
-          phone: "(32) 99164-6919",
-          subscription: "R$ 1.260,10",
-          charges: "R$ 1.260,10"
-        },
-        {
-          id: "3",
-          name: "Douglas Santos Nobrega",
-          email: "douglas.nobrega@hotmail.com",
-          phone: "(11) 97551-9949",
-          subscription: "R$ 878,35",
-          charges: "R$ 878,35"
-        }
-      ]
-    },
-    confirmed: {
-      amount: 0,
-      liquid: 0,
-      clients: 0,
-      bills: 0,
-      color: "text-[#3498db]",
-      progressColor: "bg-[#3498db]/30 bg-stripe",
-      tooltip: "Cobranças recebidas dentro do período, mas que estão aguardando o repasse.",
-      clientsData: []
-    },
-    awaiting: {
-      amount: 0,
-      liquid: 0,
-      clients: 0,
-      bills: 0,
-      color: "text-[#f39c12]",
-      progressColor: "bg-[#f39c12]/30 bg-stripe",
-      tooltip: "Cobranças previstas para recebimento dentro do período.",
-      clientsData: []
-    },
-    overdue: {
-      amount: 769.97,
-      liquid: 764.00,
-      clients: 3,
-      bills: 3,
-      color: "text-[#e74c3c]",
-      progressColor: "bg-[#e74c3c]",
-      tooltip: "Cobranças vencidas dentro do período e que não foram pagas.",
-      clientsData: [
-        {
-          id: "4",
-          name: "Maria Silva Santos",
-          email: "maria.silva@gmail.com",
-          phone: "(11) 98765-4321",
-          subscription: "R$ 450,00",
-          charges: "R$ 450,00"
-        },
-        {
-          id: "5",
-          name: "João Carlos Pereira",
-          email: "joao.pereira@hotmail.com",
-          phone: "(21) 99887-6543",
-          subscription: "R$ 319,97",
-          charges: "R$ 314,00"
-        }
-      ]
-    }
-  };
+  const { billingStatus, loading, error, refetch } = useBillingData();
 
   const formatCurrencyBR = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -122,6 +39,35 @@ export function BillingStatusCards() {
       clients: statusData.clientsData
     });
   };
+
+  if (loading) {
+    return (
+      <div className="container">
+        <div className="flex items-center justify-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <span className="ml-2">Carregando dados...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container">
+        <div className="flex items-center justify-center py-8">
+          <div className="text-red-600">
+            {error}
+            <button 
+              onClick={refetch}
+              className="ml-2 px-3 py-1 bg-blue-600 text-white rounded text-sm"
+            >
+              Tentar novamente
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
@@ -181,12 +127,12 @@ export function BillingStatusCards() {
               onClick={() => handleClientsClick('received')}
             >
               <User size={16} className="mr-2" />
-              <span>{billingStatus.received.clients} clientes</span>
+              <span>{billingStatus.received.clients} {billingStatus.received.clients === 1 ? 'cliente' : 'clientes'}</span>
               <span className="ml-auto text-[#27ae60]">&#8250;</span>
             </div>
             <div className="flex items-center text-sm text-gray-700">
               <FileText size={16} className="mr-2" />
-              <span>{billingStatus.received.bills} cobranças</span>
+              <span>{billingStatus.received.bills} {billingStatus.received.bills === 1 ? 'cobrança' : 'cobranças'}</span>
               <span className="ml-auto text-[#27ae60]">&#8250;</span>
             </div>
           </div>
@@ -226,12 +172,12 @@ export function BillingStatusCards() {
               onClick={() => handleClientsClick('confirmed')}
             >
               <User size={16} className="mr-2" />
-              <span>{billingStatus.confirmed.clients} cliente</span>
+              <span>{billingStatus.confirmed.clients} {billingStatus.confirmed.clients === 1 ? 'cliente' : 'clientes'}</span>
               <span className="ml-auto text-[#3498db]">&#8250;</span>
             </div>
             <div className="flex items-center text-sm text-gray-700">
               <FileText size={16} className="mr-2" />
-              <span>{billingStatus.confirmed.bills} cobrança</span>
+              <span>{billingStatus.confirmed.bills} {billingStatus.confirmed.bills === 1 ? 'cobrança' : 'cobranças'}</span>
               <span className="ml-auto text-[#3498db]">&#8250;</span>
             </div>
           </div>
@@ -271,12 +217,12 @@ export function BillingStatusCards() {
               onClick={() => handleClientsClick('awaiting')}
             >
               <User size={16} className="mr-2" />
-              <span>{billingStatus.awaiting.clients} cliente</span>
+              <span>{billingStatus.awaiting.clients} {billingStatus.awaiting.clients === 1 ? 'cliente' : 'clientes'}</span>
               <span className="ml-auto text-[#f39c12]">&#8250;</span>
             </div>
             <div className="flex items-center text-sm text-gray-700">
               <FileText size={16} className="mr-2" />
-              <span>{billingStatus.awaiting.bills} cobrança</span>
+              <span>{billingStatus.awaiting.bills} {billingStatus.awaiting.bills === 1 ? 'cobrança' : 'cobranças'}</span>
               <span className="ml-auto text-[#f39c12]">&#8250;</span>
             </div>
           </div>
@@ -316,12 +262,12 @@ export function BillingStatusCards() {
               onClick={() => handleClientsClick('overdue')}
             >
               <User size={16} className="mr-2" />
-              <span>{billingStatus.overdue.clients} clientes</span>
+              <span>{billingStatus.overdue.clients} {billingStatus.overdue.clients === 1 ? 'cliente' : 'clientes'}</span>
               <span className="ml-auto text-[#e74c3c]">&#8250;</span>
             </div>
             <div className="flex items-center text-sm text-gray-700">
               <FileText size={16} className="mr-2" />
-              <span>{billingStatus.overdue.bills} cobranças</span>
+              <span>{billingStatus.overdue.bills} {billingStatus.overdue.bills === 1 ? 'cobrança' : 'cobranças'}</span>
               <span className="ml-auto text-[#e74c3c]">&#8250;</span>
             </div>
           </div>
