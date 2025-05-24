@@ -1,6 +1,6 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { User, Mail, Phone, Edit, Trash2 } from "lucide-react";
+import { User, Mail, Phone } from "lucide-react";
 
 interface Client {
   id: string;
@@ -59,16 +59,15 @@ export function ClientsModal({ isOpen, onOpenChange, title, clients }: ClientsMo
           </div>
 
           <div className="bg-white rounded-lg border">
-            <div className="grid grid-cols-6 gap-4 p-4 bg-gray-50 font-semibold text-gray-700 border-b">
+            <div className="grid grid-cols-4 gap-4 p-4 bg-gray-50 font-semibold text-gray-700 border-b">
               <div>Cliente</div>
               <div>Empresa</div>
               <div>Assinaturas recebidas</div>
               <div>Cobranças recebidas</div>
-              <div>Ações</div>
             </div>
             
             {clients.map((client) => (
-              <div key={client.id} className="grid grid-cols-6 gap-4 p-4 border-b hover:bg-gray-50 transition-colors">
+              <div key={client.id} className="grid grid-cols-4 gap-4 p-4 border-b hover:bg-gray-50 transition-colors">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
@@ -92,15 +91,6 @@ export function ClientsModal({ isOpen, onOpenChange, title, clients }: ClientsMo
                 
                 <div className="font-medium text-gray-900">
                   {formatCurrencyBR(client.charges)}
-                </div>
-                
-                <div className="flex gap-2">
-                  <button className="p-2 text-blue-600 hover:bg-blue-50 rounded">
-                    <Edit size={16} />
-                  </button>
-                  <button className="p-2 text-red-600 hover:bg-red-50 rounded">
-                    <Trash2 size={16} />
-                  </button>
                 </div>
               </div>
             ))}
