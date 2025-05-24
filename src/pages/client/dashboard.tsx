@@ -10,6 +10,7 @@ import { DashboardCards } from "@/components/client/dashboard/DashboardCards";
 import { getMonthsData, getDailyData } from "@/utils/monthsData";
 import { FinancialCards } from "@/components/client/dashboard/financial-cards";
 import { StatsCardsGrid } from "@/components/client/dashboard/stats/StatsCardsGrid";
+import { BillingStatusCards } from "@/components/client/financial/BillingStatusCards";
 import "@/styles/logo.css";
 
 export default function ClientDashboard() {
@@ -42,6 +43,10 @@ export default function ClientDashboard() {
             <WelcomeSection profile={profile} />
 
             <FinancialCards />
+
+            <div className="px-4 sm:px-6 mt-8">
+              <BillingStatusCards />
+            </div>
 
             <StatsCardsGrid />
 
