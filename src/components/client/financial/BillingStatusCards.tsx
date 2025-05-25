@@ -1,3 +1,4 @@
+
 import { Info, User, FileText } from "lucide-react";
 import { useState } from "react";
 import { 
@@ -117,7 +118,7 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.received.color} mb-1`}>{formatCurrencyBR(billingStatus.received.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.received.liquid)} líquido</p>
           
-          <div className="w-full h-2 bg-gray-100 rounded-full mb-4 overflow-hidden">
+          <div className="w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden">
             <div className={`h-full ${billingStatus.received.progressColor} rounded-full`} style={{ width: '100%' }}></div>
           </div>
           
@@ -126,12 +127,12 @@ export function BillingStatusCards() {
               className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
               onClick={() => handleClientsClick('received')}
             >
-              <User size={16} className="mr-2" />
+              <User size={16} className="mr-2 text-[#27ae60]" />
               <span>{billingStatus.received.clients} {billingStatus.received.clients === 1 ? 'cliente' : 'clientes'}</span>
               <span className="ml-auto text-[#27ae60]">&#8250;</span>
             </div>
             <div className="flex items-center text-sm text-gray-700">
-              <FileText size={16} className="mr-2" />
+              <FileText size={16} className="mr-2 text-[#27ae60]" />
               <span>{billingStatus.received.bills} {billingStatus.received.bills === 1 ? 'cobrança' : 'cobranças'}</span>
               <span className="ml-auto text-[#27ae60]">&#8250;</span>
             </div>
@@ -162,7 +163,7 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.confirmed.color} mb-1`}>{formatCurrencyBR(billingStatus.confirmed.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.confirmed.liquid)} líquido</p>
           
-          <div className="w-full h-2 bg-gray-100 rounded-full mb-4 overflow-hidden">
+          <div className="w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden">
             <div className={`h-full ${billingStatus.confirmed.progressColor} rounded-full`} style={{ width: '100%' }}></div>
           </div>
           
@@ -171,12 +172,12 @@ export function BillingStatusCards() {
               className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
               onClick={() => handleClientsClick('confirmed')}
             >
-              <User size={16} className="mr-2" />
+              <User size={16} className="mr-2 text-[#3498db]" />
               <span>{billingStatus.confirmed.clients} {billingStatus.confirmed.clients === 1 ? 'cliente' : 'clientes'}</span>
               <span className="ml-auto text-[#3498db]">&#8250;</span>
             </div>
             <div className="flex items-center text-sm text-gray-700">
-              <FileText size={16} className="mr-2" />
+              <FileText size={16} className="mr-2 text-[#3498db]" />
               <span>{billingStatus.confirmed.bills} {billingStatus.confirmed.bills === 1 ? 'cobrança' : 'cobranças'}</span>
               <span className="ml-auto text-[#3498db]">&#8250;</span>
             </div>
@@ -207,7 +208,7 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.awaiting.color} mb-1`}>{formatCurrencyBR(billingStatus.awaiting.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.awaiting.liquid)} líquido</p>
           
-          <div className="w-full h-2 bg-gray-100 rounded-full mb-4 overflow-hidden">
+          <div className="w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden">
             <div className={`h-full ${billingStatus.awaiting.progressColor} rounded-full`} style={{ width: '100%' }}></div>
           </div>
           
@@ -216,12 +217,12 @@ export function BillingStatusCards() {
               className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
               onClick={() => handleClientsClick('awaiting')}
             >
-              <User size={16} className="mr-2" />
+              <User size={16} className="mr-2 text-[#f39c12]" />
               <span>{billingStatus.awaiting.clients} {billingStatus.awaiting.clients === 1 ? 'cliente' : 'clientes'}</span>
               <span className="ml-auto text-[#f39c12]">&#8250;</span>
             </div>
             <div className="flex items-center text-sm text-gray-700">
-              <FileText size={16} className="mr-2" />
+              <FileText size={16} className="mr-2 text-[#f39c12]" />
               <span>{billingStatus.awaiting.bills} {billingStatus.awaiting.bills === 1 ? 'cobrança' : 'cobranças'}</span>
               <span className="ml-auto text-[#f39c12]">&#8250;</span>
             </div>
@@ -252,7 +253,7 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.overdue.color} mb-1`}>{formatCurrencyBR(billingStatus.overdue.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.overdue.liquid)} líquido</p>
           
-          <div className="w-full h-2 bg-gray-100 rounded-full mb-4 overflow-hidden">
+          <div className="w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden">
             <div className={`h-full ${billingStatus.overdue.progressColor} rounded-full`} style={{ width: '100%' }}></div>
           </div>
           
@@ -261,12 +262,12 @@ export function BillingStatusCards() {
               className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
               onClick={() => handleClientsClick('overdue')}
             >
-              <User size={16} className="mr-2" />
+              <User size={16} className="mr-2 text-[#e74c3c]" />
               <span>{billingStatus.overdue.clients} {billingStatus.overdue.clients === 1 ? 'cliente' : 'clientes'}</span>
               <span className="ml-auto text-[#e74c3c]">&#8250;</span>
             </div>
             <div className="flex items-center text-sm text-gray-700">
-              <FileText size={16} className="mr-2" />
+              <FileText size={16} className="mr-2 text-[#e74c3c]" />
               <span>{billingStatus.overdue.bills} {billingStatus.overdue.bills === 1 ? 'cobrança' : 'cobranças'}</span>
               <span className="ml-auto text-[#e74c3c]">&#8250;</span>
             </div>
