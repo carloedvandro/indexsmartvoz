@@ -1,5 +1,3 @@
-
-
 import { Info, User, FileText } from "lucide-react";
 import { useState } from "react";
 import { 
@@ -31,11 +29,6 @@ export function BillingStatusCards() {
     clients: []
   });
 
-  const [showProgressTooltip, setShowProgressTooltip] = useState(false);
-  const [showConfirmedTooltip, setShowConfirmedTooltip] = useState(false);
-  const [showAwaitingTooltip, setShowAwaitingTooltip] = useState(false);
-  const [showOverdueTooltip, setShowOverdueTooltip] = useState(false);
-
   const handleClientsClick = (type: string) => {
     const statusData = billingStatus[type as keyof typeof billingStatus];
     setClientsModal({
@@ -45,13 +38,6 @@ export function BillingStatusCards() {
                      type === 'awaiting' ? 'Aguardando pagamento' : 'Vencidas'}`,
       clients: statusData.clientsData
     });
-  };
-
-  // Calculate payment breakdown (70% Pix, 30% Boleto for demonstration)
-  const getPaymentBreakdown = (amount: number) => {
-    const pixAmount = amount * 0.7;
-    const boletoAmount = amount * 0.3;
-    return { pixAmount, boletoAmount };
   };
 
   if (loading) {
@@ -82,11 +68,6 @@ export function BillingStatusCards() {
       </div>
     );
   }
-
-  const receivedBreakdown = getPaymentBreakdown(billingStatus.received.amount);
-  const confirmedBreakdown = getPaymentBreakdown(billingStatus.confirmed.amount);
-  const awaitingBreakdown = getPaymentBreakdown(billingStatus.awaiting.amount);
-  const overdueBreakdown = getPaymentBreakdown(billingStatus.overdue.amount);
 
   return (
     <div className="container">
@@ -136,31 +117,8 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.received.color} mb-1`}>{formatCurrencyBR(billingStatus.received.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.received.liquid)} líquido</p>
           
-          <div className="relative">
-            <div 
-              className={`w-full bg-gray-100 rounded-sm mb-4 overflow-hidden transition-all duration-200 ${showProgressTooltip ? 'h-6' : 'h-4'}`}
-              onMouseEnter={() => setShowProgressTooltip(true)}
-              onMouseLeave={() => setShowProgressTooltip(false)}
-            >
-              <div className="h-full flex">
-                <div 
-                  className="h-full bg-[#27ae60] rounded-sm" 
-                  style={{ width: '70%' }}
-                ></div>
-                <div 
-                  className="h-full bg-[#27ae60]/60 rounded-sm" 
-                  style={{ width: '30%' }}
-                ></div>
-              </div>
-            </div>
-            
-            {showProgressTooltip && (
-              <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10">
-                <div>Pix: {formatCurrencyBR(receivedBreakdown.pixAmount)}</div>
-                <div>Boleto: {formatCurrencyBR(receivedBreakdown.boletoAmount)}</div>
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black"></div>
-              </div>
-            )}
+          <div className="w-full h-2 bg-gray-100 rounded-full mb-4 overflow-hidden">
+            <div className={`h-full ${billingStatus.received.progressColor} rounded-full`} style={{ width: '100%' }}></div>
           </div>
           
           <div className="flex flex-col gap-3">
@@ -168,12 +126,12 @@ export function BillingStatusCards() {
               className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
               onClick={() => handleClientsClick('received')}
             >
-              <User size={16} className="mr-2 text-[#27ae60]" />
+              <User size={16} className="mr-2" />
               <span>{billingStatus.received.clients} {billingStatus.received.clients === 1 ? 'cliente' : 'clientes'}</span>
               <span className="ml-auto text-[#27ae60]">&#8250;</span>
             </div>
             <div className="flex items-center text-sm text-gray-700">
-              <FileText size={16} className="mr-2 text-[#27ae60]" />
+              <FileText size={16} className="mr-2" />
               <span>{billingStatus.received.bills} {billingStatus.received.bills === 1 ? 'cobrança' : 'cobranças'}</span>
               <span className="ml-auto text-[#27ae60]">&#8250;</span>
             </div>
@@ -204,31 +162,8 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.confirmed.color} mb-1`}>{formatCurrencyBR(billingStatus.confirmed.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.confirmed.liquid)} líquido</p>
           
-          <div className="relative">
-            <div 
-              className={`w-full bg-gray-100 rounded-sm mb-4 overflow-hidden transition-all duration-200 ${showConfirmedTooltip ? 'h-6' : 'h-4'}`}
-              onMouseEnter={() => setShowConfirmedTooltip(true)}
-              onMouseLeave={() => setShowConfirmedTooltip(false)}
-            >
-              <div className="h-full flex">
-                <div 
-                  className="h-full bg-[#3498db] rounded-sm" 
-                  style={{ width: '70%' }}
-                ></div>
-                <div 
-                  className="h-full bg-[#3498db]/60 rounded-sm" 
-                  style={{ width: '30%' }}
-                ></div>
-              </div>
-            </div>
-            
-            {showConfirmedTooltip && (
-              <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10">
-                <div>Pix: {formatCurrencyBR(confirmedBreakdown.pixAmount)}</div>
-                <div>Boleto: {formatCurrencyBR(confirmedBreakdown.boletoAmount)}</div>
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black"></div>
-              </div>
-            )}
+          <div className="w-full h-2 bg-gray-100 rounded-full mb-4 overflow-hidden">
+            <div className={`h-full ${billingStatus.confirmed.progressColor} rounded-full`} style={{ width: '100%' }}></div>
           </div>
           
           <div className="flex flex-col gap-3">
@@ -236,12 +171,12 @@ export function BillingStatusCards() {
               className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
               onClick={() => handleClientsClick('confirmed')}
             >
-              <User size={16} className="mr-2 text-[#3498db]" />
+              <User size={16} className="mr-2" />
               <span>{billingStatus.confirmed.clients} {billingStatus.confirmed.clients === 1 ? 'cliente' : 'clientes'}</span>
               <span className="ml-auto text-[#3498db]">&#8250;</span>
             </div>
             <div className="flex items-center text-sm text-gray-700">
-              <FileText size={16} className="mr-2 text-[#3498db]" />
+              <FileText size={16} className="mr-2" />
               <span>{billingStatus.confirmed.bills} {billingStatus.confirmed.bills === 1 ? 'cobrança' : 'cobranças'}</span>
               <span className="ml-auto text-[#3498db]">&#8250;</span>
             </div>
@@ -272,31 +207,8 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.awaiting.color} mb-1`}>{formatCurrencyBR(billingStatus.awaiting.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.awaiting.liquid)} líquido</p>
           
-          <div className="relative">
-            <div 
-              className={`w-full bg-gray-100 rounded-sm mb-4 overflow-hidden transition-all duration-200 ${showAwaitingTooltip ? 'h-6' : 'h-4'}`}
-              onMouseEnter={() => setShowAwaitingTooltip(true)}
-              onMouseLeave={() => setShowAwaitingTooltip(false)}
-            >
-              <div className="h-full flex">
-                <div 
-                  className="h-full bg-[#f39c12] rounded-sm" 
-                  style={{ width: '70%' }}
-                ></div>
-                <div 
-                  className="h-full bg-[#f39c12]/60 rounded-sm" 
-                  style={{ width: '30%' }}
-                ></div>
-              </div>
-            </div>
-            
-            {showAwaitingTooltip && (
-              <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10">
-                <div>Pix: {formatCurrencyBR(awaitingBreakdown.pixAmount)}</div>
-                <div>Boleto: {formatCurrencyBR(awaitingBreakdown.boletoAmount)}</div>
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black"></div>
-              </div>
-            )}
+          <div className="w-full h-2 bg-gray-100 rounded-full mb-4 overflow-hidden">
+            <div className={`h-full ${billingStatus.awaiting.progressColor} rounded-full`} style={{ width: '100%' }}></div>
           </div>
           
           <div className="flex flex-col gap-3">
@@ -304,12 +216,12 @@ export function BillingStatusCards() {
               className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
               onClick={() => handleClientsClick('awaiting')}
             >
-              <User size={16} className="mr-2 text-[#f39c12]" />
+              <User size={16} className="mr-2" />
               <span>{billingStatus.awaiting.clients} {billingStatus.awaiting.clients === 1 ? 'cliente' : 'clientes'}</span>
               <span className="ml-auto text-[#f39c12]">&#8250;</span>
             </div>
             <div className="flex items-center text-sm text-gray-700">
-              <FileText size={16} className="mr-2 text-[#f39c12]" />
+              <FileText size={16} className="mr-2" />
               <span>{billingStatus.awaiting.bills} {billingStatus.awaiting.bills === 1 ? 'cobrança' : 'cobranças'}</span>
               <span className="ml-auto text-[#f39c12]">&#8250;</span>
             </div>
@@ -340,31 +252,8 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.overdue.color} mb-1`}>{formatCurrencyBR(billingStatus.overdue.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.overdue.liquid)} líquido</p>
           
-          <div className="relative">
-            <div 
-              className={`w-full bg-gray-100 rounded-sm mb-4 overflow-hidden transition-all duration-200 ${showOverdueTooltip ? 'h-6' : 'h-4'}`}
-              onMouseEnter={() => setShowOverdueTooltip(true)}
-              onMouseLeave={() => setShowOverdueTooltip(false)}
-            >
-              <div className="h-full flex">
-                <div 
-                  className="h-full bg-[#e74c3c] rounded-sm" 
-                  style={{ width: '70%' }}
-                ></div>
-                <div 
-                  className="h-full bg-[#e74c3c]/60 rounded-sm" 
-                  style={{ width: '30%' }}
-                ></div>
-              </div>
-            </div>
-            
-            {showOverdueTooltip && (
-              <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10">
-                <div>Pix: {formatCurrencyBR(overdueBreakdown.pixAmount)}</div>
-                <div>Boleto: {formatCurrencyBR(overdueBreakdown.boletoAmount)}</div>
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black"></div>
-              </div>
-            )}
+          <div className="w-full h-2 bg-gray-100 rounded-full mb-4 overflow-hidden">
+            <div className={`h-full ${billingStatus.overdue.progressColor} rounded-full`} style={{ width: '100%' }}></div>
           </div>
           
           <div className="flex flex-col gap-3">
@@ -372,12 +261,12 @@ export function BillingStatusCards() {
               className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
               onClick={() => handleClientsClick('overdue')}
             >
-              <User size={16} className="mr-2 text-[#e74c3c]" />
+              <User size={16} className="mr-2" />
               <span>{billingStatus.overdue.clients} {billingStatus.overdue.clients === 1 ? 'cliente' : 'clientes'}</span>
               <span className="ml-auto text-[#e74c3c]">&#8250;</span>
             </div>
             <div className="flex items-center text-sm text-gray-700">
-              <FileText size={16} className="mr-2 text-[#e74c3c]" />
+              <FileText size={16} className="mr-2" />
               <span>{billingStatus.overdue.bills} {billingStatus.overdue.bills === 1 ? 'cobrança' : 'cobranças'}</span>
               <span className="ml-auto text-[#e74c3c]">&#8250;</span>
             </div>
@@ -394,4 +283,3 @@ export function BillingStatusCards() {
     </div>
   );
 }
-
