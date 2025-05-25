@@ -1,4 +1,5 @@
 
+
 import { Info, User, FileText } from "lucide-react";
 import { useState } from "react";
 import { 
@@ -31,6 +32,9 @@ export function BillingStatusCards() {
   });
 
   const [showProgressTooltip, setShowProgressTooltip] = useState(false);
+  const [showConfirmedTooltip, setShowConfirmedTooltip] = useState(false);
+  const [showAwaitingTooltip, setShowAwaitingTooltip] = useState(false);
+  const [showOverdueTooltip, setShowOverdueTooltip] = useState(false);
 
   const handleClientsClick = (type: string) => {
     const statusData = billingStatus[type as keyof typeof billingStatus];
@@ -80,6 +84,9 @@ export function BillingStatusCards() {
   }
 
   const receivedBreakdown = getPaymentBreakdown(billingStatus.received.amount);
+  const confirmedBreakdown = getPaymentBreakdown(billingStatus.confirmed.amount);
+  const awaitingBreakdown = getPaymentBreakdown(billingStatus.awaiting.amount);
+  const overdueBreakdown = getPaymentBreakdown(billingStatus.overdue.amount);
 
   return (
     <div className="container">
@@ -197,17 +204,31 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.confirmed.color} mb-1`}>{formatCurrencyBR(billingStatus.confirmed.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.confirmed.liquid)} líquido</p>
           
-          <div className="w-full h-4 bg-gray-100 rounded-sm mb-4 overflow-hidden">
-            <div className="h-full flex">
-              <div 
-                className="h-full bg-[#3498db] rounded-sm" 
-                style={{ width: '70%' }}
-              ></div>
-              <div 
-                className="h-full bg-[#3498db]/60 rounded-sm" 
-                style={{ width: '30%' }}
-              ></div>
+          <div className="relative">
+            <div 
+              className={`w-full bg-gray-100 rounded-sm mb-4 overflow-hidden transition-all duration-200 ${showConfirmedTooltip ? 'h-6' : 'h-4'}`}
+              onMouseEnter={() => setShowConfirmedTooltip(true)}
+              onMouseLeave={() => setShowConfirmedTooltip(false)}
+            >
+              <div className="h-full flex">
+                <div 
+                  className="h-full bg-[#3498db] rounded-sm" 
+                  style={{ width: '70%' }}
+                ></div>
+                <div 
+                  className="h-full bg-[#3498db]/60 rounded-sm" 
+                  style={{ width: '30%' }}
+                ></div>
+              </div>
             </div>
+            
+            {showConfirmedTooltip && (
+              <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10">
+                <div>Pix: {formatCurrencyBR(confirmedBreakdown.pixAmount)}</div>
+                <div>Boleto: {formatCurrencyBR(confirmedBreakdown.boletoAmount)}</div>
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black"></div>
+              </div>
+            )}
           </div>
           
           <div className="flex flex-col gap-3">
@@ -251,17 +272,31 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.awaiting.color} mb-1`}>{formatCurrencyBR(billingStatus.awaiting.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.awaiting.liquid)} líquido</p>
           
-          <div className="w-full h-4 bg-gray-100 rounded-sm mb-4 overflow-hidden">
-            <div className="h-full flex">
-              <div 
-                className="h-full bg-[#f39c12] rounded-sm" 
-                style={{ width: '70%' }}
-              ></div>
-              <div 
-                className="h-full bg-[#f39c12]/60 rounded-sm" 
-                style={{ width: '30%' }}
-              ></div>
+          <div className="relative">
+            <div 
+              className={`w-full bg-gray-100 rounded-sm mb-4 overflow-hidden transition-all duration-200 ${showAwaitingTooltip ? 'h-6' : 'h-4'}`}
+              onMouseEnter={() => setShowAwaitingTooltip(true)}
+              onMouseLeave={() => setShowAwaitingTooltip(false)}
+            >
+              <div className="h-full flex">
+                <div 
+                  className="h-full bg-[#f39c12] rounded-sm" 
+                  style={{ width: '70%' }}
+                ></div>
+                <div 
+                  className="h-full bg-[#f39c12]/60 rounded-sm" 
+                  style={{ width: '30%' }}
+                ></div>
+              </div>
             </div>
+            
+            {showAwaitingTooltip && (
+              <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10">
+                <div>Pix: {formatCurrencyBR(awaitingBreakdown.pixAmount)}</div>
+                <div>Boleto: {formatCurrencyBR(awaitingBreakdown.boletoAmount)}</div>
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black"></div>
+              </div>
+            )}
           </div>
           
           <div className="flex flex-col gap-3">
@@ -305,17 +340,31 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.overdue.color} mb-1`}>{formatCurrencyBR(billingStatus.overdue.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.overdue.liquid)} líquido</p>
           
-          <div className="w-full h-4 bg-gray-100 rounded-sm mb-4 overflow-hidden">
-            <div className="h-full flex">
-              <div 
-                className="h-full bg-[#e74c3c] rounded-sm" 
-                style={{ width: '70%' }}
-              ></div>
-              <div 
-                className="h-full bg-[#e74c3c]/60 rounded-sm" 
-                style={{ width: '30%' }}
-              ></div>
+          <div className="relative">
+            <div 
+              className={`w-full bg-gray-100 rounded-sm mb-4 overflow-hidden transition-all duration-200 ${showOverdueTooltip ? 'h-6' : 'h-4'}`}
+              onMouseEnter={() => setShowOverdueTooltip(true)}
+              onMouseLeave={() => setShowOverdueTooltip(false)}
+            >
+              <div className="h-full flex">
+                <div 
+                  className="h-full bg-[#e74c3c] rounded-sm" 
+                  style={{ width: '70%' }}
+                ></div>
+                <div 
+                  className="h-full bg-[#e74c3c]/60 rounded-sm" 
+                  style={{ width: '30%' }}
+                ></div>
+              </div>
             </div>
+            
+            {showOverdueTooltip && (
+              <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10">
+                <div>Pix: {formatCurrencyBR(overdueBreakdown.pixAmount)}</div>
+                <div>Boleto: {formatCurrencyBR(overdueBreakdown.boletoAmount)}</div>
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black"></div>
+              </div>
+            )}
           </div>
           
           <div className="flex flex-col gap-3">
@@ -345,3 +394,4 @@ export function BillingStatusCards() {
     </div>
   );
 }
+
