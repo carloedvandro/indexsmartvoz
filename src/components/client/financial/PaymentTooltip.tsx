@@ -1,4 +1,6 @@
 
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
 interface PaymentTooltipProps {
   totalAmount: number;
   isVisible: boolean;
