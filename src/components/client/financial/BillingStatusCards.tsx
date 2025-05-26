@@ -30,6 +30,8 @@ export function BillingStatusCards() {
     clients: []
   });
 
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+
   const handleClientsClick = (type: string) => {
     const statusData = billingStatus[type as keyof typeof billingStatus];
     setClientsModal({
@@ -39,6 +41,14 @@ export function BillingStatusCards() {
                      type === 'awaiting' ? 'Aguardando pagamento' : 'Vencidas'}`,
       clients: statusData.clientsData
     });
+  };
+
+  // Função para calcular valores simulados de Pix e Boleto baseados no total
+  const getPaymentBreakdown = (totalAmount: number) => {
+    // Simular 60% Pix e 40% Boleto
+    const pixAmount = totalAmount * 0.6;
+    const boletoAmount = totalAmount * 0.4;
+    return { pixAmount, boletoAmount };
   };
 
   if (loading) {
@@ -118,8 +128,27 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.received.color} mb-1`}>{formatCurrencyBR(billingStatus.received.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.received.liquid)} líquido</p>
           
-          <div className="w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden">
-            <div className={`h-full ${billingStatus.received.progressColor} rounded-full`} style={{ width: '100%' }}></div>
+          <div 
+            className="relative w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden cursor-pointer"
+            onMouseEnter={() => setHoveredCard('received')}
+            onMouseLeave={() => setHoveredCard(null)}
+          >
+            <div 
+              className={`h-full ${billingStatus.received.progressColor} rounded-full transition-all duration-300 ${
+                hoveredCard === 'received' ? 'h-6 -mt-1' : 'h-4'
+              }`} 
+              style={{ width: '100%' }}
+            ></div>
+            
+            {hoveredCard === 'received' && (
+              <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 bg-black text-white px-3 py-2 rounded text-sm whitespace-nowrap z-10">
+                <div className="text-center">
+                  <div>Pix: {formatCurrencyBR(getPaymentBreakdown(billingStatus.received.amount).pixAmount)}</div>
+                  <div>Boleto: {formatCurrencyBR(getPaymentBreakdown(billingStatus.received.amount).boletoAmount)}</div>
+                </div>
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black"></div>
+              </div>
+            )}
           </div>
           
           <div className="flex flex-col gap-3">
@@ -140,7 +169,7 @@ export function BillingStatusCards() {
         </div>
 
         {/* Confirmed/Confirmadas */}
-        <div className=" border rounded-xl card-no-bg">
+        <div className="border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Confirmadas</h3>
             <Popover open={openPopover === 'confirmed'} onOpenChange={(open) => setOpenPopover(open ? 'confirmed' : null)}>
@@ -163,8 +192,27 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.confirmed.color} mb-1`}>{formatCurrencyBR(billingStatus.confirmed.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.confirmed.liquid)} líquido</p>
           
-          <div className="w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden">
-            <div className={`h-full ${billingStatus.confirmed.progressColor} rounded-full`} style={{ width: '100%' }}></div>
+          <div 
+            className="relative w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden cursor-pointer"
+            onMouseEnter={() => setHoveredCard('confirmed')}
+            onMouseLeave={() => setHoveredCard(null)}
+          >
+            <div 
+              className={`h-full ${billingStatus.confirmed.progressColor} rounded-full transition-all duration-300 ${
+                hoveredCard === 'confirmed' ? 'h-6 -mt-1' : 'h-4'
+              }`} 
+              style={{ width: '100%' }}
+            ></div>
+            
+            {hoveredCard === 'confirmed' && (
+              <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 bg-black text-white px-3 py-2 rounded text-sm whitespace-nowrap z-10">
+                <div className="text-center">
+                  <div>Pix: {formatCurrencyBR(getPaymentBreakdown(billingStatus.confirmed.amount).pixAmount)}</div>
+                  <div>Boleto: {formatCurrencyBR(getPaymentBreakdown(billingStatus.confirmed.amount).boletoAmount)}</div>
+                </div>
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black"></div>
+              </div>
+            )}
           </div>
           
           <div className="flex flex-col gap-3">
@@ -185,7 +233,7 @@ export function BillingStatusCards() {
         </div>
 
         {/* Awaiting Payment/Aguardando pagamento */}
-        <div className=" border rounded-xl card-no-bg">
+        <div className="border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Aguardando pagamento</h3>
             <Popover open={openPopover === 'awaiting'} onOpenChange={(open) => setOpenPopover(open ? 'awaiting' : null)}>
@@ -208,8 +256,27 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.awaiting.color} mb-1`}>{formatCurrencyBR(billingStatus.awaiting.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.awaiting.liquid)} líquido</p>
           
-          <div className="w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden">
-            <div className={`h-full ${billingStatus.awaiting.progressColor} rounded-full`} style={{ width: '100%' }}></div>
+          <div 
+            className="relative w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden cursor-pointer"
+            onMouseEnter={() => setHoveredCard('awaiting')}
+            onMouseLeave={() => setHoveredCard(null)}
+          >
+            <div 
+              className={`h-full ${billingStatus.awaiting.progressColor} rounded-full transition-all duration-300 ${
+                hoveredCard === 'awaiting' ? 'h-6 -mt-1' : 'h-4'
+              }`} 
+              style={{ width: '100%' }}
+            ></div>
+            
+            {hoveredCard === 'awaiting' && (
+              <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 bg-black text-white px-3 py-2 rounded text-sm whitespace-nowrap z-10">
+                <div className="text-center">
+                  <div>Pix: {formatCurrencyBR(getPaymentBreakdown(billingStatus.awaiting.amount).pixAmount)}</div>
+                  <div>Boleto: {formatCurrencyBR(getPaymentBreakdown(billingStatus.awaiting.amount).boletoAmount)}</div>
+                </div>
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black"></div>
+              </div>
+            )}
           </div>
           
           <div className="flex flex-col gap-3">
@@ -230,7 +297,7 @@ export function BillingStatusCards() {
         </div>
 
         {/* Overdue/Vencidas */}
-        <div className=" border rounded-xl card-no-bg">
+        <div className="border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Vencidas</h3>
             <Popover open={openPopover === 'overdue'} onOpenChange={(open) => setOpenPopover(open ? 'overdue' : null)}>
@@ -253,8 +320,27 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.overdue.color} mb-1`}>{formatCurrencyBR(billingStatus.overdue.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.overdue.liquid)} líquido</p>
           
-          <div className="w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden">
-            <div className={`h-full ${billingStatus.overdue.progressColor} rounded-full`} style={{ width: '100%' }}></div>
+          <div 
+            className="relative w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden cursor-pointer"
+            onMouseEnter={() => setHoveredCard('overdue')}
+            onMouseLeave={() => setHoveredCard(null)}
+          >
+            <div 
+              className={`h-full ${billingStatus.overdue.progressColor} rounded-full transition-all duration-300 ${
+                hoveredCard === 'overdue' ? 'h-6 -mt-1' : 'h-4'
+              }`} 
+              style={{ width: '100%' }}
+            ></div>
+            
+            {hoveredCard === 'overdue' && (
+              <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 bg-black text-white px-3 py-2 rounded text-sm whitespace-nowrap z-10">
+                <div className="text-center">
+                  <div>Pix: {formatCurrencyBR(getPaymentBreakdown(billingStatus.overdue.amount).pixAmount)}</div>
+                  <div>Boleto: {formatCurrencyBR(getPaymentBreakdown(billingStatus.overdue.amount).boletoAmount)}</div>
+                </div>
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black"></div>
+              </div>
+            )}
           </div>
           
           <div className="flex flex-col gap-3">
