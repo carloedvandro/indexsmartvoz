@@ -1,13 +1,13 @@
 
 import { useState } from "react";
-import { ClientsModal } from "./ClientsModal";
 import { useBillingData } from "@/hooks/useBillingData";
 import { BillingCard } from "./BillingCard";
+import { BillingDetailsTable } from "./BillingDetailsTable";
 
 export function BillingStatusCards() {
   const { billingStatus, loading, error, refetch } = useBillingData();
   const [openPopover, setOpenPopover] = useState<string | null>(null);
-  const [clientsModal, setClientsModal] = useState<{
+  const [detailsTable, setDetailsTable] = useState<{
     isOpen: boolean;
     title: string;
     clients: any[];
@@ -17,13 +17,18 @@ export function BillingStatusCards() {
     clients: []
   });
 
-  const handleClientsClick = (type: string) => {
+  const handleCardClick = (type: string) => {
     const statusData = billingStatus[type as keyof typeof billingStatus];
-    setClientsModal({
+    const titles = {
+      'received': 'Recebidas',
+      'confirmed': 'Confirmadas', 
+      'awaiting': 'Aguardando pagamento',
+      'overdue': 'Vencidas'
+    };
+    
+    setDetailsTable({
       isOpen: true,
-      title: `Clientes - ${type === 'received' ? 'Recebidas' : 
-                     type === 'confirmed' ? 'Confirmadas' : 
-                     type === 'awaiting' ? 'Aguardando pagamento' : 'Vencidas'}`,
+      title: titles[type as keyof typeof titles] || 'Cobranças',
       clients: statusData.clientsData
     });
   };
@@ -89,23 +94,24 @@ export function BillingStatusCards() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {cardConfigs.map((config) => (
-          <BillingCard
-            key={config.key}
-            title={config.title}
-            status={billingStatus[config.key as keyof typeof billingStatus]}
-            statusKey={config.key}
-            openPopover={openPopover}
-            setOpenPopover={setOpenPopover}
-            onClientsClick={handleClientsClick}
-          />
+          <div key={config.key} onClick={() => handleCardClick(config.key)} className="cursor-pointer">
+            <BillingCard
+              title={config.title}
+              status={billingStatus[config.key as keyof typeof billingStatus]}
+              statusKey={config.key}
+              openPopover={openPopover}
+              setOpenPopover={setOpenPopover}
+              onClientsClick={() => handleCardClick(config.key)}
+            />
+          </div>
         ))}
       </div>
 
-      <ClientsModal 
-        isOpen={clientsModal.isOpen}
-        onOpenChange={(open) => setClientsModal(prev => ({ ...prev, isOpen: open }))}
-        title={clientsModal.title}
-        clients={clientsModal.clients}
+      <BillingDetailsTable
+        isOpen={detailsTable.isOpen}
+        onClose={() => setDetailsTable(prev => ({ ...prev, isOpen: false }))}
+        title={detailsTable.title}
+        clients={detailsTable.clients}
       />
     </div>
   );
