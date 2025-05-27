@@ -1,13 +1,26 @@
 
+import { Info, User, FileText } from "lucide-react";
 import { useState } from "react";
+import { 
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from "@/components/ui/popover";
+import { ClientsModal } from "./ClientsModal";
 import { useBillingData } from "@/hooks/useBillingData";
-import { BillingCard } from "./BillingCard";
-import { BillingDetailsTable } from "./BillingDetailsTable";
 
 export function BillingStatusCards() {
   const { billingStatus, loading, error, refetch } = useBillingData();
+
+  const formatCurrencyBR = (value: number) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(value);
+  };
+
   const [openPopover, setOpenPopover] = useState<string | null>(null);
-  const [detailsTable, setDetailsTable] = useState<{
+  const [clientsModal, setClientsModal] = useState<{
     isOpen: boolean;
     title: string;
     clients: any[];
@@ -17,18 +30,13 @@ export function BillingStatusCards() {
     clients: []
   });
 
-  const handleCardClick = (type: string) => {
+  const handleClientsClick = (type: string) => {
     const statusData = billingStatus[type as keyof typeof billingStatus];
-    const titles = {
-      'received': 'Recebidas',
-      'confirmed': 'Confirmadas', 
-      'awaiting': 'Aguardando pagamento',
-      'overdue': 'Vencidas'
-    };
-    
-    setDetailsTable({
+    setClientsModal({
       isOpen: true,
-      title: titles[type as keyof typeof titles] || 'Cobranças',
+      title: `Clientes - ${type === 'received' ? 'Recebidas' : 
+                     type === 'confirmed' ? 'Confirmadas' : 
+                     type === 'awaiting' ? 'Aguardando pagamento' : 'Vencidas'}`,
       clients: statusData.clientsData
     });
   };
@@ -62,13 +70,6 @@ export function BillingStatusCards() {
     );
   }
 
-  const cardConfigs = [
-    { key: 'received', title: 'Recebidas' },
-    { key: 'confirmed', title: 'Confirmadas' },
-    { key: 'awaiting', title: 'Aguardando pagamento' },
-    { key: 'overdue', title: 'Vencidas' }
-  ];
-
   return (
     <div className="container">
       <div className="flex items-center justify-between mb-6">
@@ -93,25 +94,192 @@ export function BillingStatusCards() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {cardConfigs.map((config) => (
-          <div key={config.key} onClick={() => handleCardClick(config.key)} className="cursor-pointer">
-            <BillingCard
-              title={config.title}
-              status={billingStatus[config.key as keyof typeof billingStatus]}
-              statusKey={config.key}
-              openPopover={openPopover}
-              setOpenPopover={setOpenPopover}
-              onClientsClick={() => handleCardClick(config.key)}
-            />
+        {/* Received/Recebidas */}
+        <div className="border rounded-xl card-no-bg">
+          <div className="flex justify-between mb-2">
+            <h3 className="font-medium text-gray-800">Recebidas</h3>
+            <Popover open={openPopover === 'received'} onOpenChange={(open) => setOpenPopover(open ? 'received' : null)}>
+              <PopoverTrigger asChild>
+                <button className="text-gray-400 focus:outline-none" data-testid="info-received">
+                  <Info size={18} />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
+                {billingStatus.received.tooltip}
+                <button 
+                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                  onClick={() => setOpenPopover(null)}
+                >
+                  ✕
+                </button>
+              </PopoverContent>
+            </Popover>
           </div>
-        ))}
+          <p className={`text-2xl font-semibold ${billingStatus.received.color} mb-1`}>{formatCurrencyBR(billingStatus.received.amount)}</p>
+          <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.received.liquid)} líquido</p>
+          
+          <div className="w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden">
+            <div className={`h-full ${billingStatus.received.progressColor} rounded-full`} style={{ width: '100%' }}></div>
+          </div>
+          
+          <div className="flex flex-col gap-3">
+            <div 
+              className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
+              onClick={() => handleClientsClick('received')}
+            >
+              <User size={16} className="mr-2 text-[#27ae60]" />
+              <span>{billingStatus.received.clients} {billingStatus.received.clients === 1 ? 'cliente' : 'clientes'}</span>
+              <span className="ml-auto text-[#27ae60]">&#8250;</span>
+            </div>
+            <div className="flex items-center text-sm text-gray-700">
+              <FileText size={16} className="mr-2 text-[#27ae60]" />
+              <span>{billingStatus.received.bills} {billingStatus.received.bills === 1 ? 'cobrança' : 'cobranças'}</span>
+              <span className="ml-auto text-[#27ae60]">&#8250;</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Confirmed/Confirmadas */}
+        <div className=" border rounded-xl card-no-bg">
+          <div className="flex justify-between mb-2">
+            <h3 className="font-medium text-gray-800">Confirmadas</h3>
+            <Popover open={openPopover === 'confirmed'} onOpenChange={(open) => setOpenPopover(open ? 'confirmed' : null)}>
+              <PopoverTrigger asChild>
+                <button className="text-gray-400 focus:outline-none" data-testid="info-confirmed">
+                  <Info size={18} />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
+                {billingStatus.confirmed.tooltip}
+                <button 
+                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                  onClick={() => setOpenPopover(null)}
+                >
+                  ✕
+                </button>
+              </PopoverContent>
+            </Popover>
+          </div>
+          <p className={`text-2xl font-semibold ${billingStatus.confirmed.color} mb-1`}>{formatCurrencyBR(billingStatus.confirmed.amount)}</p>
+          <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.confirmed.liquid)} líquido</p>
+          
+          <div className="w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden">
+            <div className={`h-full ${billingStatus.confirmed.progressColor} rounded-full`} style={{ width: '100%' }}></div>
+          </div>
+          
+          <div className="flex flex-col gap-3">
+            <div 
+              className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
+              onClick={() => handleClientsClick('confirmed')}
+            >
+              <User size={16} className="mr-2 text-[#3498db]" />
+              <span>{billingStatus.confirmed.clients} {billingStatus.confirmed.clients === 1 ? 'cliente' : 'clientes'}</span>
+              <span className="ml-auto text-[#3498db]">&#8250;</span>
+            </div>
+            <div className="flex items-center text-sm text-gray-700">
+              <FileText size={16} className="mr-2 text-[#3498db]" />
+              <span>{billingStatus.confirmed.bills} {billingStatus.confirmed.bills === 1 ? 'cobrança' : 'cobranças'}</span>
+              <span className="ml-auto text-[#3498db]">&#8250;</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Awaiting Payment/Aguardando pagamento */}
+        <div className=" border rounded-xl card-no-bg">
+          <div className="flex justify-between mb-2">
+            <h3 className="font-medium text-gray-800">Aguardando pagamento</h3>
+            <Popover open={openPopover === 'awaiting'} onOpenChange={(open) => setOpenPopover(open ? 'awaiting' : null)}>
+              <PopoverTrigger asChild>
+                <button className="text-gray-400 focus:outline-none" data-testid="info-awaiting">
+                  <Info size={18} />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
+                {billingStatus.awaiting.tooltip}
+                <button 
+                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                  onClick={() => setOpenPopover(null)}
+                >
+                  ✕
+                </button>
+              </PopoverContent>
+            </Popover>
+          </div>
+          <p className={`text-2xl font-semibold ${billingStatus.awaiting.color} mb-1`}>{formatCurrencyBR(billingStatus.awaiting.amount)}</p>
+          <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.awaiting.liquid)} líquido</p>
+          
+          <div className="w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden">
+            <div className={`h-full ${billingStatus.awaiting.progressColor} rounded-full`} style={{ width: '100%' }}></div>
+          </div>
+          
+          <div className="flex flex-col gap-3">
+            <div 
+              className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
+              onClick={() => handleClientsClick('awaiting')}
+            >
+              <User size={16} className="mr-2 text-[#f39c12]" />
+              <span>{billingStatus.awaiting.clients} {billingStatus.awaiting.clients === 1 ? 'cliente' : 'clientes'}</span>
+              <span className="ml-auto text-[#f39c12]">&#8250;</span>
+            </div>
+            <div className="flex items-center text-sm text-gray-700">
+              <FileText size={16} className="mr-2 text-[#f39c12]" />
+              <span>{billingStatus.awaiting.bills} {billingStatus.awaiting.bills === 1 ? 'cobrança' : 'cobranças'}</span>
+              <span className="ml-auto text-[#f39c12]">&#8250;</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Overdue/Vencidas */}
+        <div className=" border rounded-xl card-no-bg">
+          <div className="flex justify-between mb-2">
+            <h3 className="font-medium text-gray-800">Vencidas</h3>
+            <Popover open={openPopover === 'overdue'} onOpenChange={(open) => setOpenPopover(open ? 'overdue' : null)}>
+              <PopoverTrigger asChild>
+                <button className="text-gray-400 focus:outline-none" data-testid="info-overdue">
+                  <Info size={18} />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
+                {billingStatus.overdue.tooltip}
+                <button 
+                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                  onClick={() => setOpenPopover(null)}
+                >
+                  ✕
+                </button>
+              </PopoverContent>
+            </Popover>
+          </div>
+          <p className={`text-2xl font-semibold ${billingStatus.overdue.color} mb-1`}>{formatCurrencyBR(billingStatus.overdue.amount)}</p>
+          <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.overdue.liquid)} líquido</p>
+          
+          <div className="w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden">
+            <div className={`h-full ${billingStatus.overdue.progressColor} rounded-full`} style={{ width: '100%' }}></div>
+          </div>
+          
+          <div className="flex flex-col gap-3">
+            <div 
+              className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
+              onClick={() => handleClientsClick('overdue')}
+            >
+              <User size={16} className="mr-2 text-[#e74c3c]" />
+              <span>{billingStatus.overdue.clients} {billingStatus.overdue.clients === 1 ? 'cliente' : 'clientes'}</span>
+              <span className="ml-auto text-[#e74c3c]">&#8250;</span>
+            </div>
+            <div className="flex items-center text-sm text-gray-700">
+              <FileText size={16} className="mr-2 text-[#e74c3c]" />
+              <span>{billingStatus.overdue.bills} {billingStatus.overdue.bills === 1 ? 'cobrança' : 'cobranças'}</span>
+              <span className="ml-auto text-[#e74c3c]">&#8250;</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <BillingDetailsTable
-        isOpen={detailsTable.isOpen}
-        onClose={() => setDetailsTable(prev => ({ ...prev, isOpen: false }))}
-        title={detailsTable.title}
-        clients={detailsTable.clients}
+      <ClientsModal 
+        isOpen={clientsModal.isOpen}
+        onOpenChange={(open) => setClientsModal(prev => ({ ...prev, isOpen: open }))}
+        title={clientsModal.title}
+        clients={clientsModal.clients}
       />
     </div>
   );
