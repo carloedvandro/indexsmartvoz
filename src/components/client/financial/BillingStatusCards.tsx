@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/popover";
 import { ClientsModal } from "./ClientsModal";
 import { useBillingData } from "@/hooks/useBillingData";
+import { ProgressBarTooltip } from "./ProgressBarTooltip";
 
 export function BillingStatusCards() {
   const { billingStatus, loading, error, refetch } = useBillingData();
@@ -20,6 +21,18 @@ export function BillingStatusCards() {
   };
 
   const [openPopover, setOpenPopover] = useState<string | null>(null);
+  const [tooltipState, setTooltipState] = useState<{
+    visible: boolean;
+    position: { x: number; y: number };
+    pixValue: number;
+    boletoValue: number;
+  }>({
+    visible: false,
+    position: { x: 0, y: 0 },
+    pixValue: 0,
+    boletoValue: 0
+  });
+
   const [clientsModal, setClientsModal] = useState<{
     isOpen: boolean;
     title: string;
@@ -39,6 +52,26 @@ export function BillingStatusCards() {
                      type === 'awaiting' ? 'Aguardando pagamento' : 'Vencidas'}`,
       clients: statusData.clientsData
     });
+  };
+
+  const handleProgressBarHover = (event: React.MouseEvent, amount: number, enter: boolean) => {
+    if (enter) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const pixValue = amount * 0.6; // 60% via Pix
+      const boletoValue = amount * 0.4; // 40% via Boleto
+      
+      setTooltipState({
+        visible: true,
+        position: {
+          x: rect.left + rect.width / 2,
+          y: rect.top
+        },
+        pixValue,
+        boletoValue
+      });
+    } else {
+      setTooltipState(prev => ({ ...prev, visible: false }));
+    }
   };
 
   if (loading) {
@@ -72,6 +105,8 @@ export function BillingStatusCards() {
 
   return (
     <div className="container">
+      <ProgressBarTooltip {...tooltipState} />
+      
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-semibold text-gray-800">Situação das cobranças</h2>
         <div className="flex gap-2">
@@ -118,8 +153,14 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.received.color} mb-1`}>{formatCurrencyBR(billingStatus.received.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.received.liquid)} líquido</p>
           
-          <div className="w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden">
-            <div className={`h-full ${billingStatus.received.progressColor} rounded-full`} style={{ width: '100%' }}></div>
+          <div className="my-6">
+            <div 
+              className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
+              onMouseEnter={(e) => handleProgressBarHover(e, billingStatus.received.amount, true)}
+              onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.received.amount, false)}
+            >
+              <div className={`h-full ${billingStatus.received.progressColor} rounded-md transition-all duration-200 hover:scale-105`} style={{ width: '100%' }}></div>
+            </div>
           </div>
           
           <div className="flex flex-col gap-3">
@@ -163,8 +204,14 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.confirmed.color} mb-1`}>{formatCurrencyBR(billingStatus.confirmed.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.confirmed.liquid)} líquido</p>
           
-          <div className="w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden">
-            <div className={`h-full ${billingStatus.confirmed.progressColor} rounded-full`} style={{ width: '100%' }}></div>
+          <div className="my-6">
+            <div 
+              className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
+              onMouseEnter={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, true)}
+              onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, false)}
+            >
+              <div className={`h-full ${billingStatus.confirmed.progressColor} rounded-md transition-all duration-200 hover:scale-105`} style={{ width: '100%' }}></div>
+            </div>
           </div>
           
           <div className="flex flex-col gap-3">
@@ -208,8 +255,14 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.awaiting.color} mb-1`}>{formatCurrencyBR(billingStatus.awaiting.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.awaiting.liquid)} líquido</p>
           
-          <div className="w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden">
-            <div className={`h-full ${billingStatus.awaiting.progressColor} rounded-full`} style={{ width: '100%' }}></div>
+          <div className="my-6">
+            <div 
+              className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
+              onMouseEnter={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, true)}
+              onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, false)}
+            >
+              <div className={`h-full ${billingStatus.awaiting.progressColor} rounded-md transition-all duration-200 hover:scale-105`} style={{ width: '100%' }}></div>
+            </div>
           </div>
           
           <div className="flex flex-col gap-3">
@@ -253,8 +306,14 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.overdue.color} mb-1`}>{formatCurrencyBR(billingStatus.overdue.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.overdue.liquid)} líquido</p>
           
-          <div className="w-full h-4 bg-gray-100 rounded-full mb-4 overflow-hidden">
-            <div className={`h-full ${billingStatus.overdue.progressColor} rounded-full`} style={{ width: '100%' }}></div>
+          <div className="my-6">
+            <div 
+              className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
+              onMouseEnter={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, true)}
+              onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, false)}
+            >
+              <div className={`h-full ${billingStatus.overdue.progressColor} rounded-md transition-all duration-200 hover:scale-105`} style={{ width: '100%' }}></div>
+            </div>
           </div>
           
           <div className="flex flex-col gap-3">
