@@ -1,4 +1,3 @@
-
 import { Info, User, FileText } from "lucide-react";
 import { useState } from "react";
 import { 
@@ -29,8 +28,6 @@ export function BillingStatusCards() {
     title: "",
     clients: []
   });
-
-  const [showProgressTooltip, setShowProgressTooltip] = useState(false);
 
   const handleClientsClick = (type: string) => {
     const statusData = billingStatus[type as keyof typeof billingStatus];
@@ -78,8 +75,6 @@ export function BillingStatusCards() {
       </div>
     );
   }
-
-  const receivedBreakdown = getPaymentBreakdown(billingStatus.received.amount);
 
   return (
     <div className="container">
@@ -129,31 +124,17 @@ export function BillingStatusCards() {
           <p className={`text-2xl font-semibold ${billingStatus.received.color} mb-1`}>{formatCurrencyBR(billingStatus.received.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.received.liquid)} líquido</p>
           
-          <div className="relative">
-            <div 
-              className={`w-full bg-gray-100 rounded-sm mb-4 overflow-hidden transition-all duration-200 ${showProgressTooltip ? 'h-6' : 'h-4'}`}
-              onMouseEnter={() => setShowProgressTooltip(true)}
-              onMouseLeave={() => setShowProgressTooltip(false)}
-            >
-              <div className="h-full flex">
-                <div 
-                  className="h-full bg-[#27ae60] rounded-sm" 
-                  style={{ width: '70%' }}
-                ></div>
-                <div 
-                  className="h-full bg-[#27ae60]/60 rounded-sm" 
-                  style={{ width: '30%' }}
-                ></div>
-              </div>
+          <div className="w-full h-4 bg-gray-100 rounded-sm mb-4 overflow-hidden">
+            <div className="h-full flex">
+              <div 
+                className="h-full bg-[#27ae60] rounded-sm" 
+                style={{ width: '70%' }}
+              ></div>
+              <div 
+                className="h-full bg-[#27ae60]/60 rounded-sm" 
+                style={{ width: '30%' }}
+              ></div>
             </div>
-            
-            {showProgressTooltip && (
-              <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10">
-                <div>Pix: {formatCurrencyBR(receivedBreakdown.pixAmount)}</div>
-                <div>Boleto: {formatCurrencyBR(receivedBreakdown.boletoAmount)}</div>
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black"></div>
-              </div>
-            )}
           </div>
           
           <div className="flex flex-col gap-3">
