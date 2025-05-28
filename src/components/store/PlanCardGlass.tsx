@@ -66,7 +66,7 @@ export function PlanCardGlass({ plan, onSelect }: PlanCardGlassProps) {
     >
       <Card 
         className={`
-          relative w-full h-full overflow-hidden border
+          relative w-full h-full overflow-hidden border-none
           bg-gradient-to-br from-white/10 to-white/5
           backdrop-blur-xl text-white
           transition-all duration-500 ease-out cursor-pointer
@@ -84,10 +84,17 @@ export function PlanCardGlass({ plan, onSelect }: PlanCardGlassProps) {
               #f093fb 100%
             )
           `,
-          borderColor: 'rgba(255, 255, 255, 0.2)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
           boxShadow: isHovered 
-            ? `0 20px 40px rgba(102, 126, 234, 0.15)`
-            : `0 10px 25px rgba(0, 0, 0, 0.1)`,
+            ? `
+              0 25px 45px rgba(0, 0, 0, 0.3),
+              0 0 50px rgba(102, 126, 234, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.2)
+            `
+            : `
+              0 15px 35px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1)
+            `,
           transform: isHovered 
             ? `translateY(-10px) scale(1.05) rotateX(${(mousePosition.y - 250) * 0.01}deg) rotateY(${(mousePosition.x - 140) * 0.01}deg)`
             : 'translateY(0px) scale(1) rotateX(0deg) rotateY(0deg)',
@@ -95,11 +102,23 @@ export function PlanCardGlass({ plan, onSelect }: PlanCardGlassProps) {
       >
         {/* Dynamic light reflection */}
         <div 
-          className="absolute inset-0 opacity-20 pointer-events-none transition-opacity duration-300"
+          className="absolute inset-0 opacity-30 pointer-events-none transition-opacity duration-300"
           style={{
             background: isHovered 
-              ? `radial-gradient(400px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(255,255,255,0.15), transparent 40%)`
+              ? `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(255,255,255,0.2), transparent 40%)`
               : 'none',
+          }}
+        />
+
+        {/* Animated border glow */}
+        <div 
+          className={`
+            absolute inset-0 rounded-lg transition-opacity duration-500
+            ${isHovered ? 'opacity-100' : 'opacity-0'}
+          `}
+          style={{
+            background: 'linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent)',
+            animation: isHovered ? 'borderGlow 2s ease-in-out infinite' : 'none',
           }}
         />
 
@@ -120,7 +139,8 @@ export function PlanCardGlass({ plan, onSelect }: PlanCardGlassProps) {
                   ${isHovered ? 'scale-110 text-cyan-300' : 'scale-100'}
                 `}
                 style={{
-                  textShadow: '0 0 20px rgba(0, 255, 255, 0.3)',
+                  textShadow: '0 0 20px rgba(0, 255, 255, 0.5)',
+                  filter: isHovered ? 'drop-shadow(0 0 10px rgba(0, 255, 255, 0.8))' : 'none',
                 }}
               >
                 {gbNumber}
@@ -139,6 +159,9 @@ export function PlanCardGlass({ plan, onSelect }: PlanCardGlassProps) {
                 <span className="absolute -left-4 top-1/2 -translate-y-1/2 text-cyan-300 text-xl font-bold">+</span>
                 <span 
                   className="py-2 px-3 bg-white/20 backdrop-blur-sm text-white rounded-lg inline-block font-medium text-sm border border-white/30"
+                  style={{
+                    boxShadow: isHovered ? '0 0 15px rgba(0, 255, 255, 0.3)' : 'none',
+                  }}
                 >
                   R${plan.cashback.toFixed(2).replace(".", ",")} CASHBACK
                 </span>
@@ -155,7 +178,7 @@ export function PlanCardGlass({ plan, onSelect }: PlanCardGlassProps) {
               <div 
                 className="text-5xl font-black"
                 style={{
-                  textShadow: isHovered ? '0 0 15px rgba(255, 255, 255, 0.3)' : 'none',
+                  textShadow: isHovered ? '0 0 15px rgba(255, 255, 255, 0.5)' : 'none',
                 }}
               >
                 {Math.floor(plan.price)}
@@ -182,7 +205,7 @@ export function PlanCardGlass({ plan, onSelect }: PlanCardGlassProps) {
                 <span 
                   className="text-cyan-400 text-lg"
                   style={{
-                    textShadow: isHovered ? '0 0 8px rgba(0, 255, 255, 0.4)' : 'none',
+                    textShadow: isHovered ? '0 0 8px rgba(0, 255, 255, 0.6)' : 'none',
                   }}
                 >
                   ✓
@@ -203,7 +226,7 @@ export function PlanCardGlass({ plan, onSelect }: PlanCardGlassProps) {
               <span 
                 className="text-cyan-400 text-lg"
                 style={{
-                  textShadow: isHovered ? '0 0 8px rgba(0, 255, 255, 0.4)' : 'none',
+                  textShadow: isHovered ? '0 0 8px rgba(0, 255, 255, 0.6)' : 'none',
                 }}
               >
                 ✓
@@ -222,21 +245,28 @@ export function PlanCardGlass({ plan, onSelect }: PlanCardGlassProps) {
               backdrop-blur-sm transition-all duration-300 transform
               border border-white/20
               ${isHovered 
-                ? 'scale-105 from-cyan-500/90 to-blue-500/90' 
-                : 'scale-100 hover:shadow-xl'
+                ? 'scale-105 shadow-2xl from-cyan-500/90 to-blue-500/90' 
+                : 'scale-100 shadow-lg hover:shadow-xl'
               }
               active:scale-95
             `}
             style={{
               boxShadow: isHovered 
-                ? '0 8px 20px rgba(6, 182, 212, 0.2)' 
-                : '0 4px 10px rgba(6, 182, 212, 0.1)',
+                ? '0 10px 25px rgba(6, 182, 212, 0.4), 0 0 15px rgba(0, 255, 255, 0.3)' 
+                : '0 4px 15px rgba(6, 182, 212, 0.3)',
             }}
           >
             Recarregue
           </button>
         </CardFooter>
       </Card>
+
+      <style jsx>{`
+        @keyframes borderGlow {
+          0%, 100% { transform: translateX(-100%); }
+          50% { transform: translateX(100%); }
+        }
+      `}</style>
     </div>
   );
 }
