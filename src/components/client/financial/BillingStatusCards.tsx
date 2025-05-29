@@ -57,15 +57,20 @@ export function BillingStatusCards() {
   const handleProgressBarHover = (event: React.MouseEvent, amount: number, status: string, enter: boolean) => {
     if (enter) {
       const rect = event.currentTarget.getBoundingClientRect();
-      // Determinar o método de pagamento baseado no status
-      // Received e Overdue mostram Boleto, Confirmed e Awaiting mostram Pix
-      const paymentMethod: 'pix' | 'boleto' = (status === 'received' || status === 'overdue') ? 'boleto' : 'pix';
-      const value = paymentMethod === 'pix' ? amount * 0.6 : amount * 0.4; // 60% Pix, 40% Boleto
+      const mouseX = event.clientX - rect.left;
+      const progressWidth = rect.width;
+      
+      // Dividir a barra em duas partes: 60% Pix (esquerda) e 40% Boleto (direita)
+      const pixWidth = progressWidth * 0.6;
+      const isPixArea = mouseX <= pixWidth;
+      
+      const paymentMethod: 'pix' | 'boleto' = isPixArea ? 'pix' : 'boleto';
+      const value = isPixArea ? amount * 0.6 : amount * 0.4; // 60% Pix, 40% Boleto
       
       setTooltipState({
         visible: true,
         position: {
-          x: rect.left + rect.width / 2,
+          x: rect.left + mouseX,
           y: rect.top
         },
         value,
@@ -158,10 +163,15 @@ export function BillingStatusCards() {
           <div className="my-6">
             <div 
               className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
-              onMouseEnter={(e) => handleProgressBarHover(e, billingStatus.received.amount, 'received', true)}
+              onMouseMove={(e) => handleProgressBarHover(e, billingStatus.received.amount, 'received', true)}
               onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.received.amount, 'received', false)}
             >
-              <div className={`h-full ${billingStatus.received.progressColor} rounded-md transition-all duration-200 hover:scale-105`} style={{ width: '100%' }}></div>
+              <div className="h-full flex rounded-md transition-all duration-200">
+                {/* Área do Pix - 60% mais escura */}
+                <div className="bg-[#27ae60] h-full" style={{ width: '60%' }}></div>
+                {/* Área do Boleto - 40% mais clara */}
+                <div className="bg-[#27ae60]/60 h-full" style={{ width: '40%' }}></div>
+              </div>
             </div>
           </div>
           
@@ -209,10 +219,15 @@ export function BillingStatusCards() {
           <div className="my-6">
             <div 
               className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
-              onMouseEnter={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', true)}
+              onMouseMove={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', true)}
               onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', false)}
             >
-              <div className={`h-full ${billingStatus.confirmed.progressColor} rounded-md transition-all duration-200 hover:scale-105`} style={{ width: '100%' }}></div>
+              <div className="h-full flex rounded-md transition-all duration-200">
+                {/* Área do Pix - 60% mais escura */}
+                <div className="bg-[#3498db] h-full" style={{ width: '60%' }}></div>
+                {/* Área do Boleto - 40% mais clara */}
+                <div className="bg-[#3498db]/60 h-full" style={{ width: '40%' }}></div>
+              </div>
             </div>
           </div>
           
@@ -260,10 +275,15 @@ export function BillingStatusCards() {
           <div className="my-6">
             <div 
               className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
-              onMouseEnter={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, 'awaiting', true)}
+              onMouseMove={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, 'awaiting', true)}
               onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, 'awaiting', false)}
             >
-              <div className={`h-full ${billingStatus.awaiting.progressColor} rounded-md transition-all duration-200 hover:scale-105`} style={{ width: '100%' }}></div>
+              <div className="h-full flex rounded-md transition-all duration-200">
+                {/* Área do Pix - 60% mais escura */}
+                <div className="bg-[#f39c12] h-full" style={{ width: '60%' }}></div>
+                {/* Área do Boleto - 40% mais clara */}
+                <div className="bg-[#f39c12]/60 h-full" style={{ width: '40%' }}></div>
+              </div>
             </div>
           </div>
           
@@ -311,10 +331,15 @@ export function BillingStatusCards() {
           <div className="my-6">
             <div 
               className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
-              onMouseEnter={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', true)}
+              onMouseMove={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', true)}
               onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', false)}
             >
-              <div className={`h-full ${billingStatus.overdue.progressColor} rounded-md transition-all duration-200 hover:scale-105`} style={{ width: '100%' }}></div>
+              <div className="h-full flex rounded-md transition-all duration-200">
+                {/* Área do Pix - 60% mais escura */}
+                <div className="bg-[#e74c3c] h-full" style={{ width: '60%' }}></div>
+                {/* Área do Boleto - 40% mais clara */}
+                <div className="bg-[#e74c3c]/60 h-full" style={{ width: '40%' }}></div>
+              </div>
             </div>
           </div>
           
