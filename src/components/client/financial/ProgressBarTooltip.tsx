@@ -3,15 +3,15 @@ import React from 'react';
 
 interface ProgressBarTooltipProps {
   visible: boolean;
-  pixValue: number;
-  boletoValue: number;
+  value: number;
+  paymentMethod: 'pix' | 'boleto';
   position: { x: number; y: number };
 }
 
 export const ProgressBarTooltip: React.FC<ProgressBarTooltipProps> = ({
   visible,
-  pixValue,
-  boletoValue,
+  value,
+  paymentMethod,
   position
 }) => {
   const formatCurrency = (value: number) => {
@@ -22,6 +22,10 @@ export const ProgressBarTooltip: React.FC<ProgressBarTooltipProps> = ({
   };
 
   if (!visible) return null;
+
+  const text = paymentMethod === 'pix' 
+    ? `${formatCurrency(value)} no Pix`
+    : `${formatCurrency(value)} no Boleto Bancário`;
 
   return (
     <div 
@@ -34,10 +38,7 @@ export const ProgressBarTooltip: React.FC<ProgressBarTooltipProps> = ({
     >
       <div className="bg-black text-white rounded-lg px-3 py-2 text-sm font-medium shadow-lg">
         <div className="text-center">
-          {formatCurrency(pixValue)} no Pix
-        </div>
-        <div className="text-center mt-1">
-          {formatCurrency(boletoValue)} no Boleto Bancário
+          {text}
         </div>
         {/* Arrow pointer */}
         <div className="absolute left-1/2 transform -translate-x-1/2 top-full">
