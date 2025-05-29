@@ -25,25 +25,23 @@ export const ProgressBarTooltip: React.FC<ProgressBarTooltipProps> = ({
 
   return (
     <div 
-      className="fixed z-50 pointer-events-none transform -translate-x-1/2 transition-all duration-200 ease-out scale-105"
+      className="fixed z-50 pointer-events-none"
       style={{
         left: position.x,
-        top: position.y - 120,
+        top: position.y - 80,
+        transform: 'translateX(-50%)',
       }}
     >
-      <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 min-w-[180px]">
-        <div className="space-y-2">
-          <div className="flex items-center justify-between p-2 bg-black text-white rounded text-sm font-medium">
-            <span>{formatCurrency(pixValue)} no Pix</span>
-          </div>
-          <div className="flex items-center justify-between p-2 bg-black text-white rounded text-sm font-medium">
-            <span>{formatCurrency(boletoValue)} no Boleto Bancário</span>
-          </div>
+      <div className="bg-black text-white rounded-lg px-3 py-2 text-sm font-medium shadow-lg">
+        <div className="text-center">
+          {formatCurrency(pixValue)} no Pix
+        </div>
+        <div className="text-center mt-1">
+          {formatCurrency(boletoValue)} no Boleto Bancário
         </div>
         {/* Arrow pointer */}
         <div className="absolute left-1/2 transform -translate-x-1/2 top-full">
-          <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-200"></div>
-          <div className="absolute w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white -top-px left-1/2 transform -translate-x-1/2"></div>
+          <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black"></div>
         </div>
       </div>
     </div>
