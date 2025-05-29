@@ -1,0 +1,126 @@
+
+/* 3D Plan Card Styles */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.rotateY-12 {
+  transform: rotateY(12deg);
+}
+
+.rotateY-0 {
+  transform: rotateY(0deg);
+}
+
+.translateY-\[-20px\] {
+  transform: translateY(-20px);
+}
+
+.translateY-\[-10px\] {
+  transform: translateY(-10px);
+}
+
+.translateY-\[-15px\] {
+  transform: translateY(-15px);
+}
+
+.translateY-0 {
+  transform: translateY(0px);
+}
+
+.translateX-2 {
+  transform: translateX(8px);
+}
+
+.translateX-0 {
+  transform: translateX(0px);
+}
+
+/* Glass morphism effects */
+.backdrop-blur-xl {
+  backdrop-filter: blur(16px);
+}
+
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+/* Neon glow animations */
+@keyframes neonPulse {
+  0%, 100% {
+    text-shadow: 
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 15px currentColor;
+  }
+  50% {
+    text-shadow: 
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 30px currentColor;
+  }
+}
+
+.neon-pulse {
+  animation: neonPulse 2s ease-in-out infinite;
+}
+
+/* Enhanced card hover effects */
+.card-3d-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-3d-hover:hover {
+  transform: perspective(1000px) rotateX(-10deg) rotateY(10deg) translateY(-20px) scale(1.05);
+}
+
+/* Animated gradient borders */
+@keyframes gradientBorder {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animated-gradient-border {
+  background: linear-gradient(45deg, #ff0080, #00ffff, #ff0080);
+  background-size: 200% 200%;
+  animation: gradientBorder 3s ease infinite;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Circuit pattern animation */
+@keyframes circuitFlow {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+.circuit-flow {
+  animation: circuitFlow 2s ease-in-out infinite;
+}

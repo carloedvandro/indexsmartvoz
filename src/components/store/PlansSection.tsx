@@ -1,6 +1,9 @@
 
 import React from "react";
 import { PlanCard } from "./PlanCard";
+import { PlanCardHolographic } from "./PlanCardHolographic";
+import { PlanCardMinimal } from "./PlanCardMinimal";
+import { PlanCardCrystal } from "./PlanCardCrystal";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Image from "@/components/ui/image";
@@ -89,15 +92,33 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
       </div>
       
       <div className="py-8 rounded-xl">
-        <div className="flex flex-wrap justify-center gap-6 mx-auto px-4 max-w-7xl">
-          {PLANS.map((plan) => (
-            <div key={plan.id} className="flex justify-center">
-              <PlanCard 
-                plan={plan} 
-                onSelect={handleSelectPlan} 
-              />
-            </div>
-          ))}
+        {/* Novos modelos 3D elegantes */}
+        <div className="mb-12">
+          <h3 className="text-2xl font-bold text-center mb-6 text-gray-800">Modelos Elegantes</h3>
+          <div className="flex flex-wrap justify-center gap-8 mx-auto px-4 max-w-7xl">
+            {PLANS.slice(0, 3).map((plan, index) => (
+              <div key={plan.id} className="flex justify-center">
+                {index === 0 && <PlanCardHolographic plan={plan} onSelect={handleSelectPlan} />}
+                {index === 1 && <PlanCardMinimal plan={plan} onSelect={handleSelectPlan} />}
+                {index === 2 && <PlanCardCrystal plan={plan} onSelect={handleSelectPlan} />}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Cartões originais */}
+        <div>
+          <h3 className="text-2xl font-bold text-center mb-6 text-gray-800">Todos os Planos</h3>
+          <div className="flex flex-wrap justify-center gap-6 mx-auto px-4 max-w-7xl">
+            {PLANS.map((plan) => (
+              <div key={plan.id} className="flex justify-center">
+                <PlanCard 
+                  plan={plan} 
+                  onSelect={handleSelectPlan} 
+                />
+              </div>
+            ))}
+          </div>
         </div>
         
         <div className="mt-8 text-center">
