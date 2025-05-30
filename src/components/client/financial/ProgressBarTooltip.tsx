@@ -32,7 +32,7 @@ export const ProgressBarTooltip: React.FC<ProgressBarTooltipProps> = ({
       className="fixed z-50 pointer-events-none"
       style={{
         left: position.x,
-        top: position.y - 80,
+        top: position.y - 60,
         transform: 'translateX(-50%)',
       }}
     >
