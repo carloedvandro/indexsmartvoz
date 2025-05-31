@@ -1,4 +1,3 @@
-
 import { Info, User, FileText } from "lucide-react";
 import { useState } from "react";
 import { 
@@ -136,7 +135,7 @@ export function BillingStatusCards() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {/* Received/Recebidas */}
+        {/* Received/Recebidas - Mantém a barra verde como está */}
         <div className="border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Recebidas</h3>
@@ -192,7 +191,7 @@ export function BillingStatusCards() {
           </div>
         </div>
 
-        {/* Confirmed/Confirmadas */}
+        {/* Confirmed/Confirmadas - Barra azul sólida única */}
         <div className=" border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Confirmadas</h3>
@@ -222,12 +221,7 @@ export function BillingStatusCards() {
               onMouseMove={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', true)}
               onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', false)}
             >
-              <div className="h-full flex rounded-md transition-all duration-200">
-                {/* Área do Pix - 60% mais escura */}
-                <div className="bg-[#3498db] h-full" style={{ width: '60%' }}></div>
-                {/* Área do Boleto - 40% mais clara */}
-                <div className="bg-[#3498db]/60 h-full" style={{ width: '40%' }}></div>
-              </div>
+              <div className="h-full rounded-md transition-all duration-200 bg-[#3498db]"></div>
             </div>
           </div>
           
@@ -248,7 +242,7 @@ export function BillingStatusCards() {
           </div>
         </div>
 
-        {/* Awaiting Payment/Aguardando pagamento */}
+        {/* Awaiting Payment/Aguardando pagamento - Barra laranja sólida única */}
         <div className=" border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Aguardando pagamento</h3>
@@ -278,12 +272,7 @@ export function BillingStatusCards() {
               onMouseMove={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, 'awaiting', true)}
               onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, 'awaiting', false)}
             >
-              <div className="h-full flex rounded-md transition-all duration-200">
-                {/* Área do Pix - 60% mais escura */}
-                <div className="bg-[#f39c12] h-full" style={{ width: '60%' }}></div>
-                {/* Área do Boleto - 40% mais clara */}
-                <div className="bg-[#f39c12]/60 h-full" style={{ width: '40%' }}></div>
-              </div>
+              <div className="h-full rounded-md transition-all duration-200 bg-[#f39c12]"></div>
             </div>
           </div>
           
@@ -304,7 +293,7 @@ export function BillingStatusCards() {
           </div>
         </div>
 
-        {/* Overdue/Vencidas */}
+        {/* Overdue/Vencidas - Mantém como está */}
         <div className=" border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Vencidas</h3>
