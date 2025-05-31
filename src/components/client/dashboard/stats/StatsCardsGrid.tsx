@@ -6,7 +6,7 @@ import { IncomeCard } from "./IncomeCard";
 
 export function StatsCardsGrid() {
   return (
-    <div className="container mt-[20px]">
+    <div className="container">
       <LineStatusCard />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 ">
         <RechargesCard />
