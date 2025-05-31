@@ -293,7 +293,7 @@ export function BillingStatusCards() {
           </div>
         </div>
 
-        {/* Overdue/Vencidas - Mantém como está */}
+        {/* Overdue/Vencidas - Barra vermelha sólida única */}
         <div className=" border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Vencidas</h3>
@@ -323,12 +323,7 @@ export function BillingStatusCards() {
               onMouseMove={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', true)}
               onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', false)}
             >
-              <div className="h-full flex rounded-md transition-all duration-200">
-                {/* Área do Pix - 60% mais escura */}
-                <div className="bg-[#e74c3c] h-full" style={{ width: '60%' }}></div>
-                {/* Área do Boleto - 40% mais clara */}
-                <div className="bg-[#e74c3c]/60 h-full" style={{ width: '40%' }}></div>
-              </div>
+              <div className="h-full rounded-md transition-all duration-200 bg-[#e74c3c]"></div>
             </div>
           </div>
           
