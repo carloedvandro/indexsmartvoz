@@ -10,7 +10,6 @@ import { DashboardCards } from "@/components/client/dashboard/DashboardCards";
 import { getMonthsData, getDailyData } from "@/utils/monthsData";
 import { FinancialCards } from "@/components/client/dashboard/financial-cards";
 import { StatsCardsGrid } from "@/components/client/dashboard/stats/StatsCardsGrid";
-import { BrazilMap3D } from "@/components/company-site/BrazilMap3D";
 import "@/styles/logo.css";
 
 export default function ClientDashboard() {
@@ -51,16 +50,6 @@ export default function ClientDashboard() {
               networkStats={networkStats}
               handleNetworkClick={handleNetworkClick}
             />
-
-            {/* Seção do Mapa 3D do Brasil */}
-            <div className="container mt-8 mb-8">
-              <div className="bg-white rounded-xl shadow p-6">
-                <h2 className="text-xl font-semibold text-gray-800 mb-6 text-center">
-                  Mapa de Cobertura
-                </h2>
-                <BrazilMap3D />
-              </div>
-            </div>
           </div>
         </div>
       </main>

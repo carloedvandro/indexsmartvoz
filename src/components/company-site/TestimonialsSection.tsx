@@ -1,6 +1,5 @@
 
 import { motion } from 'framer-motion';
-import { BrazilMap3D } from './BrazilMap3D';
 
 export function TestimonialsSection() {
   return (
@@ -38,17 +37,6 @@ export function TestimonialsSection() {
             <div className="text-xl font-semibold text-white mt-4">ICON NEXT</div>
             <div className="text-sm text-gray-400">Gerente – Camila</div>
           </div>
-
-          {/* Mapa 3D do Brasil */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="mt-16"
-          >
-            <BrazilMap3D />
-          </motion.div>
         </motion.div>
       </div>
     </section>
