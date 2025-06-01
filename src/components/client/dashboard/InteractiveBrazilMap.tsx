@@ -208,14 +208,14 @@ export function InteractiveBrazilMap() {
                   </div>
                 </motion.div>
 
-                {/* Indicadores de atividade em tempo real */}
+                {/* Indicadores de atividade em tempo real - posicionados no centro de cada região */}
                 {Object.entries(regionsData).map(([key, region], index) => {
                   const positions = {
-                    norte: { top: '25%', left: '50%' },
-                    nordeste: { top: '40%', right: '25%' },
-                    centrooeste: { top: '50%', left: '25%' },
-                    sudeste: { top: '62%', right: '32%' },
-                    sul: { bottom: '20%', left: '50%' }
+                    norte: { top: '25%', left: '50%', transform: 'translate(-50%, -50%)' },
+                    nordeste: { top: '42%', right: '19%', transform: 'translate(50%, -50%)' },
+                    centrooeste: { top: '50%', left: '25%', transform: 'translate(-50%, -50%)' },
+                    sudeste: { top: '62%', right: '23%', transform: 'translate(50%, -50%)' },
+                    sul: { bottom: '20%', left: '50%', transform: 'translate(-50%, 50%)' }
                   };
                   
                   const pos = positions[key as keyof typeof positions];
