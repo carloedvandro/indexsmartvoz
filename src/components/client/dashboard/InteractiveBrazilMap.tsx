@@ -102,131 +102,214 @@ export function InteractiveBrazilMap() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Mapa do Brasil em estilo azul 3D */}
+        {/* Mapa 3D do Brasil criado com CSS */}
         <div className="relative">
           <div className="aspect-square max-w-lg mx-auto relative">
-            {/* Container do mapa com background */}
             <div 
-              className="relative w-full h-full flex justify-center items-center bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8"
+              className="relative w-full h-full flex justify-center items-center rounded-2xl p-8"
               style={{
-                background: 'linear-gradient(135deg, #f0f4ff 0%, #f3e8ff 100%)'
+                background: 'linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%)',
+                perspective: '1000px'
               }}
             >
-              <img 
-                src="/lovable-uploads/2bd63a8f-d19c-4a50-9f5a-6b8f67577c47.png" 
-                alt="Mapa do Brasil em estilo 3D azul com distribuição regional" 
-                className="w-full h-full object-contain max-h-96 drop-shadow-xl"
-              />
-              
-              {/* Círculos com porcentagens - Norte */}
-              <motion.div
-                className="absolute cursor-pointer"
+              {/* Mapa 3D do Brasil usando CSS */}
+              <div 
+                className="relative w-80 h-96 cursor-pointer transition-transform duration-500 hover:scale-105"
                 style={{
-                  top: '15%',
-                  left: '15%',
+                  transformStyle: 'preserve-3d',
+                  transform: 'rotateX(15deg) rotateY(-10deg)'
                 }}
-                whileHover={{ scale: 1.1 }}
-                onClick={() => setActiveRegion(activeRegion === 'norte' ? null : 'norte')}
               >
-                <div className="relative">
-                  <div 
-                    className="w-20 h-20 rounded-full flex flex-col items-center justify-center text-white font-bold shadow-lg border-4 border-white"
-                    style={{ backgroundColor: '#8B5CF6' }}
-                  >
-                    <span className="text-2xl">{regionsData.norte.percentage}%</span>
-                    <span className="text-xs">Norte</span>
-                  </div>
-                  <div className="absolute inset-0 w-20 h-20 rounded-full bg-purple-300 opacity-30 animate-pulse"></div>
-                </div>
-              </motion.div>
+                {/* Região Norte */}
+                <motion.div
+                  className="absolute bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg shadow-2xl border-2 border-blue-800 cursor-pointer"
+                  style={{
+                    top: '10%',
+                    left: '25%',
+                    width: '50%',
+                    height: '25%',
+                    transform: 'translateZ(20px)',
+                    boxShadow: '0 10px 30px rgba(59, 130, 246, 0.5)'
+                  }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    transform: 'translateZ(30px)',
+                    boxShadow: '0 15px 40px rgba(59, 130, 246, 0.7)'
+                  }}
+                  onClick={() => setActiveRegion(activeRegion === 'norte' ? null : 'norte')}
+                />
 
-              {/* Círculos com porcentagens - Nordeste */}
-              <motion.div
-                className="absolute cursor-pointer"
-                style={{
-                  top: '10%',
-                  right: '10%',
-                }}
-                whileHover={{ scale: 1.1 }}
-                onClick={() => setActiveRegion(activeRegion === 'nordeste' ? null : 'nordeste')}
-              >
-                <div className="relative">
-                  <div 
-                    className="w-20 h-20 rounded-full flex flex-col items-center justify-center text-white font-bold shadow-lg border-4 border-white"
-                    style={{ backgroundColor: '#A855F7' }}
-                  >
-                    <span className="text-2xl">{regionsData.nordeste.percentage}%</span>
-                    <span className="text-xs">Nordeste</span>
-                  </div>
-                  <div className="absolute inset-0 w-20 h-20 rounded-full bg-purple-300 opacity-30 animate-pulse"></div>
-                </div>
-              </motion.div>
+                {/* Região Nordeste */}
+                <motion.div
+                  className="absolute bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg shadow-2xl border-2 border-blue-900 cursor-pointer"
+                  style={{
+                    top: '15%',
+                    right: '15%',
+                    width: '35%',
+                    height: '35%',
+                    transform: 'translateZ(25px)',
+                    boxShadow: '0 12px 35px rgba(37, 99, 235, 0.5)'
+                  }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    transform: 'translateZ(35px)',
+                    boxShadow: '0 17px 45px rgba(37, 99, 235, 0.7)'
+                  }}
+                  onClick={() => setActiveRegion(activeRegion === 'nordeste' ? null : 'nordeste')}
+                />
 
-              {/* Círculos com porcentagens - Centro-Oeste */}
-              <motion.div
-                className="absolute cursor-pointer"
-                style={{
-                  top: '45%',
-                  left: '5%',
-                }}
-                whileHover={{ scale: 1.1 }}
-                onClick={() => setActiveRegion(activeRegion === 'centrooeste' ? null : 'centrooeste')}
-              >
-                <div className="relative">
-                  <div 
-                    className="w-20 h-20 rounded-full flex flex-col items-center justify-center text-white font-bold shadow-lg border-4 border-white"
-                    style={{ backgroundColor: '#9333EA' }}
-                  >
-                    <span className="text-2xl">{regionsData.centrooeste.percentage}%</span>
-                    <span className="text-xs text-center leading-tight">Centro-Oeste</span>
-                  </div>
-                  <div className="absolute inset-0 w-20 h-20 rounded-full bg-purple-300 opacity-30 animate-pulse"></div>
-                </div>
-              </motion.div>
+                {/* Região Centro-Oeste */}
+                <motion.div
+                  className="absolute bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg shadow-2xl border-2 border-blue-800 cursor-pointer"
+                  style={{
+                    top: '40%',
+                    left: '15%',
+                    width: '35%',
+                    height: '30%',
+                    transform: 'translateZ(18px)',
+                    boxShadow: '0 8px 25px rgba(59, 130, 246, 0.5)'
+                  }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    transform: 'translateZ(28px)',
+                    boxShadow: '0 13px 35px rgba(59, 130, 246, 0.7)'
+                  }}
+                  onClick={() => setActiveRegion(activeRegion === 'centrooeste' ? null : 'centrooeste')}
+                />
 
-              {/* Círculos com porcentagens - Sudeste */}
-              <motion.div
-                className="absolute cursor-pointer"
-                style={{
-                  top: '50%',
-                  right: '5%',
-                }}
-                whileHover={{ scale: 1.1 }}
-                onClick={() => setActiveRegion(activeRegion === 'sudeste' ? null : 'sudeste')}
-              >
-                <div className="relative">
-                  <div 
-                    className="w-20 h-20 rounded-full flex flex-col items-center justify-center text-white font-bold shadow-lg border-4 border-white"
-                    style={{ backgroundColor: '#7C3AED' }}
-                  >
-                    <span className="text-2xl">{regionsData.sudeste.percentage}%</span>
-                    <span className="text-xs">Sudeste</span>
-                  </div>
-                  <div className="absolute inset-0 w-20 h-20 rounded-full bg-purple-300 opacity-30 animate-pulse"></div>
-                </div>
-              </motion.div>
+                {/* Região Sudeste */}
+                <motion.div
+                  className="absolute bg-gradient-to-br from-blue-700 to-blue-900 rounded-lg shadow-2xl border-2 border-blue-950 cursor-pointer"
+                  style={{
+                    top: '55%',
+                    right: '20%',
+                    width: '40%',
+                    height: '25%',
+                    transform: 'translateZ(30px)',
+                    boxShadow: '0 15px 40px rgba(29, 78, 216, 0.6)'
+                  }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    transform: 'translateZ(40px)',
+                    boxShadow: '0 20px 50px rgba(29, 78, 216, 0.8)'
+                  }}
+                  onClick={() => setActiveRegion(activeRegion === 'sudeste' ? null : 'sudeste')}
+                />
 
-              {/* Círculos com porcentagens - Sul */}
-              <motion.div
-                className="absolute cursor-pointer"
-                style={{
-                  bottom: '15%',
-                  left: '25%',
-                }}
-                whileHover={{ scale: 1.1 }}
-                onClick={() => setActiveRegion(activeRegion === 'sul' ? null : 'sul')}
-              >
-                <div className="relative">
-                  <div 
-                    className="w-20 h-20 rounded-full flex flex-col items-center justify-center text-white font-bold shadow-lg border-4 border-white"
-                    style={{ backgroundColor: '#6D28D9' }}
-                  >
-                    <span className="text-2xl">{regionsData.sul.percentage}%</span>
-                    <span className="text-xs">Sul</span>
+                {/* Região Sul */}
+                <motion.div
+                  className="absolute bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg shadow-2xl border-2 border-blue-900 cursor-pointer"
+                  style={{
+                    bottom: '15%',
+                    left: '30%',
+                    width: '30%',
+                    height: '20%',
+                    transform: 'translateZ(22px)',
+                    boxShadow: '0 10px 30px rgba(37, 99, 235, 0.5)'
+                  }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    transform: 'translateZ(32px)',
+                    boxShadow: '0 15px 40px rgba(37, 99, 235, 0.7)'
+                  }}
+                  onClick={() => setActiveRegion(activeRegion === 'sul' ? null : 'sul')}
+                />
+
+                {/* Marcadores com porcentagens - Norte */}
+                <motion.div
+                  className="absolute cursor-pointer z-10"
+                  style={{
+                    top: '5%',
+                    left: '10%',
+                  }}
+                  whileHover={{ scale: 1.1 }}
+                  onClick={() => setActiveRegion(activeRegion === 'norte' ? null : 'norte')}
+                >
+                  <div className="relative">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 border border-purple-300 flex flex-col items-center justify-center shadow-lg">
+                      <div className="w-3 h-3 bg-purple-600 rounded-full mb-1"></div>
+                      <span className="text-lg font-bold text-purple-600">{regionsData.norte.percentage}%</span>
+                      <span className="text-xs text-purple-600 font-medium">Norte</span>
+                    </div>
                   </div>
-                  <div className="absolute inset-0 w-20 h-20 rounded-full bg-purple-300 opacity-30 animate-pulse"></div>
-                </div>
-              </motion.div>
+                </motion.div>
+
+                {/* Marcadores com porcentagens - Nordeste */}
+                <motion.div
+                  className="absolute cursor-pointer z-10"
+                  style={{
+                    top: '5%',
+                    right: '5%',
+                  }}
+                  whileHover={{ scale: 1.1 }}
+                  onClick={() => setActiveRegion(activeRegion === 'nordeste' ? null : 'nordeste')}
+                >
+                  <div className="relative">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 border border-purple-300 flex flex-col items-center justify-center shadow-lg">
+                      <div className="w-3 h-3 bg-purple-600 rounded-full mb-1"></div>
+                      <span className="text-lg font-bold text-purple-600">{regionsData.nordeste.percentage}%</span>
+                      <span className="text-xs text-purple-600 font-medium">Nordeste</span>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Marcadores com porcentagens - Centro-Oeste */}
+                <motion.div
+                  className="absolute cursor-pointer z-10"
+                  style={{
+                    top: '45%',
+                    left: '5%',
+                  }}
+                  whileHover={{ scale: 1.1 }}
+                  onClick={() => setActiveRegion(activeRegion === 'centrooeste' ? null : 'centrooeste')}
+                >
+                  <div className="relative">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 border border-purple-300 flex flex-col items-center justify-center shadow-lg">
+                      <div className="w-3 h-3 bg-purple-600 rounded-full mb-1"></div>
+                      <span className="text-lg font-bold text-purple-600">{regionsData.centrooeste.percentage}%</span>
+                      <span className="text-xs text-purple-600 font-medium text-center leading-tight">Centro-Oeste</span>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Marcadores com porcentagens - Sudeste */}
+                <motion.div
+                  className="absolute cursor-pointer z-10"
+                  style={{
+                    top: '50%',
+                    right: '5%',
+                  }}
+                  whileHover={{ scale: 1.1 }}
+                  onClick={() => setActiveRegion(activeRegion === 'sudeste' ? null : 'sudeste')}
+                >
+                  <div className="relative">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 border border-purple-300 flex flex-col items-center justify-center shadow-lg">
+                      <div className="w-3 h-3 bg-purple-600 rounded-full mb-1"></div>
+                      <span className="text-lg font-bold text-purple-600">{regionsData.sudeste.percentage}%</span>
+                      <span className="text-xs text-purple-600 font-medium">Sudeste</span>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Marcadores com porcentagens - Sul */}
+                <motion.div
+                  className="absolute cursor-pointer z-10"
+                  style={{
+                    bottom: '15%',
+                    left: '15%',
+                  }}
+                  whileHover={{ scale: 1.1 }}
+                  onClick={() => setActiveRegion(activeRegion === 'sul' ? null : 'sul')}
+                >
+                  <div className="relative">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 border border-purple-300 flex flex-col items-center justify-center shadow-lg">
+                      <div className="w-3 h-3 bg-purple-600 rounded-full mb-1"></div>
+                      <span className="text-lg font-bold text-purple-600">{regionsData.sul.percentage}%</span>
+                      <span className="text-xs text-purple-600 font-medium">Sul</span>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
             </div>
           </div>
           <p className="text-center text-sm text-gray-600 mt-4">
