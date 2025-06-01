@@ -1,3 +1,4 @@
+
 import { Info, User, FileText } from "lucide-react";
 import { useState } from "react";
 import { 
@@ -161,7 +162,7 @@ export function BillingStatusCards() {
           
           <div className="my-6">
             <div 
-              className="w-full h-3 bg-gray-100 rounded-sm mb-4 overflow-hidden cursor-pointer relative"
+              className="w-full h-4 bg-gray-100 rounded-sm mb-4 overflow-hidden cursor-pointer relative"
               onMouseMove={(e) => handleProgressBarHover(e, billingStatus.received.amount, 'received', true)}
               onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.received.amount, 'received', false)}
               style={{
@@ -214,7 +215,7 @@ export function BillingStatusCards() {
           
           <div className="my-6">
             <div 
-              className="w-full h-3 bg-gray-100 rounded-sm mb-4 overflow-hidden cursor-pointer relative"
+              className="w-full h-4 bg-gray-100 rounded-sm mb-4 overflow-hidden cursor-pointer relative"
               onMouseMove={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', true)}
               onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', false)}
               style={{
@@ -267,7 +268,7 @@ export function BillingStatusCards() {
           
           <div className="my-6">
             <div 
-              className="w-full h-3 bg-gray-100 rounded-sm mb-4 overflow-hidden cursor-pointer relative"
+              className="w-full h-4 bg-gray-100 rounded-sm mb-4 overflow-hidden cursor-pointer relative"
               onMouseMove={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, 'awaiting', true)}
               onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, 'awaiting', false)}
             >
@@ -318,7 +319,7 @@ export function BillingStatusCards() {
           
           <div className="my-6">
             <div 
-              className="w-full h-3 bg-gray-100 rounded-sm mb-4 overflow-hidden cursor-pointer relative"
+              className="w-full h-4 bg-gray-100 rounded-sm mb-4 overflow-hidden cursor-pointer relative"
               onMouseMove={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', true)}
               onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', false)}
               style={{
