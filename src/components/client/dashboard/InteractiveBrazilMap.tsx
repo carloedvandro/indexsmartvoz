@@ -112,7 +112,7 @@ export function InteractiveBrazilMap() {
                 perspective: '1000px'
               }}
             >
-              {/* Mapa 3D do Brasil usando CSS */}
+              {/* SVG do Mapa do Brasil */}
               <div 
                 className="relative w-80 h-96 cursor-pointer transition-transform duration-500 hover:scale-105"
                 style={{
@@ -120,107 +120,102 @@ export function InteractiveBrazilMap() {
                   transform: 'rotateX(15deg) rotateY(-10deg)'
                 }}
               >
-                {/* Região Norte */}
-                <motion.div
-                  className="absolute bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg shadow-2xl border-2 border-blue-800 cursor-pointer"
-                  style={{
-                    top: '10%',
-                    left: '25%',
-                    width: '50%',
-                    height: '25%',
-                    transform: 'translateZ(20px)',
-                    boxShadow: '0 10px 30px rgba(59, 130, 246, 0.5)'
-                  }}
-                  whileHover={{ 
-                    scale: 1.05,
-                    transform: 'translateZ(30px)',
-                    boxShadow: '0 15px 40px rgba(59, 130, 246, 0.7)'
-                  }}
-                  onClick={() => setActiveRegion(activeRegion === 'norte' ? null : 'norte')}
-                />
+                <svg
+                  viewBox="0 0 400 500"
+                  className="w-full h-full"
+                  style={{ filter: 'drop-shadow(0 10px 30px rgba(59, 130, 246, 0.3))' }}
+                >
+                  {/* Região Norte */}
+                  <motion.path
+                    d="M80 80 L320 80 L320 180 L280 200 L200 190 L120 170 L80 150 Z"
+                    fill="url(#gradient-norte)"
+                    stroke="#1e40af"
+                    strokeWidth="2"
+                    className="cursor-pointer"
+                    whileHover={{ scale: 1.05 }}
+                    onClick={() => setActiveRegion(activeRegion === 'norte' ? null : 'norte')}
+                    style={{ filter: 'drop-shadow(0 5px 15px rgba(59, 130, 246, 0.4))' }}
+                  />
 
-                {/* Região Nordeste */}
-                <motion.div
-                  className="absolute bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg shadow-2xl border-2 border-blue-900 cursor-pointer"
-                  style={{
-                    top: '15%',
-                    right: '15%',
-                    width: '35%',
-                    height: '35%',
-                    transform: 'translateZ(25px)',
-                    boxShadow: '0 12px 35px rgba(37, 99, 235, 0.5)'
-                  }}
-                  whileHover={{ 
-                    scale: 1.05,
-                    transform: 'translateZ(35px)',
-                    boxShadow: '0 17px 45px rgba(37, 99, 235, 0.7)'
-                  }}
-                  onClick={() => setActiveRegion(activeRegion === 'nordeste' ? null : 'nordeste')}
-                />
+                  {/* Região Nordeste */}
+                  <motion.path
+                    d="M280 200 L380 190 L390 280 L360 320 L280 300 L280 200 Z"
+                    fill="url(#gradient-nordeste)"
+                    stroke="#1e40af"
+                    strokeWidth="2"
+                    className="cursor-pointer"
+                    whileHover={{ scale: 1.05 }}
+                    onClick={() => setActiveRegion(activeRegion === 'nordeste' ? null : 'nordeste')}
+                    style={{ filter: 'drop-shadow(0 5px 15px rgba(37, 99, 235, 0.4))' }}
+                  />
 
-                {/* Região Centro-Oeste */}
-                <motion.div
-                  className="absolute bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg shadow-2xl border-2 border-blue-800 cursor-pointer"
-                  style={{
-                    top: '40%',
-                    left: '15%',
-                    width: '35%',
-                    height: '30%',
-                    transform: 'translateZ(18px)',
-                    boxShadow: '0 8px 25px rgba(59, 130, 246, 0.5)'
-                  }}
-                  whileHover={{ 
-                    scale: 1.05,
-                    transform: 'translateZ(28px)',
-                    boxShadow: '0 13px 35px rgba(59, 130, 246, 0.7)'
-                  }}
-                  onClick={() => setActiveRegion(activeRegion === 'centrooeste' ? null : 'centrooeste')}
-                />
+                  {/* Região Centro-Oeste */}
+                  <motion.path
+                    d="M120 170 L200 190 L280 200 L280 300 L200 320 L120 300 L100 250 L120 170 Z"
+                    fill="url(#gradient-centrooeste)"
+                    stroke="#1e40af"
+                    strokeWidth="2"
+                    className="cursor-pointer"
+                    whileHover={{ scale: 1.05 }}
+                    onClick={() => setActiveRegion(activeRegion === 'centrooeste' ? null : 'centrooeste')}
+                    style={{ filter: 'drop-shadow(0 5px 15px rgba(59, 130, 246, 0.4))' }}
+                  />
 
-                {/* Região Sudeste */}
-                <motion.div
-                  className="absolute bg-gradient-to-br from-blue-700 to-blue-900 rounded-lg shadow-2xl border-2 border-blue-950 cursor-pointer"
-                  style={{
-                    top: '55%',
-                    right: '20%',
-                    width: '40%',
-                    height: '25%',
-                    transform: 'translateZ(30px)',
-                    boxShadow: '0 15px 40px rgba(29, 78, 216, 0.6)'
-                  }}
-                  whileHover={{ 
-                    scale: 1.05,
-                    transform: 'translateZ(40px)',
-                    boxShadow: '0 20px 50px rgba(29, 78, 216, 0.8)'
-                  }}
-                  onClick={() => setActiveRegion(activeRegion === 'sudeste' ? null : 'sudeste')}
-                />
+                  {/* Região Sudeste */}
+                  <motion.path
+                    d="M200 320 L280 300 L360 320 L340 400 L260 420 L200 400 L200 320 Z"
+                    fill="url(#gradient-sudeste)"
+                    stroke="#1e40af"
+                    strokeWidth="2"
+                    className="cursor-pointer"
+                    whileHover={{ scale: 1.05 }}
+                    onClick={() => setActiveRegion(activeRegion === 'sudeste' ? null : 'sudeste')}
+                    style={{ filter: 'drop-shadow(0 5px 15px rgba(29, 78, 216, 0.4))' }}
+                  />
 
-                {/* Região Sul */}
-                <motion.div
-                  className="absolute bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg shadow-2xl border-2 border-blue-900 cursor-pointer"
-                  style={{
-                    bottom: '15%',
-                    left: '30%',
-                    width: '30%',
-                    height: '20%',
-                    transform: 'translateZ(22px)',
-                    boxShadow: '0 10px 30px rgba(37, 99, 235, 0.5)'
-                  }}
-                  whileHover={{ 
-                    scale: 1.05,
-                    transform: 'translateZ(32px)',
-                    boxShadow: '0 15px 40px rgba(37, 99, 235, 0.7)'
-                  }}
-                  onClick={() => setActiveRegion(activeRegion === 'sul' ? null : 'sul')}
-                />
+                  {/* Região Sul */}
+                  <motion.path
+                    d="M200 400 L260 420 L240 480 L160 470 L140 450 L160 420 L200 400 Z"
+                    fill="url(#gradient-sul)"
+                    stroke="#1e40af"
+                    strokeWidth="2"
+                    className="cursor-pointer"
+                    whileHover={{ scale: 1.05 }}
+                    onClick={() => setActiveRegion(activeRegion === 'sul' ? null : 'sul')}
+                    style={{ filter: 'drop-shadow(0 5px 15px rgba(37, 99, 235, 0.4))' }}
+                  />
+
+                  {/* Gradientes para efeito 3D */}
+                  <defs>
+                    <linearGradient id="gradient-norte" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#3b82f6" />
+                      <stop offset="100%" stopColor="#1d4ed8" />
+                    </linearGradient>
+                    <linearGradient id="gradient-nordeste" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#2563eb" />
+                      <stop offset="100%" stopColor="#1e40af" />
+                    </linearGradient>
+                    <linearGradient id="gradient-centrooeste" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#3b82f6" />
+                      <stop offset="100%" stopColor="#1d4ed8" />
+                    </linearGradient>
+                    <linearGradient id="gradient-sudeste" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#1d4ed8" />
+                      <stop offset="100%" stopColor="#1e3a8a" />
+                    </linearGradient>
+                    <linearGradient id="gradient-sul" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#2563eb" />
+                      <stop offset="100%" stopColor="#1e40af" />
+                    </linearGradient>
+                  </defs>
+                </svg>
 
                 {/* Marcadores com porcentagens - Norte */}
                 <motion.div
                   className="absolute cursor-pointer z-10"
                   style={{
-                    top: '5%',
-                    left: '10%',
+                    top: '15%',
+                    left: '15%',
                   }}
                   whileHover={{ scale: 1.1 }}
                   onClick={() => setActiveRegion(activeRegion === 'norte' ? null : 'norte')}
@@ -238,8 +233,8 @@ export function InteractiveBrazilMap() {
                 <motion.div
                   className="absolute cursor-pointer z-10"
                   style={{
-                    top: '5%',
-                    right: '5%',
+                    top: '25%',
+                    right: '10%',
                   }}
                   whileHover={{ scale: 1.1 }}
                   onClick={() => setActiveRegion(activeRegion === 'nordeste' ? null : 'nordeste')}
@@ -258,7 +253,7 @@ export function InteractiveBrazilMap() {
                   className="absolute cursor-pointer z-10"
                   style={{
                     top: '45%',
-                    left: '5%',
+                    left: '10%',
                   }}
                   whileHover={{ scale: 1.1 }}
                   onClick={() => setActiveRegion(activeRegion === 'centrooeste' ? null : 'centrooeste')}
@@ -276,8 +271,8 @@ export function InteractiveBrazilMap() {
                 <motion.div
                   className="absolute cursor-pointer z-10"
                   style={{
-                    top: '50%',
-                    right: '5%',
+                    top: '60%',
+                    right: '15%',
                   }}
                   whileHover={{ scale: 1.1 }}
                   onClick={() => setActiveRegion(activeRegion === 'sudeste' ? null : 'sudeste')}
@@ -296,7 +291,7 @@ export function InteractiveBrazilMap() {
                   className="absolute cursor-pointer z-10"
                   style={{
                     bottom: '15%',
-                    left: '15%',
+                    left: '25%',
                   }}
                   whileHover={{ scale: 1.1 }}
                   onClick={() => setActiveRegion(activeRegion === 'sul' ? null : 'sul')}
