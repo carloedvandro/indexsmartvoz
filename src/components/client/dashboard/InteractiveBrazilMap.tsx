@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { RegionData } from './map/types';
@@ -78,7 +77,7 @@ export function InteractiveBrazilMap() {
   };
 
   return (
-    <div className="bg-white rounded-lg border p-6">
+    <>
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-semibold text-gray-800">Vendas por Região - Tempo Real</h3>
         <div className="flex items-center gap-2">
@@ -131,6 +130,6 @@ export function InteractiveBrazilMap() {
         formatNumber={formatNumber}
         setActiveRegion={setActiveRegion}
       />
-    </div>
+    </>
   );
 }
