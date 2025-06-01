@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
@@ -81,7 +82,7 @@ export function InteractiveBrazilMap() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-6">
+    <div className="bg-white rounded-lg border p-6">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-semibold text-gray-800">Vendas por Região - Tempo Real</h3>
         <div className="flex items-center gap-2">
@@ -223,7 +224,7 @@ export function InteractiveBrazilMap() {
                   return (
                     <motion.div
                       key={key}
-                      className="absolute w-3 h-3 bg-white rounded-full border-2 border-gray-800 pointer-events-none shadow-lg"
+                      className="absolute w-3 h-3 bg-white rounded-full border-2 border-gray-800 pointer-events-none"
                       style={pos}
                       animate={{
                         scale: [1, 1.5, 1],
@@ -267,7 +268,7 @@ export function InteractiveBrazilMap() {
               </div>
               
               <div className="grid grid-cols-1 gap-4">
-                <div className="bg-white rounded-lg p-4 shadow-sm">
+                <div className="bg-white rounded-lg p-4">
                   <div className="flex justify-between items-start mb-2">
                     <p className="text-sm font-medium text-gray-600">Total de Vendas</p>
                     <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
@@ -288,7 +289,7 @@ export function InteractiveBrazilMap() {
                   </div>
                 </div>
                 
-                <div className="bg-white rounded-lg p-4 shadow-sm">
+                <div className="bg-white rounded-lg p-4">
                   <p className="text-sm font-medium text-gray-600 mb-2">Plano Mais Vendido</p>
                   <p className="text-xl font-bold text-gray-800 mb-1">
                     {regionsData[activeRegion].topPlan}
@@ -312,7 +313,7 @@ export function InteractiveBrazilMap() {
           )}
 
           {/* Ranking das regiões */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border">
+          <div className="bg-white rounded-xl p-6 border">
             <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
               <span>🏆</span>
               Ranking de Vendas
@@ -360,7 +361,7 @@ export function InteractiveBrazilMap() {
           {Object.entries(regionsData).map(([key, region]) => (
             <motion.div 
               key={key} 
-              className="bg-white rounded-lg p-4 shadow-sm border-l-4 cursor-pointer hover:shadow-md transition-all duration-200"
+              className="bg-white rounded-lg p-4 border-l-4 cursor-pointer hover:bg-gray-50 transition-all duration-200"
               style={{ borderLeftColor: region.color }}
               onClick={() => setActiveRegion(key)}
               whileHover={{ scale: 1.02 }}
