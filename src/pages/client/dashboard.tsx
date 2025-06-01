@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
@@ -9,7 +10,7 @@ import { DashboardCards } from "@/components/client/dashboard/DashboardCards";
 import { getMonthsData, getDailyData } from "@/utils/monthsData";
 import { FinancialCards } from "@/components/client/dashboard/financial-cards";
 import { StatsCardsGrid } from "@/components/client/dashboard/stats/StatsCardsGrid";
-import { DetailedBrazilMap } from "@/components/client/dashboard/DetailedBrazilMap";
+import { BrazilMapDesign } from "@/components/client/dashboard/BrazilMapDesign";
 import "@/styles/logo.css";
 
 export default function ClientDashboard() {
