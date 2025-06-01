@@ -58,15 +58,16 @@ export function ModernBrazilMap() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Mapa 3D do Brasil */}
+        {/* Mapa Real do Brasil */}
         <div className="relative">
-          <div className="aspect-square max-w-lg mx-auto relative">
-            {/* SVG do Mapa do Brasil com efeito 3D */}
+          <div className="aspect-[4/5] max-w-lg mx-auto relative">
+            {/* SVG do Mapa Real do Brasil */}
             <svg 
-              viewBox="0 0 600 600" 
+              viewBox="0 0 400 500" 
               className="w-full h-full"
               style={{
-                filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.2))'
+                filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.3))',
+                transform: 'perspective(1000px) rotateX(10deg) rotateY(-5deg)'
               }}
             >
               {/* Região Norte */}
@@ -78,25 +79,21 @@ export function ModernBrazilMap() {
                 }}
               >
                 <path
-                  d="M150,50 L450,50 L450,200 L300,200 L150,200 Z"
+                  d="M50,20 L350,20 L350,140 L280,160 L250,150 L200,160 L150,140 L100,150 L50,130 Z"
                   fill={regionsData.norte.color}
                   stroke="#fff"
                   strokeWidth="2"
-                  style={{
-                    transform: 'perspective(1000px) rotateX(15deg) rotateY(-5deg)',
-                    transformOrigin: 'center'
-                  }}
                 />
-                <text x="300" y="110" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">
+                <text x="200" y="60" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">
                   NORTE
                 </text>
-                <text x="300" y="130" textAnchor="middle" fill="white" fontSize="10">
+                <text x="200" y="80" textAnchor="middle" fill="white" fontSize="10">
                   AM PA RO AC RR AP TO
                 </text>
-                <text x="300" y="145" textAnchor="middle" fill="white" fontSize="9">
+                <text x="200" y="95" textAnchor="middle" fill="white" fontSize="9">
                   Manaus • Belém • Porto Velho
                 </text>
-                <text x="300" y="160" textAnchor="middle" fill="white" fontSize="9">
+                <text x="200" y="108" textAnchor="middle" fill="white" fontSize="9">
                   Rio Branco • Boa Vista • Macapá • Palmas
                 </text>
               </g>
@@ -110,28 +107,24 @@ export function ModernBrazilMap() {
                 }}
               >
                 <path
-                  d="M350,200 L550,200 L550,350 L350,350 Z"
+                  d="M280,160 L380,140 L390,160 L400,180 L395,220 L385,260 L370,280 L350,290 L320,285 L300,270 L280,250 L270,220 L275,190 Z"
                   fill={regionsData.nordeste.color}
                   stroke="#fff"
                   strokeWidth="2"
-                  style={{
-                    transform: 'perspective(1000px) rotateX(15deg) rotateY(-5deg)',
-                    transformOrigin: 'center'
-                  }}
                 />
-                <text x="450" y="245" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">
+                <text x="330" y="200" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">
                   NORDESTE
                 </text>
-                <text x="450" y="265" textAnchor="middle" fill="white" fontSize="10">
+                <text x="330" y="215" textAnchor="middle" fill="white" fontSize="9">
                   BA PE CE RN PB AL SE PI MA
                 </text>
-                <text x="450" y="280" textAnchor="middle" fill="white" fontSize="9">
+                <text x="330" y="228" textAnchor="middle" fill="white" fontSize="8">
                   Salvador • Recife • Fortaleza
                 </text>
-                <text x="450" y="295" textAnchor="middle" fill="white" fontSize="9">
+                <text x="330" y="240" textAnchor="middle" fill="white" fontSize="8">
                   Natal • João Pessoa • Maceió
                 </text>
-                <text x="450" y="310" textAnchor="middle" fill="white" fontSize="9">
+                <text x="330" y="252" textAnchor="middle" fill="white" fontSize="8">
                   Aracaju • Teresina • São Luís
                 </text>
               </g>
@@ -145,25 +138,21 @@ export function ModernBrazilMap() {
                 }}
               >
                 <path
-                  d="M150,200 L350,200 L350,350 L150,350 Z"
+                  d="M150,140 L280,160 L275,190 L270,220 L260,250 L240,280 L220,290 L180,295 L140,285 L120,270 L100,250 L90,220 L95,190 L110,160 Z"
                   fill={regionsData.centrooeste.color}
                   stroke="#fff"
                   strokeWidth="2"
-                  style={{
-                    transform: 'perspective(1000px) rotateX(15deg) rotateY(-5deg)',
-                    transformOrigin: 'center'
-                  }}
                 />
-                <text x="250" y="245" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">
+                <text x="185" y="210" textAnchor="middle" fill="white" fontSize="11" fontWeight="bold">
                   CENTRO-OESTE
                 </text>
-                <text x="250" y="265" textAnchor="middle" fill="white" fontSize="10">
+                <text x="185" y="225" textAnchor="middle" fill="white" fontSize="9">
                   MT MS GO DF
                 </text>
-                <text x="250" y="280" textAnchor="middle" fill="white" fontSize="9">
+                <text x="185" y="238" textAnchor="middle" fill="white" fontSize="8">
                   Brasília • Goiânia
                 </text>
-                <text x="250" y="295" textAnchor="middle" fill="white" fontSize="9">
+                <text x="185" y="250" textAnchor="middle" fill="white" fontSize="8">
                   Cuiabá • Campo Grande
                 </text>
               </g>
@@ -177,25 +166,21 @@ export function ModernBrazilMap() {
                 }}
               >
                 <path
-                  d="M250,350 L500,350 L500,450 L250,450 Z"
+                  d="M220,290 L350,290 L370,280 L375,300 L380,320 L370,350 L350,370 L320,380 L280,375 L250,365 L230,350 L215,330 L210,310 Z"
                   fill={regionsData.sudeste.color}
                   stroke="#fff"
                   strokeWidth="2"
-                  style={{
-                    transform: 'perspective(1000px) rotateX(15deg) rotateY(-5deg)',
-                    transformOrigin: 'center'
-                  }}
                 />
-                <text x="375" y="385" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">
+                <text x="295" y="325" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">
                   SUDESTE
                 </text>
-                <text x="375" y="405" textAnchor="middle" fill="white" fontSize="10">
+                <text x="295" y="340" textAnchor="middle" fill="white" fontSize="10">
                   SP RJ MG ES
                 </text>
-                <text x="375" y="420" textAnchor="middle" fill="white" fontSize="9">
+                <text x="295" y="353" textAnchor="middle" fill="white" fontSize="9">
                   São Paulo • Rio de Janeiro
                 </text>
-                <text x="375" y="435" textAnchor="middle" fill="white" fontSize="9">
+                <text x="295" y="365" textAnchor="middle" fill="white" fontSize="9">
                   Belo Horizonte • Vitória
                 </text>
               </g>
@@ -209,32 +194,28 @@ export function ModernBrazilMap() {
                 }}
               >
                 <path
-                  d="M200,450 L400,450 L400,550 L200,550 Z"
+                  d="M210,310 L230,350 L250,365 L280,375 L320,380 L325,400 L315,430 L295,450 L270,465 L240,470 L210,465 L185,450 L170,430 L165,400 L175,370 L190,340 Z"
                   fill={regionsData.sul.color}
                   stroke="#fff"
                   strokeWidth="2"
-                  style={{
-                    transform: 'perspective(1000px) rotateX(15deg) rotateY(-5deg)',
-                    transformOrigin: 'center'
-                  }}
                 />
-                <text x="300" y="485" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">
+                <text x="245" y="415" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">
                   SUL
                 </text>
-                <text x="300" y="505" textAnchor="middle" fill="white" fontSize="10">
+                <text x="245" y="430" textAnchor="middle" fill="white" fontSize="10">
                   RS SC PR
                 </text>
-                <text x="300" y="520" textAnchor="middle" fill="white" fontSize="9">
+                <text x="245" y="443" textAnchor="middle" fill="white" fontSize="9">
                   Porto Alegre • Curitiba
                 </text>
-                <text x="300" y="535" textAnchor="middle" fill="white" fontSize="9">
+                <text x="245" y="455" textAnchor="middle" fill="white" fontSize="9">
                   Florianópolis
                 </text>
               </g>
             </svg>
 
-            {/* Porcentagens flutuantes */}
-            <div className="absolute top-0 left-1/4 transform -translate-x-1/2">
+            {/* Porcentagens flutuantes igual à imagem */}
+            <div className="absolute top-4 left-1/4 transform -translate-x-1/2">
               <div className="bg-purple-100 rounded-full p-3 shadow-lg relative">
                 <div className="w-3 h-3 bg-purple-600 rounded-full absolute -top-1 -right-1"></div>
                 <div className="text-purple-600 font-bold text-lg">7%</div>
@@ -258,7 +239,7 @@ export function ModernBrazilMap() {
               </div>
             </div>
 
-            <div className="absolute bottom-1/4 right-0 transform translate-x-1/2">
+            <div className="absolute bottom-1/3 right-0 transform translate-x-1/2">
               <div className="bg-purple-100 rounded-full p-3 shadow-lg relative">
                 <div className="w-3 h-3 bg-purple-600 rounded-full absolute -top-1 -right-1"></div>
                 <div className="text-purple-600 font-bold text-lg">45%</div>
@@ -266,7 +247,7 @@ export function ModernBrazilMap() {
               </div>
             </div>
 
-            <div className="absolute bottom-0 left-1/4 transform -translate-x-1/2">
+            <div className="absolute bottom-4 left-1/4 transform -translate-x-1/2">
               <div className="bg-purple-100 rounded-full p-3 shadow-lg relative">
                 <div className="w-3 h-3 bg-purple-600 rounded-full absolute -top-1 -right-1"></div>
                 <div className="text-purple-600 font-bold text-lg">18%</div>
