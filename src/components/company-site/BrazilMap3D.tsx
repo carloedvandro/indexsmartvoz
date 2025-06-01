@@ -17,119 +17,157 @@ export function BrazilMap3D() {
     
     renderer.setSize(800, 400);
     renderer.setClearColor(0x000000, 0);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     mountRef.current.appendChild(renderer.domElement);
 
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0x404040, 0.8);
+    const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
     scene.add(ambientLight);
     
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(5, 5, 5);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    directionalLight.position.set(5, 10, 5);
+    directionalLight.castShadow = true;
+    directionalLight.shadow.mapSize.width = 2048;
+    directionalLight.shadow.mapSize.height = 2048;
     scene.add(directionalLight);
 
-    // Create Brazil map shape (more detailed)
-    const brazilShape = new THREE.Shape();
-    brazilShape.moveTo(-3, 2);
-    brazilShape.lineTo(-2.5, 3);
-    brazilShape.lineTo(-1, 3.2);
-    brazilShape.lineTo(0, 3.5);
-    brazilShape.lineTo(1.5, 3.2);
-    brazilShape.lineTo(2.5, 2.8);
-    brazilShape.lineTo(3, 2);
-    brazilShape.lineTo(3.5, 1);
-    brazilShape.lineTo(3.8, 0);
-    brazilShape.lineTo(3.5, -0.5);
-    brazilShape.lineTo(3, -1);
-    brazilShape.lineTo(2.5, -2);
-    brazilShape.lineTo(2, -2.8);
-    brazilShape.lineTo(1.5, -3.2);
-    brazilShape.lineTo(0.5, -3.8);
-    brazilShape.lineTo(0, -4);
-    brazilShape.lineTo(-0.5, -3.8);
-    brazilShape.lineTo(-1, -3.5);
-    brazilShape.lineTo(-1.5, -3);
-    brazilShape.lineTo(-2, -2.5);
-    brazilShape.lineTo(-2.5, -2);
-    brazilShape.lineTo(-3, -1);
-    brazilShape.lineTo(-3.2, 0);
-    brazilShape.lineTo(-3, 1);
-    brazilShape.lineTo(-3, 2);
-
-    const extrudeSettings = {
-      depth: 0.4,
-      bevelEnabled: true,
-      bevelSegments: 3,
-      steps: 3,
-      bevelSize: 0.05,
-      bevelThickness: 0.05
+    // Define colors for each region
+    const regionColors = {
+      norte: 0x4CAF50,      // Green
+      nordeste: 0x2196F3,   // Blue
+      centrooeste: 0xFFC107, // Yellow/Orange
+      sudeste: 0xF44336,    // Red
+      sul: 0x9C27B0         // Purple
     };
 
-    const geometry = new THREE.ExtrudeGeometry(brazilShape, extrudeSettings);
-    
-    // Create purple gradient material similar to Vivo's map
-    const material = new THREE.MeshLambertMaterial({
-      color: new THREE.Color(0x8b2db8), // Purple color like Vivo
-      transparent: true,
-      opacity: 0.95
+    // Create Norte region (Amazon area)
+    const norteShape = new THREE.Shape();
+    norteShape.moveTo(-3, 1.5);
+    norteShape.lineTo(-2.5, 3);
+    norteShape.lineTo(-1, 3.2);
+    norteShape.lineTo(0, 3.5);
+    norteShape.lineTo(1.5, 3.2);
+    norteShape.lineTo(2, 2.5);
+    norteShape.lineTo(1.5, 2);
+    norteShape.lineTo(0.5, 1.8);
+    norteShape.lineTo(-0.5, 2);
+    norteShape.lineTo(-1.5, 1.8);
+    norteShape.lineTo(-2.5, 1.5);
+    norteShape.lineTo(-3, 1.5);
+
+    // Create Nordeste region
+    const nordesteShape = new THREE.Shape();
+    nordesteShape.moveTo(1.5, 2);
+    nordesteShape.lineTo(2, 2.5);
+    nordesteShape.lineTo(3, 2);
+    nordesteShape.lineTo(3.5, 1);
+    nordesteShape.lineTo(3.8, 0);
+    nordesteShape.lineTo(3.5, -0.5);
+    nordesteShape.lineTo(2.8, -0.2);
+    nordesteShape.lineTo(2, 0.5);
+    nordesteShape.lineTo(1.5, 1.2);
+    nordesteShape.lineTo(1.5, 2);
+
+    // Create Centro-Oeste region
+    const centrooeste = new THREE.Shape();
+    centrooeste.moveTo(-2.5, 1.5);
+    centrooeste.lineTo(-0.5, 2);
+    centrooeste.lineTo(0.5, 1.8);
+    centrooeste.lineTo(1.5, 1.2);
+    centrooeste.lineTo(2, 0.5);
+    centrooeste.lineTo(1.5, -0.5);
+    centrooeste.lineTo(0.5, -0.8);
+    centrooeste.lineTo(-0.5, -0.5);
+    centrooeste.lineTo(-1.5, 0);
+    centrooeste.lineTo(-2.5, 0.5);
+    centrooeste.lineTo(-2.5, 1.5);
+
+    // Create Sudeste region
+    const sudesteShape = new THREE.Shape();
+    sudesteShape.moveTo(0.5, -0.8);
+    sudesteShape.lineTo(1.5, -0.5);
+    sudesteShape.lineTo(2.5, -1);
+    sudesteShape.lineTo(2.8, -2);
+    sudesteShape.lineTo(2, -2.5);
+    sudesteShape.lineTo(1.5, -2.8);
+    sudesteShape.lineTo(0.8, -2.5);
+    sudesteShape.lineTo(0.2, -2);
+    sudesteShape.lineTo(0, -1.5);
+    sudesteShape.lineTo(0.5, -0.8);
+
+    // Create Sul region
+    const sulShape = new THREE.Shape();
+    sulShape.moveTo(0.2, -2);
+    sulShape.lineTo(0.8, -2.5);
+    sulShape.lineTo(1.5, -2.8);
+    sulShape.lineTo(0.5, -3.8);
+    sulShape.lineTo(0, -4);
+    sulShape.lineTo(-0.5, -3.8);
+    sulShape.lineTo(-1, -3.5);
+    sulShape.lineTo(-1.5, -3);
+    sulShape.lineTo(-1, -2.5);
+    sulShape.lineTo(-0.5, -2.2);
+    sulShape.lineTo(0.2, -2);
+
+    const extrudeSettings = {
+      depth: 0.3,
+      bevelEnabled: true,
+      bevelSegments: 3,
+      steps: 2,
+      bevelSize: 0.02,
+      bevelThickness: 0.02
+    };
+
+    // Create region meshes
+    const regions = [
+      { shape: norteShape, color: regionColors.norte, name: 'Norte' },
+      { shape: nordesteShape, color: regionColors.nordeste, name: 'Nordeste' },
+      { shape: centrooeste, color: regionColors.centrooeste, name: 'Centro-Oeste' },
+      { shape: sudesteShape, color: regionColors.sudeste, name: 'Sudeste' },
+      { shape: sulShape, color: regionColors.sul, name: 'Sul' }
+    ];
+
+    regions.forEach(region => {
+      const geometry = new THREE.ExtrudeGeometry(region.shape, extrudeSettings);
+      const material = new THREE.MeshLambertMaterial({
+        color: new THREE.Color(region.color),
+        transparent: true,
+        opacity: 0.9
+      });
+
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      mesh.position.z = 0;
+      scene.add(mesh);
     });
 
-    const brazilMesh = new THREE.Mesh(geometry, material);
-    scene.add(brazilMesh);
-
-    // Add more location pins to match Vivo's coverage
-    const pinGeometry = new THREE.ConeGeometry(0.04, 0.15, 8);
+    // Add some location pins
+    const pinGeometry = new THREE.ConeGeometry(0.03, 0.12, 8);
     const pinMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
 
     const locations = [
-      // Norte
-      { x: -1.5, y: 2, z: 0.4 },
-      { x: -0.5, y: 2.5, z: 0.4 },
-      { x: 0.5, y: 2.2, z: 0.4 },
-      // Nordeste
-      { x: 1.8, y: 1.5, z: 0.4 },
-      { x: 2.2, y: 0.8, z: 0.4 },
-      { x: 2.5, y: 0.2, z: 0.4 },
-      { x: 2.8, y: -0.5, z: 0.4 },
-      // Centro-Oeste
-      { x: -0.8, y: 0.5, z: 0.4 },
-      { x: 0, y: 0, z: 0.4 },
-      { x: 0.8, y: 0.3, z: 0.4 },
-      // Sudeste
-      { x: 1, y: -1.2, z: 0.4 },
-      { x: 1.5, y: -1.8, z: 0.4 },
-      { x: 0.8, y: -2.2, z: 0.4 },
-      { x: 0.2, y: -2.5, z: 0.4 },
-      // Sul
-      { x: 0, y: -3, z: 0.4 },
-      { x: -0.5, y: -2.8, z: 0.4 },
-      { x: -1, y: -2.5, z: 0.4 },
-      // Outros pontos
-      { x: -1.8, y: 1, z: 0.4 },
-      { x: -2, y: 0, z: 0.4 },
-      { x: -1.5, y: -1, z: 0.4 },
+      { x: -1.5, y: 2.5, z: 0.3 }, // Norte
+      { x: 2.5, y: 1, z: 0.3 },    // Nordeste
+      { x: -0.5, y: 0.5, z: 0.3 }, // Centro-Oeste
+      { x: 1, y: -1.5, z: 0.3 },   // Sudeste
+      { x: -0.2, y: -3, z: 0.3 },  // Sul
     ];
 
     locations.forEach(pos => {
       const pin = new THREE.Mesh(pinGeometry, pinMaterial);
       pin.position.set(pos.x, pos.y, pos.z);
+      pin.castShadow = true;
       scene.add(pin);
     });
 
-    // Position camera
-    camera.position.set(0, 0, 6);
+    // Position camera for better view
+    camera.position.set(0, 0, 5);
     camera.lookAt(0, 0, 0);
 
-    // Animation
-    let animationId: number;
-    const animate = () => {
-      animationId = requestAnimationFrame(animate);
-      
-      brazilMesh.rotation.z += 0.003;
-      
-      renderer.render(scene, camera);
-    };
-
-    animate();
+    // Static render - no animation
+    renderer.render(scene, camera);
 
     // Store references
     sceneRef.current = scene;
@@ -137,9 +175,6 @@ export function BrazilMap3D() {
 
     // Cleanup
     return () => {
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-      }
       if (mountRef.current && renderer.domElement) {
         mountRef.current.removeChild(renderer.domElement);
       }
