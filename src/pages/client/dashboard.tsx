@@ -46,15 +46,15 @@ export default function ClientDashboard() {
 
             <StatsCardsGrid />
 
-            <div className="container mb-8">
-              <BrazilMap3D />
-            </div>
-
             <DashboardCards
               profile={profile}
               networkStats={networkStats}
               handleNetworkClick={handleNetworkClick}
             />
+
+            <div className="container mb-8">
+              <BrazilMap3D />
+            </div>
           </div>
         </div>
       </main>
