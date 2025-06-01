@@ -1,3 +1,4 @@
+
 import { Info, User, FileText } from "lucide-react";
 import { useState } from "react";
 import { 
@@ -136,7 +137,7 @@ export function BillingStatusCards() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {/* Received/Recebidas - Mantém a barra verde como está */}
+        {/* Received/Recebidas - Barra verde listrada */}
         <div className="border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Recebidas</h3>
@@ -166,13 +167,10 @@ export function BillingStatusCards() {
                 className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
                 onMouseMove={(e) => handleProgressBarHover(e, billingStatus.received.amount, 'received', true)}
                 onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.received.amount, 'received', false)}
+                style={{
+                  background: 'repeating-linear-gradient(45deg, #d1f2eb, #d1f2eb 8px, #a7e6d7 8px, #a7e6d7 16px)'
+                }}
               >
-                <div className="h-full flex rounded-md transition-all duration-200">
-                  {/* Área do Pix - 60% mais escura */}
-                  <div className="bg-[#27ae60] h-full" style={{ width: '60%' }}></div>
-                  {/* Área do Boleto - 40% mais clara */}
-                  <div className="bg-[#27ae60]/60 h-full" style={{ width: '40%' }}></div>
-                </div>
               </div>
             </NoDataTooltip>
           </div>
@@ -194,7 +192,7 @@ export function BillingStatusCards() {
           </div>
         </div>
 
-        {/* Confirmed/Confirmadas - Barra azul sólida única */}
+        {/* Confirmed/Confirmadas - Barra azul listrada */}
         <div className=" border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Confirmadas</h3>
@@ -224,8 +222,10 @@ export function BillingStatusCards() {
                 className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
                 onMouseMove={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', true)}
                 onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', false)}
+                style={{
+                  background: 'repeating-linear-gradient(45deg, #cce7ff, #cce7ff 8px, #99d3ff 8px, #99d3ff 16px)'
+                }}
               >
-                <div className="h-full rounded-md transition-all duration-200 bg-[#3498db]"></div>
               </div>
             </NoDataTooltip>
           </div>
@@ -247,7 +247,7 @@ export function BillingStatusCards() {
           </div>
         </div>
 
-        {/* Awaiting Payment/Aguardando pagamento - Barra laranja sólida única */}
+        {/* Awaiting Payment/Aguardando pagamento - Barra laranja sólida */}
         <div className=" border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Aguardando pagamento</h3>
@@ -300,7 +300,7 @@ export function BillingStatusCards() {
           </div>
         </div>
 
-        {/* Overdue/Vencidas - Barra vermelha sólida única */}
+        {/* Overdue/Vencidas - Barra vermelha listrada */}
         <div className=" border rounded-xl card-no-bg">
           <div className="flex justify-between mb-2">
             <h3 className="font-medium text-gray-800">Vencidas</h3>
@@ -330,8 +330,10 @@ export function BillingStatusCards() {
                 className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
                 onMouseMove={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', true)}
                 onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', false)}
+                style={{
+                  background: 'repeating-linear-gradient(45deg, #ffcccc, #ffcccc 8px, #ff9999 8px, #ff9999 16px)'
+                }}
               >
-                <div className="h-full rounded-md transition-all duration-200 bg-[#e74c3c]"></div>
               </div>
             </NoDataTooltip>
           </div>
