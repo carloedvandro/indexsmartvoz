@@ -10,7 +10,7 @@ import { DashboardCards } from "@/components/client/dashboard/DashboardCards";
 import { getMonthsData, getDailyData } from "@/utils/monthsData";
 import { FinancialCards } from "@/components/client/dashboard/financial-cards";
 import { StatsCardsGrid } from "@/components/client/dashboard/stats/StatsCardsGrid";
-import { BrazilMap3D } from "@/components/client/dashboard/BrazilMap3D";
+import { InteractiveBrazilMap } from "@/components/client/dashboard/InteractiveBrazilMap";
 import "@/styles/logo.css";
 
 export default function ClientDashboard() {
@@ -46,15 +46,15 @@ export default function ClientDashboard() {
 
             <StatsCardsGrid />
 
-            <div className="container mb-8">
-              <BrazilMap3D />
-            </div>
-
             <DashboardCards
               profile={profile}
               networkStats={networkStats}
               handleNetworkClick={handleNetworkClick}
             />
+
+            <div className="container mb-8">
+              <InteractiveBrazilMap />
+            </div>
           </div>
         </div>
       </main>
