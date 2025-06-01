@@ -8,6 +8,7 @@ import {
 import { ClientsModal } from "./ClientsModal";
 import { useBillingData } from "@/hooks/useBillingData";
 import { ProgressBarTooltip } from "./ProgressBarTooltip";
+import { NoDataTooltip } from "./NoDataTooltip";
 
 export function BillingStatusCards() {
   const { billingStatus, loading, error, refetch } = useBillingData();
@@ -160,18 +161,20 @@ export function BillingStatusCards() {
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.received.liquid)} líquido</p>
           
           <div className="my-6">
-            <div 
-              className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
-              onMouseMove={(e) => handleProgressBarHover(e, billingStatus.received.amount, 'received', true)}
-              onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.received.amount, 'received', false)}
-            >
-              <div className="h-full flex rounded-md transition-all duration-200">
-                {/* Área do Pix - 60% mais escura */}
-                <div className="bg-[#27ae60] h-full" style={{ width: '60%' }}></div>
-                {/* Área do Boleto - 40% mais clara */}
-                <div className="bg-[#27ae60]/60 h-full" style={{ width: '40%' }}></div>
+            <NoDataTooltip show={billingStatus.received.amount === 0}>
+              <div 
+                className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
+                onMouseMove={(e) => handleProgressBarHover(e, billingStatus.received.amount, 'received', true)}
+                onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.received.amount, 'received', false)}
+              >
+                <div className="h-full flex rounded-md transition-all duration-200">
+                  {/* Área do Pix - 60% mais escura */}
+                  <div className="bg-[#27ae60] h-full" style={{ width: '60%' }}></div>
+                  {/* Área do Boleto - 40% mais clara */}
+                  <div className="bg-[#27ae60]/60 h-full" style={{ width: '40%' }}></div>
+                </div>
               </div>
-            </div>
+            </NoDataTooltip>
           </div>
           
           <div className="flex flex-col gap-3">
@@ -216,13 +219,15 @@ export function BillingStatusCards() {
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.confirmed.liquid)} líquido</p>
           
           <div className="my-6">
-            <div 
-              className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
-              onMouseMove={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', true)}
-              onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', false)}
-            >
-              <div className="h-full rounded-md transition-all duration-200 bg-[#3498db]"></div>
-            </div>
+            <NoDataTooltip show={billingStatus.confirmed.amount === 0}>
+              <div 
+                className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
+                onMouseMove={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', true)}
+                onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', false)}
+              >
+                <div className="h-full rounded-md transition-all duration-200 bg-[#3498db]"></div>
+              </div>
+            </NoDataTooltip>
           </div>
           
           <div className="flex flex-col gap-3">
@@ -267,13 +272,15 @@ export function BillingStatusCards() {
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.awaiting.liquid)} líquido</p>
           
           <div className="my-6">
-            <div 
-              className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
-              onMouseMove={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, 'awaiting', true)}
-              onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, 'awaiting', false)}
-            >
-              <div className="h-full rounded-md transition-all duration-200 bg-[#f39c12]"></div>
-            </div>
+            <NoDataTooltip show={billingStatus.awaiting.amount === 0}>
+              <div 
+                className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
+                onMouseMove={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, 'awaiting', true)}
+                onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, 'awaiting', false)}
+              >
+                <div className="h-full rounded-md transition-all duration-200 bg-[#f39c12]"></div>
+              </div>
+            </NoDataTooltip>
           </div>
           
           <div className="flex flex-col gap-3">
@@ -318,13 +325,15 @@ export function BillingStatusCards() {
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.overdue.liquid)} líquido</p>
           
           <div className="my-6">
-            <div 
-              className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
-              onMouseMove={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', true)}
-              onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', false)}
-            >
-              <div className="h-full rounded-md transition-all duration-200 bg-[#e74c3c]"></div>
-            </div>
+            <NoDataTooltip show={billingStatus.overdue.amount === 0}>
+              <div 
+                className="w-full h-3 bg-gray-100 rounded-md mb-4 overflow-hidden cursor-pointer relative"
+                onMouseMove={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', true)}
+                onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', false)}
+              >
+                <div className="h-full rounded-md transition-all duration-200 bg-[#e74c3c]"></div>
+              </div>
+            </NoDataTooltip>
           </div>
           
           <div className="flex flex-col gap-3">
