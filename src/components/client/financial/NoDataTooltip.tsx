@@ -23,7 +23,7 @@ export function NoDataTooltip({ children, show }: NoDataTooltipProps) {
         <TooltipTrigger asChild>
           {children}
         </TooltipTrigger>
-        <TooltipContent className="bg-gray-800 text-white px-3 py-2 rounded-md text-sm">
+        <TooltipContent className="bg-black text-white px-3 py-2 rounded-md text-sm border-0">
           <p>Não há dados para visualizar</p>
         </TooltipContent>
       </Tooltip>
