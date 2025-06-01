@@ -34,7 +34,7 @@ export function InteractiveBrazilMap() {
       sales: 3621,
       topPlan: 'Smartvoz 120GB',
       planSales: 1987,
-      color: '#8B5CF6',
+      color: '#F59E0B',
       growth: 8.9
     },
     sudeste: {
@@ -50,7 +50,7 @@ export function InteractiveBrazilMap() {
       sales: 6789,
       topPlan: 'Smartvoz 140GB',
       planSales: 3456,
-      color: '#F59E0B',
+      color: '#8B5CF6',
       growth: 18.6
     }
   });
@@ -91,33 +91,33 @@ export function InteractiveBrazilMap() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Mapa 3D do Brasil */}
+        {/* Mapa moderno do Brasil */}
         <div className="relative">
           <div className="aspect-square max-w-md mx-auto">
             <div className="relative w-full h-full flex justify-center items-center">
               <img 
-                src="/lovable-uploads/f2fe48bb-21e7-494e-bf09-e9478e8b3f54.png" 
-                alt="Mapa 3D do Brasil por regiões" 
+                src="/lovable-uploads/ceec55aa-c124-44fc-a14a-94437b064980.png" 
+                alt="Mapa moderno do Brasil por regiões" 
                 className="w-full h-full object-contain max-h-96"
               />
               
-              {/* Overlay interativo para regiões */}
+              {/* Overlay interativo para regiões com posicionamento ajustado */}
               <div className="absolute inset-0 w-full h-full">
                 {/* Norte - área verde superior */}
                 <motion.div
                   className="absolute cursor-pointer"
                   style={{
-                    top: '8%',
-                    left: '15%',
-                    width: '70%',
-                    height: '35%',
+                    top: '10%',
+                    left: '20%',
+                    width: '60%',
+                    height: '30%',
                   }}
                   whileHover={{ scale: 1.02 }}
                   onClick={() => setActiveRegion(activeRegion === 'norte' ? null : 'norte')}
                 >
                   <div className="w-full h-full rounded-lg bg-green-500/20 hover:bg-green-500/30 transition-all duration-300 flex items-center justify-center">
                     {activeRegion === 'norte' && (
-                      <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
+                      <div className="text-white font-bold text-sm bg-black/70 px-3 py-1 rounded">
                         NORTE
                       </div>
                     )}
@@ -128,9 +128,9 @@ export function InteractiveBrazilMap() {
                 <motion.div
                   className="absolute cursor-pointer"
                   style={{
-                    top: '25%',
-                    right: '8%',
-                    width: '45%',
+                    top: '20%',
+                    right: '10%',
+                    width: '40%',
                     height: '35%',
                   }}
                   whileHover={{ scale: 1.02 }}
@@ -138,7 +138,7 @@ export function InteractiveBrazilMap() {
                 >
                   <div className="w-full h-full rounded-lg bg-blue-500/20 hover:bg-blue-500/30 transition-all duration-300 flex items-center justify-center">
                     {activeRegion === 'nordeste' && (
-                      <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
+                      <div className="text-white font-bold text-sm bg-black/70 px-3 py-1 rounded">
                         NORDESTE
                       </div>
                     )}
@@ -150,8 +150,8 @@ export function InteractiveBrazilMap() {
                   className="absolute cursor-pointer"
                   style={{
                     top: '35%',
-                    left: '8%',
-                    width: '35%',
+                    left: '10%',
+                    width: '30%',
                     height: '30%',
                   }}
                   whileHover={{ scale: 1.02 }}
@@ -159,7 +159,7 @@ export function InteractiveBrazilMap() {
                 >
                   <div className="w-full h-full rounded-lg bg-orange-500/20 hover:bg-orange-500/30 transition-all duration-300 flex items-center justify-center">
                     {activeRegion === 'centrooeste' && (
-                      <div className="text-white font-bold text-sm bg-black/50 px-2 py-1 rounded">
+                      <div className="text-white font-bold text-xs bg-black/70 px-2 py-1 rounded">
                         CENTRO-OESTE
                       </div>
                     )}
@@ -170,9 +170,9 @@ export function InteractiveBrazilMap() {
                 <motion.div
                   className="absolute cursor-pointer"
                   style={{
-                    top: '50%',
-                    right: '15%',
-                    width: '40%',
+                    top: '45%',
+                    right: '20%',
+                    width: '35%',
                     height: '25%',
                   }}
                   whileHover={{ scale: 1.02 }}
@@ -180,7 +180,7 @@ export function InteractiveBrazilMap() {
                 >
                   <div className="w-full h-full rounded-lg bg-red-500/20 hover:bg-red-500/30 transition-all duration-300 flex items-center justify-center">
                     {activeRegion === 'sudeste' && (
-                      <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
+                      <div className="text-white font-bold text-sm bg-black/70 px-3 py-1 rounded">
                         SUDESTE
                       </div>
                     )}
@@ -191,17 +191,17 @@ export function InteractiveBrazilMap() {
                 <motion.div
                   className="absolute cursor-pointer"
                   style={{
-                    bottom: '8%',
-                    left: '20%',
-                    width: '60%',
-                    height: '25%',
+                    bottom: '15%',
+                    left: '25%',
+                    width: '50%',
+                    height: '20%',
                   }}
                   whileHover={{ scale: 1.02 }}
                   onClick={() => setActiveRegion(activeRegion === 'sul' ? null : 'sul')}
                 >
                   <div className="w-full h-full rounded-lg bg-purple-500/20 hover:bg-purple-500/30 transition-all duration-300 flex items-center justify-center">
                     {activeRegion === 'sul' && (
-                      <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
+                      <div className="text-white font-bold text-sm bg-black/70 px-3 py-1 rounded">
                         SUL
                       </div>
                     )}
@@ -212,10 +212,10 @@ export function InteractiveBrazilMap() {
                 {Object.entries(regionsData).map(([key, region], index) => {
                   const positions = {
                     norte: { top: '25%', left: '50%' },
-                    nordeste: { top: '40%', right: '25%' },
+                    nordeste: { top: '37%', right: '27%' },
                     centrooeste: { top: '50%', left: '25%' },
-                    sudeste: { top: '62%', right: '32%' },
-                    sul: { bottom: '20%', left: '50%' }
+                    sudeste: { top: '57%', right: '37%' },
+                    sul: { bottom: '25%', left: '50%' }
                   };
                   
                   const pos = positions[key as keyof typeof positions];
@@ -223,7 +223,7 @@ export function InteractiveBrazilMap() {
                   return (
                     <motion.div
                       key={key}
-                      className="absolute w-3 h-3 bg-white rounded-full border-2 border-gray-800 pointer-events-none"
+                      className="absolute w-3 h-3 bg-white rounded-full border-2 border-gray-800 pointer-events-none shadow-lg"
                       style={pos}
                       animate={{
                         scale: [1, 1.5, 1],
