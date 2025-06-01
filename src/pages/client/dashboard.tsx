@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
@@ -53,7 +52,7 @@ export default function ClientDashboard() {
             />
 
             <div className="container mb-8">
-              <DetailedBrazilMap />
+              <BrazilMapDesign />
             </div>
           </div>
         </div>
