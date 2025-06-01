@@ -81,7 +81,7 @@ export function InteractiveBrazilMap() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-6">
+    <div className="bg-white rounded-lg border p-6">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-semibold text-gray-800">Vendas por Região - Tempo Real</h3>
         <div className="flex items-center gap-2">
@@ -115,7 +115,7 @@ export function InteractiveBrazilMap() {
                   whileHover={{ scale: 1.02 }}
                   onClick={() => setActiveRegion(activeRegion === 'norte' ? null : 'norte')}
                 >
-                  <div className="w-full h-full rounded-lg bg-green-500/20 hover:bg-green-500/30 transition-all duration-300 flex items-center justify-center">
+                  <div className="w-full h-full rounded-lg transition-all duration-300 flex items-center justify-center">
                     {activeRegion === 'norte' && (
                       <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
                         NORTE
@@ -136,7 +136,7 @@ export function InteractiveBrazilMap() {
                   whileHover={{ scale: 1.02 }}
                   onClick={() => setActiveRegion(activeRegion === 'nordeste' ? null : 'nordeste')}
                 >
-                  <div className="w-full h-full rounded-lg bg-blue-500/20 hover:bg-blue-500/30 transition-all duration-300 flex items-center justify-center">
+                  <div className="w-full h-full rounded-lg transition-all duration-300 flex items-center justify-center">
                     {activeRegion === 'nordeste' && (
                       <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
                         NORDESTE
@@ -157,7 +157,7 @@ export function InteractiveBrazilMap() {
                   whileHover={{ scale: 1.02 }}
                   onClick={() => setActiveRegion(activeRegion === 'centrooeste' ? null : 'centrooeste')}
                 >
-                  <div className="w-full h-full rounded-lg bg-orange-500/20 hover:bg-orange-500/30 transition-all duration-300 flex items-center justify-center">
+                  <div className="w-full h-full rounded-lg transition-all duration-300 flex items-center justify-center">
                     {activeRegion === 'centrooeste' && (
                       <div className="text-white font-bold text-sm bg-black/50 px-2 py-1 rounded">
                         CENTRO-OESTE
@@ -178,7 +178,7 @@ export function InteractiveBrazilMap() {
                   whileHover={{ scale: 1.02 }}
                   onClick={() => setActiveRegion(activeRegion === 'sudeste' ? null : 'sudeste')}
                 >
-                  <div className="w-full h-full rounded-lg bg-red-500/20 hover:bg-red-500/30 transition-all duration-300 flex items-center justify-center">
+                  <div className="w-full h-full rounded-lg transition-all duration-300 flex items-center justify-center">
                     {activeRegion === 'sudeste' && (
                       <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
                         SUDESTE
@@ -199,7 +199,7 @@ export function InteractiveBrazilMap() {
                   whileHover={{ scale: 1.02 }}
                   onClick={() => setActiveRegion(activeRegion === 'sul' ? null : 'sul')}
                 >
-                  <div className="w-full h-full rounded-lg bg-purple-500/20 hover:bg-purple-500/30 transition-all duration-300 flex items-center justify-center">
+                  <div className="w-full h-full rounded-lg transition-all duration-300 flex items-center justify-center">
                     {activeRegion === 'sul' && (
                       <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
                         SUL
