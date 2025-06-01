@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
@@ -92,106 +91,154 @@ export function InteractiveBrazilMap() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Mapa do Brasil Real */}
+        {/* Mapa 3D do Brasil */}
         <div className="relative">
           <div className="aspect-square max-w-md mx-auto">
-            <svg viewBox="0 0 500 500" className="w-full h-full">
-              {/* Norte */}
-              <motion.path
-                d="M50 50 L450 50 L450 180 L50 180 Z"
-                fill={regionsData.norte.color}
-                fillOpacity={activeRegion === 'norte' ? 0.9 : 0.7}
-                stroke="#fff"
-                strokeWidth="3"
-                className="cursor-pointer transition-all duration-300"
-                whileHover={{ scale: 1.02, fillOpacity: 0.9 }}
-                onClick={() => setActiveRegion(activeRegion === 'norte' ? null : 'norte')}
+            <div className="relative w-full h-full flex justify-center items-center">
+              <img 
+                src="/lovable-uploads/f2fe48bb-21e7-494e-bf09-e9478e8b3f54.png" 
+                alt="Mapa 3D do Brasil por regiões" 
+                className="w-full h-full object-contain max-h-96"
               />
-              <text x="250" y="115" textAnchor="middle" className="fill-white font-bold text-lg pointer-events-none">
-                NORTE
-              </text>
-
-              {/* Centro-Oeste */}
-              <motion.path
-                d="M50 180 L280 180 L280 320 L50 320 Z"
-                fill={regionsData.centrooeste.color}
-                fillOpacity={activeRegion === 'centrooeste' ? 0.9 : 0.7}
-                stroke="#fff"
-                strokeWidth="3"
-                className="cursor-pointer transition-all duration-300"
-                whileHover={{ scale: 1.02, fillOpacity: 0.9 }}
-                onClick={() => setActiveRegion(activeRegion === 'centrooeste' ? null : 'centrooeste')}
-              />
-              <text x="165" y="250" textAnchor="middle" className="fill-white font-bold text-sm pointer-events-none">
-                CENTRO-OESTE
-              </text>
-
-              {/* Nordeste */}
-              <motion.path
-                d="M280 180 L450 180 L450 280 L280 280 Z"
-                fill={regionsData.nordeste.color}
-                fillOpacity={activeRegion === 'nordeste' ? 0.9 : 0.7}
-                stroke="#fff"
-                strokeWidth="3"
-                className="cursor-pointer transition-all duration-300"
-                whileHover={{ scale: 1.02, fillOpacity: 0.9 }}
-                onClick={() => setActiveRegion(activeRegion === 'nordeste' ? null : 'nordeste')}
-              />
-              <text x="365" y="230" textAnchor="middle" className="fill-white font-bold text-lg pointer-events-none">
-                NORDESTE
-              </text>
-
-              {/* Sudeste */}
-              <motion.path
-                d="M280 280 L450 280 L450 380 L280 380 Z"
-                fill={regionsData.sudeste.color}
-                fillOpacity={activeRegion === 'sudeste' ? 0.9 : 0.7}
-                stroke="#fff"
-                strokeWidth="3"
-                className="cursor-pointer transition-all duration-300"
-                whileHover={{ scale: 1.02, fillOpacity: 0.9 }}
-                onClick={() => setActiveRegion(activeRegion === 'sudeste' ? null : 'sudeste')}
-              />
-              <text x="365" y="330" textAnchor="middle" className="fill-white font-bold text-lg pointer-events-none">
-                SUDESTE
-              </text>
-
-              {/* Sul */}
-              <motion.path
-                d="M220 320 L450 320 L450 450 L220 450 Z"
-                fill={regionsData.sul.color}
-                fillOpacity={activeRegion === 'sul' ? 0.9 : 0.7}
-                stroke="#fff"
-                strokeWidth="3"
-                className="cursor-pointer transition-all duration-300"
-                whileHover={{ scale: 1.02, fillOpacity: 0.9 }}
-                onClick={() => setActiveRegion(activeRegion === 'sul' ? null : 'sul')}
-              />
-              <text x="335" y="385" textAnchor="middle" className="fill-white font-bold text-lg pointer-events-none">
-                SUL
-              </text>
-
-              {/* Indicadores de atividade em tempo real */}
-              {Object.entries(regionsData).map(([key, region], index) => (
-                <motion.circle
-                  key={key}
-                  cx={key === 'norte' ? 250 : key === 'nordeste' ? 365 : key === 'centrooeste' ? 165 : key === 'sudeste' ? 365 : 335}
-                  cy={key === 'norte' ? 140 : key === 'nordeste' ? 200 : key === 'centrooeste' ? 280 : key === 'sudeste' ? 310 : 410}
-                  r="4"
-                  fill="#fff"
-                  className="pointer-events-none"
-                  animate={{
-                    scale: [1, 1.5, 1],
-                    opacity: [0.8, 1, 0.8]
+              
+              {/* Overlay interativo para regiões */}
+              <div className="absolute inset-0 w-full h-full">
+                {/* Norte - área verde superior */}
+                <motion.div
+                  className="absolute cursor-pointer"
+                  style={{
+                    top: '8%',
+                    left: '15%',
+                    width: '70%',
+                    height: '35%',
                   }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    delay: index * 0.4
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() => setActiveRegion(activeRegion === 'norte' ? null : 'norte')}
+                >
+                  <div className="w-full h-full rounded-lg bg-green-500/20 hover:bg-green-500/30 transition-all duration-300 flex items-center justify-center">
+                    {activeRegion === 'norte' && (
+                      <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
+                        NORTE
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+
+                {/* Nordeste - área azul direita */}
+                <motion.div
+                  className="absolute cursor-pointer"
+                  style={{
+                    top: '25%',
+                    right: '8%',
+                    width: '45%',
+                    height: '35%',
                   }}
-                />
-              ))}
-            </svg>
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() => setActiveRegion(activeRegion === 'nordeste' ? null : 'nordeste')}
+                >
+                  <div className="w-full h-full rounded-lg bg-blue-500/20 hover:bg-blue-500/30 transition-all duration-300 flex items-center justify-center">
+                    {activeRegion === 'nordeste' && (
+                      <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
+                        NORDESTE
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+
+                {/* Centro-Oeste - área laranja centro-esquerda */}
+                <motion.div
+                  className="absolute cursor-pointer"
+                  style={{
+                    top: '35%',
+                    left: '8%',
+                    width: '35%',
+                    height: '30%',
+                  }}
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() => setActiveRegion(activeRegion === 'centrooeste' ? null : 'centrooeste')}
+                >
+                  <div className="w-full h-full rounded-lg bg-orange-500/20 hover:bg-orange-500/30 transition-all duration-300 flex items-center justify-center">
+                    {activeRegion === 'centrooeste' && (
+                      <div className="text-white font-bold text-sm bg-black/50 px-2 py-1 rounded">
+                        CENTRO-OESTE
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+
+                {/* Sudeste - área vermelha centro-direita */}
+                <motion.div
+                  className="absolute cursor-pointer"
+                  style={{
+                    top: '50%',
+                    right: '15%',
+                    width: '40%',
+                    height: '25%',
+                  }}
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() => setActiveRegion(activeRegion === 'sudeste' ? null : 'sudeste')}
+                >
+                  <div className="w-full h-full rounded-lg bg-red-500/20 hover:bg-red-500/30 transition-all duration-300 flex items-center justify-center">
+                    {activeRegion === 'sudeste' && (
+                      <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
+                        SUDESTE
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+
+                {/* Sul - área roxa inferior */}
+                <motion.div
+                  className="absolute cursor-pointer"
+                  style={{
+                    bottom: '8%',
+                    left: '20%',
+                    width: '60%',
+                    height: '25%',
+                  }}
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() => setActiveRegion(activeRegion === 'sul' ? null : 'sul')}
+                >
+                  <div className="w-full h-full rounded-lg bg-purple-500/20 hover:bg-purple-500/30 transition-all duration-300 flex items-center justify-center">
+                    {activeRegion === 'sul' && (
+                      <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
+                        SUL
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+
+                {/* Indicadores de atividade em tempo real */}
+                {Object.entries(regionsData).map(([key, region], index) => {
+                  const positions = {
+                    norte: { top: '25%', left: '50%' },
+                    nordeste: { top: '40%', right: '25%' },
+                    centrooeste: { top: '50%', left: '25%' },
+                    sudeste: { top: '62%', right: '32%' },
+                    sul: { bottom: '20%', left: '50%' }
+                  };
+                  
+                  const pos = positions[key as keyof typeof positions];
+                  
+                  return (
+                    <motion.div
+                      key={key}
+                      className="absolute w-3 h-3 bg-white rounded-full border-2 border-gray-800 pointer-events-none"
+                      style={pos}
+                      animate={{
+                        scale: [1, 1.5, 1],
+                        opacity: [0.8, 1, 0.8]
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        delay: index * 0.4
+                      }}
+                    />
+                  );
+                })}
+              </div>
+            </div>
           </div>
           <p className="text-center text-sm text-gray-600 mt-2">
             Clique nas regiões para ver detalhes em tempo real
