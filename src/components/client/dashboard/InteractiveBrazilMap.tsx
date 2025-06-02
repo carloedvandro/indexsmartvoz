@@ -96,7 +96,7 @@ export function InteractiveBrazilMap() {
                 src="/lovable-uploads/0dad93aa-051a-49c8-9a6e-ffe6b5108e20.png" 
                 alt="Mapa 3D do Brasil por regiões" 
                 className="w-full h-full object-contain"
-                style={{ maxHeight: '1000px', maxWidth: '1000px' }}
+                style={{ maxHeight: '900px', maxWidth: '900px' }}
               />
               
               <MapOverlay 
