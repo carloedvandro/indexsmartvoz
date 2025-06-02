@@ -122,6 +122,12 @@ export function BalanceBar() {
             {showUserMenu && (
               <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
                 <div className="py-2">
+                  <Link
+                    to="/client/dashboard"
+                    className="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    <span className="text-base font-bold">Início</span>
+                  </Link>
                   <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     Meu Perfil
                   </button>
