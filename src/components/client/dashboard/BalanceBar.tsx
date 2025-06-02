@@ -1,4 +1,3 @@
-
 import { EyeOff, Eye, Bell, User, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -62,7 +61,7 @@ export function BalanceBar() {
     <div className="w-full bg-white border-b border-gray-200 px-4 py-3">
       <div className="flex items-center justify-between w-full">
         {/* Saldo - lado esquerdo com margem para alinhar com conteúdo */}
-        <div className="flex items-center gap-4 flex-1 md:flex-initial ml-2">
+        <div className="flex items-center gap-4 flex-1 md:flex-initial ml-2.5">
           <div className="flex flex-col">
             <span className="text-sm text-gray-600">Saldo em conta</span>
             <span className="text-lg font-semibold text-green-600">
