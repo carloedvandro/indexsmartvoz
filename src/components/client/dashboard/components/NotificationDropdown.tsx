@@ -16,7 +16,7 @@ export function NotificationDropdown({ onOverlayToggle }: NotificationDropdownPr
   };
 
   return (
-    <div className="relative" style={{ marginRight: '2px' }}>
+    <div className="relative" style={{ marginRight: '12px' }}>
       <button 
         className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative"
         onClick={toggleNotifications}
