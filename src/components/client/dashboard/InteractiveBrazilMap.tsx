@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { RegionData } from './map/types';
@@ -79,6 +78,11 @@ export function InteractiveBrazilMap() {
     return new Intl.NumberFormat('pt-BR').format(Math.max(0, num));
   };
 
+  const handleCoverageMapClick = () => {
+    console.log('Abrindo mapa de cobertura...');
+    window.open('https://mapadecobertura.vivo.com.br/', '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <>
       <div className="flex justify-between items-center mb-6">
@@ -117,15 +121,12 @@ export function InteractiveBrazilMap() {
             </div>
           </div>
           <div className="flex justify-center" style={{ marginTop: '-53px' }}>
-            <a 
-              href="https://mapadecobertura.vivo.com.br/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-block bg-transparent text-black px-6 py-2 rounded-full hover:bg-gray-100 transition-colors duration-200 cursor-pointer border border-gray-300 hover:border-gray-400"
-              onClick={() => console.log('Link clicado!')}
+            <button 
+              onClick={handleCoverageMapClick}
+              className="bg-transparent text-black font-bold px-6 py-2 rounded-full hover:bg-gray-100 transition-colors duration-200 cursor-pointer border border-gray-300 hover:border-gray-400"
             >
-              <span className="text-sm font-bold">Consulte o mapa de cobertura</span>
-            </a>
+              <span className="text-sm">Consulte o mapa de cobertura</span>
+            </button>
           </div>
         </div>
 
