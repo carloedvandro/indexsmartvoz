@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { navigationItems } from './navigation/NavigationItems';
 
 export function BalanceBar() {
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
@@ -53,6 +54,9 @@ export function BalanceBar() {
       });
     }
   };
+
+  // Filter out the home item and get other navigation items
+  const menuItems = navigationItems.filter(item => item.icon !== "home");
 
   return (
     <div className="w-full bg-white border-b border-gray-200 px-4 py-3">
@@ -120,7 +124,7 @@ export function BalanceBar() {
             </button>
             
             {showUserMenu && (
-              <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+              <div className="absolute right-0 top-full mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
                 <div className="py-2">
                   <Link
                     to="/client/dashboard"
@@ -133,6 +137,33 @@ export function BalanceBar() {
                     />
                     <span className="text-base font-bold text-black">Home</span>
                   </Link>
+                  
+                  <hr className="my-1" />
+                  
+                  {/* Menu Items */}
+                  {menuItems.map((item) => (
+                    <div key={item.title}>
+                      <div className="px-4 py-2">
+                        <p className="text-sm font-medium text-gray-800">{item.title}</p>
+                      </div>
+                      {item.items && (
+                        <div className="ml-4 mb-2">
+                          {item.items.map((subItem) => (
+                            <Link
+                              key={subItem.title}
+                              to={subItem.href || "#"}
+                              className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800"
+                            >
+                              {subItem.title}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  
+                  <hr className="my-1" />
+                  
                   <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     Meu Perfil
                   </button>
