@@ -11,7 +11,7 @@ interface RegionRankingProps {
 
 export function RegionRanking({ regionsData, formatNumber, setActiveRegion }: RegionRankingProps) {
   return (
-    <div className="bg-white rounded-xl p-6 shadow-sm border">
+    <div className="bg-transparent rounded-xl p-6 border">
       <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
         <span>🏆</span>
         Ranking de Vendas

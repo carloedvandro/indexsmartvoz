@@ -17,7 +17,7 @@ export function PlansSummary({ regionsData, formatNumber, setActiveRegion }: Pla
         {Object.entries(regionsData).map(([key, region]) => (
           <motion.div 
             key={key} 
-            className="bg-white rounded-lg p-4 shadow-sm border-l-4 cursor-pointer hover:shadow-md transition-all duration-200"
+            className="bg-transparent rounded-lg p-4 border-l-4 cursor-pointer hover:shadow-md transition-all duration-200"
             style={{ borderLeftColor: region.color }}
             onClick={() => setActiveRegion(key)}
             whileHover={{ scale: 1.02 }}

@@ -12,7 +12,7 @@ interface RegionDetailsProps {
 export function RegionDetails({ activeRegion, regionsData, formatNumber }: RegionDetailsProps) {
   if (!activeRegion) {
     return (
-      <div className="bg-gray-50 rounded-xl p-6 text-center border-2 border-dashed border-gray-200">
+      <div className="bg-transparent rounded-xl p-6 text-center border-2 border-dashed border-gray-200">
         <div className="text-gray-400 mb-2">
           <svg className="w-12 h-12 mx-auto" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm1 2v10h12V6H4z" clipRule="evenodd" />
@@ -31,7 +31,7 @@ export function RegionDetails({ activeRegion, regionsData, formatNumber }: Regio
       key={activeRegion}
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
-      className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 border-l-4"
+      className="bg-transparent rounded-xl p-6 border-l-4"
       style={{ borderLeftColor: regionData.color }}
     >
       <div className="flex items-center gap-3 mb-4">
@@ -46,7 +46,7 @@ export function RegionDetails({ activeRegion, regionsData, formatNumber }: Regio
       </div>
       
       <div className="grid grid-cols-1 gap-4">
-        <div className="bg-white rounded-lg p-4 shadow-sm">
+        <div className="bg-transparent rounded-lg p-4">
           <div className="flex justify-between items-start mb-2">
             <p className="text-sm font-medium text-gray-600">Total de Vendas</p>
             <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
@@ -67,7 +67,7 @@ export function RegionDetails({ activeRegion, regionsData, formatNumber }: Regio
           </div>
         </div>
         
-        <div className="bg-white rounded-lg p-4 shadow-sm">
+        <div className="bg-transparent rounded-lg p-4">
           <p className="text-sm font-medium text-gray-600 mb-2">Plano Mais Vendido</p>
           <p className="text-xl font-bold text-gray-800 mb-1">
             {regionData.topPlan}
