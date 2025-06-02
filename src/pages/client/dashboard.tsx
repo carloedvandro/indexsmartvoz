@@ -2,7 +2,6 @@
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
-import { DashboardHeader } from "@/components/client/dashboard/DashboardHeader";
 import { BalanceBar } from "@/components/client/dashboard/BalanceBar";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -38,7 +37,6 @@ export default function ClientDashboard() {
       className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden relative"
     >
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <DashboardHeader />
         <BalanceBar />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           <div className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
