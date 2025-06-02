@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { RegionData } from './map/types';
@@ -95,10 +94,10 @@ export function InteractiveBrazilMap() {
           <div 
             className="relative w-full mx-auto"
             style={{ 
-              height: isMobile ? '600px' : '750px', // Reduzir altura no mobile
+              height: isMobile ? '600px' : '750px',
               transform: 'scale(1.25)',
               transformOrigin: isMobile ? 'center top' : 'center top',
-              marginTop: isMobile ? '-100px' : '0' // Mover ainda mais para cima no mobile
+              marginTop: isMobile ? '-300px' : '0' // Mover todo conjunto 200px a mais para cima no mobile
             }}
           >
             <div className="relative w-full h-full flex justify-center items-center">
