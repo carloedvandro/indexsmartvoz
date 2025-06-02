@@ -92,7 +92,7 @@ export function BalanceBar() {
           </Link>
         </div>
         
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 ml-auto pr-2 md:pr-0">
           <div className="relative">
             <button 
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative"
