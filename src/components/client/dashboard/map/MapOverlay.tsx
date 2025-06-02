@@ -117,39 +117,14 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         </div>
       </motion.div>
 
-      {/* Indicadores de atividade em tempo real - posicionados como capitais */}
+      {/* Indicadores de atividade em tempo real */}
       {Object.entries(regionsData).map(([key, region], index) => {
         const positions = {
-          // Manaus - Norte (Amazonas)
-          norte: { 
-            top: '25%', 
-            left: '28%', 
-            transform: 'translate(-50%, -50%)' 
-          },
-          // Fortaleza - Nordeste (Ceará)
-          nordeste: { 
-            top: '18%', 
-            right: '15%', 
-            transform: 'translate(50%, -50%)' 
-          },
-          // Brasília - Centro-Oeste
-          centrooeste: { 
-            top: '47%', 
-            left: '48%', 
-            transform: 'translate(-50%, -50%)' 
-          },
-          // São Paulo - Sudeste
-          sudeste: { 
-            top: '58%', 
-            left: '52%', 
-            transform: 'translate(-50%, -50%)' 
-          },
-          // Porto Alegre - Sul (Rio Grande do Sul)
-          sul: { 
-            bottom: '12%', 
-            left: '48%', 
-            transform: 'translate(-50%, 50%)' 
-          }
+          norte: { top: 'calc(25% + 110px)', left: 'calc(50% - 30px)', transform: 'translate(-50%, -50%)' },
+          nordeste: { top: 'calc(42% + 7.5px)', right: 'calc(23.5% + 1.5px)', transform: 'translate(50%, -50%)' },
+          centrooeste: { top: 'calc(49% + 4px)', left: '50%', transform: 'translate(-50%, -50%)' },
+          sudeste: { top: 'calc(62% - 80px)', right: 'calc(23% + 45px)', transform: 'translate(50%, -50%)' },
+          sul: { bottom: '41%', left: '51.5%', transform: 'translate(-50%, 50%)' }
         };
         
         const pos = positions[key as keyof typeof positions];
@@ -157,29 +132,20 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         return (
           <motion.div
             key={key}
-            className="absolute w-3 h-3 bg-white rounded-full border-2 border-gray-800 pointer-events-none shadow-lg z-10"
+            className="absolute w-2 h-2 bg-white rounded-full border border-gray-800 pointer-events-none"
             style={pos}
             animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.9, 1, 0.9]
+              scale: [1, 1.5, 1],
+              opacity: [0.8, 1, 0.8]
             }}
             transition={{
-              duration: 2.5,
+              duration: 2,
               repeat: Infinity,
-              delay: index * 0.5
+              delay: index * 0.4
             }}
           />
         );
       })}
-
-      {/* Responsividade mobile - ajustes para telas menores */}
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .absolute {
-            pointer-events: auto;
-          }
-        }
-      `}</style>
     </div>
   );
 }
