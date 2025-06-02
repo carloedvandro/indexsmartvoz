@@ -88,14 +88,14 @@ export function InteractiveBrazilMap() {
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-        {/* Mapa 3D do Brasil - Muito maior em mobile */}
+        {/* Mapa 3D do Brasil - Reduzido ligeiramente */}
         <div className="xl:col-span-2">
-          <div className="w-full h-[800px] md:h-[700px] lg:h-[800px]">
+          <div className="w-full h-[750px] md:h-[650px] lg:h-[750px]">
             <div className="relative w-full h-full flex justify-center items-center p-0 m-0">
               <img 
                 src="/lovable-uploads/fa145566-4db0-40d4-a1cd-a5aa0a08ea87.png" 
                 alt="Mapa 3D do Brasil por regiões" 
-                className="w-full h-full object-contain scale-150 md:scale-100"
+                className="w-full h-full object-contain scale-125 md:scale-100"
               />
               
               <MapOverlay 
