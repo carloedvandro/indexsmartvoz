@@ -117,7 +117,7 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         </div>
       </motion.div>
 
-      {/* Indicadores de atividade em tempo real - reduzidos */}
+      {/* Indicadores de atividade em tempo real */}
       {Object.entries(regionsData).map(([key, region], index) => {
         const positions = {
           norte: { top: '25%', left: '50%', transform: 'translate(-50%, -50%)' },
@@ -132,10 +132,10 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         return (
           <motion.div
             key={key}
-            className="absolute w-2 h-2 bg-white rounded-full border border-gray-800 pointer-events-none"
+            className="absolute w-3 h-3 bg-white rounded-full border-2 border-gray-800 pointer-events-none"
             style={pos}
             animate={{
-              scale: [1, 1.3, 1],
+              scale: [1, 1.5, 1],
               opacity: [0.8, 1, 0.8]
             }}
             transition={{
@@ -144,39 +144,6 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
               delay: index * 0.4
             }}
           />
-        );
-      })}
-
-      {/* Cards dos nomes das regiões - posicionados abaixo dos ícones */}
-      {Object.entries(regionsData).map(([key, region]) => {
-        const cardPositions = {
-          norte: { top: '27%', left: '50%', transform: 'translate(-50%, 0)' },
-          nordeste: { top: '44%', right: '19%', transform: 'translate(50%, 0)' },
-          centrooeste: { top: '52%', left: '25%', transform: 'translate(-50%, 0)' },
-          sudeste: { top: '64%', right: '23%', transform: 'translate(50%, 0)' },
-          sul: { bottom: '18%', left: '50%', transform: 'translate(-50%, 0)' }
-        };
-        
-        const cardPos = cardPositions[key as keyof typeof cardPositions];
-        
-        return (
-          <motion.div
-            key={`card-${key}`}
-            className="absolute pointer-events-none"
-            style={cardPos}
-            animate={{
-              opacity: [0.7, 1, 0.7]
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              delay: 0.5
-            }}
-          >
-            <div className="bg-black/70 text-white text-xs font-medium px-2 py-1 rounded-md backdrop-blur-sm border border-white/20">
-              {region.name.toUpperCase()}
-            </div>
-          </motion.div>
         );
       })}
     </div>
