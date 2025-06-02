@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { RegionData } from './map/types';
@@ -117,7 +118,7 @@ export function InteractiveBrazilMap() {
           </div>
           <div className="flex justify-center" style={{ marginTop: '-53px' }}>
             <div className="bg-transparent text-purple-600 px-6 py-2 rounded-full">
-              <span className="text-sm font-medium">CONSULTE O MAPA DE COBERTURA</span>
+              <span className="text-sm font-medium">Consulte o mapa de cobertura</span>
             </div>
           </div>
         </div>
