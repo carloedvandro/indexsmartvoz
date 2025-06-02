@@ -1,3 +1,4 @@
+
 import { EyeOff, Eye, Bell, User, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -105,15 +106,15 @@ export function BalanceBar() {
             </button>
             
             {showNotifications && (
-              <div className="absolute -right-12 top-full mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+              <div className="absolute right-0 top-full mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
                 <div className="p-4">
-                  <h3 className="font-semibold text-gray-800 mb-3">Notificações</h3>
+                  <h3 className="font-semibold text-gray-800 mb-3 text-left">Notificações</h3>
                   <div className="space-y-3">
-                    <div className="p-3 bg-blue-50 rounded-lg">
+                    <div className="p-3 bg-blue-50 rounded-lg text-left">
                       <p className="text-sm text-gray-700">Nova venda realizada - R$ 45,00</p>
                       <span className="text-xs text-gray-500">Há 2 minutos</span>
                     </div>
-                    <div className="p-3 bg-green-50 rounded-lg">
+                    <div className="p-3 bg-green-50 rounded-lg text-left">
                       <p className="text-sm text-gray-700">Bonificação creditada - R$ 12,50</p>
                       <span className="text-xs text-gray-500">Há 1 hora</span>
                     </div>
@@ -155,7 +156,7 @@ export function BalanceBar() {
                   {/* Menu Items */}
                   {menuItems.map((item) => (
                     <div key={item.title}>
-                      <div className="px-4 py-2">
+                      <div className="px-4 py-2 text-left">
                         <p className="text-sm font-medium text-gray-800">{item.title}</p>
                       </div>
                       {item.items && (
@@ -164,7 +165,7 @@ export function BalanceBar() {
                             <Link
                               key={subItem.title}
                               to={subItem.href || "#"}
-                              className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800"
+                              className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 text-left"
                             >
                               {subItem.title}
                             </Link>
