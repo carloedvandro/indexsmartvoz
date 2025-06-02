@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { RegionData } from './types';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface MapOverlayProps {
   regionsData: Record<string, RegionData>;
@@ -10,13 +11,15 @@ interface MapOverlayProps {
 }
 
 export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOverlayProps) {
+  const isMobile = useIsMobile();
+  
   return (
     <div className="absolute inset-0 w-full h-full">
-      {/* Norte - área verde superior - movida 5px para cima */}
+      {/* Norte - área verde superior - movida 5px para cima no mobile */}
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          top: 'calc(8% + 90px)', // Movida 5px para cima (de +95px para +90px)
+          top: isMobile ? 'calc(8% + 85px)' : 'calc(8% + 90px)', // 5px para cima no mobile (85px vs 90px)
           left: 'calc(15% - 30px)',
           width: '70%',
           height: '35%',
@@ -33,7 +36,7 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         </div>
       </motion.div>
 
-      {/* Nordeste - área azul direita - mantida na posição atual */}
+      {/* Nordeste - área azul direita - mantida na posição original */}
       <motion.div
         className="absolute cursor-pointer"
         style={{
@@ -54,7 +57,7 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         </div>
       </motion.div>
 
-      {/* Centro-Oeste - área laranja centro - mantida na posição atual */}
+      {/* Centro-Oeste - área laranja centro - mantida na posição original */}
       <motion.div
         className="absolute cursor-pointer"
         style={{
@@ -75,7 +78,7 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         </div>
       </motion.div>
 
-      {/* Sudeste - área vermelha centro-direita - mantida na posição atual */}
+      {/* Sudeste - área vermelha centro-direita - mantida na posição original */}
       <motion.div
         className="absolute cursor-pointer"
         style={{
@@ -96,11 +99,11 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         </div>
       </motion.div>
 
-      {/* Sul - área roxa inferior - mantida na posição atual */}
+      {/* Sul - área roxa inferior - movida 2px para baixo no mobile */}
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          bottom: 'calc(32.5% + 7px)',
+          bottom: isMobile ? 'calc(32.5% + 5px)' : 'calc(32.5% + 7px)', // 2px para baixo no mobile (5px vs 7px)
           left: 'calc(51% - 3px)',
           width: '35%',
           height: '15%',
@@ -120,11 +123,19 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
       {/* Indicadores de atividade em tempo real */}
       {Object.entries(regionsData).map(([key, region], index) => {
         const positions = {
-          norte: { top: 'calc(25% + 90px)', left: 'calc(50% - 30px)', transform: 'translate(-50%, -50%)' }, // Ajustado para acompanhar a região Norte (5px para cima)
+          norte: { 
+            top: isMobile ? 'calc(25% + 85px)' : 'calc(25% + 90px)', // Ajustado para acompanhar a região Norte
+            left: 'calc(50% - 30px)', 
+            transform: 'translate(-50%, -50%)' 
+          },
           nordeste: { top: 'calc(42% + 11.5px)', right: 'calc(23.5% + 1.5px)', transform: 'translate(50%, -50%)' },
           centrooeste: { top: 'calc(49%)', left: '50%', transform: 'translate(-50%, -50%)' },
           sudeste: { top: 'calc(62% - 62px)', right: 'calc(26% + 40px)', transform: 'translate(50%, -50%)' },
-          sul: { bottom: 'calc(41% + 7px)', left: 'calc(51.5% - 3px)', transform: 'translate(-50%, 50%)' }
+          sul: { 
+            bottom: isMobile ? 'calc(41% + 5px)' : 'calc(41% + 7px)', // Ajustado para acompanhar a região Sul
+            left: 'calc(51.5% - 3px)', 
+            transform: 'translate(-50%, 50%)' 
+          }
         };
         
         const pos = positions[key as keyof typeof positions];
