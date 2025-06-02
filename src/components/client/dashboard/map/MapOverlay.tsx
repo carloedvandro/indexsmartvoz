@@ -26,9 +26,13 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
       >
         <div className="w-full h-full rounded-lg transition-all duration-300 flex items-center justify-center">
           {activeRegion === 'norte' && (
-            <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-green-600 text-white font-bold text-lg px-4 py-2 rounded-lg shadow-lg border-2 border-white"
+            >
               NORTE
-            </div>
+            </motion.div>
           )}
         </div>
       </motion.div>
@@ -47,9 +51,13 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
       >
         <div className="w-full h-full rounded-lg transition-all duration-300 flex items-center justify-center">
           {activeRegion === 'nordeste' && (
-            <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-blue-600 text-white font-bold text-lg px-4 py-2 rounded-lg shadow-lg border-2 border-white"
+            >
               NORDESTE
-            </div>
+            </motion.div>
           )}
         </div>
       </motion.div>
@@ -68,9 +76,13 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
       >
         <div className="w-full h-full rounded-lg transition-all duration-300 flex items-center justify-center">
           {activeRegion === 'centrooeste' && (
-            <div className="text-white font-bold text-sm bg-black/50 px-2 py-1 rounded">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-purple-600 text-white font-bold text-sm px-3 py-2 rounded-lg shadow-lg border-2 border-white"
+            >
               CENTRO-OESTE
-            </div>
+            </motion.div>
           )}
         </div>
       </motion.div>
@@ -89,9 +101,13 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
       >
         <div className="w-full h-full rounded-lg transition-all duration-300 flex items-center justify-center">
           {activeRegion === 'sudeste' && (
-            <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-red-600 text-white font-bold text-lg px-4 py-2 rounded-lg shadow-lg border-2 border-white"
+            >
               SUDESTE
-            </div>
+            </motion.div>
           )}
         </div>
       </motion.div>
@@ -110,9 +126,13 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
       >
         <div className="w-full h-full rounded-lg transition-all duration-300 flex items-center justify-center">
           {activeRegion === 'sul' && (
-            <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-orange-600 text-white font-bold text-lg px-4 py-2 rounded-lg shadow-lg border-2 border-white"
+            >
               SUL
-            </div>
+            </motion.div>
           )}
         </div>
       </motion.div>
@@ -132,7 +152,7 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         return (
           <motion.div
             key={key}
-            className="absolute w-3 h-3 bg-white rounded-full border-2 border-gray-800 pointer-events-none"
+            className="absolute w-2 h-2 bg-white rounded-full border border-gray-800 pointer-events-none"
             style={pos}
             animate={{
               scale: [1, 1.5, 1],
