@@ -150,11 +150,11 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
       {/* Cards dos nomes das regiões - posicionados abaixo dos ícones */}
       {Object.entries(regionsData).map(([key, region]) => {
         const cardPositions = {
-          norte: { top: '28%', left: '50%', transform: 'translate(-50%, 0)' },
-          nordeste: { top: '45%', right: '19%', transform: 'translate(50%, 0)' },
-          centrooeste: { top: '53%', left: '25%', transform: 'translate(-50%, 0)' },
-          sudeste: { top: '65%', right: '23%', transform: 'translate(50%, 0)' },
-          sul: { bottom: '16%', left: '50%', transform: 'translate(-50%, 0)' }
+          norte: { top: '27%', left: '50%', transform: 'translate(-50%, 0)' },
+          nordeste: { top: '44%', right: '19%', transform: 'translate(50%, 0)' },
+          centrooeste: { top: '52%', left: '25%', transform: 'translate(-50%, 0)' },
+          sudeste: { top: '64%', right: '23%', transform: 'translate(50%, 0)' },
+          sul: { bottom: '18%', left: '50%', transform: 'translate(-50%, 0)' }
         };
         
         const cardPos = cardPositions[key as keyof typeof cardPositions];
