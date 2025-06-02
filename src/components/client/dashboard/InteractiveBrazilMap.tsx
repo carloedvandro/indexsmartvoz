@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { RegionData } from './map/types';
@@ -116,9 +117,14 @@ export function InteractiveBrazilMap() {
             </div>
           </div>
           <div className="flex justify-center" style={{ marginTop: '-53px' }}>
-            <div className="bg-transparent text-black px-6 py-2 rounded-full">
+            <a 
+              href="https://mapadecobertura.vivo.com.br/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-transparent text-black px-6 py-2 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+            >
               <span className="text-sm font-bold">Consulte o mapa de cobertura</span>
-            </div>
+            </a>
           </div>
         </div>
 
