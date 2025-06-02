@@ -16,7 +16,7 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          top: 'calc(8% + 95px)', // Movida 5px para cima (de +100px para +95px)
+          top: 'calc(8% + 90px)', // Movida 5px para cima (de +95px para +90px)
           left: 'calc(15% - 30px)',
           width: '70%',
           height: '35%',
@@ -33,11 +33,11 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         </div>
       </motion.div>
 
-      {/* Nordeste - área azul direita - movida 11.5px para cima */}
+      {/* Nordeste - área azul direita - mantida na posição atual */}
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          top: 'calc(25% + 11.5px)', // Movida 5px para cima (de +16.5px para +11.5px)
+          top: 'calc(25% + 11.5px)',
           right: 'calc(12.5% + 1.5px)',
           width: '45%',
           height: '35%',
@@ -54,11 +54,11 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         </div>
       </motion.div>
 
-      {/* Centro-Oeste - área laranja centro - movida 4px para cima (de +4px para 0px) */}
+      {/* Centro-Oeste - área laranja centro - mantida na posição atual */}
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          top: '35%', // Movida 4px para cima (removido o +4px)
+          top: '35%',
           left: '35%',
           width: '30%',
           height: '25%',
@@ -75,12 +75,12 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         </div>
       </motion.div>
 
-      {/* Sudeste - área vermelha centro-direita - movida mais 2px para direita no mobile */}
+      {/* Sudeste - área vermelha centro-direita - mantida na posição atual */}
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          top: 'calc(50% - 62px)', // Mantida a posição vertical atual
-          right: 'calc(15% + 40px)', // Movida mais 2px para direita (de +42px para +40px)
+          top: 'calc(50% - 62px)',
+          right: 'calc(15% + 40px)',
           width: '40%',
           height: '25%',
         }}
@@ -96,12 +96,12 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         </div>
       </motion.div>
 
-      {/* Sul - área roxa inferior - movida 2px para baixo no mobile */}
+      {/* Sul - área roxa inferior - mantida na posição atual */}
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          bottom: 'calc(32.5% + 7px)', // Movida 2px para baixo (de +9px para +7px)
-          left: 'calc(51% - 3px)', // Mantida a posição horizontal (3px para esquerda)
+          bottom: 'calc(32.5% + 7px)',
+          left: 'calc(51% - 3px)',
           width: '35%',
           height: '15%',
         }}
@@ -120,11 +120,11 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
       {/* Indicadores de atividade em tempo real */}
       {Object.entries(regionsData).map(([key, region], index) => {
         const positions = {
-          norte: { top: 'calc(25% + 95px)', left: 'calc(50% - 30px)', transform: 'translate(-50%, -50%)' }, // Ajustado para acompanhar a região Norte (5px para cima)
-          nordeste: { top: 'calc(42% + 11.5px)', right: 'calc(23.5% + 1.5px)', transform: 'translate(50%, -50%)' }, // Ajustado para acompanhar a região Nordeste (5px para cima)
-          centrooeste: { top: 'calc(49%)', left: '50%', transform: 'translate(-50%, -50%)' }, // Ajustado para acompanhar a região Centro-Oeste
-          sudeste: { top: 'calc(62% - 62px)', right: 'calc(26% + 40px)', transform: 'translate(50%, -50%)' }, // Ajustado para acompanhar a região Sudeste (mais 2px para direita)
-          sul: { bottom: 'calc(41% + 7px)', left: 'calc(51.5% - 3px)', transform: 'translate(-50%, 50%)' } // Ajustado para acompanhar a região Sul (2px para baixo)
+          norte: { top: 'calc(25% + 90px)', left: 'calc(50% - 30px)', transform: 'translate(-50%, -50%)' }, // Ajustado para acompanhar a região Norte (5px para cima)
+          nordeste: { top: 'calc(42% + 11.5px)', right: 'calc(23.5% + 1.5px)', transform: 'translate(50%, -50%)' },
+          centrooeste: { top: 'calc(49%)', left: '50%', transform: 'translate(-50%, -50%)' },
+          sudeste: { top: 'calc(62% - 62px)', right: 'calc(26% + 40px)', transform: 'translate(50%, -50%)' },
+          sul: { bottom: 'calc(41% + 7px)', left: 'calc(51.5% - 3px)', transform: 'translate(-50%, 50%)' }
         };
         
         const pos = positions[key as keyof typeof positions];
