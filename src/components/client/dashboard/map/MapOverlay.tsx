@@ -117,7 +117,7 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         </div>
       </motion.div>
 
-      {/* Indicadores de atividade em tempo real */}
+      {/* Indicadores de atividade em tempo real - reduzidos */}
       {Object.entries(regionsData).map(([key, region], index) => {
         const positions = {
           norte: { top: '25%', left: '50%', transform: 'translate(-50%, -50%)' },
@@ -132,10 +132,10 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         return (
           <motion.div
             key={key}
-            className="absolute w-3 h-3 bg-white rounded-full border-2 border-gray-800 pointer-events-none"
+            className="absolute w-2 h-2 bg-white rounded-full border border-gray-800 pointer-events-none"
             style={pos}
             animate={{
-              scale: [1, 1.5, 1],
+              scale: [1, 1.3, 1],
               opacity: [0.8, 1, 0.8]
             }}
             transition={{
