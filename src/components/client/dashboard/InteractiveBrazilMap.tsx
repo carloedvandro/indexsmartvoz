@@ -98,7 +98,7 @@ export function InteractiveBrazilMap() {
               height: isMobile ? '600px' : '750px', // Reduzir altura no mobile
               transform: 'scale(1.25)',
               transformOrigin: isMobile ? 'center top' : 'center top',
-              marginTop: isMobile ? '-50px' : '0' // Mover para cima no mobile
+              marginTop: isMobile ? '-100px' : '0' // Mover ainda mais para cima no mobile
             }}
           >
             <div className="relative w-full h-full flex justify-center items-center">
