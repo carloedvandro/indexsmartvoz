@@ -90,13 +90,20 @@ export function InteractiveBrazilMap() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Mapa 3D do Brasil */}
         <div className="relative">
-          <div className="aspect-square max-w-full mx-auto">
+          <div 
+            className="relative w-full mx-auto"
+            style={{ 
+              height: '750px',
+              transform: 'scale(1.25)',
+              transformOrigin: 'center top'
+            }}
+          >
             <div className="relative w-full h-full flex justify-center items-center">
               <img 
                 src="/lovable-uploads/0dad93aa-051a-49c8-9a6e-ffe6b5108e20.png" 
                 alt="Mapa 3D do Brasil por regiões" 
                 className="w-full h-full object-contain"
-                style={{ maxHeight: '2000px', maxWidth: '2000px' }}
+                style={{ maxHeight: '100%', maxWidth: '100%' }}
               />
               
               <MapOverlay 
