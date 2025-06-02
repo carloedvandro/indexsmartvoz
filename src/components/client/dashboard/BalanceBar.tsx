@@ -95,7 +95,7 @@ export function BalanceBar() {
         
         {/* Ícones - lado direito */}
         <div className="flex items-center gap-3 ml-auto">
-          <div className="relative">
+          <div className="relative mr-0.5">
             <button 
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative"
               onClick={toggleNotifications}
