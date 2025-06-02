@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { RegionData } from './types';
@@ -11,7 +10,7 @@ interface RegionRankingProps {
 
 export function RegionRanking({ regionsData, formatNumber, setActiveRegion }: RegionRankingProps) {
   return (
-    <div style={{ marginTop: '10px' }}>
+    <div style={{ marginTop: '15px' }}>
       <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
         <span>🏆</span>
         Ranking de Vendas
