@@ -80,10 +80,6 @@ export function InteractiveBrazilMap() {
     return new Intl.NumberFormat('pt-BR').format(Math.max(0, num));
   };
 
-  const handleCoverageMapClick = () => {
-    window.open('https://mapadecobertura.vivo.com.br/', '_blank');
-  };
-
   return (
     <>
       <div className="flex justify-between items-center mb-6">
@@ -108,7 +104,7 @@ export function InteractiveBrazilMap() {
           >
             <div className="relative w-full h-full flex justify-center items-center">
               <img 
-                src="/lovable-uploads/be2957ad-9545-4620-8360-2f9278bbe6bb.png" 
+                src="/lovable-uploads/0dad93aa-051a-49c8-9a6e-ffe6b5108e20.png" 
                 alt="Mapa 3D do Brasil por regiões" 
                 className="w-full h-full object-contain"
                 style={{ maxHeight: '100%', maxWidth: '100%' }}
@@ -130,7 +126,6 @@ export function InteractiveBrazilMap() {
             <Button 
               variant="outline" 
               className="rounded-full border-2 border-pink-500 text-pink-500 hover:bg-pink-50 px-6 py-2 font-semibold text-sm"
-              onClick={handleCoverageMapClick}
             >
               <Satellite className="w-4 h-4 mr-2" />
               CONSULTE O MAPA DE COBERTURA
