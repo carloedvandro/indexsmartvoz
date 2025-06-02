@@ -54,11 +54,11 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         </div>
       </motion.div>
 
-      {/* Centro-Oeste - área laranja centro - movida 4px para baixo */}
+      {/* Centro-Oeste - área laranja centro - movida 4px para cima (de +4px para 0px) */}
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          top: 'calc(35% + 4px)',
+          top: '35%', // Movida 4px para cima (removido o +4px)
           left: '35%',
           width: '30%',
           height: '25%',
@@ -100,7 +100,7 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          bottom: 'calc(32.5% + 7px)', // Movida mais 2px para cima (totalizando 10px para cima)
+          bottom: 'calc(32.5% + 9px)', // Movida mais 2px para cima (totalizando 12px para cima)
           left: 'calc(51% - 3px)', // Mantida a posição horizontal (3px para esquerda)
           width: '35%',
           height: '15%',
@@ -122,9 +122,9 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         const positions = {
           norte: { top: 'calc(25% + 110px)', left: 'calc(50% - 30px)', transform: 'translate(-50%, -50%)' },
           nordeste: { top: 'calc(42% + 7.5px)', right: 'calc(23.5% + 1.5px)', transform: 'translate(50%, -50%)' },
-          centrooeste: { top: 'calc(49% + 4px)', left: '50%', transform: 'translate(-50%, -50%)' },
+          centrooeste: { top: 'calc(49%)', left: '50%', transform: 'translate(-50%, -50%)' }, // Ajustado para acompanhar a região Centro-Oeste
           sudeste: { top: 'calc(62% - 62px)', right: 'calc(23% + 46px)', transform: 'translate(50%, -50%)' }, // Ajustado para acompanhar a região
-          sul: { bottom: 'calc(41% + 7px)', left: 'calc(51.5% - 3px)', transform: 'translate(-50%, 50%)' } // Ajustado para acompanhar a região Sul
+          sul: { bottom: 'calc(41% + 9px)', left: 'calc(51.5% - 3px)', transform: 'translate(-50%, 50%)' } // Ajustado para acompanhar a região Sul
         };
         
         const pos = positions[key as keyof typeof positions];
