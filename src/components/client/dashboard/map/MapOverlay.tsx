@@ -96,12 +96,12 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         </div>
       </motion.div>
 
-      {/* Sul - área roxa inferior - voltada para posição original */}
+      {/* Sul - área roxa inferior - movida 1px para baixo e 0.5px para esquerda */}
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          bottom: '35%',
-          left: '36%',
+          bottom: '34%',
+          left: '35.5%',
           width: '35%',
           height: '15%',
         }}
@@ -124,7 +124,7 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
           nordeste: { top: '42%', right: '19%', transform: 'translate(50%, -50%)' },
           centrooeste: { top: '47%', left: '43%', transform: 'translate(-50%, -50%)' },
           sudeste: { top: '62%', right: '23%', transform: 'translate(50%, -50%)' },
-          sul: { bottom: '43%', left: '53%', transform: 'translate(-50%, 50%)' }
+          sul: { bottom: '42%', left: '52.5%', transform: 'translate(-50%, 50%)' }
         };
         
         const pos = positions[key as keyof typeof positions];
