@@ -87,12 +87,12 @@ export function BalanceBar() {
             <img
               src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
               alt="Smartvoz Logo"
-              className="h-[70px] object-contain mix-blend-multiply opacity-90 contrast-125"
+              className="h-[80px] object-contain mix-blend-multiply opacity-90 contrast-125"
             />
           </Link>
         </div>
         
-        <div className="flex items-center gap-3 ml-auto pr-2 md:pr-0">
+        <div className="flex items-center gap-3 justify-end">
           <div className="relative">
             <button 
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative"
