@@ -146,6 +146,39 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
           />
         );
       })}
+
+      {/* Cards dos nomes das regiões - posicionados abaixo dos ícones */}
+      {Object.entries(regionsData).map(([key, region]) => {
+        const cardPositions = {
+          norte: { top: '28%', left: '50%', transform: 'translate(-50%, 0)' },
+          nordeste: { top: '45%', right: '19%', transform: 'translate(50%, 0)' },
+          centrooeste: { top: '53%', left: '25%', transform: 'translate(-50%, 0)' },
+          sudeste: { top: '65%', right: '23%', transform: 'translate(50%, 0)' },
+          sul: { bottom: '16%', left: '50%', transform: 'translate(-50%, 0)' }
+        };
+        
+        const cardPos = cardPositions[key as keyof typeof cardPositions];
+        
+        return (
+          <motion.div
+            key={`card-${key}`}
+            className="absolute pointer-events-none"
+            style={cardPos}
+            animate={{
+              opacity: [0.7, 1, 0.7]
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              delay: 0.5
+            }}
+          >
+            <div className="bg-black/70 text-white text-xs font-medium px-2 py-1 rounded-md backdrop-blur-sm border border-white/20">
+              {region.name.toUpperCase()}
+            </div>
+          </motion.div>
+        );
+      })}
     </div>
   );
 }
