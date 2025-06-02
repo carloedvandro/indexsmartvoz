@@ -1,5 +1,7 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Trophy } from 'lucide-react';
 import { RegionData } from './types';
 
 interface RegionRankingProps {
@@ -12,7 +14,7 @@ export function RegionRanking({ regionsData, formatNumber, setActiveRegion }: Re
   return (
     <div style={{ marginTop: '15px' }}>
       <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-        <span>🏆</span>
+        <Trophy className="w-5 h-5 text-yellow-500" />
         Ranking de Vendas
       </h4>
       <div className="space-y-3">
