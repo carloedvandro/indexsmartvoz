@@ -12,12 +12,12 @@ interface MapOverlayProps {
 export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOverlayProps) {
   return (
     <div className="absolute inset-0 w-full h-full">
-      {/* Norte - área verde superior - movida 30px para baixo e 5px para esquerda */}
+      {/* Norte - área verde superior */}
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          top: 'calc(8% + 30px)',
-          left: 'calc(15% - 5px)',
+          top: '8%',
+          left: '15%',
           width: '70%',
           height: '35%',
         }}
@@ -37,8 +37,8 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          top: '25%',
-          right: '8%',
+          top: '35%',
+          right: '13%',
           width: '45%',
           height: '35%',
         }}
@@ -120,8 +120,8 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
       {/* Indicadores de atividade em tempo real */}
       {Object.entries(regionsData).map(([key, region], index) => {
         const positions = {
-          norte: { top: 'calc(25% + 30px)', left: 'calc(50% - 5px)', transform: 'translate(-50%, -50%)' },
-          nordeste: { top: '42%', right: '19%', transform: 'translate(50%, -50%)' },
+          norte: { top: '25%', left: '50%', transform: 'translate(-50%, -50%)' },
+          nordeste: { top: '52%', right: '24%', transform: 'translate(50%, -50%)' },
           centrooeste: { top: '51%', left: '50%', transform: 'translate(-50%, -50%)' },
           sudeste: { top: '62%', right: '23%', transform: 'translate(50%, -50%)' },
           sul: { bottom: '41%', left: '51.5%', transform: 'translate(-50%, 50%)' }
