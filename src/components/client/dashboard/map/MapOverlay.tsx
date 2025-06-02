@@ -12,11 +12,11 @@ interface MapOverlayProps {
 export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOverlayProps) {
   return (
     <div className="absolute inset-0 w-full h-full">
-      {/* Norte - área verde superior - movida 70px para baixo e 30px para esquerda */}
+      {/* Norte - área verde superior - movida 110px para baixo e 30px para esquerda */}
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          top: 'calc(8% + 70px)',
+          top: 'calc(8% + 110px)',
           left: 'calc(15% - 30px)',
           width: '70%',
           height: '35%',
@@ -120,7 +120,7 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
       {/* Indicadores de atividade em tempo real */}
       {Object.entries(regionsData).map(([key, region], index) => {
         const positions = {
-          norte: { top: 'calc(25% + 70px)', left: 'calc(50% - 30px)', transform: 'translate(-50%, -50%)' },
+          norte: { top: 'calc(25% + 110px)', left: 'calc(50% - 30px)', transform: 'translate(-50%, -50%)' },
           nordeste: { top: 'calc(42% + 7.5px)', right: 'calc(23.5% + 1.5px)', transform: 'translate(50%, -50%)' },
           centrooeste: { top: 'calc(49% + 4px)', left: '50%', transform: 'translate(-50%, -50%)' },
           sudeste: { top: 'calc(62% - 50px)', right: 'calc(23% + 30px)', transform: 'translate(50%, -50%)' },
