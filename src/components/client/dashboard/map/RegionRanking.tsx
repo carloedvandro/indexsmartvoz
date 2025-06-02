@@ -22,7 +22,7 @@ export function RegionRanking({ regionsData, formatNumber, setActiveRegion }: Re
           .map(([key, region], index) => (
             <motion.div
               key={key}
-              className="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-all duration-200"
+              className="flex items-center justify-between p-3 bg-transparent rounded-lg cursor-pointer hover:bg-gray-100 transition-all duration-200"
               onClick={() => setActiveRegion(key)}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
