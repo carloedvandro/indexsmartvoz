@@ -78,11 +78,6 @@ export function InteractiveBrazilMap() {
     return new Intl.NumberFormat('pt-BR').format(Math.max(0, num));
   };
 
-  const handleCoverageMapClick = () => {
-    console.log('Abrindo mapa de cobertura...');
-    window.open('https://mapadecobertura.vivo.com.br/', '_blank', 'noopener,noreferrer');
-  };
-
   return (
     <>
       <div className="flex justify-between items-center mb-6">
@@ -119,14 +114,6 @@ export function InteractiveBrazilMap() {
                 setActiveRegion={setActiveRegion}
               />
             </div>
-          </div>
-          <div className="flex justify-center" style={{ marginTop: '-53px' }}>
-            <button 
-              onClick={handleCoverageMapClick}
-              className="bg-transparent text-black font-bold px-6 py-2 rounded-full hover:bg-gray-100 transition-colors duration-200 cursor-pointer border border-gray-300 hover:border-gray-400"
-            >
-              <span className="text-sm">Consulte o mapa de cobertura</span>
-            </button>
           </div>
         </div>
 
