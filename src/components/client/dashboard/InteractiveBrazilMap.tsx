@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { RegionData } from './map/types';
@@ -97,7 +98,7 @@ export function InteractiveBrazilMap() {
               height: isMobile ? '600px' : '750px',
               transform: 'scale(1.25)',
               transformOrigin: isMobile ? 'center top' : 'center top',
-              marginTop: isMobile ? '-300px' : '0' // Mover todo conjunto 200px a mais para cima no mobile
+              marginTop: isMobile ? '-250px' : '0' // Ajustado para -250px (50px para baixo)
             }}
           >
             <div className="relative w-full h-full flex justify-center items-center">
