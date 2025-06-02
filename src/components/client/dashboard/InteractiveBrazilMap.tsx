@@ -6,9 +6,11 @@ import { MapOverlay } from './map/MapOverlay';
 import { RegionDetails } from './map/RegionDetails';
 import { RegionRanking } from './map/RegionRanking';
 import { PlansSummary } from './map/PlansSummary';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export function InteractiveBrazilMap() {
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
+  const isMobile = useIsMobile();
   const [regionsData, setRegionsData] = useState<Record<string, RegionData>>({
     norte: {
       name: 'Norte',
@@ -93,9 +95,10 @@ export function InteractiveBrazilMap() {
           <div 
             className="relative w-full mx-auto"
             style={{ 
-              height: '750px',
+              height: isMobile ? '600px' : '750px', // Reduzir altura no mobile
               transform: 'scale(1.25)',
-              transformOrigin: 'center top'
+              transformOrigin: isMobile ? 'center top' : 'center top',
+              marginTop: isMobile ? '-50px' : '0' // Mover para cima no mobile
             }}
           >
             <div className="relative w-full h-full flex justify-center items-center">
