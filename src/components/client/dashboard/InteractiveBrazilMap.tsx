@@ -91,7 +91,7 @@ export function InteractiveBrazilMap() {
         {/* Mapa 3D do Brasil - Reduzido ligeiramente */}
         <div className="xl:col-span-2">
           <div className="w-full h-[750px] md:h-[650px] lg:h-[750px]">
-            <div className="relative w-full h-full flex justify-center items-center p-0 m-0">
+            <div className="relative w-full h-full flex justify-center items-center p-0 m-0 -ml-1 md:ml-0">
               <img 
                 src="/lovable-uploads/fa145566-4db0-40d4-a1cd-a5aa0a08ea87.png" 
                 alt="Mapa 3D do Brasil por regiões" 
