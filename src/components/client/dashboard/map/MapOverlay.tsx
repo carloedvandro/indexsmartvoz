@@ -80,7 +80,7 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         className="absolute cursor-pointer"
         style={{
           top: 'calc(50% - 62px)', // Mantida a posição vertical atual
-          right: 'calc(15% + 47px)', // Movida 2px para direita (de +49px para +47px)
+          right: 'calc(15% + 45px)', // Movida 2px para direita (de +47px para +45px)
           width: '40%',
           height: '25%',
         }}
@@ -123,7 +123,7 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
           norte: { top: 'calc(25% + 100px)', left: 'calc(50% - 30px)', transform: 'translate(-50%, -50%)' }, // Ajustado para acompanhar a região Norte
           nordeste: { top: 'calc(42% + 11.5px)', right: 'calc(23.5% + 1.5px)', transform: 'translate(50%, -50%)' }, // Ajustado para acompanhar a região Nordeste (5px para cima)
           centrooeste: { top: 'calc(49%)', left: '50%', transform: 'translate(-50%, -50%)' }, // Ajustado para acompanhar a região Centro-Oeste
-          sudeste: { top: 'calc(62% - 62px)', right: 'calc(26% + 47px)', transform: 'translate(50%, -50%)' }, // Ajustado para acompanhar a região Sudeste (2px para direita)
+          sudeste: { top: 'calc(62% - 62px)', right: 'calc(26% + 45px)', transform: 'translate(50%, -50%)' }, // Ajustado para acompanhar a região Sudeste (2px para direita)
           sul: { bottom: 'calc(41% + 9px)', left: 'calc(51.5% - 3px)', transform: 'translate(-50%, 50%)' } // Ajustado para acompanhar a região Sul
         };
         
