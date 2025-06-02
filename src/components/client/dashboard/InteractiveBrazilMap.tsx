@@ -117,7 +117,7 @@ export function InteractiveBrazilMap() {
           </div>
           <div className="flex justify-center" style={{ marginTop: '-53px' }}>
             <div className="bg-transparent border-2 border-purple-600 text-purple-600 px-6 py-2 rounded-full">
-              <span className="text-sm font-medium">📡 CONSULTE O MAPA DE COBERTURA</span>
+              <span className="text-sm font-medium">CONSULTE O MAPA DE COBERTURA</span>
             </div>
           </div>
         </div>
