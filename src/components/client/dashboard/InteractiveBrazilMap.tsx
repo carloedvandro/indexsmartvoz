@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { RegionData } from './map/types';
@@ -116,9 +115,11 @@ export function InteractiveBrazilMap() {
               />
             </div>
           </div>
-          <p className="text-center text-sm text-gray-600" style={{ marginTop: '-53px' }}>
-            Clique nas regiões para ver detalhes em tempo real
-          </p>
+          <div className="flex justify-center" style={{ marginTop: '-53px' }}>
+            <div className="bg-purple-600 text-white px-6 py-2 rounded-full border border-purple-500">
+              <span className="text-sm font-medium">📡 CONSULTE O MAPA DE COBERTURA</span>
+            </div>
+          </div>
         </div>
 
         {/* Dados da região */}
