@@ -2,11 +2,14 @@
 import { EyeOff, Eye, Bell, User, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 export function BalanceBar() {
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const { toast } = useToast();
 
   const toggleBalanceVisibility = () => {
     setIsBalanceVisible(!isBalanceVisible);
@@ -18,6 +21,37 @@ export function BalanceBar() {
 
   const toggleUserMenu = () => {
     setShowUserMenu(!showUserMenu);
+  };
+
+  const handleLogout = async () => {
+    try {
+      for (const key of Object.keys(localStorage)) {
+        if (key.startsWith('sb-')) {
+          localStorage.removeItem(key);
+        }
+      }
+
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error("Erro ao fazer logout:", error);
+        toast({
+          title: "Erro",
+          description: "Não foi possível fazer logout. Tente novamente.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 100));
+      window.location.replace("/client/login");
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível fazer logout. Tente novamente.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -88,61 +122,6 @@ export function BalanceBar() {
             {showUserMenu && (
               <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
                 <div className="py-2">
-                  <Link 
-                    to="/client/dashboard" 
-                    className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-3 border-b border-gray-100"
-                  >
-                    <img 
-                      src="/lovable-uploads/d6d0cfaa-60fb-4950-9674-400bbfc06650.png" 
-                      alt="Home" 
-                      className="h-6 w-6" 
-                    />
-                    <span className="font-medium">Home</span>
-                  </Link>
-                  
-                  <div className="px-4 py-2">
-                    <p className="text-sm font-medium text-gray-700 mb-2">Loja Virtual</p>
-                    <div className="ml-2 space-y-1">
-                      <Link 
-                        to="/client/store" 
-                        className="block text-sm text-gray-600 hover:text-gray-800 py-1"
-                      >
-                        Plano Smartvoz
-                      </Link>
-                      <Link 
-                        to="/client/products" 
-                        className="block text-sm text-gray-600 hover:text-gray-800 py-1"
-                      >
-                        Processo de Ativação do SIM Card
-                      </Link>
-                      <Link 
-                        to="/client/esim" 
-                        className="block text-sm text-gray-600 hover:text-gray-800 py-1"
-                      >
-                        Processo de Ativação do eSIM
-                      </Link>
-                      <Link 
-                        to="/client/inventory-reports" 
-                        className="block text-sm text-gray-600 hover:text-gray-800 py-1"
-                      >
-                        Relatórios Estoque
-                      </Link>
-                    </div>
-                  </div>
-                  
-                  <div className="px-4 py-2 border-t border-gray-100">
-                    <p className="text-sm font-medium text-gray-700 mb-2">Rede</p>
-                    <div className="ml-2">
-                      <Link 
-                        to="/client/network" 
-                        className="block text-sm text-gray-600 hover:text-gray-800 py-1"
-                      >
-                        Minha Rede
-                      </Link>
-                    </div>
-                  </div>
-                  
-                  <hr className="my-2" />
                   <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     Meu Perfil
                   </button>
@@ -150,7 +129,10 @@ export function BalanceBar() {
                     Configurações
                   </button>
                   <hr className="my-1" />
-                  <button className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                  <button 
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                  >
                     Sair
                   </button>
                 </div>
