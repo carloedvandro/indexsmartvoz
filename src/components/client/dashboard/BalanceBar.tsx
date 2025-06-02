@@ -60,7 +60,8 @@ export function BalanceBar() {
 
   return (
     <div className="w-full bg-white border-b border-gray-200 px-4 py-3">
-      <div className="container flex items-center justify-between">
+      <div className="flex items-center justify-between w-full">
+        {/* Saldo - lado esquerdo */}
         <div className="flex items-center gap-4 flex-1 md:flex-initial">
           <div className="flex flex-col">
             <span className="text-sm text-gray-600">Saldo em conta</span>
@@ -81,8 +82,8 @@ export function BalanceBar() {
           </button>
         </div>
         
-        {/* Logotipo Smartvoz no centro */}
-        <div className="flex-1 flex justify-center">
+        {/* Logotipo Smartvoz no centro - hidden no mobile */}
+        <div className="hidden md:flex flex-1 justify-center">
           <Link to="/client/dashboard">
             <img
               src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
@@ -92,7 +93,8 @@ export function BalanceBar() {
           </Link>
         </div>
         
-        <div className="flex items-center gap-3 flex-1 md:flex-initial justify-end">
+        {/* Ícones - lado direito */}
+        <div className="flex items-center gap-3 ml-auto">
           <div className="relative">
             <button 
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative"
