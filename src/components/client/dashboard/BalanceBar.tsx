@@ -137,7 +137,7 @@ export function BalanceBar() {
             </button>
             
             {showUserMenu && (
-              <div className="absolute -right-4 top-full mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+              <div className="absolute right-0 top-full mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
                 <div className="py-2">
                   <Link
                     to="/client/dashboard"
