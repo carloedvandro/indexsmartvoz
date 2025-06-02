@@ -54,12 +54,12 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         </div>
       </motion.div>
 
-      {/* Centro-Oeste - área laranja centro - movida mais 10px para direita e 5px para baixo */}
+      {/* Centro-Oeste - área laranja centro - movida 5px para cima e 3px para esquerda */}
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          top: '40%',
-          left: '38%',
+          top: '35%',
+          left: '35%',
           width: '30%',
           height: '25%',
         }}
@@ -100,8 +100,8 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          bottom: '33%',
-          left: '34.5%',
+          bottom: '32.5%',
+          left: '51%',
           width: '35%',
           height: '15%',
         }}
@@ -122,7 +122,7 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         const positions = {
           norte: { top: '25%', left: '50%', transform: 'translate(-50%, -50%)' },
           nordeste: { top: '42%', right: '19%', transform: 'translate(50%, -50%)' },
-          centrooeste: { top: '52%', left: '53%', transform: 'translate(-50%, -50%)' },
+          centrooeste: { top: '47%', left: '50%', transform: 'translate(-50%, -50%)' },
           sudeste: { top: '62%', right: '23%', transform: 'translate(50%, -50%)' },
           sul: { bottom: '41%', left: '51.5%', transform: 'translate(-50%, 50%)' }
         };
