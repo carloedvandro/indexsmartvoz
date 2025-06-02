@@ -132,7 +132,7 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         return (
           <motion.div
             key={key}
-            className="absolute w-3 h-3 bg-white rounded-full border-2 border-gray-800 pointer-events-none"
+            className="absolute w-2 h-2 bg-white rounded-full border border-gray-800 pointer-events-none"
             style={pos}
             animate={{
               scale: [1, 1.5, 1],
