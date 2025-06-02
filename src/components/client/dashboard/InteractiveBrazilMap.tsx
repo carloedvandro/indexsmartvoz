@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { RegionData } from './map/types';
@@ -82,7 +81,7 @@ export function InteractiveBrazilMap() {
   return (
     <>
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-base font-semibold text-gray-800">Vendas por Região - Tempo Real</h3>
+        <h3 className="text-sm font-semibold text-gray-800">Vendas por Região - Tempo Real</h3>
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
           <span className="text-sm text-gray-600">Ao vivo</span>
