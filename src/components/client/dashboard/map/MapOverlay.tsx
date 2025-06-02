@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { RegionData } from './types';
@@ -33,12 +32,12 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         </div>
       </motion.div>
 
-      {/* Nordeste - área azul direita */}
+      {/* Nordeste - área azul direita - movida 2px para baixo e 5px para esquerda */}
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          top: '25%',
-          right: '8%',
+          top: '25.2%',
+          right: '8.5%',
           width: '45%',
           height: '35%',
         }}
@@ -121,8 +120,8 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
       {Object.entries(regionsData).map(([key, region], index) => {
         const positions = {
           norte: { top: '25%', left: '50%', transform: 'translate(-50%, -50%)' },
-          nordeste: { top: '42%', right: '19%', transform: 'translate(50%, -50%)' },
-          centrooeste: { top: '49%', left: '50%', transform: 'translate(-50%, -50%)' },
+          nordeste: { top: '42.2%', right: '19.5%', transform: 'translate(50%, -50%)' },
+          centrooeste: { top: '51%', left: '50%', transform: 'translate(-50%, -50%)' },
           sudeste: { top: '62%', right: '23%', transform: 'translate(50%, -50%)' },
           sul: { bottom: '41%', left: '51.5%', transform: 'translate(-50%, 50%)' }
         };
