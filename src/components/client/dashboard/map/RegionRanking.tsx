@@ -11,7 +11,7 @@ interface RegionRankingProps {
 
 export function RegionRanking({ regionsData, formatNumber, setActiveRegion }: RegionRankingProps) {
   return (
-    <div style={{ marginTop: '5px' }}>
+    <div style={{ marginTop: '10px' }}>
       <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
         <span>🏆</span>
         Ranking de Vendas
