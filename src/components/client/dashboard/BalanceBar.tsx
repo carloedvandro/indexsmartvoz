@@ -126,7 +126,12 @@ export function BalanceBar() {
                     to="/client/dashboard"
                     className="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
-                    <span className="text-base font-bold">Início</span>
+                    <img 
+                      src="/lovable-uploads/d6d0cfaa-60fb-4950-9674-400bbfc06650.png" 
+                      alt="Home" 
+                      className="h-[30px] w-auto" 
+                    />
+                    <span className="text-base font-bold text-black">Home</span>
                   </Link>
                   <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     Meu Perfil
