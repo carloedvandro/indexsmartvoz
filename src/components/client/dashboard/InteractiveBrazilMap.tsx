@@ -97,7 +97,7 @@ export function InteractiveBrazilMap() {
               height: isMobile ? '600px' : '750px',
               transform: 'scale(1.25)',
               transformOrigin: isMobile ? 'center top' : 'center top',
-              marginTop: isMobile ? '-230px' : '0' // Reverted back to -230px
+              marginTop: isMobile ? '-230px' : '0'
             }}
           >
             <div className="relative w-full h-full flex justify-center items-center">
@@ -115,7 +115,7 @@ export function InteractiveBrazilMap() {
               />
             </div>
           </div>
-          <p className="text-center text-sm text-gray-600" style={{ marginTop: '-33px' }}>
+          <p className="text-center text-sm text-gray-600" style={{ marginTop: '-48px' }}>
             Clique nas regiões para ver detalhes em tempo real
           </p>
         </div>
