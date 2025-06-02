@@ -121,7 +121,8 @@ export function InteractiveBrazilMap() {
               href="https://mapadecobertura.vivo.com.br/" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="bg-transparent text-black px-6 py-2 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+              className="inline-block bg-transparent text-black px-6 py-2 rounded-full hover:bg-gray-100 transition-colors duration-200 cursor-pointer border border-gray-300 hover:border-gray-400"
+              onClick={() => console.log('Link clicado!')}
             >
               <span className="text-sm font-bold">Consulte o mapa de cobertura</span>
             </a>
