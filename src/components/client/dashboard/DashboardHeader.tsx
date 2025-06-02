@@ -1,7 +1,7 @@
+
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Logo } from "./components/Logo";
 import { LogoutButton } from "./components/LogoutButton";
 import { MobileMenu } from "./components/MobileMenu";
 import { DesktopNavigation } from "./navigation/DesktopNavigation";
@@ -45,9 +45,9 @@ export function DashboardHeader() {
 
   return (
     <header className="w-full bg-background border-b h-16">
-      <div className="container relative  flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center h-full py-0 ">
-        <div className="flex lg:justify-center order-1 lg:order-2 flex-1 lg:ml-0 ">
-          <Logo />
+      <div className="container relative flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center h-full py-0">
+        <div className="flex lg:justify-center order-1 lg:order-2 flex-1 lg:ml-0">
+          <span className="text-xl font-bold">Menu</span>
         </div>
         <DesktopNavigation navigationItems={navigationItems} />
         <div className="flex items-center justify-end gap-2 ml-auto order-3 lg:order-3">
