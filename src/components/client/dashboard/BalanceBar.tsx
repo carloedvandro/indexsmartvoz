@@ -94,7 +94,7 @@ export function BalanceBar() {
         
         {/* Ícones - lado direito */}
         <div className="flex items-center gap-3 ml-auto">
-          <div className="relative" style={{ marginRight: '12px' }}>
+          <div className="relative" style={{ marginRight: '2px' }}>
             <button 
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative"
               onClick={toggleNotifications}
@@ -105,7 +105,7 @@ export function BalanceBar() {
             </button>
             
             {showNotifications && (
-              <div className="absolute -right-4 top-full mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+              <div className="absolute -right-14 top-full mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
                 <div className="p-4">
                   <h3 className="font-semibold text-gray-800 mb-3">Notificações</h3>
                   <div className="space-y-3">
