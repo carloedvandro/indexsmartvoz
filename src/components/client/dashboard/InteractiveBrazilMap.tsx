@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { RegionData } from './map/types';
@@ -92,7 +93,7 @@ export function InteractiveBrazilMap() {
           <div className="aspect-square max-w-4xl mx-auto">
             <div className="relative w-full h-full flex justify-center items-center">
               <img 
-                src="/lovable-uploads/f2fe48bb-21e7-494e-bf09-e9478e8b3f54.png" 
+                src="/lovable-uploads/0dad93aa-051a-49c8-9a6e-ffe6b5108e20.png" 
                 alt="Mapa 3D do Brasil por regiões" 
                 className="w-full h-full object-contain"
                 style={{ maxHeight: '1000px', maxWidth: '1000px' }}
