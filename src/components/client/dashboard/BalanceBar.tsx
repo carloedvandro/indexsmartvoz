@@ -1,36 +1,119 @@
 
-import { EyeOff, Bell, User, ChevronDown } from 'lucide-react';
+import { EyeOff, Eye, Bell, User, ChevronDown } from 'lucide-react';
+import { useState } from 'react';
 
 export function BalanceBar() {
+  const [isBalanceVisible, setIsBalanceVisible] = useState(true);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const toggleBalanceVisibility = () => {
+    setIsBalanceVisible(!isBalanceVisible);
+  };
+
+  const toggleNotifications = () => {
+    setShowNotifications(!showNotifications);
+  };
+
+  const toggleUserMenu = () => {
+    setShowUserMenu(!showUserMenu);
+  };
+
   return (
     <div className="w-full bg-white border-b border-gray-200 px-4 py-3">
       <div className="container flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="flex flex-col">
             <span className="text-sm text-gray-600">Saldo em conta</span>
-            <span className="text-lg font-semibold text-green-600">R$ 269,18</span>
+            <span className="text-lg font-semibold text-green-600">
+              {isBalanceVisible ? 'R$ 269,18' : '***,**'}
+            </span>
           </div>
-          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-            <EyeOff className="h-5 w-5 text-gray-500" />
+          <button 
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            onClick={toggleBalanceVisibility}
+            title={isBalanceVisible ? 'Ocultar saldo' : 'Mostrar saldo'}
+          >
+            {isBalanceVisible ? (
+              <EyeOff className="h-5 w-5 text-gray-500" />
+            ) : (
+              <Eye className="h-5 w-5 text-gray-500" />
+            )}
           </button>
         </div>
         
         <div className="flex items-center gap-3">
-          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative">
-            <Bell className="h-5 w-5 text-gray-500" />
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></div>
-          </button>
+          <div className="relative">
+            <button 
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative"
+              onClick={toggleNotifications}
+              title="Notificações"
+            >
+              <Bell className="h-5 w-5 text-gray-500" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></div>
+            </button>
+            
+            {showNotifications && (
+              <div className="absolute right-0 top-full mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+                <div className="p-4">
+                  <h3 className="font-semibold text-gray-800 mb-3">Notificações</h3>
+                  <div className="space-y-3">
+                    <div className="p-3 bg-blue-50 rounded-lg">
+                      <p className="text-sm text-gray-700">Nova venda realizada - R$ 45,00</p>
+                      <span className="text-xs text-gray-500">Há 2 minutos</span>
+                    </div>
+                    <div className="p-3 bg-green-50 rounded-lg">
+                      <p className="text-sm text-gray-700">Bonificação creditada - R$ 12,50</p>
+                      <span className="text-xs text-gray-500">Há 1 hora</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
           
-          <div className="flex items-center gap-2">
-            <button className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg transition-colors">
+          <div className="relative">
+            <button 
+              className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              onClick={toggleUserMenu}
+              title="Menu do usuário"
+            >
               <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                 <User className="h-5 w-5 text-white" />
               </div>
               <ChevronDown className="h-4 w-4 text-gray-500" />
             </button>
+            
+            {showUserMenu && (
+              <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+                <div className="py-2">
+                  <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Meu Perfil
+                  </button>
+                  <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Configurações
+                  </button>
+                  <hr className="my-1" />
+                  <button className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                    Sair
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
+      
+      {/* Overlay para fechar menus ao clicar fora */}
+      {(showNotifications || showUserMenu) && (
+        <div 
+          className="fixed inset-0 z-0" 
+          onClick={() => {
+            setShowNotifications(false);
+            setShowUserMenu(false);
+          }}
+        />
+      )}
     </div>
   );
 }
