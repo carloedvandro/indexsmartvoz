@@ -75,12 +75,12 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         </div>
       </motion.div>
 
-      {/* Sudeste - área vermelha centro-direita - movida 2px para cima no mobile */}
+      {/* Sudeste - área vermelha centro-direita - movida 3px para esquerda no mobile */}
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          top: 'calc(50% - 62px)', // Movida 2px para cima (de -60px para -62px)
-          right: 'calc(15% + 46px)', // Mantida a posição horizontal atual
+          top: 'calc(50% - 62px)', // Mantida a posição vertical atual
+          right: 'calc(15% + 49px)', // Movida 3px para esquerda (de +46px para +49px)
           width: '40%',
           height: '25%',
         }}
@@ -123,7 +123,7 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
           norte: { top: 'calc(25% + 100px)', left: 'calc(50% - 30px)', transform: 'translate(-50%, -50%)' }, // Ajustado para acompanhar a região Norte
           nordeste: { top: 'calc(42% + 16.5px)', right: 'calc(23.5% + 1.5px)', transform: 'translate(50%, -50%)' }, // Ajustado para acompanhar a região Nordeste (5px para cima)
           centrooeste: { top: 'calc(49%)', left: '50%', transform: 'translate(-50%, -50%)' }, // Ajustado para acompanhar a região Centro-Oeste
-          sudeste: { top: 'calc(62% - 62px)', right: 'calc(23% + 46px)', transform: 'translate(50%, -50%)' }, // Ajustado para acompanhar a região
+          sudeste: { top: 'calc(62% - 62px)', right: 'calc(26% + 49px)', transform: 'translate(50%, -50%)' }, // Ajustado para acompanhar a região Sudeste (3px para esquerda)
           sul: { bottom: 'calc(41% + 9px)', left: 'calc(51.5% - 3px)', transform: 'translate(-50%, 50%)' } // Ajustado para acompanhar a região Sul
         };
         
