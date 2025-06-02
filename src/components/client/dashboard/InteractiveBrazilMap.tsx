@@ -117,7 +117,7 @@ export function InteractiveBrazilMap() {
               />
             </div>
           </div>
-          <p className="text-center text-sm text-gray-600 mt-2">
+          <p className="text-center text-sm text-gray-600" style={{ marginTop: '-8px' }}>
             Clique nas regiões para ver detalhes em tempo real
           </p>
         </div>
