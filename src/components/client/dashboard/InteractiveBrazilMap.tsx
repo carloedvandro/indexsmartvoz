@@ -6,8 +6,6 @@ import { RegionDetails } from './map/RegionDetails';
 import { RegionRanking } from './map/RegionRanking';
 import { PlansSummary } from './map/PlansSummary';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Button } from '@/components/ui/button';
-import { Satellite } from 'lucide-react';
 
 export function InteractiveBrazilMap() {
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
@@ -120,17 +118,6 @@ export function InteractiveBrazilMap() {
           <p className="text-center text-sm text-gray-600 mt-2">
             Clique nas regiões para ver detalhes em tempo real
           </p>
-          
-          {/* Botão de Consulta do Mapa de Cobertura */}
-          <div className="flex justify-center mt-4">
-            <Button 
-              variant="outline" 
-              className="rounded-full border-2 border-pink-500 text-pink-500 hover:bg-pink-50 px-6 py-2 font-semibold text-sm"
-            >
-              <Satellite className="w-4 h-4 mr-2" />
-              CONSULTE O MAPA DE COBERTURA
-            </Button>
-          </div>
         </div>
 
         {/* Dados da região */}
