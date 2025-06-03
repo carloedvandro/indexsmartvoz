@@ -16,7 +16,7 @@ export function RegionRanking({ regionsData, formatNumber, setActiveRegion }: Re
         <span>🏆</span>
         Ranking de Vendas
       </h4>
-      <div className="space-y-3" style={{ marginLeft: '-3px' }}>
+      <div className="space-y-3" style={{ marginLeft: '-5px' }}>
         {Object.entries(regionsData)
           .sort(([,a], [,b]) => b.sales - a.sales)
           .map(([key, region]) => (
