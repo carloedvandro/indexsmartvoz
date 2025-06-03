@@ -48,41 +48,41 @@ export function ContactSection({ form }: ContactSectionProps) {
     <div className="space-y-4">
       <div className="flex items-center gap-2 pb-2 border-b border-gray-200">
         <Phone className="h-5 w-5 text-gray-600" />
-        <h3 className="text-lg font-medium text-gray-700">Contato</h3>
+        <h3 className="text-base font-medium text-gray-700">Contato</h3>
       </div>
       
       <div className="grid grid-cols-2 gap-2 lg:gap-4">
         <div className="w-full">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium text-gray-700 mb-2">
             WhatsApp <span className="text-red-500">*</span>
           </label>
           <input
             value={whatsapp1Value}
             onChange={handleWhatsapp1Change}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
             placeholder="(11) 99999-9999"
             maxLength={15}
           />
           {form.formState.errors.mobile && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-xs mt-1">
               {String(form.formState.errors.mobile.message || "Campo obrigatório")}
             </p>
           )}
         </div>
 
         <div className="w-full">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium text-gray-700 mb-2">
             WhatsApp <span className="text-red-500">*</span>
           </label>
           <input
             value={whatsapp2Value}
             onChange={handleWhatsapp2Change}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
             placeholder="(11) 99999-9999"
             maxLength={15}
           />
           {form.formState.errors.whatsapp && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-xs mt-1">
               {String(form.formState.errors.whatsapp.message || "Campo obrigatório")}
             </p>
           )}
