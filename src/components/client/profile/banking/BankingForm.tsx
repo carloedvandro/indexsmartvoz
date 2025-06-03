@@ -1,4 +1,5 @@
 
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -180,7 +181,7 @@ export function BankingForm({ profile }: BankingFormProps) {
                         <SelectValue placeholder="Selecione o banco" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent className="max-h-60">
+                    <SelectContent className="max-h-48">
                       {bankOptions.map((bank) => (
                         <SelectItem key={bank} value={bank} className="text-xs">
                           {bank}
@@ -337,3 +338,4 @@ export function BankingForm({ profile }: BankingFormProps) {
     </div>
   );
 }
+
