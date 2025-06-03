@@ -181,7 +181,7 @@ export function BankingForm({ profile }: BankingFormProps) {
                         <SelectValue placeholder="Selecione o banco" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent className="max-h-48">
+                    <SelectContent className="max-w-lg">
                       {bankOptions.map((bank) => (
                         <SelectItem key={bank} value={bank} className="text-xs">
                           {bank}
