@@ -25,7 +25,7 @@ export function BankSelectField({ control }: BankSelectFieldProps) {
             </FormControl>
             <SelectContent className="w-[var(--radix-select-trigger-width)]">
               {bankOptions.map((bank) => (
-                <SelectItem key={bank} value={bank} className="text-xs py-1">
+                <SelectItem key={bank} value={bank} className="text-xs py-1 text-left">
                   {bank}
                 </SelectItem>
               ))}
