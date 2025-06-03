@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -133,52 +132,50 @@ export function ProfileForm({ profile }: ProfileFormProps) {
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       <ProfileImageSection profile={profile} />
       
-      <Card>
-        <CardContent className="p-6 space-y-6">
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Patrocinador
-                </label>
-                <input
-                  {...form.register("sponsor")}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Usuário <span className="text-red-500">*</span>
-                </label>
-                <input
-                  {...form.register("custom_id")}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
-                />
-                {form.formState.errors.custom_id && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {form.formState.errors.custom_id.message}
-                  </p>
-                )}
-              </div>
+      <div className="p-6 space-y-6">
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Patrocinador
+              </label>
+              <input
+                {...form.register("sponsor")}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Usuário <span className="text-red-500">*</span>
+              </label>
+              <input
+                {...form.register("custom_id")}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+              />
+              {form.formState.errors.custom_id && (
+                <p className="text-red-500 text-sm mt-1">
+                  {form.formState.errors.custom_id.message}
+                </p>
+              )}
             </div>
           </div>
+        </div>
 
-          <PersonalDataSection form={form} />
-          <ContactSection form={form} />
-          <AddressSection form={form} />
-          
-          <div className="flex justify-center pt-6">
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-2 rounded-md"
-            >
-              {isLoading ? "Salvando..." : "Solicitar alteração"}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+        <PersonalDataSection form={form} />
+        <ContactSection form={form} />
+        <AddressSection form={form} />
+        
+        <div className="flex justify-center pt-6">
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-2 rounded-md"
+          >
+            {isLoading ? "Salvando..." : "Solicitar alteração"}
+          </Button>
+        </div>
+      </div>
     </form>
   );
 }
