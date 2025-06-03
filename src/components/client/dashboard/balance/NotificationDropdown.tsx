@@ -1,4 +1,5 @@
 
+import { useState } from 'react';
 import { Bell } from 'lucide-react';
 
 interface NotificationDropdownProps {
@@ -7,6 +8,9 @@ interface NotificationDropdownProps {
 }
 
 export function NotificationDropdown({ showNotifications, onToggleNotifications }: NotificationDropdownProps) {
+  // Estado para controlar se as notificações foram lidas
+  const [hasUnreadNotifications, setHasUnreadNotifications] = useState(true);
+
   // Simular notificações (em um projeto real, isso viria de uma API)
   const notifications = [
     {
@@ -29,13 +33,21 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
     }
   ];
 
-  const notificationCount = notifications.length;
+  const notificationCount = hasUnreadNotifications ? notifications.length : 0;
+
+  const handleToggleNotifications = () => {
+    onToggleNotifications();
+    // Quando clica no sino, marca as notificações como lidas
+    if (!showNotifications && hasUnreadNotifications) {
+      setHasUnreadNotifications(false);
+    }
+  };
 
   return (
     <div className="relative" style={{ marginRight: '2px' }}>
       <button 
         className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative cursor-pointer"
-        onClick={onToggleNotifications}
+        onClick={handleToggleNotifications}
         title="Notificações"
       >
         <Bell className="h-5 w-5 text-gray-500" />
@@ -51,7 +63,7 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
           <div className="p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-semibold text-gray-800 ml-[7px]">Notificações</h3>
-              <span className="text-sm text-gray-500">({notificationCount})</span>
+              <span className="text-sm text-gray-500">({notifications.length})</span>
             </div>
             <div className="space-y-3 flex flex-col items-center max-h-80 overflow-y-auto">
               {notifications.map((notification) => (
@@ -66,7 +78,7 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
                 </div>
               ))}
               
-              {notificationCount === 0 && (
+              {notifications.length === 0 && (
                 <div className="w-[370px] px-3 py-6 text-center text-gray-500">
                   <Bell className="h-8 w-8 mx-auto mb-2 opacity-50" />
                   <p className="text-sm">Nenhuma notificação</p>
@@ -74,7 +86,7 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
               )}
             </div>
             
-            {notificationCount > 0 && (
+            {notifications.length > 0 && (
               <div className="mt-4 pt-3 border-t border-gray-200">
                 <button className="w-full text-center text-sm text-blue-600 hover:text-blue-800 font-medium">
                   Ver todas as notificações
