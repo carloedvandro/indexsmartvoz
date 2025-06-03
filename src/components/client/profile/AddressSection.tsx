@@ -161,39 +161,39 @@ export function AddressSection({ form }: AddressSectionProps) {
     <div className="space-y-4">
       <div className="flex items-center gap-2 pb-2 border-b border-gray-200">
         <MapPin className="h-5 w-5 text-gray-600" />
-        <h3 className="text-lg font-medium text-gray-700">Endereço</h3>
+        <h3 className="text-base font-medium text-gray-700">Endereço</h3>
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="w-full">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium text-gray-700 mb-2">
             CEP <span className="text-red-500">*</span>
           </label>
           <input
             value={cepValue}
             onChange={handleCepChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
             placeholder="00000-000"
             maxLength={9}
             disabled={isLoadingCep}
           />
           {isLoadingCep && (
-            <p className="text-blue-500 text-sm mt-1">Buscando endereço...</p>
+            <p className="text-blue-500 text-xs mt-1">Buscando endereço...</p>
           )}
           {form.formState.errors.zip_code && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-xs mt-1">
               {String(form.formState.errors.zip_code.message || "Campo obrigatório")}
             </p>
           )}
         </div>
         
         <div className="w-full">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium text-gray-700 mb-2">
             Estado <span className="text-red-500">*</span>
           </label>
           <select
             {...form.register("state")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white appearance-none pr-10"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white appearance-none pr-10 text-sm"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
               backgroundPosition: 'right 0.5rem center',
@@ -207,19 +207,19 @@ export function AddressSection({ form }: AddressSectionProps) {
             ))}
           </select>
           {form.formState.errors.state && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-xs mt-1">
               {String(form.formState.errors.state.message || "Campo obrigatório")}
             </p>
           )}
         </div>
         
         <div className="w-full">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium text-gray-700 mb-2">
             Cidade <span className="text-red-500">*</span>
           </label>
           <select
             {...form.register("city")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white appearance-none pr-10"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white appearance-none pr-10 text-sm"
             disabled={!selectedState}
             style={{
               backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
@@ -236,67 +236,67 @@ export function AddressSection({ form }: AddressSectionProps) {
             ))}
           </select>
           {form.formState.errors.city && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-xs mt-1">
               {String(form.formState.errors.city.message || "Campo obrigatório")}
             </p>
           )}
         </div>
         
         <div className="w-full">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium text-gray-700 mb-2">
             Endereço <span className="text-red-500">*</span>
           </label>
           <input
             {...form.register("address")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
             placeholder="Rua, Avenida, etc."
           />
           {form.formState.errors.address && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-xs mt-1">
               {String(form.formState.errors.address.message || "Campo obrigatório")}
             </p>
           )}
         </div>
         
         <div className="w-full">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium text-gray-700 mb-2">
             Número <span className="text-red-500">*</span>
           </label>
           <input
             {...form.register("address_number")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
             placeholder="123"
           />
           {form.formState.errors.address_number && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-xs mt-1">
               {String(form.formState.errors.address_number.message || "Campo obrigatório")}
             </p>
           )}
         </div>
         
         <div className="w-full">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium text-gray-700 mb-2">
             Bairro <span className="text-red-500">*</span>
           </label>
           <input
             {...form.register("neighborhood")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
             placeholder="Nome do bairro"
           />
           {form.formState.errors.neighborhood && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-xs mt-1">
               {String(form.formState.errors.neighborhood.message || "Campo obrigatório")}
             </p>
           )}
         </div>
         
         <div className="w-full">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium text-gray-700 mb-2">
             Complemento
           </label>
           <input
             {...form.register("complement")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
             placeholder="Apto, Bloco, etc."
           />
         </div>
