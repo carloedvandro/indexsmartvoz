@@ -1,4 +1,3 @@
-
 import { User } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { useState } from "react";
@@ -194,7 +193,7 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
           )}
         </div>
         
-        <div className="grid grid-cols-2 gap-0 lg:gap-4 lg:col-span-2">
+        <div className="grid grid-cols-2 gap-2 lg:gap-4 lg:col-span-2">
           <div className="w-full">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               {personType === "Pessoa Física" ? "Data de nascimento" : "Data de abertura"} <span className="text-red-500">*</span>
