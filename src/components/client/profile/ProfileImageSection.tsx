@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Users } from "lucide-react";
 import { ProfileWithSponsor } from "@/types/profile";
@@ -37,65 +36,61 @@ export function ProfileImageSection({ profile }: ProfileImageSectionProps) {
   const displayName = profile.full_name || "Usuário";
 
   return (
-    <Card>
-      <CardContent className="p-6">
-        <div className="flex flex-col items-center space-y-4">
-          <Avatar className="w-32 h-32 border-2 border-gray-200">
-            <AvatarImage 
-              src={displayImage} 
-              alt={displayName}
-              className="object-cover"
-            />
-            <AvatarFallback className="bg-gray-100">
-              <Users className="h-16 w-16 text-gray-400" />
-            </AvatarFallback>
-          </Avatar>
-          
-          <div className="text-center space-y-2 w-full">
-            <h3 className="font-medium text-gray-900">{displayName}</h3>
-            
-            <div className="flex flex-col sm:flex-row items-center gap-2 w-full">
-              <input
-                type="text"
-                value="Escolha um arquivo"
-                readOnly
-                className="flex-1 w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-md bg-white text-sm text-gray-700"
-              />
-              <div className="flex gap-2 w-full sm:w-auto">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="text-xs px-3 py-2 flex-1 sm:flex-none"
-                  onClick={() => document.getElementById('image-upload')?.click()}
-                >
-                  Procurar
-                </Button>
-                <Button
-                  type="button"
-                  size="sm"
-                  className="bg-teal-600 hover:bg-teal-700 text-white text-xs px-3 py-2 flex-1 sm:flex-none"
-                >
-                  Enviar 📤
-                </Button>
-              </div>
-            </div>
-            
-            <input
-              id="image-upload"
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="hidden"
-            />
-            
-            <div className="text-xs text-gray-600 space-y-1">
-              <p>Tamanho máximo da imagem é de <strong>2MB</strong></p>
-              <p>Formatos permitidos: <strong>JPG, JPEG e PNG</strong></p>
-            </div>
+    <div className="flex flex-col items-center space-y-4 py-6">
+      <Avatar className="w-32 h-32 border-2 border-gray-200">
+        <AvatarImage 
+          src={displayImage} 
+          alt={displayName}
+          className="object-cover"
+        />
+        <AvatarFallback className="bg-gray-100">
+          <Users className="h-16 w-16 text-gray-400" />
+        </AvatarFallback>
+      </Avatar>
+      
+      <div className="text-center space-y-2 w-full">
+        <h3 className="font-medium text-gray-900">{displayName}</h3>
+        
+        <div className="flex flex-col sm:flex-row items-center gap-2 w-full">
+          <input
+            type="text"
+            value="Escolha um arquivo"
+            readOnly
+            className="flex-1 w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-md bg-white text-sm text-gray-700"
+          />
+          <div className="flex gap-2 w-full sm:w-auto">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="text-xs px-3 py-2 flex-1 sm:flex-none"
+              onClick={() => document.getElementById('image-upload')?.click()}
+            >
+              Procurar
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              className="bg-teal-600 hover:bg-teal-700 text-white text-xs px-3 py-2 flex-1 sm:flex-none"
+            >
+              Enviar 📤
+            </Button>
           </div>
         </div>
-      </CardContent>
-    </Card>
+        
+        <input
+          id="image-upload"
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          className="hidden"
+        />
+        
+        <div className="text-xs text-gray-600 space-y-1">
+          <p>Tamanho máximo da imagem é de <strong>2MB</strong></p>
+          <p>Formatos permitidos: <strong>JPG, JPEG e PNG</strong></p>
+        </div>
+      </div>
+    </div>
   );
 }
