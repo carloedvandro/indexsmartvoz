@@ -108,7 +108,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-      <ProfileImageSection />
+      <ProfileImageSection profile={profile} />
       
       <Card>
         <CardContent className="p-6 space-y-6">

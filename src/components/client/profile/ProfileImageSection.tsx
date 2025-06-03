@@ -1,10 +1,26 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Users } from "lucide-react";
+import { ProfileWithSponsor } from "@/types/profile";
 
-export function ProfileImageSection() {
+interface ProfileImageSectionProps {
+  profile: ProfileWithSponsor;
+}
+
+export function ProfileImageSection({ profile }: ProfileImageSectionProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  // Use the existing profile image or the default placeholder
+  const profileImage = profile.profile_image || "https://images.unsplash.com/photo-1649972904349-6e44c42644a7";
+
+  useEffect(() => {
+    if (profile.profile_image) {
+      setSelectedImage(profile.profile_image);
+    }
+  }, [profile.profile_image]);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -17,25 +33,26 @@ export function ProfileImageSection() {
     }
   };
 
+  const displayImage = selectedImage || profileImage;
+  const displayName = profile.full_name || "Usuário";
+
   return (
     <Card>
       <CardContent className="p-6">
         <div className="flex flex-col items-center space-y-4">
-          <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-            {selectedImage ? (
-              <img 
-                src={selectedImage} 
-                alt="Profile" 
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center">
-                <span className="text-gray-500 text-sm">Foto</span>
-              </div>
-            )}
-          </div>
+          <Avatar className="w-32 h-32 border-2 border-gray-200">
+            <AvatarImage 
+              src={displayImage} 
+              alt={displayName}
+              className="object-cover"
+            />
+            <AvatarFallback className="bg-gray-100">
+              <Users className="h-16 w-16 text-gray-400" />
+            </AvatarFallback>
+          </Avatar>
           
           <div className="text-center space-y-2">
+            <h3 className="font-medium text-gray-900">{displayName}</h3>
             <div className="flex gap-2">
               <label htmlFor="image-upload">
                 <Button
