@@ -9,7 +9,7 @@ export function FinancialCardsContainer() {
       <div className="max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-3">
         {financialCardsData.map((card, index) => (
           <div key={index} className="w-full max-w-[420px] mx-auto">
-            <FinancialCard {...card} />
+            <FinancialCard {...card} index={index} />
           </div>
         ))}
       </div>
