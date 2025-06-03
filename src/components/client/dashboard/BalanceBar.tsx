@@ -106,7 +106,7 @@ export function BalanceBar() {
             </button>
             
             {showNotifications && (
-              <div className="absolute -right-14 md:-right-14 top-full w-[420px] bg-white border border-gray-200 rounded-b-lg shadow-lg z-[5] translate-x-[40px] md:translate-x-[22px]" style={{ marginTop: '16.1px' }}>
+              <div className="absolute -right-14 md:-right-14 top-full w-[420px] bg-white border border-gray-200 rounded-b-lg shadow-lg z-[5] translate-x-[40px] md:translate-x-[22px]" style={{ marginTop: '16.5px' }}>
                 <div className="p-4">
                   <h3 className="font-semibold text-gray-800 mb-3">Notificações</h3>
                   <div className="space-y-3">
