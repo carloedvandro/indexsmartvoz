@@ -5,44 +5,143 @@ import { androidModels, iphoneModels } from './data/deviceModels';
 export const identifyDeviceBrand = (tac: string): string => {
   console.log('Identificando marca do dispositivo com TAC:', tac);
   
-  // Tentar identificar por prefixos mais específicos primeiro
-  const tacPrefix8 = tac.substring(0, 8);
-  const tacPrefix6 = tac.substring(0, 6);
-  const tacPrefix4 = tac.substring(0, 4);
+  // Tentar identificar por prefixos de diferentes tamanhos para melhor cobertura
+  const tacPrefixes = [
+    tac.substring(0, 8),
+    tac.substring(0, 7),
+    tac.substring(0, 6),
+    tac.substring(0, 5),
+    tac.substring(0, 4),
+    tac.substring(0, 3)
+  ];
+  
+  console.log('Prefixos TAC para verificação:', tacPrefixes);
+  
+  // Verificar no banco de dados Android por ordem de especificidade
+  for (const prefix of tacPrefixes) {
+    if (androidModels[prefix]) {
+      console.log(`Encontrado por prefixo ${prefix.length}:`, androidModels[prefix].brand);
+      return androidModels[prefix].brand;
+    }
+  }
+  
+  // Identificação por padrões específicos de marca baseado em TAC
   const tacPrefix3 = tac.substring(0, 3);
+  const tacPrefix6 = tac.substring(0, 6);
   
-  console.log('Prefixos TAC:', { tacPrefix8, tacPrefix6, tacPrefix4, tacPrefix3 });
+  // Mapeamento avançado de TAC para marcas
+  const brandMappings: { [key: string]: string } = {
+    // Samsung
+    '358008': 'Samsung',
+    '354389': 'Samsung',
+    '356398': 'Samsung',
+    '357307': 'Samsung',
+    '352387': 'Samsung',
+    
+    // Apple
+    '358403': 'Apple',
+    '359229': 'Apple',
+    '357307': 'Apple',
+    '355608': 'Apple',
+    '352094': 'Apple',
+    
+    // Motorola
+    '358009': 'Motorola',
+    '356723': 'Motorola',
+    '352741': 'Motorola',
+    '357834': 'Motorola',
+    
+    // Xiaomi/Redmi/POCO
+    '862421': 'Xiaomi',
+    '863104': 'Xiaomi',
+    '867994': 'Xiaomi',
+    '869404': 'Xiaomi',
+    
+    // OnePlus
+    '867994': 'OnePlus',
+    '869847': 'OnePlus',
+    '864523': 'OnePlus',
+    
+    // Google Pixel
+    '355608': 'Google',
+    '357834': 'Google',
+    '869847': 'Google',
+    
+    // Huawei
+    '869404': 'Huawei',
+    '864934': 'Huawei',
+    '867425': 'Huawei',
+    
+    // Honor
+    '864934': 'Honor',
+    '869847': 'Honor',
+    
+    // Vivo
+    '868912': 'Vivo',
+    '862742': 'Vivo',
+    
+    // Oppo
+    '860425': 'Oppo',
+    '863751': 'Oppo',
+    
+    // Realme
+    '866971': 'Realme',
+    '862984': 'Realme',
+    
+    // Nokia
+    '352094': 'Nokia',
+    '357425': 'Nokia',
+    '354892': 'Nokia',
+    
+    // Sony
+    '352847': 'Sony',
+    '358741': 'Sony',
+    
+    // Nothing
+    '869234': 'Nothing',
+    
+    // Asus
+    '355234': 'Asus',
+    '867234': 'Asus',
+  };
   
-  // Verificar se existe no banco de dados Android por prefixo
-  if (androidModels[tacPrefix8]) {
-    console.log('Encontrado por prefixo 8:', androidModels[tacPrefix8].brand);
-    return androidModels[tacPrefix8].brand;
+  // Verificar mapeamentos específicos por TAC completo (6 dígitos)
+  if (brandMappings[tacPrefix6]) {
+    console.log('Marca identificada por TAC específico:', brandMappings[tacPrefix6]);
+    return brandMappings[tacPrefix6];
   }
   
-  if (androidModels[tacPrefix6]) {
-    console.log('Encontrado por prefixo 6:', androidModels[tacPrefix6].brand);
-    return androidModels[tacPrefix6].brand;
+  // Identificação por padrões genéricos de prefixo
+  if (tacPrefix3 === '351' || tacPrefix3 === '352' || tacPrefix3 === '353') {
+    // Análise mais detalhada para prefixos 35x
+    if (tac.startsWith('35118') || tac.startsWith('35438')) return 'Samsung';
+    if (tac.startsWith('35120') || tac.startsWith('35672')) return 'Motorola';
+    if (tac.startsWith('35122') || tac.startsWith('35209')) return 'Nokia';
+    if (tac.startsWith('35123') || tac.startsWith('86242')) return 'Xiaomi';
+    if (tac.startsWith('35124') || tac.startsWith('86297')) return 'Realme';
+    if (tac.startsWith('35125') || tac.startsWith('86042')) return 'Oppo';
+    if (tac.startsWith('35126') || tac.startsWith('86891')) return 'Vivo';
+    if (tac.startsWith('35127') || tac.startsWith('86799')) return 'OnePlus';
+    if (tac.startsWith('35128') || tac.startsWith('35840') || tac.startsWith('35922')) return 'Apple';
+    if (tac.startsWith('35129') || tac.startsWith('35560')) return 'Google';
+    if (tac.startsWith('35130') || tac.startsWith('86940')) return 'Huawei';
+    if (tac.startsWith('35131') || tac.startsWith('86493')) return 'Honor';
   }
   
-  // Lógica tradicional de identificação por prefixos conhecidos
-  if (tacPrefix3 === '351') {
-    if (tac.startsWith('35118')) return 'Samsung';
-    if (tac.startsWith('35120')) return 'Motorola';
-    if (tac.startsWith('35122')) return 'Nokia';
-    if (tac.startsWith('35123')) return 'Xiaomi';
-    if (tac.startsWith('35124')) return 'Realme';
-    if (tac.startsWith('35125')) return 'Oppo';
-    if (tac.startsWith('35126')) return 'Vivo';
-    if (tac.startsWith('35127')) return 'OnePlus';
-    if (tac.startsWith('35128') || tac.startsWith('35828')) return 'Apple';
+  // Identificação para prefixos 86x (comum em dispositivos asiáticos)
+  if (tacPrefix3 === '860' || tacPrefix3 === '861' || tacPrefix3 === '862' || 
+      tacPrefix3 === '863' || tacPrefix3 === '864' || tacPrefix3 === '865' ||
+      tacPrefix3 === '866' || tacPrefix3 === '867' || tacPrefix3 === '868' || tacPrefix3 === '869') {
+    
+    if (tac.startsWith('86242') || tac.startsWith('86310')) return 'Xiaomi';
+    if (tac.startsWith('86799') || tac.startsWith('86452')) return 'OnePlus';
+    if (tac.startsWith('86940') || tac.startsWith('86742')) return 'Huawei';
+    if (tac.startsWith('86493') || tac.startsWith('86984')) return 'Honor';
+    if (tac.startsWith('86891') || tac.startsWith('86274')) return 'Vivo';
+    if (tac.startsWith('86042') || tac.startsWith('86375')) return 'Oppo';
+    if (tac.startsWith('86697') || tac.startsWith('86298')) return 'Realme';
+    if (tac.startsWith('86923')) return 'Nothing';
   }
-  
-  // Verificar por outros prefixos conhecidos
-  if (tacPrefix6 === '358008' || tacPrefix6 === '354389') return 'Samsung';
-  if (tacPrefix6 === '358009' || tacPrefix6 === '356723') return 'Motorola';
-  if (tacPrefix6 === '358011' || tacPrefix6 === '352094') return 'Nokia';
-  if (tacPrefix6 === '358012' || tacPrefix6 === '862421') return 'Xiaomi';
-  if (tacPrefix6 === '358403' || tacPrefix6 === '359229') return 'Apple';
   
   console.log('Usando identificação genérica: Android');
   return 'Android';
@@ -53,19 +152,39 @@ export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
   
   if (deviceType === 'ios') {
     // Verificar com prefixos de diferentes tamanhos para iPhone
-    const prefixes = [8, 7, 6, 5, 4].map(length => tac.substring(0, length));
+    const prefixes = [8, 7, 6, 5, 4, 3].map(length => tac.substring(0, length));
     console.log('Prefixos iPhone a verificar:', prefixes);
     
+    // Busca por correspondência exata primeiro
     for (const prefix of prefixes) {
-      const iPhoneModel = Object.entries(iphoneModels).find(([key]) => tac.startsWith(key));
-      if (iPhoneModel) {
-        const [_, modelInfo] = iPhoneModel;
+      if (iphoneModels[prefix]) {
+        const modelInfo = iphoneModels[prefix];
         console.log('Modelo iPhone encontrado:', modelInfo);
         return {
           brand: 'Apple',
           model: modelInfo.model,
           modelNumber: modelInfo.modelNumber
         };
+      }
+    }
+    
+    // Se não encontrou modelo específico, tentar identificar por padrões conhecidos do iPhone
+    const tacStr = tac.toString();
+    if (tacStr.startsWith('353281') || tacStr.startsWith('358403') || 
+        tacStr.startsWith('359229') || tacStr.startsWith('357307') ||
+        tacStr.startsWith('355608') || tacStr.startsWith('352094')) {
+      
+      // Tentar identificar geração do iPhone baseado em padrões do TAC
+      if (tacStr.includes('323') || tacStr.includes('324')) {
+        return { brand: 'Apple', model: 'iPhone 15 Series', modelNumber: tac };
+      } else if (tacStr.includes('321') || tacStr.includes('322')) {
+        return { brand: 'Apple', model: 'iPhone 14 Series', modelNumber: tac };
+      } else if (tacStr.includes('319') || tacStr.includes('320')) {
+        return { brand: 'Apple', model: 'iPhone 13 Series', modelNumber: tac };
+      } else if (tacStr.includes('317') || tacStr.includes('318')) {
+        return { brand: 'Apple', model: 'iPhone 12 Series', modelNumber: tac };
+      } else if (tacStr.includes('315') || tacStr.includes('316')) {
+        return { brand: 'Apple', model: 'iPhone 11 Series', modelNumber: tac };
       }
     }
     
@@ -78,9 +197,10 @@ export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
   }
 
   // Lógica para Android com múltiplos níveis de busca
-  const searchPrefixes = [8, 7, 6, 5, 4].map(length => tac.substring(0, length));
+  const searchPrefixes = [8, 7, 6, 5, 4, 3].map(length => tac.substring(0, length));
   console.log('Prefixos Android a verificar:', searchPrefixes);
   
+  // Busca por correspondência exata
   for (const prefix of searchPrefixes) {
     if (androidModels[prefix]) {
       console.log('Android model encontrado:', androidModels[prefix]);
@@ -92,9 +212,53 @@ export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
   const brand = identifyDeviceBrand(tac);
   console.log('Usando marca genérica:', brand);
   
+  // Tentar identificar linha de produtos baseado no TAC
+  let modelLine = 'Smartphone';
+  const tacStr = tac.toString();
+  
+  if (brand === 'Samsung') {
+    if (tacStr.includes('800') || tacStr.includes('801') || tacStr.includes('802')) {
+      modelLine = 'Galaxy S Series';
+    } else if (tacStr.includes('803') || tacStr.includes('804')) {
+      modelLine = 'Galaxy A Series';
+    } else if (tacStr.includes('805') || tacStr.includes('806')) {
+      modelLine = 'Galaxy Z Series';
+    } else {
+      modelLine = 'Galaxy Smartphone';
+    }
+  } else if (brand === 'Xiaomi') {
+    if (tacStr.includes('201') || tacStr.includes('202')) {
+      modelLine = 'Xiaomi Series';
+    } else if (tacStr.includes('210') || tacStr.includes('211')) {
+      modelLine = 'Redmi Series';
+    } else if (tacStr.includes('214') || tacStr.includes('215')) {
+      modelLine = 'POCO Series';
+    } else {
+      modelLine = 'Xiaomi Smartphone';
+    }
+  } else if (brand === 'OnePlus') {
+    if (tacStr.includes('601') || tacStr.includes('602')) {
+      modelLine = 'OnePlus Series';
+    } else if (tacStr.includes('603') || tacStr.includes('604')) {
+      modelLine = 'OnePlus Nord Series';
+    } else {
+      modelLine = 'OnePlus Smartphone';
+    }
+  } else if (brand === 'Google') {
+    modelLine = 'Pixel Smartphone';
+  } else if (brand === 'Motorola') {
+    if (tacStr.includes('991') || tacStr.includes('992')) {
+      modelLine = 'Edge Series';
+    } else if (tacStr.includes('998') || tacStr.includes('999')) {
+      modelLine = 'Moto G Series';
+    } else {
+      modelLine = 'Moto Smartphone';
+    }
+  }
+  
   return {
     brand,
-    model: `${brand} Smartphone`,
+    model: `${brand} ${modelLine}`,
     modelNumber: tac
   };
 };
