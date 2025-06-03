@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -175,7 +176,7 @@ export function BankingForm({ profile }: BankingFormProps) {
                   <FormLabel className="text-base font-medium">Nome do Banco</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger className="h-12">
+                      <SelectTrigger className="h-9">
                         <SelectValue placeholder="Selecione o banco" />
                       </SelectTrigger>
                     </FormControl>
@@ -200,7 +201,7 @@ export function BankingForm({ profile }: BankingFormProps) {
                   <FormLabel className="text-base font-medium">Tipo de Conta</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger className="h-12">
+                      <SelectTrigger className="h-9">
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
@@ -223,7 +224,7 @@ export function BankingForm({ profile }: BankingFormProps) {
                 <FormItem>
                   <FormLabel className="text-base font-medium">Número da Agência</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="8217" className="h-12" />
+                    <Input {...field} placeholder="8217" className="h-9" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -237,7 +238,7 @@ export function BankingForm({ profile }: BankingFormProps) {
                 <FormItem>
                   <FormLabel className="text-base font-medium">Dígito</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="" className="h-12" />
+                    <Input {...field} placeholder="" className="h-9" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -253,7 +254,7 @@ export function BankingForm({ profile }: BankingFormProps) {
                 <FormItem>
                   <FormLabel className="text-base font-medium">Número da Conta</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="18280" className="h-12" />
+                    <Input {...field} placeholder="18280" className="h-9" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -267,7 +268,7 @@ export function BankingForm({ profile }: BankingFormProps) {
                 <FormItem>
                   <FormLabel className="text-base font-medium">Dígito</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="0" className="h-12" />
+                    <Input {...field} placeholder="0" className="h-9" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -282,7 +283,7 @@ export function BankingForm({ profile }: BankingFormProps) {
               <FormItem>
                 <FormLabel className="text-base font-medium">Titular da Conta</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Roberto Silva" className="h-12" />
+                  <Input {...field} placeholder="Roberto Silva" className="h-9" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -296,7 +297,7 @@ export function BankingForm({ profile }: BankingFormProps) {
               <FormItem>
                 <FormLabel className="text-base font-medium">CPF/CNPJ</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="" className="h-12" />
+                  <Input {...field} placeholder="" className="h-9" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -314,7 +315,7 @@ export function BankingForm({ profile }: BankingFormProps) {
                     {...field} 
                     type="password" 
                     placeholder=""
-                    className="h-12"
+                    className="h-9"
                   />
                 </FormControl>
                 <FormMessage />
