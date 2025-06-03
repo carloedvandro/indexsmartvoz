@@ -10,6 +10,7 @@ export function BalanceBar() {
     isBalanceVisible,
     showNotifications,
     showUserMenu,
+    profile,
     toggleBalanceVisibility,
     toggleNotifications,
     toggleUserMenu,
@@ -40,6 +41,7 @@ export function BalanceBar() {
             showUserMenu={showUserMenu}
             onToggleUserMenu={toggleUserMenu}
             onLogout={handleLogout}
+            profile={profile}
           />
         </div>
       </div>

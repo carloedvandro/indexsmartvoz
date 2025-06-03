@@ -1,16 +1,18 @@
-
 import { User, ChevronDown, Building2, FileText, KeyRound, Shield, ChevronRight, UserCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { navigationItems } from '../navigation/NavigationItems';
+import { UserAvatar } from './UserAvatar';
+import { ProfileWithSponsor } from '@/types/profile';
 
 interface UserMenuDropdownProps {
   showUserMenu: boolean;
   onToggleUserMenu: () => void;
   onLogout: () => Promise<void>;
+  profile?: ProfileWithSponsor | null;
 }
 
-export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: UserMenuDropdownProps) {
+export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, profile }: UserMenuDropdownProps) {
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
 
   // Filter out the home item and get other navigation items
@@ -60,9 +62,12 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: U
         onClick={onToggleUserMenu}
         title="Menu do usuário"
       >
-        <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-          <User className="h-5 w-5 text-white" />
-        </div>
+        <UserAvatar
+          profileImage={profile?.profile_image}
+          fullName={profile?.full_name}
+          isActive={profile?.status === 'active'}
+          size="sm"
+        />
         <ChevronDown className="h-4 w-4 text-gray-500" />
       </button>
       

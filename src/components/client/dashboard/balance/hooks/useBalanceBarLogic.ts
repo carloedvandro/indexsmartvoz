@@ -2,12 +2,14 @@
 import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useProfile } from '@/hooks/useProfile';
 
 export function useBalanceBarLogic() {
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const { toast } = useToast();
+  const { data: profile } = useProfile();
 
   const toggleBalanceVisibility = () => {
     setIsBalanceVisible(!isBalanceVisible);
@@ -61,6 +63,7 @@ export function useBalanceBarLogic() {
     isBalanceVisible,
     showNotifications,
     showUserMenu,
+    profile,
     toggleBalanceVisibility,
     toggleNotifications,
     toggleUserMenu,
