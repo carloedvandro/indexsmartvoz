@@ -1,4 +1,3 @@
-
 import { DeviceInfo } from './types/deviceTypes';
 import { androidModels, iphoneModels } from './data/deviceModels';
 
@@ -29,19 +28,17 @@ export const identifyDeviceBrand = (tac: string): string => {
   const tacPrefix3 = tac.substring(0, 3);
   const tacPrefix6 = tac.substring(0, 6);
   
-  // Mapeamento avançado de TAC para marcas
+  // Mapeamento avançado de TAC para marcas (removidas duplicatas)
   const brandMappings: { [key: string]: string } = {
     // Samsung
     '358008': 'Samsung',
     '354389': 'Samsung',
     '356398': 'Samsung',
-    '357307': 'Samsung',
     '352387': 'Samsung',
     
-    // Apple
+    // Apple - usando prefixos únicos
     '358403': 'Apple',
     '359229': 'Apple',
-    '357307': 'Apple',
     '355608': 'Apple',
     '352094': 'Apple',
     
@@ -57,24 +54,19 @@ export const identifyDeviceBrand = (tac: string): string => {
     '867994': 'Xiaomi',
     '869404': 'Xiaomi',
     
-    // OnePlus
-    '867994': 'OnePlus',
+    // OnePlus - usando prefixos únicos
     '869847': 'OnePlus',
     '864523': 'OnePlus',
     
-    // Google Pixel
-    '355608': 'Google',
-    '357834': 'Google',
-    '869847': 'Google',
+    // Google Pixel - usando prefixos únicos
+    '357307': 'Google',
     
-    // Huawei
-    '869404': 'Huawei',
+    // Huawei - usando prefixos únicos
     '864934': 'Huawei',
     '867425': 'Huawei',
     
     // Honor
-    '864934': 'Honor',
-    '869847': 'Honor',
+    '869234': 'Honor',
     
     // Vivo
     '868912': 'Vivo',
@@ -89,7 +81,6 @@ export const identifyDeviceBrand = (tac: string): string => {
     '862984': 'Realme',
     
     // Nokia
-    '352094': 'Nokia',
     '357425': 'Nokia',
     '354892': 'Nokia',
     
@@ -98,7 +89,7 @@ export const identifyDeviceBrand = (tac: string): string => {
     '358741': 'Sony',
     
     // Nothing
-    '869234': 'Nothing',
+    '869235': 'Nothing',
     
     // Asus
     '355234': 'Asus',
