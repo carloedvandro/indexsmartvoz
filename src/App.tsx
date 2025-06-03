@@ -11,6 +11,10 @@ import ClientDashboard from '@/pages/client/dashboard';
 import ClientProfile from '@/pages/client/profile';
 import ClientBanking from '@/pages/client/profile/banking';
 import ClientTerms from '@/pages/client/profile/terms';
+import ClientChangePassword from '@/pages/client/profile/change-password';
+import ClientSecurityPassword from '@/pages/client/profile/security-password';
+import ClientTwoFactor from '@/pages/client/profile/two-factor';
+import ClientConfigurations from '@/pages/client/profile/configurations';
 import ClientNetwork from '@/pages/client/network';
 import ClientStore from '@/pages/client/store';
 import ClientEvents from '@/pages/client/events';
@@ -60,6 +64,10 @@ const router = createBrowserRouter(
         <Route path="/client/profile" element={<ClientProfile />} />
         <Route path="/client/profile/banking" element={<ClientBanking />} />
         <Route path="/client/profile/terms" element={<ClientTerms />} />
+        <Route path="/client/profile/change-password" element={<ClientChangePassword />} />
+        <Route path="/client/profile/security-password" element={<ClientSecurityPassword />} />
+        <Route path="/client/profile/two-factor" element={<ClientTwoFactor />} />
+        <Route path="/client/profile/configurations" element={<ClientConfigurations />} />
         <Route path="/client/network" element={<ClientNetwork />} />
         <Route path="/client/store" element={<ClientStore />} />
         <Route path="/client/events" element={<ClientEvents />} />
