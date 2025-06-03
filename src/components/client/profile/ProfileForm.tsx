@@ -49,10 +49,30 @@ export function ProfileForm({ profile }: ProfileFormProps) {
   const existingStreet = addressParts[0]?.trim() || "";
   const existingNumber = addressParts[1]?.trim() || "";
 
+  // Construir informações do patrocinador
+  const getSponsorInfo = () => {
+    if (!profile.sponsor) {
+      return "Não possui patrocinador";
+    }
+    
+    const parts = [];
+    if (profile.sponsor.full_name) {
+      parts.push(profile.sponsor.full_name);
+    }
+    if (profile.sponsor.custom_id) {
+      parts.push(`(ID: ${profile.sponsor.custom_id})`);
+    }
+    if (profile.sponsor.email) {
+      parts.push(`- ${profile.sponsor.email}`);
+    }
+    
+    return parts.length > 0 ? parts.join(" ") : "Patrocinador sem informações";
+  };
+
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      sponsor: profile.sponsor?.full_name || "N/A",
+      sponsor: getSponsorInfo(),
       custom_id: profile.custom_id || "",
       full_name: profile.full_name || "",
       person_type: profile.person_type || "",
@@ -118,11 +138,11 @@ export function ProfileForm({ profile }: ProfileFormProps) {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Patrocinador
                 </label>
-                <input
-                  type="text"
-                  value={profile.sponsor?.full_name || "N/A"}
+                <textarea
+                  value={getSponsorInfo()}
                   disabled
-                  className="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md"
+                  rows={3}
+                  className="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md text-sm resize-none"
                 />
               </div>
               
