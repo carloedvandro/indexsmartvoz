@@ -1,45 +1,39 @@
 
-// Financial cards data structure and default values
-export interface FinancialCardData {
-  path: string;
-  bgColor: string;
-  hoverColor: string;
-  amount: number;
-  label: string;
-}
-
-// Default values for the financial cards
-export const defaultFinancialCardsData: {
-  availableBalance: number;
-  totalEarnings: number;
-  forecastBonus: number;
-} = {
-  availableBalance: 5000.01,
-  totalEarnings: 42576.22,
-  forecastBonus: 0.00,
-};
-
-// Financial cards styling configuration
-export const financialCardsConfig = [
+export const financialCardsData = [
   {
-    key: "availableBalance",
-    path: "/client/financial",
-    bgColor: "bg-[#8BC34A]",
-    hoverColor: "hover:bg-[#7CB342]",
-    label: "Saldo Disponível"
+    title: "R$ 0,00 líquido",
+    subtitle: "Total líquido",
+    amount: "R$ 0,00",
+    trend: "+12%",
+    isPositive: true,
+    color: "bg-gradient-to-r from-green-400 to-green-600",
+    textColor: "text-black"
   },
   {
-    key: "totalEarnings",
-    path: "/client/financial",
-    bgColor: "bg-[#FFCC80]",
-    hoverColor: "hover:bg-[#FFB74D]",
-    label: "Ganhos até hoje"
+    title: "R$ 0,00 líquido", 
+    subtitle: "Vendas hoje",
+    amount: "R$ 0,00",
+    trend: "+8%",
+    isPositive: true,
+    color: "bg-gradient-to-r from-blue-400 to-blue-600",
+    textColor: "text-black"
   },
   {
-    key: "forecastBonus",
-    path: "/client/earnings-forecast",
-    bgColor: "bg-[#29B6F6]", 
-    hoverColor: "hover:bg-[#03A9F4]",
-    label: "Previsão de Ganhos"
+    title: "R$ 0,00 líquido",
+    subtitle: "Comissões pendentes", 
+    amount: "R$ 0,00",
+    trend: "-3%",
+    isPositive: false,
+    color: "bg-gradient-to-r from-purple-400 to-purple-600",
+    textColor: "text-black"
+  },
+  {
+    title: "R$ 0,00 líquido",
+    subtitle: "Meta mensal",
+    amount: "R$ 0,00", 
+    trend: "+15%",
+    isPositive: true,
+    color: "bg-gradient-to-r from-orange-400 to-orange-600",
+    textColor: "text-black"
   }
 ];

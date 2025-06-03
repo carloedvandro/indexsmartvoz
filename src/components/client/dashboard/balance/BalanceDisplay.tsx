@@ -10,7 +10,7 @@ export function BalanceDisplay({ isVisible, onToggleVisibility }: BalanceDisplay
   return (
     <div className="flex items-center gap-4 flex-1 md:flex-initial ml-2">
       <div className="flex flex-col">
-        <span className="text-sm text-gray-600">Saldo em conta</span>
+        <span className="text-sm text-black">Saldo em conta</span>
         <span className="text-xl font-semibold text-green-600">
           {isVisible ? 'R$ 269,18' : '***,**'}
         </span>

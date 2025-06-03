@@ -22,7 +22,10 @@ export const NetworkStatsGrid = () => {
         >
           <p className="text-sm font-medium" style={{ color: level.color }}>{level.title}</p>
           <p className="text-2xl font-bold mt-1" style={{ color: level.color }}>{level.value}</p>
-          <p className="text-xs text-gray-600 mt-1">{level.description}</p>
+          <div className="flex flex-col items-center mt-1">
+            <p className="text-xs text-black">{level.value} clientes</p>
+            <p className="text-xs text-black">0 cobranças</p>
+          </div>
         </motion.div>
       ))}
     </div>

@@ -1,35 +1,52 @@
 
-import { Link } from "react-router-dom";
-import { formatCurrency } from "@/utils/format";
-import { ArrowRight } from "lucide-react"; 
+import { motion } from "framer-motion";
 
 interface FinancialCardProps {
-  to: string;
-  bgColor: string;
-  hoverColor: string;
-  amount: number;
-  label: string;
+  title: string;
+  subtitle: string;
+  amount: string;
+  trend: string;
+  isPositive: boolean;
+  color: string;
+  textColor: string;
+  index: number;
 }
 
-export function FinancialCard({ 
-  to, 
-  bgColor, 
-  hoverColor,
+export const FinancialCard = ({ 
+  title, 
+  subtitle, 
   amount, 
-  label
-}: FinancialCardProps) {
+  trend, 
+  isPositive, 
+  color, 
+  textColor,
+  index 
+}: FinancialCardProps) => {
   return (
-    <Link 
-      to={to}
-      className={`${bgColor} rounded-xl px-5 py-6 flex flex-col text-white shadow-sm w-full h-full relative overflow-hidden`}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className={`${color} p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1`}
     >
-      <div className="flex items-center gap-3 mb-1">
-        <span className="text-3xl font-bold">{formatCurrency(amount)}</span>
+      <div className="flex flex-col space-y-2">
+        <h3 className={`text-lg font-bold ${textColor}`}>
+          {title}
+        </h3>
+        <p className={`text-sm opacity-90 ${textColor}`}>
+          {subtitle}
+        </p>
+        <div className="flex items-center justify-between">
+          <span className={`text-2xl font-bold ${textColor}`}>
+            {amount}
+          </span>
+          <span className={`text-sm font-medium px-2 py-1 rounded-full ${
+            isPositive ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'
+          }`}>
+            {trend}
+          </span>
+        </div>
       </div>
-      <div className="flex items-center justify-between">
-        <span className="text-lg">{label}</span>
-        <ArrowRight className="h-5 w-5" />
-      </div>
-    </Link>
+    </motion.div>
   );
-}
+};
