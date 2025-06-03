@@ -23,6 +23,13 @@ interface CNPJData {
   cep?: string;
 }
 
+interface CPFData {
+  nome?: string;
+  data_nascimento?: string;
+  cpf?: string;
+  situacao?: string;
+}
+
 // Estados com nomes completos e suas respectivas cidades principais
 const statesAndCities = {
   "Acre": ["Rio Branco", "Cruzeiro do Sul", "Sena Madureira", "Tarauacá", "Feijó"],
@@ -89,6 +96,7 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
   const personType = form.watch("person_type");
   const [documentValue, setDocumentValue] = useState(form.getValues("cnpj") || "");
   const [isLoadingCNPJ, setIsLoadingCNPJ] = useState(false);
+  const [isLoadingCPF, setIsLoadingCPF] = useState(false);
 
   const fetchCNPJData = async (cnpj: string): Promise<CNPJData | null> => {
     try {
@@ -99,6 +107,23 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
       return null;
     } catch (error) {
       console.error("Erro ao buscar dados do CNPJ:", error);
+      return null;
+    }
+  };
+
+  const fetchCPFData = async (cpf: string): Promise<CPFData | null> => {
+    try {
+      // Usando a API da ReceitaWS para consulta de CPF
+      const response = await fetch(`https://www.receitaws.com.br/v1/cpf/${cpf}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.status === "OK") {
+          return data;
+        }
+      }
+      return null;
+    } catch (error) {
+      console.error("Erro ao buscar dados do CPF:", error);
       return null;
     }
   };
@@ -117,6 +142,30 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
           form.setError("cnpj", { message: "CPF inválido" });
         } else {
           form.clearErrors("cnpj");
+          // Buscar dados do CPF automaticamente
+          setIsLoadingCPF(true);
+          try {
+            const cpfData = await fetchCPFData(cleanValue);
+            if (cpfData) {
+              // Preencher nome completo com capitalização
+              if (cpfData.nome) {
+                form.setValue("full_name", capitalizeWords(cpfData.nome));
+              }
+              
+              // Preencher data de nascimento se disponível
+              if (cpfData.data_nascimento) {
+                // Converter formato da data de DD/MM/YYYY para YYYY-MM-DD
+                const [day, month, year] = cpfData.data_nascimento.split('/');
+                if (day && month && year) {
+                  form.setValue("birth_date", `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`);
+                }
+              }
+            }
+          } catch (error) {
+            console.error("Erro ao buscar dados do CPF:", error);
+          } finally {
+            setIsLoadingCPF(false);
+          }
         }
       }
     } else {
@@ -198,6 +247,8 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
     const value = capitalizeWords(e.target.value);
     form.setValue("full_name", value);
   };
+
+  const isLoadingDocument = isLoadingCPF || isLoadingCNPJ;
 
   return (
     <div className="space-y-4">
@@ -300,9 +351,9 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
                 placeholder={personType === "Pessoa Física" ? "000.000.000-00" : "00.000.000/0000-00"}
                 maxLength={personType === "Pessoa Física" ? 14 : 18}
-                disabled={isLoadingCNPJ}
+                disabled={isLoadingDocument}
               />
-              {isLoadingCNPJ && (
+              {isLoadingDocument && (
                 <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
                   <div className="animate-spin h-4 w-4 border-2 border-teal-500 border-t-transparent rounded-full"></div>
                 </div>
@@ -311,6 +362,11 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
             {form.formState.errors.cnpj && (
               <p className="text-red-500 text-xs mt-1">
                 {String(form.formState.errors.cnpj.message || "Campo obrigatório")}
+              </p>
+            )}
+            {isLoadingCPF && (
+              <p className="text-blue-500 text-xs mt-1">
+                Buscando dados do CPF...
               </p>
             )}
             {isLoadingCNPJ && (
