@@ -50,7 +50,7 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: U
                   <p className="text-sm font-medium text-gray-800">{item.title}</p>
                 </div>
                 {item.items && (
-                  <div className="ml-4 mb-2">
+                  <div className="mb-2">
                     {item.items.map((subItem) => (
                       <Link
                         key={subItem.title}
