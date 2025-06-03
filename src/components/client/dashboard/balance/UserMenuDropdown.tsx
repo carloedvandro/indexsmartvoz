@@ -16,7 +16,7 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: U
   return (
     <div className="relative">
       <button 
-        className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+        className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
         onClick={onToggleUserMenu}
         title="Menu do usuário"
       >
@@ -47,7 +47,7 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: U
             {menuItems.map((item) => (
               <div key={item.title}>
                 <div className="px-4 py-2">
-                  <p className="text-sm font-medium text-gray-800">{item.title}</p>
+                  <p className="text-base font-bold text-black">{item.title}</p>
                 </div>
                 {item.items && (
                   <div className="mb-2">
