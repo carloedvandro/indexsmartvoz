@@ -119,23 +119,33 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: U
               Meu Perfil
             </Link>
             
-            {/* Configurações Section with Profile Menu Items */}
+            {/* Configurações Section with expandable menu */}
             <div>
-              <div className="px-4 py-2">
+              <div 
+                className="px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-gray-50"
+                onClick={() => toggleSubmenu('Configurações')}
+              >
                 <p className="text-base font-bold text-black">Configurações</p>
+                <ChevronRight 
+                  className={`h-4 w-4 text-gray-500 transition-transform ${
+                    expandedMenus.includes('Configurações') ? 'rotate-90' : ''
+                  }`} 
+                />
               </div>
-              <div className="px-4 py-2 space-y-1">
-                {profileMenuItems.map((item) => (
-                  <Link
-                    key={item.title}
-                    to={item.href}
-                    className="flex items-center gap-3 px-2 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 rounded-md transition-colors"
-                  >
-                    <item.icon className="h-4 w-4 text-gray-500" />
-                    <span>{item.title}</span>
-                  </Link>
-                ))}
-              </div>
+              {expandedMenus.includes('Configurações') && (
+                <div className="px-4 py-2 space-y-1">
+                  {profileMenuItems.map((item) => (
+                    <Link
+                      key={item.title}
+                      to={item.href}
+                      className="flex items-center gap-3 px-2 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 rounded-md transition-colors"
+                    >
+                      <item.icon className="h-4 w-4 text-gray-500" />
+                      <span>{item.title}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
             
             <hr className="my-1" />
