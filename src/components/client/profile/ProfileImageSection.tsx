@@ -51,32 +51,34 @@ export function ProfileImageSection({ profile }: ProfileImageSectionProps) {
             </AvatarFallback>
           </Avatar>
           
-          <div className="text-center space-y-2">
+          <div className="text-center space-y-2 w-full">
             <h3 className="font-medium text-gray-900">{displayName}</h3>
             
-            <div className="flex items-center gap-3 w-full max-w-md">
+            <div className="flex flex-col sm:flex-row items-center gap-2 w-full">
               <input
                 type="text"
                 value="Escolha um arquivo"
                 readOnly
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-white text-sm text-gray-700"
+                className="flex-1 w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-md bg-white text-sm text-gray-700"
               />
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="text-xs px-3 py-2"
-                onClick={() => document.getElementById('image-upload')?.click()}
-              >
-                Procurar
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                className="bg-teal-600 hover:bg-teal-700 text-white text-xs px-3 py-2"
-              >
-                Enviar 📤
-              </Button>
+              <div className="flex gap-2 w-full sm:w-auto">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="text-xs px-3 py-2 flex-1 sm:flex-none"
+                  onClick={() => document.getElementById('image-upload')?.click()}
+                >
+                  Procurar
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  className="bg-teal-600 hover:bg-teal-700 text-white text-xs px-3 py-2 flex-1 sm:flex-none"
+                >
+                  Enviar 📤
+                </Button>
+              </div>
             </div>
             
             <input
