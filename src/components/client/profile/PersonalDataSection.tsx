@@ -1,10 +1,10 @@
-
 import { User } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { useState } from "react";
 import { cpfMask, cnpjMask, removeMask, cepMask } from "@/utils/masks";
 import { isValidCPF } from "@/utils/validation/cpfValidation";
 import { isValidCNPJ } from "@/utils/validation/documentValidation";
+import { capitalizeWords } from "@/utils/textFormat";
 
 interface PersonalDataSectionProps {
   form: UseFormReturn<any>;
@@ -133,9 +133,10 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
           try {
             const cnpjData = await fetchCNPJData(cleanValue);
             if (cnpjData) {
-              // Preencher campos automaticamente
+              // Preencher campos automaticamente com capitalização
               if (cnpjData.razao_social || cnpjData.nome_fantasia) {
-                form.setValue("full_name", cnpjData.razao_social || cnpjData.nome_fantasia || "");
+                const companyName = cnpjData.razao_social || cnpjData.nome_fantasia || "";
+                form.setValue("full_name", capitalizeWords(companyName));
               }
               
               if (cnpjData.data_inicio_atividade) {
@@ -146,9 +147,9 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
                 }
               }
 
-              // Preencher endereço se disponível
+              // Preencher endereço se disponível com capitalização
               if (cnpjData.logradouro) {
-                form.setValue("address", cnpjData.logradouro);
+                form.setValue("address", capitalizeWords(cnpjData.logradouro));
               }
               
               if (cnpjData.numero) {
@@ -156,7 +157,7 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
               }
               
               if (cnpjData.bairro) {
-                form.setValue("neighborhood", cnpjData.bairro);
+                form.setValue("neighborhood", capitalizeWords(cnpjData.bairro));
               }
               
               if (cnpjData.municipio) {
@@ -192,6 +193,12 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
     form.setValue("cnpj", cleanValue);
   };
 
+  // Função para lidar com mudanças no campo nome completo
+  const handleFullNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = capitalizeWords(e.target.value);
+    form.setValue("full_name", value);
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2 pb-2 border-b border-gray-200">
@@ -205,7 +212,8 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
             Nome completo <span className="text-red-500">*</span>
           </label>
           <input
-            {...form.register("full_name")}
+            value={form.watch("full_name") || ""}
+            onChange={handleFullNameChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
             placeholder="Nome completo"
           />
