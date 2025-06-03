@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -45,7 +46,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               </span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-80 bg-white p-0">
+          <DropdownMenuContent align="start" className="bg-white p-0" style={{ width: '420px' }}>
             {menuItems.map((item) => (
               <div key={item.title}>
                 {item.href ? (
