@@ -11,14 +11,8 @@ export function BankingHeader({ onBack }: BankingHeaderProps) {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    try {
-      // Tenta usar o onBack passado como prop primeiro
-      onBack();
-    } catch (error) {
-      // Se falhar, navega diretamente para o perfil
-      console.log("Erro ao voltar, navegando para perfil:", error);
-      navigate("/client/profile");
-    }
+    console.log("BankingHeader: Clique no botão voltar");
+    navigate("/client/profile");
   };
 
   return (

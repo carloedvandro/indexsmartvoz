@@ -11,8 +11,7 @@ export default function ClientBanking() {
   const { data: profile, isLoading } = useProfile();
 
   const handleBack = () => {
-    console.log("Voltando para o perfil...");
-    // Navega diretamente para a página de perfil
+    console.log("ClientBanking: Voltando para o perfil...");
     navigate("/client/profile");
   };
 
