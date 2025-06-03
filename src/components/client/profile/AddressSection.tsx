@@ -1,7 +1,7 @@
 
 import { MapPin } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cepMask, removeMask } from "@/utils/masks";
 import { fetchCepData } from "@/services/cepService";
 import { useToast } from "@/hooks/use-toast";
@@ -111,6 +111,27 @@ export function AddressSection({ form }: AddressSectionProps) {
   
   const selectedState = form.watch("state");
   const cities = selectedState ? statesAndCities[selectedState as keyof typeof statesAndCities] || [] : [];
+
+  // Escutar mudanças no CEP vindas do CNPJ
+  useEffect(() => {
+    const handleCepUpdate = () => {
+      const currentCep = form.getValues("zip_code");
+      if (currentCep) {
+        setCepValue(cepMask(currentCep));
+      }
+    };
+
+    window.addEventListener('cep-update', handleCepUpdate);
+    return () => window.removeEventListener('cep-update', handleCepUpdate);
+  }, [form]);
+
+  // Também escutar mudanças diretas no formulário
+  useEffect(() => {
+    const currentCep = form.watch("zip_code");
+    if (currentCep && currentCep !== removeMask(cepValue)) {
+      setCepValue(cepMask(currentCep));
+    }
+  }, [form.watch("zip_code")]);
 
   const handleCepChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

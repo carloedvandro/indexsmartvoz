@@ -2,7 +2,7 @@
 import { User } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { useState } from "react";
-import { cpfMask, cnpjMask, removeMask } from "@/utils/masks";
+import { cpfMask, cnpjMask, removeMask, cepMask } from "@/utils/masks";
 import { isValidCPF } from "@/utils/validation/cpfValidation";
 import { isValidCNPJ } from "@/utils/validation/documentValidation";
 
@@ -22,6 +22,68 @@ interface CNPJData {
   uf?: string;
   cep?: string;
 }
+
+// Estados com nomes completos e suas respectivas cidades principais
+const statesAndCities = {
+  "Acre": ["Rio Branco", "Cruzeiro do Sul", "Sena Madureira", "Tarauacá", "Feijó"],
+  "Alagoas": ["Maceió", "Arapiraca", "Palmeira dos Índios", "Rio Largo", "Penedo"],
+  "Amapá": ["Macapá", "Santana", "Laranjal do Jari", "Oiapoque", "Mazagão"],
+  "Amazonas": ["Manaus", "Parintins", "Itacoatiara", "Manacapuru", "Coari"],
+  "Bahia": ["Salvador", "Feira de Santana", "Vitória da Conquista", "Camaçari", "Juazeiro", "Ilhéus", "Itabuna", "Lauro de Freitas"],
+  "Ceará": ["Fortaleza", "Caucaia", "Juazeiro do Norte", "Maracanaú", "Sobral", "Crato", "Itapipoca"],
+  "Distrito Federal": ["Brasília", "Gama", "Taguatinga", "Ceilândia", "Sobradinho"],
+  "Espírito Santo": ["Vitória", "Vila Velha", "Cariacica", "Serra", "Cachoeiro de Itapemirim", "Linhares"],
+  "Goiás": ["Goiânia", "Aparecida de Goiânia", "Anápolis", "Rio Verde", "Luziânia", "Águas Lindas de Goiás"],
+  "Maranhão": ["São Luís", "Imperatriz", "São José de Ribamar", "Timon", "Caxias", "Codó"],
+  "Mato Grosso": ["Cuiabá", "Várzea Grande", "Rondonópolis", "Sinop", "Tangará da Serra", "Cáceres"],
+  "Mato Grosso do Sul": ["Campo Grande", "Dourados", "Três Lagoas", "Corumbá", "Ponta Porã", "Naviraí"],
+  "Minas Gerais": ["Belo Horizonte", "Uberlândia", "Contagem", "Juiz de Fora", "Betim", "Montes Claros", "Ribeirão das Neves", "Uberaba"],
+  "Pará": ["Belém", "Ananindeua", "Santarém", "Marabá", "Parauapebas", "Castanhal"],
+  "Paraíba": ["João Pessoa", "Campina Grande", "Santa Rita", "Patos", "Bayeux", "Sousa"],
+  "Paraná": ["Curitiba", "Londrina", "Maringá", "Ponta Grossa", "Cascavel", "São José dos Pinhais", "Foz do Iguaçu"],
+  "Pernambuco": ["Recife", "Jaboatão dos Guararapes", "Olinda", "Bandeira do Marco", "Caruaru", "Petrolina", "Paulista"],
+  "Piauí": ["Teresina", "Parnaíba", "Picos", "Piripiri", "Floriano", "Campo Maior"],
+  "Rio de Janeiro": ["Rio de Janeiro", "São Gonçalo", "Duque de Caxias", "Nova Iguaçu", "Niterói", "Belford Roxo", "Campos dos Goytacazes"],
+  "Rio Grande do Norte": ["Natal", "Mossoró", "Parnamirim", "São Gonçalo do Amarante", "Macaíba", "Ceará-Mirim"],
+  "Rio Grande do Sul": ["Porto Alegre", "Caxias do Sul", "Pelotas", "Canoas", "Santa Maria", "Gravataí", "Viamão"],
+  "Rondônia": ["Porto Velho", "Ji-Paraná", "Ariquemes", "Vilhena", "Cacoal", "Rolim de Moura"],
+  "Roraima": ["Boa Vista", "Rorainópolis", "Caracaraí", "Alto Alegre", "Mucajaí"],
+  "Santa Catarina": ["Florianópolis", "Joinville", "Blumenau", "São José", "Criciúma", "Chapecó", "Itajaí"],
+  "São Paulo": ["São Paulo", "Guarulhos", "Campinas", "São Bernardo do Campo", "Santo André", "Osasco", "Ribeirão Preto", "Sorocaba"],
+  "Sergipe": ["Aracaju", "Nossa Senhora do Socorro", "Lagarto", "Itabaiana", "Estância", "Tobias Barreto"],
+  "Tocantins": ["Palmas", "Araguaína", "Gurupi", "Porto Nacional", "Paraíso do Tocantins", "Colinas do Tocantins"]
+};
+
+// Mapeamento para converter abreviações para nomes completos
+const abbreviationToFullName: { [key: string]: string } = {
+  "AC": "Acre",
+  "AL": "Alagoas",
+  "AP": "Amapá",
+  "AM": "Amazonas",
+  "BA": "Bahia",
+  "CE": "Ceará",
+  "DF": "Distrito Federal",
+  "ES": "Espírito Santo",
+  "GO": "Goiás",
+  "MA": "Maranhão",
+  "MT": "Mato Grosso",
+  "MS": "Mato Grosso do Sul",
+  "MG": "Minas Gerais",
+  "PA": "Pará",
+  "PB": "Paraíba",
+  "PR": "Paraná",
+  "PE": "Pernambuco",
+  "PI": "Piauí",
+  "RJ": "Rio de Janeiro",
+  "RN": "Rio Grande do Norte",
+  "RS": "Rio Grande do Sul",
+  "RO": "Rondônia",
+  "RR": "Roraima",
+  "SC": "Santa Catarina",
+  "SP": "São Paulo",
+  "SE": "Sergipe",
+  "TO": "Tocantins"
+};
 
 export function PersonalDataSection({ form }: PersonalDataSectionProps) {
   const personType = form.watch("person_type");
@@ -102,11 +164,19 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
               }
               
               if (cnpjData.uf) {
-                form.setValue("state", cnpjData.uf);
+                // Converter abreviação para nome completo
+                const fullStateName = abbreviationToFullName[cnpjData.uf];
+                if (fullStateName) {
+                  form.setValue("state", fullStateName);
+                }
               }
               
               if (cnpjData.cep) {
-                form.setValue("zip_code", cnpjData.cep.replace(/\D/g, ''));
+                const cleanCep = cnpjData.cep.replace(/\D/g, '');
+                form.setValue("zip_code", cleanCep);
+                // Disparar evento para atualizar o campo CEP na interface
+                const event = new Event('cep-update');
+                window.dispatchEvent(event);
               }
             }
           } catch (error) {
