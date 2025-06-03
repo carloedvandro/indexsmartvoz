@@ -37,14 +37,14 @@ export function BankingForm({ profile }: BankingFormProps) {
     resolver: zodResolver(bankingSchema),
     defaultValues: {
       bank_name: profile.bank_name || "",
-      account_type: "Conta Corrente",
-      agency_number: "",
-      agency_digit: "",
+      account_type: profile.account_type || "Conta Corrente",
+      agency_number: profile.agency_number || "",
+      agency_digit: profile.agency_digit || "",
       account_number: profile.account_number || "",
-      account_digit: "",
+      account_digit: profile.account_digit || "",
       account_name: profile.account_name || profile.full_name || "",
-      cpf_cnpj: profile.cpf || "",
-      security_password: "",
+      cpf_cnpj: profile.cpf_cnpj || profile.cpf || "",
+      security_password: profile.security_password || "",
     },
   });
 
