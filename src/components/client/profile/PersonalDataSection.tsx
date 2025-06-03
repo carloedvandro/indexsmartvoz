@@ -7,6 +7,8 @@ interface PersonalDataSectionProps {
 }
 
 export function PersonalDataSection({ form }: PersonalDataSectionProps) {
+  const personType = form.watch("person_type");
+
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2 pb-2 border-b border-gray-200">
@@ -58,7 +60,7 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
         
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Data de abertura <span className="text-red-500">*</span>
+            {personType === "Pessoa Física" ? "Data de nascimento" : "Data de abertura"} <span className="text-red-500">*</span>
           </label>
           <input
             {...form.register("birth_date")}
@@ -69,12 +71,12 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
         
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            CNPJ <span className="text-red-500">*</span>
+            {personType === "Pessoa Física" ? "CPF" : "CNPJ"} <span className="text-red-500">*</span>
           </label>
           <input
             {...form.register("cnpj")}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
-            placeholder="__.___.___/____-__"
+            placeholder={personType === "Pessoa Física" ? "___.___.___-__" : "__.___.___/____-__"}
           />
         </div>
       </div>
