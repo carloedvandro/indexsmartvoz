@@ -51,7 +51,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               <div key={item.title}>
                 {item.href ? (
                   <DropdownMenuItem asChild>
-                    <Link to={item.href} className="w-full whitespace-nowrap flex items-center justify-start text-left">
+                    <Link to={item.href} className="w-full whitespace-nowrap flex items-center justify-start text-left pl-0">
                       <div className="flex items-center">
                         {item.icon && item.icon !== "home" && renderIcon(item.icon)}
                         <span>{item.title}</span>
@@ -59,7 +59,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                     </Link>
                   </DropdownMenuItem>
                 ) : (
-                  <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap flex items-center justify-start text-left">
+                  <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap flex items-center justify-start text-left pl-0">
                     {item.title !== "Loja Virtual" && item.title !== "Rede" && (
                       item.icon && renderIcon(item.icon)
                     )}
@@ -73,7 +73,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                       <DropdownMenuItem key={subItem.title} asChild>
                         <Link 
                           to={subItem.href || "#"} 
-                          className="w-full text-sm py-1 whitespace-nowrap flex items-center justify-start text-left pl-4"
+                          className="w-full text-sm py-1 whitespace-nowrap flex items-center justify-start text-left pl-0"
                         >
                           <div className="flex items-center">
                             {subItem.icon && renderIcon(subItem.icon)}
