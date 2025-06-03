@@ -1,53 +1,24 @@
 
-import { useState } from 'react';
 import { Bell } from 'lucide-react';
 
 interface NotificationDropdownProps {
   showNotifications: boolean;
   onToggleNotifications: () => void;
+  notifications: Array<{
+    id: number;
+    message: string;
+    time: string;
+    type: string;
+  }>;
+  notificationCount: number;
 }
 
-export function NotificationDropdown({ showNotifications, onToggleNotifications }: NotificationDropdownProps) {
-  // Estado para controlar se as notificações foram lidas
-  const [hasUnreadNotifications, setHasUnreadNotifications] = useState(true);
-
-  // Simular notificações (em um projeto real, isso viria de uma API)
-  const notifications = [
-    {
-      id: 1,
-      message: "Nova venda realizada - R$ 45,00",
-      time: "Há 2 minutos",
-      type: "sale"
-    },
-    {
-      id: 2,
-      message: "Bonificação creditada - R$ 12,50",
-      time: "Há 1 hora",
-      type: "bonus"
-    },
-    {
-      id: 3,
-      message: "Novo membro na sua rede",
-      time: "Há 3 horas",
-      type: "network"
-    }
-  ];
-
-  const notificationCount = hasUnreadNotifications ? notifications.length : 0;
-
-  const handleToggleNotifications = () => {
-    onToggleNotifications();
-    // Quando clica no sino, marca as notificações como lidas
-    if (!showNotifications && hasUnreadNotifications) {
-      setHasUnreadNotifications(false);
-    }
-  };
-
+export function NotificationDropdown({ showNotifications, onToggleNotifications, notifications, notificationCount }: NotificationDropdownProps) {
   return (
     <div className="relative" style={{ marginRight: '2px' }}>
       <button 
         className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative cursor-pointer"
-        onClick={handleToggleNotifications}
+        onClick={onToggleNotifications}
         title="Notificações"
       >
         <Bell className="h-5 w-5 text-gray-500" />

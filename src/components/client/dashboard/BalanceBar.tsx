@@ -16,10 +16,12 @@ export function BalanceBar() {
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   const {
+    isBalanceVisible,
     totalBalance,
     availableBalance,
     notifications,
-    notificationCount
+    notificationCount,
+    toggleBalanceVisibility
   } = useBalanceBarLogic();
 
   const handleLogout = async () => {
@@ -71,6 +73,8 @@ export function BalanceBar() {
         <BalanceDisplay 
           totalBalance={totalBalance}
           availableBalance={availableBalance}
+          isVisible={isBalanceVisible}
+          onToggleVisibility={toggleBalanceVisibility}
         />
 
         <div className="flex items-center gap-4">

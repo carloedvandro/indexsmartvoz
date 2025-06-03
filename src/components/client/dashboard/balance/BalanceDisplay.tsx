@@ -2,17 +2,19 @@
 import { EyeOff, Eye } from 'lucide-react';
 
 interface BalanceDisplayProps {
+  totalBalance: number;
+  availableBalance: number;
   isVisible: boolean;
   onToggleVisibility: () => void;
 }
 
-export function BalanceDisplay({ isVisible, onToggleVisibility }: BalanceDisplayProps) {
+export function BalanceDisplay({ totalBalance, availableBalance, isVisible, onToggleVisibility }: BalanceDisplayProps) {
   return (
     <div className="flex items-center gap-4 flex-1 md:flex-initial ml-2">
       <div className="flex flex-col">
         <span className="text-sm text-black">Saldo em conta</span>
         <span className="text-xl font-semibold text-green-600">
-          {isVisible ? 'R$ 269,18' : '***,**'}
+          {isVisible ? `R$ ${totalBalance.toFixed(2).replace('.', ',')}` : '***,**'}
         </span>
       </div>
       <button 
