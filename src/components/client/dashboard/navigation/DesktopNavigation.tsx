@@ -46,12 +46,12 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
               </span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-80 bg-white p-2">
+          <DropdownMenuContent align="start" className="w-80 bg-white p-0">
             {otherItems.map((item) => (
               <div key={item.title}>
                 {item.href ? (
-                  <DropdownMenuItem asChild>
-                    <Link to={item.href} className="w-full whitespace-nowrap flex items-center justify-start text-left pl-0">
+                  <DropdownMenuItem asChild className="px-2 py-1.5">
+                    <Link to={item.href} className="w-full whitespace-nowrap flex items-center text-left">
                       <div className="flex items-center">
                         {item.icon && item.icon !== "home" && renderIcon(item.icon)}
                         <span>{item.title}</span>
@@ -59,7 +59,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                     </Link>
                   </DropdownMenuItem>
                 ) : (
-                  <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap flex items-center justify-start text-left pl-0">
+                  <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap flex items-center text-left px-2 py-1.5">
                     {item.title !== "Loja Virtual" && item.title !== "Rede" && (
                       item.icon && renderIcon(item.icon)
                     )}
@@ -68,12 +68,12 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                 )}
                 
                 {item.items && (
-                  <div className="ml-0 mt-1 space-y-1">
+                  <div className="space-y-1">
                     {item.items.map((subItem) => (
-                      <DropdownMenuItem key={subItem.title} asChild>
+                      <DropdownMenuItem key={subItem.title} asChild className="px-2 py-1">
                         <Link 
                           to={subItem.href || "#"} 
-                          className="w-full text-sm py-1 whitespace-nowrap flex items-center justify-start text-left pl-0"
+                          className="w-full text-sm whitespace-nowrap flex items-center text-left"
                         >
                           <div className="flex items-center">
                             {subItem.icon && renderIcon(subItem.icon)}
