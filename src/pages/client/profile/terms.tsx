@@ -1,4 +1,3 @@
-
 import { useProfile } from "@/hooks/useProfile";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,7 +9,7 @@ export default function ClientTerms() {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate("/client/profile");
+    navigate(-1);
   };
 
   return (
