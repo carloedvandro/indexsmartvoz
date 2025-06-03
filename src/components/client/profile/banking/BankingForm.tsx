@@ -55,6 +55,12 @@ export function BankingForm({ profile }: BankingFormProps) {
         bank_name: data.bank_name,
         account_number: data.account_number,
         account_name: data.account_name,
+        agency_number: data.agency_number,
+        agency_digit: data.agency_digit,
+        account_digit: data.account_digit,
+        account_type: data.account_type,
+        cpf_cnpj: data.cpf_cnpj,
+        security_password: data.security_password,
       });
 
       toast({

@@ -21,6 +21,12 @@ export type UpdateProfileData = Partial<{
   bank_name: string;
   account_number: string;
   account_name: string;
+  agency_number: string;
+  agency_digit: string;
+  account_digit: string;
+  account_type: string;
+  cpf_cnpj: string;
+  security_password: string;
 }>;
 
 export const updateProfile = async (id: string, data: UpdateProfileData) => {
