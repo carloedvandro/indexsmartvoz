@@ -1,5 +1,5 @@
 
-import { User, ChevronDown, Building2, FileText, KeyRound, Shield, ChevronRight } from 'lucide-react';
+import { User, ChevronDown, Building2, FileText, KeyRound, Shield, ChevronRight, UserCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { navigationItems } from '../navigation/NavigationItems';
@@ -16,8 +16,13 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: U
   // Filter out the home item and get other navigation items
   const menuItems = navigationItems.filter(item => item.icon !== "home");
 
-  // Profile menu items for configurations section
+  // Profile menu items for configurations section (including Meu Perfil)
   const profileMenuItems = [
+    {
+      title: "Meu Perfil",
+      icon: UserCircle,
+      href: "/client/profile",
+    },
     {
       title: "Conta Bancária",
       icon: Building2,
@@ -111,13 +116,6 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: U
             ))}
             
             <hr className="my-1" />
-            
-            <Link
-              to="/client/profile"
-              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 block"
-            >
-              Meu Perfil
-            </Link>
             
             {/* Configurações Section with expandable menu */}
             <div>
