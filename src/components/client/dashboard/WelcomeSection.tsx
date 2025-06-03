@@ -11,6 +11,6 @@ export function WelcomeSection({ profile }: WelcomeSectionProps) {
   const fullName = profile.full_name || "Usuário";
   
   return (
-    <h1 className="text-3xl font-bold text-[#0E1C36] ml-[22px]">Olá, {fullName}</h1>
+    <h1 className="text-2xl font-bold text-[#0E1C36] ml-[22px]">Olá, {fullName}</h1>
   );
 }
