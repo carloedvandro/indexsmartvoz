@@ -46,7 +46,7 @@ export function DashboardHeader() {
   return (
     <header className="w-full bg-background border-b h-14">
       <div className="container relative flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center h-full py-0">
-        <div className="flex lg:justify-center order-1 lg:order-2 flex-1 lg:ml-0">
+        <div className="flex lg:justify-center order-1 lg:order-2 flex-1 lg:ml-0" style={{ marginTop: '5px' }}>
           <span className="text-xl font-bold">Menu</span>
         </div>
         <DesktopNavigation navigationItems={navigationItems} />
