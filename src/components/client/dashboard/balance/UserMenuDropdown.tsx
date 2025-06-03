@@ -1,3 +1,4 @@
+
 import { User, ChevronDown, Building2, FileText, KeyRound, Shield, ChevronRight, UserCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -83,7 +84,7 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
                 alt="Home" 
                 className="h-[30px] w-auto" 
               />
-              <span className="text-base font-bold text-black">Home</span>
+              <span className="text-base font-medium text-black">Home</span>
             </Link>
             
             <hr className="my-1" />
@@ -95,7 +96,7 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
                   className="px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-gray-50"
                   onClick={() => item.items && toggleSubmenu(item.title)}
                 >
-                  <p className="text-base font-bold text-black">{item.title}</p>
+                  <p className="text-base font-medium text-black">{item.title}</p>
                   {item.items && (
                     <ChevronRight 
                       className={`h-4 w-4 text-gray-500 transition-transform ${
@@ -128,7 +129,7 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
                 className="px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-gray-50"
                 onClick={() => toggleSubmenu('Configurações')}
               >
-                <p className="text-base font-bold text-black">Configurações</p>
+                <p className="text-base font-medium text-black">Configurações</p>
                 <ChevronRight 
                   className={`h-4 w-4 text-gray-500 transition-transform ${
                     expandedMenus.includes('Configurações') ? 'rotate-90' : ''
