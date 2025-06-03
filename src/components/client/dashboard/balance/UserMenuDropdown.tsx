@@ -67,9 +67,12 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: U
             
             <hr className="my-1" />
             
-            <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            <Link
+              to="/client/profile"
+              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 block"
+            >
               Meu Perfil
-            </button>
+            </Link>
             <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
               Configurações
             </button>
