@@ -10,7 +10,7 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
   return (
     <div className="relative" style={{ marginRight: '2px' }}>
       <button 
-        className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative"
+        className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative cursor-pointer"
         onClick={onToggleNotifications}
         title="Notificações"
       >
