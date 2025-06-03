@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -156,24 +157,26 @@ export function BankingForm({ profile }: BankingFormProps) {
   ];
 
   return (
-    <div className="flex items-center gap-2 mb-6">
-      <div className="w-8 h-8 bg-gray-100 rounded flex items-center justify-center">
-        🏛️
+    <div className="max-w-2xl mx-auto px-4 py-6">
+      <div className="flex items-center gap-3 mb-8 justify-center">
+        <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+          🏛️
+        </div>
+        <h2 className="text-xl font-semibold text-gray-900">Conta Bancária</h2>
       </div>
-      <h2 className="text-xl font-semibold text-gray-900">Conta Bancária</h2>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-6">
             <FormField
               control={form.control}
               name="bank_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome do Banco</FormLabel>
+                  <FormLabel className="text-base font-medium">Nome do Banco</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="h-12">
                         <SelectValue placeholder="Selecione o banco" />
                       </SelectTrigger>
                     </FormControl>
@@ -195,10 +198,10 @@ export function BankingForm({ profile }: BankingFormProps) {
               name="account_type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tipo de Conta</FormLabel>
+                  <FormLabel className="text-base font-medium">Tipo de Conta</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="h-12">
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
@@ -213,15 +216,15 @@ export function BankingForm({ profile }: BankingFormProps) {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 gap-4">
             <FormField
               control={form.control}
               name="agency_number"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Número da Agência</FormLabel>
+                  <FormLabel className="text-base font-medium">Número da Agência</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="8217" />
+                    <Input {...field} placeholder="8217" className="h-12" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -233,9 +236,9 @@ export function BankingForm({ profile }: BankingFormProps) {
               name="agency_digit"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Dígito</FormLabel>
+                  <FormLabel className="text-base font-medium">Dígito</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="" />
+                    <Input {...field} placeholder="" className="h-12" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -243,15 +246,15 @@ export function BankingForm({ profile }: BankingFormProps) {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 gap-4">
             <FormField
               control={form.control}
               name="account_number"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Número da Conta</FormLabel>
+                  <FormLabel className="text-base font-medium">Número da Conta</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="18280" />
+                    <Input {...field} placeholder="18280" className="h-12" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -263,9 +266,9 @@ export function BankingForm({ profile }: BankingFormProps) {
               name="account_digit"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Dígito</FormLabel>
+                  <FormLabel className="text-base font-medium">Dígito</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="0" />
+                    <Input {...field} placeholder="0" className="h-12" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -278,9 +281,9 @@ export function BankingForm({ profile }: BankingFormProps) {
             name="account_name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Titular da Conta</FormLabel>
+                <FormLabel className="text-base font-medium">Titular da Conta</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Roberto Silva" />
+                  <Input {...field} placeholder="Roberto Silva" className="h-12" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -292,9 +295,9 @@ export function BankingForm({ profile }: BankingFormProps) {
             name="cpf_cnpj"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>CPF/CNPJ</FormLabel>
+                <FormLabel className="text-base font-medium">CPF/CNPJ</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="" />
+                  <Input {...field} placeholder="" className="h-12" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -306,15 +309,16 @@ export function BankingForm({ profile }: BankingFormProps) {
             name="security_password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Senha de Segurança</FormLabel>
+                <FormLabel className="text-base font-medium">Senha de Segurança</FormLabel>
                 <FormControl>
                   <Input 
                     {...field} 
                     type="password" 
                     placeholder=""
+                    className="h-12"
                   />
                 </FormControl>
-                <div className="text-right">
+                <div className="text-right mt-2">
                   <button 
                     type="button"
                     className="text-sm text-gray-500 hover:text-gray-700"
@@ -328,11 +332,11 @@ export function BankingForm({ profile }: BankingFormProps) {
             )}
           />
 
-          <div className="flex justify-end">
+          <div className="pt-6">
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="bg-teal-500 hover:bg-teal-600 text-white px-8"
+              className="w-full bg-teal-500 hover:bg-teal-600 text-white h-12 text-base font-medium"
             >
               {isSubmitting ? "Salvando..." : "Salvar alterações"}
             </Button>

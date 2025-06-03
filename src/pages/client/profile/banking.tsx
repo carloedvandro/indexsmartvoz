@@ -23,11 +23,9 @@ export default function ClientBanking() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-50">
       <BankingHeader onBack={() => navigate(-1)} />
-      <div className="px-4 py-6">
-        <BankingForm profile={profile} />
-      </div>
+      <BankingForm profile={profile} />
     </div>
   );
 }
