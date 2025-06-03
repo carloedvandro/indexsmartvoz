@@ -1,6 +1,7 @@
 
-import { User, ChevronDown, Building2, FileText, KeyRound, Shield } from 'lucide-react';
+import { User, ChevronDown, Building2, FileText, KeyRound, Shield, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { navigationItems } from '../navigation/NavigationItems';
 
 interface UserMenuDropdownProps {
@@ -10,6 +11,8 @@ interface UserMenuDropdownProps {
 }
 
 export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: UserMenuDropdownProps) {
+  const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
+
   // Filter out the home item and get other navigation items
   const menuItems = navigationItems.filter(item => item.icon !== "home");
 
@@ -36,6 +39,14 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: U
       href: "/client/profile/security-password",
     },
   ];
+
+  const toggleSubmenu = (menuTitle: string) => {
+    setExpandedMenus(prev => 
+      prev.includes(menuTitle) 
+        ? prev.filter(title => title !== menuTitle)
+        : [...prev, menuTitle]
+    );
+  };
 
   return (
     <div className="relative">
@@ -70,16 +81,26 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: U
             {/* Menu Items */}
             {menuItems.map((item) => (
               <div key={item.title}>
-                <div className="px-4 py-2">
+                <div 
+                  className="px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-gray-50"
+                  onClick={() => item.items && toggleSubmenu(item.title)}
+                >
                   <p className="text-base font-bold text-black">{item.title}</p>
+                  {item.items && (
+                    <ChevronRight 
+                      className={`h-4 w-4 text-gray-500 transition-transform ${
+                        expandedMenus.includes(item.title) ? 'rotate-90' : ''
+                      }`} 
+                    />
+                  )}
                 </div>
-                {item.items && (
+                {item.items && expandedMenus.includes(item.title) && (
                   <div className="mb-2">
                     {item.items.map((subItem) => (
                       <Link
                         key={subItem.title}
                         to={subItem.href || "#"}
-                        className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800"
+                        className="block px-6 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800"
                       >
                         {subItem.title}
                       </Link>
