@@ -14,7 +14,7 @@ export function RegionRanking({ regionsData, formatNumber, setActiveRegion }: Re
     <div style={{ marginTop: '15px' }}>
       <h4 className="text-lg font-medium text-gray-800 mb-4 flex items-center gap-2">
         <span>🏆</span>
-        Ranking de Vendas
+        <span className="font-bold">Ranking de Vendas</span>
       </h4>
       <div className="space-y-3" style={{ marginLeft: '-7px' }}>
         {Object.entries(regionsData)
