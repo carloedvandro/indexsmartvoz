@@ -1,9 +1,9 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { ProfileImageSection } from "./ProfileImageSection";
 import { PersonalDataSection } from "./PersonalDataSection";
 import { ContactSection } from "./ContactSection";
@@ -132,10 +132,10 @@ export function ProfileForm({ profile }: ProfileFormProps) {
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       <ProfileImageSection profile={profile} />
       
-      <div className="p-6 space-y-6">
+      <div className="px-2 sm:px-6 py-6 space-y-6">
         <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="w-full">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Patrocinador
               </label>
@@ -145,7 +145,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
               />
             </div>
             
-            <div>
+            <div className="w-full">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Usuário <span className="text-red-500">*</span>
               </label>
@@ -170,7 +170,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           <Button
             type="submit"
             disabled={isLoading}
-            className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-2 rounded-md"
+            className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-2 rounded-md w-full sm:w-auto"
           >
             {isLoading ? "Salvando..." : "Solicitar alteração"}
           </Button>

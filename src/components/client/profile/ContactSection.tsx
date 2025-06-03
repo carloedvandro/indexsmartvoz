@@ -51,8 +51,8 @@ export function ContactSection({ form }: ContactSectionProps) {
         <h3 className="text-lg font-medium text-gray-700">Contato</h3>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             WhatsApp <span className="text-red-500">*</span>
           </label>
@@ -70,7 +70,7 @@ export function ContactSection({ form }: ContactSectionProps) {
           )}
         </div>
 
-        <div>
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             WhatsApp <span className="text-red-500">*</span>
           </label>

@@ -54,8 +54,8 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
         <h3 className="text-lg font-medium text-gray-700">Dados Pessoais</h3>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="md:col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="lg:col-span-2 w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Nome completo <span className="text-red-500">*</span>
           </label>
@@ -71,7 +71,7 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
           )}
         </div>
         
-        <div>
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Tipo de pessoa <span className="text-red-500">*</span>
           </label>
@@ -102,7 +102,7 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
           )}
         </div>
         
-        <div>
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             {personType === "Pessoa Física" ? "Data de nascimento" : "Data de abertura"} <span className="text-red-500">*</span>
           </label>
@@ -118,7 +118,7 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
           )}
         </div>
         
-        <div>
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             {personType === "Pessoa Física" ? "CPF" : "CNPJ"} <span className="text-red-500">*</span>
           </label>
@@ -136,7 +136,7 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
           )}
         </div>
 
-        <div>
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Email <span className="text-red-500">*</span>
           </label>

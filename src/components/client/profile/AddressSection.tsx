@@ -164,8 +164,8 @@ export function AddressSection({ form }: AddressSectionProps) {
         <h3 className="text-lg font-medium text-gray-700">Endereço</h3>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             CEP <span className="text-red-500">*</span>
           </label>
@@ -187,7 +187,7 @@ export function AddressSection({ form }: AddressSectionProps) {
           )}
         </div>
         
-        <div>
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Estado <span className="text-red-500">*</span>
           </label>
@@ -213,7 +213,7 @@ export function AddressSection({ form }: AddressSectionProps) {
           )}
         </div>
         
-        <div>
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Cidade <span className="text-red-500">*</span>
           </label>
@@ -242,7 +242,7 @@ export function AddressSection({ form }: AddressSectionProps) {
           )}
         </div>
         
-        <div>
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Endereço <span className="text-red-500">*</span>
           </label>
@@ -258,7 +258,7 @@ export function AddressSection({ form }: AddressSectionProps) {
           )}
         </div>
         
-        <div>
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Número <span className="text-red-500">*</span>
           </label>
@@ -274,7 +274,7 @@ export function AddressSection({ form }: AddressSectionProps) {
           )}
         </div>
         
-        <div>
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Bairro <span className="text-red-500">*</span>
           </label>
@@ -290,7 +290,7 @@ export function AddressSection({ form }: AddressSectionProps) {
           )}
         </div>
         
-        <div>
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Complemento
           </label>
