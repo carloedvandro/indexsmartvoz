@@ -110,13 +110,19 @@ export function AddressSection({ form }: AddressSectionProps) {
           />
         </div>
         
-        <div>
+        <div className="relative">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Estado <span className="text-red-500">*</span>
           </label>
           <select
             {...form.register("state")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 appearance-none bg-white"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
+              backgroundPosition: 'right 0.5rem center',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: '1.5em 1.5em'
+            }}
           >
             <option value="">Selecione</option>
             <option value="AC">Acre</option>
@@ -163,6 +169,24 @@ export function AddressSection({ form }: AddressSectionProps) {
           </select>
         </div>
       </div>
+      
+      <style jsx>{`
+        select option {
+          padding: 8px 12px;
+          line-height: 1.4;
+        }
+        
+        select {
+          max-height: 200px;
+          overflow-y: auto;
+        }
+        
+        select:focus {
+          outline: none;
+          border-color: #14b8a6;
+          box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.2);
+        }
+      `}</style>
     </div>
   );
 }
