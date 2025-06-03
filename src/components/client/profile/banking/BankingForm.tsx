@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -157,134 +156,72 @@ export function BankingForm({ profile }: BankingFormProps) {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <div className="flex items-center gap-2 mb-6">
-          <div className="w-8 h-8 bg-gray-100 rounded flex items-center justify-center">
-            🏛️
-          </div>
-          <h2 className="text-xl font-semibold text-gray-900">Conta Bancária</h2>
-        </div>
+    <div className="flex items-center gap-2 mb-6">
+      <div className="w-8 h-8 bg-gray-100 rounded flex items-center justify-center">
+        🏛️
+      </div>
+      <h2 className="text-xl font-semibold text-gray-900">Conta Bancária</h2>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <FormField
-                control={form.control}
-                name="bank_name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nome do Banco</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Selecione o banco" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className="max-h-60">
-                        {bankOptions.map((bank) => (
-                          <SelectItem key={bank} value={bank}>
-                            {bank}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="account_type"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tipo de Conta</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="Conta Corrente">Conta Corrente</SelectItem>
-                        <SelectItem value="Conta Poupança">Conta Poupança</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <FormField
-                control={form.control}
-                name="agency_number"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Número da Agência</FormLabel>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <FormField
+              control={form.control}
+              name="bank_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nome do Banco</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <Input {...field} placeholder="8217" />
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o banco" />
+                      </SelectTrigger>
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="agency_digit"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Dígito</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <FormField
-                control={form.control}
-                name="account_number"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Número da Conta</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="18280" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="account_digit"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Dígito</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="0" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                    <SelectContent className="max-h-60">
+                      {bankOptions.map((bank) => (
+                        <SelectItem key={bank} value={bank}>
+                          {bank}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}
-              name="account_name"
+              name="account_type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Titular da Conta</FormLabel>
+                  <FormLabel>Tipo de Conta</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="Conta Corrente">Conta Corrente</SelectItem>
+                      <SelectItem value="Conta Poupança">Conta Poupança</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <FormField
+              control={form.control}
+              name="agency_number"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Número da Agência</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="Roberto Silva" />
+                    <Input {...field} placeholder="8217" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -293,10 +230,10 @@ export function BankingForm({ profile }: BankingFormProps) {
 
             <FormField
               control={form.control}
-              name="cpf_cnpj"
+              name="agency_digit"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>CPF/CNPJ</FormLabel>
+                  <FormLabel>Dígito</FormLabel>
                   <FormControl>
                     <Input {...field} placeholder="" />
                   </FormControl>
@@ -304,46 +241,104 @@ export function BankingForm({ profile }: BankingFormProps) {
                 </FormItem>
               )}
             />
+          </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <FormField
               control={form.control}
-              name="security_password"
+              name="account_number"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Senha de Segurança</FormLabel>
+                  <FormLabel>Número da Conta</FormLabel>
                   <FormControl>
-                    <Input 
-                      {...field} 
-                      type="password" 
-                      placeholder=""
-                    />
+                    <Input {...field} placeholder="18280" />
                   </FormControl>
-                  <div className="text-right">
-                    <button 
-                      type="button"
-                      className="text-sm text-gray-500 hover:text-gray-700"
-                      onClick={() => {/* TODO: Implementar esqueci a senha */}}
-                    >
-                      Esqueci a senha de segurança
-                    </button>
-                  </div>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <div className="flex justify-end">
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="bg-teal-500 hover:bg-teal-600 text-white px-8"
-              >
-                {isSubmitting ? "Salvando..." : "Salvar alterações"}
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </div>
+            <FormField
+              control={form.control}
+              name="account_digit"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Dígito</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="0" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <FormField
+            control={form.control}
+            name="account_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Titular da Conta</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="Roberto Silva" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="cpf_cnpj"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>CPF/CNPJ</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="security_password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Senha de Segurança</FormLabel>
+                <FormControl>
+                  <Input 
+                    {...field} 
+                    type="password" 
+                    placeholder=""
+                  />
+                </FormControl>
+                <div className="text-right">
+                  <button 
+                    type="button"
+                    className="text-sm text-gray-500 hover:text-gray-700"
+                    onClick={() => {/* TODO: Implementar esqueci a senha */}}
+                  >
+                    Esqueci a senha de segurança
+                  </button>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="flex justify-end">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="bg-teal-500 hover:bg-teal-600 text-white px-8"
+            >
+              {isSubmitting ? "Salvando..." : "Salvar alterações"}
+            </Button>
+          </div>
+        </form>
+      </Form>
     </div>
   );
 }
