@@ -126,8 +126,9 @@ export function AddressSection({ form }: AddressSectionProps) {
       try {
         const cepData = await fetchCepData(cleanValue);
         if (cepData) {
-          form.setValue("address", capitalizeWords(cepData.logradouro));
-          form.setValue("neighborhood", capitalizeWords(cepData.bairro));
+          // Aplicar capitalização nos dados que vêm do CEP
+          form.setValue("address", capitalizeWords(cepData.logradouro || ""));
+          form.setValue("neighborhood", capitalizeWords(cepData.bairro || ""));
           form.setValue("city", cepData.localidade);
           // Converter abreviação do CEP para nome completo
           const fullStateName = abbreviationToFullName[cepData.uf];
