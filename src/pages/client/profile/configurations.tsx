@@ -4,14 +4,13 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
-import { Settings, Link as LinkIcon, Package, Store, MapPin, Camera } from "lucide-react";
+import { Settings, Link as LinkIcon, Package, Store, MapPin } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 
 export default function ClientConfigurations() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [settings, setSettings] = useState({
-    enableCapturePage: true,
     enableLocation: true,
     allowNameOnPublicPages: true,
   });
@@ -47,11 +46,6 @@ export default function ClientConfigurations() {
       title: "Link de Indicação",
       icon: LinkIcon,
       href: "/client/network",
-    },
-    {
-      title: "Página de Captura",
-      icon: Camera,
-      href: "/client/capture-page",
     },
   ];
 
@@ -130,20 +124,6 @@ export default function ClientConfigurations() {
 
         <Card>
           <CardContent className="p-6 space-y-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Camera className="h-5 w-5 text-gray-500" />
-                <div>
-                  <p className="font-medium">Habilitar página de captura</p>
-                  <p className="text-sm text-gray-500">Permitir acesso à página de captura de leads</p>
-                </div>
-              </div>
-              <Switch
-                checked={settings.enableCapturePage}
-                onCheckedChange={() => handleSettingChange('enableCapturePage')}
-              />
-            </div>
-
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <MapPin className="h-5 w-5 text-gray-500" />
