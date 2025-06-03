@@ -50,7 +50,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
             {otherItems.map((item) => (
               <div key={item.title}>
                 {item.href ? (
-                  <DropdownMenuItem asChild className="px-2 py-2.5">
+                  <DropdownMenuItem asChild className={`px-2 py-2.5 ${item.title === 'Home' ? 'mt-1' : ''}`}>
                     <Link to={item.href} className="w-full whitespace-nowrap flex items-center text-left">
                       <div className="flex items-center">
                         {item.icon && item.icon !== "home" && renderIcon(item.icon)}
@@ -59,7 +59,7 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
                     </Link>
                   </DropdownMenuItem>
                 ) : (
-                  <DropdownMenuItem className="font-medium cursor-default whitespace-nowrap flex items-center text-left px-2 py-2.5">
+                  <DropdownMenuItem className={`font-medium cursor-default whitespace-nowrap flex items-center text-left px-2 py-2.5 ${item.title === 'Home' ? 'mt-1' : ''}`}>
                     {item.title !== "Loja Virtual" && item.title !== "Rede" && (
                       item.icon && renderIcon(item.icon)
                     )}
