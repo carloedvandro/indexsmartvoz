@@ -25,7 +25,7 @@ export function ContactSection({ form }: ContactSectionProps) {
           />
           {form.formState.errors.mobile && (
             <p className="text-red-500 text-sm mt-1">
-              {form.formState.errors.mobile.message}
+              {String(form.formState.errors.mobile.message || "Campo obrigatório")}
             </p>
           )}
         </div>
@@ -42,7 +42,7 @@ export function ContactSection({ form }: ContactSectionProps) {
           />
           {form.formState.errors.email && (
             <p className="text-red-500 text-sm mt-1">
-              {form.formState.errors.email.message}
+              {String(form.formState.errors.email.message || "Campo obrigatório")}
             </p>
           )}
         </div>

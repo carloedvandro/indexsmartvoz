@@ -26,7 +26,7 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
           />
           {form.formState.errors.full_name && (
             <p className="text-red-500 text-sm mt-1">
-              {form.formState.errors.full_name.message}
+              {String(form.formState.errors.full_name.message || "Campo obrigatório")}
             </p>
           )}
         </div>
@@ -45,7 +45,7 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
           </select>
           {form.formState.errors.person_type && (
             <p className="text-red-500 text-sm mt-1">
-              {form.formState.errors.person_type.message}
+              {String(form.formState.errors.person_type.message || "Campo obrigatório")}
             </p>
           )}
         </div>

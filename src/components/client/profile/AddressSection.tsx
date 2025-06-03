@@ -61,7 +61,7 @@ export function AddressSection({ form }: AddressSectionProps) {
           </div>
           {form.formState.errors.zip_code && (
             <p className="text-red-500 text-sm mt-1">
-              {form.formState.errors.zip_code.message}
+              {String(form.formState.errors.zip_code.message || "Campo obrigatório")}
             </p>
           )}
         </div>
