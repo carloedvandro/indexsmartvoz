@@ -317,15 +317,6 @@ export function BankingForm({ profile }: BankingFormProps) {
                     className="h-12"
                   />
                 </FormControl>
-                <div className="text-right mt-2">
-                  <button 
-                    type="button"
-                    className="text-sm text-gray-500 hover:text-gray-700"
-                    onClick={() => {/* TODO: Implementar esqueci a senha */}}
-                  >
-                    Esqueci a senha de segurança
-                  </button>
-                </div>
                 <FormMessage />
               </FormItem>
             )}
