@@ -181,7 +181,7 @@ export function BankingForm({ profile }: BankingFormProps) {
                     </FormControl>
                     <SelectContent className="max-h-60">
                       {bankOptions.map((bank) => (
-                        <SelectItem key={bank} value={bank}>
+                        <SelectItem key={bank} value={bank} className="text-xs">
                           {bank}
                         </SelectItem>
                       ))}
