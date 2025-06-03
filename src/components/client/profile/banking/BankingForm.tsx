@@ -156,7 +156,7 @@ export function BankingForm({ profile }: BankingFormProps) {
   ];
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-6">
+    <div className="max-w-lg mx-auto px-4 py-6">
       <div className="flex items-center gap-3 mb-8 justify-center">
         <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
           🏛️
