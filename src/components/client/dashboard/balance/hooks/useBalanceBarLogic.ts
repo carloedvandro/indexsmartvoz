@@ -9,34 +9,6 @@ export function useBalanceBarLogic() {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const { toast } = useToast();
 
-  // Mock data para saldos
-  const totalBalance = 269.18;
-  const availableBalance = 269.18;
-
-  // Mock data para notificações
-  const notifications = [
-    {
-      id: 1,
-      message: "Nova venda realizada - R$ 45,00",
-      time: "Há 2 minutos",
-      type: "sale"
-    },
-    {
-      id: 2,
-      message: "Bonificação creditada - R$ 12,50",
-      time: "Há 1 hora",
-      type: "bonus"
-    },
-    {
-      id: 3,
-      message: "Novo membro na sua rede",
-      time: "Há 3 horas",
-      type: "network"
-    }
-  ];
-
-  const notificationCount = 3;
-
   const toggleBalanceVisibility = () => {
     setIsBalanceVisible(!isBalanceVisible);
   };
@@ -89,10 +61,6 @@ export function useBalanceBarLogic() {
     isBalanceVisible,
     showNotifications,
     showUserMenu,
-    totalBalance,
-    availableBalance,
-    notifications,
-    notificationCount,
     toggleBalanceVisibility,
     toggleNotifications,
     toggleUserMenu,
