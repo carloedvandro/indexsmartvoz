@@ -3,16 +3,31 @@ import { useProfile } from "@/hooks/useProfile";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function ClientTerms() {
   const { data: profile } = useProfile();
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate("/client/profile");
+  };
 
   return (
     <div className="min-h-screen bg-[#F8F9FE] p-6">
       <div className="max-w-4xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Meus Dados</h1>
-          <p className="text-gray-600">Termos</p>
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Meus Dados</h1>
+            <p className="text-gray-600">Termos</p>
+          </div>
+          <Button 
+            variant="outline" 
+            onClick={handleBack}
+            className="text-teal-600 border-teal-600 hover:bg-teal-50"
+          >
+            ← Voltar
+          </Button>
         </div>
 
         <Card>
