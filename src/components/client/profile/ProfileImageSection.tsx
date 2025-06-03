@@ -54,30 +54,29 @@ export function ProfileImageSection({ profile }: ProfileImageSectionProps) {
           <div className="text-center space-y-2">
             <h3 className="font-medium text-gray-900">{displayName}</h3>
             
-            <div className="border border-gray-300 rounded-md p-2 bg-gray-50 w-64">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Escolha um arquivo</span>
-                <div className="flex gap-2">
-                  <label htmlFor="image-upload">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      className="cursor-pointer text-xs px-3 py-1"
-                      onClick={() => document.getElementById('image-upload')?.click()}
-                    >
-                      Procurar
-                    </Button>
-                  </label>
-                  <Button
-                    type="button"
-                    size="sm"
-                    className="bg-teal-600 hover:bg-teal-700 text-white text-xs px-3 py-1"
-                  >
-                    Enviar 📤
-                  </Button>
-                </div>
-              </div>
+            <div className="flex items-center gap-3 w-full max-w-md">
+              <input
+                type="text"
+                value="Escolha um arquivo"
+                readOnly
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-white text-sm text-gray-700"
+              />
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="text-xs px-3 py-2"
+                onClick={() => document.getElementById('image-upload')?.click()}
+              >
+                Procurar
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                className="bg-teal-600 hover:bg-teal-700 text-white text-xs px-3 py-2"
+              >
+                Enviar 📤
+              </Button>
             </div>
             
             <input
@@ -88,7 +87,7 @@ export function ProfileImageSection({ profile }: ProfileImageSectionProps) {
               className="hidden"
             />
             
-            <div className="text-xs text-gray-500 space-y-1">
+            <div className="text-xs text-gray-600 space-y-1">
               <p>Tamanho máximo da imagem é de <strong>2MB</strong></p>
               <p>Formatos permitidos: <strong>JPG, JPEG e PNG</strong></p>
             </div>
