@@ -110,13 +110,13 @@ export function AddressSection({ form }: AddressSectionProps) {
           />
         </div>
         
-        <div className="relative">
+        <div className="relative state-select-container">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Estado <span className="text-red-500">*</span>
           </label>
           <select
             {...form.register("state")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 appearance-none bg-white max-h-40 overflow-y-auto"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 appearance-none bg-white state-select"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
               backgroundPosition: 'right 0.5rem center',
@@ -153,6 +153,42 @@ export function AddressSection({ form }: AddressSectionProps) {
             <option value="SE">Sergipe</option>
             <option value="TO">Tocantins</option>
           </select>
+          
+          <style>{`
+            .state-select-container {
+              position: relative;
+            }
+            
+            .state-select {
+              height: 42px;
+              max-height: 42px;
+            }
+            
+            .state-select option {
+              padding: 6px 8px;
+              font-size: 14px;
+              line-height: 1.2;
+              height: auto;
+              min-height: 28px;
+            }
+            
+            @media (max-width: 768px) {
+              .state-select {
+                height: 120px !important;
+                max-height: 120px !important;
+                overflow-y: auto;
+                position: relative;
+                top: 0;
+                transform: none;
+              }
+              
+              .state-select option {
+                padding: 4px 6px;
+                font-size: 13px;
+                min-height: 24px;
+              }
+            }
+          `}</style>
         </div>
         
         <div>
