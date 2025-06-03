@@ -13,7 +13,7 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: U
   // Filter out the home item and get other navigation items
   const menuItems = navigationItems.filter(item => item.icon !== "home");
 
-  // Profile menu items
+  // Profile menu items for configurations section
   const profileMenuItems = [
     {
       title: "Conta Bancária",
@@ -89,20 +89,6 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: U
               </div>
             ))}
             
-            {/* Profile Menu Items - Added below "Minha Rede" */}
-            <div className="px-4 py-2 space-y-1">
-              {profileMenuItems.map((item) => (
-                <Link
-                  key={item.title}
-                  to={item.href}
-                  className="flex items-center gap-3 px-2 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 rounded-md transition-colors"
-                >
-                  <item.icon className="h-4 w-4 text-gray-500" />
-                  <span>{item.title}</span>
-                </Link>
-              ))}
-            </div>
-            
             <hr className="my-1" />
             
             <Link
@@ -111,9 +97,26 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: U
             >
               Meu Perfil
             </Link>
-            <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-              Configurações
-            </button>
+            
+            {/* Configurações Section with Profile Menu Items */}
+            <div>
+              <div className="px-4 py-2">
+                <p className="text-base font-bold text-black">Configurações</p>
+              </div>
+              <div className="px-4 py-2 space-y-1">
+                {profileMenuItems.map((item) => (
+                  <Link
+                    key={item.title}
+                    to={item.href}
+                    className="flex items-center gap-3 px-2 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 rounded-md transition-colors"
+                  >
+                    <item.icon className="h-4 w-4 text-gray-500" />
+                    <span>{item.title}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+            
             <hr className="my-1" />
             <button 
               onClick={onLogout}
