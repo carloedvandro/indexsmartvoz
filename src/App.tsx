@@ -9,6 +9,7 @@ import ClientRegister from '@/pages/client/register';
 import ClientFacialBiometry from '@/pages/client/facial-biometry';
 import ClientDashboard from '@/pages/client/dashboard';
 import ClientProfile from '@/pages/client/profile';
+import ClientBanking from '@/pages/client/profile/banking';
 import ClientNetwork from '@/pages/client/network';
 import ClientStore from '@/pages/client/store';
 import ClientEvents from '@/pages/client/events';
@@ -56,6 +57,7 @@ const router = createBrowserRouter(
       <Route element={<ProtectedRoute />}>
         <Route path="/client/dashboard" element={<ClientDashboard />} />
         <Route path="/client/profile" element={<ClientProfile />} />
+        <Route path="/client/profile/banking" element={<ClientBanking />} />
         <Route path="/client/network" element={<ClientNetwork />} />
         <Route path="/client/store" element={<ClientStore />} />
         <Route path="/client/events" element={<ClientEvents />} />
