@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Building2, FileText, KeyRound, Shield } from "lucide-react";
+import { Building2, FileText, KeyRound } from "lucide-react";
 
 export function ProfileMenuSection() {
   const menuItems = [
@@ -18,11 +18,6 @@ export function ProfileMenuSection() {
       title: "Alterar Senha",
       icon: KeyRound,
       href: "/client/profile/change-password",
-    },
-    {
-      title: "Senha de Segurança",
-      icon: Shield,
-      href: "/client/profile/security-password",
     },
   ];
 
