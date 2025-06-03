@@ -18,6 +18,9 @@ export type UpdateProfileData = Partial<{
   city: string;
   state: string;
   country: string;
+  bank_name: string;
+  account_number: string;
+  account_name: string;
 }>;
 
 export const updateProfile = async (id: string, data: UpdateProfileData) => {
