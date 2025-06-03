@@ -30,7 +30,7 @@ export default function ClientTerms() {
               </div>
               <div>
                 <h3 className="text-sm font-medium text-gray-700 mb-2">Arquivo</h3>
-                <Button variant="outline" size="sm" disabled>
+                <Button variant="outline" size="sm">
                   Ver Documento
                 </Button>
               </div>
