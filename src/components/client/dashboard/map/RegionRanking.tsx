@@ -12,11 +12,11 @@ interface RegionRankingProps {
 export function RegionRanking({ regionsData, formatNumber, setActiveRegion }: RegionRankingProps) {
   return (
     <div style={{ marginTop: '15px' }}>
-      <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+      <h4 className="text-lg font-medium text-gray-800 mb-4 flex items-center gap-2">
         <span>🏆</span>
         Ranking de Vendas
       </h4>
-      <div className="space-y-3">
+      <div className="space-y-3" style={{ marginLeft: '-3px' }}>
         {Object.entries(regionsData)
           .sort(([,a], [,b]) => b.sales - a.sales)
           .map(([key, region]) => (
