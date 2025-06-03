@@ -1,3 +1,4 @@
+
 import { User } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { useState } from "react";
@@ -9,11 +10,38 @@ interface PersonalDataSectionProps {
   form: UseFormReturn<any>;
 }
 
+interface CNPJData {
+  razao_social?: string;
+  nome_fantasia?: string;
+  data_inicio_atividade?: string;
+  cnpj?: string;
+  logradouro?: string;
+  numero?: string;
+  bairro?: string;
+  municipio?: string;
+  uf?: string;
+  cep?: string;
+}
+
 export function PersonalDataSection({ form }: PersonalDataSectionProps) {
   const personType = form.watch("person_type");
   const [documentValue, setDocumentValue] = useState(form.getValues("cnpj") || "");
+  const [isLoadingCNPJ, setIsLoadingCNPJ] = useState(false);
 
-  const handleDocumentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const fetchCNPJData = async (cnpj: string): Promise<CNPJData | null> => {
+    try {
+      const response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`);
+      if (response.ok) {
+        return await response.json();
+      }
+      return null;
+    } catch (error) {
+      console.error("Erro ao buscar dados do CNPJ:", error);
+      return null;
+    }
+  };
+
+  const handleDocumentChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const cleanValue = removeMask(value);
     
@@ -38,6 +66,54 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
           form.setError("cnpj", { message: "CNPJ inválido" });
         } else {
           form.clearErrors("cnpj");
+          // Buscar dados do CNPJ automaticamente
+          setIsLoadingCNPJ(true);
+          try {
+            const cnpjData = await fetchCNPJData(cleanValue);
+            if (cnpjData) {
+              // Preencher campos automaticamente
+              if (cnpjData.razao_social || cnpjData.nome_fantasia) {
+                form.setValue("full_name", cnpjData.razao_social || cnpjData.nome_fantasia || "");
+              }
+              
+              if (cnpjData.data_inicio_atividade) {
+                // Converter formato da data de DD/MM/YYYY para YYYY-MM-DD
+                const [day, month, year] = cnpjData.data_inicio_atividade.split('/');
+                if (day && month && year) {
+                  form.setValue("birth_date", `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`);
+                }
+              }
+
+              // Preencher endereço se disponível
+              if (cnpjData.logradouro) {
+                form.setValue("address", cnpjData.logradouro);
+              }
+              
+              if (cnpjData.numero) {
+                form.setValue("address_number", cnpjData.numero);
+              }
+              
+              if (cnpjData.bairro) {
+                form.setValue("neighborhood", cnpjData.bairro);
+              }
+              
+              if (cnpjData.municipio) {
+                form.setValue("city", cnpjData.municipio);
+              }
+              
+              if (cnpjData.uf) {
+                form.setValue("state", cnpjData.uf);
+              }
+              
+              if (cnpjData.cep) {
+                form.setValue("zip_code", cnpjData.cep.replace(/\D/g, ''));
+              }
+            }
+          } catch (error) {
+            console.error("Erro ao buscar dados do CNPJ:", error);
+          } finally {
+            setIsLoadingCNPJ(false);
+          }
         }
       }
     }
@@ -118,7 +194,7 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
           )}
         </div>
         
-        <div className="grid grid-cols-2 gap-2 lg:gap-4 lg:col-span-2">
+        <div className="grid grid-cols-2 gap-0 lg:gap-4 lg:col-span-2">
           <div className="w-full">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               {personType === "Pessoa Física" ? "Data de nascimento" : "Data de abertura"} <span className="text-red-500">*</span>
@@ -139,16 +215,29 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               {personType === "Pessoa Física" ? "CPF" : "CNPJ"} <span className="text-red-500">*</span>
             </label>
-            <input
-              value={documentValue}
-              onChange={handleDocumentChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
-              placeholder={personType === "Pessoa Física" ? "000.000.000-00" : "00.000.000/0000-00"}
-              maxLength={personType === "Pessoa Física" ? 14 : 18}
-            />
+            <div className="relative">
+              <input
+                value={documentValue}
+                onChange={handleDocumentChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                placeholder={personType === "Pessoa Física" ? "000.000.000-00" : "00.000.000/0000-00"}
+                maxLength={personType === "Pessoa Física" ? 14 : 18}
+                disabled={isLoadingCNPJ}
+              />
+              {isLoadingCNPJ && (
+                <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+                  <div className="animate-spin h-4 w-4 border-2 border-teal-500 border-t-transparent rounded-full"></div>
+                </div>
+              )}
+            </div>
             {form.formState.errors.cnpj && (
               <p className="text-red-500 text-sm mt-1">
                 {String(form.formState.errors.cnpj.message || "Campo obrigatório")}
+              </p>
+            )}
+            {isLoadingCNPJ && (
+              <p className="text-blue-500 text-sm mt-1">
+                Buscando dados do CNPJ...
               </p>
             )}
           </div>
