@@ -1,3 +1,4 @@
+
 import { Bell } from 'lucide-react';
 
 interface NotificationDropdownProps {
@@ -23,12 +24,12 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
             <h3 className="font-semibold text-gray-800 mb-3 ml-[7px]">Notificações</h3>
             <div className="space-y-3 flex flex-col items-center">
               <div className="w-[370px] px-2 py-3 bg-blue-50 rounded-lg text-left">
-                <p className="text-sm text-gray-700">Nova venda realizada - R$ 45,00</p>
-                <span className="text-xs text-gray-500">Há 2 minutos</span>
+                <p className="text-base text-gray-700">Nova venda realizada - R$ 45,00</p>
+                <span className="text-sm text-gray-500">Há 2 minutos</span>
               </div>
               <div className="w-[370px] px-2 py-3 bg-green-50 rounded-lg text-left">
-                <p className="text-sm text-gray-700">Bonificação creditada - R$ 12,50</p>
-                <span className="text-xs text-gray-500">Há 1 hora</span>
+                <p className="text-base text-gray-700">Bonificação creditada - R$ 12,50</p>
+                <span className="text-sm text-gray-500">Há 1 hora</span>
               </div>
             </div>
           </div>
