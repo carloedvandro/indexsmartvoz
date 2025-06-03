@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { ProfileImageSection } from "./ProfileImageSection";
 import { PersonalDataSection } from "./PersonalDataSection";
 import { ContactSection } from "./ContactSection";
@@ -13,14 +13,15 @@ import { ProfileWithSponsor } from "@/types/profile";
 import { updateProfile } from "@/components/admin/UserFormUtils";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { removeMask } from "@/utils/masks";
 
 const profileSchema = z.object({
   sponsor: z.string().optional(),
   custom_id: z.string().min(1, "Usuário é obrigatório"),
   full_name: z.string().min(1, "Nome completo é obrigatório"),
   person_type: z.string().min(1, "Tipo de pessoa é obrigatório"),
-  cnpj: z.string().optional(),
-  birth_date: z.string().optional(),
+  cnpj: z.string().min(1, "CPF/CNPJ é obrigatório"),
+  birth_date: z.string().min(1, "Data é obrigatória"),
   mobile: z.string().min(1, "Celular é obrigatório"),
   email: z.string().email("Email inválido"),
   zip_code: z.string().min(1, "CEP é obrigatório"),
@@ -43,6 +44,11 @@ export function ProfileForm({ profile }: ProfileFormProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
+  // Extrair número e bairro do endereço existente
+  const addressParts = profile.address?.split(',') || [];
+  const existingStreet = addressParts[0]?.trim() || "";
+  const existingNumber = addressParts[1]?.trim() || "";
+
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
@@ -55,9 +61,9 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       mobile: profile.mobile || "",
       email: profile.email || "",
       zip_code: profile.zip_code || "",
-      address: profile.address || "",
-      address_number: "", // Será extraído do endereço
-      neighborhood: "", // Será extraído do endereço
+      address: existingStreet,
+      address_number: existingNumber,
+      neighborhood: "",
       complement: "",
       state: profile.state || "",
       city: profile.city || "",
@@ -72,11 +78,11 @@ export function ProfileForm({ profile }: ProfileFormProps) {
         custom_id: data.custom_id,
         full_name: data.full_name,
         person_type: data.person_type,
-        cnpj: data.cnpj,
+        cnpj: removeMask(data.cnpj), // Remove máscara antes de salvar
         birth_date: data.birth_date,
-        mobile: data.mobile,
+        mobile: removeMask(data.mobile), // Remove máscara antes de salvar
         email: data.email,
-        zip_code: data.zip_code,
+        zip_code: removeMask(data.zip_code), // Remove máscara antes de salvar
         address: `${data.address}, ${data.address_number}`,
         state: data.state,
         city: data.city,

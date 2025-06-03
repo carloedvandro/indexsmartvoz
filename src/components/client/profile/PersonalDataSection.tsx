@@ -1,6 +1,10 @@
 
 import { User } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
+import { useState } from "react";
+import { cpfMask, cnpjMask, removeMask } from "@/utils/masks";
+import { isValidCPF } from "@/utils/validation/cpfValidation";
+import { isValidCNPJ } from "@/utils/validation/documentValidation";
 
 interface PersonalDataSectionProps {
   form: UseFormReturn<any>;
@@ -8,6 +12,40 @@ interface PersonalDataSectionProps {
 
 export function PersonalDataSection({ form }: PersonalDataSectionProps) {
   const personType = form.watch("person_type");
+  const [documentValue, setDocumentValue] = useState(form.getValues("cnpj") || "");
+
+  const handleDocumentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const cleanValue = removeMask(value);
+    
+    let maskedValue = "";
+    if (personType === "Pessoa Física") {
+      maskedValue = cpfMask(value);
+      // Validar CPF se estiver completo
+      if (cleanValue.length === 11) {
+        const isValid = isValidCPF(cleanValue);
+        if (!isValid) {
+          form.setError("cnpj", { message: "CPF inválido" });
+        } else {
+          form.clearErrors("cnpj");
+        }
+      }
+    } else {
+      maskedValue = cnpjMask(value);
+      // Validar CNPJ se estiver completo
+      if (cleanValue.length === 14) {
+        const isValid = isValidCNPJ(cleanValue);
+        if (!isValid) {
+          form.setError("cnpj", { message: "CNPJ inválido" });
+        } else {
+          form.clearErrors("cnpj");
+        }
+      }
+    }
+    
+    setDocumentValue(maskedValue);
+    form.setValue("cnpj", cleanValue);
+  };
 
   return (
     <div className="space-y-4">
@@ -24,7 +62,7 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
           <input
             {...form.register("full_name")}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
-            placeholder="Roberto Silva"
+            placeholder="Nome completo"
           />
           {form.formState.errors.full_name && (
             <p className="text-red-500 text-sm mt-1">
@@ -45,6 +83,12 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
               backgroundPosition: 'right 0.5rem center',
               backgroundRepeat: 'no-repeat',
               backgroundSize: '1.5em 1.5em'
+            }}
+            onChange={(e) => {
+              form.setValue("person_type", e.target.value);
+              setDocumentValue("");
+              form.setValue("cnpj", "");
+              form.clearErrors("cnpj");
             }}
           >
             <option value="">Selecione</option>
@@ -67,6 +111,11 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
             type="date"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
           />
+          {form.formState.errors.birth_date && (
+            <p className="text-red-500 text-sm mt-1">
+              {String(form.formState.errors.birth_date.message || "Campo obrigatório")}
+            </p>
+          )}
         </div>
         
         <div>
@@ -74,10 +123,17 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
             {personType === "Pessoa Física" ? "CPF" : "CNPJ"} <span className="text-red-500">*</span>
           </label>
           <input
-            {...form.register("cnpj")}
+            value={documentValue}
+            onChange={handleDocumentChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
-            placeholder={personType === "Pessoa Física" ? "___.___.___-__" : "__.___.___/____-__"}
+            placeholder={personType === "Pessoa Física" ? "000.000.000-00" : "00.000.000/0000-00"}
+            maxLength={personType === "Pessoa Física" ? 14 : 18}
           />
+          {form.formState.errors.cnpj && (
+            <p className="text-red-500 text-sm mt-1">
+              {String(form.formState.errors.cnpj.message || "Campo obrigatório")}
+            </p>
+          )}
         </div>
       </div>
     </div>
