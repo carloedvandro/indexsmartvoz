@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -23,12 +22,12 @@ interface DesktopNavigationProps {
 }
 
 export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) => {
-  // Filter out the home item and only show other items
-  const otherItems = navigationItems.filter(item => item.icon !== "home");
+  // Keep all items instead of filtering out home
+  const menuItems = navigationItems;
 
   return (
     <div className="justify-start items-center gap-2 lg:flex hidden flex-row pl-0">
-      {otherItems.length > 0 && (
+      {menuItems.length > 0 && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button 
@@ -47,13 +46,13 @@ export const DesktopNavigation = ({ navigationItems }: DesktopNavigationProps) =
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-80 bg-white p-0">
-            {otherItems.map((item) => (
+            {menuItems.map((item) => (
               <div key={item.title}>
                 {item.href ? (
                   <DropdownMenuItem asChild className={`px-2 py-2.5 ${item.title === 'Home' ? 'mt-1' : ''}`}>
                     <Link to={item.href} className="w-full whitespace-nowrap flex items-center text-left">
                       <div className="flex items-center">
-                        {item.icon && item.icon !== "home" && renderIcon(item.icon)}
+                        {item.icon && renderIcon(item.icon)}
                         <span>{item.title}</span>
                       </div>
                     </Link>
