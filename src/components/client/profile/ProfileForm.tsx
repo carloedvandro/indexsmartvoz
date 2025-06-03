@@ -138,11 +138,9 @@ export function ProfileForm({ profile }: ProfileFormProps) {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Patrocinador
                 </label>
-                <textarea
-                  value={getSponsorInfo()}
-                  disabled
-                  rows={3}
-                  className="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md text-sm resize-none"
+                <input
+                  {...form.register("sponsor")}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
               
