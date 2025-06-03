@@ -3,17 +3,14 @@ import { User, ChevronDown, Building2, FileText, KeyRound, Shield, ChevronRight,
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { navigationItems } from '../navigation/NavigationItems';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ProfileWithSponsor } from "@/types/profile";
 
 interface UserMenuDropdownProps {
   showUserMenu: boolean;
   onToggleUserMenu: () => void;
   onLogout: () => Promise<void>;
-  profile?: ProfileWithSponsor | null;
 }
 
-export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, profile }: UserMenuDropdownProps) {
+export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: UserMenuDropdownProps) {
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
 
   // Filter out the home item and get other navigation items
@@ -56,10 +53,6 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
     );
   };
 
-  // Use profile image or default placeholder
-  const profileImage = profile?.profile_image || "https://images.unsplash.com/photo-1649972904349-6e44c42644a7";
-  const displayName = profile?.full_name || "Usuário";
-
   return (
     <div className="relative">
       <button 
@@ -67,16 +60,9 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
         onClick={onToggleUserMenu}
         title="Menu do usuário"
       >
-        <Avatar className="w-8 h-8">
-          <AvatarImage 
-            src={profileImage} 
-            alt={displayName}
-            className="object-cover"
-          />
-          <AvatarFallback className="bg-blue-500 text-white">
-            <User className="h-5 w-5" />
-          </AvatarFallback>
-        </Avatar>
+        <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+          <User className="h-5 w-5 text-white" />
+        </div>
         <ChevronDown className="h-4 w-4 text-gray-500" />
       </button>
       
