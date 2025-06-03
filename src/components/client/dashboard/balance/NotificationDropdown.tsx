@@ -19,15 +19,15 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
       </button>
       
       {showNotifications && (
-        <div className="absolute -right-14 md:-right-14 top-full w-[350px] bg-white border border-gray-200 rounded-b-lg shadow-lg z-[5] translate-x-[50px] md:translate-x-[32px]" style={{ marginTop: '17.9px' }}>
+        <div className="absolute -right-14 md:-right-14 top-full w-[420px] bg-white border border-gray-200 rounded-b-lg shadow-lg z-[5] translate-x-[50px] md:translate-x-[32px]" style={{ marginTop: '17.9px' }}>
           <div className="p-4">
             <h3 className="font-semibold text-gray-800 mb-3">Notificações</h3>
             <div className="space-y-3">
-              <div className="w-[280px] px-2 py-3 bg-blue-50 rounded-lg">
+              <div className="px-2 py-3 bg-blue-50 rounded-lg">
                 <p className="text-sm text-gray-700">Nova venda realizada - R$ 45,00</p>
                 <span className="text-xs text-gray-500">Há 2 minutos</span>
               </div>
-              <div className="w-[280px] px-2 py-3 bg-green-50 rounded-lg">
+              <div className="px-2 py-3 bg-green-50 rounded-lg">
                 <p className="text-sm text-gray-700">Bonificação creditada - R$ 12,50</p>
                 <span className="text-xs text-gray-500">Há 1 hora</span>
               </div>
