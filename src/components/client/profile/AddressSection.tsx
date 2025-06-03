@@ -116,14 +116,13 @@ export function AddressSection({ form }: AddressSectionProps) {
           </label>
           <select
             {...form.register("state")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 appearance-none bg-white max-h-32 overflow-y-auto"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 appearance-none bg-white max-h-40 overflow-y-auto"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
               backgroundPosition: 'right 0.5rem center',
               backgroundRepeat: 'no-repeat',
               backgroundSize: '1.5em 1.5em'
             }}
-            size={8}
           >
             <option value="">Selecione</option>
             <option value="AC">Acre</option>
