@@ -7,6 +7,7 @@ export type Profile = Tables<"profiles"> & {
   account_name?: string | null;
   ifsc_code?: string | null;
   paypal_email?: string | null;
+  profile_image?: string | null;
 };
 
 export type Sponsor = {
