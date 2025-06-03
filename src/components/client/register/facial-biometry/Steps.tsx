@@ -41,11 +41,11 @@ export const Steps = ({ currentStep }: StepsProps) => {
             <div key={step.id} className="flex items-start">
               <div className={`flex items-center justify-center w-8 h-8 rounded-full mr-4 
                 ${isCompleted ? 'bg-[#8425af] text-white' : 
-                 isActive ? 'border-2 border-[#8425af] bg-[#8425af]' : 
-                 'border-2 border-gray-300 bg-gray-300'}`}
+                 isActive ? 'bg-[#8425af] text-white' : 
+                 'bg-gray-300'}`}
               >
                 {isCompleted && (
-                  <Check className="w-5 h-5" />
+                  <Check className="w-5 h-5 text-white" />
                 )}
               </div>
               <span className={`text-sm mt-1 ${
