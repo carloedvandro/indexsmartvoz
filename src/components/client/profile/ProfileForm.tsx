@@ -23,6 +23,7 @@ const profileSchema = z.object({
   cnpj: z.string().min(1, "CPF/CNPJ é obrigatório"),
   birth_date: z.string().min(1, "Data é obrigatória"),
   mobile: z.string().min(1, "Celular é obrigatório"),
+  whatsapp: z.string().min(1, "WhatsApp é obrigatório"),
   email: z.string().email("Email inválido"),
   zip_code: z.string().min(1, "CEP é obrigatório"),
   address: z.string().min(1, "Endereço é obrigatório"),
@@ -79,6 +80,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       cnpj: profile.cnpj || "",
       birth_date: profile.birth_date || "",
       mobile: profile.mobile || "",
+      whatsapp: profile.whatsapp || "",
       email: profile.email || "",
       zip_code: profile.zip_code || "",
       address: existingStreet,
@@ -101,6 +103,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
         cnpj: removeMask(data.cnpj), // Remove máscara antes de salvar
         birth_date: data.birth_date,
         mobile: removeMask(data.mobile), // Remove máscara antes de salvar
+        whatsapp: removeMask(data.whatsapp), // Remove máscara antes de salvar
         email: data.email,
         zip_code: removeMask(data.zip_code), // Remove máscara antes de salvar
         address: `${data.address}, ${data.address_number}`,
