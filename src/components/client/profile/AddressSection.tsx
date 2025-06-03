@@ -5,6 +5,7 @@ import { useState } from "react";
 import { cepMask, removeMask } from "@/utils/masks";
 import { fetchCepData } from "@/services/cepService";
 import { useToast } from "@/hooks/use-toast";
+import { capitalizeWords } from "@/utils/textFormat";
 
 interface AddressSectionProps {
   form: UseFormReturn<any>;
@@ -125,8 +126,8 @@ export function AddressSection({ form }: AddressSectionProps) {
       try {
         const cepData = await fetchCepData(cleanValue);
         if (cepData) {
-          form.setValue("address", cepData.logradouro);
-          form.setValue("neighborhood", cepData.bairro);
+          form.setValue("address", capitalizeWords(cepData.logradouro));
+          form.setValue("neighborhood", capitalizeWords(cepData.bairro));
           form.setValue("city", cepData.localidade);
           // Converter abreviação do CEP para nome completo
           const fullStateName = abbreviationToFullName[cepData.uf];
@@ -155,6 +156,21 @@ export function AddressSection({ form }: AddressSectionProps) {
         setIsLoadingCep(false);
       }
     }
+  };
+
+  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = capitalizeWords(e.target.value);
+    form.setValue("address", value);
+  };
+
+  const handleNeighborhoodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = capitalizeWords(e.target.value);
+    form.setValue("neighborhood", value);
+  };
+
+  const handleComplementChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = capitalizeWords(e.target.value);
+    form.setValue("complement", value);
   };
 
   return (
@@ -247,7 +263,8 @@ export function AddressSection({ form }: AddressSectionProps) {
             Endereço <span className="text-red-500">*</span>
           </label>
           <input
-            {...form.register("address")}
+            value={form.watch("address") || ""}
+            onChange={handleAddressChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
             placeholder="Rua, Avenida, etc."
           />
@@ -279,7 +296,8 @@ export function AddressSection({ form }: AddressSectionProps) {
             Bairro <span className="text-red-500">*</span>
           </label>
           <input
-            {...form.register("neighborhood")}
+            value={form.watch("neighborhood") || ""}
+            onChange={handleNeighborhoodChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
             placeholder="Nome do bairro"
           />
@@ -295,7 +313,8 @@ export function AddressSection({ form }: AddressSectionProps) {
             Complemento
           </label>
           <input
-            {...form.register("complement")}
+            value={form.watch("complement") || ""}
+            onChange={handleComplementChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
             placeholder="Apto, Bloco, etc."
           />
