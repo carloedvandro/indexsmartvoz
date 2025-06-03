@@ -13,8 +13,8 @@ export function StoreHeader({ isLoading, onSubmit, selectedProduct, isManager }:
 
   return (
     <div className="flex flex-col gap-4 p-4 bg-white rounded-lg shadow-sm">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Minha Loja</h2>
+      <div className="flex items-center justify-start">
+        <h2 className="text-2xl font-bold text-left">Plano Smartvoz</h2>
       </div>
     </div>
   );
