@@ -1,5 +1,5 @@
 
-import { User, ChevronDown } from 'lucide-react';
+import { User, ChevronDown, Building2, FileText, KeyRound, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { navigationItems } from '../navigation/NavigationItems';
 
@@ -12,6 +12,30 @@ interface UserMenuDropdownProps {
 export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: UserMenuDropdownProps) {
   // Filter out the home item and get other navigation items
   const menuItems = navigationItems.filter(item => item.icon !== "home");
+
+  // Profile menu items
+  const profileMenuItems = [
+    {
+      title: "Conta Bancária",
+      icon: Building2,
+      href: "/client/profile/banking",
+    },
+    {
+      title: "Termos",
+      icon: FileText,
+      href: "/client/profile/terms",
+    },
+    {
+      title: "Alterar Senha",
+      icon: KeyRound,
+      href: "/client/profile/change-password",
+    },
+    {
+      title: "Senha de Segurança",
+      icon: Shield,
+      href: "/client/profile/security-password",
+    },
+  ];
 
   return (
     <div className="relative">
@@ -64,6 +88,20 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout }: U
                 )}
               </div>
             ))}
+            
+            {/* Profile Menu Items - Added below "Minha Rede" */}
+            <div className="px-4 py-2 space-y-1">
+              {profileMenuItems.map((item) => (
+                <Link
+                  key={item.title}
+                  to={item.href}
+                  className="flex items-center gap-3 px-2 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 rounded-md transition-colors"
+                >
+                  <item.icon className="h-4 w-4 text-gray-500" />
+                  <span>{item.title}</span>
+                </Link>
+              ))}
+            </div>
             
             <hr className="my-1" />
             
