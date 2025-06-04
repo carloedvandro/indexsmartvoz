@@ -1,3 +1,4 @@
+
 import { useRef } from "react";
 import Webcam from "react-webcam";
 import { useEffect } from "react";
@@ -48,11 +49,13 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
     cameraActive, 
     captureProgress,
     isCapturing,
+    isStable,
     toggleCamera 
   } = useFacialCapture({
     webcamRef,
     faceDetected,
     faceProximity,
+    facePosition,
     onComplete: onNext
   });
 
@@ -75,11 +78,16 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
 
   return (
     <div className="relative h-[540px] bg-black overflow-hidden rounded-lg">
-      {/* Simplified header */}
+      {/* Enhanced header with stability info */}
       <div className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 z-20 text-center">
         <p className="text-sm font-medium">
-          Centralize seu rosto no oval
+          Centralize seu rosto no oval e mantenha estável
         </p>
+        {isCapturing && (
+          <p className="text-xs text-yellow-300">
+            Capturando... {Math.round(captureProgress)}% - Mantenha a posição
+          </p>
+        )}
       </div>
       
       <CameraView 
@@ -102,23 +110,41 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
         onToggle={toggleCamera}
       />
       
-      {/* Simplified status indicator */}
+      {/* Enhanced status indicator with stability */}
       <div className="absolute bottom-6 w-full flex justify-center items-center">
         {isProcessing && (
-          <div className="bg-black bg-opacity-70 text-white px-3 py-2 rounded-full text-sm animate-pulse">
-            Processando imagem...
+          <div className="bg-black bg-opacity-70 text-white px-4 py-2 rounded-full text-sm animate-pulse">
+            Processando imagem com segurança...
           </div>
         )}
         
-        {!isProcessing && faceDetected && faceProximity === "ideal" && (
-          <div className="bg-green-600 bg-opacity-70 text-white px-3 py-2 rounded-full text-sm">
-            ✅ Posição perfeita
+        {!isProcessing && isCapturing && (
+          <div className="bg-red-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
+            🔴 Capturando... {Math.round(captureProgress)}%
           </div>
         )}
         
-        {!isProcessing && !faceDetected && (
-          <div className="bg-red-600 bg-opacity-70 text-white px-3 py-2 rounded-full text-sm">
+        {!isProcessing && !isCapturing && faceDetected && faceProximity === "ideal" && isStable && (
+          <div className="bg-green-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
+            ✅ Pronto para capturar
+          </div>
+        )}
+        
+        {!isProcessing && !isCapturing && faceDetected && faceProximity === "ideal" && !isStable && (
+          <div className="bg-yellow-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
+            ⏳ Estabilizando posição...
+          </div>
+        )}
+        
+        {!isProcessing && !isCapturing && !faceDetected && (
+          <div className="bg-red-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
             ❌ Rosto não detectado
+          </div>
+        )}
+        
+        {!isProcessing && !isCapturing && faceDetected && faceProximity !== "ideal" && (
+          <div className="bg-orange-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
+            ⚠️ Ajuste a posição
           </div>
         )}
       </div>
