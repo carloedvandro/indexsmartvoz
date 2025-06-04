@@ -1,10 +1,10 @@
 
 // Configuration constants for facial capture
 export const CAPTURE_CONFIG = {
-  // Security settings - MORE RIGOROUS for capture
-  REQUIRED_CONSECUTIVE_FRAMES: 50, // Increased to 50 frames (5 seconds)
-  VALIDATION_INTERVAL: 100, // Validation every 100ms
-  MAX_CAPTURE_TIME: 15000, // Maximum timeout of 15 seconds
+  // Security settings - MAIS RIGOROSO para captura
+  REQUIRED_CONSECUTIVE_FRAMES: 30, // Reduzido para 30 frames (3 segundos) para ser mais responsivo
+  VALIDATION_INTERVAL: 50, // Validação a cada 50ms (mais frequente)
+  MAX_CAPTURE_TIME: 10000, // Tempo máximo reduzido para 10 segundos
   
   // Progress calculation
   get PROGRESS_INCREMENT() {

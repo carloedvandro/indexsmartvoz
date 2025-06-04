@@ -46,52 +46,67 @@ export const useFacialCapture = ({
     captureStartTime
   });
 
-  // RIGOROUS monitoring of face conditions
+  // VALIDAÇÃO CRÍTICA CONTÍNUA - Para imediatamente se condições forem perdidas
   useEffect(() => {
     if (!isCapturing) return;
 
-    const validation = validateCaptureConditions();
-    if (!validation.isValid && validation.shouldReset) {
+    // VERIFICAÇÃO RIGOROSA A CADA RENDER
+    if (!faceDetected || faceProximity !== "ideal") {
+      console.log("🚨 CONDIÇÕES PERDIDAS - RESETANDO CAPTURA IMEDIATAMENTE");
+      console.log("Face detectada:", faceDetected, "Proximidade:", faceProximity);
+      
       resetProgress();
+      
+      toast({
+        title: "Captura Interrompida",
+        description: !faceDetected 
+          ? "Rosto não detectado - Centralize novamente" 
+          : "Rosto fora da posição - Volte para o oval",
+        variant: "destructive",
+        duration: 2000,
+      });
     }
-  }, [faceDetected, faceProximity, isCapturing, validateCaptureConditions, resetProgress]);
+  }, [faceDetected, faceProximity, isCapturing, resetProgress, toast]);
 
-  // Capture start logic
+  // Iniciar captura apenas quando condições ideais
   useEffect(() => {
-    // If already processing or capturing, don't start new capture
-    if (isProcessing || isCapturing) return;
-    
-    // If no active camera, don't start capture
-    if (!cameraActive) return;
+    // Se já está processando, capturando ou câmera inativa, não iniciar
+    if (isProcessing || isCapturing || !cameraActive) return;
 
-    // RIGOROUS CONDITIONS to start capture
+    // Condições RIGOROSAS para iniciar
     if (shouldStartCapture()) {
+      console.log("🟢 INICIANDO CAPTURA - Todas as condições atendidas");
       startCapture();
       
       toast({
         title: "Captura Iniciada",
-        description: "Mantenha o rosto na posição até 100%",
+        description: "Mantenha o rosto centralizado até 100%",
         duration: 2000,
       });
     }
   }, [faceDetected, faceProximity, isProcessing, cameraActive, isCapturing, shouldStartCapture, startCapture, toast]);
 
-  // Continuous validation system during capture
+  // Sistema de validação contínua durante captura
   useEffect(() => {
     if (!isCapturing) return;
 
     const validationInterval = setInterval(() => {
-      // DOUBLE CHECK: Face detected AND in ideal position
-      if (faceDetected && faceProximity === "ideal") {
+      // VALIDAÇÃO TRIPLA: detectado + ideal + capturando
+      if (faceDetected && faceProximity === "ideal" && isCapturing) {
+        console.log("✅ Frame válido - incrementando progresso");
         incrementProgress();
       } else {
-        // If lost conditions during capture, reset IMMEDIATELY
-        console.log("❌ Condições perdidas durante captura - resetando...");
+        // RESET IMEDIATO se perdeu condições
+        console.log("❌ FRAME INVÁLIDO - Resetando captura");
+        console.log("Detalhes:", { faceDetected, faceProximity, isCapturing });
+        
         clearInterval(validationInterval);
-        const reason = !faceDetected 
-          ? "Rosto não detectado durante a captura" 
-          : "Rosto saiu da posição durante a captura";
         resetProgress();
+        
+        const reason = !faceDetected 
+          ? "Rosto saiu do enquadramento" 
+          : "Rosto saiu da posição ideal";
+          
         toast({
           title: "Captura Resetada",
           description: reason,
@@ -103,10 +118,10 @@ export const useFacialCapture = ({
     return () => clearInterval(validationInterval);
   }, [isCapturing, faceDetected, faceProximity, incrementProgress, resetProgress, toast]);
 
-  // Trigger for final capture when reaching 100%
+  // Processar captura quando atingir 100%
   useEffect(() => {
     if (isComplete && isCapturing && !isProcessing) {
-      console.log("🎉 CAPTURA VALIDADA COMPLETAMENTE! Processando...");
+      console.log("🎉 CAPTURA 100% VALIDADA! Processando...");
       handleSecureCapture();
     }
   }, [isComplete, isCapturing, isProcessing]);
@@ -114,15 +129,15 @@ export const useFacialCapture = ({
   async function handleSecureCapture() {
     if (isProcessing || !webcamRef.current) return;
     
-    console.log("📸 Iniciando captura segura...");
+    console.log("📸 Iniciando captura final segura...");
     
-    // TRIPLE FINAL VALIDATION before capture
+    // VALIDAÇÃO FINAL TRIPLA antes de processar
     if (!faceDetected || faceProximity !== "ideal" || !isCapturing) {
-      console.log("❌ Validação final falhou");
+      console.log("❌ VALIDAÇÃO FINAL FALHOU - Não processando");
       resetProgress();
       toast({
         title: "Erro na Captura",
-        description: "Validação final falhou",
+        description: "Validação final falhou - Tente novamente",
         variant: "destructive",
       });
       return;
@@ -130,11 +145,11 @@ export const useFacialCapture = ({
     
     const imageSrc = webcamRef.current.getScreenshot();
     if (!imageSrc) {
-      console.error("❌ Não foi possível capturar a imagem");
+      console.error("❌ Erro ao capturar screenshot");
       resetProgress();
       toast({
         title: "Erro na Captura",
-        description: "Erro ao capturar imagem",
+        description: "Erro ao capturar imagem - Tente novamente",
         variant: "destructive",
       });
       return;
@@ -146,21 +161,21 @@ export const useFacialCapture = ({
       await uploadFacialImage(imageSrc);
       
       toast({
-        title: "Captura Concluída com Sucesso",
-        description: "Seu rosto foi capturado e validado!",
+        title: "Captura Concluída",
+        description: "Rosto capturado e validado com sucesso!",
       });
       
-      // Complete reset of states
+      // Reset completo
       resetProgress();
       
-      // Small delay for better UX
+      // Delay para melhor UX
       await new Promise(resolve => setTimeout(resolve, 1000));
       onComplete(imageSrc);
     } catch (error) {
-      console.error('❌ Erro durante captura facial:', error);
+      console.error('❌ Erro durante upload:', error);
       toast({
-        title: "Erro na Captura",
-        description: "Ocorreu um erro ao processar a imagem. Tente novamente.",
+        title: "Erro no Upload",
+        description: "Erro ao salvar imagem - Tente novamente",
         variant: "destructive",
       });
       resetProgress();
@@ -171,12 +186,12 @@ export const useFacialCapture = ({
 
   const toggleCamera = useCallback(() => {
     setCameraActive(prev => !prev);
-    resetProgress();
+    resetProgress(); // Reset ao alternar câmera
     toast({
       title: "Câmera",
-      description: "Câmera desativada",
+      description: cameraActive ? "Câmera desativada" : "Câmera ativada",
     });
-  }, [resetProgress, toast]);
+  }, [resetProgress, toast, cameraActive]);
 
   return {
     isProcessing,

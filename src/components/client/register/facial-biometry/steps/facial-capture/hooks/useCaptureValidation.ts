@@ -23,39 +23,32 @@ export const useCaptureValidation = ({
 }: UseCaptureValidationProps) => {
   const { toast } = useToast();
 
-  // RESET IMMEDIATE when conditions are not met
+  // Reset IMEDIATO quando condições não são atendidas
   const resetCapture = useCallback((reason?: string): ValidationResult => {
-    console.log("🔴 RESETANDO CAPTURA:", reason || "Condições não atendidas");
-    
-    if (reason) {
-      toast({
-        title: "Captura Resetada",
-        description: reason,
-        variant: "destructive",
-      });
-    }
+    console.log("🔴 RESET IMEDIATO DA CAPTURA:", reason || "Condições perdidas");
     
     return {
       isValid: false,
       shouldReset: true,
       reason
     };
-  }, [toast]);
+  }, []);
 
-  // Validate capture conditions
+  // Validação RIGOROSA das condições de captura
   const validateCaptureConditions = useCallback((): ValidationResult => {
-    // If not capturing, no validation needed
+    // Se não está capturando, não precisa validar
     if (!isCapturing) return { isValid: true };
 
-    // IMMEDIATE VALIDATION: If lost face or left ideal position, STOP EVERYTHING
-    if (!faceDetected || faceProximity !== "ideal") {
-      const reason = !faceDetected 
-        ? "Rosto não detectado durante a captura" 
-        : "Rosto fora da posição ideal";
-      return resetCapture(reason);
+    // VALIDAÇÃO CRÍTICA: Se perdeu rosto ou posição ideal, PARAR TUDO
+    if (!faceDetected) {
+      return resetCapture("Rosto não detectado durante captura");
     }
 
-    // Check capture timeout
+    if (faceProximity !== "ideal") {
+      return resetCapture("Rosto fora da posição ideal durante captura");
+    }
+
+    // Verificar timeout
     if (captureStartTime && Date.now() - captureStartTime > 15000) {
       return resetCapture("Tempo limite da captura excedido");
     }
@@ -63,7 +56,7 @@ export const useCaptureValidation = ({
     return { isValid: true };
   }, [faceDetected, faceProximity, isCapturing, captureStartTime, resetCapture]);
 
-  // Check if should start capture
+  // Verificar se deve iniciar captura (condições RIGOROSAS)
   const shouldStartCapture = useCallback(() => {
     return faceDetected && faceProximity === "ideal";
   }, [faceDetected, faceProximity]);
