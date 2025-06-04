@@ -145,10 +145,11 @@ export const useDocumentVerification = () => {
         throw new Error("Usuário não encontrado");
       }
 
+      // Update profile with only existing columns
       const { error: profileError } = await supabase
         .from("profiles")
         .update({ 
-          document_verification_status: 'completed'
+          document_verification_status: 'verified'
         })
         .eq('id', user.id);
 

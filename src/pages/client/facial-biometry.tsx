@@ -33,12 +33,14 @@ export default function FacialBiometry() {
 
       const userId = sessionData.session.user.id;
       
-      // Update user's profile with verification status
+      // Update user's profile with verification status - using only existing columns
       const { error } = await supabase
         .from('profiles')
         .update({
           facial_verification_status: verificationData.facialVerification ? 'verified' : 'failed',
-          document_verification_status: verificationData.documentVerification ? 'verified' : 'failed'
+          document_verification_status: verificationData.documentVerification ? 'verified' : 'failed',
+          facial_biometry_status: 'completed',
+          facial_biometry_date: new Date().toISOString()
         })
         .eq('id', userId);
 
