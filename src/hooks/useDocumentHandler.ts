@@ -93,10 +93,13 @@ export function useDocumentHandler(
     setDocumentValue(maskedValue);
   };
 
-  // Reset document value when person type changes
+  // Reset all fields when person type changes
   useEffect(() => {
     setDocumentValue("");
-  }, [personType]);
+    setValue("document", "");
+    setValue("account_holder", "");
+    setValue("opening_date", "");
+  }, [personType, setValue]);
 
   return {
     documentValue,
