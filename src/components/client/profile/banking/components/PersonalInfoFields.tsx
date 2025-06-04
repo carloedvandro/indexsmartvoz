@@ -28,6 +28,21 @@ interface CNPJData {
   cep?: string;
 }
 
+interface CPFData {
+  nome?: string;
+  data_nascimento?: string;
+  cpf?: string;
+  situacao?: string;
+  endereco?: {
+    logradouro?: string;
+    numero?: string;
+    bairro?: string;
+    cidade?: string;
+    uf?: string;
+    cep?: string;
+  };
+}
+
 export function PersonalInfoFields({ control, setValue }: PersonalInfoFieldsProps) {
   const [documentValue, setDocumentValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -56,6 +71,42 @@ export function PersonalInfoFields({ control, setValue }: PersonalInfoFieldsProp
     }
   };
 
+  // Function to fetch CPF data (simulated for demonstration)
+  const fetchCPFData = async (cpf: string): Promise<CPFData | null> => {
+    try {
+      log("info", "Fetching CPF data", { cpf });
+      setIsLoading(true);
+      
+      // Simular dados do CPF com endereço para demonstração
+      // Em produção, isso seria uma API real de consulta de CPF
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Dados simulados baseados no CPF
+      const mockData: CPFData = {
+        nome: "João da Silva Santos",
+        data_nascimento: "15/03/1985",
+        cpf: cpf,
+        situacao: "regular",
+        endereco: {
+          logradouro: "Rua das Flores",
+          numero: "123",
+          bairro: "Centro",
+          cidade: "São Paulo",
+          uf: "SP",
+          cep: "01234567"
+        }
+      };
+      
+      logDocumentData("CPF", mockData);
+      return mockData;
+    } catch (error) {
+      logError("Error fetching CPF data", error);
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Handle document change (CPF/CNPJ)
   const handleDocumentChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -70,6 +121,26 @@ export function PersonalInfoFields({ control, setValue }: PersonalInfoFieldsProp
         const isValid = isValidCPF(cleanValue);
         if (isValid) {
           setValue("document", cleanValue);
+          
+          // Fetch CPF data to get personal information
+          const cpfData = await fetchCPFData(cleanValue);
+          
+          if (cpfData) {
+            // Fill in personal name
+            if (cpfData.nome) {
+              setValue("account_holder", cpfData.nome);
+            }
+            
+            // Fill in birth date if available
+            if (cpfData.data_nascimento) {
+              // Convert DD/MM/YYYY to YYYY-MM-DD for input[type="date"]
+              const [day, month, year] = cpfData.data_nascimento.split('/');
+              if (day && month && year) {
+                const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                setValue("opening_date", formattedDate);
+              }
+            }
+          }
         }
       }
     } else {
