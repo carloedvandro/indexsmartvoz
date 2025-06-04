@@ -6,29 +6,11 @@ import { cpfMask, cnpjMask, removeMask, cepMask } from "@/utils/masks";
 import { isValidCPF } from "@/utils/validation/cpfValidation";
 import { isValidCNPJ } from "@/utils/validation/documentValidation";
 import { capitalizeWords } from "@/utils/textFormat";
+import { fetchCPFData } from "@/services/api/cpfService";
+import { fetchCNPJData } from "@/services/api/cnpjService";
 
 interface PersonalDataSectionProps {
   form: UseFormReturn<any>;
-}
-
-interface CNPJData {
-  razao_social?: string;
-  nome_fantasia?: string;
-  data_inicio_atividade?: string;
-  cnpj?: string;
-  logradouro?: string;
-  numero?: string;
-  bairro?: string;
-  municipio?: string;
-  uf?: string;
-  cep?: string;
-}
-
-interface CPFData {
-  nome?: string;
-  data_nascimento?: string;
-  cpf?: string;
-  situacao?: string;
 }
 
 // Estados com nomes completos e suas respectivas cidades principais
@@ -99,55 +81,6 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
   const [isLoadingCNPJ, setIsLoadingCNPJ] = useState(false);
   const [isLoadingCPF, setIsLoadingCPF] = useState(false);
 
-  const fetchCNPJData = async (cnpj: string): Promise<CNPJData | null> => {
-    try {
-      const response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`);
-      if (response.ok) {
-        return await response.json();
-      }
-      return null;
-    } catch (error) {
-      console.error("Erro ao buscar dados do CNPJ:", error);
-      return null;
-    }
-  };
-
-  const fetchCPFData = async (cpf: string): Promise<CPFData | null> => {
-    try {
-      console.log("Buscando dados do CPF:", cpf);
-      
-      // Primeira tentativa: API ServeRest (gratuita e funcional)
-      const response1 = await fetch(`https://api.invertexto.com/api/v1/validator?token=8624|CQSNpGsR6XhQYRELpOPJfxNzUNfEKOAl&value=${cpf}`);
-      if (response1.ok) {
-        const data = await response1.json();
-        console.log("Resposta API invertexto:", data);
-        if (data.valid) {
-          // Esta API só valida, não retorna dados pessoais
-          console.log("CPF válido, mas API não retorna dados pessoais");
-        }
-      }
-
-      // Segunda tentativa: Simular dados para teste (já que APIs públicas de CPF são limitadas)
-      // Em produção, você precisaria de uma API paga ou integração com Serasa/SPC
-      console.log("Simulando dados do CPF para teste...");
-      
-      // Simular um delay realista
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Retornar dados simulados para demonstração
-      return {
-        nome: "João da Silva Santos",
-        data_nascimento: "15/03/1985",
-        cpf: cpf,
-        situacao: "regular"
-      };
-      
-    } catch (error) {
-      console.error("Erro ao buscar dados do CPF:", error);
-      return null;
-    }
-  };
-
   const handleDocumentChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const cleanValue = removeMask(value);
@@ -190,6 +123,40 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
                   const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
                   console.log("Data formatada:", formattedDate);
                   form.setValue("birth_date", formattedDate);
+                }
+              }
+
+              // Preencher endereço se disponível
+              if (cpfData.endereco) {
+                console.log("Preenchendo dados de endereço do CPF:", cpfData.endereco);
+                
+                if (cpfData.endereco.logradouro) {
+                  form.setValue("address", capitalizeWords(cpfData.endereco.logradouro));
+                }
+                
+                if (cpfData.endereco.numero) {
+                  form.setValue("address_number", cpfData.endereco.numero);
+                }
+                
+                if (cpfData.endereco.bairro) {
+                  form.setValue("neighborhood", capitalizeWords(cpfData.endereco.bairro));
+                }
+                
+                if (cpfData.endereco.cidade) {
+                  form.setValue("city", cpfData.endereco.cidade);
+                }
+                
+                if (cpfData.endereco.uf) {
+                  // Converter abreviação para nome completo
+                  const fullStateName = abbreviationToFullName[cpfData.endereco.uf];
+                  if (fullStateName) {
+                    form.setValue("state", fullStateName);
+                  }
+                }
+                
+                if (cpfData.endereco.cep) {
+                  const cleanCep = cpfData.endereco.cep.replace(/\D/g, '');
+                  form.setValue("zip_code", cleanCep);
                 }
               }
             } else {
@@ -282,6 +249,27 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
     form.setValue("full_name", value);
   };
 
+  // Função para lidar com mudanças no tipo de pessoa
+  const handlePersonTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newPersonType = e.target.value;
+    form.setValue("person_type", newPersonType);
+    
+    // Limpar todos os campos relacionados quando mudar o tipo de pessoa
+    setDocumentValue("");
+    form.setValue("cnpj", "");
+    form.setValue("full_name", "");
+    form.setValue("birth_date", "");
+    form.setValue("address", "");
+    form.setValue("address_number", "");
+    form.setValue("neighborhood", "");
+    form.setValue("city", "");
+    form.setValue("state", "");
+    form.setValue("zip_code", "");
+    form.clearErrors("cnpj");
+    
+    console.log("Tipo de pessoa alterado para:", newPersonType, "- Campos limpos");
+  };
+
   const isLoadingDocument = isLoadingCPF || isLoadingCNPJ;
 
   return (
@@ -294,13 +282,13 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="lg:col-span-2 w-full">
           <label className="block text-xs font-medium text-gray-700 mb-2">
-            Nome completo <span className="text-red-500">*</span>
+            {personType === "Pessoa Jurídica" ? "Razão Social" : "Nome completo"} <span className="text-red-500">*</span>
           </label>
           <input
             value={form.watch("full_name") || ""}
             onChange={handleFullNameChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
-            placeholder="Nome completo"
+            placeholder={personType === "Pessoa Jurídica" ? "Razão Social" : "Nome completo"}
           />
           {form.formState.errors.full_name && (
             <p className="text-red-500 text-xs mt-1">
@@ -314,19 +302,14 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
             Tipo de pessoa <span className="text-red-500">*</span>
           </label>
           <select
-            {...form.register("person_type")}
+            value={form.watch("person_type") || ""}
+            onChange={handlePersonTypeChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white appearance-none pr-10 text-sm"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
               backgroundPosition: 'right 0.5rem center',
               backgroundRepeat: 'no-repeat',
               backgroundSize: '1.5em 1.5em'
-            }}
-            onChange={(e) => {
-              form.setValue("person_type", e.target.value);
-              setDocumentValue("");
-              form.setValue("cnpj", "");
-              form.clearErrors("cnpj");
             }}
           >
             <option value="">Selecione</option>
