@@ -10,7 +10,6 @@
   }
 }
 
-/* Remove scrollbars globally from all elements */
 * {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
@@ -18,73 +17,12 @@
 
 *::-webkit-scrollbar {
   display: none !important;
-  width: 0 !important;
-  height: 0 !important;
 }
 
-/* Specific targeting for common scrollable elements */
-html, body {
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-}
-
-html::-webkit-scrollbar, 
-body::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-}
-
-/* Remove scrollbars from divs, sections, and other containers */
-div::-webkit-scrollbar,
-section::-webkit-scrollbar,
-main::-webkit-scrollbar,
-aside::-webkit-scrollbar,
-nav::-webkit-scrollbar,
-article::-webkit-scrollbar,
-ul::-webkit-scrollbar,
-ol::-webkit-scrollbar,
-pre::-webkit-scrollbar,
-code::-webkit-scrollbar,
-textarea::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-}
-
-/* Ensure overflow is still functional but without visible scrollbars */
-.overflow-y-auto, .overflow-x-auto, .overflow-auto {
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-}
-
-.overflow-y-auto::-webkit-scrollbar,
-.overflow-x-auto::-webkit-scrollbar,
-.overflow-auto::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-}
-
-/* Remove focus outlines that might appear */
 button:focus, 
 a:focus, 
 img:focus, 
 [role="button"]:focus {
   outline: none !important;
   box-shadow: none !important;
-}
-
-/* Ensure mobile devices also hide scrollbars */
-@media (max-width: 768px) {
-  * {
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-  }
-  
-  *::-webkit-scrollbar {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
-  }
 }
