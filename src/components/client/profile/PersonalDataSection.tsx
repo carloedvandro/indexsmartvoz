@@ -325,6 +325,22 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
 
   const isLoadingDocument = isLoadingCPF || isLoadingCNPJ;
 
+  // Determinar o label e placeholder baseado no tipo de pessoa
+  const getNameFieldConfig = () => {
+    if (personType === "Pessoa Jurídica") {
+      return {
+        label: "Razão social",
+        placeholder: "Razão social da empresa"
+      };
+    }
+    return {
+      label: "Nome completo",
+      placeholder: "Nome completo"
+    };
+  };
+
+  const nameConfig = getNameFieldConfig();
+
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2 pb-2 border-b border-gray-200">
@@ -335,13 +351,13 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="lg:col-span-2 w-full">
           <label className="block text-xs font-medium text-gray-700 mb-2">
-            Nome completo <span className="text-red-500">*</span>
+            {nameConfig.label} <span className="text-red-500">*</span>
           </label>
           <input
             value={form.watch("full_name") || ""}
             onChange={handleFullNameChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
-            placeholder="Nome completo"
+            placeholder={nameConfig.placeholder}
           />
           {form.formState.errors.full_name && (
             <p className="text-red-500 text-xs mt-1">
