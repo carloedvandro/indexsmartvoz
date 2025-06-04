@@ -25,6 +25,7 @@ const ScrollArea = React.forwardRef<
     >
       {children}
     </ScrollAreaPrimitive.Viewport>
+    {/* Removendo ScrollBar e Thumb completamente */}
     <ScrollAreaPrimitive.Corner />
   </ScrollAreaPrimitive.Root>
 ))
