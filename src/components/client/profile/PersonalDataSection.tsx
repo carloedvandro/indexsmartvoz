@@ -319,7 +319,6 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
     setDocumentValue("");
     form.setValue("cnpj", "");
     form.setValue("birth_date", "");
-    form.setValue("full_name", ""); // Limpar nome completo também
     form.clearErrors("cnpj");
   };
 
