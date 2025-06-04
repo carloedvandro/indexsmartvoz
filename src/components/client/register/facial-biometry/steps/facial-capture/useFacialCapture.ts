@@ -51,7 +51,7 @@ export const useFacialCapture = ({
     if (!isCapturing) return;
 
     const validation = validateCaptureConditions();
-    if (!validation.isValid) {
+    if (!validation.isValid && validation.shouldReset) {
       resetProgress();
     }
   }, [faceDetected, faceProximity, isCapturing, validateCaptureConditions, resetProgress]);

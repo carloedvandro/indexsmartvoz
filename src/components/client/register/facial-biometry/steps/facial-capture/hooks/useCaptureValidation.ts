@@ -9,6 +9,12 @@ interface UseCaptureValidationProps {
   captureStartTime: number | null;
 }
 
+interface ValidationResult {
+  isValid: boolean;
+  shouldReset?: boolean;
+  reason?: string;
+}
+
 export const useCaptureValidation = ({
   faceDetected,
   faceProximity,
@@ -18,7 +24,7 @@ export const useCaptureValidation = ({
   const { toast } = useToast();
 
   // RESET IMMEDIATE when conditions are not met
-  const resetCapture = useCallback((reason?: string) => {
+  const resetCapture = useCallback((reason?: string): ValidationResult => {
     console.log("🔴 RESETANDO CAPTURA:", reason || "Condições não atendidas");
     
     if (reason) {
@@ -30,13 +36,14 @@ export const useCaptureValidation = ({
     }
     
     return {
+      isValid: false,
       shouldReset: true,
       reason
     };
   }, [toast]);
 
   // Validate capture conditions
-  const validateCaptureConditions = useCallback(() => {
+  const validateCaptureConditions = useCallback((): ValidationResult => {
     // If not capturing, no validation needed
     if (!isCapturing) return { isValid: true };
 
