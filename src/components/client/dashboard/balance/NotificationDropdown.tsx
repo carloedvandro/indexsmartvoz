@@ -59,7 +59,7 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
       </button>
       
       {showNotifications && (
-        <div className="absolute top-full w-[381px] max-w-[90vw] bg-white border border-gray-200 rounded-b-lg shadow-lg z-[5] -right-[106px] md:-right-[44px]" style={{ marginTop: '17.9px' }}>
+        <div className="absolute top-full w-[511px] max-w-[90vw] bg-white border border-gray-200 rounded-b-lg shadow-lg z-[5] -right-[236px] md:-right-[174px]" style={{ marginTop: '17.9px' }}>
           <div className="p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-semibold text-gray-800 ml-[7px]">Notificações</h3>
