@@ -30,7 +30,7 @@ export function BankingForm({ profile }: BankingFormProps) {
 
           <AgencyFields control={form.control} />
           <AccountFields control={form.control} />
-          <PersonalInfoFields control={form.control} />
+          <PersonalInfoFields control={form.control} setValue={form.setValue} />
 
           <div className="pt-6">
             <Button

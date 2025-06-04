@@ -13,7 +13,7 @@ export function AgencyFields({ control }: AgencyFieldsProps) {
     <div className="grid grid-cols-2 gap-4">
       <FormField
         control={control}
-        name="agency_number"
+        name="agency"
         render={({ field }) => (
           <FormItem>
             <FormLabel className="text-base font-medium">Número da Agência</FormLabel>

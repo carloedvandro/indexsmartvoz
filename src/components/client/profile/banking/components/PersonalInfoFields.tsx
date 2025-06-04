@@ -2,7 +2,7 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Control } from "react-hook-form";
+import { Control, UseFormSetValue } from "react-hook-form";
 import { BankingFormData } from "../schemas/bankingSchema";
 import { useState, useEffect } from "react";
 import { cnpjMask, cpfMask, removeMask } from "@/utils/masks";
@@ -12,6 +12,7 @@ import { log, logDocumentData, logError } from "@/utils/logging/userLogger";
 
 interface PersonalInfoFieldsProps {
   control: Control<BankingFormData>;
+  setValue: UseFormSetValue<BankingFormData>;
 }
 
 interface CNPJData {
@@ -27,7 +28,7 @@ interface CNPJData {
   cep?: string;
 }
 
-export function PersonalInfoFields({ control }: PersonalInfoFieldsProps) {
+export function PersonalInfoFields({ control, setValue }: PersonalInfoFieldsProps) {
   const [documentValue, setDocumentValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const personType = control._formValues.person_type || "";
@@ -68,7 +69,7 @@ export function PersonalInfoFields({ control }: PersonalInfoFieldsProps) {
       if (cleanValue.length === 11) {
         const isValid = isValidCPF(cleanValue);
         if (isValid) {
-          control._formValues.document = cleanValue;
+          setValue("document", cleanValue);
         }
       }
     } else {
@@ -79,7 +80,7 @@ export function PersonalInfoFields({ control }: PersonalInfoFieldsProps) {
         const isValid = isValidCNPJ(cleanValue);
         
         if (isValid) {
-          control._formValues.document = cleanValue;
+          setValue("document", cleanValue);
           
           // Fetch CNPJ data to get the opening date and other details
           const cnpjData = await fetchCNPJData(cleanValue);
@@ -87,16 +88,7 @@ export function PersonalInfoFields({ control }: PersonalInfoFieldsProps) {
           if (cnpjData) {
             // Fill in company name
             if (cnpjData.razao_social) {
-              control._formValues.account_holder = cnpjData.razao_social;
-              control._formState.dirtyFields.account_holder = true;
-              
-              // Update the account_holder field in the form
-              const accountHolderField = document.querySelector('input[name="account_holder"]') as HTMLInputElement;
-              if (accountHolderField) {
-                accountHolderField.value = cnpjData.razao_social;
-                // Trigger change event to update form state
-                accountHolderField.dispatchEvent(new Event('input', { bubbles: true }));
-              }
+              setValue("account_holder", cnpjData.razao_social);
             }
             
             // Fill in opening date if available
@@ -105,16 +97,7 @@ export function PersonalInfoFields({ control }: PersonalInfoFieldsProps) {
               const [day, month, year] = cnpjData.data_inicio_atividade.split('/');
               if (day && month && year) {
                 const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-                control._formValues.opening_date = formattedDate;
-                control._formState.dirtyFields.opening_date = true;
-                
-                // Update the opening_date field in the form
-                const openingDateField = document.querySelector('input[name="opening_date"]') as HTMLInputElement;
-                if (openingDateField) {
-                  openingDateField.value = formattedDate;
-                  // Trigger change event to update form state
-                  openingDateField.dispatchEvent(new Event('input', { bubbles: true }));
-                }
+                setValue("opening_date", formattedDate);
               }
             }
           }
