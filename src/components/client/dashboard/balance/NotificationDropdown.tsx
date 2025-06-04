@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Bell } from 'lucide-react';
 
@@ -49,14 +48,6 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
         className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative cursor-pointer"
         onClick={handleToggleNotifications}
         title="Notificações"
-        style={{
-          WebkitTapHighlightColor: 'transparent',
-          WebkitTouchCallout: 'none',
-          WebkitUserSelect: 'none',
-          MozUserSelect: 'none',
-          msUserSelect: 'none',
-          userSelect: 'none'
-        }}
       >
         <Bell className="h-5 w-5 text-gray-500" />
         {notificationCount > 0 && (
@@ -67,52 +58,21 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
       </button>
       
       {showNotifications && (
-        <div 
-          className="absolute top-full w-[320px] max-w-[90vw] bg-white border border-gray-200 rounded-b-lg shadow-lg z-[5000] -right-[75px] md:-right-[13px]" 
-          style={{ 
-            marginTop: '17.9px',
-            WebkitBoxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-            MozBoxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-            WebkitBorderRadius: '0 0 8px 8px',
-            MozBorderRadius: '0 0 8px 8px',
-            borderRadius: '0 0 8px 8px',
-            backgroundColor: '#ffffff',
-            position: 'absolute'
-          }}
-        >
+        <div className="absolute top-full w-[320px] max-w-[90vw] bg-white border border-gray-200 rounded-b-lg shadow-lg z-[5] -right-[75px] md:-right-[13px]" style={{ marginTop: '17.9px' }}>
           <div className="p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-semibold text-gray-800 ml-[7px]">Notificações</h3>
               <span className="text-sm text-gray-500">({notifications.length})</span>
             </div>
-            <div className="space-y-3 flex flex-col items-center max-h-80 overflow-y-auto scrollbar-hide">
+            <div className="space-y-3 flex flex-col items-center max-h-80 overflow-y-auto">
               {notifications.map((notification) => (
-                <div 
-                  key={notification.id} 
-                  className="w-full px-3 py-3 bg-blue-50 rounded-lg text-left hover:bg-blue-100 transition-colors cursor-pointer"
-                  style={{
-                    WebkitTransition: 'background-color 0.2s ease',
-                    MozTransition: 'background-color 0.2s ease',
-                    transition: 'background-color 0.2s ease',
-                    WebkitBorderRadius: '8px',
-                    MozBorderRadius: '8px',
-                    borderRadius: '8px'
-                  }}
-                >
+                <div key={notification.id} className="w-full px-3 py-3 bg-blue-50 rounded-lg text-left hover:bg-blue-100 transition-colors cursor-pointer">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <p className="text-sm text-black font-medium mb-1">{notification.message}</p>
                       <span className="text-xs text-gray-600">{notification.time}</span>
                     </div>
-                    <div 
-                      className="w-2 h-2 bg-blue-500 rounded-full mt-2 ml-2"
-                      style={{
-                        WebkitBorderRadius: '50%',
-                        MozBorderRadius: '50%',
-                        borderRadius: '50%'
-                      }}
-                    ></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 ml-2"></div>
                   </div>
                 </div>
               ))}
@@ -127,16 +87,7 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
             
             {notifications.length > 0 && (
               <div className="mt-4 pt-3 border-t border-gray-200">
-                <button 
-                  className="w-full text-center text-sm text-blue-600 hover:text-blue-800 font-medium"
-                  style={{
-                    WebkitTransition: 'color 0.2s ease',
-                    MozTransition: 'color 0.2s ease',
-                    transition: 'color 0.2s ease',
-                    WebkitTapHighlightColor: 'transparent',
-                    outline: 'none'
-                  }}
-                >
+                <button className="w-full text-center text-sm text-blue-600 hover:text-blue-800 font-medium">
                   Ver todas as notificações
                 </button>
               </div>
@@ -147,4 +98,3 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
     </div>
   );
 }
-
