@@ -37,65 +37,18 @@ export const StatusIndicators = ({
         </text>
       )}
       
-      {/* Progress feedback during capture */}
-      {faceDetected && faceProximity === "ideal" && (
-        <>
-          <text 
-            x="128" 
-            y="260" 
-            textAnchor="middle" 
-            fill={isCapturing ? "#dc2626" : "#16a34a"} 
-            fontSize="20" 
-            fontWeight="bold"
-            filter="url(#glow)"
-            style={{ animation: isCapturing ? "pulse 1s infinite" : "none" }}
-          >
-            {Math.round(captureProgress)}%
-          </text>
-          
-          <text 
-            x="128" 
-            y="285" 
-            textAnchor="middle" 
-            fill="#ffffff" 
-            fontSize="14" 
-            fontWeight="bold"
-            filter="url(#glow)"
-          >
-            {isCapturing ? "🔴 NÃO SAIA DO OVAL!" : "✅ Posição perfeita"}
-          </text>
-        </>
-      )}
-      
-      {/* Aviso CRÍTICO durante captura ativa */}
-      {isCapturing && (
+      {/* Progress feedback during capture - removed text overlays */}
+      {faceDetected && faceProximity === "ideal" && !isCapturing && (
         <text 
           x="128" 
-          y="40" 
+          y="285" 
           textAnchor="middle" 
-          fill="#dc2626" 
-          fontSize="16" 
-          fontWeight="bold"
-          filter="url(#glow)"
-          style={{ animation: "pulse 0.5s infinite" }}
-        >
-          🚨 CAPTURANDO - NÃO MOVA!
-        </text>
-      )}
-      
-      {/* Status de proximidade durante captura */}
-      {isCapturing && faceProximity !== "ideal" && (
-        <text 
-          x="128" 
-          y="300" 
-          textAnchor="middle" 
-          fill="#dc2626" 
+          fill="#ffffff" 
           fontSize="14" 
           fontWeight="bold"
           filter="url(#glow)"
-          style={{ animation: "pulse 0.3s infinite" }}
         >
-          ⚠️ VOLTA PARA O CENTRO!
+          ✅ Posição perfeita
         </text>
       )}
     </>

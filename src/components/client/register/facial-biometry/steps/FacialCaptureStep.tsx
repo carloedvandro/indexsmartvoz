@@ -1,4 +1,3 @@
-
 import { useRef } from "react";
 import Webcam from "react-webcam";
 import { useEffect } from "react";
@@ -76,10 +75,10 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
 
   return (
     <div className="relative h-[540px] bg-black overflow-hidden rounded-lg">
-      {/* Header with title */}
+      {/* Simplified header */}
       <div className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 z-20 text-center">
         <p className="text-sm font-medium">
-          {isCapturing ? "🔴 CAPTURANDO - NÃO MOVA O ROSTO!" : "Centralize seu rosto no oval"}
+          Centralize seu rosto no oval
         </p>
       </div>
       
@@ -103,33 +102,21 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
         onToggle={toggleCamera}
       />
       
-      {/* Enhanced status indicator with stricter warnings */}
+      {/* Simplified status indicator */}
       <div className="absolute bottom-6 w-full flex justify-center items-center">
         {isProcessing && (
           <div className="bg-black bg-opacity-70 text-white px-3 py-2 rounded-full text-sm animate-pulse">
-            Processando imagem validada...
+            Processando imagem...
           </div>
         )}
         
-        {!isProcessing && isCapturing && (
-          <div className="bg-red-600 bg-opacity-90 text-white px-4 py-2 rounded-full text-sm font-bold animate-pulse border-2 border-red-400">
-            🔴 CAPTURANDO ({Math.round(captureProgress)}%) - NÃO SAIA DO OVAL!
-          </div>
-        )}
-        
-        {!isProcessing && !isCapturing && faceDetected && faceProximity === "ideal" && (
+        {!isProcessing && faceDetected && faceProximity === "ideal" && (
           <div className="bg-green-600 bg-opacity-70 text-white px-3 py-2 rounded-full text-sm">
-            ✅ Posição perfeita - Aguarde iniciar...
+            ✅ Posição perfeita
           </div>
         )}
         
-        {!isProcessing && !isCapturing && faceDetected && faceProximity !== "ideal" && (
-          <div className="bg-yellow-600 bg-opacity-70 text-white px-3 py-2 rounded-full text-sm">
-            ⚠️ Ajuste a posição do rosto
-          </div>
-        )}
-        
-        {!isProcessing && !isCapturing && !faceDetected && (
+        {!isProcessing && !faceDetected && (
           <div className="bg-red-600 bg-opacity-70 text-white px-3 py-2 rounded-full text-sm">
             ❌ Rosto não detectado
           </div>
