@@ -24,7 +24,7 @@ export const fetchCPFData = async (cpf: string): Promise<CPFData | null> => {
     // Em produção, isso seria uma API real de consulta de CPF
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Dados simulados baseados no CPF para demonstração completa
+    // Dados simulados baseados no CPF
     const mockData: CPFData = {
       nome: "João da Silva Santos",
       data_nascimento: "15/03/1985",
