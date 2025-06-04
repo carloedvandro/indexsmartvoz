@@ -171,50 +171,68 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
       }
     } else {
       maskedValue = cnpjMask(value);
+      console.log("CNPJ digitado:", cleanValue, "Comprimento:", cleanValue.length);
+      
       // Validar CNPJ se estiver completo
       if (cleanValue.length === 14) {
+        console.log("CNPJ completo, validando...");
         const isValid = isValidCNPJ(cleanValue);
+        console.log("CNPJ válido:", isValid);
+        
         if (!isValid) {
           form.setError("cnpj", { message: "CNPJ inválido" });
         } else {
           form.clearErrors("cnpj");
           // Buscar dados do CNPJ automaticamente
+          console.log("Iniciando busca de dados do CNPJ...");
           setIsLoadingCNPJ(true);
           try {
             const cnpjData = await fetchCNPJData(cleanValue);
+            console.log("Dados retornados do CNPJ:", cnpjData);
+            
             if (cnpjData) {
               // Preencher campos automaticamente com capitalização
               if (cnpjData.razao_social || cnpjData.nome_fantasia) {
                 const companyName = cnpjData.razao_social || cnpjData.nome_fantasia || "";
+                console.log("Preenchendo razão social:", companyName);
                 form.setValue("full_name", capitalizeWords(companyName));
               }
               
+              // Preencher data de abertura se disponível
               if (cnpjData.data_inicio_atividade) {
+                console.log("Preenchendo data de abertura:", cnpjData.data_inicio_atividade);
                 // Converter formato da data de DD/MM/YYYY para YYYY-MM-DD
                 const [day, month, year] = cnpjData.data_inicio_atividade.split('/');
                 if (day && month && year) {
-                  form.setValue("birth_date", `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`);
+                  const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                  console.log("Data de abertura formatada:", formattedDate);
+                  form.setValue("birth_date", formattedDate);
                 }
               }
 
               // Preencher endereço se disponível com capitalização
               if (cnpjData.logradouro) {
+                console.log("Preenchendo logradouro:", cnpjData.logradouro);
                 form.setValue("address", capitalizeWords(cnpjData.logradouro));
               }
               
               if (cnpjData.numero) {
+                console.log("Preenchendo número:", cnpjData.numero);
                 form.setValue("address_number", cnpjData.numero);
               }
               
               if (cnpjData.bairro) {
+                console.log("Preenchendo bairro:", cnpjData.bairro);
                 form.setValue("neighborhood", capitalizeWords(cnpjData.bairro));
               }
               
               if (cnpjData.municipio) {
+                console.log("Preenchendo cidade:", cnpjData.municipio);
                 form.setValue("city", cnpjData.municipio);
               }
               
               if (cnpjData.uf) {
+                console.log("Preenchendo estado:", cnpjData.uf);
                 // Converter abreviação para nome completo
                 const fullStateName = abbreviationToFullName[cnpjData.uf];
                 if (fullStateName) {
@@ -223,12 +241,12 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
               }
               
               if (cnpjData.cep) {
+                console.log("Preenchendo CEP:", cnpjData.cep);
                 const cleanCep = cnpjData.cep.replace(/\D/g, '');
                 form.setValue("zip_code", cleanCep);
-                // Disparar evento para atualizar o campo CEP na interface
-                const event = new Event('cep-update');
-                window.dispatchEvent(event);
               }
+            } else {
+              console.log("Nenhum dado encontrado para o CNPJ");
             }
           } catch (error) {
             console.error("Erro ao buscar dados do CNPJ:", error);
