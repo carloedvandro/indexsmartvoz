@@ -1,56 +1,70 @@
-
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { ProfileWithSponsor } from "@/types/profile";
-import { updateProfile } from "@/services/user/userUpdate";
+import { useQueryClient } from "@tanstack/react-query";
 import { bankingSchema, BankingFormData } from "../schemas/bankingSchema";
+import { ProfileWithSponsor } from "@/types/profile";
+import { supabase } from "@/integrations/supabase/client";
+import { log, logError } from "@/utils/logging/userLogger";
 
 export function useBankingForm(profile: ProfileWithSponsor) {
-  const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const form = useForm<BankingFormData>({
     resolver: zodResolver(bankingSchema),
     defaultValues: {
-      bank_name: profile.bank_name || "",
-      account_type: profile.account_type || "Conta Corrente",
-      agency_number: profile.agency_number || "",
-      agency_digit: profile.agency_digit || "",
-      account_number: profile.account_number || "",
-      account_digit: profile.account_digit || "",
-      account_name: profile.account_name || profile.full_name || "",
-      cpf_cnpj: profile.cpf_cnpj || profile.cpf || "",
-      security_password: profile.security_password || "",
+      bank_name: profile?.bank_name || "",
+      account_type: "",
+      agency: "",
+      agency_digit: "",
+      account_number: profile?.account_number || "",
+      account_digit: "",
+      person_type: profile?.person_type || "",
+      document: profile?.cnpj || "",
+      account_holder: profile?.full_name || "",
+      opening_date: profile?.birth_date || ""
     },
   });
 
   const onSubmit = async (data: BankingFormData) => {
-    setIsSubmitting(true);
     try {
-      await updateProfile(profile.id, {
-        bank_name: data.bank_name,
-        account_number: data.account_number,
-        account_name: data.account_name,
-        agency_number: data.agency_number,
-        agency_digit: data.agency_digit,
-        account_digit: data.account_digit,
-        account_type: data.account_type,
-        cpf_cnpj: data.cpf_cnpj,
-        security_password: data.security_password,
-      });
-
+      setIsSubmitting(true);
+      log("info", "Submitting banking form", data);
+      
+      // Update the profile with banking information
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          bank_name: data.bank_name,
+          account_number: `${data.account_number}-${data.account_digit}`,
+          // Other banking fields could be stored in a JSON column or separate table
+          // For now, we'll just use the basic fields that exist in the profile table
+        })
+        .eq('id', profile.id);
+      
+      if (error) {
+        throw new Error(error.message);
+      }
+      
+      // Invalidate queries to refresh data
+      await queryClient.invalidateQueries({ queryKey: ["profile"] });
+      
       toast({
         title: "Sucesso",
-        description: "Dados bancários atualizados com sucesso!",
+        description: "Dados bancários atualizados com sucesso",
       });
-    } catch (error) {
-      console.error("Erro ao atualizar dados bancários:", error);
+      
+      log("info", "Banking form submitted successfully", data);
+    } catch (error: any) {
+      logError("Error submitting banking form", error);
+      
       toast({
-        title: "Erro",
-        description: "Não foi possível atualizar os dados bancários.",
         variant: "destructive",
+        title: "Erro ao salvar",
+        description: error.message || "Não foi possível salvar os dados bancários",
       });
     } finally {
       setIsSubmitting(false);
@@ -60,6 +74,6 @@ export function useBankingForm(profile: ProfileWithSponsor) {
   return {
     form,
     isSubmitting,
-    onSubmit,
+    onSubmit
   };
 }
