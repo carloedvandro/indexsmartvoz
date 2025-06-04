@@ -1,4 +1,3 @@
-
 import { User } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { useState } from "react";
@@ -29,6 +28,14 @@ interface CPFData {
   data_nascimento?: string;
   cpf?: string;
   situacao?: string;
+  endereco?: {
+    logradouro?: string;
+    numero?: string;
+    bairro?: string;
+    cidade?: string;
+    uf?: string;
+    cep?: string;
+  };
 }
 
 // Estados com nomes completos e suas respectivas cidades principais
@@ -127,19 +134,26 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
         }
       }
 
-      // Segunda tentativa: Simular dados para teste (já que APIs públicas de CPF são limitadas)
-      // Em produção, você precisaria de uma API paga ou integração com Serasa/SPC
-      console.log("Simulando dados do CPF para teste...");
+      // Simular dados completos para demonstração incluindo endereço
+      console.log("Simulando dados completos do CPF para teste...");
       
       // Simular um delay realista
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Retornar dados simulados para demonstração
+      // Retornar dados simulados completos para demonstração
       return {
         nome: "João da Silva Santos",
         data_nascimento: "15/03/1985",
         cpf: cpf,
-        situacao: "regular"
+        situacao: "regular",
+        endereco: {
+          logradouro: "Rua das Flores",
+          numero: "123",
+          bairro: "Centro",
+          cidade: "São Paulo",
+          uf: "SP",
+          cep: "01234567"
+        }
       };
       
     } catch (error) {
@@ -211,6 +225,43 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
                 if (formattedDate) {
                   console.log("Data formatada:", formattedDate);
                   form.setValue("birth_date", formattedDate);
+                }
+              }
+
+              // Preencher endereço se disponível
+              if (cpfData.endereco) {
+                console.log("Preenchendo endereço do CPF:", cpfData.endereco);
+                
+                if (cpfData.endereco.logradouro) {
+                  form.setValue("address", capitalizeWords(cpfData.endereco.logradouro));
+                }
+                
+                if (cpfData.endereco.numero) {
+                  form.setValue("address_number", cpfData.endereco.numero);
+                }
+                
+                if (cpfData.endereco.bairro) {
+                  form.setValue("neighborhood", capitalizeWords(cpfData.endereco.bairro));
+                }
+                
+                if (cpfData.endereco.cidade) {
+                  form.setValue("city", cpfData.endereco.cidade);
+                }
+                
+                if (cpfData.endereco.uf) {
+                  // Converter abreviação para nome completo
+                  const fullStateName = abbreviationToFullName[cpfData.endereco.uf];
+                  if (fullStateName) {
+                    form.setValue("state", fullStateName);
+                  }
+                }
+                
+                if (cpfData.endereco.cep) {
+                  const cleanCep = cpfData.endereco.cep.replace(/\D/g, '');
+                  form.setValue("zip_code", cleanCep);
+                  // Disparar evento para atualizar o campo CEP na interface
+                  const event = new Event('cep-update');
+                  window.dispatchEvent(event);
                 }
               }
             } else {
