@@ -1,4 +1,5 @@
 
+
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none !important;
@@ -10,19 +11,226 @@
   }
 }
 
+/* Cross-browser reset and normalization */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove scrollbars globally from all elements with cross-browser support */
 * {
+  /* Firefox */
   scrollbar-width: none !important;
+  /* Internet Explorer 10+ */
   -ms-overflow-style: none !important;
 }
 
+/* Webkit browsers (Chrome, Safari, Edge, Opera, Brave, Vivaldi) */
 *::-webkit-scrollbar {
   display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 
+*::-webkit-scrollbar-track {
+  display: none !important;
+  background: transparent !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  display: none !important;
+  background: transparent !important;
+}
+
+*::-webkit-scrollbar-corner {
+  display: none !important;
+  background: transparent !important;
+}
+
+/* Specific targeting for common scrollable elements */
+html, body {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  /* Webkit browsers */
+  -webkit-overflow-scrolling: touch;
+  /* Mozilla Firefox */
+  -moz-osx-font-smoothing: grayscale;
+  /* Webkit browsers */
+  -webkit-font-smoothing: antialiased;
+}
+
+html::-webkit-scrollbar, 
+body::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+/* Remove scrollbars from divs, sections, and other containers */
+div::-webkit-scrollbar,
+section::-webkit-scrollbar,
+main::-webkit-scrollbar,
+aside::-webkit-scrollbar,
+nav::-webkit-scrollbar,
+article::-webkit-scrollbar,
+ul::-webkit-scrollbar,
+ol::-webkit-scrollbar,
+pre::-webkit-scrollbar,
+code::-webkit-scrollbar,
+textarea::-webkit-scrollbar,
+input::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+/* Ensure overflow is still functional but without visible scrollbars */
+.overflow-y-auto, .overflow-x-auto, .overflow-auto {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+.overflow-y-auto::-webkit-scrollbar,
+.overflow-x-auto::-webkit-scrollbar,
+.overflow-auto::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+/* Cross-browser button and focus styles normalization */
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Remove focus outlines consistently across browsers */
 button:focus, 
 a:focus, 
 img:focus, 
+input:focus,
+select:focus,
+textarea:focus,
 [role="button"]:focus {
   outline: none !important;
   box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent !important;
 }
+
+/* Normalize text rendering across browsers */
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
+}
+
+/* Browser-specific fixes */
+
+/* Chrome, Safari, Edge, Opera, Brave, Vivaldi */
+@supports (-webkit-appearance: none) {
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+}
+
+/* Firefox specific */
+@-moz-document url-prefix() {
+  * {
+    scrollbar-width: none !important;
+  }
+}
+
+/* Microsoft Edge Legacy */
+@supports (-ms-ime-align: auto) {
+  * {
+    -ms-overflow-style: none !important;
+  }
+}
+
+/* Ensure mobile devices also hide scrollbars */
+@media (max-width: 768px) {
+  * {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
+  }
+  
+  /* Touch device optimizations */
+  button, input, select, textarea {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Print styles */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+}
+
+/* Tor Browser specific (uses Firefox engine) */
+@media screen and (-moz-touch-enabled: 0) {
+  * {
+    scrollbar-width: none !important;
+  }
+}
+
+/* DuckDuckGo Browser (uses Webkit) */
+@supports (background: -webkit-named-image(i)) {
+  *::-webkit-scrollbar {
+    display: none !important;
+  }
+}
+
+/* Maxthon Browser specific */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+}
+
