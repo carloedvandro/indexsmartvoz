@@ -1,5 +1,4 @@
 
-
 import { useState } from 'react';
 import { Bell } from 'lucide-react';
 
@@ -60,7 +59,7 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
       </button>
       
       {showNotifications && (
-        <div className="absolute top-full w-[356px] max-w-[90vw] bg-white border border-gray-200 rounded-b-lg shadow-lg z-[5] -right-[93px] md:-right-[31px]" style={{ marginTop: '17.9px' }}>
+        <div className="absolute top-full w-[336px] max-w-[90vw] bg-white border border-gray-200 rounded-b-lg shadow-lg z-[5] -right-[83px] md:-right-[21px]" style={{ marginTop: '17.9px' }}>
           <div className="p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-semibold text-gray-800 ml-[7px]">Notificações</h3>
@@ -100,4 +99,3 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
     </div>
   );
 }
-
