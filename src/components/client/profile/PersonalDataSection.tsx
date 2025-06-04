@@ -310,6 +310,18 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
     form.setValue("full_name", value);
   };
 
+  // Limpar campos ao mudar o tipo de pessoa
+  const handlePersonTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newType = e.target.value;
+    form.setValue("person_type", newType);
+    
+    // Limpar dados específicos de cada tipo de pessoa
+    setDocumentValue("");
+    form.setValue("cnpj", "");
+    form.setValue("birth_date", "");
+    form.clearErrors("cnpj");
+  };
+
   const isLoadingDocument = isLoadingCPF || isLoadingCNPJ;
 
   return (
@@ -350,12 +362,7 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
               backgroundRepeat: 'no-repeat',
               backgroundSize: '1.5em 1.5em'
             }}
-            onChange={(e) => {
-              form.setValue("person_type", e.target.value);
-              setDocumentValue("");
-              form.setValue("cnpj", "");
-              form.clearErrors("cnpj");
-            }}
+            onChange={handlePersonTypeChange}
           >
             <option value="">Selecione</option>
             <option value="Pessoa Física">Pessoa Física</option>
