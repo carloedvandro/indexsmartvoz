@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Bell } from 'lucide-react';
 
@@ -58,7 +59,16 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
       </button>
       
       {showNotifications && (
-        <div className="absolute top-full w-[320px] max-w-[90vw] bg-white border border-gray-200 rounded-b-lg shadow-lg z-[5] -right-[75px] md:-right-[13px]" style={{ marginTop: '17.9px' }}>
+        <div 
+          className="absolute top-full w-[320px] max-w-[90vw] bg-white border border-gray-200 rounded-b-lg shadow-lg z-[5]" 
+          style={{ 
+            marginTop: '17.9px', 
+            right: '-75px',
+            transform: 'translateZ(0)',
+            WebkitTransform: 'translateZ(0)',
+            msTransform: 'translateZ(0)'
+          }}
+        >
           <div className="p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-semibold text-gray-800 ml-[7px]">Notificações</h3>
@@ -66,7 +76,10 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
             </div>
             <div className="space-y-3 flex flex-col items-center max-h-80 overflow-y-auto">
               {notifications.map((notification) => (
-                <div key={notification.id} className="w-full px-3 py-3 bg-blue-50 rounded-lg text-left hover:bg-blue-100 transition-colors cursor-pointer">
+                <div 
+                  key={notification.id} 
+                  className="w-full px-3 py-3 bg-blue-50 rounded-lg text-left hover:bg-blue-100 transition-colors cursor-pointer"
+                >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <p className="text-sm text-black font-medium mb-1">{notification.message}</p>

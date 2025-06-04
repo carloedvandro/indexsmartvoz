@@ -20,7 +20,10 @@ const ScrollArea = React.forwardRef<
       style={{ 
         scrollbarWidth: 'none',
         msOverflowStyle: 'none',
-        WebkitOverflowScrolling: 'touch'
+        WebkitOverflowScrolling: 'touch',
+        transform: 'translateZ(0)',
+        WebkitTransform: 'translateZ(0)',
+        msTransform: 'translateZ(0)'
       }}
     >
       {children}
