@@ -18,7 +18,7 @@ export function BankingForm({ profile }: BankingFormProps) {
   const { form, isSubmitting, onSubmit } = useBankingForm(profile);
 
   return (
-    <div className="max-w-sm mx-auto px-4 py-6 mt-[5px]">
+    <div className="max-w-sm mx-auto px-4 py-6">
       <BankingFormHeader />
 
       <Form {...form}>
