@@ -1,160 +1,180 @@
 
-/* Arquivo de normalização para compatibilidade cross-browser */
+/* Cross-Browser Normalization Styles */
 
-/* Normalização básica para todos os navegadores */
+/* Reset box model and remove default margins/paddings */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* Corpo e HTML */
-html, body {
-  height: 100%;
-  width: 100%;
+/* Normalize font rendering across all browsers */
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+body {
   line-height: 1.5;
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  font-feature-settings: "cv11", "ss01";
-  font-synthesis: none;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
 }
 
-/* Ajustes para Firefox */
-@-moz-document url-prefix() {
-  * {
-    scrollbar-width: none !important;
-  }
-  
-  button, input, select, textarea {
-    font-family: inherit;
-  }
-}
-
-/* Ajustes para WebKit (Chrome, Safari, Opera mais recente) */
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-  * {
-    -webkit-appearance: none;
-  }
-  
-  ::-webkit-scrollbar {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
-  }
-}
-
-/* Ajustes para Edge e IE */
-@supports (-ms-ime-align: auto) {
-  * {
-    -ms-overflow-style: none;
-  }
-  
-  body, button, input, select, textarea {
-    font-family: inherit;
-  }
-}
-
-/* Ajustes para Safari */
-@supports (font: -apple-system-body) {
-  body {
-    -webkit-text-size-adjust: 100%;
-  }
-}
-
-/* Normalização de fontes para todos os navegadores */
-button, input, select, textarea {
-  font: inherit;
+/* Normalize form elements across browsers */
+button, input, optgroup, select, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
   color: inherit;
 }
 
-/* Defina elementos de bloco como display: flex para consistência */
-.flex, 
-.flex-row, 
-.flex-col, 
-.items-center, 
-.justify-center, 
-.justify-between {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
+button, input {
+  overflow: visible;
 }
 
-/* Garantir que o flexbox funcione consistentemente */
-.flex-row {
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row;
+button, select {
+  text-transform: none;
 }
 
-.flex-col {
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
+/* Remove default button styles */
+button, [type="button"], [type="reset"], [type="submit"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 
-.items-center {
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
-  align-items: center;
+/* Remove default input styles */
+input, textarea, select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  outline: none;
 }
 
-.justify-center {
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
+/* Normalize link styles */
+a {
+  background-color: transparent;
+  text-decoration: none;
+  color: inherit;
 }
 
-.justify-between {
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
+/* Normalize list styles */
+ul, ol {
+  list-style: none;
 }
 
-/* Correções para menus dropdown em diferentes navegadores */
-.dropdown-menu,
-[role="menu"],
-[role="listbox"],
-.popover,
-.tooltip {
-  position: absolute;
-  z-index: 50;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+/* Normalize table styles */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
-/* Ajustes para Safari e outros navegadores com problemas de posicionamento */
-@media not all and (min-resolution: 0.001dpcm) {
-  @supports (-webkit-appearance: none) {
-    .absolute {
-      position: absolute !important;
-    }
-    
-    .dropdown-menu,
-    [role="menu"],
-    [role="listbox"] {
-      transform: translateZ(0);
-    }
+/* Remove default fieldset styles */
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove default legend styles */
+legend {
+  color: inherit;
+  display: table;
+  max-width: 100%;
+  padding: 0;
+  white-space: normal;
+}
+
+/* Normalize progress element */
+progress {
+  vertical-align: baseline;
+}
+
+/* Remove default summary styles */
+summary {
+  display: list-item;
+}
+
+/* Normalize template and hidden elements */
+template, [hidden] {
+  display: none;
+}
+
+/* Browser-specific fixes for consistent layout */
+
+/* Chrome, Safari, Edge, Opera, Brave, Vivaldi */
+@supports (-webkit-appearance: none) {
+  input[type="search"] {
+    -webkit-appearance: textfield;
+    outline-offset: -2px;
+  }
+  
+  input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+  
+  ::-webkit-file-upload-button {
+    -webkit-appearance: button;
+    font: inherit;
   }
 }
 
-/* Consertando problemas de largura em containers */
-.w-full {
-  width: 100% !important;
-  max-width: 100% !important;
+/* Firefox specific normalization */
+@-moz-document url-prefix() {
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  
+  input[type="number"]::-moz-number-spin-box {
+    -moz-appearance: none;
+  }
 }
 
-/* Ajustando a altura automática corretamente */
-.h-auto {
-  height: auto !important;
+/* Microsoft Edge specific */
+@supports (-ms-ime-align: auto) {
+  input {
+    -ms-clear: none;
+  }
 }
 
-/* Garantir comportamento consistente de z-index */
-.z-10, .z-20, .z-30, .z-40, .z-50 {
-  position: relative;
+/* Mobile-specific normalizations */
+@media (max-width: 768px) {
+  /* Prevent zoom on input focus */
+  input[type="text"], 
+  input[type="email"], 
+  input[type="password"], 
+  input[type="number"], 
+  input[type="tel"], 
+  input[type="url"], 
+  textarea, 
+  select {
+    font-size: 16px !important;
+  }
+  
+  /* Remove tap highlight */
+  * {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+  }
 }
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+

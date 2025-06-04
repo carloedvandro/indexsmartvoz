@@ -56,6 +56,9 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
     );
   };
 
+  // Use the actual profile image from the profile data or the hardcoded one as fallback
+  const profileImage = profile?.profile_image || "https://images.unsplash.com/photo-1649972904349-6e44c42644a7";
+
   return (
     <div className="relative">
       <button 
@@ -64,7 +67,7 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
         title="Menu do usuário"
       >
         <UserAvatar
-          profileImage={profile?.profile_image}
+          profileImage={profileImage}
           fullName={profile?.full_name}
           isActive={profile?.status === 'active'}
           size="sm"
@@ -73,14 +76,7 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
       </button>
       
       {showUserMenu && (
-        <div 
-          className="absolute right-0 top-full mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-10"
-          style={{ 
-            transform: 'translateZ(0)',
-            WebkitTransform: 'translateZ(0)',
-            msTransform: 'translateZ(0)'
-          }}
-        >
+        <div className="absolute right-0 top-full mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
           <div className="py-2">
             <Link
               to="/client/dashboard"
