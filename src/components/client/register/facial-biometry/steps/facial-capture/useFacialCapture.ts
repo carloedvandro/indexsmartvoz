@@ -2,7 +2,10 @@
 import { useState, RefObject, useEffect, useCallback } from "react";
 import Webcam from "react-webcam";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { useCaptureValidation } from "./hooks/useCaptureValidation";
+import { useCaptureProgress } from "./hooks/useCaptureProgress";
+import { uploadFacialImage } from "./utils/imageUpload";
+import { CAPTURE_CONFIG } from "./config/captureConfig";
 
 interface UseFacialCaptureProps {
   webcamRef: RefObject<Webcam>;
@@ -19,72 +22,51 @@ export const useFacialCapture = ({
 }: UseFacialCaptureProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [cameraActive, setCameraActive] = useState(true);
-  const [captureProgress, setCaptureProgress] = useState(0);
-  const [isCapturing, setIsCapturing] = useState(false);
-  const [consecutiveValidFrames, setConsecutiveValidFrames] = useState(0);
-  const [captureStartTime, setCaptureStartTime] = useState<number | null>(null);
   const { toast } = useToast();
 
-  // Configurações de segurança MAIS RIGOROSAS para a captura
-  const REQUIRED_CONSECUTIVE_FRAMES = 50; // Aumentado para 50 frames (5 segundos)
-  const PROGRESS_INCREMENT = 100 / REQUIRED_CONSECUTIVE_FRAMES;
-  const VALIDATION_INTERVAL = 100; // Validação a cada 100ms
-  const MAX_CAPTURE_TIME = 15000; // Timeout máximo de 15 segundos
+  const {
+    captureProgress,
+    isCapturing,
+    consecutiveValidFrames,
+    captureStartTime,
+    isComplete,
+    startCapture,
+    resetProgress,
+    incrementProgress
+  } = useCaptureProgress();
 
-  // RESET IMEDIATO quando condições não são atendidas
-  const resetCapture = useCallback((reason?: string) => {
-    console.log("🔴 RESETANDO CAPTURA:", reason || "Condições não atendidas");
-    setIsCapturing(false);
-    setCaptureProgress(0);
-    setConsecutiveValidFrames(0);
-    setCaptureStartTime(null);
-    
-    if (reason) {
-      toast({
-        title: "Captura Resetada",
-        description: reason,
-        variant: "destructive",
-      });
-    }
-  }, [toast]);
+  const {
+    validateCaptureConditions,
+    shouldStartCapture,
+    resetCapture
+  } = useCaptureValidation({
+    faceDetected,
+    faceProximity,
+    isCapturing,
+    captureStartTime
+  });
 
-  // Monitoramento RIGOROSO das condições do rosto
+  // RIGOROUS monitoring of face conditions
   useEffect(() => {
-    // Se não está capturando, não faz nada
     if (!isCapturing) return;
 
-    // VALIDAÇÃO IMEDIATA: Se perdeu o rosto ou saiu da posição ideal, PARA TUDO
-    if (!faceDetected || faceProximity !== "ideal") {
-      const reason = !faceDetected 
-        ? "Rosto não detectado durante a captura" 
-        : "Rosto fora da posição ideal";
-      resetCapture(reason);
-      return;
+    const validation = validateCaptureConditions();
+    if (!validation.isValid) {
+      resetProgress();
     }
+  }, [faceDetected, faceProximity, isCapturing, validateCaptureConditions, resetProgress]);
 
-    // Verificar timeout da captura
-    if (captureStartTime && Date.now() - captureStartTime > MAX_CAPTURE_TIME) {
-      resetCapture("Tempo limite da captura excedido");
-      return;
-    }
-
-  }, [faceDetected, faceProximity, isCapturing, resetCapture, captureStartTime]);
-
-  // Lógica de início da captura
+  // Capture start logic
   useEffect(() => {
-    // Se já está processando ou capturando, não inicia nova captura
+    // If already processing or capturing, don't start new capture
     if (isProcessing || isCapturing) return;
     
-    // Se não tem câmera ativa, não inicia captura
+    // If no active camera, don't start capture
     if (!cameraActive) return;
 
-    // CONDIÇÕES RIGOROSAS para iniciar captura
-    if (faceDetected && faceProximity === "ideal") {
-      console.log("🟢 INICIANDO CAPTURA - Condições atendidas");
-      setIsCapturing(true);
-      setCaptureProgress(0);
-      setConsecutiveValidFrames(0);
-      setCaptureStartTime(Date.now());
+    // RIGOROUS CONDITIONS to start capture
+    if (shouldStartCapture()) {
+      startCapture();
       
       toast({
         title: "Captura Iniciada",
@@ -92,108 +74,86 @@ export const useFacialCapture = ({
         duration: 2000,
       });
     }
-  }, [faceDetected, faceProximity, isProcessing, cameraActive, isCapturing, toast]);
+  }, [faceDetected, faceProximity, isProcessing, cameraActive, isCapturing, shouldStartCapture, startCapture, toast]);
 
-  // Sistema de validação contínua durante a captura
+  // Continuous validation system during capture
   useEffect(() => {
     if (!isCapturing) return;
 
     const validationInterval = setInterval(() => {
-      // VERIFICAÇÃO DUPLA: Rosto detectado E na posição ideal
+      // DOUBLE CHECK: Face detected AND in ideal position
       if (faceDetected && faceProximity === "ideal") {
-        setConsecutiveValidFrames(prev => {
-          const newCount = prev + 1;
-          const newProgress = Math.min(newCount * PROGRESS_INCREMENT, 100);
-          setCaptureProgress(newProgress);
-          
-          console.log(`✅ Frame válido ${newCount}/${REQUIRED_CONSECUTIVE_FRAMES} - Progresso: ${newProgress.toFixed(1)}%`);
-          
-          return newCount;
-        });
+        incrementProgress();
       } else {
-        // Se perdeu as condições durante a captura, resetar IMEDIATAMENTE
+        // If lost conditions during capture, reset IMMEDIATELY
         console.log("❌ Condições perdidas durante captura - resetando...");
         clearInterval(validationInterval);
-        resetCapture("Rosto saiu da posição durante a captura");
+        const reason = !faceDetected 
+          ? "Rosto não detectado durante a captura" 
+          : "Rosto saiu da posição durante a captura";
+        resetProgress();
+        toast({
+          title: "Captura Resetada",
+          description: reason,
+          variant: "destructive",
+        });
       }
-    }, VALIDATION_INTERVAL);
+    }, CAPTURE_CONFIG.VALIDATION_INTERVAL);
 
     return () => clearInterval(validationInterval);
-  }, [isCapturing, faceDetected, faceProximity, resetCapture]);
+  }, [isCapturing, faceDetected, faceProximity, incrementProgress, resetProgress, toast]);
 
-  // Trigger para captura final quando atinge 100%
+  // Trigger for final capture when reaching 100%
   useEffect(() => {
-    if (consecutiveValidFrames >= REQUIRED_CONSECUTIVE_FRAMES && isCapturing && !isProcessing) {
+    if (isComplete && isCapturing && !isProcessing) {
       console.log("🎉 CAPTURA VALIDADA COMPLETAMENTE! Processando...");
       handleSecureCapture();
     }
-  }, [consecutiveValidFrames, isCapturing, isProcessing]);
+  }, [isComplete, isCapturing, isProcessing]);
 
   async function handleSecureCapture() {
     if (isProcessing || !webcamRef.current) return;
     
     console.log("📸 Iniciando captura segura...");
     
-    // VALIDAÇÃO FINAL TRIPLA antes da captura
+    // TRIPLE FINAL VALIDATION before capture
     if (!faceDetected || faceProximity !== "ideal" || !isCapturing) {
       console.log("❌ Validação final falhou");
-      resetCapture("Validação final falhou");
+      resetProgress();
+      toast({
+        title: "Erro na Captura",
+        description: "Validação final falhou",
+        variant: "destructive",
+      });
       return;
     }
     
     const imageSrc = webcamRef.current.getScreenshot();
     if (!imageSrc) {
       console.error("❌ Não foi possível capturar a imagem");
-      resetCapture("Erro ao capturar imagem");
+      resetProgress();
+      toast({
+        title: "Erro na Captura",
+        description: "Erro ao capturar imagem",
+        variant: "destructive",
+      });
       return;
     }
     
     setIsProcessing(true);
     
     try {
-      // Verificar autenticação
-      const { data: sessionData } = await supabase.auth.getSession();
-      if (!sessionData.session?.user) {
-        toast({
-          title: "Erro de Autenticação",
-          description: "Usuário não está autenticado. Por favor, faça login novamente.",
-          variant: "destructive",
-        });
-        resetCapture();
-        return;
-      }
-      
-      console.log("💾 Salvando imagem facial validada para usuário:", sessionData.session.user.id);
-      
-      // Salvar imagem no Supabase Storage
-      const userId = sessionData.session.user.id;
-      const blob = await fetch(imageSrc).then(res => res.blob());
-      const file = new File([blob], `facial-${Date.now()}.jpg`, { type: 'image/jpeg' });
-      const filePath = `${userId}/facial/${Date.now()}.jpg`;
-      
-      const { error: uploadError } = await supabase.storage
-        .from('documents')
-        .upload(filePath, file);
-        
-      if (uploadError) {
-        console.error('❌ Erro ao fazer upload da imagem facial:', uploadError);
-        throw uploadError;
-      }
-      
-      console.log("✅ Imagem facial validada enviada com sucesso");
+      await uploadFacialImage(imageSrc);
       
       toast({
         title: "Captura Concluída com Sucesso",
         description: "Seu rosto foi capturado e validado!",
       });
       
-      // Reset completo dos estados
-      setIsCapturing(false);
-      setCaptureProgress(0);
-      setConsecutiveValidFrames(0);
-      setCaptureStartTime(null);
+      // Complete reset of states
+      resetProgress();
       
-      // Pequeno delay para melhor UX
+      // Small delay for better UX
       await new Promise(resolve => setTimeout(resolve, 1000));
       onComplete(imageSrc);
     } catch (error) {
@@ -203,7 +163,7 @@ export const useFacialCapture = ({
         description: "Ocorreu um erro ao processar a imagem. Tente novamente.",
         variant: "destructive",
       });
-      resetCapture();
+      resetProgress();
     } finally {
       setIsProcessing(false);
     }
@@ -211,8 +171,12 @@ export const useFacialCapture = ({
 
   const toggleCamera = useCallback(() => {
     setCameraActive(prev => !prev);
-    resetCapture("Câmera desativada");
-  }, [resetCapture]);
+    resetProgress();
+    toast({
+      title: "Câmera",
+      description: "Câmera desativada",
+    });
+  }, [resetProgress, toast]);
 
   return {
     isProcessing,
