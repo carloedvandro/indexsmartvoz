@@ -50,7 +50,7 @@ export const useFacialCapture = ({
   useEffect(() => {
     if (!isCapturing) return;
 
-    // VERIFICAÇÃO RIGOROSA A CADA RENDER
+    // VERIFICAÇÃO RIGOROSA IMEDIATA - se perdeu face ou posição, RESET
     if (!faceDetected || faceProximity !== "ideal") {
       console.log("🚨 CONDIÇÕES PERDIDAS - RESETANDO CAPTURA IMEDIATAMENTE");
       console.log("Face detectada:", faceDetected, "Proximidade:", faceProximity);
@@ -86,27 +86,37 @@ export const useFacialCapture = ({
     }
   }, [faceDetected, faceProximity, isProcessing, cameraActive, isCapturing, shouldStartCapture, startCapture, toast]);
 
-  // Sistema de validação contínua durante captura
+  // Sistema de validação contínua durante captura - MAIS RIGOROSO
   useEffect(() => {
     if (!isCapturing) return;
 
     const validationInterval = setInterval(() => {
-      // VALIDAÇÃO TRIPLA: detectado + ideal + capturando
-      if (faceDetected && faceProximity === "ideal" && isCapturing) {
+      // VALIDAÇÃO TRIPLA OBRIGATÓRIA: detectado + ideal + capturando
+      const isValidFrame = faceDetected && faceProximity === "ideal" && isCapturing;
+      
+      if (isValidFrame) {
         console.log("✅ Frame válido - incrementando progresso");
         incrementProgress();
       } else {
-        // RESET IMEDIATO se perdeu condições
-        console.log("❌ FRAME INVÁLIDO - Resetando captura");
-        console.log("Detalhes:", { faceDetected, faceProximity, isCapturing });
+        // RESET IMEDIATO e FORÇADO se perdeu condições
+        console.log("❌ FRAME INVÁLIDO - Parando captura IMEDIATAMENTE");
+        console.log("Detalhes de falha:", { 
+          faceDetected, 
+          faceProximity, 
+          isCapturing,
+          timestamp: Date.now()
+        });
         
+        // Parar interval e resetar
         clearInterval(validationInterval);
         resetProgress();
         
         const reason = !faceDetected 
           ? "Rosto saiu do enquadramento" 
-          : "Rosto saiu da posição ideal";
-          
+          : faceProximity !== "ideal" 
+            ? "Rosto saiu da posição ideal"
+            : "Captura interrompida";
+            
         toast({
           title: "Captura Resetada",
           description: reason,
@@ -118,13 +128,26 @@ export const useFacialCapture = ({
     return () => clearInterval(validationInterval);
   }, [isCapturing, faceDetected, faceProximity, incrementProgress, resetProgress, toast]);
 
-  // Processar captura quando atingir 100%
+  // Processar captura quando atingir 100% - COM VALIDAÇÃO FINAL
   useEffect(() => {
     if (isComplete && isCapturing && !isProcessing) {
-      console.log("🎉 CAPTURA 100% VALIDADA! Processando...");
-      handleSecureCapture();
+      console.log("🎯 CAPTURA 100% - Validando condições finais...");
+      
+      // VALIDAÇÃO FINAL CRÍTICA antes de processar
+      if (faceDetected && faceProximity === "ideal") {
+        console.log("✅ VALIDAÇÃO FINAL APROVADA! Processando...");
+        handleSecureCapture();
+      } else {
+        console.log("❌ VALIDAÇÃO FINAL FALHOU - Resetando");
+        resetProgress();
+        toast({
+          title: "Erro na Captura",
+          description: "Validação final falhou - Mantenha o rosto na posição",
+          variant: "destructive",
+        });
+      }
     }
-  }, [isComplete, isCapturing, isProcessing]);
+  }, [isComplete, isCapturing, isProcessing, faceDetected, faceProximity]);
 
   async function handleSecureCapture() {
     if (isProcessing || !webcamRef.current) return;

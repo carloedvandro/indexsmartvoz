@@ -34,18 +34,18 @@ export const useCaptureValidation = ({
     };
   }, []);
 
-  // Validação RIGOROSA das condições de captura
+  // Validação SUPER RIGOROSA das condições de captura
   const validateCaptureConditions = useCallback((): ValidationResult => {
     // Se não está capturando, não precisa validar
     if (!isCapturing) return { isValid: true };
 
-    // VALIDAÇÃO CRÍTICA: Se perdeu rosto ou posição ideal, PARAR TUDO
+    // VALIDAÇÃO CRÍTICA OBRIGATÓRIA: Ambas condições devem ser verdadeiras
     if (!faceDetected) {
       return resetCapture("Rosto não detectado durante captura");
     }
 
     if (faceProximity !== "ideal") {
-      return resetCapture("Rosto fora da posição ideal durante captura");
+      return resetCapture(`Rosto fora da posição ideal: ${faceProximity}`);
     }
 
     // Verificar timeout
@@ -56,9 +56,15 @@ export const useCaptureValidation = ({
     return { isValid: true };
   }, [faceDetected, faceProximity, isCapturing, captureStartTime, resetCapture]);
 
-  // Verificar se deve iniciar captura (condições RIGOROSAS)
+  // Verificar se deve iniciar captura (condições SUPER RIGOROSAS)
   const shouldStartCapture = useCallback(() => {
-    return faceDetected && faceProximity === "ideal";
+    const canStart = faceDetected && faceProximity === "ideal";
+    
+    if (!canStart) {
+      console.log("❌ Não pode iniciar captura:", { faceDetected, faceProximity });
+    }
+    
+    return canStart;
   }, [faceDetected, faceProximity]);
 
   return {
