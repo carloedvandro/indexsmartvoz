@@ -2,151 +2,23 @@
 import { User } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { useState } from "react";
-import { cpfMask, cnpjMask, removeMask, cepMask } from "@/utils/masks";
+import { cpfMask, cnpjMask, removeMask } from "@/utils/masks";
 import { isValidCPF } from "@/utils/validation/cpfValidation";
 import { isValidCNPJ } from "@/utils/validation/documentValidation";
 import { capitalizeWords } from "@/utils/textFormat";
+import { fetchCNPJData } from "@/services/api/cnpjService";
+import { fetchCPFData } from "@/services/api/cpfService";
+import { abbreviationToFullName } from "@/data/brazilianStatesAndCities";
 
 interface PersonalDataSectionProps {
   form: UseFormReturn<any>;
 }
-
-interface CNPJData {
-  razao_social?: string;
-  nome_fantasia?: string;
-  data_inicio_atividade?: string;
-  cnpj?: string;
-  logradouro?: string;
-  numero?: string;
-  bairro?: string;
-  municipio?: string;
-  uf?: string;
-  cep?: string;
-}
-
-interface CPFData {
-  nome?: string;
-  data_nascimento?: string;
-  cpf?: string;
-  situacao?: string;
-}
-
-// Estados com nomes completos e suas respectivas cidades principais
-const statesAndCities = {
-  "Acre": ["Rio Branco", "Cruzeiro do Sul", "Sena Madureira", "Tarauacá", "Feijó"],
-  "Alagoas": ["Maceió", "Arapiraca", "Palmeira dos Índios", "Rio Largo", "Penedo"],
-  "Amapá": ["Macapá", "Santana", "Laranjal do Jari", "Oiapoque", "Mazagão"],
-  "Amazonas": ["Manaus", "Parintins", "Itacoatiara", "Manacapuru", "Coari"],
-  "Bahia": ["Salvador", "Feira de Santana", "Vitória da Conquista", "Camaçari", "Juazeiro", "Ilhéus", "Itabuna", "Lauro de Freitas"],
-  "Ceará": ["Fortaleza", "Caucaia", "Juazeiro do Norte", "Maracanaú", "Sobral", "Crato", "Itapipoca"],
-  "Distrito Federal": ["Brasília", "Gama", "Taguatinga", "Ceilândia", "Sobradinho"],
-  "Espírito Santo": ["Vitória", "Vila Velha", "Cariacica", "Serra", "Cachoeiro de Itapemirim", "Linhares"],
-  "Goiás": ["Goiânia", "Aparecida de Goiânia", "Anápolis", "Rio Verde", "Luziânia", "Águas Lindas de Goiás"],
-  "Maranhão": ["São Luís", "Imperatriz", "São José de Ribamar", "Timon", "Caxias", "Codó"],
-  "Mato Grosso": ["Cuiabá", "Várzea Grande", "Rondonópolis", "Sinop", "Tangará da Serra", "Cáceres"],
-  "Mato Grosso do Sul": ["Campo Grande", "Dourados", "Três Lagoas", "Corumbá", "Ponta Porã", "Naviraí"],
-  "Minas Gerais": ["Belo Horizonte", "Uberlândia", "Contagem", "Juiz de Fora", "Betim", "Montes Claros", "Ribeirão das Neves", "Uberaba"],
-  "Pará": ["Belém", "Ananindeua", "Santarém", "Marabá", "Parauapebas", "Castanhal"],
-  "Paraíba": ["João Pessoa", "Campina Grande", "Santa Rita", "Patos", "Bayeux", "Sousa"],
-  "Paraná": ["Curitiba", "Londrina", "Maringá", "Ponta Grossa", "Cascavel", "São José dos Pinhais", "Foz do Iguaçu"],
-  "Pernambuco": ["Recife", "Jaboatão dos Guararapes", "Olinda", "Bandeira do Marco", "Caruaru", "Petrolina", "Paulista"],
-  "Piauí": ["Teresina", "Parnaíba", "Picos", "Piripiri", "Floriano", "Campo Maior"],
-  "Rio de Janeiro": ["Rio de Janeiro", "São Gonçalo", "Duque de Caxias", "Nova Iguaçu", "Niterói", "Belford Roxo", "Campos dos Goytacazes"],
-  "Rio Grande do Norte": ["Natal", "Mossoró", "Parnamirim", "São Gonçalo do Amarante", "Macaíba", "Ceará-Mirim"],
-  "Rio Grande do Sul": ["Porto Alegre", "Caxias do Sul", "Pelotas", "Canoas", "Santa Maria", "Gravataí", "Viamão"],
-  "Rondônia": ["Porto Velho", "Ji-Paraná", "Ariquemes", "Vilhena", "Cacoal", "Rolim de Moura"],
-  "Roraima": ["Boa Vista", "Rorainópolis", "Caracaraí", "Alto Alegre", "Mucajaí"],
-  "Santa Catarina": ["Florianópolis", "Joinville", "Blumenau", "São José", "Criciúma", "Chapecó", "Itajaí"],
-  "São Paulo": ["São Paulo", "Guarulhos", "Campinas", "São Bernardo do Campo", "Santo André", "Osasco", "Ribeirão Preto", "Sorocaba"],
-  "Sergipe": ["Aracaju", "Nossa Senhora do Socorro", "Lagarto", "Itabaiana", "Estância", "Tobias Barreto"],
-  "Tocantins": ["Palmas", "Araguaína", "Gurupi", "Porto Nacional", "Paraíso do Tocantins", "Colinas do Tocantins"]
-};
-
-// Mapeamento para converter abreviações para nomes completos
-const abbreviationToFullName: { [key: string]: string } = {
-  "AC": "Acre",
-  "AL": "Alagoas",
-  "AP": "Amapá",
-  "AM": "Amazonas",
-  "BA": "Bahia",
-  "CE": "Ceará",
-  "DF": "Distrito Federal",
-  "ES": "Espírito Santo",
-  "GO": "Goiás",
-  "MA": "Maranhão",
-  "MT": "Mato Grosso",
-  "MS": "Mato Grosso do Sul",
-  "MG": "Minas Gerais",
-  "PA": "Pará",
-  "PB": "Paraíba",
-  "PR": "Paraná",
-  "PE": "Pernambuco",
-  "PI": "Piauí",
-  "RJ": "Rio de Janeiro",
-  "RN": "Rio Grande do Norte",
-  "RS": "Rio Grande do Sul",
-  "RO": "Rondônia",
-  "RR": "Roraima",
-  "SC": "Santa Catarina",
-  "SP": "São Paulo",
-  "SE": "Sergipe",
-  "TO": "Tocantins"
-};
 
 export function PersonalDataSection({ form }: PersonalDataSectionProps) {
   const personType = form.watch("person_type");
   const [documentValue, setDocumentValue] = useState(form.getValues("cnpj") || "");
   const [isLoadingCNPJ, setIsLoadingCNPJ] = useState(false);
   const [isLoadingCPF, setIsLoadingCPF] = useState(false);
-
-  const fetchCNPJData = async (cnpj: string): Promise<CNPJData | null> => {
-    try {
-      const response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`);
-      if (response.ok) {
-        return await response.json();
-      }
-      return null;
-    } catch (error) {
-      console.error("Erro ao buscar dados do CNPJ:", error);
-      return null;
-    }
-  };
-
-  const fetchCPFData = async (cpf: string): Promise<CPFData | null> => {
-    try {
-      console.log("Buscando dados do CPF:", cpf);
-      
-      // Primeira tentativa: API ServeRest (gratuita e funcional)
-      const response1 = await fetch(`https://api.invertexto.com/api/v1/validator?token=8624|CQSNpGsR6XhQYRELpOPJfxNzUNfEKOAl&value=${cpf}`);
-      if (response1.ok) {
-        const data = await response1.json();
-        console.log("Resposta API invertexto:", data);
-        if (data.valid) {
-          // Esta API só valida, não retorna dados pessoais
-          console.log("CPF válido, mas API não retorna dados pessoais");
-        }
-      }
-
-      // Segunda tentativa: Simular dados para teste (já que APIs públicas de CPF são limitadas)
-      // Em produção, você precisaria de uma API paga ou integração com Serasa/SPC
-      console.log("Simulando dados do CPF para teste...");
-      
-      // Simular um delay realista
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Retornar dados simulados para demonstração
-      return {
-        nome: "João da Silva Santos",
-        data_nascimento: "15/03/1985",
-        cpf: cpf,
-        situacao: "regular"
-      };
-      
-    } catch (error) {
-      console.error("Erro ao buscar dados do CPF:", error);
-      return null;
-    }
-  };
 
   const handleDocumentChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -192,6 +64,41 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
                   form.setValue("birth_date", formattedDate);
                 }
               }
+
+              // Preencher endereço se disponível
+              if (cpfData.endereco) {
+                if (cpfData.endereco.logradouro) {
+                  form.setValue("address", capitalizeWords(cpfData.endereco.logradouro));
+                }
+                
+                if (cpfData.endereco.numero) {
+                  form.setValue("address_number", cpfData.endereco.numero);
+                }
+                
+                if (cpfData.endereco.bairro) {
+                  form.setValue("neighborhood", capitalizeWords(cpfData.endereco.bairro));
+                }
+                
+                if (cpfData.endereco.cidade) {
+                  form.setValue("city", cpfData.endereco.cidade);
+                }
+                
+                if (cpfData.endereco.uf) {
+                  // Converter abreviação para nome completo
+                  const fullStateName = abbreviationToFullName[cpfData.endereco.uf];
+                  if (fullStateName) {
+                    form.setValue("state", fullStateName);
+                  }
+                }
+                
+                if (cpfData.endereco.cep) {
+                  const cleanCep = cpfData.endereco.cep.replace(/\D/g, '');
+                  form.setValue("zip_code", cleanCep);
+                  // Disparar evento para atualizar o campo CEP na interface
+                  const event = new Event('cep-update');
+                  window.dispatchEvent(event);
+                }
+              }
             } else {
               console.log("Nenhum dado encontrado para o CPF");
             }
@@ -216,7 +123,7 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
           try {
             const cnpjData = await fetchCNPJData(cleanValue);
             if (cnpjData) {
-              // Preencher campos automaticamente com capitalização
+              // Para CNPJ, preencher razão social no campo nome completo
               if (cnpjData.razao_social || cnpjData.nome_fantasia) {
                 const companyName = cnpjData.razao_social || cnpjData.nome_fantasia || "";
                 form.setValue("full_name", capitalizeWords(companyName));
@@ -284,6 +191,14 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
 
   const isLoadingDocument = isLoadingCPF || isLoadingCNPJ;
 
+  // Determinar o label do campo nome baseado no tipo de pessoa
+  const getNameFieldLabel = () => {
+    if (personType === "Pessoa Jurídica") {
+      return "Razão Social";
+    }
+    return "Nome completo";
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2 pb-2 border-b border-gray-200">
@@ -294,13 +209,13 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="lg:col-span-2 w-full">
           <label className="block text-xs font-medium text-gray-700 mb-2">
-            Nome completo <span className="text-red-500">*</span>
+            {getNameFieldLabel()} <span className="text-red-500">*</span>
           </label>
           <input
             value={form.watch("full_name") || ""}
             onChange={handleFullNameChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
-            placeholder="Nome completo"
+            placeholder={personType === "Pessoa Jurídica" ? "Razão social da empresa" : "Nome completo"}
           />
           {form.formState.errors.full_name && (
             <p className="text-red-500 text-xs mt-1">
@@ -327,6 +242,9 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
               setDocumentValue("");
               form.setValue("cnpj", "");
               form.clearErrors("cnpj");
+              // Limpar campos relacionados quando mudar o tipo de pessoa
+              form.setValue("full_name", "");
+              form.setValue("birth_date", "");
             }}
           >
             <option value="">Selecione</option>

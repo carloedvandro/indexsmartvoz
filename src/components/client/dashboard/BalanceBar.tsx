@@ -1,58 +1,36 @@
 
-import { BalanceDisplay } from './balance/BalanceDisplay';
-import { LogoSection } from './balance/LogoSection';
-import { NotificationDropdown } from './balance/NotificationDropdown';
-import { UserMenuDropdown } from './balance/UserMenuDropdown';
-import { useBalanceBarLogic } from './balance/hooks/useBalanceBarLogic';
+import { useState } from "react";
+import { LogoSection } from "./balance/LogoSection";
+import { BalanceDisplay } from "./balance/BalanceDisplay";
+import { UserMenuDropdown } from "./balance/UserMenuDropdown";
+import { NotificationDropdown } from "./balance/NotificationDropdown";
+import { ProfileWithSponsor } from "@/types/profile";
 
-export function BalanceBar() {
-  const {
-    isBalanceVisible,
-    showNotifications,
-    showUserMenu,
-    profile,
-    toggleBalanceVisibility,
-    toggleNotifications,
-    toggleUserMenu,
-    handleLogout,
-    closeMenus
-  } = useBalanceBarLogic();
+interface BalanceBarProps {
+  profile: ProfileWithSponsor;
+}
+
+export function BalanceBar({ profile }: BalanceBarProps) {
+  const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const toggleUserMenu = () => {
+    setShowUserMenu(!showUserMenu);
+  };
 
   return (
-    <div className="w-full bg-white border-b border-gray-200 px-4 py-3">
-      <div className="flex items-center justify-between w-full">
-        {/* Saldo - lado esquerdo com margem para alinhar com conteúdo */}
-        <BalanceDisplay 
-          isVisible={isBalanceVisible}
-          onToggleVisibility={toggleBalanceVisibility}
-        />
-        
-        {/* Logotipo Smartvoz no centro - hidden no mobile */}
+    <div className="bg-white border-b border-gray-200 px-4 py-3">
+      <div className="flex items-center justify-between">
         <LogoSection />
         
-        {/* Ícones - lado direito */}
-        <div className="flex items-center gap-3 ml-auto">
-          <NotificationDropdown 
-            showNotifications={showNotifications}
-            onToggleNotifications={toggleNotifications}
-          />
-          
-          <UserMenuDropdown 
-            showUserMenu={showUserMenu}
-            onToggleUserMenu={toggleUserMenu}
-            onLogout={handleLogout}
-            profile={profile}
-          />
+        <div className="flex-1 flex justify-center">
+          <BalanceDisplay />
+        </div>
+        
+        <div className="flex items-center space-x-4">
+          <NotificationDropdown />
+          <UserMenuDropdown />
         </div>
       </div>
-      
-      {/* Overlay para fechar menus ao clicar fora */}
-      {(showNotifications || showUserMenu) && (
-        <div 
-          className="fixed inset-0 z-0" 
-          onClick={closeMenus}
-        />
-      )}
     </div>
   );
 }
