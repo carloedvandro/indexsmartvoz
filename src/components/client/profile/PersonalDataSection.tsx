@@ -148,29 +148,6 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
     }
   };
 
-  // Função para converter data DD/MM/YYYY para YYYY-MM-DD
-  const convertDateFormat = (dateString: string): string => {
-    if (!dateString) return "";
-    
-    // Se já está no formato YYYY-MM-DD, retorna como está
-    if (dateString.includes("-") && dateString.length === 10) {
-      return dateString;
-    }
-    
-    // Se está no formato DD/MM/YYYY, converte
-    if (dateString.includes("/")) {
-      const parts = dateString.split("/");
-      if (parts.length === 3) {
-        const day = parts[0].padStart(2, '0');
-        const month = parts[1].padStart(2, '0');
-        const year = parts[2];
-        return `${year}-${month}-${day}`;
-      }
-    }
-    
-    return "";
-  };
-
   const handleDocumentChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const cleanValue = removeMask(value);
@@ -207,8 +184,10 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
               // Preencher data de nascimento se disponível
               if (cpfData.data_nascimento) {
                 console.log("Preenchendo data de nascimento:", cpfData.data_nascimento);
-                const formattedDate = convertDateFormat(cpfData.data_nascimento);
-                if (formattedDate) {
+                // Converter formato da data de DD/MM/YYYY para YYYY-MM-DD
+                const [day, month, year] = cpfData.data_nascimento.split('/');
+                if (day && month && year) {
+                  const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
                   console.log("Data formatada:", formattedDate);
                   form.setValue("birth_date", formattedDate);
                 }
@@ -236,25 +215,18 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
           setIsLoadingCNPJ(true);
           try {
             const cnpjData = await fetchCNPJData(cleanValue);
-            console.log("Dados do CNPJ recebidos:", cnpjData);
-            
             if (cnpjData) {
               // Preencher campos automaticamente com capitalização
               if (cnpjData.razao_social || cnpjData.nome_fantasia) {
                 const companyName = cnpjData.razao_social || cnpjData.nome_fantasia || "";
-                console.log("Preenchendo nome da empresa:", companyName);
                 form.setValue("full_name", capitalizeWords(companyName));
               }
               
-              // Preencher data de abertura da empresa
               if (cnpjData.data_inicio_atividade) {
-                console.log("Data de início da atividade recebida:", cnpjData.data_inicio_atividade);
-                const formattedDate = convertDateFormat(cnpjData.data_inicio_atividade);
-                if (formattedDate) {
-                  console.log("Data de abertura formatada:", formattedDate);
-                  form.setValue("birth_date", formattedDate);
-                } else {
-                  console.log("Erro ao formatar data de abertura");
+                // Converter formato da data de DD/MM/YYYY para YYYY-MM-DD
+                const [day, month, year] = cnpjData.data_inicio_atividade.split('/');
+                if (day && month && year) {
+                  form.setValue("birth_date", `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`);
                 }
               }
 
@@ -310,19 +282,6 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
     form.setValue("full_name", value);
   };
 
-  // Limpar campos ao mudar o tipo de pessoa
-  const handlePersonTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newType = e.target.value;
-    form.setValue("person_type", newType);
-    
-    // Limpar dados específicos de cada tipo de pessoa
-    setDocumentValue("");
-    form.setValue("cnpj", "");
-    form.setValue("birth_date", "");
-    form.setValue("full_name", ""); // Limpar nome completo também
-    form.clearErrors("cnpj");
-  };
-
   const isLoadingDocument = isLoadingCPF || isLoadingCNPJ;
 
   return (
@@ -363,7 +322,12 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
               backgroundRepeat: 'no-repeat',
               backgroundSize: '1.5em 1.5em'
             }}
-            onChange={handlePersonTypeChange}
+            onChange={(e) => {
+              form.setValue("person_type", e.target.value);
+              setDocumentValue("");
+              form.setValue("cnpj", "");
+              form.clearErrors("cnpj");
+            }}
           >
             <option value="">Selecione</option>
             <option value="Pessoa Física">Pessoa Física</option>
