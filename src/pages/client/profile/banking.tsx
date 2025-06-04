@@ -10,11 +10,6 @@ export default function ClientBanking() {
   const navigate = useNavigate();
   const { data: profile, isLoading } = useProfile();
 
-  const handleBack = () => {
-    console.log("ClientBanking: Voltando para o perfil...");
-    navigate("/client/profile");
-  };
-
   if (isLoading) {
     return <LoadingState />;
   }
@@ -29,7 +24,7 @@ export default function ClientBanking() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <BankingHeader onBack={handleBack} />
+      <BankingHeader onBack={() => navigate(-1)} />
       <BankingForm profile={profile} />
     </div>
   );
