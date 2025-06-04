@@ -200,13 +200,21 @@ export function PersonalDataSection({ form }: PersonalDataSectionProps) {
               
               // Preencher data de abertura se disponível
               if (cnpjData.data_inicio_atividade) {
-                console.log("Preenchendo data de abertura:", cnpjData.data_inicio_atividade);
-                // Converter formato da data de DD/MM/YYYY para YYYY-MM-DD
-                const [day, month, year] = cnpjData.data_inicio_atividade.split('/');
-                if (day && month && year) {
-                  const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-                  console.log("Data de abertura formatada:", formattedDate);
-                  form.setValue("birth_date", formattedDate);
+                console.log("Data de abertura recebida da API:", cnpjData.data_inicio_atividade);
+                
+                // A API BrasilAPI retorna no formato YYYY-MM-DD, que é o formato correto para input[type="date"]
+                if (cnpjData.data_inicio_atividade.includes('-')) {
+                  // Se já está no formato YYYY-MM-DD
+                  console.log("Data já no formato correto:", cnpjData.data_inicio_atividade);
+                  form.setValue("birth_date", cnpjData.data_inicio_atividade);
+                } else if (cnpjData.data_inicio_atividade.includes('/')) {
+                  // Se está no formato DD/MM/YYYY, converter para YYYY-MM-DD
+                  const [day, month, year] = cnpjData.data_inicio_atividade.split('/');
+                  if (day && month && year) {
+                    const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                    console.log("Data convertida de DD/MM/YYYY para YYYY-MM-DD:", formattedDate);
+                    form.setValue("birth_date", formattedDate);
+                  }
                 }
               }
 
