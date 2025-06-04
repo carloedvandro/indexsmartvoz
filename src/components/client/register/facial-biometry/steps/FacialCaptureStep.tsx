@@ -48,6 +48,7 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
     isProcessing, 
     cameraActive, 
     captureProgress,
+    isCapturing,
     toggleCamera 
   } = useFacialCapture({
     webcamRef,
@@ -77,7 +78,9 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
     <div className="relative h-[540px] bg-black overflow-hidden rounded-lg">
       {/* Header with title */}
       <div className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 z-20 text-center">
-        <p className="text-sm font-medium">Centralize seu rosto</p>
+        <p className="text-sm font-medium">
+          {isCapturing ? "🔴 CAPTURANDO - NÃO MOVA!" : "Centralize seu rosto"}
+        </p>
       </div>
       
       <CameraView 
@@ -86,11 +89,12 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
         videoConstraints={updatedVideoConstraints}
       />
       
-      {/* Face oval guide with progress */}
+      {/* Face oval guide with progress and capture state */}
       <FaceOvalGuide 
         faceDetected={faceDetected} 
         captureProgress={captureProgress}
         faceProximity={faceProximity}
+        isCapturing={isCapturing}
       />
       
       {/* Camera toggle button */}
@@ -99,17 +103,29 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
         onToggle={toggleCamera}
       />
       
-      {/* Status indicator */}
+      {/* Enhanced status indicator */}
       <div className="absolute bottom-6 w-full flex justify-center items-center">
         {isProcessing && (
           <div className="bg-black bg-opacity-70 text-white px-3 py-2 rounded-full text-sm animate-pulse">
-            Processando...
+            Processando imagem validada...
           </div>
         )}
         
-        {!isProcessing && faceDetected && faceProximity === "ideal" && captureProgress > 0 && (
-          <div className="bg-black bg-opacity-70 text-white px-3 py-2 rounded-full text-sm">
-            Mantenha-se imóvel ({Math.round(captureProgress)}%)
+        {!isProcessing && isCapturing && (
+          <div className="bg-blue-600 bg-opacity-90 text-white px-4 py-2 rounded-full text-sm font-bold animate-pulse border-2 border-blue-400">
+            🔴 CAPTURANDO ({Math.round(captureProgress)}%) - MANTENHA-SE IMÓVEL!
+          </div>
+        )}
+        
+        {!isProcessing && !isCapturing && faceDetected && faceProximity === "ideal" && (
+          <div className="bg-green-600 bg-opacity-70 text-white px-3 py-2 rounded-full text-sm">
+            Rosto detectado - Iniciando captura...
+          </div>
+        )}
+        
+        {!isProcessing && !isCapturing && faceDetected && faceProximity !== "ideal" && (
+          <div className="bg-yellow-600 bg-opacity-70 text-white px-3 py-2 rounded-full text-sm">
+            Ajuste a posição do rosto
           </div>
         )}
       </div>
