@@ -38,12 +38,12 @@ export default function FacialBiometry() {
         .from('profiles')
         .update({
           facial_verification_status: verificationData.facialVerification ? 'verified' : 'failed',
-          document_verification_status: verificationData.documentVerification ? 'verified' : 'failed',
-          verification_completed_at: new Date().toISOString()
+          document_verification_status: verificationData.documentVerification ? 'verified' : 'failed'
         })
         .eq('id', userId);
 
       if (error) {
+        console.error("Profile update error:", error);
         throw error;
       }
 

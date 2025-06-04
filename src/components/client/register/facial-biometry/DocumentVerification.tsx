@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -164,12 +163,12 @@ export const DocumentVerification = ({ onComplete, onBack }: DocumentVerificatio
       const { error: profileError } = await supabase
         .from("profiles")
         .update({ 
-          document_verification_status: 'completed',
-          document_validation_date: new Date().toISOString()
+          document_verification_status: 'completed'
         })
         .eq('id', user.id);
 
       if (profileError) {
+        console.error("Profile update error:", profileError);
         throw profileError;
       }
 
@@ -186,6 +185,7 @@ export const DocumentVerification = ({ onComplete, onBack }: DocumentVerificatio
     }
   };
 
+  
   return (
     <div className="space-y-6">
       <div className="text-center">
