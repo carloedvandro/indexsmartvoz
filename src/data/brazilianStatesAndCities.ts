@@ -1,18 +1,6 @@
 
-import { MapPin } from "lucide-react";
-import { UseFormReturn } from "react-hook-form";
-import { useState, useEffect } from "react";
-import { cepMask, removeMask } from "@/utils/masks";
-import { fetchCepData } from "@/services/cepService";
-import { useToast } from "@/hooks/use-toast";
-import { capitalizeWords } from "@/utils/textFormat";
-
-interface AddressSectionProps {
-  form: UseFormReturn<any>;
-}
-
 // Estados com nomes completos e suas respectivas cidades (todos os 497 municípios do RS incluídos)
-const statesAndCities = {
+export const statesAndCities = {
   "Acre": ["Rio Branco", "Cruzeiro do Sul", "Sena Madureira", "Tarauacá", "Feijó", "Brasileia", "Epitaciolândia", "Xapuri", "Capixaba", "Plácido de Castro", "Acrelândia", "Assis Brasil", "Bujari", "Jordão", "Manoel Urbano", "Marechal Thaumaturgo", "Mâncio Lima", "Porto Acre", "Porto Walter", "Rodrigues Alves", "Santa Rosa do Purus", "Senador Guiomard"],
   "Alagoas": ["Maceió", "Arapiraca", "Palmeira dos Índios", "Rio Largo", "Penedo", "União dos Palmares", "São Miguel dos Campos", "Coruripe", "Delmiro Gouveia", "Campo Alegre", "Santana do Ipanema", "Girau do Ponciano", "Viçosa", "São Luís do Quitunde", "Maribondo", "Pilar", "Marechal Deodoro", "Igaci", "Branquinha", "Campestre", "Anadia", "Flexeiras", "Messias", "Murici", "São Sebastião", "Craíbas", "Feira Grande", "Quebrangulo", "São José da Tapera", "Traipu", "Água Branca", "Canapi", "Delmiro Gouveia", "Inhapi", "Mata Grande", "Olho d'Água do Casado", "Pariconha", "Piranhas", "Batalha", "Belo Monte", "Cacimbinhas", "Jacaré dos Homens", "Major Isidoro", "Monteirópolis", "Olivença", "Ouro Branco", "Palestina", "Pão de Açúcar", "Poço das Trincheiras", "Santana do Mundaú", "São Brás", "São José da Laje", "Taquarana", "Teotônio Vilela", "Atalaia", "Barra de Santo Antônio", "Barra de São Miguel", "Cajueiro", "Capela", "Colônia Leopoldina", "Jequiá da Praia", "Joaquim Gomes", "Jundiá", "Junqueiro", "Maragogi", "Nova Floresta", "Novo Lino", "Paripueira", "Passo de Camaragibe", "Paulo Jacinto", "Porto Calvo", "Porto de Pedras", "Roteiro", "São Luís do Quitunde", "Belém", "Cacimbinhas", "Carneiros", "Coité do Nóia", "Dois Riachos", "Estrela de Alagoas", "Jaramataia", "Minador do Negrão", "Olho d'Água das Flores", "Olivença", "Senador Rui Palmeira"],
   "Amapá": ["Macapá", "Santana", "Laranjal do Jari", "Oiapoque", "Mazagão", "Porto Grande", "Vitória do Jari", "Calçoene", "Amapá", "Ferreira Gomes", "Cutias", "Itaubal", "Pedra Branca do Amapari", "Pracuúba", "Serra do Navio", "Tartarugalzinho"],
@@ -33,7 +21,7 @@ const statesAndCities = {
   "Piauí": ["Teresina", "Parnaíba", "Picos", "Piripiri", "Floriano", "Campo Maior", "Barras", "União", "Altos", "Pedro II", "Valença do Piauí", "São Raimundo Nonato", "Esperantina", "Oeiras", "Amarante", "Regeneração", "Luzilândia", "Corrente", "Simplício Mendes", "Beneditinos", "José de Freitas", "Demerval Lobão", "Miguel Alves", "Monsenhor Gil", "Lagoa Alegre", "Pau D'Arco do Piauí", "Hugo Napoleão", "Coivaras", "Francinópolis", "Wall Ferraz", "Nazária", "São João do Piauí", "Inhuma", "Cocal", "Buriti dos Lopes", "Caxingó", "Caraúbas do Piauí", "Ilha Grande", "Joaquim Pires", "Luís Correia", "Madeiro", "Murici dos Portelas", "Sigefredo Pacheco", "São José do Divino", "Bom Jesus", "Cristino Castro", "Currais", "Gilbués", "Monte Alegre do Piauí", "Redenção do Gurguéia", "Santa Filomena", "Sebastião Leal", "Uruçuí", "Alvorada do Gurguéia", "Antônio Almeida", "Avelino Lopes", "Barreiras do Piauí", "Bom Jesus", "Canto do Buriti", "Colônia do Gurguéia", "Corrente", "Cristalândia do Piauí", "Cristino Castro", "Curimatá", "Currais", "Eliseu Martins", "Guaribas", "Jerumenha", "Landri Sales", "Manoel Emídio", "Marcos Parente", "Palmeira do Piauí", "Parnaguá", "Riacho Frio", "Ribeiro Gonçalves", "Santa Luz", "São Gonçalo do Gurguéia", "São João do Piauí"],
   "Rio de Janeiro": ["Rio de Janeiro", "São Gonçalo", "Duque de Caxias", "Nova Iguaçu", "Niterói", "Belford Roxo", "Campos dos Goytacazes", "São João de Meriti", "Petrópolis", "Volta Redonda", "Magé", "Macaé", "Itaboraí", "Cabo Frio", "Angra dos Reis", "Nova Friburgo", "Barra Mansa", "Teresópolis", "Mesquita", "Nilópolis", "Maricá", "Queimados", "Resende", "Araruama", "Tanguá", "Saquarema", "Paracambi", "Mangaratiba", "Guapimirim", "Seropédica", "Itaguaí", "São Pedro da Aldeia", "Rio das Ostras", "Búzios", "Silva Jardim", "Casimiro de Abreu", "Rio Bonito", "Cachoeiras de Macacu", "Japeri", "Nova Iguaçu", "Belford Roxo", "São João de Meriti", "Nilópolis", "Mesquita", "Queimados", "Itaguaí", "Seropédica", "Paracambi", "Engenheiro Paulo de Frontin", "Mendes", "Miguel Pereira", "Paty do Alferes", "Vassouras", "Paraíba do Sul", "Três Rios", "Areal", "Comendador Levy Gasparian", "São José do Vale do Rio Preto", "Sapucaia", "Sumidouro", "Carmo", "Cantagalo", "Cordeiro", "Macuco", "Santa Maria Madalena", "Trajano de Moraes", "Duas Barras", "Bom Jardim", "Nova Friburgo", "Cachoeiras de Macacu", "Silva Jardim", "Casimiro de Abreu", "Rio das Ostras", "Carapebus", "Quissamã", "Conceição de Macabu", "São Fidélis", "Campos dos Goytacazes", "São Francisco de Itabapoana", "São João da Barra", "Italva", "Itaocara", "Aperibé", "Cambuci", "Laje do Muriaé", "Natividade", "Porciúncula", "Varre-Sai", "Miracema", "Itaperuna", "Bom Jesus do Itapoana", "Santo Antônio de Pádua"],
   "Rio Grande do Norte": ["Natal", "Mossoró", "Parnamirim", "São Gonçalo do Amarante", "Macaíba", "Ceará-Mirim", "Currais Novos", "Caicó", "Açu", "João Câmara", "Nova Cruz", "Santo Antônio", "Canguaretama", "Touros", "São José de Mipibu", "Extremoz", "Santa Cruz", "Pau dos Ferros", "Apodi", "Areia Branca", "Baraúna", "Grossos", "Porto do Mangue", "Carnaubais", "Pendências", "Alto do Rodrigues", "Upanema", "Caraúbas", "Governador Dix-Sept Rosado", "Janduís", "Messias Targino", "Triunfo Potiguar", "Umarizal", "Encanto", "Francisco Dantas", "Frutuoso Gomes", "João Dias", "José da Penha", "Lucrécia", "Major Sales", "Marcelino Vieira", "Paraná", "Pilões", "Portalegre", "Rafael Fernandes", "Rafael Godeiro", "Riacho da Cruz", "Riacho de Santana", "São Miguel", "Serrinha dos Pintos", "Taboleiro Grande", "Tenente Ananias", "Venha-Ver", "Viçosa", "Alexandria", "Almino Afonso", "Antônio Martins", "Campo Grande", "Doutor Severiano", "Encanto", "João Dias", "José da Penha", "Luís Gomes", "Martins", "Patu", "São Francisco do Oeste", "Serrinha dos Pintos", "Taboleiro Grande", "Umarizal", "Venha-Ver"],
-  "Rio Grande do Sul": ["Aceguá", "Água Santa", "Agudo", "Ajuricaba", "Alecrim", "Alegrete", "Alegria", "Almirante Tamandaré do Sul", "Alpestre", "Alto Alegre", "Alto Feliz", "Alvorada", "Amaral Ferrador", "Ametista do Sul", "André da Rocha", "Anta Gorda", "Antônio Prado", "Arambaré", "Araricá", "Aratiba", "Arroio do Meio", "Arroio do Sal", "Arroio do Padre", "Arroio dos Ratos", "Arroio Grande", "Arvorezinha", "Augusto Pestana", "Áurea", "Bagé", "Balneário Pinhal", "Barão", "Barão de Cotegipe", "Barão do Triunfo", "Barra do Guarita", "Barra do Quaraí", "Barra do Ribeiro", "Barra do Rio Azul", "Barra Funda", "Barracão", "Barros Cassal", "Benjamin Constant do Sul", "Bento Gonçalves", "Boa Vista das Missões", "Boa Vista do Buricá", "Boa Vista do Cadeado", "Boa Vista do Incra", "Boa Vista do Sul", "Bom Jesus", "Bom Princípio", "Bom Progresso", "Bom Retiro do Sul", "Boqueirão do Leão", "Bossoroca", "Bozano", "Braga", "Brochier", "Butiá", "Caçapava do Sul", "Cacequi", "Cachoeira do Sul", "Cachoeirinha", "Cacique Doble", "Caibaté", "Caiçara", "Camaquã", "Camargo", "Cambará do Sul", "Campestre da Serra", "Campina das Missões", "Campinas do Sul", "Campo Bom", "Campo Novo", "Campos Borges", "Candelária", "Cândido Godói", "Candiota", "Canela", "Canguçu", "Canoas", "Canudos do Vale", "Capão Bonito do Sul", "Capão da Canoa", "Capão do Cipó", "Capão do Leão", "Capela de Santana", "Capitão", "Capivari do Sul", "Caraá", "Carazinho", "Carlos Barbosa", "Carlos Gomes", "Casca", "Caseiros", "Catuípe", "Caxias do Sul", "Centenário", "Cerrito", "Cerro Branco", "Cerro Grande", "Cerro Grande do Sul", "Cerro Largo", "Chapada", "Charqueadas", "Charrua", "Chiapetta", "Chuí", "Chuvisca", "Cidreira", "Ciríaco", "Colinas", "Colorado", "Condor", "Constantina", "Coqueiro Baixo", "Coqueiros do Sul", "Coronel Barros", "Coronel Bicaco", "Coronel Pilar", "Cotiporã", "Coxilha", "Crissiumal", "Cristal", "Cristal do Sul", "Cruz Alta", "Cruzaltense", "Cruzeiro do Sul", "David Canabarro", "Derrubadas", "Dezesseis de Novembro", "Dilermando de Aguiar", "Dois Irmãos", "Dois Irmãos das Missões", "Dois Lajeados", "Dom Feliciano", "Dom Pedrito", "Dom Pedro de Alcântara", "Dona Francisca", "Doutor Maurício Cardoso", "Doutor Ricardo", "Eldorado do Sul", "Encantado", "Encruzilhada do Sul", "Engenho Velho", "Entre Rios do Sul", "Entre-Ijuís", "Erebango", "Erechim", "Ernestina", "Herval", "Erval Grande", "Erval Seco", "Esmeralda", "Esperança do Sul", "Espumoso", "Estação", "Estância Velha", "Esteio", "Estrela", "Estrela Velha", "Eugênio de Castro", "Fagundes Varela", "Farroupilha", "Faxinal do Soturno", "Faxinalzinho", "Fazenda Vilanova", "Feliz", "Flores da Cunha", "Floriano Peixoto", "Fontoura Xavier", "Formigueiro", "Forquetinha", "Fortaleza dos Valos", "Frederico Westphalen", "Garibaldi", "Garruchos", "Gaurama", "General Câmara", "Gent'il", "Getúlio Vargas", "Giruá", "Glorinha", "Gramado", "Gramado dos Loureiros", "Gramado Xavier", "Gravataí", "Guabiju", "Guaíba", "Guaporé", "Guarani das Missões", "Harmonia", "Herveiras", "Horizontina", "Hulha Negra", "Humaitá", "Ibarama", "Ibiaçá", "Ibiraiaras", "Ibirapuitã", "Ibirubá", "Igrejinha", "Ijuí", "Ilópolis", "Imbé", "Imigrante", "Independência", "Inhacorá", "Ipê", "Ipiranga do Sul", "Iraí", "Itaara", "Itacurubi", "Itapuca", "Itaqui", "Itati", "Itatiba do Sul", "Ivorá", "Ivoti", "Jaboticaba", "Jacuizinho", "Jacutinga", "Jaguarão", "Jaguari", "Jaquirana", "Jari", "Jóia", "Júlio de Castilhos", "Lagoa Bonita do Sul", "Lagoa dos Três Cantos", "Lagoa Vermelha", "Lagoão", "Lajeado", "Lajeado do Bugre", "Lavras do Sul", "Liberato Salzano", "Lindolfo Collor", "Linha Nova", "Maçambará", "Machadinho", "Mampituba", "Manoel Viana", "Maquiné", "Maratá", "Marau", "Marcelino Ramos", "Mariana Pimentel", "Mariano Moro", "Marques de Souza", "Mata", "Mato Castelhano", "Mato Leitão", "Mato Queimado", "Maximiliano de Almeida", "Minas do Leão", "Miraguaí", "Montauri", "Monte Alegre dos Campos", "Monte Belo do Sul", "Montenegro", "Mormaço", "Morrinhos do Sul", "Morro Redondo", "Morro Reuter", "Mostardas", "Muçum", "Muitos Capões", "Muliterno", "Não-Me-Toque", "Nicolau Vergueiro", "Nonoai", "Nova Alvorada", "Nova Araçá", "Nova Bassano", "Nova Boa Vista", "Nova Bréscia", "Nova Candelária", "Nova Esperança do Sul", "Nova Hartz", "Nova Pádua", "Nova Palma", "Nova Petrópolis", "Nova Prata", "Nova Ramada", "Nova Roma do Sul", "Nova Santa Rita", "Novo Barreiro", "Novo Cabrais", "Novo Hamburgo", "Novo Machado", "Novo Tiradentes", "Novo Xingu", "Osório", "Paim Filho", "Palmares do Sul", "Palmeira das Missões", "Palmitinho", "Panambi", "Pantano Grande", "Paraí", "Paraíso do Sul", "Pareci Novo", "Parobé", "Passa Sete", "Passo do Sobrado", "Passo Fundo", "Paulo Bento", "Paverama", "Pedras Altas", "Pedro Osório", "Pejuçara", "Pelotas", "Picada Café", "Pinhal", "Pinhal da Serra", "Pinhal Grande", "Pinheirinho do Vale", "Pinheiro Machado", "Pinto Bandeira", "Pirapó", "Piratini", "Planalto", "Poço das Antas", "Pontão", "Ponte Preta", "Portão", "Porto Alegre", "Porto Lucena", "Porto Mauá", "Porto Vera Cruz", "Porto Xavier", "Pouso Novo", "Presidente Lucena", "Progresso", "Protásio Alves", "Putinga", "Quaraí", "Quatro Irmãos", "Quevedos", "Quinze de Novembro", "Redentora", "Relvado", "Restinga Sêca", "Rio dos Índios", "Rio Grande", "Rio Pardo", "Riozinho", "Roca Sales", "Rodeio Bonito", "Rolador", "Rolante", "Ronda Alta", "Rondinha", "Roque Gonzales", "Rosário do Sul", "Sagrada Família", "Saldanha Marinho", "Salto do Jacuí", "Salvador das Missões", "Salvador do Sul", "Sananduva", "Santa Bárbara do Sul", "Santa Cecília do Sul", "Santa Clara do Sul", "Santa Cruz do Sul", "Santa Margarida do Sul", "Santa Maria", "Santa Maria do Herval", "Santa Rosa", "Santa Tereza", "Santa Vitória do Palmar", "Santana da Boa Vista", "Sant'Ana do Livramento", "Santiago", "Santo Ângelo", "Santo Antônio da Patrulha", "Santo Antônio das Missões", "Santo Antônio do Palma", "Santo Antônio do Planalto", "Santo Augusto", "Santo Cristo", "Santo Expedito do Sul", "São Borja", "São Domingos do Sul", "São Francisco de Assis", "São Francisco de Paula", "São Gabriel", "São Jerônimo", "São João da Urtiga", "São João do Polêsine", "São Jorge", "São José das Missões", "São José do Herval", "São José do Hortêncio", "São José do Inhacorá", "São José do Norte", "São José do Ouro", "São José do Sul", "São José dos Ausentes", "São Leopoldo", "São Lourenço do Sul", "São Luiz Gonzaga", "São Marcos", "São Martinho", "São Martinho da Serra", "São Miguel das Missões", "São Nicolau", "São Paulo das Missões", "São Pedro da Serra", "São Pedro das Missões", "São Pedro do Butiá", "São Pedro do Sul", "São Sebastião do Caí", "São Sepé", "São Valentim", "São Valentim do Sul", "São Valério do Sul", "São Vendelino", "São Vicente do Sul", "Sapiranga", "Sapucaia do Sul", "Sarandi", "Seberi", "Sede Nova", "Segredo", "Selbach", "Senador Salgado Filho", "Sentinela do Sul", "Serafina Corrêa", "Sério", "Sertão", "Sertão Santana", "Sete de Setembro", "Severiano de Almeida", "Silveira Martins", "Sinimbu", "Sobradinho", "Soledade", "Tabaí", "Tapejara", "Tapera", "Tapes", "Taquara", "Taquari", "Taquaruçu do Sul", "Tavares", "Tenente Portela", "Terra de Areia", "Teutônia", "Tio Hugo", "Tiradentes do Sul", "Toropi", "Torres", "Tramandaí", "Travesseiro", "Três Arroios", "Três Cachoeiras", "Três Coroas", "Três de Maio", "Três Forquilhas", "Três Palmeiras", "Três Passos", "Trindade do Sul", "Triunfo", "Tucunduva", "Tunas", "Tupanci do Sul", "Tupanciretã", "Tupandi", "Tuparendi", "Turuçu", "Ubiretama", "União da Serra", "Unistalda", "Uruguaiana", "Vacaria", "Vale do Sol", "Vale Real", "Vale Verde", "Vanini", "Venâncio Aires", "Vera Cruz", "Veranópolis", "Vespasiano Corrêa", "Viadutos", "Viamão", "Vicente Dutra", "Victor Graeff", "Vila Flores", "Vila Lângaro", "Vila Maria", "Vila Nova do Sul", "Vista Alegre", "Vista Alegre do Prata", "Vista Gaúcha", "Vitória das Missões", "Westfália", "Xangri-lá"],
+  "Rio Grande do Sul": ["Aceguá", "Água Santa", "Agudo", "Ajuricaba", "Alecrim", "Alegrete", "Alegria", "Almirante Tamandaré do Sul", "Alpestre", "Alto Alegre", "Alto Feliz", "Alvorada", "Amaral Ferrador", "Ametista do Sul", "André da Rocha", "Anta Gorda", "Antônio Prado", "Arambaré", "Araricá", "Aratiba", "Arroio do Meio", "Arroio do Sal", "Arroio do Padre", "Arroio dos Ratos", "Arroio Grande", "Arvorezinha", "Augusto Pestana", "Áurea", "Bagé", "Balneário Pinhal", "Barão", "Barão de Cotegipe", "Barão do Triunfo", "Barra do Guarita", "Barra do Quaraí", "Barra do Ribeiro", "Barra do Rio Azul", "Barra Funda", "Barracão", "Barros Cassal", "Benjamin Constant do Sul", "Bento Gonçalves", "Boa Vista das Missões", "Boa Vista do Buricá", "Boa Vista do Cadeado", "Boa Vista do Incra", "Boa Vista do Sul", "Bom Jesus", "Bom Princípio", "Bom Progresso", "Bom Retiro do Sul", "Boqueirão do Leão", "Bossoroca", "Bozano", "Braga", "Brochier", "Butiá", "Caçapava do Sul", "Cacequi", "Cachoeira do Sul", "Cachoeirinha", "Cacique Doble", "Caibaté", "Caiçara", "Camaquã", "Camargo", "Cambará do Sul", "Campestre da Serra", "Campina das Missões", "Campinas do Sul", "Campo Bom", "Campo Novo", "Campos Borges", "Candelária", "Cândido Godói", "Candiota", "Canela", "Canguçu", "Canoas", "Canudos do Vale", "Capão Bonito do Sul", "Capão da Canoa", "Capão do Cipó", "Capão do Leão", "Capela de Santana", "Capitão", "Capivari do Sul", "Caraá", "Carazinho", "Carlos Barbosa", "Carlos Gomes", "Casca", "Caseiros", "Catuípe", "Caxias do Sul", "Centenário", "Cerrito", "Cerro Branco", "Cerro Grande", "Cerro Grande do Sul", "Cerro Largo", "Chapada", "Charqueadas", "Charrua", "Chiapetta", "Chuí", "Chuvisca", "Cidreira", "Ciríaco", "Colinas", "Colorado", "Condor", "Constantina", "Coqueiro Baixo", "Coqueiros do Sul", "Coronel Barros", "Coronel Bicaco", "Coronel Pilar", "Cotiporã", "Coxilha", "Crissiumal", "Cristal", "Cristal do Sul", "Cruz Alta", "Cruzaltense", "Cruzeiro do Sul", "David Canabarro", "Derrubadas", "Dezesseis de Novembro", "Dilermando de Aguiar", "Dois Irmãos", "Dois Irmãos das Missões", "Dois Lajeados", "Dom Feliciano", "Dom Pedrito", "Dom Pedro de Alcântara", "Dona Francisca", "Doutor Maurício Cardoso", "Doutor Ricardo", "Eldorado do Sul", "Encantado", "Encruzilhada do Sul", "Engenho Velho", "Entre Rios do Sul", "Entre-Ijuís", "Erebango", "Erechim", "Ernestina", "Herval", "Erval Grande", "Erval Seco", "Esmeralda", "Esperança do Sul", "Espumoso", "Estação", "Estância Velha", "Esteio", "Estrela", "Estrela Velha", "Eugênio de Castro", "Fagundes Varela", "Farroupilha", "Faxinal do Soturno", "Faxinalzinho", "Fazenda Vilanova", "Feliz", "Flores da Cunha", "Floriano Peixoto", "Fontoura Xavier", "Formigueiro", "Forquetinha", "Fortaleza dos Valos", "Frederico Westphalen", "Garibaldi", "Garruchos", "Gaurama", "General Câmara", "Gentil", "Getúlio Vargas", "Giruá", "Glorinha", "Gramado", "Gramado dos Loureiros", "Gramado Xavier", "Gravataí", "Guabiju", "Guaíba", "Guaporé", "Guarani das Missões", "Harmonia", "Herveiras", "Horizontina", "Hulha Negra", "Humaitá", "Ibarama", "Ibiaçá", "Ibiraiaras", "Ibirapuitã", "Ibirubá", "Igrejinha", "Ijuí", "Ilópolis", "Imbé", "Imigrante", "Independência", "Inhacorá", "Ipê", "Ipiranga do Sul", "Iraí", "Itaara", "Itacurubi", "Itapuca", "Itaqui", "Itati", "Itatiba do Sul", "Ivorá", "Ivoti", "Jaboticaba", "Jacuizinho", "Jacutinga", "Jaguarão", "Jaguari", "Jaquirana", "Jari", "Jóia", "Júlio de Castilhos", "Lagoa Bonita do Sul", "Lagoa dos Três Cantos", "Lagoa Vermelha", "Lagoão", "Lajeado", "Lajeado do Bugre", "Lavras do Sul", "Liberato Salzano", "Lindolfo Collor", "Linha Nova", "Maçambará", "Machadinho", "Mampituba", "Manoel Viana", "Maquiné", "Maratá", "Marau", "Marcelino Ramos", "Mariana Pimentel", "Mariano Moro", "Marques de Souza", "Mata", "Mato Castelhano", "Mato Leitão", "Mato Queimado", "Maximiliano de Almeida", "Minas do Leão", "Miraguaí", "Montauri", "Monte Alegre dos Campos", "Monte Belo do Sul", "Montenegro", "Mormaço", "Morrinhos do Sul", "Morro Redondo", "Morro Reuter", "Mostardas", "Muçum", "Muitos Capões", "Muliterno", "Não-Me-Toque", "Nicolau Vergueiro", "Nonoai", "Nova Alvorada", "Nova Araçá", "Nova Bassano", "Nova Boa Vista", "Nova Bréscia", "Nova Candelária", "Nova Esperança do Sul", "Nova Hartz", "Nova Pádua", "Nova Palma", "Nova Petrópolis", "Nova Prata", "Nova Ramada", "Nova Roma do Sul", "Nova Santa Rita", "Novo Barreiro", "Novo Cabrais", "Novo Hamburgo", "Novo Machado", "Novo Tiradentes", "Novo Xingu", "Osório", "Paim Filho", "Palmares do Sul", "Palmeira das Missões", "Palmitinho", "Panambi", "Pantano Grande", "Paraí", "Paraíso do Sul", "Pareci Novo", "Parobé", "Passa Sete", "Passo do Sobrado", "Passo Fundo", "Paulo Bento", "Paverama", "Pedras Altas", "Pedro Osório", "Pejuçara", "Pelotas", "Picada Café", "Pinhal", "Pinhal da Serra", "Pinhal Grande", "Pinheirinho do Vale", "Pinheiro Machado", "Pinto Bandeira", "Pirapó", "Piratini", "Planalto", "Poço das Antas", "Pontão", "Ponte Preta", "Portão", "Porto Alegre", "Porto Lucena", "Porto Mauá", "Porto Vera Cruz", "Porto Xavier", "Pouso Novo", "Presidente Lucena", "Progresso", "Protásio Alves", "Putinga", "Quaraí", "Quatro Irmãos", "Quevedos", "Quinze de Novembro", "Redentora", "Relvado", "Restinga Sêca", "Rio dos Índios", "Rio Grande", "Rio Pardo", "Riozinho", "Roca Sales", "Rodeio Bonito", "Rolador", "Rolante", "Ronda Alta", "Rondinha", "Roque Gonzales", "Rosário do Sul", "Sagrada Família", "Saldanha Marinho", "Salto do Jacuí", "Salvador das Missões", "Salvador do Sul", "Sananduva", "Santa Bárbara do Sul", "Santa Cecília do Sul", "Santa Clara do Sul", "Santa Cruz do Sul", "Santa Margarida do Sul", "Santa Maria", "Santa Maria do Herval", "Santa Rosa", "Santa Tereza", "Santa Vitória do Palmar", "Santana da Boa Vista", "Sant'Ana do Livramento", "Santiago", "Santo Ângelo", "Santo Antônio da Patrulha", "Santo Antônio das Missões", "Santo Antônio do Palma", "Santo Antônio do Planalto", "Santo Augusto", "Santo Cristo", "Santo Expedito do Sul", "São Borja", "São Domingos do Sul", "São Francisco de Assis", "São Francisco de Paula", "São Gabriel", "São Jerônimo", "São João da Urtiga", "São João do Polêsine", "São Jorge", "São José das Missões", "São José do Herval", "São José do Hortêncio", "São José do Inhacorá", "São José do Norte", "São José do Ouro", "São José do Sul", "São José dos Ausentes", "São Leopoldo", "São Lourenço do Sul", "São Luiz Gonzaga", "São Marcos", "São Martinho", "São Martinho da Serra", "São Miguel das Missões", "São Nicolau", "São Paulo das Missões", "São Pedro da Serra", "São Pedro das Missões", "São Pedro do Butiá", "São Pedro do Sul", "São Sebastião do Caí", "São Sepé", "São Valentim", "São Valentim do Sul", "São Valério do Sul", "São Vendelino", "São Vicente do Sul", "Sapiranga", "Sapucaia do Sul", "Sarandi", "Seberi", "Sede Nova", "Segredo", "Selbach", "Senador Salgado Filho", "Sentinela do Sul", "Serafina Corrêa", "Sério", "Sertão", "Sertão Santana", "Sete de Setembro", "Severiano de Almeida", "Silveira Martins", "Sinimbu", "Sobradinho", "Soledade", "Tabaí", "Tapejara", "Tapera", "Tapes", "Taquara", "Taquari", "Taquaruçu do Sul", "Tavares", "Tenente Portela", "Terra de Areia", "Teutônia", "Tio Hugo", "Tiradentes do Sul", "Toropi", "Torres", "Tramandaí", "Travesseiro", "Três Arroios", "Três Cachoeiras", "Três Coroas", "Três de Maio", "Três Forquilhas", "Três Palmeiras", "Três Passos", "Trindade do Sul", "Triunfo", "Tucunduva", "Tunas", "Tupanci do Sul", "Tupanciretã", "Tupandi", "Tuparendi", "Turuçu", "Ubiretama", "União da Serra", "Unistalda", "Uruguaiana", "Vacaria", "Vale do Sol", "Vale Real", "Vale Verde", "Vanini", "Venâncio Aires", "Vera Cruz", "Veranópolis", "Vespasiano Corrêa", "Viadutos", "Viamão", "Vicente Dutra", "Victor Graeff", "Vila Flores", "Vila Lângaro", "Vila Maria", "Vila Nova do Sul", "Vista Alegre", "Vista Alegre do Prata", "Vista Gaúcha", "Vitória das Missões", "Westfália", "Xangri-lá"],
   "Rondônia": ["Porto Velho", "Ji-Paraná", "Ariquemes", "Vilhena", "Cacoal", "Rolim de Moura", "Guajará-Mirim", "Jaru", "Ouro Preto do Oeste", "Buritis", "Costa Marques", "Espigão d'Oeste", "Colorado do Oeste", "Cerejeiras", "Pimenta Bueno", "Presidente Médici", "Machadinho d'Oeste", "São Miguel do Guaporé", "Nova Brasilândia d'Oeste", "Theobroma", "Alto Alegre dos Parecis", "Santa Luzia d'Oeste", "Parecis", "Nova Mamoré", "São Francisco do Guaporé", "Seringueiras", "Teixeirópolis", "Urupá", "Mirante da Serra", "Vale do Anari", "Nova União", "Rio Crespo", "Cujubim", "Cacaulândia", "Governador Jorge Teixeira", "Alto Paraíso", "Monte Negro", "Campo Novo de Rondônia", "Novo Horizonte do Oeste", "Vale do Paraíso", "Castanheiras", "Corumbiara", "Chupinguaia", "Pimenteiras do Oeste", "Primavera de Rondônia", "São Felipe d'Oeste", "Ministro Andreazza", "Alvorada d'Oeste", "Nova Londrina"],
   "Roraima": ["Boa Vista", "Rorainópolis", "Caracaraí", "Alto Alegre", "Mucajaí", "São João da Baliza", "São Luiz", "Bonfim", "Cantá", "Normandia", "Pacaraima", "Iracema", "Amajari", "Caroebe", "Uiramutã"],
   "Santa Catarina": ["Florianópolis", "Joinville", "Blumenau", "São José", "Criciúma", "Chapecó", "Itajaí", "Lages", "Palhoça", "Balneário Camboriú", "Biguaçu", "Tubarão", "São Bento do Sul", "Caçador", "Camboriú", "Navegantes", "Concórdia", "Rio do Sul", "Araranguá", "Gaspar", "Brusque", "Canoinhas", "São Francisco do Sul", "Videira", "Mafra", "Imbituba", "Jaraguá do Sul", "Içara", "Indaial", "Herval d'Oeste", "Braço do Norte", "Laguna", "Sombrio", "Maravilha", "Xanxerê", "São Miguel do Oeste", "Pinhalzinho", "Itapiranga", "Mondaí", "São Carlos", "Guaraciaba", "Cunha Porã", "Descanso", "Dionísio Cerqueira", "Guarujá do Sul", "Palmitos", "Riqueza", "Romelândia", "São José do Cedro", "Anchieta", "Bandeirante", "Barra Bonita", "Caibi", "Flor do Sertão", "Iporã do Oeste", "Iraceminha", "Modelo", "Santa Helena", "São Bernardino", "Tunápolis", "Novo Horizonte", "Entre Rios", "Marema", "Paraíso", "Romilândia", "Santa Terezinha do Progresso", "Santiago do Sul", "Seara", "Xavantina", "Abelardo Luz", "Água Doce", "Bom Jesus", "Capinzal", "Catanduvas", "Coronel Freitas", "Galvão", "Ibiam", "Irani", "Irati", "Jupiá", "Lacerdópolis", "Lindóia do Sul", "Marema", "Nova Erechim", "Ouro Verde", "Paial", "Passos Maia", "Peritiba", "Piratuba", "Ponte Serrada", "Quilombo", "São Domingos", "Vargeão", "Vargem Bonita", "Xaxim"],
@@ -43,7 +31,7 @@ const statesAndCities = {
 };
 
 // Mapeamento para converter nomes completos para abreviações (para compatibilidade com CEP)
-const stateAbbreviations: { [key: string]: string } = {
+export const stateAbbreviations: { [key: string]: string } = {
   "Acre": "AC",
   "Alagoas": "AL",
   "Amapá": "AP",
@@ -74,7 +62,7 @@ const stateAbbreviations: { [key: string]: string } = {
 };
 
 // Mapeamento reverso para converter abreviações para nomes completos
-const abbreviationToFullName: { [key: string]: string } = {
+export const abbreviationToFullName: { [key: string]: string } = {
   "AC": "Acre",
   "AL": "Alagoas",
   "AP": "Amapá",
@@ -103,246 +91,3 @@ const abbreviationToFullName: { [key: string]: string } = {
   "SE": "Sergipe",
   "TO": "Tocantins"
 };
-
-export function AddressSection({ form }: AddressSectionProps) {
-  const [cepValue, setCepValue] = useState(form.getValues("zip_code") || "");
-  const [isLoadingCep, setIsLoadingCep] = useState(false);
-  const { toast } = useToast();
-  
-  const selectedState = form.watch("state");
-  const cities = selectedState ? statesAndCities[selectedState as keyof typeof statesAndCities] || [] : [];
-
-  // Escutar mudanças no CEP vindas do CNPJ
-  useEffect(() => {
-    const handleCepUpdate = () => {
-      const currentCep = form.getValues("zip_code");
-      if (currentCep) {
-        setCepValue(cepMask(currentCep));
-      }
-    };
-
-    window.addEventListener('cep-update', handleCepUpdate);
-    return () => window.removeEventListener('cep-update', handleCepUpdate);
-  }, [form]);
-
-  // Também escutar mudanças diretas no formulário
-  useEffect(() => {
-    const currentCep = form.watch("zip_code");
-    if (currentCep && currentCep !== removeMask(cepValue)) {
-      setCepValue(cepMask(currentCep));
-    }
-  }, [form.watch("zip_code")]);
-
-  const handleCepChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const maskedValue = cepMask(value);
-    const cleanValue = removeMask(value);
-    
-    setCepValue(maskedValue);
-    form.setValue("zip_code", cleanValue);
-    
-    // Se CEP estiver completo, buscar endereço
-    if (cleanValue.length === 8) {
-      setIsLoadingCep(true);
-      try {
-        const cepData = await fetchCepData(cleanValue);
-        if (cepData) {
-          // Aplicar capitalização nos dados que vêm do CEP
-          form.setValue("address", capitalizeWords(cepData.logradouro || ""));
-          form.setValue("neighborhood", capitalizeWords(cepData.bairro || ""));
-          form.setValue("city", cepData.localidade);
-          // Converter abreviação do CEP para nome completo
-          const fullStateName = abbreviationToFullName[cepData.uf];
-          if (fullStateName) {
-            form.setValue("state", fullStateName);
-          }
-          
-          toast({
-            title: "CEP encontrado",
-            description: "Endereço preenchido automaticamente",
-          });
-        } else {
-          toast({
-            title: "CEP não encontrado",
-            description: "Verifique o CEP digitado",
-            variant: "destructive",
-          });
-        }
-      } catch (error) {
-        toast({
-          title: "Erro ao buscar CEP",
-          description: "Tente novamente",
-          variant: "destructive",
-        });
-      } finally {
-        setIsLoadingCep(false);
-      }
-    }
-  };
-
-  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = capitalizeWords(e.target.value);
-    form.setValue("address", value);
-  };
-
-  const handleNeighborhoodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = capitalizeWords(e.target.value);
-    form.setValue("neighborhood", value);
-  };
-
-  const handleComplementChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = capitalizeWords(e.target.value);
-    form.setValue("complement", value);
-  };
-
-  return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-2 pb-2 border-b border-gray-200">
-        <MapPin className="h-5 w-5 text-gray-600" />
-        <h3 className="text-base font-medium text-gray-700">Endereço</h3>
-      </div>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="w-full">
-          <label className="block text-xs font-medium text-gray-700 mb-2">
-            CEP <span className="text-red-500">*</span>
-          </label>
-          <input
-            value={cepValue}
-            onChange={handleCepChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
-            placeholder="00000-000"
-            maxLength={9}
-            disabled={isLoadingCep}
-          />
-          {isLoadingCep && (
-            <p className="text-blue-500 text-xs mt-1">Buscando endereço...</p>
-          )}
-          {form.formState.errors.zip_code && (
-            <p className="text-red-500 text-xs mt-1">
-              {String(form.formState.errors.zip_code.message || "Campo obrigatório")}
-            </p>
-          )}
-        </div>
-        
-        <div className="w-full">
-          <label className="block text-xs font-medium text-gray-700 mb-2">
-            Estado <span className="text-red-500">*</span>
-          </label>
-          <select
-            {...form.register("state")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white appearance-none pr-10 text-sm"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-              backgroundPosition: 'right 0.5rem center',
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: '1.5em 1.5em'
-            }}
-          >
-            <option value="">Selecione o estado</option>
-            {Object.keys(statesAndCities).map((state) => (
-              <option key={state} value={state}>{state}</option>
-            ))}
-          </select>
-          {form.formState.errors.state && (
-            <p className="text-red-500 text-xs mt-1">
-              {String(form.formState.errors.state.message || "Campo obrigatório")}
-            </p>
-          )}
-        </div>
-        
-        <div className="w-full">
-          <label className="block text-xs font-medium text-gray-700 mb-2">
-            Cidade <span className="text-red-500">*</span>
-          </label>
-          <select
-            {...form.register("city")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white appearance-none pr-10 text-sm"
-            disabled={!selectedState}
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-              backgroundPosition: 'right 0.5rem center',
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: '1.5em 1.5em'
-            }}
-          >
-            <option value="">
-              {selectedState ? "Selecione a cidade" : "Primeiro selecione o estado"}
-            </option>
-            {cities.map((city) => (
-              <option key={city} value={city}>{city}</option>
-            ))}
-          </select>
-          {form.formState.errors.city && (
-            <p className="text-red-500 text-xs mt-1">
-              {String(form.formState.errors.city.message || "Campo obrigatório")}
-            </p>
-          )}
-        </div>
-        
-        <div className="w-full">
-          <label className="block text-xs font-medium text-gray-700 mb-2">
-            Endereço <span className="text-red-500">*</span>
-          </label>
-          <input
-            value={form.watch("address") || ""}
-            onChange={handleAddressChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
-            placeholder="Rua, Avenida, etc."
-          />
-          {form.formState.errors.address && (
-            <p className="text-red-500 text-xs mt-1">
-              {String(form.formState.errors.address.message || "Campo obrigatório")}
-            </p>
-          )}
-        </div>
-        
-        <div className="w-full">
-          <label className="block text-xs font-medium text-gray-700 mb-2">
-            Número <span className="text-red-500">*</span>
-          </label>
-          <input
-            {...form.register("address_number")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
-            placeholder="123"
-          />
-          {form.formState.errors.address_number && (
-            <p className="text-red-500 text-xs mt-1">
-              {String(form.formState.errors.address_number.message || "Campo obrigatório")}
-            </p>
-          )}
-        </div>
-        
-        <div className="w-full">
-          <label className="block text-xs font-medium text-gray-700 mb-2">
-            Bairro <span className="text-red-500">*</span>
-          </label>
-          <input
-            value={form.watch("neighborhood") || ""}
-            onChange={handleNeighborhoodChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
-            placeholder="Nome do bairro"
-          />
-          {form.formState.errors.neighborhood && (
-            <p className="text-red-500 text-xs mt-1">
-              {String(form.formState.errors.neighborhood.message || "Campo obrigatório")}
-            </p>
-          )}
-        </div>
-        
-        <div className="w-full">
-          <label className="block text-xs font-medium text-gray-700 mb-2">
-            Complemento
-          </label>
-          <input
-            value={form.watch("complement") || ""}
-            onChange={handleComplementChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
-            placeholder="Apto, Bloco, etc."
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
