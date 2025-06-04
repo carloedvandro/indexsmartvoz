@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { isValidCPF } from "@/utils/validation/cpfValidation";
@@ -41,20 +40,21 @@ const abbreviationToFullName: { [key: string]: string } = {
 export function useDocumentValidation(form: UseFormReturn<any>, personType: string) {
   const [isLoadingCPF, setIsLoadingCPF] = useState(false);
   const [isLoadingCNPJ, setIsLoadingCNPJ] = useState(false);
+  const [cpfMessage, setCpfMessage] = useState("");
 
   const fillCPFData = async (cleanValue: string) => {
     console.log("Iniciando busca de dados do CPF...");
     setIsLoadingCPF(true);
+    setCpfMessage("Verificando CPF...");
+    
     try {
       const cpfData = await fetchCPFData(cleanValue);
       console.log("Dados retornados do CPF:", cpfData);
       
-      if (cpfData) {
+      if (cpfData && cpfData.nome) {
         // Preencher nome completo com capitalização
-        if (cpfData.nome) {
-          console.log("Preenchendo nome:", cpfData.nome);
-          form.setValue("full_name", capitalizeWords(cpfData.nome));
-        }
+        console.log("Preenchendo nome:", cpfData.nome);
+        form.setValue("full_name", capitalizeWords(cpfData.nome));
         
         // Preencher data de nascimento se disponível
         if (cpfData.data_nascimento) {
@@ -101,13 +101,19 @@ export function useDocumentValidation(form: UseFormReturn<any>, personType: stri
             form.setValue("zip_code", cleanCep);
           }
         }
+        
+        setCpfMessage("Dados preenchidos automaticamente");
       } else {
-        console.log("Nenhum dado encontrado para o CPF");
+        console.log("Nenhum dado encontrado para o CPF - preenchimento manual necessário");
+        setCpfMessage("CPF válido - preencha os dados manualmente");
       }
     } catch (error) {
       console.error("Erro ao buscar dados do CPF:", error);
+      setCpfMessage("CPF válido - preencha os dados manualmente");
     } finally {
       setIsLoadingCPF(false);
+      // Limpar mensagem após 3 segundos
+      setTimeout(() => setCpfMessage(""), 3000);
     }
   };
 
@@ -198,6 +204,7 @@ export function useDocumentValidation(form: UseFormReturn<any>, personType: stri
     
     if (!isValid) {
       form.setError("cnpj", { message: "CPF inválido" });
+      setCpfMessage("");
     } else {
       form.clearErrors("cnpj");
       fillCPFData(cleanValue);
@@ -222,6 +229,7 @@ export function useDocumentValidation(form: UseFormReturn<any>, personType: stri
     isLoadingCNPJ,
     validateCPF,
     validateCNPJ,
+    cpfMessage,
     isLoadingDocument: isLoadingCPF || isLoadingCNPJ
   };
 }

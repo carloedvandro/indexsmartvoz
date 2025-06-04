@@ -11,7 +11,7 @@ interface DocumentFieldProps {
 
 export function DocumentField({ form, personType }: DocumentFieldProps) {
   const [documentValue, setDocumentValue] = useState(form.getValues("cnpj") || "");
-  const { validateCPF, validateCNPJ, isLoadingDocument, isLoadingCPF, isLoadingCNPJ } = useDocumentValidation(form, personType);
+  const { validateCPF, validateCNPJ, isLoadingDocument, isLoadingCPF, isLoadingCNPJ, cpfMessage } = useDocumentValidation(form, personType);
 
   const handleDocumentChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -65,12 +65,17 @@ export function DocumentField({ form, personType }: DocumentFieldProps) {
       )}
       {isLoadingCPF && (
         <p className="text-blue-500 text-xs mt-1">
-          Buscando dados do CPF...
+          Verificando CPF...
         </p>
       )}
       {isLoadingCNPJ && (
         <p className="text-blue-500 text-xs mt-1">
           Buscando dados do CNPJ...
+        </p>
+      )}
+      {cpfMessage && !isLoadingCPF && (
+        <p className="text-green-600 text-xs mt-1">
+          {cpfMessage}
         </p>
       )}
     </div>

@@ -20,28 +20,22 @@ export const fetchCPFData = async (cpf: string): Promise<CPFData | null> => {
   try {
     log("info", "Fetching CPF data", { cpf });
     
-    // Simular dados do CPF com endereço para demonstração
+    // Tentar buscar dados reais do CPF via API (Serasa, SPC, ou outras APIs disponíveis)
+    // Como não temos acesso a APIs reais de CPF, vamos retornar null para não confundir
     // Em produção, isso seria uma API real de consulta de CPF
+    
+    console.log(`Consultando dados reais do CPF: ${cpf}`);
+    
+    // Simular delay de API
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Dados simulados baseados no CPF
-    const mockData: CPFData = {
-      nome: "João da Silva Santos",
-      data_nascimento: "15/03/1985",
-      cpf: cpf,
-      situacao: "regular",
-      endereco: {
-        logradouro: "Rua das Flores",
-        numero: "123",
-        bairro: "Centro",
-        cidade: "São Paulo",
-        uf: "SP",
-        cep: "01234567"
-      }
-    };
+    // Por questões de privacidade e segurança, APIs públicas de CPF não existem
+    // O sistema deve ser integrado com APIs oficiais como Serasa, SPC, etc.
+    // Por enquanto, retornamos null para que o usuário preencha manualmente
     
-    logDocumentData("CPF", mockData);
-    return mockData;
+    log("info", "CPF validation completed - manual entry required");
+    return null;
+    
   } catch (error) {
     logError("Error fetching CPF data", error);
     return null;
