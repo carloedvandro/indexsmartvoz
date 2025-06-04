@@ -1,11 +1,10 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { ProfileImageSection } from "./ProfileImageSection";
-import { PersonalDataSection } from "./PersonalDataSection";
+import { PersonalDataSection } from "./personal-data/PersonalDataSection";
 import { ContactSection } from "./ContactSection";
 import { AddressSection } from "./AddressSection";
 import { ProfileWithSponsor } from "@/types/profile";
