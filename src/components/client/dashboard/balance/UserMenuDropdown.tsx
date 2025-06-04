@@ -69,7 +69,6 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
           isActive={profile?.status === 'active'}
           size="sm"
         />
-        <span className="text-sm font-medium">Menu</span>
         <ChevronDown className={`h-4 w-4 text-gray-500 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} />
       </button>
       
