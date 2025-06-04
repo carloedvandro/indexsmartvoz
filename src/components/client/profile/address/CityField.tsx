@@ -29,8 +29,8 @@ export function CityField({ form }: CityFieldProps) {
         <option value="">
           {selectedState ? "Selecione a cidade" : "Primeiro selecione o estado"}
         </option>
-        {cities.map((city) => (
-          <option key={city} value={city}>{city}</option>
+        {cities.map((city, index) => (
+          <option key={`${selectedState}-${city}-${index}`} value={city}>{city}</option>
         ))}
       </select>
       {form.formState.errors.city && (
