@@ -45,10 +45,10 @@ export const UserAvatar = ({
         className="object-cover"
       />
       <AvatarFallback className="bg-blue-500 text-white font-semibold">
-        {profileImage ? (
-          <User className={`${iconSizes[size]} text-white`} />
+        {fullName && getInitials(fullName) ? (
+          <span className="text-xs">{getInitials(fullName)}</span>
         ) : (
-          <span className="text-xs">{getInitials(fullName) || <User className={`${iconSizes[size]} text-white`} />}</span>
+          <User className={`${iconSizes[size]} text-white`} />
         )}
       </AvatarFallback>
     </Avatar>
