@@ -20,40 +20,39 @@ export const useFacialCapture = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [cameraActive, setCameraActive] = useState(true);
   const [captureProgress, setCaptureProgress] = useState(0);
-  const [idealPositionTime, setIdealPositionTime] = useState(0);
+  const [stableDetectionTime, setStableDetectionTime] = useState(0);
   const { toast } = useToast();
 
-  // Reset progress when face is lost or not ideal
+  // Reset progress quando face não está detectada ou não está na posição ideal
   useEffect(() => {
     if (!faceDetected || faceProximity !== "ideal") {
+      // Reset mais gradual do progresso
       if (captureProgress > 0) {
-        setCaptureProgress(prev => Math.max(0, prev - 2)); // Gradually decrease progress
+        setCaptureProgress(prev => Math.max(0, prev - 1));
       }
-      setIdealPositionTime(0);
+      setStableDetectionTime(0);
     }
   }, [faceDetected, faceProximity, captureProgress]);
 
-  // Auto-increment progress when face is detected and in ideal position
+  // Incremento automático do progresso quando face está detectada e na posição ideal
   useEffect(() => {
     let progressInterval: NodeJS.Timeout | null = null;
     let timeoutId: NodeJS.Timeout | null = null;
     
     if (faceDetected && faceProximity === "ideal" && !isProcessing && cameraActive) {
-      // Start incrementing the ideal position time counter
+      // Incrementar contador de tempo de detecção estável
       timeoutId = setTimeout(() => {
-        setIdealPositionTime(prev => prev + 1);
-      }, 100);
+        setStableDetectionTime(prev => prev + 1);
+      }, 50);
       
-      // Only start incrementing progress after face has been in ideal position for a short time
-      if (idealPositionTime > 2) { // Reduced from 3 to 2 for even faster response
-        // Increment progress steadily
+      // Começar incremento de progresso após detecção estável por um tempo menor
+      if (stableDetectionTime > 1) {
         progressInterval = setInterval(() => {
           setCaptureProgress(prev => {
-            const newProgress = prev + 2.5; // Increased to 2.5 for faster completion
-            // We'll let the separate effect handle the capture trigger
+            const newProgress = prev + 3; // Incremento mais rápido
             return newProgress > 100 ? 100 : newProgress;
           });
-        }, 30); // ~1.2 seconds to complete full circle (100 * 30ms / 2.5)
+        }, 40); // Intervalo menor para captura mais rápida
       }
     }
     
@@ -61,26 +60,30 @@ export const useFacialCapture = ({
       if (timeoutId) clearTimeout(timeoutId);
       if (progressInterval) clearInterval(progressInterval);
     };
-  }, [faceDetected, faceProximity, isProcessing, cameraActive, idealPositionTime]);
+  }, [faceDetected, faceProximity, isProcessing, cameraActive, stableDetectionTime]);
 
-  // Separate effect to trigger capture when progress reaches 100
+  // Trigger de captura quando progresso atinge 100
   useEffect(() => {
     if (captureProgress >= 100 && !isProcessing) {
       handleAutomaticCapture();
     }
   }, [captureProgress, isProcessing]);
 
-  // Define handleAutomaticCapture outside useCallback to avoid hook ordering issues
   async function handleAutomaticCapture() {
-    if (isProcessing || !webcamRef.current || faceProximity !== "ideal") return;
+    if (isProcessing || !webcamRef.current) return;
+    
+    console.log("Iniciando captura automática...");
     
     const imageSrc = webcamRef.current.getScreenshot();
-    if (!imageSrc) return;
+    if (!imageSrc) {
+      console.error("Não foi possível capturar a imagem");
+      return;
+    }
     
     setIsProcessing(true);
     
     try {
-      // Check if user is authenticated before proceeding
+      // Verificar autenticação
       const { data: sessionData } = await supabase.auth.getSession();
       if (!sessionData.session?.user) {
         toast({
@@ -92,9 +95,9 @@ export const useFacialCapture = ({
         return;
       }
       
-      console.log("Capturing facial image for user:", sessionData.session.user.id);
+      console.log("Capturando imagem facial para usuário:", sessionData.session.user.id);
       
-      // Save the facial image to Supabase Storage
+      // Salvar imagem no Supabase Storage
       const userId = sessionData.session.user.id;
       const blob = await fetch(imageSrc).then(res => res.blob());
       const file = new File([blob], `facial-${Date.now()}.jpg`, { type: 'image/jpeg' });
@@ -105,29 +108,29 @@ export const useFacialCapture = ({
         .upload(filePath, file);
         
       if (uploadError) {
-        console.error('Error uploading facial image:', uploadError);
+        console.error('Erro ao fazer upload da imagem facial:', uploadError);
         throw uploadError;
       }
       
-      console.log("Facial image uploaded successfully");
+      console.log("Imagem facial enviada com sucesso");
       
-      // Success notification
       toast({
         title: "Captura Concluída",
         description: "Seu rosto foi capturado com sucesso!",
       });
       
-      // Add a small delay for better UX
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Pequeno delay para melhor UX
+      await new Promise(resolve => setTimeout(resolve, 500));
       onComplete(imageSrc);
     } catch (error) {
-      console.error('Error during facial capture:', error);
+      console.error('Erro durante captura facial:', error);
       toast({
         title: "Erro na Captura",
         description: "Ocorreu um erro ao processar a imagem. Por favor, tente novamente.",
         variant: "destructive",
       });
       setCaptureProgress(0);
+      setStableDetectionTime(0);
     } finally {
       setIsProcessing(false);
     }
@@ -136,7 +139,7 @@ export const useFacialCapture = ({
   const toggleCamera = useCallback(() => {
     setCameraActive(prev => !prev);
     setCaptureProgress(0);
-    setIdealPositionTime(0);
+    setStableDetectionTime(0);
   }, []);
 
   return {
