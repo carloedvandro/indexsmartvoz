@@ -235,7 +235,9 @@ export function PersonalInfoFields({ control, setValue }: PersonalInfoFieldsProp
         name="account_holder"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Titular da conta</FormLabel>
+            <FormLabel>
+              {personType === "Pessoa Jurídica" ? "Razão social" : "Nome completo"}
+            </FormLabel>
             <FormControl>
               <Input {...field} />
             </FormControl>
