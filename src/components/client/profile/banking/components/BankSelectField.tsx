@@ -19,13 +19,13 @@ export function BankSelectField({ control }: BankSelectFieldProps) {
           <FormLabel className="text-base font-medium">Nome do Banco</FormLabel>
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
-              <SelectTrigger className="h-8">
+              <SelectTrigger className="h-9">
                 <SelectValue placeholder="Selecione o banco" />
               </SelectTrigger>
             </FormControl>
-            <SelectContent className="w-[var(--radix-select-trigger-width)]">
+            <SelectContent className="w-42">
               {bankOptions.map((bank) => (
-                <SelectItem key={bank} value={bank} className="text-xs py-1 text-left">
+                <SelectItem key={bank} value={bank} className="text-xs py-1">
                   {bank}
                 </SelectItem>
               ))}
