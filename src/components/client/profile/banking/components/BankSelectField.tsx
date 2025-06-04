@@ -19,7 +19,7 @@ export function BankSelectField({ control }: BankSelectFieldProps) {
           <FormLabel className="text-base font-medium">Nome do Banco</FormLabel>
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
-              <SelectTrigger className="h-9">
+              <SelectTrigger className="h-8">
                 <SelectValue placeholder="Selecione o banco" />
               </SelectTrigger>
             </FormControl>
