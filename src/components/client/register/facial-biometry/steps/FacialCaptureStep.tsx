@@ -79,7 +79,7 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
       {/* Header with title */}
       <div className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 z-20 text-center">
         <p className="text-sm font-medium">
-          {isCapturing ? "🔴 CAPTURANDO - NÃO MOVA!" : "Centralize seu rosto"}
+          {isCapturing ? "🔴 CAPTURANDO - NÃO MOVA O ROSTO!" : "Centralize seu rosto no oval"}
         </p>
       </div>
       
@@ -103,7 +103,7 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
         onToggle={toggleCamera}
       />
       
-      {/* Enhanced status indicator */}
+      {/* Enhanced status indicator with stricter warnings */}
       <div className="absolute bottom-6 w-full flex justify-center items-center">
         {isProcessing && (
           <div className="bg-black bg-opacity-70 text-white px-3 py-2 rounded-full text-sm animate-pulse">
@@ -112,20 +112,26 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
         )}
         
         {!isProcessing && isCapturing && (
-          <div className="bg-blue-600 bg-opacity-90 text-white px-4 py-2 rounded-full text-sm font-bold animate-pulse border-2 border-blue-400">
-            🔴 CAPTURANDO ({Math.round(captureProgress)}%) - MANTENHA-SE IMÓVEL!
+          <div className="bg-red-600 bg-opacity-90 text-white px-4 py-2 rounded-full text-sm font-bold animate-pulse border-2 border-red-400">
+            🔴 CAPTURANDO ({Math.round(captureProgress)}%) - NÃO SAIA DO OVAL!
           </div>
         )}
         
         {!isProcessing && !isCapturing && faceDetected && faceProximity === "ideal" && (
           <div className="bg-green-600 bg-opacity-70 text-white px-3 py-2 rounded-full text-sm">
-            Rosto detectado - Iniciando captura...
+            ✅ Posição perfeita - Aguarde iniciar...
           </div>
         )}
         
         {!isProcessing && !isCapturing && faceDetected && faceProximity !== "ideal" && (
           <div className="bg-yellow-600 bg-opacity-70 text-white px-3 py-2 rounded-full text-sm">
-            Ajuste a posição do rosto
+            ⚠️ Ajuste a posição do rosto
+          </div>
+        )}
+        
+        {!isProcessing && !isCapturing && !faceDetected && (
+          <div className="bg-red-600 bg-opacity-70 text-white px-3 py-2 rounded-full text-sm">
+            ❌ Rosto não detectado
           </div>
         )}
       </div>
