@@ -1,19 +1,27 @@
 
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 interface BankingHeaderProps {
   onBack: () => void;
 }
 
 export function BankingHeader({ onBack }: BankingHeaderProps) {
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    console.log("BankingHeader: Clique no botão voltar");
+    navigate("/client/profile");
+  };
+
   return (
     <div className="bg-white border-b border-gray-200 px-4 py-4">
       <div className="flex items-center gap-4">
         <Button
           variant="ghost"
           size="icon"
-          onClick={onBack}
+          onClick={handleBack}
           className="h-8 w-8"
         >
           <ArrowLeft className="h-4 w-4" />
