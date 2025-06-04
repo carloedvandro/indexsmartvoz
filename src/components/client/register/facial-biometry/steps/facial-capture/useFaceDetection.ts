@@ -22,37 +22,37 @@ export const useFaceDetection = (
     let skinTonePixels = 0;
     const totalPixels = data.length / 4;
     
-    // Threshold mais baixo para melhor detecção
-    const threshold = 0.03;
+    // Threshold mais baixo para detecção mais sensível
+    const threshold = 0.02;
     
-    // Área central onde o rosto deve estar
+    // Área central onde o rosto deve estar (mais flexível)
     const centerX = imageData.width / 2;
     const centerY = imageData.height / 2;
-    const faceRadiusX = Math.min(imageData.width, imageData.height) * 0.35;
-    const faceRadiusY = Math.min(imageData.width, imageData.height) * 0.45;
+    const faceRadiusX = Math.min(imageData.width, imageData.height) * 0.4;
+    const faceRadiusY = Math.min(imageData.width, imageData.height) * 0.5;
     
     let facePixelsSum = { x: 0, y: 0 };
     let facePixelsCount = 0;
     
-    // Verificar tons de pele na região oval central
-    for (let y = 0; y < imageData.height; y++) {
-      for (let x = 0; x < imageData.width; x++) {
+    // Verificar tons de pele em área maior
+    for (let y = 0; y < imageData.height; y += 2) { // Skip pixels para performance
+      for (let x = 0; x < imageData.width; x += 2) {
         const dx = (x - centerX) / faceRadiusX;
         const dy = (y - centerY) / faceRadiusY;
         const distanceFromCenter = Math.sqrt(dx*dx + dy*dy);
         
-        if (distanceFromCenter <= 1.0) {
+        if (distanceFromCenter <= 1.2) { // Área mais ampla
           const index = (y * imageData.width + x) * 4;
           const r = data[index];
           const g = data[index + 1];
           const b = data[index + 2];
           
-          // Detecção de tom de pele mais flexível
+          // Detecção de tom de pele mais ampla
           if (
-            r > 20 && g > 10 && b > 5 &&
-            r >= g - 20 && r >= b - 20 &&
-            Math.max(r, g, b) - Math.min(r, g, b) < 150 &&
-            r + g + b > 60
+            r > 15 && g > 8 && b > 5 &&
+            r >= g - 25 && r >= b - 25 &&
+            Math.max(r, g, b) - Math.min(r, g, b) < 180 &&
+            r + g + b > 50
           ) {
             skinTonePixels++;
             facePixelsSum.x += x;
@@ -69,19 +69,19 @@ export const useFaceDetection = (
     let detectedFace = false;
     let facePos = { x: 0, y: 0, size: 0 };
     
-    if (ratio > threshold && facePixelsCount > 0) {
+    if (ratio > threshold && facePixelsCount > 100) { // Mínimo de pixels menor
       const avgX = facePixelsSum.x / facePixelsCount;
       const avgY = facePixelsSum.y / facePixelsCount;
       
       const faceSize = Math.sqrt(facePixelsCount / totalPixels) * 2;
       
-      // Verificar se o rosto está centralizado (mais flexível)
+      // Verificar se o rosto está razoavelmente centralizado (muito mais flexível)
       const distanceFromFrameCenter = Math.sqrt(
         Math.pow((avgX - centerX) / centerX, 2) + 
         Math.pow((avgY - centerY) / centerY, 2)
       );
       
-      const isCentered = distanceFromFrameCenter < 0.4; // Mais flexível
+      const isCentered = distanceFromFrameCenter < 0.6; // Muito mais flexível
       
       facePos = {
         x: avgX / imageData.width,
@@ -90,14 +90,18 @@ export const useFaceDetection = (
       };
       
       if (isCentered) {
-        if (faceSize > 0.6) {
+        if (faceSize > 0.7) {
           proximity = "too-close";
-        } else if (faceSize < 0.15) {
+        } else if (faceSize < 0.12) {
           proximity = "too-far";
         } else {
           proximity = "ideal";
         }
         detectedFace = true;
+      } else {
+        // Mesmo não centralizado, detectar o rosto
+        detectedFace = true;
+        proximity = "not-detected";
       }
     }
     
@@ -110,9 +114,9 @@ export const useFaceDetection = (
 
   useEffect(() => {
     let detectionCount = 0;
-    const consecutiveDetectionsNeeded = 1;
+    const consecutiveDetectionsNeeded = 1; // Apenas 1 detecção necessária
     let noDetectionCount = 0;
-    const consecutiveNoDetectionsNeeded = 3;
+    const consecutiveNoDetectionsNeeded = 5;
     
     const interval = setInterval(async () => {
       if (webcamRef.current && !isProcessing && cameraActive) {
@@ -128,29 +132,31 @@ export const useFaceDetection = (
             if (ctx) {
               ctx.drawImage(img, 0, 0);
               
-              // Amostra área maior para detecção
-              const centerX = img.width * 0.1;
-              const centerY = img.height * 0.1;
-              const width = img.width * 0.8;
-              const height = img.height * 0.8;
+              // Amostra área quase completa
+              const centerX = img.width * 0.05;
+              const centerY = img.height * 0.05;
+              const width = img.width * 0.9;
+              const height = img.height * 0.9;
               
               const imageData = ctx.getImageData(centerX, centerY, width, height);
               
               checkFace(imageData).then(result => {
+                console.log("Face detection result:", result); // Debug
+                
                 if (result.detected) {
                   detectionCount++;
                   noDetectionCount = 0;
                   setFaceProximity(result.proximity);
+                  setFacePosition(result.position);
                   
                   if (detectionCount >= consecutiveDetectionsNeeded) {
                     setFaceDetected(true);
-                    setFacePosition(result.position);
                   }
                 } else {
                   noDetectionCount++;
                   detectionCount = 0;
                   
-                  if (noDetectionCount >= consecutiveNoDetectionsNeeded && faceDetected) {
+                  if (noDetectionCount >= consecutiveNoDetectionsNeeded) {
                     setFaceDetected(false);
                     setFaceProximity("not-detected");
                   }
@@ -160,10 +166,10 @@ export const useFaceDetection = (
           };
         }
       }
-    }, 150); // Intervalo um pouco maior para melhor performance
+    }, 100); // Interval mais frequente
 
     return () => clearInterval(interval);
-  }, [isProcessing, cameraActive, webcamRef, faceDetected]);
+  }, [isProcessing, cameraActive, webcamRef]);
 
   return { faceDetected, facePosition, faceProximity };
 };

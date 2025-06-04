@@ -26,11 +26,12 @@ export const useFacialCapture = ({
   // Reset progress quando face não está detectada ou não está na posição ideal
   useEffect(() => {
     if (!faceDetected || faceProximity !== "ideal") {
-      // Reset mais gradual do progresso
       if (captureProgress > 0) {
-        setCaptureProgress(prev => Math.max(0, prev - 1));
+        setCaptureProgress(prev => Math.max(0, prev - 2));
       }
-      setStableDetectionTime(0);
+      if (!faceDetected) {
+        setStableDetectionTime(0);
+      }
     }
   }, [faceDetected, faceProximity, captureProgress]);
 
@@ -40,19 +41,22 @@ export const useFacialCapture = ({
     let timeoutId: NodeJS.Timeout | null = null;
     
     if (faceDetected && faceProximity === "ideal" && !isProcessing && cameraActive) {
+      console.log("Starting capture progress - face detected and ideal"); // Debug
+      
       // Incrementar contador de tempo de detecção estável
       timeoutId = setTimeout(() => {
         setStableDetectionTime(prev => prev + 1);
-      }, 50);
+      }, 30);
       
-      // Começar incremento de progresso após detecção estável por um tempo menor
-      if (stableDetectionTime > 1) {
+      // Começar incremento de progresso quase imediatamente
+      if (stableDetectionTime >= 0) {
         progressInterval = setInterval(() => {
           setCaptureProgress(prev => {
-            const newProgress = prev + 3; // Incremento mais rápido
+            const newProgress = prev + 4; // Incremento mais rápido
+            console.log("Progress:", newProgress); // Debug
             return newProgress > 100 ? 100 : newProgress;
           });
-        }, 40); // Intervalo menor para captura mais rápida
+        }, 30); // Intervalo menor para captura mais rápida
       }
     }
     
@@ -65,6 +69,7 @@ export const useFacialCapture = ({
   // Trigger de captura quando progresso atinge 100
   useEffect(() => {
     if (captureProgress >= 100 && !isProcessing) {
+      console.log("Progress reached 100%, triggering capture"); // Debug
       handleAutomaticCapture();
     }
   }, [captureProgress, isProcessing]);
