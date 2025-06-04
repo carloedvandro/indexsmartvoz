@@ -57,23 +57,26 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
   };
 
   return (
-    <div className="relative">
+    <div className="w-full">
       <button 
-        className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
+        className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer w-full justify-between"
         onClick={onToggleUserMenu}
         title="Menu do usuário"
       >
-        <UserAvatar
-          profileImage={profile?.profile_image}
-          fullName={profile?.full_name}
-          isActive={profile?.status === 'active'}
-          size="sm"
-        />
-        <ChevronDown className="h-4 w-4 text-gray-500" />
+        <div className="flex items-center gap-2">
+          <UserAvatar
+            profileImage={profile?.profile_image}
+            fullName={profile?.full_name}
+            isActive={profile?.status === 'active'}
+            size="sm"
+          />
+          <span className="text-sm font-medium">Menu</span>
+        </div>
+        <ChevronDown className={`h-4 w-4 text-gray-500 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} />
       </button>
       
       {showUserMenu && (
-        <div className="absolute right-0 top-full mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+        <div className="w-full bg-gray-50 border-t border-gray-200 mt-2">
           <div className="py-2">
             <Link
               to="/client/dashboard"
@@ -82,7 +85,7 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
               <img 
                 src="/lovable-uploads/d6d0cfaa-60fb-4950-9674-400bbfc06650.png" 
                 alt="Home" 
-                className="h-[30px] w-auto" 
+                className="h-[20px] w-auto" 
               />
               <span className="text-base font-medium text-black">Home</span>
             </Link>
@@ -93,7 +96,7 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
             {menuItems.map((item) => (
               <div key={item.title}>
                 <div 
-                  className="px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-gray-50"
+                  className="px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-gray-100"
                   onClick={() => item.items && toggleSubmenu(item.title)}
                 >
                   <p className="text-base font-medium text-black">{item.title}</p>
@@ -106,12 +109,12 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
                   )}
                 </div>
                 {item.items && expandedMenus.includes(item.title) && (
-                  <div className="mb-2">
+                  <div className="mb-2 bg-white">
                     {item.items.map((subItem) => (
                       <Link
                         key={subItem.title}
                         to={subItem.href || "#"}
-                        className="block px-6 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800"
+                        className="block px-6 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-800"
                       >
                         {subItem.title}
                       </Link>
@@ -126,7 +129,7 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
             {/* Configurações Section with expandable menu */}
             <div>
               <div 
-                className="px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-gray-50"
+                className="px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-gray-100"
                 onClick={() => toggleSubmenu('Configurações')}
               >
                 <p className="text-base font-medium text-black">Configurações</p>
@@ -137,12 +140,12 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
                 />
               </div>
               {expandedMenus.includes('Configurações') && (
-                <div className="px-4 py-2 space-y-1">
+                <div className="px-4 py-2 space-y-1 bg-white">
                   {profileMenuItems.map((item) => (
                     <Link
                       key={item.title}
                       to={item.href}
-                      className="flex items-center gap-3 px-2 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 rounded-md transition-colors"
+                      className="flex items-center gap-3 px-2 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-800 rounded-md transition-colors"
                     >
                       <item.icon className="h-4 w-4 text-gray-500" />
                       <span>{item.title}</span>
