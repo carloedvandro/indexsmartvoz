@@ -67,7 +67,7 @@ export function useBillingData() {
     }
   });
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -86,30 +86,58 @@ export function useBillingData() {
         .eq('role', 'client')
         .not('full_name', 'is', null);
 
-      if (profilesError) throw profilesError;
+      if (profilesError) {
+        console.error('Erro ao buscar perfis:', profilesError);
+      }
 
       // Buscar dados das linhas de telefone (assinaturas/cobranças)
       const { data: phoneLines, error: phoneLinesError } = await supabase
         .from('phone_lines')
         .select('*');
 
-      if (phoneLinesError) throw phoneLinesError;
+      if (phoneLinesError) {
+        console.error('Erro ao buscar linhas:', phoneLinesError);
+      }
 
       // Buscar dados de comissões da rede
       const { data: commissions, error: commissionsError } = await supabase
         .from('network_commission_history')
         .select('*');
 
-      if (commissionsError) throw commissionsError;
+      if (commissionsError) {
+        console.error('Erro ao buscar comissões:', commissionsError);
+      }
 
       // Processar dados para criar a estrutura de billing status
       const processedData = processClientData(profiles || [], phoneLines || [], commissions || []);
+      
+      // Manter os valores fixos mas atualizar contadores de clientes
       setBillingStatus(prev => {
         return {
-          received: { ...prev.received, ...processedData.received },
-          confirmed: { ...prev.confirmed, ...processedData.confirmed },
-          awaiting: { ...prev.awaiting, ...processedData.awaiting },
-          overdue: { ...prev.overdue, ...processedData.overdue }
+          received: { 
+            ...prev.received, 
+            clients: processedData.received.clients,
+            bills: processedData.received.bills,
+            clientsData: processedData.received.clientsData 
+          },
+          confirmed: { 
+            ...prev.confirmed, 
+            clients: processedData.confirmed.clients,
+            bills: processedData.confirmed.bills,
+            clientsData: processedData.confirmed.clientsData 
+          },
+          awaiting: { 
+            ...prev.awaiting, 
+            clients: processedData.awaiting.clients,
+            bills: processedData.awaiting.bills,
+            clientsData: processedData.awaiting.clientsData 
+          },
+          overdue: { 
+            ...prev.overdue, 
+            clients: processedData.overdue.clients,
+            bills: processedData.overdue.bills,
+            clientsData: processedData.overdue.clientsData 
+          }
         };
       });
 
@@ -164,7 +192,7 @@ export function useBillingData() {
       }
     });
 
-    // Retornar apenas os valores de clientes e bills calculados, mantendo os valores fixos para amount e liquid
+    // Retornar apenas os valores de clientes e bills calculados
     return {
       received: {
         clients: groupedClients.received.length,
@@ -220,13 +248,6 @@ export function useBillingData() {
 
     // Valor padrão se não encontrar o plano
     return Math.random() * 100 + 20;
-  };
-
-  const calculateTotalAmount = (clients: Client[]): number => {
-    return clients.reduce((total, client) => {
-      const value = parseFloat(client.charges.replace(/[R$\s.]/g, '').replace(',', '.'));
-      return total + (isNaN(value) ? 0 : value);
-    }, 0);
   };
 
   const formatCurrency = (value: number): string => {
