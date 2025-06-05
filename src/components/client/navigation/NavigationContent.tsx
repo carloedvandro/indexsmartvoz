@@ -1,10 +1,7 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, ChevronRight } from "lucide-react";
-import { NavigationCard } from "./NavigationCard";
-import { LogoutButton } from "../dashboard/components/LogoutButton";
-import { navigationItems } from "../dashboard/navigation/NavigationItems";
+import { ChevronDown, ChevronRight, Home, Store, Users, Settings, LogOut, Package, Smartphone, FileBarChart, Network } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -52,128 +49,159 @@ export function NavigationContent() {
     }
   };
 
-  // Filter out the home item and get other navigation items
-  const menuItems = navigationItems.filter(item => item.icon !== "home");
-
-  // Profile menu items for configurations section
-  const profileMenuItems = [
+  const menuItems = [
     {
-      title: "Meu Perfil",
-      href: "/client/profile",
+      id: "home",
+      title: "Home",
+      icon: Home,
+      href: "/client/dashboard",
+      type: "single"
     },
     {
-      title: "Conta Bancária",
-      href: "/client/profile/banking",
+      id: "loja-virtual",
+      title: "Loja Virtual",
+      icon: Store,
+      type: "section",
+      items: [
+        {
+          title: "Plano Smartvoz",
+          href: "/client/store",
+          icon: Smartphone
+        },
+        {
+          title: "Processo de Ativação do SIM Card",
+          href: "/client/products",
+          icon: Package
+        },
+        {
+          title: "Processo de Ativação do eSIM",
+          href: "/client/esim",
+          icon: Smartphone
+        },
+        {
+          title: "Relatórios Estoque",
+          href: "/client/inventory-reports",
+          icon: FileBarChart
+        }
+      ]
     },
     {
-      title: "Termos",
-      href: "/client/profile/terms",
+      id: "rede",
+      title: "Rede",
+      icon: Network,
+      type: "section",
+      items: [
+        {
+          title: "Minha Rede",
+          href: "/client/network",
+          icon: Users
+        }
+      ]
     },
     {
-      title: "Alterar Senha",
-      href: "/client/profile/change-password",
-    },
-    {
-      title: "Senha de Segurança",
-      href: "/client/profile/security-password",
-    },
+      id: "configuracoes",
+      title: "Configurações",
+      icon: Settings,
+      type: "section",
+      items: [
+        {
+          title: "Meu Perfil",
+          href: "/client/profile",
+          icon: Users
+        },
+        {
+          title: "Conta Bancária",
+          href: "/client/profile/banking",
+          icon: Package
+        },
+        {
+          title: "Termos",
+          href: "/client/profile/terms",
+          icon: FileBarChart
+        },
+        {
+          title: "Alterar Senha",
+          href: "/client/profile/change-password",
+          icon: Settings
+        },
+        {
+          title: "Senha de Segurança",
+          href: "/client/profile/security-password",
+          icon: Settings
+        }
+      ]
+    }
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">Menu de Navegação</h1>
-        <p className="text-gray-600">Acesse todas as funcionalidades do sistema</p>
-      </div>
-
-      {/* Home Card */}
-      <NavigationCard>
-        <Link
-          to="/client/dashboard"
-          className="flex items-center gap-4 p-6 hover:bg-gray-50 rounded-lg transition-colors"
-        >
-          <img
-            src="/lovable-uploads/d6d0cfaa-60fb-4950-9674-400bbfc06650.png"
-            alt="Home"
-            className="h-8 w-auto"
-          />
-          <span className="text-xl font-semibold text-gray-800">Home</span>
-        </Link>
-      </NavigationCard>
-
-      {/* Menu Items */}
-      {menuItems.map((item) => (
-        <NavigationCard key={item.title}>
-          <div>
-            <div
-              className="flex items-center justify-between p-6 cursor-pointer hover:bg-gray-50 rounded-lg transition-colors"
-              onClick={() => item.items && toggleSection(item.title)}
-            >
-              <h3 className="text-xl font-semibold text-gray-800">{item.title}</h3>
-              {item.items && (
-                <ChevronDown
-                  className={`h-5 w-5 text-gray-500 transition-transform ${
-                    expandedSections.includes(item.title) ? 'rotate-180' : ''
-                  }`}
-                />
+    <div className="max-w-md mx-auto bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="p-4">
+        <h1 className="text-lg font-semibold text-gray-800 mb-6">Menu de Navegação</h1>
+        
+        <div className="space-y-1">
+          {menuItems.map((item) => (
+            <div key={item.id}>
+              {item.type === "single" ? (
+                <Link
+                  to={item.href!}
+                  className="flex items-center gap-3 px-3 py-2.5 text-gray-700 hover:bg-gray-50 rounded-md transition-colors group"
+                >
+                  <item.icon className="w-5 h-5 text-gray-500 group-hover:text-gray-700" />
+                  <span className="font-medium">{item.title}</span>
+                </Link>
+              ) : (
+                <div>
+                  <button
+                    onClick={() => toggleSection(item.id)}
+                    className="flex items-center justify-between w-full px-3 py-2.5 text-gray-700 hover:bg-gray-50 rounded-md transition-colors group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <item.icon className="w-5 h-5 text-gray-500 group-hover:text-gray-700" />
+                      <span className="font-medium">{item.title}</span>
+                    </div>
+                    <ChevronRight
+                      className={`w-4 h-4 text-gray-400 transition-transform ${
+                        expandedSections.includes(item.id) ? 'rotate-90' : ''
+                      }`}
+                    />
+                  </button>
+                  
+                  {expandedSections.includes(item.id) && item.items && (
+                    <div className="ml-8 mt-1 space-y-1">
+                      {item.items.map((subItem) => (
+                        <Link
+                          key={subItem.title}
+                          to={subItem.href}
+                          className="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-800 rounded-md transition-colors"
+                        >
+                          <subItem.icon className="w-4 h-4 text-gray-400" />
+                          <span>{subItem.title}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+              
+              {/* Separator line between sections */}
+              {item.id !== "configuracoes" && (
+                <div className="border-b border-gray-100 my-2"></div>
               )}
             </div>
-            {item.items && expandedSections.includes(item.title) && (
-              <div className="px-6 pb-6 space-y-3 bg-gray-50">
-                {item.items.map((subItem) => (
-                  <Link
-                    key={subItem.title}
-                    to={subItem.href || "#"}
-                    className="flex items-center justify-between p-3 text-gray-700 hover:bg-white hover:text-gray-900 rounded-md transition-colors"
-                  >
-                    <span className="font-medium">{subItem.title}</span>
-                    <ChevronRight className="h-4 w-4 text-gray-400" />
-                  </Link>
-                ))}
-              </div>
-            )}
+          ))}
+          
+          {/* Logout section */}
+          <div className="border-t border-gray-200 mt-4 pt-4">
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-3 w-full px-3 py-2.5 text-red-600 hover:bg-red-50 rounded-md transition-colors group"
+            >
+              <LogOut className="w-5 h-5" />
+              <span className="font-medium">Sair do Sistema</span>
+            </button>
           </div>
-        </NavigationCard>
-      ))}
-
-      {/* Configurações Section */}
-      <NavigationCard>
-        <div>
-          <div
-            className="flex items-center justify-between p-6 cursor-pointer hover:bg-gray-50 rounded-lg transition-colors"
-            onClick={() => toggleSection('Configurações')}
-          >
-            <h3 className="text-xl font-semibold text-gray-800">Configurações</h3>
-            <ChevronDown
-              className={`h-5 w-5 text-gray-500 transition-transform ${
-                expandedSections.includes('Configurações') ? 'rotate-180' : ''
-              }`}
-            />
-          </div>
-          {expandedSections.includes('Configurações') && (
-            <div className="px-6 pb-6 space-y-3 bg-gray-50">
-              {profileMenuItems.map((item) => (
-                <Link
-                  key={item.title}
-                  to={item.href}
-                  className="flex items-center justify-between p-3 text-gray-700 hover:bg-white hover:text-gray-900 rounded-md transition-colors"
-                >
-                  <span className="font-medium">{item.title}</span>
-                  <ChevronRight className="h-4 w-4 text-gray-400" />
-                </Link>
-              ))}
-            </div>
-          )}
         </div>
-      </NavigationCard>
-
-      {/* Logout Section */}
-      <NavigationCard>
-        <div className="p-6 text-center">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Sair do Sistema</h3>
-          <LogoutButton onLogout={handleLogout} className="mx-auto" />
-        </div>
-      </NavigationCard>
+      </div>
     </div>
   );
 }

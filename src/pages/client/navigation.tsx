@@ -17,7 +17,7 @@ export default function ClientNavigation() {
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
-          <div className="max-w-4xl mx-auto pt-8 px-4 pb-8">
+          <div className="max-w-2xl mx-auto pt-8 px-4 pb-8">
             <div className="mb-6">
               <Button
                 variant="ghost"
