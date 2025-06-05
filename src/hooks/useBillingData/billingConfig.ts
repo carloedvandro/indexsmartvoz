@@ -3,8 +3,8 @@ import { BillingStatus } from './types';
 
 export const initialBillingStatus: Record<string, BillingStatus> = {
   received: {
-    amount: 13630.44,
-    liquid: 13469.65,
+    amount: 3711.44,
+    liquid: 3669.65,
     clients: 0,
     bills: 0,
     color: "text-[#27ae60]",
@@ -13,8 +13,8 @@ export const initialBillingStatus: Record<string, BillingStatus> = {
     clientsData: []
   },
   confirmed: {
-    amount: 1179.99,
-    liquid: 1165.00,
+    amount: 179.99,
+    liquid: 178.00,
     clients: 0,
     bills: 0,
     color: "text-[#3498db]",
@@ -23,8 +23,8 @@ export const initialBillingStatus: Record<string, BillingStatus> = {
     clientsData: []
   },
   awaiting: {
-    amount: 7739.12,
-    liquid: 7679.95,
+    amount: 9739.12,
+    liquid: 9579.95,
     clients: 0,
     bills: 0,
     color: "text-[#f39c12]",
@@ -33,8 +33,8 @@ export const initialBillingStatus: Record<string, BillingStatus> = {
     clientsData: []
   },
   overdue: {
-    amount: 2150.00,
-    liquid: 2100.00,
+    amount: 0.00,
+    liquid: 0.00,
     clients: 0,
     bills: 0,
     color: "text-[#e74c3c]",
