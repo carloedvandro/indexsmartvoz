@@ -1,7 +1,7 @@
 
 import { Info, User, FileText } from "lucide-react";
 import { useState } from "react";
-import { 
+import {
   Popover,
   PopoverContent,
   PopoverTrigger
@@ -47,9 +47,9 @@ export function BillingStatusCards() {
     const statusData = billingStatus[type as keyof typeof billingStatus];
     setClientsModal({
       isOpen: true,
-      title: `Clientes - ${type === 'received' ? 'Recebidas' : 
-                     type === 'confirmed' ? 'Confirmadas' : 
-                     type === 'awaiting' ? 'Aguardando pagamento' : 'Vencidas'}`,
+      title: `Clientes - ${type === 'received' ? 'Recebidas' :
+        type === 'confirmed' ? 'Confirmadas' :
+          type === 'awaiting' ? 'Aguardando pagamento' : 'Vencidas'}`,
       clients: statusData.clientsData
     });
   };
@@ -59,14 +59,14 @@ export function BillingStatusCards() {
       const rect = event.currentTarget.getBoundingClientRect();
       const mouseX = event.clientX - rect.left;
       const progressWidth = rect.width;
-      
+
       // Dividir a barra em duas partes: 60% Pix (esquerda) e 40% Boleto (direita)
       const pixWidth = progressWidth * 0.6;
       const isPixArea = mouseX <= pixWidth;
-      
+
       const paymentMethod: 'pix' | 'boleto' = isPixArea ? 'pix' : 'boleto';
       const value = isPixArea ? amount * 0.6 : amount * 0.4; // 60% Pix, 40% Boleto
-      
+
       setTooltipState({
         visible: true,
         position: {
@@ -98,7 +98,7 @@ export function BillingStatusCards() {
         <div className="flex items-center justify-center py-8">
           <div className="text-red-600">
             {error}
-            <button 
+            <button
               onClick={refetch}
               className="ml-2 px-3 py-1 bg-blue-600 text-white rounded text-sm"
             >
@@ -113,11 +113,17 @@ export function BillingStatusCards() {
   return (
     <div className="container">
       <ProgressBarTooltip {...tooltipState} />
-      
+
       <div className="flex items-center justify-between mb-6 flex-col  md:flex-row lg:flex-row">
         <h2 className="text-xl font-semibold text-gray-800">Situação das cobranças</h2>
-        <div className="flex gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+        <div className="flex gap-2 w-full md:w-[20vw]">
+          <button className=" gap-2 px-4 py-2 border border-gray-300 w-full rounded-lg hover:bg-gray-50" style={{
+
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "center"
+
+          }}>
             <span className="text-blue-600">Este mês</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600">
               <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
@@ -126,7 +132,13 @@ export function BillingStatusCards() {
               <line x1="3" x2="21" y1="10" y2="10"></line>
             </svg>
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+          <button style={{
+
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "center"
+
+          }} className=" gap-2 px-4 py-2 border border-gray-300 w-full rounded-lg hover:bg-gray-50">
             <span className="text-blue-600">Filtros</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600">
               <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
@@ -148,7 +160,7 @@ export function BillingStatusCards() {
               </PopoverTrigger>
               <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
                 {billingStatus.received.tooltip}
-                <button 
+                <button
                   className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
                   onClick={() => setOpenPopover(null)}
                 >
@@ -159,9 +171,9 @@ export function BillingStatusCards() {
           </div>
           <p className={`text-2xl font-semibold ${billingStatus.received.color} mb-1`}>{formatCurrencyBR(billingStatus.received.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.received.liquid)} líquido</p>
-          
+
           <div className="my-6">
-            <div 
+            <div
               className="w-full h-4 bg-gray-100 rounded-sm mb-4 overflow-hidden cursor-pointer relative"
               onMouseMove={(e) => handleProgressBarHover(e, billingStatus.received.amount, 'received', true)}
               onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.received.amount, 'received', false)}
@@ -171,9 +183,9 @@ export function BillingStatusCards() {
             >
             </div>
           </div>
-          
+
           <div className="flex flex-col gap-3">
-            <div 
+            <div
               className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
               onClick={() => handleClientsClick('received')}
             >
@@ -201,7 +213,7 @@ export function BillingStatusCards() {
               </PopoverTrigger>
               <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
                 {billingStatus.confirmed.tooltip}
-                <button 
+                <button
                   className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
                   onClick={() => setOpenPopover(null)}
                 >
@@ -212,9 +224,9 @@ export function BillingStatusCards() {
           </div>
           <p className={`text-2xl font-semibold ${billingStatus.confirmed.color} mb-1`}>{formatCurrencyBR(billingStatus.confirmed.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.confirmed.liquid)} líquido</p>
-          
+
           <div className="my-6">
-            <div 
+            <div
               className="w-full h-4 bg-gray-100 rounded-sm mb-4 overflow-hidden cursor-pointer relative"
               onMouseMove={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', true)}
               onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', false)}
@@ -224,9 +236,9 @@ export function BillingStatusCards() {
             >
             </div>
           </div>
-          
+
           <div className="flex flex-col gap-3">
-            <div 
+            <div
               className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
               onClick={() => handleClientsClick('confirmed')}
             >
@@ -254,7 +266,7 @@ export function BillingStatusCards() {
               </PopoverTrigger>
               <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
                 {billingStatus.awaiting.tooltip}
-                <button 
+                <button
                   className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
                   onClick={() => setOpenPopover(null)}
                 >
@@ -265,9 +277,9 @@ export function BillingStatusCards() {
           </div>
           <p className={`text-2xl font-semibold ${billingStatus.awaiting.color} mb-1`}>{formatCurrencyBR(billingStatus.awaiting.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.awaiting.liquid)} líquido</p>
-          
+
           <div className="my-6">
-            <div 
+            <div
               className="w-full h-4 bg-gray-100 rounded-sm mb-4 overflow-hidden cursor-pointer relative"
               onMouseMove={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, 'awaiting', true)}
               onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, 'awaiting', false)}
@@ -275,9 +287,9 @@ export function BillingStatusCards() {
               <div className="h-full rounded-sm transition-all duration-200 bg-[#f39c12]"></div>
             </div>
           </div>
-          
+
           <div className="flex flex-col gap-3">
-            <div 
+            <div
               className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
               onClick={() => handleClientsClick('awaiting')}
             >
@@ -305,7 +317,7 @@ export function BillingStatusCards() {
               </PopoverTrigger>
               <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
                 {billingStatus.overdue.tooltip}
-                <button 
+                <button
                   className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
                   onClick={() => setOpenPopover(null)}
                 >
@@ -316,9 +328,9 @@ export function BillingStatusCards() {
           </div>
           <p className={`text-2xl font-semibold ${billingStatus.overdue.color} mb-1`}>{formatCurrencyBR(billingStatus.overdue.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.overdue.liquid)} líquido</p>
-          
+
           <div className="my-6">
-            <div 
+            <div
               className="w-full h-4 bg-gray-100 rounded-sm mb-4 overflow-hidden cursor-pointer relative"
               onMouseMove={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', true)}
               onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', false)}
@@ -328,9 +340,9 @@ export function BillingStatusCards() {
             >
             </div>
           </div>
-          
+
           <div className="flex flex-col gap-3">
-            <div 
+            <div
               className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
               onClick={() => handleClientsClick('overdue')}
             >
@@ -347,12 +359,12 @@ export function BillingStatusCards() {
         </div>
       </div>
 
-      <ClientsModal 
+      <ClientsModal
         isOpen={clientsModal.isOpen}
         onOpenChange={(open) => setClientsModal(prev => ({ ...prev, isOpen: open }))}
         title={clientsModal.title}
         clients={clientsModal.clients}
       />
-    </div>
+    </div >
   );
 }
