@@ -19,7 +19,10 @@ export const useFaceStability = ({
   const consecutiveStableRef = useRef(0);
 
   const checkStability = useCallback(() => {
+    console.log("🔍 Checking stability - Face detected:", faceDetected, "Proximity:", faceProximity);
+    
     if (!faceDetected) {
+      console.log("❌ No face detected, resetting stability");
       setIsStable(false);
       setStableFrameCount(0);
       consecutiveStableRef.current = 0;
@@ -33,13 +36,16 @@ export const useFaceStability = ({
     const shouldBeStable = consecutiveStableRef.current >= CAPTURE_CONFIG.REQUIRED_STABLE_FRAMES;
     setIsStable(shouldBeStable);
     
+    console.log("✅ Face stable:", shouldBeStable, "Frames:", consecutiveStableRef.current);
+    
     // Atualizar última posição
     lastPositionRef.current = facePosition;
 
     return shouldBeStable;
-  }, [faceDetected, facePosition]);
+  }, [faceDetected, facePosition, faceProximity]);
 
   const resetStability = useCallback(() => {
+    console.log("🔄 Resetting stability");
     setIsStable(false);
     setStableFrameCount(0);
     consecutiveStableRef.current = 0;

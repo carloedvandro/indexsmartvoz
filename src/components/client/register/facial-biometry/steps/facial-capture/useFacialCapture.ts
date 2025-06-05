@@ -60,7 +60,7 @@ export const useFacialCapture = ({
     faceProximity
   });
 
-  // Validação simples - apenas para falhas críticas
+  // Validação apenas para timeout
   useEffect(() => {
     if (!isCapturing) return;
 
@@ -71,44 +71,49 @@ export const useFacialCapture = ({
       resetProgress();
       resetStability();
     }
-  }, [faceDetected, isCapturing, validateCaptureConditions, resetProgress, resetStability]);
+  }, [isCapturing, validateCaptureConditions, resetProgress, resetStability]);
 
   // Iniciar captura quando rosto detectado
   useEffect(() => {
     if (isProcessing || isCapturing || !cameraActive) return;
 
     if (shouldStartCapture()) {
-      console.log("🟢 INICIANDO CAPTURA");
+      console.log("🟢 INICIANDO CAPTURA - Rosto detectado");
       startCapture();
       
       toast({
         title: "Captura Iniciada",
-        description: "Mantenha o rosto na posição até completar",
+        description: "Mantenha o rosto na posição",
         duration: 2000,
       });
     }
   }, [faceDetected, isProcessing, cameraActive, isCapturing, shouldStartCapture, startCapture, toast]);
 
-  // Sistema de captura simplificado
+  // Sistema de captura muito simples
   useEffect(() => {
     if (!isCapturing) return;
+
+    console.log("🔄 Captura ativa, validando frames...");
 
     const validationInterval = setInterval(() => {
       checkStability();
       
-      // Validação muito simples: apenas rosto detectado
+      // Validação simples: apenas rosto detectado
       const isValidFrame = validateForCapture();
       
       if (isValidFrame) {
         console.log(`✅ Frame válido ${consecutiveValidFrames + 1}/${CAPTURE_CONFIG.REQUIRED_CONSECUTIVE_FRAMES}`);
         incrementProgress();
       } else {
-        console.log("❌ Frame inválido - Rosto não detectado");
-        // Não resetar imediatamente, apenas não incrementar
+        console.log("❌ Frame inválido - continuando sem resetar");
+        // Não resetar, apenas não incrementar
       }
     }, CAPTURE_CONFIG.VALIDATION_INTERVAL);
 
-    return () => clearInterval(validationInterval);
+    return () => {
+      console.log("🛑 Limpando interval de validação");
+      clearInterval(validationInterval);
+    };
   }, [isCapturing, validateForCapture, checkStability, incrementProgress, consecutiveValidFrames]);
 
   // Processar captura quando atingir 100%
@@ -120,7 +125,10 @@ export const useFacialCapture = ({
   }, [isComplete, isCapturing, isProcessing]);
 
   async function handleSecureCapture() {
-    if (isProcessing || !webcamRef.current) return;
+    if (isProcessing || !webcamRef.current) {
+      console.log("⚠️ Captura já em processamento ou webcam não disponível");
+      return;
+    }
     
     console.log("📸 Iniciando captura final...");
     

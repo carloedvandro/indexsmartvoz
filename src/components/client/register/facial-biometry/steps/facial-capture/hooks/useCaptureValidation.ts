@@ -25,13 +25,13 @@ export const useCaptureValidation = ({
 }: UseCaptureValidationProps) => {
   const { toast } = useToast();
 
-  // Reset apenas para condições críticas
+  // Reset apenas para timeout
   const resetCapture = useCallback((reason?: string): ValidationResult => {
-    console.log("🔴 RESET DA CAPTURA:", reason || "Condições perdidas");
+    console.log("🔴 RESET DA CAPTURA:", reason || "Timeout");
     
     toast({
       title: "Captura Interrompida",
-      description: reason || "Posicione o rosto no oval e tente novamente",
+      description: reason || "Tente novamente",
       variant: "destructive",
       duration: 2000,
     });
@@ -43,32 +43,33 @@ export const useCaptureValidation = ({
     };
   }, [toast]);
 
-  // Validação muito simples das condições de captura
+  // Validação muito simples - apenas timeout
   const validateCaptureConditions = useCallback((): ValidationResult => {
+    console.log("🔍 Validating conditions - Capturing:", isCapturing, "Face:", faceDetected);
+    
     // Se não está capturando, não precisa validar
     if (!isCapturing) return { isValid: true };
 
-    // Apenas verificar se o rosto está detectado
-    if (!faceDetected) {
-      return resetCapture("Rosto não detectado");
-    }
-
-    // Verificar timeout
-    if (captureStartTime && Date.now() - captureStartTime > 15000) {
+    // Verificar apenas timeout
+    if (captureStartTime && Date.now() - captureStartTime > CAPTURE_CONFIG.MAX_CAPTURE_TIME) {
       return resetCapture("Tempo limite excedido");
     }
 
     return { isValid: true };
-  }, [faceDetected, isCapturing, captureStartTime, resetCapture]);
+  }, [isCapturing, captureStartTime, resetCapture]);
 
-  // Verificar se deve iniciar captura - condições mínimas
+  // Verificar se deve iniciar captura - apenas rosto detectado
   const shouldStartCapture = useCallback(() => {
-    return faceDetected && (faceProximity === "ideal" || faceProximity === "too-close" || faceProximity === "too-far");
-  }, [faceDetected, faceProximity]);
+    const should = faceDetected;
+    console.log("🚀 Should start capture:", should, "Face detected:", faceDetected);
+    return should;
+  }, [faceDetected]);
 
-  // Validação para cada frame - muito permissiva
+  // Validação para cada frame - apenas rosto detectado
   const validateForCapture = useCallback(() => {
-    return faceDetected; // Apenas rosto detectado
+    const valid = faceDetected;
+    console.log("✅ Frame validation:", valid, "Face detected:", faceDetected);
+    return valid;
   }, [faceDetected]);
 
   return {
