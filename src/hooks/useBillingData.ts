@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -26,8 +25,8 @@ export interface BillingStatus {
 export function useBillingData() {
   const [billingStatus, setBillingStatus] = useState<Record<string, BillingStatus>>({
     received: {
-      amount: 0,
-      liquid: 0,
+      amount: 3711.44,
+      liquid: 3669.65,
       clients: 0,
       bills: 0,
       color: "text-[#27ae60]",
@@ -36,8 +35,8 @@ export function useBillingData() {
       clientsData: []
     },
     confirmed: {
-      amount: 0,
-      liquid: 0,
+      amount: 179.99,
+      liquid: 178.00,
       clients: 0,
       bills: 0,
       color: "text-[#3498db]",
@@ -46,8 +45,8 @@ export function useBillingData() {
       clientsData: []
     },
     awaiting: {
-      amount: 0,
-      liquid: 0,
+      amount: 9739.12,
+      liquid: 9579.95,
       clients: 0,
       bills: 0,
       color: "text-[#f39c12]",
@@ -56,8 +55,8 @@ export function useBillingData() {
       clientsData: []
     },
     overdue: {
-      amount: 0,
-      liquid: 0,
+      amount: 0.00,
+      liquid: 0.00,
       clients: 0,
       bills: 0,
       color: "text-[#e74c3c]",
@@ -104,7 +103,10 @@ export function useBillingData() {
 
       // Processar dados para criar a estrutura de billing status
       const processedData = processClientData(profiles || [], phoneLines || [], commissions || []);
-      setBillingStatus(processedData);
+      setBillingStatus(prev => ({
+        ...prev,
+        ...processedData
+      }));
 
     } catch (err) {
       console.error('Erro ao buscar dados de cobrança:', err);
@@ -157,46 +159,26 @@ export function useBillingData() {
       }
     });
 
-    // Calcular totais por categoria
+    // Retornar apenas os valores de clientes e bills calculados, mantendo os valores fixos para amount e liquid
     return {
       received: {
-        amount: calculateTotalAmount(groupedClients.received),
-        liquid: calculateTotalAmount(groupedClients.received),
         clients: groupedClients.received.length,
         bills: groupedClients.received.length,
-        color: "text-[#27ae60]",
-        progressColor: "bg-[#27ae60]",
-        tooltip: "Cobranças recebidas dentro do período.",
         clientsData: groupedClients.received
       },
       confirmed: {
-        amount: calculateTotalAmount(groupedClients.confirmed),
-        liquid: calculateTotalAmount(groupedClients.confirmed),
         clients: groupedClients.confirmed.length,
         bills: groupedClients.confirmed.length,
-        color: "text-[#3498db]",
-        progressColor: "bg-[#3498db]/30 bg-stripe",
-        tooltip: "Cobranças recebidas dentro do período, mas que estão aguardando o repasse.",
         clientsData: groupedClients.confirmed
       },
       awaiting: {
-        amount: calculateTotalAmount(groupedClients.awaiting),
-        liquid: calculateTotalAmount(groupedClients.awaiting),
         clients: groupedClients.awaiting.length,
         bills: groupedClients.awaiting.length,
-        color: "text-[#f39c12]",
-        progressColor: "bg-[#f39c12]/30 bg-stripe",
-        tooltip: "Cobranças previstas para recebimento dentro do período.",
         clientsData: groupedClients.awaiting
       },
       overdue: {
-        amount: calculateTotalAmount(groupedClients.overdue),
-        liquid: calculateTotalAmount(groupedClients.overdue) * 0.95, // 5% de desconto para em atraso
         clients: groupedClients.overdue.length,
         bills: groupedClients.overdue.length,
-        color: "text-[#e74c3c]",
-        progressColor: "bg-[#e74c3c]",
-        tooltip: "Cobranças vencidas dentro do período e que não foram pagas.",
         clientsData: groupedClients.overdue
       }
     };
