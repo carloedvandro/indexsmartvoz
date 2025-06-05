@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Bell } from 'lucide-react';
 
 interface NotificationDropdownProps {
@@ -8,6 +9,7 @@ interface NotificationDropdownProps {
 }
 
 export function NotificationDropdown({ showNotifications, onToggleNotifications }: NotificationDropdownProps) {
+  const navigate = useNavigate();
   // Estado para controlar se as notificações foram lidas
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState(true);
 
@@ -36,11 +38,11 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
   const notificationCount = hasUnreadNotifications ? notifications.length : 0;
 
   const handleToggleNotifications = () => {
-    onToggleNotifications();
-    // Quando clica no sino, marca as notificações como lidas
-    if (!showNotifications && hasUnreadNotifications) {
-      setHasUnreadNotifications(false);
-    }
+    navigate('/client/notifications');
+  };
+
+  const handleViewAllNotifications = () => {
+    navigate('/client/notifications');
   };
 
   return (
@@ -88,7 +90,10 @@ export function NotificationDropdown({ showNotifications, onToggleNotifications 
             
             {notifications.length > 0 && (
               <div className="mt-4 pt-3 border-t border-gray-200">
-                <button className="w-full text-center text-sm text-blue-600 hover:text-blue-800 font-medium">
+                <button 
+                  onClick={handleViewAllNotifications}
+                  className="w-full text-center text-sm text-blue-600 hover:text-blue-800 font-medium"
+                >
                   Ver todas as notificações
                 </button>
               </div>
