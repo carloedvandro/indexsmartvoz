@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -27,8 +28,8 @@ export function useBillingData() {
     received: {
       amount: 3711.44,
       liquid: 3669.65,
-      clients: 0,
-      bills: 0,
+      clients: 19,
+      bills: 21,
       color: "text-[#27ae60]",
       progressColor: "bg-[#27ae60]",
       tooltip: "Cobranças recebidas dentro do período.",
@@ -37,8 +38,8 @@ export function useBillingData() {
     confirmed: {
       amount: 179.99,
       liquid: 178.00,
-      clients: 0,
-      bills: 0,
+      clients: 1,
+      bills: 1,
       color: "text-[#3498db]",
       progressColor: "bg-[#3498db]/30 bg-stripe",
       tooltip: "Cobranças recebidas dentro do período, mas que estão aguardando o repasse.",
@@ -47,8 +48,8 @@ export function useBillingData() {
     awaiting: {
       amount: 9739.12,
       liquid: 9579.95,
-      clients: 0,
-      bills: 0,
+      clients: 52,
+      bills: 53,
       color: "text-[#f39c12]",
       progressColor: "bg-[#f39c12]/30 bg-stripe",
       tooltip: "Cobranças previstas para recebimento dentro do período.",
@@ -103,10 +104,14 @@ export function useBillingData() {
 
       // Processar dados para criar a estrutura de billing status
       const processedData = processClientData(profiles || [], phoneLines || [], commissions || []);
-      setBillingStatus(prev => ({
-        ...prev,
-        ...processedData
-      }));
+      setBillingStatus(prev => {
+        return {
+          received: { ...prev.received, ...processedData.received },
+          confirmed: { ...prev.confirmed, ...processedData.confirmed },
+          awaiting: { ...prev.awaiting, ...processedData.awaiting },
+          overdue: { ...prev.overdue, ...processedData.overdue }
+        };
+      });
 
     } catch (err) {
       console.error('Erro ao buscar dados de cobrança:', err);
