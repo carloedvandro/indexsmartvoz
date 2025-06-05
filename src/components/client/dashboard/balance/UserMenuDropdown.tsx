@@ -49,8 +49,8 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
   ];
 
   const toggleSubmenu = (menuTitle: string) => {
-    setExpandedMenus(prev => 
-      prev.includes(menuTitle) 
+    setExpandedMenus(prev =>
+      prev.includes(menuTitle)
         ? prev.filter(title => title !== menuTitle)
         : [...prev, menuTitle]
     );
@@ -58,7 +58,7 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
 
   return (
     <div className="relative">
-      <button 
+      <button
         className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
         onClick={onToggleUserMenu}
         title="Menu do usuário"
@@ -71,7 +71,7 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
         />
         <ChevronDown className={`h-4 w-4 text-gray-500 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} />
       </button>
-      
+
       {showUserMenu && (
         <div className="absolute right-0 top-full mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
           <div className="py-2">
@@ -79,29 +79,28 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
               to="/client/dashboard"
               className="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             >
-              <img 
-                src="/lovable-uploads/d6d0cfaa-60fb-4950-9674-400bbfc06650.png" 
-                alt="Home" 
-                className="h-[20px] w-auto" 
+              <img
+                src="/lovable-uploads/d6d0cfaa-60fb-4950-9674-400bbfc06650.png"
+                alt="Home"
+                className="h-[20px] w-auto"
               />
               <span className="text-base font-medium text-black">Home</span>
             </Link>
-            
+
             <hr className="my-1" />
-            
+
             {/* Menu Items */}
             {menuItems.map((item) => (
               <div key={item.title}>
-                <div 
+                <div
                   className="px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-gray-100"
                   onClick={() => item.items && toggleSubmenu(item.title)}
                 >
                   <p className="text-base font-medium text-black">{item.title}</p>
                   {item.items && (
-                    <ChevronRight 
-                      className={`h-4 w-4 text-gray-500 transition-transform ${
-                        expandedMenus.includes(item.title) ? 'rotate-90' : ''
-                      }`} 
+                    <ChevronRight
+                      className={`h-4 w-4 text-gray-500 transition-transform ${expandedMenus.includes(item.title) ? 'rotate-90' : ''
+                        }`}
                     />
                   )}
                 </div>
@@ -120,20 +119,19 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
                 )}
               </div>
             ))}
-            
+
             <hr className="my-1" />
-            
+
             {/* Configurações Section with expandable menu */}
             <div>
-              <div 
+              <div
                 className="px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-gray-100"
                 onClick={() => toggleSubmenu('Configurações')}
               >
                 <p className="text-base font-medium text-black">Configurações</p>
-                <ChevronRight 
-                  className={`h-4 w-4 text-gray-500 transition-transform ${
-                    expandedMenus.includes('Configurações') ? 'rotate-90' : ''
-                  }`} 
+                <ChevronRight
+                  className={`h-4 w-4 text-gray-500 transition-transform ${expandedMenus.includes('Configurações') ? 'rotate-90' : ''
+                    }`}
                 />
               </div>
               {expandedMenus.includes('Configurações') && (
@@ -151,13 +149,13 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
                 </div>
               )}
             </div>
-            
+
             <hr className="my-1" />
-            <button 
+            <button
               onClick={onLogout}
               className="w-full text-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
             >
-              Sair
+              <img src='/botaosair.png' width={30} className="mx-auto"alt="logo sair" />
             </button>
           </div>
         </div>
