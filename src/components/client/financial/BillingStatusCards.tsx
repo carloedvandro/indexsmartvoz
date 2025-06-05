@@ -114,7 +114,7 @@ export function BillingStatusCards() {
     <div className="container">
       <ProgressBarTooltip {...tooltipState} />
       
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 flex-col  md:flex-row lg:flex-row">
         <h2 className="text-xl font-semibold text-gray-800">Situação das cobranças</h2>
         <div className="flex gap-2">
           <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
