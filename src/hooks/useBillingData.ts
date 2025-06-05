@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -104,8 +105,30 @@ export function useBillingData() {
       // Processar dados para criar a estrutura de billing status
       const processedData = processClientData(profiles || [], phoneLines || [], commissions || []);
       setBillingStatus(prev => ({
-        ...prev,
-        ...processedData
+        received: {
+          ...prev.received,
+          clients: processedData.received.clients,
+          bills: processedData.received.bills,
+          clientsData: processedData.received.clientsData
+        },
+        confirmed: {
+          ...prev.confirmed,
+          clients: processedData.confirmed.clients,
+          bills: processedData.confirmed.bills,
+          clientsData: processedData.confirmed.clientsData
+        },
+        awaiting: {
+          ...prev.awaiting,
+          clients: processedData.awaiting.clients,
+          bills: processedData.awaiting.bills,
+          clientsData: processedData.awaiting.clientsData
+        },
+        overdue: {
+          ...prev.overdue,
+          clients: processedData.overdue.clients,
+          bills: processedData.overdue.bills,
+          clientsData: processedData.overdue.clientsData
+        }
       }));
 
     } catch (err) {
