@@ -1,5 +1,5 @@
 
-import { User, ChevronDown, Building2, FileText, KeyRound, Shield, ChevronRight, UserCircle } from 'lucide-react';
+import { User, ChevronDown, Building2, FileText, KeyRound, Shield, ChevronRight, UserCircle, Menu } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { navigationItems } from '../navigation/NavigationItems';
@@ -85,6 +85,17 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
                 className="h-[20px] w-auto"
               />
               <span className="text-base font-medium text-black">Home</span>
+            </Link>
+
+            <hr className="my-1" />
+
+            {/* Menu Completo Link */}
+            <Link
+              to="/client/navigation"
+              className="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            >
+              <Menu className="h-5 w-5 text-gray-500" />
+              <span className="text-base font-medium text-black">Menu Completo</span>
             </Link>
 
             <hr className="my-1" />

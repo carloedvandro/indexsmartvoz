@@ -29,6 +29,7 @@ import ClientFinancialDetails from '@/pages/client/financial-details';
 import ClientEarningsForecast from '@/pages/client/earnings-forecast';
 import ClientInventoryReports from '@/pages/client/inventory-reports';
 import ClientNotifications from '@/pages/client/notifications';
+import ClientNavigation from '@/pages/client/navigation';
 import AdminDashboard from '@/pages/admin/dashboard';
 import AdminLogin from '@/pages/admin/login';
 import AdminNetwork from '@/pages/admin/network';
@@ -83,6 +84,7 @@ const router = createBrowserRouter(
         <Route path="/client/earnings-forecast" element={<ClientEarningsForecast />} />
         <Route path="/client/inventory-reports" element={<ClientInventoryReports />} />
         <Route path="/client/notifications" element={<ClientNotifications />} />
+        <Route path="/client/navigation" element={<ClientNavigation />} />
       </Route>
 
       {/* Protected Admin Routes */}
