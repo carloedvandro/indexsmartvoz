@@ -22,7 +22,7 @@ export default function ClientNotifications() {
               <Button
                 variant="ghost"
                 onClick={handleBack}
-                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 p-0 h-auto"
+                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 hover:bg-white h p-0 h-auto"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Voltar
