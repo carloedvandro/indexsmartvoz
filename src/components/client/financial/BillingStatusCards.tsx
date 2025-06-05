@@ -188,7 +188,7 @@ export function BillingStatusCards() {
               </PopoverContent>
             </Popover>
           </div>
-          <p className={`text-2xl font-medium ${billingStatus.received.color} mb-1`}>
+          <p className={`text-2xl font-semibold ${billingStatus.received.color} mb-1`}>
             {formatCurrencyBR(billingStatus.received.amount)}
           </p>
           <p className="text-sm text-gray-600 mb-4">
@@ -245,7 +245,7 @@ export function BillingStatusCards() {
               </PopoverContent>
             </Popover>
           </div>
-          <p className={`text-2xl font-medium ${billingStatus.confirmed.color} mb-1`}>{formatCurrencyBR(billingStatus.confirmed.amount)}</p>
+          <p className={`text-2xl font-semibold ${billingStatus.confirmed.color} mb-1`}>{formatCurrencyBR(billingStatus.confirmed.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.confirmed.liquid)} líquido</p>
 
           <div className="my-6">
@@ -298,7 +298,7 @@ export function BillingStatusCards() {
               </PopoverContent>
             </Popover>
           </div>
-          <p className={`text-2xl font-medium ${billingStatus.awaiting.color} mb-1`}>{formatCurrencyBR(billingStatus.awaiting.amount)}</p>
+          <p className={`text-2xl font-semibold ${billingStatus.awaiting.color} mb-1`}>{formatCurrencyBR(billingStatus.awaiting.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.awaiting.liquid)} líquido</p>
 
           <div className="my-6">
@@ -349,7 +349,7 @@ export function BillingStatusCards() {
               </PopoverContent>
             </Popover>
           </div>
-          <p className={`text-2xl font-medium ${billingStatus.overdue.color} mb-1`}>{formatCurrencyBR(billingStatus.overdue.amount)}</p>
+          <p className={`text-2xl font-semibold ${billingStatus.overdue.color} mb-1`}>{formatCurrencyBR(billingStatus.overdue.amount)}</p>
           <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.overdue.liquid)} líquido</p>
 
           <div className="my-6">
