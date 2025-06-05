@@ -1,6 +1,5 @@
-
 import { Info, User, FileText } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Popover,
   PopoverContent,
@@ -13,11 +12,20 @@ import { ProgressBarTooltip } from "./ProgressBarTooltip";
 export function BillingStatusCards() {
   const { billingStatus, loading, error, refetch } = useBillingData();
 
+  useEffect(() => {
+    console.log('🎨 BillingStatusCards: Component mounted/updated');
+    console.log('📊 BillingStatusCards: billingStatus recebido:', billingStatus);
+    console.log('⏳ BillingStatusCards: loading:', loading);
+    console.log('❌ BillingStatusCards: error:', error);
+  }, [billingStatus, loading, error]);
+
   const formatCurrencyBR = (value: number) => {
-    return new Intl.NumberFormat('pt-BR', {
+    const result = new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL'
     }).format(value);
+    console.log('💱 BillingStatusCards: formatCurrencyBR input:', value, 'output:', result);
+    return result;
   };
 
   const [openPopover, setOpenPopover] = useState<string | null>(null);
@@ -82,6 +90,7 @@ export function BillingStatusCards() {
   };
 
   if (loading) {
+    console.log('⏳ BillingStatusCards: Mostrando loading state');
     return (
       <div className="container">
         <div className="flex items-center justify-center py-8">
@@ -93,6 +102,7 @@ export function BillingStatusCards() {
   }
 
   if (error) {
+    console.log('❌ BillingStatusCards: Mostrando error state:', error);
     return (
       <div className="container">
         <div className="flex items-center justify-center py-8">
@@ -109,6 +119,14 @@ export function BillingStatusCards() {
       </div>
     );
   }
+
+  console.log('🎨 BillingStatusCards: Renderizando cards com dados:', {
+    received: {
+      amount: billingStatus.received?.amount,
+      clients: billingStatus.received?.clients,
+      bills: billingStatus.received?.bills
+    }
+  });
 
   return (
     <div className="container">
@@ -169,8 +187,12 @@ export function BillingStatusCards() {
               </PopoverContent>
             </Popover>
           </div>
-          <p className={`text-2xl font-semibold ${billingStatus.received.color} mb-1`}>{formatCurrencyBR(billingStatus.received.amount)}</p>
-          <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.received.liquid)} líquido</p>
+          <p className={`text-2xl font-semibold ${billingStatus.received.color} mb-1`}>
+            {formatCurrencyBR(billingStatus.received.amount)}
+          </p>
+          <p className="text-sm text-gray-600 mb-4">
+            {formatCurrencyBR(billingStatus.received.liquid)} líquido
+          </p>
 
           <div className="my-6">
             <div
@@ -365,6 +387,6 @@ export function BillingStatusCards() {
         title={clientsModal.title}
         clients={clientsModal.clients}
       />
-    </div >
+    </div>
   );
 }

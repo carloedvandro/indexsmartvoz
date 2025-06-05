@@ -71,11 +71,13 @@ export function useBillingData() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log('🔄 useBillingData: useEffect executado');
     fetchBillingData();
   }, []);
 
   const fetchBillingData = async () => {
     try {
+      console.log('📊 useBillingData: Iniciando fetchBillingData');
       setLoading(true);
       setError(null);
 
@@ -86,8 +88,9 @@ export function useBillingData() {
         .eq('role', 'client')
         .not('full_name', 'is', null);
 
+      console.log('👥 useBillingData: Profiles fetched:', profiles?.length || 0, 'profiles');
       if (profilesError) {
-        console.error('Erro ao buscar perfis:', profilesError);
+        console.error('❌ useBillingData: Erro ao buscar perfis:', profilesError);
       }
 
       // Buscar dados das linhas de telefone (assinaturas/cobranças)
@@ -95,8 +98,9 @@ export function useBillingData() {
         .from('phone_lines')
         .select('*');
 
+      console.log('📞 useBillingData: Phone lines fetched:', phoneLines?.length || 0, 'lines');
       if (phoneLinesError) {
-        console.error('Erro ao buscar linhas:', phoneLinesError);
+        console.error('❌ useBillingData: Erro ao buscar linhas:', phoneLinesError);
       }
 
       // Buscar dados de comissões da rede
@@ -104,16 +108,18 @@ export function useBillingData() {
         .from('network_commission_history')
         .select('*');
 
+      console.log('💰 useBillingData: Commissions fetched:', commissions?.length || 0, 'commissions');
       if (commissionsError) {
-        console.error('Erro ao buscar comissões:', commissionsError);
+        console.error('❌ useBillingData: Erro ao buscar comissões:', commissionsError);
       }
 
       // Processar dados para criar a estrutura de billing status
       const processedData = processClientData(profiles || [], phoneLines || [], commissions || []);
+      console.log('⚙️ useBillingData: Processed data:', processedData);
       
       // Manter os valores fixos mas atualizar contadores de clientes
       setBillingStatus(prev => {
-        return {
+        const newStatus = {
           received: { 
             ...prev.received, 
             clients: processedData.received.clients,
@@ -139,17 +145,26 @@ export function useBillingData() {
             clientsData: processedData.overdue.clientsData 
           }
         };
+        console.log('🔄 useBillingData: Setting new billing status:', newStatus);
+        return newStatus;
       });
 
     } catch (err) {
-      console.error('Erro ao buscar dados de cobrança:', err);
+      console.error('❌ useBillingData: Erro ao buscar dados de cobrança:', err);
       setError('Erro ao carregar dados de cobrança');
     } finally {
       setLoading(false);
+      console.log('✅ useBillingData: fetchBillingData concluído');
     }
   };
 
   const processClientData = (profiles: any[], phoneLines: any[], commissions: any[]) => {
+    console.log('🔧 useBillingData: processClientData iniciado com:', {
+      profiles: profiles.length,
+      phoneLines: phoneLines.length,
+      commissions: commissions.length
+    });
+
     const clientsMap = new Map();
 
     // Processar perfis de clientes
@@ -192,8 +207,15 @@ export function useBillingData() {
       }
     });
 
+    console.log('📊 useBillingData: Clientes agrupados por status:', {
+      received: groupedClients.received.length,
+      confirmed: groupedClients.confirmed.length,
+      awaiting: groupedClients.awaiting.length,
+      overdue: groupedClients.overdue.length
+    });
+
     // Retornar apenas os valores de clientes e bills calculados
-    return {
+    const result = {
       received: {
         clients: groupedClients.received.length,
         bills: groupedClients.received.length,
@@ -215,6 +237,9 @@ export function useBillingData() {
         clientsData: groupedClients.overdue
       }
     };
+
+    console.log('✅ useBillingData: processClientData resultado:', result);
+    return result;
   };
 
   const determineClientStatus = (profileStatus: string): 'received' | 'confirmed' | 'awaiting' | 'overdue' => {
@@ -256,6 +281,19 @@ export function useBillingData() {
       currency: 'BRL'
     }).format(value);
   };
+
+  console.log('📋 useBillingData: Hook retornando:', {
+    billingStatus: Object.keys(billingStatus).reduce((acc, key) => {
+      acc[key] = {
+        amount: billingStatus[key].amount,
+        clients: billingStatus[key].clients,
+        bills: billingStatus[key].bills
+      };
+      return acc;
+    }, {} as any),
+    loading,
+    error
+  });
 
   return {
     billingStatus,
