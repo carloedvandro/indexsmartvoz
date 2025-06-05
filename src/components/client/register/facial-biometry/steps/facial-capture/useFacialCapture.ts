@@ -25,7 +25,6 @@ export const useFacialCapture = ({
 }: UseFacialCaptureProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [cameraActive, setCameraActive] = useState(true);
-  const [validationFailCount, setValidationFailCount] = useState(0);
   const { toast } = useToast();
 
   const {
@@ -61,74 +60,56 @@ export const useFacialCapture = ({
     faceProximity
   });
 
-  // Validação menos rigorosa - apenas para falhas consecutivas críticas
+  // Validação simples - apenas para falhas críticas
   useEffect(() => {
     if (!isCapturing) return;
 
     const validation = validateCaptureConditions();
     
-    if (!validation.isValid) {
-      setValidationFailCount(prev => prev + 1);
-      
-      // Apenas resetar após múltiplas falhas consecutivas
-      if (validationFailCount >= 3) {
-        console.log("🚨 MÚLTIPLAS FALHAS - RESETANDO CAPTURA");
-        resetProgress();
-        resetStability();
-        setValidationFailCount(0);
-      }
-    } else {
-      setValidationFailCount(0); // Reset contador de falhas
+    if (!validation.isValid && validation.shouldReset) {
+      console.log("🚨 RESETANDO CAPTURA:", validation.reason);
+      resetProgress();
+      resetStability();
     }
-  }, [faceDetected, faceProximity, isCapturing, validateCaptureConditions, resetProgress, resetStability, validationFailCount]);
+  }, [faceDetected, isCapturing, validateCaptureConditions, resetProgress, resetStability]);
 
-  // Iniciar captura quando condições são atendidas
+  // Iniciar captura quando rosto detectado
   useEffect(() => {
     if (isProcessing || isCapturing || !cameraActive) return;
 
     if (shouldStartCapture()) {
-      console.log("🟢 INICIANDO CAPTURA - Condições atendidas");
+      console.log("🟢 INICIANDO CAPTURA");
       startCapture();
-      setValidationFailCount(0);
       
       toast({
         title: "Captura Iniciada",
-        description: "Mantenha o rosto estável até completar",
+        description: "Mantenha o rosto na posição até completar",
         duration: 2000,
       });
     }
-  }, [faceDetected, faceProximity, isProcessing, cameraActive, isCapturing, shouldStartCapture, startCapture, toast]);
+  }, [faceDetected, isProcessing, cameraActive, isCapturing, shouldStartCapture, startCapture, toast]);
 
-  // Sistema de captura contínua mais permissivo
+  // Sistema de captura simplificado
   useEffect(() => {
     if (!isCapturing) return;
 
     const validationInterval = setInterval(() => {
-      checkStability(); // Atualizar estabilidade
+      checkStability();
       
-      // Validação mais permissiva: apenas rosto detectado e proximidade ideal
-      const isValidFrame = validateForCapture() && isCapturing;
+      // Validação muito simples: apenas rosto detectado
+      const isValidFrame = validateForCapture();
       
       if (isValidFrame) {
-        console.log(`✅ Frame válido ${consecutiveValidFrames + 1}/${CAPTURE_CONFIG.REQUIRED_CONSECUTIVE_FRAMES} - Progresso: ${((consecutiveValidFrames + 1) * CAPTURE_CONFIG.PROGRESS_INCREMENT).toFixed(1)}%`);
+        console.log(`✅ Frame válido ${consecutiveValidFrames + 1}/${CAPTURE_CONFIG.REQUIRED_CONSECUTIVE_FRAMES}`);
         incrementProgress();
-        setValidationFailCount(0); // Reset contador de falhas
       } else {
-        setValidationFailCount(prev => prev + 1);
-        
-        // Apenas resetar após múltiplas falhas
-        if (validationFailCount >= 5) {
-          console.log("❌ MÚLTIPLAS FALHAS NA VALIDAÇÃO - Resetando");
-          clearInterval(validationInterval);
-          resetProgress();
-          resetStability();
-          setValidationFailCount(0);
-        }
+        console.log("❌ Frame inválido - Rosto não detectado");
+        // Não resetar imediatamente, apenas não incrementar
       }
     }, CAPTURE_CONFIG.VALIDATION_INTERVAL);
 
     return () => clearInterval(validationInterval);
-  }, [isCapturing, faceDetected, faceProximity, validateForCapture, checkStability, incrementProgress, resetProgress, resetStability, consecutiveValidFrames, validationFailCount]);
+  }, [isCapturing, validateForCapture, checkStability, incrementProgress, consecutiveValidFrames]);
 
   // Processar captura quando atingir 100%
   useEffect(() => {
@@ -170,7 +151,6 @@ export const useFacialCapture = ({
       // Reset completo
       resetProgress();
       resetStability();
-      setValidationFailCount(0);
       
       // Delay para melhor UX
       await new Promise(resolve => setTimeout(resolve, 1500));
@@ -184,7 +164,6 @@ export const useFacialCapture = ({
       });
       resetProgress();
       resetStability();
-      setValidationFailCount(0);
     } finally {
       setIsProcessing(false);
     }
@@ -194,7 +173,6 @@ export const useFacialCapture = ({
     setCameraActive(prev => !prev);
     resetProgress();
     resetStability();
-    setValidationFailCount(0);
     toast({
       title: "Câmera",
       description: cameraActive ? "Câmera desativada" : "Câmera ativada",

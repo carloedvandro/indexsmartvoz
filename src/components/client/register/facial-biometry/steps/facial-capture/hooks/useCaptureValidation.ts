@@ -25,13 +25,13 @@ export const useCaptureValidation = ({
 }: UseCaptureValidationProps) => {
   const { toast } = useToast();
 
-  // Reset mais tolerante - apenas para condições críticas
+  // Reset apenas para condições críticas
   const resetCapture = useCallback((reason?: string): ValidationResult => {
-    console.log("🔴 RESET DA CAPTURA:", reason || "Condições críticas perdidas");
+    console.log("🔴 RESET DA CAPTURA:", reason || "Condições perdidas");
     
     toast({
       title: "Captura Interrompida",
-      description: reason || "Posicione o rosto no oval e mantenha estável",
+      description: reason || "Posicione o rosto no oval e tente novamente",
       variant: "destructive",
       duration: 2000,
     });
@@ -43,47 +43,33 @@ export const useCaptureValidation = ({
     };
   }, [toast]);
 
-  // Validação mais tolerante das condições de captura
+  // Validação muito simples das condições de captura
   const validateCaptureConditions = useCallback((): ValidationResult => {
     // Se não está capturando, não precisa validar
     if (!isCapturing) return { isValid: true };
 
-    // VALIDAÇÃO CRÍTICA: Face detectada (com tolerância)
+    // Apenas verificar se o rosto está detectado
     if (!faceDetected) {
-      return resetCapture("Rosto não detectado - Posicione no oval");
-    }
-
-    // VALIDAÇÃO CRÍTICA: Proximidade ideal (com mais tolerância)
-    if (faceProximity === "not-detected") {
-      return resetCapture("Posição inadequada - Centralize no oval");
-    }
-
-    // Apenas resetar para proximidade muito fora do ideal
-    if (faceProximity === "too-close") {
-      return resetCapture("Muito próximo - Afaste um pouco");
-    }
-    
-    if (faceProximity === "too-far") {
-      return resetCapture("Muito longe - Aproxime um pouco");
+      return resetCapture("Rosto não detectado");
     }
 
     // Verificar timeout
-    if (captureStartTime && Date.now() - captureStartTime > 20000) {
-      return resetCapture("Tempo limite excedido - Tente novamente");
+    if (captureStartTime && Date.now() - captureStartTime > 15000) {
+      return resetCapture("Tempo limite excedido");
     }
 
     return { isValid: true };
-  }, [faceDetected, faceProximity, isCapturing, captureStartTime, resetCapture]);
+  }, [faceDetected, isCapturing, captureStartTime, resetCapture]);
 
-  // Verificar se deve iniciar captura (condições mais permissivas)
+  // Verificar se deve iniciar captura - condições mínimas
   const shouldStartCapture = useCallback(() => {
-    return faceDetected && faceProximity === "ideal";
+    return faceDetected && (faceProximity === "ideal" || faceProximity === "too-close" || faceProximity === "too-far");
   }, [faceDetected, faceProximity]);
 
-  // Validação mais permissiva para captura
+  // Validação para cada frame - muito permissiva
   const validateForCapture = useCallback(() => {
-    return faceDetected && faceProximity === "ideal";
-  }, [faceDetected, faceProximity]);
+    return faceDetected; // Apenas rosto detectado
+  }, [faceDetected]);
 
   return {
     validateCaptureConditions,

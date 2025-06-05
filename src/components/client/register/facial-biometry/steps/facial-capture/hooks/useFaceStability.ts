@@ -19,57 +19,25 @@ export const useFaceStability = ({
   const consecutiveStableRef = useRef(0);
 
   const checkStability = useCallback(() => {
-    if (!faceDetected || faceProximity !== "ideal") {
+    if (!faceDetected) {
       setIsStable(false);
       setStableFrameCount(0);
       consecutiveStableRef.current = 0;
       return false;
     }
 
-    const lastPos = lastPositionRef.current;
-    const currentPos = facePosition;
-
-    // Se é a primeira detecção, considerar estável
-    if (lastPos.x === 0 && lastPos.y === 0) {
-      lastPositionRef.current = currentPos;
-      consecutiveStableRef.current = 1;
-      setStableFrameCount(1);
-      setIsStable(true);
-      return true;
-    }
-
-    // Calcular diferença de posição com threshold mais permissivo
-    const positionDiff = Math.sqrt(
-      Math.pow(currentPos.x - lastPos.x, 2) + 
-      Math.pow(currentPos.y - lastPos.y, 2)
-    );
-
-    const sizeDiff = Math.abs(currentPos.size - lastPos.size);
-
-    // Verificar se está estável com threshold mais permissivo
-    const isCurrentlyStable = positionDiff < CAPTURE_CONFIG.FACE_STABILITY_THRESHOLD &&
-                             sizeDiff < 0.03; // Threshold de tamanho mais permissivo
-
-    if (isCurrentlyStable) {
-      consecutiveStableRef.current += 1;
-      setStableFrameCount(consecutiveStableRef.current);
-      
-      const shouldBeStable = consecutiveStableRef.current >= CAPTURE_CONFIG.REQUIRED_STABLE_FRAMES;
-      setIsStable(shouldBeStable);
-    } else {
-      // Não resetar imediatamente, dar uma tolerância
-      consecutiveStableRef.current = Math.max(0, consecutiveStableRef.current - 1);
-      setStableFrameCount(consecutiveStableRef.current);
-      
-      const shouldBeStable = consecutiveStableRef.current >= CAPTURE_CONFIG.REQUIRED_STABLE_FRAMES;
-      setIsStable(shouldBeStable);
-    }
-
+    // Se rosto detectado, considerar estável imediatamente
+    consecutiveStableRef.current += 1;
+    setStableFrameCount(consecutiveStableRef.current);
+    
+    const shouldBeStable = consecutiveStableRef.current >= CAPTURE_CONFIG.REQUIRED_STABLE_FRAMES;
+    setIsStable(shouldBeStable);
+    
     // Atualizar última posição
-    lastPositionRef.current = currentPos;
+    lastPositionRef.current = facePosition;
 
-    return isStable;
-  }, [faceDetected, faceProximity, facePosition, isStable]);
+    return shouldBeStable;
+  }, [faceDetected, facePosition]);
 
   const resetStability = useCallback(() => {
     setIsStable(false);
