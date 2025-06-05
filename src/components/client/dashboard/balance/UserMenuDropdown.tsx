@@ -1,6 +1,6 @@
 
 import { User, ChevronDown, Building2, FileText, KeyRound, Shield, ChevronRight, UserCircle, Menu } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { navigationItems } from '../navigation/NavigationItems';
 import { UserAvatar } from './UserAvatar';
@@ -15,6 +15,7 @@ interface UserMenuDropdownProps {
 
 export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, profile }: UserMenuDropdownProps) {
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   // Filter out the home item and get other navigation items
   const menuItems = navigationItems.filter(item => item.icon !== "home");
@@ -56,11 +57,15 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
     );
   };
 
+  const handleUserMenuClick = () => {
+    navigate('/client/navigation');
+  };
+
   return (
     <div className="relative">
       <button
         className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
-        onClick={onToggleUserMenu}
+        onClick={handleUserMenuClick}
         title="Menu do usuário"
       >
         <UserAvatar
