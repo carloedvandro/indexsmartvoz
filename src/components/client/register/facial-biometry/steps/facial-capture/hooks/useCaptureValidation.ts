@@ -1,6 +1,6 @@
-
 import { useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { CAPTURE_CONFIG } from "../config/captureConfig";
 
 interface UseCaptureValidationProps {
   faceDetected: boolean;
