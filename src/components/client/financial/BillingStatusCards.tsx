@@ -181,7 +181,7 @@ export function BillingStatusCards() {
               <span>{billingStatus.received.clients} {billingStatus.received.clients === 1 ? 'cliente' : 'clientes'}</span>
               <span className="ml-auto text-[#27ae60]">&#8250;</span>
             </div>
-            <div className="flex items-center text-sm text-gray-700">
+            <div className="flex items-center text-sm text-gray-700 p-2">
               <FileText size={16} className="mr-2 text-[#27ae60]" />
               <span>{billingStatus.received.bills} {billingStatus.received.bills === 1 ? 'cobrança' : 'cobranças'}</span>
               <span className="ml-auto text-[#27ae60]">&#8250;</span>
@@ -234,7 +234,7 @@ export function BillingStatusCards() {
               <span>{billingStatus.confirmed.clients} {billingStatus.confirmed.clients === 1 ? 'cliente' : 'clientes'}</span>
               <span className="ml-auto text-[#3498db]">&#8250;</span>
             </div>
-            <div className="flex items-center text-sm text-gray-700">
+            <div className="flex items-center text-sm text-gray-700 p-2">
               <FileText size={16} className="mr-2 text-[#3498db]" />
               <span>{billingStatus.confirmed.bills} {billingStatus.confirmed.bills === 1 ? 'cobrança' : 'cobranças'}</span>
               <span className="ml-auto text-[#3498db]">&#8250;</span>
@@ -285,7 +285,7 @@ export function BillingStatusCards() {
               <span>{billingStatus.awaiting.clients} {billingStatus.awaiting.clients === 1 ? 'cliente' : 'clientes'}</span>
               <span className="ml-auto text-[#f39c12]">&#8250;</span>
             </div>
-            <div className="flex items-center text-sm text-gray-700">
+            <div className="flex items-center text-sm text-gray-700 p-2">
               <FileText size={16} className="mr-2 text-[#f39c12]" />
               <span>{billingStatus.awaiting.bills} {billingStatus.awaiting.bills === 1 ? 'cobrança' : 'cobranças'}</span>
               <span className="ml-auto text-[#f39c12]">&#8250;</span>
@@ -338,7 +338,7 @@ export function BillingStatusCards() {
               <span>{billingStatus.overdue.clients} {billingStatus.overdue.clients === 1 ? 'cliente' : 'clientes'}</span>
               <span className="ml-auto text-[#e74c3c]">&#8250;</span>
             </div>
-            <div className="flex items-center text-sm text-gray-700">
+            <div className="flex items-center text-sm text-gray-700 p-2">
               <FileText size={16} className="mr-2 text-[#e74c3c]" />
               <span>{billingStatus.overdue.bills} {billingStatus.overdue.bills === 1 ? 'cobrança' : 'cobranças'}</span>
               <span className="ml-auto text-[#e74c3c]">&#8250;</span>
