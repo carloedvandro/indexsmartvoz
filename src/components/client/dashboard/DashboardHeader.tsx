@@ -1,12 +1,14 @@
+
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { BalanceBar } from "./balance/BalanceBar";
 import "@/styles/logo.css";
+
 export function DashboardHeader() {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [isOpen, setOpen] = useState(false);
+
   const handleLogout = async () => {
     try {
       for (const key of Object.keys(localStorage)) {
@@ -14,9 +16,7 @@ export function DashboardHeader() {
           localStorage.removeItem(key);
         }
       }
-      const {
-        error
-      } = await supabase.auth.signOut();
+      const { error } = await supabase.auth.signOut();
       if (error) {
         console.error("Erro ao fazer logout:", error);
         toast({
@@ -37,5 +37,8 @@ export function DashboardHeader() {
       });
     }
   };
-  return;
+
+  return (
+    <BalanceBar />
+  );
 }
