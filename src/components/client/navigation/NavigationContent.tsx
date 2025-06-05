@@ -134,7 +134,7 @@ export function NavigationContent() {
   ];
 
   return (
-    <div className="max-w-md mx-auto bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+    <div className="max-w-md mx-auto rounded-lg overflow-hidden">
       <div className="p-4">
         <h1 className="text-lg font-semibold text-gray-800 mb-6">Menu de Navegação</h1>
         
