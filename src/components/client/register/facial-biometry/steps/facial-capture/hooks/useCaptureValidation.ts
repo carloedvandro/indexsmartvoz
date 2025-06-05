@@ -25,15 +25,15 @@ export const useCaptureValidation = ({
 }: UseCaptureValidationProps) => {
   const { toast } = useToast();
 
-  // Reset IMEDIATO quando condições não são atendidas
+  // Reset mais tolerante - apenas para condições críticas
   const resetCapture = useCallback((reason?: string): ValidationResult => {
-    console.log("🔴 RESET IMEDIATO DA CAPTURA:", reason || "Condições perdidas");
+    console.log("🔴 RESET DA CAPTURA:", reason || "Condições críticas perdidas");
     
     toast({
-      title: "Captura Resetada",
-      description: reason || "Mantenha o rosto na posição ideal",
+      title: "Captura Interrompida",
+      description: reason || "Posicione o rosto no oval e mantenha estável",
       variant: "destructive",
-      duration: 3000,
+      duration: 2000,
     });
     
     return {
@@ -43,64 +43,47 @@ export const useCaptureValidation = ({
     };
   }, [toast]);
 
-  // Validação SUPER RIGOROSA das condições de captura
+  // Validação mais tolerante das condições de captura
   const validateCaptureConditions = useCallback((): ValidationResult => {
     // Se não está capturando, não precisa validar
     if (!isCapturing) return { isValid: true };
 
-    // VALIDAÇÃO CRÍTICA OBRIGATÓRIA: Face detectada
+    // VALIDAÇÃO CRÍTICA: Face detectada (com tolerância)
     if (!faceDetected) {
-      return resetCapture("Rosto não detectado - Centralize no oval");
+      return resetCapture("Rosto não detectado - Posicione no oval");
     }
 
-    // VALIDAÇÃO CRÍTICA OBRIGATÓRIA: Proximidade ideal
-    if (faceProximity !== "ideal") {
-      const proximityMessage = faceProximity === "too-close" 
-        ? "Muito próximo - Afaste um pouco"
-        : faceProximity === "too-far"
-        ? "Muito longe - Aproxime um pouco"
-        : "Posição inadequada";
-      return resetCapture(proximityMessage);
+    // VALIDAÇÃO CRÍTICA: Proximidade ideal (com mais tolerância)
+    if (faceProximity === "not-detected") {
+      return resetCapture("Posição inadequada - Centralize no oval");
     }
 
-    // Verificar estabilidade da posição do rosto
-    if (facePosition.x === 0 && facePosition.y === 0) {
-      return resetCapture("Posição do rosto instável");
+    // Apenas resetar para proximidade muito fora do ideal
+    if (faceProximity === "too-close") {
+      return resetCapture("Muito próximo - Afaste um pouco");
+    }
+    
+    if (faceProximity === "too-far") {
+      return resetCapture("Muito longe - Aproxime um pouco");
     }
 
     // Verificar timeout
-    if (captureStartTime && Date.now() - captureStartTime > 15000) {
+    if (captureStartTime && Date.now() - captureStartTime > 20000) {
       return resetCapture("Tempo limite excedido - Tente novamente");
     }
 
     return { isValid: true };
-  }, [faceDetected, faceProximity, isCapturing, captureStartTime, facePosition, resetCapture]);
+  }, [faceDetected, faceProximity, isCapturing, captureStartTime, resetCapture]);
 
-  // Verificar se deve iniciar captura (condições SUPER RIGOROSAS)
+  // Verificar se deve iniciar captura (condições mais permissivas)
   const shouldStartCapture = useCallback(() => {
-    const canStart = faceDetected && 
-                    faceProximity === "ideal" && 
-                    facePosition.x > 0 && 
-                    facePosition.y > 0;
-    
-    if (!canStart) {
-      console.log("❌ Não pode iniciar captura:", { 
-        faceDetected, 
-        faceProximity, 
-        facePosition 
-      });
-    }
-    
-    return canStart;
-  }, [faceDetected, faceProximity, facePosition]);
+    return faceDetected && faceProximity === "ideal";
+  }, [faceDetected, faceProximity]);
 
-  // Validação tripla para segurança máxima
+  // Validação mais permissiva para captura
   const validateForCapture = useCallback(() => {
-    return faceDetected && 
-           faceProximity === "ideal" && 
-           facePosition.x > 0 && 
-           facePosition.y > 0;
-  }, [faceDetected, faceProximity, facePosition]);
+    return faceDetected && faceProximity === "ideal";
+  }, [faceDetected, faceProximity]);
 
   return {
     validateCaptureConditions,
