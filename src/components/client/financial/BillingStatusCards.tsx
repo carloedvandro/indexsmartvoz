@@ -186,7 +186,8 @@ export function BillingStatusCards() {
             <BillingStatusCard
               key={key}
               title={config.title}
-              amount={statusData.amount}
+              amountA={statusData.amount+10}
+              amountB={statusData.amount + 5}
               liquid={statusData.liquid}
               clients={statusData.clients}
               bills={statusData.bills}

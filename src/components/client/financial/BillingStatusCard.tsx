@@ -9,7 +9,8 @@ import {
 
 interface BillingStatusCardProps {
   title: string;
-  amount: number;
+  amountA: number;
+  amountB: number;
   liquid: number;
   clients: number;
   bills: number;
@@ -27,7 +28,8 @@ interface BillingStatusCardProps {
 
 export function BillingStatusCard({
   title,
-  amount,
+  amountA,
+  amountB,
   liquid,
   clients,
   bills,
@@ -49,15 +51,12 @@ export function BillingStatusCard({
     }).format(value);
   };
 
-  // Valores para a barra de progresso (60% Pix, 40% Boleto)
-  const valorA = amount * 0.6; // Pix
-  const valorB = amount * 0.4; // Boleto
-  const total = valorA + valorB;
-  const percentualA = total > 0 ? (valorA / total) * 100 : 50;
-  const percentualB = total > 0 ? (valorB / total) * 100 : 50;
+  const total = amountA + amountB;
+  const percentualA = total > 0 ? (amountA / total) * 100 : 50;
+  const percentualB = total > 0 ? (amountB / total) * 100 : 50;
 
   const getIconColor = () => {
-    switch(cardType) {
+    switch (cardType) {
       case 'received': return 'text-[#27ae60]';
       case 'confirmed': return 'text-[#3498db]';
       case 'awaiting': return 'text-[#f39c12]';
@@ -66,27 +65,6 @@ export function BillingStatusCard({
     }
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const progressWidth = rect.width;
-
-    // Dividir a barra em duas partes: 60% Pix (esquerda) e 40% Boleto (direita)
-    const pixWidth = progressWidth * 0.6;
-    const isPixArea = mouseX <= pixWidth;
-
-    setHoveredSection(isPixArea ? 'pix' : 'boleto');
-    
-    const paymentMethod: 'pix' | 'boleto' = isPixArea ? 'pix' : 'boleto';
-    const value = isPixArea ? amount * 0.6 : amount * 0.4;
-    
-    onProgressBarHover(e, value, cardType, true);
-  };
-
-  const handleMouseLeave = (e: React.MouseEvent) => {
-    setHoveredSection(null);
-    onProgressBarHover(e, amount, cardType, false);
-  };
 
   return (
     <div className="border rounded-xl card-no-bg">
@@ -109,39 +87,25 @@ export function BillingStatusCard({
           </PopoverContent>
         </Popover>
       </div>
-      
+
       <p className={`text-2xl font-semibold ${color} mb-1`}>
-        {formatCurrencyBR(amount)}
+        {formatCurrencyBR(total)}
       </p>
       <p className="text-sm text-gray-600 mb-4">
         {formatCurrencyBR(liquid)} líquido
       </p>
 
-      <div className="my-6">
+      <div className="w-full h-4 bg-gray-200 rounded-full  flex relative">
         <div
-          className="w-full h-4 bg-gray-200 rounded-full flex items-center relative cursor-pointer overflow-hidden"
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-        >
-          <div
-            className={`${barColors.primary} h-full transition-all duration-300 ease-out z-10`}
-            style={{ 
-              width: `${percentualA}%`,
-              height: hoveredSection === 'pix' ? '20px' : '16px',
-              transform: hoveredSection === 'pix' ? 'scaleY(1.25)' : 'scaleY(1)'
-            }}
-            title={`Pix: ${formatCurrencyBR(valorA)}`}
-          />
-          <div
-            className={`${barColors.secondary} h-full transition-all duration-300 ease-out z-10`}
-            style={{ 
-              width: `${percentualB}%`,
-              height: hoveredSection === 'boleto' ? '20px' : '16px',
-              transform: hoveredSection === 'boleto' ? 'scaleY(1.25)' : 'scaleY(1)'
-            }}
-            title={`Boleto: ${formatCurrencyBR(valorB)}`}
-          />
-        </div>
+          className={`${barColors.primary} h-full rounded-l-full transition-all duration-300 transform hover:scale-y-125 origin-center z-10`}
+          style={{ width: `${percentualA}%` }}
+          title={`Tipo A: R$ ${amountA.toFixed(2)}`}
+        />
+        <div
+          className={`${barColors.secondary} h-full rounded-r-full transition-all duration-300 transform hover:scale-y-125 origin-center z-10`}
+          style={{ width: `${percentualB}%` }}
+          title={`Tipo B: R$ ${amountB.toFixed(2)}`}
+        />
       </div>
 
       <div className="flex flex-col gap-3">
