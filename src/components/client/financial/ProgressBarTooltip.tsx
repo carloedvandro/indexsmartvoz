@@ -25,7 +25,7 @@ export const ProgressBarTooltip: React.FC<ProgressBarTooltipProps> = ({
 
   const text = paymentMethod === 'pix' 
     ? `${formatCurrency(value)} no Pix`
-    : `${formatCurrency(value)} no Boleto Bancário`;
+    : `${formatCurrency(value)} no Boleto`;
 
   // Ajustar posição Y baseado no método de pagamento
   const yOffset = paymentMethod === 'pix' ? -45 : -50;
@@ -39,7 +39,7 @@ export const ProgressBarTooltip: React.FC<ProgressBarTooltipProps> = ({
         transform: 'translateX(-50%)',
       }}
     >
-      <div className="bg-black text-white rounded-lg px-3 py-2 text-sm font-medium shadow-lg">
+      <div className="bg-black text-white rounded-lg px-3 py-2 text-sm font-medium shadow-lg whitespace-nowrap">
         <div className="text-center">
           {text}
         </div>
