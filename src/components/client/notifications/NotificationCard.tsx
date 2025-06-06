@@ -21,6 +21,8 @@ interface Notification {
 
 interface NotificationCardProps {
   notification: Notification;
+  onMarkAsRead?: (id: string) => void;
+  onNotificationClick?: (notification: Notification) => void;
 }
 
 const getNotificationIcon = (type: string) => {
@@ -57,14 +59,27 @@ const getNotificationBgColor = (type: string) => {
   }
 };
 
-export function NotificationCard({ notification }: NotificationCardProps) {
+export function NotificationCard({ notification, onMarkAsRead, onNotificationClick }: NotificationCardProps) {
   const timeAgo = formatDistanceToNow(notification.timestamp, {
     addSuffix: true,
     locale: ptBR
   });
 
+  const handleClick = () => {
+    // Marcar como lida se não foi lida ainda
+    if (!notification.isRead && onMarkAsRead) {
+      onMarkAsRead(notification.id);
+    }
+    
+    // Executar ação de clique na notificação
+    if (onNotificationClick) {
+      onNotificationClick(notification);
+    }
+  };
+
   return (
     <div 
+      onClick={handleClick}
       className={`
         p-4 rounded-lg border transition-all duration-200 cursor-pointer
         hover:shadow-md hover:scale-[1.01]

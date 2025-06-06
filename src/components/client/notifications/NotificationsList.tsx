@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { NotificationCard } from "./NotificationCard";
 import { EmptyNotifications } from "./EmptyNotifications";
+import { useToast } from "@/hooks/use-toast";
 
 interface Notification {
   id: string;
@@ -13,8 +14,10 @@ interface Notification {
 }
 
 export function NotificationsList() {
+  const { toast } = useToast();
+  
   // Dados simulados - em um projeto real, isso viria de uma API
-  const [notifications] = useState<Notification[]>([
+  const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: "1",
       title: "Nova venda realizada",
@@ -65,9 +68,64 @@ export function NotificationsList() {
     }
   ]);
 
+  const handleMarkAsRead = (notificationId: string) => {
+    setNotifications(prev => 
+      prev.map(notification => 
+        notification.id === notificationId 
+          ? { ...notification, isRead: true }
+          : notification
+      )
+    );
+  };
+
+  const handleNotificationClick = (notification: Notification) => {
+    // Mostrar detalhes da notificação
+    toast({
+      title: notification.title,
+      description: notification.message,
+      duration: 5000,
+    });
+
+    // Aqui você pode implementar ações específicas baseadas no tipo
+    switch (notification.type) {
+      case "sale":
+        console.log("Abrindo detalhes da venda:", notification);
+        // Navegar para página de vendas ou mostrar modal com detalhes
+        break;
+      case "bonus":
+        console.log("Abrindo detalhes da bonificação:", notification);
+        // Navegar para página financeira ou mostrar modal com detalhes
+        break;
+      case "network":
+        console.log("Abrindo detalhes da rede:", notification);
+        // Navegar para página da rede ou mostrar modal com detalhes
+        break;
+      case "system":
+        console.log("Abrindo informações do sistema:", notification);
+        // Mostrar modal com informações do sistema
+        break;
+      case "info":
+        console.log("Abrindo informações:", notification);
+        // Mostrar modal com informações ou navegar para página relevante
+        break;
+    }
+  };
+
+  const handleMarkAllAsRead = () => {
+    setNotifications(prev => 
+      prev.map(notification => ({ ...notification, isRead: true }))
+    );
+    toast({
+      title: "Notificações",
+      description: "Todas as notificações foram marcadas como lidas.",
+    });
+  };
+
   if (notifications.length === 0) {
     return <EmptyNotifications />;
   }
+
+  const unreadCount = notifications.filter(n => !n.isRead).length;
 
   return (
     <div className="space-y-4">
@@ -75,8 +133,18 @@ export function NotificationsList() {
         <h2 className="text-lg font-semibold text-gray-900">
           Todas as notificações ({notifications.length})
         </h2>
-        <div className="text-sm text-gray-500">
-          {notifications.filter(n => !n.isRead).length} não lidas
+        <div className="flex items-center gap-4">
+          <div className="text-sm text-gray-500">
+            {unreadCount} não lidas
+          </div>
+          {unreadCount > 0 && (
+            <button
+              onClick={handleMarkAllAsRead}
+              className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+            >
+              Marcar todas como lidas
+            </button>
+          )}
         </div>
       </div>
       
@@ -84,7 +152,9 @@ export function NotificationsList() {
         {notifications.map((notification) => (
           <NotificationCard 
             key={notification.id} 
-            notification={notification} 
+            notification={notification}
+            onMarkAsRead={handleMarkAsRead}
+            onNotificationClick={handleNotificationClick}
           />
         ))}
       </div>
