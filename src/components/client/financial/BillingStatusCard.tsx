@@ -6,12 +6,6 @@ import {
   PopoverContent,
   PopoverTrigger
 } from "@/components/ui/popover";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 interface BillingStatusCardProps {
   title: string;
@@ -72,97 +66,83 @@ export function BillingStatusCard({
   };
 
   return (
-    <TooltipProvider>
-      <div className="border rounded-xl card-no-bg">
-        <div className="flex justify-between mb-2">
-          <h3 className="font-medium text-gray-800">{title}</h3>
-          <Popover open={openPopover} onOpenChange={setOpenPopover}>
-            <PopoverTrigger asChild>
-              <button className="text-gray-400 focus:outline-none" data-testid={`info-${cardType}`}>
-                <Info size={18} />
-              </button>
-            </PopoverTrigger>
-            <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
-              {tooltip}
-              <button
-                className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-                onClick={() => setOpenPopover(false)}
-              >
-                ✕
-              </button>
-            </PopoverContent>
-          </Popover>
+    <div className="border rounded-xl card-no-bg">
+      <div className="flex justify-between mb-2">
+        <h3 className="font-medium text-gray-800">{title}</h3>
+        <Popover open={openPopover} onOpenChange={setOpenPopover}>
+          <PopoverTrigger asChild>
+            <button className="text-gray-400 focus:outline-none" data-testid={`info-${cardType}`}>
+              <Info size={18} />
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
+            {tooltip}
+            <button
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+              onClick={() => setOpenPopover(false)}
+            >
+              ✕
+            </button>
+          </PopoverContent>
+        </Popover>
+      </div>
+
+      <p className={`text-2xl font-semibold ${color} mb-1`}>
+        {formatCurrencyBR(total)}
+      </p>
+      <p className="text-sm text-gray-600 mb-4">
+        {formatCurrencyBR(liquid)} líquido
+      </p>
+
+      <div className="w-full h-4 bg-gray-200 rounded-full flex relative">
+        <div
+          className={`${barColors.primary} h-full rounded-l-full transition-all duration-300 transform ${
+            hoveredSection === 'pix' ? 'scale-y-125' : ''
+          } origin-center z-10 cursor-pointer relative`}
+          style={{ width: `${percentualA}%` }}
+          title={`Pix: ${formatCurrencyBR(amountA)}`}
+          onMouseEnter={(e) => {
+            setHoveredSection('pix');
+            onProgressBarHover(e, amountA, 'pix', true);
+          }}
+          onMouseLeave={(e) => {
+            setHoveredSection(null);
+            onProgressBarHover(e, amountA, 'pix', false);
+          }}
+        />
+
+        <div
+          className={`${barColors.secondary} h-full rounded-r-full transition-all duration-300 transform ${
+            hoveredSection === 'boleto' ? 'scale-y-125' : ''
+          } origin-center z-10 cursor-pointer relative`}
+          style={{ width: `${percentualB}%` }}
+          title={`Boleto: ${formatCurrencyBR(amountB)}`}
+          onMouseEnter={(e) => {
+            setHoveredSection('boleto');
+            onProgressBarHover(e, amountB, 'boleto', true);
+          }}
+          onMouseLeave={(e) => {
+            setHoveredSection(null);
+            onProgressBarHover(e, amountB, 'boleto', false);
+          }}
+        />
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <div
+          className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
+          onClick={onClientsClick}
+        >
+          <User size={16} className={`mr-2 ${getIconColor()}`} />
+          <span>{clients} {clients === 1 ? 'cliente' : 'clientes'}</span>
+          <span className={`ml-auto ${getIconColor()}`}>&#8250;</span>
         </div>
-
-        <p className={`text-2xl font-semibold ${color} mb-1`}>
-          {formatCurrencyBR(total)}
-        </p>
-        <p className="text-sm text-gray-600 mb-4">
-          {formatCurrencyBR(liquid)} líquido
-        </p>
-
-        <div className="w-full h-4 bg-gray-200 rounded-full flex relative">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div
-                className={`${barColors.primary} h-full rounded-l-full transition-all duration-300 transform ${
-                  hoveredSection === 'pix' ? 'scale-y-125' : ''
-                } origin-center z-10 cursor-pointer relative`}
-                style={{ width: `${percentualA}%` }}
-                onMouseEnter={(e) => {
-                  setHoveredSection('pix');
-                  onProgressBarHover(e, amountA, 'pix', true);
-                }}
-                onMouseLeave={(e) => {
-                  setHoveredSection(null);
-                  onProgressBarHover(e, amountA, 'pix', false);
-                }}
-              />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Pix: {formatCurrencyBR(amountA)}</p>
-            </TooltipContent>
-          </Tooltip>
-
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div
-                className={`${barColors.secondary} h-full rounded-r-full transition-all duration-300 transform ${
-                  hoveredSection === 'boleto' ? 'scale-y-125' : ''
-                } origin-center z-10 cursor-pointer relative`}
-                style={{ width: `${percentualB}%` }}
-                onMouseEnter={(e) => {
-                  setHoveredSection('boleto');
-                  onProgressBarHover(e, amountB, 'boleto', true);
-                }}
-                onMouseLeave={(e) => {
-                  setHoveredSection(null);
-                  onProgressBarHover(e, amountB, 'boleto', false);
-                }}
-              />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Boleto: {formatCurrencyBR(amountB)}</p>
-            </TooltipContent>
-          </Tooltip>
-        </div>
-
-        <div className="flex flex-col gap-3">
-          <div
-            className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
-            onClick={onClientsClick}
-          >
-            <User size={16} className={`mr-2 ${getIconColor()}`} />
-            <span>{clients} {clients === 1 ? 'cliente' : 'clientes'}</span>
-            <span className={`ml-auto ${getIconColor()}`}>&#8250;</span>
-          </div>
-          <div className="flex items-center text-sm text-gray-700 p-2">
-            <FileText size={16} className={`mr-2 ${getIconColor()}`} />
-            <span>{bills} {bills === 1 ? 'cobrança' : 'cobranças'}</span>
-            <span className={`ml-auto ${getIconColor()}`}>&#8250;</span>
-          </div>
+        <div className="flex items-center text-sm text-gray-700 p-2">
+          <FileText size={16} className={`mr-2 ${getIconColor()}`} />
+          <span>{bills} {bills === 1 ? 'cobrança' : 'cobranças'}</span>
+          <span className={`ml-auto ${getIconColor()}`}>&#8250;</span>
         </div>
       </div>
-    </TooltipProvider>
+    </div>
   );
 }
