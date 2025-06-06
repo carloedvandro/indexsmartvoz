@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
@@ -198,7 +197,7 @@ export function ReceiptCalendar() {
         </div>
       </div>
 
-      {/* Nova seção inferior atualizada com o estilo da imagem */}
+      {/* Seção inferior com linha de processo */}
       <div className="mt-6 bg-gray-50 p-4 rounded-lg">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
@@ -216,21 +215,27 @@ export function ReceiptCalendar() {
           </button>
         </div>
         
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                <path d="M20 6L9 17l-5-5"/>
-              </svg>
+        {/* Container com linha de processo */}
+        <div className="relative">
+          {/* Linha vertical */}
+          <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-blue-300"></div>
+          
+          <div className="flex items-center justify-between relative">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center relative z-10">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                  <path d="M20 6L9 17l-5-5"/>
+                </svg>
+              </div>
+              <div>
+                <div className="text-gray-600 text-sm">Cobranças recebidas</div>
+                <div className="text-xl font-bold text-gray-800">{formatCurrency(selectedDayAmount)}</div>
+              </div>
             </div>
-            <div>
-              <div className="text-gray-600 text-sm">Cobranças recebidas</div>
-              <div className="text-xl font-bold text-gray-800">{formatCurrency(selectedDayAmount)}</div>
-            </div>
+            <button className="text-gray-400 hover:text-gray-600">
+              <ChevronRight size={20} />
+            </button>
           </div>
-          <button className="text-gray-400 hover:text-gray-600">
-            <ChevronRight size={20} />
-          </button>
         </div>
       </div>
     </div>
