@@ -42,7 +42,6 @@ export function BillingStatusCard({
   cardType
 }: BillingStatusCardProps) {
   const [openPopover, setOpenPopover] = useState(false);
-  const [hoveredSection, setHoveredSection] = useState<'pix' | 'boleto' | null>(null);
 
   const formatCurrencyBR = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -96,35 +95,19 @@ export function BillingStatusCard({
 
       <div className="w-full h-4 bg-gray-200 rounded-full flex relative">
         <div
-          className={`${barColors.primary} h-full rounded-l-full transition-all duration-300 transform ${
-            hoveredSection === 'pix' ? 'scale-y-125' : ''
-          } origin-center z-10 cursor-pointer relative`}
+          className={`${barColors.primary} h-full rounded-l-full transition-all duration-300 cursor-pointer relative`}
           style={{ width: `${percentualA}%` }}
           title={`Pix: ${formatCurrencyBR(amountA)}`}
-          onMouseEnter={(e) => {
-            setHoveredSection('pix');
-            onProgressBarHover(e, amountA, 'pix', true);
-          }}
-          onMouseLeave={(e) => {
-            setHoveredSection(null);
-            onProgressBarHover(e, amountA, 'pix', false);
-          }}
+          onMouseEnter={(e) => onProgressBarHover(e, amountA, 'pix', true)}
+          onMouseLeave={(e) => onProgressBarHover(e, amountA, 'pix', false)}
         />
 
         <div
-          className={`${barColors.secondary} h-full rounded-r-full transition-all duration-300 transform ${
-            hoveredSection === 'boleto' ? 'scale-y-125' : ''
-          } origin-center z-10 cursor-pointer relative`}
+          className={`${barColors.secondary} h-full rounded-r-full transition-all duration-300 cursor-pointer relative`}
           style={{ width: `${percentualB}%` }}
           title={`Boleto: ${formatCurrencyBR(amountB)}`}
-          onMouseEnter={(e) => {
-            setHoveredSection('boleto');
-            onProgressBarHover(e, amountB, 'boleto', true);
-          }}
-          onMouseLeave={(e) => {
-            setHoveredSection(null);
-            onProgressBarHover(e, amountB, 'boleto', false);
-          }}
+          onMouseEnter={(e) => onProgressBarHover(e, amountB, 'boleto', true)}
+          onMouseLeave={(e) => onProgressBarHover(e, amountB, 'boleto', false)}
         />
       </div>
 

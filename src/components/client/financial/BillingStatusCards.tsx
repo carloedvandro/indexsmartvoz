@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { ClientsModal } from "./ClientsModal";
 import { useBillingData } from "@/hooks/useBillingData";
@@ -48,18 +47,20 @@ export function BillingStatusCards() {
     });
   };
 
-  const handleProgressBarHover = (event: React.MouseEvent, amount: number, status: string, enter: boolean) => {
+  const handleProgressBarHover = (event: React.MouseEvent, amountA: number, amountB: number, enter: boolean) => {
     if (enter) {
       const rect = event.currentTarget.getBoundingClientRect();
       const mouseX = event.clientX - rect.left;
       const progressWidth = rect.width;
 
-      // Dividir a barra em duas partes: 60% Pix (esquerda) e 40% Boleto (direita)
-      const pixWidth = progressWidth * 0.6;
+      // Calcular as larguras proporcionais baseadas nos valores reais
+      const total = amountA + amountB;
+      const pixWidthPercentage = total > 0 ? (amountA / total) : 0.5;
+      const pixWidth = progressWidth * pixWidthPercentage;
+      
       const isPixArea = mouseX <= pixWidth;
-
       const paymentMethod: 'pix' | 'boleto' = isPixArea ? 'pix' : 'boleto';
-      const value = isPixArea ? amount * 0.6 : amount * 0.4; // 60% Pix, 40% Boleto
+      const value = isPixArea ? amountA : amountB;
 
       setTooltipState({
         visible: true,
@@ -195,7 +196,7 @@ export function BillingStatusCards() {
               tooltip={statusData.tooltip}
               clientsData={statusData.clientsData}
               onClientsClick={() => handleClientsClick(key)}
-              onProgressBarHover={handleProgressBarHover}
+              onProgressBarHover={(event, _, __, enter) => handleProgressBarHover(event, statusData.amount+10, statusData.amount + 5, enter)}
               barColors={config.barColors}
               cardType={key as 'received' | 'confirmed' | 'awaiting' | 'overdue'}
             />
