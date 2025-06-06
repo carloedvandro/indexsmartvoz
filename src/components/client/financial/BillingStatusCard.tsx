@@ -65,6 +65,26 @@ export function BillingStatusCard({
     }
   };
 
+  const handlePixHover = (event: React.MouseEvent, enter: boolean) => {
+    if (enter) {
+      setHoveredSection('pix');
+      onProgressBarHover(event, amountA, 'pix', true);
+    } else {
+      setHoveredSection(null);
+      onProgressBarHover(event, amountA, 'pix', false);
+    }
+  };
+
+  const handleBoletoHover = (event: React.MouseEvent, enter: boolean) => {
+    if (enter) {
+      setHoveredSection('boleto');
+      onProgressBarHover(event, amountB, 'boleto', true);
+    } else {
+      setHoveredSection(null);
+      onProgressBarHover(event, amountB, 'boleto', false);
+    }
+  };
+
   return (
     <div className="border rounded-xl card-no-bg">
       <div className="flex justify-between mb-2">
@@ -101,14 +121,8 @@ export function BillingStatusCard({
           } origin-center z-10 cursor-pointer relative`}
           style={{ width: `${percentualA}%` }}
           title={`Pix: ${formatCurrencyBR(amountA)}`}
-          onMouseEnter={(e) => {
-            setHoveredSection('pix');
-            onProgressBarHover(e, amountA, 'pix', true);
-          }}
-          onMouseLeave={(e) => {
-            setHoveredSection(null);
-            onProgressBarHover(e, amountA, 'pix', false);
-          }}
+          onMouseEnter={(e) => handlePixHover(e, true)}
+          onMouseLeave={(e) => handlePixHover(e, false)}
         />
 
         <div
@@ -117,14 +131,8 @@ export function BillingStatusCard({
           } origin-center z-10 cursor-pointer relative`}
           style={{ width: `${percentualB}%` }}
           title={`Boleto: ${formatCurrencyBR(amountB)}`}
-          onMouseEnter={(e) => {
-            setHoveredSection('boleto');
-            onProgressBarHover(e, amountB, 'boleto', true);
-          }}
-          onMouseLeave={(e) => {
-            setHoveredSection(null);
-            onProgressBarHover(e, amountB, 'boleto', false);
-          }}
+          onMouseEnter={(e) => handleBoletoHover(e, true)}
+          onMouseLeave={(e) => handleBoletoHover(e, false)}
         />
       </div>
 

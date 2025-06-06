@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { ClientsModal } from "./ClientsModal";
 import { useBillingData } from "@/hooks/useBillingData";
@@ -48,27 +47,18 @@ export function BillingStatusCards() {
     });
   };
 
-  const handleProgressBarHover = (event: React.MouseEvent, amount: number, status: string, enter: boolean) => {
+  const handleProgressBarHover = (event: React.MouseEvent, amount: number, paymentMethod: string, enter: boolean) => {
     if (enter) {
       const rect = event.currentTarget.getBoundingClientRect();
-      const mouseX = event.clientX - rect.left;
-      const progressWidth = rect.width;
-
-      // Dividir a barra em duas partes: 60% Pix (esquerda) e 40% Boleto (direita)
-      const pixWidth = progressWidth * 0.6;
-      const isPixArea = mouseX <= pixWidth;
-
-      const paymentMethod: 'pix' | 'boleto' = isPixArea ? 'pix' : 'boleto';
-      const value = isPixArea ? amount * 0.6 : amount * 0.4; // 60% Pix, 40% Boleto
-
+      
       setTooltipState({
         visible: true,
         position: {
-          x: rect.left + mouseX,
+          x: rect.left + rect.width / 2,
           y: rect.top
         },
-        value,
-        paymentMethod
+        value: amount,
+        paymentMethod: paymentMethod as 'pix' | 'boleto'
       });
     } else {
       setTooltipState(prev => ({ ...prev, visible: false }));
