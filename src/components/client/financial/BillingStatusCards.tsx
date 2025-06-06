@@ -1,14 +1,9 @@
 
-import { Info, User, FileText } from "lucide-react";
 import { useState, useEffect } from "react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger
-} from "@/components/ui/popover";
 import { ClientsModal } from "./ClientsModal";
 import { useBillingData } from "@/hooks/useBillingData";
 import { ProgressBarTooltip } from "./ProgressBarTooltip";
+import { BillingStatusCard } from "./BillingStatusCard";
 
 export function BillingStatusCards() {
   const { billingStatus, loading, error, refetch } = useBillingData();
@@ -20,16 +15,6 @@ export function BillingStatusCards() {
     console.log('❌ BillingStatusCards: error:', error);
   }, [billingStatus, loading, error]);
 
-  const formatCurrencyBR = (value: number) => {
-    const result = new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    }).format(value);
-    console.log('💱 BillingStatusCards: formatCurrencyBR input:', value, 'output:', result);
-    return result;
-  };
-
-  const [openPopover, setOpenPopover] = useState<string | null>(null);
   const [tooltipState, setTooltipState] = useState<{
     visible: boolean;
     position: { x: number; y: number };
@@ -90,6 +75,38 @@ export function BillingStatusCards() {
     }
   };
 
+  // Configurações das cores para cada tipo de card
+  const cardConfigs = {
+    received: {
+      title: "Recebidas",
+      barColors: {
+        primary: "bg-green-500", // Tom mais escuro para Pix
+        secondary: "bg-green-300" // Tom mais claro para Boleto
+      }
+    },
+    confirmed: {
+      title: "Confirmadas", 
+      barColors: {
+        primary: "bg-blue-600", // Tom mais escuro para Pix
+        secondary: "bg-blue-300" // Tom mais claro para Boleto
+      }
+    },
+    awaiting: {
+      title: "Aguardando pagamento",
+      barColors: {
+        primary: "bg-orange-600", // Tom mais escuro para Pix
+        secondary: "bg-orange-300" // Tom mais claro para Boleto
+      }
+    },
+    overdue: {
+      title: "Vencidas",
+      barColors: {
+        primary: "bg-red-600", // Tom mais escuro para Pix
+        secondary: "bg-red-300" // Tom mais claro para Boleto
+      }
+    }
+  };
+
   if (loading) {
     console.log('⏳ BillingStatusCards: Mostrando loading state');
     return (
@@ -133,15 +150,13 @@ export function BillingStatusCards() {
     <div className="container">
       <ProgressBarTooltip {...tooltipState} />
 
-      <div className="flex items-center justify-between mb-6 flex-col  md:flex-row lg:flex-row">
+      <div className="flex items-center justify-between mb-6 flex-col md:flex-row lg:flex-row">
         <h2 className="text-xl font-semibold text-gray-800">Situação das cobranças</h2>
         <div className="flex gap-2 w-full md:w-[20vw]">
-          <button className=" gap-2 px-4 py-2 border border-gray-300 w-full rounded-lg hover:bg-gray-50" style={{
-
+          <button className="gap-2 px-4 py-2 border border-gray-300 w-full rounded-lg hover:bg-gray-50" style={{
             alignItems: "center",
             display: "flex",
             justifyContent: "center"
-
           }}>
             <span className="text-blue-600">Este mês</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600">
@@ -152,12 +167,10 @@ export function BillingStatusCards() {
             </svg>
           </button>
           <button style={{
-
             alignItems: "center",
             display: "flex",
             justifyContent: "center"
-
-          }} className=" gap-2 px-4 py-2 border border-gray-300 w-full rounded-lg hover:bg-gray-50">
+          }} className="gap-2 px-4 py-2 border border-gray-300 w-full rounded-lg hover:bg-gray-50">
             <span className="text-blue-600">Filtros</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600">
               <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
@@ -167,219 +180,26 @@ export function BillingStatusCards() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {/* Received/Recebidas - Barra verde listrada */}
-        <div className="border rounded-xl card-no-bg">
-          <div className="flex justify-between mb-2">
-            <h3 className="font-medium text-gray-800">Recebidas</h3>
-            <Popover open={openPopover === 'received'} onOpenChange={(open) => setOpenPopover(open ? 'received' : null)}>
-              <PopoverTrigger asChild>
-                <button className="text-gray-400 focus:outline-none" data-testid="info-received">
-                  <Info size={18} />
-                </button>
-              </PopoverTrigger>
-              <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
-                {billingStatus.received.tooltip}
-                <button
-                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-                  onClick={() => setOpenPopover(null)}
-                >
-                  ✕
-                </button>
-              </PopoverContent>
-            </Popover>
-          </div>
-          <p className={`text-2xl font-semibold ${billingStatus.received.color} mb-1`}>
-            {formatCurrencyBR(billingStatus.received.amount)}
-          </p>
-          <p className="text-sm text-gray-600 mb-4">
-            {formatCurrencyBR(billingStatus.received.liquid)} líquido
-          </p>
-
-          <div className="my-6">
-            <div
-              className="w-full h-4 bg-gray-100 rounded-sm mb-4 overflow-hidden cursor-pointer relative"
-              onMouseMove={(e) => handleProgressBarHover(e, billingStatus.received.amount, 'received', true)}
-              onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.received.amount, 'received', false)}
-              style={{
-                background: 'repeating-linear-gradient(45deg, #d1f2eb, #d1f2eb 8px, #a7e6d7 8px, #a7e6d7 16px)'
-              }}
-            >
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <div
-              className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
-              onClick={() => handleClientsClick('received')}
-            >
-              <User size={16} className="mr-2 text-[#27ae60]" />
-              <span>{billingStatus.received.clients} {billingStatus.received.clients === 1 ? 'cliente' : 'clientes'}</span>
-              <span className="ml-auto text-[#27ae60]">&#8250;</span>
-            </div>
-            <div className="flex items-center text-sm text-gray-700 p-2">
-              <FileText size={16} className="mr-2 text-[#27ae60]" />
-              <span>{billingStatus.received.bills} {billingStatus.received.bills === 1 ? 'cobrança' : 'cobranças'}</span>
-              <span className="ml-auto text-[#27ae60]">&#8250;</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Confirmed/Confirmadas - Barra azul listrada */}
-        <div className=" border rounded-xl card-no-bg">
-          <div className="flex justify-between mb-2">
-            <h3 className="font-medium text-gray-800">Confirmadas</h3>
-            <Popover open={openPopover === 'confirmed'} onOpenChange={(open) => setOpenPopover(open ? 'confirmed' : null)}>
-              <PopoverTrigger asChild>
-                <button className="text-gray-400 focus:outline-none" data-testid="info-confirmed">
-                  <Info size={18} />
-                </button>
-              </PopoverTrigger>
-              <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
-                {billingStatus.confirmed.tooltip}
-                <button
-                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-                  onClick={() => setOpenPopover(null)}
-                >
-                  ✕
-                </button>
-              </PopoverContent>
-            </Popover>
-          </div>
-          <p className={`text-2xl font-semibold ${billingStatus.confirmed.color} mb-1`}>{formatCurrencyBR(billingStatus.confirmed.amount)}</p>
-          <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.confirmed.liquid)} líquido</p>
-
-          <div className="my-6">
-            <div
-              className="w-full h-4 bg-gray-100 rounded-sm mb-4 overflow-hidden cursor-pointer relative"
-              onMouseMove={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', true)}
-              onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.confirmed.amount, 'confirmed', false)}
-              style={{
-                background: 'repeating-linear-gradient(45deg, #cce7ff, #cce7ff 8px, #99d3ff 8px, #99d3ff 16px)'
-              }}
-            >
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <div
-              className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
-              onClick={() => handleClientsClick('confirmed')}
-            >
-              <User size={16} className="mr-2 text-[#3498db]" />
-              <span>{billingStatus.confirmed.clients} {billingStatus.confirmed.clients === 1 ? 'cliente' : 'clientes'}</span>
-              <span className="ml-auto text-[#3498db]">&#8250;</span>
-            </div>
-            <div className="flex items-center text-sm text-gray-700 p-2">
-              <FileText size={16} className="mr-2 text-[#3498db]" />
-              <span>{billingStatus.confirmed.bills} {billingStatus.confirmed.bills === 1 ? 'cobrança' : 'cobranças'}</span>
-              <span className="ml-auto text-[#3498db]">&#8250;</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Awaiting Payment/Aguardando pagamento - Barra laranja sólida */}
-        <div className=" border rounded-xl card-no-bg">
-          <div className="flex justify-between mb-2">
-            <h3 className="font-medium text-gray-800">Aguardando pagamento</h3>
-            <Popover open={openPopover === 'awaiting'} onOpenChange={(open) => setOpenPopover(open ? 'awaiting' : null)}>
-              <PopoverTrigger asChild>
-                <button className="text-gray-400 focus:outline-none" data-testid="info-awaiting">
-                  <Info size={18} />
-                </button>
-              </PopoverTrigger>
-              <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
-                {billingStatus.awaiting.tooltip}
-                <button
-                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-                  onClick={() => setOpenPopover(null)}
-                >
-                  ✕
-                </button>
-              </PopoverContent>
-            </Popover>
-          </div>
-          <p className={`text-2xl font-semibold ${billingStatus.awaiting.color} mb-1`}>{formatCurrencyBR(billingStatus.awaiting.amount)}</p>
-          <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.awaiting.liquid)} líquido</p>
-
-          <div className="my-6">
-            <div
-              className="w-full h-4 bg-gray-100 rounded-sm mb-4 overflow-hidden cursor-pointer relative"
-              onMouseMove={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, 'awaiting', true)}
-              onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.awaiting.amount, 'awaiting', false)}
-            >
-              <div className="h-full rounded-sm transition-all duration-200 bg-[#f39c12]"></div>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <div
-              className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
-              onClick={() => handleClientsClick('awaiting')}
-            >
-              <User size={16} className="mr-2 text-[#f39c12]" />
-              <span>{billingStatus.awaiting.clients} {billingStatus.awaiting.clients === 1 ? 'cliente' : 'clientes'}</span>
-              <span className="ml-auto text-[#f39c12]">&#8250;</span>
-            </div>
-            <div className="flex items-center text-sm text-gray-700 p-2">
-              <FileText size={16} className="mr-2 text-[#f39c12]" />
-              <span>{billingStatus.awaiting.bills} {billingStatus.awaiting.bills === 1 ? 'cobrança' : 'cobranças'}</span>
-              <span className="ml-auto text-[#f39c12]">&#8250;</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Overdue/Vencidas - Barra vermelha listrada */}
-        <div className=" border rounded-xl card-no-bg">
-          <div className="flex justify-between mb-2">
-            <h3 className="font-medium text-gray-800">Vencidas</h3>
-            <Popover open={openPopover === 'overdue'} onOpenChange={(open) => setOpenPopover(open ? 'overdue' : null)}>
-              <PopoverTrigger asChild>
-                <button className="text-gray-400 focus:outline-none" data-testid="info-overdue">
-                  <Info size={18} />
-                </button>
-              </PopoverTrigger>
-              <PopoverContent className="bg-white p-4 shadow-lg rounded-md">
-                {billingStatus.overdue.tooltip}
-                <button
-                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-                  onClick={() => setOpenPopover(null)}
-                >
-                  ✕
-                </button>
-              </PopoverContent>
-            </Popover>
-          </div>
-          <p className={`text-2xl font-semibold ${billingStatus.overdue.color} mb-1`}>{formatCurrencyBR(billingStatus.overdue.amount)}</p>
-          <p className="text-sm text-gray-600 mb-4">{formatCurrencyBR(billingStatus.overdue.liquid)} líquido</p>
-
-          <div className="my-6">
-            <div
-              className="w-full h-4 bg-gray-100 rounded-sm mb-4 overflow-hidden cursor-pointer relative"
-              onMouseMove={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', true)}
-              onMouseLeave={(e) => handleProgressBarHover(e, billingStatus.overdue.amount, 'overdue', false)}
-              style={{
-                background: 'repeating-linear-gradient(45deg, #ffcccc, #ffcccc 8px, #ff9999 8px, #ff9999 16px)'
-              }}
-            >
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <div
-              className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
-              onClick={() => handleClientsClick('overdue')}
-            >
-              <User size={16} className="mr-2 text-[#e74c3c]" />
-              <span>{billingStatus.overdue.clients} {billingStatus.overdue.clients === 1 ? 'cliente' : 'clientes'}</span>
-              <span className="ml-auto text-[#e74c3c]">&#8250;</span>
-            </div>
-            <div className="flex items-center text-sm text-gray-700 p-2">
-              <FileText size={16} className="mr-2 text-[#e74c3c]" />
-              <span>{billingStatus.overdue.bills} {billingStatus.overdue.bills === 1 ? 'cobrança' : 'cobranças'}</span>
-              <span className="ml-auto text-[#e74c3c]">&#8250;</span>
-            </div>
-          </div>
-        </div>
+        {Object.entries(cardConfigs).map(([key, config]) => {
+          const statusData = billingStatus[key as keyof typeof billingStatus];
+          return (
+            <BillingStatusCard
+              key={key}
+              title={config.title}
+              amount={statusData.amount}
+              liquid={statusData.liquid}
+              clients={statusData.clients}
+              bills={statusData.bills}
+              color={statusData.color}
+              tooltip={statusData.tooltip}
+              clientsData={statusData.clientsData}
+              onClientsClick={() => handleClientsClick(key)}
+              onProgressBarHover={handleProgressBarHover}
+              barColors={config.barColors}
+              cardType={key as 'received' | 'confirmed' | 'awaiting' | 'overdue'}
+            />
+          );
+        })}
       </div>
 
       <ClientsModal
