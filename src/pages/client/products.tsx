@@ -30,6 +30,7 @@ export default function ClientProducts() {
   const [showChipActivation, setShowChipActivation] = useState(false);
 
   const handleContinue = () => {
+    debugger;
     if (currentStep === 1 && selectedLines.length === 0) {
       toast({
         title: "Erro",
@@ -57,7 +58,7 @@ export default function ClientProducts() {
       return;
     }
 
-    if (currentStep === 4 && acceptedTerms) {
+    if (currentStep === 3 && acceptedTerms) {
       const protocolNumber = new Date().getTime().toString();
       setProtocol(protocolNumber);
       setShowChipActivation(true);
@@ -75,7 +76,7 @@ export default function ClientProducts() {
     if (currentStep > 1) {
       if (currentStep === 5) {
         setShowChipActivation(false);
-        setCurrentStep(4);
+        setCurrentStep(3);
       } else {
         setCurrentStep(currentStep - 1);
       }
@@ -106,7 +107,7 @@ export default function ClientProducts() {
   return (
     <ProductsContainer>
       <ProductsHeader />
-      
+
       {showChipActivation ? (
         <ChipActivationFlow
           currentStep={currentStep}
