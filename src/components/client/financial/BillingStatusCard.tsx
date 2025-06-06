@@ -1,4 +1,3 @@
-
 import { Info, User, FileText } from "lucide-react";
 import { useState } from "react";
 import {
@@ -40,6 +39,7 @@ export function BillingStatusCard({
   cardType
 }: BillingStatusCardProps) {
   const [openPopover, setOpenPopover] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const formatCurrencyBR = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -63,6 +63,16 @@ export function BillingStatusCard({
       case 'overdue': return 'text-[#e74c3c]';
       default: return 'text-gray-500';
     }
+  };
+
+  const handleMouseEnter = (e: React.MouseEvent) => {
+    setIsHovered(true);
+    onProgressBarHover(e, amount, cardType, true);
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent) => {
+    setIsHovered(false);
+    onProgressBarHover(e, amount, cardType, false);
   };
 
   return (
@@ -96,17 +106,22 @@ export function BillingStatusCard({
 
       <div className="my-6">
         <div
-          className="w-full h-4 bg-gray-200 rounded-full flex items-center relative cursor-pointer overflow-hidden"
+          className="w-full bg-gray-200 rounded-full flex items-center relative cursor-pointer overflow-hidden transition-all duration-300"
+          style={{ 
+            height: isHovered ? '20px' : '16px',
+            transform: isHovered ? 'scaleY(1.25)' : 'scaleY(1)'
+          }}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
           onMouseMove={(e) => onProgressBarHover(e, amount, cardType, true)}
-          onMouseLeave={(e) => onProgressBarHover(e, amount, cardType, false)}
         >
           <div
-            className={`${barColors.primary} h-full transition-all duration-300 transform hover:scale-y-125 origin-center z-10`}
+            className={`${barColors.primary} h-full transition-all duration-300 ease-out z-10`}
             style={{ width: `${percentualA}%` }}
             title={`Pix: ${formatCurrencyBR(valorA)}`}
           />
           <div
-            className={`${barColors.secondary} h-full transition-all duration-300 transform hover:scale-y-125 origin-center z-10`}
+            className={`${barColors.secondary} h-full transition-all duration-300 ease-out z-10`}
             style={{ width: `${percentualB}%` }}
             title={`Boleto: ${formatCurrencyBR(valorB)}`}
           />
