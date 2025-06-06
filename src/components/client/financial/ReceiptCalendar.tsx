@@ -41,7 +41,7 @@ export function ReceiptCalendar() {
     3: { type: 'received', amount: 0 },
     4: { type: 'received', amount: 0 },
     5: { type: 'confirmed', amount: 1389.92 },
-    6: { type: 'received', amount: 0 },
+    6: { type: 'received', amount: 1009.94 },
     9: { type: 'received', amount: 0 },
     10: { type: 'confirmed', amount: 1389.92 }
   };
@@ -119,6 +119,10 @@ export function ReceiptCalendar() {
     setCurrentMonth(newMonth);
   };
 
+  // Obter dados do dia selecionado
+  const selectedDayData = receivedDays[selectedDate.getDate() as keyof typeof receivedDays];
+  const selectedDayAmount = selectedDayData?.amount || 1009.94; // Valor padrão baseado na imagem
+
   return (
     <div className="bg-white p-6 rounded-xl border">
       <div className="mb-4">
@@ -194,15 +198,16 @@ export function ReceiptCalendar() {
         </div>
       </div>
 
-      <div className="mt-6 border-t pt-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+      {/* Nova seção inferior atualizada com o estilo da imagem */}
+      <div className="mt-6 bg-gray-50 p-4 rounded-lg">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <div className="w-5 h-5 bg-blue-500 rounded flex items-center justify-center">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
                 <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
               </svg>
             </div>
-            <span className="text-sm font-medium">{formatDate(selectedDate)}</span>
+            <span className="text-blue-600 text-sm font-medium">{formatDate(selectedDate)}</span>
           </div>
           
           <button className="text-blue-600 text-sm font-medium flex items-center gap-1 hover:text-blue-700">
@@ -211,17 +216,19 @@ export function ReceiptCalendar() {
           </button>
         </div>
         
-        <div className="mt-3 flex items-center gap-3">
-          <div className="w-6 h-6 bg-green-500 rounded flex items-center justify-center">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-              <path d="M20 6L9 17l-5-5"/>
-            </svg>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+            </div>
+            <div>
+              <div className="text-gray-600 text-sm">Cobranças recebidas</div>
+              <div className="text-xl font-bold text-gray-800">{formatCurrency(selectedDayAmount)}</div>
+            </div>
           </div>
-          <div>
-            <div className="text-sm text-gray-600">Cobranças recebidas</div>
-            <div className="text-lg font-semibold text-gray-800">{formatCurrency(1389.92)}</div>
-          </div>
-          <button className="ml-auto text-gray-400 hover:text-gray-600">
+          <button className="text-gray-400 hover:text-gray-600">
             <ChevronRight size={20} />
           </button>
         </div>
