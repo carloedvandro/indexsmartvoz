@@ -6,13 +6,15 @@ interface ProgressBarTooltipProps {
   value: number;
   paymentMethod: 'pix' | 'boleto';
   position: { x: number; y: number };
+  sectionCenter?: number; // Nova prop para receber o centro da seção
 }
 
 export const ProgressBarTooltip: React.FC<ProgressBarTooltipProps> = ({
   visible,
   value,
   paymentMethod,
-  position
+  position,
+  sectionCenter
 }) => {
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -27,14 +29,15 @@ export const ProgressBarTooltip: React.FC<ProgressBarTooltipProps> = ({
     ? `${formatCurrency(value)} no Pix`
     : `${formatCurrency(value)} no Boleto Bancário`;
 
-  // Ajustar posição Y baseado no método de pagamento
-  const yOffset = paymentMethod === 'pix' ? -45 : -50;
+  // Usar o centro da seção se fornecido, senão usar a posição do mouse
+  const xPosition = sectionCenter !== undefined ? sectionCenter : position.x;
+  const yOffset = -45;
 
   return (
     <div 
       className="fixed z-50 pointer-events-none"
       style={{
-        left: position.x,
+        left: xPosition,
         top: position.y + yOffset,
         transform: 'translateX(-50%)',
       }}
