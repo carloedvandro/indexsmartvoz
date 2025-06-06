@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { ClientsModal } from "./ClientsModal";
 import { useBillingData } from "@/hooks/useBillingData";
@@ -20,13 +19,11 @@ export function BillingStatusCards() {
     position: { x: number; y: number };
     value: number;
     paymentMethod: 'pix' | 'boleto';
-    sectionCenter?: number;
   }>({
     visible: false,
     position: { x: 0, y: 0 },
     value: 0,
-    paymentMethod: 'pix',
-    sectionCenter: undefined
+    paymentMethod: 'pix'
   });
 
   const [clientsModal, setClientsModal] = useState<{
@@ -65,16 +62,6 @@ export function BillingStatusCards() {
       const paymentMethod: 'pix' | 'boleto' = isPixArea ? 'pix' : 'boleto';
       const value = isPixArea ? amountA : amountB;
 
-      // Calcular o centro da seção
-      let sectionCenter: number;
-      if (isPixArea) {
-        // Centro da seção Pix (primeira metade)
-        sectionCenter = rect.left + (pixWidth / 2);
-      } else {
-        // Centro da seção Boleto (segunda metade)
-        sectionCenter = rect.left + pixWidth + ((progressWidth - pixWidth) / 2);
-      }
-
       setTooltipState({
         visible: true,
         position: {
@@ -82,8 +69,7 @@ export function BillingStatusCards() {
           y: rect.top
         },
         value,
-        paymentMethod,
-        sectionCenter
+        paymentMethod
       });
     } else {
       setTooltipState(prev => ({ ...prev, visible: false }));
