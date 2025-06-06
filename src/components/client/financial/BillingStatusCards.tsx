@@ -4,6 +4,7 @@ import { ClientsModal } from "./ClientsModal";
 import { useBillingData } from "@/hooks/useBillingData";
 import { ProgressBarTooltip } from "./ProgressBarTooltip";
 import { BillingStatusCard } from "./BillingStatusCard";
+import { ReceiptCalendar } from "./ReceiptCalendar";
 
 export function BillingStatusCards() {
   const { billingStatus, loading, error, refetch } = useBillingData();
@@ -201,6 +202,10 @@ export function BillingStatusCards() {
             />
           );
         })}
+      </div>
+
+      <div className="mt-8">
+        <ReceiptCalendar />
       </div>
 
       <ClientsModal
