@@ -1,3 +1,4 @@
+
 import { Info, User, FileText } from "lucide-react";
 import { useState } from "react";
 import {
@@ -39,7 +40,7 @@ export function BillingStatusCard({
   cardType
 }: BillingStatusCardProps) {
   const [openPopover, setOpenPopover] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  const [hoveredSection, setHoveredSection] = useState<'pix' | 'boleto' | null>(null);
 
   const formatCurrencyBR = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -65,13 +66,25 @@ export function BillingStatusCard({
     }
   };
 
-  const handleMouseEnter = (e: React.MouseEvent) => {
-    setIsHovered(true);
-    onProgressBarHover(e, amount, cardType, true);
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const progressWidth = rect.width;
+
+    // Dividir a barra em duas partes: 60% Pix (esquerda) e 40% Boleto (direita)
+    const pixWidth = progressWidth * 0.6;
+    const isPixArea = mouseX <= pixWidth;
+
+    setHoveredSection(isPixArea ? 'pix' : 'boleto');
+    
+    const paymentMethod: 'pix' | 'boleto' = isPixArea ? 'pix' : 'boleto';
+    const value = isPixArea ? amount * 0.6 : amount * 0.4;
+    
+    onProgressBarHover(e, value, cardType, true);
   };
 
   const handleMouseLeave = (e: React.MouseEvent) => {
-    setIsHovered(false);
+    setHoveredSection(null);
     onProgressBarHover(e, amount, cardType, false);
   };
 
@@ -106,23 +119,26 @@ export function BillingStatusCard({
 
       <div className="my-6">
         <div
-          className="w-full bg-gray-200 rounded-full flex items-center relative cursor-pointer overflow-hidden transition-all duration-300"
-          style={{ 
-            height: isHovered ? '20px' : '16px',
-            transform: isHovered ? 'scaleY(1.25)' : 'scaleY(1)'
-          }}
-          onMouseEnter={handleMouseEnter}
+          className="w-full h-4 bg-gray-200 rounded-full flex items-center relative cursor-pointer overflow-hidden"
+          onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          onMouseMove={(e) => onProgressBarHover(e, amount, cardType, true)}
         >
           <div
             className={`${barColors.primary} h-full transition-all duration-300 ease-out z-10`}
-            style={{ width: `${percentualA}%` }}
+            style={{ 
+              width: `${percentualA}%`,
+              height: hoveredSection === 'pix' ? '20px' : '16px',
+              transform: hoveredSection === 'pix' ? 'scaleY(1.25)' : 'scaleY(1)'
+            }}
             title={`Pix: ${formatCurrencyBR(valorA)}`}
           />
           <div
             className={`${barColors.secondary} h-full transition-all duration-300 ease-out z-10`}
-            style={{ width: `${percentualB}%` }}
+            style={{ 
+              width: `${percentualB}%`,
+              height: hoveredSection === 'boleto' ? '20px' : '16px',
+              transform: hoveredSection === 'boleto' ? 'scaleY(1.25)' : 'scaleY(1)'
+            }}
             title={`Boleto: ${formatCurrencyBR(valorB)}`}
           />
         </div>
