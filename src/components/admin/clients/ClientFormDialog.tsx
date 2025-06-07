@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { validatePasswordStrength } from "@/utils/passwordValidation";
 import {
   Dialog,
   DialogContent,
@@ -45,6 +46,27 @@ interface ClientFormDialogProps {
   onOpenChange: (open: boolean) => void;
   client?: any;
 }
+
+// Function to generate a strong random password
+const generateStrongPassword = (): string => {
+  const length = 12;
+  const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+  let password = "";
+  
+  // Ensure at least one character from each required category
+  password += "abcdefghijklmnopqrstuvwxyz"[Math.floor(Math.random() * 26)]; // lowercase
+  password += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[Math.floor(Math.random() * 26)]; // uppercase
+  password += "0123456789"[Math.floor(Math.random() * 10)]; // number
+  password += "!@#$%^&*"[Math.floor(Math.random() * 8)]; // special character
+  
+  // Fill the rest randomly
+  for (let i = 4; i < length; i++) {
+    password += charset[Math.floor(Math.random() * charset.length)];
+  }
+  
+  // Shuffle the password
+  return password.split('').sort(() => Math.random() - 0.5).join('');
+};
 
 export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialogProps) {
   const { toast } = useToast();
@@ -110,10 +132,20 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
         // Criar novo cliente
         console.log('Creating new user with email:', data.email);
         
+        // Generate a strong password
+        const strongPassword = generateStrongPassword();
+        console.log('Generated strong password for new user');
+        
+        // Validate the generated password
+        const passwordValidation = validatePasswordStrength(strongPassword);
+        if (!passwordValidation.isValid) {
+          throw new Error(`Erro na geração de senha: ${passwordValidation.message}`);
+        }
+        
         // Primeiro criar o usuário na auth
         const { data: authData, error: authError } = await supabase.auth.signUp({
           email: data.email,
-          password: 'changeme123', // Senha temporária
+          password: strongPassword,
           options: {
             data: {
               full_name: data.full_name,
@@ -163,15 +195,24 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
         }
 
         console.log('Profile updated successfully');
+        
+        // Show success message with the temporary password
+        toast({
+          title: "Cliente criado com sucesso",
+          description: `Senha temporária: ${strongPassword} (informe ao cliente para que altere na primeira utilização)`,
+          duration: 10000, // Show for 10 seconds so admin can copy the password
+        });
       }
     },
     onSuccess: () => {
       console.log('Client mutation successful');
       queryClient.invalidateQueries({ queryKey: ['admin-clients'] });
-      toast({
-        title: "Sucesso",
-        description: client?.id ? "Cliente atualizado com sucesso." : "Cliente criado com sucesso.",
-      });
+      if (client?.id) {
+        toast({
+          title: "Sucesso",
+          description: "Cliente atualizado com sucesso.",
+        });
+      }
       onOpenChange(false);
       reset();
     },
