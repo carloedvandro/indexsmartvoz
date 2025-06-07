@@ -38,6 +38,7 @@ serve(async (req) => {
 
     // Verificar se é uma requisição PUT
     if (req.method !== 'PUT') {
+      console.error('Method not allowed:', req.method);
       return new Response(
         JSON.stringify({ error: 'Method not allowed' }),
         { 
@@ -53,6 +54,7 @@ serve(async (req) => {
 
     // Validações básicas
     if (!clientData.id || !clientData.full_name) {
+      console.error('Missing required fields:', { id: !!clientData.id, full_name: !!clientData.full_name });
       return new Response(
         JSON.stringify({ error: 'ID e nome são obrigatórios' }),
         { 
@@ -62,13 +64,28 @@ serve(async (req) => {
       );
     }
 
-    // Atualizar cliente usando service role (Admin API)
-    const supabaseAdmin = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    );
+    // Verificar variáveis de ambiente
+    const supabaseUrl = Deno.env.get('SUPABASE_URL');
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+    
+    if (!supabaseUrl || !supabaseServiceKey) {
+      console.error('Missing environment variables:', { 
+        hasUrl: !!supabaseUrl, 
+        hasServiceKey: !!supabaseServiceKey 
+      });
+      return new Response(
+        JSON.stringify({ error: 'Configuração do servidor incompleta' }),
+        { 
+          status: 500, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      );
+    }
 
-    console.log('Updating client profile...');
+    // Atualizar cliente usando service role (Admin API)
+    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+
+    console.log('Updating client profile for ID:', clientData.id);
 
     // Preparar dados para atualização
     const updateData = {
@@ -91,6 +108,8 @@ serve(async (req) => {
       updated_at: new Date().toISOString()
     };
 
+    console.log('Update data prepared:', updateData);
+
     const { data: updateResult, error: profileError } = await supabaseAdmin
       .from('profiles')
       .update(updateData)
@@ -111,13 +130,27 @@ serve(async (req) => {
       );
     }
 
-    console.log('Profile updated successfully');
+    if (!updateResult || updateResult.length === 0) {
+      console.error('No rows affected in update for ID:', clientData.id);
+      return new Response(
+        JSON.stringify({ 
+          error: 'Cliente não encontrado ou nenhuma alteração foi feita',
+          details: { id: clientData.id }
+        }),
+        { 
+          status: 404, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      );
+    }
+
+    console.log('Profile updated successfully:', updateResult);
 
     // Retornar sucesso
     return new Response(
       JSON.stringify({ 
         success: true,
-        data: updateResult,
+        data: updateResult[0],
         message: 'Cliente atualizado com sucesso'
       }),
       { 
@@ -127,7 +160,7 @@ serve(async (req) => {
     );
 
   } catch (error) {
-    console.error('Unexpected error:', error);
+    console.error('Unexpected error in atualizar-cliente:', error);
     return new Response(
       JSON.stringify({ 
         error: 'Erro interno do servidor',
