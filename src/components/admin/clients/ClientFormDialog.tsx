@@ -136,6 +136,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
         console.log('Updating existing client via Edge Function:', client.id);
         
         const { data: result, error } = await supabase.functions.invoke('atualizar-cliente', {
+          method: 'PUT', // Método correto para atualização
           body: {
             id: client.id,
             full_name: data.full_name,
