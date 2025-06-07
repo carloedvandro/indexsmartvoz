@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -19,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Copy, Eye, EyeOff } from "lucide-react";
 
 interface ClientFormData {
   email: string;
@@ -72,6 +72,8 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
+  const [generatedPassword, setGeneratedPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<ClientFormData>({
     defaultValues: {
@@ -135,6 +137,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
         // Generate a strong password
         const strongPassword = generateStrongPassword();
         console.log('Generated strong password for new user');
+        setGeneratedPassword(strongPassword);
         
         // Validate the generated password
         const passwordValidation = validatePasswordStrength(strongPassword);
@@ -142,66 +145,84 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
           throw new Error(`Erro na geração de senha: ${passwordValidation.message}`);
         }
         
-        // Primeiro criar o usuário na auth
-        const { data: authData, error: authError } = await supabase.auth.signUp({
-          email: data.email,
-          password: strongPassword,
-          options: {
-            data: {
-              full_name: data.full_name,
-            },
-          },
-        });
-
-        if (authError) {
-          console.error('Auth error:', authError);
-          throw new Error(`Erro na autenticação: ${authError.message}`);
-        }
-
-        if (!authData.user) {
-          console.error('No user data returned from auth');
-          throw new Error('Erro ao criar usuário - dados não retornados');
-        }
-
-        console.log('User created, updating profile with ID:', authData.user.id);
-
-        // Atualizar o perfil com os dados completos
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .update({
+        // Use the service role to create user without affecting current session
+        const { data: authData, error: authError } = await supabase.rpc('admin_create_user', {
+          user_email: data.email,
+          user_password: strongPassword,
+          user_metadata: {
             full_name: data.full_name,
-            cpf: data.cpf,
-            phone: data.phone,
-            mobile: data.mobile,
-            birth_date: data.birth_date || null,
-            person_type: data.person_type,
-            document_id: data.document_id,
-            cnpj: data.cnpj || null,
-            address: data.address,
-            city: data.city,
-            state: data.state,
-            country: data.country,
-            zip_code: data.zip_code,
-            gender: data.gender,
-            civil_status: data.civil_status,
-            status: data.status,
-            role: 'client'
-          })
-          .eq('id', authData.user.id);
-
-        if (profileError) {
-          console.error('Profile update error:', profileError);
-          throw new Error(`Erro ao atualizar perfil: ${profileError.message}`);
-        }
-
-        console.log('Profile updated successfully');
-        
-        // Show success message with the temporary password
-        toast({
-          title: "Cliente criado com sucesso",
-          description: `Senha temporária: ${strongPassword} (informe ao cliente para que altere na primeira utilização)`,
-          duration: 10000, // Show for 10 seconds so admin can copy the password
+          }
         });
+
+        // If RPC doesn't exist, fallback to regular signup but logout after
+        if (authError && authError.message.includes('function')) {
+          console.log('Fallback to regular signup');
+          
+          // Store current session
+          const { data: currentSession } = await supabase.auth.getSession();
+          
+          const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+            email: data.email,
+            password: strongPassword,
+            options: {
+              data: {
+                full_name: data.full_name,
+              },
+            },
+          });
+
+          if (signUpError) {
+            console.error('Auth error:', signUpError);
+            throw new Error(`Erro na autenticação: ${signUpError.message}`);
+          }
+
+          if (!signUpData.user) {
+            console.error('No user data returned from auth');
+            throw new Error('Erro ao criar usuário - dados não retornados');
+          }
+
+          console.log('User created, updating profile with ID:', signUpData.user.id);
+
+          // Update profile with complete data
+          const { error: profileError } = await supabase
+            .from('profiles')
+            .update({
+              full_name: data.full_name,
+              cpf: data.cpf,
+              phone: data.phone,
+              mobile: data.mobile,
+              birth_date: data.birth_date || null,
+              person_type: data.person_type,
+              document_id: data.document_id,
+              cnpj: data.cnpj || null,
+              address: data.address,
+              city: data.city,
+              state: data.state,
+              country: data.country,
+              zip_code: data.zip_code,
+              gender: data.gender,
+              civil_status: data.civil_status,
+              status: data.status,
+              role: 'client'
+            })
+            .eq('id', signUpData.user.id);
+
+          if (profileError) {
+            console.error('Profile update error:', profileError);
+            throw new Error(`Erro ao atualizar perfil: ${profileError.message}`);
+          }
+
+          // Sign out the newly created user and restore admin session
+          await supabase.auth.signOut();
+          
+          if (currentSession?.session) {
+            await supabase.auth.setSession(currentSession.session);
+          }
+
+          console.log('Profile updated successfully and admin session restored');
+        } else if (authError) {
+          throw new Error(`Erro na criação do usuário: ${authError.message}`);
+        }
       }
     },
     onSuccess: () => {
@@ -211,6 +232,11 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
         toast({
           title: "Sucesso",
           description: "Cliente atualizado com sucesso.",
+        });
+      } else {
+        toast({
+          title: "Cliente criado com sucesso",
+          description: "Cliente criado. A senha temporária está exibida no formulário para cópia.",
         });
       }
       onOpenChange(false);
@@ -241,6 +267,16 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
   const handleClose = () => {
     onOpenChange(false);
     reset();
+    setGeneratedPassword("");
+    setShowPassword(false);
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast({
+      title: "Copiado!",
+      description: "Senha copiada para a área de transferência.",
+    });
   };
 
   return (
@@ -256,6 +292,54 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
         </DialogHeader>
 
         <form onSubmit={handleSubmit(handleSave)} className="space-y-6">
+          {/* Show generated password field for new clients */}
+          {!client?.id && generatedPassword && (
+            <Card className="border-green-200 bg-green-50">
+              <CardHeader>
+                <CardTitle className="text-green-800">Senha Temporária Gerada</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex gap-2">
+                  <div className="flex-1">
+                    <Label htmlFor="generated_password">Senha para o cliente:</Label>
+                    <div className="relative">
+                      <Input
+                        id="generated_password"
+                        type={showPassword ? "text" : "password"}
+                        value={generatedPassword}
+                        readOnly
+                        className="pr-20"
+                      />
+                      <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex gap-1">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="h-6 w-6 p-0"
+                        >
+                          {showPassword ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => copyToClipboard(generatedPassword)}
+                          className="h-6 w-6 p-0"
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </div>
+                    <p className="text-sm text-green-700 mt-1">
+                      Informe esta senha ao cliente para que ele possa fazer login e alterá-la na primeira utilização.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
           <Tabs defaultValue="personal" className="w-full">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="personal">Dados Pessoais</TabsTrigger>
@@ -499,6 +583,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
             </TabsContent>
           </Tabs>
 
+          {/* Botões de Ação */}
           <div className="flex justify-end gap-3">
             <Button type="button" variant="outline" onClick={handleClose}>
               Cancelar
