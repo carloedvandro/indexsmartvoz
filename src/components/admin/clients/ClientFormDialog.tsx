@@ -126,7 +126,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
         const adminSession = currentSession.session;
 
         try {
-          // Criar o usuário com signUp mas não confirmar automaticamente
+          // Criar o usuário com signUp e evitar login automático
           const { data: userData, error: createError } = await supabase.auth.signUp({
             email: data.email,
             password: DEFAULT_PASSWORD,
@@ -188,6 +188,19 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
           }
 
           console.log('Profile updated successfully');
+
+          // Garantir que a sessão do admin seja mantida após a operação
+          const { data: finalSession } = await supabase.auth.getSession();
+          if (!finalSession.session || finalSession.session.user.id !== adminSession?.user.id) {
+            console.log('Final admin session restore...');
+            if (adminSession?.access_token) {
+              await supabase.auth.setSession({
+                access_token: adminSession.access_token,
+                refresh_token: adminSession.refresh_token
+              });
+            }
+          }
+
         } catch (error) {
           // Em caso de erro, garantir que a sessão do admin seja restaurada
           if (adminSession?.access_token) {
