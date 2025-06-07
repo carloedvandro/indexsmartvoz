@@ -145,84 +145,69 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
           throw new Error(`Erro na geração de senha: ${passwordValidation.message}`);
         }
         
-        // Use the service role to create user without affecting current session
-        const { data: authData, error: authError } = await supabase.rpc('admin_create_user', {
-          user_email: data.email,
-          user_password: strongPassword,
-          user_metadata: {
-            full_name: data.full_name,
-          }
+        // Store current session to restore it later
+        const { data: currentSession } = await supabase.auth.getSession();
+        
+        // Create new user
+        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+          email: data.email,
+          password: strongPassword,
+          options: {
+            data: {
+              full_name: data.full_name,
+            },
+          },
         });
 
-        // If RPC doesn't exist, fallback to regular signup but logout after
-        if (authError && authError.message.includes('function')) {
-          console.log('Fallback to regular signup');
-          
-          // Store current session
-          const { data: currentSession } = await supabase.auth.getSession();
-          
-          const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-            email: data.email,
-            password: strongPassword,
-            options: {
-              data: {
-                full_name: data.full_name,
-              },
-            },
-          });
-
-          if (signUpError) {
-            console.error('Auth error:', signUpError);
-            throw new Error(`Erro na autenticação: ${signUpError.message}`);
-          }
-
-          if (!signUpData.user) {
-            console.error('No user data returned from auth');
-            throw new Error('Erro ao criar usuário - dados não retornados');
-          }
-
-          console.log('User created, updating profile with ID:', signUpData.user.id);
-
-          // Update profile with complete data
-          const { error: profileError } = await supabase
-            .from('profiles')
-            .update({
-              full_name: data.full_name,
-              cpf: data.cpf,
-              phone: data.phone,
-              mobile: data.mobile,
-              birth_date: data.birth_date || null,
-              person_type: data.person_type,
-              document_id: data.document_id,
-              cnpj: data.cnpj || null,
-              address: data.address,
-              city: data.city,
-              state: data.state,
-              country: data.country,
-              zip_code: data.zip_code,
-              gender: data.gender,
-              civil_status: data.civil_status,
-              status: data.status,
-              role: 'client'
-            })
-            .eq('id', signUpData.user.id);
-
-          if (profileError) {
-            console.error('Profile update error:', profileError);
-            throw new Error(`Erro ao atualizar perfil: ${profileError.message}`);
-          }
-
-          // Sign out the newly created user and restore admin session
-          await supabase.auth.signOut();
-          
-          if (currentSession?.session) {
-            await supabase.auth.setSession(currentSession.session);
-          }
-
-          console.log('Profile updated successfully and admin session restored');
-        } else if (authError) {
-          throw new Error(`Erro na criação do usuário: ${authError.message}`);
+        if (signUpError) {
+          console.error('Auth error:', signUpError);
+          throw new Error(`Erro na autenticação: ${signUpError.message}`);
         }
+
+        if (!signUpData.user) {
+          console.error('No user data returned from auth');
+          throw new Error('Erro ao criar usuário - dados não retornados');
+        }
+
+        console.log('User created, updating profile with ID:', signUpData.user.id);
+
+        // Update profile with complete data
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .update({
+            full_name: data.full_name,
+            cpf: data.cpf,
+            phone: data.phone,
+            mobile: data.mobile,
+            birth_date: data.birth_date || null,
+            person_type: data.person_type,
+            document_id: data.document_id,
+            cnpj: data.cnpj || null,
+            address: data.address,
+            city: data.city,
+            state: data.state,
+            country: data.country,
+            zip_code: data.zip_code,
+            gender: data.gender,
+            civil_status: data.civil_status,
+            status: data.status,
+            role: 'client'
+          })
+          .eq('id', signUpData.user.id);
+
+        if (profileError) {
+          console.error('Profile update error:', profileError);
+          throw new Error(`Erro ao atualizar perfil: ${profileError.message}`);
+        }
+
+        // Sign out the newly created user and restore admin session
+        await supabase.auth.signOut();
+        
+        if (currentSession?.session) {
+          await supabase.auth.setSession(currentSession.session);
+        }
+
+        console.log('Profile updated successfully and admin session restored');
       }
     },
     onSuccess: () => {
