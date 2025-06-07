@@ -47,8 +47,12 @@ import ClientNavigation from '@/pages/client/navigation';
 // Admin Pages
 import AdminDashboard from '@/pages/admin/dashboard';
 import AdminNetwork from '@/pages/admin/network';
-import AdminPlans from '@/pages/admin/plans';
 import AdminUsers from '@/pages/admin/users';
+import AdminClients from '@/pages/admin/clients';
+import AdminPlans from '@/pages/admin/plans';
+import AdminOrders from '@/pages/admin/orders';
+import AdminFinance from '@/pages/admin/finance';
+import AdminReports from '@/pages/admin/reports';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -102,8 +106,12 @@ const router = createBrowserRouter(
         <Route element={<RoleBasedRoute allowedRoles={['admin']} />}>
           <Route path="/admin/dashboard" element={<DynamicLayout forceRole="admin"><AdminDashboard /></DynamicLayout>} />
           <Route path="/admin/network" element={<DynamicLayout forceRole="admin"><AdminNetwork /></DynamicLayout>} />
-          <Route path="/admin/plans" element={<DynamicLayout forceRole="admin"><AdminPlans /></DynamicLayout>} />
           <Route path="/admin/users" element={<DynamicLayout forceRole="admin"><AdminUsers /></DynamicLayout>} />
+          <Route path="/admin/clients" element={<DynamicLayout forceRole="admin"><AdminClients /></DynamicLayout>} />
+          <Route path="/admin/plans" element={<DynamicLayout forceRole="admin"><AdminPlans /></DynamicLayout>} />
+          <Route path="/admin/orders" element={<DynamicLayout forceRole="admin"><AdminOrders /></DynamicLayout>} />
+          <Route path="/admin/finance" element={<DynamicLayout forceRole="admin"><AdminFinance /></DynamicLayout>} />
+          <Route path="/admin/reports" element={<DynamicLayout forceRole="admin"><AdminReports /></DynamicLayout>} />
         </Route>
       </Route>
     </Route>
