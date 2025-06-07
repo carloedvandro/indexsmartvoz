@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { validatePasswordStrength } from "@/utils/passwordValidation";
 import {
   Dialog,
   DialogContent,
@@ -112,106 +111,42 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
           throw error;
         }
       } else {
-        // Criar novo cliente
-        console.log('Creating new user with email:', data.email);
+        // Criar novo cliente usando Edge Function
+        console.log('Creating new client via Edge Function...');
         
-        // Validar a senha padrão
-        const passwordValidation = validatePasswordStrength(DEFAULT_PASSWORD);
-        if (!passwordValidation.isValid) {
-          throw new Error(`Erro na validação da senha padrão: ${passwordValidation.message}`);
-        }
-
-        // Salvar a sessão atual do admin antes de criar o usuário
-        const { data: currentSession } = await supabase.auth.getSession();
-        const adminSession = currentSession.session;
-
-        try {
-          // Criar o usuário com signUp e evitar login automático
-          const { data: userData, error: createError } = await supabase.auth.signUp({
+        const { data: result, error } = await supabase.functions.invoke('criar-cliente', {
+          body: {
             email: data.email,
-            password: DEFAULT_PASSWORD,
-            options: {
-              emailRedirectTo: undefined, // Evita redirecionamento
-              data: {
-                full_name: data.full_name,
-              }
-            }
-          });
-
-          if (createError) {
-            console.error('Error creating user:', createError);
-            throw new Error(`Erro ao criar usuário: ${createError.message}`);
+            full_name: data.full_name,
+            cpf: data.cpf,
+            phone: data.phone,
+            mobile: data.mobile,
+            birth_date: data.birth_date,
+            person_type: data.person_type,
+            document_id: data.document_id,
+            cnpj: data.cnpj,
+            address: data.address,
+            city: data.city,
+            state: data.state,
+            country: data.country,
+            zip_code: data.zip_code,
+            gender: data.gender,
+            civil_status: data.civil_status,
+            status: data.status
           }
+        });
 
-          if (!userData.user) {
-            throw new Error('Erro ao criar usuário - dados não retornados');
-          }
-
-          console.log('User created successfully, updating profile with ID:', userData.user.id);
-
-          // Restaurar a sessão do admin IMEDIATAMENTE após criar o usuário
-          if (adminSession?.access_token) {
-            console.log('Restoring admin session immediately...');
-            await supabase.auth.setSession({
-              access_token: adminSession.access_token,
-              refresh_token: adminSession.refresh_token
-            });
-          }
-
-          // Atualizar o perfil com os dados completos
-          const { error: profileError } = await supabase
-            .from('profiles')
-            .update({
-              full_name: data.full_name,
-              cpf: data.cpf,
-              phone: data.phone,
-              mobile: data.mobile,
-              birth_date: data.birth_date || null,
-              person_type: data.person_type,
-              document_id: data.document_id,
-              cnpj: data.cnpj || null,
-              address: data.address,
-              city: data.city,
-              state: data.state,
-              country: data.country,
-              zip_code: data.zip_code,
-              gender: data.gender,
-              civil_status: data.civil_status,
-              status: 'active',
-              role: 'client'
-            })
-            .eq('id', userData.user.id);
-
-          if (profileError) {
-            console.error('Profile update error:', profileError);
-            throw new Error(`Erro ao atualizar perfil: ${profileError.message}`);
-          }
-
-          console.log('Profile updated successfully');
-
-          // Garantir que a sessão do admin seja mantida após a operação
-          const { data: finalSession } = await supabase.auth.getSession();
-          if (!finalSession.session || finalSession.session.user.id !== adminSession?.user.id) {
-            console.log('Final admin session restore...');
-            if (adminSession?.access_token) {
-              await supabase.auth.setSession({
-                access_token: adminSession.access_token,
-                refresh_token: adminSession.refresh_token
-              });
-            }
-          }
-
-        } catch (error) {
-          // Em caso de erro, garantir que a sessão do admin seja restaurada
-          if (adminSession?.access_token) {
-            console.log('Restoring admin session due to error...');
-            await supabase.auth.setSession({
-              access_token: adminSession.access_token,
-              refresh_token: adminSession.refresh_token
-            });
-          }
-          throw error;
+        if (error) {
+          console.error('Error calling Edge Function:', error);
+          throw new Error(`Erro ao criar cliente: ${error.message}`);
         }
+
+        if (!result?.success) {
+          console.error('Edge Function returned error:', result);
+          throw new Error(result?.error || 'Erro desconhecido ao criar cliente');
+        }
+
+        console.log('Client created successfully via Edge Function:', result);
       }
     },
     onSuccess: () => {
