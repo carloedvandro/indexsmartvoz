@@ -76,15 +76,40 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
 
   const createClientMutation = useMutation({
     mutationFn: async (data: ClientFormData) => {
+      console.log('Creating client with data:', data);
+      
       if (client?.id) {
         // Atualizar cliente existente
         const { error } = await supabase
           .from('profiles')
-          .update(data)
+          .update({
+            full_name: data.full_name,
+            cpf: data.cpf,
+            phone: data.phone,
+            mobile: data.mobile,
+            birth_date: data.birth_date || null,
+            person_type: data.person_type,
+            document_id: data.document_id,
+            cnpj: data.cnpj || null,
+            address: data.address,
+            city: data.city,
+            state: data.state,
+            country: data.country,
+            zip_code: data.zip_code,
+            gender: data.gender,
+            civil_status: data.civil_status,
+            status: data.status
+          })
           .eq('id', client.id);
-        if (error) throw error;
+          
+        if (error) {
+          console.error('Error updating client:', error);
+          throw error;
+        }
       } else {
         // Criar novo cliente
+        console.log('Creating new user with email:', data.email);
+        
         // Primeiro criar o usuário na auth
         const { data: authData, error: authError } = await supabase.auth.signUp({
           email: data.email,
@@ -96,23 +121,52 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
           },
         });
 
-        if (authError) throw authError;
-
-        if (authData.user) {
-          // Atualizar o perfil com os dados completos
-          const { error: profileError } = await supabase
-            .from('profiles')
-            .update({
-              ...data,
-              id: authData.user.id,
-            })
-            .eq('id', authData.user.id);
-
-          if (profileError) throw profileError;
+        if (authError) {
+          console.error('Auth error:', authError);
+          throw new Error(`Erro na autenticação: ${authError.message}`);
         }
+
+        if (!authData.user) {
+          console.error('No user data returned from auth');
+          throw new Error('Erro ao criar usuário - dados não retornados');
+        }
+
+        console.log('User created, updating profile with ID:', authData.user.id);
+
+        // Atualizar o perfil com os dados completos
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .update({
+            full_name: data.full_name,
+            cpf: data.cpf,
+            phone: data.phone,
+            mobile: data.mobile,
+            birth_date: data.birth_date || null,
+            person_type: data.person_type,
+            document_id: data.document_id,
+            cnpj: data.cnpj || null,
+            address: data.address,
+            city: data.city,
+            state: data.state,
+            country: data.country,
+            zip_code: data.zip_code,
+            gender: data.gender,
+            civil_status: data.civil_status,
+            status: data.status,
+            role: 'client'
+          })
+          .eq('id', authData.user.id);
+
+        if (profileError) {
+          console.error('Profile update error:', profileError);
+          throw new Error(`Erro ao atualizar perfil: ${profileError.message}`);
+        }
+
+        console.log('Profile updated successfully');
       }
     },
     onSuccess: () => {
+      console.log('Client mutation successful');
       queryClient.invalidateQueries({ queryKey: ['admin-clients'] });
       toast({
         title: "Sucesso",
@@ -122,6 +176,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
       reset();
     },
     onError: (error: any) => {
+      console.error('Client mutation error:', error);
       toast({
         title: "Erro",
         description: error.message || "Erro ao salvar cliente.",
@@ -131,9 +186,12 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
   });
 
   const handleSave = async (data: ClientFormData) => {
+    console.log('Form submitted with data:', data);
     setIsLoading(true);
     try {
       await createClientMutation.mutateAsync(data);
+    } catch (error) {
+      console.error('Error in handleSave:', error);
     } finally {
       setIsLoading(false);
     }
