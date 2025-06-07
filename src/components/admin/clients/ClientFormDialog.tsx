@@ -200,14 +200,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
           throw new Error(`Erro ao atualizar perfil: ${profileError.message}`);
         }
 
-        // Sign out the newly created user and restore admin session
-        await supabase.auth.signOut();
-        
-        if (currentSession?.session) {
-          await supabase.auth.setSession(currentSession.session);
-        }
-
-        console.log('Profile updated successfully and admin session restored');
+      
       }
     },
     onSuccess: () => {
