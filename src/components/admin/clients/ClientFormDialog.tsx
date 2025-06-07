@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -47,8 +48,8 @@ interface ClientFormDialogProps {
   client?: any;
 }
 
-// Senha padrão que atende aos requisitos de segurança
-const DEFAULT_PASSWORD = "TempPass123!";
+// Senha padrão mais forte que atende aos requisitos de segurança
+const DEFAULT_PASSWORD = "ClienteTemp2024@#$";
 
 export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialogProps) {
   const { toast } = useToast();
