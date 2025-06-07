@@ -121,40 +121,86 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
           throw new Error(`Erro na validação da senha padrão: ${passwordValidation.message}`);
         }
 
-        // Primeiro, inserir o perfil diretamente na tabela profiles
-        const userId = crypto.randomUUID();
-        
-        // Inserir o perfil
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .insert({
-            id: userId,
+        // Salvar a sessão atual do admin antes de criar o usuário
+        const { data: currentSession } = await supabase.auth.getSession();
+        const adminSession = currentSession.session;
+
+        try {
+          // Criar o usuário com signUp mas não confirmar automaticamente
+          const { data: userData, error: createError } = await supabase.auth.signUp({
             email: data.email,
-            full_name: data.full_name,
-            cpf: data.cpf,
-            phone: data.phone,
-            mobile: data.mobile,
-            birth_date: data.birth_date || null,
-            person_type: data.person_type,
-            document_id: data.document_id,
-            cnpj: data.cnpj || null,
-            address: data.address,
-            city: data.city,
-            state: data.state,
-            country: data.country,
-            zip_code: data.zip_code,
-            gender: data.gender,
-            civil_status: data.civil_status,
-            status: 'active',
-            role: 'client'
+            password: DEFAULT_PASSWORD,
+            options: {
+              emailRedirectTo: undefined, // Evita redirecionamento
+              data: {
+                full_name: data.full_name,
+              }
+            }
           });
 
-        if (profileError) {
-          console.error('Profile insert error:', profileError);
-          throw new Error(`Erro ao criar perfil: ${profileError.message}`);
-        }
+          if (createError) {
+            console.error('Error creating user:', createError);
+            throw new Error(`Erro ao criar usuário: ${createError.message}`);
+          }
 
-        console.log('Profile created successfully with ID:', userId);
+          if (!userData.user) {
+            throw new Error('Erro ao criar usuário - dados não retornados');
+          }
+
+          console.log('User created successfully, updating profile with ID:', userData.user.id);
+
+          // Atualizar o perfil com os dados completos
+          const { error: profileError } = await supabase
+            .from('profiles')
+            .update({
+              full_name: data.full_name,
+              cpf: data.cpf,
+              phone: data.phone,
+              mobile: data.mobile,
+              birth_date: data.birth_date || null,
+              person_type: data.person_type,
+              document_id: data.document_id,
+              cnpj: data.cnpj || null,
+              address: data.address,
+              city: data.city,
+              state: data.state,
+              country: data.country,
+              zip_code: data.zip_code,
+              gender: data.gender,
+              civil_status: data.civil_status,
+              status: 'active',
+              role: 'client'
+            })
+            .eq('id', userData.user.id);
+
+          if (profileError) {
+            console.error('Profile update error:', profileError);
+            throw new Error(`Erro ao atualizar perfil: ${profileError.message}`);
+          }
+
+          // Restaurar a sessão do admin se necessário
+          const { data: newSession } = await supabase.auth.getSession();
+          if (!newSession.session || newSession.session.user.id !== adminSession?.user.id) {
+            console.log('Restoring admin session...');
+            if (adminSession?.access_token) {
+              await supabase.auth.setSession({
+                access_token: adminSession.access_token,
+                refresh_token: adminSession.refresh_token
+              });
+            }
+          }
+
+          console.log('Profile updated successfully');
+        } catch (error) {
+          // Em caso de erro, tentar restaurar a sessão do admin
+          if (adminSession?.access_token) {
+            await supabase.auth.setSession({
+              access_token: adminSession.access_token,
+              refresh_token: adminSession.refresh_token
+            });
+          }
+          throw error;
+        }
       }
     },
     onSuccess: () => {
@@ -168,7 +214,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
       } else {
         toast({
           title: "Cliente criado com sucesso",
-          description: `Cliente criado. O cliente pode usar a senha padrão: ${DEFAULT_PASSWORD} para fazer login.`,
+          description: `Cliente criado. Senha padrão: ${DEFAULT_PASSWORD}`,
         });
       }
       onOpenChange(false);
