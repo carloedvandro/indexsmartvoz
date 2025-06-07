@@ -67,8 +67,8 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
       state: client?.state || '',
       country: client?.country || 'Brasil',
       zip_code: client?.zip_code || '',
-      gender: client?.gender || '',
-      civil_status: client?.civil_status || '',
+      gender: client?.gender || 'not_specified',
+      civil_status: client?.civil_status || 'not_specified',
       status: client?.status || 'active',
       role: 'client'
     }
@@ -210,7 +210,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
                         onValueChange={(value) => setValue("person_type", value)}
                       >
                         <SelectTrigger>
-                          <SelectValue />
+                          <SelectValue placeholder="Selecione o tipo" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="individual">Pessoa Física</SelectItem>
@@ -258,13 +258,13 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
                         onValueChange={(value) => setValue("gender", value)}
                       >
                         <SelectTrigger>
-                          <SelectValue />
+                          <SelectValue placeholder="Selecione o gênero" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="male">Masculino</SelectItem>
                           <SelectItem value="female">Feminino</SelectItem>
                           <SelectItem value="other">Outro</SelectItem>
-                          <SelectItem value="">Não informar</SelectItem>
+                          <SelectItem value="not_specified">Não informar</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -276,14 +276,14 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
                         onValueChange={(value) => setValue("civil_status", value)}
                       >
                         <SelectTrigger>
-                          <SelectValue />
+                          <SelectValue placeholder="Selecione o estado civil" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="single">Solteiro(a)</SelectItem>
                           <SelectItem value="married">Casado(a)</SelectItem>
                           <SelectItem value="divorced">Divorciado(a)</SelectItem>
                           <SelectItem value="widowed">Viúvo(a)</SelectItem>
-                          <SelectItem value="">Não informar</SelectItem>
+                          <SelectItem value="not_specified">Não informar</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -305,7 +305,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
                         onValueChange={(value) => setValue("status", value)}
                       >
                         <SelectTrigger>
-                          <SelectValue />
+                          <SelectValue placeholder="Selecione o status" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="active">Ativo</SelectItem>
