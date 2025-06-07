@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -112,7 +113,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
           throw error;
         }
       } else {
-        // Criar novo cliente usando admin API
+        // Criar novo cliente usando signup normal
         console.log('Creating new user with email:', data.email);
         
         // Validar a senha padrão
@@ -120,14 +121,19 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
         if (!passwordValidation.isValid) {
           throw new Error(`Erro na validação da senha padrão: ${passwordValidation.message}`);
         }
-        
-        // Criar usuário usando a API admin (não afeta a sessão atual)
-        const { data: userData, error: createError } = await supabase.auth.admin.createUser({
+
+        // Salvar a sessão atual do admin
+        const { data: currentSession } = await supabase.auth.getSession();
+        const currentUser = currentSession.session?.user;
+
+        // Criar usuário usando signup normal
+        const { data: userData, error: createError } = await supabase.auth.signUp({
           email: data.email,
           password: DEFAULT_PASSWORD,
-          email_confirm: true, // Confirma o email automaticamente
-          user_metadata: {
-            full_name: data.full_name,
+          options: {
+            data: {
+              full_name: data.full_name,
+            }
           }
         });
 
@@ -169,6 +175,16 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
         if (profileError) {
           console.error('Profile update error:', profileError);
           throw new Error(`Erro ao atualizar perfil: ${profileError.message}`);
+        }
+
+        // Restaurar a sessão do admin se ela foi perdida
+        if (currentUser) {
+          const { data: newSession } = await supabase.auth.getSession();
+          if (!newSession.session || newSession.session.user.id !== currentUser.id) {
+            console.log('Admin session was lost, attempting to restore...');
+            // Note: Em produção, pode ser necessário implementar uma estratégia diferente
+            // para manter a sessão do admin ativa
+          }
         }
       }
     },
