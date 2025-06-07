@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -133,45 +132,43 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
       console.log('Processing client data:', data);
       
       if (client?.id) {
-        // Atualizar cliente existente
-        console.log('Updating existing client:', client.id);
+        // Atualizar cliente existente usando Edge Function
+        console.log('Updating existing client via Edge Function:', client.id);
         
-        // Preparar dados para atualização (remover campos que não devem ser atualizados)
-        const updateData = {
-          full_name: data.full_name,
-          cpf: data.cpf,
-          phone: data.phone,
-          mobile: data.mobile,
-          birth_date: data.birth_date || null,
-          person_type: data.person_type,
-          document_id: data.document_id,
-          cnpj: data.cnpj || null,
-          address: data.address,
-          city: data.city,
-          state: data.state,
-          country: data.country,
-          zip_code: data.zip_code,
-          gender: data.gender,
-          civil_status: data.civil_status,
-          status: data.status,
-          updated_at: new Date().toISOString()
-        };
+        const { data: result, error } = await supabase.functions.invoke('atualizar-cliente', {
+          body: {
+            id: client.id,
+            full_name: data.full_name,
+            cpf: data.cpf,
+            phone: data.phone,
+            mobile: data.mobile,
+            birth_date: data.birth_date,
+            person_type: data.person_type,
+            document_id: data.document_id,
+            cnpj: data.cnpj,
+            address: data.address,
+            city: data.city,
+            state: data.state,
+            country: data.country,
+            zip_code: data.zip_code,
+            gender: data.gender,
+            civil_status: data.civil_status,
+            status: data.status
+          }
+        });
 
-        console.log('Update data being sent:', updateData);
-
-        const { data: updateResult, error } = await supabase
-          .from('profiles')
-          .update(updateData)
-          .eq('id', client.id)
-          .select();
-          
         if (error) {
-          console.error('Error updating client:', error);
-          throw error;
+          console.error('Error calling Edge Function for update:', error);
+          throw new Error(`Erro ao atualizar cliente: ${error.message}`);
         }
 
-        console.log('Client updated successfully:', updateResult);
-        return updateResult;
+        if (!result?.success) {
+          console.error('Edge Function returned error:', result);
+          throw new Error(result?.error || 'Erro desconhecido ao atualizar cliente');
+        }
+
+        console.log('Client updated successfully via Edge Function:', result);
+        return result;
       } else {
         // Criar novo cliente usando Edge Function
         console.log('Creating new client via Edge Function...');
