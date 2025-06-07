@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -113,7 +112,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
           throw error;
         }
       } else {
-        // Criar novo cliente usando signup normal
+        // Criar novo cliente
         console.log('Creating new user with email:', data.email);
         
         // Validar a senha padrão
@@ -122,36 +121,15 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
           throw new Error(`Erro na validação da senha padrão: ${passwordValidation.message}`);
         }
 
-        // Salvar a sessão atual do admin
-        const { data: currentSession } = await supabase.auth.getSession();
-        const currentUser = currentSession.session?.user;
-
-        // Criar usuário usando signup normal
-        const { data: userData, error: createError } = await supabase.auth.signUp({
-          email: data.email,
-          password: DEFAULT_PASSWORD,
-          options: {
-            data: {
-              full_name: data.full_name,
-            }
-          }
-        });
-
-        if (createError) {
-          console.error('Error creating user:', createError);
-          throw new Error(`Erro ao criar usuário: ${createError.message}`);
-        }
-
-        if (!userData.user) {
-          throw new Error('Erro ao criar usuário - dados não retornados');
-        }
-
-        console.log('User created successfully, updating profile with ID:', userData.user.id);
-
-        // Atualizar o perfil com os dados completos
+        // Primeiro, inserir o perfil diretamente na tabela profiles
+        const userId = crypto.randomUUID();
+        
+        // Inserir o perfil
         const { error: profileError } = await supabase
           .from('profiles')
-          .update({
+          .insert({
+            id: userId,
+            email: data.email,
             full_name: data.full_name,
             cpf: data.cpf,
             phone: data.phone,
@@ -167,25 +145,16 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
             zip_code: data.zip_code,
             gender: data.gender,
             civil_status: data.civil_status,
-            status: 'active', // Sempre ativo
+            status: 'active',
             role: 'client'
-          })
-          .eq('id', userData.user.id);
+          });
 
         if (profileError) {
-          console.error('Profile update error:', profileError);
-          throw new Error(`Erro ao atualizar perfil: ${profileError.message}`);
+          console.error('Profile insert error:', profileError);
+          throw new Error(`Erro ao criar perfil: ${profileError.message}`);
         }
 
-        // Restaurar a sessão do admin se ela foi perdida
-        if (currentUser) {
-          const { data: newSession } = await supabase.auth.getSession();
-          if (!newSession.session || newSession.session.user.id !== currentUser.id) {
-            console.log('Admin session was lost, attempting to restore...');
-            // Note: Em produção, pode ser necessário implementar uma estratégia diferente
-            // para manter a sessão do admin ativa
-          }
-        }
+        console.log('Profile created successfully with ID:', userId);
       }
     },
     onSuccess: () => {
@@ -199,7 +168,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
       } else {
         toast({
           title: "Cliente criado com sucesso",
-          description: `Cliente criado com senha padrão: ${DEFAULT_PASSWORD}`,
+          description: `Cliente criado. O cliente pode usar a senha padrão: ${DEFAULT_PASSWORD} para fazer login.`,
         });
       }
       onOpenChange(false);
@@ -294,7 +263,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
                       </div>
                     </div>
                     <p className="text-sm text-green-700 mt-1">
-                      Esta senha padrão será usada para todos os novos clientes. O cliente pode alterá-la após o primeiro login.
+                      Esta senha padrão será usada pelo cliente para fazer login. O cliente pode alterá-la após o primeiro acesso.
                     </p>
                   </div>
                 </div>
