@@ -65,12 +65,12 @@ const router = createBrowserRouter(
       <Route path="/client/reset-password" element={<ResetPassword />} />
       <Route path="/client/update-password" element={<UpdatePassword />} />
       <Route path="/admin/login" element={<AdminLogin />} />
-      <Route path="/store/:storeUrl" element={<PublicStore />} />
+      {/* <Route path="/store/:storeUrl" element={<PublicStore />} /> */}
       
       {/* Site Routes */}
-      <Route path="/modern-site" element={<ModernSite />} />
+      {/* <Route path="/modern-site" element={<ModernSite />} /> */}
       <Route path="/site" element={<CompanySite />} />
-      <Route path="/site-model" element={<SiteModel />} />
+      {/* <Route path="/site-model" element={<SiteModel />} /> */}
 
       {/* Protected Client Routes with Dynamic Layout */}
       <Route element={<ProtectedRoute />}>
