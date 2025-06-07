@@ -1,4 +1,5 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -57,33 +58,83 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
 
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<ClientFormData>({
     defaultValues: {
-      email: client?.email || '',
-      full_name: client?.full_name || '',
-      cpf: client?.cpf || '',
-      phone: client?.phone || '',
-      mobile: client?.mobile || '',
-      birth_date: client?.birth_date || '',
-      person_type: client?.person_type || 'individual',
-      document_id: client?.document_id || '',
-      cnpj: client?.cnpj || '',
-      address: client?.address || '',
-      city: client?.city || '',
-      state: client?.state || '',
-      country: client?.country || 'Brasil',
-      zip_code: client?.zip_code || '',
-      gender: client?.gender || 'not_specified',
-      civil_status: client?.civil_status || 'not_specified',
-      status: client?.status || 'active',
+      email: '',
+      full_name: '',
+      cpf: '',
+      phone: '',
+      mobile: '',
+      birth_date: '',
+      person_type: 'individual',
+      document_id: '',
+      cnpj: '',
+      address: '',
+      city: '',
+      state: '',
+      country: 'Brasil',
+      zip_code: '',
+      gender: 'not_specified',
+      civil_status: 'not_specified',
+      status: 'active',
       role: 'client'
     }
   });
 
+  // Carregar dados do cliente quando o modal for aberto para edição
+  useEffect(() => {
+    if (open && client?.id) {
+      console.log('Loading client data for editing:', client);
+      
+      // Definir valores do formulário com os dados do cliente
+      setValue('email', client.email || '');
+      setValue('full_name', client.full_name || '');
+      setValue('cpf', client.cpf || '');
+      setValue('phone', client.phone || '');
+      setValue('mobile', client.mobile || '');
+      setValue('birth_date', client.birth_date ? client.birth_date.split('T')[0] : '');
+      setValue('person_type', client.person_type || 'individual');
+      setValue('document_id', client.document_id || '');
+      setValue('cnpj', client.cnpj || '');
+      setValue('address', client.address || '');
+      setValue('city', client.city || '');
+      setValue('state', client.state || '');
+      setValue('country', client.country || 'Brasil');
+      setValue('zip_code', client.zip_code || '');
+      setValue('gender', client.gender || 'not_specified');
+      setValue('civil_status', client.civil_status || 'not_specified');
+      setValue('status', client.status || 'active');
+      setValue('role', 'client');
+    } else if (open && !client?.id) {
+      // Resetar formulário para novo cliente
+      reset({
+        email: '',
+        full_name: '',
+        cpf: '',
+        phone: '',
+        mobile: '',
+        birth_date: '',
+        person_type: 'individual',
+        document_id: '',
+        cnpj: '',
+        address: '',
+        city: '',
+        state: '',
+        country: 'Brasil',
+        zip_code: '',
+        gender: 'not_specified',
+        civil_status: 'not_specified',
+        status: 'active',
+        role: 'client'
+      });
+    }
+  }, [open, client, setValue, reset]);
+
   const createClientMutation = useMutation({
     mutationFn: async (data: ClientFormData) => {
-      console.log('Creating client with data:', data);
+      console.log('Processing client data:', data);
       
       if (client?.id) {
         // Atualizar cliente existente
+        console.log('Updating existing client:', client.id);
         const { error } = await supabase
           .from('profiles')
           .update({
@@ -110,6 +161,8 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
           console.error('Error updating client:', error);
           throw error;
         }
+
+        console.log('Client updated successfully');
       } else {
         // Criar novo cliente usando Edge Function
         console.log('Creating new client via Edge Function...');
@@ -164,7 +217,6 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
         });
       }
       onOpenChange(false);
-      reset();
     },
     onError: (error: any) => {
       console.error('Client mutation error:', error);
@@ -190,7 +242,6 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
 
   const handleClose = () => {
     onOpenChange(false);
-    reset();
     setShowPassword(false);
   };
 
@@ -215,7 +266,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
         </DialogHeader>
 
         <form onSubmit={handleSubmit(handleSave)} className="space-y-6">
-          {/* Mostrar campo de senha padrão para novos clientes */}
+          {/* Mostrar campo de senha padrão apenas para novos clientes */}
           {!client?.id && (
             <Card className="border-green-200 bg-green-50">
               <CardHeader>
