@@ -158,9 +158,9 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
 
         console.log('Sending update data:', updateData);
 
-        // Usar fetch direto para ter mais controle sobre a requisição
+        // Usar PATCH para atualização de dados
         const response = await fetch(`https://maelrohlhrhihntydydh.supabase.co/functions/v1/atualizar-cliente`, {
-          method: 'PUT',
+          method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,

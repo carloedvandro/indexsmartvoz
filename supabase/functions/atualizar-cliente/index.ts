@@ -36,11 +36,11 @@ serve(async (req) => {
   try {
     console.log('Updating client via Admin API...');
 
-    // Verificar se é uma requisição PUT
-    if (req.method !== 'PUT') {
+    // Verificar se é uma requisição PATCH
+    if (req.method !== 'PATCH') {
       console.error('Method not allowed:', req.method);
       return new Response(
-        JSON.stringify({ error: 'Method not allowed' }),
+        JSON.stringify({ error: 'Method not allowed. Use PATCH for updates.' }),
         { 
           status: 405, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
