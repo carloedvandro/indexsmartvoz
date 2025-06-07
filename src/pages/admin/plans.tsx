@@ -12,7 +12,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -116,6 +115,17 @@ export default function AdminPlans() {
       style: 'currency',
       currency: 'BRL'
     }).format(value);
+  };
+
+  const handleFormSuccess = (data: any) => {
+    console.log('Plan form success:', data);
+    setEditDialogOpen(false);
+    setSelectedPlan(null);
+    queryClient.invalidateQueries({ queryKey: ['admin-plans'] });
+    toast({
+      title: "Sucesso",
+      description: selectedPlan ? "Plano atualizado com sucesso." : "Plano criado com sucesso.",
+    });
   };
 
   const columns = [
@@ -228,12 +238,9 @@ export default function AdminPlans() {
               </DialogDescription>
             </DialogHeader>
             <PlanForm
-              plan={selectedPlan}
-              onSuccess={() => {
-                setEditDialogOpen(false);
-                setSelectedPlan(null);
-                queryClient.invalidateQueries({ queryKey: ['admin-plans'] });
-              }}
+              initialData={selectedPlan}
+              onSubmit={handleFormSuccess}
+              onCancel={() => setEditDialogOpen(false)}
             />
           </DialogContent>
         </Dialog>
