@@ -1,13 +1,18 @@
 
 import { useState } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Trash2 } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Plus } from "lucide-react";
+import { CashbackList } from "./plan-form/CashbackList";
+import { BenefitsList } from "./plan-form/BenefitsList";
+import { CashbackModal } from "./plan-form/CashbackModal";
+import { BenefitsModal } from "./plan-form/BenefitsModal";
 
 interface PlanFormData {
   title: string;
@@ -34,49 +39,81 @@ interface PlanFormProps {
 }
 
 export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFormProps) {
-  const { register, control, handleSubmit, setValue, watch, formState: { errors } } = useForm<PlanFormData>({
+  const [cashbackLevels, setCashbackLevels] = useState(
+    initialData?.cashback_levels || []
+  );
+  const [benefits, setBenefits] = useState(
+    initialData?.benefits || []
+  );
+  const [cashbackModalOpen, setCashbackModalOpen] = useState(false);
+  const [benefitsModalOpen, setBenefitsModalOpen] = useState(false);
+  const [editingCashback, setEditingCashback] = useState<any>(null);
+  const [editingBenefit, setEditingBenefit] = useState<any>(null);
+
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<PlanFormData>({
     defaultValues: {
       title: initialData?.title || '',
       description: initialData?.description || '',
       value: initialData?.value || 0,
       status: initialData?.status || 'active',
-      cashbackLevels: initialData?.cashback_levels || [
-        { level: 1, percentage: 0, description: '' }
-      ],
-      benefits: initialData?.benefits || [
-        { benefit_title: '', benefit_description: '', display_order: 1 }
-      ]
+      cashbackLevels: [],
+      benefits: []
     }
   });
 
-  const { fields: cashbackFields, append: appendCashback, remove: removeCashback } = useFieldArray({
-    control,
-    name: "cashbackLevels"
-  });
-
-  const { fields: benefitFields, append: appendBenefit, remove: removeBenefit } = useFieldArray({
-    control,
-    name: "benefits"
-  });
-
-  const addCashbackLevel = () => {
-    appendCashback({
-      level: cashbackFields.length + 1,
-      percentage: 0,
-      description: ''
-    });
+  const handleFormSubmit = (data: PlanFormData) => {
+    const formData = {
+      ...data,
+      cashbackLevels,
+      benefits
+    };
+    onSubmit(formData);
   };
 
-  const addBenefit = () => {
-    appendBenefit({
-      benefit_title: '',
-      benefit_description: '',
-      display_order: benefitFields.length + 1
-    });
+  const handleAddCashback = (cashbackData: any) => {
+    if (editingCashback) {
+      setCashbackLevels(prev => 
+        prev.map(item => item.id === editingCashback.id ? { ...cashbackData, id: item.id } : item)
+      );
+      setEditingCashback(null);
+    } else {
+      setCashbackLevels(prev => [...prev, { ...cashbackData, id: Date.now() }]);
+    }
+    setCashbackModalOpen(false);
+  };
+
+  const handleEditCashback = (cashback: any) => {
+    setEditingCashback(cashback);
+    setCashbackModalOpen(true);
+  };
+
+  const handleDeleteCashback = (id: any) => {
+    setCashbackLevels(prev => prev.filter(item => item.id !== id));
+  };
+
+  const handleAddBenefit = (benefitData: any) => {
+    if (editingBenefit) {
+      setBenefits(prev => 
+        prev.map(item => item.id === editingBenefit.id ? { ...benefitData, id: item.id } : item)
+      );
+      setEditingBenefit(null);
+    } else {
+      setBenefits(prev => [...prev, { ...benefitData, id: Date.now() }]);
+    }
+    setBenefitsModalOpen(false);
+  };
+
+  const handleEditBenefit = (benefit: any) => {
+    setEditingBenefit(benefit);
+    setBenefitsModalOpen(true);
+  };
+
+  const handleDeleteBenefit = (id: any) => {
+    setBenefits(prev => prev.filter(item => item.id !== id));
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
       {/* Informações Básicas */}
       <Card>
         <CardHeader>
@@ -139,113 +176,64 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
         </CardContent>
       </Card>
 
-      {/* Níveis de Cashback */}
+      {/* Tabs para Cashback e Benefícios */}
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Níveis de Cashback</CardTitle>
-          <Button type="button" variant="outline" size="sm" onClick={addCashbackLevel}>
-            <Plus className="h-4 w-4 mr-2" />
-            Adicionar Nível
-          </Button>
+        <CardHeader>
+          <CardTitle>Configurações do Plano</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {cashbackFields.map((field, index) => (
-            <div key={field.id} className="border p-4 rounded-lg">
-              <div className="flex justify-between items-center mb-3">
-                <h4 className="font-medium">Nível {index + 1}</h4>
-                {cashbackFields.length > 1 && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => removeCashback(index)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                )}
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label>Percentual (%)</Label>
-                  <Input
-                    type="number"
-                    step="0.01"
-                    {...register(`cashbackLevels.${index}.percentage`, {
-                      valueAsNumber: true,
-                      min: { value: 0, message: "Percentual deve ser positivo" },
-                      max: { value: 100, message: "Percentual não pode ser maior que 100%" }
-                    })}
-                  />
-                  {errors.cashbackLevels?.[index]?.percentage && (
-                    <span className="text-sm text-red-600">
-                      {String(errors.cashbackLevels[index]?.percentage?.message)}
-                    </span>
-                  )}
-                </div>
-                
-                <div>
-                  <Label>Descrição</Label>
-                  <Input
-                    {...register(`cashbackLevels.${index}.description`)}
-                  />
-                </div>
-              </div>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
+        <CardContent>
+          <Tabs defaultValue="cashback" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="cashback">Níveis de Cashback</TabsTrigger>
+              <TabsTrigger value="benefits">Benefícios</TabsTrigger>
+            </TabsList>
 
-      {/* Benefícios */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Benefícios</CardTitle>
-          <Button type="button" variant="outline" size="sm" onClick={addBenefit}>
-            <Plus className="h-4 w-4 mr-2" />
-            Adicionar Benefício
-          </Button>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {benefitFields.map((field, index) => (
-            <div key={field.id} className="border p-4 rounded-lg">
-              <div className="flex justify-between items-center mb-3">
-                <h4 className="font-medium">Benefício {index + 1}</h4>
-                {benefitFields.length > 1 && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => removeBenefit(index)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                )}
+            <TabsContent value="cashback" className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-medium">Níveis de Cashback</h3>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => {
+                    setEditingCashback(null);
+                    setCashbackModalOpen(true);
+                  }}
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Adicionar Nível
+                </Button>
               </div>
-              
-              <div className="space-y-3">
-                <div>
-                  <Label>Título do Benefício</Label>
-                  <Input
-                    {...register(`benefits.${index}.benefit_title`, {
-                      required: "Título é obrigatório"
-                    })}
-                  />
-                  {errors.benefits?.[index]?.benefit_title && (
-                    <span className="text-sm text-red-600">
-                      {String(errors.benefits[index]?.benefit_title?.message)}
-                    </span>
-                  )}
-                </div>
-                
-                <div>
-                  <Label>Descrição do Benefício</Label>
-                  <Textarea
-                    {...register(`benefits.${index}.benefit_description`)}
-                  />
-                </div>
+              <CashbackList
+                cashbackLevels={cashbackLevels}
+                onEdit={handleEditCashback}
+                onDelete={handleDeleteCashback}
+              />
+            </TabsContent>
+
+            <TabsContent value="benefits" className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-medium">Benefícios</h3>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => {
+                    setEditingBenefit(null);
+                    setBenefitsModalOpen(true);
+                  }}
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Adicionar Benefício
+                </Button>
               </div>
-            </div>
-          ))}
+              <BenefitsList
+                benefits={benefits}
+                onEdit={handleEditBenefit}
+                onDelete={handleDeleteBenefit}
+              />
+            </TabsContent>
+          </Tabs>
         </CardContent>
       </Card>
 
@@ -258,6 +246,22 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
           {isLoading ? "Salvando..." : "Salvar"}
         </Button>
       </div>
+
+      {/* Modais */}
+      <CashbackModal
+        open={cashbackModalOpen}
+        onOpenChange={setCashbackModalOpen}
+        onSubmit={handleAddCashback}
+        initialData={editingCashback}
+        existingLevels={cashbackLevels.map(c => c.level)}
+      />
+
+      <BenefitsModal
+        open={benefitsModalOpen}
+        onOpenChange={setBenefitsModalOpen}
+        onSubmit={handleAddBenefit}
+        initialData={editingBenefit}
+      />
     </form>
   );
 }
