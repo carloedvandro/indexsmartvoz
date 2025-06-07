@@ -3,10 +3,23 @@ import * as React from 'react';
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster";
 import { ProtectedRoute } from '@/components/ProtectedRoute';
+import { RoleBasedRoute } from '@/components/RoleBasedRoute';
+import { DynamicLayout } from '@/components/layouts/DynamicLayout';
+
+// Public Routes
 import Index from '@/pages/Index';
 import ClientLogin from '@/pages/client/login';
 import ClientRegister from '@/pages/client/register';
 import ClientFacialBiometry from '@/pages/client/facial-biometry';
+import AdminLogin from '@/pages/admin/login';
+import PublicStore from '@/pages/public/store';
+import ResetPassword from '@/pages/client/reset-password';
+import UpdatePassword from '@/pages/client/update-password';
+import ModernSite from '@/pages/ModernSite';
+import CompanySite from '@/pages/CompanySite';
+import SiteModel from '@/pages/SiteModel';
+
+// Client Pages
 import ClientDashboard from '@/pages/client/dashboard';
 import ClientProfile from '@/pages/client/profile';
 import ClientBanking from '@/pages/client/profile/banking';
@@ -30,17 +43,12 @@ import ClientEarningsForecast from '@/pages/client/earnings-forecast';
 import ClientInventoryReports from '@/pages/client/inventory-reports';
 import ClientNotifications from '@/pages/client/notifications';
 import ClientNavigation from '@/pages/client/navigation';
+
+// Admin Pages
 import AdminDashboard from '@/pages/admin/dashboard';
-import AdminLogin from '@/pages/admin/login';
 import AdminNetwork from '@/pages/admin/network';
 import AdminPlans from '@/pages/admin/plans';
 import AdminUsers from '@/pages/admin/users';
-import PublicStore from '@/pages/public/store';
-import ResetPassword from '@/pages/client/reset-password';
-import UpdatePassword from '@/pages/client/update-password';
-import ModernSite from '@/pages/ModernSite';
-import CompanySite from '@/pages/CompanySite';
-import SiteModel from '@/pages/SiteModel';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -60,39 +68,43 @@ const router = createBrowserRouter(
       <Route path="/site" element={<CompanySite />} />
       <Route path="/site-model" element={<SiteModel />} />
 
-      {/* Protected Client Routes */}
+      {/* Protected Client Routes with Dynamic Layout */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/client/dashboard" element={<ClientDashboard />} />
-        <Route path="/client/profile" element={<ClientProfile />} />
-        <Route path="/client/profile/banking" element={<ClientBanking />} />
-        <Route path="/client/profile/terms" element={<ClientTerms />} />
-        <Route path="/client/profile/change-password" element={<ClientChangePassword />} />
-        <Route path="/client/profile/security-password" element={<ClientSecurityPassword />} />
-        <Route path="/client/profile/two-factor" element={<ClientTwoFactor />} />
-        <Route path="/client/profile/configurations" element={<ClientConfigurations />} />
-        <Route path="/client/network" element={<ClientNetwork />} />
-        <Route path="/client/store" element={<ClientStore />} />
-        <Route path="/client/events" element={<ClientEvents />} />
-        <Route path="/client/courses" element={<ClientCourses />} />
-        <Route path="/client/news" element={<ClientNews />} />
-        <Route path="/client/upgrade" element={<ClientUpgrade />} />
-        <Route path="/client/chip-activation" element={<ClientChipActivation />} />
-        <Route path="/client/products" element={<ClientProducts />} />
-        <Route path="/client/esim" element={<ClientESIM />} />
-        <Route path="/client/financial" element={<ClientFinancial />} />
-        <Route path="/client/financial/details" element={<ClientFinancialDetails />} />
-        <Route path="/client/earnings-forecast" element={<ClientEarningsForecast />} />
-        <Route path="/client/inventory-reports" element={<ClientInventoryReports />} />
-        <Route path="/client/notifications" element={<ClientNotifications />} />
-        <Route path="/client/navigation" element={<ClientNavigation />} />
+        <Route element={<RoleBasedRoute allowedRoles={['client']} />}>
+          <Route path="/client/dashboard" element={<DynamicLayout forceRole="client"><ClientDashboard /></DynamicLayout>} />
+          <Route path="/client/profile" element={<DynamicLayout forceRole="client"><ClientProfile /></DynamicLayout>} />
+          <Route path="/client/profile/banking" element={<DynamicLayout forceRole="client"><ClientBanking /></DynamicLayout>} />
+          <Route path="/client/profile/terms" element={<DynamicLayout forceRole="client"><ClientTerms /></DynamicLayout>} />
+          <Route path="/client/profile/change-password" element={<DynamicLayout forceRole="client"><ClientChangePassword /></DynamicLayout>} />
+          <Route path="/client/profile/security-password" element={<DynamicLayout forceRole="client"><ClientSecurityPassword /></DynamicLayout>} />
+          <Route path="/client/profile/two-factor" element={<DynamicLayout forceRole="client"><ClientTwoFactor /></DynamicLayout>} />
+          <Route path="/client/profile/configurations" element={<DynamicLayout forceRole="client"><ClientConfigurations /></DynamicLayout>} />
+          <Route path="/client/network" element={<DynamicLayout forceRole="client"><ClientNetwork /></DynamicLayout>} />
+          <Route path="/client/store" element={<DynamicLayout forceRole="client"><ClientStore /></DynamicLayout>} />
+          <Route path="/client/events" element={<DynamicLayout forceRole="client"><ClientEvents /></DynamicLayout>} />
+          <Route path="/client/courses" element={<DynamicLayout forceRole="client"><ClientCourses /></DynamicLayout>} />
+          <Route path="/client/news" element={<DynamicLayout forceRole="client"><ClientNews /></DynamicLayout>} />
+          <Route path="/client/upgrade" element={<DynamicLayout forceRole="client"><ClientUpgrade /></DynamicLayout>} />
+          <Route path="/client/chip-activation" element={<DynamicLayout forceRole="client"><ClientChipActivation /></DynamicLayout>} />
+          <Route path="/client/products" element={<DynamicLayout forceRole="client"><ClientProducts /></DynamicLayout>} />
+          <Route path="/client/esim" element={<DynamicLayout forceRole="client"><ClientESIM /></DynamicLayout>} />
+          <Route path="/client/financial" element={<DynamicLayout forceRole="client"><ClientFinancial /></DynamicLayout>} />
+          <Route path="/client/financial/details" element={<DynamicLayout forceRole="client"><ClientFinancialDetails /></DynamicLayout>} />
+          <Route path="/client/earnings-forecast" element={<DynamicLayout forceRole="client"><ClientEarningsForecast /></DynamicLayout>} />
+          <Route path="/client/inventory-reports" element={<DynamicLayout forceRole="client"><ClientInventoryReports /></DynamicLayout>} />
+          <Route path="/client/notifications" element={<DynamicLayout forceRole="client"><ClientNotifications /></DynamicLayout>} />
+          <Route path="/client/navigation" element={<DynamicLayout forceRole="client"><ClientNavigation /></DynamicLayout>} />
+        </Route>
       </Route>
 
-      {/* Protected Admin Routes */}
+      {/* Protected Admin Routes with Dynamic Layout */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/network" element={<AdminNetwork />} />
-        <Route path="/admin/plans" element={<AdminPlans />} />
-        <Route path="/admin/users" element={<AdminUsers />} />
+        <Route element={<RoleBasedRoute allowedRoles={['admin']} />}>
+          <Route path="/admin/dashboard" element={<DynamicLayout forceRole="admin"><AdminDashboard /></DynamicLayout>} />
+          <Route path="/admin/network" element={<DynamicLayout forceRole="admin"><AdminNetwork /></DynamicLayout>} />
+          <Route path="/admin/plans" element={<DynamicLayout forceRole="admin"><AdminPlans /></DynamicLayout>} />
+          <Route path="/admin/users" element={<DynamicLayout forceRole="admin"><AdminUsers /></DynamicLayout>} />
+        </Route>
       </Route>
     </Route>
   )

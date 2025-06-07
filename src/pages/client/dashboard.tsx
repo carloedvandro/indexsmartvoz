@@ -2,7 +2,6 @@
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
-import { BalanceBar } from "@/components/client/dashboard/BalanceBar";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { WelcomeSection } from "@/components/client/dashboard/WelcomeSection";
@@ -34,30 +33,23 @@ export default function ClientDashboard() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden relative"
+      className="max-w-[1800px] mx-auto pt-24 -mt-[72px]"
     >
-      <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <BalanceBar />
-        <div className="flex-1 overflow-y-auto scrollbar-hide">
-          <div className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
-            <WelcomeSection profile={profile} />
+      <WelcomeSection profile={profile} />
 
-            <FinancialCards />
+      <FinancialCards />
 
-            <StatsCardsGrid />
+      <StatsCardsGrid />
 
-            <DashboardCards
-              profile={profile}
-              networkStats={networkStats}
-              handleNetworkClick={handleNetworkClick}
-            />
+      <DashboardCards
+        profile={profile}
+        networkStats={networkStats}
+        handleNetworkClick={handleNetworkClick}
+      />
 
-            <div className="container mb-8">
-              <InteractiveBrazilMap />
-            </div>
-          </div>
-        </div>
-      </main>
+      <div className="container mb-8">
+        <InteractiveBrazilMap />
+      </div>
     </motion.div>
   );
 }
