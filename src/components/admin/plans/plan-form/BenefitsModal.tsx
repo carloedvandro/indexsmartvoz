@@ -11,7 +11,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 
 interface BenefitsModalProps {
   open: boolean;
@@ -22,7 +21,6 @@ interface BenefitsModalProps {
 
 interface BenefitFormData {
   benefit_title: string;
-  benefit_description: string;
   display_order: number;
 }
 
@@ -39,13 +37,11 @@ export function BenefitsModal({
       if (initialData) {
         reset({
           benefit_title: initialData.benefit_title || '',
-          benefit_description: initialData.benefit_description || '',
           display_order: initialData.display_order || 1
         });
       } else {
         reset({
           benefit_title: '',
-          benefit_description: '',
           display_order: 1
         });
       }
@@ -64,7 +60,7 @@ export function BenefitsModal({
             {initialData ? 'Editar Benefício' : 'Adicionar Benefício'}
           </DialogTitle>
           <DialogDescription>
-            Configure o título e descrição do benefício
+            Configure o título e ordem do benefício
           </DialogDescription>
         </DialogHeader>
 
@@ -81,16 +77,6 @@ export function BenefitsModal({
             {errors.benefit_title && (
               <span className="text-sm text-red-600">{errors.benefit_title.message}</span>
             )}
-          </div>
-
-          <div>
-            <Label htmlFor="benefit_description">Descrição do Benefício</Label>
-            <Textarea
-              id="benefit_description"
-              {...register("benefit_description")}
-              placeholder="Descrição detalhada do benefício (opcional)"
-              rows={3}
-            />
           </div>
 
           <div>

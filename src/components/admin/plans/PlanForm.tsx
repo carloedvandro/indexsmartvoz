@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -26,7 +25,6 @@ interface PlanFormData {
   }[];
   benefits: {
     benefit_title: string;
-    benefit_description: string;
     display_order: number;
   }[];
 }

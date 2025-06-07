@@ -5,7 +5,6 @@ import { Edit, Trash2 } from "lucide-react";
 interface Benefit {
   id?: any;
   benefit_title: string;
-  benefit_description: string;
   display_order: number;
 }
 
@@ -28,12 +27,10 @@ export function BenefitsList({ benefits, onEdit, onDelete }: BenefitsListProps) 
     <div className="space-y-3">
       {benefits.map((benefit) => (
         <div key={benefit.id} className="border rounded-lg p-4">
-          <div className="flex justify-between items-start">
+          <div className="flex justify-between items-center">
             <div className="flex-1">
-              <h4 className="font-medium mb-2">{benefit.benefit_title}</h4>
-              {benefit.benefit_description && (
-                <p className="text-sm text-gray-600">{benefit.benefit_description}</p>
-              )}
+              <h4 className="font-medium">{benefit.benefit_title}</h4>
+              <p className="text-sm text-gray-500 mt-1">Ordem: {benefit.display_order}</p>
             </div>
             <div className="flex gap-2 ml-4">
               <Button
