@@ -47,32 +47,13 @@ interface ClientFormDialogProps {
   client?: any;
 }
 
-// Function to generate a strong random password
-const generateStrongPassword = (): string => {
-  const length = 12;
-  const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
-  let password = "";
-  
-  // Ensure at least one character from each required category
-  password += "abcdefghijklmnopqrstuvwxyz"[Math.floor(Math.random() * 26)]; // lowercase
-  password += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[Math.floor(Math.random() * 26)]; // uppercase
-  password += "0123456789"[Math.floor(Math.random() * 10)]; // number
-  password += "!@#$%^&*"[Math.floor(Math.random() * 8)]; // special character
-  
-  // Fill the rest randomly
-  for (let i = 4; i < length; i++) {
-    password += charset[Math.floor(Math.random() * charset.length)];
-  }
-  
-  // Shuffle the password
-  return password.split('').sort(() => Math.random() - 0.5).join('');
-};
+// Senha padrão que atende aos requisitos de segurança
+const DEFAULT_PASSWORD = "TempPass123!";
 
 export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialogProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
-  const [generatedPassword, setGeneratedPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
 
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<ClientFormData>({
@@ -131,47 +112,37 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
           throw error;
         }
       } else {
-        // Criar novo cliente
+        // Criar novo cliente usando admin API
         console.log('Creating new user with email:', data.email);
         
-        // Generate a strong password
-        const strongPassword = generateStrongPassword();
-        console.log('Generated strong password for new user');
-        setGeneratedPassword(strongPassword);
-        
-        // Validate the generated password
-        const passwordValidation = validatePasswordStrength(strongPassword);
+        // Validar a senha padrão
+        const passwordValidation = validatePasswordStrength(DEFAULT_PASSWORD);
         if (!passwordValidation.isValid) {
-          throw new Error(`Erro na geração de senha: ${passwordValidation.message}`);
+          throw new Error(`Erro na validação da senha padrão: ${passwordValidation.message}`);
         }
         
-        // Store current session to restore it later
-        const { data: currentSession } = await supabase.auth.getSession();
-        
-        // Create new user
-        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        // Criar usuário usando a API admin (não afeta a sessão atual)
+        const { data: userData, error: createError } = await supabase.auth.admin.createUser({
           email: data.email,
-          password: strongPassword,
-          options: {
-            data: {
-              full_name: data.full_name,
-            },
-          },
+          password: DEFAULT_PASSWORD,
+          email_confirm: true, // Confirma o email automaticamente
+          user_metadata: {
+            full_name: data.full_name,
+          }
         });
 
-        if (signUpError) {
-          console.error('Auth error:', signUpError);
-          throw new Error(`Erro na autenticação: ${signUpError.message}`);
+        if (createError) {
+          console.error('Error creating user:', createError);
+          throw new Error(`Erro ao criar usuário: ${createError.message}`);
         }
 
-        if (!signUpData.user) {
-          console.error('No user data returned from auth');
+        if (!userData.user) {
           throw new Error('Erro ao criar usuário - dados não retornados');
         }
 
-        console.log('User created, updating profile with ID:', signUpData.user.id);
+        console.log('User created successfully, updating profile with ID:', userData.user.id);
 
-        // Update profile with complete data
+        // Atualizar o perfil com os dados completos
         const { error: profileError } = await supabase
           .from('profiles')
           .update({
@@ -190,17 +161,15 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
             zip_code: data.zip_code,
             gender: data.gender,
             civil_status: data.civil_status,
-            status: data.status,
+            status: 'active', // Sempre ativo
             role: 'client'
           })
-          .eq('id', signUpData.user.id);
+          .eq('id', userData.user.id);
 
         if (profileError) {
           console.error('Profile update error:', profileError);
           throw new Error(`Erro ao atualizar perfil: ${profileError.message}`);
         }
-
-      
       }
     },
     onSuccess: () => {
@@ -214,7 +183,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
       } else {
         toast({
           title: "Cliente criado com sucesso",
-          description: "Cliente criado. A senha temporária está exibida no formulário para cópia.",
+          description: `Cliente criado com senha padrão: ${DEFAULT_PASSWORD}`,
         });
       }
       onOpenChange(false);
@@ -245,7 +214,6 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
   const handleClose = () => {
     onOpenChange(false);
     reset();
-    setGeneratedPassword("");
     setShowPassword(false);
   };
 
@@ -270,21 +238,21 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
         </DialogHeader>
 
         <form onSubmit={handleSubmit(handleSave)} className="space-y-6">
-          {/* Show generated password field for new clients */}
-          {!client?.id && generatedPassword && (
+          {/* Mostrar campo de senha padrão para novos clientes */}
+          {!client?.id && (
             <Card className="border-green-200 bg-green-50">
               <CardHeader>
-                <CardTitle className="text-green-800">Senha Temporária Gerada</CardTitle>
+                <CardTitle className="text-green-800">Senha Padrão</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex gap-2">
                   <div className="flex-1">
-                    <Label htmlFor="generated_password">Senha para o cliente:</Label>
+                    <Label htmlFor="default_password">Senha padrão para o cliente:</Label>
                     <div className="relative">
                       <Input
-                        id="generated_password"
+                        id="default_password"
                         type={showPassword ? "text" : "password"}
-                        value={generatedPassword}
+                        value={DEFAULT_PASSWORD}
                         readOnly
                         className="pr-20"
                       />
@@ -302,7 +270,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
                           type="button"
                           variant="ghost"
                           size="sm"
-                          onClick={() => copyToClipboard(generatedPassword)}
+                          onClick={() => copyToClipboard(DEFAULT_PASSWORD)}
                           className="h-6 w-6 p-0"
                         >
                           <Copy className="h-3 w-3" />
@@ -310,7 +278,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
                       </div>
                     </div>
                     <p className="text-sm text-green-700 mt-1">
-                      Informe esta senha ao cliente para que ele possa fazer login e alterá-la na primeira utilização.
+                      Esta senha padrão será usada para todos os novos clientes. O cliente pode alterá-la após o primeiro login.
                     </p>
                   </div>
                 </div>
