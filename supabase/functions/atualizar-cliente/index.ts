@@ -36,11 +36,11 @@ serve(async (req) => {
   try {
     console.log('Updating client via Admin API...');
 
-    // Verificar se é uma requisição PATCH
-    if (req.method !== 'PATCH') {
+    // Aceitar POST (usado pelo supabase.functions.invoke) e PATCH
+    if (req.method !== 'POST' && req.method !== 'PATCH') {
       console.error('Method not allowed:', req.method);
       return new Response(
-        JSON.stringify({ error: 'Method not allowed. Use PATCH for updates.' }),
+        JSON.stringify({ error: 'Method not allowed. Use POST or PATCH for updates.' }),
         { 
           status: 405, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
