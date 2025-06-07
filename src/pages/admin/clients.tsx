@@ -9,14 +9,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Edit, Trash2, Plus, Search } from "lucide-react";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -26,12 +18,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { ClientFormDialog } from "@/components/admin/clients/ClientFormDialog";
 
 export default function AdminClients() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedClient, setSelectedClient] = useState<any>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [clientToDelete, setClientToDelete] = useState<any>(null);
+  const [formDialogOpen, setFormDialogOpen] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -94,6 +88,16 @@ export default function AdminClients() {
     }
   };
 
+  const handleEdit = (client: any) => {
+    setSelectedClient(client);
+    setFormDialogOpen(true);
+  };
+
+  const handleNewClient = () => {
+    setSelectedClient(null);
+    setFormDialogOpen(true);
+  };
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('pt-BR');
   };
@@ -140,7 +144,7 @@ export default function AdminClients() {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setSelectedClient(client)}
+            onClick={() => handleEdit(client)}
           >
             <Edit className="h-4 w-4" />
           </Button>
@@ -164,7 +168,7 @@ export default function AdminClients() {
           title="Gestão de Clientes"
           subtitle="Gerencie todos os clientes do sistema"
           actions={
-            <Button>
+            <Button onClick={handleNewClient}>
               <Plus className="h-4 w-4 mr-2" />
               Novo Cliente
             </Button>
@@ -190,6 +194,13 @@ export default function AdminClients() {
           data={clients || []}
           loading={isLoading}
           emptyMessage="Nenhum cliente encontrado"
+        />
+
+        {/* Dialog de Formulário */}
+        <ClientFormDialog
+          open={formDialogOpen}
+          onOpenChange={setFormDialogOpen}
+          client={selectedClient}
         />
 
         {/* Dialog de Confirmação de Exclusão */}
