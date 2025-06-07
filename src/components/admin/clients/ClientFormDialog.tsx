@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -150,6 +149,15 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
 
           console.log('User created successfully, updating profile with ID:', userData.user.id);
 
+          // Restaurar a sessão do admin IMEDIATAMENTE após criar o usuário
+          if (adminSession?.access_token) {
+            console.log('Restoring admin session immediately...');
+            await supabase.auth.setSession({
+              access_token: adminSession.access_token,
+              refresh_token: adminSession.refresh_token
+            });
+          }
+
           // Atualizar o perfil com os dados completos
           const { error: profileError } = await supabase
             .from('profiles')
@@ -179,22 +187,11 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
             throw new Error(`Erro ao atualizar perfil: ${profileError.message}`);
           }
 
-          // Restaurar a sessão do admin se necessário
-          const { data: newSession } = await supabase.auth.getSession();
-          if (!newSession.session || newSession.session.user.id !== adminSession?.user.id) {
-            console.log('Restoring admin session...');
-            if (adminSession?.access_token) {
-              await supabase.auth.setSession({
-                access_token: adminSession.access_token,
-                refresh_token: adminSession.refresh_token
-              });
-            }
-          }
-
           console.log('Profile updated successfully');
         } catch (error) {
-          // Em caso de erro, tentar restaurar a sessão do admin
+          // Em caso de erro, garantir que a sessão do admin seja restaurada
           if (adminSession?.access_token) {
+            console.log('Restoring admin session due to error...');
             await supabase.auth.setSession({
               access_token: adminSession.access_token,
               refresh_token: adminSession.refresh_token
