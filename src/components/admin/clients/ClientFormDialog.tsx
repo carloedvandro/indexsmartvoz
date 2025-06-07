@@ -135,34 +135,43 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
       if (client?.id) {
         // Atualizar cliente existente
         console.log('Updating existing client:', client.id);
-        const { error } = await supabase
+        
+        // Preparar dados para atualização (remover campos que não devem ser atualizados)
+        const updateData = {
+          full_name: data.full_name,
+          cpf: data.cpf,
+          phone: data.phone,
+          mobile: data.mobile,
+          birth_date: data.birth_date || null,
+          person_type: data.person_type,
+          document_id: data.document_id,
+          cnpj: data.cnpj || null,
+          address: data.address,
+          city: data.city,
+          state: data.state,
+          country: data.country,
+          zip_code: data.zip_code,
+          gender: data.gender,
+          civil_status: data.civil_status,
+          status: data.status,
+          updated_at: new Date().toISOString()
+        };
+
+        console.log('Update data being sent:', updateData);
+
+        const { data: updateResult, error } = await supabase
           .from('profiles')
-          .update({
-            full_name: data.full_name,
-            cpf: data.cpf,
-            phone: data.phone,
-            mobile: data.mobile,
-            birth_date: data.birth_date || null,
-            person_type: data.person_type,
-            document_id: data.document_id,
-            cnpj: data.cnpj || null,
-            address: data.address,
-            city: data.city,
-            state: data.state,
-            country: data.country,
-            zip_code: data.zip_code,
-            gender: data.gender,
-            civil_status: data.civil_status,
-            status: data.status
-          })
-          .eq('id', client.id);
+          .update(updateData)
+          .eq('id', client.id)
+          .select();
           
         if (error) {
           console.error('Error updating client:', error);
           throw error;
         }
 
-        console.log('Client updated successfully');
+        console.log('Client updated successfully:', updateResult);
+        return updateResult;
       } else {
         // Criar novo cliente usando Edge Function
         console.log('Creating new client via Edge Function...');
@@ -200,6 +209,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
         }
 
         console.log('Client created successfully via Edge Function:', result);
+        return result;
       }
     },
     onSuccess: () => {
