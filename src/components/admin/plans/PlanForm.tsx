@@ -70,7 +70,7 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
     onSubmit(formData);
   };
 
-  const handleAddCashback = (cashbackData: any) => {
+  const handleCashbackSubmit = (cashbackData: any) => {
     if (editingCashback) {
       setCashbackLevels(prev => 
         prev.map(item => item.id === editingCashback.id ? { ...cashbackData, id: item.id } : item)
@@ -91,7 +91,7 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
     setCashbackLevels(prev => prev.filter(item => item.id !== id));
   };
 
-  const handleAddBenefit = (benefitData: any) => {
+  const handleBenefitSubmit = (benefitData: any) => {
     if (editingBenefit) {
       setBenefits(prev => 
         prev.map(item => item.id === editingBenefit.id ? { ...benefitData, id: item.id } : item)
@@ -251,7 +251,7 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
       <CashbackModal
         open={cashbackModalOpen}
         onOpenChange={setCashbackModalOpen}
-        onSubmit={handleAddCashback}
+        onSubmit={handleCashbackSubmit}
         initialData={editingCashback}
         existingLevels={cashbackLevels.map(c => c.level)}
       />
@@ -259,7 +259,7 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
       <BenefitsModal
         open={benefitsModalOpen}
         onOpenChange={setBenefitsModalOpen}
-        onSubmit={handleAddBenefit}
+        onSubmit={handleBenefitSubmit}
         initialData={editingBenefit}
       />
     </form>
