@@ -4,16 +4,19 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
 interface BenefitsModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit: (data: any) => void;
   initialData?: any;
 }
+
 interface BenefitFormData {
   benefit_title: string;
   display_order: number;
 }
+
 export function BenefitsModal({
   open,
   onOpenChange,
@@ -28,6 +31,7 @@ export function BenefitsModal({
       errors
     }
   } = useForm<BenefitFormData>();
+
   useEffect(() => {
     if (open) {
       if (initialData) {
@@ -43,10 +47,13 @@ export function BenefitsModal({
       }
     }
   }, [open, initialData, reset]);
+
   const handleFormSubmit = (data: BenefitFormData) => {
     onSubmit(data);
   };
-  return <Dialog open={open} onOpenChange={onOpenChange}>
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
@@ -82,11 +89,12 @@ export function BenefitsModal({
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Cancelar
             </Button>
-            <Button type="submit" className="">
+            <Button type="button" onClick={handleSubmit(handleFormSubmit)}>
               {initialData ? 'Atualizar' : 'Adicionar'}
             </Button>
           </div>
         </form>
       </DialogContent>
-    </Dialog>;
+    </Dialog>
+  );
 }
