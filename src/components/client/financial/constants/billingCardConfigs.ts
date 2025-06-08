@@ -3,29 +3,29 @@ export const billingCardConfigs = {
   received: {
     title: "Recebidas",
     barColors: {
-      primary: "bg-green-500", // Tom mais escuro para Pix
-      secondary: "bg-green-300" // Tom mais claro para Boleto
+      primary: "bg-[#00cc02]",
+      secondary: "bg-[#00cc02]/60"
     }
   },
   confirmed: {
-    title: "Confirmadas", 
+    title: "Confirmadas",
     barColors: {
-      primary: "bg-blue-600", // Tom mais escuro para Pix
-      secondary: "bg-blue-300" // Tom mais claro para Boleto
+      primary: "bg-[#3498db]",
+      secondary: "bg-[#3498db]/60"
     }
   },
   awaiting: {
     title: "Aguardando pagamento",
     barColors: {
-      primary: "bg-orange-600", // Tom mais escuro para Pix
-      secondary: "bg-orange-300" // Tom mais claro para Boleto
+      primary: "bg-[#f39c12]",
+      secondary: "bg-[#f39c12]/60"
     }
   },
   overdue: {
     title: "Vencidas",
     barColors: {
-      primary: "bg-red-600", // Tom mais escuro para Pix
-      secondary: "bg-red-300" // Tom mais claro para Boleto
+      primary: "bg-[#e74c3c]",
+      secondary: "bg-[#e74c3c]/60"
     }
   }
 };

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -30,8 +29,8 @@ export function useBillingData() {
       liquid: 3669.65,
       clients: 19,
       bills: 21,
-      color: "text-[#27ae60]",
-      progressColor: "bg-[#27ae60]",
+      color: "text-[#00cc02]",
+      progressColor: "bg-[#00cc02]",
       tooltip: "Cobranças recebidas dentro do período.",
       clientsData: []
     },

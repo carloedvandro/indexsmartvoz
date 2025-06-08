@@ -55,7 +55,7 @@ export function BillingStatusCard({
 
   const getIconColor = () => {
     switch (cardType) {
-      case 'received': return 'text-[#27ae60]';
+      case 'received': return 'text-[#00cc02]';
       case 'confirmed': return 'text-[#3498db]';
       case 'awaiting': return 'text-[#f39c12]';
       case 'overdue': return 'text-[#e74c3c]';
