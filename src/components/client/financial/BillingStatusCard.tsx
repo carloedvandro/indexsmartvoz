@@ -63,6 +63,9 @@ export function BillingStatusCard({
     }
   };
 
+  // Para os três cards específicos, usar cor única
+  const shouldUseUniqueColor = cardType === 'confirmed' || cardType === 'awaiting' || cardType === 'overdue';
+
   const handlePixHover = (event: React.MouseEvent, enter: boolean) => {
     if (enter) {
       setHoveredSection('pix');
@@ -113,25 +116,41 @@ export function BillingStatusCard({
       </p>
 
       <div className="w-full h-4 bg-gray-200 rounded-md flex relative">
-        <div
-          className={`${barColors.primary} h-full rounded-l-md transition-all duration-300 transform ${
-            hoveredSection === 'pix' ? 'scale-y-125' : ''
-          } origin-center z-10 cursor-pointer relative`}
-          style={{ width: `${percentualA}%` }}
-          title={`Pix: ${formatCurrencyBR(amountA)}`}
-          onMouseEnter={(e) => handlePixHover(e, true)}
-          onMouseLeave={(e) => handlePixHover(e, false)}
-        />
+        {shouldUseUniqueColor ? (
+          // Barra única para confirmed, awaiting e overdue
+          <div
+            className={`${barColors.primary} h-full rounded-md transition-all duration-300 transform ${
+              hoveredSection ? 'scale-y-125' : ''
+            } origin-center z-10 cursor-pointer relative`}
+            style={{ width: '100%' }}
+            title={`Total: ${formatCurrencyBR(total)}`}
+            onMouseEnter={(e) => handlePixHover(e, true)}
+            onMouseLeave={(e) => handlePixHover(e, false)}
+          />
+        ) : (
+          // Barras duplas para received
+          <>
+            <div
+              className={`${barColors.primary} h-full rounded-l-md transition-all duration-300 transform ${
+                hoveredSection === 'pix' ? 'scale-y-125' : ''
+              } origin-center z-10 cursor-pointer relative`}
+              style={{ width: `${percentualA}%` }}
+              title={`Pix: ${formatCurrencyBR(amountA)}`}
+              onMouseEnter={(e) => handlePixHover(e, true)}
+              onMouseLeave={(e) => handlePixHover(e, false)}
+            />
 
-        <div
-          className={`${barColors.secondary} h-full rounded-r-md transition-all duration-300 transform ${
-            hoveredSection === 'boleto' ? 'scale-y-125' : ''
-          } origin-center z-10 cursor-pointer relative`}
-          style={{ width: `${percentualB}%` }}
-          title={`Boleto: ${formatCurrencyBR(amountB)}`}
-          onMouseEnter={(e) => handleBoletoHover(e, true)}
-          onMouseLeave={(e) => handleBoletoHover(e, false)}
-        />
+            <div
+              className={`${barColors.secondary} h-full rounded-r-md transition-all duration-300 transform ${
+                hoveredSection === 'boleto' ? 'scale-y-125' : ''
+              } origin-center z-10 cursor-pointer relative`}
+              style={{ width: `${percentualB}%` }}
+              title={`Boleto: ${formatCurrencyBR(amountB)}`}
+              onMouseEnter={(e) => handleBoletoHover(e, true)}
+              onMouseLeave={(e) => handleBoletoHover(e, false)}
+            />
+          </>
+        )}
       </div>
 
       <div className="flex flex-col gap-3">
