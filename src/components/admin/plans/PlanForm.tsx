@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -12,26 +13,19 @@ import { CashbackList } from "./plan-form/CashbackList";
 import { BenefitsList } from "./plan-form/BenefitsList";
 import { CashbackModal } from "./plan-form/CashbackModal";
 import { BenefitsModal } from "./plan-form/BenefitsModal";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface PlanFormData {
   title: string;
   description: string;
   value: number;
   status: string;
-  cashbackLevels: {
-    level: number;
-    percentage: number;
-    description: string;
-  }[];
-  benefits: {
-    benefit_title: string;
-    display_order: number;
-  }[];
 }
 
 interface PlanFormProps {
   initialData?: any;
-  onSubmit: (data: PlanFormData) => void;
+  onSubmit: (data: any) => void;
   onCancel: () => void;
   isLoading?: boolean;
 }
@@ -47,6 +41,8 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
   const [benefitsModalOpen, setBenefitsModalOpen] = useState(false);
   const [editingCashback, setEditingCashback] = useState<any>(null);
   const [editingBenefit, setEditingBenefit] = useState<any>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const { toast } = useToast();
 
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<PlanFormData>({
     defaultValues: {
@@ -54,18 +50,117 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
       description: initialData?.description || '',
       value: initialData?.value || 0,
       status: initialData?.status || 'active',
-      cashbackLevels: [],
-      benefits: []
     }
   });
 
-  const handleFormSubmit = (data: PlanFormData) => {
-    const formData = {
-      ...data,
-      cashbackLevels,
-      benefits
-    };
-    onSubmit(formData);
+  const handleFormSubmit = async (data: PlanFormData) => {
+    try {
+      setSubmitting(true);
+      
+      let planId = initialData?.id;
+      
+      // Salvar/atualizar o plano principal
+      if (initialData?.id) {
+        // Atualizar plano existente
+        const { error: planError } = await supabase
+          .from('plans')
+          .update({
+            title: data.title,
+            description: data.description,
+            value: data.value,
+            status: data.status,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', initialData.id);
+
+        if (planError) throw planError;
+      } else {
+        // Criar novo plano
+        const { data: planData, error: planError } = await supabase
+          .from('plans')
+          .insert({
+            title: data.title,
+            description: data.description,
+            value: data.value,
+            status: data.status
+          })
+          .select()
+          .single();
+
+        if (planError) throw planError;
+        planId = planData.id;
+      }
+
+      // Deletar cashback levels existentes se estiver editando
+      if (initialData?.id) {
+        await supabase
+          .from('plan_cashback_levels')
+          .delete()
+          .eq('plan_id', planId);
+      }
+
+      // Inserir novos cashback levels
+      if (cashbackLevels.length > 0) {
+        const cashbackData = cashbackLevels.map(level => ({
+          plan_id: planId,
+          level: level.level,
+          percentage: level.percentage / 100, // Converter para decimal
+          description: level.description || null
+        }));
+
+        const { error: cashbackError } = await supabase
+          .from('plan_cashback_levels')
+          .insert(cashbackData);
+
+        if (cashbackError) throw cashbackError;
+      }
+
+      // Deletar benefits existentes se estiver editando
+      if (initialData?.id) {
+        await supabase
+          .from('plan_benefits')
+          .delete()
+          .eq('plan_id', planId);
+      }
+
+      // Inserir novos benefits
+      if (benefits.length > 0) {
+        const benefitsData = benefits.map(benefit => ({
+          plan_id: planId,
+          benefit_title: benefit.benefit_title,
+          display_order: benefit.display_order
+        }));
+
+        const { error: benefitsError } = await supabase
+          .from('plan_benefits')
+          .insert(benefitsData);
+
+        if (benefitsError) throw benefitsError;
+      }
+
+      toast({
+        title: "Sucesso",
+        description: initialData ? "Plano atualizado com sucesso!" : "Plano criado com sucesso!",
+      });
+
+      // Chamar o callback de sucesso
+      onSubmit({
+        ...data,
+        id: planId,
+        cashbackLevels,
+        benefits
+      });
+
+    } catch (error) {
+      console.error('Erro ao salvar plano:', error);
+      toast({
+        title: "Erro",
+        description: "Erro ao salvar plano. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleCashbackSubmit = (cashbackData: any) => {
@@ -240,8 +335,8 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
         <Button type="button" variant="outline" onClick={onCancel}>
           Cancelar
         </Button>
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? "Salvando..." : "Salvar"}
+        <Button type="submit" disabled={isLoading || submitting}>
+          {submitting ? "Salvando..." : "Salvar"}
         </Button>
       </div>
 
@@ -251,7 +346,7 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
         onOpenChange={setCashbackModalOpen}
         onSubmit={handleCashbackSubmit}
         initialData={editingCashback}
-        existingLevels={cashbackLevels.map(c => c.level)}
+        existingLevels={cashbackLevels.filter(c => c.id !== editingCashback?.id).map(c => c.level)}
       />
 
       <BenefitsModal

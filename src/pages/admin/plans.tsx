@@ -56,7 +56,12 @@ export default function AdminPlans() {
       }
 
       const { data, error } = await query;
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching plans:', error);
+        throw error;
+      }
+      
+      console.log('Plans fetched:', data);
       return data || [];
     }
   });
@@ -64,6 +69,23 @@ export default function AdminPlans() {
   // Mutation para deletar plano
   const deleteMutation = useMutation({
     mutationFn: async (planId: string) => {
+      // Deletar cashback levels
+      const { error: cashbackError } = await supabase
+        .from('plan_cashback_levels')
+        .delete()
+        .eq('plan_id', planId);
+      
+      if (cashbackError) throw cashbackError;
+
+      // Deletar benefits
+      const { error: benefitsError } = await supabase
+        .from('plan_benefits')
+        .delete()
+        .eq('plan_id', planId);
+      
+      if (benefitsError) throw benefitsError;
+
+      // Deletar plano
       const { error } = await supabase
         .from('plans')
         .delete()
@@ -79,6 +101,7 @@ export default function AdminPlans() {
       });
     },
     onError: (error) => {
+      console.error('Error deleting plan:', error);
       toast({
         title: "Erro",
         description: "Erro ao remover plano.",
@@ -88,6 +111,7 @@ export default function AdminPlans() {
   });
 
   const handleEdit = (plan: any) => {
+    console.log('Editing plan:', plan);
     setSelectedPlan(plan);
     setEditDialogOpen(true);
   };
@@ -117,15 +141,10 @@ export default function AdminPlans() {
     }).format(value);
   };
 
-  const handleFormSuccess = (data: any) => {
-    console.log('Plan form success:', data);
+  const handleFormSuccess = () => {
     setEditDialogOpen(false);
     setSelectedPlan(null);
     queryClient.invalidateQueries({ queryKey: ['admin-plans'] });
-    toast({
-      title: "Sucesso",
-      description: selectedPlan ? "Plano atualizado com sucesso." : "Plano criado com sucesso.",
-    });
   };
 
   const columns = [
