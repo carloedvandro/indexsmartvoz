@@ -14,7 +14,7 @@ export function BillingStatusCardsGrid({
   onProgressBarHover 
 }: BillingStatusCardsGridProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-[10px]">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-[13px]">
       {Object.entries(billingCardConfigs).map(([key, config]) => {
         const statusData = billingStatus[key as keyof typeof billingStatus];
         return (
