@@ -1,4 +1,5 @@
 
+
 export const billingCardConfigs = {
   received: {
     title: "Recebidas",
@@ -10,14 +11,14 @@ export const billingCardConfigs = {
   confirmed: {
     title: "Confirmadas",
     barColors: {
-      primary: "bg-[#ff0000]",
+      primary: "bg-[#3498db]",
       secondary: "bg-blue-200"
     }
   },
   awaiting: {
     title: "Aguardando pagamento",
     barColors: {
-      primary: "bg-[#ff0000]",
+      primary: "bg-[#f39c12]",
       secondary: "bg-orange-200"
     }
   },
@@ -29,3 +30,4 @@ export const billingCardConfigs = {
     }
   }
 };
+
