@@ -71,7 +71,7 @@ export function PlanDetailsDialog({ plan, open, onOpenChange }: PlanDetailsDialo
                   <div key={level.id} className="border rounded-lg p-4">
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-medium">Nível {level.level}</span>
-                      <span className="font-bold text-green-600">{level.percentage}%</span>
+                      <span className="font-bold text-green-600">{(level.percentage * 100).toFixed(2)}%</span>
                     </div>
                     {level.description && (
                       <p className="text-sm text-gray-600">{level.description}</p>
@@ -87,14 +87,16 @@ export function PlanDetailsDialog({ plan, open, onOpenChange }: PlanDetailsDialo
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">Benefícios</h3>
               <div className="space-y-3">
-                {plan.benefits.map((benefit: any) => (
-                  <div key={benefit.id} className="border rounded-lg p-4">
-                    <h4 className="font-medium mb-2">{benefit.benefit_title}</h4>
-                    {benefit.benefit_description && (
-                      <p className="text-sm text-gray-600">{benefit.benefit_description}</p>
-                    )}
-                  </div>
-                ))}
+                {plan.benefits
+                  .sort((a: any, b: any) => a.display_order - b.display_order)
+                  .map((benefit: any) => (
+                    <div key={benefit.id} className="border rounded-lg p-4">
+                      <h4 className="font-medium">{benefit.benefit_title}</h4>
+                      {benefit.benefit_description && (
+                        <p className="text-sm text-gray-600 mt-1">{benefit.benefit_description}</p>
+                      )}
+                    </div>
+                  ))}
               </div>
             </div>
           )}
