@@ -136,7 +136,7 @@ export function BillingStatusCard({
 
       <div className="flex flex-col gap-3">
         <div
-          className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
+          className="flex items-center text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors mt-1"
           onClick={onClientsClick}
         >
           <User size={16} className={`mr-2 ${getIconColor()}`} />
