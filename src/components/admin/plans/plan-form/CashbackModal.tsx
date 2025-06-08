@@ -126,7 +126,7 @@ export function CashbackModal({
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Cancelar
             </Button>
-            <Button type="submit">
+            <Button type="button" onClick={handleSubmit(handleFormSubmit)}>
               {initialData ? 'Atualizar' : 'Adicionar'}
             </Button>
           </div>
