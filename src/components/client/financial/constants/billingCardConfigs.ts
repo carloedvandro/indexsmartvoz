@@ -17,7 +17,7 @@ export const billingCardConfigs = {
   awaiting: {
     title: "Aguardando pagamento",
     barColors: {
-      primary: "bg-[#f39c12]",
+      primary: "bg-[#ff7300]",
       secondary: "bg-orange-200"
     }
   },

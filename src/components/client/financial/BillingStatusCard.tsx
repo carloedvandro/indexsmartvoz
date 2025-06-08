@@ -57,7 +57,7 @@ export function BillingStatusCard({
     switch (cardType) {
       case 'received': return 'text-[#00cc02]';
       case 'confirmed': return 'text-[#0038ff]';
-      case 'awaiting': return 'text-[#f39c12]';
+      case 'awaiting': return 'text-[#ff7300]';
       case 'overdue': return 'text-[#ff0000]';
       default: return 'text-gray-500';
     }
