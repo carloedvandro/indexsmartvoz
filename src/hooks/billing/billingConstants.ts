@@ -1,0 +1,45 @@
+
+import { BillingStatusMap } from './types';
+
+export const INITIAL_BILLING_STATUS: BillingStatusMap = {
+  received: {
+    amount: 3711.44,
+    liquid: 3669.65,
+    clients: 19,
+    bills: 21,
+    color: "text-[#00cc02]",
+    progressColor: "bg-[#00cc02]",
+    tooltip: "Cobranças recebidas dentro do período.",
+    clientsData: []
+  },
+  confirmed: {
+    amount: 179.99,
+    liquid: 178.00,
+    clients: 1,
+    bills: 1,
+    color: "text-[#3498db]",
+    progressColor: "bg-[#3498db]/30 bg-stripe",
+    tooltip: "Cobranças recebidas dentro do período, mas que estão aguardando o repasse.",
+    clientsData: []
+  },
+  awaiting: {
+    amount: 9739.12,
+    liquid: 9579.95,
+    clients: 52,
+    bills: 53,
+    color: "text-[#f39c12]",
+    progressColor: "bg-[#f39c12]/30 bg-stripe",
+    tooltip: "Cobranças previstas para recebimento dentro do período.",
+    clientsData: []
+  },
+  overdue: {
+    amount: 0.00,
+    liquid: 0.00,
+    clients: 0,
+    bills: 0,
+    color: "text-[#e74c3c]",
+    progressColor: "bg-[#e74c3c]",
+    tooltip: "Cobranças vencidas dentro do período e que não foram pagas.",
+    clientsData: []
+  }
+};
