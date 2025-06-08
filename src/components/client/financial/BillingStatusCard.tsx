@@ -112,9 +112,9 @@ export function BillingStatusCard({
         {formatCurrencyBR(liquid)} líquido
       </p>
 
-      <div className="w-full h-4 bg-gray-200 rounded-full flex relative">
+      <div className="w-full h-4 bg-gray-200 rounded-md flex relative">
         <div
-          className={`${barColors.primary} h-full rounded-l-full transition-all duration-300 transform ${
+          className={`${barColors.primary} h-full rounded-l-md transition-all duration-300 transform ${
             hoveredSection === 'pix' ? 'scale-y-125' : ''
           } origin-center z-10 cursor-pointer relative`}
           style={{ width: `${percentualA}%` }}
@@ -124,7 +124,7 @@ export function BillingStatusCard({
         />
 
         <div
-          className={`${barColors.secondary} h-full rounded-r-full transition-all duration-300 transform ${
+          className={`${barColors.secondary} h-full rounded-r-md transition-all duration-300 transform ${
             hoveredSection === 'boleto' ? 'scale-y-125' : ''
           } origin-center z-10 cursor-pointer relative`}
           style={{ width: `${percentualB}%` }}
