@@ -1,5 +1,5 @@
 
-import { Info, User, FileText } from "lucide-react";
+import { Info, User } from "lucide-react";
 import { useState } from "react";
 import {
   Popover,
@@ -32,10 +32,8 @@ export function BillingStatusCard({
   amountB,
   liquid,
   clients,
-  bills,
   color,
   tooltip,
-  clientsData,
   onClientsClick,
   onProgressBarHover,
   barColors,
@@ -143,11 +141,6 @@ export function BillingStatusCard({
         >
           <User size={16} className={`mr-2 ${getIconColor()}`} />
           <span>{clients} {clients === 1 ? 'cliente' : 'clientes'}</span>
-          <span className={`ml-auto ${getIconColor()}`}>&#8250;</span>
-        </div>
-        <div className="flex items-center text-sm text-gray-700 p-2">
-          <FileText size={16} className={`mr-2 ${getIconColor()}`} />
-          <span>{bills} {bills === 1 ? 'cobrança' : 'cobranças'}</span>
           <span className={`ml-auto ${getIconColor()}`}>&#8250;</span>
         </div>
       </div>
