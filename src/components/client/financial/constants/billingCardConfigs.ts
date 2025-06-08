@@ -10,21 +10,21 @@ export const billingCardConfigs = {
   confirmed: {
     title: "Confirmadas",
     barColors: {
-      primary: "bg-[#3498db]",
+      primary: "bg-[#ff0000]",
       secondary: "bg-blue-200"
     }
   },
   awaiting: {
     title: "Aguardando pagamento",
     barColors: {
-      primary: "bg-[#f39c12]",
+      primary: "bg-[#ff0000]",
       secondary: "bg-orange-200"
     }
   },
   overdue: {
     title: "Vencidas",
     barColors: {
-      primary: "bg-[#e74c3c]",
+      primary: "bg-[#ff0000]",
       secondary: "bg-red-200"
     }
   }
