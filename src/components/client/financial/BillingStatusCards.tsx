@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { ClientsModal } from "./ClientsModal";
 import { useBillingData } from "@/hooks/useBillingData";
@@ -181,8 +180,10 @@ export function BillingStatusCards() {
               amountB={statusData.amount + 5}
               liquid={statusData.liquid}
               clients={statusData.clients}
+              bills={statusData.bills}
               color={statusData.color}
               tooltip={statusData.tooltip}
+              clientsData={statusData.clientsData}
               onClientsClick={() => handleClientsClick(key)}
               onProgressBarHover={handleProgressBarHover}
               barColors={config.barColors}
