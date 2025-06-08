@@ -4,28 +4,28 @@ export const billingCardConfigs = {
     title: "Recebidas",
     barColors: {
       primary: "bg-[#00cc02]",
-      secondary: "bg-[#00cc02]/60"
+      secondary: "bg-green-200"
     }
   },
   confirmed: {
     title: "Confirmadas",
     barColors: {
       primary: "bg-[#3498db]",
-      secondary: "bg-[#3498db]/60"
+      secondary: "bg-blue-200"
     }
   },
   awaiting: {
     title: "Aguardando pagamento",
     barColors: {
       primary: "bg-[#f39c12]",
-      secondary: "bg-[#f39c12]/60"
+      secondary: "bg-orange-200"
     }
   },
   overdue: {
     title: "Vencidas",
     barColors: {
       primary: "bg-[#e74c3c]",
-      secondary: "bg-[#e74c3c]/60"
+      secondary: "bg-red-200"
     }
   }
 };
