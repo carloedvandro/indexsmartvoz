@@ -63,6 +63,16 @@ export function BillingStatusCard({
     }
   };
 
+  const getSecondBarColor = () => {
+    switch (cardType) {
+      case 'received': return 'bg-green-200'; // Mantém verde claro para received
+      case 'confirmed': return 'bg-blue-200'; // Azul claro para confirmed
+      case 'awaiting': return 'bg-orange-200'; // Laranja claro para awaiting
+      case 'overdue': return 'bg-red-200'; // Vermelho claro para overdue
+      default: return 'bg-gray-200';
+    }
+  };
+
   const handlePixHover = (event: React.MouseEvent, enter: boolean) => {
     if (enter) {
       setHoveredSection('pix');
@@ -124,7 +134,7 @@ export function BillingStatusCard({
         />
 
         <div
-          className={`bg-green-200 h-full rounded-r-md transition-all duration-300 transform ${
+          className={`${getSecondBarColor()} h-full rounded-r-md transition-all duration-300 transform ${
             hoveredSection === 'boleto' ? 'scale-y-125' : ''
           } origin-center z-10 cursor-pointer relative`}
           style={{ width: `${percentualB}%` }}
