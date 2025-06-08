@@ -124,7 +124,7 @@ export function BillingStatusCard({
         />
 
         <div
-          className={`bg-gray-300 h-full rounded-r-md transition-all duration-300 transform ${
+          className={`bg-green-200 h-full rounded-r-md transition-all duration-300 transform ${
             hoveredSection === 'boleto' ? 'scale-y-125' : ''
           } origin-center z-10 cursor-pointer relative`}
           style={{ width: `${percentualB}%` }}
