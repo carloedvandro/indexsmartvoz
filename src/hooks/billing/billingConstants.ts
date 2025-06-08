@@ -17,8 +17,8 @@ export const INITIAL_BILLING_STATUS: BillingStatusMap = {
     liquid: 178.00,
     clients: 1,
     bills: 1,
-    color: "text-[#3498db]",
-    progressColor: "bg-[#3498db]/30 bg-stripe",
+    color: "text-[#0038ff]",
+    progressColor: "bg-[#0038ff]/30 bg-stripe",
     tooltip: "Cobranças recebidas dentro do período, mas que estão aguardando o repasse.",
     clientsData: []
   },
