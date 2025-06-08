@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { ClientsModal } from "./ClientsModal";
 import { useBillingData } from "@/hooks/useBillingData";
@@ -169,7 +170,7 @@ export function BillingStatusCards() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-[5px]">
         {Object.entries(cardConfigs).map(([key, config]) => {
           const statusData = billingStatus[key as keyof typeof billingStatus];
           return (
@@ -180,10 +181,8 @@ export function BillingStatusCards() {
               amountB={statusData.amount + 5}
               liquid={statusData.liquid}
               clients={statusData.clients}
-              bills={statusData.bills}
               color={statusData.color}
               tooltip={statusData.tooltip}
-              clientsData={statusData.clientsData}
               onClientsClick={() => handleClientsClick(key)}
               onProgressBarHover={handleProgressBarHover}
               barColors={config.barColors}
