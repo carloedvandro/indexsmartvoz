@@ -37,8 +37,8 @@ export const INITIAL_BILLING_STATUS: BillingStatusMap = {
     liquid: 0.00,
     clients: 0,
     bills: 0,
-    color: "text-[#e74c3c]",
-    progressColor: "bg-[#e74c3c]",
+    color: "text-[#ff0000]",
+    progressColor: "bg-[#ff0000]",
     tooltip: "Cobranças vencidas dentro do período e que não foram pagas.",
     clientsData: []
   }
