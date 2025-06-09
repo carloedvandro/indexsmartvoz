@@ -14,8 +14,8 @@ export default function LoginPage() {
         backgroundImage: `url('/lovable-uploads/b6480653-8f83-475f-b223-5d6eb20d1183.png')`
       }}
     >
-      {/* Formulário de Login centralizado sem fundo */}
-      <div className="relative z-10 w-full max-w-[400px] mx-4">
+      {/* Formulário de Login centralizado sem fundo movido 40px para esquerda */}
+      <div className="relative z-10 w-full max-w-[400px] mx-4" style={{ marginLeft: '-40px' }}>
         <motion.div 
           className="p-8"
           initial="hidden"
