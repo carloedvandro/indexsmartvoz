@@ -85,7 +85,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       variants={containerVariants}
     >
       <motion.div className="space-y-2" variants={itemVariants}>
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 w-80">
           <Label htmlFor="email" className="text-purple-400 text-base font-medium w-20 pl-3">Usuário</Label>
           <div className="relative flex-1">
             <Input
@@ -103,7 +103,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       </motion.div>
 
       <motion.div className="space-y-2" variants={itemVariants}>
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 w-80">
           <Label htmlFor="password" className="text-purple-400 text-base font-medium w-20 pl-3">Senha</Label>
           <div className="relative flex-1">
             <Input
