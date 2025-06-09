@@ -1,4 +1,5 @@
 
+
 import { LoginForm } from "@/components/client/login/LoginForm";
 import { RegisterLink } from "@/components/client/login/RegisterLink";
 import { containerVariants, itemVariants } from "@/utils/animations";
@@ -21,7 +22,7 @@ export default function LoginPage() {
       {/* Right side - Login Form */}
       <div className="w-full md:w-[42%] flex items-center justify-center bg-white">
         <motion.div 
-          className="w-full max-w-[420px] px-4 md:px-8"
+          className="w-full max-w-[490px] px-4 md:px-8"
           initial="hidden"
           animate="visible"
           variants={containerVariants}
@@ -34,3 +35,4 @@ export default function LoginPage() {
     </div>
   );
 }
+
