@@ -13,7 +13,7 @@ export default function LoginPage() {
       <div 
         className="hidden md:block w-[58%] bg-cover bg-center"
         style={{
-          backgroundImage: `url('/lovable-uploads/76b380a7-c91e-4b6f-b4c7-e4e68b6d9e3b.png')`
+          backgroundImage: `url('/lovable-uploads/2fa7f55a-90a6-4fab-beed-fbbe71ad2852.png')`
         }}
       />
       
