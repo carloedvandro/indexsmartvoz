@@ -10,14 +10,14 @@ export default function LoginPage() {
     <div className="min-h-screen w-full flex">
       {/* Left side - Image (hidden on mobile) */}
       <div 
-        className="hidden md:block w-[47%] bg-cover bg-center"
+        className="hidden md:block w-[50%] bg-cover bg-center"
         style={{
           backgroundImage: `url('/lovable-uploads/0519f4b4-05e8-498b-b3d5-47b36601bdbd.png?v=${Date.now()}')`
         }}
       />
       
       {/* Right side - Login Form */}
-      <div className="w-full md:w-[53%] flex items-center justify-center bg-white">
+      <div className="w-full md:w-[50%] flex items-center justify-center bg-white">
         <motion.div 
           className="w-full max-w-[350px] px-4 md:px-8 md:-ml-[20px]"
           initial="hidden"
