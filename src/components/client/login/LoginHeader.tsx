@@ -18,6 +18,10 @@ export function LoginHeader({ itemVariants }: LoginHeaderProps) {
       <p className="text-center text-gray-700 text-sm mt-3 px-2 leading-relaxed">
         Otimize o uso de Voz e Dados da sua empresa e potencialize seus negócios.
       </p>
+      <hr className="my-3 border-gray-300" />
+      <p className="text-center text-gray-700 text-sm px-2 leading-relaxed">
+        Otimize o uso de Voz e Dados da sua empresa e potencialize seus negócios.
+      </p>
     </div>
   );
 }
