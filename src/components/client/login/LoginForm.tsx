@@ -6,7 +6,8 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthError } from "@supabase/supabase-js";
-import { User, Lock, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { RainbowButton } from "@/components/ui/rainbow-button";
 import { motion } from "framer-motion";
 
 interface LoginFormProps {
@@ -80,78 +81,78 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
   return (
     <motion.form 
       onSubmit={handleSubmit} 
-      className="space-y-6 w-full"
+      className="space-y-6 -mt-17 w-full"
       variants={containerVariants}
     >
       <motion.div className="space-y-2" variants={itemVariants}>
-        <Label htmlFor="email" className="text-gray-700 font-medium">Email</Label>
-        <div className="relative">
-          <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+        <Label htmlFor="email">Email</Label>
+        <div className="relative rounded-md">
+          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-4 w-4" />
           <Input
             id="email"
             type="email"
-            placeholder="Digite seu email"
+            placeholder="seu@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="pl-12 h-12 border border-gray-300 rounded-lg focus:border-purple-500 focus:ring-purple-500"
+            className="pl-10 bg-white rounded-md h-9 text-black"
             required
           />
         </div>
       </motion.div>
 
       <motion.div className="space-y-2" variants={itemVariants}>
-        <Label htmlFor="password" className="text-gray-700 font-medium">Senha</Label>
-        <div className="relative">
-          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+        <Label htmlFor="password">Senha</Label>
+        <div className="relative rounded-md">
+          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#580180] h-4 w-4" />
           <Input
             id="password"
             type={showPassword ? "text" : "password"}
-            placeholder="Digite sua senha"
+            placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="pl-12 pr-12 h-12 border border-gray-300 rounded-lg focus:border-purple-500 focus:ring-purple-500"
+            className="pl-10 bg-white rounded-md h-9 text-black"
             required
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
           >
             {showPassword ? (
-              <EyeOff className="h-5 w-5" />
+              <EyeOff className="h-4 w-4 text-[#580180]" />
             ) : (
-              <Eye className="h-5 w-5" />
+              <Eye className="h-4 w-4 text-[#580180]" />
             )}
           </button>
         </div>
       </motion.div>
 
+      <motion.div className="text-center" variants={itemVariants}>
+        <Link
+          to="/client/reset-password"
+          className="text-sm text-black hover:text-gray-700 hover:underline"
+        >
+          Esqueceu sua senha?
+        </Link>
+      </motion.div>
+
       {error && (
         <motion.div 
-          className="text-red-500 text-sm bg-red-50 p-3 rounded-lg border border-red-200"
+          className="text-red-500 text-sm"
           variants={itemVariants}
         >
           {error}
         </motion.div>
       )}
 
-      <motion.div variants={itemVariants} className="space-y-4">
-        <button
+      <motion.div variants={itemVariants}>
+        <RainbowButton
           type="submit"
-          className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 disabled:opacity-50 shadow-lg"
+          className="w-full !bg-[#580180] hover:!bg-[#4a0668]"
           disabled={isLoading}
         >
           {isLoading ? "Entrando..." : "Entrar"}
-        </button>
-        
-        <div className="text-center">
-          <Link
-            to="/client/reset-password"
-            className="text-purple-600 hover:text-purple-700 text-sm font-medium hover:underline"
-          >
-            Esqueceu sua senha?
-          </Link>
-        </div>
+        </RainbowButton>
       </motion.div>
     </motion.form>
   );
