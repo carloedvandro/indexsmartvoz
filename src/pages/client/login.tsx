@@ -4,23 +4,32 @@ import { RegisterLink } from "@/components/client/login/RegisterLink";
 import { containerVariants, itemVariants } from "@/utils/animations";
 import { motion } from "framer-motion";
 import { LoginHeader } from "@/components/client/login/LoginHeader";
-import "@/styles/logo.css"; // Ensure the logo styles are imported
+import "@/styles/logo.css";
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen w-full">
-      <motion.div 
-        className="container flex items-center justify-center h-screen -mt-5"
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-      >
-        <div className="w-full max-w-[350px] ">
+    <div className="min-h-screen w-full flex">
+      {/* Left side - Image (hidden on mobile) */}
+      <div 
+        className="hidden md:block flex-1 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/lovable-uploads/009ec2b7-9187-440f-af27-34496b74d265.png')"
+        }}
+      />
+      
+      {/* Right side - Login Form */}
+      <div className="w-full md:w-[480px] flex items-center justify-center bg-white">
+        <motion.div 
+          className="w-full max-w-[350px] px-4 md:px-8 md:ml-[50px]"
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+        >
           <LoginHeader itemVariants={itemVariants} />
           <LoginForm containerVariants={containerVariants} itemVariants={itemVariants} />
-          <RegisterLink itemVariants={itemVariants}  />
-        </div>
-      </motion.div>
+          <RegisterLink itemVariants={itemVariants} />
+        </motion.div>
+      </div>
     </div>
   );
 }
