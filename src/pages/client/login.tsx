@@ -8,7 +8,15 @@ import "@/styles/logo.css";
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-purple-50 to-indigo-100 relative">
+    <div 
+      className="min-h-screen w-full flex items-center justify-center bg-cover bg-center relative"
+      style={{
+        backgroundImage: `url('/lovable-uploads/827f0d97-abea-4843-80fa-953571d9880f.png')`
+      }}
+    >
+      {/* Overlay para melhorar a legibilidade */}
+      <div className="absolute inset-0 bg-black/20"></div>
+      
       {/* Formulário de Login centralizado sem fundo movido 40px para esquerda */}
       <div className="relative z-10 w-full max-w-[400px] mx-4" style={{ marginLeft: '-40px' }}>
         <motion.div 
