@@ -19,9 +19,6 @@ export function LoginHeader({ itemVariants }: LoginHeaderProps) {
         Otimize o uso de Voz e Dados da sua empresa e potencialize seus negócios.
       </p>
       <hr className="my-3 border-gray-300" />
-      <p className="text-center text-gray-700 text-sm px-2 leading-relaxed">
-        Otimize o uso de Voz e Dados da sua empresa e potencialize seus negócios.
-      </p>
       <p className="text-center text-gray-700 text-sm mt-2 px-2 leading-relaxed">
         Serviço de controle e acompanhamento com a praticidade e segurança de que você precisa!
       </p>
