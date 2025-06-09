@@ -20,7 +20,7 @@ export default function LoginPage() {
       {/* Right side - Login Form */}
       <div className="w-full md:w-[480px] flex items-center justify-center bg-white">
         <motion.div 
-          className="w-full max-w-[350px] px-4 md:px-8 md:-ml-[10px]"
+          className="w-full max-w-[350px] px-4 md:px-8 md:-ml-[20px]"
           initial="hidden"
           animate="visible"
           variants={containerVariants}
