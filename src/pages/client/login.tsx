@@ -26,15 +26,15 @@ export default function LoginPage() {
           animate="visible"
           variants={containerVariants}
         >
-          {/* Header Section */}
-          <motion.div className="text-center space-y-4" variants={itemVariants}>
-            <h1 className="text-4xl font-bold text-purple-600">Vivo Gestão</h1>
-            <p className="text-lg text-gray-600">
-              Otimize o uso de Voz e Dados da sua empresa e potencialize seus negócios.
-            </p>
-            <p className="text-sm text-gray-500">
-              Serviço de controle e acompanhamento com a praticidade e segurança de que você precisa!
-            </p>
+          {/* Header Section with Logo */}
+          <motion.div className="text-center space-y-6" variants={itemVariants}>
+            <LoginHeader itemVariants={itemVariants} />
+            <div className="space-y-2">
+              <h2 className="text-2xl font-semibold text-gray-800">Bem-vindo de volta!</h2>
+              <p className="text-gray-600">
+                Faça login em sua conta para continuar
+              </p>
+            </div>
           </motion.div>
 
           {/* Login Form */}

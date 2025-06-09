@@ -13,16 +13,16 @@ export function RegisterLink({ itemVariants }: RegisterLinkProps) {
 
   return (
     <motion.div 
-      className="text-center text-sm border-t pt-6"
+      className="text-center text-sm border-t pt-6 mt-6"
       variants={itemVariants}
     >
       <div className="text-gray-600">
         <span>Não tem uma conta?</span>{" "}
         <Link 
           to={registerUrl} 
-          className="text-purple-600 hover:text-purple-700 font-medium hover:underline"
+          className="text-purple-600 hover:text-purple-700 font-medium hover:underline transition-colors"
         >
-          Criar nova conta
+          Criar conta gratuita
         </Link>
       </div>
     </motion.div>

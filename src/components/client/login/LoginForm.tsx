@@ -7,7 +7,6 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthError } from "@supabase/supabase-js";
 import { User, Lock, Eye, EyeOff } from "lucide-react";
-import { RainbowButton } from "@/components/ui/rainbow-button";
 import { motion } from "framer-motion";
 
 interface LoginFormProps {
@@ -85,32 +84,32 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       variants={containerVariants}
     >
       <motion.div className="space-y-2" variants={itemVariants}>
-        <Label htmlFor="email" className="text-gray-700">Usuário</Label>
+        <Label htmlFor="email" className="text-gray-700 font-medium">Email</Label>
         <div className="relative">
           <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
           <Input
             id="email"
             type="email"
-            placeholder=""
+            placeholder="Digite seu email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="pl-12 bg-white border-gray-300 rounded-lg h-12 text-gray-700 placeholder-gray-400"
+            className="pl-12 h-12 border border-gray-300 rounded-lg focus:border-purple-500 focus:ring-purple-500"
             required
           />
         </div>
       </motion.div>
 
       <motion.div className="space-y-2" variants={itemVariants}>
-        <Label htmlFor="password" className="text-gray-700">Senha</Label>
+        <Label htmlFor="password" className="text-gray-700 font-medium">Senha</Label>
         <div className="relative">
           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
           <Input
             id="password"
             type={showPassword ? "text" : "password"}
-            placeholder=""
+            placeholder="Digite sua senha"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="pl-12 pr-12 bg-white border-gray-300 rounded-lg h-12 text-gray-700"
+            className="pl-12 pr-12 h-12 border border-gray-300 rounded-lg focus:border-purple-500 focus:ring-purple-500"
             required
           />
           <button
@@ -129,7 +128,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
 
       {error && (
         <motion.div 
-          className="text-red-500 text-sm bg-red-50 p-3 rounded-lg"
+          className="text-red-500 text-sm bg-red-50 p-3 rounded-lg border border-red-200"
           variants={itemVariants}
         >
           {error}
@@ -139,7 +138,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       <motion.div variants={itemVariants} className="space-y-4">
         <button
           type="submit"
-          className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50"
+          className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 disabled:opacity-50 shadow-lg"
           disabled={isLoading}
         >
           {isLoading ? "Entrando..." : "Entrar"}
@@ -150,7 +149,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             to="/client/reset-password"
             className="text-purple-600 hover:text-purple-700 text-sm font-medium hover:underline"
           >
-            Esqueci Minha Senha
+            Esqueceu sua senha?
           </Link>
         </div>
       </motion.div>
