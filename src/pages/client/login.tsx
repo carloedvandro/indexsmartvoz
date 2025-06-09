@@ -14,13 +14,10 @@ export default function LoginPage() {
         backgroundImage: `url('/lovable-uploads/3b627119-36e4-4e0f-be85-fa9d400ab664.png')`
       }}
     >
-      {/* Overlay para melhorar legibilidade */}
-      <div className="absolute inset-0 bg-black/30"></div>
-      
-      {/* Formulário de Login centralizado */}
+      {/* Formulário de Login centralizado sem fundo */}
       <div className="relative z-10 w-full max-w-[400px] mx-4">
         <motion.div 
-          className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl"
+          className="p-8"
           initial="hidden"
           animate="visible"
           variants={containerVariants}
