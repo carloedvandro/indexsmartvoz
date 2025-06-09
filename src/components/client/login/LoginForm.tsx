@@ -81,13 +81,13 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
   return (
     <motion.form 
       onSubmit={handleSubmit} 
-      className="space-y-6 w-full max-w-[480px] mt-[68px] mx-auto pl-3"
+      className="space-y-6 w-full max-w-[400px] mt-[68px] mx-auto px-6"
       variants={containerVariants}
     >
-      <motion.div className="space-y-2" variants={itemVariants}>
-        <div className="flex items-center space-x-3 w-80">
-          <Label htmlFor="email" className="text-purple-400 text-base font-medium w-20 pl-3">Usuário</Label>
-          <div className="relative flex-1">
+      <motion.div className="space-y-4" variants={itemVariants}>
+        <div className="space-y-2">
+          <Label htmlFor="email" className="text-purple-400 text-base font-medium">Usuário</Label>
+          <div className="relative">
             <Input
               id="email"
               type="email"
@@ -102,10 +102,10 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
         </div>
       </motion.div>
 
-      <motion.div className="space-y-2" variants={itemVariants}>
-        <div className="flex items-center space-x-3 w-80">
-          <Label htmlFor="password" className="text-purple-400 text-base font-medium w-20 pl-3">Senha</Label>
-          <div className="relative flex-1">
+      <motion.div className="space-y-4" variants={itemVariants}>
+        <div className="space-y-2">
+          <Label htmlFor="password" className="text-purple-400 text-base font-medium">Senha</Label>
+          <div className="relative">
             <Input
               id="password"
               type={showPassword ? "text" : "password"}
@@ -141,7 +141,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
 
       {error && (
         <motion.div 
-          className="text-red-500 text-sm"
+          className="text-red-500 text-sm text-center"
           variants={itemVariants}
         >
           {error}
@@ -151,7 +151,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       <motion.div variants={itemVariants} className="flex justify-center">
         <RainbowButton
           type="submit"
-          className="w-80 h-12 text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 rounded-md font-medium transition-colors disabled:opacity-50"
+          className="w-full h-12 text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 rounded-md font-medium transition-colors disabled:opacity-50"
           disabled={isLoading}
         >
           {isLoading ? "Entrando..." : "Entrar"}
