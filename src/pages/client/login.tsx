@@ -7,6 +7,8 @@ import { LoginHeader } from "@/components/client/login/LoginHeader";
 import "@/styles/logo.css";
 
 export default function LoginPage() {
+  console.log("LoginPage rendering with max-w-[475px]");
+  
   return (
     <div className="min-h-screen w-full flex">
       {/* Left side - Image (hidden on mobile) */}
@@ -25,6 +27,7 @@ export default function LoginPage() {
           initial="hidden"
           animate="visible"
           variants={containerVariants}
+          style={{ border: "1px solid red" }}
         >
           <LoginHeader itemVariants={itemVariants} />
           <LoginForm containerVariants={containerVariants} itemVariants={itemVariants} />

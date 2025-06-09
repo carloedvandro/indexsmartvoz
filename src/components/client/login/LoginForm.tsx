@@ -15,6 +15,8 @@ interface LoginFormProps {
 }
 
 export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
+  console.log("LoginForm rendering with max-w-[475px]");
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -82,6 +84,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       onSubmit={handleSubmit} 
       className="space-y-6 w-full max-w-[475px] mt-2.5"
       variants={containerVariants}
+      style={{ border: "1px solid blue" }}
     >
       <motion.div className="space-y-2" variants={itemVariants}>
         <div className="flex items-center space-x-3">
