@@ -15,6 +15,9 @@ export function LoginHeader({ itemVariants }: LoginHeaderProps) {
         alt="Smartvoz Logo"
         className="h-[70px] object-contain mx-auto mix-blend-multiply opacity-90 contrast-125"
       />
+      <p className="text-center text-gray-700 text-sm mt-3 px-2 leading-relaxed">
+        Otimize o uso de Voz e Dados da sua empresa e potencialize seus negócios.
+      </p>
     </div>
   );
 }
