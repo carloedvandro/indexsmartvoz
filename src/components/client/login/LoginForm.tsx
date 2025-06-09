@@ -85,48 +85,44 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       variants={containerVariants}
     >
       <motion.div className="space-y-2" variants={itemVariants}>
-        <div className="flex items-center space-x-3">
-          <Label htmlFor="email" className="text-purple-400 text-base font-medium w-20">Usuário</Label>
-          <div className="relative flex-1">
-            <Input
-              id="email"
-              type="email"
-              placeholder=""
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black placeholder:text-transparent focus:border-purple-400"
-              required
-            />
-            <User className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
-          </div>
+        <Label htmlFor="email" className="text-purple-600 text-base font-medium block mb-2">Usuário</Label>
+        <div className="relative">
+          <Input
+            id="email"
+            type="email"
+            placeholder=""
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black placeholder:text-transparent focus:border-purple-400"
+            required
+          />
+          <User className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
         </div>
       </motion.div>
 
       <motion.div className="space-y-2" variants={itemVariants}>
-        <div className="flex items-center space-x-3">
-          <Label htmlFor="password" className="text-purple-400 text-base font-medium w-20">Senha</Label>
-          <div className="relative flex-1">
-            <Input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              placeholder=""
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black placeholder:text-transparent focus:border-purple-400"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
-            >
-              {showPassword ? (
-                <EyeOff className="h-5 w-5" />
-              ) : (
-                <Lock className="h-5 w-5" />
-              )}
-            </button>
-          </div>
+        <Label htmlFor="password" className="text-purple-600 text-base font-medium block mb-2">Senha</Label>
+        <div className="relative">
+          <Input
+            id="password"
+            type={showPassword ? "text" : "password"}
+            placeholder=""
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black placeholder:text-transparent focus:border-purple-400"
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+          >
+            {showPassword ? (
+              <EyeOff className="h-5 w-5" />
+            ) : (
+              <Lock className="h-5 w-5" />
+            )}
+          </button>
         </div>
       </motion.div>
 
