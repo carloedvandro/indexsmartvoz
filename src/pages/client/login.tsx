@@ -13,7 +13,7 @@ export default function LoginPage() {
       <div 
         className="hidden md:block flex-1 bg-cover bg-center"
         style={{
-          backgroundImage: "url('/lovable-uploads/0519f4b4-05e8-498b-b3d5-47b36601bdbd.png')"
+          backgroundImage: `url('/lovable-uploads/0519f4b4-05e8-498b-b3d5-47b36601bdbd.png?v=${Date.now()}')`
         }}
       />
       
