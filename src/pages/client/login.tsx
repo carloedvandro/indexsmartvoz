@@ -8,19 +8,19 @@ import "@/styles/logo.css";
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen w-full flex">
-      {/* Left side - Image (hidden on mobile) */}
-      <div 
-        className="hidden md:block w-[58%] bg-cover bg-center"
-        style={{
-          backgroundImage: `url('/lovable-uploads/2abb4df6-3b49-4256-bf6e-b8ab5cf953a4.png')`
-        }}
-      />
+    <div 
+      className="min-h-screen w-full flex items-center justify-center bg-cover bg-center relative"
+      style={{
+        backgroundImage: `url('/lovable-uploads/3b627119-36e4-4e0f-be85-fa9d400ab664.png')`
+      }}
+    >
+      {/* Overlay para melhorar legibilidade */}
+      <div className="absolute inset-0 bg-black/30"></div>
       
-      {/* Right side - Login Form */}
-      <div className="w-full md:w-[42%] flex items-center justify-center bg-white">
+      {/* Formulário de Login centralizado */}
+      <div className="relative z-10 w-full max-w-[400px] mx-4">
         <motion.div 
-          className="w-full max-w-[350px] px-4 md:px-8"
+          className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl"
           initial="hidden"
           animate="visible"
           variants={containerVariants}
