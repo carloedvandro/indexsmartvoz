@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -80,7 +81,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
   return (
     <motion.form 
       onSubmit={handleSubmit} 
-      className="space-y-6 w-full max-w-[480px] mt-2.5 mx-auto pl-[20px]"
+      className="space-y-6 w-full mx-auto px-8 md:px-12"
       variants={containerVariants}
     >
       <motion.div className="space-y-2" variants={itemVariants}>
