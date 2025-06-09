@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -85,7 +86,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
     >
       <motion.div className="space-y-2" variants={itemVariants}>
         <div className="flex items-center space-x-3">
-          <Label htmlFor="email" className="text-purple-400 text-base font-medium w-20 pl-1">Usuário</Label>
+          <Label htmlFor="email" className="text-purple-400 text-base font-medium w-20 pl-2">Usuário</Label>
           <div className="relative flex-1">
             <Input
               id="email"
@@ -103,7 +104,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
 
       <motion.div className="space-y-2" variants={itemVariants}>
         <div className="flex items-center space-x-3">
-          <Label htmlFor="password" className="text-purple-400 text-base font-medium w-20 pl-1">Senha</Label>
+          <Label htmlFor="password" className="text-purple-400 text-base font-medium w-20 pl-2">Senha</Label>
           <div className="relative flex-1">
             <Input
               id="password"
