@@ -11,7 +11,8 @@ export default function LoginPage() {
     <div 
       className="min-h-screen w-full flex items-center justify-center bg-cover bg-center relative"
       style={{
-        backgroundImage: `url('/lovable-uploads/b6480653-8f83-475f-b223-5d6eb20d1183.png')`
+        backgroundImage: `url('/lovable-uploads/b6480653-8f83-475f-b223-5d6eb20d1183.png')`,
+        backgroundSize: '85%'
       }}
     >
       {/* Formulário de Login centralizado sem fundo movido 40px para esquerda */}
