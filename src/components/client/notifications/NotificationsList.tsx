@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { NotificationCard } from "./NotificationCard";
 import { EmptyNotifications } from "./EmptyNotifications";
-import { useToast } from "@/hooks/use-toast";
 
 interface Notification {
   id: string;
@@ -14,8 +13,6 @@ interface Notification {
 }
 
 export function NotificationsList() {
-  const { toast } = useToast();
-  
   // Dados simulados - em um projeto real, isso viria de uma API
   const [notifications, setNotifications] = useState<Notification[]>([
     {
@@ -79,26 +76,19 @@ export function NotificationsList() {
   };
 
   const handleNotificationClick = (notification: Notification) => {
-    // Mostrar detalhes da notificação
-    toast({
-      title: notification.title,
-      description: notification.message,
-      duration: 5000,
-    });
-
-    // Aqui você pode implementar ações específicas baseadas no tipo
+    // Ações específicas baseadas no tipo, sem mostrar toast
     switch (notification.type) {
       case "sale":
         console.log("Abrindo detalhes da venda:", notification);
-        // Navegar para página de vendas ou mostrar modal com detalhes
+        // Poderia navegar para página de vendas
         break;
       case "bonus":
         console.log("Abrindo detalhes da bonificação:", notification);
-        // Navegar para página financeira ou mostrar modal com detalhes
+        // Poderia navegar para página financeira
         break;
       case "network":
         console.log("Abrindo detalhes da rede:", notification);
-        // Navegar para página da rede ou mostrar modal com detalhes
+        // Poderia navegar para página da rede
         break;
       case "system":
         console.log("Abrindo informações do sistema:", notification);
@@ -115,10 +105,6 @@ export function NotificationsList() {
     setNotifications(prev => 
       prev.map(notification => ({ ...notification, isRead: true }))
     );
-    toast({
-      title: "Notificações",
-      description: "Todas as notificações foram marcadas como lidas.",
-    });
   };
 
   if (notifications.length === 0) {
