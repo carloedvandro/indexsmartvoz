@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { RegionData } from './map/types';
@@ -60,18 +59,18 @@ export function InteractiveBrazilMap() {
       setRegionsData(prev => {
         const newData = { ...prev };
         Object.keys(newData).forEach(region => {
-          // Gerar apenas variações positivas (0 a +10)
-          const positiveVariation = Math.random() * 10;
+          // Gerar apenas variações positivas (0 a +5) - reduzido para ser mais sutil
+          const positiveVariation = Math.random() * 5;
           newData[region].sales += Math.round(positiveVariation);
           newData[region].planSales += Math.round(positiveVariation * 0.6);
           
-          // Atualizar crescimento - apenas positivo (0 a +0.5%)
-          const growthIncrease = Math.random() * 0.5;
+          // Atualizar crescimento - apenas positivo (0 a +0.2%) - reduzido
+          const growthIncrease = Math.random() * 0.2;
           newData[region].growth += growthIncrease;
         });
         return newData;
       });
-    }, 3000); // Atualizar a cada 3 segundos
+    }, 8000); // Aumentado de 3 segundos para 8 segundos
 
     return () => clearInterval(interval);
   }, []);
