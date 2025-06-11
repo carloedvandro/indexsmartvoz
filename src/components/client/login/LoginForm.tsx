@@ -86,15 +86,15 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
     >
       <motion.div className="space-y-4" variants={itemVariants}>
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-purple-400 text-base font-medium">Usuário</Label>
+          <Label htmlFor="email" className="text-purple-400 text-base font-medium block">Usuário</Label>
           <div className="relative">
             <Input
               id="email"
               type="email"
-              placeholder=""
+              placeholder="Digite seu email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black placeholder:text-transparent focus:border-purple-400"
+              className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400"
               required
             />
             <User className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -104,15 +104,15 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
 
       <motion.div className="space-y-4" variants={itemVariants}>
         <div className="space-y-2">
-          <Label htmlFor="password" className="text-purple-400 text-base font-medium">Senha</Label>
+          <Label htmlFor="password" className="text-purple-400 text-base font-medium block">Senha</Label>
           <div className="relative">
             <Input
               id="password"
               type={showPassword ? "text" : "password"}
-              placeholder=""
+              placeholder="Digite sua senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black placeholder:text-transparent focus:border-purple-400"
+              className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400"
               required
             />
             <button
