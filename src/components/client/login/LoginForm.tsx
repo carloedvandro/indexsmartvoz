@@ -21,6 +21,8 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [emailFocused, setEmailFocused] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -85,48 +87,60 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       variants={containerVariants}
     >
       <motion.div className="space-y-4" variants={itemVariants}>
-        <div className="space-y-2">
-          <Label htmlFor="email" className="text-purple-400 text-base font-medium block">Usuário</Label>
-          <div className="relative">
-            <Input
-              id="email"
-              type="email"
-              placeholder="Digite seu email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400"
-              required
-            />
-            <User className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
-          </div>
+        <div className="relative">
+          <Input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onFocus={() => setEmailFocused(true)}
+            onBlur={() => setEmailFocused(false)}
+            className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400 pt-6"
+            required
+          />
+          <Label 
+            htmlFor="email" 
+            className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium ${
+              emailFocused || email ? 'top-1 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
+            }`}
+          >
+            Usuário
+          </Label>
+          <User className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
         </div>
       </motion.div>
 
       <motion.div className="space-y-4" variants={itemVariants}>
-        <div className="space-y-2">
-          <Label htmlFor="password" className="text-purple-400 text-base font-medium block">Senha</Label>
-          <div className="relative">
-            <Input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              placeholder="Digite sua senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
-            >
-              {showPassword ? (
-                <EyeOff className="h-5 w-5" />
-              ) : (
-                <Lock className="h-5 w-5" />
-              )}
-            </button>
-          </div>
+        <div className="relative">
+          <Input
+            id="password"
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onFocus={() => setPasswordFocused(true)}
+            onBlur={() => setPasswordFocused(false)}
+            className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400 pt-6"
+            required
+          />
+          <Label 
+            htmlFor="password" 
+            className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium ${
+              passwordFocused || password ? 'top-1 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
+            }`}
+          >
+            Senha
+          </Label>
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+          >
+            {showPassword ? (
+              <EyeOff className="h-5 w-5" />
+            ) : (
+              <Lock className="h-5 w-5" />
+            )}
+          </button>
         </div>
       </motion.div>
 
