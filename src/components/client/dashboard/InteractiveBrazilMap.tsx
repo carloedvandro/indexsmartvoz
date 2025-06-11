@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { RegionData } from './map/types';
@@ -53,19 +54,20 @@ export function InteractiveBrazilMap() {
     }
   });
 
-  // Simular atualizações em tempo real
+  // Simular atualizações em tempo real - APENAS CRESCIMENTO
   useEffect(() => {
     const interval = setInterval(() => {
       setRegionsData(prev => {
         const newData = { ...prev };
         Object.keys(newData).forEach(region => {
-          // Simular pequenas variações nas vendas
-          const variation = Math.random() * 10 - 5; // -5 a +5
-          newData[region].sales += Math.round(variation);
-          newData[region].planSales += Math.round(variation * 0.6);
+          // Gerar apenas variações positivas (0 a +10)
+          const positiveVariation = Math.random() * 10;
+          newData[region].sales += Math.round(positiveVariation);
+          newData[region].planSales += Math.round(positiveVariation * 0.6);
           
-          // Atualizar crescimento
-          newData[region].growth += (Math.random() - 0.5) * 0.2;
+          // Atualizar crescimento - apenas positivo (0 a +0.5%)
+          const growthIncrease = Math.random() * 0.5;
+          newData[region].growth += growthIncrease;
         });
         return newData;
       });
