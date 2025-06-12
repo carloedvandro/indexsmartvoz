@@ -83,7 +83,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
   return (
     <motion.form 
       onSubmit={handleSubmit} 
-      className="space-y-6 w-full max-w-[400px] mt-[68px] mx-auto px-4"
+      className="space-y-6 w-full max-w-[480px] mt-[68px] mx-auto px-6"
       variants={containerVariants}
     >
       <motion.div className="space-y-4" variants={itemVariants}>
@@ -95,7 +95,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             onChange={(e) => setEmail(e.target.value)}
             onFocus={() => setEmailFocused(true)}
             onBlur={() => setEmailFocused(false)}
-            className="pr-10 bg-white border-2 border-purple-300 rounded-md h-14 text-black focus:border-purple-400 px-4"
+            className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400"
             required
           />
           <Label 
@@ -119,7 +119,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             onChange={(e) => setPassword(e.target.value)}
             onFocus={() => setPasswordFocused(true)}
             onBlur={() => setPasswordFocused(false)}
-            className="pr-10 bg-white border-2 border-purple-300 rounded-md h-14 text-black focus:border-purple-400 px-4"
+            className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400"
             required
           />
           <Label 
