@@ -101,7 +101,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
           <Label 
             htmlFor="email" 
             className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium ${
-              emailFocused || email ? 'top-1 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
+              emailFocused || email ? 'top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
             }`}
           >
             Usuário
@@ -125,7 +125,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
           <Label 
             htmlFor="password" 
             className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium ${
-              passwordFocused || password ? 'top-1 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
+              passwordFocused || password ? 'top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
             }`}
           >
             Senha
