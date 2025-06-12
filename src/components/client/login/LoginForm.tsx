@@ -95,13 +95,13 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             onChange={(e) => setEmail(e.target.value)}
             onFocus={() => setEmailFocused(true)}
             onBlur={() => setEmailFocused(false)}
-            className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400 pt-6"
+            className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400"
             required
           />
           <Label 
             htmlFor="email" 
-            className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium ${
-              emailFocused || email ? 'top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
+            className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium bg-white px-1 ${
+              emailFocused || email ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
             }`}
           >
             Usuário
@@ -119,13 +119,13 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             onChange={(e) => setPassword(e.target.value)}
             onFocus={() => setPasswordFocused(true)}
             onBlur={() => setPasswordFocused(false)}
-            className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400 pt-6"
+            className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400"
             required
           />
           <Label 
             htmlFor="password" 
-            className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium ${
-              passwordFocused || password ? 'top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
+            className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium bg-white px-1 ${
+              passwordFocused || password ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
             }`}
           >
             Senha
