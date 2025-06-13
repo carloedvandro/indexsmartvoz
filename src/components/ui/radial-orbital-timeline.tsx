@@ -297,12 +297,6 @@ export default function RadialOrbitalTimeline({
 
                       {item.relatedIds.length > 0 && (
                         <div className="mt-6 pt-4 border-t border-white/10">
-                          <div className="flex items-center mb-3">
-                            <Link size={12} className="text-white/70 mr-1" />
-                            <h4 className="text-sm uppercase tracking-wider font-medium text-white/70">
-                              Connected Nodes
-                            </h4>
-                          </div>
                           <div className="flex flex-wrap gap-2">
                             {item.relatedIds.map((relatedId) => {
                               const relatedItem = timelineData.find(
