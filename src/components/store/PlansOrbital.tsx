@@ -34,6 +34,21 @@ export function PlansOrbital({ plans, onSelectPlan }: PlansOrbitalProps) {
 
   return (
     <div className="w-full relative">
+      {/* Botão movido para cima da área preta */}
+      <div className="flex justify-center mb-4">
+        <button 
+          className="bg-black text-white px-6 py-2 rounded-full font-medium hover:bg-gray-800 transition-colors text-sm border border-white/20"
+          onClick={() => {
+            // Selecionar o primeiro plano como exemplo
+            if (plans.length > 0) {
+              onSelectPlan(plans[0]);
+            }
+          }}
+        >
+          COMPLETE
+        </button>
+      </div>
+
       <div className="h-[600px] relative">
         <RadialOrbitalTimeline timelineData={timelineData} />
         
@@ -42,21 +57,6 @@ export function PlansOrbital({ plans, onSelectPlan }: PlansOrbitalProps) {
           <h3 className="text-xl font-bold mb-2">Nossos Planos</h3>
           <p className="text-sm opacity-80">Clique nos planos para ver detalhes</p>
         </div>
-      </div>
-      
-      {/* Botão de ação movido para baixo da área preta */}
-      <div className="flex justify-center mt-8 bg-white py-6">
-        <button 
-          className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-3 rounded-full font-medium hover:scale-105 transition-transform text-lg"
-          onClick={() => {
-            // Selecionar o primeiro plano como exemplo
-            if (plans.length > 0) {
-              onSelectPlan(plans[0]);
-            }
-          }}
-        >
-          Ver Todos os Planos
-        </button>
       </div>
     </div>
   );
