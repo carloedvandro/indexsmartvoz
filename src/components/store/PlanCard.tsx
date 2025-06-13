@@ -13,6 +13,7 @@ type Plan = {
   originalPrice?: number;
   isHighlighted?: boolean;
   features: string[];
+  cashback?: number;
 };
 
 interface PlanCardProps {
