@@ -1,9 +1,9 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { PlanCard } from "./PlanCard";
+import { PlansOrbital } from "./PlansOrbital";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import Image from "@/components/ui/image";
 
 const PLANS = [
   {
@@ -67,6 +67,7 @@ interface PlansSectionProps {
 
 export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
   const navigate = useNavigate();
+  const [viewMode, setViewMode] = useState<"cards" | "orbital">("orbital");
 
   const handleSelectPlan = (plan: any) => {
     // Navigate directly to the products page with the plan selected
@@ -86,36 +87,65 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
         <p className="text-gray-600 mt-2 mx-auto max-w-3xl px-4">
           Escolha o plano ideal para suas necessidades com a melhor relação custo-benefício do mercado digital
         </p>
+        
+        {/* Toggle para alternar entre visualizações */}
+        <div className="flex justify-center gap-2 mt-4">
+          <Button
+            variant={viewMode === "orbital" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setViewMode("orbital")}
+            className="bg-pink-600 hover:bg-pink-700"
+          >
+            Visualização Orbital
+          </Button>
+          <Button
+            variant={viewMode === "cards" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setViewMode("cards")}
+            className="bg-pink-600 hover:bg-pink-700"
+          >
+            Visualização Cards
+          </Button>
+        </div>
       </div>
       
-      <div className="py-8 rounded-xl">
-        {/* Cartões dos planos */}
-        <div>
-          <h3 className="text-2xl font-bold text-center mb-6 text-gray-800">Todos os Planos</h3>
-          <div className="flex flex-wrap justify-center gap-6 mx-auto px-4 max-w-7xl">
-            {PLANS.map((plan) => (
-              <div key={plan.id} className="flex justify-center">
-                <PlanCard 
-                  plan={plan} 
-                  onSelect={handleSelectPlan} 
-                />
+      {/* Visualização Orbital */}
+      {viewMode === "orbital" && (
+        <div className="mb-8">
+          <PlansOrbital plans={PLANS} onSelectPlan={handleSelectPlan} />
+        </div>
+      )}
+      
+      {/* Visualização em Cards (original) */}
+      {viewMode === "cards" && (
+        <div className="py-8 rounded-xl">
+          <div>
+            <h3 className="text-2xl font-bold text-center mb-6 text-gray-800">Todos os Planos</h3>
+            <div className="flex flex-wrap justify-center gap-6 mx-auto px-4 max-w-7xl">
+              {PLANS.map((plan) => (
+                <div key={plan.id} className="flex justify-center">
+                  <PlanCard 
+                    plan={plan} 
+                    onSelect={handleSelectPlan} 
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="mt-8 text-center">
+            <p className="text-sm text-gray-600 mb-2">Internet de alta qualidade sem contratos longos</p>
+            <div className="flex justify-center gap-4 flex-wrap px-4">
+              <div className="bg-white px-4 py-2 rounded-md shadow-sm flex items-center gap-2">
+                <span className="text-pink-600 font-medium">Sem taxas ocultas</span>
               </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="mt-8 text-center">
-          <p className="text-sm text-gray-600 mb-2">Internet de alta qualidade sem contratos longos</p>
-          <div className="flex justify-center gap-4 flex-wrap px-4">
-            <div className="bg-white px-4 py-2 rounded-md shadow-sm flex items-center gap-2">
-              <span className="text-pink-600 font-medium">Sem taxas ocultas</span>
-            </div>
-            <div className="bg-white px-4 py-2 rounded-md shadow-sm flex items-center gap-2">
-              <span className="text-pink-600 font-medium">Serviço completo</span>
+              <div className="bg-white px-4 py-2 rounded-md shadow-sm flex items-center gap-2">
+                <span className="text-pink-600 font-medium">Serviço completo</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
