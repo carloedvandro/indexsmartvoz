@@ -1,4 +1,3 @@
-
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { ArrowRight, Link, Zap, Check, Smartphone } from "lucide-react";
@@ -239,7 +238,7 @@ export default function RadialOrbitalTimeline({
                   <Smartphone size={20} className="text-black" />
                 </div>
 
-                {/* Texto do plano em branco embaixo */}
+                {/* Texto do plano em branco embaixo - centralizado */}
                 <div
                   className={`
                   absolute top-14 left-1/2 transform -translate-x-1/2 whitespace-nowrap
@@ -271,7 +270,7 @@ export default function RadialOrbitalTimeline({
                           {item.date}
                         </span>
                       </div>
-                      <CardTitle className="text-base mt-2 text-left">
+                      <CardTitle className="text-base mt-2 text-center">
                         {item.title}
                       </CardTitle>
                     </CardHeader>
