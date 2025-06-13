@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { PlanCard } from "./PlanCard";
 import { PlansOrbital } from "./PlansOrbital";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 
 const PLANS = [
   {
@@ -87,26 +86,6 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
         <p className="text-gray-600 mt-2 mx-auto max-w-3xl px-4">
           Escolha o plano ideal para suas necessidades com a melhor relação custo-benefício do mercado digital
         </p>
-        
-        {/* Toggle para alternar entre visualizações */}
-        <div className="flex justify-center gap-2 mt-4">
-          <Button
-            variant={viewMode === "orbital" ? "default" : "outline"}
-            size="sm"
-            onClick={() => setViewMode("orbital")}
-            className="bg-pink-600 hover:bg-pink-700"
-          >
-            Visualização Orbital
-          </Button>
-          <Button
-            variant={viewMode === "cards" ? "default" : "outline"}
-            size="sm"
-            onClick={() => setViewMode("cards")}
-            className="bg-pink-600 hover:bg-pink-700"
-          >
-            Visualização Cards
-          </Button>
-        </div>
       </div>
       
       {/* Visualização Orbital */}
