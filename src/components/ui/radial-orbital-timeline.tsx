@@ -1,8 +1,7 @@
 
-
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { ArrowRight, Link, Zap, Check } from "lucide-react";
+import { ArrowRight, Link, Zap, Check, Wifi } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -194,7 +193,6 @@ export default function RadialOrbitalTimeline({
             const isExpanded = expandedItems[item.id];
             const isRelated = isRelatedToActive(item.id);
             const isPulsing = pulseEffect[item.id];
-            const Icon = item.icon;
             const features = parseFeatures(item.content);
 
             const nodeStyle = {
@@ -227,37 +225,27 @@ export default function RadialOrbitalTimeline({
                   }}
                 ></div>
 
+                {/* Círculo branco com ícone wifi para todos os planos */}
                 <div
                   className={`
-                  w-10 h-10 rounded-full flex items-center justify-center
-                  ${
-                    isExpanded
-                      ? "bg-white text-black"
-                      : isRelated
-                      ? "bg-white/50 text-black"
-                      : "bg-black text-white"
-                  }
-                  border-2 
-                  ${
-                    isExpanded
-                      ? "border-white shadow-lg shadow-white/30"
-                      : isRelated
-                      ? "border-white animate-pulse"
-                      : "border-white/40"
-                  }
+                  w-12 h-12 rounded-full flex items-center justify-center
+                  bg-white text-black
+                  border-2 border-white
                   transition-all duration-300 transform
                   ${isExpanded ? "scale-150" : ""}
+                  ${isPulsing ? "animate-pulse" : ""}
                 `}
                 >
-                  <Icon size={16} />
+                  <Wifi size={20} className="text-black" />
                 </div>
 
+                {/* Texto do plano em branco embaixo */}
                 <div
                   className={`
-                  absolute top-12  whitespace-nowrap
-                  text-xs font-semibold tracking-wider
+                  absolute top-14 left-1/2 transform -translate-x-1/2 whitespace-nowrap
+                  text-sm font-semibold tracking-wider text-white text-center
                   transition-all duration-300
-                  ${isExpanded ? "text-white scale-125" : "text-white/70"}
+                  ${isExpanded ? "scale-125" : ""}
                 `}
                 >
                   {item.title}
@@ -354,4 +342,3 @@ export default function RadialOrbitalTimeline({
     </div>
   );
 }
-
