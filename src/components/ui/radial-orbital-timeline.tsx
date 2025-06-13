@@ -1,7 +1,6 @@
-
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { ArrowRight, Link, Zap, Check, Wifi } from "lucide-react";
+import { ArrowRight, Link, Zap, Check, Smartphone } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -225,7 +224,7 @@ export default function RadialOrbitalTimeline({
                   }}
                 ></div>
 
-                {/* Círculo branco com ícone wifi para todos os planos */}
+                {/* Círculo branco com ícone smartphone para todos os planos */}
                 <div
                   className={`
                   w-12 h-12 rounded-full flex items-center justify-center
@@ -236,7 +235,7 @@ export default function RadialOrbitalTimeline({
                   ${isPulsing ? "animate-pulse" : ""}
                 `}
                 >
-                  <Wifi size={20} className="text-black" />
+                  <Smartphone size={20} className="text-black" />
                 </div>
 
                 {/* Texto do plano em branco embaixo */}
