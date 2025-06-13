@@ -14,14 +14,16 @@ type Plan = {
   isHighlighted?: boolean;
   features: string[];
   cashback?: number;
+  offerType?: string;
 };
 
 interface PlanCardProps {
   plan: Plan;
   onSelect: (plan: Plan) => void;
+  className?: string;
 }
 
-export function PlanCard({ plan, onSelect }: PlanCardProps) {
+export function PlanCard({ plan, onSelect, className = "" }: PlanCardProps) {
   // Filter out the features we want to remove
   const filteredFeatures = plan.features.filter(feature => 
     !feature.includes("Portabilidade:") && 
@@ -35,11 +37,11 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
   // Get plan type based on data size for display
   const getPlanType = (gb: string) => {
     const value = parseInt(gb);
-    if (value <= 80) return "Oferta Basic";
-    if (value <= 100) return "Oferta Prime";
-    if (value <= 120) return "Oferta Premium";
-    if (value <= 140) return "Oferta Gold";
-    return "Oferta Master";
+    if (value <= 80) return plan.offerType || "Oferta Basic";
+    if (value <= 100) return plan.offerType || "Oferta Prime";
+    if (value <= 120) return plan.offerType || "Oferta Premium";
+    if (value <= 140) return plan.offerType || "Oferta Gold";
+    return plan.offerType || "Oferta Master";
   };
 
   const planType = getPlanType(plan.gb);
@@ -60,7 +62,7 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
   };
   
   return (
-    <Card className={`plan-card flex flex-col overflow-hidden transition-all shadow-lg ${getBgColor()} text-white rounded-xl`}>
+    <Card className={`plan-card flex flex-col overflow-hidden transition-all shadow-lg ${getBgColor()} text-white rounded-xl ${className}`}>
       <CardHeader className="pb-1 pt-4 flex flex-col items-start justify-start text-left border-b border-white/10">
         <div className="text-sm font-medium opacity-90">
           Plano 100% digital.<br/>
