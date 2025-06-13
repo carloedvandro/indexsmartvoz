@@ -1,3 +1,4 @@
+
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { TimelineItem, Position } from "./types";
@@ -128,6 +129,7 @@ export default function RadialOrbitalTimeline({
       className="w-full h-screen flex flex-col items-center justify-center bg-white overflow-hidden"
       ref={containerRef}
       onClick={handleContainerClick}
+      style={{ backgroundColor: 'white' }}
     >
       <div className="relative w-full max-w-4xl h-full flex items-center justify-center">
         <div
