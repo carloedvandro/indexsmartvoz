@@ -1,3 +1,4 @@
+
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { TimelineItem, Position } from "./types";
@@ -125,7 +126,7 @@ export default function RadialOrbitalTimeline({
 
   return (
     <div
-      className="w-full h-screen flex flex-col items-center justify-center bg-white overflow-hidden"
+      className="w-full h-screen flex flex-col items-center justify-center bg-black overflow-hidden"
       ref={containerRef}
       onClick={handleContainerClick}
     >
@@ -140,7 +141,7 @@ export default function RadialOrbitalTimeline({
         >
           <CentralOrb />
 
-          <div className="absolute w-96 h-96 rounded-full border border-gray-300"></div>
+          <div className="absolute w-96 h-96 rounded-full border border-white/10"></div>
 
           {timelineData.map((item, index) => {
             const position = calculateNodePosition(index, timelineData.length);
