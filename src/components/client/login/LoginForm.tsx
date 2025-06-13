@@ -95,7 +95,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             onChange={(e) => setEmail(e.target.value)}
             onFocus={() => setEmailFocused(true)}
             onBlur={() => setEmailFocused(false)}
-            className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400"
+            className="pr-10 bg-transparent border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400"
             required
           />
           <Label 
@@ -119,7 +119,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
             onChange={(e) => setPassword(e.target.value)}
             onFocus={() => setPasswordFocused(true)}
             onBlur={() => setPasswordFocused(false)}
-            className="pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400"
+            className="pr-10 bg-transparent border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400"
             required
           />
           <Label 
