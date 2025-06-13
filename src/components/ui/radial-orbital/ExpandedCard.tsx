@@ -45,8 +45,8 @@ export function ExpandedCard({ item, features, timelineData, onRelatedClick }: E
             {item.date}
           </span>
         </div>
-        <CardTitle className="text-base mt-2 text-center w-full">
-          {item.title}
+        <CardTitle className="text-base mt-2 text-center w-full flex justify-center">
+          <span className="text-white">{item.title}</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="text-sm text-white/80 h-full text-left">
