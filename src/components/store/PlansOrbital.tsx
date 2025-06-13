@@ -44,10 +44,10 @@ export function PlansOrbital({ plans, onSelectPlan }: PlansOrbitalProps) {
         </div>
       </div>
       
-      {/* Botão de ação movido para baixo do cartão */}
-      <div className="flex justify-center mt-6">
+      {/* Botão de ação movido para baixo da área preta */}
+      <div className="flex justify-center mt-8 bg-white py-6">
         <button 
-          className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-2 rounded-full font-medium hover:scale-105 transition-transform"
+          className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-3 rounded-full font-medium hover:scale-105 transition-transform text-lg"
           onClick={() => {
             // Selecionar o primeiro plano como exemplo
             if (plans.length > 0) {
