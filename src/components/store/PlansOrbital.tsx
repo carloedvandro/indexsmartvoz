@@ -33,17 +33,19 @@ export function PlansOrbital({ plans, onSelectPlan }: PlansOrbitalProps) {
   }));
 
   return (
-    <div className="w-full h-[600px] relative">
-      <RadialOrbitalTimeline timelineData={timelineData} />
-      
-      {/* Overlay com informações dos planos */}
-      <div className="absolute top-4 left-4 text-white z-50">
-        <h3 className="text-xl font-bold mb-2">Nossos Planos</h3>
-        <p className="text-sm opacity-80">Clique nos planos para ver detalhes</p>
+    <div className="w-full relative">
+      <div className="h-[600px] relative">
+        <RadialOrbitalTimeline timelineData={timelineData} />
+        
+        {/* Overlay com informações dos planos */}
+        <div className="absolute top-4 left-4 text-white z-50">
+          <h3 className="text-xl font-bold mb-2">Nossos Planos</h3>
+          <p className="text-sm opacity-80">Clique nos planos para ver detalhes</p>
+        </div>
       </div>
       
-      {/* Botão de ação no centro (opcional) */}
-      <div className="absolute bottom-4 right-4 z-50">
+      {/* Botão de ação movido para baixo do cartão */}
+      <div className="flex justify-center mt-6">
         <button 
           className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-2 rounded-full font-medium hover:scale-105 transition-transform"
           onClick={() => {
