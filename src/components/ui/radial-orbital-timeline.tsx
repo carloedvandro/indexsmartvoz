@@ -1,7 +1,6 @@
-
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { ArrowRight, Link, Zap } from "lucide-react";
+import { ArrowRight, Link, Zap, Check } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -153,6 +152,15 @@ export default function RadialOrbitalTimeline({
     }
   };
 
+  // Parse features from content
+  const parseFeatures = (content: string): string[] => {
+    const parts = content.split(" - ");
+    if (parts.length > 1) {
+      return parts[1].split(", ");
+    }
+    return [];
+  };
+
   return (
     <div
       className="w-full h-screen flex flex-col items-center justify-center bg-black overflow-hidden"
@@ -185,6 +193,7 @@ export default function RadialOrbitalTimeline({
             const isRelated = isRelatedToActive(item.id);
             const isPulsing = pulseEffect[item.id];
             const Icon = item.icon;
+            const features = parseFeatures(item.content);
 
             const nodeStyle = {
               transform: `translate(${position.x}px, ${position.y}px)`,
@@ -277,7 +286,15 @@ export default function RadialOrbitalTimeline({
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="text-sm text-white/80 h-full">
-                      <p className="mb-4">{item.content}</p>
+                      {/* Features com ícones de check alinhados à esquerda */}
+                      <div className="space-y-2 mb-4">
+                        {features.map((feature, idx) => (
+                          <div key={idx} className="flex items-center gap-2">
+                            <Check size={12} className="text-green-400 flex-shrink-0" />
+                            <span className="text-left">{feature.trim()}</span>
+                          </div>
+                        ))}
+                      </div>
 
                       <div className="mt-6 pt-4 border-t border-white/10">
                         <div className="flex justify-between items-center text-sm mb-2">
