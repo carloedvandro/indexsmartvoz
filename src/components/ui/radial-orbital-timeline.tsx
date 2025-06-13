@@ -1,3 +1,4 @@
+
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { ArrowRight, Link, Zap, Check } from "lucide-react";
@@ -281,22 +282,22 @@ export default function RadialOrbitalTimeline({
                           {item.date}
                         </span>
                       </div>
-                      <CardTitle className="text-base mt-2">
+                      <CardTitle className="text-base mt-2 text-left">
                         {item.title}
                       </CardTitle>
                     </CardHeader>
-                    <CardContent className="text-sm text-white/80 h-full">
+                    <CardContent className="text-sm text-white/80 h-full text-left">
                       {/* Features com ícones de check alinhados à esquerda */}
                       <div className="space-y-2 mb-4">
                         {features.map((feature, idx) => (
-                          <div key={idx} className="flex items-center gap-2">
-                            <Check size={12} className="text-green-400 flex-shrink-0" />
-                            <span className="text-left">{feature.trim()}</span>
+                          <div key={idx} className="flex items-start gap-2 text-left">
+                            <Check size={12} className="text-green-400 flex-shrink-0 mt-0.5" />
+                            <span className="text-left leading-relaxed">{feature.trim()}</span>
                           </div>
                         ))}
                       </div>
 
-                      <div className="mt-6 pt-4 border-t border-white/10">
+                      <div className="mt-6 pt-4 border-t border-white/10 text-left">
                         <div className="flex justify-between items-center text-sm mb-2">
                           <span className="flex items-center">
                             <Zap size={12} className="mr-1" />
@@ -313,8 +314,8 @@ export default function RadialOrbitalTimeline({
                       </div>
 
                       {item.relatedIds.length > 0 && (
-                        <div className="mt-6 pt-4 border-t border-white/10">
-                          <div className="flex flex-wrap gap-2">
+                        <div className="mt-6 pt-4 border-t border-white/10 text-left">
+                          <div className="flex flex-wrap gap-2 justify-start">
                             {item.relatedIds.map((relatedId) => {
                               const relatedItem = timelineData.find(
                                 (i) => i.id === relatedId
