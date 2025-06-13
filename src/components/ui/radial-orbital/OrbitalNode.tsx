@@ -83,12 +83,12 @@ export function OrbitalNode({
       <div
         className={`
         absolute top-14 left-1/2 transform -translate-x-1/2 whitespace-nowrap
-        text-sm font-semibold tracking-wider text-white text-center
+        text-sm font-semibold tracking-wider text-white text-center w-full
         transition-all duration-300
         ${isExpanded ? "scale-125" : ""}
       `}
       >
-        {item.title}
+        <span className="block w-full text-center">{item.title}</span>
       </div>
 
       {isExpanded && (
