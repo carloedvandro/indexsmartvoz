@@ -1,4 +1,5 @@
 
+
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { ArrowRight, Link, Zap, Check } from "lucide-react";
@@ -288,7 +289,7 @@ export default function RadialOrbitalTimeline({
                     </CardHeader>
                     <CardContent className="text-sm text-white/80 h-full text-left">
                       {/* Features com ícones de check alinhados à esquerda */}
-                      <div className="space-y-2 mb-4">
+                      <div className="space-y-2 mb-4 text-left">
                         {features.map((feature, idx) => (
                           <div key={idx} className="flex items-start gap-2 text-left">
                             <Check size={12} className="text-green-400 flex-shrink-0 mt-0.5" />
@@ -353,3 +354,4 @@ export default function RadialOrbitalTimeline({
     </div>
   );
 }
+
