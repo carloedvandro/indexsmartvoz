@@ -24,7 +24,7 @@ export function PlansOrbital({ plans, onSelectPlan }: PlansOrbitalProps) {
     id: index + 1,
     title: `Oferta ${plan.gb === "80GB" ? "Basic" : plan.gb === "100GB" ? "Prime" : plan.gb === "120GB" ? "Premium" : "Gold"}`,
     date: `R$ ${plan.price.toFixed(2)}`,
-    content: `${plan.gb} - ${plan.features.join(", ")}${plan.cashback ? ` + R$${plan.cashback.toFixed(2)} Cashback` : ""}`,
+    content: `${plan.gb} - ${plan.features.join(", ")}`,
     category: "plano",
     icon: plan.gb === "80GB" ? Package : plan.gb === "100GB" ? Wifi : plan.gb === "120GB" ? Smartphone : Zap,
     relatedIds: index > 0 ? [index] : index < plans.length - 1 ? [index + 2] : [],

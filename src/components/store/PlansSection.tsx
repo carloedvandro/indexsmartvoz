@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { PlanCard } from "./PlanCard";
 import { PlansOrbital } from "./PlansOrbital";
@@ -16,8 +15,7 @@ const PLANS = [
       "Chip eSIM ou Sim Card Fisico",
       "Escolha seu DDD",
       "Validade: 30 Dias"
-    ],
-    cashback: 30.00
+    ]
   },
   {
     id: "smartvoz-100",
@@ -30,8 +28,7 @@ const PLANS = [
       "Chip eSIM ou Sim Card Fisico",
       "Escolha seu DDD",
       "Validade: 30 Dias"
-    ],
-    cashback: 40.00
+    ]
   },
   {
     id: "smartvoz-120",
@@ -45,8 +42,7 @@ const PLANS = [
       "Escolha seu DDD",
       "Validade: 30 Dias"
     ],
-    isHighlighted: true,
-    cashback: 50.00
+    isHighlighted: true
   },
   {
     id: "smartvoz-140",
@@ -59,8 +55,7 @@ const PLANS = [
       "Chip eSIM ou Sim Card Fisico",
       "Escolha seu DDD",
       "Validade: 30 Dias"
-    ],
-    cashback: 60.00
+    ]
   },
 ];
 

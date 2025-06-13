@@ -74,14 +74,6 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
             <div className="ml-1 text-lg">GIGAS</div>
             <div className="ml-2 text-sm opacity-90">por mês</div>
           </div>
-          {plan.cashback && (
-            <div className="relative mt-2">
-              <span className="absolute -left-4 top-1/2 -translate-y-1/2 text-white text-lg font-bold">+</span>
-              <span className="py-1 px-2 bg-white/20 text-white rounded inline-block font-medium text-sm">
-                R${plan.cashback.toFixed(2).replace(".", ",")} CASHBACK
-              </span>
-            </div>
-          )}
           <div className="flex items-baseline mt-2">
             <div className="text-sm">R$</div>
             <div className="text-4xl font-bold">{Math.floor(plan.price)}</div>
