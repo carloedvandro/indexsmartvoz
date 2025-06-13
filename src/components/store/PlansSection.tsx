@@ -1,9 +1,9 @@
 
 import React from "react";
 import { PlanCard } from "./PlanCard";
-import { PlanCardsStack } from "./PlanCardsStack";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import Image from "@/components/ui/image";
 
 const PLANS = [
   {
@@ -86,11 +86,6 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
         <p className="text-gray-600 mt-2 mx-auto max-w-3xl px-4">
           Escolha o plano ideal para suas necessidades com a melhor relação custo-benefício do mercado digital
         </p>
-      </div>
-
-      {/* Stack de Cartões de Planos */}
-      <div className="flex justify-center mb-8">
-        <PlanCardsStack onSelectPlan={handleSelectPlan} />
       </div>
       
       <div className="py-8 rounded-xl">

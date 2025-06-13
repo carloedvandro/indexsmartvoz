@@ -83,7 +83,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
   return (
     <motion.form 
       onSubmit={handleSubmit} 
-      className="space-y-6 w-full max-w-[380px] mt-[68px] mx-auto px-8"
+      className="space-y-6 w-full max-w-[480px] mt-[68px] mx-auto px-6"
       variants={containerVariants}
     >
       <motion.div className="space-y-4" variants={itemVariants}>
