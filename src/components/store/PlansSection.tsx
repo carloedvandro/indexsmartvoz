@@ -3,6 +3,7 @@ import React from "react";
 import { PlanCard } from "./PlanCard";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { ImageSwiper } from "@/components/ui/image-swiper";
 import Image from "@/components/ui/image";
 
 const PLANS = [
@@ -77,6 +78,9 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
     }
   };
 
+  // URLs das imagens para o swiper
+  const swiperImages = "https://img.freepik.com/premium-photo/3d-cartoon_975306-1.jpg?w=2000,https://img.freepik.com/premium-photo/3d-cartoon-boy-avatar_113255-5540.jpg,https://th.bing.com/th/id/OIP.OmBLyKbo8iixJ2SeS12xxwHaE7?w=626&h=417&rs=1&pid=ImgDetMain,https://thumbs.dreamstime.com/b/animated-academic-cheerful-cartoon-scholar-301088562.jpg,https://img.freepik.com/premium-psd/3d-cute-young-business-man-character-generative-ai_43614-1027.jpg,https://img.freepik.com/premium-photo/arafed-cartoon-man-suit-tie-standing-with-his-hands-his-hips_988987-15581.jpg";
+
   return (
     <div className="py-8 rounded-xl">
       <div className="text-center mb-8">
@@ -86,6 +90,16 @@ export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
         <p className="text-gray-600 mt-2 mx-auto max-w-3xl px-4">
           Escolha o plano ideal para suas necessidades com a melhor relação custo-benefício do mercado digital
         </p>
+      </div>
+
+      {/* Image Swiper */}
+      <div className="flex justify-center mb-8">
+        <ImageSwiper 
+          images={swiperImages}
+          cardWidth={280}
+          cardHeight={200}
+          className="mx-auto"
+        />
       </div>
       
       <div className="py-8 rounded-xl">
