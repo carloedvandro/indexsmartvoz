@@ -14,7 +14,8 @@ const PLANS = [
       "Smartvoz 80GB",
       "Minutos: Ilimitados",
       "Chip eSIM ou Sim Card Fisico",
-      "Escolha seu DDD"
+      "Escolha seu DDD",
+      "Validade: 30 Dias"
     ],
     cashback: 30.00
   },
@@ -27,7 +28,8 @@ const PLANS = [
       "Smartvoz 100GB",
       "Minutos: Ilimitados",
       "Chip eSIM ou Sim Card Fisico",
-      "Escolha seu DDD"
+      "Escolha seu DDD",
+      "Validade: 30 Dias"
     ],
     cashback: 40.00
   },
@@ -40,7 +42,8 @@ const PLANS = [
       "Smartvoz 120GB",
       "Minutos: Ilimitados",
       "Chip eSIM ou Sim Card Fisico",
-      "Escolha seu DDD"
+      "Escolha seu DDD",
+      "Validade: 30 Dias"
     ],
     isHighlighted: true,
     cashback: 50.00
@@ -54,7 +57,8 @@ const PLANS = [
       "Smartvoz 140GB",
       "Minutos: Ilimitados",
       "Chip eSIM ou Sim Card Fisico",
-      "Escolha seu DDD"
+      "Escolha seu DDD",
+      "Validade: 30 Dias"
     ],
     cashback: 60.00
   },
