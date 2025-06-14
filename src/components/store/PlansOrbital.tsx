@@ -1,6 +1,8 @@
+
 import React from "react";
 import { Smartphone, Wifi, Package, Zap } from "lucide-react";
 import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
+
 interface Plan {
   id: string;
   name: string;
@@ -10,10 +12,12 @@ interface Plan {
   cashback?: number;
   isHighlighted?: boolean;
 }
+
 interface PlansOrbitalProps {
   plans: Plan[];
   onSelectPlan: (plan: Plan) => void;
 }
+
 export function PlansOrbital({
   plans,
   onSelectPlan
@@ -30,12 +34,14 @@ export function PlansOrbital({
     status: plan.isHighlighted ? "in-progress" as const : "completed" as const,
     energy: parseInt(plan.gb) || 80
   }));
-  return <div className="w-full relative">
-      {/* Botão movido para cima da área preta */}
+
+  return (
+    <div className="w-full relative">
       <div className="flex justify-center mb-4">
-        
+        {/* Optional toggle button can be added here */}
       </div>
 
-      
-    </div>;
+      <RadialOrbitalTimeline timelineData={timelineData} />
+    </div>
+  );
 }

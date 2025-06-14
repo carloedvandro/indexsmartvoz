@@ -1,7 +1,11 @@
+
 import React, { useState } from "react";
 import { PlanCard } from "./PlanCard";
 import { PlansOrbital } from "./PlansOrbital";
 import { useNavigate } from "react-router-dom";
+import { PlanCarousel } from "./PlanCarousel";
+import { useIsMobile } from "@/hooks/use-mobile";
+
 const PLANS = [{
   id: "smartvoz-80",
   name: "SMARTVOZ",
@@ -28,16 +32,20 @@ const PLANS = [{
   price: 144.99,
   features: ["Smartvoz 140GB", "Minutos: Ilimitados", "Chip eSIM ou Sim Card Fisico", "Escolha seu DDD", "Validade: 30 Dias"]
 }];
+
 interface PlansSectionProps {
   storeOwnerCustomId?: string;
   onSelectPlan?: (plan: any) => void;
 }
+
 export function PlansSection({
   storeOwnerCustomId,
   onSelectPlan
 }: PlansSectionProps) {
   const navigate = useNavigate();
-  const [viewMode, setViewMode] = useState<"cards" | "orbital">("orbital");
+  const isMobile = useIsMobile();
+  const [viewMode, setViewMode] = useState<"cards" | "orbital">("cards");
+
   const handleSelectPlan = (plan: any) => {
     if (onSelectPlan) {
       // If onSelectPlan is provided, use it (for plan-selection page)
@@ -51,5 +59,14 @@ export function PlansSection({
       }
     }
   };
-  return;
+
+  return (
+    <div className="w-full">
+      <PlanCarousel 
+        plans={PLANS} 
+        onSelectPlan={handleSelectPlan}
+        isMobile={isMobile}
+      />
+    </div>
+  );
 }
