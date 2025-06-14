@@ -6,6 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, CreditCard, Smartphone, Clock, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
+const ASAAS_EDGE_PAYMENT_URL = "/functions/asaas-payment"; // Edge Function route
+
 export default function Checkout() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -75,6 +77,50 @@ export default function Checkout() {
         setPaymentStep('select');
       }
     }, 3000);
+  };
+
+  const handleAsaasPayment = async () => {
+    if (!selectedLines?.length) return;
+
+    // Simples, assume um único produto/plano. Personalize conforme necessário:
+    const plan = selectedLines[0];
+    const name = localStorage.getItem("checkoutName") || "Cliente";
+    const email = localStorage.getItem("checkoutEmail") || "cliente@placeholder.com";
+
+    const cpfCnpj = localStorage.getItem("checkoutCpf") || "";
+    const phone = localStorage.getItem("checkoutPhone") || "";
+    const value = plan.price;
+    const dueDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+
+    setIsProcessing(true);
+
+    try {
+      const res = await fetch(ASAAS_EDGE_PAYMENT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          cpfCnpj,
+          phone,
+          value,
+          dueDate,
+          webhookUrl: `${window.location.origin}/functions/asaas-webhook`
+        }),
+      });
+
+      const data = await res.json();
+      if (data.error) {
+        setIsProcessing(false);
+        toast({ title: "Erro no pagamento", description: data.error.message || "Erro desconhecido", variant: "destructive" });
+        return;
+      }
+      // Redireciona para link de pagamento
+      window.location.href = data.invoiceUrl;
+    } catch (e) {
+      setIsProcessing(false);
+      toast({ title: "Erro ao conectar ao Asaas", description: "Tente novamente.", variant: "destructive" });
+    }
   };
 
   const handleBack = () => {
@@ -213,10 +259,10 @@ export default function Checkout() {
 
                 <Button
                   className="w-full h-12 text-lg"
-                  onClick={handlePayment}
-                  disabled={!selectedPayment || isProcessing}
+                  onClick={handleAsaasPayment}
+                  disabled={isProcessing}
                 >
-                  {isProcessing ? "Processando..." : `Pagar R$ ${calculateTotal().toFixed(2)}`}
+                  {isProcessing ? "Gerando cobrança..." : `Pagar R$ ${calculateTotal().toFixed(2)}`}
                 </Button>
 
                 <div className="text-center text-sm text-gray-600">
