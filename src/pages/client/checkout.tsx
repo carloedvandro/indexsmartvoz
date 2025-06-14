@@ -5,96 +5,153 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, CreditCard, Smartphone, Clock, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { supabase } from "@/integrations/supabase/client";
+
 export default function Checkout() {
   const navigate = useNavigate();
   const location = useLocation();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentStep, setPaymentStep] = useState<'select' | 'processing' | 'success'>('select');
   const [selectedPayment, setSelectedPayment] = useState<'pix' | 'card' | null>(null);
-  const {
-    selectedLines,
-    selectedDueDate
-  } = location.state || {};
+
+  const { selectedLines, selectedDueDate } = location.state || {};
+
   useEffect(() => {
     if (!selectedLines || selectedLines.length === 0) {
       toast({
         title: "Erro",
         description: "Nenhum plano selecionado. Redirecionando...",
-        variant: "destructive"
+        variant: "destructive",
       });
       navigate("/client/plan-selection");
     }
   }, [selectedLines, navigate]);
+
   const calculateTotal = () => {
     return selectedLines?.reduce((total: number, line: any) => total + line.price, 0) || 0;
   };
+
+  const createOrderRecord = async (orderData: any) => {
+    try {
+      const { data: session } = await supabase.auth.getSession();
+      if (!session.session?.user) {
+        throw new Error('Usuário não autenticado');
+      }
+
+      // Buscar o plano selecionado para obter o plan_id
+      const selectedPlan = JSON.parse(localStorage.getItem('selectedPlan') || '{}');
+      
+      // Criar o registro de contratação
+      const { data: order, error } = await supabase
+        .from('orders')
+        .insert({
+          user_id: session.session.user.id,
+          plan_id: selectedPlan.id,
+          total_amount: orderData.total,
+          status: 'pending',
+          notes: `Pagamento via ${selectedPayment === 'pix' ? 'PIX' : 'Cartão'} - Vencimento dia ${selectedDueDate}`
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      console.log('Registro de contratação criado:', order);
+      
+      // Adicionar o order_id aos dados salvos
+      const updatedOrderData = {
+        ...orderData,
+        order_id: order.id
+      };
+      localStorage.setItem('orderData', JSON.stringify(updatedOrderData));
+
+      return order;
+    } catch (error) {
+      console.error('Erro ao criar registro de contratação:', error);
+      toast({
+        title: "Erro",
+        description: "Erro ao processar contratação. Tente novamente.",
+        variant: "destructive"
+      });
+      throw error;
+    }
+  };
+
   const handlePayment = async () => {
     if (!selectedPayment) {
       toast({
         title: "Selecione uma forma de pagamento",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
+
     setIsProcessing(true);
     setPaymentStep('processing');
 
     // Simulate payment processing
-    setTimeout(() => {
-      setPaymentStep('success');
-      setIsProcessing(false);
-      toast({
-        title: "Pagamento Aprovado!",
-        description: "Seu pedido foi processado com sucesso."
-      });
+    setTimeout(async () => {
+      try {
+        const orderData = {
+          selectedLines,
+          selectedDueDate,
+          paymentMethod: selectedPayment,
+          total: calculateTotal(),
+          protocol: new Date().getTime().toString(),
+          status: 'paid'
+        };
 
-      // Store order data for next steps
-      const orderData = {
-        selectedLines,
-        selectedDueDate,
-        paymentMethod: selectedPayment,
-        total: calculateTotal(),
-        protocol: new Date().getTime().toString(),
-        status: 'paid'
-      };
-      localStorage.setItem('orderData', JSON.stringify(orderData));
+        // Criar o registro de contratação pendente
+        await createOrderRecord(orderData);
 
-      // Navigate to chip activation after 2 seconds
-      setTimeout(() => {
-        navigate("/client/chip-activation");
-      }, 2000);
+        setPaymentStep('success');
+        setIsProcessing(false);
+        
+        toast({
+          title: "Pagamento Aprovado!",
+          description: "Sua contratação está pendente de aprovação administrativa."
+        });
+
+        // Navigate to chip activation after 2 seconds
+        setTimeout(() => {
+          navigate("/client/chip-activation");
+        }, 2000);
+      } catch (error) {
+        setIsProcessing(false);
+        setPaymentStep('select');
+      }
     }, 3000);
   };
+
   const handleBack = () => {
     navigate("/client/products");
   };
+
   if (paymentStep === 'processing') {
-    return <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center">
-        <motion.div className="text-center" initial={{
-        opacity: 0,
-        scale: 0.9
-      }} animate={{
-        opacity: 1,
-        scale: 1
-      }}>
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center">
+        <motion.div 
+          className="text-center" 
+          initial={{ opacity: 0, scale: 0.9 }} 
+          animate={{ opacity: 1, scale: 1 }}
+        >
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Processando Pagamento</h2>
           <p className="text-gray-600">Aguarde enquanto validamos seu pagamento...</p>
         </motion.div>
-      </div>;
+      </div>
+    );
   }
+
   if (paymentStep === 'success') {
-    return <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
-        <motion.div className="text-center" initial={{
-        opacity: 0,
-        scale: 0.9
-      }} animate={{
-        opacity: 1,
-        scale: 1
-      }}>
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
+        <motion.div 
+          className="text-center" 
+          initial={{ opacity: 0, scale: 0.9 }} 
+          animate={{ opacity: 1, scale: 1 }}
+        >
           <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Pagamento Aprovado!</h2>
           <p className="text-gray-600 mb-4">Redirecionando para ativação do chip...</p>
@@ -102,14 +159,22 @@ export default function Checkout() {
             <p className="text-sm text-gray-500">Protocolo: {new Date().getTime().toString()}</p>
           </div>
         </motion.div>
-      </div>;
+      </div>
+    );
   }
-  return <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" onClick={handleBack} className="text-gray-600 hover:text-gray-800">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={handleBack}
+              className="text-gray-600 hover:text-gray-800"
+            >
               <ArrowLeft className="h-4 w-4 mr-1" />
               Voltar
             </Button>
@@ -133,19 +198,23 @@ export default function Checkout() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {selectedLines?.map((line: any, index: number) => <div key={index} className="flex justify-between items-center">
+                {selectedLines?.map((line: any, index: number) => (
+                  <div key={index} className="flex justify-between items-center">
                     <div>
                       <p className="font-medium">{line.internet}</p>
                       <p className="text-sm text-gray-600">{line.type}</p>
                       {line.ddd && <p className="text-sm text-gray-600">DDD: {line.ddd}</p>}
                     </div>
                     <p className="font-medium">R$ {line.price.toFixed(2)}</p>
-                  </div>)}
+                  </div>
+                ))}
                 
-                {selectedDueDate && <div className="flex items-center gap-2 text-sm text-gray-600 pt-2 border-t">
+                {selectedDueDate && (
+                  <div className="flex items-center gap-2 text-sm text-gray-600 pt-2 border-t">
                     <Clock className="h-4 w-4" />
                     Vencimento: Todo dia {selectedDueDate}
-                  </div>}
+                  </div>
+                )}
                 
                 <div className="border-t pt-4">
                   <div className="flex justify-between items-center font-bold text-lg">
@@ -168,20 +237,32 @@ export default function Checkout() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Button variant={selectedPayment === 'pix' ? "default" : "outline"} className="h-20 flex flex-col items-center justify-center" onClick={() => setSelectedPayment('pix')}>
+                  <Button
+                    variant={selectedPayment === 'pix' ? "default" : "outline"}
+                    className="h-20 flex flex-col items-center justify-center"
+                    onClick={() => setSelectedPayment('pix')}
+                  >
                     <div className="text-2xl mb-1">💰</div>
                     <span>PIX</span>
                     <span className="text-xs text-gray-600">Aprovação instantânea</span>
                   </Button>
 
-                  <Button variant={selectedPayment === 'card' ? "default" : "outline"} className="h-20 flex flex-col items-center justify-center" onClick={() => setSelectedPayment('card')}>
+                  <Button
+                    variant={selectedPayment === 'card' ? "default" : "outline"}
+                    className="h-20 flex flex-col items-center justify-center"
+                    onClick={() => setSelectedPayment('card')}
+                  >
                     <CreditCard className="h-6 w-6 mb-1" />
                     <span>Cartão</span>
                     <span className="text-xs text-gray-600">Débito ou Crédito</span>
                   </Button>
                 </div>
 
-                <Button className="w-full h-12 text-lg" onClick={handlePayment} disabled={!selectedPayment || isProcessing}>
+                <Button
+                  className="w-full h-12 text-lg"
+                  onClick={handlePayment}
+                  disabled={!selectedPayment || isProcessing}
+                >
                   {isProcessing ? "Processando..." : `Pagar R$ ${calculateTotal().toFixed(2)}`}
                 </Button>
 
@@ -199,5 +280,6 @@ export default function Checkout() {
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-sm">
         
       </div>
-    </div>;
+    </div>
+  );
 }
