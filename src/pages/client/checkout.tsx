@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, CreditCard, Smartphone, Clock, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
-import { supabase } from "@/integrations/supabase/client";
 
 export default function Checkout() {
   const navigate = useNavigate();
@@ -32,52 +31,6 @@ export default function Checkout() {
     return selectedLines?.reduce((total: number, line: any) => total + line.price, 0) || 0;
   };
 
-  const createOrderRecord = async (orderData: any) => {
-    try {
-      const { data: session } = await supabase.auth.getSession();
-      if (!session.session?.user) {
-        throw new Error('Usuário não autenticado');
-      }
-
-      // Buscar o plano selecionado para obter o plan_id
-      const selectedPlan = JSON.parse(localStorage.getItem('selectedPlan') || '{}');
-      
-      // Criar o registro de contratação
-      const { data: order, error } = await supabase
-        .from('orders')
-        .insert({
-          user_id: session.session.user.id,
-          plan_id: selectedPlan.id,
-          total_amount: orderData.total,
-          status: 'pending',
-          notes: `Pagamento via ${selectedPayment === 'pix' ? 'PIX' : 'Cartão'} - Vencimento dia ${selectedDueDate}`
-        })
-        .select()
-        .single();
-
-      if (error) throw error;
-
-      console.log('Registro de contratação criado:', order);
-      
-      // Adicionar o order_id aos dados salvos
-      const updatedOrderData = {
-        ...orderData,
-        order_id: order.id
-      };
-      localStorage.setItem('orderData', JSON.stringify(updatedOrderData));
-
-      return order;
-    } catch (error) {
-      console.error('Erro ao criar registro de contratação:', error);
-      toast({
-        title: "Erro",
-        description: "Erro ao processar contratação. Tente novamente.",
-        variant: "destructive"
-      });
-      throw error;
-    }
-  };
-
   const handlePayment = async () => {
     if (!selectedPayment) {
       toast({
@@ -102,15 +55,15 @@ export default function Checkout() {
           status: 'paid'
         };
 
-        // Criar o registro de contratação pendente
-        await createOrderRecord(orderData);
+        // Salvar dados do pedido no localStorage para uso na ativação do chip
+        localStorage.setItem('orderData', JSON.stringify(orderData));
 
         setPaymentStep('success');
         setIsProcessing(false);
         
         toast({
           title: "Pagamento Aprovado!",
-          description: "Sua contratação está pendente de aprovação administrativa."
+          description: "Redirecionando para ativação do chip..."
         });
 
         // Navigate to chip activation after 2 seconds
