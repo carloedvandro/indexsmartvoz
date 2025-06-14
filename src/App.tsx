@@ -18,6 +18,7 @@ import ClientFinancial from "./pages/client/financial";
 import ClientProfile from "./pages/client/profile";
 import ClientEsim from "./pages/client/esim";
 import ClientNotifications from "./pages/client/notifications";
+import AdminLogin from "./pages/admin/login";
 import AdminDashboard from "./pages/admin/dashboard";
 import AdminUsers from "./pages/admin/users";
 import AdminPlans from "./pages/admin/plans";
@@ -42,6 +43,7 @@ const App = () => (
           <Route path="/store/:storeId" element={<Store />} />
           <Route path="/client/login" element={<ClientLogin />} />
           <Route path="/client/register" element={<ClientRegister />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
           
           {/* Protected routes for authenticated users */}
           <Route path="/client/facial-biometry" element={<ProtectedRoute />}>
