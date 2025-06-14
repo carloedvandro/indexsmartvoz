@@ -46,8 +46,7 @@ export function PlansSection({
         ? plan.benefits
             .sort((a, b) => (a.display_order || 0) - (b.display_order || 0))
             .map(benefit => benefit.benefit_title)
-        : defaultFeatures,
-      isHighlighted: plan.value === 124.99 // Highlight the Premium 120GB plan
+        : defaultFeatures
     };
   }) || [];
 

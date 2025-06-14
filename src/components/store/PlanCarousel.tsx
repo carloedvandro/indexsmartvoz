@@ -40,6 +40,21 @@ export function PlanCarousel({
     }
   };
 
+  const getPlanColors = (gb: string) => {
+    switch (gb) {
+      case "80GB":
+        return "bg-gradient-to-br from-blue-500 to-blue-600 text-white";
+      case "100GB":
+        return "bg-gradient-to-br from-purple-500 to-purple-600 text-white";
+      case "120GB":
+        return "bg-gradient-to-br from-pink-500 to-pink-600 text-white";
+      case "140GB":
+        return "bg-gradient-to-br from-orange-500 to-orange-600 text-white";
+      default:
+        return "bg-gradient-to-br from-gray-500 to-gray-600 text-white";
+    }
+  };
+
   return (
     <div className="w-full px-4">
       {/* Header */}
@@ -91,26 +106,45 @@ export function PlanCarousel({
 
 // Plan Card Component
 function PlanCard({ plan, onSelectPlan }: { plan: Plan; onSelectPlan: (plan: Plan) => void }) {
+  const getPlanColors = (gb: string) => {
+    switch (gb) {
+      case "80GB":
+        return "bg-gradient-to-br from-blue-500 to-blue-600 text-white";
+      case "100GB":
+        return "bg-gradient-to-br from-purple-500 to-purple-600 text-white";
+      case "120GB":
+        return "bg-gradient-to-br from-pink-500 to-pink-600 text-white";
+      case "140GB":
+        return "bg-gradient-to-br from-orange-500 to-orange-600 text-white";
+      default:
+        return "bg-gradient-to-br from-gray-500 to-gray-600 text-white";
+    }
+  };
+
+  const getPlanTypeLabel = (gb: string) => {
+    switch (gb) {
+      case "80GB":
+        return "Basic Plan";
+      case "100GB":
+        return "Standard Plan";
+      case "120GB":
+        return "Premium Plan";
+      case "140GB":
+        return "Pro Plan";
+      default:
+        return "Plan";
+    }
+  };
+
   return (
     <Card className={`
       relative h-full transition-all duration-300 hover:scale-105 hover:shadow-xl
-      ${plan.isHighlighted 
-        ? 'bg-gradient-to-br from-purple-500 to-purple-600 text-white ring-4 ring-purple-300' 
-        : 'bg-white text-gray-800 border-gray-200'
-      }
+      ${getPlanColors(plan.gb)} border-0
     `}>
-      {plan.isHighlighted && (
-        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-          <span className="bg-yellow-400 text-purple-800 px-3 py-1 rounded-full text-xs font-bold">
-            MOST POPULAR
-          </span>
-        </div>
-      )}
-
       <CardContent className="p-6 text-center h-full flex flex-col">
         {/* Plan Type */}
-        <div className={`text-sm font-medium mb-2 ${plan.isHighlighted ? 'text-purple-100' : 'text-gray-500'}`}>
-          {plan.name}
+        <div className="text-sm font-medium mb-2 text-white/90">
+          {getPlanTypeLabel(plan.gb)}
         </div>
 
         {/* Price */}
@@ -120,7 +154,7 @@ function PlanCard({ plan, onSelectPlan }: { plan: Plan; onSelectPlan: (plan: Pla
             <span className="text-4xl font-bold mx-1">{Math.floor(plan.price)}</span>
             <span className="text-sm">,{(plan.price % 1).toFixed(2).slice(2)}</span>
           </div>
-          <div className={`text-sm ${plan.isHighlighted ? 'text-purple-200' : 'text-gray-500'}`}>
+          <div className="text-sm text-white/80">
             A MONTH
           </div>
         </div>
@@ -130,10 +164,7 @@ function PlanCard({ plan, onSelectPlan }: { plan: Plan; onSelectPlan: (plan: Pla
           <ul className="space-y-3">
             {plan.features.map((feature, featureIndex) => (
               <li key={featureIndex} className="flex items-start gap-3 text-sm">
-                <Check className={`
-                  h-4 w-4 mt-0.5 flex-shrink-0
-                  ${plan.isHighlighted ? 'text-white' : 'text-green-500'}
-                `} />
+                <Check className="h-4 w-4 mt-0.5 flex-shrink-0 text-white" />
                 <span className="text-left">{feature}</span>
               </li>
             ))}
@@ -143,13 +174,7 @@ function PlanCard({ plan, onSelectPlan }: { plan: Plan; onSelectPlan: (plan: Pla
         {/* CTA Button */}
         <Button 
           onClick={() => onSelectPlan(plan)} 
-          className={`
-            w-full font-semibold py-3 rounded-lg transition-all duration-200
-            ${plan.isHighlighted 
-              ? 'bg-white text-purple-600 hover:bg-gray-100 hover:text-purple-700' 
-              : 'bg-purple-600 text-white hover:bg-purple-700'
-            }
-          `}
+          className="w-full font-semibold py-3 rounded-lg transition-all duration-200 bg-white text-gray-800 hover:bg-gray-100 hover:text-gray-900"
         >
           Choose this Plan
         </Button>
