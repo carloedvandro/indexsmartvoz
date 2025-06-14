@@ -29,18 +29,7 @@ export default function PlanSelection() {
   return <div className="min-h-screen bg-gradient-to-br from-white-50 to-white-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
-        <div className="max-w-4xl mx-auto px-4 py-4">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" onClick={handleBack} className="text-gray-600 hover:text-gray-800">
-              <ArrowLeft className="h-4 w-4 mr-1" />
-              Voltar
-            </Button>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-800">Escolha seu Plano</h1>
-              <p className="text-gray-600">Selecione o plano ideal para suas necessidades</p>
-            </div>
-          </div>
-        </div>
+        
       </div>
 
       {/* Plans Section */}
