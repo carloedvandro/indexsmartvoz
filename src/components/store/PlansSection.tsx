@@ -23,20 +23,33 @@ export function PlansSection({
   const { data: plansData, isLoading, error } = usePlans();
 
   // Transform database plans to component format
-  const transformedPlans = plansData?.map(plan => ({
-    id: plan.id,
-    name: plan.title,
-    gb: `${Math.floor(plan.value / 10)}GB`, // Convert value to GB representation
-    price: plan.value,
-    features: [
+  const transformedPlans = plansData?.map(plan => {
+    // Extract GB from title (e.g., "Plano Basic 80GB" -> "80GB")
+    const gbMatch = plan.title.match(/(\d+)GB/);
+    const gb = gbMatch ? `${gbMatch[1]}GB` : "0GB";
+    
+    // Use actual benefits from database if available, otherwise fallback
+    const defaultFeatures = [
       `${plan.title}`,
-      "Minutos: Ilimitados",
+      "Minutos: Ilimitados", 
       "Chip eSIM ou Sim Card Fisico",
       "Escolha seu DDD",
       "Validade: 30 Dias"
-    ],
-    isHighlighted: plan.value === 124.99 // Highlight the 120GB plan as shown in the image
-  })) || [];
+    ];
+
+    return {
+      id: plan.id,
+      name: plan.title,
+      gb: gb,
+      price: plan.value,
+      features: plan.benefits && plan.benefits.length > 0 
+        ? plan.benefits
+            .sort((a, b) => (a.display_order || 0) - (b.display_order || 0))
+            .map(benefit => benefit.benefit_title)
+        : defaultFeatures,
+      isHighlighted: plan.value === 124.99 // Highlight the Premium 120GB plan
+    };
+  }) || [];
 
   const handleSelectPlan = (plan: any) => {
     if (onSelectPlan) {

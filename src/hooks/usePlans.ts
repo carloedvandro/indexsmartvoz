@@ -3,6 +3,19 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
+interface PlanBenefit {
+  id: string;
+  benefit_title: string;
+  display_order: number;
+}
+
+interface PlanCashbackLevel {
+  id: string;
+  level: number;
+  percentage: number;
+  description: string;
+}
+
 interface Plan {
   id: string;
   title: string;
@@ -11,6 +24,8 @@ interface Plan {
   status: string;
   created_at: string;
   updated_at: string;
+  benefits?: PlanBenefit[];
+  cashback_levels?: PlanCashbackLevel[];
 }
 
 export const usePlans = () => {
@@ -20,7 +35,11 @@ export const usePlans = () => {
       try {
         const { data: plans, error } = await supabase
           .from('plans')
-          .select('*')
+          .select(`
+            *,
+            benefits:plan_benefits(*),
+            cashback_levels:plan_cashback_levels(*)
+          `)
           .eq('status', 'active')
           .order('value');
 
