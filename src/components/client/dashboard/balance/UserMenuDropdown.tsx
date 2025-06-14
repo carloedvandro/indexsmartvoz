@@ -57,7 +57,9 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
     );
   };
 
-  const handleUserMenuClick = () => {
+  const handleUserMenuClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     navigate('/client/navigation');
   };
 
