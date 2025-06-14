@@ -20,7 +20,7 @@ export function NavigationButtons({
   // Always use the provided handler for back navigation
   const handleBackNavigation = () => {
     if (currentStep === 1) {
-      navigate("/client/dashboard");
+      navigate("/client/plan-selection");
     } else {
       handleBack();
     }

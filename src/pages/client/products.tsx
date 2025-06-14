@@ -15,6 +15,8 @@ type Line = {
   ddd: string;
   price: number;
   barcode?: string;
+  planId?: string;
+  planName?: string;
 };
 
 export default function ClientProducts() {
@@ -33,17 +35,30 @@ export default function ClientProducts() {
   useEffect(() => {
     const savedPlan = localStorage.getItem('selectedPlan');
     if (savedPlan) {
-      const plan = JSON.parse(savedPlan);
-      // Pre-populate with selected plan
-      setSelectedLines([{
-        id: 1,
-        internet: plan.gb,
-        type: "eSIM",
-        ddd: "",
-        price: plan.price
-      }]);
+      try {
+        const plan = JSON.parse(savedPlan);
+        console.log('Loaded plan from localStorage:', plan);
+        
+        // Pre-populate with selected plan
+        setSelectedLines([{
+          id: 1,
+          internet: plan.gb,
+          type: "eSIM",
+          ddd: "",
+          price: plan.price,
+          planId: plan.id,
+          planName: plan.name || plan.title
+        }]);
+      } catch (error) {
+        console.error('Error parsing saved plan:', error);
+        // If no plan is saved, redirect back to plan selection
+        navigate("/client/plan-selection");
+      }
+    } else {
+      // If no plan is saved, redirect back to plan selection
+      navigate("/client/plan-selection");
     }
-  }, []);
+  }, [navigate]);
 
   const handleContinue = () => {
     if (currentStep === 1 && selectedLines.length === 0) {
@@ -74,6 +89,15 @@ export default function ClientProducts() {
     }
 
     if (currentStep === 3 && acceptedTerms) {
+      // Store complete order data in localStorage for checkout
+      const orderData = {
+        selectedLines,
+        selectedDueDate,
+        acceptedTerms,
+        selectedPlan: JSON.parse(localStorage.getItem('selectedPlan') || '{}')
+      };
+      localStorage.setItem('orderData', JSON.stringify(orderData));
+      
       // Navigate to checkout instead of chip activation
       navigate("/client/checkout", {
         state: {
