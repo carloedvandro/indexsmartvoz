@@ -23,7 +23,7 @@ import AdminUsers from "./pages/admin/users";
 import AdminPlans from "./pages/admin/plans";
 import AdminReports from "./pages/admin/reports";
 import AdminOrders from "./pages/admin/orders";
-import Store from "./pages/Store";
+import Store from "./pages/public/store";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { RoleBasedRoute } from "@/components/RoleBasedRoute";
 import { DynamicLayout } from "@/components/layouts/DynamicLayout";
@@ -44,125 +44,115 @@ const App = () => (
           <Route path="/client/register" element={<ClientRegister />} />
           
           {/* Protected routes for authenticated users */}
-          <Route path="/client/facial-biometry" element={
-            <ProtectedRoute>
-              <ClientFacialBiometry />
-            </ProtectedRoute>
-          } />
+          <Route path="/client/facial-biometry" element={<ProtectedRoute />}>
+            <Route index element={<ClientFacialBiometry />} />
+          </Route>
           
-          <Route path="/client/plan-selection" element={
-            <ProtectedRoute>
-              <ClientPlanSelection />
-            </ProtectedRoute>
-          } />
+          <Route path="/client/plan-selection" element={<ProtectedRoute />}>
+            <Route index element={<ClientPlanSelection />} />
+          </Route>
           
-          <Route path="/client/products" element={
-            <ProtectedRoute>
-              <ClientProducts />
-            </ProtectedRoute>
-          } />
+          <Route path="/client/products" element={<ProtectedRoute />}>
+            <Route index element={<ClientProducts />} />
+          </Route>
           
-          <Route path="/client/checkout" element={
-            <ProtectedRoute>
-              <ClientCheckout />
-            </ProtectedRoute>
-          } />
+          <Route path="/client/checkout" element={<ProtectedRoute />}>
+            <Route index element={<ClientCheckout />} />
+          </Route>
           
-          <Route path="/client/chip-activation" element={
-            <ProtectedRoute>
-              <ClientChipActivation />
-            </ProtectedRoute>
-          } />
+          <Route path="/client/chip-activation" element={<ProtectedRoute />}>
+            <Route index element={<ClientChipActivation />} />
+          </Route>
 
           {/* Client dashboard routes */}
-          <Route path="/client/dashboard" element={
-            <ProtectedRoute>
+          <Route path="/client/dashboard" element={<ProtectedRoute />}>
+            <Route index element={
               <DynamicLayout forceRole="client">
                 <ClientDashboard />
               </DynamicLayout>
-            </ProtectedRoute>
-          } />
+            } />
+          </Route>
           
-          <Route path="/client/network" element={
-            <ProtectedRoute>
+          <Route path="/client/network" element={<ProtectedRoute />}>
+            <Route index element={
               <DynamicLayout forceRole="client">
                 <ClientNetwork />
               </DynamicLayout>
-            </ProtectedRoute>
-          } />
+            } />
+          </Route>
           
-          <Route path="/client/financial" element={
-            <ProtectedRoute>
+          <Route path="/client/financial" element={<ProtectedRoute />}>
+            <Route index element={
               <DynamicLayout forceRole="client">
                 <ClientFinancial />
               </DynamicLayout>
-            </ProtectedRoute>
-          } />
+            } />
+          </Route>
           
-          <Route path="/client/profile" element={
-            <ProtectedRoute>
+          <Route path="/client/profile" element={<ProtectedRoute />}>
+            <Route index element={
               <DynamicLayout forceRole="client">
                 <ClientProfile />
               </DynamicLayout>
-            </ProtectedRoute>
-          } />
+            } />
+          </Route>
           
-          <Route path="/client/esim" element={
-            <ProtectedRoute>
+          <Route path="/client/esim" element={<ProtectedRoute />}>
+            <Route index element={
               <DynamicLayout forceRole="client">
                 <ClientEsim />
               </DynamicLayout>
-            </ProtectedRoute>
-          } />
+            } />
+          </Route>
           
-          <Route path="/client/notifications" element={
-            <ProtectedRoute>
+          <Route path="/client/notifications" element={<ProtectedRoute />}>
+            <Route index element={
               <DynamicLayout forceRole="client">
                 <ClientNotifications />
               </DynamicLayout>
-            </ProtectedRoute>
-          } />
+            } />
+          </Route>
 
           {/* Admin routes */}
-          <Route path="/admin/dashboard" element={
-            <RoleBasedRoute allowedRoles={["admin"]}>
+          <Route path="/admin/dashboard" element={<RoleBasedRoute allowedRoles={["admin"]} />}>
+            <Route index element={
               <DynamicLayout forceRole="admin">
                 <AdminDashboard />
               </DynamicLayout>
-            </RoleBasedRoute>
-          } />
+            } />
+          </Route>
           
-          <Route path="/admin/users" element={
-            <RoleBasedRoute allowedRoles={["admin"]}>
+          <Route path="/admin/users" element={<RoleBasedRoute allowedRoles={["admin"]} />}>
+            <Route index element={
               <DynamicLayout forceRole="admin">
                 <AdminUsers />
               </DynamicLayout>
-            </RoleBasedRoute>
-          } />
+            } />
+          </Route>
           
-          <Route path="/admin/plans" element={
-            <RoleBasedRoute allowedRoles={["admin"]}>
+          <Route path="/admin/plans" element={<RoleBasedRoute allowedRoles={["admin"]} />}>
+            <Route index element={
               <DynamicLayout forceRole="admin">
                 <AdminPlans />
               </DynamicLayout>
-            </RoleBasedRoute>
-          } />
+            } />
+          </Route>
           
-          <Route path="/admin/reports" element={
-            <RoleBasedRoute allowedRoles={["admin"]}>
+          <Route path="/admin/reports" element={<RoleBasedRoute allowedRoles={["admin"]} />}>
+            <Route index element={
               <DynamicLayout forceRole="admin">
                 <AdminReports />
               </DynamicLayout>
-            </RoleBasedRoute>
-          } />
+            } />
+          </Route>
           
-          <Route path="/admin/orders" element={
-            <RoleBasedRoute allowedRoles={["admin"]}>
+          <Route path="/admin/orders" element={<RoleBasedRoute allowedRoles={["admin"]} />}>
+            <Route index element={
               <DynamicLayout forceRole="admin">
                 <AdminOrders />
               </DynamicLayout>
-            </RoleBasedRoute>
-          } />
+            } />
+          </Route>
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
