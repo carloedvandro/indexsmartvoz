@@ -60,7 +60,7 @@ export function UserMenuDropdown({ showUserMenu, onToggleUserMenu, onLogout, pro
   const handleUserMenuClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    onToggleUserMenu();
+    navigate('/client/navigation');
   };
 
   return (
