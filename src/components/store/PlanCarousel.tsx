@@ -25,21 +25,6 @@ export function PlanCarousel({
   onSelectPlan,
   isMobile
 }: PlanCarouselProps) {
-  const getPlanTypeLabel = (gb: string) => {
-    switch (gb) {
-      case "80GB":
-        return "Basic Plan";
-      case "100GB":
-        return "Standard Plan";
-      case "120GB":
-        return "Premium Plan";
-      case "140GB":
-        return "Pro Plan";
-      default:
-        return "Plan";
-    }
-  };
-
   const getPlanColors = (gb: string) => {
     switch (gb) {
       case "80GB":
@@ -121,30 +106,15 @@ function PlanCard({ plan, onSelectPlan }: { plan: Plan; onSelectPlan: (plan: Pla
     }
   };
 
-  const getPlanTypeLabel = (gb: string) => {
-    switch (gb) {
-      case "80GB":
-        return "Basic Plan";
-      case "100GB":
-        return "Standard Plan";
-      case "120GB":
-        return "Premium Plan";
-      case "140GB":
-        return "Pro Plan";
-      default:
-        return "Plan";
-    }
-  };
-
   return (
     <Card className={`
       relative h-full transition-all duration-300 hover:scale-105 hover:shadow-xl
       ${getPlanColors(plan.gb)} border-0
     `}>
       <CardContent className="p-6 text-center h-full flex flex-col">
-        {/* Plan Type */}
+        {/* Plan Title */}
         <div className="text-sm font-medium mb-2 text-white/90">
-          {getPlanTypeLabel(plan.gb)}
+          {plan.name}
         </div>
 
         {/* Price */}
@@ -155,7 +125,7 @@ function PlanCard({ plan, onSelectPlan }: { plan: Plan; onSelectPlan: (plan: Pla
             <span className="text-sm">,{(plan.price % 1).toFixed(2).slice(2)}</span>
           </div>
           <div className="text-sm text-white/80">
-            A MONTH
+            por mês
           </div>
         </div>
 
