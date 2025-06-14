@@ -51,11 +51,11 @@ export default function FacialBiometry() {
 
       toast({
         title: "Verificação Concluída",
-        description: "Seu cadastro foi verificado com sucesso!",
+        description: "Agora vamos selecionar seu plano!",
       });
       
-      // Navigate to dashboard
-      navigate("/client/dashboard");
+      // Navigate to plan selection instead of dashboard
+      navigate("/client/plan-selection");
     } catch (error: any) {
       console.error("Verification completion error:", error);
       toast({

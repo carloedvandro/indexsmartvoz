@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { ChipActivationFlow } from "@/components/client/products/ChipActivationFlow";
@@ -29,8 +29,23 @@ export default function ClientProducts() {
   const [scanningIndex, setScanningIndex] = useState<number | null>(null);
   const [showChipActivation, setShowChipActivation] = useState(false);
 
+  // Load selected plan from localStorage
+  useEffect(() => {
+    const savedPlan = localStorage.getItem('selectedPlan');
+    if (savedPlan) {
+      const plan = JSON.parse(savedPlan);
+      // Pre-populate with selected plan
+      setSelectedLines([{
+        id: 1,
+        internet: plan.gb,
+        type: "eSIM",
+        ddd: "",
+        price: plan.price
+      }]);
+    }
+  }, []);
+
   const handleContinue = () => {
-    debugger;
     if (currentStep === 1 && selectedLines.length === 0) {
       toast({
         title: "Erro",
@@ -40,16 +55,16 @@ export default function ClientProducts() {
       return;
     }
 
-    if (currentStep === 3 && !selectedDueDate) {
+    if (currentStep === 1 && (!selectedLines[0]?.ddd || !selectedDueDate)) {
       toast({
         title: "Erro",
-        description: "Selecione uma data de vencimento para continuar",
+        description: "Selecione o DDD e data de vencimento para continuar",
         variant: "destructive",
       });
       return;
     }
 
-    if (currentStep === 4 && !acceptedTerms) {
+    if (currentStep === 3 && !acceptedTerms) {
       toast({
         title: "Erro",
         description: "Você precisa aceitar os termos para continuar",
@@ -59,10 +74,14 @@ export default function ClientProducts() {
     }
 
     if (currentStep === 3 && acceptedTerms) {
-      const protocolNumber = new Date().getTime().toString();
-      setProtocol(protocolNumber);
-      setShowChipActivation(true);
-      setCurrentStep(5);
+      // Navigate to checkout instead of chip activation
+      navigate("/client/checkout", {
+        state: {
+          selectedLines,
+          selectedDueDate,
+          acceptedTerms
+        }
+      });
     } else if (currentStep === 5) {
       setCurrentStep(6);
     } else if (currentStep === 6) {
@@ -73,7 +92,9 @@ export default function ClientProducts() {
   };
 
   const handleBack = () => {
-    if (currentStep > 1) {
+    if (currentStep === 1) {
+      navigate("/client/plan-selection");
+    } else if (currentStep > 1) {
       if (currentStep === 5) {
         setShowChipActivation(false);
         setCurrentStep(3);

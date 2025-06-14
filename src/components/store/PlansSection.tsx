@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { PlanCard } from "./PlanCard";
 import { PlansOrbital } from "./PlansOrbital";
@@ -61,18 +62,24 @@ const PLANS = [
 
 interface PlansSectionProps {
   storeOwnerCustomId?: string;
+  onSelectPlan?: (plan: any) => void;
 }
 
-export function PlansSection({ storeOwnerCustomId }: PlansSectionProps) {
+export function PlansSection({ storeOwnerCustomId, onSelectPlan }: PlansSectionProps) {
   const navigate = useNavigate();
   const [viewMode, setViewMode] = useState<"cards" | "orbital">("orbital");
 
   const handleSelectPlan = (plan: any) => {
-    // Navigate directly to the products page with the plan selected
-    if (storeOwnerCustomId) {
-      navigate(`/client/products?sponsor=${storeOwnerCustomId}&plan=${plan.id}`);
+    if (onSelectPlan) {
+      // If onSelectPlan is provided, use it (for plan-selection page)
+      onSelectPlan(plan);
     } else {
-      navigate(`/client/products?plan=${plan.id}`);
+      // Default behavior for other pages
+      if (storeOwnerCustomId) {
+        navigate(`/client/products?sponsor=${storeOwnerCustomId}&plan=${plan.id}`);
+      } else {
+        navigate(`/client/products?plan=${plan.id}`);
+      }
     }
   };
 
