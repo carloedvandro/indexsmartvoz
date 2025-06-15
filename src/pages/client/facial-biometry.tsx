@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FacialBiometryFlow } from "@/components/client/register/facial-biometry/FacialBiometryFlow";
@@ -73,7 +72,7 @@ export default function FacialBiometry() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-white pb-1">
+    <div className="min-h-screen w-full bg-white">
       <div className="flex flex-col justify-center items-center min-h-screen">
         <div className="w-full h-full max-w-md">
           <FacialBiometryFlow 
