@@ -1,6 +1,4 @@
 
-
-
 interface DocumentFrameProps {
   documentDetected: boolean;
 }
@@ -26,11 +24,9 @@ export const DocumentFrame = ({ documentDetected }: DocumentFrameProps) => {
 
         {/* Centered instruction text */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white text-xs font-light">
-          {documentDetected ? "Documento Detectado" : "Encaixe o Documento"}
+          Encaixe o Documento
         </div>
       </div>
     </div>
   );
 };
-
-
