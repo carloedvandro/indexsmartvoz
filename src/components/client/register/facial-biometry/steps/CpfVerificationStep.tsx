@@ -62,15 +62,13 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
     <div className="h-screen bg-white text-gray-800 flex items-start justify-center pt-32 p-6 pb-20 overflow-hidden">
       <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
         <h2 className="text-xs font-bold text-gray-800 max-w-[280px] mx-auto text-center">
-          Olá, verificamos que você está realizando a 
+          Olá! Para dar continuidade à contratação dos nossos serviços SmartVoz,
           <br />
-          consulta/contratação dos nossos serviços SmartVoz.
-          <br />
-          Para dar continuidade precisamos realizar a sua biometria.
+          precisamos realizar sua verificação de identidade através da biometria facial.
         </h2>
         
         <p className="text-xs text-gray-600 text-center mt-2 max-w-[280px] mx-auto">
-          Biometria é uma solução que utiliza a tecnologia para identificação do cliente.
+          A biometria facial é uma tecnologia segura que permite confirmar sua identidade de forma rápida e confiável.
         </p>
         
         <form onSubmit={handleSubmit} className="space-y-3">
