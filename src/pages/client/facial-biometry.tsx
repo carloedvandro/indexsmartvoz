@@ -73,7 +73,7 @@ export default function FacialBiometry() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-white pb-4">
+    <div className="min-h-screen w-full bg-white pb-2">
       <div className="flex flex-col justify-center items-center min-h-screen">
         <div className="w-full h-full max-w-md">
           <FacialBiometryFlow 
