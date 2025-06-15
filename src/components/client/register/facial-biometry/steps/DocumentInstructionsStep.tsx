@@ -34,14 +34,6 @@ export const DocumentInstructionsStep = ({ onNext }: DocumentInstructionsStepPro
         </div>
       </div>
 
-      {/* Progress dots */}
-      <div className="flex justify-center space-x-2 mb-10">
-        <div className="w-4 h-1 bg-white"></div>
-        <div className="w-1 h-1 bg-white rounded-full"></div>
-        <div className="w-1 h-1 bg-white rounded-full"></div>
-        <div className="w-1 h-1 bg-white rounded-full"></div>
-      </div>
-
       {/* Button outside of the main container */}
       <button
         onClick={onNext}
