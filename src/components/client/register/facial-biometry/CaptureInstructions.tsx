@@ -10,12 +10,12 @@ interface CaptureInstructionsProps {
 
 export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
   return (
-    <div className="bg-white text-gray-800 min-h-screen flex flex-col">
-      <div className="flex flex-col items-center justify-center flex-grow px-4">
+    <div className="bg-white text-gray-800 h-[480px] flex flex-col">
+      <div className="flex flex-col items-center justify-center flex-grow px-4 pt-8">
         {/* Central icon */}
         <div className="flex flex-col items-center">
-          <div className="bg-gray-100 p-8 rounded-full mb-6">
-            <Camera size={64} color="#8425af" strokeWidth={1.5} />
+          <div className="bg-gray-100 p-6 rounded-full mb-4">
+            <Camera size={48} color="#8425af" strokeWidth={1.5} />
           </div>
           
           {/* Text content */}
