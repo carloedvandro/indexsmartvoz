@@ -40,6 +40,8 @@ export const useDocumentCaptureProgress = ({
         });
       }, 100); // Atualiza a cada 100ms
     } else {
+      // Interrompe e reseta quando documento não detectado ou está capturando
+      console.log("🛑 INTERROMPENDO PROGRESSO - Documento não detectado ou capturando");
       setIsProgressActive(false);
       setCaptureProgress(0);
     }
@@ -50,14 +52,6 @@ export const useDocumentCaptureProgress = ({
       }
     };
   }, [documentDetected, isCapturing, onCapture]);
-
-  // Reset progress when capturing starts
-  useEffect(() => {
-    if (isCapturing) {
-      setIsProgressActive(false);
-      setCaptureProgress(0);
-    }
-  }, [isCapturing]);
 
   return {
     captureProgress,
