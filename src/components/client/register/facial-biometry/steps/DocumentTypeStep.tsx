@@ -71,13 +71,6 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
           </Card>
         </div>
 
-        <div className="flex justify-center space-x-2 mt-6">
-          <div className="w-1 h-1 bg-white/70 rounded-full"></div>
-          <div className="w-5 h-1 bg-white rounded"></div>
-          <div className="w-1 h-1 bg-white/70 rounded-full"></div>
-          <div className="w-1 h-1 bg-white/70 rounded-full"></div>
-        </div>
-
         <Button
           onClick={handleContinue}
           variant="outline"
