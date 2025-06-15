@@ -10,7 +10,7 @@ interface CaptureInstructionsProps {
 
 export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
   return (
-    <div className="bg-white text-gray-800 min-h-[calc(100vh-100px)] relative flex flex-col justify-between">
+    <div className="bg-white text-gray-800 min-h-screen flex flex-col">
       <div className="flex flex-col items-center justify-center flex-grow px-4">
         {/* Central icon */}
         <div className="flex flex-col items-center">
@@ -27,13 +27,15 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
         </div>
       </div>
 
-      {/* Button at bottom */}
-      <button
-        onClick={onNext}
-        className="w-full h-12 bg-[#8425af] text-white uppercase text-xs font-medium hover:bg-[#7a1fa2]"
-      >
-        AVANÇAR
-      </button>
+      {/* Button fixed at bottom */}
+      <div className="w-full p-0">
+        <Button
+          onClick={onNext}
+          className="w-full h-12 bg-[#8425af] text-white uppercase text-xs font-medium hover:bg-[#7a1fa2] rounded-none"
+        >
+          AVANÇAR
+        </Button>
+      </div>
     </div>
   );
 };
