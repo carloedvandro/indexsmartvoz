@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -63,10 +64,21 @@ export default function ClientProducts() {
 
   // Nova função: dispara integração Asaas, cadastra cliente/cobrança, redireciona para pagamento
   const iniciarCobrancaAsaas = async () => {
+    console.log('🚀 Iniciando cobrança Asaas...');
+    console.log('selectedLines:', selectedLines);
+    console.log('selectedDueDate:', selectedDueDate);
+    console.log('acceptedTerms:', acceptedTerms);
+
     if (!selectedLines?.length || !selectedDueDate) {
-      toast({ title: "Erro", description: "Dados do plano ou vencimento ausentes.", variant: "destructive" });
-      return;
+      console.error('❌ Dados incompletos para pagamento');
+      toast({ 
+        title: "Erro", 
+        description: "Dados do plano ou vencimento ausentes.", 
+        variant: "destructive" 
+      });
+      return false;
     }
+
     setIsAsaasProcessing(true);
 
     try {
@@ -79,6 +91,8 @@ export default function ClientProducts() {
       const plan = selectedLines[0];
       const value = plan.price;
       const dueDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+
+      console.log('💰 Dados do pagamento:', { name, email, value, dueDate });
 
       // Chama Edge Function via fetch
       const res = await fetch(ASAAS_EDGE_PAYMENT_URL, {
@@ -96,11 +110,17 @@ export default function ClientProducts() {
       });
 
       const data = await res.json();
+      console.log('📡 Resposta do Asaas:', data);
 
       if (data.error || !data.invoiceUrl) {
+        console.error('❌ Erro na resposta do Asaas:', data.error);
         setIsAsaasProcessing(false);
-        toast({ title: "Erro ao gerar cobrança", description: data.error?.message || "Erro desconhecido", variant: "destructive" });
-        return;
+        toast({ 
+          title: "Erro ao gerar cobrança", 
+          description: data.error?.message || "Erro desconhecido", 
+          variant: "destructive" 
+        });
+        return false;
       }
 
       // Armazena referência local do pedido para pós-processamento/webhook
@@ -115,16 +135,28 @@ export default function ClientProducts() {
         selectedDueDate,
       }));
 
+      console.log('✅ Redirecionando para checkout Asaas:', data.invoiceUrl);
+
       // Redirecionar para checkout Asaas imediatamente
       window.location.href = data.invoiceUrl;
+      return true;
     } catch (e) {
+      console.error('💥 Erro na requisição de pagamento:', e);
       setIsAsaasProcessing(false);
-      toast({ title: "Falha na requisição de pagamento", description: "Tente novamente ou escolha outra forma.", variant: "destructive" });
+      toast({ 
+        title: "Falha na requisição de pagamento", 
+        description: "Tente novamente ou escolha outra forma.", 
+        variant: "destructive" 
+      });
+      return false;
     }
   };
 
-  // Atualiza manipulação do botão de continuar do fluxo (passo 3: termos)
+  // Atualiza manipulação do botão de continuar do fluxo
   const handleContinue = async () => {
+    console.log('🔄 handleContinue chamado - currentStep:', currentStep);
+    console.log('acceptedTerms:', acceptedTerms);
+
     if (currentStep === 1 && selectedLines.length === 0) {
       toast({
         title: "Erro",
@@ -153,8 +185,12 @@ export default function ClientProducts() {
     }
 
     if (currentStep === 3 && acceptedTerms) {
-      await iniciarCobrancaAsaas();
-      // Não avança para o próximo passo ainda: só avança após confirmação no webhook
+      console.log('✅ Termos aceitos, iniciando pagamento...');
+      const success = await iniciarCobrancaAsaas();
+      if (!success) {
+        console.log('❌ Falha no pagamento, permanecendo na mesma tela');
+      }
+      // Não avança para o próximo passo: só avança após confirmação no webhook
       return;
     }
 
@@ -201,6 +237,8 @@ export default function ClientProducts() {
     );
   }
 
+  console.log('🖥️ Renderizando produtos - currentStep:', currentStep, 'isAsaasProcessing:', isAsaasProcessing);
+
   return (
     <ProductsContainer>
       <ProductsHeader />
@@ -228,6 +266,17 @@ export default function ClientProducts() {
           handleBack={handleBack}
           handleContinue={handleContinue}
         />
+      )}
+      
+      {isAsaasProcessing && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg">
+            <div className="flex items-center space-x-3">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#8425af]"></div>
+              <span>Processando pagamento...</span>
+            </div>
+          </div>
+        </div>
       )}
     </ProductsContainer>
   );
