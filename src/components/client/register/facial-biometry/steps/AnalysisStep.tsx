@@ -40,19 +40,19 @@ export const AnalysisStep = ({ onNext, title, description }: AnalysisStepProps) 
   }, [countdown, onNext]);
 
   return (
-    <div className="bg-[#8425af] text-white p-6 relative">
+    <div className="bg-white text-gray-800 p-6 relative min-h-screen flex flex-col justify-center">
       <div className="text-center space-y-6">
         <div className="flex flex-col items-center justify-center py-4">
           <div className="w-20 h-20 mb-5">
             <div className="relative w-full h-full">
-              <Clock className="w-full h-full absolute text-white animate-pulse" />
+              <Clock className="w-full h-full absolute text-[#8425af] animate-pulse" />
               <svg className="w-full h-full absolute" viewBox="0 0 100 100">
                 <circle
                   cx="50"
                   cy="50"
                   r="45"
                   fill="none"
-                  stroke="rgba(255,255,255,0.2)"
+                  stroke="rgba(132,37,175,0.2)"
                   strokeWidth="5"
                 />
                 <circle
@@ -60,7 +60,7 @@ export const AnalysisStep = ({ onNext, title, description }: AnalysisStepProps) 
                   cy="50"
                   r="45"
                   fill="none"
-                  stroke="white"
+                  stroke="#8425af"
                   strokeWidth="5"
                   strokeDasharray="283"
                   strokeDashoffset={283 * (1 - progress / 100)}
@@ -70,17 +70,17 @@ export const AnalysisStep = ({ onNext, title, description }: AnalysisStepProps) 
             </div>
           </div>
           
-          <h2 className="text-xl font-medium">{title}</h2>
-          <p className="text-sm text-white/80 mt-1">{description}</p>
+          <h2 className="text-xl font-medium text-gray-800">{title}</h2>
+          <p className="text-sm text-gray-600 mt-1">{description}</p>
           
           <div className="mt-5 flex gap-2 items-center">
-            <div className="h-1 bg-white/20 rounded-full w-56 overflow-hidden">
+            <div className="h-1 bg-gray-200 rounded-full w-56 overflow-hidden">
               <div 
-                className="h-full bg-white transition-all duration-300 ease-in-out"
+                className="h-full bg-[#8425af] transition-all duration-300 ease-in-out"
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
-            <span className="text-xs">{progress}%</span>
+            <span className="text-xs text-gray-600">{progress}%</span>
           </div>
         </div>
       </div>

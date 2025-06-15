@@ -112,9 +112,9 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
   };
 
   return (
-    <div className="bg-[#8425af] text-white p-8">
+    <div className="bg-white text-gray-800 p-8 min-h-screen flex flex-col justify-center">
       <div className="text-center space-y-6">
-        <h2 className="text-2xl font-semibold">Para iniciar libere o acesso à câmera do aparelho</h2>
+        <h2 className="text-2xl font-semibold text-gray-800">Para iniciar libere o acesso à câmera do aparelho</h2>
         
         {showError && (
           <Alert variant="destructive" className="mb-4">
@@ -126,15 +126,15 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
         )}
 
         <div className="flex flex-col items-center justify-center py-4">
-          <div className="bg-white rounded-full p-6 mb-4">
+          <div className="bg-gray-100 rounded-full p-6 mb-4">
             <Camera className="h-12 w-12 text-[#8425af]" />
           </div>
-          <p className="text-sm">Aperte o botão acima para iniciar</p>
+          <p className="text-sm text-gray-600">Aperte o botão abaixo para iniciar</p>
         </div>
 
         <Button 
           onClick={handleCameraAccess} 
-          className="w-full max-w-xs bg-white text-[#8425af] hover:bg-gray-100"
+          className="w-full max-w-xs bg-[#8425af] text-white hover:bg-[#7a1fa2]"
           size="lg"
           disabled={isLoading}
         >
