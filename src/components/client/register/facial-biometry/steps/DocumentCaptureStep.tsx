@@ -91,16 +91,6 @@ export const DocumentCaptureStep = ({
   
   return (
     <div className="relative h-[540px] bg-black overflow-hidden">
-      {/* Header with step indicator */}
-      <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between bg-black bg-opacity-70 text-white p-4">
-        <div className="text-sm">
-          vivo
-        </div>
-        <div className="text-sm">
-          Passo {step} de {totalSteps}
-        </div>
-      </div>
-
       {/* Camera View */}
       <div className="relative h-full">
         {cameraActive ? (

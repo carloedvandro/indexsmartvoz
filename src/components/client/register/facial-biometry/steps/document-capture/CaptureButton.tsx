@@ -32,13 +32,6 @@ export const CaptureButton = ({
             <div className="w-12 h-12 rounded-full bg-white"></div>
             <span className="sr-only">Capturar documento</span>
           </button>
-          
-          {/* Advance button - full width white button */}
-          <button
-            className="w-full h-12 bg-white text-black text-xs font-medium uppercase hover:bg-gray-100 transition-colors"
-          >
-            AVANÇAR
-          </button>
         </div>
       )}
     </div>
