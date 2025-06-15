@@ -1,3 +1,4 @@
+
 import { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import { useToast } from "@/hooks/use-toast";
@@ -90,8 +91,8 @@ export const DocumentCaptureStep = ({
   
   return (
     <div className="relative h-[540px] bg-black overflow-hidden">
-      {/* Instructions bar - moved higher up */}
-      <div className="absolute top-16 left-0 right-0 z-20 flex justify-center">
+      {/* Instructions bar - moved lower */}
+      <div className="absolute top-32 left-0 right-0 z-20 flex justify-center">
         <div className="bg-black/70 px-6 py-1 rounded text-white text-sm">
           {isBackSide ? "Verso do documento" : "Frente do documento"}
         </div>
