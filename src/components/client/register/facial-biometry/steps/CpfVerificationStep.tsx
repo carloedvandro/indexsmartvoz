@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -59,8 +58,8 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
   };
 
   return (
-    <div className="h-screen bg-white text-gray-800 flex items-start justify-center pt-32 p-6 pb-20 overflow-hidden">
-      <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
+    <div className="h-screen bg-white text-gray-800 flex flex-col items-center justify-between p-0">
+      <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3 mt-32 px-6">
         <h2 className="text-xs font-bold text-gray-800 max-w-[280px] mx-auto text-center">
           Olá, verificamos que você está realizando a 
           <br />
@@ -113,16 +112,17 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
               </div>
             </div>
           </div>
-          
-          <Button 
-            type="submit"
-            className="w-full h-11 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-xs tracking-wider"
-            disabled={isLoading || !captchaValue || cpfDigits.length < 5}
-          >
-            {isLoading ? "Validando..." : "Validar"}
-          </Button>
         </form>
       </div>
+      <Button 
+        type="submit"
+        className="w-full h-16 !rounded-none bg-[#8B3FBF] text-white hover:bg-[#7A3AAB] font-semibold uppercase text-sm tracking-wider transition-none"
+        style={{}}
+        disabled={isLoading || !captchaValue || cpfDigits.length < 5}
+        onClick={handleSubmit}
+      >
+        {isLoading ? "Validando..." : "VALIDAR"}
+      </Button>
     </div>
   );
 };
