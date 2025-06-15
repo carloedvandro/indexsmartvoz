@@ -6,7 +6,6 @@ import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Lock } from 'lucide-react';
-import Image from "@/components/ui/image";
 
 interface CpfVerificationStepProps {
   onNext: () => void;
@@ -62,12 +61,6 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#8425af] to-[#7a1fa2] text-white pt-[54px] flex items-center justify-center p-6">
       <div className="w-full max-w-[320px] bg-transparent rounded-lg space-y-6">
-        <Image 
-          src="/lovable-uploads/adf6e7ac-29f8-4ffe-abbf-45db71f86250.png" 
-          alt="SmartVoz Logo" 
-          className="max-w-[220px] max-h-[88px] object-contain mx-auto mb-12"
-        />
-
         <h2 className="text-xs font-bold text-white max-w-[320px] mx-auto text-center">
           Olá, verificamos que você está realizando a 
           <br />
