@@ -40,13 +40,7 @@ export const AnalysisStep = ({ onNext, title, description }: AnalysisStepProps) 
   }, [countdown, onNext]);
 
   return (
-    <div className="bg-[#8425af] text-white p-6 rounded-lg relative">
-      {/* Corner guide dots */}
-      <div className="absolute top-4 left-4 w-2 h-2 rounded-full bg-white/80"></div>
-      <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-white/80"></div>
-      <div className="absolute bottom-4 left-4 w-2 h-2 rounded-full bg-white/80"></div>
-      <div className="absolute bottom-4 right-4 w-2 h-2 rounded-full bg-white/80"></div>
-      
+    <div className="bg-[#8425af] text-white p-6 relative">
       <div className="text-center space-y-6">
         <div className="flex flex-col items-center justify-center py-4">
           <div className="w-20 h-20 mb-5">
