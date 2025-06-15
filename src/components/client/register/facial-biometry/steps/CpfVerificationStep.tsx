@@ -60,7 +60,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
 
   return (
     <div className="h-screen bg-white text-gray-800 flex flex-col overflow-hidden">
-      <div className="flex-1 flex items-start justify-center pt-6 px-3 pb-0 overflow-hidden">
+      <div className="flex-1 flex items-start justify-center pt-32 p-6">
         <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
           <h2 className="text-xs font-bold text-gray-800 max-w-[280px] mx-auto text-center">
             Olá, verificamos que você está realizando a 
@@ -102,7 +102,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
               />
             </div>
 
-            <div className="flex justify-center mt-2">
+            <div className="flex justify-center mt-4">
               <div className="flex flex-col items-center bg-transparent px-4 py-2 rounded-lg">
                 <div className="flex items-center">
                   <div className="h-5 w-[1px] bg-gray-400 mr-2"></div>
@@ -118,12 +118,11 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
         </div>
       </div>
       
-      {/* Botão fixo no rodapé cobrindo toda a largura com zero padding */}
-      <div className="p-0 w-full">
-        <Button
+      {/* Botão fixo no rodapé cobrindo toda a largura */}
+      <div className="p-0">
+        <Button 
           onClick={handleSubmit}
           className="w-full h-16 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none"
-          style={{ borderRadius: 0 }}
           disabled={isLoading || !captchaValue || cpfDigits.length < 5}
         >
           {isLoading ? "VALIDANDO..." : "VALIDAR"}
