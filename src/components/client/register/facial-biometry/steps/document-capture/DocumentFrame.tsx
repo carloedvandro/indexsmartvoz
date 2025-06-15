@@ -7,8 +7,8 @@ interface DocumentFrameProps {
 }
 
 export const DocumentFrame = ({ documentDetected, isBackSide = false }: DocumentFrameProps) => {
-  // Use dimensões diferentes para o verso do documento
-  const frameSize = isBackSide ? "w-[80%] h-[25%]" : "w-[50%] h-[60%]";
+  // Usar as mesmas dimensões para frente e verso do documento
+  const frameSize = "w-[50%] h-[60%]";
   
   return (
     <div className="absolute inset-0 flex items-center justify-center">
