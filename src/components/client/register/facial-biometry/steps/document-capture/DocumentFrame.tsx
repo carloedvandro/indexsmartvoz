@@ -1,4 +1,5 @@
 
+
 interface DocumentFrameProps {
   documentDetected: boolean;
 }
@@ -6,7 +7,7 @@ interface DocumentFrameProps {
 export const DocumentFrame = ({ documentDetected }: DocumentFrameProps) => {
   return (
     <div className="absolute inset-0 flex items-center justify-center">
-      <div className={`relative w-[75%] h-[45%] border-2 ${
+      <div className={`relative w-[60%] h-[38%] border-2 ${
         documentDetected ? 'border-green-500' : 'border-white'
       } border-opacity-80 transition-colors duration-300`}>
         {/* Corner guides - clean rectangular style */}
@@ -30,3 +31,4 @@ export const DocumentFrame = ({ documentDetected }: DocumentFrameProps) => {
     </div>
   );
 };
+
