@@ -75,9 +75,15 @@ export const DocumentCaptureStep = ({
     documentDetected,
     isCapturing,
     onCapture: async () => {
-      if (!webcamRef.current) return;
+      if (!webcamRef.current) {
+        console.error("Webcam não disponível para captura automática");
+        return;
+      }
       const imageSrc = webcamRef.current.getScreenshot();
-      await handleDocumentCapture(imageSrc);
+      if (imageSrc) {
+        console.log("📸 EXECUTANDO CAPTURA AUTOMÁTICA");
+        await handleDocumentCapture(imageSrc);
+      }
     }
   });
 
@@ -93,7 +99,10 @@ export const DocumentCaptureStep = ({
     }
     
     const imageSrc = webcamRef.current.getScreenshot();
-    await handleDocumentCapture(imageSrc);
+    if (imageSrc) {
+      console.log("📸 EXECUTANDO CAPTURA MANUAL");
+      await handleDocumentCapture(imageSrc);
+    }
   };
 
   // Force environment camera for document capture
@@ -131,6 +140,8 @@ export const DocumentCaptureStep = ({
             screenshotFormat="image/jpeg"
             videoConstraints={updatedVideoConstraints}
             className="w-full h-full object-cover"
+            onUserMedia={() => console.log("📷 Câmera inicializada com sucesso")}
+            onUserMediaError={(error) => console.error("❌ Erro na câmera:", error)}
           />
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center bg-black">

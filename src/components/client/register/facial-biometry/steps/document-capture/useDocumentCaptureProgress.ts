@@ -16,23 +16,25 @@ export const useDocumentCaptureProgress = ({
   const [isProgressActive, setIsProgressActive] = useState(false);
 
   // Memoize the capture function to avoid infinite loops
-  const handleCapture = useCallback(() => {
+  const handleCapture = useCallback(async () => {
     console.log("✅ CAPTURA AUTOMÁTICA ATIVADA - 100% atingido");
     setIsProgressActive(false);
-    onCapture();
+    setCaptureProgress(0);
+    await onCapture();
   }, [onCapture]);
 
   useEffect(() => {
     let progressInterval: NodeJS.Timeout;
 
-    if (documentDetected && !isCapturing && !isProgressActive) {
+    // Inicia o progresso quando documento é detectado e não está capturando
+    if (documentDetected && !isCapturing) {
       console.log("🚀 INICIANDO PROGRESSO DE CAPTURA - Documento detectado");
       setIsProgressActive(true);
       setCaptureProgress(0);
 
       progressInterval = setInterval(() => {
         setCaptureProgress(prev => {
-          const newProgress = prev + 20; // Incrementa 20% a cada 100ms (5 frames para 100%)
+          const newProgress = prev + 10; // Incrementa 10% a cada 100ms (10 steps para 100%)
           
           console.log(`📈 Progresso de captura: ${newProgress}%`);
           
@@ -45,9 +47,9 @@ export const useDocumentCaptureProgress = ({
           return newProgress;
         });
       }, 100); // Atualiza a cada 100ms
-    } else if (!documentDetected || isCapturing) {
-      // Interrompe e reseta quando documento não detectado ou está capturando
-      console.log("🛑 INTERROMPENDO PROGRESSO - Documento não detectado ou capturando");
+    } else if (!documentDetected && !isCapturing) {
+      // Reset quando documento não detectado
+      console.log("🔄 RESETANDO PROGRESSO - Documento não detectado");
       setIsProgressActive(false);
       setCaptureProgress(0);
     }
@@ -57,7 +59,16 @@ export const useDocumentCaptureProgress = ({
         clearInterval(progressInterval);
       }
     };
-  }, [documentDetected, isCapturing, isProgressActive, handleCapture]);
+  }, [documentDetected, isCapturing, handleCapture]);
+
+  // Reset progress when capture starts
+  useEffect(() => {
+    if (isCapturing) {
+      console.log("🛑 CAPTURA INICIADA - Resetando progresso");
+      setIsProgressActive(false);
+      setCaptureProgress(0);
+    }
+  }, [isCapturing]);
 
   return {
     captureProgress,

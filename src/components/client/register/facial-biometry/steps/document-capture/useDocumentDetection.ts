@@ -9,25 +9,23 @@ export const useDocumentDetection = (
   const [documentDetected, setDocumentDetected] = useState(false);
 
   useEffect(() => {
-    if (!webcamRef.current || isCapturing) return;
+    if (!webcamRef.current || isCapturing) {
+      setDocumentDetected(false);
+      return;
+    }
 
-    // Detecção super simples - sempre detecta documento após 500ms
+    console.log("🔍 INICIANDO DETECÇÃO DE DOCUMENTO");
+    
+    // Detecção automática após 1 segundo para dar tempo da câmera inicializar
     const detectionTimer = setTimeout(() => {
-      console.log("📄 DOCUMENTO DETECTADO - Configuração 100%");
+      console.log("📄 DOCUMENTO DETECTADO - Iniciando captura automática");
       setDocumentDetected(true);
-    }, 500);
+    }, 1000);
 
     return () => {
       clearTimeout(detectionTimer);
     };
   }, [webcamRef, isCapturing]);
-
-  // Reset quando iniciar captura
-  useEffect(() => {
-    if (isCapturing) {
-      setDocumentDetected(false);
-    }
-  }, [isCapturing]);
 
   return { documentDetected };
 };
