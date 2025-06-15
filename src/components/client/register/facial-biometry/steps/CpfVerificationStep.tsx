@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -59,20 +58,16 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
   };
 
   return (
-    <div className="h-screen bg-white text-gray-800 flex flex-col items-center justify-between p-0">
-      <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3 mt-32 px-6">
-        <h2 className="text-xs font-bold text-gray-800 max-w-[280px] mx-auto text-center">
-          Olá, verificamos que você está realizando a 
-          <br />
-          consulta/contratação dos nossos serviços SmartVoz.
-          <br />
+    <div className="h-screen bg-white text-gray-800 flex items-start justify-center pt-32 p-6 pb-20 overflow-hidden">
+      <div className="w-full max-w-[384px] bg-transparent rounded-lg space-y-3">
+        <h2 className="text-xs font-bold text-gray-800 max-w-[384px] mx-auto text-center">
+          Olá, verificamos que você está realizando a <br />
+          consulta/contratação dos nossos serviços SmartVoz.<br />
           Para dar continuidade precisamos realizar a sua biometria.
         </h2>
-        
-        <p className="text-xs text-gray-600 text-center mt-2 max-w-[280px] mx-auto">
+        <p className="text-xs text-gray-600 text-center mt-2 max-w-[384px] mx-auto">
           Biometria é uma solução que utiliza a tecnologia para identificação do cliente.
         </p>
-        
         <form onSubmit={handleSubmit} className="space-y-3">
           <div className="space-y-2">
             <label htmlFor="cpf" className="block text-xs font-bold text-center text-gray-800">
@@ -113,16 +108,16 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
               </div>
             </div>
           </div>
+
+          <button
+            type="submit"
+            className={`w-full h-14 bg-[#bb86ec] text-white font-bold uppercase rounded-md text-base mt-6 disabled:opacity-50 disabled:cursor-not-allowed transition-none`}
+            disabled={isLoading || !captchaValue || cpfDigits.length < 5}
+          >
+            {isLoading ? "Validando..." : "VALIDAR"}
+          </button>
         </form>
       </div>
-      <Button 
-        type="submit"
-        className="w-full h-16 !rounded-none bg-[#8B3FBF] text-white hover:bg-[#7A3AAB] font-semibold uppercase text-sm tracking-wider transition-none"
-        disabled={isLoading || !captchaValue || cpfDigits.length < 5}
-        onClick={handleSubmit}
-      >
-        {isLoading ? "VALIDANDO..." : "VALIDAR"}
-      </Button>
     </div>
   );
 };
