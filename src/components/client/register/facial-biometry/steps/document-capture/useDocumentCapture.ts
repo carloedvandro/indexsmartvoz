@@ -79,15 +79,15 @@ export const useDocumentCapture = ({
         throw dbError;
       }
 
+      console.log("📸 DOCUMENTO CAPTURADO - 100% concluído instantaneamente");
+      
       toast({
         title: "Documento Capturado",
         description: "Imagem do documento capturada com sucesso!",
       });
 
-      // Delay the onNext call slightly to ensure the user sees the success message
-      setTimeout(() => {
-        onNext(imageSrc);
-      }, 1000);
+      // Captura instantânea - sem delay
+      onNext(imageSrc);
 
     } catch (error) {
       console.error('Error saving document capture:', error);
