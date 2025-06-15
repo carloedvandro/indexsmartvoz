@@ -18,6 +18,7 @@ import ClientFinancial from "./pages/client/financial";
 import ClientProfile from "./pages/client/profile";
 import ClientEsim from "./pages/client/esim";
 import ClientNotifications from "./pages/client/notifications";
+import ClientNavigation from "./pages/client/navigation";
 import AdminLogin from "./pages/admin/login";
 import AdminDashboard from "./pages/admin/dashboard";
 import AdminUsers from "./pages/admin/users";
@@ -71,6 +72,14 @@ const App = () => (
             <Route index element={
               <DynamicLayout forceRole="client">
                 <ClientDashboard />
+              </DynamicLayout>
+            } />
+          </Route>
+          
+          <Route path="/client/navigation" element={<ProtectedRoute />}>
+            <Route index element={
+              <DynamicLayout forceRole="client">
+                <ClientNavigation />
               </DynamicLayout>
             } />
           </Route>
