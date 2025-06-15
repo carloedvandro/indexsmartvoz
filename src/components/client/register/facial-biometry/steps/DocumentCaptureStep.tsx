@@ -91,6 +91,13 @@ export const DocumentCaptureStep = ({
   
   return (
     <div className="relative h-[540px] bg-black overflow-hidden">
+      {/* Instructions bar - moved higher up */}
+      <div className="absolute top-16 left-0 right-0 z-20 flex justify-center">
+        <div className="bg-black/70 px-6 py-1 rounded text-white text-sm">
+          {isBackSide ? "Verso do documento" : "Frente do documento"}
+        </div>
+      </div>
+
       {/* Camera View */}
       <div className="relative h-full">
         {cameraActive ? (
@@ -112,13 +119,6 @@ export const DocumentCaptureStep = ({
       
       {/* Document frame overlay */}
       <DocumentFrame documentDetected={documentDetected} />
-      
-      {/* Instructions bar */}
-      <div className="absolute top-1/4 left-0 right-0 z-20 flex justify-center">
-        <div className="bg-black/70 px-6 py-1 rounded text-white text-sm">
-          {isBackSide ? "Verso do documento" : "Frente do documento"}
-        </div>
-      </div>
       
       {/* Capture button */}
       <CaptureButton 
