@@ -32,6 +32,7 @@ export const DocumentCaptureStep = ({
   const webcamRef = useRef<Webcam>(null);
   const { toast } = useToast();
   const [cameraActive, setCameraActive] = useState(true);
+  const [hasAutoCapture, setHasAutoCapture] = useState(false);
 
   // Check user session when component mounts
   useEffect(() => {
@@ -66,6 +67,24 @@ export const DocumentCaptureStep = ({
 
   const { documentDetected } = useDocumentDetection(webcamRef, isCapturing);
 
+  // Auto-capture quando documento detectado
+  useEffect(() => {
+    if (documentDetected && !isCapturing && !hasAutoCapture && webcamRef.current) {
+      console.log("🚀 AUTO-CAPTURA ATIVADA - Documento detectado");
+      setHasAutoCapture(true);
+      
+      // Delay pequeno para garantir estabilidade
+      setTimeout(() => {
+        handleCapture();
+      }, 1000);
+    }
+  }, [documentDetected, isCapturing, hasAutoCapture]);
+
+  // Reset auto-capture quando trocar de lado
+  useEffect(() => {
+    setHasAutoCapture(false);
+  }, [isBackSide]);
+
   // Handle the document capture
   const handleCapture = async () => {
     if (!webcamRef.current) {
@@ -98,6 +117,15 @@ export const DocumentCaptureStep = ({
         </div>
       </div>
 
+      {/* Auto-capture status */}
+      {documentDetected && !hasAutoCapture && (
+        <div className="absolute top-20 left-0 right-0 z-20 flex justify-center">
+          <div className="bg-green-600/90 px-4 py-1 rounded text-white text-xs">
+            Capturando automaticamente...
+          </div>
+        </div>
+      )}
+
       {/* Camera View */}
       <div className="relative h-full">
         {cameraActive ? (
@@ -120,7 +148,7 @@ export const DocumentCaptureStep = ({
       {/* Document frame overlay - now with isBackSide prop */}
       <DocumentFrame documentDetected={documentDetected} isBackSide={isBackSide} />
       
-      {/* Capture button */}
+      {/* Capture button - agora apenas para retry */}
       <CaptureButton 
         isCapturing={isCapturing}
         captureAttempted={captureAttempted}
