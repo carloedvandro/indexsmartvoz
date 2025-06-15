@@ -1,4 +1,5 @@
 
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -61,6 +62,15 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
   return (
     <div className="h-screen bg-white text-gray-800 flex items-start justify-center pt-32 p-6 pb-20 overflow-hidden">
       <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
+        {/* Logo moved 10px down */}
+        <div className="flex items-center justify-center mb-6" style={{ marginTop: '10px' }}>
+          <img
+            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
+            alt="Smartvoz"
+            className="h-20 object-contain"
+          />
+        </div>
+
         <h2 className="text-xs font-bold text-gray-800 max-w-[280px] mx-auto text-center">
           Olá, verificamos que você está realizando a 
           <br />
@@ -128,3 +138,4 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
 };
 
 export default CpfVerificationStep;
+
