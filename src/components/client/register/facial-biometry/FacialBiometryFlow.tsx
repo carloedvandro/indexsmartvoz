@@ -32,7 +32,7 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
           <img
             src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
             alt="Smartvoz"
-            className="h-10 object-contain"
+            className="h-20 object-contain"
           />
         </div>
       </div>
