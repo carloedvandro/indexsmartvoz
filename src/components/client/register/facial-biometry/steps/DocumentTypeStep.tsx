@@ -73,7 +73,7 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
 
         <Button
           onClick={handleContinue}
-          className="w-full mt-4 bg-[#8425af] text-white hover:bg-[#7a1fa2]"
+          className="w-full mt-4 bg-[#8425af] text-white hover:bg-[#7a1fa2] rounded-sm"
           disabled={!selectedType}
         >
           AVANÇAR
