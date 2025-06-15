@@ -74,7 +74,7 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
         </div>
       </div>
 
-      <div className="p-0">
+      <div className="p-0 mb-5">
         <Button
           onClick={handleContinue}
           className="w-full h-12 bg-[#8425af] text-white hover:bg-[#7a1fa2] rounded-none uppercase text-xs font-medium"
