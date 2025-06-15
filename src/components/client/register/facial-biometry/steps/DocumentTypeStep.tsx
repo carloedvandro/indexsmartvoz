@@ -25,12 +25,6 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
 
   return (
     <div className="bg-[#8425af] text-white p-8 rounded-lg relative">
-      {/* Corner guide dots */}
-      <div className="absolute top-4 left-4 w-2 h-2 rounded-full bg-white/80"></div>
-      <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-white/80"></div>
-      <div className="absolute bottom-4 left-4 w-2 h-2 rounded-full bg-white/80"></div>
-      <div className="absolute bottom-4 right-4 w-2 h-2 rounded-full bg-white/80"></div>
-      
       <div className="space-y-6">
         <h2 className="text-xl font-medium text-center">Selecione o tipo de documento</h2>
         <p className="text-center text-sm">
