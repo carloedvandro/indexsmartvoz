@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface UseDocumentCaptureProgressProps {
   documentDetected: boolean;
@@ -15,10 +15,17 @@ export const useDocumentCaptureProgress = ({
   const [captureProgress, setCaptureProgress] = useState(0);
   const [isProgressActive, setIsProgressActive] = useState(false);
 
+  // Memoize the capture function to avoid infinite loops
+  const handleCapture = useCallback(() => {
+    console.log("✅ CAPTURA AUTOMÁTICA ATIVADA - 100% atingido");
+    setIsProgressActive(false);
+    onCapture();
+  }, [onCapture]);
+
   useEffect(() => {
     let progressInterval: NodeJS.Timeout;
 
-    if (documentDetected && !isCapturing) {
+    if (documentDetected && !isCapturing && !isProgressActive) {
       console.log("🚀 INICIANDO PROGRESSO DE CAPTURA - Documento detectado");
       setIsProgressActive(true);
       setCaptureProgress(0);
@@ -30,16 +37,15 @@ export const useDocumentCaptureProgress = ({
           console.log(`📈 Progresso de captura: ${newProgress}%`);
           
           if (newProgress >= 100) {
-            console.log("✅ CAPTURA AUTOMÁTICA ATIVADA - 100% atingido");
-            setIsProgressActive(false);
-            onCapture();
+            clearInterval(progressInterval);
+            handleCapture();
             return 100;
           }
           
           return newProgress;
         });
       }, 100); // Atualiza a cada 100ms
-    } else {
+    } else if (!documentDetected || isCapturing) {
       // Interrompe e reseta quando documento não detectado ou está capturando
       console.log("🛑 INTERROMPENDO PROGRESSO - Documento não detectado ou capturando");
       setIsProgressActive(false);
@@ -51,7 +57,7 @@ export const useDocumentCaptureProgress = ({
         clearInterval(progressInterval);
       }
     };
-  }, [documentDetected, isCapturing, onCapture]);
+  }, [documentDetected, isCapturing, isProgressActive, handleCapture]);
 
   return {
     captureProgress,
