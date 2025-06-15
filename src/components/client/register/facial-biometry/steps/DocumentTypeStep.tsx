@@ -24,7 +24,7 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
   };
 
   return (
-    <div className="bg-[#8425af] text-white p-8 rounded-lg relative">
+    <div className="bg-[#8425af] text-white p-8 relative">
       <div className="space-y-6">
         <h2 className="text-xl font-medium text-center">Selecione o tipo de documento</h2>
         <p className="text-center text-sm">
