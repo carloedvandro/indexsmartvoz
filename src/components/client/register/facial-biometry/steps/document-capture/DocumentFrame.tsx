@@ -1,4 +1,6 @@
 
+
+
 interface DocumentFrameProps {
   documentDetected: boolean;
 }
@@ -30,3 +32,5 @@ export const DocumentFrame = ({ documentDetected }: DocumentFrameProps) => {
     </div>
   );
 };
+
+

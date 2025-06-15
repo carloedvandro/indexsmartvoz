@@ -1,7 +1,6 @@
 
-import { useState } from "react";
-import { DocumentCaptureStep } from "./steps/DocumentCaptureStep";
-import { useCameraManagement } from "@/hooks/useCameraManagement";
+import { useBiometryFlow } from "./hooks/useBiometryFlow";
+import { StepRenderer } from "./components/StepRenderer";
 
 interface FacialBiometryFlowProps {
   onComplete?: (verificationData: {
@@ -12,17 +11,18 @@ interface FacialBiometryFlowProps {
 }
 
 export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowProps) => {
-  const [selectedDocType] = useState<'rg' | 'cnh'>('rg');
-  const { videoConstraints: documentVideoConstraints } = useCameraManagement(true);
-
-  const handleDocumentCapture = (imageSrc: string) => {
-    if (onComplete) {
-      onComplete({
-        facialVerification: true,
-        documentVerification: true,
-      });
-    }
-  };
+  const {
+    currentStep,
+    selectedDocType,
+    facialVideoConstraints,
+    documentVideoConstraints,
+    handleBack,
+    handleContinue,
+    handleDocumentTypeSelection,
+    handleFacialCapture,
+    handleDocumentCapture,
+    handleCompletion
+  } = useBiometryFlow({ onComplete, onBack });
 
   return (
     <div className="space-y-0">
@@ -37,13 +37,17 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
         </div>
       </div>
 
-      <DocumentCaptureStep
-        onNext={handleDocumentCapture}
+      <StepRenderer 
+        currentStep={currentStep}
         selectedDocType={selectedDocType}
-        isBackSide={false}
-        videoConstraints={documentVideoConstraints}
-        step={1}
-        totalSteps={1}
+        facialVideoConstraints={facialVideoConstraints}
+        documentVideoConstraints={documentVideoConstraints}
+        onContinue={handleContinue}
+        onBack={handleBack}
+        onDocumentTypeSelection={handleDocumentTypeSelection}
+        onFacialCapture={handleFacialCapture}
+        onDocumentCapture={handleDocumentCapture}
+        onComplete={handleCompletion}
       />
     </div>
   );
