@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -117,11 +118,10 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
       <Button 
         type="submit"
         className="w-full h-16 !rounded-none bg-[#8B3FBF] text-white hover:bg-[#7A3AAB] font-semibold uppercase text-sm tracking-wider transition-none"
-        style={{}}
         disabled={isLoading || !captchaValue || cpfDigits.length < 5}
         onClick={handleSubmit}
       >
-        {isLoading ? "Validando..." : "VALIDAR"}
+        {isLoading ? "VALIDANDO..." : "VALIDAR"}
       </Button>
     </div>
   );
