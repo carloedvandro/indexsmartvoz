@@ -7,6 +7,7 @@ import { DocumentFrame } from "./document-capture/DocumentFrame";
 import { CaptureButton } from "./document-capture/CaptureButton";
 import { useDocumentCapture } from "./document-capture/useDocumentCapture";
 import { useDocumentDetection } from "./document-capture/useDocumentDetection";
+import { useDocumentCaptureProgress } from "./document-capture/useDocumentCaptureProgress";
 
 interface DocumentCaptureStepProps {
   onNext: (imageSrc: string) => void;
@@ -32,7 +33,6 @@ export const DocumentCaptureStep = ({
   const webcamRef = useRef<Webcam>(null);
   const { toast } = useToast();
   const [cameraActive, setCameraActive] = useState(true);
-  const [hasAutoCapture, setHasAutoCapture] = useState(false);
 
   // Check user session when component mounts
   useEffect(() => {
@@ -67,25 +67,21 @@ export const DocumentCaptureStep = ({
 
   const { documentDetected } = useDocumentDetection(webcamRef, isCapturing);
 
-  // Auto-capture quando documento detectado
-  useEffect(() => {
-    if (documentDetected && !isCapturing && !hasAutoCapture && webcamRef.current) {
-      console.log("🚀 AUTO-CAPTURA ATIVADA - Documento detectado");
-      setHasAutoCapture(true);
-      
-      // Delay pequeno para garantir estabilidade
-      setTimeout(() => {
-        handleCapture();
-      }, 1000);
+  // Use the progress hook for automatic capture with percentage
+  const { 
+    captureProgress, 
+    isProgressActive 
+  } = useDocumentCaptureProgress({
+    documentDetected,
+    isCapturing,
+    onCapture: async () => {
+      if (!webcamRef.current) return;
+      const imageSrc = webcamRef.current.getScreenshot();
+      await handleDocumentCapture(imageSrc);
     }
-  }, [documentDetected, isCapturing, hasAutoCapture]);
+  });
 
-  // Reset auto-capture quando trocar de lado
-  useEffect(() => {
-    setHasAutoCapture(false);
-  }, [isBackSide]);
-
-  // Handle the document capture
+  // Handle manual capture
   const handleCapture = async () => {
     if (!webcamRef.current) {
       toast({
@@ -110,18 +106,18 @@ export const DocumentCaptureStep = ({
   
   return (
     <div className="relative h-[540px] bg-black overflow-hidden">
-      {/* Instructions bar - moved lower */}
+      {/* Instructions bar */}
       <div className="absolute top-32 left-0 right-0 z-20 flex justify-center">
         <div className="bg-black/70 px-6 py-1 rounded text-white text-sm">
           {isBackSide ? "Verso do documento" : "Frente do documento"}
         </div>
       </div>
 
-      {/* Auto-capture status */}
-      {documentDetected && !hasAutoCapture && (
+      {/* Progress indicator with percentage */}
+      {isProgressActive && (
         <div className="absolute top-20 left-0 right-0 z-20 flex justify-center">
-          <div className="bg-green-600/90 px-4 py-1 rounded text-white text-xs">
-            Capturando automaticamente...
+          <div className="bg-red-600/90 px-4 py-2 rounded-full text-white text-sm font-medium">
+            Capturando... {Math.round(captureProgress)}%
           </div>
         </div>
       )}
@@ -145,10 +141,10 @@ export const DocumentCaptureStep = ({
         )}
       </div>
       
-      {/* Document frame overlay - now with isBackSide prop */}
+      {/* Document frame overlay */}
       <DocumentFrame documentDetected={documentDetected} isBackSide={isBackSide} />
       
-      {/* Capture button - agora apenas para retry */}
+      {/* Capture button - for manual capture and retry */}
       <CaptureButton 
         isCapturing={isCapturing}
         captureAttempted={captureAttempted}
