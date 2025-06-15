@@ -26,9 +26,9 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
 
   return (
     <div className="space-y-0">
-      {/* Header with Smartvoz logo - moved down an additional 10px */}
+      {/* Header with Smartvoz logo - moved down an additional 20px */}
       <div className="bg-white px-4 py-3">
-        <div className="flex items-center justify-center" style={{ marginTop: '20px' }}>
+        <div className="flex items-center justify-center" style={{ marginTop: '40px' }}>
           <img
             src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
             alt="Smartvoz"
