@@ -25,7 +25,7 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
 
   return (
     <div className="bg-white text-gray-800 min-h-screen flex flex-col">
-      <div className="flex-grow flex flex-col justify-center p-8">
+      <div className="flex-grow flex flex-col justify-center p-8 -mt-5">
         <div className="space-y-6">
           <h2 className="text-xl font-medium text-center text-gray-800">Selecione o tipo de documento</h2>
           <p className="text-center text-sm text-gray-600">
