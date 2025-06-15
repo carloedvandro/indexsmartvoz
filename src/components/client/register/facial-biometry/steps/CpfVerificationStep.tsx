@@ -59,8 +59,8 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#8425af] to-[#7a1fa2] text-white pt-[54px] flex items-center justify-center p-6">
-      <div className="w-full max-w-[320px] bg-transparent rounded-lg space-y-6">
+    <div className="h-screen bg-gradient-to-b from-[#8425af] to-[#7a1fa2] text-white flex items-center justify-center p-6">
+      <div className="w-full max-w-[320px] bg-transparent rounded-lg space-y-4 py-8">
         <h2 className="text-xs font-bold text-white max-w-[320px] mx-auto text-center">
           Olá, verificamos que você está realizando a 
           <br />
@@ -69,11 +69,11 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
           Para dar continuidade precisamos realizar a sua biometria.
         </h2>
         
-        <p className="text-xs opacity-80 text-white text-center mt-4 max-w-[319px] mx-auto">
+        <p className="text-xs opacity-80 text-white text-center mt-3 max-w-[319px] mx-auto">
           Biometria é uma solução que utiliza a tecnologia para identificação do cliente.
         </p>
         
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <label htmlFor="cpf" className="block text-xs font-bold text-center text-white">
               Insira os primeiros 5 dígitos do seu CPF:
@@ -101,7 +101,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
             />
           </div>
 
-          <div className="flex justify-center mt-16">
+          <div className="flex justify-center mt-8">
             <div className="flex flex-col items-center bg-transparent px-4 py-2 rounded-lg">
               <div className="flex items-center">
                 <div className="h-5 w-[1px] bg-white mr-2"></div>
