@@ -1,4 +1,3 @@
-
 import { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import { useToast } from "@/hooks/use-toast";
@@ -117,8 +116,8 @@ export const DocumentCaptureStep = ({
         )}
       </div>
       
-      {/* Document frame overlay */}
-      <DocumentFrame documentDetected={documentDetected} />
+      {/* Document frame overlay - now with isBackSide prop */}
+      <DocumentFrame documentDetected={documentDetected} isBackSide={isBackSide} />
       
       {/* Capture button */}
       <CaptureButton 

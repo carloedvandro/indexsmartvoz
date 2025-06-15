@@ -1,12 +1,15 @@
-
 interface DocumentFrameProps {
   documentDetected: boolean;
+  isBackSide?: boolean;
 }
 
-export const DocumentFrame = ({ documentDetected }: DocumentFrameProps) => {
+export const DocumentFrame = ({ documentDetected, isBackSide = false }: DocumentFrameProps) => {
+  // Use dimensões diferentes para o verso do documento
+  const frameSize = isBackSide ? "w-[60%] h-[50%]" : "w-[50%] h-[60%]";
+  
   return (
     <div className="absolute inset-0 flex items-center justify-center">
-      <div className={`relative w-[60%] h-[50%] border-2 ${
+      <div className={`relative ${frameSize} border-2 ${
         documentDetected ? 'border-green-500' : 'border-white'
       } border-opacity-80 transition-colors duration-300`}>
         {/* Corner guides - clean rectangular style */}
