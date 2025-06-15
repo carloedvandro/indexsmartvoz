@@ -59,7 +59,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
   };
 
   return (
-    <div className="h-screen bg-white text-gray-800 flex items-start justify-center pt-16 p-6 pb-20 overflow-hidden">
+    <div className="h-screen bg-white text-gray-800 flex items-start justify-center pt-32 p-6 pb-20 overflow-hidden">
       <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
         <h2 className="text-xs font-bold text-gray-800 max-w-[280px] mx-auto text-center">
           Olá, verificamos que você está realizando a 
