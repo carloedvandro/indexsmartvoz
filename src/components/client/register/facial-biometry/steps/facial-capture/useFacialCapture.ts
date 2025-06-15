@@ -80,14 +80,8 @@ export const useFacialCapture = ({
     if (shouldStartCapture()) {
       console.log("🟢 INICIANDO CAPTURA - Rosto detectado");
       startCapture();
-      
-      toast({
-        title: "Captura Iniciada",
-        description: "Mantenha o rosto na posição",
-        duration: 2000,
-      });
     }
-  }, [faceDetected, isProcessing, cameraActive, isCapturing, shouldStartCapture, startCapture, toast]);
+  }, [faceDetected, isProcessing, cameraActive, isCapturing, shouldStartCapture, startCapture]);
 
   // Sistema de captura muito simples
   useEffect(() => {
@@ -150,11 +144,6 @@ export const useFacialCapture = ({
     try {
       console.log("💾 Enviando imagem para upload...");
       await uploadFacialImage(imageSrc);
-      
-      toast({
-        title: "Captura Concluída",
-        description: "Selfie capturada com sucesso!",
-      });
       
       // Reset completo
       resetProgress();
