@@ -112,7 +112,7 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
   };
 
   return (
-    <div className="bg-[#8425af] text-white p-8 rounded-lg">
+    <div className="bg-[#8425af] text-white p-8">
       <div className="text-center space-y-6">
         <h2 className="text-2xl font-semibold">Para iniciar libere o acesso à câmera do aparelho</h2>
         
