@@ -7,11 +7,11 @@ interface DocumentFrameProps {
 }
 
 export const DocumentFrame = ({ documentDetected, isBackSide = false }: DocumentFrameProps) => {
-  // Usar as mesmas dimensões para frente e verso do documento
-  const frameSize = "w-[50%] h-[60%]";
+  // Use dimensões diferentes para o verso do documento
+  const frameSize = isBackSide ? "w-[80%] h-[25%]" : "w-[50%] h-[60%]";
   
   return (
-    <div className="absolute inset-0 flex items-center justify-center">
+    <div className={`absolute inset-0 flex items-center ${isBackSide ? 'justify-center pt-32' : 'justify-center'}`}>
       <div className={`relative ${frameSize} border-2 ${
         documentDetected ? 'border-green-500' : 'border-white'
       } border-opacity-80 transition-colors duration-300`}>
@@ -36,3 +36,4 @@ export const DocumentFrame = ({ documentDetected, isBackSide = false }: Document
     </div>
   );
 };
+
