@@ -7,14 +7,23 @@ export const useDocumentDetection = (
   isCapturing: boolean
 ) => {
   const [documentDetected, setDocumentDetected] = useState(false);
+  const [detectionTriggered, setDetectionTriggered] = useState(false);
 
   useEffect(() => {
-    if (!webcamRef.current || isCapturing) {
+    // Reset detection when capturing starts
+    if (isCapturing) {
       setDocumentDetected(false);
+      setDetectionTriggered(false);
       return;
     }
 
-    console.log("🔍 INICIANDO DETECÇÃO DE DOCUMENTO");
+    // Prevent multiple detections
+    if (!webcamRef.current || detectionTriggered) {
+      return;
+    }
+
+    console.log("🔍 INICIANDO DETECÇÃO DE DOCUMENTO - Uma única vez");
+    setDetectionTriggered(true);
     
     // Detecção automática após 1 segundo para dar tempo da câmera inicializar
     const detectionTimer = setTimeout(() => {
@@ -25,7 +34,15 @@ export const useDocumentDetection = (
     return () => {
       clearTimeout(detectionTimer);
     };
-  }, [webcamRef, isCapturing]);
+  }, [webcamRef.current, isCapturing, detectionTriggered]);
+
+  // Reset detection when component unmounts or webcam changes
+  useEffect(() => {
+    if (!webcamRef.current) {
+      setDetectionTriggered(false);
+      setDocumentDetected(false);
+    }
+  }, [webcamRef.current]);
 
   return { documentDetected };
 };
