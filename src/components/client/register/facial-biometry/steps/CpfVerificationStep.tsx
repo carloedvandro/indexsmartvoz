@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -59,8 +60,8 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#8425af] text-white pt-[54px] flex items-center justify-center p-6">
-      <div className="w-full max-w-[320px] bg-[#8425af] rounded-lg space-y-6">
+    <div className="min-h-screen bg-gradient-to-b from-[#8425af] to-[#7a1fa2] text-white pt-[54px] flex items-center justify-center p-6">
+      <div className="w-full max-w-[320px] bg-transparent rounded-lg space-y-6">
         <Image 
           src="/lovable-uploads/adf6e7ac-29f8-4ffe-abbf-45db71f86250.png" 
           alt="SmartVoz Logo" 
@@ -108,7 +109,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
           </div>
 
           <div className="flex justify-center mt-16">
-            <div className="flex flex-col items-center bg-[#8425af] px-4 py-2 rounded-lg">
+            <div className="flex flex-col items-center bg-transparent px-4 py-2 rounded-lg">
               <div className="flex items-center">
                 <div className="h-5 w-[1px] bg-white mr-2"></div>
                 <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
