@@ -1,7 +1,7 @@
 
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface UseDocumentCaptureProps {
   selectedDocType: 'rg' | 'cnh';
@@ -18,69 +18,82 @@ export const useDocumentCapture = ({
   const [captureAttempted, setCaptureAttempted] = useState(false);
   const { toast } = useToast();
 
-  const uploadDocumentImage = async (imageSrc: string): Promise<string> => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        throw new Error("Usuário não autenticado");
-      }
-
-      // Convert base64 to blob
-      const response = await fetch(imageSrc);
-      const blob = await response.blob();
-      
-      // Generate filename
-      const timestamp = Date.now();
-      const side = isBackSide ? 'back' : 'front';
-      const filename = `document-${selectedDocType}-${side}-${user.id}-${timestamp}.jpg`;
-      
-      // Upload to Supabase Storage
-      const { data, error } = await supabase.storage
-        .from('documents')
-        .upload(filename, blob, {
-          contentType: 'image/jpeg',
-          upsert: false
-        });
-
-      if (error) {
-        console.error('Storage upload error:', error);
-        throw error;
-      }
-
-      // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('documents')
-        .getPublicUrl(filename);
-
-      return publicUrl;
-    } catch (error) {
-      console.error('Error uploading document image:', error);
-      throw error;
+  const handleDocumentCapture = async (imageSrc: string | null) => {
+    if (!imageSrc) {
+      toast({
+        title: "Erro na Captura",
+        description: "Não foi possível capturar a imagem do documento. Por favor, tente novamente.",
+        variant: "destructive",
+      });
+      return;
     }
-  };
 
-  const handleDocumentCapture = async (imageSrc: string) => {
     try {
       setIsCapturing(true);
       setCaptureAttempted(true);
+
+      // Get user session - check if user is logged in
+      const { data: sessionData } = await supabase.auth.getSession();
       
-      console.log("📸 Iniciando upload do documento...");
+      if (!sessionData.session?.user) {
+        console.error("No authenticated user found");
+        toast({
+          title: "Erro de Autenticação",
+          description: "Usuário não está autenticado. Por favor, faça login novamente.",
+          variant: "destructive",
+        });
+        return;
+      }
       
-      // Upload image
-      await uploadDocumentImage(imageSrc);
+      const user = sessionData.session.user;
+
+      // Convert base64 to blob
+      const blob = await fetch(imageSrc).then(res => res.blob());
+      const file = new File([blob], `document-${Date.now()}.jpg`, { type: 'image/jpeg' });
+
+      // Create filepath
+      const filePath = `${user.id}/${selectedDocType}/${isBackSide ? 'back' : 'front'}/${Date.now()}.jpg`;
+
+      // Upload to Supabase Storage
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('documents')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        console.error('Upload error:', uploadError);
+        throw uploadError;
+      }
+
+      // Insert record in document_captures table
+      const { error: dbError } = await supabase
+        .from('document_captures')
+        .insert({
+          user_id: user.id,
+          document_type: selectedDocType,
+          side: isBackSide ? 'back' : 'front',
+          image_url: filePath
+        });
+
+      if (dbError) {
+        console.error('Database error:', dbError);
+        throw dbError;
+      }
+
+      console.log("📸 DOCUMENTO CAPTURADO - 100% concluído instantaneamente");
       
-      console.log("✅ Upload do documento concluído");
-      
-      // Wait a bit for better UX
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Continue to next step
-      onNext(imageSrc);
-    } catch (error: any) {
-      console.error('❌ Erro no upload do documento:', error);
       toast({
-        title: "Erro no Upload",
-        description: "Erro ao salvar documento. Tente novamente.",
+        title: "Documento Capturado",
+        description: "Imagem do documento capturada com sucesso!",
+      });
+
+      // Captura instantânea - sem delay
+      onNext(imageSrc);
+
+    } catch (error) {
+      console.error('Error saving document capture:', error);
+      toast({
+        title: "Erro ao Salvar",
+        description: "Ocorreu um erro ao salvar a imagem do documento. Por favor, tente novamente.",
         variant: "destructive",
       });
       setCaptureAttempted(false);
