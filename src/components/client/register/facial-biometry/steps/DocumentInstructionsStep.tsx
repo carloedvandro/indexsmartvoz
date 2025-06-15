@@ -12,12 +12,6 @@ interface DocumentInstructionsStepProps {
 export const DocumentInstructionsStep = ({ onNext }: DocumentInstructionsStepProps) => {
   return (
     <div className="bg-[#8425af] text-white min-h-[calc(100vh-100px)] relative flex flex-col justify-between">
-      {/* Corner dots - tiny white dots in corners */}
-      <div className="absolute top-4 left-4 w-1 h-1 rounded-full bg-white"></div>
-      <div className="absolute top-4 right-4 w-1 h-1 rounded-full bg-white"></div>
-      <div className="absolute bottom-4 left-4 w-1 h-1 rounded-full bg-white"></div>
-      <div className="absolute bottom-4 right-4 w-1 h-1 rounded-full bg-white"></div>
-      
       <div className="flex flex-col items-center justify-center flex-grow px-4">
         {/* Document icon */}
         <div className="flex flex-col items-center">
