@@ -75,13 +75,13 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
       </div>
 
       <div className="p-0 mb-5">
-        <Button
+        <button
           onClick={handleContinue}
-          className="w-full h-12 bg-[#8425af] text-white hover:bg-[#7a1fa2] rounded-none uppercase text-xs font-medium"
+          className="w-full h-16 bg-[#8B3FBF] text-white hover:bg-[#7A3AAB] transition-colors uppercase text-sm font-semibold tracking-wide disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={!selectedType}
         >
           AVANÇAR
-        </Button>
+        </button>
       </div>
     </div>
   );
