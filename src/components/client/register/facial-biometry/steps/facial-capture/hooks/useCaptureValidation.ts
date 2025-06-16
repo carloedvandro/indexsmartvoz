@@ -26,46 +26,56 @@ export const useCaptureValidation = ({
 }: UseCaptureValidationProps) => {
   const { toast } = useToast();
 
-  // Validação muito simples das condições de captura
+  // Validação mais tolerante durante captura
   const validateCaptureConditions = useCallback((): ValidationResult => {
-    console.log("🔍 VALIDAÇÃO SIMPLES - Capturando:", isCapturing, "Rosto:", faceDetected);
+    console.log("🔍 VALIDAÇÃO TOLERANTE - Capturando:", isCapturing, "Rosto:", faceDetected);
     
-    // Se não está capturando, sempre válido
-    if (!isCapturing) return { isValid: true };
-
-    // Verificar timeout (bem generoso)
-    if (captureStartTime && Date.now() - captureStartTime > CAPTURE_CONFIG.MAX_CAPTURE_TIME * 2) {
-      console.log("⏰ Timeout - mas continuando...");
-      // Não resetar por timeout, só avisar
+    // Se não está capturando, usar validação normal
+    if (!isCapturing) {
+      return { isValid: faceDetected && faceProximity === "ideal" };
     }
 
-    // SEMPRE válido se há rosto detectado
-    if (faceDetected) {
-      return { isValid: true };
+    // Durante captura, ser MUITO mais tolerante
+    // Só parar se perder o rosto completamente por muito tempo
+    if (!faceDetected) {
+      console.log("⚠️ Rosto perdido durante captura - mas continuando...");
+      return { isValid: true }; // Continuar mesmo sem rosto por alguns frames
     }
 
-    // Só resetar se não há rosto por muito tempo
-    return { isValid: true }; // Sempre válido para não interromper
-  }, [isCapturing, captureStartTime, faceDetected, faceProximity]);
+    // Se tem rosto detectado, sempre válido durante captura
+    // Ignorar proximidade durante captura para evitar interrupções
+    return { isValid: true };
+  }, [isCapturing, faceDetected, faceProximity]);
 
-  // Verificar se deve iniciar captura - APENAS rosto detectado
+  // Verificar se deve iniciar captura - apenas rosto detectado na posição ideal
   const shouldStartCapture = useCallback(() => {
-    const should = faceDetected; // Apenas detectado, não importa proximidade
-    console.log("🚀 DEVE INICIAR CAPTURA:", should, "Rosto detectado:", faceDetected);
+    const should = faceDetected && faceProximity === "ideal";
+    console.log("🚀 DEVE INICIAR CAPTURA:", should, "Rosto:", faceDetected, "Proximidade:", faceProximity);
     return should;
-  }, [faceDetected]);
+  }, [faceDetected, faceProximity]);
 
-  // Validação para cada frame - apenas rosto detectado
+  // Validação para cada frame - mais tolerante durante captura
   const validateForCapture = useCallback(() => {
-    const valid = faceDetected; // Apenas detectado
-    console.log("✅ VALIDAÇÃO FRAME:", valid, "Rosto detectado:", faceDetected);
+    if (!isCapturing) {
+      // Antes de capturar, ser rigoroso
+      return faceDetected && faceProximity === "ideal";
+    }
+    
+    // Durante captura, apenas verificar se tem rosto (ignorar proximidade)
+    const valid = faceDetected;
+    console.log("✅ VALIDAÇÃO FRAME (TOLERANTE):", valid, "Rosto detectado:", faceDetected);
     return valid;
-  }, [faceDetected]);
+  }, [faceDetected, faceProximity, isCapturing]);
 
   const resetCapture = useCallback((reason?: string): ValidationResult => {
-    console.log("🔴 RESET (desabilitado):", reason);
-    return { isValid: true, shouldReset: false }; // Nunca resetar
-  }, []);
+    console.log("🔴 RESET CAPTURA:", reason);
+    toast({
+      title: "Captura Reiniciada",
+      description: reason || "Reposicione o rosto no oval",
+      variant: "destructive",
+    });
+    return { isValid: false, shouldReset: true };
+  }, [toast]);
 
   return {
     validateCaptureConditions,

@@ -19,7 +19,7 @@ export const useFaceStability = ({
   const consecutiveStableRef = useRef(0);
 
   const checkStability = useCallback(() => {
-    console.log("🔍 Checking stability - Face detected:", faceDetected, "Proximity:", faceProximity);
+    console.log("🔍 Checking stability (TOLERANTE) - Face detected:", faceDetected, "Proximity:", faceProximity);
     
     if (!faceDetected) {
       console.log("❌ No face detected, resetting stability");
@@ -29,14 +29,15 @@ export const useFaceStability = ({
       return false;
     }
 
-    // Se rosto detectado, considerar estável imediatamente
+    // Se rosto detectado, considerar estável mais rapidamente
     consecutiveStableRef.current += 1;
     setStableFrameCount(consecutiveStableRef.current);
     
-    const shouldBeStable = consecutiveStableRef.current >= CAPTURE_CONFIG.REQUIRED_STABLE_FRAMES;
+    // Reduzir requisitos de estabilidade para ser mais tolerante
+    const shouldBeStable = consecutiveStableRef.current >= Math.min(CAPTURE_CONFIG.REQUIRED_STABLE_FRAMES, 3);
     setIsStable(shouldBeStable);
     
-    console.log("✅ Face stable:", shouldBeStable, "Frames:", consecutiveStableRef.current);
+    console.log("✅ Face stable (TOLERANTE):", shouldBeStable, "Frames:", consecutiveStableRef.current);
     
     // Atualizar última posição
     lastPositionRef.current = facePosition;

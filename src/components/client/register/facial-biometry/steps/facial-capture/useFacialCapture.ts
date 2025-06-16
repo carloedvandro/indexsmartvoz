@@ -1,4 +1,3 @@
-
 import { useState, RefObject, useEffect, useCallback } from "react";
 import Webcam from "react-webcam";
 import { useToast } from "@/hooks/use-toast";
@@ -60,20 +59,21 @@ export const useFacialCapture = ({
     faceProximity
   });
 
-  // Validação contínua durante captura
+  // Validação contínua durante captura - MAIS TOLERANTE
   useEffect(() => {
     if (!isCapturing) return;
 
     const validation = validateCaptureConditions();
     
+    // Apenas resetar em casos extremos
     if (!validation.isValid && validation.shouldReset) {
-      console.log("🚨 RESETANDO CAPTURA:", validation.reason);
+      console.log("🚨 RESETANDO CAPTURA (raro):", validation.reason);
       resetProgress();
       resetStability();
     }
   }, [isCapturing, validateCaptureConditions, resetProgress, resetStability]);
 
-  // Iniciar captura APENAS quando rosto detectado na posição ideal
+  // Iniciar captura quando rosto detectado na posição ideal
   useEffect(() => {
     if (isProcessing || isCapturing || !cameraActive) return;
 
@@ -83,30 +83,31 @@ export const useFacialCapture = ({
       
       toast({
         title: "Captura Iniciada",
-        description: "Mantenha o rosto na posição - não se mova",
-        duration: 2000,
+        description: "Mantenha o rosto próximo ao oval - pequenos movimentos são permitidos",
+        duration: 3000,
       });
     }
   }, [faceDetected, faceProximity, isProcessing, cameraActive, isCapturing, shouldStartCapture, startCapture, toast]);
 
-  // Sistema de captura rigoroso
+  // Sistema de captura MAIS TOLERANTE
   useEffect(() => {
     if (!isCapturing) return;
 
-    console.log("🔄 Captura ativa, validando frames rigorosamente...");
+    console.log("🔄 Captura ativa, validando com tolerância...");
 
     const validationInterval = setInterval(() => {
       checkStability();
       
-      // Validação rigorosa: rosto detectado E na posição ideal E estável
-      const isValidFrame = validateForCapture() && isStable;
+      // Validação mais tolerante: continuar captura mesmo com pequenos movimentos
+      const isValidFrame = validateForCapture();
       
       if (isValidFrame) {
-        console.log(`✅ Frame válido ${consecutiveValidFrames + 1}/${CAPTURE_CONFIG.REQUIRED_CONSECUTIVE_FRAMES} - Estável: ${isStable}`);
+        console.log(`✅ Frame válido ${consecutiveValidFrames + 1}/${CAPTURE_CONFIG.REQUIRED_CONSECUTIVE_FRAMES} - Continuando captura`);
         incrementProgress();
       } else {
-        console.log("❌ Frame inválido - Rosto fora do oval ou instável");
-        // Não resetar imediatamente, mas não incrementar progresso
+        console.log("⚠️ Frame inválido - mas continuando captura (tolerante)");
+        // Durante captura, não parar imediatamente por frame inválido
+        // Continuar por alguns frames para dar chance de voltar ao oval
       }
     }, CAPTURE_CONFIG.VALIDATION_INTERVAL);
 
@@ -114,7 +115,7 @@ export const useFacialCapture = ({
       console.log("🛑 Limpando interval de validação");
       clearInterval(validationInterval);
     };
-  }, [isCapturing, validateForCapture, isStable, checkStability, incrementProgress, consecutiveValidFrames]);
+  }, [isCapturing, validateForCapture, checkStability, incrementProgress, consecutiveValidFrames]);
 
   // Processar captura quando atingir 100%
   useEffect(() => {
