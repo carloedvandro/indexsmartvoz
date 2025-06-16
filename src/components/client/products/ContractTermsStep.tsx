@@ -1,14 +1,15 @@
-
 import { Checkbox } from "@/components/ui/checkbox";
+
 interface ContractTermsStepProps {
   acceptedTerms: boolean;
   onTermsChange: (accepted: boolean) => void;
 }
+
 export function ContractTermsStep({
   acceptedTerms,
   onTermsChange
 }: ContractTermsStepProps) {
-  return <div className="space-y-6 mt-[10px]">
+  return <div className="space-y-6 mt-[30px]">
       <div className="w-full flex justify-center mb-4">
         
       </div>
