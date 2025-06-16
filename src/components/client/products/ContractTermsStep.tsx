@@ -1,5 +1,3 @@
-
-
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface ContractTermsStepProps {
@@ -17,7 +15,7 @@ export function ContractTermsStep({
       </div>
       
       <div className="text-center">
-        <h2 className="text-xl font-medium font-bold text-[#8425af] mb-4">Termos de contrato</h2>
+        <h2 className="text-xl font-bold text-[#8425af] mb-4">Termos de contrato</h2>
         <p className="text-gray-600 mb-4" style={{ fontSize: '16.5px' }}>
           Ao concluir a solicitação, você confirma que todos os dados são verdadeiros e estão em perfeita
           conformidade com os termos a seguir:
@@ -37,4 +35,3 @@ export function ContractTermsStep({
       </div>
     </div>;
 }
-
