@@ -40,13 +40,24 @@ export function ChipActivationFlow({
     <>
       <ScanningAnimationStyle />
       
+      {/* Logo fixada no topo */}
+      <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50 shadow-sm">
+        <div className="flex items-center justify-center">
+          <img
+            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
+            alt="Smartvoz"
+            className="h-16 object-contain"
+          />
+        </div>
+      </div>
+      
       <BarcodeScannerContainer 
         scanningIndex={scanningIndex}
         onUpdateBarcode={onUpdateBarcode}
         onScanningClose={onScanningClose}
       />
       
-      <div className="flex flex-col items-center w-full">
+      <div className="flex flex-col items-center w-full pt-20">
         <div className="w-full max-w-[342px] mx-auto">
           <div className="pt-16 space-y-8">
             <ChipActivationStepContent
