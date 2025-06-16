@@ -67,6 +67,8 @@ serve(async (req) => {
       );
     }
 
+    console.log('🔑 ASAAS_API_KEY configurada');
+
     // Validar dados obrigatórios
     if (!requestData.name || requestData.name.trim().length < 2) {
       console.error('❌ Nome inválido:', requestData.name);
@@ -116,80 +118,118 @@ serve(async (req) => {
 
     console.log('👤 Dados do cliente preparados:', customerData);
 
+    // Headers para requisições do Asaas
+    const asaasHeaders = {
+      'access_token': ASAAS_API_KEY,
+      'Content-Type': 'application/json',
+      'User-Agent': 'Smartvoz/1.0'
+    };
+
     // Primeiro, tentar buscar cliente existente por email
     console.log('🔍 Verificando se cliente já existe...');
-    const searchResponse = await fetch(`https://www.asaas.com/api/v3/customers?email=${encodeURIComponent(customerData.email)}`, {
-      headers: {
-        'access_token': ASAAS_API_KEY,
-        'Content-Type': 'application/json'
-      }
-    });
-
     let customerId: string;
 
-    if (searchResponse.ok) {
-      const searchResult = await searchResponse.json();
-      console.log('🔍 Resultado da busca:', searchResult);
+    try {
+      const searchUrl = `https://www.asaas.com/api/v3/customers?email=${encodeURIComponent(customerData.email)}`;
+      console.log('🔍 URL de busca:', searchUrl);
       
-      if (searchResult.data && searchResult.data.length > 0) {
-        customerId = searchResult.data[0].id;
-        console.log('✅ Cliente existente encontrado:', customerId);
+      const searchResponse = await fetch(searchUrl, {
+        method: 'GET',
+        headers: asaasHeaders
+      });
+
+      console.log('🔍 Status da busca:', searchResponse.status);
+
+      if (searchResponse.ok) {
+        const searchResult = await searchResponse.json();
+        console.log('🔍 Resultado da busca:', searchResult);
+        
+        if (searchResult.data && searchResult.data.length > 0) {
+          customerId = searchResult.data[0].id;
+          console.log('✅ Cliente existente encontrado:', customerId);
+        } else {
+          // Cliente não existe, criar novo
+          console.log('👤 Criando novo cliente no Asaas...');
+          
+          const customerResponse = await fetch('https://www.asaas.com/api/v3/customers', {
+            method: 'POST',
+            headers: asaasHeaders,
+            body: JSON.stringify(customerData)
+          });
+
+          console.log('👤 Status da criação do cliente:', customerResponse.status);
+          
+          if (customerResponse.ok) {
+            const customer = await customerResponse.json();
+            customerId = customer.id;
+            console.log('✅ Cliente criado com sucesso:', customerId);
+          } else {
+            const errorText = await customerResponse.text();
+            console.error('❌ Erro ao criar cliente:', errorText);
+            
+            try {
+              const errorData = JSON.parse(errorText);
+              console.error('❌ Detalhes do erro:', errorData);
+              
+              return new Response(
+                JSON.stringify({ 
+                  error: { 
+                    message: `Erro ao criar cliente: ${errorData.errors?.[0]?.description || 'Dados inválidos'}` 
+                  } 
+                }),
+                { 
+                  status: 400, 
+                  headers: { 'Content-Type': 'application/json', ...corsHeaders }
+                }
+              );
+            } catch {
+              return new Response(
+                JSON.stringify({ error: { message: 'Erro ao processar dados do cliente' } }),
+                { 
+                  status: 400, 
+                  headers: { 'Content-Type': 'application/json', ...corsHeaders }
+                }
+              );
+            }
+          }
+        }
       } else {
-        // Cliente não existe, criar novo
-        console.log('👤 Criando novo cliente no Asaas...');
+        const searchErrorText = await searchResponse.text();
+        console.error('❌ Erro ao buscar cliente - Status:', searchResponse.status);
+        console.error('❌ Erro ao buscar cliente - Response:', searchErrorText);
+        
+        // Se a busca falhar, tentar criar cliente diretamente
+        console.log('👤 Busca falhou, tentando criar cliente diretamente...');
         
         const customerResponse = await fetch('https://www.asaas.com/api/v3/customers', {
           method: 'POST',
-          headers: {
-            'access_token': ASAAS_API_KEY,
-            'Content-Type': 'application/json'
-          },
+          headers: asaasHeaders,
           body: JSON.stringify(customerData)
         });
 
-        console.log('👤 Status da criação do cliente:', customerResponse.status);
-        
         if (customerResponse.ok) {
           const customer = await customerResponse.json();
           customerId = customer.id;
-          console.log('✅ Cliente criado com sucesso:', customerId);
+          console.log('✅ Cliente criado com sucesso após falha na busca:', customerId);
         } else {
-          const errorText = await customerResponse.text();
-          console.error('❌ Erro ao criar cliente:', errorText);
+          const createErrorText = await customerResponse.text();
+          console.error('❌ Erro ao criar cliente após falha na busca:', createErrorText);
           
-          try {
-            const errorData = JSON.parse(errorText);
-            console.error('❌ Detalhes do erro:', errorData);
-            
-            return new Response(
-              JSON.stringify({ 
-                error: { 
-                  message: `Erro ao criar cliente: ${errorData.errors?.[0]?.description || 'Dados inválidos'}` 
-                } 
-              }),
-              { 
-                status: 400, 
-                headers: { 'Content-Type': 'application/json', ...corsHeaders }
-              }
-            );
-          } catch {
-            return new Response(
-              JSON.stringify({ error: { message: 'Erro ao processar dados do cliente' } }),
-              { 
-                status: 400, 
-                headers: { 'Content-Type': 'application/json', ...corsHeaders }
-              }
-            );
-          }
+          return new Response(
+            JSON.stringify({ error: { message: 'Erro ao processar cliente no Asaas' } }),
+            { 
+              status: 400, 
+              headers: { 'Content-Type': 'application/json', ...corsHeaders }
+            }
+          );
         }
       }
-    } else {
-      const searchErrorText = await searchResponse.text();
-      console.error('❌ Erro ao buscar cliente:', searchErrorText);
+    } catch (searchError) {
+      console.error('❌ Exceção ao buscar/criar cliente:', searchError);
       return new Response(
-        JSON.stringify({ error: { message: 'Erro ao verificar cliente existente' } }),
+        JSON.stringify({ error: { message: 'Erro de conexão com o Asaas' } }),
         { 
-          status: 400, 
+          status: 500, 
           headers: { 'Content-Type': 'application/json', ...corsHeaders }
         }
       );
@@ -214,10 +254,7 @@ serve(async (req) => {
 
     const paymentResponse = await fetch('https://www.asaas.com/api/v3/payments', {
       method: 'POST',
-      headers: {
-        'access_token': ASAAS_API_KEY,
-        'Content-Type': 'application/json'
-      },
+      headers: asaasHeaders,
       body: JSON.stringify(paymentData)
     });
 
