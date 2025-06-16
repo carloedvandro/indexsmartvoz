@@ -40,7 +40,7 @@ export const AnalysisStep = ({ onNext, title, description }: AnalysisStepProps) 
   }, [countdown, onNext]);
 
   return (
-    <div className="bg-white text-gray-800 p-6 relative min-h-screen flex flex-col justify-center">
+    <div className="bg-white text-gray-800 p-6 relative  flex flex-col justify-center">
       <div className="text-center space-y-6">
         <div className="flex flex-col items-center justify-center py-4">
           <div className="w-20 h-20 mb-5">

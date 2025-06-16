@@ -25,8 +25,7 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
   } = useBiometryFlow({ onComplete, onBack });
 
   return (
-    <div className="space-y-0">
-      {/* Header with Smartvoz logo - moved up */}
+    <div className="space-y-0 flex flex-col justify-center items-center h-full ">
       <div className="bg-white px-4 py-2">
         <div className="flex items-center justify-center">
           <img
@@ -36,7 +35,6 @@ export const FacialBiometryFlow = ({ onComplete, onBack }: FacialBiometryFlowPro
           />
         </div>
       </div>
-
       <StepRenderer 
         currentStep={currentStep}
         selectedDocType={selectedDocType}

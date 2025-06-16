@@ -77,8 +77,7 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
   };
 
   return (
-    <div className="relative h-[540px] bg-black overflow-hidden rounded-lg">
-      {/* Enhanced header with stability info */}
+    <div className="relative h-[540px] bg-black mx-4 rounded-lg">
       <div className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 z-20 text-center">
         <p className="text-sm font-medium">
           Centralize seu rosto no oval e mantenha estável
@@ -96,7 +95,6 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
         videoConstraints={updatedVideoConstraints}
       />
       
-      {/* Face oval guide with progress and capture state */}
       <FaceOvalGuide 
         faceDetected={faceDetected} 
         captureProgress={captureProgress}
@@ -104,13 +102,11 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
         isCapturing={isCapturing}
       />
       
-      {/* Camera toggle button */}
       <CameraToggle 
         cameraActive={cameraActive}
         onToggle={toggleCamera}
       />
       
-      {/* Enhanced status indicator with stability */}
       <div className="absolute bottom-6 w-full flex justify-center items-center">
         {isProcessing && (
           <div className="bg-black bg-opacity-70 text-white px-4 py-2 rounded-full text-sm animate-pulse">

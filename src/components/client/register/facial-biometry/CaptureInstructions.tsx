@@ -9,9 +9,9 @@ interface CaptureInstructionsProps {
 
 export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
   return (
-    <div className="bg-white text-gray-800 h-[80vh] flex flex-col relative overflow-hidden">
+    <div className="bg-white text-gray-800 w-[90%]  flex flex-col relative overflow-hidden">
       <div className="flex flex-col items-center justify-center flex-1 px-4 overflow-hidden">
-        {/* Central icon */}
+      
         <div className="flex flex-col items-center">
           <div className="bg-gray-100 p-6 rounded-full mb-4">
             <Camera size={48} color="#8425af" strokeWidth={1.5} />
