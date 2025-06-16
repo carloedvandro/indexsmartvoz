@@ -1,15 +1,16 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PlansSection } from "@/components/store/PlansSection";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+
 export default function PlanSelection() {
   const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
+
   const handleSelectPlan = (plan: any) => {
     setSelectedPlan(plan);
 
@@ -23,6 +24,7 @@ export default function PlanSelection() {
       title: plan.name
     };
     localStorage.setItem('selectedPlan', JSON.stringify(planData));
+    
     toast({
       title: "Plano Selecionado",
       description: `${plan.name} ${plan.gb} por R$ ${plan.price.toFixed(2)}`
@@ -31,10 +33,13 @@ export default function PlanSelection() {
     // Navigate to product configuration (existing page)
     navigate("/client/products");
   };
+
   const handleBack = () => {
     navigate("/client/facial-biometry");
   };
-  return <div className="min-h-screen bg-gradient-to-br from-white-50 to-white-50">
+
+  return (
+    <div className="min-h-screen bg-white">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         
@@ -55,5 +60,6 @@ export default function PlanSelection() {
           </div>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 }

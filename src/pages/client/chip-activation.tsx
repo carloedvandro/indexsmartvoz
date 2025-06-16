@@ -137,8 +137,8 @@ export default function ChipActivation() {
     return <SuccessScreen selectedLines={selectedLines} protocol={protocol} onUnderstand={handleUnderstand} showBarcodes={true} />;
   }
 
-  return <div className="min-h-screen ">
-     
+  return (
+    <div className="min-h-screen bg-white">
       <ChipActivationFlow 
         currentStep={currentStep} 
         selectedLines={selectedLines} 
@@ -149,7 +149,6 @@ export default function ChipActivation() {
         onUpdateBarcode={handleUpdateBarcode} 
         onScanningClose={() => setScanningIndex(null)} 
       />
-
-    
-    </div>;
+    </div>
+  );
 }

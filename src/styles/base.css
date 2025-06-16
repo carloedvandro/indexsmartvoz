@@ -101,3 +101,8 @@ body::before {
   border: none !important;
   box-shadow: none !important;
 }
+
+/* Ensure all screens have white background */
+body, #root {
+  background-color: white !important;
+}
