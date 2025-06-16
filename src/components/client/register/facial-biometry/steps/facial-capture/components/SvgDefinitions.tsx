@@ -4,16 +4,7 @@ import React from "react";
 export const SvgDefinitions = () => {
   return (
     <defs>
-      <mask id="oval-mask">
-        <rect width="100%" height="100%" fill="white" />
-        <ellipse 
-          cx="128" 
-          cy="160" 
-          rx="110" 
-          ry="140" 
-          fill="black" 
-        />
-      </mask>
+      {/* Removida a máscara oval que estava criando a sobreposição */}
       
       <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
         <feGaussianBlur stdDeviation="4" result="blur" />
