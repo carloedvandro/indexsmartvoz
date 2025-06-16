@@ -1,3 +1,4 @@
+
 import { useRef } from "react";
 import Webcam from "react-webcam";
 import { useEffect } from "react";
@@ -41,7 +42,7 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
     checkSession();
   }, [toast]);
 
-  const { faceDetected, facePosition, faceProximity } = useFaceDetection(webcamRef, false, true);
+  const { faceDetected, facePosition, faceProximity, lightingQuality } = useFaceDetection(webcamRef, false, true);
 
   const { 
     isProcessing, 
@@ -69,17 +70,36 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
         exposureMode: "continuous",
         whiteBalanceMode: "continuous",
         focusMode: "continuous",
-        brightness: { ideal: 1.0 },
-        contrast: { ideal: 1.0 }
+        brightness: { ideal: 1.2 }, // Aumentado para melhor iluminação
+        contrast: { ideal: 1.1 }, // Ligeiramente aumentado
+        saturation: { ideal: 1.0 }
       }
     ]
+  };
+
+  const getLightingMessage = () => {
+    switch (lightingQuality) {
+      case "too-dark":
+        return "💡 Muito escuro - Procure mais luz";
+      case "too-bright":
+        return "☀️ Muito claro - Diminua a luz";
+      case "poor":
+        return "⚠️ Iluminação inadequada";
+      case "good":
+        return "✅ Iluminação ideal";
+      default:
+        return "";
+    }
   };
 
   return (
     <div className="relative h-[420px] bg-black mx-4 rounded-lg">
       <div className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 z-20 text-center">
         <p className="text-sm font-medium">
-          Centralize seu rosto no oval e mantenha estável
+          Centralize seu rosto no oval com boa iluminação
+        </p>
+        <p className="text-xs text-blue-300">
+          {getLightingMessage()}
         </p>
         {isCapturing && (
           <p className="text-xs text-yellow-300">
@@ -119,27 +139,33 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
           </div>
         )}
         
-        {!isProcessing && !isCapturing && faceDetected && faceProximity === "ideal" && isStable && (
+        {!isProcessing && !isCapturing && faceDetected && faceProximity === "ideal" && lightingQuality === "good" && isStable && (
           <div className="bg-green-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
             ✅ Pronto para capturar
           </div>
         )}
         
-        {!isProcessing && !isCapturing && faceDetected && faceProximity === "ideal" && !isStable && (
+        {!isProcessing && !isCapturing && faceDetected && faceProximity === "ideal" && lightingQuality === "good" && !isStable && (
           <div className="bg-yellow-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
             ⏳ Estabilizando posição...
           </div>
         )}
         
-        {!isProcessing && !isCapturing && !faceDetected && (
+        {!isProcessing && !isCapturing && lightingQuality !== "good" && (
+          <div className="bg-orange-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
+            {getLightingMessage()}
+          </div>
+        )}
+        
+        {!isProcessing && !isCapturing && !faceDetected && lightingQuality === "good" && (
           <div className="bg-red-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
             ❌ Rosto não detectado
           </div>
         )}
         
-        {!isProcessing && !isCapturing && faceDetected && faceProximity !== "ideal" && (
+        {!isProcessing && !isCapturing && faceDetected && faceProximity !== "ideal" && lightingQuality === "good" && (
           <div className="bg-orange-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
-            ⚠️ Ajuste a posição
+            ⚠️ Ajuste a posição no oval
           </div>
         )}
       </div>
