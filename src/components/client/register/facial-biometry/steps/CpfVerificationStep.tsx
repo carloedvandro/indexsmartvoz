@@ -1,4 +1,5 @@
 
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,7 +49,7 @@ export const CpfVerificationStep = ({
 
   return (
     <div className="bg-white text-gray-800 flex flex-col ">
-      <div className="flex-1 flex items-start justify-center pt-10 p-6">
+      <div className="flex-1 flex items-start justify-center pt-8 p-6">
         <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
           <h2 className="text-sm text-gray-800 max-w-[280px] mx-auto text-center">
             Olá, verificamos que você está realizando a
@@ -58,7 +59,7 @@ export const CpfVerificationStep = ({
             Para dar continuidade precisamos realizar a sua biometria.
           </h2>
 
-          <p className="text-sm text-gray-600 text-center mt-2 max-w-[280px] mx-auto">
+          <p className="text-sm text-gray-600 text-center mt-0 max-w-[280px] mx-auto">
             Biometria é uma solução que utiliza a tecnologia para identificação do cliente.
           </p>
 
@@ -111,3 +112,4 @@ export const CpfVerificationStep = ({
 };
 
 export default CpfVerificationStep;
+
