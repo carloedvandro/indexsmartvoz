@@ -62,7 +62,7 @@ export function OrderReviewStep({
           </div>
         ))}
 
-        <div className="p-4 bg-purple-50 rounded-lg">
+        <div className="p-3 bg-purple-50 rounded-lg">
           <div className="flex justify-between items-center font-medium">
             <span>Total mensal:</span>
             <span>{formatCurrency(selectedLines.reduce((acc, line) => acc + line.price, 0))}/mês</span>
