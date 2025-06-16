@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Camera } from "lucide-react";
@@ -112,33 +111,37 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
   };
 
   return (
-    <div className="bg-white text-gray-800 p-8 flex flex-col justify-center">
-      <div className="text-center space-y-6">
-        <h2 className="text-2xl font-semibold text-gray-800">Para iniciar libere o acesso à câmera do aparelho</h2>
-        
-        {showError && (
-          <Alert variant="destructive" className="mb-4">
-            <AlertTitle>Erro de Acesso</AlertTitle>
-            <AlertDescription>
-              Por favor, permita o acesso à câmera para continuar.
-            </AlertDescription>
-          </Alert>
-        )}
+    <div className="bg-white text-gray-800 flex flex-col min-h-screen">
+      <div className="flex-1 flex items-start justify-center pt-10 p-6">
+        <div className="w-full max-w-[280px] space-y-6">
+          <h2 className="text-xl font-semibold text-gray-800 text-center">Para iniciar libere o acesso à câmera do aparelho</h2>
+          
+          {showError && (
+            <Alert variant="destructive" className="mb-4">
+              <AlertTitle>Erro de Acesso</AlertTitle>
+              <AlertDescription>
+                Por favor, permita o acesso à câmera para continuar.
+              </AlertDescription>
+            </Alert>
+          )}
 
-        <div className="flex flex-col items-center justify-center ">
-          <div className="bg-gray-100 rounded-full p-6 mb-4">
-            <Camera className="h-12 w-12 text-[#8425af]" />
+          <div className="flex flex-col items-center justify-center">
+            <div className="bg-gray-100 rounded-full p-6 mb-4">
+              <Camera className="h-12 w-12 text-[#8425af]" />
+            </div>
+            <p className="text-sm text-gray-600 text-center">Aperte o botão abaixo para iniciar</p>
           </div>
-          <p className="text-sm text-gray-600">Aperte o botão abaixo para iniciar</p>
         </div>
+      </div>
 
+      {/* Botão fixado na parte inferior */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white">
         <Button 
           onClick={handleCameraAccess} 
-          className="w-full max-w-xs bg-[#8425af] text-white hover:bg-[#7a1fa2]"
-          size="lg"
           disabled={isLoading}
+          className="w-full h-12 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none"
         >
-          {isLoading ? "Verificando câmera..." : "LIBERAR CÂMERA"}
+          {isLoading ? "VERIFICANDO CÂMERA..." : "LIBERAR CÂMERA"}
         </Button>
       </div>
     </div>
