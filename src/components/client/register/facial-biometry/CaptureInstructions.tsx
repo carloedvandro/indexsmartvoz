@@ -10,7 +10,7 @@ interface CaptureInstructionsProps {
 
 export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
   return (
-    <div className="bg-white text-gray-800 h-screen flex flex-col relative">
+    <div className="bg-white text-gray-800 h-screen flex flex-col relative overflow-hidden">
       <div className="flex flex-col items-center justify-center flex-grow px-4 pt-8 pb-20">
         {/* Central icon */}
         <div className="flex flex-col items-center">
