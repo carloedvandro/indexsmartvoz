@@ -58,7 +58,7 @@ export const CpfVerificationStep = ({
   };
 
   return (
-    <div className="bg-white text-gray-800 flex flex-col min-h-screen">
+    <div className="bg-white text-gray-800 flex flex-col ">
       <div className="flex-1 flex items-start justify-center pt-10 p-6">
         <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
           <h2 className="text-xs font-bold text-gray-800 max-w-[280px] mx-auto text-center">
