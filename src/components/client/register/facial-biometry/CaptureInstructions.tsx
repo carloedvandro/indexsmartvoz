@@ -25,8 +25,8 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
         </div>
       </div>
 
-      {/* Button fixed at bottom footer */}
-      <div className="flex-shrink-0 overflow-hidden">
+      {/* Button fixed at bottom footer with 5px margin top */}
+      <div className="flex-shrink-0 overflow-hidden mt-[5px]">
         <Button
           onClick={onNext}
           className="w-full h-12 bg-[#8425af] text-white uppercase text-xs font-medium hover:bg-[#7a1fa2] rounded-none"
