@@ -23,19 +23,15 @@ export const analyzeLighting = (imageData: ImageData): LightingAnalysis => {
   const averageBrightness = totalBrightness / pixelCount;
   
   // Determinar qualidade da iluminação - critérios mais flexíveis
-  let quality: "good" | "poor" | "too-dark" | "too-bright" = "poor";
+  let quality: "good" | "poor" | "too-dark" | "too-bright" = "good"; // Padrão como "good"
   
   if (averageBrightness < FACE_DETECTION_CONFIG.MIN_BRIGHTNESS) {
     quality = "too-dark";
   } else if (averageBrightness > FACE_DETECTION_CONFIG.MAX_BRIGHTNESS) {
     quality = "too-bright";
-  } else if (
-    averageBrightness >= FACE_DETECTION_CONFIG.IDEAL_MIN_BRIGHTNESS && 
-    averageBrightness <= FACE_DETECTION_CONFIG.IDEAL_MAX_BRIGHTNESS
-  ) {
-    quality = "good";
   } else {
-    quality = "good"; // Considerando mais situações como "good"
+    // Considerando mais situações como "good"
+    quality = "good";
   }
   
   return {
