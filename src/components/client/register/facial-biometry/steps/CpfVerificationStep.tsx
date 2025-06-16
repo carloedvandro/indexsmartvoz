@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -59,7 +60,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
 
   return (
     <div className="h-screen bg-white text-gray-800 flex flex-col overflow-hidden">
-      <div className="flex-1 flex items-start justify-center pt-28 p-6">
+      <div className="flex-1 flex items-start justify-center pt-20 p-6">
         <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
           <h2 className="text-xs font-bold text-gray-800 max-w-[280px] mx-auto text-center">
             Olá, verificamos que você está realizando a 
@@ -118,7 +119,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
       </div>
       
       {/* Botão fixo no rodapé - movido 10px para baixo */}
-      <div className="p-0 pb-22">
+      <div className="p-0 pb-16">
         <Button 
           onClick={handleSubmit}
           className="w-full h-16 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none"
