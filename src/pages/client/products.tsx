@@ -61,6 +61,17 @@ export default function ClientProducts() {
 
   return (
     <ProductsContainer>
+      {/* Logo fixada no topo */}
+      <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50 shadow-sm">
+        <div className="flex items-center justify-center">
+          <img
+            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
+            alt="Smartvoz"
+            className="h-16 object-contain"
+          />
+        </div>
+      </div>
+
       <ProductsHeader />
 
       {showChipActivation ? (
@@ -75,17 +86,19 @@ export default function ClientProducts() {
           onScanningClose={() => setScanningIndex(null)}
         />
       ) : (
-        <MainContent
-          currentStep={currentStep}
-          selectedLines={selectedLines}
-          selectedDueDate={selectedDueDate}
-          acceptedTerms={acceptedTerms}
-          setSelectedLines={setSelectedLines}
-          setSelectedDueDate={setSelectedDueDate}
-          setAcceptedTerms={setAcceptedTerms}
-          handleBack={handleBack}
-          handleContinue={handleContinue}
-        />
+        <div className="pt-20">
+          <MainContent
+            currentStep={currentStep}
+            selectedLines={selectedLines}
+            selectedDueDate={selectedDueDate}
+            acceptedTerms={acceptedTerms}
+            setSelectedLines={setSelectedLines}
+            setSelectedDueDate={setSelectedDueDate}
+            setAcceptedTerms={setAcceptedTerms}
+            handleBack={handleBack}
+            handleContinue={handleContinue}
+          />
+        </div>
       )}
       
       <LoadingOverlay isVisible={isAsaasProcessing} />

@@ -137,9 +137,21 @@ export default function ChipActivation() {
     return <SuccessScreen selectedLines={selectedLines} protocol={protocol} onUnderstand={handleUnderstand} showBarcodes={true} />;
   }
 
-  return <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+      {/* Logo fixada no topo */}
+      <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50 shadow-sm">
+        <div className="flex items-center justify-center">
+          <img
+            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
+            alt="Smartvoz"
+            className="h-16 object-contain"
+          />
+        </div>
+      </div>
+      
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-white shadow-sm border-b pt-20">
         
       </div>
 
@@ -158,5 +170,6 @@ export default function ChipActivation() {
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-sm">
         
       </div>
-    </div>;
+    </div>
+  );
 }
