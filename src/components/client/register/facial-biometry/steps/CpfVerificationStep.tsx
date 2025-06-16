@@ -118,8 +118,8 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
         </div>
       </div>
       
-      {/* Botão fixo no rodapé cobrindo toda a largura */}
-      <div className="p-0">
+      {/* Botão fixo no rodapé cobrindo toda a largura - movido 20px para cima */}
+      <div className="p-0 pb-5">
         <Button 
           onClick={handleSubmit}
           className="w-full h-16 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none"
