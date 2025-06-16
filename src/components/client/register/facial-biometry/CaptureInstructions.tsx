@@ -1,5 +1,4 @@
 
-
 import { Button } from "@/components/ui/button";
 import { Camera } from "lucide-react";
 
@@ -27,8 +26,8 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
         </div>
       </div>
 
-      {/* Button with 10px spacing from content */}
-      <div className="pt-[10px]">
+      {/* Button positioned at bottom with additional spacing */}
+      <div className="mb-0" style={{ marginTop: '15px' }}>
         <Button
           onClick={onNext}
           className="w-full h-12 bg-[#8425af] text-white uppercase text-xs font-medium hover:bg-[#7a1fa2] rounded-none"
@@ -39,4 +38,3 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
     </div>
   );
 };
-
