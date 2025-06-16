@@ -1,7 +1,6 @@
 
 import { useToast } from "@/hooks/use-toast";
-
-const ASAAS_EDGE_PAYMENT_URL = "/functions/asaas-payment";
+import { supabase } from "@/integrations/supabase/client";
 
 type Line = {
   id: number;
@@ -53,11 +52,9 @@ export const useAsaasPayment = () => {
 
       console.log('💰 Dados do pagamento:', { name, email, value, dueDate });
 
-      // Chama Edge Function via fetch
-      const res = await fetch(ASAAS_EDGE_PAYMENT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      // Chama Edge Function via Supabase client
+      const { data, error } = await supabase.functions.invoke('asaas-payment', {
+        body: {
           name,
           email,
           cpfCnpj,
@@ -65,53 +62,21 @@ export const useAsaasPayment = () => {
           value,
           dueDate,
           webhookUrl: `${window.location.origin}/functions/asaas-webhook`
-        }),
+        }
       });
 
-      console.log('📡 Status da resposta:', res.status, res.statusText);
+      console.log('📡 Resposta do Asaas:', data);
 
-      // Verificar se a resposta é válida antes de tentar fazer parse
-      if (!res.ok) {
-        console.error('❌ Erro na resposta do servidor:', res.status, res.statusText);
+      if (error) {
+        console.error('❌ Erro na Edge Function:', error);
         setIsAsaasProcessing(false);
         toast({ 
           title: "Erro no servidor", 
-          description: `Código de erro: ${res.status}. Tente novamente.`, 
+          description: `Erro: ${error.message}. Tente novamente.`, 
           variant: "destructive" 
         });
         return false;
       }
-
-      const textResponse = await res.text();
-      console.log('📡 Resposta raw do servidor:', textResponse);
-
-      if (!textResponse.trim()) {
-        console.error('❌ Resposta vazia do servidor');
-        setIsAsaasProcessing(false);
-        toast({ 
-          title: "Erro no servidor", 
-          description: "Resposta vazia do servidor. Tente novamente.", 
-          variant: "destructive" 
-        });
-        return false;
-      }
-
-      let data;
-      try {
-        data = JSON.parse(textResponse);
-      } catch (parseError) {
-        console.error('❌ Erro ao fazer parse da resposta:', parseError);
-        console.error('❌ Resposta que causou erro:', textResponse);
-        setIsAsaasProcessing(false);
-        toast({ 
-          title: "Erro de comunicação", 
-          description: "Resposta inválida do servidor. Tente novamente.", 
-          variant: "destructive" 
-        });
-        return false;
-      }
-
-      console.log('📡 Resposta do Asaas parseada:', data);
 
       if (data.error || !data.invoiceUrl) {
         console.error('❌ Erro na resposta do Asaas:', data.error);
