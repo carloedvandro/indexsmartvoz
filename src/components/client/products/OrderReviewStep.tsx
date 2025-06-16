@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/utils/format";
 
@@ -58,7 +57,6 @@ export function OrderReviewStep({
                 </span>
                 <span className="ml-2">{line.internet} + Minutos {line.internet === "2GB" ? "100" : "ilimitados"}</span>
               </div>
-              <span className="font-medium">{formatCurrency(line.price)}/mês</span>
             </div>
             <div className="mt-2 text-sm text-gray-500">
               <p>DDD: {line.ddd}</p>
