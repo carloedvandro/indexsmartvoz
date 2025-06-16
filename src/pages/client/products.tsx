@@ -109,8 +109,50 @@ export default function ClientProducts() {
         }),
       });
 
-      const data = await res.json();
-      console.log('📡 Resposta do Asaas:', data);
+      console.log('📡 Status da resposta:', res.status, res.statusText);
+
+      // Verificar se a resposta é válida antes de tentar fazer parse
+      if (!res.ok) {
+        console.error('❌ Erro na resposta do servidor:', res.status, res.statusText);
+        setIsAsaasProcessing(false);
+        toast({ 
+          title: "Erro no servidor", 
+          description: `Código de erro: ${res.status}. Tente novamente.`, 
+          variant: "destructive" 
+        });
+        return false;
+      }
+
+      const textResponse = await res.text();
+      console.log('📡 Resposta raw do servidor:', textResponse);
+
+      if (!textResponse.trim()) {
+        console.error('❌ Resposta vazia do servidor');
+        setIsAsaasProcessing(false);
+        toast({ 
+          title: "Erro no servidor", 
+          description: "Resposta vazia do servidor. Tente novamente.", 
+          variant: "destructive" 
+        });
+        return false;
+      }
+
+      let data;
+      try {
+        data = JSON.parse(textResponse);
+      } catch (parseError) {
+        console.error('❌ Erro ao fazer parse da resposta:', parseError);
+        console.error('❌ Resposta que causou erro:', textResponse);
+        setIsAsaasProcessing(false);
+        toast({ 
+          title: "Erro de comunicação", 
+          description: "Resposta inválida do servidor. Tente novamente.", 
+          variant: "destructive" 
+        });
+        return false;
+      }
+
+      console.log('📡 Resposta do Asaas parseada:', data);
 
       if (data.error || !data.invoiceUrl) {
         console.error('❌ Erro na resposta do Asaas:', data.error);
