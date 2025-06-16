@@ -60,69 +60,53 @@ export const useFacialCapture = ({
     faceProximity
   });
 
-  // Validação contínua durante captura - RIGOROSA: reseta se perder condições
-  useEffect(() => {
-    if (!isCapturing) return;
-
-    const validation = validateCaptureConditions();
-    
-    // Se perdeu condições ideais, resetar IMEDIATAMENTE do zero
-    if (!validation.isValid && validation.shouldReset) {
-      console.log("🚨 RESETANDO CAPTURA DO ZERO:", validation.reason);
-      resetProgress();
-      resetStability();
-    }
-  }, [isCapturing, faceDetected, faceProximity, validateCaptureConditions, resetProgress, resetStability]);
-
-  // Iniciar captura quando rosto detectado na posição ideal
+  // Iniciar captura quando condições ideais forem atendidas
   useEffect(() => {
     if (isProcessing || isCapturing || !cameraActive) return;
 
     if (shouldStartCapture()) {
-      console.log("🟢 INICIANDO CAPTURA DO ZERO - Rosto detectado na posição ideal");
+      console.log("🟢 INICIANDO CAPTURA - Rosto detectado na posição ideal");
       startCapture();
       
       toast({
         title: "Captura Iniciada",
-        description: "Mantenha o rosto exatamente no oval até 100%",
-        duration: 3000,
+        description: "Mantenha o rosto no oval até 100%",
+        duration: 2000,
       });
     }
   }, [faceDetected, faceProximity, isProcessing, cameraActive, isCapturing, shouldStartCapture, startCapture, toast]);
 
-  // Sistema de captura RIGOROSO - resetar se sair da posição ideal
+  // Sistema de captura contínua mais direto
   useEffect(() => {
     if (!isCapturing) return;
 
-    console.log("🔄 Captura ativa, validando rigorosamente...");
+    console.log("🔄 Sistema de captura ativo");
 
-    const validationInterval = setInterval(() => {
-      checkStability();
-      
-      // Validação rigorosa: apenas posição ideal
-      const isValidFrame = validateForCapture();
-      
-      if (isValidFrame) {
-        console.log(`✅ Frame válido ${consecutiveValidFrames + 1}/${CAPTURE_CONFIG.REQUIRED_CONSECUTIVE_FRAMES} - Continuando captura`);
-        incrementProgress();
-      } else {
-        console.log("❌ Frame inválido - RESETANDO CAPTURA DO ZERO");
-        // Se frame inválido, resetar imediatamente
+    const captureInterval = setInterval(() => {
+      // Verificar se ainda tem rosto detectado
+      if (!faceDetected) {
+        console.log("❌ Rosto perdido - resetando captura");
         resetProgress();
         resetStability();
+        return;
       }
+
+      // Se rosto detectado, incrementar progresso
+      console.log(`✅ Rosto detectado - Incrementando progresso (${consecutiveValidFrames + 1}/${CAPTURE_CONFIG.REQUIRED_CONSECUTIVE_FRAMES})`);
+      incrementProgress();
+      
     }, CAPTURE_CONFIG.VALIDATION_INTERVAL);
 
     return () => {
-      console.log("🛑 Limpando interval de validação");
-      clearInterval(validationInterval);
+      console.log("🛑 Limpando interval de captura");
+      clearInterval(captureInterval);
     };
-  }, [isCapturing, validateForCapture, checkStability, incrementProgress, consecutiveValidFrames, resetProgress, resetStability]);
+  }, [isCapturing, faceDetected, incrementProgress, consecutiveValidFrames, resetProgress, resetStability]);
 
   // Processar captura quando atingir 100%
   useEffect(() => {
     if (isComplete && isCapturing && !isProcessing) {
-      console.log("🎯 CAPTURA COMPLETA - Processando imagem do rosto...");
+      console.log("🎯 CAPTURA COMPLETA - Processando imagem...");
       handleSecureCapture();
     }
   }, [isComplete, isCapturing, isProcessing]);
@@ -133,7 +117,7 @@ export const useFacialCapture = ({
       return;
     }
     
-    console.log("📸 Iniciando captura final do rosto...");
+    console.log("📸 Capturando screenshot da webcam...");
     
     const imageSrc = webcamRef.current.getScreenshot();
     if (!imageSrc) {
@@ -151,12 +135,12 @@ export const useFacialCapture = ({
     setIsProcessing(true);
     
     try {
-      console.log("💾 Enviando imagem do rosto para upload...");
+      console.log("💾 Fazendo upload da imagem...");
       await uploadFacialImage(imageSrc);
       
       toast({
         title: "Captura Concluída",
-        description: "Selfie do rosto capturada com sucesso!",
+        description: "Selfie capturada com sucesso!",
       });
       
       // Reset completo
