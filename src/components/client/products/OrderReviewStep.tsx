@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/utils/format";
+
 type Line = {
   id: number;
   internet: string;
@@ -8,9 +9,11 @@ type Line = {
   ddd: string;
   price: number;
 };
+
 interface OrderReviewStepProps {
   selectedLines: Line[];
 }
+
 export function OrderReviewStep({
   selectedLines
 }: OrderReviewStepProps) {
@@ -31,7 +34,9 @@ export function OrderReviewStep({
         return "Plano Smartvoz";
     }
   };
-  return <div className="space-y-6">
+
+  return (
+    <div className="space-y-6 max-w-[340px] mx-auto w-full">
       <div className="w-full flex justify-center mb-4">
         
       </div>
@@ -44,7 +49,8 @@ export function OrderReviewStep({
       </div>
 
       <div className="space-y-4">
-        {selectedLines.map(line => <div key={line.id} className="p-4 bg-gray-50 rounded-lg">
+        {selectedLines.map(line => (
+          <div key={line.id} className="p-4 bg-gray-50 rounded-lg">
             <div className="flex justify-between items-center">
               <div>
                 <span className="font-medium">
@@ -57,7 +63,8 @@ export function OrderReviewStep({
             <div className="mt-2 text-sm text-gray-500">
               <p>DDD: {line.ddd}</p>
             </div>
-          </div>)}
+          </div>
+        ))}
 
         <div className="p-4 bg-purple-50 rounded-lg">
           <div className="flex justify-between items-center font-medium">
@@ -66,5 +73,6 @@ export function OrderReviewStep({
           </div>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 }
