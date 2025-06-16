@@ -1,4 +1,3 @@
-
 import { useRef } from "react";
 import Webcam from "react-webcam";
 import { useEffect } from "react";
@@ -42,7 +41,7 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
     checkSession();
   }, [toast]);
 
-  const { faceDetected, facePosition, faceProximity, lightingQuality } = useFaceDetection(webcamRef, false, true);
+  const { faceDetected, facePosition, faceProximity, lightingQuality } = useFaceDetection(webcamRef, true, true);
 
   const { 
     isProcessing, 
