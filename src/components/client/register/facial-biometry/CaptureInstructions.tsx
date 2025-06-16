@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Camera } from "lucide-react";
 
@@ -9,7 +8,7 @@ interface CaptureInstructionsProps {
 
 export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
   return (
-    <div className="bg-white text-gray-800 h-screen flex flex-col relative overflow-hidden">
+    <div className="bg-white text-gray-800 h-[80vh] flex flex-col relative overflow-hidden">
       <div className="flex flex-col items-center justify-center flex-1 px-4 overflow-hidden">
         {/* Central icon */}
         <div className="flex flex-col items-center">
