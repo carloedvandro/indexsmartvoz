@@ -1,4 +1,3 @@
-
 import { useRef } from "react";
 import Webcam from "react-webcam";
 import { useEffect } from "react";
@@ -77,7 +76,7 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
   };
 
   return (
-    <div className="relative h-[540px] bg-black mx-4 rounded-lg">
+    <div className="relative h-[480px] bg-black mx-4 rounded-lg">
       <div className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 z-20 text-center">
         <p className="text-sm font-medium">
           Centralize seu rosto no oval e mantenha estável
