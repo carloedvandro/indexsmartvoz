@@ -9,7 +9,7 @@ export function ContractTermsStep({
   acceptedTerms,
   onTermsChange
 }: ContractTermsStepProps) {
-  return <div className="space-y-6 mt-[30px]">
+  return <div className="space-y-6 mt-[40px]">
       <div className="w-full flex justify-center mb-4">
         
       </div>
