@@ -24,6 +24,15 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
 
       {/* Content area - takes remaining space */}
       <div className="flex-1 flex flex-col items-center justify-center px-4">
+        {/* Second Smartvoz logo in the middle */}
+        <div className="flex items-center justify-center mb-8">
+          <img
+            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
+            alt="Smartvoz"
+            className="h-16 object-contain"
+          />
+        </div>
+
         {/* Central icon */}
         <div className="flex flex-col items-center">
           <div className="bg-gray-100 p-6 rounded-full mb-4">
