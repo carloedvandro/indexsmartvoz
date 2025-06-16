@@ -67,7 +67,7 @@ serve(async (req) => {
       );
     }
 
-    console.log('🔑 ASAAS_API_KEY configurada');
+    console.log('🔑 ASAAS_API_KEY configurada, length:', ASAAS_API_KEY.length);
 
     // Validar dados obrigatórios
     if (!requestData.name || requestData.name.trim().length < 2) {
@@ -118,12 +118,14 @@ serve(async (req) => {
 
     console.log('👤 Dados do cliente preparados:', customerData);
 
-    // Headers para requisições do Asaas
+    // Headers corretos para requisições do Asaas
     const asaasHeaders = {
       'access_token': ASAAS_API_KEY,
       'Content-Type': 'application/json',
       'User-Agent': 'Smartvoz/1.0'
     };
+
+    console.log('🔍 Headers preparados para Asaas');
 
     // Primeiro, tentar buscar cliente existente por email
     console.log('🔍 Verificando se cliente já existe...');
@@ -139,6 +141,7 @@ serve(async (req) => {
       });
 
       console.log('🔍 Status da busca:', searchResponse.status);
+      console.log('🔍 Headers da resposta:', Object.fromEntries(searchResponse.headers.entries()));
 
       if (searchResponse.ok) {
         const searchResult = await searchResponse.json();
@@ -167,30 +170,17 @@ serve(async (req) => {
             const errorText = await customerResponse.text();
             console.error('❌ Erro ao criar cliente:', errorText);
             
-            try {
-              const errorData = JSON.parse(errorText);
-              console.error('❌ Detalhes do erro:', errorData);
-              
-              return new Response(
-                JSON.stringify({ 
-                  error: { 
-                    message: `Erro ao criar cliente: ${errorData.errors?.[0]?.description || 'Dados inválidos'}` 
-                  } 
-                }),
-                { 
-                  status: 400, 
-                  headers: { 'Content-Type': 'application/json', ...corsHeaders }
-                }
-              );
-            } catch {
-              return new Response(
-                JSON.stringify({ error: { message: 'Erro ao processar dados do cliente' } }),
-                { 
-                  status: 400, 
-                  headers: { 'Content-Type': 'application/json', ...corsHeaders }
-                }
-              );
-            }
+            return new Response(
+              JSON.stringify({ 
+                error: { 
+                  message: `Erro ao criar cliente no Asaas. Status: ${customerResponse.status}` 
+                } 
+              }),
+              { 
+                status: 400, 
+                headers: { 'Content-Type': 'application/json', ...corsHeaders }
+              }
+            );
           }
         }
       } else {
@@ -198,31 +188,17 @@ serve(async (req) => {
         console.error('❌ Erro ao buscar cliente - Status:', searchResponse.status);
         console.error('❌ Erro ao buscar cliente - Response:', searchErrorText);
         
-        // Se a busca falhar, tentar criar cliente diretamente
-        console.log('👤 Busca falhou, tentando criar cliente diretamente...');
-        
-        const customerResponse = await fetch('https://www.asaas.com/api/v3/customers', {
-          method: 'POST',
-          headers: asaasHeaders,
-          body: JSON.stringify(customerData)
-        });
-
-        if (customerResponse.ok) {
-          const customer = await customerResponse.json();
-          customerId = customer.id;
-          console.log('✅ Cliente criado com sucesso após falha na busca:', customerId);
-        } else {
-          const createErrorText = await customerResponse.text();
-          console.error('❌ Erro ao criar cliente após falha na busca:', createErrorText);
-          
-          return new Response(
-            JSON.stringify({ error: { message: 'Erro ao processar cliente no Asaas' } }),
-            { 
-              status: 400, 
-              headers: { 'Content-Type': 'application/json', ...corsHeaders }
-            }
-          );
-        }
+        return new Response(
+          JSON.stringify({ 
+            error: { 
+              message: `Erro de autenticação com Asaas. Verifique a API key. Status: ${searchResponse.status}` 
+            } 
+          }),
+          { 
+            status: 401, 
+            headers: { 'Content-Type': 'application/json', ...corsHeaders }
+          }
+        );
       }
     } catch (searchError) {
       console.error('❌ Exceção ao buscar/criar cliente:', searchError);
@@ -264,30 +240,17 @@ serve(async (req) => {
       const errorText = await paymentResponse.text();
       console.error('❌ Erro ao criar cobrança:', errorText);
       
-      try {
-        const errorData = JSON.parse(errorText);
-        console.error('❌ Detalhes do erro da cobrança:', errorData);
-        
-        return new Response(
-          JSON.stringify({ 
-            error: { 
-              message: `Erro ao criar cobrança: ${errorData.errors?.[0]?.description || 'Erro desconhecido'}` 
-            } 
-          }),
-          { 
-            status: 400, 
-            headers: { 'Content-Type': 'application/json', ...corsHeaders }
-          }
-        );
-      } catch {
-        return new Response(
-          JSON.stringify({ error: { message: 'Erro ao criar cobrança' } }),
-          { 
-            status: 400, 
-            headers: { 'Content-Type': 'application/json', ...corsHeaders }
-          }
-        );
-      }
+      return new Response(
+        JSON.stringify({ 
+          error: { 
+            message: `Erro ao criar cobrança. Status: ${paymentResponse.status}` 
+          } 
+        }),
+        { 
+          status: 400, 
+          headers: { 'Content-Type': 'application/json', ...corsHeaders }
+        }
+      );
     }
 
     const payment = await paymentResponse.json();
