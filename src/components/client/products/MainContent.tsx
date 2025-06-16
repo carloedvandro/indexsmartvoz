@@ -76,13 +76,13 @@ export function MainContent({
 
   return (
     <motion.div 
-      className="flex flex-col items-center min-h-screen bg-white pt-12 relative"
+      className="flex flex-col items-center min-h-screen bg-gray-50/80 pt-12 relative"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
     >
       <div className="w-full max-w-[365px] mx-auto">
-        <Card className="relative z-10 shadow-none bg-white border-0">
+        <Card className="relative z-10 shadow-none bg-transparent border-0">
           <CardContent className="w-full px-0">
             <motion.div variants={itemVariants} className="w-full">
               {currentStep === 1 && (
