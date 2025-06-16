@@ -1,5 +1,4 @@
 
-
 import { Button } from "@/components/ui/button";
 import { Camera } from "lucide-react";
 
@@ -11,17 +10,6 @@ interface CaptureInstructionsProps {
 export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
   return (
     <div className="bg-white text-gray-800 h-screen flex flex-col relative overflow-hidden">
-      {/* Header with Smartvoz logo */}
-      <div className="bg-white px-4 py-2.5 flex-shrink-0">
-        <div className="flex items-center justify-center">
-          <img
-            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
-            alt="Smartvoz"
-            className="h-20 object-contain"
-          />
-        </div>
-      </div>
-
       <div className="flex flex-col items-center justify-center flex-1 px-4">
         {/* Central icon */}
         <div className="flex flex-col items-center">
@@ -50,4 +38,3 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
     </div>
   );
 };
-
