@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,7 +49,7 @@ export const CpfVerificationStep = ({
     <div className="bg-white text-gray-800 flex flex-col ">
       <div className="flex-1 flex items-start justify-center pt-10 p-6">
         <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
-          <h2 className="text-sm font-bold text-gray-800 max-w-[280px] mx-auto text-center">
+          <h2 className="text-sm text-gray-800 max-w-[280px] mx-auto text-center">
             Olá, verificamos que você está realizando a
             <br />
             consulta/contratação dos nossos serviços SmartVoz.
