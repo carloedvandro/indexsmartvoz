@@ -25,7 +25,7 @@ export function ContractTermsStep({
           </a>
         </div>
         
-        <div className="flex items-start space-x-2 text-left ml-[7px]">
+        <div className="flex items-start space-x-2 text-left ml-[12px]">
           <Checkbox id="terms" checked={acceptedTerms} onCheckedChange={checked => onTermsChange(checked as boolean)} className="mt-0.5" />
           <label htmlFor="terms" className="text-xs text-gray-600 cursor-pointer w-[calc(100%+7px)] pl-1 mt-[1.25px]">
             Aceito receber comunicações e ofertas da Smartvoz.
