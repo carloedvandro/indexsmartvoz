@@ -1,7 +1,5 @@
-
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/utils/format";
-
 type Line = {
   id: number;
   internet: string;
@@ -9,32 +7,32 @@ type Line = {
   ddd: string;
   price: number;
 };
-
 interface OrderReviewStepProps {
   selectedLines: Line[];
 }
-
-export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
+export function OrderReviewStep({
+  selectedLines
+}: OrderReviewStepProps) {
   // Get plan name based on selected internet GB
   const getPlanName = (internet: string) => {
     switch (internet) {
-      case "2GB": return "Teste a Tegg";
-      case "7GB": return "BASIC";
-      case "13GB": return "START";
-      case "21GB": return "GOLD";
-      case "44GB": return "PLUS";
-      default: return "Plano Smartvoz";
+      case "2GB":
+        return "Teste a Tegg";
+      case "7GB":
+        return "BASIC";
+      case "13GB":
+        return "START";
+      case "21GB":
+        return "GOLD";
+      case "44GB":
+        return "PLUS";
+      default:
+        return "Plano Smartvoz";
     }
   };
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       <div className="w-full flex justify-center mb-4">
-        <img 
-          src="/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png" 
-          alt="Smartvoz Logo" 
-          className="h-[140px] object-contain mix-blend-multiply opacity-90 contrast-125"
-        />
+        
       </div>
       
       <div className="space-y-2 text-center">
@@ -45,8 +43,7 @@ export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
       </div>
 
       <div className="space-y-4">
-        {selectedLines.map((line) => (
-          <div key={line.id} className="p-4 bg-gray-50 rounded-lg">
+        {selectedLines.map(line => <div key={line.id} className="p-4 bg-gray-50 rounded-lg">
             <div className="flex justify-between items-center">
               <div>
                 <span className="font-medium">
@@ -59,8 +56,7 @@ export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
             <div className="mt-2 text-sm text-gray-500">
               <p>DDD: {line.ddd}</p>
             </div>
-          </div>
-        ))}
+          </div>)}
 
         <div className="p-4 bg-purple-50 rounded-lg">
           <div className="flex justify-between items-center font-medium">
@@ -69,6 +65,5 @@ export function OrderReviewStep({ selectedLines }: OrderReviewStepProps) {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }
