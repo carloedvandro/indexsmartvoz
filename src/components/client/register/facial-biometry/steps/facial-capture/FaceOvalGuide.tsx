@@ -21,7 +21,7 @@ export const FaceOvalGuide = ({
 }: FaceOvalGuideProps) => {
   // Cores mais rigorosas baseadas no estado
   const getStrokeColor = () => {
-    if (isCapturing) return "#dc2626"; // Vermelho durante captura ativa
+    if (isCapturing) return "#16a34a"; // Verde durante captura ativa
     if (faceDetected && faceProximity === "ideal") return "#16a34a"; // Verde quando ideal
     if (faceDetected) return "#eab308"; // Amarelo quando detectado mas não ideal
     return "#ef4444"; // Vermelho quando não detectado
