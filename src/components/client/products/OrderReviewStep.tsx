@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/utils/format";
 
@@ -42,7 +41,7 @@ export function OrderReviewStep({
       </div>
       
       <div className="space-y-2 text-center">
-        <h2 className="text-xl font-medium text-black">Confirme seu pedido</h2>
+        <h2 className="text-xl font-bold text-black">Confirme seu pedido</h2>
       </div>
 
       <div className="space-y-4">
