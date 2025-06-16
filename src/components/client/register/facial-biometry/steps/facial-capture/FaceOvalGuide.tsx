@@ -3,9 +3,7 @@ import React from "react";
 import { 
   SvgDefinitions, 
   OvalOverlay, 
-  ProgressOval, 
-  FaceGuides, 
-  StatusIndicators 
+  ProgressOval
 } from "./components";
 
 interface FaceOvalGuideProps {
@@ -45,19 +43,6 @@ export const FaceOvalGuide = ({
           <OvalOverlay strokeColor={strokeColor} />
           
           <ProgressOval 
-            faceDetected={faceDetected}
-            faceProximity={faceProximity}
-            isCapturing={isCapturing}
-            captureProgress={captureProgress}
-          />
-          
-          <FaceGuides 
-            faceDetected={faceDetected}
-            faceProximity={faceProximity}
-            isCapturing={isCapturing}
-          />
-          
-          <StatusIndicators 
             faceDetected={faceDetected}
             faceProximity={faceProximity}
             isCapturing={isCapturing}
