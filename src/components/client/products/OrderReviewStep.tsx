@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/utils/format";
 type Line = {
@@ -37,7 +38,7 @@ export function OrderReviewStep({
       
       <div className="space-y-2 text-center">
         <h2 className="text-xl font-medium text-black">Confirme seu pedido</h2>
-        <p className="text-gray-600">
+        <p className="text-gray-600" style={{ fontSize: '0.5px' }}>
           Revise os planos selecionados e os valores antes de prosseguir
         </p>
       </div>
