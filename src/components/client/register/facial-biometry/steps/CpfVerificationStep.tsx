@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -118,7 +119,7 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
       </div>
       
       {/* Botão fixo no rodapé */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white">
+      <div className="fixed bottom-0 left-0 right-0 bg-white mb-6">
         <Button 
           onClick={handleSubmit}
           className="w-full h-12 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none"
