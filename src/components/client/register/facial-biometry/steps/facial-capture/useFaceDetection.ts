@@ -22,68 +22,81 @@ export const useFaceDetection = (
     let skinTonePixels = 0;
     const totalPixels = data.length / 4;
     
-    // Threshold muito baixo para detecção mais fácil
-    const threshold = 0.01;
+    // Threshold mais rigoroso para detecção real de rosto
+    const threshold = 0.03; // Aumentado de 0.01 para 0.03
     
-    // Área central onde o rosto deve estar (muito flexível)
+    // Área central onde o rosto deve estar (mais restritiva)
     const centerX = imageData.width / 2;
     const centerY = imageData.height / 2;
-    const faceRadiusX = Math.min(imageData.width, imageData.height) * 0.5;
-    const faceRadiusY = Math.min(imageData.width, imageData.height) * 0.6;
+    const faceRadiusX = Math.min(imageData.width, imageData.height) * 0.3; // Reduzido de 0.5 para 0.3
+    const faceRadiusY = Math.min(imageData.width, imageData.height) * 0.4; // Reduzido de 0.6 para 0.4
     
     let facePixelsSum = { x: 0, y: 0 };
     let facePixelsCount = 0;
+    let darkPixels = 0; // Para detectar olhos/sobrancelhas
+    let brightPixels = 0; // Para detectar testa/bochechas
     
-    // Verificar tons de pele em área muito ampla
-    for (let y = 0; y < imageData.height; y += 3) { // Skip mais pixels para performance
-      for (let x = 0; x < imageData.width; x += 3) {
+    // Verificar tons de pele em área mais restrita
+    for (let y = 0; y < imageData.height; y += 2) { // Melhor precisão
+      for (let x = 0; x < imageData.width; x += 2) {
         const dx = (x - centerX) / faceRadiusX;
         const dy = (y - centerY) / faceRadiusY;
         const distanceFromCenter = Math.sqrt(dx*dx + dy*dy);
         
-        if (distanceFromCenter <= 1.5) { // Área muito ampla
+        if (distanceFromCenter <= 1.0) { // Área mais restrita
           const index = (y * imageData.width + x) * 4;
           const r = data[index];
           const g = data[index + 1];
           const b = data[index + 2];
           
-          // Detecção de tom de pele muito ampla
-          if (
-            r > 10 && g > 5 && b > 3 &&
-            r >= g - 30 && r >= b - 30 &&
-            Math.max(r, g, b) - Math.min(r, g, b) < 200 &&
-            r + g + b > 30
-          ) {
+          // Detecção de tom de pele mais rigorosa
+          const brightness = (r + g + b) / 3;
+          const isFleshTone = 
+            r > 80 && g > 50 && b > 30 && // Mínimos mais altos
+            r >= g && g >= b && // Padrão de tom de pele
+            r - b > 15 && // Diferença vermelho-azul
+            brightness > 70 && brightness < 220 && // Faixa de brilho
+            Math.abs(r - g) < 50; // Vermelho e verde próximos
+          
+          if (isFleshTone) {
             skinTonePixels++;
             facePixelsSum.x += x;
             facePixelsSum.y += y;
             facePixelsCount++;
+            
+            if (brightness > 120) brightPixels++;
+            if (brightness < 100) darkPixels++;
           }
         }
       }
     }
     
     const ratio = skinTonePixels / totalPixels;
+    const contrastRatio = darkPixels > 0 ? brightPixels / darkPixels : 0;
     
-    console.log("🔍 Face detection - Ratio:", ratio, "Threshold:", threshold, "SkinPixels:", skinTonePixels);
+    console.log("🔍 Face detection - Ratio:", ratio, "Threshold:", threshold, "Contrast:", contrastRatio, "SkinPixels:", skinTonePixels);
     
     let proximity: "ideal" | "too-close" | "too-far" | "not-detected" = "not-detected";
     let detectedFace = false;
     let facePos = { x: 0, y: 0, size: 0 };
     
-    if (ratio > threshold && facePixelsCount > 50) { // Mínimo muito baixo
+    // Critérios mais rigorosos para detecção de rosto
+    if (ratio > threshold && 
+        facePixelsCount > 200 && // Mínimo mais alto
+        contrastRatio > 0.5 && contrastRatio < 5) { // Deve ter contraste (olhos/sobrancelhas vs pele)
+      
       const avgX = facePixelsSum.x / facePixelsCount;
       const avgY = facePixelsSum.y / facePixelsCount;
       
       const faceSize = Math.sqrt(facePixelsCount / totalPixels) * 2;
       
-      // Verificar se o rosto está razoavelmente centralizado (muito flexível)
+      // Verificar se o rosto está bem centralizado (mais rigoroso)
       const distanceFromFrameCenter = Math.sqrt(
         Math.pow((avgX - centerX) / centerX, 2) + 
         Math.pow((avgY - centerY) / centerY, 2)
       );
       
-      const isCentered = distanceFromFrameCenter < 0.8; // Muito flexível
+      const isCentered = distanceFromFrameCenter < 0.4; // Mais rigoroso, era 0.8
       
       facePos = {
         x: avgX / imageData.width,
@@ -92,23 +105,20 @@ export const useFaceDetection = (
       };
       
       if (isCentered) {
-        if (faceSize > 0.8) {
+        if (faceSize > 0.6) { // Ajustado
           proximity = "too-close";
-        } else if (faceSize < 0.08) {
+        } else if (faceSize < 0.15) { // Ajustado
           proximity = "too-far";
         } else {
           proximity = "ideal";
         }
         detectedFace = true;
+        console.log("✅ Face detected - Size:", faceSize, "Centered:", isCentered, "Proximity:", proximity);
       } else {
-        // Mesmo não centralizado, detectar o rosto
-        detectedFace = true;
-        proximity = "ideal"; // Considerar ideal mesmo não centralizado
+        console.log("❌ Face not centered enough - Distance:", distanceFromFrameCenter);
       }
-      
-      console.log("✅ Face detected - Size:", faceSize, "Centered:", isCentered, "Proximity:", proximity);
     } else {
-      console.log("❌ Face not detected - Low ratio or insufficient pixels");
+      console.log("❌ Face not detected - Low quality or insufficient features");
     }
     
     return { 
@@ -120,9 +130,9 @@ export const useFaceDetection = (
 
   useEffect(() => {
     let detectionCount = 0;
-    const consecutiveDetectionsNeeded = 1; // Apenas 1 detecção necessária
+    const consecutiveDetectionsNeeded = 3; // Precisa de 3 detecções consecutivas
     let noDetectionCount = 0;
-    const consecutiveNoDetectionsNeeded = 10; // Mais tolerante
+    const consecutiveNoDetectionsNeeded = 5; // Mais rápido para perder detecção
     
     console.log("🔄 Starting face detection interval");
     
@@ -140,18 +150,18 @@ export const useFaceDetection = (
             if (ctx) {
               ctx.drawImage(img, 0, 0);
               
-              // Amostra área quase completa
-              const centerX = img.width * 0.02;
-              const centerY = img.height * 0.02;
-              const width = img.width * 0.96;
-              const height = img.height * 0.96;
+              // Amostra área central apenas
+              const centerX = img.width * 0.1;
+              const centerY = img.height * 0.1;
+              const width = img.width * 0.8;
+              const height = img.height * 0.8;
               
               const imageData = ctx.getImageData(centerX, centerY, width, height);
               
               checkFace(imageData).then(result => {
                 console.log("📊 Face detection result:", result);
                 
-                if (result.detected) {
+                if (result.detected && result.proximity === "ideal") {
                   detectionCount++;
                   noDetectionCount = 0;
                   setFaceProximity(result.proximity);
@@ -159,11 +169,16 @@ export const useFaceDetection = (
                   
                   if (detectionCount >= consecutiveDetectionsNeeded) {
                     setFaceDetected(true);
-                    console.log("✅ Face detected and set to true");
+                    console.log("✅ Face confirmed after", detectionCount, "consecutive detections");
                   }
                 } else {
                   noDetectionCount++;
                   detectionCount = 0;
+                  
+                  if (result.detected) {
+                    setFaceProximity(result.proximity);
+                    setFacePosition(result.position);
+                  }
                   
                   if (noDetectionCount >= consecutiveNoDetectionsNeeded) {
                     setFaceDetected(false);
@@ -176,7 +191,7 @@ export const useFaceDetection = (
           };
         }
       }
-    }, 200); // Interval menos frequente para melhor performance
+    }, 300); // Interval um pouco mais lento para estabilidade
 
     return () => {
       console.log("🛑 Clearing face detection interval");
