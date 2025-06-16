@@ -13,26 +13,24 @@ export const useFaceDetectionState = () => {
   const updateFaceDetection = (detected: boolean, position: { x: number; y: number; size: number }, proximity: "ideal" | "too-close" | "too-far" | "not-detected", lighting: "good" | "poor" | "too-dark" | "too-bright") => {
     setFacePosition(position);
     setFaceProximity(proximity);
-    setLightingQuality("good"); // Sempre como "good" para simplificar
+    setLightingQuality("good"); // Sempre como "good"
 
-    console.log(`🔄 Detection update - Detected: ${detected}, Proximity: ${proximity}`);
+    console.log(`🔄 ULTRA SIMPLE Detection update - Detected: ${detected}, Proximity: ${proximity}`);
 
     if (detected) {
       consecutiveDetectionsRef.current++;
       consecutiveNoDetectionsRef.current = 0;
       
-      // Detecção imediata para teste
-      if (consecutiveDetectionsRef.current >= 1) {
-        setFaceDetected(true);
-        console.log(`✅ Face detected after ${consecutiveDetectionsRef.current} frames`);
-      }
+      // Detecção IMEDIATA
+      setFaceDetected(true);
+      console.log(`✅ ULTRA SIMPLE Face detected IMMEDIATELY`);
     } else {
       consecutiveNoDetectionsRef.current++;
       consecutiveDetectionsRef.current = 0;
       
-      if (consecutiveNoDetectionsRef.current >= 3) {
+      if (consecutiveNoDetectionsRef.current >= 2) {
         setFaceDetected(false);
-        console.log(`❌ Face lost after ${consecutiveNoDetectionsRef.current} frames`);
+        console.log(`❌ ULTRA SIMPLE Face lost after ${consecutiveNoDetectionsRef.current} frames`);
       }
     }
   };
