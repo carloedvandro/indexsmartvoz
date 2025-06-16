@@ -28,10 +28,10 @@ export const DocumentInstructionsStep = ({ onNext }: DocumentInstructionsStepPro
         </div>
       </div>
 
-      {/* Button outside of the main container with 5px more padding bottom */}
+      {/* Button outside of the main container moved 5px down */}
       <button
         onClick={onNext}
-        className="w-full h-12 bg-[#8425af] text-white uppercase text-xs font-medium hover:bg-[#7a1fa2] mb-[5px]"
+        className="w-full h-12 bg-[#8425af] text-white uppercase text-xs font-medium hover:bg-[#7a1fa2] mt-[5px]"
       >
         AVANÇAR
       </button>
