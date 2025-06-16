@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
-import ReCAPTCHA from "react-google-recaptcha";
 import { Lock } from 'lucide-react';
 
 interface CpfVerificationStepProps {
@@ -16,10 +15,7 @@ export const CpfVerificationStep = ({
 }: CpfVerificationStepProps) => {
   const [cpfDigits, setCpfDigits] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,14 +27,7 @@ export const CpfVerificationStep = ({
       });
       return;
     }
-    if (!captchaValue) {
-      toast({
-        title: "Verificação necessária",
-        description: "Por favor, complete a verificação reCAPTCHA.",
-        variant: "destructive"
-      });
-      return;
-    }
+    
     try {
       setIsLoading(true);
       if (!validatePartialCPF(cpfDigits)) {
@@ -91,40 +80,27 @@ export const CpfVerificationStep = ({
                 maxLength={5} 
               />
             </div>
-
-            <div className="flex justify-center">
-              <ReCAPTCHA 
-                sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" 
-                onChange={value => setCaptchaValue(value)} 
-                theme="light" 
-                style={{
-                  transform: "scale(0.85)",
-                  transformOrigin: "center center"
-                }} 
-              />
-            </div>
-
-            <div className="flex justify-center mt-4">
-              <div className="flex items-center bg-transparent py-2 rounded-lg">
-                <div className="flex items-center gap-2">
-                  <Lock className="w-6 h-6 text-gray-600" strokeWidth={2.5} />
-                  <div className="h-8 w-[1px] bg-gray-400 mr-2"></div>
-                </div>
-                <div className="text-start ">
-                  <div className="text-sm text-[#8425af] block">Verified by</div>
-                  <div className="font-semibold text-sm  text-gray-800">Serasa Experian</div>
-                </div>
-              </div>
-            </div>
           </form>
         </div>
       </div>
 
-      {/* Botão fixado na parte inferior */}
+      {/* Botão fixado na parte inferior com o conjunto "Verified by" acima */}
       <div className="fixed bottom-0 left-0 right-0 bg-white">
+        <div className="flex justify-center py-3">
+          <div className="flex items-center bg-transparent py-2 rounded-lg">
+            <div className="flex items-center gap-2">
+              <Lock className="w-6 h-6 text-gray-600" strokeWidth={2.5} />
+              <div className="h-8 w-[1px] bg-gray-400 mr-2"></div>
+            </div>
+            <div className="text-start ">
+              <div className="text-sm text-[#8425af] block">Verified by</div>
+              <div className="font-semibold text-sm  text-gray-800">Serasa Experian</div>
+            </div>
+          </div>
+        </div>
         <Button 
           onClick={handleSubmit} 
-          disabled={isLoading || !captchaValue || cpfDigits.length < 5} 
+          disabled={isLoading || cpfDigits.length < 5} 
           className="w-full h-12 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none"
         >
           {isLoading ? "VALIDANDO..." : "VALIDAR"}

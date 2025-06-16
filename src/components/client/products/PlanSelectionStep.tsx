@@ -147,7 +147,7 @@ export function PlanSelectionStep({
   const isDisabled = !selectedInternet || !selectedDDD || !selectedDueDate;
 
   return (
-    <div className="max-w-[379px] mx-auto w-full" style={{ marginTop: "74px" }}>
+    <div className="max-w-[379px] mx-auto w-full" style={{ marginTop: "24px" }}>
       <div className="space-y-6">
         <PlanSelectionHeader />
 

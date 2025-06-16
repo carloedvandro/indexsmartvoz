@@ -9,14 +9,7 @@ type ActivationTypeProps = {
 
 export function ActivationType({ onSelect, onBack }: ActivationTypeProps) {
   return (
-    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto pt-44">
-      <div className="flex justify-center">
-        <img 
-          src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
-          alt="Smartvoz Logo" 
-          className="w-auto h-[90px] object-contain mb-4"
-        />
-      </div>
+    <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto pt-24">
       <p className="text-black text-center mt-2">
         É preciso ter o celular com o eSIM em mãos pra ativar
       </p>

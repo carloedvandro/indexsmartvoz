@@ -24,9 +24,9 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
   };
 
   return (
-    <div className="bg-white text-gray-800 h-[80vh] flex flex-col">
-      <div className="flex-grow flex flex-col justify-center p-8 -mt-5">
-        <div className="space-y-6">
+    <div className="bg-white text-gray-800 flex flex-col">
+      <div className="flex-1 flex items-start justify-center pt-10 p-6">
+        <div className="w-full max-w-[280px] space-y-6">
           <h2 className="text-xl font-medium text-center text-gray-800">Selecione o tipo de documento</h2>
           <p className="text-center text-sm text-gray-600">
             Escolha qual documento de identificação você deseja utilizar:
@@ -74,14 +74,15 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
         </div>
       </div>
 
-      <div className="p-0 mb-5">
-        <button
+      {/* Botão fixado na parte inferior */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white">
+        <Button
           onClick={handleContinue}
-          className="w-full h-16 bg-[#8B3FBF] text-white hover:bg-[#7A3AAB] transition-colors uppercase text-sm font-semibold tracking-wide disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={!selectedType}
+          className="w-full h-12 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none"
         >
           AVANÇAR
-        </button>
+        </Button>
       </div>
     </div>
   );
