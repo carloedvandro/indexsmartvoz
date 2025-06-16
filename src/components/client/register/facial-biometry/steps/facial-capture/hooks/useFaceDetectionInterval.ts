@@ -31,9 +31,11 @@ export const useFaceDetectionInterval = ({
         try {
           const video = webcamRef.current.video;
           
-          // Verificação se o vídeo está funcionando
-          if (video.videoWidth === 0 || video.videoHeight === 0) {
-            console.log("⚠️ Vídeo não está pronto ainda");
+          console.log(`📹 VIDEO STATUS: ${video.videoWidth}x${video.videoHeight}, ready: ${video.readyState}`);
+          
+          // Verificação mais flexível do vídeo
+          if (video.videoWidth === 0 || video.videoHeight === 0 || video.readyState < 2) {
+            console.log("⚠️ Vídeo ainda não está pronto");
             onDetectionResult(false, { x: 0, y: 0, size: 0 }, "not-detected", "good");
             return;
           }
@@ -41,7 +43,7 @@ export const useFaceDetectionInterval = ({
           console.log("🔍 ANALISANDO FRAME DO VÍDEO");
           const result = await detectFaceInFrame(video);
           
-          console.log("📋 RESULTADO:", {
+          console.log("📋 RESULTADO DETECÇÃO:", {
             detected: result.detected,
             proximity: result.proximity,
             position: result.position
@@ -56,7 +58,7 @@ export const useFaceDetectionInterval = ({
         console.log("⚠️ Elemento de vídeo não disponível");
         onDetectionResult(false, { x: 0, y: 0, size: 0 }, "not-detected", "good");
       }
-    }, 150); // Intervalo de 150ms para detecção mais frequente
+    }, 100); // Intervalo ainda mais rápido - 100ms
 
     return () => {
       if (intervalRef.current) {

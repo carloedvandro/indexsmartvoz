@@ -2,35 +2,43 @@
 import { FaceAnalysisResult } from "../types/faceDetectionTypes";
 
 export const analyzeFace = async (imageData: ImageData): Promise<FaceAnalysisResult> => {
-  console.log(`🔍 DETECÇÃO SIMPLIFICADA - Analisando frame: ${imageData.width}x${imageData.height}`);
+  console.log(`🔍 ANÁLISE SIMPLIFICADA - Frame: ${imageData.width}x${imageData.height}`);
   
   const data = imageData.data;
-  const totalPixels = imageData.width * imageData.height;
   
-  // Verificação ULTRA simples - apenas verificar se há conteúdo não-preto
-  let nonBlackPixels = 0;
+  // Verificação MUITO simples - apenas verificar se há dados válidos
+  let totalBrightness = 0;
+  let validPixels = 0;
   
-  // Amostragem rápida - verificar apenas alguns pixels
-  for (let i = 0; i < data.length; i += 40) { // A cada 10 pixels
-    const r = data[i];
-    const g = data[i + 1];
-    const b = data[i + 2];
-    
-    // Se não é preto puro, conta como conteúdo
-    if (r > 20 || g > 20 || b > 20) {
-      nonBlackPixels++;
+  // Amostragem muito rápida - apenas alguns pixels centrais
+  const centerX = Math.floor(imageData.width / 2);
+  const centerY = Math.floor(imageData.height / 2);
+  const sampleSize = 50; // Área de 50x50 pixels no centro
+  
+  for (let y = centerY - sampleSize; y < centerY + sampleSize; y += 5) {
+    for (let x = centerX - sampleSize; x < centerX + sampleSize; x += 5) {
+      if (x >= 0 && x < imageData.width && y >= 0 && y < imageData.height) {
+        const index = (y * imageData.width + x) * 4;
+        const r = data[index];
+        const g = data[index + 1];
+        const b = data[index + 2];
+        
+        const brightness = (r + g + b) / 3;
+        totalBrightness += brightness;
+        validPixels++;
+      }
     }
   }
   
-  const contentRatio = nonBlackPixels / (data.length / 40);
+  const averageBrightness = validPixels > 0 ? totalBrightness / validPixels : 0;
   
-  console.log(`📊 ANÁLISE: ${nonBlackPixels} pixels com conteúdo de ${data.length / 40} verificados (${(contentRatio * 100).toFixed(1)}%)`);
+  console.log(`📊 ANÁLISE CENTRO: ${validPixels} pixels, brilho médio: ${averageBrightness.toFixed(1)}`);
   
-  // Se há pelo menos 10% de conteúdo, considera como rosto detectado
-  const hasContent = contentRatio > 0.1;
+  // Critério MUITO simples: se há brilho médio acima de 30, considera como rosto
+  const hasValidContent = averageBrightness > 30 && validPixels > 0;
   
-  if (hasContent) {
-    console.log(`✅ ROSTO DETECTADO! Ratio: ${(contentRatio * 100).toFixed(1)}%`);
+  if (hasValidContent) {
+    console.log(`✅ ROSTO DETECTADO! Brilho: ${averageBrightness.toFixed(1)}, Pixels: ${validPixels}`);
     
     return {
       detected: true,
@@ -43,7 +51,7 @@ export const analyzeFace = async (imageData: ImageData): Promise<FaceAnalysisRes
       lighting: "good" // Sempre boa
     };
   } else {
-    console.log(`❌ Conteúdo insuficiente. Ratio: ${(contentRatio * 100).toFixed(1)}%`);
+    console.log(`❌ Conteúdo insuficiente. Brilho: ${averageBrightness.toFixed(1)}, Pixels: ${validPixels}`);
     
     return {
       detected: false,
