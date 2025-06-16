@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,61 +5,55 @@ import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Lock } from 'lucide-react';
-
 interface CpfVerificationStepProps {
   onNext: () => void;
 }
-
-export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
+export const CpfVerificationStep = ({
+  onNext
+}: CpfVerificationStepProps) => {
   const [cpfDigits, setCpfDigits] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [captchaValue, setCaptchaValue] = useState<string | null>(null);
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!cpfDigits || cpfDigits.length < 5) {
       toast({
         title: "CPF inválido",
         description: "Por favor, insira os primeiros 5 dígitos do seu CPF/CNPJ.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
-
     if (!captchaValue) {
       toast({
         title: "Verificação necessária",
         description: "Por favor, complete a verificação reCAPTCHA.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
-    
     try {
       setIsLoading(true);
-      
       if (!validatePartialCPF(cpfDigits)) {
         throw new Error("Os dígitos do CPF não são válidos.");
       }
-      
       await new Promise(resolve => setTimeout(resolve, 800));
       onNext();
     } catch (error: any) {
       toast({
         title: "Erro na verificação",
         description: error.message || "Ocorreu um erro ao verificar o CPF.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsLoading(false);
     }
   };
-
-  return (
-    <div className="min-h-screen bg-white text-gray-800 flex flex-col overflow-hidden">
-      <div className="flex-1 flex items-start justify-center pt-10 p-6 pb-20 overflow-hidden">
+  return <div className="min-h-screen bg-white text-gray-800 flex flex-col overflow-hidden">
+      <div className="flex-1 flex items-start justify-center pt-10 p-6 ">
         <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
           <h2 className="text-xs font-bold text-gray-800 max-w-[280px] mx-auto text-center">
             Olá, verificamos que você está realizando a 
@@ -79,27 +72,17 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
               <label htmlFor="cpf" className="block text-xs font-bold text-center text-gray-800">
                 Insira os primeiros 5 dígitos do seu CPF:
               </label>
-              <Input
-                id="cpf"
-                type="text"
-                value={cpfDigits}
-                onChange={(e) => {
-                  const value = e.target.value.replace(/\D/g, '').slice(0, 5);
-                  setCpfDigits(value);
-                }}
-                placeholder=""
-                className="w-full h-9 text-black text-center text-base bg-white border border-gray-300"
-                maxLength={5}
-              />
+              <Input id="cpf" type="text" value={cpfDigits} onChange={e => {
+              const value = e.target.value.replace(/\D/g, '').slice(0, 5);
+              setCpfDigits(value);
+            }} placeholder="" className="w-full h-9 text-black text-center text-base bg-white border border-gray-300" maxLength={5} />
             </div>
 
             <div className="flex justify-center">
-              <ReCAPTCHA
-                sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-                onChange={(value) => setCaptchaValue(value)}
-                theme="light"
-                style={{ transform: "scale(0.85)", transformOrigin: "center center" }}
-              />
+              <ReCAPTCHA sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" onChange={value => setCaptchaValue(value)} theme="light" style={{
+              transform: "scale(0.85)",
+              transformOrigin: "center center"
+            }} />
             </div>
 
             <div className="flex justify-center mt-4">
@@ -120,16 +103,10 @@ export const CpfVerificationStep = ({ onNext }: CpfVerificationStepProps) => {
       
       {/* Botão fixo no rodapé */}
       <div className="fixed bottom-0 left-0 right-0 bg-white mb-6">
-        <Button 
-          onClick={handleSubmit}
-          className="w-full h-12 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none"
-          disabled={isLoading || !captchaValue || cpfDigits.length < 5}
-        >
+        <Button onClick={handleSubmit} className="w-full h-12 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none" disabled={isLoading || !captchaValue || cpfDigits.length < 5}>
           {isLoading ? "VALIDANDO..." : "VALIDAR"}
         </Button>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default CpfVerificationStep;
