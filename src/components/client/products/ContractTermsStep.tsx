@@ -1,3 +1,4 @@
+
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface ContractTermsStepProps {
@@ -21,7 +22,7 @@ export function ContractTermsStep({
           conformidade com os termos a seguir:
         </p>
         <div className="space-y-2 mb-6">
-          <a href="#" className="text-[#8425af] hover:underline font-bold">
+          <a href="#" className="text-black hover:underline">
             Termo de Serviço Móvel Pessoal.
           </a>
         </div>
