@@ -12,7 +12,7 @@ export function SuccessScreen({ data }: SuccessScreenProps) {
   const navigate = useNavigate();
 
   return (
-    <div className="text-center space-y-6 pt-28">
+    <div className="text-center space-y-6 pt-28 bg-white">
       <div className="flex justify-center">
         <div className="w-16 h-16 bg-[#580180]/10 rounded-full flex items-center justify-center">
           <Check className="w-8 h-8 text-[#580180]" />

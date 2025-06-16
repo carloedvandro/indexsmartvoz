@@ -14,7 +14,7 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
   const isMobile = useIsMobile();
 
   return (
-    <div className="w-full max-w-[calc(85%+19px)] md:max-w-[calc(420px+19px)] mx-auto space-y-6 pt-28">
+    <div className="w-full max-w-[calc(85%+19px)] md:max-w-[calc(420px+19px)] mx-auto space-y-6 pt-28 bg-white">
       <div className="text-center space-y-2">
         <img 
           src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 

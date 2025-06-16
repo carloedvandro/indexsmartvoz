@@ -69,16 +69,18 @@ export default function ClientESIM() {
   };
 
   return (
-    <ESIMActivationFlow
-      currentStep={currentStep}
-      onBack={handleBack}
-      onContinue={handleContinue}
-      onDeviceSelect={handleDeviceSelect}
-      onTypeSelect={handleTypeSelect}
-      onPlanSelect={handlePlanSelect}
-      onIMEISubmit={handleIMEISubmit}
-      onEIDSubmit={handleEIDSubmit}
-      activationData={activationData}
-    />
+    <div className="min-h-screen bg-white">
+      <ESIMActivationFlow
+        currentStep={currentStep}
+        onBack={handleBack}
+        onContinue={handleContinue}
+        onDeviceSelect={handleDeviceSelect}
+        onTypeSelect={handleTypeSelect}
+        onPlanSelect={handlePlanSelect}
+        onIMEISubmit={handleIMEISubmit}
+        onEIDSubmit={handleEIDSubmit}
+        activationData={activationData}
+      />
+    </div>
   );
 }
