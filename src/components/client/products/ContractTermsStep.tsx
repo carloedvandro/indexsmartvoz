@@ -1,4 +1,5 @@
 
+
 import { Checkbox } from "@/components/ui/checkbox";
 interface ContractTermsStepProps {
   acceptedTerms: boolean;
@@ -25,7 +26,7 @@ export function ContractTermsStep({
           </a>
         </div>
         
-        <div className="flex items-start space-x-2 text-left">
+        <div className="flex items-start space-x-2 text-left ml-[3px]">
           <Checkbox id="terms" checked={acceptedTerms} onCheckedChange={checked => onTermsChange(checked as boolean)} className="mt-0.5" />
           <label htmlFor="terms" className="text-xs text-gray-600 cursor-pointer w-[calc(100%+7px)] pl-1 mt-[1.25px]">
             Aceito receber comunicações e ofertas da Smartvoz.
@@ -34,3 +35,4 @@ export function ContractTermsStep({
       </div>
     </div>;
 }
+
