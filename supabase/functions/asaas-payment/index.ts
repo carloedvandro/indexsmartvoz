@@ -36,9 +36,60 @@ serve(async (req: Request) => {
       });
     }
 
-    const { name, email, cpfCnpj, phone, value, dueDate, webhookUrl, meta } = await req.json();
+    // Verificar se há conteúdo no body
+    const contentType = req.headers.get("content-type");
+    console.log('📋 Content-Type:', contentType);
+
+    if (!contentType || !contentType.includes("application/json")) {
+      console.error('❌ Content-Type inválido:', contentType);
+      return new Response(JSON.stringify({ 
+        error: { message: "Content-Type deve ser application/json" }
+      }), { 
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" }
+      });
+    }
+
+    const bodyText = await req.text();
+    console.log('📄 Body recebido:', bodyText);
+
+    if (!bodyText || bodyText.trim() === '') {
+      console.error('❌ Body vazio');
+      return new Response(JSON.stringify({ 
+        error: { message: "Body da requisição está vazio" }
+      }), { 
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" }
+      });
+    }
+
+    let requestData;
+    try {
+      requestData = JSON.parse(bodyText);
+    } catch (parseError) {
+      console.error('❌ Erro ao fazer parse do JSON:', parseError);
+      return new Response(JSON.stringify({ 
+        error: { message: "JSON inválido no body da requisição" }
+      }), { 
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" }
+      });
+    }
+
+    const { name, email, cpfCnpj, phone, value, dueDate, webhookUrl, meta } = requestData;
 
     console.log('📋 Dados recebidos:', { name, email, value, dueDate });
+
+    // Validar dados obrigatórios
+    if (!name || !email || !value) {
+      console.error('❌ Dados obrigatórios ausentes');
+      return new Response(JSON.stringify({ 
+        error: { message: "Nome, email e valor são obrigatórios" }
+      }), { 
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" }
+      });
+    }
 
     // 1. Criar Cliente
     console.log('👤 Criando cliente no Asaas...');
@@ -51,14 +102,22 @@ serve(async (req: Request) => {
       body: JSON.stringify({
         name,
         email,
-        cpfCnpj,
-        phone,
+        cpfCnpj: cpfCnpj || "",
+        phone: phone || "",
         ...(meta ? { meta } : {})
       }),
     });
 
+    const clientResponseText = await clientRes.text();
+    console.log('👤 Resposta do cliente Asaas:', clientResponseText);
+
     if (!clientRes.ok) {
-      const error = await clientRes.json();
+      let error;
+      try {
+        error = JSON.parse(clientResponseText);
+      } catch {
+        error = { message: "Erro ao criar cliente no Asaas" };
+      }
       console.error('❌ Erro ao criar cliente:', error);
       return new Response(JSON.stringify({ error }), { 
         status: 400,
@@ -66,7 +125,7 @@ serve(async (req: Request) => {
       });
     }
     
-    const client = await clientRes.json();
+    const client = JSON.parse(clientResponseText);
     const customerId = client.id;
     console.log('✅ Cliente criado:', customerId);
 
@@ -88,8 +147,16 @@ serve(async (req: Request) => {
       }),
     });
 
+    const chargeResponseText = await chargeRes.text();
+    console.log('💰 Resposta da cobrança Asaas:', chargeResponseText);
+
     if (!chargeRes.ok) {
-      const error = await chargeRes.json();
+      let error;
+      try {
+        error = JSON.parse(chargeResponseText);
+      } catch {
+        error = { message: "Erro ao gerar cobrança no Asaas" };
+      }
       console.error('❌ Erro ao gerar cobrança:', error);
       return new Response(JSON.stringify({ error }), { 
         status: 400,
@@ -97,7 +164,7 @@ serve(async (req: Request) => {
       });
     }
     
-    const payment = await chargeRes.json();
+    const payment = JSON.parse(chargeResponseText);
     console.log('✅ Cobrança gerada:', payment.id);
 
     return new Response(JSON.stringify({
@@ -111,7 +178,7 @@ serve(async (req: Request) => {
   } catch (e) {
     console.error('💥 Erro interno:', e);
     return new Response(JSON.stringify({ 
-      error: { message: "Erro interno do servidor" }
+      error: { message: `Erro interno do servidor: ${e.message}` }
     }), { 
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" }
