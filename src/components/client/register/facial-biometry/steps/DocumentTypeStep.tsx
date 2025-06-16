@@ -26,7 +26,7 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
   return (
     <div className="bg-white text-gray-800 flex flex-col">
       <div className="flex-1 flex items-start justify-center pt-10 p-6">
-        <div className="w-full max-w-[280px] space-y-6">
+        <div className="w-full max-w-[320px] space-y-6">
           <h2 className="text-xl font-medium text-center text-gray-800">Selecione o tipo de documento</h2>
           <p className="text-center text-sm text-gray-600">
             Escolha qual documento de identificação você deseja utilizar:
@@ -41,7 +41,7 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
               }`}
               onClick={() => handleSelect('rg')}
             >
-              <CardContent className="p-4 flex items-center">
+              <CardContent className="p-5 flex items-center">
                 <div className="mr-4 bg-[#8425af]/10 p-2 rounded-full">
                   <FileImage className="h-6 w-6 text-[#8425af]" />
                 </div>
@@ -60,7 +60,7 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
               }`}
               onClick={() => handleSelect('cnh')}
             >
-              <CardContent className="p-4 flex items-center">
+              <CardContent className="p-5 flex items-center">
                 <div className="mr-4 bg-[#8425af]/10 p-2 rounded-full">
                   <FileText className="h-6 w-6 text-[#8425af]" />
                 </div>
