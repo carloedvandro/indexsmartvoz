@@ -1,4 +1,5 @@
 
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -86,7 +87,7 @@ export const CpfVerificationStep = ({
 
       {/* Botão fixado na parte inferior com o conjunto "Verified by" acima */}
       <div className="fixed bottom-0 left-0 right-0 bg-white">
-        <div className="flex justify-center mb-12">
+        <div className="flex justify-center py-3">
           <div className="flex items-center bg-transparent py-2 rounded-lg">
             <div className="flex items-center gap-2">
               <Lock className="w-6 h-6 text-gray-600" strokeWidth={2.5} />
@@ -111,3 +112,4 @@ export const CpfVerificationStep = ({
 };
 
 export default CpfVerificationStep;
+
