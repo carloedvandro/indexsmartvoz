@@ -9,9 +9,8 @@ interface CaptureInstructionsProps {
 
 export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
   return (
-    <div className="bg-white text-gray-800 w-[90%]  flex flex-col relative overflow-hidden">
-      <div className="flex flex-col items-center justify-center flex-1 px-4 overflow-hidden">
-      
+    <div className="bg-white text-gray-800 flex flex-col">
+      <div className="flex-1 flex items-start justify-center pt-10 p-6">
         <div className="flex flex-col items-center">
           <div className="bg-gray-100 p-6 rounded-full mb-4">
             <Camera size={48} color="#8425af" strokeWidth={1.5} />
@@ -26,8 +25,8 @@ export const CaptureInstructions = ({ onNext }: CaptureInstructionsProps) => {
         </div>
       </div>
 
-      {/* Button positioned at bottom with additional spacing */}
-      <div className="mb-0" style={{ marginTop: '15px' }}>
+      {/* Botão fixado na parte inferior */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white">
         <Button
           onClick={onNext}
           className="w-full h-12 bg-[#8425af] text-white uppercase text-xs font-medium hover:bg-[#7a1fa2] rounded-none"
