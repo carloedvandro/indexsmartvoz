@@ -26,24 +26,26 @@ export const useCaptureValidation = ({
 }: UseCaptureValidationProps) => {
   const { toast } = useToast();
 
-  // Validação mais tolerante durante captura
+  // Validação rigorosa - sempre reinicia quando perde condições ideais
   const validateCaptureConditions = useCallback((): ValidationResult => {
-    console.log("🔍 VALIDAÇÃO TOLERANTE - Capturando:", isCapturing, "Rosto:", faceDetected);
+    console.log("🔍 VALIDAÇÃO RIGOROSA - Capturando:", isCapturing, "Rosto:", faceDetected, "Proximidade:", faceProximity);
     
     // Se não está capturando, usar validação normal
     if (!isCapturing) {
       return { isValid: faceDetected && faceProximity === "ideal" };
     }
 
-    // Durante captura, ser MUITO mais tolerante
-    // Só parar se perder o rosto completamente por muito tempo
-    if (!faceDetected) {
-      console.log("⚠️ Rosto perdido durante captura - mas continuando...");
-      return { isValid: true }; // Continuar mesmo sem rosto por alguns frames
+    // Durante captura: se perder rosto ou sair da posição ideal, RESETAR IMEDIATAMENTE
+    if (!faceDetected || faceProximity !== "ideal") {
+      console.log("🔴 CONDIÇÕES PERDIDAS - Resetando captura do zero");
+      return { 
+        isValid: false, 
+        shouldReset: true, 
+        reason: !faceDetected ? "Rosto não detectado" : "Posição não ideal" 
+      };
     }
 
-    // Se tem rosto detectado, sempre válido durante captura
-    // Ignorar proximidade durante captura para evitar interrupções
+    // Se tem rosto detectado na posição ideal, continuar
     return { isValid: true };
   }, [isCapturing, faceDetected, faceProximity]);
 
@@ -54,24 +56,29 @@ export const useCaptureValidation = ({
     return should;
   }, [faceDetected, faceProximity]);
 
-  // Validação para cada frame - mais tolerante durante captura
+  // Validação para cada frame - rigorosa: apenas posição ideal
   const validateForCapture = useCallback(() => {
     if (!isCapturing) {
       // Antes de capturar, ser rigoroso
       return faceDetected && faceProximity === "ideal";
     }
     
-    // Durante captura, apenas verificar se tem rosto (ignorar proximidade)
-    const valid = faceDetected;
-    console.log("✅ VALIDAÇÃO FRAME (TOLERANTE):", valid, "Rosto detectado:", faceDetected);
+    // Durante captura: APENAS aceitar posição ideal
+    const valid = faceDetected && faceProximity === "ideal";
+    console.log("✅ VALIDAÇÃO FRAME (RIGOROSA):", valid, "Rosto:", faceDetected, "Proximidade:", faceProximity);
+    
+    if (!valid) {
+      console.log("❌ Frame inválido - será resetado");
+    }
+    
     return valid;
   }, [faceDetected, faceProximity, isCapturing]);
 
   const resetCapture = useCallback((reason?: string): ValidationResult => {
-    console.log("🔴 RESET CAPTURA:", reason);
+    console.log("🔴 RESET CAPTURA DO ZERO:", reason);
     toast({
       title: "Captura Reiniciada",
-      description: reason || "Reposicione o rosto no oval",
+      description: reason || "Reposicione o rosto no oval e mantenha a posição",
       variant: "destructive",
     });
     return { isValid: false, shouldReset: true };

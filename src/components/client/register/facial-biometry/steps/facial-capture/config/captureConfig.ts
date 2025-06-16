@@ -1,14 +1,14 @@
 
 // Configuration constants for facial capture
 export const CAPTURE_CONFIG = {
-  // Configurações mais tolerantes para evitar interrupções durante captura
-  REQUIRED_CONSECUTIVE_FRAMES: 20, // Reduzido para 20 frames (4 segundos)
-  VALIDATION_INTERVAL: 150, // Validação mais espaçada - 150ms
-  MAX_CAPTURE_TIME: 30000, // Tempo máximo de 30 segundos
+  // Configurações rigorosas para garantir captura precisa
+  REQUIRED_CONSECUTIVE_FRAMES: 30, // Aumentado para 30 frames (6 segundos)
+  VALIDATION_INTERVAL: 200, // Validação a cada 200ms
+  MAX_CAPTURE_TIME: 45000, // Tempo máximo de 45 segundos
   
-  // Validação mais permissiva
-  REQUIRED_STABLE_FRAMES: 5, // Reduzido para 5 frames estáveis
-  FACE_STABILITY_THRESHOLD: 0.3, // Threshold mais permissivo
+  // Validação rigorosa para estabilidade
+  REQUIRED_STABLE_FRAMES: 8, // Aumentado para 8 frames estáveis
+  FACE_STABILITY_THRESHOLD: 0.2, // Threshold mais rigoroso
   
   // Progress calculation
   get PROGRESS_INCREMENT() {
