@@ -1,63 +1,83 @@
 
+import { FACE_DETECTION_CONFIG } from "../config/faceDetectionConfig";
 import { FaceAnalysisResult } from "../types/faceDetectionTypes";
+import { analyzeLighting } from "./lightingAnalysis";
+import { detectSkinTone } from "./skinToneDetection";
 
 export const analyzeFace = async (imageData: ImageData): Promise<FaceAnalysisResult> => {
-  console.log(`🔍 ANÁLISE SIMPLIFICADA - Frame: ${imageData.width}x${imageData.height}`);
+  const totalPixels = imageData.data.length / 4;
   
-  const data = imageData.data;
+  // Área central onde o rosto deve estar - expandida
+  const centerX = imageData.width / 2;
+  const centerY = imageData.height / 2;
+  const faceRadiusX = Math.min(imageData.width, imageData.height) * FACE_DETECTION_CONFIG.FACE_RADIUS_X_MULTIPLIER;
+  const faceRadiusY = Math.min(imageData.width, imageData.height) * FACE_DETECTION_CONFIG.FACE_RADIUS_Y_MULTIPLIER;
   
-  // Verificação MUITO simples - apenas verificar se há dados válidos
-  let totalBrightness = 0;
-  let validPixels = 0;
+  // Análise de iluminação
+  const lightingAnalysis = analyzeLighting(imageData);
   
-  // Amostragem muito rápida - apenas alguns pixels centrais
-  const centerX = Math.floor(imageData.width / 2);
-  const centerY = Math.floor(imageData.height / 2);
-  const sampleSize = 50; // Área de 50x50 pixels no centro
+  console.log(`🔍 Face detection - Lighting: ${lightingAnalysis.quality}, AvgBrightness: ${lightingAnalysis.averageBrightness.toFixed(1)}`);
   
-  for (let y = centerY - sampleSize; y < centerY + sampleSize; y += 5) {
-    for (let x = centerX - sampleSize; x < centerX + sampleSize; x += 5) {
-      if (x >= 0 && x < imageData.width && y >= 0 && y < imageData.height) {
-        const index = (y * imageData.width + x) * 4;
-        const r = data[index];
-        const g = data[index + 1];
-        const b = data[index + 2];
-        
-        const brightness = (r + g + b) / 3;
-        totalBrightness += brightness;
-        validPixels++;
+  let proximity: "ideal" | "too-close" | "too-far" | "not-detected" = "not-detected";
+  let detectedFace = false;
+  let facePos = { x: 0, y: 0, size: 0 };
+  
+  // Análise de tom de pele apenas se iluminação for boa
+  if (lightingAnalysis.quality === "good") {
+    const skinToneAnalysis = detectSkinTone(imageData, centerX, centerY, faceRadiusX, faceRadiusY);
+    
+    const ratio = skinToneAnalysis.skinTonePixels / totalPixels;
+    
+    console.log(`🔍 Face detection - Ratio: ${ratio.toFixed(6)} Threshold: ${FACE_DETECTION_CONFIG.DETECTION_THRESHOLD} FacePixels: ${skinToneAnalysis.facePixelsCount} Contrast: ${skinToneAnalysis.contrastRatio.toFixed(2)}`);
+    
+    // Critérios mais permissivos para detecção
+    if (
+      ratio > FACE_DETECTION_CONFIG.DETECTION_THRESHOLD && 
+      skinToneAnalysis.facePixelsCount > FACE_DETECTION_CONFIG.MIN_FACE_PIXELS &&
+      skinToneAnalysis.contrastRatio > FACE_DETECTION_CONFIG.MIN_CONTRAST_RATIO && 
+      skinToneAnalysis.contrastRatio < FACE_DETECTION_CONFIG.MAX_CONTRAST_RATIO
+    ) {
+      const avgX = skinToneAnalysis.facePixelsSum.x / skinToneAnalysis.facePixelsCount;
+      const avgY = skinToneAnalysis.facePixelsSum.y / skinToneAnalysis.facePixelsCount;
+      
+      const faceSize = Math.sqrt(skinToneAnalysis.facePixelsCount / totalPixels) * 2;
+      
+      // Verificar se o rosto está bem centralizado - mais permissivo
+      const distanceFromFrameCenter = Math.sqrt(
+        Math.pow((avgX - centerX) / centerX, 2) + 
+        Math.pow((avgY - centerY) / centerY, 2)
+      );
+      
+      const isCentered = distanceFromFrameCenter < FACE_DETECTION_CONFIG.MAX_DISTANCE_FROM_CENTER;
+      
+      facePos = {
+        x: avgX / imageData.width,
+        y: avgY / imageData.height,
+        size: faceSize
+      };
+      
+      if (isCentered) {
+        if (faceSize > FACE_DETECTION_CONFIG.TOO_CLOSE_SIZE) {
+          proximity = "too-close";
+        } else if (faceSize < FACE_DETECTION_CONFIG.TOO_FAR_SIZE) {
+          proximity = "too-far";
+        } else {
+          proximity = "ideal";
+        }
+        detectedFace = true;
+        console.log(`✅ Face detected - Size: ${faceSize.toFixed(3)}, Centered: ${isCentered}, Proximity: ${proximity}, Lighting: ${lightingAnalysis.quality}`);
+      } else {
+        console.log(`❌ Face not centered enough - Distance: ${distanceFromFrameCenter.toFixed(3)}`);
       }
+    } else {
+      console.log(`❌ Face not detected - Ratio: ${ratio.toFixed(6)}, FacePixelsCount: ${skinToneAnalysis.facePixelsCount}, Contrast: ${skinToneAnalysis.contrastRatio.toFixed(2)}`);
     }
   }
   
-  const averageBrightness = validPixels > 0 ? totalBrightness / validPixels : 0;
-  
-  console.log(`📊 ANÁLISE CENTRO: ${validPixels} pixels, brilho médio: ${averageBrightness.toFixed(1)}`);
-  
-  // Critério MUITO simples: se há brilho médio acima de 30, considera como rosto
-  const hasValidContent = averageBrightness > 30 && validPixels > 0;
-  
-  if (hasValidContent) {
-    console.log(`✅ ROSTO DETECTADO! Brilho: ${averageBrightness.toFixed(1)}, Pixels: ${validPixels}`);
-    
-    return {
-      detected: true,
-      position: {
-        x: 0.5, // Centro
-        y: 0.5, // Centro  
-        size: 0.4 // Tamanho padrão
-      },
-      proximity: "ideal", // Sempre ideal quando detectado
-      lighting: "good" // Sempre boa
-    };
-  } else {
-    console.log(`❌ Conteúdo insuficiente. Brilho: ${averageBrightness.toFixed(1)}, Pixels: ${validPixels}`);
-    
-    return {
-      detected: false,
-      position: { x: 0, y: 0, size: 0 },
-      proximity: "not-detected",
-      lighting: "good"
-    };
-  }
+  return { 
+    detected: detectedFace, 
+    position: facePos,
+    proximity: proximity,
+    lighting: lightingAnalysis.quality
+  };
 };

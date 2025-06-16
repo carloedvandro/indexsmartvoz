@@ -26,46 +26,61 @@ export const useCaptureValidation = ({
 }: UseCaptureValidationProps) => {
   const { toast } = useToast();
 
-  // Validação muito simples das condições de captura
-  const validateCaptureConditions = useCallback((): ValidationResult => {
-    console.log("🔍 VALIDAÇÃO SIMPLES - Capturando:", isCapturing, "Rosto:", faceDetected);
+  // Reset para condições inválidas ou timeout
+  const resetCapture = useCallback((reason?: string): ValidationResult => {
+    console.log("🔴 RESET DA CAPTURA:", reason || "Condições inválidas");
     
-    // Se não está capturando, sempre válido
+    toast({
+      title: "Captura Interrompida",
+      description: reason || "Posicione seu rosto corretamente no oval",
+      variant: "destructive",
+      duration: 2000,
+    });
+    
+    return {
+      isValid: false,
+      shouldReset: true,
+      reason
+    };
+  }, [toast]);
+
+  // Validação rigorosa das condições de captura
+  const validateCaptureConditions = useCallback((): ValidationResult => {
+    console.log("🔍 Validating conditions - Capturing:", isCapturing, "Face:", faceDetected, "Proximity:", faceProximity);
+    
+    // Se não está capturando, não precisa validar
     if (!isCapturing) return { isValid: true };
 
-    // Verificar timeout (bem generoso)
-    if (captureStartTime && Date.now() - captureStartTime > CAPTURE_CONFIG.MAX_CAPTURE_TIME * 2) {
-      console.log("⏰ Timeout - mas continuando...");
-      // Não resetar por timeout, só avisar
+    // Verificar timeout
+    if (captureStartTime && Date.now() - captureStartTime > CAPTURE_CONFIG.MAX_CAPTURE_TIME) {
+      return resetCapture("Tempo limite excedido");
     }
 
-    // SEMPRE válido se há rosto detectado
-    if (faceDetected) {
-      return { isValid: true };
+    // Verificar se rosto ainda está detectado e na posição ideal
+    if (!faceDetected) {
+      return resetCapture("Rosto não detectado - posicione-se no oval");
     }
 
-    // Só resetar se não há rosto por muito tempo
-    return { isValid: true }; // Sempre válido para não interromper
-  }, [isCapturing, captureStartTime, faceDetected, faceProximity]);
+    if (faceProximity !== "ideal") {
+      return resetCapture("Ajuste sua posição no oval");
+    }
 
-  // Verificar se deve iniciar captura - APENAS rosto detectado
+    return { isValid: true };
+  }, [isCapturing, captureStartTime, faceDetected, faceProximity, resetCapture]);
+
+  // Verificar se deve iniciar captura - APENAS rosto detectado E na posição ideal
   const shouldStartCapture = useCallback(() => {
-    const should = faceDetected; // Apenas detectado, não importa proximidade
-    console.log("🚀 DEVE INICIAR CAPTURA:", should, "Rosto detectado:", faceDetected);
+    const should = faceDetected && faceProximity === "ideal";
+    console.log("🚀 Should start capture:", should, "Face detected:", faceDetected, "Proximity:", faceProximity);
     return should;
-  }, [faceDetected]);
+  }, [faceDetected, faceProximity]);
 
-  // Validação para cada frame - apenas rosto detectado
+  // Validação para cada frame - rosto detectado E na posição ideal
   const validateForCapture = useCallback(() => {
-    const valid = faceDetected; // Apenas detectado
-    console.log("✅ VALIDAÇÃO FRAME:", valid, "Rosto detectado:", faceDetected);
+    const valid = faceDetected && faceProximity === "ideal";
+    console.log("✅ Frame validation:", valid, "Face detected:", faceDetected, "Proximity:", faceProximity);
     return valid;
-  }, [faceDetected]);
-
-  const resetCapture = useCallback((reason?: string): ValidationResult => {
-    console.log("🔴 RESET (desabilitado):", reason);
-    return { isValid: true, shouldReset: false }; // Nunca resetar
-  }, []);
+  }, [faceDetected, faceProximity]);
 
   return {
     validateCaptureConditions,
