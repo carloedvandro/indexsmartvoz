@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -63,7 +64,7 @@ export const CpfVerificationStep = ({
 
           <form onSubmit={handleSubmit} className="space-y-3">
             <div className="space-y-2">
-              <label htmlFor="cpf" className="block text-sm font-bold text-center text-gray-800">
+              <label htmlFor="cpf" className="block text-xs font-bold text-center text-gray-800">
                 Insira os primeiros 5 dígitos do seu CPF:
               </label>
               <Input 
