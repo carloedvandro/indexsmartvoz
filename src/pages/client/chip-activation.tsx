@@ -137,12 +137,8 @@ export default function ChipActivation() {
     return <SuccessScreen selectedLines={selectedLines} protocol={protocol} onUnderstand={handleUnderstand} showBarcodes={true} />;
   }
 
-  return <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        
-      </div>
-
+  return <div className="min-h-screen ">
+     
       <ChipActivationFlow 
         currentStep={currentStep} 
         selectedLines={selectedLines} 
@@ -154,9 +150,6 @@ export default function ChipActivation() {
         onScanningClose={() => setScanningIndex(null)} 
       />
 
-      {/* Progress Indicator */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-sm">
-        
-      </div>
+    
     </div>;
 }
