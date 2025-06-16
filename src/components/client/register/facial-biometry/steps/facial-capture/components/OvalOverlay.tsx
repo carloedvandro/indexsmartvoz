@@ -8,13 +8,7 @@ interface OvalOverlayProps {
 export const OvalOverlay = ({ strokeColor }: OvalOverlayProps) => {
   return (
     <>
-      {/* Semi-transparent overlay outside the oval */}
-      <rect 
-        width="100%" 
-        height="100%" 
-        fill="rgba(0,0,0,0.5)" 
-        mask="url(#oval-mask)" 
-      />
+      {/* Removed the semi-transparent overlay outside the oval */}
       
       {/* Static oval outline */}
       <ellipse 

@@ -3,9 +3,7 @@ import React from "react";
 import { 
   SvgDefinitions, 
   OvalOverlay, 
-  ProgressOval, 
-  FaceGuides, 
-  StatusIndicators 
+  ProgressOval
 } from "./components";
 
 interface FaceOvalGuideProps {
@@ -23,7 +21,7 @@ export const FaceOvalGuide = ({
 }: FaceOvalGuideProps) => {
   // Cores mais rigorosas baseadas no estado
   const getStrokeColor = () => {
-    if (isCapturing) return "#dc2626"; // Vermelho durante captura ativa
+    if (isCapturing) return "#16a34a"; // Verde durante captura ativa
     if (faceDetected && faceProximity === "ideal") return "#16a34a"; // Verde quando ideal
     if (faceDetected) return "#eab308"; // Amarelo quando detectado mas não ideal
     return "#ef4444"; // Vermelho quando não detectado
@@ -45,19 +43,6 @@ export const FaceOvalGuide = ({
           <OvalOverlay strokeColor={strokeColor} />
           
           <ProgressOval 
-            faceDetected={faceDetected}
-            faceProximity={faceProximity}
-            isCapturing={isCapturing}
-            captureProgress={captureProgress}
-          />
-          
-          <FaceGuides 
-            faceDetected={faceDetected}
-            faceProximity={faceProximity}
-            isCapturing={isCapturing}
-          />
-          
-          <StatusIndicators 
             faceDetected={faceDetected}
             faceProximity={faceProximity}
             isCapturing={isCapturing}

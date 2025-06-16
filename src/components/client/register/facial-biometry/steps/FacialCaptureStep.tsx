@@ -93,20 +93,15 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
   };
 
   return (
-    <div className="relative h-[420px] bg-black mx-4 rounded-lg">
-      <div className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 z-20 text-center">
-        <p className="text-sm font-medium">
-          Centralize seu rosto no oval com boa iluminação
-        </p>
-        <p className="text-xs text-blue-300">
-          {getLightingMessage()}
-        </p>
-        {isCapturing && (
+    <div className="relative h-[420px] mx-4 rounded-lg overflow-hidden">
+      {/* Removido o cabeçalho com o texto e ícone da câmera */}
+      {isCapturing && (
+        <div className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 z-20 text-center">
           <p className="text-xs text-yellow-300">
             Capturando... {Math.round(captureProgress)}% - Mantenha a posição
           </p>
-        )}
-      </div>
+        </div>
+      )}
       
       <CameraView 
         webcamRef={webcamRef}
