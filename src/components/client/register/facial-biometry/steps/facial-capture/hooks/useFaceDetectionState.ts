@@ -13,25 +13,29 @@ export const useFaceDetectionState = () => {
   const updateFaceDetection = (detected: boolean, position: { x: number; y: number; size: number }, proximity: "ideal" | "too-close" | "too-far" | "not-detected", lighting: "good" | "poor" | "too-dark" | "too-bright") => {
     setFacePosition(position);
     setFaceProximity(proximity);
-    setLightingQuality("good"); // Sempre como "good"
+    setLightingQuality(lighting);
 
-    console.log(`🔄 ATUALIZAÇÃO DETECÇÃO - Detectado: ${detected}, Proximidade: ${proximity}`);
+    console.log(`🔄 ATUALIZAÇÃO DETECÇÃO RIGOROSA - Detectado: ${detected}, Proximidade: ${proximity}`);
 
     if (detected) {
       consecutiveDetectionsRef.current++;
       consecutiveNoDetectionsRef.current = 0;
       
-      // DETECÇÃO IMEDIATA - sem esperar frames consecutivos
-      setFaceDetected(true);
-      console.log(`✅ ROSTO DETECTADO IMEDIATAMENTE!`);
+      // Requer 3 detecções consecutivas para confirmar rosto humano
+      if (consecutiveDetectionsRef.current >= 3) {
+        setFaceDetected(true);
+        console.log(`✅ ROSTO HUMANO CONFIRMADO após ${consecutiveDetectionsRef.current} detecções consecutivas!`);
+      } else {
+        console.log(`🔄 Confirmando rosto humano... ${consecutiveDetectionsRef.current}/3 detecções`);
+      }
     } else {
       consecutiveNoDetectionsRef.current++;
       consecutiveDetectionsRef.current = 0;
       
-      // Perder detecção apenas após alguns frames
-      if (consecutiveNoDetectionsRef.current >= 3) {
+      // Perder detecção após 5 frames sem rosto
+      if (consecutiveNoDetectionsRef.current >= 5) {
         setFaceDetected(false);
-        console.log(`❌ Rosto perdido após ${consecutiveNoDetectionsRef.current} frames`);
+        console.log(`❌ Rosto perdido após ${consecutiveNoDetectionsRef.current} frames sem detecção`);
       }
     }
   };
