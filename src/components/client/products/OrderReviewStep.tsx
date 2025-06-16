@@ -36,7 +36,7 @@ export function OrderReviewStep({
   };
 
   return (
-    <div className="space-y-6 max-w-[340px] mx-auto w-full" style={{ paddingTop: '60px' }}>
+    <div className="space-y-6 max-w-[340px] mx-auto w-full" style={{ paddingTop: '80px' }}>
       <div className="w-full flex justify-center mb-4">
         
       </div>
