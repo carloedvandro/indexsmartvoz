@@ -15,22 +15,23 @@ export const useFaceDetectionState = () => {
     setFaceProximity(proximity);
     setLightingQuality("good"); // Sempre como "good"
 
-    console.log(`🔄 ULTRA SIMPLE Detection update - Detected: ${detected}, Proximity: ${proximity}`);
+    console.log(`🔄 ATUALIZAÇÃO DETECÇÃO - Detectado: ${detected}, Proximidade: ${proximity}`);
 
     if (detected) {
       consecutiveDetectionsRef.current++;
       consecutiveNoDetectionsRef.current = 0;
       
-      // Detecção IMEDIATA
+      // DETECÇÃO IMEDIATA - sem esperar frames consecutivos
       setFaceDetected(true);
-      console.log(`✅ ULTRA SIMPLE Face detected IMMEDIATELY`);
+      console.log(`✅ ROSTO DETECTADO IMEDIATAMENTE!`);
     } else {
       consecutiveNoDetectionsRef.current++;
       consecutiveDetectionsRef.current = 0;
       
-      if (consecutiveNoDetectionsRef.current >= 2) {
+      // Perder detecção apenas após alguns frames
+      if (consecutiveNoDetectionsRef.current >= 3) {
         setFaceDetected(false);
-        console.log(`❌ ULTRA SIMPLE Face lost after ${consecutiveNoDetectionsRef.current} frames`);
+        console.log(`❌ Rosto perdido após ${consecutiveNoDetectionsRef.current} frames`);
       }
     }
   };

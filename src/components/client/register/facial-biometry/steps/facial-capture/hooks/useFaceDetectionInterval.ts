@@ -24,38 +24,45 @@ export const useFaceDetectionInterval = ({
       return;
     }
 
-    console.log("🟢 ULTRA SIMPLE Detection interval started");
+    console.log("🟢 DETECÇÃO HABILITADA - Iniciando verificação contínua");
 
     intervalRef.current = setInterval(async () => {
       if (webcamRef.current?.video) {
         try {
           const video = webcamRef.current.video;
           
-          // Verificação básica se o vídeo está funcionando
+          // Verificação se o vídeo está funcionando
           if (video.videoWidth === 0 || video.videoHeight === 0) {
-            console.log("⚠️ ULTRA SIMPLE - Video not ready");
+            console.log("⚠️ Vídeo não está pronto ainda");
             onDetectionResult(false, { x: 0, y: 0, size: 0 }, "not-detected", "good");
             return;
           }
           
-          console.log("🔍 ULTRA SIMPLE - Running detection on video frame");
+          console.log("🔍 ANALISANDO FRAME DO VÍDEO");
           const result = await detectFaceInFrame(video);
+          
+          console.log("📋 RESULTADO:", {
+            detected: result.detected,
+            proximity: result.proximity,
+            position: result.position
+          });
+          
           onDetectionResult(result.detected, result.position, result.proximity, result.lighting);
         } catch (error) {
-          console.error("❌ ULTRA SIMPLE Face detection error:", error);
+          console.error("❌ Erro na detecção facial:", error);
           onDetectionResult(false, { x: 0, y: 0, size: 0 }, "not-detected", "good");
         }
       } else {
-        console.log("⚠️ ULTRA SIMPLE - No video element available");
+        console.log("⚠️ Elemento de vídeo não disponível");
         onDetectionResult(false, { x: 0, y: 0, size: 0 }, "not-detected", "good");
       }
-    }, 200); // Intervalo mais lento para debug
+    }, 150); // Intervalo de 150ms para detecção mais frequente
 
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
-        console.log("🛑 ULTRA SIMPLE Detection interval stopped");
+        console.log("🛑 Detecção facial parada");
       }
     };
   }, [isActive, webcamRef, onDetectionResult]);
