@@ -50,7 +50,7 @@ export const CpfVerificationStep = ({
     <div className="bg-white text-gray-800 flex flex-col ">
       <div className="flex-1 flex items-start justify-center pt-10 p-6">
         <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
-          <h2 className="text-xs font-bold text-gray-800 max-w-[280px] mx-auto text-center">
+          <h2 className="text-sm font-bold text-gray-800 max-w-[280px] mx-auto text-center">
             Olá, verificamos que você está realizando a
             <br />
             consulta/contratação dos nossos serviços SmartVoz.
@@ -58,13 +58,13 @@ export const CpfVerificationStep = ({
             Para dar continuidade precisamos realizar a sua biometria.
           </h2>
 
-          <p className="text-xs text-gray-600 text-center mt-2 max-w-[280px] mx-auto">
+          <p className="text-sm text-gray-600 text-center mt-2 max-w-[280px] mx-auto">
             Biometria é uma solução que utiliza a tecnologia para identificação do cliente.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-3">
             <div className="space-y-2">
-              <label htmlFor="cpf" className="block text-xs font-bold text-center text-gray-800">
+              <label htmlFor="cpf" className="block text-sm font-bold text-center text-gray-800">
                 Insira os primeiros 5 dígitos do seu CPF:
               </label>
               <Input 
