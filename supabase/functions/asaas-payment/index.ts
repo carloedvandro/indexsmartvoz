@@ -34,30 +34,40 @@ function cleanPhone(phone: string): string {
 }
 
 serve(async (req) => {
-  console.log('🚀 Iniciando processamento da cobrança Asaas');
+  console.log('🚀 [ASAAS-PAYMENT] Função iniciada');
+  console.log('📋 [ASAAS-PAYMENT] Método:', req.method);
+  console.log('📋 [ASAAS-PAYMENT] Headers:', Object.fromEntries(req.headers.entries()));
 
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
+    console.log('✅ [ASAAS-PAYMENT] Respondendo CORS preflight');
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    console.log('📋 Content-Type:', req.headers.get('content-type'));
+    console.log('📋 [ASAAS-PAYMENT] Content-Type:', req.headers.get('content-type'));
     
     const body = await req.text();
-    console.log('📄 Body recebido:', body);
+    console.log('📄 [ASAAS-PAYMENT] Body recebido (length):', body.length);
+    console.log('📄 [ASAAS-PAYMENT] Body recebido (preview):', body.substring(0, 200));
     
     const requestData: PaymentRequest = JSON.parse(body);
-    console.log('📋 Dados recebidos:', {
+    console.log('📋 [ASAAS-PAYMENT] Dados parseados:', {
       name: requestData.name,
       email: requestData.email,
       value: requestData.value,
-      dueDate: requestData.dueDate
+      dueDate: requestData.dueDate,
+      hasCpf: !!requestData.cpfCnpj,
+      hasPhone: !!requestData.phone
     });
 
+    // Verificar variáveis de ambiente
     const ASAAS_API_KEY = Deno.env.get('ASAAS_API_KEY');
+    console.log('🔐 [ASAAS-PAYMENT] Variáveis de ambiente:');
+    console.log('  - ASAAS_API_KEY:', ASAAS_API_KEY ? `CONFIGURADA (${ASAAS_API_KEY.length} chars)` : 'AUSENTE');
+    
     if (!ASAAS_API_KEY) {
-      console.error('❌ ASAAS_API_KEY não configurada');
+      console.error('❌ [ASAAS-PAYMENT] ASAAS_API_KEY não configurada');
       return new Response(
         JSON.stringify({ error: { message: 'Configuração do pagamento não encontrada' } }),
         { 
@@ -67,11 +77,9 @@ serve(async (req) => {
       );
     }
 
-    console.log('🔑 ASAAS_API_KEY configurada, length:', ASAAS_API_KEY.length);
-
     // Validar dados obrigatórios
     if (!requestData.name || requestData.name.trim().length < 2) {
-      console.error('❌ Nome inválido:', requestData.name);
+      console.error('❌ [ASAAS-PAYMENT] Nome inválido:', requestData.name);
       return new Response(
         JSON.stringify({ error: { message: 'Nome deve ter pelo menos 2 caracteres' } }),
         { 
@@ -82,7 +90,7 @@ serve(async (req) => {
     }
 
     if (!requestData.email || !isValidEmail(requestData.email)) {
-      console.error('❌ Email inválido:', requestData.email);
+      console.error('❌ [ASAAS-PAYMENT] Email inválido:', requestData.email);
       return new Response(
         JSON.stringify({ error: { message: 'Email inválido' } }),
         { 
@@ -93,7 +101,7 @@ serve(async (req) => {
     }
 
     // Preparar dados do cliente para o Asaas
-    console.log('👤 Preparando dados do cliente...');
+    console.log('👤 [ASAAS-PAYMENT] Preparando dados do cliente...');
     
     const customerData: any = {
       name: requestData.name.trim(),
@@ -105,6 +113,9 @@ serve(async (req) => {
       const cleanedDoc = cleanDocument(requestData.cpfCnpj);
       if (cleanedDoc.length === 11 || cleanedDoc.length === 14) {
         customerData.cpfCnpj = cleanedDoc;
+        console.log('📄 [ASAAS-PAYMENT] CPF/CNPJ adicionado (length):', cleanedDoc.length);
+      } else {
+        console.log('⚠️ [ASAAS-PAYMENT] CPF/CNPJ inválido ignorado (length):', cleanedDoc.length);
       }
     }
 
@@ -113,10 +124,17 @@ serve(async (req) => {
       const cleanedPhone = cleanPhone(requestData.phone);
       if (cleanedPhone.length >= 10 && cleanedPhone.length <= 11) {
         customerData.phone = cleanedPhone;
+        console.log('📞 [ASAAS-PAYMENT] Telefone adicionado (length):', cleanedPhone.length);
+      } else {
+        console.log('⚠️ [ASAAS-PAYMENT] Telefone inválido ignorado (length):', cleanedPhone.length);
       }
     }
 
-    console.log('👤 Dados do cliente preparados:', customerData);
+    console.log('👤 [ASAAS-PAYMENT] Dados do cliente preparados:', {
+      ...customerData,
+      cpfCnpj: customerData.cpfCnpj ? 'PRESENTE' : 'AUSENTE',
+      phone: customerData.phone ? 'PRESENTE' : 'AUSENTE'
+    });
 
     // Headers corretos para requisições do Asaas
     const asaasHeaders = {
@@ -125,34 +143,39 @@ serve(async (req) => {
       'User-Agent': 'Smartvoz/1.0'
     };
 
-    console.log('🔍 Headers preparados para Asaas');
+    console.log('🔍 [ASAAS-PAYMENT] Headers preparados para Asaas');
 
     // Primeiro, tentar buscar cliente existente por email
-    console.log('🔍 Verificando se cliente já existe...');
+    console.log('🔍 [ASAAS-PAYMENT] Verificando se cliente já existe...');
     let customerId: string;
 
     try {
       const searchUrl = `https://www.asaas.com/api/v3/customers?email=${encodeURIComponent(customerData.email)}`;
-      console.log('🔍 URL de busca:', searchUrl);
+      console.log('🔍 [ASAAS-PAYMENT] URL de busca:', searchUrl);
       
       const searchResponse = await fetch(searchUrl, {
         method: 'GET',
         headers: asaasHeaders
       });
 
-      console.log('🔍 Status da busca:', searchResponse.status);
-      console.log('🔍 Headers da resposta:', Object.fromEntries(searchResponse.headers.entries()));
+      console.log('🔍 [ASAAS-PAYMENT] Status da busca:', searchResponse.status);
+      console.log('🔍 [ASAAS-PAYMENT] Status text:', searchResponse.statusText);
+      console.log('🔍 [ASAAS-PAYMENT] Headers da resposta:', Object.fromEntries(searchResponse.headers.entries()));
 
       if (searchResponse.ok) {
         const searchResult = await searchResponse.json();
-        console.log('🔍 Resultado da busca:', searchResult);
+        console.log('🔍 [ASAAS-PAYMENT] Resultado da busca:', {
+          totalCount: searchResult.totalCount,
+          hasData: !!searchResult.data,
+          dataLength: searchResult.data?.length || 0
+        });
         
         if (searchResult.data && searchResult.data.length > 0) {
           customerId = searchResult.data[0].id;
-          console.log('✅ Cliente existente encontrado:', customerId);
+          console.log('✅ [ASAAS-PAYMENT] Cliente existente encontrado:', customerId);
         } else {
           // Cliente não existe, criar novo
-          console.log('👤 Criando novo cliente no Asaas...');
+          console.log('👤 [ASAAS-PAYMENT] Criando novo cliente no Asaas...');
           
           const customerResponse = await fetch('https://www.asaas.com/api/v3/customers', {
             method: 'POST',
@@ -160,20 +183,25 @@ serve(async (req) => {
             body: JSON.stringify(customerData)
           });
 
-          console.log('👤 Status da criação do cliente:', customerResponse.status);
+          console.log('👤 [ASAAS-PAYMENT] Status da criação do cliente:', customerResponse.status);
+          console.log('👤 [ASAAS-PAYMENT] Status text:', customerResponse.statusText);
           
           if (customerResponse.ok) {
             const customer = await customerResponse.json();
             customerId = customer.id;
-            console.log('✅ Cliente criado com sucesso:', customerId);
+            console.log('✅ [ASAAS-PAYMENT] Cliente criado com sucesso:', customerId);
           } else {
             const errorText = await customerResponse.text();
-            console.error('❌ Erro ao criar cliente:', errorText);
+            console.error('❌ [ASAAS-PAYMENT] Erro ao criar cliente:', errorText);
+            console.error('❌ [ASAAS-PAYMENT] Status:', customerResponse.status);
+            console.error('❌ [ASAAS-PAYMENT] Headers de erro:', Object.fromEntries(customerResponse.headers.entries()));
             
             return new Response(
               JSON.stringify({ 
                 error: { 
-                  message: `Erro ao criar cliente no Asaas. Status: ${customerResponse.status}` 
+                  message: `Erro ao criar cliente no Asaas. Status: ${customerResponse.status}`,
+                  details: errorText,
+                  status_code: customerResponse.status
                 } 
               }),
               { 
@@ -185,13 +213,30 @@ serve(async (req) => {
         }
       } else {
         const searchErrorText = await searchResponse.text();
-        console.error('❌ Erro ao buscar cliente - Status:', searchResponse.status);
-        console.error('❌ Erro ao buscar cliente - Response:', searchErrorText);
+        console.error('❌ [ASAAS-PAYMENT] Erro ao buscar cliente - Status:', searchResponse.status);
+        console.error('❌ [ASAAS-PAYMENT] Erro ao buscar cliente - Response:', searchErrorText);
+        console.error('❌ [ASAAS-PAYMENT] Headers de erro:', Object.fromEntries(searchResponse.headers.entries()));
+        
+        // Verificar se é erro de autenticação
+        if (searchResponse.status === 401) {
+          console.error('🔐 [ASAAS-PAYMENT] ERRO DE AUTENTICAÇÃO - API Key pode estar incorreta');
+          console.error('🔐 [ASAAS-PAYMENT] API Key format check:', {
+            starts_with_dollar: ASAAS_API_KEY.startsWith('$'),
+            length: ASAAS_API_KEY.length,
+            preview: ASAAS_API_KEY.substring(0, 10) + '...'
+          });
+        }
         
         return new Response(
           JSON.stringify({ 
             error: { 
-              message: `Erro de autenticação com Asaas. Verifique a API key. Status: ${searchResponse.status}` 
+              message: `Erro de autenticação com Asaas. Verifique a API key. Status: ${searchResponse.status}`,
+              details: searchErrorText,
+              status_code: searchResponse.status,
+              debug_info: {
+                api_key_length: ASAAS_API_KEY.length,
+                api_key_format: ASAAS_API_KEY.startsWith('$') ? 'SANDBOX' : 'PRODUCTION'
+              }
             } 
           }),
           { 
@@ -201,9 +246,16 @@ serve(async (req) => {
         );
       }
     } catch (searchError) {
-      console.error('❌ Exceção ao buscar/criar cliente:', searchError);
+      console.error('❌ [ASAAS-PAYMENT] Exceção ao buscar/criar cliente:', searchError);
+      console.error('❌ [ASAAS-PAYMENT] Tipo do erro:', typeof searchError);
+      console.error('❌ [ASAAS-PAYMENT] Nome do erro:', searchError instanceof Error ? searchError.name : 'N/A');
       return new Response(
-        JSON.stringify({ error: { message: 'Erro de conexão com o Asaas' } }),
+        JSON.stringify({ 
+          error: { 
+            message: 'Erro de conexão com o Asaas',
+            details: searchError instanceof Error ? searchError.message : String(searchError)
+          } 
+        }),
         { 
           status: 500, 
           headers: { 'Content-Type': 'application/json', ...corsHeaders }
@@ -212,7 +264,7 @@ serve(async (req) => {
     }
 
     // Criar cobrança
-    console.log('💰 Criando cobrança no Asaas...');
+    console.log('💰 [ASAAS-PAYMENT] Criando cobrança no Asaas...');
     
     const paymentData = {
       customer: customerId,
@@ -226,7 +278,13 @@ serve(async (req) => {
       })
     };
 
-    console.log('💰 Dados da cobrança:', paymentData);
+    console.log('💰 [ASAAS-PAYMENT] Dados da cobrança:', {
+      customer: customerId,
+      billingType: paymentData.billingType,
+      value: paymentData.value,
+      dueDate: paymentData.dueDate,
+      hasWebhook: !!requestData.webhookUrl
+    });
 
     const paymentResponse = await fetch('https://www.asaas.com/api/v3/payments', {
       method: 'POST',
@@ -234,16 +292,21 @@ serve(async (req) => {
       body: JSON.stringify(paymentData)
     });
 
-    console.log('💰 Resposta da cobrança Asaas:', paymentResponse.status);
+    console.log('💰 [ASAAS-PAYMENT] Resposta da cobrança - Status:', paymentResponse.status);
+    console.log('💰 [ASAAS-PAYMENT] Resposta da cobrança - Status text:', paymentResponse.statusText);
 
     if (!paymentResponse.ok) {
       const errorText = await paymentResponse.text();
-      console.error('❌ Erro ao criar cobrança:', errorText);
+      console.error('❌ [ASAAS-PAYMENT] Erro ao criar cobrança:', errorText);
+      console.error('❌ [ASAAS-PAYMENT] Status:', paymentResponse.status);
+      console.error('❌ [ASAAS-PAYMENT] Headers de erro:', Object.fromEntries(paymentResponse.headers.entries()));
       
       return new Response(
         JSON.stringify({ 
           error: { 
-            message: `Erro ao criar cobrança. Status: ${paymentResponse.status}` 
+            message: `Erro ao criar cobrança. Status: ${paymentResponse.status}`,
+            details: errorText,
+            status_code: paymentResponse.status
           } 
         }),
         { 
@@ -254,16 +317,29 @@ serve(async (req) => {
     }
 
     const payment = await paymentResponse.json();
-    console.log('✅ Cobrança criada com sucesso:', payment.id);
+    console.log('✅ [ASAAS-PAYMENT] Cobrança criada com sucesso:', {
+      id: payment.id,
+      status: payment.status,
+      hasInvoiceUrl: !!payment.invoiceUrl,
+      hasPixQrCode: !!payment.pixQrCode
+    });
+
+    const successResponse = {
+      customerId,
+      paymentId: payment.id,
+      invoiceUrl: payment.invoiceUrl,
+      pixQrCode: payment.pixQrCode,
+      status: payment.status
+    };
+
+    console.log('🎉 [ASAAS-PAYMENT] Sucesso! Retornando resposta:', {
+      customerId,
+      paymentId: payment.id,
+      hasInvoiceUrl: !!payment.invoiceUrl
+    });
 
     return new Response(
-      JSON.stringify({
-        customerId,
-        paymentId: payment.id,
-        invoiceUrl: payment.invoiceUrl,
-        pixQrCode: payment.pixQrCode,
-        status: payment.status
-      }),
+      JSON.stringify(successResponse),
       { 
         status: 200, 
         headers: { 'Content-Type': 'application/json', ...corsHeaders }
@@ -271,12 +347,21 @@ serve(async (req) => {
     );
 
   } catch (error) {
-    console.error('💥 Erro geral:', error);
+    console.error('💥 [ASAAS-PAYMENT] Erro geral:', error);
+    console.error('💥 [ASAAS-PAYMENT] Stack trace:', error instanceof Error ? error.stack : 'N/A');
+    console.error('💥 [ASAAS-PAYMENT] Tipo do erro:', typeof error);
+    console.error('💥 [ASAAS-PAYMENT] Nome do erro:', error instanceof Error ? error.name : 'N/A');
+    
     return new Response(
       JSON.stringify({ 
         error: { 
           message: 'Erro interno do servidor',
-          details: error.message 
+          details: error instanceof Error ? error.message : String(error),
+          debug_info: {
+            error_type: typeof error,
+            error_name: error instanceof Error ? error.name : 'Unknown',
+            timestamp: new Date().toISOString()
+          }
         } 
       }),
       { 

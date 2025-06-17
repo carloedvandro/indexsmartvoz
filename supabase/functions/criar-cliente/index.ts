@@ -28,16 +28,20 @@ interface CreateClientData {
 }
 
 serve(async (req) => {
+  console.log('🚀 [CRIAR-CLIENTE] Função iniciada');
+  console.log('📋 [CRIAR-CLIENTE] Método:', req.method);
+  console.log('📋 [CRIAR-CLIENTE] Headers:', Object.fromEntries(req.headers.entries()));
+
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
+    console.log('✅ [CRIAR-CLIENTE] Respondendo CORS preflight');
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    console.log('Creating client via Admin API...');
-
     // Verificar se é uma requisição POST
     if (req.method !== 'POST') {
+      console.error('❌ [CRIAR-CLIENTE] Método não permitido:', req.method);
       return new Response(
         JSON.stringify({ error: 'Method not allowed' }),
         { 
@@ -48,11 +52,18 @@ serve(async (req) => {
     }
 
     // Parse do corpo da requisição
+    console.log('📄 [CRIAR-CLIENTE] Fazendo parse do body...');
     const clientData: CreateClientData = await req.json();
-    console.log('Client data received:', { email: clientData.email, full_name: clientData.full_name });
+    console.log('📋 [CRIAR-CLIENTE] Dados recebidos:', { 
+      email: clientData.email, 
+      full_name: clientData.full_name,
+      cpf: clientData.cpf ? 'CPF_PRESENTE' : 'CPF_AUSENTE',
+      phone: clientData.phone ? 'PHONE_PRESENTE' : 'PHONE_AUSENTE'
+    });
 
     // Validações básicas
     if (!clientData.email || !clientData.full_name) {
+      console.error('❌ [CRIAR-CLIENTE] Dados obrigatórios ausentes');
       return new Response(
         JSON.stringify({ error: 'Email e nome são obrigatórios' }),
         { 
@@ -62,16 +73,34 @@ serve(async (req) => {
       );
     }
 
+    // Verificar variáveis de ambiente
+    const supabaseUrl = Deno.env.get('SUPABASE_URL');
+    const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+    
+    console.log('🔐 [CRIAR-CLIENTE] Variáveis de ambiente:');
+    console.log('  - SUPABASE_URL:', supabaseUrl ? 'CONFIGURADA' : 'AUSENTE');
+    console.log('  - SERVICE_ROLE_KEY:', serviceRoleKey ? `CONFIGURADA (${serviceRoleKey.length} chars)` : 'AUSENTE');
+
+    if (!supabaseUrl || !serviceRoleKey) {
+      console.error('❌ [CRIAR-CLIENTE] Variáveis de ambiente não configuradas');
+      return new Response(
+        JSON.stringify({ error: 'Configuração do servidor incompleta' }),
+        { 
+          status: 500, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      );
+    }
+
     // Criar cliente Supabase usando service role (Admin API)
-    const supabaseAdmin = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    );
+    console.log('🔧 [CRIAR-CLIENTE] Criando cliente Supabase Admin...');
+    const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey);
 
     // Senha padrão forte
     const DEFAULT_PASSWORD = "ClienteTemp2024@#$";
+    console.log('🔑 [CRIAR-CLIENTE] Senha padrão definida');
 
-    console.log('Creating user with Admin API...');
+    console.log('👤 [CRIAR-CLIENTE] Criando usuário com Admin API...');
 
     // Criar usuário usando Admin API (não afeta sessão atual)
     const { data: userData, error: createError } = await supabaseAdmin.auth.admin.createUser({
@@ -84,11 +113,20 @@ serve(async (req) => {
     });
 
     if (createError) {
-      console.error('Error creating user with Admin API:', createError);
+      console.error('❌ [CRIAR-CLIENTE] Erro ao criar usuário:', createError);
+      console.error('❌ [CRIAR-CLIENTE] Detalhes do erro:', {
+        message: createError.message,
+        status: createError.status,
+        name: createError.name
+      });
       return new Response(
         JSON.stringify({ 
           error: `Erro ao criar usuário: ${createError.message}`,
-          details: createError
+          details: createError,
+          debug_info: {
+            email: clientData.email,
+            has_full_name: !!clientData.full_name
+          }
         }),
         { 
           status: 400, 
@@ -97,7 +135,8 @@ serve(async (req) => {
       );
     }
 
-    if (!userData.user) {
+    if (!userData || !userData.user) {
+      console.error('❌ [CRIAR-CLIENTE] Usuário não foi criado - dados não retornados');
       return new Response(
         JSON.stringify({ error: 'Erro ao criar usuário - dados não retornados' }),
         { 
@@ -107,38 +146,58 @@ serve(async (req) => {
       );
     }
 
-    console.log('User created successfully with ID:', userData.user.id);
+    console.log('✅ [CRIAR-CLIENTE] Usuário criado com sucesso:', userData.user.id);
 
     // Atualizar o perfil com os dados completos
+    console.log('📝 [CRIAR-CLIENTE] Atualizando perfil...');
+    const profileData = {
+      full_name: clientData.full_name,
+      cpf: clientData.cpf,
+      phone: clientData.phone,
+      mobile: clientData.mobile,
+      birth_date: clientData.birth_date || null,
+      person_type: clientData.person_type,
+      document_id: clientData.document_id,
+      cnpj: clientData.cnpj || null,
+      address: clientData.address,
+      city: clientData.city,
+      state: clientData.state,
+      country: clientData.country,
+      zip_code: clientData.zip_code,
+      gender: clientData.gender,
+      civil_status: clientData.civil_status,
+      status: 'active',
+      role: 'client'
+    };
+
+    console.log('📝 [CRIAR-CLIENTE] Dados do perfil a serem atualizados:', {
+      user_id: userData.user.id,
+      has_cpf: !!profileData.cpf,
+      has_phone: !!profileData.phone,
+      person_type: profileData.person_type
+    });
+
     const { error: profileError } = await supabaseAdmin
       .from('profiles')
-      .update({
-        full_name: clientData.full_name,
-        cpf: clientData.cpf,
-        phone: clientData.phone,
-        mobile: clientData.mobile,
-        birth_date: clientData.birth_date || null,
-        person_type: clientData.person_type,
-        document_id: clientData.document_id,
-        cnpj: clientData.cnpj || null,
-        address: clientData.address,
-        city: clientData.city,
-        state: clientData.state,
-        country: clientData.country,
-        zip_code: clientData.zip_code,
-        gender: clientData.gender,
-        civil_status: clientData.civil_status,
-        status: 'active',
-        role: 'client'
-      })
+      .update(profileData)
       .eq('id', userData.user.id);
 
     if (profileError) {
-      console.error('Profile update error:', profileError);
+      console.error('❌ [CRIAR-CLIENTE] Erro ao atualizar perfil:', profileError);
+      console.error('❌ [CRIAR-CLIENTE] Detalhes do erro do perfil:', {
+        message: profileError.message,
+        details: profileError.details,
+        hint: profileError.hint,
+        code: profileError.code
+      });
       return new Response(
         JSON.stringify({ 
           error: `Erro ao atualizar perfil: ${profileError.message}`,
-          details: profileError
+          details: profileError,
+          debug_info: {
+            user_id: userData.user.id,
+            profile_data: profileData
+          }
         }),
         { 
           status: 400, 
@@ -147,19 +206,26 @@ serve(async (req) => {
       );
     }
 
-    console.log('Profile updated successfully');
+    console.log('✅ [CRIAR-CLIENTE] Perfil atualizado com sucesso');
 
     // Retornar sucesso
+    const successResponse = { 
+      success: true,
+      user: {
+        id: userData.user.id,
+        email: userData.user.email,
+      },
+      message: 'Cliente criado com sucesso',
+      defaultPassword: DEFAULT_PASSWORD
+    };
+
+    console.log('🎉 [CRIAR-CLIENTE] Sucesso! Retornando resposta:', {
+      user_id: userData.user.id,
+      email: userData.user.email
+    });
+
     return new Response(
-      JSON.stringify({ 
-        success: true,
-        user: {
-          id: userData.user.id,
-          email: userData.user.email,
-        },
-        message: 'Cliente criado com sucesso',
-        defaultPassword: DEFAULT_PASSWORD
-      }),
+      JSON.stringify(successResponse),
       { 
         status: 200, 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
@@ -167,11 +233,20 @@ serve(async (req) => {
     );
 
   } catch (error) {
-    console.error('Unexpected error:', error);
+    console.error('💥 [CRIAR-CLIENTE] Erro inesperado:', error);
+    console.error('💥 [CRIAR-CLIENTE] Stack trace:', error instanceof Error ? error.stack : 'N/A');
+    console.error('💥 [CRIAR-CLIENTE] Tipo do erro:', typeof error);
+    console.error('💥 [CRIAR-CLIENTE] Nome do erro:', error instanceof Error ? error.name : 'N/A');
+    
     return new Response(
       JSON.stringify({ 
         error: 'Erro interno do servidor',
-        details: error instanceof Error ? error.message : String(error)
+        details: error instanceof Error ? error.message : String(error),
+        debug_info: {
+          error_type: typeof error,
+          error_name: error instanceof Error ? error.name : 'Unknown',
+          timestamp: new Date().toISOString()
+        }
       }),
       { 
         status: 500, 
