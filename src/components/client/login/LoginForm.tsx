@@ -75,7 +75,7 @@ export function LoginForm({
       setIsLoading(false);
     }
   };
-  return <motion.form onSubmit={handleSubmit} variants={containerVariants} className="space-y-6 w-full max-w-[580px] mt-[68px] mx-auto px-6">
+  return <motion.form onSubmit={handleSubmit} variants={containerVariants} className="space-y-8 w-full max-w-[480px] mt-[68px] mx-auto px-6">
       <motion.div className="space-y-4" variants={itemVariants}>
         <div className="relative">
           <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} onFocus={() => setEmailFocused(true)} onBlur={() => setEmailFocused(false)} className="pr-10 bg-transparent border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400" required />
