@@ -22,14 +22,10 @@ export default function LoginPage() {
       {/* Conteúdo Principal */}
       <div className="flex-1 flex bg-white">
         {/* Left side - Image (hidden on mobile) */}
-        <div 
-          className="hidden md:block w-[58%] bg-cover" 
-          style={{
-            backgroundImage: `url('/lovable-uploads/25d54372-39a6-4cad-99bd-69e733099ba9.png')`,
-            backgroundPosition: 'center top',
-            backgroundSize: 'cover'
-          }} 
-        />
+        <div className="hidden md:block w-[58%] bg-cover bg-center" style={{
+          backgroundImage: `url('/lovable-uploads/2fa7f55a-90a6-4fab-beed-fbbe71ad2852.png')`,
+          backgroundPosition: 'center top'
+        }} />
         
         {/* Right side - Login Form */}
         <div className="w-full md:w-[42%] flex items-center justify-center bg-white">
