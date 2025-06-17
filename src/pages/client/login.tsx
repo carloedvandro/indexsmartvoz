@@ -1,8 +1,10 @@
+
 import { LoginForm } from "@/components/client/login/LoginForm";
 import { RegisterLink } from "@/components/client/login/RegisterLink";
 import { containerVariants, itemVariants } from "@/utils/animations";
 import { motion } from "framer-motion";
 import "@/styles/logo.css";
+
 export default function LoginPage() {
   return <div className="min-h-screen w-full flex flex-col">
       {/* Header com Logo */}
