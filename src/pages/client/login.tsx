@@ -29,7 +29,7 @@ export default function LoginPage() {
                 Otimize o uso de Voz e Dados da sua empresa e potencialize seus negócios.
               </p>
               <hr className="my-3 border-white" />
-              <p className="text-gray-700 text-base px-2 leading-relaxed">
+              <p className="text-gray-700 text-base px-5 leading-relaxed">
                 Serviço de controle e acompanhamento com a praticidade e segurança de que você precisa!
               </p>
             </div>
