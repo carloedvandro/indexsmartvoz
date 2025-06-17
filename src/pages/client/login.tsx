@@ -1,16 +1,14 @@
-
 import { LoginForm } from "@/components/client/login/LoginForm";
 import { RegisterLink } from "@/components/client/login/RegisterLink";
 import { containerVariants, itemVariants } from "@/utils/animations";
 import { motion } from "framer-motion";
 import "@/styles/logo.css";
-
 export default function LoginPage() {
   return <div className="min-h-screen w-full flex flex-col">
       {/* Header com Logo */}
       <div className="fixed top-0 left-0 right-0 bg-white px-4 py-4 z-50 shadow-sm border-b border-white">
         <div className="flex justify-center">
-          <img src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" alt="Smartvoz Logo" className="h-[75px] object-contain mix-blend-multiply opacity-90 contrast-125" />
+          <img src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" alt="Smartvoz Logo" className="h-[85px] object-contain mix-blend-multiply opacity-90 contrast-125" />
         </div>
       </div>
 
