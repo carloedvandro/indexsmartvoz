@@ -8,10 +8,12 @@ import { AuthError } from "@supabase/supabase-js";
 import { User, Lock, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+
 interface LoginFormProps {
   containerVariants: any;
   itemVariants: any;
 }
+
 export function LoginForm({
   containerVariants,
   itemVariants
@@ -24,9 +26,8 @@ export function LoginForm({
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
   const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -75,11 +76,29 @@ export function LoginForm({
       setIsLoading(false);
     }
   };
-  return <motion.form onSubmit={handleSubmit} variants={containerVariants} className="space-y-8 w-full max-w-[480px] mt-[68px] mx-auto px-6">
+
+  return (
+    <motion.form 
+      onSubmit={handleSubmit} 
+      variants={containerVariants} 
+      className="space-y-8 w-full max-w-[520px] mt-[68px] mx-auto px-6"
+    >
       <motion.div className="space-y-4" variants={itemVariants}>
-        <div className="relative">
-          <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} onFocus={() => setEmailFocused(true)} onBlur={() => setEmailFocused(false)} className="pr-10 bg-transparent border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400" required />
-          <Label htmlFor="email" className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium bg-white px-1 ${emailFocused || email ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'}`}>
+        <div className="relative w-full">
+          <Input 
+            id="email" 
+            type="email" 
+            value={email} 
+            onChange={e => setEmail(e.target.value)} 
+            onFocus={() => setEmailFocused(true)} 
+            onBlur={() => setEmailFocused(false)} 
+            className="w-full pr-10 bg-transparent border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400" 
+            required 
+          />
+          <Label 
+            htmlFor="email" 
+            className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium bg-white px-1 ${emailFocused || email ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'}`}
+          >
             Usuário
           </Label>
           <User className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -87,12 +106,28 @@ export function LoginForm({
       </motion.div>
 
       <motion.div className="space-y-4" variants={itemVariants}>
-        <div className="relative">
-          <Input id="password" type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} onFocus={() => setPasswordFocused(true)} onBlur={() => setPasswordFocused(false)} required className="pr-10 bg-transparent border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-420" />
-          <Label htmlFor="password" className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium bg-white px-1 ${passwordFocused || password ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'}`}>
+        <div className="relative w-full">
+          <Input 
+            id="password" 
+            type={showPassword ? "text" : "password"} 
+            value={password} 
+            onChange={e => setPassword(e.target.value)} 
+            onFocus={() => setPasswordFocused(true)} 
+            onBlur={() => setPasswordFocused(false)} 
+            required 
+            className="w-full pr-10 bg-transparent border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-420" 
+          />
+          <Label 
+            htmlFor="password" 
+            className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium bg-white px-1 ${passwordFocused || password ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'}`}
+          >
             Senha
           </Label>
-          <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+          <button 
+            type="button" 
+            onClick={() => setShowPassword(!showPassword)} 
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+          >
             {showPassword ? <EyeOff className="h-5 w-5" /> : <Lock className="h-5 w-5" />}
           </button>
         </div>
@@ -104,14 +139,21 @@ export function LoginForm({
         </Link>
       </motion.div>
 
-      {error && <motion.div className="text-red-500 text-sm text-center" variants={itemVariants}>
+      {error && (
+        <motion.div className="text-red-500 text-sm text-center" variants={itemVariants}>
           {error}
-        </motion.div>}
+        </motion.div>
+      )}
 
       <motion.div variants={itemVariants} className="flex justify-center">
-        <Button type="submit" disabled={isLoading} className="w-full max-w-xs sm:max-w-sm md:max-w-md h-12 bg-white text-gray-700 border border-roxo-300 rounded-xl hover:bg-gray-50 font-medium transition-colors disabled:opacity-50 shadow-sm">
+        <Button 
+          type="submit" 
+          disabled={isLoading} 
+          className="w-full max-w-xs sm:max-w-sm md:max-w-md h-12 bg-white text-gray-700 border border-roxo-300 rounded-xl hover:bg-gray-50 font-medium transition-colors disabled:opacity-50 shadow-sm"
+        >
           {isLoading ? "Entrando..." : "Entrar"}
         </Button>
       </motion.div>
-    </motion.form>;
+    </motion.form>
+  );
 }
