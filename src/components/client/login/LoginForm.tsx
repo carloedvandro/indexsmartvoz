@@ -7,7 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthError } from "@supabase/supabase-js";
 import { User, Lock, Eye, EyeOff } from "lucide-react";
-import { RainbowButton } from "@/components/ui/rainbow-button";
+import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
 interface LoginFormProps {
@@ -163,13 +163,13 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       )}
 
       <motion.div variants={itemVariants} className="flex justify-center">
-        <RainbowButton
+        <Button
           type="submit"
-          className="w-full h-12 text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 rounded-md font-medium transition-colors disabled:opacity-50"
+          className="w-full h-12 bg-white text-gray-700 border border-gray-300 rounded-xl hover:bg-gray-50 font-medium transition-colors disabled:opacity-50 shadow-sm"
           disabled={isLoading}
         >
           {isLoading ? "Entrando..." : "Entrar"}
-        </RainbowButton>
+        </Button>
       </motion.div>
     </motion.form>
   );
