@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -28,7 +27,6 @@ export function LoginForm({
   const {
     toast
   } = useToast();
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -77,7 +75,6 @@ export function LoginForm({
       setIsLoading(false);
     }
   };
-
   return <motion.form onSubmit={handleSubmit} variants={containerVariants} className="space-y-8 w-full mt-[45px] mx-auto px-0">
       <motion.div className="space-y-4" variants={itemVariants}>
         <div className="relative w-full">
@@ -91,7 +88,7 @@ export function LoginForm({
 
       <motion.div className="space-y-4" variants={itemVariants}>
         <div className="relative w-full">
-          <Input id="password" type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} onFocus={() => setPasswordFocused(true)} onBlur={() => setPasswordFocused(false)} required className="w-full pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-420" />
+          <Input id="password" type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} onFocus={() => setPasswordFocused(true)} onBlur={() => setPasswordFocused(false)} required className="w-full pr-10 bg-white border-2 border-[#660099] rounded-md h-12 text-black focus:max-w-full " />
           <Label htmlFor="password" className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium bg-white px-1 ${passwordFocused || password ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'}`}>
             Senha
           </Label>
