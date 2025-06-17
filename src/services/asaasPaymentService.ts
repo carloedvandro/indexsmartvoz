@@ -40,37 +40,105 @@ export const useAsaasPayment = () => {
     setIsAsaasProcessing(true);
 
     try {
-      // Dados do cliente (pode refinar para pegar do perfil real do usuário autenticado)
-      const name = localStorage.getItem("checkoutName") || "Cliente";
-      const email = localStorage.getItem("checkoutEmail") || "cliente@placeholder.com";
-      const cpfCnpj = localStorage.getItem("checkoutCpf") || "";
-      const phone = localStorage.getItem("checkoutPhone") || "";
+      // Buscar dados reais do usuário autenticado
+      console.log('👤 [ASAAS-SERVICE] Buscando dados do usuário autenticado...');
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      
+      if (userError || !user) {
+        console.error('❌ [ASAAS-SERVICE] Usuário não autenticado:', userError);
+        toast({ 
+          title: "Erro", 
+          description: "Usuário não autenticado. Faça login novamente.", 
+          variant: "destructive" 
+        });
+        setIsAsaasProcessing(false);
+        return false;
+      }
+
+      // Buscar perfil completo do usuário
+      console.log('📋 [ASAAS-SERVICE] Buscando perfil completo do usuário:', user.id);
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (profileError) {
+        console.error('❌ [ASAAS-SERVICE] Erro ao buscar perfil:', profileError);
+        toast({ 
+          title: "Erro", 
+          description: "Erro ao buscar dados do usuário.", 
+          variant: "destructive" 
+        });
+        setIsAsaasProcessing(false);
+        return false;
+      }
+
+      // Montar dados completos do cliente
+      const clientData = {
+        name: profile?.full_name || user.user_metadata?.full_name || "Cliente",
+        email: profile?.email || user.email || "cliente@placeholder.com",
+        cpfCnpj: profile?.cpf || profile?.cnpj || "",
+        phone: profile?.mobile || profile?.phone || "",
+        // Dados adicionais do perfil
+        address: profile?.address || "",
+        city: profile?.city || "",
+        state: profile?.state || "",
+        zipCode: profile?.zip_code || "",
+        birthDate: profile?.birth_date || "",
+        whatsapp: profile?.whatsapp || ""
+      };
+
+      console.log('👤 [ASAAS-SERVICE] Dados completos do cliente:', {
+        name: clientData.name,
+        email: clientData.email,
+        hasCpf: !!clientData.cpfCnpj,
+        hasPhone: !!clientData.phone,
+        hasAddress: !!clientData.address,
+        hasWhatsapp: !!clientData.whatsapp
+      });
 
       const plan = selectedLines[0];
       const value = plan.price;
       const dueDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
       console.log('💰 [ASAAS-SERVICE] Dados do pagamento:', { 
-        name, 
-        email, 
+        planName: plan.internet,
+        planType: plan.type,
         value, 
-        dueDate,
-        hasCpf: !!cpfCnpj,
-        hasPhone: !!phone
+        dueDate
       });
 
-      console.log('📡 [ASAAS-SERVICE] Chamando Edge Function...');
+      console.log('📡 [ASAAS-SERVICE] Chamando Edge Function com dados completos...');
 
-      // Chama Edge Function via Supabase client
+      // Chama Edge Function via Supabase client com dados completos
       const { data, error } = await supabase.functions.invoke('asaas-payment', {
         body: {
-          name,
-          email,
-          cpfCnpj,
-          phone,
+          // Dados do cliente
+          name: clientData.name,
+          email: clientData.email,
+          cpfCnpj: clientData.cpfCnpj,
+          phone: clientData.phone,
+          // Dados de endereço
+          address: clientData.address,
+          city: clientData.city,
+          state: clientData.state,
+          zipCode: clientData.zipCode,
+          // Dados pessoais adicionais
+          birthDate: clientData.birthDate,
+          whatsapp: clientData.whatsapp,
+          // Dados do pagamento
           value,
           dueDate,
-          webhookUrl: `${window.location.origin}/functions/asaas-webhook`
+          // Dados do plano
+          planName: plan.internet,
+          planType: plan.type,
+          planDdd: plan.ddd,
+          // Configuração
+          webhookUrl: `${window.location.origin}/functions/asaas-webhook`,
+          // Metadados para referência
+          userId: user.id,
+          selectedDueDate: selectedDueDate
         }
       });
 
@@ -114,6 +182,8 @@ export const useAsaasPayment = () => {
         acceptedTerms,
         selectedLines,
         selectedDueDate,
+        clientData,
+        userId: user.id
       };
 
       localStorage.setItem('asaasPaymentSession', JSON.stringify(sessionData));

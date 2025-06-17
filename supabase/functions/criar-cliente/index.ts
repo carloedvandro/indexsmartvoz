@@ -25,6 +25,10 @@ interface CreateClientData {
   gender: string;
   civil_status: string;
   status: string;
+  whatsapp?: string;
+  secondary_whatsapp?: string;
+  custom_id?: string;
+  sponsor_id?: string;
 }
 
 serve(async (req) => {
@@ -53,15 +57,25 @@ serve(async (req) => {
 
     // Parse do corpo da requisição
     console.log('📄 [CRIAR-CLIENTE] Fazendo parse do body...');
-    const clientData: CreateClientData = await req.json();
-    console.log('📋 [CRIAR-CLIENTE] Dados recebidos:', { 
+    const body = await req.text();
+    console.log('📄 [CRIAR-CLIENTE] Body completo recebido (length):', body.length);
+    console.log('📄 [CRIAR-CLIENTE] Body preview:', body.substring(0, 500));
+    
+    const clientData: CreateClientData = JSON.parse(body);
+    console.log('📋 [CRIAR-CLIENTE] Dados completos recebidos:', { 
       email: clientData.email, 
       full_name: clientData.full_name,
       cpf: clientData.cpf ? 'CPF_PRESENTE' : 'CPF_AUSENTE',
-      phone: clientData.phone ? 'PHONE_PRESENTE' : 'PHONE_AUSENTE'
+      phone: clientData.phone ? 'PHONE_PRESENTE' : 'PHONE_AUSENTE',
+      mobile: clientData.mobile ? 'MOBILE_PRESENTE' : 'MOBILE_AUSENTE',
+      whatsapp: clientData.whatsapp ? 'WHATSAPP_PRESENTE' : 'WHATSAPP_AUSENTE',
+      address: clientData.address ? 'ADDRESS_PRESENTE' : 'ADDRESS_AUSENTE',
+      custom_id: clientData.custom_id ? 'CUSTOM_ID_PRESENTE' : 'CUSTOM_ID_AUSENTE',
+      sponsor_id: clientData.sponsor_id ? 'SPONSOR_PRESENTE' : 'SPONSOR_AUSENTE',
+      person_type: clientData.person_type || 'NÃO_DEFINIDO'
     });
 
-    // Validações básicas
+    // Validações básicas expandidas
     if (!clientData.email || !clientData.full_name) {
       console.error('❌ [CRIAR-CLIENTE] Dados obrigatórios ausentes');
       return new Response(
@@ -102,14 +116,32 @@ serve(async (req) => {
 
     console.log('👤 [CRIAR-CLIENTE] Criando usuário com Admin API...');
 
+    // Preparar metadata completa do usuário
+    const userMetadata = {
+      full_name: clientData.full_name,
+      cpf: clientData.cpf,
+      custom_id: clientData.custom_id,
+      phone: clientData.phone || clientData.mobile,
+      whatsapp: clientData.whatsapp,
+      person_type: clientData.person_type,
+      sponsor_id: clientData.sponsor_id
+    };
+
+    console.log('📋 [CRIAR-CLIENTE] Metadata do usuário:', {
+      full_name: userMetadata.full_name,
+      has_cpf: !!userMetadata.cpf,
+      has_custom_id: !!userMetadata.custom_id,
+      has_phone: !!userMetadata.phone,
+      has_sponsor: !!userMetadata.sponsor_id,
+      person_type: userMetadata.person_type
+    });
+
     // Criar usuário usando Admin API (não afeta sessão atual)
     const { data: userData, error: createError } = await supabaseAdmin.auth.admin.createUser({
       email: clientData.email,
       password: DEFAULT_PASSWORD,
       email_confirm: true, // Confirma email automaticamente
-      user_metadata: {
-        full_name: clientData.full_name,
-      }
+      user_metadata: userMetadata
     });
 
     if (createError) {
@@ -148,13 +180,15 @@ serve(async (req) => {
 
     console.log('✅ [CRIAR-CLIENTE] Usuário criado com sucesso:', userData.user.id);
 
-    // Atualizar o perfil com os dados completos
-    console.log('📝 [CRIAR-CLIENTE] Atualizando perfil...');
+    // Atualizar o perfil com TODOS os dados completos
+    console.log('📝 [CRIAR-CLIENTE] Atualizando perfil com dados completos...');
     const profileData = {
       full_name: clientData.full_name,
       cpf: clientData.cpf,
       phone: clientData.phone,
       mobile: clientData.mobile,
+      whatsapp: clientData.whatsapp,
+      secondary_whatsapp: clientData.secondary_whatsapp,
       birth_date: clientData.birth_date || null,
       person_type: clientData.person_type,
       document_id: clientData.document_id,
@@ -162,19 +196,28 @@ serve(async (req) => {
       address: clientData.address,
       city: clientData.city,
       state: clientData.state,
-      country: clientData.country,
+      country: clientData.country || 'Brasil',
       zip_code: clientData.zip_code,
       gender: clientData.gender,
       civil_status: clientData.civil_status,
       status: 'active',
-      role: 'client'
+      role: 'client',
+      custom_id: clientData.custom_id,
+      store_url: clientData.custom_id,
+      sponsor_id: clientData.sponsor_id
     };
 
-    console.log('📝 [CRIAR-CLIENTE] Dados do perfil a serem atualizados:', {
+    console.log('📝 [CRIAR-CLIENTE] Dados completos do perfil a serem atualizados:', {
       user_id: userData.user.id,
       has_cpf: !!profileData.cpf,
       has_phone: !!profileData.phone,
-      person_type: profileData.person_type
+      has_mobile: !!profileData.mobile,
+      has_whatsapp: !!profileData.whatsapp,
+      has_address: !!profileData.address,
+      has_custom_id: !!profileData.custom_id,
+      has_sponsor: !!profileData.sponsor_id,
+      person_type: profileData.person_type,
+      country: profileData.country
     });
 
     const { error: profileError } = await supabaseAdmin
@@ -208,20 +251,27 @@ serve(async (req) => {
 
     console.log('✅ [CRIAR-CLIENTE] Perfil atualizado com sucesso');
 
-    // Retornar sucesso
+    // Retornar sucesso com dados completos
     const successResponse = { 
       success: true,
       user: {
         id: userData.user.id,
         email: userData.user.email,
+        full_name: clientData.full_name,
+        custom_id: clientData.custom_id,
+        cpf: clientData.cpf,
+        phone: clientData.phone || clientData.mobile,
+        whatsapp: clientData.whatsapp
       },
       message: 'Cliente criado com sucesso',
       defaultPassword: DEFAULT_PASSWORD
     };
 
-    console.log('🎉 [CRIAR-CLIENTE] Sucesso! Retornando resposta:', {
+    console.log('🎉 [CRIAR-CLIENTE] Sucesso! Retornando resposta completa:', {
       user_id: userData.user.id,
-      email: userData.user.email
+      email: userData.user.email,
+      has_custom_id: !!clientData.custom_id,
+      has_cpf: !!clientData.cpf
     });
 
     return new Response(

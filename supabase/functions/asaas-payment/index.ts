@@ -8,13 +8,33 @@ const corsHeaders = {
 };
 
 interface PaymentRequest {
+  // Dados básicos obrigatórios
   name: string;
   email: string;
-  cpfCnpj?: string;
-  phone?: string;
   value: number;
   dueDate: string;
+  
+  // Dados opcionais do cliente
+  cpfCnpj?: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  birthDate?: string;
+  whatsapp?: string;
+  
+  // Dados do plano
+  planName?: string;
+  planType?: string;
+  planDdd?: string;
+  
+  // Configuração
   webhookUrl?: string;
+  
+  // Metadados
+  userId?: string;
+  selectedDueDate?: number;
 }
 
 // Função para validar e limpar CPF/CNPJ
@@ -49,16 +69,21 @@ serve(async (req) => {
     
     const body = await req.text();
     console.log('📄 [ASAAS-PAYMENT] Body recebido (length):', body.length);
-    console.log('📄 [ASAAS-PAYMENT] Body recebido (preview):', body.substring(0, 200));
+    console.log('📄 [ASAAS-PAYMENT] Body recebido (preview):', body.substring(0, 500));
     
     const requestData: PaymentRequest = JSON.parse(body);
-    console.log('📋 [ASAAS-PAYMENT] Dados parseados:', {
+    console.log('📋 [ASAAS-PAYMENT] Dados completos parseados:', {
       name: requestData.name,
       email: requestData.email,
       value: requestData.value,
       dueDate: requestData.dueDate,
       hasCpf: !!requestData.cpfCnpj,
-      hasPhone: !!requestData.phone
+      hasPhone: !!requestData.phone,
+      hasAddress: !!requestData.address,
+      hasWhatsapp: !!requestData.whatsapp,
+      planName: requestData.planName,
+      planType: requestData.planType,
+      userId: requestData.userId
     });
 
     // Verificar variáveis de ambiente
@@ -100,8 +125,8 @@ serve(async (req) => {
       );
     }
 
-    // Preparar dados do cliente para o Asaas
-    console.log('👤 [ASAAS-PAYMENT] Preparando dados do cliente...');
+    // Preparar dados completos do cliente para o Asaas
+    console.log('👤 [ASAAS-PAYMENT] Preparando dados completos do cliente...');
     
     const customerData: any = {
       name: requestData.name.trim(),
@@ -130,10 +155,38 @@ serve(async (req) => {
       }
     }
 
-    console.log('👤 [ASAAS-PAYMENT] Dados do cliente preparados:', {
+    // Adicionar WhatsApp se fornecido
+    if (requestData.whatsapp) {
+      const cleanedWhatsapp = cleanPhone(requestData.whatsapp);
+      if (cleanedWhatsapp.length >= 10 && cleanedWhatsapp.length <= 11) {
+        customerData.mobilePhone = cleanedWhatsapp;
+        console.log('📱 [ASAAS-PAYMENT] WhatsApp adicionado (length):', cleanedWhatsapp.length);
+      }
+    }
+
+    // Adicionar endereço se fornecido
+    if (requestData.address && requestData.city && requestData.state) {
+      customerData.address = requestData.address;
+      customerData.city = requestData.city;
+      customerData.state = requestData.state;
+      if (requestData.zipCode) {
+        customerData.postalCode = cleanDocument(requestData.zipCode);
+      }
+      console.log('🏠 [ASAAS-PAYMENT] Endereço completo adicionado');
+    }
+
+    // Adicionar data de nascimento se fornecida
+    if (requestData.birthDate) {
+      customerData.birthDate = requestData.birthDate;
+      console.log('🎂 [ASAAS-PAYMENT] Data de nascimento adicionada');
+    }
+
+    console.log('👤 [ASAAS-PAYMENT] Dados completos do cliente preparados:', {
       ...customerData,
       cpfCnpj: customerData.cpfCnpj ? 'PRESENTE' : 'AUSENTE',
-      phone: customerData.phone ? 'PRESENTE' : 'AUSENTE'
+      phone: customerData.phone ? 'PRESENTE' : 'AUSENTE',
+      mobilePhone: customerData.mobilePhone ? 'PRESENTE' : 'AUSENTE',
+      address: customerData.address ? 'PRESENTE' : 'AUSENTE'
     });
 
     // Headers corretos para requisições do Asaas
@@ -160,7 +213,6 @@ serve(async (req) => {
 
       console.log('🔍 [ASAAS-PAYMENT] Status da busca:', searchResponse.status);
       console.log('🔍 [ASAAS-PAYMENT] Status text:', searchResponse.statusText);
-      console.log('🔍 [ASAAS-PAYMENT] Headers da resposta:', Object.fromEntries(searchResponse.headers.entries()));
 
       if (searchResponse.ok) {
         const searchResult = await searchResponse.json();
@@ -173,6 +225,20 @@ serve(async (req) => {
         if (searchResult.data && searchResult.data.length > 0) {
           customerId = searchResult.data[0].id;
           console.log('✅ [ASAAS-PAYMENT] Cliente existente encontrado:', customerId);
+          
+          // Atualizar dados do cliente existente com informações mais completas
+          console.log('🔄 [ASAAS-PAYMENT] Atualizando dados do cliente existente...');
+          const updateResponse = await fetch(`https://www.asaas.com/api/v3/customers/${customerId}`, {
+            method: 'PUT',
+            headers: asaasHeaders,
+            body: JSON.stringify(customerData)
+          });
+          
+          if (updateResponse.ok) {
+            console.log('✅ [ASAAS-PAYMENT] Cliente atualizado com sucesso');
+          } else {
+            console.log('⚠️ [ASAAS-PAYMENT] Aviso: Não foi possível atualizar cliente');
+          }
         } else {
           // Cliente não existe, criar novo
           console.log('👤 [ASAAS-PAYMENT] Criando novo cliente no Asaas...');
@@ -194,7 +260,6 @@ serve(async (req) => {
             const errorText = await customerResponse.text();
             console.error('❌ [ASAAS-PAYMENT] Erro ao criar cliente:', errorText);
             console.error('❌ [ASAAS-PAYMENT] Status:', customerResponse.status);
-            console.error('❌ [ASAAS-PAYMENT] Headers de erro:', Object.fromEntries(customerResponse.headers.entries()));
             
             return new Response(
               JSON.stringify({ 
@@ -215,7 +280,6 @@ serve(async (req) => {
         const searchErrorText = await searchResponse.text();
         console.error('❌ [ASAAS-PAYMENT] Erro ao buscar cliente - Status:', searchResponse.status);
         console.error('❌ [ASAAS-PAYMENT] Erro ao buscar cliente - Response:', searchErrorText);
-        console.error('❌ [ASAAS-PAYMENT] Headers de erro:', Object.fromEntries(searchResponse.headers.entries()));
         
         // Verificar se é erro de autenticação
         if (searchResponse.status === 401) {
@@ -247,8 +311,6 @@ serve(async (req) => {
       }
     } catch (searchError) {
       console.error('❌ [ASAAS-PAYMENT] Exceção ao buscar/criar cliente:', searchError);
-      console.error('❌ [ASAAS-PAYMENT] Tipo do erro:', typeof searchError);
-      console.error('❌ [ASAAS-PAYMENT] Nome do erro:', searchError instanceof Error ? searchError.name : 'N/A');
       return new Response(
         JSON.stringify({ 
           error: { 
@@ -263,17 +325,21 @@ serve(async (req) => {
       );
     }
 
-    // Criar cobrança
+    // Criar cobrança com descrição detalhada
     console.log('💰 [ASAAS-PAYMENT] Criando cobrança no Asaas...');
+    
+    const description = requestData.planName && requestData.planType 
+      ? `Plano ${requestData.planName} - ${requestData.planType}${requestData.planDdd ? ` (DDD ${requestData.planDdd})` : ''}`
+      : 'Plano Smartvoz';
     
     const paymentData = {
       customer: customerId,
       billingType: 'PIX',
       value: requestData.value,
       dueDate: requestData.dueDate,
-      description: 'Plano Smartvoz',
+      description: description,
       ...(requestData.webhookUrl && { 
-        externalReference: 'smartvoz_payment',
+        externalReference: `smartvoz_${requestData.userId || 'unknown'}_${Date.now()}`,
         postalService: false 
       })
     };
@@ -283,6 +349,8 @@ serve(async (req) => {
       billingType: paymentData.billingType,
       value: paymentData.value,
       dueDate: paymentData.dueDate,
+      description: paymentData.description,
+      externalReference: paymentData.externalReference,
       hasWebhook: !!requestData.webhookUrl
     });
 
@@ -299,7 +367,6 @@ serve(async (req) => {
       const errorText = await paymentResponse.text();
       console.error('❌ [ASAAS-PAYMENT] Erro ao criar cobrança:', errorText);
       console.error('❌ [ASAAS-PAYMENT] Status:', paymentResponse.status);
-      console.error('❌ [ASAAS-PAYMENT] Headers de erro:', Object.fromEntries(paymentResponse.headers.entries()));
       
       return new Response(
         JSON.stringify({ 
@@ -321,7 +388,8 @@ serve(async (req) => {
       id: payment.id,
       status: payment.status,
       hasInvoiceUrl: !!payment.invoiceUrl,
-      hasPixQrCode: !!payment.pixQrCode
+      hasPixQrCode: !!payment.pixQrCode,
+      description: payment.description
     });
 
     const successResponse = {
@@ -329,13 +397,17 @@ serve(async (req) => {
       paymentId: payment.id,
       invoiceUrl: payment.invoiceUrl,
       pixQrCode: payment.pixQrCode,
-      status: payment.status
+      status: payment.status,
+      description: payment.description,
+      value: payment.value,
+      dueDate: payment.dueDate
     };
 
     console.log('🎉 [ASAAS-PAYMENT] Sucesso! Retornando resposta:', {
       customerId,
       paymentId: payment.id,
-      hasInvoiceUrl: !!payment.invoiceUrl
+      hasInvoiceUrl: !!payment.invoiceUrl,
+      description: payment.description
     });
 
     return new Response(
