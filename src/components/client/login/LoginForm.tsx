@@ -79,7 +79,7 @@ export function LoginForm({
       <motion.div className="space-y-4" variants={itemVariants}>
         <div className="relative w-full">
           <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} onFocus={() => setEmailFocused(true)} onBlur={() => setEmailFocused(false)} required className="w-full pr-10 bg-white border-2 border-[#7a1fa2] rounded-md h-12 text-black focus:border-[#7a1fa2]" />
-          <Label htmlFor="email" className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-gray-500 font-medium bg-white px-1 ${emailFocused || email ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'}`}>
+          <Label htmlFor="email" className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none font-medium bg-white px-1 ${emailFocused || email ? '-top-2 text-xs text-[#0028f9]' : 'top-1/2 -translate-y-1/2 text-base text-[#0028f9]'}`}>
             Usuário
           </Label>
           <User className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -89,7 +89,7 @@ export function LoginForm({
       <motion.div className="space-y-4" variants={itemVariants}>
         <div className="relative w-full">
           <Input id="password" type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} onFocus={() => setPasswordFocused(true)} onBlur={() => setPasswordFocused(false)} required className="w-full pr-10 bg-white border-2 border-[#7a1fa2] rounded-md h-12 text-black focus:border-[#7a1fa2]" />
-          <Label htmlFor="password" className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-gray-500 font-medium bg-white px-1 ${passwordFocused || password ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'}`}>
+          <Label htmlFor="password" className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none font-medium bg-white px-1 ${passwordFocused || password ? '-top-2 text-xs text-[#0028f9]' : 'top-1/2 -translate-y-1/2 text-base text-[#0028f9]'}`}>
             Senha
           </Label>
           <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
