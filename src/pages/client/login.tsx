@@ -1,10 +1,12 @@
+
 import { LoginForm } from "@/components/client/login/LoginForm";
 import { RegisterLink } from "@/components/client/login/RegisterLink";
 import { containerVariants, itemVariants } from "@/utils/animations";
 import { motion } from "framer-motion";
 import "@/styles/logo.css";
+
 export default function LoginPage() {
-  return <div className="min-h-screen w-full flex flex-col">
+  return <div className="min-h-screen w-full flex flex-col bg-white">
       {/* Header com Logo */}
       <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50 shadow-sm border-b border-white">
         <div className="flex justify-center">
@@ -13,7 +15,7 @@ export default function LoginPage() {
       </div>
 
       {/* Conteúdo Principal */}
-      <div className="flex-1 flex">
+      <div className="flex-1 flex bg-white">
         {/* Left side - Image (hidden on mobile) */}
         <div className="hidden md:block w-[58%] bg-cover bg-center" style={{
         backgroundImage: `url('/lovable-uploads/2fa7f55a-90a6-4fab-beed-fbbe71ad2852.png')`,
