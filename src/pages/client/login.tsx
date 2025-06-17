@@ -8,8 +8,8 @@ import "@/styles/logo.css";
 export default function LoginPage() {
   return (
     <div className="min-h-screen w-full flex flex-col bg-white">
-      {/* Header com Logo */}
-      <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50">
+      {/* Header com Logo - Agora transparente */}
+      <div className="fixed top-0 left-0 right-0 bg-transparent px-4 py-2 z-50">
         <div className="flex justify-center">
           <img 
             src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
