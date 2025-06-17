@@ -19,19 +19,21 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Conteúdo Principal com imagem de fundo cobrindo toda a tela */}
-      <div className="flex-1 flex bg-cover bg-center" style={{
-        backgroundImage: `url('/lovable-uploads/2fa7f55a-90a6-4fab-beed-fbbe71ad2852.png')`,
-        backgroundPosition: 'center center'
-      }}>
+      {/* Conteúdo Principal */}
+      <div className="flex-1 flex bg-white">
+        {/* Left side - Image (hidden on mobile) */}
+        <div className="hidden md:block w-[58%] bg-cover bg-center" style={{
+          backgroundImage: `url('/lovable-uploads/2fa7f55a-90a6-4fab-beed-fbbe71ad2852.png')`,
+          backgroundPosition: 'center top'
+        }} />
         
-        {/* Right side - Login Form com fundo semi-transparente */}
-        <div className="w-full flex items-center justify-end pr-8 md:pr-16">
+        {/* Right side - Login Form */}
+        <div className="w-full md:w-[42%] flex items-center justify-center bg-white">
           <motion.div 
             initial="hidden" 
             animate="visible" 
             variants={containerVariants} 
-            className="w-full max-w-[480px] px-10 md:px-12 mx-auto bg-white/90 backdrop-blur-sm rounded-lg shadow-lg"
+            className="w-full max-w-[480px] px-10 md:px-12 mx-auto"
           >
             {/* Texto descritivo - movido ainda mais para baixo */}
             <div className="text-center mb-8 mt-36">
