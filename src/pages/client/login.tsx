@@ -1,5 +1,4 @@
 
-
 import { LoginForm } from "@/components/client/login/LoginForm";
 import { RegisterLink } from "@/components/client/login/RegisterLink";
 import { containerVariants, itemVariants } from "@/utils/animations";
@@ -28,11 +27,11 @@ export default function LoginPage() {
           <motion.div initial="hidden" animate="visible" variants={containerVariants} className="w-full max-w-[480px] px-10 md:px-12 mx-auto">
             {/* Texto descritivo - movido mais para baixo */}
             <div className="text-center mb-8 mt-24">
-              <p className="text-gray-700 text-sm px-2 leading-relaxed">
+              <p className="text-gray-700 text-base px-2 leading-relaxed">
                 Otimize o uso de Voz e Dados da sua empresa e potencialize seus negócios.
               </p>
               <hr className="my-3 border-white" />
-              <p className="text-gray-700 text-sm px-2 leading-relaxed">
+              <p className="text-gray-700 text-base px-2 leading-relaxed">
                 Serviço de controle e acompanhamento com a praticidade e segurança de que você precisa!
               </p>
             </div>
@@ -44,4 +43,3 @@ export default function LoginPage() {
       </div>
     </div>;
 }
-
