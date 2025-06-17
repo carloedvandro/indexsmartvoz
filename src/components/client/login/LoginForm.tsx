@@ -27,6 +27,7 @@ export function LoginForm({
   const {
     toast
   } = useToast();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -75,10 +76,11 @@ export function LoginForm({
       setIsLoading(false);
     }
   };
+
   return <motion.form onSubmit={handleSubmit} variants={containerVariants} className="space-y-8 w-full mt-[45px] mx-auto px-0">
       <motion.div className="space-y-4" variants={itemVariants}>
         <div className="relative w-full">
-          <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} onFocus={() => setEmailFocused(true)} onBlur={() => setEmailFocused(false)} className="w-full pr-10 bg-transparent border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400" required />
+          <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} onFocus={() => setEmailFocused(true)} onBlur={() => setEmailFocused(false)} className="w-full pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400" required />
           <Label htmlFor="email" className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium bg-white px-1 ${emailFocused || email ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'}`}>
             Usuário
           </Label>
@@ -88,7 +90,7 @@ export function LoginForm({
 
       <motion.div className="space-y-4" variants={itemVariants}>
         <div className="relative w-full">
-          <Input id="password" type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} onFocus={() => setPasswordFocused(true)} onBlur={() => setPasswordFocused(false)} required className="w-full pr-10 bg-transparent border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-420" />
+          <Input id="password" type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} onFocus={() => setPasswordFocused(true)} onBlur={() => setPasswordFocused(false)} required className="w-full pr-10 bg-white border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-420" />
           <Label htmlFor="password" className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium bg-white px-1 ${passwordFocused || password ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'}`}>
             Senha
           </Label>
