@@ -164,7 +164,7 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       <motion.div variants={itemVariants} className="flex justify-center">
         <Button
           type="submit"
-          className="w-full max-w-xs sm:max-w-sm md:max-w-md h-12 bg-white text-gray-700 border border-gray-300 rounded-xl hover:bg-gray-50 font-medium transition-colors disabled:opacity-50 shadow-sm"
+          className="w-[280px] sm:w-[320px] md:w-[360px] h-12 bg-white text-gray-700 border border-gray-300 rounded-xl hover:bg-gray-50 font-medium transition-colors disabled:opacity-50 shadow-sm"
           disabled={isLoading}
         >
           {isLoading ? "Entrando..." : "Entrar"}
