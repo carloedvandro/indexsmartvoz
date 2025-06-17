@@ -25,8 +25,8 @@ export default function LoginPage() {
         {/* Right side - Login Form */}
         <div className="w-full md:w-[42%] flex items-center justify-center bg-white">
           <motion.div initial="hidden" animate="visible" variants={containerVariants} className="w-full max-w-[480px] px-10 md:px-12 mx-auto">
-            {/* Texto descritivo - movido mais para baixo */}
-            <div className="text-center mb-8 mt-28">
+            {/* Texto descritivo - movido ainda mais para baixo */}
+            <div className="text-center mb-8 mt-36">
               <p className="text-gray-700 text-base px-2 leading-relaxed">
                 Otimize o uso de Voz e Dados da sua empresa e potencialize seus negócios.
               </p>
