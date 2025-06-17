@@ -88,7 +88,7 @@ export function LoginForm({
 
       <motion.div className="space-y-4" variants={itemVariants}>
         <div className="relative w-full">
-          <Input id="password" type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} onFocus={() => setPasswordFocused(true)} onBlur={() => setPasswordFocused(false)} required className="w-full pr-15 bg-white border-1 border-[#660099] rounded-md h-12 text-black focus:max-w-full " />
+          <Input id="password" type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} onFocus={() => setPasswordFocused(true)} onBlur={() => setPasswordFocused(false)} required className="w-full pr-15 bg-white border-1.5 border-[#660099] rounded-md h-12 text-black focus:max-w-full " />
           <Label htmlFor="password" className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium bg-white px-1 ${passwordFocused || password ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'}`}>
             Senha
           </Label>
