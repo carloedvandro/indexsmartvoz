@@ -6,15 +6,17 @@ interface LoginHeaderProps {
 }
 
 export function LoginHeader({ itemVariants }: LoginHeaderProps) {
-  const titleStyle = "text-3xl font-extrabold bg-gradient-to-r from-color-1 via-color-2 to-color-3 bg-clip-text text-transparent [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)] animate-rainbow bg-[length:200%_auto] -mt-1";
-
   return (
-    <div className="">
-      <img
-        src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
-        alt="Smartvoz Logo"
-        className="h-[70px] object-contain mx-auto mix-blend-multiply opacity-90 contrast-125"
-      />
+    <div className="text-center mb-8">
+      {/* Logo no cabeçalho */}
+      <div className="mb-6">
+        <img
+          src="/lovable-uploads/ca9fe349-3552-4ecd-afe8-524e1980b362.png"
+          alt="Smartvoz Logo"
+          className="h-[80px] w-auto mx-auto object-contain"
+        />
+      </div>
+      
       <p className="text-center text-gray-700 text-sm mt-3 px-2 leading-relaxed">
         Otimize o uso de Voz e Dados da sua empresa e potencialize seus negócios.
       </p>
