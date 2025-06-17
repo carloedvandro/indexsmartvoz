@@ -30,7 +30,7 @@ export const FacialBiometryFlow = ({
       {/* Logo fixada no topo */}
       <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50 shadow-sm">
         <div className="flex items-center justify-center">
-          <img src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" alt="Smartvoz" className="h-16 object-contain" />
+          <img src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" alt="Smartvoz" className="h-16.1 object-contain" />
         </div>
       </div>
       
