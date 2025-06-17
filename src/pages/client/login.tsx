@@ -1,11 +1,8 @@
-
-
 import { LoginForm } from "@/components/client/login/LoginForm";
 import { RegisterLink } from "@/components/client/login/RegisterLink";
 import { containerVariants, itemVariants } from "@/utils/animations";
 import { motion } from "framer-motion";
 import "@/styles/logo.css";
-
 export default function LoginPage() {
   return <div className="min-h-screen w-full flex flex-col bg-white">
       {/* Header com Logo */}
@@ -28,7 +25,7 @@ export default function LoginPage() {
           <motion.div initial="hidden" animate="visible" variants={containerVariants} className="w-full max-w-[480px] px-10 md:px-12 mx-auto">
             {/* Texto descritivo - movido ainda mais para baixo */}
             <div className="text-center mb-8 mt-36">
-              <p className="text-gray-700 text-base px-5 leading-relaxed">
+              <p className="text-gray-700 text-base px-1 leading-relaxed">
                 Otimize o uso de Voz e Dados da sua empresa e potencialize seus negócios.
               </p>
               <hr className="my-3 border-white" />
@@ -44,4 +41,3 @@ export default function LoginPage() {
       </div>
     </div>;
 }
-
