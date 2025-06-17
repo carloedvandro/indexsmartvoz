@@ -14,7 +14,7 @@ export default function LoginPage() {
       
       {/* Right side - Login Form */}
       <div className="w-full md:w-[42%] flex items-center justify-center bg-white">
-        <motion.div initial="hidden" animate="visible" variants={containerVariants} className="w-full max-w-[480px] px-10 md:px-12 mx-auto">
+        <motion.div initial="hidden" animate="visible" variants={containerVariants} className="w-full max-w-[480px] px-6 md:px-12 mx-auto">
           <LoginHeader itemVariants={itemVariants} />
           <LoginForm containerVariants={containerVariants} itemVariants={itemVariants} />
           <RegisterLink itemVariants={itemVariants} />
