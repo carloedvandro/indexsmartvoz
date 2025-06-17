@@ -81,7 +81,7 @@ export function LoginForm({
     <motion.form 
       onSubmit={handleSubmit} 
       variants={containerVariants} 
-      className="space-y-8 w-full max-w-[520px] mt-[68px] mx-auto px-6"
+      className="space-y-8 w-full mt-[68px] mx-auto px-4"
     >
       <motion.div className="space-y-4" variants={itemVariants}>
         <div className="relative w-full">
@@ -149,7 +149,7 @@ export function LoginForm({
         <Button 
           type="submit" 
           disabled={isLoading} 
-          className="w-full max-w-xs sm:max-w-sm md:max-w-md h-12 bg-white text-gray-700 border border-roxo-300 rounded-xl hover:bg-gray-50 font-medium transition-colors disabled:opacity-50 shadow-sm"
+          className="w-full h-12 bg-white text-gray-700 border border-roxo-300 rounded-xl hover:bg-gray-50 font-medium transition-colors disabled:opacity-50 shadow-sm"
         >
           {isLoading ? "Entrando..." : "Entrar"}
         </Button>
