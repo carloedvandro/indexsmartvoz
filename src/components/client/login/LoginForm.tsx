@@ -109,7 +109,7 @@ export function LoginForm({
         </motion.div>}
 
       <motion.div variants={itemVariants} className="flex justify-center">
-        <Button type="submit" className="w-full max-w-xs sm:max-w-sm md:max-w-md h-12 bg-white text-gray-700 border border-gray-300 rounded-xl hover:bg-gray-50 font-medium transition-colors disabled:opacity-50 shadow-sm" disabled={isLoading}>
+        <Button type="submit" disabled={isLoading} className="w-full max-w-xs sm:max-w-sm md:max-w-md h-12 bg-white text-gray-700 border border-rose-300 rounded-xl hover:bg-gray-50 font-medium transition-colors disabled:opacity-50 shadow-sm">
           {isLoading ? "Entrando..." : "Entrar"}
         </Button>
       </motion.div>
