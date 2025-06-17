@@ -8,13 +8,14 @@ import { AuthError } from "@supabase/supabase-js";
 import { User, Lock, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-
 interface LoginFormProps {
   containerVariants: any;
   itemVariants: any;
 }
-
-export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
+export function LoginForm({
+  containerVariants,
+  itemVariants
+}: LoginFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -23,53 +24,49 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
   const navigate = useNavigate();
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
-
     try {
       console.log("Attempting client login for:", email);
-      
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const {
+        data,
+        error
+      } = await supabase.auth.signInWithPassword({
         email,
-        password,
+        password
       });
-
       if (error) {
         console.error("Login error:", error);
         throw error;
       }
-
       if (data.user) {
         console.log("User authenticated, fetching profile");
-        const { data: profile, error: profileError } = await supabase
-          .from("profiles")
-          .select("role")
-          .eq("id", data.user.id)
-          .single();
-
+        const {
+          data: profile,
+          error: profileError
+        } = await supabase.from("profiles").select("role").eq("id", data.user.id).single();
         if (profileError) {
           console.error("Profile fetch error:", profileError);
           throw new Error("Erro ao carregar perfil do usuário");
         }
-
         console.log("User profile:", profile);
         navigate("/client/dashboard");
       }
     } catch (error) {
       console.error("Login process error:", error);
       const authError = error as AuthError;
-
       if (authError.message === "Invalid login credentials") {
         setError("Email ou senha inválidos");
       } else if (authError.message?.includes("User not found") || error === 'USER_DELETED') {
         toast({
           title: "Erro",
           description: "Usuário não encontrado",
-          variant: "destructive",
+          variant: "destructive"
         });
       } else {
         setError(authError.message || "Ocorreu um erro ao fazer login");
@@ -78,31 +75,11 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
       setIsLoading(false);
     }
   };
-
-  return (
-    <motion.form 
-      onSubmit={handleSubmit} 
-      className="space-y-6 w-full max-w-[480px] mt-[68px] mx-auto px-6"
-      variants={containerVariants}
-    >
+  return <motion.form onSubmit={handleSubmit} variants={containerVariants} className="space-y-6 w-full max-w-[480px] mt-[68px] mx-auto px-60 ">
       <motion.div className="space-y-4" variants={itemVariants}>
         <div className="relative">
-          <Input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            onFocus={() => setEmailFocused(true)}
-            onBlur={() => setEmailFocused(false)}
-            className="pr-10 bg-transparent border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400"
-            required
-          />
-          <Label 
-            htmlFor="email" 
-            className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium bg-white px-1 ${
-              emailFocused || email ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
-            }`}
-          >
+          <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} onFocus={() => setEmailFocused(true)} onBlur={() => setEmailFocused(false)} className="pr-10 bg-transparent border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400" required />
+          <Label htmlFor="email" className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium bg-white px-1 ${emailFocused || email ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'}`}>
             Usuário
           </Label>
           <User className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -111,65 +88,30 @@ export function LoginForm({ containerVariants, itemVariants }: LoginFormProps) {
 
       <motion.div className="space-y-4" variants={itemVariants}>
         <div className="relative">
-          <Input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            onFocus={() => setPasswordFocused(true)}
-            onBlur={() => setPasswordFocused(false)}
-            className="pr-10 bg-transparent border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400"
-            required
-          />
-          <Label 
-            htmlFor="password" 
-            className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium bg-white px-1 ${
-              passwordFocused || password ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
-            }`}
-          >
+          <Input id="password" type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} onFocus={() => setPasswordFocused(true)} onBlur={() => setPasswordFocused(false)} className="pr-10 bg-transparent border-2 border-purple-300 rounded-md h-12 text-black focus:border-purple-400" required />
+          <Label htmlFor="password" className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-purple-400 font-medium bg-white px-1 ${passwordFocused || password ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'}`}>
             Senha
           </Label>
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
-          >
-            {showPassword ? (
-              <EyeOff className="h-5 w-5" />
-            ) : (
-              <Lock className="h-5 w-5" />
-            )}
+          <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+            {showPassword ? <EyeOff className="h-5 w-5" /> : <Lock className="h-5 w-5" />}
           </button>
         </div>
       </motion.div>
 
       <motion.div className="text-center" variants={itemVariants}>
-        <Link
-          to="/client/reset-password"
-          className="text-sm text-black hover:text-gray-700 hover:underline"
-        >
+        <Link to="/client/reset-password" className="text-sm text-black hover:text-gray-700 hover:underline">
           Esqueceu sua senha?
         </Link>
       </motion.div>
 
-      {error && (
-        <motion.div 
-          className="text-red-500 text-sm text-center"
-          variants={itemVariants}
-        >
+      {error && <motion.div className="text-red-500 text-sm text-center" variants={itemVariants}>
           {error}
-        </motion.div>
-      )}
+        </motion.div>}
 
       <motion.div variants={itemVariants} className="flex justify-center">
-        <Button
-          type="submit"
-          className="w-[280px] sm:w-[320px] md:w-[360px] h-12 bg-white text-gray-700 border border-gray-300 rounded-xl hover:bg-gray-50 font-medium transition-colors disabled:opacity-50 shadow-sm"
-          disabled={isLoading}
-        >
+        <Button type="submit" className="w-[280px] sm:w-[320px] md:w-[360px] h-12 bg-white text-gray-700 border border-gray-300 rounded-xl hover:bg-gray-50 font-medium transition-colors disabled:opacity-50 shadow-sm" disabled={isLoading}>
           {isLoading ? "Entrando..." : "Entrar"}
         </Button>
       </motion.div>
-    </motion.form>
-  );
+    </motion.form>;
 }
