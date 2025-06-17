@@ -1,4 +1,5 @@
 
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FacialBiometryFlow } from "@/components/client/register/facial-biometry/FacialBiometryFlow";
@@ -74,8 +75,8 @@ export default function FacialBiometry() {
 
   return (
     <div className="min-h-screen w-full bg-white">
-      {/* Header com Logo - sem sombra e sem bordas */}
-      <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50">
+      {/* Header com Logo - completamente branco sem sombra */}
+      <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50" style={{ boxShadow: 'none', border: 'none' }}>
         <div className="flex justify-center">
           <img src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" alt="Smartvoz Logo" className="h-[85px] object-contain mix-blend-multiply opacity-90 contrast-125" />
         </div>
@@ -92,3 +93,4 @@ export default function FacialBiometry() {
     </div>
   );
 };
+
