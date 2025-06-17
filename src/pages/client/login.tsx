@@ -1,30 +1,45 @@
+
 import { LoginForm } from "@/components/client/login/LoginForm";
 import { RegisterLink } from "@/components/client/login/RegisterLink";
 import { containerVariants, itemVariants } from "@/utils/animations";
 import { motion } from "framer-motion";
 import "@/styles/logo.css";
+
 export default function LoginPage() {
-  return <div className="min-h-screen w-full flex flex-col">
+  return (
+    <div className="min-h-screen w-full flex flex-col">
       {/* Header com Logo */}
       <div className="fixed top-0 left-0 right-0 bg-white px-4 py-4 z-50 shadow-sm">
         <div className="flex justify-center">
-          <img src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" alt="Smartvoz Logo" className="h-[60px] object-contain mix-blend-multiply opacity-90 contrast-125" />
+          <img 
+            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
+            alt="Smartvoz Logo" 
+            className="h-[60px] object-contain mix-blend-multiply opacity-90 contrast-125" 
+          />
         </div>
       </div>
 
       {/* Conteúdo Principal */}
       <div className="flex-1 flex">
         {/* Left side - Image (hidden on mobile) */}
-        <div className="hidden md:block w-[58%] bg-cover bg-center" style={{
-        backgroundImage: `url('/lovable-uploads/2fa7f55a-90a6-4fab-beed-fbbe71ad2852.png')`,
-        backgroundPosition: 'calc(center + 10px) center'
-      }} />
+        <div 
+          className="hidden md:block w-[58%] bg-cover bg-center" 
+          style={{
+            backgroundImage: `url('/lovable-uploads/2fa7f55a-90a6-4fab-beed-fbbe71ad2852.png')`,
+            backgroundPosition: 'calc(center + 10px) center'
+          }} 
+        />
         
         {/* Right side - Login Form */}
         <div className="w-full md:w-[42%] flex items-center justify-center bg-white">
-          <motion.div initial="hidden" animate="visible" variants={containerVariants} className="w-full max-w-[480px] px-6 md:px-12 mx-auto">
-            {/* Texto descritivo */}
-            <div className="text-center mb-8">
+          <motion.div 
+            initial="hidden" 
+            animate="visible" 
+            variants={containerVariants} 
+            className="w-full max-w-[480px] px-6 md:px-12 mx-auto"
+          >
+            {/* Texto descritivo - movido mais para baixo */}
+            <div className="text-center mb-8 mt-8">
               <p className="text-gray-700 text-sm px-2 leading-relaxed">
                 Otimize o uso de Voz e Dados da sua empresa e potencialize seus negócios.
               </p>
@@ -39,5 +54,6 @@ export default function LoginPage() {
           </motion.div>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 }
