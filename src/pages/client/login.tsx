@@ -6,7 +6,7 @@ import "@/styles/logo.css";
 export default function LoginPage() {
   return <div className="min-h-screen w-full flex flex-col">
       {/* Header com Logo */}
-      <div className="fixed top-0 left-0 right-0 bg-white px-4 py-3 z-52 shadow-sm">
+      <div className="fixed top-0 left-0 right-0 bg-white px-4 py-3 z-50 shadow-sm">
         <div className="flex justify-center">
           <img src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" alt="Smartvoz Logo" className="h-[60px] object-contain mix-blend-multiply opacity-90 contrast-125" />
         </div>
