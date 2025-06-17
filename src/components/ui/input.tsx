@@ -13,9 +13,9 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
         )}
         style={{
           backgroundColor: 'white !important',
-          WebkitBoxShadow: 'inset 0 0 0 1000px white !important',
+          WebkitBoxShadow: 'none !important',
           WebkitTextFillColor: 'black !important',
-          boxShadow: 'inset 0 0 0 1000px white !important'
+          boxShadow: 'none !important'
         }}
         autoComplete="off"
         ref={ref}
