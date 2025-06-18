@@ -56,21 +56,26 @@ export const useNetworkData = (userId: string): UseNetworkDataResult => {
         });
       } else {
         // Transformar os dados para o formato esperado
-        const transformedData: NetworkMember[] = (data || []).map(item => ({
-          id: item.id,
-          user_id: item.user_id,
-          parent_id: item.parent_id,
-          level: item.level || 1,
-          children: [],
-          user: {
-            id: item.user?.id || '',
-            email: item.user?.email || '',
-            full_name: item.user?.full_name || null,
-            custom_id: item.user?.custom_id || null,
-            graduation_type: item.user?.graduation_type || null,
-            status: 'active' as const
-          }
-        }));
+        const transformedData: NetworkMember[] = (data || []).map(item => {
+          // Acessar o primeiro elemento do array user, ou usar valores padrão
+          const userProfile = Array.isArray(item.user) ? item.user[0] : item.user;
+          
+          return {
+            id: item.id,
+            user_id: item.user_id,
+            parent_id: item.parent_id,
+            level: item.level || 1,
+            children: [],
+            user: {
+              id: userProfile?.id || '',
+              email: userProfile?.email || '',
+              full_name: userProfile?.full_name || null,
+              custom_id: userProfile?.custom_id || null,
+              graduation_type: userProfile?.graduation_type || null,
+              status: 'active' as const
+            }
+          };
+        });
 
         setNetworkData(transformedData);
       }
