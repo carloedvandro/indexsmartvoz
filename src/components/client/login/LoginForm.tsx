@@ -116,7 +116,7 @@ export function LoginForm({
           type="submit" 
           disabled={isLoading} 
           className="w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300"
-          style={{ paddingTop: '12.5px', paddingBottom: '12.5px' }}
+          style={{ paddingTop: '14px', paddingBottom: '14px' }}
         >
           {isLoading ? "Entrando..." : "ENTRAR"}
         </Button>
