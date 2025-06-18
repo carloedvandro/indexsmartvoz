@@ -74,9 +74,14 @@ function App() {
             {/* Root */}
             <Route path="/" element={<Index />} />
 
-            {/* Client Routes */}
-            <Route path="/client/login" element={<DynamicLayout><ClientLogin /></DynamicLayout>} />
-            <Route path="/client/register" element={<DynamicLayout><ClientRegister /></DynamicLayout>} />
+            {/* Client Authentication Routes - NO LAYOUT */}
+            <Route path="/client/login" element={<ClientLogin />} />
+            <Route path="/client/register" element={<ClientRegister />} />
+            <Route path="/client/reset-password" element={<ClientResetPassword />} />
+            <Route path="/client/update-password" element={<ClientUpdatePassword />} />
+            <Route path="/client/facial-biometry" element={<ClientFacialBiometry />} />
+
+            {/* Client Protected Routes - WITH LAYOUT */}
             <Route path="/client/dashboard" element={<DynamicLayout><ClientDashboard /></DynamicLayout>} />
             <Route path="/client/products" element={<DynamicLayout><ClientProducts /></DynamicLayout>} />
             <Route path="/client/profile" element={<DynamicLayout><ClientProfile /></DynamicLayout>} />
@@ -84,8 +89,6 @@ function App() {
             <Route path="/client/network" element={<DynamicLayout><ClientNetwork /></DynamicLayout>} />
             <Route path="/client/store" element={<DynamicLayout><ClientStore /></DynamicLayout>} />
             <Route path="/client/notifications" element={<DynamicLayout><ClientNotifications /></DynamicLayout>} />
-            <Route path="/client/reset-password" element={<DynamicLayout><ClientResetPassword /></DynamicLayout>} />
-            <Route path="/client/update-password" element={<DynamicLayout><ClientUpdatePassword /></DynamicLayout>} />
             <Route path="/client/navigation" element={<DynamicLayout><ClientNavigation /></DynamicLayout>} />
             <Route path="/client/financial-details" element={<DynamicLayout><ClientFinancialDetails /></DynamicLayout>} />
             <Route path="/client/earnings-forecast" element={<DynamicLayout><ClientEarningsForecast /></DynamicLayout>} />
@@ -96,7 +99,6 @@ function App() {
             <Route path="/client/upgrade" element={<DynamicLayout><ClientUpgrade /></DynamicLayout>} />
             <Route path="/client/checkout" element={<DynamicLayout><ClientCheckout /></DynamicLayout>} />
             <Route path="/client/esim" element={<DynamicLayout><ClientESIM /></DynamicLayout>} />
-            <Route path="/client/facial-biometry" element={<DynamicLayout><ClientFacialBiometry /></DynamicLayout>} />
             <Route path="/client/plan-selection" element={<DynamicLayout><ClientPlanSelection /></DynamicLayout>} />
             <Route path="/client/chip-activation" element={<DynamicLayout><ClientChipActivation /></DynamicLayout>} />
             <Route path="/client/payment-return" element={<DynamicLayout><ClientPaymentReturn /></DynamicLayout>} />
@@ -109,8 +111,10 @@ function App() {
             <Route path="/client/profile/terms" element={<DynamicLayout><ClientProfileTerms /></DynamicLayout>} />
             <Route path="/client/profile/two-factor" element={<DynamicLayout><ClientProfileTwoFactor /></DynamicLayout>} />
 
-            {/* Admin Routes */}
-            <Route path="/admin/login" element={<DynamicLayout><AdminLogin /></DynamicLayout>} />
+            {/* Admin Authentication Route - NO LAYOUT */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+
+            {/* Admin Protected Routes - WITH LAYOUT */}
             <Route path="/admin/dashboard" element={<DynamicLayout><AdminDashboard /></DynamicLayout>} />
             <Route path="/admin/users" element={<DynamicLayout><AdminUsers /></DynamicLayout>} />
             <Route path="/admin/clients" element={<DynamicLayout><AdminClients /></DynamicLayout>} />
