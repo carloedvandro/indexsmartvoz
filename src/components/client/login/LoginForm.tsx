@@ -3,11 +3,11 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthError } from "@supabase/supabase-js";
 import { User, Lock, Eye, EyeOff } from "lucide-react";
-import { PowerButton } from "@/components/ui";
 import { motion } from "framer-motion";
 
 interface LoginFormProps {
@@ -81,16 +81,6 @@ export function LoginForm({
     }
   };
 
-  const handlePowerButtonClick = (isOn: boolean) => {
-    if (isOn && !isLoading) {
-      // Simular o submit do formulário quando o botão é ativado
-      const form = document.querySelector('form');
-      if (form) {
-        form.requestSubmit();
-      }
-    }
-  };
-
   return (
     <motion.form onSubmit={handleSubmit} variants={containerVariants} className="space-y-5 w-full mt-[40px] mx-auto px-0">
       <motion.div className="space-y-4" variants={itemVariants}>
@@ -159,16 +149,14 @@ export function LoginForm({
         </motion.div>
       )}
 
-      <motion.div variants={itemVariants} className="flex justify-center">
-        <div className="flex flex-col items-center space-y-2">
-          <PowerButton 
-            onToggle={handlePowerButtonClick}
-            className="w-20 h-20"
-          />
-          <span className="text-sm text-gray-600 font-medium">
-            {isLoading ? "Entrando..." : "Clique para Entrar"}
-          </span>
-        </div>
+      <motion.div variants={itemVariants}>
+        <Button
+          type="submit"
+          disabled={isLoading}
+          className="w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300"
+        >
+          {isLoading ? "Entrando..." : "ENTRAR"}
+        </Button>
       </motion.div>
     </motion.form>
   );
