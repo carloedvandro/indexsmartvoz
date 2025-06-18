@@ -690,12 +690,14 @@ export type Database = {
       }
       orders: {
         Row: {
+          asaas_payment_id: string | null
           confirmed_at: string | null
           confirmed_by: string | null
           created_at: string
           id: string
           notes: string | null
           order_date: string
+          payment_method: string | null
           plan_id: string
           status: string
           total_amount: number | null
@@ -703,12 +705,14 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          asaas_payment_id?: string | null
           confirmed_at?: string | null
           confirmed_by?: string | null
           created_at?: string
           id?: string
           notes?: string | null
           order_date?: string
+          payment_method?: string | null
           plan_id: string
           status?: string
           total_amount?: number | null
@@ -716,12 +720,14 @@ export type Database = {
           user_id: string
         }
         Update: {
+          asaas_payment_id?: string | null
           confirmed_at?: string | null
           confirmed_by?: string | null
           created_at?: string
           id?: string
           notes?: string | null
           order_date?: string
+          payment_method?: string | null
           plan_id?: string
           status?: string
           total_amount?: number | null

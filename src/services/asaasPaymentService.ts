@@ -178,17 +178,28 @@ export const useAsaasPayment = () => {
         return false;
       }
 
+      // Buscar plan_id baseado no plano selecionado
+      const { data: planData } = await supabase
+        .from('plans')
+        .select('id')
+        .ilike('title', `%${plan.internet}%`)
+        .limit(1)
+        .single();
+
       // Criar registro de order local antes do redirecionamento
+      const orderData = {
+        user_id: user.id,
+        plan_id: planData?.id || '00000000-0000-0000-0000-000000000000', // UUID padrão se não encontrar
+        asaas_payment_id: data.paymentId,
+        total_amount: value,
+        status: 'pending' as const,
+        payment_method: 'pix',
+        notes: `Pagamento via Asaas - Payment ID: ${data.paymentId} - Vencimento dia ${selectedDueDate}`
+      };
+
       const { data: order, error: orderError } = await supabase
         .from('orders')
-        .insert({
-          user_id: user.id,
-          asaas_payment_id: data.paymentId,
-          total_amount: value,
-          status: 'pending',
-          payment_method: 'pix',
-          notes: `Pagamento via Asaas - Payment ID: ${data.paymentId} - Vencimento dia ${selectedDueDate}`
-        })
+        .insert(orderData)
         .select()
         .single();
 
