@@ -10,10 +10,12 @@ const corsHeaders = {
 /**
  * Purpose: Processa webhooks do Asaas para atualizar status de pagamentos
  * Atualiza orders table quando pagamento é confirmado
+ * Configurado para não exigir JWT pois webhooks externos não podem fornecer tokens Supabase
  */
 
 serve(async (req: Request) => {
   console.log('🎣 [ASAAS-WEBHOOK] Webhook chamado:', req.method);
+  console.log('🎣 [ASAAS-WEBHOOK] Headers recebidos:', Object.fromEntries(req.headers.entries()));
 
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -31,6 +33,9 @@ serve(async (req: Request) => {
     const asaasToken = req.headers.get('asaas-access-token');
     const expectedToken = Deno.env.get('ASAAS_WEBHOOK_TOKEN');
     
+    console.log('🔐 [ASAAS-WEBHOOK] Token recebido:', asaasToken ? 'PRESENTE' : 'AUSENTE');
+    console.log('🔐 [ASAAS-WEBHOOK] Token esperado:', expectedToken ? 'CONFIGURADO' : 'NÃO CONFIGURADO');
+    
     if (expectedToken && asaasToken !== expectedToken) {
       console.error('❌ [ASAAS-WEBHOOK] Token de acesso inválido');
       return new Response("Token de acesso inválido", { 
@@ -45,15 +50,24 @@ serve(async (req: Request) => {
       paymentId: event.payment?.id,
       status: event.payment?.status,
       value: event.payment?.value,
-      headers: Object.fromEntries(req.headers.entries())
+      customer: event.payment?.customer
     });
 
     // Inicializar cliente Supabase com service role para bypass RLS
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
-      { auth: { persistSession: false } }
-    );
+    const supabaseUrl = Deno.env.get('SUPABASE_URL');
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+    
+    if (!supabaseUrl || !supabaseServiceKey) {
+      console.error('❌ [ASAAS-WEBHOOK] Configuração Supabase ausente');
+      return new Response("Configuração do servidor ausente", { 
+        status: 500,
+        headers: corsHeaders 
+      });
+    }
+
+    const supabaseClient = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: { persistSession: false }
+    });
 
     // Processar evento de pagamento confirmado
     if (event.event === "PAYMENT_CONFIRMED" && event.payment) {
