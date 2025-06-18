@@ -8,10 +8,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { AuthError } from "@supabase/supabase-js";
 import { User, Lock, Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
+
 interface LoginFormProps {
   containerVariants: any;
   itemVariants: any;
 }
+
 export function LoginForm({
   containerVariants,
   itemVariants
@@ -75,7 +77,8 @@ export function LoginForm({
       setIsLoading(false);
     }
   };
-  return <motion.form onSubmit={handleSubmit} variants={containerVariants} className="space-y-6 w-full mt-[40px] mx-auto px-0">
+  return (
+    <motion.form onSubmit={handleSubmit} variants={containerVariants} className="space-y-6 w-full mt-[40px] mx-auto px-0">
       <motion.div className="space-y-4" variants={itemVariants}>
         <div className="relative w-full">
           <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} onFocus={() => setEmailFocused(true)} onBlur={() => setEmailFocused(false)} required className="w-full pr-10 bg-white border-2 border-[#7a1fa2] rounded-md h-12 text-black focus:border-[#7a1fa2]" />
@@ -109,9 +112,15 @@ export function LoginForm({
         </motion.div>}
 
       <motion.div variants={itemVariants}>
-        <Button type="submit" disabled={isLoading} className="w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300">
+        <Button 
+          type="submit" 
+          disabled={isLoading} 
+          className="w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300"
+          style={{ paddingTop: '12.5px', paddingBottom: '12.5px' }}
+        >
           {isLoading ? "Entrando..." : "ENTRAR"}
         </Button>
       </motion.div>
-    </motion.form>;
+    </motion.form>
+  );
 }
