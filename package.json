@@ -70,7 +70,6 @@
     "react-webcam": "^7.2.0",
     "react-zxing": "^2.0.0",
     "recharts": "^2.12.7",
-    "sonner": "^1.5.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "tesseract.js": "^6.0.0",
