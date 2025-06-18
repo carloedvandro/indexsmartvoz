@@ -109,7 +109,7 @@ export function LoginForm({
         </motion.div>}
 
       <motion.div variants={itemVariants}>
-        <Button type="submit" disabled={isLoading} className="w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-semibold py-3 px-12 rounded-lg transition-all duration-300">
+        <Button type="submit" disabled={isLoading} className="w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300">
           {isLoading ? "Entrando..." : "ENTRAR"}
         </Button>
       </motion.div>
