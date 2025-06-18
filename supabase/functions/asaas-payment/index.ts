@@ -30,6 +30,7 @@ interface PaymentRequest {
   planDdd?: string;
   
   // Configuração
+  returnUrl?: string;
   webhookUrl?: string;
   
   // Metadados
@@ -83,7 +84,8 @@ serve(async (req) => {
       hasWhatsapp: !!requestData.whatsapp,
       planName: requestData.planName,
       planType: requestData.planType,
-      userId: requestData.userId
+      userId: requestData.userId,
+      returnUrl: requestData.returnUrl
     });
 
     // Verificar variáveis de ambiente
@@ -325,24 +327,31 @@ serve(async (req) => {
       );
     }
 
-    // Criar cobrança com descrição detalhada
+    // Criar cobrança com descrição detalhada e callback configurado
     console.log('💰 [ASAAS-PAYMENT] Criando cobrança no Asaas Sandbox...');
     
     const description = requestData.planName && requestData.planType 
       ? `Plano ${requestData.planName} - ${requestData.planType}${requestData.planDdd ? ` (DDD ${requestData.planDdd})` : ''}`
       : 'Plano Smartvoz';
     
-    const paymentData = {
+    const paymentData: any = {
       customer: customerId,
       billingType: 'PIX',
       value: requestData.value,
       dueDate: requestData.dueDate,
       description: description,
-      ...(requestData.webhookUrl && { 
-        externalReference: `smartvoz_${requestData.userId || 'unknown'}_${Date.now()}`,
-        postalService: false 
-      })
+      externalReference: `smartvoz_${requestData.userId || 'unknown'}_${Date.now()}`,
+      postalService: false
     };
+
+    // Configurar callback URLs se fornecidas
+    if (requestData.returnUrl) {
+      paymentData.callback = {
+        successUrl: requestData.returnUrl,
+        autoRedirect: true
+      };
+      console.log('🔗 [ASAAS-PAYMENT] Callback configurado:', paymentData.callback);
+    }
 
     console.log('💰 [ASAAS-PAYMENT] Dados da cobrança:', {
       customer: customerId,
@@ -351,7 +360,8 @@ serve(async (req) => {
       dueDate: paymentData.dueDate,
       description: paymentData.description,
       externalReference: paymentData.externalReference,
-      hasWebhook: !!requestData.webhookUrl
+      hasCallback: !!paymentData.callback,
+      callbackUrl: paymentData.callback?.successUrl
     });
 
     const paymentResponse = await fetch('https://sandbox.asaas.com/api/v3/payments', {
