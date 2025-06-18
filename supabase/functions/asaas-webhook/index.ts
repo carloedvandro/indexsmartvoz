@@ -76,16 +76,19 @@ serve(async (req: Request) => {
       auth: { persistSession: false }
     });
 
-    // Processar evento de pagamento confirmado
-    if (event.event === "PAYMENT_CONFIRMED" && event.payment) {
+    // Processar eventos de pagamento confirmado - PAYMENT_CONFIRMED ou PAYMENT_RECEIVED
+    if ((event.event === "PAYMENT_CONFIRMED" || event.event === "PAYMENT_RECEIVED") && event.payment) {
       const paymentId = event.payment.id;
       const paymentValue = event.payment.value;
       const customerEmail = event.payment.customer;
+      const paymentStatus = event.payment.status;
 
-      console.log('✅ [ASAAS-WEBHOOK] Processando pagamento confirmado:', {
+      console.log('✅ [ASAAS-WEBHOOK] Processando pagamento confirmado/recebido:', {
+        event: event.event,
         paymentId,
         paymentValue,
-        customerEmail
+        customerEmail,
+        paymentStatus
       });
 
       // Primeiro, tentar encontrar a order pelo asaas_payment_id
@@ -107,13 +110,13 @@ serve(async (req: Request) => {
       if (existingOrder) {
         console.log('📋 [ASAAS-WEBHOOK] Order encontrada:', existingOrder);
         
-        // Atualizar order existente
+        // Atualizar order existente para status 'paid'
         const { data: updatedOrder, error: updateError } = await supabaseClient
           .from('orders')
           .update({
             status: 'paid',
             updated_at: new Date().toISOString(),
-            notes: `${existingOrder.notes || ''} | Pagamento confirmado via webhook Asaas em ${new Date().toISOString()}`
+            notes: `${existingOrder.notes || ''} | Pagamento confirmado via webhook Asaas (${event.event}) em ${new Date().toISOString()}`
           })
           .eq('id', existingOrder.id)
           .select()
@@ -128,107 +131,64 @@ serve(async (req: Request) => {
         }
 
         console.log('✅ [ASAAS-WEBHOOK] Order atualizada com sucesso:', updatedOrder);
+        console.log('💰 [ASAAS-WEBHOOK] Status da order mudou de "pending" para "paid"');
       } else {
-        console.log('⚠️ [ASAAS-WEBHOOK] Order não encontrada pelo payment_id, buscando por email...');
+        console.log('⚠️ [ASAAS-WEBHOOK] Order não encontrada pelo payment_id, buscando por customer...');
         
-        // Buscar usuário pelo email do cliente
-        const { data: profiles, error: profileError } = await supabaseClient
-          .from('profiles')
-          .select('id, email')
-          .eq('email', customerEmail)
-          .limit(1);
-
-        if (profileError) {
-          console.error('❌ [ASAAS-WEBHOOK] Erro ao buscar perfil:', profileError);
-          return new Response("Erro ao buscar usuário", { 
-            status: 500,
-            headers: corsHeaders 
-          });
-        }
-
-        if (!profiles || profiles.length === 0) {
-          console.warn('⚠️ [ASAAS-WEBHOOK] Usuário não encontrado para email:', customerEmail);
-          return new Response("Usuário não encontrado", { 
-            status: 404,
-            headers: corsHeaders 
-          });
-        }
-
-        const userId = profiles[0].id;
-        console.log('👤 [ASAAS-WEBHOOK] Usuário encontrado:', userId);
-
-        // Criar nova order ou atualizar order mais recente do usuário
-        const { data: userOrders, error: userOrderError } = await supabaseClient
+        // Se não encontrou pelo payment_id, tentar buscar por customer (pode ser ID do Asaas)
+        // Buscar orders pendentes recentes que possam corresponder a este pagamento
+        const { data: pendingOrders, error: pendingOrderError } = await supabaseClient
           .from('orders')
           .select('*')
-          .eq('user_id', userId)
+          .eq('status', 'pending')
+          .eq('total_amount', paymentValue)
           .order('created_at', { ascending: false })
-          .limit(1);
+          .limit(5);
 
-        if (userOrderError) {
-          console.error('❌ [ASAAS-WEBHOOK] Erro ao buscar orders do usuário:', userOrderError);
-          return new Response("Erro ao buscar pedidos do usuário", { 
+        if (pendingOrderError) {
+          console.error('❌ [ASAAS-WEBHOOK] Erro ao buscar orders pendentes:', pendingOrderError);
+          return new Response("Erro ao buscar pedidos pendentes", { 
             status: 500,
             headers: corsHeaders 
           });
         }
 
-        if (userOrders && userOrders.length > 0) {
-          const recentOrder = userOrders[0];
-          console.log('📋 [ASAAS-WEBHOOK] Order mais recente do usuário:', recentOrder);
+        console.log('📋 [ASAAS-WEBHOOK] Orders pendentes encontradas:', pendingOrders?.length || 0);
 
-          // Atualizar order mais recente
+        if (pendingOrders && pendingOrders.length > 0) {
+          // Pegar a order mais recente que corresponde ao valor
+          const targetOrder = pendingOrders[0];
+          console.log('📋 [ASAAS-WEBHOOK] Atualizando order pendente mais recente:', targetOrder);
+
           const { data: updatedOrder, error: updateError } = await supabaseClient
             .from('orders')
             .update({
               asaas_payment_id: paymentId,
               status: 'paid',
-              total_amount: paymentValue,
               updated_at: new Date().toISOString(),
-              notes: `${recentOrder.notes || ''} | Pagamento confirmado via webhook Asaas - Payment ID: ${paymentId}`
+              notes: `${targetOrder.notes || ''} | Pagamento confirmado via webhook Asaas (${event.event}) - Payment ID: ${paymentId}`
             })
-            .eq('id', recentOrder.id)
+            .eq('id', targetOrder.id)
             .select()
             .single();
 
           if (updateError) {
-            console.error('❌ [ASAAS-WEBHOOK] Erro ao atualizar order:', updateError);
-            return new Response("Erro ao atualizar pedido", { 
+            console.error('❌ [ASAAS-WEBHOOK] Erro ao atualizar order pendente:', updateError);
+            return new Response("Erro ao atualizar pedido pendente", { 
               status: 500,
               headers: corsHeaders 
             });
           }
 
-          console.log('✅ [ASAAS-WEBHOOK] Order atualizada com sucesso:', updatedOrder);
+          console.log('✅ [ASAAS-WEBHOOK] Order pendente atualizada com sucesso:', updatedOrder);
+          console.log('💰 [ASAAS-WEBHOOK] Status da order mudou de "pending" para "paid"');
         } else {
-          console.log('⚠️ [ASAAS-WEBHOOK] Nenhuma order encontrada para o usuário, criando nova...');
-
-          // Criar nova order
-          const { data: newOrder, error: createError } = await supabaseClient
-            .from('orders')
-            .insert({
-              user_id: userId,
-              plan_id: '00000000-0000-0000-0000-000000000000', // UUID padrão
-              asaas_payment_id: paymentId,
-              total_amount: paymentValue,
-              status: 'paid',
-              payment_method: 'pix',
-              notes: `Pagamento confirmado via webhook Asaas - Payment ID: ${paymentId}`,
-              created_at: new Date().toISOString(),
-              updated_at: new Date().toISOString()
-            })
-            .select()
-            .single();
-
-          if (createError) {
-            console.error('❌ [ASAAS-WEBHOOK] Erro ao criar order:', createError);
-            return new Response("Erro ao criar pedido", { 
-              status: 500,
-              headers: corsHeaders 
-            });
-          }
-
-          console.log('✅ [ASAAS-WEBHOOK] Nova order criada:', newOrder);
+          console.warn('⚠️ [ASAAS-WEBHOOK] Nenhuma order correspondente encontrada para este pagamento');
+          console.log('📊 [ASAAS-WEBHOOK] Dados do pagamento não processado:', {
+            paymentId,
+            paymentValue,
+            customerEmail
+          });
         }
       }
     }
