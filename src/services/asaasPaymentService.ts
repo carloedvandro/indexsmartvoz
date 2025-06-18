@@ -80,7 +80,6 @@ export const useAsaasPayment = () => {
         email: profile?.email || user.email || "cliente@placeholder.com",
         cpfCnpj: profile?.cpf || profile?.cnpj || "",
         phone: profile?.mobile || profile?.phone || "",
-        // Dados adicionais do perfil
         address: profile?.address || "",
         city: profile?.city || "",
         state: profile?.state || "",
@@ -109,7 +108,13 @@ export const useAsaasPayment = () => {
         dueDate
       });
 
+      // URL de retorno após pagamento
+      const returnUrl = `${window.location.origin}/client/payment-return`;
+      const webhookUrl = `${window.location.origin}/functions/asaas-webhook`;
+
       console.log('📡 [ASAAS-SERVICE] Chamando Edge Function com dados completos...');
+      console.log('🔗 [ASAAS-SERVICE] Return URL:', returnUrl);
+      console.log('🔗 [ASAAS-SERVICE] Webhook URL:', webhookUrl);
 
       // Chama Edge Function via Supabase client com dados completos
       const { data, error } = await supabase.functions.invoke('asaas-payment', {
@@ -134,8 +139,9 @@ export const useAsaasPayment = () => {
           planName: plan.internet,
           planType: plan.type,
           planDdd: plan.ddd,
-          // Configuração
-          webhookUrl: `${window.location.origin}/functions/asaas-webhook`,
+          // URLs de configuração
+          returnUrl: returnUrl,
+          webhookUrl: webhookUrl,
           // Metadados para referência
           userId: user.id,
           selectedDueDate: selectedDueDate
@@ -172,7 +178,28 @@ export const useAsaasPayment = () => {
         return false;
       }
 
-      // Armazena referência local do pedido para pós-processamento/webhook
+      // Criar registro de order local antes do redirecionamento
+      const { data: order, error: orderError } = await supabase
+        .from('orders')
+        .insert({
+          user_id: user.id,
+          asaas_payment_id: data.paymentId,
+          total_amount: value,
+          status: 'pending',
+          payment_method: 'pix',
+          notes: `Pagamento via Asaas - Payment ID: ${data.paymentId} - Vencimento dia ${selectedDueDate}`
+        })
+        .select()
+        .single();
+
+      if (orderError) {
+        console.error('❌ [ASAAS-SERVICE] Erro ao criar order local:', orderError);
+        // Não bloqueia o fluxo, apenas loga o erro
+      } else {
+        console.log('✅ [ASAAS-SERVICE] Order criada localmente:', order);
+      }
+
+      // Armazena referência local do pedido para pós-processamento
       const sessionData = {
         customerId: data.customerId,
         paymentId: data.paymentId,
@@ -183,7 +210,8 @@ export const useAsaasPayment = () => {
         selectedLines,
         selectedDueDate,
         clientData,
-        userId: user.id
+        userId: user.id,
+        orderId: order?.id
       };
 
       localStorage.setItem('asaasPaymentSession', JSON.stringify(sessionData));
