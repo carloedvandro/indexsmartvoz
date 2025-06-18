@@ -189,21 +189,21 @@ serve(async (req) => {
       address: customerData.address ? 'PRESENTE' : 'AUSENTE'
     });
 
-    // Headers corretos para requisições do Asaas
+    // Headers corretos para requisições do Asaas Sandbox
     const asaasHeaders = {
       'access_token': ASAAS_API_KEY,
       'Content-Type': 'application/json',
       'User-Agent': 'Smartvoz/1.0'
     };
 
-    console.log('🔍 [ASAAS-PAYMENT] Headers preparados para Asaas');
+    console.log('🔍 [ASAAS-PAYMENT] Headers preparados para Asaas Sandbox');
 
     // Primeiro, tentar buscar cliente existente por email
     console.log('🔍 [ASAAS-PAYMENT] Verificando se cliente já existe...');
     let customerId: string;
 
     try {
-      const searchUrl = `https://www.asaas.com/api/v3/customers?email=${encodeURIComponent(customerData.email)}`;
+      const searchUrl = `https://sandbox.asaas.com/api/v3/customers?email=${encodeURIComponent(customerData.email)}`;
       console.log('🔍 [ASAAS-PAYMENT] URL de busca:', searchUrl);
       
       const searchResponse = await fetch(searchUrl, {
@@ -228,7 +228,7 @@ serve(async (req) => {
           
           // Atualizar dados do cliente existente com informações mais completas
           console.log('🔄 [ASAAS-PAYMENT] Atualizando dados do cliente existente...');
-          const updateResponse = await fetch(`https://www.asaas.com/api/v3/customers/${customerId}`, {
+          const updateResponse = await fetch(`https://sandbox.asaas.com/api/v3/customers/${customerId}`, {
             method: 'PUT',
             headers: asaasHeaders,
             body: JSON.stringify(customerData)
@@ -243,7 +243,7 @@ serve(async (req) => {
           // Cliente não existe, criar novo
           console.log('👤 [ASAAS-PAYMENT] Criando novo cliente no Asaas...');
           
-          const customerResponse = await fetch('https://www.asaas.com/api/v3/customers', {
+          const customerResponse = await fetch('https://sandbox.asaas.com/api/v3/customers', {
             method: 'POST',
             headers: asaasHeaders,
             body: JSON.stringify(customerData)
@@ -326,7 +326,7 @@ serve(async (req) => {
     }
 
     // Criar cobrança com descrição detalhada
-    console.log('💰 [ASAAS-PAYMENT] Criando cobrança no Asaas...');
+    console.log('💰 [ASAAS-PAYMENT] Criando cobrança no Asaas Sandbox...');
     
     const description = requestData.planName && requestData.planType 
       ? `Plano ${requestData.planName} - ${requestData.planType}${requestData.planDdd ? ` (DDD ${requestData.planDdd})` : ''}`
@@ -354,7 +354,7 @@ serve(async (req) => {
       hasWebhook: !!requestData.webhookUrl
     });
 
-    const paymentResponse = await fetch('https://www.asaas.com/api/v3/payments', {
+    const paymentResponse = await fetch('https://sandbox.asaas.com/api/v3/payments', {
       method: 'POST',
       headers: asaasHeaders,
       body: JSON.stringify(paymentData)
