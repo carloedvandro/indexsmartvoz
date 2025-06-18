@@ -77,7 +77,7 @@ export default function ResetPassword() {
             <motion.div variants={itemVariants}>
               <RainbowButton
                 type="submit"
-                className="w-full !bg-[#580180] hover:!bg-[#4a0668] py-4"
+                className="w-full !bg-[#580180] hover:!bg-[#4a0668] h-12"
                 disabled={loading}
               >
                 {loading ? "Enviando..." : "Continuar"}
