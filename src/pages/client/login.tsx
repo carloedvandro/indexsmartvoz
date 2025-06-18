@@ -1,6 +1,7 @@
 
 import { LoginForm } from "@/components/client/login/LoginForm";
 import { RegisterLink } from "@/components/client/login/RegisterLink";
+import { PowerButton } from "@/components/ui";
 import { containerVariants, itemVariants } from "@/utils/animations";
 import { motion } from "framer-motion";
 import "@/styles/logo.css";
@@ -10,12 +11,18 @@ export default function LoginPage() {
     <div className="min-h-screen w-full flex flex-col bg-white">
       {/* Header com Logo - Agora transparente */}
       <div className="fixed top-0 left-0 right-0 bg-transparent px-4 py-2 z-50">
-        <div className="flex justify-center">
-          <img 
-            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
-            alt="Smartvoz Logo" 
-            className="h-[85px] object-contain mix-blend-multiply opacity-90 contrast-125" 
-          />
+        <div className="flex justify-between items-center">
+          <div className="flex justify-center flex-1">
+            <img 
+              src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
+              alt="Smartvoz Logo" 
+              className="h-[85px] object-contain mix-blend-multiply opacity-90 contrast-125" 
+            />
+          </div>
+          {/* PowerButton no canto superior direito */}
+          <div className="absolute right-4 top-4">
+            <PowerButton onToggle={(isOn) => console.log('Power button toggled:', isOn)} />
+          </div>
         </div>
       </div>
 
