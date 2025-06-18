@@ -5,11 +5,13 @@ import { useNetworkStats } from "@/hooks/useNetworkStats";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { WelcomeSection } from "@/components/client/dashboard/WelcomeSection";
-import { DashboardCards } from "@/components/client/dashboard/DashboardCards";
+import { DashboardCard } from "@/components/client/dashboard/DashboardCards";
 import { getMonthsData, getDailyData } from "@/utils/monthsData";
 import { FinancialCards } from "@/components/client/dashboard/financial-cards";
 import { StatsCardsGrid } from "@/components/client/dashboard/stats/StatsCardsGrid";
 import { InteractiveBrazilMap } from "@/components/client/dashboard/InteractiveBrazilMap";
+import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
+import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import "@/styles/logo.css";
 
 export default function ClientDashboard() {
@@ -41,11 +43,17 @@ export default function ClientDashboard() {
 
       <StatsCardsGrid />
 
-      <DashboardCards
-        profile={profile}
-        networkStats={networkStats}
-        handleNetworkClick={handleNetworkClick}
-      />
+      <div className="container mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <NetworkCard
+              networkStats={networkStats || { level1Count: 0, level2Count: 0, level3Count: 0, level4Count: 0 }}
+              onClick={handleNetworkClick}
+            />
+          </div>
+          <PlansCard />
+        </div>
+      </div>
 
       <div className="container mb-8">
         <InteractiveBrazilMap />

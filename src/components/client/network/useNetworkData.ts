@@ -1,47 +1,50 @@
+
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-
-interface NetworkData {
-  total_users: number | null;
-  active_users: number | null;
-  inactive_users: number | null;
-  total_revenue: number | null;
-  new_users_today: number | null;
-  active_users_today: number | null;
-}
+import { NetworkMember } from './types';
 
 interface UseNetworkDataResult {
-  networkData: NetworkData;
+  networkData: NetworkMember[];
   loading: boolean;
   error: string | null;
   refreshData: () => void;
 }
 
-export const useNetworkData = (): UseNetworkDataResult => {
-  const [networkData, setNetworkData] = useState<NetworkData>({
-    total_users: null,
-    active_users: null,
-    inactive_users: null,
-    total_revenue: null,
-    new_users_today: null,
-    active_users_today: null,
-  });
+export const useNetworkData = (userId: string): UseNetworkDataResult => {
+  const [networkData, setNetworkData] = useState<NetworkMember[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
   const fetchData = async () => {
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
     try {
+      // Buscar dados da rede do usuário
       const { data, error } = await supabase
-        .from('network_data')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single();
+        .from('network')
+        .select(`
+          id,
+          user_id,
+          parent_id,
+          level,
+          user:profiles!network_user_id_fkey (
+            id,
+            email,
+            full_name,
+            custom_id,
+            graduation_type
+          )
+        `)
+        .eq('parent_id', userId)
+        .order('created_at', { ascending: true });
 
       if (error) {
         console.error("Erro ao buscar dados da rede:", error);
@@ -52,14 +55,24 @@ export const useNetworkData = (): UseNetworkDataResult => {
           variant: "destructive",
         });
       } else {
-        setNetworkData(data || {
-          total_users: null,
-          active_users: null,
-          inactive_users: null,
-          total_revenue: null,
-          new_users_today: null,
-          active_users_today: null,
-        });
+        // Transformar os dados para o formato esperado
+        const transformedData: NetworkMember[] = (data || []).map(item => ({
+          id: item.id,
+          user_id: item.user_id,
+          parent_id: item.parent_id,
+          level: item.level || 1,
+          children: [],
+          user: {
+            id: item.user?.id || '',
+            email: item.user?.email || '',
+            full_name: item.user?.full_name || null,
+            custom_id: item.user?.custom_id || null,
+            graduation_type: item.user?.graduation_type || null,
+            status: 'active' as const
+          }
+        }));
+
+        setNetworkData(transformedData);
       }
     } catch (err: any) {
       console.error("Erro inesperado ao buscar dados da rede:", err);
@@ -76,7 +89,7 @@ export const useNetworkData = (): UseNetworkDataResult => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [userId]);
 
   const refreshData = () => {
     fetchData();
