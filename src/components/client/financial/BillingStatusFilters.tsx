@@ -4,7 +4,7 @@ interface BillingStatusFiltersProps {
 export function BillingStatusFilters() {
   return <div className="flex items-center justify-between mb-6 flex-col md:flex-row lg:flex-row">
       <h2 className="text-xl font-semibold text-gray-800">Situação das cobranças</h2>
-      <div className="flex gap-2 w-full md:w-[14vw]">
+      <div className="flex gap-2 w-full md:w-[20vw]">
         <button className="gap-2 px-4 py-2 border border-gray-300 w-full rounded-lg hover:bg-gray-50" style={{
         alignItems: "center",
         display: "flex",
