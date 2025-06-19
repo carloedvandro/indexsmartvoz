@@ -34,7 +34,7 @@ export default function ClientDashboard() {
     opacity: 0
   }} animate={{
     opacity: 1
-  }} className="max-w-[1900px] mx-auto pt-28 -mt-[74px]">
+  }} className="max-w-[1800px] mx-auto pt-28 -mt-[72px]">
       <WelcomeSection profile={profile} />
 
       <FinancialCards />
