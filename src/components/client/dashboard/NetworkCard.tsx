@@ -1,7 +1,5 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
-
 interface NetworkCardProps {
   networkStats: {
     level1Count: number;
@@ -11,20 +9,17 @@ interface NetworkCardProps {
   };
   onClick: () => void;
 }
-
-export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
+export const NetworkCard = ({
+  networkStats,
+  onClick
+}: NetworkCardProps) => {
   const totalMembers = (networkStats?.level1Count || 0) + (networkStats?.level2Count || 0) + (networkStats?.level3Count || 0) + (networkStats?.level4Count || 0);
-  
-  return (
-    <div className="h-full cursor-pointer hover:opacity-95 transition-opacity mt-[2px]" onClick={onClick}>
+  return <div className="h-full cursor-pointer hover:opacity-95 transition-opacity " onClick={onClick}>
       <div className="pb-2 space-y-0 py-4 bg-transparent pt-10">
         <div className="text-center flex items-center justify-center gap-2">
-          <img 
-            src="/lovable-uploads/45e4529e-207c-4c72-bcc0-c0466235e892.png" 
-            alt="Rede" 
-            className="h-6 w-6 object-contain" 
-            style={{ filter: "drop-shadow(0px 1px 1px rgba(0,0,0,0.1))" }} 
-          />
+          <img src="/lovable-uploads/45e4529e-207c-4c72-bcc0-c0466235e892.png" alt="Rede" className="h-6 w-6 object-contain" style={{
+          filter: "drop-shadow(0px 1px 1px rgba(0,0,0,0.1))"
+        }} />
           <span className="text-lg font-medium">Minha Rede</span>
         </div>
         <p className="text-center text-muted-foreground text-base mt-1">
@@ -55,6 +50,5 @@ export const NetworkCard = ({ networkStats, onClick }: NetworkCardProps) => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
