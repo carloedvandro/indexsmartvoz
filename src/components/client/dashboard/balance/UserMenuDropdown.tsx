@@ -23,7 +23,7 @@ export function UserMenuDropdown({
     navigate('/client/navigation');
   };
   return <div className="relative">
-      <button onClick={handleUserMenuClick} title="Menu completo" className="flex items-center gap-2 p-2 hover:bg-gray-110 rounded-lg transition-colors cursor-pointer">
+      <button onClick={handleUserMenuClick} title="Menu completo" className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer">
         <UserAvatar profileImage={profile?.profile_image} fullName={profile?.full_name} isActive={profile?.status === 'active'} size="sm" />
         <ChevronDown className="h-4 w-4 text-gray-500" />
       </button>
