@@ -80,7 +80,7 @@ export function NotificationDropdown({
   }}>
       <button onClick={handleToggleNotifications} title="Notificações" className="p-3 hover:bg-gray-100 rounded-lg transition-colors relative cursor-pointer">
         <Bell className="h-5 w-5 text-gray-500" />
-        {unreadCount > 0 && <div className="absolute -top-3 -right-3 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+        {unreadCount > 0 && <div className="absolute -top-2 -right-3 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
             <span className="text-white text-xs font-bold">{unreadCount}</span>
           </div>}
       </button>
