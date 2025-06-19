@@ -7,7 +7,7 @@ export function BalanceDisplay({
   isVisible,
   onToggleVisibility
 }: BalanceDisplayProps) {
-  return <div className="flex items-center gap-4 flex-1 md:flex-initial ml-10">
+  return <div className="flex items-center gap-4 flex-1 md:flex-initial ml-6">
       <div className="flex flex-col">
         <span className="text-sm text-black">Saldo em conta</span>
         <span className="text-xl font-semibold text-green-600">
