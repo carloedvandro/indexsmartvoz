@@ -1,7 +1,6 @@
 
 import { ChipInstructions } from "./ChipInstructions";
 import { BarcodeInstructions } from "./BarcodeInstructions";
-import { BarcodeScannerComponent } from "./BarcodeScanner";
 import { NavigationButtons } from "./NavigationButtons";
 import { Line } from "../ChipActivationFlow";
 
@@ -53,10 +52,38 @@ export function ChipActivationStepContent({
   if (currentStep === 6) {
     return (
       <div className="flex flex-col space-y-6">
-        <BarcodeScannerComponent
-          selectedLines={selectedLines}
-          onStartScanning={onStartScanning}
-        />
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold">Escaneie os códigos de barras</h2>
+          <p className="text-gray-600">
+            Clique no botão abaixo para cada linha que deseja ativar e escaneie o código de barras do chip.
+          </p>
+          
+          <div className="space-y-3">
+            {selectedLines.map((line, index) => (
+              <div key={line.id} className="flex items-center justify-between p-4 border rounded-lg">
+                <div className="flex-1">
+                  <p className="font-medium">{line.internet} - {line.type}</p>
+                  <p className="text-sm text-gray-600">DDD: {line.ddd || "Não informado"}</p>
+                  {line.barcode && (
+                    <p className="text-sm text-green-600">✓ Código: {line.barcode}</p>
+                  )}
+                </div>
+                <button
+                  onClick={() => onStartScanning(index)}
+                  className={`px-4 py-2 rounded text-sm font-medium ${
+                    line.barcode 
+                      ? 'bg-green-100 text-green-700 cursor-default' 
+                      : 'bg-[#8425af] text-white hover:bg-[#6c1e8f]'
+                  }`}
+                  disabled={!!line.barcode}
+                >
+                  {line.barcode ? 'Escaneado' : 'Escanear'}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+        
         <NavigationButtons 
           onBack={onBack} 
           onContinue={onContinue} 
