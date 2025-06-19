@@ -22,7 +22,7 @@ export function BillingStatusFilters() {
         alignItems: "center",
         display: "flex",
         justifyContent: "center"
-      }} className="gap-2 px-15 py-2 border border-gray-300 w-full rounded-lg hover:bg-gray-50">
+      }} className="gap-2 px-8 py-2 border border-gray-300 w-full rounded-lg hover:bg-gray-50">
           <span className="text-blue-600">Filtros</span>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600">
             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
