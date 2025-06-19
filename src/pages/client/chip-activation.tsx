@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChipActivationFlow } from "@/components/client/products/ChipActivationFlow";
@@ -72,6 +73,8 @@ export default function ChipActivation() {
         return;
       }
 
+      console.log('👤 [CHIP-ACTIVATION] Usuário autenticado:', user.id);
+
       // Get the latest paid order for this user
       const { data: orders, error: orderError } = await supabase
         .from('orders')
@@ -131,19 +134,29 @@ export default function ChipActivation() {
       }
 
       console.log('💾 [CHIP-ACTIVATION] Salvando códigos escaneados:', barcodes);
+      console.log('💾 [CHIP-ACTIVATION] Protocol usado:', protocol);
       
       // Prepare notes with scanned barcodes
       const notesText = `${selectedLines[0]?.planName || 'Plano eSIM'} - Códigos escaneados: ${barcodes.join(', ')} - Ativação solicitada em ${new Date().toISOString()}`;
       
-      // Try to update existing order first
+      // First, try to find the existing order
       const { data: existingOrder, error: findError } = await supabase
         .from('orders')
         .select('*')
         .eq('id', protocol)
-        .single();
+        .maybeSingle(); // Use maybeSingle instead of single to avoid errors when no rows found
 
-      if (existingOrder && !findError) {
+      console.log('🔍 [CHIP-ACTIVATION] Busca por order existente:', { existingOrder, findError });
+
+      if (findError) {
+        console.error('❌ [CHIP-ACTIVATION] Erro ao buscar order:', findError);
+        throw findError;
+      }
+
+      if (existingOrder) {
         // Update existing order
+        console.log('📝 [CHIP-ACTIVATION] Atualizando order existente:', existingOrder.id);
+        
         const { data: updatedOrder, error: updateError } = await supabase
           .from('orders')
           .update({
@@ -163,6 +176,8 @@ export default function ChipActivation() {
         return updatedOrder;
       } else {
         // Create new order entry
+        console.log('➕ [CHIP-ACTIVATION] Criando nova order');
+        
         const newOrderData = {
           user_id: session.session.user.id,
           plan_id: selectedLines[0]?.planId || null,
@@ -171,6 +186,8 @@ export default function ChipActivation() {
           notes: notesText,
           payment_method: 'chip_activation'
         };
+
+        console.log('📋 [CHIP-ACTIVATION] Dados da nova order:', newOrderData);
 
         const { data: newOrder, error: newOrderError } = await supabase
           .from('orders')
@@ -184,6 +201,8 @@ export default function ChipActivation() {
         }
         
         console.log('✅ [CHIP-ACTIVATION] Nova order criada:', newOrder);
+        // Update protocol with the new order ID
+        setProtocol(newOrder.id);
         return newOrder;
       }
     } catch (error) {
