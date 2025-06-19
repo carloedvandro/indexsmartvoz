@@ -26,7 +26,7 @@ export const NetworkCard = ({
           Total de Indicados: {totalMembers}
         </p>
       </div>
-      <div className="py-1 bg-transparent pt-4">
+      <div className="py-1 bg-transparent pt-6">
         <div className="grid grid-cols-1 gap-4">
           <div className="p-4 bg-red-50 rounded-lg text-center">
             <p className="text-sm text-red-600 font-medium">Nível 1</p>
