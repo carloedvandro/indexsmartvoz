@@ -42,7 +42,7 @@ export default function ClientDashboard() {
       <StatsCardsGrid />
 
       <div className="container mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-56 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="bg-white rounded-lg shadow-sm border border-gray-120 p-6">
             <NetworkCard networkStats={networkStats || {
             level1Count: 0,
