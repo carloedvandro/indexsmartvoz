@@ -28,7 +28,7 @@ export const NetworkCard = ({
       </div>
       <div className="py-4 bg-transparent pt-4">
         <div className="grid grid-cols-1 gap-4">
-          <div className="p-6 bg-red-50 rounded-lg text-center">
+          <div className="p-4 bg-red-50 rounded-lg text-center">
             <p className="text-sm text-red-600 font-medium">Nível 1</p>
             <p className="text-2xl font-bold text-red-700">{networkStats?.level1Count || 0}</p>
             <p className="text-xs text-red-600">Indicados Diretos</p>
