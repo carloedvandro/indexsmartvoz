@@ -11,6 +11,7 @@ interface ChipActivationStepContentProps {
   onBack: () => void;
   onContinue: () => void;
   onStartScanning: (index: number) => void;
+  onUpdateDDD: (index: number, ddd: string) => void;
 }
 
 export function ChipActivationStepContent({
@@ -19,7 +20,8 @@ export function ChipActivationStepContent({
   allBarcodesScanned,
   onBack,
   onContinue,
-  onStartScanning
+  onStartScanning,
+  onUpdateDDD
 }: ChipActivationStepContentProps) {
   console.log('🔍 [CHIP-STEP-CONTENT] Renderizando step:', currentStep);
   console.log('📋 [CHIP-STEP-CONTENT] Lines:', selectedLines);
@@ -72,6 +74,9 @@ export function ChipActivationStepContent({
                         Protocolo: {line.orderData.id}
                       </p>
                     )}
+                    {line.ddd && (
+                      <p className="text-sm text-green-600">DDD Selecionado: {line.ddd}</p>
+                    )}
                     {line.barcode && (
                       <p className="text-sm text-green-600">✓ Código: {line.barcode}</p>
                     )}
@@ -93,23 +98,24 @@ export function ChipActivationStepContent({
                 {line.barcode && (
                   <div className="pt-3 border-t">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      DDD (opcional):
+                      DDD (opcional - deixe em branco para usar o selecionado):
                     </label>
                     <input
                       type="text"
-                      placeholder="Ex: 11"
+                      placeholder={`DDD atual: ${line.ddd || 'Não selecionado'}`}
                       maxLength={2}
                       className="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8425af] text-center"
                       onChange={(e) => {
-                        const updatedLines = [...selectedLines];
-                        updatedLines[index] = {
-                          ...updatedLines[index],
-                          ddd: e.target.value
-                        };
-                        // Note: This would need to be handled by the parent component
-                        // For now, just update the display
+                        if (onUpdateDDD) {
+                          // Se campo estiver vazio, manter o DDD original, senão usar o novo
+                          const newDDD = e.target.value.trim() || line.ddd || '';
+                          onUpdateDDD(index, newDDD);
+                        }
                       }}
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      DDD que será usado: {line.ddd || 'Não definido'}
+                    </p>
                   </div>
                 )}
               </div>

@@ -111,6 +111,10 @@ export default function AdminOrders() {
         return 'bg-green-100 text-green-800';
       case 'pending':
         return 'bg-yellow-100 text-yellow-800';
+      case 'paid':
+        return 'bg-blue-100 text-blue-800';
+      case 'chip_activation':
+        return 'bg-purple-100 text-purple-800';
       case 'rejected':
         return 'bg-red-100 text-red-800';
       case 'cancelled':
@@ -126,6 +130,10 @@ export default function AdminOrders() {
         return 'Confirmado';
       case 'pending':
         return 'Pendente';
+      case 'paid':
+        return 'Pago';
+      case 'chip_activation':
+        return 'Ativação de Chip';
       case 'rejected':
         return 'Rejeitado';
       case 'cancelled':
@@ -187,7 +195,7 @@ export default function AdminOrders() {
           >
             <Eye className="h-4 w-4" />
           </Button>
-          {order.status === 'pending' && (
+          {(order.status === 'pending' || order.status === 'chip_activation') && (
             <>
               <Button
                 variant="outline"
@@ -239,6 +247,8 @@ export default function AdminOrders() {
             <SelectContent>
               <SelectItem value="all">Todos os status</SelectItem>
               <SelectItem value="pending">Pendente</SelectItem>
+              <SelectItem value="paid">Pago</SelectItem>
+              <SelectItem value="chip_activation">Ativação de Chip</SelectItem>
               <SelectItem value="confirmed">Confirmado</SelectItem>
               <SelectItem value="rejected">Rejeitado</SelectItem>
               <SelectItem value="cancelled">Cancelado</SelectItem>

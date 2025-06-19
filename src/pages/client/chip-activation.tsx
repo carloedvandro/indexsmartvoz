@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChipActivationFlow } from "@/components/client/products/ChipActivationFlow";
@@ -25,7 +24,9 @@ export default function ChipActivation() {
     try {
       // Primeiro tentar carregar do localStorage
       const storedOrderData = localStorage.getItem('orderData');
+      const storedPlan = localStorage.getItem('selectedPlan');
       console.log('🔍 [CHIP-ACTIVATION] Verificando orderData:', storedOrderData);
+      console.log('🔍 [CHIP-ACTIVATION] Verificando selectedPlan:', storedPlan);
       
       if (storedOrderData) {
         const order = JSON.parse(storedOrderData);
@@ -77,12 +78,24 @@ export default function ChipActivation() {
       if (order) {
         console.log('📋 [CHIP-ACTIVATION] Order encontrada no banco:', order);
         
+        // Tentar obter DDD do localStorage se disponível
+        let dddFromPlan = '';
+        try {
+          const storedPlan = localStorage.getItem('selectedPlan');
+          if (storedPlan) {
+            const planData = JSON.parse(storedPlan);
+            dddFromPlan = planData.ddd || '';
+          }
+        } catch (error) {
+          console.log('Erro ao obter DDD do plano salvo:', error);
+        }
+        
         // Criar linha baseada nos dados reais do pedido
         const line = {
           id: 1,
           internet: order.plans?.title || "Plano eSIM",
           type: "eSIM",
-          ddd: "", // Será preenchido quando o usuário escanear
+          ddd: dddFromPlan, // DDD do plano selecionado
           price: order.plans?.value || order.total_amount || 0,
           planId: order.plan_id,
           planName: order.plans?.title,
@@ -301,6 +314,19 @@ export default function ChipActivation() {
     console.log('✅ [CHIP-ACTIVATION] Código atualizado:', updatedLines[index]);
   };
 
+  const handleUpdateDDD = (index: number, ddd: string) => {
+    console.log('📱 [CHIP-ACTIVATION] Atualizando DDD:', { index, ddd });
+    
+    const updatedLines = [...selectedLines];
+    updatedLines[index] = {
+      ...updatedLines[index],
+      ddd
+    };
+    setSelectedLines(updatedLines);
+    
+    console.log('✅ [CHIP-ACTIVATION] DDD atualizado:', updatedLines[index]);
+  };
+
   // Show loading while data is being loaded
   if (loading) {
     return (
@@ -328,7 +354,8 @@ export default function ChipActivation() {
         onContinue={handleContinue} 
         onStartScanning={index => setScanningIndex(index)} 
         onUpdateBarcode={handleUpdateBarcode} 
-        onScanningClose={() => setScanningIndex(null)} 
+        onScanningClose={() => setScanningIndex(null)}
+        onUpdateDDD={handleUpdateDDD}
       />
     </div>
   );
