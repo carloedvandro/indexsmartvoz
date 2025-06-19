@@ -10,6 +10,9 @@ export type Line = {
   ddd: string;
   price: number;
   barcode?: string;
+  planId?: string;
+  planName?: string;
+  orderData?: any;
 };
 
 interface ChipActivationFlowProps {
@@ -40,7 +43,7 @@ export function ChipActivationFlow({
     <>
       <ScanningAnimationStyle />
       
-      {/* Logo fixada no topo */}
+      {/* Logo fixada no topo - navbar simples */}
       <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50 shadow-sm">
         <div className="flex items-center justify-center">
           <img
