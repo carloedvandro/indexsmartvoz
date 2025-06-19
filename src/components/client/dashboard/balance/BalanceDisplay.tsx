@@ -14,7 +14,7 @@ export function BalanceDisplay({
           {isVisible ? 'R$ 269,18' : '***,**'}
         </span>
       </div>
-      <button onClick={onToggleVisibility} title={isVisible ? 'Ocultar saldo' : 'Mostrar saldo'} className="p-3 hover:bg-gray-100 rounded-lg transition-colors">
+      <button onClick={onToggleVisibility} title={isVisible ? 'Ocultar saldo' : 'Mostrar saldo'} className="p-0 hover:bg-gray-100 rounded-lg transition-colors">
         {isVisible ? <EyeOff className="h-5 w-5 text-gray-500" /> : <Eye className="h-5 w-5 text-gray-500" />}
       </button>
     </div>;
