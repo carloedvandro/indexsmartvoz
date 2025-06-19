@@ -81,13 +81,13 @@ function App() {
             <Route path="/client/plan-selection" element={<ClientPlanSelection />} />
             <Route path="/client/navigation" element={<ClientNavigation />} />
             <Route path="/client/notifications" element={<ClientNotifications />} />
+            <Route path="/client/network" element={<ClientNetwork />} />
 
             {/* Client Protected Routes - WITH LAYOUT */}
             <Route path="/client/dashboard" element={<DynamicLayout><ClientDashboard /></DynamicLayout>} />
             <Route path="/client/products" element={<DynamicLayout><ClientProducts /></DynamicLayout>} />
             <Route path="/client/profile" element={<DynamicLayout><ClientProfile /></DynamicLayout>} />
             <Route path="/client/financial" element={<DynamicLayout><ClientFinancial /></DynamicLayout>} />
-            <Route path="/client/network" element={<DynamicLayout><ClientNetwork /></DynamicLayout>} />
             <Route path="/client/store" element={<DynamicLayout><ClientStore /></DynamicLayout>} />
             <Route path="/client/financial-details" element={<DynamicLayout><ClientFinancialDetails /></DynamicLayout>} />
             <Route path="/client/earnings-forecast" element={<DynamicLayout><ClientEarningsForecast /></DynamicLayout>} />
