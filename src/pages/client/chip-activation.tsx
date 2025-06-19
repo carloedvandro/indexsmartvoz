@@ -144,7 +144,7 @@ export default function ChipActivation() {
         .from('orders')
         .select('*')
         .eq('id', protocol)
-        .maybeSingle(); // Use maybeSingle instead of single to avoid errors when no rows found
+        .maybeSingle();
 
       console.log('🔍 [CHIP-ACTIVATION] Busca por order existente:', { existingOrder, findError });
 
@@ -161,7 +161,7 @@ export default function ChipActivation() {
           .from('orders')
           .update({
             notes: notesText,
-            status: 'chip_activation_requested'
+            status: 'chip_activation' // Reduced to fit varchar(20) limit
           })
           .eq('id', protocol)
           .select()
@@ -181,7 +181,7 @@ export default function ChipActivation() {
         const newOrderData = {
           user_id: session.session.user.id,
           plan_id: selectedLines[0]?.planId || null,
-          status: 'chip_activation_requested',
+          status: 'chip_activation', // Reduced to fit varchar(20) limit
           total_amount: selectedLines[0]?.price || 0,
           notes: notesText,
           payment_method: 'chip_activation'
