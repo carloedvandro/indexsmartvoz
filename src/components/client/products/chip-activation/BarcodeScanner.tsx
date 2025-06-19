@@ -18,10 +18,12 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   } = useZxing({
     onDecodeResult(result) {
       const barcode = result.getText();
-      console.log("Código detectado:", barcode);
+      console.log("🔍 [BARCODE-SCANNER] Código detectado:", barcode);
       
-      // Aceitar códigos de barras com diferentes formatos
-      if (barcode.length >= 10 && /^\d+$/.test(barcode)) {
+      // Aceitar códigos de barras com diferentes formatos - relaxar validação
+      if (barcode.length >= 8 && /^\d+$/.test(barcode)) {
+        console.log("✅ [BARCODE-SCANNER] Código válido aceito:", barcode);
+        
         // Toca o som de beep com volume máximo
         const beepSound = audioRef.current;
         if (beepSound) {
@@ -38,13 +40,14 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         
         setHasScanned(true);
         setIsScanning(false);
-        console.log("Código de barras capturado:", barcode);
         onResult(barcode);
         
         // Pequeno delay antes de fechar
         setTimeout(() => {
           onClose();
         }, 1000);
+      } else {
+        console.log("❌ [BARCODE-SCANNER] Código rejeitado:", { barcode, length: barcode.length, isNumeric: /^\d+$/.test(barcode) });
       }
     },
     timeBetweenDecodingAttempts: 100,
@@ -105,7 +108,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
             className="w-[354px] h-[200px] object-cover rounded-lg"
           />
           <div className="absolute inset-0 border-2 border-[#8425af] rounded-lg">
-            <div className="absolute top-0 left-0 right-0 bg-white/80 text-center py-2 rounded-t-lg font-medium text-sm">
+            <div className="absolute top-0 left-0 right-0 bg-white/90 text-center py-2 rounded-t-lg font-medium text-sm">
               {isScanning ? "Posicione o código de barras na área" : "Código detectado!"}
             </div>
           </div>
@@ -122,9 +125,10 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           )}
         </div>
         
-        <div className="mt-4 text-center text-white text-sm">
+        <div className="mt-4 text-center text-white text-sm space-y-1">
           <p>Mantenha o código de barras bem iluminado</p>
           <p>e dentro da área de escaneamento</p>
+          <p className="text-yellow-200">Aceita códigos com 8+ dígitos numéricos</p>
         </div>
       </div>
     </div>

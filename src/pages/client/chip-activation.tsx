@@ -124,7 +124,7 @@ export default function ChipActivation() {
     }
   };
 
-  const createOrderRecord = async (orderData: any, barcodes: string[]) => {
+  const createOrderRecord = async (barcodes: string[]) => {
     try {
       const { data: session } = await supabase.auth.getSession();
       if (!session.session?.user) {
@@ -143,13 +143,34 @@ export default function ChipActivation() {
         .select()
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ [CHIP-ACTIVATION] Erro ao atualizar order:', error);
+        // Se não conseguir atualizar a order existente, criar uma nova entrada
+        const newOrderData = {
+          user_id: session.session.user.id,
+          plan_id: selectedLines[0]?.planId || null,
+          status: 'chip_activation_requested',
+          total_amount: selectedLines[0]?.price || 0,
+          notes: `${selectedLines[0]?.planName || 'Plano eSIM'} - Códigos escaneados: ${barcodes.join(', ')} - Ativação solicitada em ${new Date().toISOString()}`,
+          payment_method: 'chip_activation'
+        };
+
+        const { data: newOrder, error: newOrderError } = await supabase
+          .from('orders')
+          .insert(newOrderData)
+          .select()
+          .single();
+
+        if (newOrderError) throw newOrderError;
+        
+        console.log('✅ [CHIP-ACTIVATION] Nova order criada:', newOrder);
+        return newOrder;
+      }
 
       console.log('✅ [CHIP-ACTIVATION] Order atualizada com códigos:', order);
-      
       return order;
     } catch (error) {
-      console.error('❌ [CHIP-ACTIVATION] Erro ao criar registro:', error);
+      console.error('❌ [CHIP-ACTIVATION] Erro ao processar:', error);
       toast({
         title: "Erro",
         description: "Erro ao processar solicitação. Tente novamente.",
@@ -160,18 +181,27 @@ export default function ChipActivation() {
   };
 
   const handleContinue = async () => {
+    console.log('🔄 [CHIP-ACTIVATION] handleContinue - currentStep:', currentStep);
+    console.log('📋 [CHIP-ACTIVATION] selectedLines:', selectedLines);
+
     if (currentStep === 4) {
       setCurrentStep(5);
     } else if (currentStep === 5) {
       setCurrentStep(6);
     } else if (currentStep === 6) {
       // Verificar se todos os códigos foram escaneados
-      const allBarcodesScanned = selectedLines.every(line => line.barcode);
+      const allBarcodesScanned = selectedLines.every(line => line.barcode && line.barcode.length > 0);
       
+      console.log('🔍 [CHIP-ACTIVATION] Verificando códigos escaneados:', {
+        selectedLines,
+        allBarcodesScanned,
+        barcodes: selectedLines.map(line => line.barcode)
+      });
+
       if (!allBarcodesScanned) {
         toast({
-          title: "Erro",
-          description: "Todos os códigos de barras devem ser escaneados antes de continuar.",
+          title: "Atenção",
+          description: "Por favor, escaneie o código de barras antes de continuar.",
           variant: "destructive"
         });
         return;
@@ -179,15 +209,18 @@ export default function ChipActivation() {
 
       try {
         const barcodes = selectedLines.map(line => line.barcode).filter(Boolean);
+        console.log('📄 [CHIP-ACTIVATION] Processando códigos:', barcodes);
         
         // Update the order with scanned barcodes
-        await createOrderRecord(selectedLines, barcodes);
+        await createOrderRecord(barcodes);
         
         toast({
           title: "Sucesso!",
-          description: "Solicitação de ativação enviada para processamento."
+          description: "Solicitação de ativação enviada para processamento.",
+          variant: "default"
         });
 
+        console.log('✅ [CHIP-ACTIVATION] Mostrando tela de confirmação');
         setShowConfirmation(true);
       } catch (error) {
         console.error('❌ [CHIP-ACTIVATION] Erro ao processar ativação:', error);
@@ -210,12 +243,16 @@ export default function ChipActivation() {
   };
 
   const handleUpdateBarcode = (index: number, barcode: string) => {
+    console.log('📱 [CHIP-ACTIVATION] Atualizando código:', { index, barcode });
+    
     const updatedLines = [...selectedLines];
     updatedLines[index] = {
       ...updatedLines[index],
       barcode
     };
     setSelectedLines(updatedLines);
+    
+    console.log('✅ [CHIP-ACTIVATION] Código atualizado:', updatedLines[index]);
   };
 
   // Show loading while data is being loaded
