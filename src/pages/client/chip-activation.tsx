@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChipActivationFlow } from "@/components/client/products/ChipActivationFlow";
@@ -133,25 +132,43 @@ export default function ChipActivation() {
 
       console.log('💾 [CHIP-ACTIVATION] Salvando códigos escaneados:', barcodes);
       
-      // Update the existing order with scanned barcodes
-      const { data: order, error } = await supabase
+      // Prepare notes with scanned barcodes
+      const notesText = `${selectedLines[0]?.planName || 'Plano eSIM'} - Códigos escaneados: ${barcodes.join(', ')} - Ativação solicitada em ${new Date().toISOString()}`;
+      
+      // Try to update existing order first
+      const { data: existingOrder, error: findError } = await supabase
         .from('orders')
-        .update({
-          notes: `${selectedLines[0]?.planName || 'Plano eSIM'} - Códigos escaneados: ${barcodes.join(', ')} - Ativação solicitada em ${new Date().toISOString()}`
-        })
+        .select('*')
         .eq('id', protocol)
-        .select()
         .single();
 
-      if (error) {
-        console.error('❌ [CHIP-ACTIVATION] Erro ao atualizar order:', error);
-        // Se não conseguir atualizar a order existente, criar uma nova entrada
+      if (existingOrder && !findError) {
+        // Update existing order
+        const { data: updatedOrder, error: updateError } = await supabase
+          .from('orders')
+          .update({
+            notes: notesText,
+            status: 'chip_activation_requested'
+          })
+          .eq('id', protocol)
+          .select()
+          .single();
+
+        if (updateError) {
+          console.error('❌ [CHIP-ACTIVATION] Erro ao atualizar order:', updateError);
+          throw updateError;
+        }
+
+        console.log('✅ [CHIP-ACTIVATION] Order atualizada com códigos:', updatedOrder);
+        return updatedOrder;
+      } else {
+        // Create new order entry
         const newOrderData = {
           user_id: session.session.user.id,
           plan_id: selectedLines[0]?.planId || null,
           status: 'chip_activation_requested',
           total_amount: selectedLines[0]?.price || 0,
-          notes: `${selectedLines[0]?.planName || 'Plano eSIM'} - Códigos escaneados: ${barcodes.join(', ')} - Ativação solicitada em ${new Date().toISOString()}`,
+          notes: notesText,
           payment_method: 'chip_activation'
         };
 
@@ -161,19 +178,19 @@ export default function ChipActivation() {
           .select()
           .single();
 
-        if (newOrderError) throw newOrderError;
+        if (newOrderError) {
+          console.error('❌ [CHIP-ACTIVATION] Erro ao criar nova order:', newOrderError);
+          throw newOrderError;
+        }
         
         console.log('✅ [CHIP-ACTIVATION] Nova order criada:', newOrder);
         return newOrder;
       }
-
-      console.log('✅ [CHIP-ACTIVATION] Order atualizada com códigos:', order);
-      return order;
     } catch (error) {
       console.error('❌ [CHIP-ACTIVATION] Erro ao processar:', error);
       toast({
-        title: "Erro",
-        description: "Erro ao processar solicitação. Tente novamente.",
+        title: "Erro ao processar solicitação",
+        description: error instanceof Error ? error.message : "Erro desconhecido. Tente novamente.",
         variant: "destructive"
       });
       throw error;
@@ -184,30 +201,30 @@ export default function ChipActivation() {
     console.log('🔄 [CHIP-ACTIVATION] handleContinue - currentStep:', currentStep);
     console.log('📋 [CHIP-ACTIVATION] selectedLines:', selectedLines);
 
-    if (currentStep === 4) {
-      setCurrentStep(5);
-    } else if (currentStep === 5) {
-      setCurrentStep(6);
-    } else if (currentStep === 6) {
-      // Verificar se todos os códigos foram escaneados
-      const allBarcodesScanned = selectedLines.every(line => line.barcode && line.barcode.length > 0);
-      
-      console.log('🔍 [CHIP-ACTIVATION] Verificando códigos escaneados:', {
-        selectedLines,
-        allBarcodesScanned,
-        barcodes: selectedLines.map(line => line.barcode)
-      });
-
-      if (!allBarcodesScanned) {
-        toast({
-          title: "Atenção",
-          description: "Por favor, escaneie o código de barras antes de continuar.",
-          variant: "destructive"
+    try {
+      if (currentStep === 4) {
+        setCurrentStep(5);
+      } else if (currentStep === 5) {
+        setCurrentStep(6);
+      } else if (currentStep === 6) {
+        // Verificar se todos os códigos foram escaneados
+        const allBarcodesScanned = selectedLines.every(line => line.barcode && line.barcode.length > 0);
+        
+        console.log('🔍 [CHIP-ACTIVATION] Verificando códigos escaneados:', {
+          selectedLines,
+          allBarcodesScanned,
+          barcodes: selectedLines.map(line => line.barcode)
         });
-        return;
-      }
 
-      try {
+        if (!allBarcodesScanned) {
+          toast({
+            title: "Atenção",
+            description: "Por favor, escaneie o código de barras antes de continuar.",
+            variant: "destructive"
+          });
+          return;
+        }
+
         const barcodes = selectedLines.map(line => line.barcode).filter(Boolean);
         console.log('📄 [CHIP-ACTIVATION] Processando códigos:', barcodes);
         
@@ -222,9 +239,10 @@ export default function ChipActivation() {
 
         console.log('✅ [CHIP-ACTIVATION] Mostrando tela de confirmação');
         setShowConfirmation(true);
-      } catch (error) {
-        console.error('❌ [CHIP-ACTIVATION] Erro ao processar ativação:', error);
       }
+    } catch (error) {
+      console.error('❌ [CHIP-ACTIVATION] Erro no handleContinue:', error);
+      // Error toast is already shown in createOrderRecord
     }
   };
 

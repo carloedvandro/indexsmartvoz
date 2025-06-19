@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -231,105 +232,118 @@ export default function PaymentReturn() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center">
-      <div className="w-full max-w-md mx-auto p-4">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Card className="text-center">
-            <CardHeader className="pb-4">
-              <div className="mb-4">
-                {getStatusIcon()}
-              </div>
-              <CardTitle className="text-2xl font-bold text-gray-800">
-                {getStatusTitle()}
-              </CardTitle>
-            </CardHeader>
-            
-            <CardContent className="space-y-6">
-              <p className="text-gray-600">
-                {getStatusDescription()}
-              </p>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+      {/* Logo fixada no topo */}
+      <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50 shadow-sm">
+        <div className="flex items-center justify-center">
+          <img
+            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
+            alt="Smartvoz"
+            className="h-16 object-contain"
+          />
+        </div>
+      </div>
 
-              {paymentDetails && (
-                <div className="bg-gray-50 rounded-lg p-4 space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Protocolo:</span>
-                    <span className="font-medium">{paymentDetails.id}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Valor:</span>
-                    <span className="font-medium">R$ {paymentDetails.total_amount?.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Status:</span>
-                    <span className={`font-medium ${
-                      paymentDetails.status === 'paid' ? 'text-green-600' : 
-                      paymentDetails.status === 'pending' ? 'text-yellow-600' : 'text-red-600'
-                    }`}>
-                      {paymentDetails.status === 'paid' ? 'Pago' : 
-                       paymentDetails.status === 'pending' ? 'Pendente' : 'Falhou'}
-                    </span>
-                  </div>
-                  {paymentDetails.asaas_payment_id && (
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">ID Asaas:</span>
-                      <span className="font-medium text-xs">{paymentDetails.asaas_payment_id}</span>
-                    </div>
-                  )}
+      <div className="pt-20 flex items-center justify-center min-h-screen">
+        <div className="w-full max-w-md mx-auto p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Card className="text-center">
+              <CardHeader className="pb-4">
+                <div className="mb-4">
+                  {getStatusIcon()}
                 </div>
-              )}
+                <CardTitle className="text-2xl font-bold text-gray-800">
+                  {getStatusTitle()}
+                </CardTitle>
+              </CardHeader>
+              
+              <CardContent className="space-y-6">
+                <p className="text-gray-600">
+                  {getStatusDescription()}
+                </p>
 
-              <div className="space-y-3">
-                {paymentStatus === 'confirmed' && (
-                  <Button 
-                    onClick={handleContinue} 
-                    className="w-full h-12 text-lg"
-                  >
-                    Continuar para Ativação
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
+                {paymentDetails && (
+                  <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Protocolo:</span>
+                      <span className="font-medium">{paymentDetails.id}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Valor:</span>
+                      <span className="font-medium">R$ {paymentDetails.total_amount?.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Status:</span>
+                      <span className={`font-medium ${
+                        paymentDetails.status === 'paid' ? 'text-green-600' : 
+                        paymentDetails.status === 'pending' ? 'text-yellow-600' : 'text-red-600'
+                      }`}>
+                        {paymentDetails.status === 'paid' ? 'Pago' : 
+                         paymentDetails.status === 'pending' ? 'Pendente' : 'Falhou'}
+                      </span>
+                    </div>
+                    {paymentDetails.asaas_payment_id && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">ID Asaas:</span>
+                        <span className="font-medium text-xs">{paymentDetails.asaas_payment_id}</span>
+                      </div>
+                    )}
+                  </div>
                 )}
 
-                {paymentStatus === 'pending' && (
-                  <Button 
-                    onClick={checkPaymentStatus} 
-                    variant="outline" 
-                    className="w-full"
-                  >
-                    Verificar Novamente
-                  </Button>
-                )}
-
-                {paymentStatus === 'failed' && (
-                  <div className="space-y-2">
+                <div className="space-y-3">
+                  {paymentStatus === 'confirmed' && (
                     <Button 
-                      onClick={() => navigate("/client/products", { replace: true })} 
-                      className="w-full"
+                      onClick={handleContinue} 
+                      className="w-full h-12 text-lg"
                     >
-                      Tentar Novamente
+                      Continuar para Ativação
+                      <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
+                  )}
+
+                  {paymentStatus === 'pending' && (
                     <Button 
-                      onClick={() => navigate("/client/dashboard", { replace: true })} 
+                      onClick={checkPaymentStatus} 
                       variant="outline" 
                       className="w-full"
                     >
-                      Voltar ao Dashboard
+                      Verificar Novamente
                     </Button>
-                  </div>
-                )}
-              </div>
+                  )}
 
-              {paymentStatus === 'checking' && (
-                <p className="text-sm text-gray-500">
-                  Tentativa {checkAttempts + 1} de verificação...
-                </p>
-              )}
-            </CardContent>
-          </Card>
-        </motion.div>
+                  {paymentStatus === 'failed' && (
+                    <div className="space-y-2">
+                      <Button 
+                        onClick={() => navigate("/client/products", { replace: true })} 
+                        className="w-full"
+                      >
+                        Tentar Novamente
+                      </Button>
+                      <Button 
+                        onClick={() => navigate("/client/dashboard", { replace: true })} 
+                        variant="outline" 
+                        className="w-full"
+                      >
+                        Voltar ao Dashboard
+                      </Button>
+                    </div>
+                  )}
+                </div>
+
+                {paymentStatus === 'checking' && (
+                  <p className="text-sm text-gray-500">
+                    Tentativa {checkAttempts + 1} de verificação...
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
       </div>
     </div>
   );
