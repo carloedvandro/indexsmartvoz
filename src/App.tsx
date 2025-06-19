@@ -80,6 +80,7 @@ function App() {
             <Route path="/client/facial-biometry" element={<ClientFacialBiometry />} />
             <Route path="/client/plan-selection" element={<ClientPlanSelection />} />
             <Route path="/client/navigation" element={<ClientNavigation />} />
+            <Route path="/client/notifications" element={<ClientNotifications />} />
 
             {/* Client Protected Routes - WITH LAYOUT */}
             <Route path="/client/dashboard" element={<DynamicLayout><ClientDashboard /></DynamicLayout>} />
@@ -88,7 +89,6 @@ function App() {
             <Route path="/client/financial" element={<DynamicLayout><ClientFinancial /></DynamicLayout>} />
             <Route path="/client/network" element={<DynamicLayout><ClientNetwork /></DynamicLayout>} />
             <Route path="/client/store" element={<DynamicLayout><ClientStore /></DynamicLayout>} />
-            <Route path="/client/notifications" element={<DynamicLayout><ClientNotifications /></DynamicLayout>} />
             <Route path="/client/financial-details" element={<DynamicLayout><ClientFinancialDetails /></DynamicLayout>} />
             <Route path="/client/earnings-forecast" element={<DynamicLayout><ClientEarningsForecast /></DynamicLayout>} />
             <Route path="/client/inventory-reports" element={<DynamicLayout><ClientInventoryReports /></DynamicLayout>} />
