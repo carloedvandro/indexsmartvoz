@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
@@ -135,7 +136,6 @@ export default function AdminAccountSettings() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Conteúdo principal */}
       <div className="max-w-4xl mx-auto p-8">
         <div className="mb-6">
           <h2 className="text-2xl font-bold text-gray-900">Configurações da Conta</h2>
