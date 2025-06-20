@@ -9,6 +9,7 @@ import Index from "@/pages/Index";
 // Client Pages
 import ClientLogin from "@/pages/client/login";
 import ClientRegister from "@/pages/client/register";
+import ClientDashboard from "@/pages/client/dashboard";
 import ClientProducts from "@/pages/client/products";
 import ClientProfile from "@/pages/client/profile";
 import ClientFinancial from "@/pages/client/financial";
@@ -81,6 +82,7 @@ function App() {
             <Route path="/client/network" element={<ClientNetwork />} />
 
             {/* Client Protected Routes - WITH LAYOUT */}
+            <Route path="/client/dashboard" element={<DynamicLayout><ClientDashboard /></DynamicLayout>} />
             <Route path="/client/products" element={<DynamicLayout><ClientProducts /></DynamicLayout>} />
             <Route path="/client/profile" element={<DynamicLayout><ClientProfile /></DynamicLayout>} />
             <Route path="/client/financial" element={<DynamicLayout><ClientFinancial /></DynamicLayout>} />

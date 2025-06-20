@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { BankingForm } from "@/components/client/profile/banking/BankingForm";
 import { BankingHeader } from "@/components/client/profile/banking/BankingHeader";
-import { LoadingState } from "@/components/ui/LoadingState";
+import { LoadingState } from "@/components/client/dashboard/LoadingState";
 
 export default function ClientBanking() {
   const navigate = useNavigate();

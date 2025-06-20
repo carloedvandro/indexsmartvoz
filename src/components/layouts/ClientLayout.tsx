@@ -1,6 +1,6 @@
 
 import { ReactNode } from "react";
-import { BalanceBar } from "@/components/client/layout/BalanceBar";
+import { BalanceBar } from "@/components/client/dashboard/BalanceBar";
 
 interface ClientLayoutProps {
   children: ReactNode;

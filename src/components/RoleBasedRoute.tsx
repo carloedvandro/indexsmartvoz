@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useUserRole, UserRole } from '@/hooks/useUserRole';
-import { LoadingState } from '@/components/ui/LoadingState';
+import { LoadingState } from '@/components/client/dashboard/LoadingState';
 
 interface RoleBasedRouteProps {
   allowedRoles: UserRole[];

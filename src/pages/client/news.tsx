@@ -1,6 +1,5 @@
-
 import { useNavigate } from "react-router-dom";
-import { DashboardHeader } from "@/components/client/layout/DashboardHeader";
+import { DashboardHeader } from "@/components/client/dashboard/DashboardHeader";
 import { Newspaper } from "lucide-react";
 
 export default function ClientNews() {

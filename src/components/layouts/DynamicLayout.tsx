@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { AdminLayout } from "./AdminLayout";
 import { ClientLayout } from "./ClientLayout";
 import { useUserRole, UserRole } from "@/hooks/useUserRole";
-import { LoadingState } from "@/components/ui/LoadingState";
+import { LoadingState } from "@/components/client/dashboard/LoadingState";
 
 interface DynamicLayoutProps {
   children: ReactNode;
