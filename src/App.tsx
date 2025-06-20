@@ -1,4 +1,5 @@
 
+
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -54,8 +55,6 @@ import AdminReports from "@/pages/admin/reports";
 
 // Site Pages
 import CompanySite from "@/pages/CompanySite";
-import ModernSite from "@/pages/ModernSite";
-import SiteModel from "@/pages/SiteModel";
 
 // Public Store
 import PublicStore from "@/pages/public/store";
@@ -124,8 +123,6 @@ function App() {
 
             {/* Site Routes */}
             <Route path="/site" element={<CompanySite />} />
-            <Route path="/modern-site" element={<ModernSite />} />
-            <Route path="/site-model" element={<SiteModel />} />
 
             {/* Public Store Routes */}
             <Route path="/store/:storeUrl" element={<PublicStore />} />
@@ -137,3 +134,4 @@ function App() {
 }
 
 export default App;
+
