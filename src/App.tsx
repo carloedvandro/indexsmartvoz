@@ -124,8 +124,6 @@ function App() {
             {/* Site Routes */}
             <Route path="/site" element={<CompanySite />} />
 
-            {/* Public Store Routes */}
-            <Route path="/store/:storeUrl" element={<PublicStore />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
