@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
@@ -43,7 +42,7 @@ export default function ClientDashboard() {
 
       <StatsCardsGrid />
 
-      <div className="container mb-8 mt-8">
+      <div className="container mb-8 mt-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
           <div className="bg-white rounded-lg shadow-sm border border-gray-120 p-2">
             <NetworkCard networkStats={networkStats || {

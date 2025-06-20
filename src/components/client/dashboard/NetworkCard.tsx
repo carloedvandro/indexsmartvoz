@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
 
@@ -20,7 +19,7 @@ export const NetworkCard = ({
   
   return (
     <div className="h-full cursor-pointer hover:opacity-95 transition-opacity" onClick={onClick}>
-      <div className="pb-2 space-y-0 py-4 bg-transparent pt-4">
+      <div className="pb-2 space-y-0 py-2 bg-transparent pt-2">
         <div className="text-center flex items-center justify-center gap-2">
           <img src="/lovable-uploads/45e4529e-207c-4c72-bcc0-c0466235e892.png" alt="Rede" className="h-6 w-6 object-contain" style={{
           filter: "drop-shadow(0px 1px 1px rgba(0,0,0,0.1))"
@@ -31,7 +30,7 @@ export const NetworkCard = ({
           Total de Indicados: {totalMembers}
         </p>
       </div>
-      <div className="py-2 bg-transparent pt-6">
+      <div className="py-2 bg-transparent pt-4">
         <div className="grid grid-cols-2 gap-4">
           <div className="p-4 bg-red-50 rounded-lg text-center">
             <p className="text-sm text-red-600 font-medium">Nível 1</p>
