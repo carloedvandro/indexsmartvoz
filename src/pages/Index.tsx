@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -86,40 +87,6 @@ export default function Index() {
               </p>
               <Link to="/admin/login">
                 <Button className="w-full">Admin</Button>
-              </Link>
-            </div>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="bg-white rounded-xl shadow-md overflow-hidden"
-          >
-            <div className="p-6">
-              <h2 className="text-2xl font-bold mb-3 text-purple-700">Template Moderno</h2>
-              <p className="text-gray-600 mb-6">
-                Exemplo de site com design moderno e responsivo.
-              </p>
-              <Link to="/modern-site">
-                <Button className="w-full">Ver Demo</Button>
-              </Link>
-            </div>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="bg-white rounded-xl shadow-md overflow-hidden"
-          >
-            <div className="p-6">
-              <h2 className="text-2xl font-bold mb-3 text-purple-700">Loja Virtual</h2>
-              <p className="text-gray-600 mb-6">
-                Acesse nossa loja virtual e conheça nossos produtos.
-              </p>
-              <Link to="/client/store">
-                <Button className="w-full">Visitar Loja</Button>
               </Link>
             </div>
           </motion.div>
