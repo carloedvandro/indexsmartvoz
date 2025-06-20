@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { AdminPageHeader } from "@/components/admin/common/AdminPageHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -137,7 +136,7 @@ export default function AdminAccountSettings() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header administrativo simples */}
+      {/* Header administrativo limpo - sem informações de saldo */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
@@ -154,10 +153,10 @@ export default function AdminAccountSettings() {
 
       {/* Conteúdo principal */}
       <div className="max-w-4xl mx-auto p-8">
-        <AdminPageHeader
-          title="Configurações da Conta"
-          subtitle="Gerencie suas informações de login administrativo"
-        />
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-gray-900">Configurações da Conta</h2>
+          <p className="text-gray-600 mt-1">Gerencie suas informações de login administrativo</p>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Seção de Email */}
