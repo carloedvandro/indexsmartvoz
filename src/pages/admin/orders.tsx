@@ -58,25 +58,34 @@ export default function AdminOrders() {
     mutationFn: async ({ orderId, status }: { orderId: string; status: string }) => {
       const { data: { user } } = await supabase.auth.getUser();
       
+      const updateData: any = {
+        status,
+        updated_at: new Date().toISOString()
+      };
+
+      // Se confirmando, adicionar dados de confirmação
+      if (status === 'confirmed') {
+        updateData.confirmed_at = new Date().toISOString();
+        updateData.confirmed_by = user?.id;
+      }
+
       const { error } = await supabase
         .from('orders')
-        .update({
-          status,
-          confirmed_at: status === 'confirmed' ? new Date().toISOString() : null,
-          confirmed_by: status === 'confirmed' ? user?.id : null
-        })
+        .update(updateData)
         .eq('id', orderId);
       
       if (error) throw error;
     },
-    onSuccess: () => {
+    onSuccess: (_, { status }) => {
       queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
+      const statusLabel = getStatusLabel(status);
       toast({
         title: "Status atualizado",
-        description: "Status do pedido foi atualizado com sucesso.",
+        description: `Pedido ${statusLabel.toLowerCase()} com sucesso.`,
       });
     },
     onError: (error) => {
+      console.error('Erro ao atualizar status:', error);
       toast({
         title: "Erro",
         description: "Erro ao atualizar status do pedido.",
@@ -143,6 +152,19 @@ export default function AdminOrders() {
     }
   };
 
+  const getPaymentMethodLabel = (method: string) => {
+    switch (method) {
+      case 'pix':
+        return 'PIX';
+      case 'card':
+        return 'Cartão';
+      case 'boleto':
+        return 'Boleto';
+      default:
+        return method || 'N/A';
+    }
+  };
+
   const columns = [
     {
       key: 'user',
@@ -162,6 +184,15 @@ export default function AdminOrders() {
           <p className="font-medium">{plan?.title}</p>
           <p className="text-sm text-gray-600">{formatCurrency(plan?.value || 0)}</p>
         </div>
+      )
+    },
+    {
+      key: 'payment_method',
+      title: 'Pagamento',
+      render: (value: string) => (
+        <span className="text-sm font-medium">
+          {getPaymentMethodLabel(value)}
+        </span>
       )
     },
     {
@@ -192,6 +223,7 @@ export default function AdminOrders() {
             variant="outline"
             size="sm"
             onClick={() => handleDetails(order)}
+            title="Ver detalhes"
           >
             <Eye className="h-4 w-4" />
           </Button>
@@ -202,6 +234,8 @@ export default function AdminOrders() {
                 size="sm"
                 onClick={() => handleStatusUpdate(order.id, 'confirmed')}
                 className="text-green-600 hover:text-green-800"
+                title="Confirmar pedido"
+                disabled={updateStatusMutation.isPending}
               >
                 <Check className="h-4 w-4" />
               </Button>
@@ -210,6 +244,8 @@ export default function AdminOrders() {
                 size="sm"
                 onClick={() => handleStatusUpdate(order.id, 'rejected')}
                 className="text-red-600 hover:text-red-800"
+                title="Rejeitar pedido"
+                disabled={updateStatusMutation.isPending}
               >
                 <X className="h-4 w-4" />
               </Button>
