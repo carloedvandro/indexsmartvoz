@@ -136,11 +136,27 @@ export default function AdminAccountSettings() {
   };
 
   return (
-    <div className="p-8">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gray-50">
+      {/* Header administrativo simples */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-6">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Painel Administrativo</h1>
+              <p className="text-gray-600">Configurações da conta do administrador</p>
+            </div>
+            <div className="text-sm text-gray-500">
+              Área restrita - Administrador
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Conteúdo principal */}
+      <div className="max-w-4xl mx-auto p-8">
         <AdminPageHeader
           title="Configurações da Conta"
-          subtitle="Gerencie suas informações de login"
+          subtitle="Gerencie suas informações de login administrativo"
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
