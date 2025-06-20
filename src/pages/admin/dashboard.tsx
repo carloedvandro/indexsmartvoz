@@ -90,20 +90,8 @@ export default function AdminDashboard() {
           />
         </div>
 
-        {/* Gráficos e Últimas Atividades */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Placeholder para gráfico */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Vendas por Mês</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-64 flex items-center justify-center bg-gray-50 rounded">
-                <p className="text-gray-500">Gráfico em desenvolvimento...</p>
-              </div>
-            </CardContent>
-          </Card>
-
+        {/* Apenas Últimas Atividades - removidos os cartões Template Moderno e Loja Virtual */}
+        <div className="grid grid-cols-1 gap-6">
           {/* Últimas contratações */}
           <Card>
             <CardHeader>
