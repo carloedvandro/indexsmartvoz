@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,8 +6,9 @@ import { AdminTable } from "@/components/admin/common/AdminTable";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Check, X, Eye, Search } from "lucide-react";
+import { Check, X, Eye, Search, Filter } from "lucide-react";
 import { OrderDetailsDialog } from "@/components/admin/orders/OrderDetailsDialog";
+import { OrderFiltersDialog, OrderFilters } from "@/components/admin/orders/OrderFiltersDialog";
 import {
   Select,
   SelectContent,
@@ -22,12 +22,21 @@ export default function AdminOrders() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const [detailsDialogOpen, setDetailsDialogOpen] = useState(false);
+  const [filtersDialogOpen, setFiltersDialogOpen] = useState(false);
+  const [filters, setFilters] = useState<OrderFilters>({
+    status: "all",
+    startDate: undefined,
+    endDate: undefined,
+    clienteName: "",
+    planName: ""
+  });
+
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   // Query para buscar pedidos
   const { data: orders, isLoading } = useQuery({
-    queryKey: ['admin-orders', searchTerm, statusFilter],
+    queryKey: ['admin-orders', searchTerm, statusFilter, filters],
     queryFn: async () => {
       let query = supabase
         .from('orders')
@@ -39,12 +48,34 @@ export default function AdminOrders() {
         `)
         .order('created_at', { ascending: false });
 
+      // Filtro de busca por termo
       if (searchTerm) {
         query = query.or(`user.full_name.ilike.%${searchTerm}%,user.email.ilike.%${searchTerm}%`);
       }
 
-      if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter);
+      // Filtro de status (compatibilidade com o filtro antigo)
+      const activeStatus = filters.status !== "all" ? filters.status : statusFilter;
+      if (activeStatus !== 'all') {
+        query = query.eq('status', activeStatus);
+      }
+
+      // Filtros avançados
+      if (filters.startDate) {
+        query = query.gte('order_date', filters.startDate.toISOString());
+      }
+
+      if (filters.endDate) {
+        const endDate = new Date(filters.endDate);
+        endDate.setHours(23, 59, 59, 999);
+        query = query.lte('order_date', endDate.toISOString());
+      }
+
+      if (filters.clienteName.trim()) {
+        query = query.ilike('profiles.full_name', `%${filters.clienteName}%`);
+      }
+
+      if (filters.planName.trim()) {
+        query = query.ilike('plans.title', `%${filters.planName}%`);
       }
 
       const { data, error } = await query;
@@ -101,6 +132,17 @@ export default function AdminOrders() {
   const handleDetails = (order: any) => {
     setSelectedOrder(order);
     setDetailsDialogOpen(true);
+  };
+
+  const handleApplyFilters = () => {
+    // A query será refeita automaticamente devido ao useQuery dependency
+    queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
+  };
+
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    setStatusFilter("all");
+    queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
   };
 
   const formatCurrency = (value: number) => {
@@ -290,6 +332,15 @@ export default function AdminOrders() {
               <SelectItem value="cancelled">Cancelado</SelectItem>
             </SelectContent>
           </Select>
+
+          <Button 
+            variant="outline" 
+            onClick={() => setFiltersDialogOpen(true)}
+            className="flex items-center gap-2"
+          >
+            <Filter className="h-4 w-4" />
+            Filtros Avançados
+          </Button>
         </div>
 
         {/* Tabela */}
@@ -305,6 +356,16 @@ export default function AdminOrders() {
           order={selectedOrder}
           open={detailsDialogOpen}
           onOpenChange={setDetailsDialogOpen}
+        />
+
+        {/* Dialog de Filtros */}
+        <OrderFiltersDialog
+          open={filtersDialogOpen}
+          onOpenChange={setFiltersDialogOpen}
+          filters={filters}
+          onFiltersChange={setFilters}
+          onApplyFilters={handleApplyFilters}
+          onClearFilters={handleClearFilters}
         />
       </div>
     </div>
