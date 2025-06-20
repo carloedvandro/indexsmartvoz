@@ -7,10 +7,12 @@ interface MapTooltipProps {
   region: RegionData | null;
   position: { x: number; y: number };
   isVisible: boolean;
+  isDragging?: boolean;
 }
 
-export function MapTooltip({ region, position, isVisible }: MapTooltipProps) {
-  if (!region || !isVisible) return null;
+export function MapTooltip({ region, position, isVisible, isDragging }: MapTooltipProps) {
+  // Não mostrar tooltip durante drag ou se não estiver visível
+  if (!region || !isVisible || isDragging) return null;
 
   return (
     <AnimatePresence>

@@ -15,13 +15,23 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
   const isMobile = useIsMobile();
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
   
   const handleMouseMove = (e: React.MouseEvent) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
+  const handleMouseDown = () => {
+    setIsDragging(true);
+    setHoveredRegion(null); // Remove tooltip imediatamente ao iniciar drag
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
   const handleRegionHover = (regionKey: string) => {
-    if (!isMobile) {
+    if (!isMobile && !isDragging) {
       setHoveredRegion(regionKey);
     }
   };
@@ -34,7 +44,16 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
 
   return (
     <>
-      <div className="absolute inset-0 w-full h-full" onMouseMove={handleMouseMove}>
+      <div 
+        className="absolute inset-0 w-full h-full" 
+        onMouseMove={handleMouseMove}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={() => {
+          setHoveredRegion(null);
+          setIsDragging(false);
+        }}
+      >
         {/* Norte - área verde superior */}
         <motion.div
           className="absolute cursor-pointer"
@@ -194,6 +213,7 @@ export function MapOverlay({ regionsData, activeRegion, setActiveRegion }: MapOv
         region={hoveredRegion ? regionsData[hoveredRegion] : null}
         position={mousePosition}
         isVisible={!!hoveredRegion}
+        isDragging={isDragging}
       />
     </>
   );
