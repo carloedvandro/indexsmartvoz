@@ -39,7 +39,7 @@ export default function Index() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -70,23 +70,6 @@ export default function Index() {
               </p>
               <Link to="/client/login">
                 <Button className="w-full">Entrar</Button>
-              </Link>
-            </div>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="bg-white rounded-xl shadow-md overflow-hidden"
-          >
-            <div className="p-6">
-              <h2 className="text-2xl font-bold mb-3 text-purple-700">Área Administrativa</h2>
-              <p className="text-gray-600 mb-6">
-                Painel de administração para gestores da plataforma.
-              </p>
-              <Link to="/admin/account-settings">
-                <Button className="w-full">Configurações Admin</Button>
               </Link>
             </div>
           </motion.div>
