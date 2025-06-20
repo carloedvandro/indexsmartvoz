@@ -100,6 +100,9 @@ export const CpfVerificationStep = ({
             </div>
           </div>
         </div>
+        <p className="text-xs text-gray-600 text-center pb-2">
+          Ao continuar, você aceita nossos termos de uso
+        </p>
         <Button 
           onClick={handleSubmit} 
           disabled={isLoading || cpfDigits.length < 5} 
