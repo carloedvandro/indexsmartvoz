@@ -1,5 +1,3 @@
-
-
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -52,6 +50,7 @@ import AdminOrders from "@/pages/admin/orders";
 import AdminPlans from "@/pages/admin/plans";
 import AdminNetwork from "@/pages/admin/network";
 import AdminReports from "@/pages/admin/reports";
+import AdminAccountSettings from "@/pages/admin/account-settings";
 
 // Site Pages
 import CompanySite from "@/pages/CompanySite";
@@ -120,6 +119,7 @@ function App() {
             <Route path="/admin/plans" element={<DynamicLayout><AdminPlans /></DynamicLayout>} />
             <Route path="/admin/network" element={<DynamicLayout><AdminNetwork /></DynamicLayout>} />
             <Route path="/admin/reports" element={<DynamicLayout><AdminReports /></DynamicLayout>} />
+            <Route path="/admin/account-settings" element={<DynamicLayout><AdminAccountSettings /></DynamicLayout>} />
 
             {/* Site Routes */}
             <Route path="/site" element={<CompanySite />} />
@@ -134,4 +134,3 @@ function App() {
 }
 
 export default App;
-
