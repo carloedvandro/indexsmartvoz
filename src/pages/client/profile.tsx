@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { ProfileForm } from "@/components/client/profile/ProfileForm";
 import { ProfileHeader } from "@/components/client/profile/ProfileHeader";
-import { LoadingState } from "@/components/client/dashboard/LoadingState";
+import { LoadingState } from "@/components/ui/LoadingState";
 
 export default function ClientProfile() {
   const navigate = useNavigate();

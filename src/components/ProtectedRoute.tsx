@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useSession } from '@/hooks/useSession';
-import { LoadingState } from '@/components/client/dashboard/LoadingState';
+import { LoadingState } from '@/components/ui/LoadingState';
 
 export const ProtectedRoute = () => {
   const { getSession, isLoading } = useSession();

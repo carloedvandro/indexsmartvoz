@@ -1,5 +1,6 @@
+
 import { useNavigate } from "react-router-dom";
-import { DashboardHeader } from "@/components/client/dashboard/DashboardHeader";
+import { DashboardHeader } from "@/components/client/layout/DashboardHeader";
 import { GraduationCap } from "lucide-react";
 
 export default function ClientCourses() {
