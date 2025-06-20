@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { RegionData } from './map/types';
@@ -6,14 +5,10 @@ import { MapOverlay } from './map/MapOverlay';
 import { RegionDetails } from './map/RegionDetails';
 import { RegionRanking } from './map/RegionRanking';
 import { PlansSummary } from './map/PlansSummary';
-import { MapFilters } from './map/MapFilters';
-import { RegionComparisonChart } from './map/RegionComparisonChart';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 export function InteractiveBrazilMap() {
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
-  const [activePeriod, setActivePeriod] = useState('today');
-  const [activeView, setActiveView] = useState('sales');
   const isMobile = useIsMobile();
   const [regionsData, setRegionsData] = useState<Record<string, RegionData>>({
     norte: {
@@ -58,58 +53,43 @@ export function InteractiveBrazilMap() {
     }
   });
 
-  // Simular atualizações em tempo real com base no período selecionado
+  // Simular atualizações em tempo real - APENAS CRESCIMENTO
   useEffect(() => {
-    const multipliers = {
-      today: 1,
-      week: 7,
-      month: 30
-    };
-
-    const multiplier = multipliers[activePeriod as keyof typeof multipliers];
-    
     const interval = setInterval(() => {
       setRegionsData(prev => {
         const newData = { ...prev };
         Object.keys(newData).forEach(region => {
-          // Variação baseada no período
-          const baseVariation = Math.random() * 3 * multiplier;
-          newData[region].sales += Math.round(baseVariation);
-          newData[region].planSales += Math.round(baseVariation * 0.6);
+          // Gerar apenas variações positivas (0 a +5) - reduzido para ser mais sutil
+          const positiveVariation = Math.random() * 5;
+          newData[region].sales += Math.round(positiveVariation);
+          newData[region].planSales += Math.round(positiveVariation * 0.6);
           
-          // Crescimento mais realista baseado no período
-          const growthIncrease = (Math.random() * 0.1) * multiplier;
+          // Atualizar crescimento - apenas positivo (0 a +0.2%) - reduzido
+          const growthIncrease = Math.random() * 0.2;
           newData[region].growth += growthIncrease;
         });
         return newData;
       });
-    }, activePeriod === 'today' ? 5000 : activePeriod === 'week' ? 8000 : 12000);
+    }, 8000); // Aumentado de 3 segundos para 8 segundos
 
     return () => clearInterval(interval);
-  }, [activePeriod]);
+  }, []);
 
   const formatNumber = (num: number) => {
     return new Intl.NumberFormat('pt-BR').format(Math.max(0, num));
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-6">
+    <>
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-lg font-semibold text-gray-800">Vendas por Região - Tempo Real</h3>
+        <h3 className="text-sm font-semibold text-gray-800">Vendas por Região - Tempo Real</h3>
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
           <span className="text-sm text-gray-600">Ao vivo</span>
         </div>
       </div>
 
-      <MapFilters
-        activePeriod={activePeriod}
-        onPeriodChange={setActivePeriod}
-        activeView={activeView}
-        onViewChange={setActiveView}
-      />
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Mapa 3D do Brasil */}
         <div className="relative">
           <div 
@@ -137,7 +117,7 @@ export function InteractiveBrazilMap() {
             </div>
           </div>
           <p className="text-center text-sm text-gray-600" style={{ marginTop: '-53px' }}>
-            Passe o mouse ou clique nas regiões para ver detalhes
+            Clique nas regiões para ver detalhes em tempo real
           </p>
         </div>
 
@@ -157,19 +137,11 @@ export function InteractiveBrazilMap() {
         </div>
       </div>
 
-      {/* Gráfico de Comparação */}
-      <div className="mb-8">
-        <RegionComparisonChart 
-          regionsData={regionsData}
-          activeView={activeView}
-        />
-      </div>
-
       <PlansSummary 
         regionsData={regionsData}
         formatNumber={formatNumber}
         setActiveRegion={setActiveRegion}
       />
-    </div>
+    </>
   );
 }

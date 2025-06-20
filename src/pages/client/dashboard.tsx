@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
@@ -10,11 +9,9 @@ import { getMonthsData, getDailyData } from "@/utils/monthsData";
 import { FinancialCards } from "@/components/client/dashboard/financial-cards";
 import { StatsCardsGrid } from "@/components/client/dashboard/stats/StatsCardsGrid";
 import { InteractiveBrazilMap } from "@/components/client/dashboard/InteractiveBrazilMap";
-import { MapaBrasilInterativo } from "@/components/client/dashboard/map/MapaBrasilInterativo";
 import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import "@/styles/logo.css";
-
 export default function ClientDashboard() {
   const navigate = useNavigate();
   const {
@@ -60,10 +57,6 @@ export default function ClientDashboard() {
 
       <div className="container mb-8">
         <InteractiveBrazilMap />
-      </div>
-
-      <div className="container mb-8">
-        <MapaBrasilInterativo />
       </div>
     </motion.div>;
 }
