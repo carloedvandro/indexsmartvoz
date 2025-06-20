@@ -55,12 +55,10 @@ export const CpfVerificationStep = ({
             <br />
             consulta/contratação dos nossos serviços SmartVoz.
             <br />
+            Vamos tirar uma foto do seu rosto pra sua segurança.
+            <br />
             Para dar continuidade precisamos realizar a sua biometria.
           </h2>
-
-          <p className="text-sm text-gray-600 text-center mt-0 max-w-[280px] mx-auto">
-            Vamos tirar uma foto do seu rosto pra sua segurança.
-          </p>
 
           <p className="text-sm text-gray-600 text-center mt-0 max-w-[280px] mx-auto">
             Biometria é uma solução que utiliza a tecnologia para identificação do cliente.
