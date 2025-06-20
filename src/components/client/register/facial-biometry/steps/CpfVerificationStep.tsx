@@ -46,6 +46,11 @@ export const CpfVerificationStep = ({
     }
   };
 
+  const handleTermsClick = () => {
+    // Aqui você pode adicionar a lógica para abrir os termos de uso
+    console.log("Abrindo termos de uso");
+  };
+
   return (
     <div className="bg-white text-gray-800 flex flex-col ">
       <div className="flex-1 flex items-start justify-center p-6" style={{ paddingTop: '-8px' }}>
@@ -101,7 +106,15 @@ export const CpfVerificationStep = ({
           </div>
         </div>
         <p className="text-sm text-gray-600 text-center pb-2">
-          Ao continuar, você aceita nossos termos de uso
+          Ao continuar, você aceita nossos{' '}
+          <button 
+            onClick={handleTermsClick}
+            className="underline font-medium"
+            style={{ color: '#2400ff' }}
+            type="button"
+          >
+            termos de uso
+          </button>
         </p>
         <Button 
           onClick={handleSubmit} 
