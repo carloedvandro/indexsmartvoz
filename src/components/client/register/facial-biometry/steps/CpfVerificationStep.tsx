@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
 import { Lock } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 
 interface CpfVerificationStepProps {
   onNext: () => void;
@@ -16,6 +17,7 @@ export const CpfVerificationStep = ({
   const [cpfDigits, setCpfDigits] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,8 +49,7 @@ export const CpfVerificationStep = ({
   };
 
   const handleTermsClick = () => {
-    // Aqui você pode adicionar a lógica para abrir os termos de uso
-    console.log("Abrindo termos de uso");
+    navigate("/client/profile/terms");
   };
 
   return (
