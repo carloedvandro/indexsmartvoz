@@ -14,7 +14,7 @@ export const NetworkCard = ({
   onClick
 }: NetworkCardProps) => {
   const totalMembers = (networkStats?.level1Count || 0) + (networkStats?.level2Count || 0) + (networkStats?.level3Count || 0) + (networkStats?.level4Count || 0);
-  return <div onClick={onClick} className="h-full cursor-pointer hover:opacity-100 transition-opacity">
+  return <div onClick={onClick} className="h-full cursor-pointer hover:opacity-95 transition-opacity">
       <div className="pb-2 space-y-0 py-2 bg-transparent pt-2">
         <div className="text-center flex items-center justify-center gap-2">
           <img src="/lovable-uploads/45e4529e-207c-4c72-bcc0-c0466235e892.png" alt="Rede" className="h-6 w-6 object-contain" style={{
