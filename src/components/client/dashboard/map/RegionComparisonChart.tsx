@@ -76,7 +76,7 @@ export function RegionComparisonChart({ regionsData, activeView }: RegionCompari
           <Tooltip content={<CustomTooltip />} />
           <Bar 
             dataKey={getDataKey()} 
-            fill={(entry: any) => entry.color}
+            fill="#3B82F6"
             radius={[4, 4, 0, 0]}
           />
         </BarChart>
