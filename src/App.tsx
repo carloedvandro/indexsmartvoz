@@ -10,7 +10,6 @@ import Index from "@/pages/Index";
 import ClientLogin from "@/pages/client/login";
 import ClientRegister from "@/pages/client/register";
 import ClientDashboard from "@/pages/client/dashboard";
-import ClientProducts from "@/pages/client/products";
 import ClientProfile from "@/pages/client/profile";
 import ClientFinancial from "@/pages/client/financial";
 import ClientNetwork from "@/pages/client/network";
@@ -19,19 +18,6 @@ import ClientNotifications from "@/pages/client/notifications";
 import ClientResetPassword from "@/pages/client/reset-password";
 import ClientUpdatePassword from "@/pages/client/update-password";
 import ClientNavigation from "@/pages/client/navigation";
-import ClientFinancialDetails from "@/pages/client/financial-details";
-import ClientEarningsForecast from "@/pages/client/earnings-forecast";
-import ClientInventoryReports from "@/pages/client/inventory-reports";
-import ClientNews from "@/pages/client/news";
-import ClientCourses from "@/pages/client/courses";
-import ClientEvents from "@/pages/client/events";
-import ClientUpgrade from "@/pages/client/upgrade";
-import ClientCheckout from "@/pages/client/checkout";
-import ClientESIM from "@/pages/client/esim";
-import ClientFacialBiometry from "@/pages/client/facial-biometry";
-import ClientPlanSelection from "@/pages/client/plan-selection";
-import ClientChipActivation from "@/pages/client/chip-activation";
-import ClientPaymentReturn from "@/pages/client/payment-return";
 
 // Profile Sub-pages
 import ClientProfileBanking from "@/pages/client/profile/banking";
@@ -55,9 +41,6 @@ import AdminReports from "@/pages/admin/reports";
 // Site Pages
 import CompanySite from "@/pages/CompanySite";
 
-// Public Store
-import PublicStore from "@/pages/public/store";
-
 const queryClient = new QueryClient();
 
 function App() {
@@ -75,29 +58,15 @@ function App() {
             <Route path="/client/register" element={<ClientRegister />} />
             <Route path="/client/reset-password" element={<ClientResetPassword />} />
             <Route path="/client/update-password" element={<ClientUpdatePassword />} />
-            <Route path="/client/facial-biometry" element={<ClientFacialBiometry />} />
-            <Route path="/client/plan-selection" element={<ClientPlanSelection />} />
             <Route path="/client/navigation" element={<ClientNavigation />} />
             <Route path="/client/notifications" element={<ClientNotifications />} />
             <Route path="/client/network" element={<ClientNetwork />} />
 
             {/* Client Protected Routes - WITH LAYOUT */}
             <Route path="/client/dashboard" element={<DynamicLayout><ClientDashboard /></DynamicLayout>} />
-            <Route path="/client/products" element={<DynamicLayout><ClientProducts /></DynamicLayout>} />
             <Route path="/client/profile" element={<DynamicLayout><ClientProfile /></DynamicLayout>} />
             <Route path="/client/financial" element={<DynamicLayout><ClientFinancial /></DynamicLayout>} />
             <Route path="/client/store" element={<DynamicLayout><ClientStore /></DynamicLayout>} />
-            <Route path="/client/financial-details" element={<DynamicLayout><ClientFinancialDetails /></DynamicLayout>} />
-            <Route path="/client/earnings-forecast" element={<DynamicLayout><ClientEarningsForecast /></DynamicLayout>} />
-            <Route path="/client/inventory-reports" element={<DynamicLayout><ClientInventoryReports /></DynamicLayout>} />
-            <Route path="/client/news" element={<DynamicLayout><ClientNews /></DynamicLayout>} />
-            <Route path="/client/courses" element={<DynamicLayout><ClientCourses /></DynamicLayout>} />
-            <Route path="/client/events" element={<DynamicLayout><ClientEvents /></DynamicLayout>} />
-            <Route path="/client/upgrade" element={<DynamicLayout><ClientUpgrade /></DynamicLayout>} />
-            <Route path="/client/checkout" element={<DynamicLayout><ClientCheckout /></DynamicLayout>} />
-            <Route path="/client/esim" element={<DynamicLayout><ClientESIM /></DynamicLayout>} />
-            <Route path="/client/chip-activation" element={<DynamicLayout><ClientChipActivation /></DynamicLayout>} />
-            <Route path="/client/payment-return" element={<DynamicLayout><ClientPaymentReturn /></DynamicLayout>} />
 
             {/* Profile Sub-routes */}
             <Route path="/client/profile/banking" element={<DynamicLayout><ClientProfileBanking /></DynamicLayout>} />
@@ -122,7 +91,6 @@ function App() {
 
             {/* Site Routes */}
             <Route path="/site" element={<CompanySite />} />
-
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
