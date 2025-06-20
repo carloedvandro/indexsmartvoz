@@ -85,8 +85,8 @@ export default function Index() {
               <p className="text-gray-600 mb-6">
                 Painel de administração para gestores da plataforma.
               </p>
-              <Link to="/admin/login">
-                <Button className="w-full">Admin</Button>
+              <Link to="/admin/account-settings">
+                <Button className="w-full">Configurações Admin</Button>
               </Link>
             </div>
           </motion.div>
