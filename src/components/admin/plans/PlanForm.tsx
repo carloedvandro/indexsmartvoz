@@ -363,46 +363,4 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
       />
     </form>
   );
-
-  function handleCashbackSubmit(cashbackData: any) {
-    if (editingCashback) {
-      setCashbackLevels(prev => 
-        prev.map(item => item.id === editingCashback.id ? { ...cashbackData, id: item.id } : item)
-      );
-      setEditingCashback(null);
-    } else {
-      setCashbackLevels(prev => [...prev, { ...cashbackData, id: Date.now() }]);
-    }
-    setCashbackModalOpen(false);
-  }
-
-  function handleEditCashback(cashback: any) {
-    setEditingCashback(cashback);
-    setCashbackModalOpen(true);
-  }
-
-  function handleDeleteCashback(id: any) {
-    setCashbackLevels(prev => prev.filter(item => item.id !== id));
-  }
-
-  function handleBenefitSubmit(benefitData: any) {
-    if (editingBenefit) {
-      setBenefits(prev => 
-        prev.map(item => item.id === editingBenefit.id ? { ...benefitData, id: item.id } : item)
-      );
-      setEditingBenefit(null);
-    } else {
-      setBenefits(prev => [...prev, { ...benefitData, id: Date.now() }]);
-    }
-    setBenefitsModalOpen(false);
-  }
-
-  function handleEditBenefit(benefit: any) {
-    setEditingBenefit(benefit);
-    setBenefitsModalOpen(true);
-  }
-
-  function handleDeleteBenefit(id: any) {
-    setBenefits(prev => prev.filter(item => item.id !== id));
-  }
 }
