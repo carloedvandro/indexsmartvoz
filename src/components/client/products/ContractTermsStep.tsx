@@ -1,24 +1,26 @@
+
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+
 interface ContractTermsStepProps {
   acceptedTerms: boolean;
   onTermsChange: (accepted: boolean) => void;
 }
+
 export function ContractTermsStep({
   acceptedTerms,
   onTermsChange
 }: ContractTermsStepProps) {
-  return <div className="space-y-6 mt-[90px]">
+  return (
+    <div className="space-y-6 mt-[90px]">
       <div className="w-full flex justify-center mb-4">
         
       </div>
       
       <div className="text-center">
         <h2 className="text-xl font-bold text-[#8425af] mb-4">Termos de contrato</h2>
-        <p className="text-gray-600 mb-4" style={{
-        fontSize: '16.5px'
-      }}>
+        <p className="text-gray-600 mb-4" style={{ fontSize: '16.5px' }}>
           Ao concluir a solicitação, você confirma que todos os dados são verdadeiros e estão em perfeita
           conformidade com os termos a seguir:
         </p>
@@ -29,7 +31,7 @@ export function ContractTermsStep({
                 Termo de contratação digital – Serviço de linha pré-paga com renovação mensal – SmartVoz
               </button>
             </DialogTrigger>
-            <DialogContent className="max-w-4xl max-h-[120vh] p-6">
+            <DialogContent className="max-w-4xl max-h-[80vh] p-6">
               <DialogHeader>
                 <DialogTitle className="text-lg font-bold text-[#8425af]">
                   Termo de contratação digital – Serviço de linha pré-paga com renovação mensal – SmartVoz
@@ -104,11 +106,17 @@ export function ContractTermsStep({
         </div>
         
         <div className="flex items-start space-x-2 text-left ml-[12px]">
-          <Checkbox id="terms" checked={acceptedTerms} onCheckedChange={checked => onTermsChange(checked as boolean)} className="mt-0.5" />
+          <Checkbox 
+            id="terms" 
+            checked={acceptedTerms} 
+            onCheckedChange={checked => onTermsChange(checked as boolean)} 
+            className="mt-0.5" 
+          />
           <label htmlFor="terms" className="text-xs text-gray-600 cursor-pointer w-[calc(100%+7px)] pl-1 mt-[1.25px]">
             Aceito receber comunicações e ofertas da Smartvoz.
           </label>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 }
