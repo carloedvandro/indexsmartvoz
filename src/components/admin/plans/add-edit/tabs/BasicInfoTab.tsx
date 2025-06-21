@@ -199,12 +199,6 @@ export function BasicInfoTab() {
             </Select>
           </div>
         </div>
-
-        <div className="flex justify-end">
-          <Button type="submit" disabled={submitting}>
-            {submitting ? "Salvando..." : "Salvar Plano"}
-          </Button>
-        </div>
       </form>
     </div>
   );

@@ -30,7 +30,7 @@ export function PlanFormSidebar() {
   return (
     <div className="px-6 py-4">
       <div className="overflow-x-auto">
-        <nav className="flex space-x-8 min-w-max">
+        <nav className="flex space-x-2 min-w-max">
           {menuItems.map((item) => (
             <button
               key={item.id}

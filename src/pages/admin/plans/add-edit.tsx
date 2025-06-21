@@ -24,7 +24,7 @@ export default function AdminPlanAddEdit() {
     queryKey: ['plan-edit', planId],
     queryFn: async () => {
       if (!planId) return null;
-      
+
       const { data, error } = await supabase
         .from('plans')
         .select(`
@@ -63,12 +63,12 @@ export default function AdminPlanAddEdit() {
       // Aqui você pode adicionar a lógica de salvamento
       // Por enquanto, apenas simulamos o salvamento
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       toast({
         title: "Sucesso",
         description: isEditing ? "Plano atualizado com sucesso!" : "Plano criado com sucesso!",
       });
-      
+
       navigate('/admin/plans');
     } catch (error) {
       toast({
@@ -95,7 +95,7 @@ export default function AdminPlanAddEdit() {
         {/* Top Navbar */}
         <div className="bg-white border-b border-gray-200 px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
                 size="sm"
@@ -109,7 +109,7 @@ export default function AdminPlanAddEdit() {
                 {isEditing ? 'Editar Plano' : 'Adicionar Plano'}
               </h1>
             </div>
-            
+
             {/* Botão de ação - visível apenas no desktop */}
             <div className="hidden md:block">
               <Button
@@ -132,13 +132,12 @@ export default function AdminPlanAddEdit() {
               <div className="border-b border-gray-200">
                 <PlanFormSidebar />
               </div>
-              
-              {/* Content Area */}
-              <div className="p-6">
-                <PlanFormTabs />
-              </div>
             </CardContent>
           </Card>
+          <div className="p-6">
+            <PlanFormTabs />
+          </div>
+
         </div>
 
         {/* Botão fixo no bottom para mobile */}
