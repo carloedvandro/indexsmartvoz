@@ -78,11 +78,17 @@ function App() {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<ProtectedRoute />}>
             <Route path="" element={<RoleBasedRoute allowedRoles={['admin']} />}>
+              {/* Rota especial para add-edit sem sidebar */}
+              <Route 
+                path="plans/add-edit" 
+                element={<AdminPlanAddEdit />} 
+              />
+              
+              {/* Outras rotas admin com sidebar */}
               <Route path="" element={<DynamicLayout forceRole="admin" />}>
                 <Route path="dashboard" element={<AdminDashboard />} />
                 <Route path="clients" element={<AdminClients />} />
                 <Route path="plans" element={<AdminPlans />} />
-                <Route path="plans/add-edit" element={<AdminPlanAddEdit />} />
                 <Route path="orders" element={<AdminOrders />} />
                 <Route path="finance" element={<AdminFinance />} />
                 <Route path="reports" element={<AdminReports />} />
