@@ -34,45 +34,8 @@ export function PlanSelectionStep({
   const [selectedInternet, setSelectedInternet] = useState<string>("");
   const [selectedDDD, setSelectedDDD] = useState<string>("");
   const [searchParams] = useSearchParams();
-  const planIdFromUrl = searchParams.get('plan');
   const { toast } = useToast();
   
-  // Set initial plan based on URL parameter if present and no plan is already selected
-  useEffect(() => {
-    if (planIdFromUrl && !selectedInternet) {
-      const mappedPlan = mapUrlPlanToInternet(planIdFromUrl);
-      if (mappedPlan) {
-        setSelectedInternet(mappedPlan.plan);
-        
-        // Auto-set a default DDD if we have a plan from the URL and no DDD is already selected
-        if (!selectedDDD) {
-          setSelectedDDD("11"); // Default to São Paulo DDD
-        }
-        
-        // Update selectedLines with the selected plan information
-        const linePrice = mappedPlan.price;
-        if (selectedLines.length === 0) {
-          setSelectedLines([{
-            id: 1,
-            internet: mappedPlan.plan,
-            ddd: selectedDDD || "11", // Default DDD
-            price: linePrice,
-            type: 'chip'
-          }]);
-        } else {
-          const updatedLines = [...selectedLines];
-          updatedLines[0] = {
-            ...updatedLines[0],
-            internet: mappedPlan.plan,
-            ddd: selectedDDD || "11", // Default DDD
-            price: linePrice
-          };
-          setSelectedLines(updatedLines);
-        }
-      }
-    }
-  }, [planIdFromUrl, selectedDDD, selectedInternet, selectedLines, setSelectedLines]);
-
   // Initialize selectedInternet and selectedDDD from selectedLines if available
   useEffect(() => {
     if (selectedLines.length > 0) {
