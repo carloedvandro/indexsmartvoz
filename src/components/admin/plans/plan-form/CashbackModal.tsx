@@ -120,7 +120,7 @@ export function CashbackModal({
 
           <div>
             <Label>Tipo de Valor *</Label>
-            <RadioGroup value={valueType} onValueChange={handleValueTypeChange} className="mt-2 flex ">
+            <RadioGroup value={valueType} onValueChange={handleValueTypeChange} className="mt-2 flex gap-3 ">
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="percentage" id="percentage" />
                 <Label htmlFor="percentage">Percentual (%)</Label>
