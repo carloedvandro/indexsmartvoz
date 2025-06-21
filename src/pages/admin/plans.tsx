@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -61,8 +60,19 @@ export default function AdminPlans() {
         throw error;
       }
       
-      console.log('Plans fetched:', data);
-      return data || [];
+      // Processar os dados para adicionar valueType aos cashback_levels
+      const processedData = data?.map(plan => ({
+        ...plan,
+        cashback_levels: plan.cashback_levels?.map((level: any) => ({
+          ...level,
+          valueType: level.fixed_value !== null ? 'fixed' : 'percentage',
+          fixedValue: level.fixed_value,
+          percentage: level.percentage ? level.percentage * 100 : 0
+        }))
+      }));
+      
+      console.log('Plans fetched:', processedData);
+      return processedData || [];
     }
   });
 

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -103,16 +104,21 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
         const cashbackData = cashbackLevels.map(level => ({
           plan_id: planId,
           level: level.level,
-          percentage: level.fixedValue !== undefined && level.fixedValue !== null ? null : (level.percentage || 0) / 100,
-          fixed_value: level.fixedValue !== undefined && level.fixedValue !== null ? level.fixedValue : null,
+          percentage: level.valueType === 'percentage' ? (level.percentage || 0) / 100 : null,
+          fixed_value: level.valueType === 'fixed' ? level.fixedValue : null,
           description: level.description || null
         }));
+
+        console.log('Inserting cashback data:', cashbackData);
 
         const { error: cashbackError } = await supabase
           .from('plan_cashback_levels')
           .insert(cashbackData);
 
-        if (cashbackError) throw cashbackError;
+        if (cashbackError) {
+          console.error('Cashback error:', cashbackError);
+          throw cashbackError;
+        }
       }
 
       // Deletar benefits existentes se estiver editando
@@ -357,4 +363,46 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
       />
     </form>
   );
+
+  function handleCashbackSubmit(cashbackData: any) {
+    if (editingCashback) {
+      setCashbackLevels(prev => 
+        prev.map(item => item.id === editingCashback.id ? { ...cashbackData, id: item.id } : item)
+      );
+      setEditingCashback(null);
+    } else {
+      setCashbackLevels(prev => [...prev, { ...cashbackData, id: Date.now() }]);
+    }
+    setCashbackModalOpen(false);
+  }
+
+  function handleEditCashback(cashback: any) {
+    setEditingCashback(cashback);
+    setCashbackModalOpen(true);
+  }
+
+  function handleDeleteCashback(id: any) {
+    setCashbackLevels(prev => prev.filter(item => item.id !== id));
+  }
+
+  function handleBenefitSubmit(benefitData: any) {
+    if (editingBenefit) {
+      setBenefits(prev => 
+        prev.map(item => item.id === editingBenefit.id ? { ...benefitData, id: item.id } : item)
+      );
+      setEditingBenefit(null);
+    } else {
+      setBenefits(prev => [...prev, { ...benefitData, id: Date.now() }]);
+    }
+    setBenefitsModalOpen(false);
+  }
+
+  function handleEditBenefit(benefit: any) {
+    setEditingBenefit(benefit);
+    setBenefitsModalOpen(true);
+  }
+
+  function handleDeleteBenefit(id: any) {
+    setBenefits(prev => prev.filter(item => item.id !== id));
+  }
 }

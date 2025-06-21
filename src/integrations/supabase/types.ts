@@ -890,25 +890,28 @@ export type Database = {
         Row: {
           created_at: string
           description: string | null
+          fixed_value: number | null
           id: string
           level: number
-          percentage: number
+          percentage: number | null
           plan_id: string
         }
         Insert: {
           created_at?: string
           description?: string | null
+          fixed_value?: number | null
           id?: string
           level: number
-          percentage: number
+          percentage?: number | null
           plan_id: string
         }
         Update: {
           created_at?: string
           description?: string | null
+          fixed_value?: number | null
           id?: string
           level?: number
-          percentage?: number
+          percentage?: number | null
           plan_id?: string
         }
         Relationships: [
