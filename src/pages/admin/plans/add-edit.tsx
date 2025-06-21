@@ -3,18 +3,21 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Plus } from "lucide-react";
+import { ArrowLeft, Plus, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PlanFormTabs } from "@/components/admin/plans/add-edit/PlanFormTabs";
 import { PlanFormSidebar } from "@/components/admin/plans/add-edit/PlanFormSidebar";
 import { PlanFormProvider } from "@/components/admin/plans/add-edit/PlanFormProvider";
+import { useToast } from "@/hooks/use-toast";
 
 export default function AdminPlanAddEdit() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const planId = searchParams.get('id');
   const isEditing = !!planId;
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   // Query para buscar dados do plano se estiver editando
   const { data: planData, isLoading } = useQuery({
@@ -54,6 +57,30 @@ export default function AdminPlanAddEdit() {
     navigate('/admin/plans');
   };
 
+  const handleSave = async () => {
+    setIsSubmitting(true);
+    try {
+      // Aqui você pode adicionar a lógica de salvamento
+      // Por enquanto, apenas simulamos o salvamento
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      toast({
+        title: "Sucesso",
+        description: isEditing ? "Plano atualizado com sucesso!" : "Plano criado com sucesso!",
+      });
+      
+      navigate('/admin/plans');
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro ao salvar plano. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -64,7 +91,7 @@ export default function AdminPlanAddEdit() {
 
   return (
     <PlanFormProvider initialData={planData}>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 pb-20 md:pb-0">
         {/* Top Navbar */}
         <div className="bg-white border-b border-gray-200 px-6 py-4">
           <div className="flex items-center justify-between">
@@ -82,10 +109,22 @@ export default function AdminPlanAddEdit() {
                 {isEditing ? 'Editar Plano' : 'Adicionar Plano'}
               </h1>
             </div>
+            
+            {/* Botão de ação - visível apenas no desktop */}
+            <div className="hidden md:block">
+              <Button
+                onClick={handleSave}
+                disabled={isSubmitting}
+                className="flex items-center gap-2"
+              >
+                {isEditing ? <Save className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+                {isSubmitting ? "Salvando..." : (isEditing ? "Atualizar" : "Adicionar")}
+              </Button>
+            </div>
           </div>
         </div>
 
-        {/* Main Content - apenas o formulário sem sidebar */}
+        {/* Main Content */}
         <div className="container mx-auto px-6 py-8">
           <Card className="w-full max-w-6xl mx-auto">
             <CardContent className="p-0">
@@ -100,6 +139,19 @@ export default function AdminPlanAddEdit() {
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Botão fixo no bottom para mobile */}
+        <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 md:hidden">
+          <Button
+            onClick={handleSave}
+            disabled={isSubmitting}
+            className="w-full flex items-center justify-center gap-2"
+            size="lg"
+          >
+            {isEditing ? <Save className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+            {isSubmitting ? "Salvando..." : (isEditing ? "Atualizar" : "Adicionar")}
+          </Button>
         </div>
       </div>
     </PlanFormProvider>
