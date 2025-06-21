@@ -85,18 +85,20 @@ export default function AdminPlanAddEdit() {
           </div>
         </div>
 
-        {/* Main Content */}
-        <div className="flex">
-          {/* Sidebar */}
-          <PlanFormSidebar />
-          
-          {/* Content Area */}
-          <div className="flex-1 p-6">
-            <Card className="max-w-4xl">
-              <CardContent className="p-6">
-                <PlanFormTabs />
-              </CardContent>
-            </Card>
+        {/* Main Content - sem sidebar */}
+        <div className="container mx-auto px-6 py-8">
+          <div className="flex gap-8">
+            {/* Navigation Tabs - agora como tabs horizontais */}
+            <PlanFormSidebar />
+            
+            {/* Content Area */}
+            <div className="flex-1">
+              <Card className="w-full">
+                <CardContent className="p-6">
+                  <PlanFormTabs />
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </div>
