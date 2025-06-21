@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { OrderReviewStep } from "./OrderReviewStep";
 import { ContractTermsStep } from "./ContractTermsStep";
@@ -40,12 +39,13 @@ export function MainContent({
 
   // Check if continue button should be disabled
   const isContinueDisabled = () => {
-    console.log('🔍 Verificando se botão deve estar desabilitado:', {
+    console.log('🔍 Estado atual completo:', {
       currentStep,
       acceptedTerms,
       hasInternet: selectedLines[0]?.internet,
       hasDDD: selectedLines[0]?.ddd,
-      selectedDueDate
+      selectedDueDate,
+      typeof_acceptedTerms: typeof acceptedTerms
     });
 
     if (currentStep === 1) {
@@ -60,6 +60,11 @@ export function MainContent({
     }
     
     return false;
+  };
+
+  const handleTermsChange = (accepted: boolean) => {
+    console.log('🔄 MainContent recebeu mudança de termos:', accepted);
+    setAcceptedTerms(accepted);
   };
 
   const containerVariants = {
@@ -83,6 +88,9 @@ export function MainContent({
       transition: { duration: 0.5, ease: "easeOut" }
     }
   };
+
+  const buttonDisabled = isContinueDisabled();
+  console.log('🔧 Botão vai ser renderizado com disabled:', buttonDisabled);
 
   return (
     <motion.div 
@@ -113,10 +121,7 @@ export function MainContent({
               {currentStep === 3 && (
                 <ContractTermsStep
                   acceptedTerms={acceptedTerms}
-                  onTermsChange={(accepted) => {
-                    console.log('🔄 Atualizando acceptedTerms:', accepted);
-                    setAcceptedTerms(accepted);
-                  }}
+                  onTermsChange={handleTermsChange}
                 />
               )}
             </motion.div>
@@ -128,7 +133,7 @@ export function MainContent({
                   currentStep={currentStep}
                   handleBack={handleBack}
                   handleContinue={validateAndContinue}
-                  disabled={isContinueDisabled()}
+                  disabled={buttonDisabled}
                 />
               </motion.div>
             )}
