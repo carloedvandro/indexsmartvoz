@@ -10,13 +10,13 @@ interface TermsModalProps {
 export function TermsModal({ isOpen, onClose }: TermsModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[80vh] p-6">
+      <DialogContent className="max-w-4xl max-h-[90vh] p-6">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold text-[#8425af]">
             Termo de contratação digital – Serviço de linha pré-paga com renovação mensal – SmartVoz
           </DialogTitle>
         </DialogHeader>
-        <ScrollArea className="h-[60vh] pr-4">
+        <ScrollArea className="h-[70vh] pr-4">
           <div className="space-y-4 text-sm text-gray-700">
             <p>
               Este documento estabelece as condições para o fornecimento de serviço de linha móvel pela empresa SmartVoz. 
@@ -46,7 +46,7 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
               <p>O valor do plano será informado previamente ao pagamento, sendo válido por 30 dias corridos a partir da ativação.</p>
               <p>O pagamento é antecipado e não reembolsável, mesmo em casos de uso parcial, desistência ou interrupção.</p>
               <p>O não pagamento até a data prevista resultará no bloqueio automático da linha, sem aviso prévio.</p>
-              <p>A renovação do plano está condicionada a novo pagamento dentro do prazo.</p>
+              <p>A renovação do plano está condicionada a um novo pagamento dentro do prazo.</p>
             </div>
 
             <div className="space-y-3">
