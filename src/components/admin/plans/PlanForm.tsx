@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -178,7 +177,8 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
     } else {
       setCashbackLevels(prev => [...prev, { ...cashbackData, id: Date.now() }]);
     }
-    setCashbackModalOpen(false);
+    // Não fechar o modal automaticamente - usuário deve fechar manualmente
+    // setCashbackModalOpen(false);
   };
 
   const handleEditCashback = (cashback: any) => {
@@ -199,7 +199,8 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
     } else {
       setBenefits(prev => [...prev, { ...benefitData, id: Date.now() }]);
     }
-    setBenefitsModalOpen(false);
+    // Não fechar o modal automaticamente - usuário deve fechar manualmente
+    // setBenefitsModalOpen(false);
   };
 
   const handleEditBenefit = (benefit: any) => {
