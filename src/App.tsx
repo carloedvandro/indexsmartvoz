@@ -21,6 +21,7 @@ import ClientNotifications from "@/pages/client/notifications";
 import ClientEsim from "@/pages/client/esim";
 import ClientFacialBiometry from "@/pages/client/facial-biometry";
 import ClientResetPassword from "@/pages/client/reset-password";
+import ClientNavigation from "@/pages/client/navigation";
 
 // Admin pages
 import AdminLogin from "@/pages/admin/login";
@@ -36,8 +37,7 @@ import AdminReports from "@/pages/admin/reports";
 import StorePage from "@/pages/public/store";
 
 // Layouts
-import { ClientLayout } from "@/components/layouts/ClientLayout";
-import { AdminLayout } from "@/components/layouts/AdminLayout";
+import { DynamicLayout } from "@/components/layouts/DynamicLayout";
 
 const queryClient = new QueryClient();
 
@@ -56,8 +56,10 @@ function App() {
           <Route path="/client/login" element={<ClientLogin />} />
           <Route path="/client/register" element={<ClientRegister />} />
           <Route path="/client/reset-password" element={<ClientResetPassword />} />
+          
+          {/* Protected Client Routes */}
           <Route path="/client" element={<ProtectedRoute />}>
-            <Route path="" element={<ClientLayout />}>
+            <Route path="" element={<DynamicLayout />}>
               <Route path="dashboard" element={<ClientDashboard />} />
               <Route path="financial" element={<ClientFinancial />} />
               <Route path="network" element={<ClientNetwork />} />
@@ -68,6 +70,7 @@ function App() {
               <Route path="notifications" element={<ClientNotifications />} />
               <Route path="esim" element={<ClientEsim />} />
               <Route path="facial-biometry" element={<ClientFacialBiometry />} />
+              <Route path="navigation" element={<ClientNavigation />} />
             </Route>
           </Route>
           
@@ -75,7 +78,7 @@ function App() {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<ProtectedRoute />}>
             <Route path="" element={<RoleBasedRoute allowedRoles={['admin']} />}>
-              <Route path="" element={<AdminLayout />}>
+              <Route path="" element={<DynamicLayout forceRole="admin" />}>
                 <Route path="dashboard" element={<AdminDashboard />} />
                 <Route path="clients" element={<AdminClients />} />
                 <Route path="plans" element={<AdminPlans />} />

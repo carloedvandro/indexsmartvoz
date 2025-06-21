@@ -6,7 +6,7 @@ import { useUserRole, UserRole } from "@/hooks/useUserRole";
 import { LoadingState } from "@/components/client/dashboard/LoadingState";
 
 interface DynamicLayoutProps {
-  children: ReactNode;
+  children?: ReactNode;
   forceRole?: UserRole;
 }
 
@@ -32,11 +32,11 @@ export const DynamicLayout = ({ children, forceRole }: DynamicLayoutProps) => {
 
   switch (activeRole) {
     case 'admin':
-      return <AdminLayout />;
+      return <AdminLayout>{children}</AdminLayout>;
     case 'client':
-      return <ClientLayout />;
+      return <ClientLayout>{children}</ClientLayout>;
     default:
       // Fallback para usuários sem role definido
-      return <ClientLayout />;
+      return <ClientLayout>{children}</ClientLayout>;
   }
 };
