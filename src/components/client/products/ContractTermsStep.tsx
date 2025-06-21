@@ -14,6 +14,12 @@ export function ContractTermsStep({
 }: ContractTermsStepProps) {
   const [showTermsModal, setShowTermsModal] = useState(false);
 
+  const handleCheckboxChange = (checked: boolean | "indeterminate") => {
+    const isChecked = checked === true;
+    console.log('📝 Checkbox alterado:', isChecked);
+    onTermsChange(isChecked);
+  };
+
   return (
     <div className="space-y-6 mt-[90px]">
       <div className="w-full flex justify-center mb-4">
@@ -39,10 +45,7 @@ export function ContractTermsStep({
           <Checkbox 
             id="terms" 
             checked={acceptedTerms} 
-            onCheckedChange={(checked) => {
-              console.log('📝 Checkbox alterado:', checked);
-              onTermsChange(checked as boolean);
-            }} 
+            onCheckedChange={handleCheckboxChange}
             className="mt-0.5" 
           />
           <label htmlFor="terms" className="text-xs text-gray-600 cursor-pointer w-[calc(100%+7px)] pl-1 mt-[1.25px]">
