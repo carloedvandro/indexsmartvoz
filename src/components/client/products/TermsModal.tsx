@@ -13,7 +13,7 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
       <DialogContent className="max-w-4xl max-h-[90vh] p-0 flex flex-col">
         <DialogHeader className="p-6 pb-4 flex-shrink-0 border-b">
           <DialogTitle className="text-xl font-bold text-[#8425af]">
-            Termo de contratação digital – Serviço de linha pré-paga com renovação mensal – SmartVoz
+            Termos de Contrato
           </DialogTitle>
         </DialogHeader>
         
