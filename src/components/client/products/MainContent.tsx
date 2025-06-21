@@ -40,13 +40,23 @@ export function MainContent({
 
   // Check if continue button should be disabled
   const isContinueDisabled = () => {
+    console.log('🔍 Verificando se botão deve estar desabilitado:', {
+      currentStep,
+      acceptedTerms,
+      hasInternet: selectedLines[0]?.internet,
+      hasDDD: selectedLines[0]?.ddd,
+      selectedDueDate
+    });
+
     if (currentStep === 1) {
       // Only enable if internet plan, DDD and due date are selected
       return !selectedLines[0]?.internet || !selectedLines[0]?.ddd || !selectedDueDate;
     }
     
     if (currentStep === 3) {
-      return !acceptedTerms;
+      const disabled = !acceptedTerms;
+      console.log('🎯 Step 3 - Botão desabilitado?', disabled, 'acceptedTerms:', acceptedTerms);
+      return disabled;
     }
     
     return false;
@@ -103,7 +113,10 @@ export function MainContent({
               {currentStep === 3 && (
                 <ContractTermsStep
                   acceptedTerms={acceptedTerms}
-                  onTermsChange={setAcceptedTerms}
+                  onTermsChange={(accepted) => {
+                    console.log('🔄 Atualizando acceptedTerms:', accepted);
+                    setAcceptedTerms(accepted);
+                  }}
                 />
               )}
             </motion.div>

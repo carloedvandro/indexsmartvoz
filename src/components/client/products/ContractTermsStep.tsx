@@ -39,7 +39,10 @@ export function ContractTermsStep({
           <Checkbox 
             id="terms" 
             checked={acceptedTerms} 
-            onCheckedChange={checked => onTermsChange(checked as boolean)} 
+            onCheckedChange={(checked) => {
+              console.log('📝 Checkbox alterado:', checked);
+              onTermsChange(checked as boolean);
+            }} 
             className="mt-0.5" 
           />
           <label htmlFor="terms" className="text-xs text-gray-600 cursor-pointer w-[calc(100%+7px)] pl-1 mt-[1.25px]">
