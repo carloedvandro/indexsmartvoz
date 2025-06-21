@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -104,7 +103,8 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
         const cashbackData = cashbackLevels.map(level => ({
           plan_id: planId,
           level: level.level,
-          percentage: level.percentage / 100, // Converter para decimal
+          percentage: level.fixedValue !== undefined && level.fixedValue !== null ? null : (level.percentage || 0) / 100,
+          fixed_value: level.fixedValue !== undefined && level.fixedValue !== null ? level.fixedValue : null,
           description: level.description || null
         }));
 
