@@ -32,11 +32,11 @@ export const DynamicLayout = ({ children, forceRole }: DynamicLayoutProps) => {
 
   switch (activeRole) {
     case 'admin':
-      return <AdminLayout>{children}</AdminLayout>;
+      return <AdminLayout />;
     case 'client':
-      return <ClientLayout>{children}</ClientLayout>;
+      return <ClientLayout />;
     default:
       // Fallback para usuários sem role definido
-      return <ClientLayout>{children}</ClientLayout>;
+      return <ClientLayout />;
   }
 };

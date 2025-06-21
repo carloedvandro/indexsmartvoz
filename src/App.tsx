@@ -1,8 +1,9 @@
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
-import { Index } from "@/pages/Index";
-import { CompanySite } from "@/pages/CompanySite";
+import Index from "@/pages/Index";
+import CompanySite from "@/pages/CompanySite";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { RoleBasedRoute } from "@/components/RoleBasedRoute";
 
@@ -13,8 +14,8 @@ import ClientDashboard from "@/pages/client/dashboard";
 import ClientFinancial from "@/pages/client/financial";
 import ClientNetwork from "@/pages/client/network";
 import ClientProfile from "@/pages/client/profile";
-import ClientBanking from "@/pages/client/banking";
-import ClientSecurityPassword from "@/pages/client/security-password";
+import ClientBanking from "@/pages/client/profile/banking";
+import ClientSecurityPassword from "@/pages/client/profile/security-password";
 import ClientProducts from "@/pages/client/products";
 import ClientNotifications from "@/pages/client/notifications";
 import ClientEsim from "@/pages/client/esim";
@@ -32,7 +33,7 @@ import AdminFinance from "@/pages/admin/finance";
 import AdminReports from "@/pages/admin/reports";
 
 // Store pages
-import StorePage from "@/pages/store/[storeUrl]";
+import StorePage from "@/pages/public/store";
 
 // Layouts
 import { ClientLayout } from "@/components/layouts/ClientLayout";
@@ -48,35 +49,42 @@ function App() {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/company" element={<CompanySite />} />
+          <Route path="/site" element={<CompanySite />} />
           <Route path="/store/:storeUrl" element={<StorePage />} />
 
           {/* Client Routes */}
           <Route path="/client/login" element={<ClientLogin />} />
           <Route path="/client/register" element={<ClientRegister />} />
           <Route path="/client/reset-password" element={<ClientResetPassword />} />
-          <Route path="/client" element={<ProtectedRoute><ClientLayout /></ProtectedRoute>}>
-            <Route path="dashboard" element={<ClientDashboard />} />
-            <Route path="financial" element={<ClientFinancial />} />
-            <Route path="network" element={<ClientNetwork />} />
-            <Route path="profile" element={<ClientProfile />} />
-            <Route path="banking" element={<ClientBanking />} />
-            <Route path="security-password" element={<ClientSecurityPassword />} />
-            <Route path="products" element={<ClientProducts />} />
-            <Route path="notifications" element={<ClientNotifications />} />
-            <Route path="esim" element={<ClientEsim />} />
-            <Route path="facial-biometry" element={<ClientFacialBiometry />} />
+          <Route path="/client" element={<ProtectedRoute />}>
+            <Route path="" element={<ClientLayout />}>
+              <Route path="dashboard" element={<ClientDashboard />} />
+              <Route path="financial" element={<ClientFinancial />} />
+              <Route path="network" element={<ClientNetwork />} />
+              <Route path="profile" element={<ClientProfile />} />
+              <Route path="banking" element={<ClientBanking />} />
+              <Route path="security-password" element={<ClientSecurityPassword />} />
+              <Route path="products" element={<ClientProducts />} />
+              <Route path="notifications" element={<ClientNotifications />} />
+              <Route path="esim" element={<ClientEsim />} />
+              <Route path="facial-biometry" element={<ClientFacialBiometry />} />
+            </Route>
           </Route>
           
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<ProtectedRoute><RoleBasedRoute requiredRole="admin"><AdminLayout /></RoleBasedRoute></ProtectedRoute>}>
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="clients" element={<AdminClients />} />
-            <Route path="plans" element={<AdminPlans />} />
-            <Route path="plans/add-edit" element={<AdminPlanAddEdit />} />
-            <Route path="orders" element={<AdminOrders />} />
-            <Route path="finance" element={<AdminFinance />} />
-            <Route path="reports" element={<AdminReports />} />
+          <Route path="/admin" element={<ProtectedRoute />}>
+            <Route path="" element={<RoleBasedRoute allowedRoles={['admin']} />}>
+              <Route path="" element={<AdminLayout />}>
+                <Route path="dashboard" element={<AdminDashboard />} />
+                <Route path="clients" element={<AdminClients />} />
+                <Route path="plans" element={<AdminPlans />} />
+                <Route path="plans/add-edit" element={<AdminPlanAddEdit />} />
+                <Route path="orders" element={<AdminOrders />} />
+                <Route path="finance" element={<AdminFinance />} />
+                <Route path="reports" element={<AdminReports />} />
+              </Route>
+            </Route>
           </Route>
           
           <Route path="*" element={<h1>Not Found</h1>} />

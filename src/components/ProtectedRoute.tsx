@@ -4,7 +4,11 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useSession } from '@/hooks/useSession';
 import { LoadingState } from '@/components/client/dashboard/LoadingState';
 
-export const ProtectedRoute = () => {
+interface ProtectedRouteProps {
+  children?: React.ReactNode;
+}
+
+export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { getSession, isLoading } = useSession();
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,5 +31,5 @@ export const ProtectedRoute = () => {
     return <LoadingState />;
   }
 
-  return <Outlet />;
+  return children ? <>{children}</> : <Outlet />;
 };
