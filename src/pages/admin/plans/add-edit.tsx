@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -237,12 +236,18 @@ export default function AdminPlanAddEdit() {
         ...data,
         cashback_levels: data.cashback_levels?.map((level: any) => ({
           ...level,
+          id: level.id || Date.now() + Math.random(), // Garantir que tem ID
           valueType: level.fixed_value !== null ? 'fixed' : 'percentage',
-          fixedValue: level.fixed_value,
+          fixedValue: level.fixed_value || 0,
           percentage: level.percentage ? level.percentage * 100 : 0
-        }))
+        })) || [],
+        benefits: data.benefits?.map((benefit: any) => ({
+          ...benefit,
+          id: benefit.id || Date.now() + Math.random() // Garantir que tem ID
+        })) || []
       };
 
+      console.log('Processed plan data:', processedData);
       return processedData;
     },
     enabled: !!planId

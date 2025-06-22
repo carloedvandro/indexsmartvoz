@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface BasicFormData {
   title: string;
@@ -29,20 +29,36 @@ interface PlanFormProviderProps {
 
 export function PlanFormProvider({ children, initialData }: PlanFormProviderProps) {
   const [activeTab, setActiveTab] = useState('informacoes');
-  const [cashbackLevels, setCashbackLevels] = useState(
-    initialData?.cashback_levels || []
-  );
-  const [benefits, setBenefits] = useState(
-    initialData?.benefits || []
-  );
-  const [basicFormData, setBasicFormData] = useState<BasicFormData | null>(
-    initialData ? {
-      title: initialData.title || '',
-      description: initialData.description || '',
-      value: initialData.value || 0,
-      status: initialData.status || 'active'
-    } : null
-  );
+  const [cashbackLevels, setCashbackLevels] = useState<any[]>([]);
+  const [benefits, setBenefits] = useState<any[]>([]);
+  const [basicFormData, setBasicFormData] = useState<BasicFormData | null>(null);
+
+  // Efeito para inicializar os dados quando initialData mudar
+  useEffect(() => {
+    if (initialData) {
+      console.log('Initializing form data:', initialData);
+      
+      // Inicializar dados básicos
+      setBasicFormData({
+        title: initialData.title || '',
+        description: initialData.description || '',
+        value: initialData.value || 0,
+        status: initialData.status || 'active'
+      });
+
+      // Inicializar cashback levels
+      if (initialData.cashback_levels && Array.isArray(initialData.cashback_levels)) {
+        setCashbackLevels(initialData.cashback_levels);
+        console.log('Setting cashback levels:', initialData.cashback_levels);
+      }
+
+      // Inicializar benefits
+      if (initialData.benefits && Array.isArray(initialData.benefits)) {
+        setBenefits(initialData.benefits);
+        console.log('Setting benefits:', initialData.benefits);
+      }
+    }
+  }, [initialData]);
 
   const value = {
     activeTab,
