@@ -1,64 +1,103 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Database, Filter } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import { useIsMobile } from "@/hooks/use-mobile";
-
 export default function InventoryReports() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [selectedMonth, setSelectedMonth] = useState("6");
   const [selectedYear, setSelectedYear] = useState("2025");
-  
   const handleBack = () => {
     navigate('/client/dashboard');
   };
-  
-  const months = [
-    { value: "1", label: "Janeiro" },
-    { value: "2", label: "Fevereiro" },
-    { value: "3", label: "Março" },
-    { value: "4", label: "Abril" },
-    { value: "5", label: "Maio" },
-    { value: "6", label: "Junho" },
-    { value: "7", label: "Julho" },
-    { value: "8", label: "Agosto" },
-    { value: "9", label: "Setembro" },
-    { value: "10", label: "Outubro" },
-    { value: "11", label: "Novembro" },
-    { value: "12", label: "Dezembro" }
-  ];
-
-  const years = [
-    { value: "2014", label: "2014" },
-    { value: "2015", label: "2015" },
-    { value: "2016", label: "2016" },
-    { value: "2017", label: "2017" },
-    { value: "2018", label: "2018" },
-    { value: "2019", label: "2019" },
-    { value: "2020", label: "2020" },
-    { value: "2021", label: "2021" },
-    { value: "2022", label: "2022" },
-    { value: "2023", label: "2023" },
-    { value: "2024", label: "2024" },
-    { value: "2025", label: "2025" }
-  ];
-  
-  const inventoryItems = [
-    { type: "SIM Cards", total: 250, available: 180, allocated: 70 },
-    { type: "eSIMs", total: 500, available: 420, allocated: 80 }
-  ];
-
-  return (
-    <div className="min-h-screen bg-white">
+  const months = [{
+    value: "1",
+    label: "Janeiro"
+  }, {
+    value: "2",
+    label: "Fevereiro"
+  }, {
+    value: "3",
+    label: "Março"
+  }, {
+    value: "4",
+    label: "Abril"
+  }, {
+    value: "5",
+    label: "Maio"
+  }, {
+    value: "6",
+    label: "Junho"
+  }, {
+    value: "7",
+    label: "Julho"
+  }, {
+    value: "8",
+    label: "Agosto"
+  }, {
+    value: "9",
+    label: "Setembro"
+  }, {
+    value: "10",
+    label: "Outubro"
+  }, {
+    value: "11",
+    label: "Novembro"
+  }, {
+    value: "12",
+    label: "Dezembro"
+  }];
+  const years = [{
+    value: "2014",
+    label: "2014"
+  }, {
+    value: "2015",
+    label: "2015"
+  }, {
+    value: "2016",
+    label: "2016"
+  }, {
+    value: "2017",
+    label: "2017"
+  }, {
+    value: "2018",
+    label: "2018"
+  }, {
+    value: "2019",
+    label: "2019"
+  }, {
+    value: "2020",
+    label: "2020"
+  }, {
+    value: "2021",
+    label: "2021"
+  }, {
+    value: "2022",
+    label: "2022"
+  }, {
+    value: "2023",
+    label: "2023"
+  }, {
+    value: "2024",
+    label: "2024"
+  }, {
+    value: "2025",
+    label: "2025"
+  }];
+  const inventoryItems = [{
+    type: "SIM Cards",
+    total: 250,
+    available: 180,
+    allocated: 70
+  }, {
+    type: "eSIMs",
+    total: 500,
+    available: 420,
+    allocated: 80
+  }];
+  return <div className="min-h-screen bg-white">
       <div className="fixed top-0 left-0 right-0 h-16 bg-[#46005e] border-b border-white/10 z-50">
         <div className="h-full flex items-center px-6 relative z-10">
           <div className="flex flex-col">
@@ -75,27 +114,19 @@ export default function InventoryReports() {
             <span className="text-base font-medium text-[#5f0889]">Filtros</span>
           </div>
           
-          <div className="flex flex-row justify-between gap-4 mb-6">
+          <div className="flex flex-row justify-between gap-4 mb-8">
             <div className="w-full md:w-[200px]">
               <label className="block text-sm font-medium text-gray-900 mb-2">
                 Mês
               </label>
               <Select defaultValue={selectedMonth} onValueChange={setSelectedMonth}>
-                <SelectTrigger 
-                  className="w-full bg-white text-gray-900 border-gray-300 h-10"
-                >
+                <SelectTrigger className="w-full bg-white text-gray-900 border-gray-300 h-10">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="border border-gray-200 rounded-md shadow-md">
-                  {months.map((month) => (
-                    <SelectItem 
-                      key={month.value} 
-                      value={month.value}
-                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-1.5 px-2"
-                    >
+                  {months.map(month => <SelectItem key={month.value} value={month.value} className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-1.5 px-2">
                       {month.label}
-                    </SelectItem>
-                  ))}
+                    </SelectItem>)}
                 </SelectContent>
               </Select>
             </div>
@@ -105,37 +136,24 @@ export default function InventoryReports() {
                 Ano
               </label>
               <Select defaultValue={selectedYear} onValueChange={setSelectedYear}>
-                <SelectTrigger 
-                  className="w-full bg-white text-gray-900 border-gray-300 h-10"
-                >
+                <SelectTrigger className="w-full bg-white text-gray-900 border-gray-300 h-10">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="border border-gray-200 rounded-md shadow-md">
-                  {years.map((year) => (
-                    <SelectItem 
-                      key={year.value} 
-                      value={year.value}
-                      className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-1.5 px-2"
-                    >
+                  {years.map(year => <SelectItem key={year.value} value={year.value} className="hover:!bg-[#5f0889] hover:!text-white focus:!bg-[#5f0889] focus:!text-white data-[state=checked]:!bg-[#5f0889] data-[state=checked]:!text-white py-1.5 px-2">
                       {year.label}
-                    </SelectItem>
-                  ))}
+                    </SelectItem>)}
                 </SelectContent>
               </Select>
             </div>
           </div>
           
           <div className="flex flex-row gap-4 justify-between w-full mb-6">
-            <button 
-              onClick={handleBack}
-              className="border border-[#5f0889] text-[#5f0889] h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-full px-4"
-            >
+            <button onClick={handleBack} className="border border-[#5f0889] text-[#5f0889] h-9 rounded-md hover:bg-[#5f0889] hover:text-white transition-colors w-full px-4">
               Voltar
             </button>
             
-            <button 
-              className="bg-[#5f0889] text-white h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors w-full px-4"
-            >
+            <button className="bg-[#5f0889] text-white h-9 rounded-md hover:bg-[#5f0889]/90 transition-colors w-full px-4">
               Filtrar
             </button>
           </div>
@@ -153,11 +171,7 @@ export default function InventoryReports() {
               <div className="text-center">Alocado</div>
             </div>
             
-            {inventoryItems.map((item, index) => (
-              <div 
-                key={index} 
-                className={`px-4 py-3 grid grid-cols-4 text-sm ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}
-              >
+            {inventoryItems.map((item, index) => <div key={index} className={`px-4 py-3 grid grid-cols-4 text-sm ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
                 <div className="flex items-center gap-2">
                   <Box className="w-4 h-4 text-gray-500" />
                   <span className="font-medium text-gray-700">{item.type}</span>
@@ -165,8 +179,7 @@ export default function InventoryReports() {
                 <div className="text-center text-gray-900">{item.total}</div>
                 <div className="text-center text-green-600">{item.available}</div>
                 <div className="text-center text-amber-600">{item.allocated}</div>
-              </div>
-            ))}
+              </div>)}
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -187,6 +200,5 @@ export default function InventoryReports() {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }
