@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Plus, Save } from "lucide-react";
@@ -60,9 +60,61 @@ export default function AdminPlanAddEdit() {
   const handleSave = async () => {
     setIsSubmitting(true);
     try {
-      // Aqui você pode adicionar a lógica de salvamento
-      // Por enquanto, apenas simulamos o salvamento
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Pegar dados dos formulários diretamente dos elementos DOM
+      const titleInput = document.querySelector('input[id="title"]') as HTMLInputElement;
+      const descriptionInput = document.querySelector('textarea[id="description"]') as HTMLTextAreaElement;
+      const valueInput = document.querySelector('input[id="value"]') as HTMLInputElement;
+      const statusSelect = document.querySelector('[data-testid="status-select"]') as HTMLElement;
+      
+      if (!titleInput?.value || !valueInput?.value) {
+        toast({
+          title: "Erro",
+          description: "Título e valor são obrigatórios.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const basicInfo = {
+        title: titleInput.value,
+        description: descriptionInput?.value || '',
+        value: parseFloat(valueInput.value),
+        status: statusSelect?.getAttribute('data-value') || 'active'
+      };
+
+      let savedPlanId = planId;
+      
+      // Salvar/atualizar o plano principal
+      if (planId) {
+        // Atualizar plano existente
+        const { error: planError } = await supabase
+          .from('plans')
+          .update({
+            title: basicInfo.title,
+            description: basicInfo.description,
+            value: basicInfo.value,
+            status: basicInfo.status,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', planId);
+
+        if (planError) throw planError;
+      } else {
+        // Criar novo plano
+        const { data: newPlan, error: planError } = await supabase
+          .from('plans')
+          .insert({
+            title: basicInfo.title,
+            description: basicInfo.description,
+            value: basicInfo.value,
+            status: basicInfo.status
+          })
+          .select()
+          .single();
+
+        if (planError) throw planError;
+        savedPlanId = newPlan.id;
+      }
 
       toast({
         title: "Sucesso",
@@ -71,6 +123,7 @@ export default function AdminPlanAddEdit() {
 
       navigate('/admin/plans');
     } catch (error) {
+      console.error('Erro ao salvar plano:', error);
       toast({
         title: "Erro",
         description: "Erro ao salvar plano. Tente novamente.",
@@ -137,7 +190,6 @@ export default function AdminPlanAddEdit() {
           <div className="p-6">
             <PlanFormTabs />
           </div>
-
         </div>
 
         {/* Botão fixo no bottom para mobile */}
