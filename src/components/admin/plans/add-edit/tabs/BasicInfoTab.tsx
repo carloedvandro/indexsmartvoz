@@ -15,7 +15,7 @@ interface BasicInfoFormData {
 }
 
 export function BasicInfoTab() {
-  const { planData } = usePlanForm();
+  const { planData, setBasicFormData } = usePlanForm();
 
   const { register, setValue, watch, formState: { errors } } = useForm<BasicInfoFormData>({
     defaultValues: {
@@ -26,13 +26,20 @@ export function BasicInfoTab() {
     }
   });
 
-  // Sincronizar mudanças do formulário com o contexto
+  // Observar mudanças no formulário e sincronizar com o contexto
   const formValues = watch();
   
   useEffect(() => {
-    // Aqui você pode sincronizar os valores do formulário com o contexto se necessário
-    // Por enquanto, os valores são mantidos localmente
-  }, [formValues]);
+    // Sincronizar os valores do formulário com o contexto
+    if (setBasicFormData) {
+      setBasicFormData({
+        title: formValues.title,
+        description: formValues.description,
+        value: formValues.value,
+        status: formValues.status
+      });
+    }
+  }, [formValues, setBasicFormData]);
 
   return (
     <div className="space-y-6">
