@@ -22,6 +22,7 @@ import ClientEsim from "@/pages/client/esim";
 import ClientFacialBiometry from "@/pages/client/facial-biometry";
 import ClientResetPassword from "@/pages/client/reset-password";
 import ClientNavigation from "@/pages/client/navigation";
+import InventoryReports from "@/pages/client/inventory-reports";
 
 // Admin pages
 import AdminLogin from "@/pages/admin/login";
@@ -71,6 +72,7 @@ function App() {
               <Route path="esim" element={<ClientEsim />} />
               <Route path="facial-biometry" element={<ClientFacialBiometry />} />
               <Route path="navigation" element={<ClientNavigation />} />
+              <Route path="inventory-reports" element={<InventoryReports />} />
             </Route>
           </Route>
           
