@@ -84,21 +84,33 @@ serve(async (req) => {
         if (!termsAcceptance) {
           console.warn('⚠️ [PROCESSAR-CONFIRMACAO] Usuário não aceitou os termos, pulando criação de subconta')
         } else {
-          // Preparar dados para API do Asaas
+          // Preparar dados para API do Asaas com todos os campos obrigatórios
           const accountData = {
             name: order.user?.full_name || 'Usuário SmartVoz',
             email: order.user?.email,
             cpfCnpj: order.user?.cpf || order.user?.cnpj,
-            birthDate: order.user?.birth_date || '1990-01-01', // Campo obrigatório
-            phone: order.user?.mobile || order.user?.phone,
-            mobilePhone: order.user?.mobile,
+            birthDate: order.user?.birth_date || '1990-01-01',
+            phone: order.user?.mobile || order.user?.phone || '11999999999',
+            mobilePhone: order.user?.mobile || '11999999999',
             address: order.user?.address || 'Rua Principal, 123',
             addressNumber: '123',
             complement: '',
             province: order.user?.city || 'São Paulo',
             postalCode: order.user?.zip_code || '01000-000',
+            // Campos obrigatórios para subconta
             accountType: 'PAYMENT_ACCOUNT',
             companyType: order.user?.cnpj ? 'MEI' : 'INDIVIDUAL',
+            // Campo de renda/faturamento obrigatório
+            incomeValue: order.user?.cnpj ? 5000.00 : 2000.00, // MEI: R$ 5.000, PF: R$ 2.000
+            // Outros campos importantes
+            site: order.user?.store_url || '',
+            responsibleName: order.user?.full_name || 'Usuário SmartVoz',
+            // Para PJ, adicionar campos específicos
+            ...(order.user?.cnpj && {
+              companyType: 'MEI',
+              tradingName: order.user?.full_name || 'SmartVoz',
+              incomeValue: 5000.00
+            })
           }
 
           console.log('📡 [PROCESSAR-CONFIRMACAO] Dados para criação da subconta:', {
@@ -106,7 +118,9 @@ serve(async (req) => {
             email: accountData.email,
             cpfCnpj: accountData.cpfCnpj,
             birthDate: accountData.birthDate,
-            city: accountData.province
+            city: accountData.province,
+            companyType: accountData.companyType,
+            incomeValue: accountData.incomeValue
           })
 
           console.log('📡 [PROCESSAR-CONFIRMACAO] Chamando API Asaas...')

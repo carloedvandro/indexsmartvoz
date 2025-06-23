@@ -1,4 +1,3 @@
-
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
@@ -16,7 +15,7 @@ serve(async (req) => {
   try {
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
       {
         auth: {
           autoRefreshToken: false,
@@ -111,25 +110,42 @@ serve(async (req) => {
       .single()
 
     try {
-      // Preparar dados para API do Asaas
+      // Preparar dados para API do Asaas com todos os campos obrigatórios
       const accountData = {
         name: userProfile.full_name || 'Usuário SmartVoz',
         email: userProfile.email,
         cpfCnpj: userProfile.cpf || userProfile.cnpj,
-        phone: userProfile.mobile || userProfile.phone,
-        mobilePhone: userProfile.mobile,
-        address: userProfile.address,
-        addressNumber: '123', // Número genérico se não tiver
+        birthDate: userProfile.birth_date || '1990-01-01',
+        phone: userProfile.mobile || userProfile.phone || '11999999999',
+        mobilePhone: userProfile.mobile || '11999999999',
+        address: userProfile.address || 'Rua Principal, 123',
+        addressNumber: '123',
         complement: '',
-        province: userProfile.city,
-        postalCode: userProfile.zip_code,
-        // Configurações específicas para subconta
-        accountType: 'PAYMENT_ACCOUNT', // Tipo de conta para receber pagamentos
+        province: userProfile.city || 'São Paulo',
+        postalCode: userProfile.zip_code || '01000-000',
+        // Campos obrigatórios para subconta
+        accountType: 'PAYMENT_ACCOUNT',
         companyType: userProfile.cnpj ? 'MEI' : 'INDIVIDUAL',
-        site: userProfile.store_url,
+        // Campo de renda/faturamento obrigatório
+        incomeValue: userProfile.cnpj ? 5000.00 : 2000.00,
+        // Outros campos importantes
+        site: userProfile.store_url || '',
+        responsibleName: userProfile.full_name || 'Usuário SmartVoz',
+        // Para PJ, adicionar campos específicos
+        ...(userProfile.cnpj && {
+          companyType: 'MEI',
+          tradingName: userProfile.full_name || 'SmartVoz',
+          incomeValue: 5000.00
+        })
       }
 
-      console.log('Dados para criação da subconta:', accountData)
+      console.log('Dados para criação da subconta:', {
+        name: accountData.name,
+        email: accountData.email,
+        cpfCnpj: accountData.cpfCnpj,
+        companyType: accountData.companyType,
+        incomeValue: accountData.incomeValue
+      })
 
       // Chamada para API do Asaas (Sandbox)
       const asaasResponse = await fetch('https://sandbox.asaas.com/api/v3/accounts', {
