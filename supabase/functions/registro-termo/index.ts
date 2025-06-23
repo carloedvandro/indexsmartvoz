@@ -1,5 +1,4 @@
 
-
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
@@ -19,7 +18,7 @@ serve(async (req) => {
     
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
       {
         auth: {
           autoRefreshToken: false,
@@ -41,7 +40,13 @@ serve(async (req) => {
     const token = authHeader.replace('Bearer ', '')
     console.log('🔑 Token extraído, verificando usuário...');
     
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token)
+    // Usar o cliente auth para verificar o token
+    const authClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_ANON_KEY') ?? ''
+    )
+
+    const { data: { user }, error: authError } = await authClient.auth.getUser(token)
 
     if (authError) {
       console.error('❌ Erro de autenticação:', authError);
@@ -66,31 +71,74 @@ serve(async (req) => {
 
     console.log('📝 Dados recebidos:', { aceite, receberComunicados });
 
-    // Usar upsert agora que temos o índice único
-    console.log('💾 Registrando aceite dos termos usando upsert...');
+    // Verificar se já existe um registro para este usuário
+    console.log('🔍 Verificando se já existe aceite para o usuário...');
     
-    const { error: upsertError } = await supabase
+    const { data: existingAcceptance, error: selectError } = await supabase
       .from('terms_acceptance')
-      .upsert({
-        user_id: user.id,
-        accepted: aceite,
-        receive_communications: receberComunicados,
-        accepted_at: new Date().toISOString(),
-        ip_address: req.headers.get('x-forwarded-for') || 'unknown'
-      }, {
-        onConflict: 'user_id',
-        ignoreDuplicates: false
-      })
+      .select('id')
+      .eq('user_id', user.id)
+      .maybeSingle()
 
-    if (upsertError) {
-      console.error('❌ Erro ao registrar aceite:', upsertError);
+    if (selectError) {
+      console.error('❌ Erro ao verificar aceite existente:', selectError);
       return new Response(
         JSON.stringify({ 
-          error: 'Erro ao registrar aceite', 
-          details: upsertError.message 
+          error: 'Erro ao verificar aceite existente', 
+          details: selectError.message 
         }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
+    }
+
+    if (existingAcceptance) {
+      // Se já existe, fazer update
+      console.log('🔄 Atualizando aceite existente...');
+      
+      const { error: updateError } = await supabase
+        .from('terms_acceptance')
+        .update({
+          accepted: aceite,
+          receive_communications: receberComunicados,
+          accepted_at: new Date().toISOString(),
+          ip_address: req.headers.get('x-forwarded-for') || 'unknown'
+        })
+        .eq('user_id', user.id)
+
+      if (updateError) {
+        console.error('❌ Erro ao atualizar aceite:', updateError);
+        return new Response(
+          JSON.stringify({ 
+            error: 'Erro ao atualizar aceite', 
+            details: updateError.message 
+          }),
+          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        )
+      }
+    } else {
+      // Se não existe, fazer insert
+      console.log('💾 Inserindo novo aceite...');
+      
+      const { error: insertError } = await supabase
+        .from('terms_acceptance')
+        .insert({
+          user_id: user.id,
+          accepted: aceite,
+          receive_communications: receberComunicados,
+          accepted_at: new Date().toISOString(),
+          ip_address: req.headers.get('x-forwarded-for') || 'unknown'
+        })
+
+      if (insertError) {
+        console.error('❌ Erro ao inserir aceite:', insertError);
+        return new Response(
+          JSON.stringify({ 
+            error: 'Erro ao registrar aceite', 
+            details: insertError.message 
+          }),
+          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        )
+      }
     }
 
     console.log('✅ Aceite registrado com sucesso');
@@ -111,4 +159,3 @@ serve(async (req) => {
     )
   }
 })
-
