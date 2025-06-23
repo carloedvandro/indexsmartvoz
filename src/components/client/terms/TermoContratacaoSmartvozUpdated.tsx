@@ -46,7 +46,7 @@ const TermoContratacaoSmartvozUpdated = () => {
       
       toast({
         title: "Sucesso",
-        description: "Aceite registrado com sucesso.",
+        description: "Aceite registrado com sucesso. Você receberá a confirmação via e-mail e WhatsApp.",
       });
       
     } catch (error) {
@@ -73,7 +73,9 @@ const TermoContratacaoSmartvozUpdated = () => {
           <CardContent className="space-y-6 text-gray-700">
             <p className="text-sm">
               Este documento estabelece as condições para o fornecimento de serviço de linha móvel pela empresa SmartVoz. 
-              Ao prosseguir com a contratação, o USUÁRIO declara que leu, entendeu e concorda plenamente com os termos abaixo.
+              Ao prosseguir com a contratação, o USUÁRIO declara que leu, entendeu e concorda plenamente com os termos abaixo, 
+              em conformidade com o Código de Defesa do Consumidor (Lei nº 8.078/1990), Código Civil (Art. 186 e 927), 
+              Marco Civil da Internet (Lei 12.965/2014) e a Lei 6.019/1974 (Marketing Multinível).
             </p>
 
             <div>
@@ -103,9 +105,9 @@ const TermoContratacaoSmartvozUpdated = () => {
               <ul className="list-disc list-inside space-y-1 text-sm">
                 <li>O valor do plano será informado previamente ao pagamento, e o usuário deverá realizar o pagamento antes de seguir para as etapas de escaneamento do chip e solicitação de ativação da linha.</li>
                 <li>O pagamento é antecipado e não reembolsável, mesmo em casos de uso parcial, desistência ou interrupção.</li>
-                <li>O não pagamento até a data prevista resultará no bloqueio automático da linha, sem aviso prévio.</li>
-                <li>O sistema reserva automaticamente o valor total da mensalidade a vencer. Caso o usuário tenha saldo disponível, esse valor será retido antes de permitir novos saques. Se o saldo for insuficiente, a fatura será atualizada com o valor restante com desconto proporcional e o usuário será notificado. O sistema também poderá aplicar automaticamente créditos disponíveis e gerar nova fatura atualizada.</li>
-                <li>Será cobrada taxa de 3% sobre cada solicitação de saque, quando aplicável.</li>
+                <li>O sistema poderá aplicar automaticamente créditos disponíveis para gerar a fatura com desconto e informar o novo valor ajustado ao usuário.</li>
+                <li>O sistema não bloqueará ou reservará valores de comissão recebida fora do período de 10 dias antes do vencimento da mensalidade. Dentro desse intervalo de 10 dias, o valor da fatura poderá ser reservado automaticamente e o restante do saldo permanece disponível para saque.</li>
+                <li>Será aplicada taxa de 3% sobre cada solicitação de saque efetuada.</li>
               </ul>
             </div>
 
@@ -113,30 +115,33 @@ const TermoContratacaoSmartvozUpdated = () => {
               <h2 className="font-bold text-lg mb-3 text-gray-900">4. Comissões e conduta em rede</h2>
               <ul className="list-disc list-inside space-y-1 text-sm">
                 <li>O usuário receberá comissões de forma recorrente sobre todos os cadastros realizados por meio do seu link de indicação.</li>
-                <li>É proibido divulgar os planos da empresa SmartVoz mencionando concorrentes ou operadoras reais, bem como fazer publicações ofensivas ou discriminatórias em mídias sociais. Tais práticas podem resultar em penalidades como advertência, perda da rede ou exclusão da conta.</li>
+                <li>É expressamente proibido divulgar comparações entre planos da SmartVoz e os planos das operadoras concorrentes (como Vivo, Claro, TIM e demais operadoras do mercado), inclusive em mídias sociais ou canais digitais, com o intuito de desinformar, depreciar ou difamar.</li>
+                <li>O usuário não poderá usar campanhas, marcas ou materiais das operadoras fornecedoras para fins de propaganda sem autorização formal da SmartVoz.</li>
+                <li>O descumprimento dessas regras poderá resultar em penalidades como advertência, exclusão da conta, bloqueio da rede de comissões, responsabilização judicial por danos morais e materiais, conforme previsto nas leis mencionadas neste termo.</li>
               </ul>
             </div>
 
             <div>
               <h2 className="font-bold text-lg mb-3 text-gray-900">5. Suporte técnico</h2>
               <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>Suporte técnico disponível 24 horas por dia, de segunda a segunda, por meio de ligação para a central 10315.</li>
-                <li>Selecione a opção 2, aguarde e selecione novamente a opção 2. Após isso, será solicitado que digite o código de acesso de 4 dígitos fornecido pela SmartVoz.</li>
-                <li>Na primeira tentativa, o código pode não ser reconhecido. Após a notificação, tente novamente o mesmo código.</li>
-                <li>Caso o atendimento solicite dados da empresa, informe que você é apenas um usuário com o código de acesso fornecido pela empresa. Explique o motivo do contato (ex: lentidão na linha, necessidade de atualização, etc.).</li>
+                <li>Disponível 24h por dia, de segunda a segunda, via ligação para 10315.</li>
+                <li>Selecione a opção 2, aguarde, selecione novamente a opção 2, e digite o código de acesso de 4 dígitos fornecido pela SmartVoz.</li>
+                <li>Na primeira tentativa, o código pode não ser reconhecido. Após a notificação, digite novamente o mesmo código.</li>
+                <li>Informe que é apenas o usuário autorizado com acesso por meio do código de 4 dígitos.</li>
               </ul>
             </div>
 
             <div>
               <h2 className="font-bold text-lg mb-3 text-gray-900">6. Comunicação e notificações</h2>
               <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>O USUÁRIO será notificado no painel do escritório virtual (Dashboard) via sino com mensagens sobre:</li>
+                <li>O USUÁRIO será notificado no painel do escritório virtual (Dashboard), via sino, e também por e-mail e WhatsApp, sobre:</li>
                 <ul className="list-disc ml-6 mt-1 space-y-1">
+                  <li>Confirmação do aceite do termo (com IP, data e hora)</li>
                   <li>Vencimento da fatura</li>
                   <li>Status da ativação da linha</li>
-                  <li>Instruções operacionais sobre ativação do SIM Card ou eSIM (leitura de QR Code)</li>
-                  <li>Disponibilidade do aplicativo da operadora para acompanhamento do plano contratado e consumo de dados. O usuário fará o download do app indicado no dashboard, inserirá sua linha, receberá código SMS de 6 dígitos e terá acesso ao consumo em tempo real e percentual atingido. Caso deseje, poderá solicitar upgrade de plano para o próximo ciclo.</li>
-                  <li>Opção de upgrade de plano a qualquer momento. O valor atualizado será cobrado na próxima fatura.</li>
+                  <li>Instruções operacionais sobre ativação do SIM Card e eSIM (leitura de QR Code)</li>
+                  <li>Opção de upgrade de plano a qualquer momento (com cobrança atualizada na próxima fatura)</li>
+                  <li>Disponibilidade de acesso ao app da operadora para acompanhar o plano contratado em tempo real via linha cadastrada e código de SMS de 6 dígitos</li>
                 </ul>
               </ul>
             </div>
@@ -144,8 +149,8 @@ const TermoContratacaoSmartvozUpdated = () => {
             <div>
               <h2 className="font-bold text-lg mb-3 text-gray-900">7. Cadastro e validação</h2>
               <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>O cadastro é individual por CPF, com validação biométrica facial, escaneamento de documento (frente e verso) e confirmação por dois fatores.</li>
-                <li>Não é permitido o cadastro em nome de terceiros ou duplicações por CPF, e-mail ou número de contato.</li>
+                <li>Cadastro individual por CPF com validação facial, escaneamento de documento frente/verso e confirmação em dois fatores.</li>
+                <li>Não será permitido cadastro em nome de terceiros, nem duplicações por CPF, e-mail ou número de contato.</li>
               </ul>
             </div>
 
@@ -153,8 +158,8 @@ const TermoContratacaoSmartvozUpdated = () => {
               <h2 className="font-bold text-lg mb-3 text-gray-900">8. Disposições finais</h2>
               <ul className="list-disc list-inside space-y-1 text-sm">
                 <li>Este serviço é prestado exclusivamente pela SmartVoz, sem vínculo direto com operadoras de telefonia.</li>
-                <li>Este termo substitui quaisquer comunicações anteriores.</li>
-                <li>O foro para eventuais disputas será Porto Alegre/RS.</li>
+                <li>Este termo substitui qualquer comunicação anterior.</li>
+                <li>O foro competente para dirimir eventuais dúvidas é o da Comarca de Porto Alegre – RS.</li>
               </ul>
             </div>
 
