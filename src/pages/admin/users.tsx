@@ -102,16 +102,16 @@ export default function AdminUsers() {
     <div className="space-y-6">
       <AdminPageHeader
         title="Gerenciar Usuários"
-        description="Visualize e gerencie todos os usuários da plataforma"
+        subtitle="Visualize e gerencie todos os usuários da plataforma"
       />
 
       <SearchFilters
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        selectedRole={selectedRole}
-        setSelectedRole={setSelectedRole}
-        selectedStatus={selectedStatus}
-        setSelectedStatus={setSelectedStatus}
+        searchValue={searchTerm}
+        onSearchChange={setSearchTerm}
+        roleFilter={selectedRole}
+        onRoleChange={setSelectedRole}
+        statusFilter={selectedStatus}
+        onStatusChange={setSelectedStatus}
       />
 
       <UsersTable
@@ -126,8 +126,9 @@ export default function AdminUsers() {
       {editingUser && (
         <UserEditDialog
           user={editingUser}
-          onClose={() => setEditingUser(null)}
-          onSuccess={() => {
+          open={!!editingUser}
+          onOpenChange={(open) => !open && setEditingUser(null)}
+          onUserUpdated={() => {
             refetch();
             setEditingUser(null);
           }}
@@ -137,22 +138,25 @@ export default function AdminUsers() {
       {deletingUser && (
         <DeleteUserDialog
           user={deletingUser}
+          isOpen={!!deletingUser}
           onClose={() => setDeletingUser(null)}
-          onConfirm={handleDeleteConfirm}
+          onConfirm={() => handleDeleteConfirm(deletingUser.id)}
         />
       )}
 
       {viewingPayment && (
         <PaymentDetailsDialog
           user={viewingPayment}
-          onClose={() => setViewingPayment(null)}
+          isOpen={!!viewingPayment}
+          onOpenChange={(open) => !open && setViewingPayment(null)}
         />
       )}
 
       {viewingPlan && (
         <PlanDetailsDialog
           user={viewingPlan}
-          onClose={() => setViewingPlan(null)}
+          isOpen={!!viewingPlan}
+          onOpenChange={(open) => !open && setViewingPlan(null)}
         />
       )}
     </div>

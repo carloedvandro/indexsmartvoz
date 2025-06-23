@@ -84,7 +84,7 @@ export default function AdminOrders() {
     }
   });
 
-  // Mutation para atualizar status do pedido
+  // Mutation para atualizar status do pedido com processamento automático
   const updateStatusMutation = useMutation({
     mutationFn: async ({ orderId, status }: { orderId: string; status: string }) => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -106,14 +106,62 @@ export default function AdminOrders() {
         .eq('id', orderId);
       
       if (error) throw error;
+
+      // Se o status for confirmado, processar automaticamente
+      if (status === 'confirmed' && user?.id) {
+        console.log('🎯 [ADMIN-ORDERS] Iniciando processamento automático...');
+        
+        try {
+          const { data, error: processError } = await supabase.functions.invoke('processar-confirmacao-plano', {
+            body: {
+              orderId,
+              adminUserId: user.id
+            }
+          });
+
+          if (processError) {
+            console.error('❌ [ADMIN-ORDERS] Erro no processamento:', processError);
+            toast({
+              title: "Aviso",
+              description: "Pedido confirmado, mas houve erro no processamento automático. Verifique os logs.",
+              variant: "destructive",
+            });
+          } else {
+            console.log('✅ [ADMIN-ORDERS] Processamento concluído:', data);
+            
+            if (data?.asaasAccountCreated) {
+              toast({
+                title: "Sucesso Completo",
+                description: "Pedido confirmado, subconta Asaas criada e cashback processado!",
+              });
+            } else {
+              toast({
+                title: "Pedido Confirmado",
+                description: "Status atualizado e processamento automático concluído.",
+              });
+            }
+          }
+        } catch (processError) {
+          console.error('💥 [ADMIN-ORDERS] Erro no processamento:', processError);
+          toast({
+            title: "Parcialmente Processado",
+            description: "Pedido confirmado, mas processamento automático falhou.",
+            variant: "destructive",
+          });
+        }
+      }
     },
     onSuccess: (_, { status }) => {
       queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
-      const statusLabel = getStatusLabel(status);
-      toast({
-        title: "Status atualizado",
-        description: `Pedido ${statusLabel.toLowerCase()} com sucesso.`,
-      });
+      
+      // Se não for confirmação (que já tem toast específico), mostrar toast genérico
+      if (status !== 'confirmed') {
+        const statusLabel = getStatusLabel(status);
+        toast({
+          title: "Status atualizado",
+          description: `Pedido ${statusLabel.toLowerCase()} com sucesso.`,
+        });
+      }
     },
     onError: (error) => {
       console.error('Erro ao atualizar status:', error);
@@ -276,7 +324,7 @@ export default function AdminOrders() {
                 size="sm"
                 onClick={() => handleStatusUpdate(order.id, 'confirmed')}
                 className="text-green-600 hover:text-green-800"
-                title="Confirmar pedido"
+                title="Confirmar pedido (processar automaticamente)"
                 disabled={updateStatusMutation.isPending}
               >
                 <Check className="h-4 w-4" />
