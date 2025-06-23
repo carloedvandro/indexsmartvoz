@@ -65,40 +65,30 @@ serve(async (req) => {
 
     console.log('📝 Dados recebidos:', { aceite, receberComunicados });
 
-    // Primeiro, vamos verificar se a tabela terms_acceptance existe
-    // Se não existir, vamos tentar inserir diretamente no profiles
-    console.log('💾 Tentando atualizar perfil do usuário...');
+    // Usar a tabela terms_acceptance correta
+    console.log('💾 Inserindo aceite na tabela terms_acceptance...');
     
-    const { error: updateError } = await supabase
-      .from('profiles')
-      .update({ 
-        terms_accepted: aceite,
-        terms_accepted_at: new Date().toISOString()
+    const { error: insertError } = await supabase
+      .from('terms_acceptance')
+      .upsert({
+        user_id: user.id,
+        accepted: aceite,
+        receive_communications: receberComunicados,
+        accepted_at: new Date().toISOString(),
+        ip_address: req.headers.get('x-forwarded-for') || 'unknown'
+      }, {
+        onConflict: 'user_id'
       })
-      .eq('id', user.id)
 
-    if (updateError) {
-      console.error('❌ Erro ao atualizar perfil:', updateError);
-      
-      // Se der erro, vamos tentar inserir um novo registro
-      const { error: insertError } = await supabase
-        .from('profiles')
-        .insert({
-          id: user.id,
-          terms_accepted: aceite,
-          terms_accepted_at: new Date().toISOString()
-        })
-
-      if (insertError) {
-        console.error('❌ Erro ao inserir perfil:', insertError);
-        return new Response(
-          JSON.stringify({ 
-            error: 'Erro ao registrar aceite', 
-            details: insertError.message 
-          }),
-          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        )
-      }
+    if (insertError) {
+      console.error('❌ Erro ao inserir aceite:', insertError);
+      return new Response(
+        JSON.stringify({ 
+          error: 'Erro ao registrar aceite', 
+          details: insertError.message 
+        }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
     }
 
     console.log('✅ Aceite registrado com sucesso');
