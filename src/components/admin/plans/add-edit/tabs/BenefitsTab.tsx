@@ -7,21 +7,23 @@ import { BenefitsModal } from "../../plan-form/BenefitsModal";
 import { usePlanForm } from "../PlanFormProvider";
 
 export function BenefitsTab() {
-  const { benefits, setBenefits } = usePlanForm();
+  const { 
+    benefits, 
+    addBenefit, 
+    updateBenefit, 
+    deleteBenefit 
+  } = usePlanForm();
   const [benefitsModalOpen, setBenefitsModalOpen] = useState(false);
   const [editingBenefit, setEditingBenefit] = useState<any>(null);
 
   const handleBenefitSubmit = (benefitData: any) => {
     if (editingBenefit) {
-      setBenefits(
-        benefits.map(item => 
-          item.id === editingBenefit.id ? { ...benefitData, id: item.id } : item
-        )
-      );
+      updateBenefit(editingBenefit.id, benefitData);
       setEditingBenefit(null);
     } else {
-      setBenefits([...benefits, { ...benefitData, id: Date.now() }]);
+      addBenefit(benefitData);
     }
+    setBenefitsModalOpen(false);
   };
 
   const handleEditBenefit = (benefit: any) => {
@@ -30,7 +32,7 @@ export function BenefitsTab() {
   };
 
   const handleDeleteBenefit = (id: any) => {
-    setBenefits(benefits.filter(item => item.id !== id));
+    deleteBenefit(id);
   };
 
   return (

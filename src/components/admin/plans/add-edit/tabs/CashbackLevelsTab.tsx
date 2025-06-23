@@ -7,21 +7,23 @@ import { CashbackModal } from "../../plan-form/CashbackModal";
 import { usePlanForm } from "../PlanFormProvider";
 
 export function CashbackLevelsTab() {
-  const { cashbackLevels, setCashbackLevels } = usePlanForm();
+  const { 
+    cashbackLevels, 
+    addCashbackLevel, 
+    updateCashbackLevel, 
+    deleteCashbackLevel 
+  } = usePlanForm();
   const [cashbackModalOpen, setCashbackModalOpen] = useState(false);
   const [editingCashback, setEditingCashback] = useState<any>(null);
 
   const handleCashbackSubmit = (cashbackData: any) => {
     if (editingCashback) {
-      setCashbackLevels(
-        cashbackLevels.map(item => 
-          item.id === editingCashback.id ? { ...cashbackData, id: item.id } : item
-        )
-      );
+      updateCashbackLevel(editingCashback.id, cashbackData);
       setEditingCashback(null);
     } else {
-      setCashbackLevels([...cashbackLevels, { ...cashbackData, id: Date.now() }]);
+      addCashbackLevel(cashbackData);
     }
+    setCashbackModalOpen(false);
   };
 
   const handleEditCashback = (cashback: any) => {
@@ -30,7 +32,7 @@ export function CashbackLevelsTab() {
   };
 
   const handleDeleteCashback = (id: any) => {
-    setCashbackLevels(cashbackLevels.filter(item => item.id !== id));
+    deleteCashbackLevel(id);
   };
 
   return (

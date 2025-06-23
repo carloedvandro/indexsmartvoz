@@ -18,6 +18,13 @@ interface PlanFormContextType {
   setBenefits: (benefits: any[]) => void;
   basicFormData: BasicFormData | null;
   setBasicFormData: (data: BasicFormData) => void;
+  // Novos métodos para gerenciar dados temporários
+  addCashbackLevel: (level: any) => void;
+  updateCashbackLevel: (id: any, level: any) => void;
+  deleteCashbackLevel: (id: any) => void;
+  addBenefit: (benefit: any) => void;
+  updateBenefit: (id: any, benefit: any) => void;
+  deleteBenefit: (id: any) => void;
 }
 
 const PlanFormContext = createContext<PlanFormContextType | null>(null);
@@ -60,6 +67,38 @@ export function PlanFormProvider({ children, initialData }: PlanFormProviderProp
     }
   }, [initialData]);
 
+  // Métodos para gerenciar cashback levels
+  const addCashbackLevel = (level: any) => {
+    const newLevel = { ...level, id: level.id || Date.now() + Math.random() };
+    setCashbackLevels(prev => [...prev, newLevel]);
+  };
+
+  const updateCashbackLevel = (id: any, level: any) => {
+    setCashbackLevels(prev => prev.map(item => 
+      item.id === id ? { ...level, id } : item
+    ));
+  };
+
+  const deleteCashbackLevel = (id: any) => {
+    setCashbackLevels(prev => prev.filter(item => item.id !== id));
+  };
+
+  // Métodos para gerenciar benefits
+  const addBenefit = (benefit: any) => {
+    const newBenefit = { ...benefit, id: benefit.id || Date.now() + Math.random() };
+    setBenefits(prev => [...prev, newBenefit]);
+  };
+
+  const updateBenefit = (id: any, benefit: any) => {
+    setBenefits(prev => prev.map(item => 
+      item.id === id ? { ...benefit, id } : item
+    ));
+  };
+
+  const deleteBenefit = (id: any) => {
+    setBenefits(prev => prev.filter(item => item.id !== id));
+  };
+
   const value = {
     activeTab,
     setActiveTab,
@@ -70,6 +109,12 @@ export function PlanFormProvider({ children, initialData }: PlanFormProviderProp
     setBenefits,
     basicFormData,
     setBasicFormData,
+    addCashbackLevel,
+    updateCashbackLevel,
+    deleteCashbackLevel,
+    addBenefit,
+    updateBenefit,
+    deleteBenefit,
   };
 
   return (
