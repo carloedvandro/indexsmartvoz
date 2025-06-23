@@ -1,4 +1,5 @@
 
+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
@@ -65,63 +66,31 @@ serve(async (req) => {
 
     console.log('📝 Dados recebidos:', { aceite, receberComunicados });
 
-    // Primeiro verificar se já existe um registro para este usuário
-    console.log('🔍 Verificando se já existe aceite para o usuário...');
+    // Usar upsert agora que temos o índice único
+    console.log('💾 Registrando aceite dos termos usando upsert...');
     
-    const { data: existingAcceptance } = await supabase
+    const { error: upsertError } = await supabase
       .from('terms_acceptance')
-      .select('id')
-      .eq('user_id', user.id)
-      .single()
+      .upsert({
+        user_id: user.id,
+        accepted: aceite,
+        receive_communications: receberComunicados,
+        accepted_at: new Date().toISOString(),
+        ip_address: req.headers.get('x-forwarded-for') || 'unknown'
+      }, {
+        onConflict: 'user_id',
+        ignoreDuplicates: false
+      })
 
-    if (existingAcceptance) {
-      // Se já existe, fazer update
-      console.log('🔄 Atualizando aceite existente...');
-      
-      const { error: updateError } = await supabase
-        .from('terms_acceptance')
-        .update({
-          accepted: aceite,
-          receive_communications: receberComunicados,
-          accepted_at: new Date().toISOString(),
-          ip_address: req.headers.get('x-forwarded-for') || 'unknown'
-        })
-        .eq('user_id', user.id)
-
-      if (updateError) {
-        console.error('❌ Erro ao atualizar aceite:', updateError);
-        return new Response(
-          JSON.stringify({ 
-            error: 'Erro ao atualizar aceite', 
-            details: updateError.message 
-          }),
-          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        )
-      }
-    } else {
-      // Se não existe, fazer insert
-      console.log('💾 Inserindo novo aceite...');
-      
-      const { error: insertError } = await supabase
-        .from('terms_acceptance')
-        .insert({
-          user_id: user.id,
-          accepted: aceite,
-          receive_communications: receberComunicados,
-          accepted_at: new Date().toISOString(),
-          ip_address: req.headers.get('x-forwarded-for') || 'unknown'
-        })
-
-      if (insertError) {
-        console.error('❌ Erro ao inserir aceite:', insertError);
-        return new Response(
-          JSON.stringify({ 
-            error: 'Erro ao registrar aceite', 
-            details: insertError.message 
-          }),
-          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        )
-      }
+    if (upsertError) {
+      console.error('❌ Erro ao registrar aceite:', upsertError);
+      return new Response(
+        JSON.stringify({ 
+          error: 'Erro ao registrar aceite', 
+          details: upsertError.message 
+        }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
     }
 
     console.log('✅ Aceite registrado com sucesso');
@@ -142,3 +111,4 @@ serve(async (req) => {
     )
   }
 })
+
