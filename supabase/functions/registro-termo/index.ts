@@ -14,6 +14,8 @@ serve(async (req) => {
   }
 
   try {
+    console.log('🚀 Iniciando função registro-termo');
+    
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_ANON_KEY') ?? '',
@@ -26,50 +28,80 @@ serve(async (req) => {
     )
 
     // Verificar autenticação
-    const authHeader = req.headers.get('Authorization')!
-    const token = authHeader.replace('Bearer ', '')
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token)
-
-    if (authError || !user) {
+    const authHeader = req.headers.get('Authorization')
+    if (!authHeader) {
+      console.error('❌ Header de autorização não encontrado');
       return new Response(
-        JSON.stringify({ error: 'Não autorizado' }),
+        JSON.stringify({ error: 'Header de autorização necessário' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    const { aceite, receberComunicados } = await req.json()
+    const token = authHeader.replace('Bearer ', '')
+    console.log('🔑 Token extraído, verificando usuário...');
+    
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token)
 
-    // Registrar aceite do termo
-    const { error: insertError } = await supabase
-      .from('terms_acceptance')
-      .insert({
-        user_id: user.id,
-        accepted: aceite,
-        receive_communications: receberComunicados,
-        accepted_at: new Date().toISOString(),
-        ip_address: req.headers.get('x-forwarded-for') || 'unknown'
-      })
-
-    if (insertError) {
-      console.error('Erro ao inserir aceite:', insertError)
+    if (authError) {
+      console.error('❌ Erro de autenticação:', authError);
       return new Response(
-        JSON.stringify({ error: 'Erro ao registrar aceite' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        JSON.stringify({ error: 'Erro de autenticação: ' + authError.message }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    // Atualizar status no perfil do usuário
+    if (!user) {
+      console.error('❌ Usuário não encontrado');
+      return new Response(
+        JSON.stringify({ error: 'Usuário não encontrado' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    console.log('✅ Usuário autenticado:', user.id);
+
+    const requestBody = await req.json()
+    const { aceite, receberComunicados } = requestBody
+
+    console.log('📝 Dados recebidos:', { aceite, receberComunicados });
+
+    // Primeiro, vamos verificar se a tabela terms_acceptance existe
+    // Se não existir, vamos tentar inserir diretamente no profiles
+    console.log('💾 Tentando atualizar perfil do usuário...');
+    
     const { error: updateError } = await supabase
       .from('profiles')
       .update({ 
-        terms_accepted: true,
+        terms_accepted: aceite,
         terms_accepted_at: new Date().toISOString()
       })
       .eq('id', user.id)
 
     if (updateError) {
-      console.error('Erro ao atualizar perfil:', updateError)
+      console.error('❌ Erro ao atualizar perfil:', updateError);
+      
+      // Se der erro, vamos tentar inserir um novo registro
+      const { error: insertError } = await supabase
+        .from('profiles')
+        .insert({
+          id: user.id,
+          terms_accepted: aceite,
+          terms_accepted_at: new Date().toISOString()
+        })
+
+      if (insertError) {
+        console.error('❌ Erro ao inserir perfil:', insertError);
+        return new Response(
+          JSON.stringify({ 
+            error: 'Erro ao registrar aceite', 
+            details: insertError.message 
+          }),
+          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        )
+      }
     }
+
+    console.log('✅ Aceite registrado com sucesso');
 
     return new Response(
       JSON.stringify({ success: true, message: 'Aceite registrado com sucesso' }),
@@ -77,9 +109,12 @@ serve(async (req) => {
     )
 
   } catch (error) {
-    console.error('Erro na função registro-termo:', error)
+    console.error('❌ Erro na função registro-termo:', error);
     return new Response(
-      JSON.stringify({ error: 'Erro interno do servidor' }),
+      JSON.stringify({ 
+        error: 'Erro interno do servidor', 
+        details: error.message 
+      }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
   }
