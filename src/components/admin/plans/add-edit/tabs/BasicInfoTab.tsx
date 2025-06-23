@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { usePlanForm } from "../PlanFormProvider";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface BasicInfoFormData {
   title: string;
@@ -16,25 +16,27 @@ interface BasicInfoFormData {
 
 export function BasicInfoTab() {
   const { basicFormData, setBasicFormData } = usePlanForm();
+  const isInitialized = useRef(false);
 
   const { register, setValue, watch, formState: { errors }, reset } = useForm<BasicInfoFormData>({
     defaultValues: {
-      title: '',
-      description: '',
-      value: 0,
-      status: 'active',
+      title: basicFormData?.title || '',
+      description: basicFormData?.description || '',
+      value: basicFormData?.value || 0,
+      status: basicFormData?.status || 'active',
     }
   });
 
-  // Inicializar o formulário com os dados do contexto quando disponíveis
+  // Inicializar o formulário com os dados do contexto apenas uma vez
   useEffect(() => {
-    if (basicFormData) {
+    if (basicFormData && !isInitialized.current) {
       reset({
         title: basicFormData.title || '',
         description: basicFormData.description || '',
         value: basicFormData.value || 0,
         status: basicFormData.status || 'active'
       });
+      isInitialized.current = true;
     }
   }, [basicFormData, reset]);
 
@@ -42,8 +44,8 @@ export function BasicInfoTab() {
   const formValues = watch();
   
   useEffect(() => {
-    // Sincronizar os valores do formulário com o contexto
-    if (setBasicFormData) {
+    // Sincronizar os valores do formulário com o contexto apenas se já foi inicializado
+    if (setBasicFormData && isInitialized.current) {
       setBasicFormData({
         title: formValues.title || '',
         description: formValues.description || '',
