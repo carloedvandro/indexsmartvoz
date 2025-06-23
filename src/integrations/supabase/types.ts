@@ -9,6 +9,47 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      asaas_account_logs: {
+        Row: {
+          asaas_account_id: string | null
+          asaas_account_token: string | null
+          created_at: string | null
+          creation_status: string
+          error_message: string | null
+          id: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          asaas_account_id?: string | null
+          asaas_account_token?: string | null
+          created_at?: string | null
+          creation_status?: string
+          error_message?: string | null
+          id?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          asaas_account_id?: string | null
+          asaas_account_token?: string | null
+          created_at?: string | null
+          creation_status?: string
+          error_message?: string | null
+          id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "asaas_account_logs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       calendar_styles: {
         Row: {
           active: boolean | null
@@ -960,6 +1001,9 @@ export type Database = {
           account_number: string | null
           address: string | null
           approval_date: string | null
+          asaas_account_created_at: string | null
+          asaas_account_id: string | null
+          asaas_account_token: string | null
           bank_name: string | null
           birth_date: string | null
           block_date: string | null
@@ -1013,6 +1057,9 @@ export type Database = {
           account_number?: string | null
           address?: string | null
           approval_date?: string | null
+          asaas_account_created_at?: string | null
+          asaas_account_id?: string | null
+          asaas_account_token?: string | null
           bank_name?: string | null
           birth_date?: string | null
           block_date?: string | null
@@ -1066,6 +1113,9 @@ export type Database = {
           account_number?: string | null
           address?: string | null
           approval_date?: string | null
+          asaas_account_created_at?: string | null
+          asaas_account_id?: string | null
+          asaas_account_token?: string | null
           bank_name?: string | null
           birth_date?: string | null
           block_date?: string | null
@@ -1206,6 +1256,44 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      terms_acceptance: {
+        Row: {
+          accepted: boolean
+          accepted_at: string | null
+          created_at: string | null
+          id: string
+          ip_address: string | null
+          receive_communications: boolean
+          user_id: string
+        }
+        Insert: {
+          accepted?: boolean
+          accepted_at?: string | null
+          created_at?: string | null
+          id?: string
+          ip_address?: string | null
+          receive_communications?: boolean
+          user_id: string
+        }
+        Update: {
+          accepted?: boolean
+          accepted_at?: string | null
+          created_at?: string | null
+          id?: string
+          ip_address?: string | null
+          receive_communications?: boolean
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "terms_acceptance_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       usage_history: {
         Row: {

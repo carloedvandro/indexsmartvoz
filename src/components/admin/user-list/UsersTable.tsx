@@ -1,62 +1,71 @@
 
-import { Checkbox } from "@/components/ui/checkbox";
-import { Table, TableBody } from "@/components/ui/table";
-import { ProfileWithSponsor } from "@/types/profile";
-import { ExpandableRow } from "./ExpandableRow";
+import React from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 import { UserTableHeader } from "./UserTableHeader";
+import { ExpandableRow } from "./ExpandableRow";
 
-interface UsersTableProps {
-  users: ProfileWithSponsor[];
-  selectedUsers: string[];
-  expandedRows: Record<string, boolean>;
-  toggleUserSelection: (userId: string) => void;
-  toggleRowExpand: (userId: string) => void;
-  toggleSelectAll: () => void;
-  areAllUsersSelected: boolean;
-  onEdit: (user: any) => void;
-  displayCustomId: (user: any) => string;
+interface User {
+  id: string;
+  full_name: string;
+  email: string;
+  cpf?: string;
+  role: string;
+  status: string;
+  created_at: string;
+  asaas_account_id?: string;
 }
 
-export const UsersTable = ({
-  users,
-  selectedUsers,
-  expandedRows,
-  toggleUserSelection,
-  toggleRowExpand,
-  toggleSelectAll,
-  areAllUsersSelected,
-  onEdit,
-  displayCustomId
-}: UsersTableProps) => {
-  // Check if a user is selected
-  const isUserSelected = (userId: string) => selectedUsers.includes(userId);
+interface UsersTableProps {
+  users: User[];
+  isLoading: boolean;
+  onView: (user: User) => void;
+  onEdit: (user: User) => void;
+  onDelete: (user: User) => void;
+  onAsaasSuccess?: () => void;
+}
 
-  // Check if a specific row is expanded
-  const isRowExpanded = (userId: string) => expandedRows[userId] === true;
+export function UsersTable({ 
+  users, 
+  isLoading, 
+  onView, 
+  onEdit, 
+  onDelete,
+  onAsaasSuccess 
+}: UsersTableProps) {
+  if (isLoading) {
+    return (
+      <div className="space-y-3">
+        {[1, 2, 3, 4, 5].map((i) => (
+          <Skeleton key={i} className="h-16 w-full" />
+        ))}
+      </div>
+    );
+  }
+
+  if (users.length === 0) {
+    return (
+      <div className="text-center py-8 text-gray-500">
+        Nenhum usuário encontrado.
+      </div>
+    );
+  }
 
   return (
-    <div className="overflow-x-auto">
-      <Table>
-        <UserTableHeader 
-          areAllUsersSelected={areAllUsersSelected}
-          toggleSelectAll={toggleSelectAll}
-        />
-        <TableBody>
-          {users.map((user, index) => (
-            <ExpandableRow
-              key={user.id}
-              user={user}
-              index={index}
-              isSelected={isUserSelected(user.id)}
-              isExpanded={isRowExpanded(user.id)}
-              toggleSelection={() => toggleUserSelection(user.id)}
-              toggleExpand={() => toggleRowExpand(user.id)}
-              onEdit={onEdit}
-              displayCustomId={displayCustomId}
-            />
-          ))}
-        </TableBody>
-      </Table>
+    <div className="bg-white rounded-lg shadow">
+      <UserTableHeader />
+      
+      <div className="divide-y divide-gray-200">
+        {users.map((user) => (
+          <ExpandableRow
+            key={user.id}
+            user={user}
+            onView={onView}
+            onEdit={onEdit}
+            onDelete={onDelete}
+            onAsaasSuccess={onAsaasSuccess}
+          />
+        ))}
+      </div>
     </div>
   );
-};
+}

@@ -2,116 +2,159 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { AdminPageHeader } from "@/components/admin/common/AdminPageHeader";
+import { SearchFilters } from "@/components/admin/user-list/SearchFilters";
+import { UsersTable } from "@/components/admin/user-list/UsersTable";
 import { UserEditDialog } from "@/components/admin/UserEditDialog";
+import { DeleteUserDialog } from "@/components/admin/user-list/actions/DeleteUserDialog";
+import { PaymentDetailsDialog } from "@/components/admin/user-list/actions/PaymentDetailsDialog";
+import { PlanDetailsDialog } from "@/components/admin/user-list/actions/PlanDetailsDialog";
 import { useToast } from "@/hooks/use-toast";
-import { AdminUsersList } from "@/components/admin/AdminUsersList";
-import { UserCheck } from "lucide-react";
-import { mapSponsor } from "@/utils/mappers/profileMapper";
-import { ProfileWithSponsor } from "@/types/profile";
 
 export default function AdminUsers() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedRole, setSelectedRole] = useState("all");
+  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [editingUser, setEditingUser] = useState(null);
+  const [deletingUser, setDeletingUser] = useState(null);
+  const [viewingPayment, setViewingPayment] = useState(null);
+  const [viewingPlan, setViewingPlan] = useState(null);
   const { toast } = useToast();
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [filters, setFilters] = useState({
-    externalId: "",
-    fullName: "",
-    email: "",
-    status: "all",
-    documentId: "",
-    cnpj: "",
-  });
 
-  const { data: users, isLoading, refetch } = useQuery({
-    queryKey: ["users", filters],
+  const { data: users = [], isLoading, refetch } = useQuery({
+    queryKey: ['admin-users', searchTerm, selectedRole, selectedStatus],
     queryFn: async () => {
       let query = supabase
         .from("profiles")
-        .select(`
-          *,
-          sponsor:sponsor_id (
-            id,
-            full_name,
-            email,
-            custom_id
-          )
-        `)
+        .select("*")
         .order("created_at", { ascending: false });
 
-      if (filters.fullName) {
-        query = query.ilike("full_name", `%${filters.fullName}%`);
+      if (searchTerm) {
+        query = query.or(`full_name.ilike.%${searchTerm}%,email.ilike.%${searchTerm}%,cpf.ilike.%${searchTerm}%`);
       }
-      if (filters.email) {
-        query = query.ilike("email", `%${filters.email}%`);
+
+      if (selectedRole !== "all") {
+        query = query.eq("role", selectedRole);
       }
-      if (filters.status && filters.status !== "all") {
-        query = query.eq("status", filters.status);
-      }
-      if (filters.externalId) {
-        query = query.ilike("external_id", `%${filters.externalId}%`);
-      }
-      if (filters.documentId) {
-        query = query.ilike("document_id", `%${filters.documentId}%`);
-      }
-      if (filters.cnpj) {
-        query = query.ilike("cnpj", `%${filters.cnpj}%`);
+
+      if (selectedStatus !== "all") {
+        query = query.eq("status", selectedStatus);
       }
 
       const { data, error } = await query;
-      
-      if (error) {
-        console.error("Query error:", error);
-        throw error;
-      }
-      
-      return (data || []).map(profile => {
-        const mappedProfile: ProfileWithSponsor = {
-          ...profile,
-          sponsor: profile.sponsor ? mapSponsor(profile.sponsor) : null
-        };
-        return mappedProfile;
-      });
+      if (error) throw error;
+      return data || [];
     },
   });
 
-  const handleEdit = (user) => {
-    setSelectedUser(user);
+  const handleView = (user) => {
+    setViewingPayment(user);
   };
 
-  const handleUserUpdated = () => {
+  const handleEdit = (user) => {
+    setEditingUser(user);
+  };
+
+  const handleDelete = (user) => {
+    setDeletingUser(user);
+  };
+
+  const handleAsaasSuccess = () => {
     refetch();
-    setSelectedUser(null);
+    toast({
+      title: "Sucesso",
+      description: "Subconta Asaas criada com sucesso",
+    });
+  };
+
+  const handleDeleteConfirm = async (userId) => {
+    try {
+      const { error: profileError } = await supabase
+        .from("profiles")
+        .delete()
+        .eq("id", userId);
+
+      if (profileError) throw profileError;
+
+      const { error: authError } = await supabase.auth.admin.deleteUser(userId);
+      if (authError && !authError.message.includes("User not found")) {
+        console.warn("Erro ao deletar usuário do auth (pode já ter sido deletado):", authError);
+      }
+
+      await refetch();
+      setDeletingUser(null);
+      
+      toast({
+        title: "Usuário deletado",
+        description: "O usuário foi removido com sucesso.",
+      });
+    } catch (error) {
+      console.error("Erro ao deletar usuário:", error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível deletar o usuário.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
-    <div className="p-4 md:p-8 overflow-auto">
-      <div className="w-full mx-auto">
-        <div className="flex flex-col">
-          <div className="bg-indigo-700 text-white p-4 mb-4 rounded-t-lg flex items-center gap-3 w-full">
-            <div className="bg-indigo-600 p-2 rounded-full">
-              <UserCheck className="h-6 w-6" />
-            </div>
-            <h1 className="text-xl font-bold">Lista de Usuário</h1>
-            <div className="ml-auto flex items-center">
-              <span className="text-sm">
-                Página inicial do administrador &gt; Lista de Usuário
-              </span>
-            </div>
-          </div>
-
-          {isLoading ? (
-            <div className="p-8 text-center">Carregando...</div>
-          ) : (
-            <AdminUsersList users={users} onEdit={handleEdit} />
-          )}
-        </div>
-      </div>
-
-      <UserEditDialog
-        user={selectedUser}
-        open={!!selectedUser}
-        onOpenChange={(open) => !open && setSelectedUser(null)}
-        onUserUpdated={handleUserUpdated}
+    <div className="space-y-6">
+      <AdminPageHeader
+        title="Gerenciar Usuários"
+        description="Visualize e gerencie todos os usuários da plataforma"
       />
+
+      <SearchFilters
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        selectedRole={selectedRole}
+        setSelectedRole={setSelectedRole}
+        selectedStatus={selectedStatus}
+        setSelectedStatus={setSelectedStatus}
+      />
+
+      <UsersTable
+        users={users}
+        isLoading={isLoading}
+        onView={handleView}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        onAsaasSuccess={handleAsaasSuccess}
+      />
+
+      {editingUser && (
+        <UserEditDialog
+          user={editingUser}
+          onClose={() => setEditingUser(null)}
+          onSuccess={() => {
+            refetch();
+            setEditingUser(null);
+          }}
+        />
+      )}
+
+      {deletingUser && (
+        <DeleteUserDialog
+          user={deletingUser}
+          onClose={() => setDeletingUser(null)}
+          onConfirm={handleDeleteConfirm}
+        />
+      )}
+
+      {viewingPayment && (
+        <PaymentDetailsDialog
+          user={viewingPayment}
+          onClose={() => setViewingPayment(null)}
+        />
+      )}
+
+      {viewingPlan && (
+        <PlanDetailsDialog
+          user={viewingPlan}
+          onClose={() => setViewingPlan(null)}
+        />
+      )}
     </div>
   );
 }
