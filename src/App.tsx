@@ -22,6 +22,7 @@ import ClientEsim from "@/pages/client/esim";
 import ClientFacialBiometry from "@/pages/client/facial-biometry";
 import ClientResetPassword from "@/pages/client/reset-password";
 import ClientNavigation from "@/pages/client/navigation";
+import ClientPlanSelection from "@/pages/client/plan-selection";
 import InventoryReports from "@/pages/client/inventory-reports";
 
 // Admin pages
@@ -71,6 +72,7 @@ function App() {
               <Route path="notifications" element={<ClientNotifications />} />
               <Route path="esim" element={<ClientEsim />} />
               <Route path="facial-biometry" element={<ClientFacialBiometry />} />
+              <Route path="plan-selection" element={<ClientPlanSelection />} />
               <Route path="navigation" element={<ClientNavigation />} />
               <Route path="inventory-reports" element={<InventoryReports />} />
             </Route>
