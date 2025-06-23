@@ -6,7 +6,6 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { createUser } from "@/services/user/userCreate";
 import { Loader2, AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { RegisterFormData, registerFormSchema } from "./RegisterSchema";
@@ -16,7 +15,7 @@ import { ContactInfoStep } from "./steps/ContactInfoStep";
 import { AddressStep } from "./steps/AddressStep";
 import { AccountInfoStep } from "./steps/AccountInfoStep";
 import { PasswordStep } from "./steps/PasswordStep";
-import { supabase } from "@/integrations/supabase/client";
+import { registerUserWithAddress } from "@/services/user/userRegisterTransaction";
 
 const stepTitles = ["Dados Pessoais", "Contato", "Endereço", "Conta", "Senha"];
 const totalSteps = stepTitles.length;
@@ -92,56 +91,14 @@ export const StepFormContainer = () => {
     }
   };
 
-  const saveAddress = async (userId: string, addressData: any) => {
-    const { error } = await supabase
-      .from("user_addresses")
-      .insert({
-        user_id: userId,
-        cep: addressData.cep,
-        street: addressData.street,
-        neighborhood: addressData.neighborhood,
-        number: addressData.number,
-        city: addressData.city,
-        state: addressData.state,
-        complement: addressData.complement || null,
-      });
-
-    if (error) {
-      console.error("Erro ao salvar endereço:", error);
-      throw new Error("Erro ao salvar endereço: " + error.message);
-    }
-  };
-
   const onSubmit = async (data: RegisterFormData) => {
     try {
       setIsSubmitting(true);
       setError(null);
-      console.log("Form data:", data);
+      console.log("Starting registration transaction with data:", data);
       
-      // Primeiro criar o usuário
-      const authData = await createUser({
-        email: data.email,
-        password: data.password,
-        fullName: data.fullName,
-        cpf: data.cpf,
-        customId: data.customId,
-        sponsorCustomId: data.sponsorCustomId,
-      });
-
-      if (!authData.user) {
-        throw new Error("Falha ao criar usuário");
-      }
-
-      // Depois salvar o endereço
-      await saveAddress(authData.user.id, {
-        cep: data.cep,
-        street: data.street,
-        neighborhood: data.neighborhood,
-        number: data.number,
-        city: data.city,
-        state: data.state,
-        complement: data.complement,
-      });
+      // Usar a nova função transacional que garante atomicidade
+      await registerUserWithAddress(data);
       
       toast({
         title: "Cadastro realizado com sucesso!",
