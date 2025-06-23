@@ -193,11 +193,7 @@ function AdminPlanAddEditContent() {
 
           {/* Conteúdo principal */}
           <div className="flex-1">
-            <Card className="w-full">
-              <CardContent className="p-6">
                 <PlanFormTabs />
-              </CardContent>
-            </Card>
           </div>
         </div>
       </div>
