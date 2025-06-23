@@ -19,6 +19,14 @@ export const registerFormSchema = z.object({
   birthDate: z.string().min(1, "Data de nascimento é obrigatória"),
   whatsapp: z.string().min(11, "WhatsApp deve ter pelo menos 11 dígitos"),
   secondaryWhatsapp: z.string().optional(),
+  // Campos de endereço
+  cep: z.string().min(8, "CEP deve ter 8 dígitos").max(9, "CEP inválido"),
+  street: z.string().min(1, "Rua é obrigatória"),
+  neighborhood: z.string().min(1, "Bairro é obrigatório"),
+  number: z.string().min(1, "Número é obrigatório"),
+  city: z.string().min(1, "Cidade é obrigatória"),
+  state: z.string().min(1, "Estado é obrigatório"),
+  complement: z.string().optional(),
 }).refine(
   (data) => data.password === data.passwordConfirmation,
   {

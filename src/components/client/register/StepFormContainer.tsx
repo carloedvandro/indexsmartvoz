@@ -13,10 +13,12 @@ import { RegisterFormData, registerFormSchema } from "./RegisterSchema";
 import { StepIndicator } from "./StepIndicator";
 import { PersonalInfoStep } from "./steps/PersonalInfoStep";
 import { ContactInfoStep } from "./steps/ContactInfoStep";
+import { AddressStep } from "./steps/AddressStep";
 import { AccountInfoStep } from "./steps/AccountInfoStep";
 import { PasswordStep } from "./steps/PasswordStep";
+import { supabase } from "@/integrations/supabase/client";
 
-const stepTitles = ["Dados Pessoais", "Contato", "Conta", "Senha"];
+const stepTitles = ["Dados Pessoais", "Contato", "Endereço", "Conta", "Senha"];
 const totalSteps = stepTitles.length;
 
 export const StepFormContainer = () => {
@@ -41,6 +43,13 @@ export const StepFormContainer = () => {
       birthDate: "",
       whatsapp: "",
       secondaryWhatsapp: "",
+      cep: "",
+      street: "",
+      neighborhood: "",
+      number: "",
+      city: "",
+      state: "",
+      complement: "",
     },
     mode: "onChange"
   });
@@ -56,9 +65,12 @@ export const StepFormContainer = () => {
         fieldsToValidate.push("whatsapp");
         break;
       case 3:
-        fieldsToValidate.push("sponsorCustomId", "customId");
+        fieldsToValidate.push("cep", "street", "neighborhood", "number", "city", "state");
         break;
       case 4:
+        fieldsToValidate.push("sponsorCustomId", "customId");
+        break;
+      case 5:
         fieldsToValidate.push("password", "passwordConfirmation");
         break;
     }
@@ -80,19 +92,55 @@ export const StepFormContainer = () => {
     }
   };
 
+  const saveAddress = async (userId: string, addressData: any) => {
+    const { error } = await supabase
+      .from("user_addresses")
+      .insert({
+        user_id: userId,
+        cep: addressData.cep,
+        street: addressData.street,
+        neighborhood: addressData.neighborhood,
+        number: addressData.number,
+        city: addressData.city,
+        state: addressData.state,
+        complement: addressData.complement || null,
+      });
+
+    if (error) {
+      console.error("Erro ao salvar endereço:", error);
+      throw new Error("Erro ao salvar endereço: " + error.message);
+    }
+  };
+
   const onSubmit = async (data: RegisterFormData) => {
     try {
       setIsSubmitting(true);
       setError(null);
       console.log("Form data:", data);
       
-      await createUser({
+      // Primeiro criar o usuário
+      const authData = await createUser({
         email: data.email,
         password: data.password,
         fullName: data.fullName,
         cpf: data.cpf,
         customId: data.customId,
         sponsorCustomId: data.sponsorCustomId,
+      });
+
+      if (!authData.user) {
+        throw new Error("Falha ao criar usuário");
+      }
+
+      // Depois salvar o endereço
+      await saveAddress(authData.user.id, {
+        cep: data.cep,
+        street: data.street,
+        neighborhood: data.neighborhood,
+        number: data.number,
+        city: data.city,
+        state: data.state,
+        complement: data.complement,
       });
       
       toast({
@@ -125,8 +173,10 @@ export const StepFormContainer = () => {
       case 2:
         return <ContactInfoStep form={form} />;
       case 3:
-        return <AccountInfoStep form={form} disableSponsor={!!sponsorId} />;
+        return <AddressStep form={form} />;
       case 4:
+        return <AccountInfoStep form={form} disableSponsor={!!sponsorId} />;
+      case 5:
         return <PasswordStep form={form} />;
       default:
         return <PersonalInfoStep form={form} />;
