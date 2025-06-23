@@ -17,56 +17,37 @@ serve(async (req) => {
   try {
     console.log('🚀 [ASAAS-PAYMENT] Função iniciada');
     console.log('📋 [ASAAS-PAYMENT] Método:', req.method);
-    console.log('📋 [ASAAS-PAYMENT] Headers:', Object.fromEntries(req.headers.entries()));
-    console.log('📋 [ASAAS-PAYMENT] Content-Type:', req.headers.get('content-type'));
 
     const body = await req.text();
     console.log('📄 [ASAAS-PAYMENT] Body recebido (length):', body.length);
-    console.log('📄 [ASAAS-PAYMENT] Body recebido (preview):', body.substring(0, 500));
 
     const requestData = JSON.parse(body);
-    console.log('📋 [ASAAS-PAYMENT] Dados completos parseados:', {
+    console.log('📋 [ASAAS-PAYMENT] Dados parseados:', {
       name: requestData.name,
       email: requestData.email,
       value: requestData.value,
       dueDate: requestData.dueDate,
-      hasCpf: !!requestData.cpfCnpj,
-      hasPhone: !!requestData.phone,
-      hasAddress: !!requestData.address,
-      hasWhatsapp: !!requestData.whatsapp,
       planName: requestData.planName,
-      planType: requestData.planType,
-      userId: requestData.userId,
-      returnUrl: requestData.returnUrl
+      userId: requestData.userId
     });
 
     // Verificar variáveis de ambiente
-    console.log('🔐 [ASAAS-PAYMENT] Variáveis de ambiente:');
-    console.log('  - ASAAS_API_KEY:', Deno.env.get('ASAAS_API_KEY') ? `CONFIGURADA (${Deno.env.get('ASAAS_API_KEY')?.length} chars)` : 'NÃO CONFIGURADA');
+    const asaasApiKey = Deno.env.get('ASAAS_API_KEY');
+    if (!asaasApiKey) {
+      console.error('❌ [ASAAS-PAYMENT] ASAAS_API_KEY não configurada');
+      throw new Error('Chave da API do Asaas não configurada');
+    }
 
-    // Preparar dados completos do cliente
-    console.log('👤 [ASAAS-PAYMENT] Preparando dados completos do cliente...');
-    
-    const customerData: any = {
+    console.log('🔐 [ASAAS-PAYMENT] ASAAS_API_KEY configurada');
+
+    // Preparar dados do cliente
+    const customerData = {
       name: requestData.name,
-      email: requestData.email
+      email: requestData.email,
+      cpfCnpj: requestData.cpfCnpj || "",
+      phone: requestData.phone || "",
+      mobilePhone: requestData.whatsapp || "",
     };
-
-    // Adicionar CPF/CNPJ se disponível
-    if (requestData.cpfCnpj) {
-      customerData.cpfCnpj = requestData.cpfCnpj;
-      console.log('📄 [ASAAS-PAYMENT] CPF/CNPJ adicionado (length):', requestData.cpfCnpj.length);
-    }
-
-    // Adicionar telefone se disponível
-    if (requestData.phone) {
-      customerData.phone = requestData.phone;
-    }
-
-    // Adicionar celular se disponível
-    if (requestData.whatsapp) {
-      customerData.mobilePhone = requestData.whatsapp;
-    }
 
     // Adicionar endereço se disponível
     if (requestData.address && requestData.city && requestData.state && requestData.zipCode) {
@@ -76,84 +57,99 @@ serve(async (req) => {
       customerData.postalCode = requestData.zipCode;
     }
 
-    console.log('👤 [ASAAS-PAYMENT] Dados completos do cliente preparados:', {
-      name: customerData.name,
-      email: customerData.email,
-      cpfCnpj: customerData.cpfCnpj ? 'PRESENTE' : 'AUSENTE',
-      phone: customerData.phone ? 'PRESENTE' : 'AUSENTE',
-      mobilePhone: customerData.mobilePhone ? 'PRESENTE' : 'AUSENTE',
-      address: customerData.address ? 'PRESENTE' : 'AUSENTE'
-    });
+    console.log('👤 [ASAAS-PAYMENT] Dados do cliente preparados');
 
-    // Configurar headers para API do Asaas
-    console.log('🔍 [ASAAS-PAYMENT] Headers preparados para Asaas Sandbox');
+    // Configurar headers para API do Asaas com timeout e retry
     const asaasHeaders = {
       'Content-Type': 'application/json',
-      'access_token': Deno.env.get('ASAAS_API_KEY') || ''
+      'access_token': asaasApiKey,
+      'User-Agent': 'Smartvoz/1.0'
     };
 
-    // Verificar se cliente já existe
-    console.log('🔍 [ASAAS-PAYMENT] Verificando se cliente já existe...');
-    const searchUrl = `https://sandbox.asaas.com/api/v3/customers?email=${encodeURIComponent(customerData.email)}`;
-    console.log('🔍 [ASAAS-PAYMENT] URL de busca:', searchUrl);
-
-    const searchResponse = await fetch(searchUrl, {
-      method: 'GET',
-      headers: asaasHeaders
-    });
-
-    console.log('🔍 [ASAAS-PAYMENT] Status da busca:', searchResponse.status);
-    console.log('🔍 [ASAAS-PAYMENT] Status text:', searchResponse.statusText);
-
-    const searchResult = await searchResponse.json();
-    console.log('🔍 [ASAAS-PAYMENT] Resultado da busca:', { 
-      totalCount: searchResult.totalCount, 
-      hasData: !!searchResult.data,
-      dataLength: searchResult.data?.length || 0
-    });
+    // Função para fazer requisições com retry
+    const fetchWithRetry = async (url: string, options: any, maxRetries = 3) => {
+      for (let i = 0; i < maxRetries; i++) {
+        try {
+          console.log(`🔄 [ASAAS-PAYMENT] Tentativa ${i + 1} para ${url}`);
+          
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 segundos timeout
+          
+          const response = await fetch(url, {
+            ...options,
+            signal: controller.signal
+          });
+          
+          clearTimeout(timeoutId);
+          
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+          
+          return response;
+        } catch (error) {
+          console.error(`❌ [ASAAS-PAYMENT] Erro na tentativa ${i + 1}:`, error.message);
+          
+          if (i === maxRetries - 1) {
+            throw error;
+          }
+          
+          // Aguardar antes da próxima tentativa
+          await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
+        }
+      }
+    };
 
     let customerId;
 
-    if (searchResult.totalCount > 0 && searchResult.data?.length > 0) {
-      customerId = searchResult.data[0].id;
-      console.log('✅ [ASAAS-PAYMENT] Cliente existente encontrado:', customerId);
-
-      // Atualizar dados do cliente
-      console.log('🔄 [ASAAS-PAYMENT] Atualizando dados do cliente existente...');
-      const updateResponse = await fetch(`https://sandbox.asaas.com/api/v3/customers/${customerId}`, {
-        method: 'PUT',
-        headers: asaasHeaders,
-        body: JSON.stringify(customerData)
+    try {
+      // Verificar se cliente já existe
+      console.log('🔍 [ASAAS-PAYMENT] Verificando cliente existente...');
+      const searchUrl = `https://sandbox.asaas.com/api/v3/customers?email=${encodeURIComponent(customerData.email)}`;
+      
+      const searchResponse = await fetchWithRetry(searchUrl, {
+        method: 'GET',
+        headers: asaasHeaders
       });
 
-      if (updateResponse.ok) {
-        console.log('✅ [ASAAS-PAYMENT] Cliente atualizado com sucesso');
+      const searchResult = await searchResponse.json();
+      console.log('🔍 [ASAAS-PAYMENT] Resultado da busca:', { 
+        totalCount: searchResult.totalCount
+      });
+
+      if (searchResult.totalCount > 0 && searchResult.data?.length > 0) {
+        customerId = searchResult.data[0].id;
+        console.log('✅ [ASAAS-PAYMENT] Cliente existente encontrado:', customerId);
+
+        // Atualizar dados do cliente
+        console.log('🔄 [ASAAS-PAYMENT] Atualizando cliente...');
+        await fetchWithRetry(`https://sandbox.asaas.com/api/v3/customers/${customerId}`, {
+          method: 'PUT',
+          headers: asaasHeaders,
+          body: JSON.stringify(customerData)
+        });
+        
+        console.log('✅ [ASAAS-PAYMENT] Cliente atualizado');
       } else {
-        const updateError = await updateResponse.text();
-        console.error('❌ [ASAAS-PAYMENT] Erro ao atualizar cliente:', updateError);
-      }
-    } else {
-      // Criar novo cliente
-      console.log('👤 [ASAAS-PAYMENT] Criando novo cliente...');
-      const createResponse = await fetch('https://sandbox.asaas.com/api/v3/customers', {
-        method: 'POST',
-        headers: asaasHeaders,
-        body: JSON.stringify(customerData)
-      });
+        // Criar novo cliente
+        console.log('👤 [ASAAS-PAYMENT] Criando novo cliente...');
+        const createResponse = await fetchWithRetry('https://sandbox.asaas.com/api/v3/customers', {
+          method: 'POST',
+          headers: asaasHeaders,
+          body: JSON.stringify(customerData)
+        });
 
-      if (createResponse.ok) {
         const newCustomer = await createResponse.json();
         customerId = newCustomer.id;
         console.log('✅ [ASAAS-PAYMENT] Novo cliente criado:', customerId);
-      } else {
-        const createError = await createResponse.text();
-        console.error('❌ [ASAAS-PAYMENT] Erro ao criar cliente:', createError);
-        throw new Error(`Erro ao criar cliente: ${createError}`);
       }
+    } catch (error) {
+      console.error('❌ [ASAAS-PAYMENT] Erro ao gerenciar cliente:', error.message);
+      throw new Error('Erro ao criar/atualizar cliente no Asaas');
     }
 
     // Criar cobrança
-    console.log('💰 [ASAAS-PAYMENT] Criando cobrança no Asaas Sandbox...');
+    console.log('💰 [ASAAS-PAYMENT] Criando cobrança...');
 
     const chargeData = {
       customer: customerId,
@@ -164,45 +160,19 @@ serve(async (req) => {
       externalReference: `smartvoz_${requestData.userId}_${Date.now()}`
     };
 
-    // Remover callback configurações por enquanto para evitar erro de domínio
-    console.log('🔗 [ASAAS-PAYMENT] Criando cobrança sem callback (para evitar erro de domínio)');
-
     console.log('💰 [ASAAS-PAYMENT] Dados da cobrança:', chargeData);
 
-    const chargeResponse = await fetch('https://sandbox.asaas.com/api/v3/payments', {
+    const chargeResponse = await fetchWithRetry('https://sandbox.asaas.com/api/v3/payments', {
       method: 'POST',
       headers: asaasHeaders,
       body: JSON.stringify(chargeData)
     });
 
-    console.log('💰 [ASAAS-PAYMENT] Resposta da cobrança - Status:', chargeResponse.status);
-    console.log('💰 [ASAAS-PAYMENT] Resposta da cobrança - Status text:', chargeResponse.statusText);
-
-    if (!chargeResponse.ok) {
-      const errorText = await chargeResponse.text();
-      console.error('❌ [ASAAS-PAYMENT] Erro ao criar cobrança:', errorText);
-      console.error('❌ [ASAAS-PAYMENT] Status:', chargeResponse.status);
-      
-      return new Response(
-        JSON.stringify({ 
-          error: 'Erro ao criar cobrança',
-          details: errorText,
-          status: chargeResponse.status
-        }),
-        { 
-          status: chargeResponse.status,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-        }
-      );
-    }
-
     const charge = await chargeResponse.json();
-    console.log('✅ [ASAAS-PAYMENT] Cobrança criada com sucesso:', {
+    console.log('✅ [ASAAS-PAYMENT] Cobrança criada:', {
       id: charge.id,
       status: charge.status,
-      value: charge.value,
-      invoiceUrl: charge.invoiceUrl,
-      bankSlipUrl: charge.bankSlipUrl
+      value: charge.value
     });
 
     // Retornar dados da cobrança
@@ -225,14 +195,28 @@ serve(async (req) => {
     );
 
   } catch (error) {
-    console.error('❌ [ASAAS-PAYMENT] Erro na função:', error);
+    console.error('❌ [ASAAS-PAYMENT] Erro geral:', error);
+    
+    // Retornar erro mais específico
+    let errorMessage = 'Erro interno do servidor';
+    let statusCode = 500;
+    
+    if (error.message.includes('fetch')) {
+      errorMessage = 'Erro de conectividade com o Asaas. Tente novamente.';
+      statusCode = 503;
+    } else if (error.message.includes('timeout') || error.message.includes('AbortError')) {
+      errorMessage = 'Timeout na conexão com o Asaas. Tente novamente.';
+      statusCode = 504;
+    }
+    
     return new Response(
       JSON.stringify({ 
-        error: 'Erro interno do servidor',
-        details: error.message
+        error: errorMessage,
+        details: error.message,
+        timestamp: new Date().toISOString()
       }),
       { 
-        status: 500,
+        status: statusCode,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       }
     );
