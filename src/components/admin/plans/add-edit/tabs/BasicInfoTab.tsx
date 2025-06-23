@@ -15,16 +15,28 @@ interface BasicInfoFormData {
 }
 
 export function BasicInfoTab() {
-  const { planData, setBasicFormData } = usePlanForm();
+  const { basicFormData, setBasicFormData } = usePlanForm();
 
-  const { register, setValue, watch, formState: { errors } } = useForm<BasicInfoFormData>({
+  const { register, setValue, watch, formState: { errors }, reset } = useForm<BasicInfoFormData>({
     defaultValues: {
-      title: planData?.title || '',
-      description: planData?.description || '',
-      value: planData?.value || 0,
-      status: planData?.status || 'active',
+      title: '',
+      description: '',
+      value: 0,
+      status: 'active',
     }
   });
+
+  // Inicializar o formulário com os dados do contexto quando disponíveis
+  useEffect(() => {
+    if (basicFormData) {
+      reset({
+        title: basicFormData.title || '',
+        description: basicFormData.description || '',
+        value: basicFormData.value || 0,
+        status: basicFormData.status || 'active'
+      });
+    }
+  }, [basicFormData, reset]);
 
   // Observar mudanças no formulário e sincronizar com o contexto
   const formValues = watch();
@@ -33,10 +45,10 @@ export function BasicInfoTab() {
     // Sincronizar os valores do formulário com o contexto
     if (setBasicFormData) {
       setBasicFormData({
-        title: formValues.title,
-        description: formValues.description,
-        value: formValues.value,
-        status: formValues.status
+        title: formValues.title || '',
+        description: formValues.description || '',
+        value: formValues.value || 0,
+        status: formValues.status || 'active'
       });
     }
   }, [formValues, setBasicFormData]);
