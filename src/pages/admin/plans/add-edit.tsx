@@ -180,16 +180,25 @@ function AdminPlanAddEditContent() {
 
       {/* Main Content */}
       <div className="container mx-auto px-6 py-8">
-        <Card className="w-full max-w-6xl mx-auto">
-          <CardContent className="p-0">
-            {/* Navigation Tabs horizontais */}
-            <div className="border-b border-gray-200">
-              <PlanFormSidebar />
-            </div>
-          </CardContent>
-        </Card>
-        <div className="p-6">
-          <PlanFormTabs />
+        {/* Layout responsivo: Mobile - sidebar no topo, Desktop - sidebar à esquerda */}
+        <div className="flex flex-col md:flex-row gap-6 max-w-6xl mx-auto">
+          {/* Sidebar - Mobile: topo, Desktop: esquerda */}
+          <div className="w-full md:w-80 md:flex-shrink-0">
+            <Card className="w-full">
+              <CardContent className="p-0">
+                <PlanFormSidebar />
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Conteúdo principal */}
+          <div className="flex-1">
+            <Card className="w-full">
+              <CardContent className="p-6">
+                <PlanFormTabs />
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
 
