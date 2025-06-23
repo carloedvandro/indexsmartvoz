@@ -46,7 +46,7 @@ const TermoContratacaoSmartvozUpdated = () => {
       
       toast({
         title: "Sucesso",
-        description: "Aceite registrado com sucesso. Você receberá a confirmação via e-mail e WhatsApp.",
+        description: "Aceite registrado com sucesso. Você receberá a confirmação via e-mail, WhatsApp e dashboard.",
       });
       
     } catch (error) {
@@ -64,102 +64,113 @@ const TermoContratacaoSmartvozUpdated = () => {
   return (
     <div className="min-h-screen bg-[#F8F9FE] p-6">
       <div className="max-w-4xl mx-auto">
-        <Card className="shadow-lg">
+        <Card className="shadow-xl">
           <CardHeader>
-            <CardTitle className="text-xl font-semibold text-[#8425af]">
+            <CardTitle className="text-xl font-bold text-[#8425af]">
               Termo de contratação digital – serviço de linha pré-paga com renovação mensal
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6 text-gray-700">
             <p className="text-sm">
-              Este documento estabelece as condições para o fornecimento de serviço de linha móvel pela empresa SmartVoz. 
-              Ao prosseguir com a contratação, o USUÁRIO declara que leu, entendeu e concorda plenamente com os termos abaixo, 
-              em conformidade com o Código de Defesa do Consumidor (Lei nº 8.078/1990), Código Civil (Art. 186 e 927), 
-              Marco Civil da Internet (Lei 12.965/2014) e a Lei 6.019/1974 (Marketing Multinível).
+              Este documento estabelece as condições para fornecimento de serviço de linha móvel pela empresa SmartVoz. Ao prosseguir, o usuário declara que leu e aceita os termos, conforme as legislações aplicáveis:
             </p>
+
+            <ul className="list-disc list-inside space-y-1 text-sm">
+              <li>Código de Defesa do Consumidor – Lei nº 8.078/1990</li>
+              <li>Marco Civil da Internet – Lei nº 12.965/2014</li>
+              <li>Código Civil – arts. 186 e 927</li>
+              <li>Lei de Marketing Multinível – Lei nº 6.019/1974</li>
+            </ul>
 
             <div>
               <h2 className="font-bold text-lg mb-3 text-gray-900">1. Objetivo do serviço</h2>
               <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>Disponibilização de linha de telefonia móvel sob modelo pré-pago, gerenciado pela empresa SmartVoz.</li>
-                <li>O USUÁRIO não é o titular da linha, sendo apenas um usuário temporário com vigência mensal renovável.</li>
-                <li>O serviço é fornecido por ciclos de 30 (trinta) dias, condicionado ao pagamento antecipado do plano contratado.</li>
+                <li>Disponibilização de linha móvel pré-paga gerenciada pela SmartVoz.</li>
+                <li>O usuário é apenas um utilizador temporário, com vigência mensal renovável.</li>
+                <li>Uso limitado ao plano contratado, válido por 30 dias, condicionado a pagamento antecipado.</li>
               </ul>
             </div>
 
             <div>
-              <h2 className="font-bold text-lg mb-3 text-gray-900">2. Uso da linha e limitações</h2>
+              <h2 className="font-bold text-lg mb-3 text-gray-900">2. Uso e limitações</h2>
               <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>O uso é restrito a dados móveis e recursos básicos (como chamadas e SMS), conforme o plano adquirido.</li>
-                <li>É expressamente proibido:</li>
-                <ul className="list-disc ml-6 mt-1 space-y-1">
-                  <li>Vincular a linha a cadastros em WhatsApp, aplicativos bancários, redes sociais ou como número pessoal/profissional;</li>
-                  <li>Realizar portabilidade, transferência de titularidade ou revenda não autorizada.</li>
-                </ul>
-                <li>O número da linha permanece sob controle exclusivo da SmartVoz, podendo ser reatribuído, desativado ou modificado a qualquer tempo.</li>
+                <li>Proibido: portabilidade, revenda não autorizada, uso como número pessoal/profissional em apps como WhatsApp ou bancos.</li>
+                <li>O número poderá ser desativado ou modificado a qualquer tempo.</li>
               </ul>
             </div>
 
             <div>
               <h2 className="font-bold text-lg mb-3 text-gray-900">3. Pagamento e vigência</h2>
               <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>O valor do plano será informado previamente ao pagamento, e o usuário deverá realizar o pagamento antes de seguir para as etapas de escaneamento do chip e solicitação de ativação da linha.</li>
-                <li>O pagamento é antecipado e não reembolsável, mesmo em casos de uso parcial, desistência ou interrupção.</li>
-                <li>O sistema poderá aplicar automaticamente créditos disponíveis para gerar a fatura com desconto e informar o novo valor ajustado ao usuário.</li>
-                <li>O sistema não bloqueará ou reservará valores de comissão recebida fora do período de 10 dias antes do vencimento da mensalidade. Dentro desse intervalo de 10 dias, o valor da fatura poderá ser reservado automaticamente e o restante do saldo permanece disponível para saque.</li>
-                <li>Será aplicada taxa de 3% sobre cada solicitação de saque efetuada.</li>
+                <li>O valor será informado antes do pagamento, que é antecipado e não reembolsável.</li>
+                <li>Pagamento obrigatório antes do escaneamento e ativação.</li>
+                <li>O sistema reserva o valor da mensalidade apenas 10 dias antes do vencimento. Antes disso, o saque é livre.</li>
+                <li>Créditos disponíveis poderão ser usados para abater o valor da fatura automaticamente.</li>
+                <li>Taxa de 3% será aplicada em cada solicitação de saque.</li>
               </ul>
             </div>
 
             <div>
-              <h2 className="font-bold text-lg mb-3 text-gray-900">4. Comissões e conduta em rede</h2>
+              <h2 className="font-bold text-lg mb-3 text-gray-900">4. Comissões e conduta</h2>
               <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>O usuário receberá comissões de forma recorrente sobre todos os cadastros realizados por meio do seu link de indicação.</li>
-                <li>É expressamente proibido divulgar comparações entre planos da SmartVoz e os planos das operadoras concorrentes (como Vivo, Claro, TIM e demais operadoras do mercado), inclusive em mídias sociais ou canais digitais, com o intuito de desinformar, depreciar ou difamar.</li>
-                <li>O usuário não poderá usar campanhas, marcas ou materiais das operadoras fornecedoras para fins de propaganda sem autorização formal da SmartVoz.</li>
-                <li>O descumprimento dessas regras poderá resultar em penalidades como advertência, exclusão da conta, bloqueio da rede de comissões, responsabilização judicial por danos morais e materiais, conforme previsto nas leis mencionadas neste termo.</li>
+                <li>Usuário recebe comissões pelos cadastros via link de indicação pessoal.</li>
+                <li>É proibido comparar ou difamar operadoras como Vivo, Claro, TIM ou demais concorrentes.</li>
+                <li>Divulgação de campanhas ou logos sem autorização é vedada.</li>
+                <li>Sanções: bloqueio de conta, suspensão de comissões, exclusão e responsabilização judicial.</li>
               </ul>
             </div>
 
             <div>
               <h2 className="font-bold text-lg mb-3 text-gray-900">5. Suporte técnico</h2>
               <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>Disponível 24h por dia, de segunda a segunda, via ligação para 10315.</li>
-                <li>Selecione a opção 2, aguarde, selecione novamente a opção 2, e digite o código de acesso de 4 dígitos fornecido pela SmartVoz.</li>
-                <li>Na primeira tentativa, o código pode não ser reconhecido. Após a notificação, digite novamente o mesmo código.</li>
-                <li>Informe que é apenas o usuário autorizado com acesso por meio do código de 4 dígitos.</li>
+                <li>Disponível 24h via ligação para 10315:</li>
+                <li className="ml-6">Passos: opção 2 → opção 2 novamente → código de 4 dígitos</li>
+                <li className="ml-6">Se não reconhecido: tente novamente após notificação</li>
+                <li className="ml-6">Atendimento: usuário informa que possui código fornecido e solicita suporte técnico</li>
               </ul>
             </div>
 
             <div>
               <h2 className="font-bold text-lg mb-3 text-gray-900">6. Comunicação e notificações</h2>
               <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>O USUÁRIO será notificado no painel do escritório virtual (Dashboard), via sino, e também por e-mail e WhatsApp, sobre:</li>
-                <ul className="list-disc ml-6 mt-1 space-y-1">
-                  <li>Confirmação do aceite do termo (com IP, data e hora)</li>
-                  <li>Vencimento da fatura</li>
-                  <li>Status da ativação da linha</li>
-                  <li>Instruções operacionais sobre ativação do SIM Card e eSIM (leitura de QR Code)</li>
-                  <li>Opção de upgrade de plano a qualquer momento (com cobrança atualizada na próxima fatura)</li>
-                  <li>Disponibilidade de acesso ao app da operadora para acompanhar o plano contratado em tempo real via linha cadastrada e código de SMS de 6 dígitos</li>
-                </ul>
+                <li>Confirmação via WhatsApp, e-mail e dashboard:</li>
+                <li className="ml-6">Aceite do termo com IP, data/hora</li>
+                <li className="ml-6">Status da linha, fatura, ativação e upgrade</li>
+                <li className="ml-6">Acesso ao app oficial da operadora para acompanhamento do plano</li>
               </ul>
             </div>
 
             <div>
               <h2 className="font-bold text-lg mb-3 text-gray-900">7. Cadastro e validação</h2>
               <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>Cadastro individual por CPF com validação facial, escaneamento de documento frente/verso e confirmação em dois fatores.</li>
-                <li>Não será permitido cadastro em nome de terceiros, nem duplicações por CPF, e-mail ou número de contato.</li>
+                <li>Cadastro via CPF único, com validação facial, documento e selfie.</li>
+                <li>Proibido duplicar cadastros por e-mail, WhatsApp ou CPF.</li>
+                <li>Feito no site: www.smartvoz.com.br</li>
               </ul>
             </div>
 
             <div>
-              <h2 className="font-bold text-lg mb-3 text-gray-900">8. Disposições finais</h2>
+              <h2 className="font-bold text-lg mb-3 text-gray-900">8. Segurança</h2>
               <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>Este serviço é prestado exclusivamente pela SmartVoz, sem vínculo direto com operadoras de telefonia.</li>
-                <li>Este termo substitui qualquer comunicação anterior.</li>
-                <li>O foro competente para dirimir eventuais dúvidas é o da Comarca de Porto Alegre – RS.</li>
+                <li>Senhas são pessoais. Não compartilhe.</li>
+                <li>Comunique perdas ou acessos indevidos.</li>
+                <li>A SmartVoz nunca solicita senhas por canais externos.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="font-bold text-lg mb-3 text-gray-900">9. Política de privacidade</h2>
+              <p className="text-sm">
+                A SmartVoz poderá alterar esta política a qualquer momento. Consulte regularmente o site oficial.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="font-bold text-lg mb-3 text-gray-900">10. Disposições finais</h2>
+              <ul className="list-disc list-inside space-y-1 text-sm">
+                <li>Serviço prestado unicamente pela SmartVoz, sem vínculo com operadoras.</li>
+                <li>Termo substitui qualquer versão anterior.</li>
+                <li>Foro: Comarca de Porto Alegre – RS.</li>
               </ul>
             </div>
 
