@@ -1,8 +1,7 @@
 
 import React, { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { TermsModal } from "./TermsModal";
+import { TermsModal } from "./terms/TermsModal";
 
 interface TermoContratacaoSmartvozProps {
   acceptedTerms: boolean;
