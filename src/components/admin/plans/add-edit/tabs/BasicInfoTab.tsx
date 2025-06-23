@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CurrencyInput } from "@/components/ui/currency-input";
 import { usePlanForm } from "../PlanFormProvider";
 import { useEffect, useRef } from "react";
 
@@ -88,16 +89,11 @@ export function BasicInfoTab() {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="value">Valor (R$) *</Label>
-            <Input
-              id="value"
-              type="number"
-              step="0.01"
-              {...register("value", { 
-                required: "Valor é obrigatório",
-                valueAsNumber: true,
-                min: { value: 0, message: "Valor deve ser positivo" }
-              })}
+            <Label htmlFor="value">Valor *</Label>
+            <CurrencyInput
+              value={watch("value")}
+              onChange={(value) => setValue("value", value)}
+              placeholder="R$ 0,00"
             />
             {errors.value && (
               <span className="text-sm text-red-600">{errors.value.message}</span>
@@ -105,15 +101,11 @@ export function BasicInfoTab() {
           </div>
 
           <div>
-            <Label htmlFor="firstPurchaseCashback">Cashback da Primeira Compra (R$)</Label>
-            <Input
-              id="firstPurchaseCashback"
-              type="number"
-              step="0.01"
-              {...register("firstPurchaseCashback", { 
-                valueAsNumber: true,
-                min: { value: 0, message: "Valor deve ser positivo" }
-              })}
+            <Label htmlFor="firstPurchaseCashback">Cashback da Primeira Compra</Label>
+            <CurrencyInput
+              value={watch("firstPurchaseCashback")}
+              onChange={(value) => setValue("firstPurchaseCashback", value)}
+              placeholder="R$ 0,00"
             />
             {errors.firstPurchaseCashback && (
               <span className="text-sm text-red-600">{errors.firstPurchaseCashback.message}</span>
