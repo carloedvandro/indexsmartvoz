@@ -1,6 +1,7 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { OrderReviewStep } from "./OrderReviewStep";
-import { ContractTermsStep } from "./ContractTermsStep";
+import TermoContratacaoSmartvoz from "./TermoContratacaoSmartvoz";
 import { PlanSelectionStep } from "./PlanSelectionStep";
 import { NavigationButtons } from "./NavigationButtons";
 import { useStepValidator } from "./StepValidator";
@@ -119,7 +120,7 @@ export function MainContent({
               )}
 
               {currentStep === 3 && (
-                <ContractTermsStep
+                <TermoContratacaoSmartvoz
                   acceptedTerms={acceptedTerms}
                   onTermsChange={handleTermsChange}
                 />
