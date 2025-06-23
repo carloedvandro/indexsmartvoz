@@ -12,6 +12,7 @@ interface BasicInfoFormData {
   description: string;
   value: number;
   status: string;
+  firstPurchaseCashback: number;
 }
 
 export function BasicInfoTab() {
@@ -24,6 +25,7 @@ export function BasicInfoTab() {
       description: basicFormData?.description || '',
       value: basicFormData?.value || 0,
       status: basicFormData?.status || 'active',
+      firstPurchaseCashback: basicFormData?.firstPurchaseCashback || 0,
     }
   });
 
@@ -34,7 +36,8 @@ export function BasicInfoTab() {
         title: basicFormData.title || '',
         description: basicFormData.description || '',
         value: basicFormData.value || 0,
-        status: basicFormData.status || 'active'
+        status: basicFormData.status || 'active',
+        firstPurchaseCashback: basicFormData.firstPurchaseCashback || 0
       });
       isInitialized.current = true;
     }
@@ -50,7 +53,8 @@ export function BasicInfoTab() {
         title: formValues.title || '',
         description: formValues.description || '',
         value: formValues.value || 0,
-        status: formValues.status || 'active'
+        status: formValues.status || 'active',
+        firstPurchaseCashback: formValues.firstPurchaseCashback || 0
       });
     }
   }, [formValues, setBasicFormData]);
@@ -101,20 +105,36 @@ export function BasicInfoTab() {
           </div>
 
           <div>
-            <Label htmlFor="status">Status</Label>
-            <Select
-              value={watch("status")}
-              onValueChange={(value) => setValue("status", value)}
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="active">Ativo</SelectItem>
-                <SelectItem value="inactive">Inativo</SelectItem>
-              </SelectContent>
-            </Select>
+            <Label htmlFor="firstPurchaseCashback">Cashback da Primeira Compra (R$)</Label>
+            <Input
+              id="firstPurchaseCashback"
+              type="number"
+              step="0.01"
+              {...register("firstPurchaseCashback", { 
+                valueAsNumber: true,
+                min: { value: 0, message: "Valor deve ser positivo" }
+              })}
+            />
+            {errors.firstPurchaseCashback && (
+              <span className="text-sm text-red-600">{errors.firstPurchaseCashback.message}</span>
+            )}
           </div>
+        </div>
+
+        <div>
+          <Label htmlFor="status">Status</Label>
+          <Select
+            value={watch("status")}
+            onValueChange={(value) => setValue("status", value)}
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="active">Ativo</SelectItem>
+              <SelectItem value="inactive">Inativo</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
     </div>

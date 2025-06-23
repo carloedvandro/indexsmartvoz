@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -240,6 +241,7 @@ export default function AdminPlanAddEdit() {
       // Processar os dados para adicionar valueType aos cashback_levels
       const processedData = {
         ...data,
+        firstPurchaseCashback: data.first_purchase_cashback || 0,
         cashback_levels: data.cashback_levels?.map((level: any) => ({
           ...level,
           id: level.id || Date.now() + Math.random(), // Garantir que tem ID

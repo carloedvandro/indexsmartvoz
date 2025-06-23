@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface BasicFormData {
@@ -6,6 +5,7 @@ interface BasicFormData {
   description: string;
   value: number;
   status: string;
+  firstPurchaseCashback: number;
 }
 
 interface PlanFormContextType {
@@ -50,7 +50,8 @@ export function PlanFormProvider({ children, initialData }: PlanFormProviderProp
         title: initialData.title || '',
         description: initialData.description || '',
         value: initialData.value || 0,
-        status: initialData.status || 'active'
+        status: initialData.status || 'active',
+        firstPurchaseCashback: initialData.firstPurchaseCashback || 0
       });
 
       // Inicializar cashback levels
