@@ -56,15 +56,15 @@ export function TermsModal({ isOpen, onClose, onAccept }: TermsModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] p-0 flex flex-col">
+      <DialogContent className="max-w-4xl w-[95vw] max-h-[95vh] p-0 flex flex-col">
         <DialogHeader className="p-6 pb-4 flex-shrink-0 border-b">
           <DialogTitle className="text-xl font-bold text-[#8425af]">
             Termo de contratação digital – serviço de linha pré-paga com renovação mensal
           </DialogTitle>
         </DialogHeader>
         
-        <ScrollArea className="flex-1 p-6">
-          <div className="space-y-4 text-sm leading-relaxed text-gray-700">
+        <ScrollArea className="flex-1 max-h-[70vh]">
+          <div className="p-6 space-y-4 text-sm leading-relaxed text-gray-700">
             <p className="mb-4">
               Este documento estabelece as condições para o fornecimento de serviço de linha móvel pela empresa SmartVoz. 
               Ao prosseguir com a contratação, o USUÁRIO declara que leu, entendeu e concorda plenamente com os termos abaixo.
@@ -128,7 +128,7 @@ export function TermsModal({ isOpen, onClose, onAccept }: TermsModalProps) {
                     <li>Status da ativação da linha</li>
                     <li>Instruções operacionais sobre ativação do SIM Card ou eSIM (leitura de QR Code)</li>
                     <li>Acompanhamento de consumo pelo app da operadora (via código SMS de 6 dígitos)</li>
-                    <li>Possibilidade de upgrade de plano ou pergunte de plano</li>
+                    <li>Possibilidade de upgrade de plano ou pergunta de plano</li>
                   </ul>
                 </ul>
               </div>
@@ -153,7 +153,7 @@ export function TermsModal({ isOpen, onClose, onAccept }: TermsModalProps) {
           </div>
         </ScrollArea>
         
-        <div className="p-6 border-t bg-gray-50">
+        <div className="p-6 border-t bg-gray-50 flex-shrink-0">
           <div className="flex items-center space-x-2 mb-4">
             <Checkbox
               id="aceito-modal"
