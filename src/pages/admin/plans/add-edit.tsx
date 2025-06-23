@@ -150,15 +150,7 @@ function AdminPlanAddEditContent() {
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-           
-            <h1 className="text-xl font-semibold text-gray-900">
-              {isEditing ? 'Editar Plano' : 'Adicionar Plano'}
-            </h1>
-          </div>
-
-          {/* Botão de ação - visível apenas no desktop */}
-          <div className="hidden md:block">
-             <Button
+              <Button
               variant="ghost"
               size="sm"
               onClick={handleBack}
@@ -167,6 +159,14 @@ function AdminPlanAddEditContent() {
               <ArrowLeft className="h-4 w-4" />
               Voltar
             </Button>
+            <h1 className="text-xl font-semibold text-gray-900">
+              {isEditing ? 'Editar Plano' : 'Adicionar Plano'}
+            </h1>
+          </div>
+
+          {/* Botão de ação - visível apenas no desktop */}
+          <div className="hidden md:block">
+          
             <Button
               onClick={handleSave}
               disabled={isSubmitting}
