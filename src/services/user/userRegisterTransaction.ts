@@ -23,7 +23,7 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
   });
 
   try {
-    // Verificar se email já existe
+    // 1. PRIMEIRO: Verificar se email já existe
     const { data: existingEmail } = await supabase
       .from("profiles")
       .select("id")
@@ -34,7 +34,7 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
       throw new Error("Email já está em uso. Por favor, use outro email ou faça login.");
     }
 
-    // Verificar se CPF já existe
+    // 2. SEGUNDO: Verificar se CPF já existe
     const { data: existingCPF } = await supabase
       .from("profiles")
       .select("id")
@@ -45,7 +45,7 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
       throw new Error("CPF já está cadastrado. Utilize outro CPF ou faça login.");
     }
 
-    // Verificar se custom ID já existe
+    // 3. TERCEIRO: Verificar se custom ID já existe
     const { data: existingCustomId } = await supabase
       .from("profiles")
       .select("id")
@@ -56,7 +56,7 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
       throw new Error("ID personalizado já está em uso. Por favor, escolha outro ID.");
     }
 
-    // Verificar se o patrocinador existe
+    // 4. QUARTO: Verificar se o patrocinador existe (ANTES de criar o usuário)
     let sponsorId = null;
     if (data.sponsorCustomId) {
       const { data: sponsor, error: sponsorError } = await supabase
@@ -72,7 +72,7 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
       sponsorId = sponsor.id;
     }
 
-    // Criar usuário no Supabase Auth
+    // 5. AGORA SIM: Criar usuário no Supabase Auth (só depois de todas as validações)
     const { data: authData, error: signUpError } = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
@@ -101,7 +101,7 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
     log("info", "User created in auth", { userId });
 
     try {
-      // Atualizar perfil com dados completos
+      // 6. Atualizar perfil com dados completos
       const { error: updateError } = await supabase
         .from("profiles")
         .update({
@@ -122,7 +122,7 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
 
       log("info", "Profile updated successfully", { userId });
 
-      // Salvar endereço
+      // 7. Salvar endereço
       const { error: addressError } = await supabase
         .from("user_addresses")
         .insert({
