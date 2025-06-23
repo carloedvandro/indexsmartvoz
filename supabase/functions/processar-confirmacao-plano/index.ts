@@ -89,16 +89,25 @@ serve(async (req) => {
             name: order.user?.full_name || 'Usuário SmartVoz',
             email: order.user?.email,
             cpfCnpj: order.user?.cpf || order.user?.cnpj,
+            birthDate: order.user?.birth_date || '1990-01-01', // Campo obrigatório
             phone: order.user?.mobile || order.user?.phone,
             mobilePhone: order.user?.mobile,
-            address: order.user?.address,
+            address: order.user?.address || 'Rua Principal, 123',
             addressNumber: '123',
             complement: '',
-            province: order.user?.city,
-            postalCode: order.user?.zip_code,
+            province: order.user?.city || 'São Paulo',
+            postalCode: order.user?.zip_code || '01000-000',
             accountType: 'PAYMENT_ACCOUNT',
             companyType: order.user?.cnpj ? 'MEI' : 'INDIVIDUAL',
           }
+
+          console.log('📡 [PROCESSAR-CONFIRMACAO] Dados para criação da subconta:', {
+            name: accountData.name,
+            email: accountData.email,
+            cpfCnpj: accountData.cpfCnpj,
+            birthDate: accountData.birthDate,
+            city: accountData.province
+          })
 
           console.log('📡 [PROCESSAR-CONFIRMACAO] Chamando API Asaas...')
           
