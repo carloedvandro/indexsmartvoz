@@ -83,7 +83,7 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
     if (open && client?.id) {
       console.log('Loading client data for editing:', client);
       
-      // Definir valores do formulário com os dados do cliente
+      // Definir valores do formulário com os dados do cliente - agora carregando TODOS os campos
       setValue('email', client.email || '');
       setValue('full_name', client.full_name || '');
       setValue('cpf', client.cpf || '');
@@ -102,6 +102,26 @@ export function ClientFormDialog({ open, onOpenChange, client }: ClientFormDialo
       setValue('civil_status', client.civil_status || 'not_specified');
       setValue('status', client.status || 'active');
       setValue('role', 'client');
+
+      console.log('Form values after loading:', {
+        email: client.email,
+        full_name: client.full_name,
+        cpf: client.cpf,
+        phone: client.phone,
+        mobile: client.mobile,
+        birth_date: client.birth_date,
+        person_type: client.person_type,
+        document_id: client.document_id,
+        cnpj: client.cnpj,
+        address: client.address,
+        city: client.city,
+        state: client.state,
+        country: client.country,
+        zip_code: client.zip_code,
+        gender: client.gender,
+        civil_status: client.civil_status,
+        status: client.status
+      });
     } else if (open && !client?.id) {
       // Resetar formulário para novo cliente
       reset({
