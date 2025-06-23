@@ -84,33 +84,33 @@ serve(async (req) => {
         if (!termsAcceptance) {
           console.warn('⚠️ [PROCESSAR-CONFIRMACAO] Usuário não aceitou os termos, pulando criação de subconta')
         } else {
-          // Preparar dados para API do Asaas com todos os campos obrigatórios
+          // Preparar dados para API do Asaas com todos os campos necessários
           const accountData = {
+            // Campos obrigatórios
             name: order.user?.full_name || 'Usuário SmartVoz',
             email: order.user?.email,
             cpfCnpj: order.user?.cpf || order.user?.cnpj,
-            birthDate: order.user?.birth_date || '1990-01-01',
-            phone: order.user?.mobile || order.user?.phone || '11999999999',
-            mobilePhone: order.user?.mobile || '11999999999',
-            address: order.user?.address || 'Rua Principal, 123',
+            mobilePhone: order.user?.mobile || order.user?.phone || '11999999999',
+            incomeValue: order.user?.cnpj ? 5000.00 : 2000.00,
+            address: order.user?.address || 'Rua Principal',
             addressNumber: '123',
-            complement: '',
-            province: order.user?.city || 'São Paulo',
-            postalCode: order.user?.zip_code || '01000-000',
-            // Campos obrigatórios para subconta
-            accountType: 'PAYMENT_ACCOUNT',
-            companyType: order.user?.cnpj ? 'MEI' : 'INDIVIDUAL',
-            // Campo de renda/faturamento obrigatório
-            incomeValue: order.user?.cnpj ? 5000.00 : 2000.00, // MEI: R$ 5.000, PF: R$ 2.000
-            // Outros campos importantes
-            site: order.user?.store_url || '',
-            responsibleName: order.user?.full_name || 'Usuário SmartVoz',
-            // Para PJ, adicionar campos específicos
+            province: order.user?.city || 'Centro',
+            postalCode: order.user?.zip_code?.replace(/\D/g, '') || '01000000',
+            
+            // Campos condicionais - birthDate obrigatório para PF
+            ...(order.user?.cpf && {
+              birthDate: order.user?.birth_date || '1990-01-01'
+            }),
+            
+            // Campos condicionais - companyType obrigatório para PJ
             ...(order.user?.cnpj && {
-              companyType: 'MEI',
-              tradingName: order.user?.full_name || 'SmartVoz',
-              incomeValue: 5000.00
-            })
+              companyType: 'MEI'
+            }),
+            
+            // Campos opcionais
+            phone: order.user?.phone || '',
+            complement: '',
+            site: order.user?.store_url || ''
           }
 
           console.log('📡 [PROCESSAR-CONFIRMACAO] Dados para criação da subconta:', {
@@ -118,9 +118,13 @@ serve(async (req) => {
             email: accountData.email,
             cpfCnpj: accountData.cpfCnpj,
             birthDate: accountData.birthDate,
-            city: accountData.province,
             companyType: accountData.companyType,
-            incomeValue: accountData.incomeValue
+            mobilePhone: accountData.mobilePhone,
+            incomeValue: accountData.incomeValue,
+            address: accountData.address,
+            addressNumber: accountData.addressNumber,
+            province: accountData.province,
+            postalCode: accountData.postalCode
           })
 
           console.log('📡 [PROCESSAR-CONFIRMACAO] Chamando API Asaas...')

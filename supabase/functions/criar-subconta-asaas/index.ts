@@ -1,3 +1,4 @@
+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
@@ -110,41 +111,47 @@ serve(async (req) => {
       .single()
 
     try {
-      // Preparar dados para API do Asaas com todos os campos obrigatórios
+      // Preparar dados para API do Asaas com todos os campos necessários
       const accountData = {
+        // Campos obrigatórios
         name: userProfile.full_name || 'Usuário SmartVoz',
         email: userProfile.email,
         cpfCnpj: userProfile.cpf || userProfile.cnpj,
-        birthDate: userProfile.birth_date || '1990-01-01',
-        phone: userProfile.mobile || userProfile.phone || '11999999999',
-        mobilePhone: userProfile.mobile || '11999999999',
-        address: userProfile.address || 'Rua Principal, 123',
-        addressNumber: '123',
-        complement: '',
-        province: userProfile.city || 'São Paulo',
-        postalCode: userProfile.zip_code || '01000-000',
-        // Campos obrigatórios para subconta
-        accountType: 'PAYMENT_ACCOUNT',
-        companyType: userProfile.cnpj ? 'MEI' : 'INDIVIDUAL',
-        // Campo de renda/faturamento obrigatório
+        mobilePhone: userProfile.mobile || userProfile.phone || '11999999999',
         incomeValue: userProfile.cnpj ? 5000.00 : 2000.00,
-        // Outros campos importantes
-        site: userProfile.store_url || '',
-        responsibleName: userProfile.full_name || 'Usuário SmartVoz',
-        // Para PJ, adicionar campos específicos
+        address: userProfile.address || 'Rua Principal',
+        addressNumber: '123',
+        province: userProfile.city || 'Centro',
+        postalCode: userProfile.zip_code?.replace(/\D/g, '') || '01000000',
+        
+        // Campos condicionais - birthDate obrigatório para PF
+        ...(userProfile.cpf && {
+          birthDate: userProfile.birth_date || '1990-01-01'
+        }),
+        
+        // Campos condicionais - companyType obrigatório para PJ
         ...(userProfile.cnpj && {
-          companyType: 'MEI',
-          tradingName: userProfile.full_name || 'SmartVoz',
-          incomeValue: 5000.00
-        })
+          companyType: 'MEI'
+        }),
+        
+        // Campos opcionais
+        phone: userProfile.phone || '',
+        complement: '',
+        site: userProfile.store_url || ''
       }
 
       console.log('Dados para criação da subconta:', {
         name: accountData.name,
         email: accountData.email,
         cpfCnpj: accountData.cpfCnpj,
+        birthDate: accountData.birthDate,
         companyType: accountData.companyType,
-        incomeValue: accountData.incomeValue
+        mobilePhone: accountData.mobilePhone,
+        incomeValue: accountData.incomeValue,
+        address: accountData.address,
+        addressNumber: accountData.addressNumber,
+        province: accountData.province,
+        postalCode: accountData.postalCode
       })
 
       // Chamada para API do Asaas (Sandbox)
