@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { TermsModal } from "./TermsModal";
+import { TermsModal } from "./terms/TermsModal";
 
 interface ContractTermsStepProps {
   acceptedTerms: boolean;
