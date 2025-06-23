@@ -74,15 +74,15 @@ export function TermsModal({ isOpen, onClose, onAccept }: TermsModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl w-[95vw] max-h-[90vh] p-0 flex flex-col">
+      <DialogContent className="max-w-4xl w-[95vw] h-[90vh] p-0 flex flex-col">
         <DialogHeader className="p-6 pb-4 flex-shrink-0 border-b">
           <DialogTitle className="text-xl font-bold text-[#8425af]">
             Termo de contratação digital – serviço de linha pré-paga com renovação mensal
           </DialogTitle>
         </DialogHeader>
         
-        <div className="flex-1 min-h-0">
-          <ScrollArea className="h-full max-h-[60vh]">
+        <div className="flex-1 overflow-hidden">
+          <ScrollArea className="h-full">
             <div className="p-6 space-y-4 text-sm leading-relaxed text-gray-700">
               <p className="mb-4">
                 Este documento estabelece as condições para o fornecimento de serviço de linha móvel pela empresa SmartVoz. 
