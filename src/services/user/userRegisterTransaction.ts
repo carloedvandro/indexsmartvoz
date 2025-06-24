@@ -16,7 +16,7 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
   if (!data.customId || data.customId.length < 3) {
     throw new Error("ID personalizado deve ter pelo menos 3 caracteres");
   }
-  if (!data.fullName || data.fullName.trim().length < 3) {
+  if (!data.fullName || data.fullName.trim().length < 2) {
     throw new Error("Nome completo é obrigatório");
   }
   if (!data.whatsapp || data.whatsapp.length < 10) {
@@ -36,7 +36,7 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
       .from("profiles")
       .select("id")
       .eq("email", data.email)
-      .single();
+      .maybeSingle(); // Usar maybeSingle() ao invés de single()
 
     if (existingEmail) {
       throw new Error("Email já está em uso. Por favor, use outro email ou faça login.");
@@ -48,7 +48,7 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
       .from("profiles")
       .select("id")
       .eq("cpf", data.cpf)
-      .single();
+      .maybeSingle();
 
     if (existingCPF) {
       throw new Error("CPF já está cadastrado. Utilize outro CPF ou faça login.");
@@ -60,7 +60,7 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
       .from("profiles")
       .select("id")
       .eq("custom_id", data.customId)
-      .single();
+      .maybeSingle();
 
     if (existingCustomId) {
       throw new Error("ID personalizado já está em uso. Por favor, escolha outro ID.");
@@ -68,18 +68,24 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
 
     // 4. Verificar se o patrocinador existe (se fornecido)
     let sponsorId = null;
-    if (data.sponsorCustomId) {
+    if (data.sponsorCustomId && data.sponsorCustomId.trim()) {
       console.log("🔍 Verificando patrocinador...");
       const { data: sponsor, error: sponsorError } = await supabase
         .from("profiles")
         .select("id")
-        .eq("custom_id", data.sponsorCustomId)
-        .single();
+        .eq("custom_id", data.sponsorCustomId.trim())
+        .maybeSingle();
 
-      if (sponsorError || !sponsor) {
-        log("error", "Sponsor not found", { sponsorCustomId: data.sponsorCustomId });
-        throw new Error("ID do patrocinador inválido ou não encontrado");
+      if (sponsorError) {
+        log("error", "Error checking sponsor", sponsorError);
+        throw new Error("Erro ao verificar patrocinador");
       }
+      
+      if (!sponsor) {
+        log("error", "Sponsor not found", { sponsorCustomId: data.sponsorCustomId });
+        throw new Error("ID do patrocinador não encontrado");
+      }
+      
       sponsorId = sponsor.id;
       console.log("✅ Patrocinador encontrado:", sponsorId);
     }

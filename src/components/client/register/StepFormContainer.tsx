@@ -53,7 +53,7 @@ export const StepFormContainer = () => {
     mode: "onChange"
   });
 
-  const validateCurrentStep = async () => {
+  const validateCurrentStep = async (): Promise<boolean> => {
     const fieldsToValidate: (keyof RegisterFormData)[] = [];
     
     switch (currentStep) {
@@ -68,6 +68,7 @@ export const StepFormContainer = () => {
         break;
       case 4:
         fieldsToValidate.push("customId");
+        // Sponsor só é obrigatório se não vier da URL
         if (!sponsorId) {
           fieldsToValidate.push("sponsorCustomId");
         }
@@ -77,20 +78,36 @@ export const StepFormContainer = () => {
         break;
     }
 
+    console.log(`🔍 Validando step ${currentStep} com campos:`, fieldsToValidate);
     const isValid = await form.trigger(fieldsToValidate);
+    console.log(`✅ Step ${currentStep} válido:`, isValid);
+    
+    if (!isValid) {
+      const errors = form.formState.errors;
+      console.log("❌ Erros de validação:", errors);
+    }
+    
     return isValid;
   };
 
   const handleNext = async () => {
+    console.log(`🚀 Tentando avançar do step ${currentStep} para ${currentStep + 1}`);
+    
     const isValid = await validateCurrentStep();
     if (isValid && currentStep < totalSteps) {
+      console.log(`✅ Avançando para step ${currentStep + 1}`);
       setCurrentStep(currentStep + 1);
+      setError(null); // Limpar erros anteriores
+    } else {
+      console.log(`❌ Não foi possível avançar do step ${currentStep}`);
     }
   };
 
   const handlePrevious = () => {
     if (currentStep > 1) {
+      console.log(`⬅️ Voltando para step ${currentStep - 1}`);
       setCurrentStep(currentStep - 1);
+      setError(null); // Limpar erros anteriores
     }
   };
 
@@ -99,7 +116,7 @@ export const StepFormContainer = () => {
       setIsSubmitting(true);
       setError(null);
       
-      console.log("🚀 Iniciando cadastro completo com dados:", {
+      console.log("🚀 Iniciando cadastro completo:", {
         email: data.email,
         fullName: data.fullName,
         customId: data.customId,

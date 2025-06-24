@@ -1,10 +1,10 @@
 
 import { z } from "zod";
 import { validatePasswordStrength } from "@/utils/passwordValidation";
-import { validateCPF } from "@/utils/cpfValidation";
+import { validateCPF } from "@/utils/validation/cpfValidation";
 
 export const registerFormSchema = z.object({
-  fullName: z.string().min(3, "Nome deve ter pelo menos 3 caracteres"),
+  fullName: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
   email: z.string().email("Email inválido"),
   password: z.string().refine(
     (password) => validatePasswordStrength(password).isValid,
@@ -12,12 +12,12 @@ export const registerFormSchema = z.object({
   ),
   passwordConfirmation: z.string().min(1, "Confirmação de senha é obrigatória"),
   cpf: z.string().refine(validateCPF, "CPF inválido"),
-  sponsorCustomId: z.string().min(1, "ID do patrocinador é obrigatório"),
+  sponsorCustomId: z.string().optional(), // Tornar opcional
   customId: z.string()
     .min(3, "ID personalizado deve ter pelo menos 3 caracteres")
     .regex(/^[a-zA-Z0-9]+$/, "ID personalizado deve conter apenas letras e números"),
   birthDate: z.string().min(1, "Data de nascimento é obrigatória"),
-  whatsapp: z.string().min(11, "WhatsApp deve ter pelo menos 11 dígitos"),
+  whatsapp: z.string().min(10, "WhatsApp deve ter pelo menos 10 dígitos"),
   secondaryWhatsapp: z.string().optional(),
   // Campos de endereço
   cep: z.string().min(8, "CEP deve ter 8 dígitos").max(9, "CEP inválido"),
