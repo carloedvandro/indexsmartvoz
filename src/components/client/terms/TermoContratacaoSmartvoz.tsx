@@ -15,31 +15,52 @@ const TermoContratacaoSmartvoz = () => {
     try {
       setEnviando(true);
       
+      // Verificar se o usuário está logado
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        throw new Error('Usuário não está logado');
+      }
+
       // Registrar aceite via Edge Function
-      const { error } = await supabase.functions.invoke('registro-termo', {
+      const { data, error } = await supabase.functions.invoke('registro-termo', {
         body: {
           aceite: true,
-          receberComunicados: true
+          receberComunicados: true,
+          timestamp: new Date().toISOString(),
+          ip: "auto",
+          geo: true
         }
       });
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
       toast({
         title: "Sucesso",
-        description: "Aceite registrado com sucesso.",
+        description: "Aceite registrado com sucesso. Você receberá a confirmação via e-mail, WhatsApp e no seu painel de notificações com IP, data, hora e localização.",
       });
     } catch (error) {
       console.error('Erro ao registrar aceite:', error);
+      const erroDetalhado = error?.message || "Erro desconhecido.";
+      
       toast({
         title: "Erro",
-        description: "Erro ao registrar o aceite. Tente novamente.",
+        description: `Erro ao registrar o aceite: ${erroDetalhado}`,
         variant: "destructive",
       });
     } finally {
       setEnviando(false);
     }
   };
+
+  const Secao = ({ titulo, children }: { titulo: string; children: React.ReactNode }) => (
+    <div className="mb-4">
+      <h2 className="text-md font-bold text-left text-purple-700 mb-1">{titulo}</h2>
+      <div className="text-sm text-gray-700 leading-relaxed">{children}</div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-[#F8F9FE] p-6">
@@ -52,91 +73,104 @@ const TermoContratacaoSmartvoz = () => {
           </CardHeader>
           <CardContent className="space-y-6 text-gray-700">
             <p className="text-sm">
-              Este documento estabelece as condições para o fornecimento de serviço de linha móvel pela empresa SmartVoz. Ao prosseguir com a contratação, o USUÁRIO declara que leu, entendeu e concorda plenamente com os termos abaixo.
+              Este documento estabelece as condições para fornecimento de serviço de linha móvel pela empresa SmartVoz. Ao prosseguir, o usuário declara que leu e aceita os termos, conforme as legislações aplicáveis:
             </p>
 
-            <div>
-              <h2 className="font-bold text-lg mb-3 text-gray-900">1. Objeto do serviço</h2>
-              <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>Disponibilização de linha de telefonia móvel sob modelo pré-pago, gerenciado pela empresa SmartVoz.</li>
-                <li>O USUÁRIO não é o titular da linha, sendo apenas um usuário temporário com vigência mensal renovável.</li>
-                <li>O serviço é fornecido por ciclos de 30 (trinta) dias, condicionado ao pagamento antecipado do plano contratado.</li>
-              </ul>
-            </div>
+            <ul className="list-disc list-inside mb-4 space-y-1 text-sm">
+              <li>Código de Defesa do Consumidor – Lei nº 8.078/1990</li>
+              <li>Marco Civil da Internet – Lei nº 12.965/2014</li>
+              <li>Código Civil – arts. 186 e 927</li>
+              <li>Lei de Marketing Multinível – Lei nº 6.019/1974</li>
+            </ul>
 
-            <div>
-              <h2 className="font-bold text-lg mb-3 text-gray-900">2. Uso da linha e limitações</h2>
-              <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>O uso é restrito a dados móveis e recursos básicos (como chamadas e SMS), conforme o plano adquirido.</li>
-                <li>É expressamente proibido:
-                  <ul className="list-disc ml-6 mt-1 space-y-1">
-                    <li>Vincular a linha a cadastros em WhatsApp, aplicativos bancários, redes sociais ou como número pessoal/profissional;</li>
-                    <li>Realizar portabilidade, transferência de titularidade ou revenda não autorizada.</li>
-                  </ul>
-                </li>
-                <li>O número da linha permanece sob controle exclusivo da SmartVoz, podendo ser reatribuído, desativado ou modificado a qualquer tempo.</li>
+            <Secao titulo="1. Objetivo do serviço">
+              <ul className="list-disc list-inside space-y-1">
+                <li>Disponibilização de linha móvel pré-paga gerenciada pela SmartVoz.</li>
+                <li>O usuário é apenas um utilizador temporário, com vigência mensal renovável.</li>
+                <li>Uso limitado ao plano contratado, válido por 30 dias, condicionado a pagamento antecipado.</li>
               </ul>
-            </div>
+            </Secao>
 
-            <div>
-              <h2 className="font-bold text-lg mb-3 text-gray-900">3. Pagamento e vigência</h2>
-              <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>O valor do plano será informado previamente ao pagamento, sendo válido por 30 dias corridos a partir da ativação.</li>
-                <li>O pagamento é antecipado e não reembolsável, mesmo em casos de uso parcial, desistência ou interrupção.</li>
-                <li>O não pagamento até a data prevista resultará no bloqueio automático da linha, sem aviso prévio.</li>
-                <li>O sistema reserva automaticamente o valor da mensalidade para impedir saques antes da renovação do plano.</li>
+            <Secao titulo="2. Uso e limitações">
+              <ul className="list-disc list-inside space-y-1">
+                <li>Proibido: portabilidade, revenda não autorizada, uso como número pessoal/profissional em apps como WhatsApp ou bancos.</li>
+                <li>O número poderá ser desativado ou modificado a qualquer tempo.</li>
               </ul>
-            </div>
+            </Secao>
 
-            <div>
-              <h2 className="font-bold text-lg mb-3 text-gray-900">4. Comissões e conduta em rede</h2>
-              <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>Usuários podem receber comissões recorrentes por meio de links de indicação.</li>
-                <li>É proibido divulgar a operadora real ou fazer menções ofensivas em redes sociais, sob risco de penalidades como perda de rede e desativação da conta.</li>
+            <Secao titulo="3. Pagamento e vigência">
+              <ul className="list-disc list-inside space-y-1">
+                <li>O valor será informado antes do pagamento, que é antecipado e não reembolsável.</li>
+                <li>Pagamento obrigatório antes do escaneamento e ativação.</li>
+                <li>O sistema reserva o valor da mensalidade apenas 10 dias antes do vencimento. Antes disso, o saque é livre.</li>
+                <li>Créditos disponíveis poderão ser usados para abater o valor da fatura automaticamente.</li>
+                <li>Taxa de 3% será aplicada em cada solicitação de saque.</li>
               </ul>
-            </div>
+            </Secao>
 
-            <div>
-              <h2 className="font-bold text-lg mb-3 text-gray-900">5. Suporte técnico</h2>
-              <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>Suporte técnico 24h por dia, todos os dias, via central da operadora (ligação para 10315 &gt; opção 2 &gt; opção 2 novamente &gt; digitar código de acesso de 4 dígitos).</li>
-                <li>Caso o código não seja reconhecido na primeira tentativa, repita na segunda tentativa.</li>
-                <li>Será solicitado o CNPJ da empresa; o usuário deve informar que é apenas um usuário com código de acesso fornecido pela SmartVoz.</li>
+            <Secao titulo="4. Comissões e conduta">
+              <ul className="list-disc list-inside space-y-1">
+                <li>Usuário recebe comissões pelos cadastros via link de indicação pessoal.</li>
+                <li>É proibido comparar ou difamar operadoras como Vivo, Claro, TIM ou demais concorrentes.</li>
+                <li>Divulgação de campanhas ou logos sem autorização é vedada.</li>
+                <li>Sanções: bloqueio de conta, suspensão de comissões, exclusão e responsabilização judicial.</li>
               </ul>
-            </div>
+            </Secao>
 
-            <div>
-              <h2 className="font-bold text-lg mb-3 text-gray-900">6. Comunicação e notificações</h2>
-              <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>O USUÁRIO será notificado no painel do escritório virtual (Dashboard) via sino com mensagens sobre:</li>
+            <Secao titulo="5. Suporte técnico">
+              <ul className="list-disc list-inside space-y-1">
+                <li>Disponível 24h via ligação para 10315:</li>
+                <li className="ml-6">Passos: opção 2 → opção 2 novamente → código de 4 dígitos</li>
+                <li className="ml-6">Se não reconhecido: tente novamente após notificação</li>
+                <li className="ml-6">Atendimento: usuário informa que possui código fornecido e solicita suporte técnico</li>
+              </ul>
+            </Secao>
+
+            <Secao titulo="6. Comunicação e notificações">
+              <ul className="list-disc list-inside space-y-1">
+                <li>Confirmação via WhatsApp, e-mail e dashboard:</li>
                 <ul className="list-disc ml-6 mt-1 space-y-1">
-                  <li>Vencimento da fatura</li>
-                  <li>Status da ativação da linha</li>
-                  <li>Instruções operacionais sobre ativação do SIM Card ou eSIM (leitura de QR Code)</li>
-                  <li>Acompanhamento de consumo pelo app da operadora (via código SMS de 6 dígitos)</li>
-                  <li>Possibilidade de upgrade de plano ou pergunta de plano</li>
+                  <li>Aceite do termo com IP, data/hora</li>
+                  <li>Status da linha, fatura, ativação e upgrade</li>
+                  <li>Acesso ao app oficial da operadora para acompanhamento do plano</li>
                 </ul>
               </ul>
-            </div>
+            </Secao>
 
-            <div>
-              <h2 className="font-bold text-lg mb-3 text-gray-900">7. Cadastro e validação</h2>
-              <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>O cadastro é individual por CPF, com validação biométrica facial, escaneamento de documento (frente e verso) e confirmação por dois fatores.</li>
-                <li>Não é permitido o cadastro em nome de terceiros ou duplicações por CPF, e-mail ou número de contato.</li>
+            <Secao titulo="7. Cadastro e validação">
+              <ul className="list-disc list-inside space-y-1">
+                <li>Cadastro via CPF único, com validação facial, documento e selfie.</li>
+                <li>Proibido duplicar cadastros por e-mail, WhatsApp ou CPF.</li>
+                <li>Feito no site: www.smartvoz.com.br</li>
               </ul>
-            </div>
+            </Secao>
 
-            <div>
-              <h2 className="font-bold text-lg mb-3 text-gray-900">8. Disposições finais</h2>
-              <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>Este serviço é prestado exclusivamente pela SmartVoz, sem vínculo direto com operadoras de telefonia.</li>
-                <li>Este termo substitui quaisquer comunicações anteriores.</li>
-                <li>O foro para eventuais disputas será Porto Alegre/RS.</li>
+            <Secao titulo="8. Segurança">
+              <ul className="list-disc list-inside space-y-1">
+                <li>Senhas são pessoais. Não compartilhe.</li>
+                <li>Comunique perdas ou acessos indevidos.</li>
+                <li>A SmartVoz nunca solicita senhas por canais externos.</li>
               </ul>
-            </div>
+            </Secao>
+
+            <Secao titulo="9. Política de privacidade">
+              <p className="text-sm">
+                A SmartVoz poderá alterar esta política a qualquer momento. Consulte regularmente o site oficial.
+              </p>
+            </Secao>
+
+            <Secao titulo="10. Disposições finais">
+              <ul className="list-disc list-inside space-y-1">
+                <li>Serviço prestado unicamente pela SmartVoz, sem vínculo com operadoras.</li>
+                <li>Termo substitui qualquer versão anterior.</li>
+                <li>Foro: Comarca de Porto Alegre – RS.</li>
+              </ul>
+            </Secao>
 
             <div className="mt-8 p-4 bg-gray-50 rounded-lg">
+              <p className="text-sm text-gray-600 mb-4">
+                Ao contratar e ativar o serviço, o USUÁRIO confirma o aceite integral deste Termo de Contratação Digital.
+              </p>
               <div className="flex items-center space-x-2 mb-4">
                 <Checkbox
                   id="aceito"
@@ -144,7 +178,7 @@ const TermoContratacaoSmartvoz = () => {
                   onCheckedChange={(checked) => setAceito(checked as boolean)}
                 />
                 <label htmlFor="aceito" className="text-sm font-medium">
-                  Declaro que li e aceito todos os termos.
+                  Li e aceito os termos acima.
                 </label>
               </div>
               
@@ -153,7 +187,7 @@ const TermoContratacaoSmartvoz = () => {
                 onClick={handleAceite}
                 className="w-full bg-purple-600 hover:bg-purple-700"
               >
-                {enviando ? "Processando..." : "Aceitar e Prosseguir"}
+                {enviando ? "Enviando..." : "Confirmar e Prosseguir"}
               </Button>
             </div>
           </CardContent>
