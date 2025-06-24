@@ -78,6 +78,9 @@ export const CpfVerificationStep = ({
 
   // Verificar se o botão deve estar habilitado
   const isButtonEnabled = termsAccepted && cpfDigits.length >= 5 && !isLoading;
+  
+  // Verificar se deve destacar o link dos termos
+  const shouldHighlightTerms = cpfDigits.length >= 5 && !termsAccepted;
 
   return (
     <>
@@ -138,12 +141,18 @@ export const CpfVerificationStep = ({
             Ao continuar, você aceita nossos{' '}
             <button 
               onClick={handleTermsClick}
-              className="underline font-medium"
-              style={{ color: '#2400ff' }}
+              className={`underline font-medium transition-all duration-300 ${
+                shouldHighlightTerms 
+                  ? 'text-red-600 animate-pulse bg-yellow-200 px-2 py-1 rounded-md shadow-lg border-2 border-red-300' 
+                  : 'text-[#2400ff]'
+              }`}
               type="button"
             >
               termos de uso
             </button>
+            {shouldHighlightTerms && (
+              <span className="text-red-600 ml-2 animate-pulse font-bold">← CLIQUE AQUI!</span>
+            )}
             {termsAccepted && (
               <span className="text-green-600 ml-2">✓ Aceitos</span>
             )}
