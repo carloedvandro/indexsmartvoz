@@ -60,7 +60,7 @@ const TermoContratacaoSmartvoz = ({ acceptedTerms, onTermsChange }: TermoContrat
               className="mt-0.5 h-4 w-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
             />
             <label htmlFor="terms" className="text-xs text-gray-600 cursor-pointer w-[calc(100%+7px)] pl-1 mt-[1.25px]">
-              Aceito receber comunicações e ofertas da Smartvoz.
+              Aceito os termos de contratação.
             </label>
           </div>
         </div>
