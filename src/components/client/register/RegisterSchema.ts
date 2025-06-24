@@ -34,7 +34,10 @@ export const registerFormSchema = z.object({
   }
 ).refine(
   (data) => {
-    if (!data.secondaryWhatsapp) return true;
+    // Validação do segundo WhatsApp apenas se preenchido
+    if (!data.secondaryWhatsapp || data.secondaryWhatsapp.trim() === "") {
+      return true; // Se vazio, não há problema
+    }
     return data.whatsapp !== data.secondaryWhatsapp;
   },
   {

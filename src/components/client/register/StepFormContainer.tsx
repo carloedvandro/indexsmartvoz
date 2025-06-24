@@ -54,6 +54,8 @@ export const StepFormContainer = () => {
   });
 
   const validateCurrentStep = async (): Promise<boolean> => {
+    console.log(`🔍 [STEP ${currentStep}] Iniciando validação...`);
+    
     const fieldsToValidate: (keyof RegisterFormData)[] = [];
     
     switch (currentStep) {
@@ -68,59 +70,107 @@ export const StepFormContainer = () => {
         break;
       case 4:
         fieldsToValidate.push("customId");
-        // Sponsor é opcional
+        // sponsorCustomId é opcional, não incluir na validação obrigatória
         break;
       case 5:
         fieldsToValidate.push("password", "passwordConfirmation");
         break;
     }
 
-    console.log(`🔍 Validando step ${currentStep} com campos:`, fieldsToValidate);
+    console.log(`🔍 [STEP ${currentStep}] Campos para validar:`, fieldsToValidate);
+    
+    // Obter valores atuais do formulário
+    const currentValues = form.getValues();
+    console.log(`📋 [STEP ${currentStep}] Valores atuais:`, {
+      ...currentValues,
+      password: currentValues.password ? '[PROTECTED]' : '',
+      passwordConfirmation: currentValues.passwordConfirmation ? '[PROTECTED]' : ''
+    });
     
     // Limpar erros anteriores
     form.clearErrors();
     
-    const isValid = await form.trigger(fieldsToValidate);
-    console.log(`✅ Step ${currentStep} válido:`, isValid);
-    
-    if (!isValid) {
-      const errors = form.formState.errors;
-      console.log("❌ Erros de validação:", errors);
+    try {
+      const isValid = await form.trigger(fieldsToValidate);
+      console.log(`✅ [STEP ${currentStep}] Resultado da validação:`, isValid);
       
-      // Mostrar primeiro erro encontrado
-      const firstError = Object.values(errors)[0];
-      if (firstError) {
-        toast({
-          title: "Erro de validação",
-          description: firstError.message,
-          variant: "destructive",
-        });
+      if (!isValid) {
+        const errors = form.formState.errors;
+        console.log(`❌ [STEP ${currentStep}] Erros encontrados:`, errors);
+        
+        // Encontrar o primeiro erro e mostrá-lo
+        for (const field of fieldsToValidate) {
+          if (errors[field]) {
+            const errorMessage = errors[field]?.message || `Erro no campo ${field}`;
+            console.log(`🚨 [STEP ${currentStep}] Primeiro erro: ${field} - ${errorMessage}`);
+            toast({
+              title: "Erro de validação",
+              description: errorMessage,
+              variant: "destructive",
+            });
+            break;
+          }
+        }
+        
+        return false;
       }
+      
+      console.log(`🎉 [STEP ${currentStep}] Validação passou com sucesso!`);
+      return true;
+      
+    } catch (error) {
+      console.error(`💥 [STEP ${currentStep}] Erro durante validação:`, error);
+      toast({
+        title: "Erro de validação",
+        description: "Ocorreu um erro durante a validação. Tente novamente.",
+        variant: "destructive",
+      });
+      return false;
     }
-    
-    return isValid;
   };
 
   const handleNext = async () => {
-    console.log(`🚀 Tentando avançar do step ${currentStep} para ${currentStep + 1}`);
+    console.log(`🚀 [STEP ${currentStep}] Clicou em "Próximo"`);
+    console.log(`📊 [STEP ${currentStep}] Estado atual: currentStep=${currentStep}, totalSteps=${totalSteps}`);
     
-    const isValid = await validateCurrentStep();
-    if (isValid && currentStep < totalSteps) {
-      console.log(`✅ Avançando para step ${currentStep + 1}`);
-      setCurrentStep(currentStep + 1);
-      setError(null);
-    } else {
-      console.log(`❌ Não foi possível avançar do step ${currentStep}`);
-      if (!isValid) {
-        console.log("Dados do formulário:", form.getValues());
-        console.log("Erros:", form.formState.errors);
+    try {
+      const isValid = await validateCurrentStep();
+      console.log(`🔍 [STEP ${currentStep}] Validação retornou:`, isValid);
+      
+      if (isValid && currentStep < totalSteps) {
+        const nextStep = currentStep + 1;
+        console.log(`➡️ [STEP ${currentStep}] Avançando para step ${nextStep}`);
+        setCurrentStep(nextStep);
+        setError(null);
+        
+        // Log de confirmação
+        setTimeout(() => {
+          console.log(`✅ [STEP ${nextStep}] Successfully moved to step ${nextStep}`);
+        }, 100);
+        
+      } else {
+        console.log(`⛔ [STEP ${currentStep}] Não foi possível avançar. isValid=${isValid}, currentStep=${currentStep}, totalSteps=${totalSteps}`);
+        
+        if (!isValid) {
+          console.log(`❌ [STEP ${currentStep}] Validação falhou`);
+        }
+        if (currentStep >= totalSteps) {
+          console.log(`⚠️ [STEP ${currentStep}] Já está no último step`);
+        }
       }
+    } catch (error) {
+      console.error(`💥 [STEP ${currentStep}] Erro no handleNext:`, error);
+      toast({
+        title: "Erro",
+        description: "Ocorreu um erro. Tente novamente.",
+        variant: "destructive",
+      });
     }
   };
 
   const handlePrevious = () => {
     if (currentStep > 1) {
-      console.log(`⬅️ Voltando para step ${currentStep - 1}`);
+      console.log(`⬅️ Voltando do step ${currentStep} para ${currentStep - 1}`);
       setCurrentStep(currentStep - 1);
       setError(null);
     }
@@ -173,6 +223,8 @@ export const StepFormContainer = () => {
   };
 
   const renderCurrentStep = () => {
+    console.log(`🎨 Renderizando step ${currentStep}`);
+    
     switch (currentStep) {
       case 1:
         return <PersonalInfoStep form={form} />;
@@ -185,11 +237,14 @@ export const StepFormContainer = () => {
       case 5:
         return <PasswordStep form={form} />;
       default:
+        console.warn(`⚠️ Step ${currentStep} não reconhecido, usando step 1`);
         return <PersonalInfoStep form={form} />;
     }
   };
 
   const isLastStep = currentStep === totalSteps;
+  
+  console.log(`🔄 Renderizando StepFormContainer - currentStep: ${currentStep}, isLastStep: ${isLastStep}`);
 
   return (
     <Form {...form}>
