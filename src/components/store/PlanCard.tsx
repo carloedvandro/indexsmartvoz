@@ -29,17 +29,22 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
     !feature.includes("Frete Grátis") &&
     !feature.includes("WhatsApp Grátis") &&
     !feature.includes("Skeelo") &&
-    !feature.includes("Waze")
+    !feature.includes("Waze") &&
+    !feature.includes("Plano Basic") &&
+    !feature.includes("Plano Prime") &&
+    !feature.includes("Plano Premium") &&
+    !feature.includes("Plano Gold") &&
+    !feature.includes("Plano Master")
   );
 
   // Get plan type based on data size for display
   const getPlanType = (gb: string) => {
     const value = parseInt(gb);
-    if (value <= 80) return "Oferta Basic";
-    if (value <= 100) return "Oferta Prime";
-    if (value <= 120) return "Oferta Premium";
-    if (value <= 140) return "Oferta Gold";
-    return "Oferta Master";
+    if (value <= 80) return "Plano Basic";
+    if (value <= 100) return "Plano Prime";
+    if (value <= 120) return "Plano Premium";
+    if (value <= 140) return "Plano Gold";
+    return "Plano Master";
   };
 
   const planType = getPlanType(plan.gb);
