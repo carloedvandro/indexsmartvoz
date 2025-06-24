@@ -1,5 +1,5 @@
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import Index from "@/pages/Index";
 import CompanySite from "@/pages/CompanySite";
@@ -41,65 +41,69 @@ import StorePage from "@/pages/public/store";
 // Layouts
 import { DynamicLayout } from "@/components/layouts/DynamicLayout";
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
     <BrowserRouter>
-      <Toaster />
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/company" element={<CompanySite />} />
-        <Route path="/site" element={<CompanySite />} />
-        <Route path="/store/:storeUrl" element={<StorePage />} />
+      <QueryClientProvider client={queryClient}>
+        <Toaster />
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/company" element={<CompanySite />} />
+          <Route path="/site" element={<CompanySite />} />
+          <Route path="/store/:storeUrl" element={<StorePage />} />
 
-        {/* Client Routes */}
-        <Route path="/client/login" element={<ClientLogin />} />
-        <Route path="/client/register" element={<ClientRegister />} />
-        <Route path="/client/reset-password" element={<ClientResetPassword />} />
-        <Route path="/client/terms-updated" element={<ClientTermsUpdated />} />
-        
-        {/* Protected Client Routes */}
-        <Route path="/client" element={<ProtectedRoute />}>
-          <Route path="" element={<DynamicLayout />}>
-            <Route path="dashboard" element={<ClientDashboard />} />
-            <Route path="financial" element={<ClientFinancial />} />
-            <Route path="network" element={<ClientNetwork />} />
-            <Route path="profile" element={<ClientProfile />} />
-            <Route path="banking" element={<ClientBanking />} />
-            <Route path="security-password" element={<ClientSecurityPassword />} />
-            <Route path="products" element={<ClientProducts />} />
-            <Route path="notifications" element={<ClientNotifications />} />
-            <Route path="esim" element={<ClientEsim />} />
-            <Route path="facial-biometry" element={<ClientFacialBiometry />} />
-            <Route path="plan-selection" element={<ClientPlanSelection />} />
-            <Route path="navigation" element={<ClientNavigation />} />
-            <Route path="inventory-reports" element={<InventoryReports />} />
-          </Route>
-        </Route>
-        
-        {/* Admin Routes */}
-        <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin" element={<ProtectedRoute />}>
-          <Route path="" element={<RoleBasedRoute allowedRoles={['admin']} />}>
-            {/* Rota especial para add-edit sem sidebar */}
-            <Route 
-              path="plans/add-edit" 
-              element={<AdminPlanAddEdit />} 
-            />
-            
-            {/* Outras rotas admin com sidebar */}
-            <Route path="" element={<DynamicLayout forceRole="admin" />}>
-              <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="clients" element={<AdminClients />} />
-              <Route path="plans" element={<AdminPlans />} />
-              <Route path="orders" element={<AdminOrders />} />
-              <Route path="finance" element={<AdminFinance />} />
-              <Route path="reports" element={<AdminReports />} />
+          {/* Client Routes */}
+          <Route path="/client/login" element={<ClientLogin />} />
+          <Route path="/client/register" element={<ClientRegister />} />
+          <Route path="/client/reset-password" element={<ClientResetPassword />} />
+          <Route path="/client/terms-updated" element={<ClientTermsUpdated />} />
+          
+          {/* Protected Client Routes */}
+          <Route path="/client" element={<ProtectedRoute />}>
+            <Route path="" element={<DynamicLayout />}>
+              <Route path="dashboard" element={<ClientDashboard />} />
+              <Route path="financial" element={<ClientFinancial />} />
+              <Route path="network" element={<ClientNetwork />} />
+              <Route path="profile" element={<ClientProfile />} />
+              <Route path="banking" element={<ClientBanking />} />
+              <Route path="security-password" element={<ClientSecurityPassword />} />
+              <Route path="products" element={<ClientProducts />} />
+              <Route path="notifications" element={<ClientNotifications />} />
+              <Route path="esim" element={<ClientEsim />} />
+              <Route path="facial-biometry" element={<ClientFacialBiometry />} />
+              <Route path="plan-selection" element={<ClientPlanSelection />} />
+              <Route path="navigation" element={<ClientNavigation />} />
+              <Route path="inventory-reports" element={<InventoryReports />} />
             </Route>
           </Route>
-        </Route>
-        
-        <Route path="*" element={<h1>Not Found</h1>} />
-      </Routes>
+          
+          {/* Admin Routes */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<ProtectedRoute />}>
+            <Route path="" element={<RoleBasedRoute allowedRoles={['admin']} />}>
+              {/* Rota especial para add-edit sem sidebar */}
+              <Route 
+                path="plans/add-edit" 
+                element={<AdminPlanAddEdit />} 
+              />
+              
+              {/* Outras rotas admin com sidebar */}
+              <Route path="" element={<DynamicLayout forceRole="admin" />}>
+                <Route path="dashboard" element={<AdminDashboard />} />
+                <Route path="clients" element={<AdminClients />} />
+                <Route path="plans" element={<AdminPlans />} />
+                <Route path="orders" element={<AdminOrders />} />
+                <Route path="finance" element={<AdminFinance />} />
+                <Route path="reports" element={<AdminReports />} />
+              </Route>
+            </Route>
+          </Route>
+          
+          <Route path="*" element={<h1>Not Found</h1>} />
+        </Routes>
+      </QueryClientProvider>
     </BrowserRouter>
   );
 }
