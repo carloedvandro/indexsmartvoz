@@ -1,0 +1,82 @@
+
+/* Modern Plan Card Styles */
+.plan-card-modern {
+  width: 320px;
+  height: 600px;
+  margin: 0;
+  border-radius: 20px;
+  box-shadow: 
+    0 20px 40px -10px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.plan-card-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    rgba(255,255,255,0.6), 
+    rgba(255,255,255,0.9), 
+    rgba(255,255,255,0.6)
+  );
+  z-index: 20;
+}
+
+.plan-card-modern:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 
+    0 30px 50px -10px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+/* 3D Text Effect */
+.plan-card-modern .text-6xl {
+  text-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(255, 255, 255, 0.2);
+  transform-style: preserve-3d;
+}
+
+/* Glassmorphism effect for badges */
+.plan-card-modern .bg-white\/20 {
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Button hover effect */
+.plan-card-modern button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .plan-card-modern {
+    width: 300px;
+    height: 550px;
+  }
+}
+
+/* Animated gradient background */
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.plan-card-modern .absolute.inset-0:first-child {
+  background: linear-gradient(-45deg, #6B46C1, #7C3AED, #8B5CF6, #A855F7);
+  background-size: 400% 400%;
+  animation: gradientShift 6s ease infinite;
+}
