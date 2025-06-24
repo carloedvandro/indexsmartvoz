@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/utils/format";
+import { getPlanName } from "./plan-selection/planOptions";
 
 type Line = {
   id: number;
@@ -17,24 +18,6 @@ interface OrderReviewStepProps {
 export function OrderReviewStep({
   selectedLines
 }: OrderReviewStepProps) {
-  // Get plan name based on selected internet GB
-  const getPlanName = (internet: string) => {
-    switch (internet) {
-      case "2GB":
-        return "Teste a Tegg";
-      case "7GB":
-        return "BASIC";
-      case "13GB":
-        return "START";
-      case "21GB":
-        return "GOLD";
-      case "44GB":
-        return "PLUS";
-      default:
-        return "Plano Smartvoz";
-    }
-  };
-
   return (
     <div className="space-y-6 max-w-[340px] mx-auto w-full" style={{ paddingTop: '90px' }}>
       <div className="w-full flex justify-center mb-4">
@@ -51,9 +34,9 @@ export function OrderReviewStep({
             <div className="flex justify-between items-center">
               <div>
                 <span className="font-medium">
-                  {getPlanName(line.internet)}
+                  {getPlanName(line.internet)} {line.internet}
                 </span>
-                <span className="ml-2">{line.internet} + Minutos {line.internet === "2GB" ? "100" : "ilimitados"}</span>
+                <span className="ml-2">+ Minutos {line.internet === "2GB" ? "100" : "ilimitados"}</span>
               </div>
             </div>
             <div className="mt-2 text-sm text-gray-500">

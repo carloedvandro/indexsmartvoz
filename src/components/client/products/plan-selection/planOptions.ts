@@ -55,3 +55,19 @@ export const mapPlanValueToInternet = (value: number) => {
   console.log('🔍 Resultado do mapeamento:', result);
   return result;
 };
+
+// Função para obter o nome do plano sem duplicar o GB
+export const getPlanName = (gb: string) => {
+  switch (gb) {
+    case "80GB":
+      return "Plano Basic";
+    case "100GB":
+      return "Plano Prime";
+    case "120GB":
+      return "Plano Premium";
+    case "140GB":
+      return "Plano Gold";
+    default:
+      return "Plano Smartvoz";
+  }
+};
