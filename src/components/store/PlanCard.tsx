@@ -35,7 +35,7 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
   // Get plan type based on data size for display
   const getPlanType = (gb: string) => {
     const value = parseInt(gb);
-    if (value <= 80) return "Oferta Basic";
+    if (value <= 80) return "Oferta"; // Removido "Basic"
     if (value <= 100) return "Oferta Prime";
     if (value <= 120) return "Oferta Premium";
     if (value <= 140) return "Oferta Gold";
