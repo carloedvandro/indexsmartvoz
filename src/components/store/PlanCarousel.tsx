@@ -47,7 +47,7 @@ export function PlanCarousel({
           <CarouselContent className="-ml-1">
             {plans.map((plan) => (
               <CarouselItem key={plan.id} className="pl-1">
-                <PlanCardModern plan={plan} onSelectPlan={onSelectPlan} />
+                <PlanCardModern plan={plan} onSelect={onSelectPlan} />
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -58,7 +58,7 @@ export function PlanCarousel({
         // Desktop: Horizontal grid
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto justify-items-center">
           {plans.map((plan) => (
-            <PlanCardModern key={plan.id} plan={plan} onSelectPlan={onSelectPlan} />
+            <PlanCardModern key={plan.id} plan={plan} onSelect={onSelectPlan} />
           ))}
         </div>
       )}

@@ -1,82 +1,265 @@
 
-/* Modern Plan Card Styles */
-.plan-card-modern {
+/* Modern 3D Plan Card Styles - Identical to provided design */
+.plan-card-3d-container {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.plan-card-3d {
   width: 320px;
   height: 600px;
   margin: 0;
   border-radius: 20px;
   box-shadow: 
-    0 20px 40px -10px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    0 25px 50px -12px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+    0 10px 30px rgba(139, 92, 246, 0.3);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(16px);
+  transform-style: preserve-3d;
 }
 
-.plan-card-modern::before {
+.plan-card-3d::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 2px;
+  height: 3px;
   background: linear-gradient(90deg, 
-    rgba(255,255,255,0.6), 
+    rgba(0,255,255,0.8), 
     rgba(255,255,255,0.9), 
-    rgba(255,255,255,0.6)
+    rgba(255,0,128,0.8)
   );
   z-index: 20;
+  animation: neonFlow 3s ease-in-out infinite;
 }
 
-.plan-card-modern:hover {
-  transform: translateY(-10px) scale(1.02);
+.plan-card-3d:hover {
+  transform: 
+    perspective(1200px) 
+    rotateX(-15deg) 
+    rotateY(15deg) 
+    translateY(-20px) 
+    translateZ(50px) 
+    scale(1.05);
   box-shadow: 
-    0 30px 50px -10px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+    0 40px 80px -12px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+    0 20px 60px rgba(139, 92, 246, 0.5),
+    0 0 100px rgba(0, 255, 255, 0.3);
 }
 
-/* 3D Text Effect */
-.plan-card-modern .text-6xl {
+/* Enhanced 3D Text Effects */
+.plan-card-3d .text-6xl {
   text-shadow: 
-    0 4px 8px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(255, 255, 255, 0.2);
+    0 0 10px rgba(255, 255, 255, 0.8),
+    0 0 20px rgba(139, 92, 246, 0.6),
+    0 0 30px rgba(0, 255, 255, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.3);
   transform-style: preserve-3d;
+  position: relative;
 }
 
-/* Glassmorphism effect for badges */
-.plan-card-modern .bg-white\/20 {
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+.plan-card-3d .text-6xl::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  z-index: -1;
+  color: rgba(139, 92, 246, 0.5);
+  text-shadow: none;
 }
 
-/* Button hover effect */
-.plan-card-modern button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+/* Advanced Glassmorphism effects */
+.plan-card-3d .bg-white\/20 {
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  position: relative;
+}
+
+.plan-card-3d .bg-white\/20::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  border-radius: inherit;
+  z-index: -1;
+}
+
+/* Enhanced button hover effect with 3D transformation */
+.plan-card-3d button:hover {
+  transform: translateY(-5px) translateZ(20px);
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .plan-card-modern {
+  .plan-card-3d {
     width: 300px;
     height: 550px;
   }
 }
 
-/* Animated gradient background */
-@keyframes gradientShift {
+/* Advanced animated gradient background */
+@keyframes gradientShift3D {
   0%, 100% {
+    background-position: 0% 50%;
+    transform: translateZ(0px);
+  }
+  25% {
+    background-position: 50% 0%;
+    transform: translateZ(10px);
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: translateZ(0px);
+  }
+  75% {
+    background-position: 50% 100%;
+    transform: translateZ(-10px);
+  }
+}
+
+.plan-card-3d .absolute.inset-0:first-child {
+  background: linear-gradient(-45deg, 
+    #6B46C1, #7C3AED, #8B5CF6, #A855F7, 
+    #00FFFF, #FF0080, #6B46C1
+  );
+  background-size: 400% 400%;
+  animation: gradientShift3D 8s ease infinite;
+}
+
+/* Neon pulse animation for text */
+@keyframes neonPulse3D {
+  0%, 100% {
+    text-shadow: 
+      0 0 5px rgba(255, 255, 255, 0.8),
+      0 0 10px rgba(139, 92, 246, 0.6),
+      0 0 15px rgba(0, 255, 255, 0.4),
+      0 0 20px rgba(255, 0, 128, 0.3);
+    transform: translateZ(0px);
+  }
+  50% {
+    text-shadow: 
+      0 0 10px rgba(255, 255, 255, 1),
+      0 0 20px rgba(139, 92, 246, 0.8),
+      0 0 30px rgba(0, 255, 255, 0.6),
+      0 0 40px rgba(255, 0, 128, 0.5);
+    transform: translateZ(5px);
+  }
+}
+
+.neon-pulse {
+  animation: neonPulse3D 2s ease-in-out infinite;
+}
+
+/* Neon flow animation for top border */
+@keyframes neonFlow {
+  0%, 100% {
+    opacity: 0.8;
     background-position: 0% 50%;
   }
   50% {
+    opacity: 1;
     background-position: 100% 50%;
   }
 }
 
-.plan-card-modern .absolute.inset-0:first-child {
-  background: linear-gradient(-45deg, #6B46C1, #7C3AED, #8B5CF6, #A855F7);
-  background-size: 400% 400%;
-  animation: gradientShift 6s ease infinite;
+/* Enhanced floating animation with 3D movement */
+@keyframes float3D {
+  0%, 100% {
+    transform: translateY(0px) translateZ(0px) rotateX(0deg);
+  }
+  33% {
+    transform: translateY(-10px) translateZ(5px) rotateX(2deg);
+  }
+  66% {
+    transform: translateY(-5px) translateZ(-3px) rotateX(-1deg);
+  }
+}
+
+.float-animation {
+  animation: float3D 4s ease-in-out infinite;
+}
+
+/* Circuit flow animation with 3D depth */
+@keyframes circuitFlow3D {
+  0% {
+    opacity: 0.2;
+    transform: scale(1) translateZ(0px);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05) translateZ(10px);
+  }
+  100% {
+    opacity: 0.2;
+    transform: scale(1) translateZ(0px);
+  }
+}
+
+.circuit-flow {
+  animation: circuitFlow3D 3s ease-in-out infinite;
+}
+
+/* 3D Transform utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.translateZ-5 {
+  transform: translateZ(5px);
+}
+
+.translateZ-10 {
+  transform: translateZ(10px);
+}
+
+.translateZ-15 {
+  transform: translateZ(15px);
+}
+
+.translateZ-20 {
+  transform: translateZ(20px);
+}
+
+.translateZ-25 {
+  transform: translateZ(25px);
+}
+
+.translateZ-30 {
+  transform: translateZ(30px);
+}
+
+.card-3d-hover {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-3d-hover:hover {
+  transform: perspective(1200px) rotateX(-15deg) rotateY(15deg) translateY(-20px) translateZ(50px) scale(1.05);
+}
+
+/* Enhanced hover effects for interactive elements */
+.plan-card-3d li:hover {
+  transform: translateX(8px) translateZ(10px);
+  transition: all 0.3s ease;
+}
+
+.plan-card-3d .hover\:scale-110:hover {
+  transform: scale(1.1) translateZ(15px);
 }
