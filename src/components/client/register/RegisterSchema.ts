@@ -12,14 +12,13 @@ export const registerFormSchema = z.object({
   ),
   passwordConfirmation: z.string().min(1, "Confirmação de senha é obrigatória"),
   cpf: z.string().refine(validateCPF, "CPF inválido"),
-  sponsorCustomId: z.string().optional(), // Tornar opcional
+  sponsorCustomId: z.string().optional(),
   customId: z.string()
     .min(3, "ID personalizado deve ter pelo menos 3 caracteres")
     .regex(/^[a-zA-Z0-9]+$/, "ID personalizado deve conter apenas letras e números"),
   birthDate: z.string().min(1, "Data de nascimento é obrigatória"),
   whatsapp: z.string().min(10, "WhatsApp deve ter pelo menos 10 dígitos"),
   secondaryWhatsapp: z.string().optional(),
-  // Campos de endereço
   cep: z.string().min(8, "CEP deve ter 8 dígitos").max(9, "CEP inválido"),
   street: z.string().min(1, "Rua é obrigatória"),
   neighborhood: z.string().min(1, "Bairro é obrigatório"),

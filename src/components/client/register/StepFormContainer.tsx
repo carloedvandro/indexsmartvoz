@@ -68,10 +68,7 @@ export const StepFormContainer = () => {
         break;
       case 4:
         fieldsToValidate.push("customId");
-        // Sponsor só é obrigatório se não vier da URL
-        if (!sponsorId) {
-          fieldsToValidate.push("sponsorCustomId");
-        }
+        // Sponsor é opcional
         break;
       case 5:
         fieldsToValidate.push("password", "passwordConfirmation");
@@ -79,12 +76,26 @@ export const StepFormContainer = () => {
     }
 
     console.log(`🔍 Validando step ${currentStep} com campos:`, fieldsToValidate);
+    
+    // Limpar erros anteriores
+    form.clearErrors();
+    
     const isValid = await form.trigger(fieldsToValidate);
     console.log(`✅ Step ${currentStep} válido:`, isValid);
     
     if (!isValid) {
       const errors = form.formState.errors;
       console.log("❌ Erros de validação:", errors);
+      
+      // Mostrar primeiro erro encontrado
+      const firstError = Object.values(errors)[0];
+      if (firstError) {
+        toast({
+          title: "Erro de validação",
+          description: firstError.message,
+          variant: "destructive",
+        });
+      }
     }
     
     return isValid;
@@ -97,9 +108,13 @@ export const StepFormContainer = () => {
     if (isValid && currentStep < totalSteps) {
       console.log(`✅ Avançando para step ${currentStep + 1}`);
       setCurrentStep(currentStep + 1);
-      setError(null); // Limpar erros anteriores
+      setError(null);
     } else {
       console.log(`❌ Não foi possível avançar do step ${currentStep}`);
+      if (!isValid) {
+        console.log("Dados do formulário:", form.getValues());
+        console.log("Erros:", form.formState.errors);
+      }
     }
   };
 
@@ -107,7 +122,7 @@ export const StepFormContainer = () => {
     if (currentStep > 1) {
       console.log(`⬅️ Voltando para step ${currentStep - 1}`);
       setCurrentStep(currentStep - 1);
-      setError(null); // Limpar erros anteriores
+      setError(null);
     }
   };
 
@@ -126,7 +141,6 @@ export const StepFormContainer = () => {
         hasCpf: !!data.cpf
       });
       
-      // Usar o serviço de transação completa
       await registerUserWithAddress(data);
       
       console.log("✅ Cadastro realizado com sucesso!");
@@ -136,7 +150,6 @@ export const StepFormContainer = () => {
         description: "Redirecionando para verificação biométrica...",
       });
       
-      // Dar um pequeno delay para mostrar o toast
       setTimeout(() => {
         navigate("/client/facial-biometry");
       }, 1500);
