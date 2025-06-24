@@ -141,9 +141,9 @@ export const CpfVerificationStep = ({
             Ao continuar, você aceita nossos{' '}
             <button 
               onClick={handleTermsClick}
-              className={`underline font-medium transition-all duration-300 ${
+              className={`underline font-medium ${
                 shouldHighlightTerms 
-                  ? 'text-red-600 animate-pulse bg-yellow-200 px-2 py-1 rounded-md shadow-lg border-2 border-red-300' 
+                  ? 'text-red-600 animate-pulse' 
                   : 'text-[#2400ff]'
               }`}
               type="button"
