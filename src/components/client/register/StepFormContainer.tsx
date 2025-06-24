@@ -54,7 +54,7 @@ export const StepFormContainer = () => {
   });
 
   const validateCurrentStep = async (): Promise<boolean> => {
-    console.log(`🔍 [STEP ${currentStep}] Iniciando validação...`);
+    console.log(`🔍 [STEP ${currentStep}] === INICIANDO VALIDAÇÃO ===`);
     
     const fieldsToValidate: (keyof RegisterFormData)[] = [];
     
@@ -82,17 +82,21 @@ export const StepFormContainer = () => {
     // Obter valores atuais do formulário
     const currentValues = form.getValues();
     console.log(`📋 [STEP ${currentStep}] Valores atuais:`, {
-      ...currentValues,
-      password: currentValues.password ? '[PROTECTED]' : '',
-      passwordConfirmation: currentValues.passwordConfirmation ? '[PROTECTED]' : ''
+      customId: currentValues.customId,
+      sponsorCustomId: currentValues.sponsorCustomId,
+      fullName: currentValues.fullName ? '[PRESENT]' : '[EMPTY]',
+      email: currentValues.email ? '[PRESENT]' : '[EMPTY]',
+      password: currentValues.password ? '[PROTECTED]' : '[EMPTY]',
+      passwordConfirmation: currentValues.passwordConfirmation ? '[PROTECTED]' : '[EMPTY]'
     });
     
     // Limpar erros anteriores
     form.clearErrors();
     
     try {
+      console.log(`🔄 [STEP ${currentStep}] Executando form.trigger...`);
       const isValid = await form.trigger(fieldsToValidate);
-      console.log(`✅ [STEP ${currentStep}] Resultado da validação:`, isValid);
+      console.log(`✅/❌ [STEP ${currentStep}] Resultado form.trigger:`, isValid);
       
       if (!isValid) {
         const errors = form.formState.errors;
@@ -114,8 +118,34 @@ export const StepFormContainer = () => {
         
         return false;
       }
+
+      // Validação adicional específica para step 4
+      if (currentStep === 4) {
+        const customIdValue = currentValues.customId;
+        console.log(`🔍 [STEP 4] Validação extra - customId:`, customIdValue);
+        
+        if (!customIdValue || customIdValue.trim().length < 3) {
+          console.log(`❌ [STEP 4] customId inválido:`, customIdValue);
+          toast({
+            title: "Erro de validação",
+            description: "ID personalizado deve ter pelo menos 3 caracteres",
+            variant: "destructive",
+          });
+          return false;
+        }
+
+        if (!/^[a-zA-Z0-9]+$/.test(customIdValue)) {
+          console.log(`❌ [STEP 4] customId formato inválido:`, customIdValue);
+          toast({
+            title: "Erro de validação", 
+            description: "ID personalizado deve conter apenas letras e números",
+            variant: "destructive",
+          });
+          return false;
+        }
+      }
       
-      console.log(`🎉 [STEP ${currentStep}] Validação passou com sucesso!`);
+      console.log(`🎉 [STEP ${currentStep}] === VALIDAÇÃO PASSOU COM SUCESSO! ===`);
       return true;
       
     } catch (error) {
@@ -130,36 +160,37 @@ export const StepFormContainer = () => {
   };
 
   const handleNext = async () => {
-    console.log(`🚀 [STEP ${currentStep}] Clicou em "Próximo"`);
+    console.log(`🚀 [STEP ${currentStep}] === CLICOU EM PRÓXIMO ===`);
     console.log(`📊 [STEP ${currentStep}] Estado atual: currentStep=${currentStep}, totalSteps=${totalSteps}`);
     
     try {
+      console.log(`🔄 [STEP ${currentStep}] Chamando validateCurrentStep...`);
       const isValid = await validateCurrentStep();
-      console.log(`🔍 [STEP ${currentStep}] Validação retornou:`, isValid);
+      console.log(`🔍 [STEP ${currentStep}] validateCurrentStep retornou:`, isValid);
       
       if (isValid && currentStep < totalSteps) {
         const nextStep = currentStep + 1;
-        console.log(`➡️ [STEP ${currentStep}] Avançando para step ${nextStep}`);
+        console.log(`➡️ [STEP ${currentStep}] AVANÇANDO PARA STEP ${nextStep}`);
         setCurrentStep(nextStep);
         setError(null);
         
         // Log de confirmação
         setTimeout(() => {
-          console.log(`✅ [STEP ${nextStep}] Successfully moved to step ${nextStep}`);
+          console.log(`✅ [STEP ${nextStep}] === STEP ${nextStep} CARREGADO COM SUCESSO ===`);
         }, 100);
         
       } else {
-        console.log(`⛔ [STEP ${currentStep}] Não foi possível avançar. isValid=${isValid}, currentStep=${currentStep}, totalSteps=${totalSteps}`);
+        console.log(`⛔ [STEP ${currentStep}] NÃO FOI POSSÍVEL AVANÇAR. isValid=${isValid}, currentStep=${currentStep}, totalSteps=${totalSteps}`);
         
         if (!isValid) {
-          console.log(`❌ [STEP ${currentStep}] Validação falhou`);
+          console.log(`❌ [STEP ${currentStep}] VALIDAÇÃO FALHOU - permanecendo no step ${currentStep}`);
         }
         if (currentStep >= totalSteps) {
-          console.log(`⚠️ [STEP ${currentStep}] Já está no último step`);
+          console.log(`⚠️ [STEP ${currentStep}] JÁ ESTÁ NO ÚLTIMO STEP`);
         }
       }
     } catch (error) {
-      console.error(`💥 [STEP ${currentStep}] Erro no handleNext:`, error);
+      console.error(`💥 [STEP ${currentStep}] ERRO NO handleNext:`, error);
       toast({
         title: "Erro",
         description: "Ocorreu um erro. Tente novamente.",

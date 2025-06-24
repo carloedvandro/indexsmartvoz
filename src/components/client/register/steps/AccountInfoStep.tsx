@@ -11,15 +11,27 @@ interface AccountInfoStepProps {
 }
 
 export const AccountInfoStep = ({ form, disableSponsor }: AccountInfoStepProps) => {
-  console.log("🎨 Renderizando AccountInfoStep", { disableSponsor });
+  console.log("🎨 === RENDERIZANDO AccountInfoStep ===", { disableSponsor });
   
   const sponsorValue = form.watch("sponsorCustomId");
   const customIdValue = form.watch("customId");
   
-  console.log("📋 AccountInfoStep valores:", { 
+  console.log("📋 AccountInfoStep valores em tempo real:", { 
     sponsorCustomId: sponsorValue,
-    customId: customIdValue 
+    customId: customIdValue,
+    customIdLength: customIdValue ? customIdValue.length : 0
   });
+
+  // Log quando os valores mudam
+  const handleCustomIdChange = (value: string) => {
+    console.log("🔄 CustomId mudou para:", value, "length:", value.length);
+    form.setValue("customId", value);
+  };
+
+  const handleSponsorChange = (value: string) => {
+    console.log("🔄 SponsorCustomId mudou para:", value);
+    form.setValue("sponsorCustomId", value);
+  };
 
   return (
     <div className="space-y-4">
@@ -38,7 +50,10 @@ export const AccountInfoStep = ({ form, disableSponsor }: AccountInfoStepProps) 
                 id="sponsorCustomId"
                 type="text"
                 value={field.value || ""}
-                onChange={field.onChange}
+                onChange={(e) => {
+                  field.onChange(e);
+                  handleSponsorChange(e.target.value);
+                }}
                 label="ID do Patrocinador (Opcional)"
                 icon={User}
                 disabled={disableSponsor}
@@ -60,7 +75,10 @@ export const AccountInfoStep = ({ form, disableSponsor }: AccountInfoStepProps) 
                 id="customId"
                 type="text"
                 value={field.value}
-                onChange={field.onChange}
+                onChange={(e) => {
+                  field.onChange(e);
+                  handleCustomIdChange(e.target.value);
+                }}
                 label="Seu ID Personalizado*"
                 icon={CreditCard}
                 placeholder=""
@@ -70,6 +88,18 @@ export const AccountInfoStep = ({ form, disableSponsor }: AccountInfoStepProps) 
           </FormItem>
         )}
       />
+
+      <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+        <p className="text-sm text-blue-700">
+          <strong>Debug Info:</strong>
+        </p>
+        <p className="text-xs text-blue-600">
+          Custom ID: "{customIdValue}" (length: {customIdValue ? customIdValue.length : 0})
+        </p>
+        <p className="text-xs text-blue-600">
+          Sponsor ID: "{sponsorValue}" (disabled: {disableSponsor ? 'sim' : 'não'})
+        </p>
+      </div>
     </div>
   );
 };
