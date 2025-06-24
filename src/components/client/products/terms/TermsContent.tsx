@@ -5,61 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 
 export function TermsContent() {
-  const [aceito, setAceito] = useState(false);
-  const [enviando, setEnviando] = useState(false);
   const { toast } = useToast();
-
-  const handleAceite = async () => {
-    try {
-      setEnviando(true);
-      
-      console.log('🔄 Tentando registrar aceite dos termos...');
-      
-      // Verificar se o usuário está logado
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        throw new Error('Usuário não está logado');
-      }
-
-      console.log('✅ Usuário logado, enviando aceite...');
-      
-      // Registrar aceite via Edge Function
-      const { data, error } = await supabase.functions.invoke('registro-termo', {
-        body: {
-          aceite: true,
-          receberComunicados: true,
-          timestamp: new Date().toISOString(),
-          ip: "auto",
-          geo: true
-        }
-      });
-
-      console.log('📤 Resposta da função:', { data, error });
-
-      if (error) {
-        console.error('❌ Erro na função:', error);
-        throw error;
-      }
-
-      console.log('✅ Aceite registrado com sucesso');
-      
-      toast({
-        title: "Sucesso",
-        description: "Aceite registrado com sucesso. Você receberá a confirmação via e-mail, WhatsApp e no seu painel de notificações com IP, data, hora e localização.",
-      });
-      
-    } catch (error) {
-      console.error('❌ Erro ao registrar aceite:', error);
-      toast({
-        title: "Erro",
-        description: `Erro ao registrar o aceite: ${error.message || "Erro desconhecido."}`,
-        variant: "destructive",
-      });
-    } finally {
-      setEnviando(false);
-    }
-  };
 
   const Secao = ({ titulo, children }) => (
     <div className="mb-4">
@@ -117,22 +63,6 @@ export function TermsContent() {
             <p className="text-sm text-gray-600">
               Ao contratar e ativar o serviço, o USUÁRIO confirma o aceite integral deste Termo de Contratação Digital.
             </p>
-            <div className="mt-4 flex items-center">
-              <input
-                type="checkbox"
-                className="mr-2"
-                checked={aceito}
-                onChange={(e) => setAceito(e.target.checked)}
-              />
-              <label className="text-sm">Li e aceito os termos acima.</label>
-            </div>
-            <Button
-              className="mt-4"
-              onClick={handleAceite}
-              disabled={!aceito || enviando}
-            >
-              {enviando ? "Enviando..." : "Confirmar e Prosseguir"}
-            </Button>
           </div>
         </div>
       </div>
