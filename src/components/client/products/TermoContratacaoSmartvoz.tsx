@@ -23,6 +23,7 @@ const TermoContratacaoSmartvoz = ({ acceptedTerms, onTermsChange }: TermoContrat
 
   const handleModalAccept = (accepted: boolean) => {
     onTermsChange(accepted);
+    setIsModalOpen(false);
     toast({
       title: "Sucesso",
       description: "Termos aceitos com sucesso!",
