@@ -150,12 +150,6 @@ export const CpfVerificationStep = ({
             >
               termos de uso
             </button>
-            {shouldHighlightTerms && (
-              <span className="text-red-600 ml-2 animate-pulse font-bold">← CLIQUE AQUI!</span>
-            )}
-            {termsAccepted && (
-              <span className="text-green-600 ml-2">✓ Aceitos</span>
-            )}
           </p>
           <Button 
             onClick={handleSubmit} 
