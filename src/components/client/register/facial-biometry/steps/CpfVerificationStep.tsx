@@ -18,6 +18,7 @@ export const CpfVerificationStep = ({
   const [cpfDigits, setCpfDigits] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -27,6 +28,15 @@ export const CpfVerificationStep = ({
       toast({
         title: "CPF inválido",
         description: "Por favor, insira os primeiros 5 dígitos do seu CPF/CNPJ.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!termsAccepted) {
+      toast({
+        title: "Termos não aceitos",
+        description: "Por favor, aceite os termos de uso para continuar.",
         variant: "destructive"
       });
       return;
@@ -58,12 +68,16 @@ export const CpfVerificationStep = ({
   const handleTermsAccept = (accepted: boolean) => {
     setIsTermsModalOpen(false);
     if (accepted) {
+      setTermsAccepted(true);
       toast({
         title: "Sucesso",
         description: "Termos aceitos com sucesso!",
       });
     }
   };
+
+  // Verificar se o botão deve estar habilitado
+  const isButtonEnabled = termsAccepted && cpfDigits.length >= 5 && !isLoading;
 
   return (
     <>
@@ -130,11 +144,14 @@ export const CpfVerificationStep = ({
             >
               termos de uso
             </button>
+            {termsAccepted && (
+              <span className="text-green-600 ml-2">✓ Aceitos</span>
+            )}
           </p>
           <Button 
             onClick={handleSubmit} 
-            disabled={isLoading || cpfDigits.length < 5} 
-            className="w-full h-12 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none"
+            disabled={!isButtonEnabled} 
+            className="w-full h-12 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? "VALIDANDO..." : "VALIDAR"}
           </Button>
