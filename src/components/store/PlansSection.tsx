@@ -4,7 +4,6 @@ import { PlanCard } from "./PlanCard";
 import { PlansOrbital } from "./PlansOrbital";
 import { useNavigate } from "react-router-dom";
 import { PlanCarousel } from "./PlanCarousel";
-import { ProjectShowcase } from "@/components/ui/project-showcase";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { usePlans } from "@/hooks/usePlans";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -65,38 +64,6 @@ export function PlansSection({
     }
   };
 
-  // Sample testimonials for the showcase
-  const planTestimonials = [
-    {
-      name: "Plano Basic 80GB",
-      quote: "Ideal para uso básico diário com navegação, redes sociais e mensagens. Perfeito para quem busca economia sem abrir mão da qualidade.",
-      designation: "Plano Básico",
-      src: "/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png",
-      link: "/client/products?plan=80gb"
-    },
-    {
-      name: "Plano Prime 100GB",
-      quote: "O equilíbrio perfeito entre custo e benefício. Franquia generosa para streaming, jogos e trabalho remoto.",
-      designation: "Plano Intermediário",
-      src: "/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png",
-      link: "/client/products?plan=100gb"
-    },
-    {
-      name: "Plano Premium 120GB",
-      quote: "Para usuários exigentes que precisam de alta performance e conectividade premium. Ideal para profissionais e heavy users.",
-      designation: "Plano Avançado",
-      src: "/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png",
-      link: "/client/products?plan=120gb"
-    },
-    {
-      name: "Plano Gold 140GB",
-      quote: "O máximo em conectividade móvel. Franquia robusta para todas as suas necessidades digitais sem limites.",
-      designation: "Plano Premium",
-      src: "/lovable-uploads/8681ef58-fb81-4463-8d12-8ede81fcab0a.png",
-      link: "/client/products?plan=140gb"
-    }
-  ];
-
   if (isLoading) {
     return (
       <div className="w-full">
@@ -123,56 +90,12 @@ export function PlansSection({
   }
 
   return (
-    <div className="w-full space-y-12">
-      {/* Plan Carousel */}
+    <div className="w-full">
       <PlanCarousel 
         plans={transformedPlans} 
         onSelectPlan={handleSelectPlan}
         isMobile={isMobile}
       />
-
-      {/* Project Showcase */}
-      <div className="max-w-6xl mx-auto px-4">
-        <ProjectShowcase
-          testimonials={planTestimonials}
-          autoplay={true}
-          colors={{
-            name: "var(--project-showcase-name-color)",
-            position: "var(--project-showcase-position-color)",
-            testimony: "var(--project-showcase-testimony-color)",
-          }}
-          fontSizes={{
-            name: "var(--project-showcase-name-size)",
-            position: "var(--project-showcase-position-size)",
-            testimony: "var(--project-showcase-testimony-size)",
-          }}
-          spacing={{
-            nameTop: "var(--project-showcase-name-top)",
-            nameBottom: "var(--project-showcase-name-bottom)",
-            positionTop: "var(--project-showcase-position-top)",
-            positionBottom: "var(--project-showcase-position-bottom)",
-            testimonyTop: "var(--project-showcase-testimony-top)",
-            testimonyBottom: "var(--project-showcase-testimony-bottom)",
-            lineHeight: "var(--project-showcase-line-height)",
-          }}
-          halomotButtonGradient="var(--project-showcase-button-gradient)"
-          halomotButtonBackground="var(--project-showcase-button-background)"
-          halomotButtonTextColor="var(--project-showcase-button-text-color)"
-          halomotButtonOuterBorderRadius="var(--project-showcase-button-outer-radius)"
-          halomotButtonInnerBorderRadius="var(--project-showcase-button-inner-radius)"
-          halomotButtonHoverTextColor="var(--project-showcase-button-hover-text-color)"
-          buttonInscriptions={{
-            previousButton: "Anterior",
-            nextButton: "Próximo",
-            openWebAppButton: "Escolher Plano"
-          }}
-          onItemClick={(link) => {
-            if (link) {
-              navigate(link);
-            }
-          }}
-        />
-      </div>
     </div>
   );
 }
