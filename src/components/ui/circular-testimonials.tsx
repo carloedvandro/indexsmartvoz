@@ -177,23 +177,50 @@ export const CircularTestimonials = ({
   };
 
   return (
-    <div className="testimonial-container">
-      <div className="testimonial-grid">
+    <div style={{
+      width: "100%",
+      maxWidth: "56rem",
+      padding: "2rem",
+    }}>
+      <div style={{
+        display: "grid",
+        gap: "5rem",
+        gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+      }}>
         {/* Images */}
-        <div className="image-container" ref={imageContainerRef}>
+        <div 
+          ref={imageContainerRef}
+          style={{
+            position: "relative",
+            width: "100%",
+            height: "24rem",
+            perspective: "1000px",
+          }}
+        >
           {testimonials.map((testimonial, index) => (
             <img
               key={testimonial.src}
               src={testimonial.src}
               alt={testimonial.name}
-              className="testimonial-image"
+              style={{
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                borderRadius: "1.5rem",
+                boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)",
+                ...getImageStyle(index)
+              }}
               data-index={index}
-              style={getImageStyle(index)}
             />
           ))}
         </div>
         {/* Content */}
-        <div className="testimonial-content">
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}>
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
@@ -204,20 +231,30 @@ export const CircularTestimonials = ({
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
               <h3
-                className="name"
-                style={{ color: colorName, fontSize: fontSizeName }}
+                style={{ 
+                  color: colorName, 
+                  fontSize: fontSizeName,
+                  fontWeight: "bold",
+                  marginBottom: "0.25rem"
+                }}
               >
                 {activeTestimonial.name}
               </h3>
               <p
-                className="designation"
-                style={{ color: colorDesignation, fontSize: fontSizeDesignation }}
+                style={{ 
+                  color: colorDesignation, 
+                  fontSize: fontSizeDesignation,
+                  marginBottom: "2rem"
+                }}
               >
                 {activeTestimonial.designation}
               </p>
               <motion.p
-                className="quote"
-                style={{ color: colorTestimony, fontSize: fontSizeQuote }}
+                style={{ 
+                  color: colorTestimony, 
+                  fontSize: fontSizeQuote,
+                  lineHeight: "1.75"
+                }}
               >
                 {activeTestimonial.quote.split(" ").map((word, i) => (
                   <motion.span
@@ -245,11 +282,23 @@ export const CircularTestimonials = ({
               </motion.p>
             </motion.div>
           </AnimatePresence>
-          <div className="arrow-buttons">
+          <div style={{
+            display: "flex",
+            gap: "1.5rem",
+            paddingTop: "3rem"
+          }}>
             <button
-              className="arrow-button prev-button"
               onClick={handlePrev}
               style={{
+                width: "2.7rem",
+                height: "2.7rem",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                transition: "background-color 0.3s",
+                border: "none",
                 backgroundColor: hoverPrev ? colorArrowHoverBg : colorArrowBg,
               }}
               onMouseEnter={() => setHoverPrev(true)}
@@ -259,9 +308,17 @@ export const CircularTestimonials = ({
               <FaArrowLeft size={28} color={colorArrowFg} />
             </button>
             <button
-              className="arrow-button next-button"
               onClick={handleNext}
               style={{
+                width: "2.7rem",
+                height: "2.7rem",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                transition: "background-color 0.3s",
+                border: "none",
                 backgroundColor: hoverNext ? colorArrowHoverBg : colorArrowBg,
               }}
               onMouseEnter={() => setHoverNext(true)}
@@ -273,73 +330,6 @@ export const CircularTestimonials = ({
           </div>
         </div>
       </div>
-      <style jsx>{`
-        .testimonial-container {
-          width: 100%;
-          max-width: 56rem;
-          padding: 2rem;
-        }
-        .testimonial-grid {
-          display: grid;
-          gap: 5rem;
-        }
-        .image-container {
-          position: relative;
-          width: 100%;
-          height: 24rem;
-          perspective: 1000px;
-        }
-        .testimonial-image {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 1.5rem;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-        .testimonial-content {
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
-        .name {
-          font-weight: bold;
-          margin-bottom: 0.25rem;
-        }
-        .designation {
-          margin-bottom: 2rem;
-        }
-        .quote {
-          line-height: 1.75;
-        }
-        .arrow-buttons {
-          display: flex;
-          gap: 1.5rem;
-          padding-top: 3rem;
-        }
-        .arrow-button {
-          width: 2.7rem;
-          height: 2.7rem;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: background-color 0.3s;
-          border: none;
-        }
-        .word {
-          display: inline-block;
-        }
-        @media (min-width: 768px) {
-          .testimonial-grid {
-            grid-template-columns: 1fr 1fr;
-          }
-          .arrow-buttons {
-            padding-top: 0;
-          }
-        }
-      `}</style>
     </div>
   );
 };

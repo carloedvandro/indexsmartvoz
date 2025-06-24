@@ -1,16 +1,9 @@
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 interface PlanSelectionHeaderProps {
-  variants: {
-    hidden: { opacity: number; y: number };
-    visible: {
-      opacity: number;
-      y: number;
-      transition: { duration: number; ease: string };
-    };
-  };
+  variants: Variants;
 }
 
 export function PlanSelectionHeader({ variants }: PlanSelectionHeaderProps) {
