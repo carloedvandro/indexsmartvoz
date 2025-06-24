@@ -30,3 +30,15 @@ export const isValidCPF = (cpf: string): boolean => {
 };
 
 export const validateCPF = isValidCPF;
+
+export const validatePartialCPF = (partialCpf: string): boolean => {
+  // Validação básica para os primeiros 5 dígitos
+  const cleanCPF = partialCpf.replace(/[^\d]/g, '');
+  
+  if (cleanCPF.length !== 5) return false;
+  
+  // Verifica se não são todos números iguais
+  if (/^(\d)\1+$/.test(cleanCPF)) return false;
+  
+  return true;
+};
