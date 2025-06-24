@@ -1,44 +1,32 @@
 
-export function validateCPF(cpf: string) {
-  cpf = cpf.replace(/[^\d]/g, '');
+export const isValidCPF = (cpf: string): boolean => {
+  // Remove pontos e hífens
+  const cleanCPF = cpf.replace(/[^\d]/g, '');
   
-  if (cpf.length !== 11) return false;
+  // Verifica se tem 11 dígitos
+  if (cleanCPF.length !== 11) return false;
   
-  if (/^(\d)\1+$/.test(cpf)) return false;
+  // Verifica se todos os dígitos são iguais
+  if (/^(\d)\1+$/.test(cleanCPF)) return false;
   
+  // Validação dos dígitos verificadores
   let sum = 0;
   for (let i = 0; i < 9; i++) {
-    sum += parseInt(cpf.charAt(i)) * (10 - i);
+    sum += parseInt(cleanCPF.charAt(i)) * (10 - i);
   }
-  let rev = 11 - (sum % 11);
-  if (rev === 10 || rev === 11) rev = 0;
-  if (rev !== parseInt(cpf.charAt(9))) return false;
+  let remainder = (sum * 10) % 11;
+  if (remainder === 10 || remainder === 11) remainder = 0;
+  if (remainder !== parseInt(cleanCPF.charAt(9))) return false;
   
   sum = 0;
   for (let i = 0; i < 10; i++) {
-    sum += parseInt(cpf.charAt(i)) * (11 - i);
+    sum += parseInt(cleanCPF.charAt(i)) * (11 - i);
   }
-  rev = 11 - (sum % 11);
-  if (rev === 10 || rev === 11) rev = 0;
-  if (rev !== parseInt(cpf.charAt(10))) return false;
+  remainder = (sum * 10) % 11;
+  if (remainder === 10 || remainder === 11) remainder = 0;
+  if (remainder !== parseInt(cleanCPF.charAt(10))) return false;
   
   return true;
-}
+};
 
-// Alias for isValidCPF (to maintain backward compatibility)
-export const isValidCPF = validateCPF;
-
-// Function to validate partial CPF (first 5 digits only)
-export function validatePartialCPF(partialCpf: string) {
-  // Remove non-digits
-  partialCpf = partialCpf.replace(/[^\d]/g, '');
-  
-  // Check if it has exactly 5 digits
-  if (partialCpf.length !== 5) return false;
-  
-  // Check if it's not a repetition of the same digit
-  if (/^(\d)\1+$/.test(partialCpf)) return false;
-  
-  // All checks passed
-  return true;
-}
+export const validateCPF = isValidCPF;

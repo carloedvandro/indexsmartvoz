@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -14,7 +15,7 @@ import { ContactInfoStep } from "./steps/ContactInfoStep";
 import { AddressStep } from "./steps/AddressStep";
 import { AccountInfoStep } from "./steps/AccountInfoStep";
 import { PasswordStep } from "./steps/PasswordStep";
-import { useRegisterUser } from "@/hooks/useRegisterUser";
+import { registerUserWithAddress } from "@/services/user/userRegisterTransaction";
 
 const stepTitles = ["Dados Pessoais", "Contato", "Endereço", "Conta", "Senha"];
 const totalSteps = stepTitles.length;
@@ -27,7 +28,6 @@ export const StepFormContainer = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { registerUser } = useRegisterUser();
   
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
@@ -98,16 +98,21 @@ export const StepFormContainer = () => {
     try {
       setIsSubmitting(true);
       setError(null);
-      console.log("🚀 Iniciando cadastro com dados:", {
+      
+      console.log("🚀 Iniciando cadastro completo com dados:", {
         email: data.email,
         fullName: data.fullName,
         customId: data.customId,
         sponsorCustomId: data.sponsorCustomId,
         hasWhatsapp: !!data.whatsapp,
-        hasAddress: !!(data.cep && data.street && data.city)
+        hasAddress: !!(data.cep && data.street && data.city),
+        hasCpf: !!data.cpf
       });
       
-      await registerUser(data);
+      // Usar o serviço de transação completa
+      await registerUserWithAddress(data);
+      
+      console.log("✅ Cadastro realizado com sucesso!");
       
       toast({
         title: "Cadastro realizado com sucesso!",
@@ -117,7 +122,7 @@ export const StepFormContainer = () => {
       // Dar um pequeno delay para mostrar o toast
       setTimeout(() => {
         navigate("/client/facial-biometry");
-      }, 1000);
+      }, 1500);
       
     } catch (error: any) {
       console.error("❌ Erro no cadastro:", error);
