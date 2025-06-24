@@ -2,7 +2,7 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { CalendarStyle } from "@/hooks/useCalendarStyles";
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface DueDateSelectorProps {
   selectedDueDate: number | null;
@@ -23,13 +23,13 @@ export function DueDateSelector({
     [17, 20, 23, 26, 29]
   ];
 
-  const numberVariants: Variants = {
+  const numberVariants = {
     selected: {
       scale: [1, 1.15, 1],
       transition: {
         duration: 0.5,
         repeat: Infinity,
-        repeatType: "reverse",
+        repeatType: "reverse" as const,
         ease: "easeInOut"
       }
     },
