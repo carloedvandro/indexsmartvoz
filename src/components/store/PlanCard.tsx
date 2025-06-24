@@ -4,6 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/utils/format";
 import { Wifi, WifiHigh } from "lucide-react";
+import { CircularTestimonials } from "@/components/ui/circular-testimonials";
 
 type Plan = {
   id: string;
@@ -63,6 +64,28 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
   const handleClick = () => {
     onSelect(plan);
   };
+
+  // Testimonials para o componente circular
+  const testimonials = [
+    {
+      quote: "Excelente qualidade de sinal e suporte ao cliente. Recomendo!",
+      name: "Maria Silva",
+      designation: "Cliente Satisfeita",
+      src: "https://images.unsplash.com/photo-1494790108755-2616b0ad6638?q=80&w=150&auto=format&fit=crop",
+    },
+    {
+      quote: "Melhor plano que já tive. Internet rápida e preço justo.",
+      name: "João Santos",
+      designation: "Usuário Premium",
+      src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&auto=format&fit=crop",
+    },
+    {
+      quote: "Atendimento excepcional e conectividade perfeita.",
+      name: "Ana Costa",
+      designation: "Cliente Fidelizada",
+      src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&auto=format&fit=crop",
+    },
+  ];
   
   return (
     <Card className={`plan-card flex flex-col overflow-hidden transition-all shadow-lg ${getBgColor()} text-white rounded-xl`}>
@@ -101,6 +124,27 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
             <span className="text-green-300">✓</span>
             <span className="text-sm">Validade: 30 Dias</span>
           </div>
+        </div>
+
+        {/* Circular Testimonials */}
+        <div className="mt-4 scale-75 transform-gpu">
+          <CircularTestimonials
+            testimonials={testimonials}
+            autoplay={true}
+            colors={{
+              name: "#ffffff",
+              designation: "#e1e1e1",
+              testimony: "#f1f1f7",
+              arrowBackground: "#ffffff20",
+              arrowForeground: "#ffffff",
+              arrowHoverBackground: "#ffffff40",
+            }}
+            fontSizes={{
+              name: "16px",
+              designation: "12px",
+              quote: "14px",
+            }}
+          />
         </div>
       </CardContent>
       
