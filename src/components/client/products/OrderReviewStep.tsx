@@ -34,7 +34,7 @@ export function OrderReviewStep({
             <div className="flex justify-between items-center">
               <div>
                 <span className="font-medium">
-                  {getPlanName(line.internet)} {line.internet}
+                  {getPlanName(line.internet)}
                 </span>
                 <span className="ml-2">+ Minutos {line.internet === "2GB" ? "100" : "ilimitados"}</span>
               </div>
