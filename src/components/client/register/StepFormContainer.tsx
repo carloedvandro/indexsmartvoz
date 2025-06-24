@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -15,7 +14,7 @@ import { ContactInfoStep } from "./steps/ContactInfoStep";
 import { AddressStep } from "./steps/AddressStep";
 import { AccountInfoStep } from "./steps/AccountInfoStep";
 import { PasswordStep } from "./steps/PasswordStep";
-import { registerUserWithAddress } from "@/services/user/userRegisterTransaction";
+import { useRegisterUser } from "@/hooks/useRegisterUser";
 
 const stepTitles = ["Dados Pessoais", "Contato", "Endereço", "Conta", "Senha"];
 const totalSteps = stepTitles.length;
@@ -28,6 +27,7 @@ export const StepFormContainer = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { registerUser } = useRegisterUser();
   
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
@@ -67,7 +67,10 @@ export const StepFormContainer = () => {
         fieldsToValidate.push("cep", "street", "neighborhood", "number", "city", "state");
         break;
       case 4:
-        fieldsToValidate.push("sponsorCustomId", "customId");
+        fieldsToValidate.push("customId");
+        if (!sponsorId) {
+          fieldsToValidate.push("sponsorCustomId");
+        }
         break;
       case 5:
         fieldsToValidate.push("password", "passwordConfirmation");
@@ -95,23 +98,34 @@ export const StepFormContainer = () => {
     try {
       setIsSubmitting(true);
       setError(null);
-      console.log("Starting registration transaction with data:", data);
+      console.log("🚀 Iniciando cadastro com dados:", {
+        email: data.email,
+        fullName: data.fullName,
+        customId: data.customId,
+        sponsorCustomId: data.sponsorCustomId,
+        hasWhatsapp: !!data.whatsapp,
+        hasAddress: !!(data.cep && data.street && data.city)
+      });
       
-      // Usar a nova função transacional que garante atomicidade
-      await registerUserWithAddress(data);
+      await registerUser(data);
       
       toast({
         title: "Cadastro realizado com sucesso!",
-        description: "Vamos continuar com a verificação biométrica.",
+        description: "Redirecionando para verificação biométrica...",
       });
       
-      navigate("/client/facial-biometry");
+      // Dar um pequeno delay para mostrar o toast
+      setTimeout(() => {
+        navigate("/client/facial-biometry");
+      }, 1000);
+      
     } catch (error: any) {
-      console.error("Registration error:", error);
-      setError(error.message || "Ocorreu um erro ao criar sua conta.");
+      console.error("❌ Erro no cadastro:", error);
+      const errorMessage = error.message || "Ocorreu um erro ao criar sua conta.";
+      setError(errorMessage);
       toast({
         title: "Erro no cadastro",
-        description: error.message || "Ocorreu um erro ao criar sua conta.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
