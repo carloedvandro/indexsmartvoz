@@ -1,74 +1,80 @@
 
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { FormField, FormItem, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { UseFormReturn } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
 import { useState } from "react";
-import { fetchCepData } from "@/services/cepService";
+import { MapPin, Hash, Home, Building, Navigation } from "lucide-react";
 
 interface AddressStepProps {
   form: UseFormReturn<RegisterFormData>;
 }
 
 export const AddressStep = ({ form }: AddressStepProps) => {
-  const [isLoadingCep, setIsLoadingCep] = useState(false);
-
-  const handleCepBlur = async (cep: string) => {
-    const cleanCep = cep.replace(/\D/g, '');
-    if (cleanCep.length === 8) {
-      setIsLoadingCep(true);
-      try {
-        const cepData = await fetchCepData(cleanCep);
-        if (cepData) {
-          form.setValue("street", cepData.logradouro || "");
-          form.setValue("neighborhood", cepData.bairro || "");
-          form.setValue("city", cepData.localidade || "");
-          form.setValue("state", cepData.uf || "");
-        }
-      } catch (error) {
-        console.error("Erro ao buscar CEP:", error);
-      } finally {
-        setIsLoadingCep(false);
-      }
-    }
+  const [focusedFields, setFocusedFields] = useState<Record<string, boolean>>({});
+  
+  const handleFocus = (fieldName: string) => {
+    setFocusedFields(prev => ({ ...prev, [fieldName]: true }));
+  };
+  
+  const handleBlur = (fieldName: string) => {
+    setFocusedFields(prev => ({ ...prev, [fieldName]: false }));
   };
 
   return (
     <div className="space-y-4">
-      <div className="text-center mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">Informações de Endereço</h2>
-        <p className="text-gray-600 text-sm mt-1">Informe seu endereço completo</p>
-      </div>
-
       <div className="grid grid-cols-2 gap-4">
         <FormField
           control={form.control}
           name="cep"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm">CEP</FormLabel>
               <FormControl>
-                <Input 
-                  {...field} 
-                  className="text-sm h-10 rounded-md" 
-                  placeholder="00000-000"
-                  onBlur={(e) => handleCepBlur(e.target.value)}
-                  disabled={isLoadingCep}
-                />
+                <div className="relative w-full">
+                  <Input 
+                    {...field} 
+                    onFocus={() => handleFocus("cep")}
+                    onBlur={() => handleBlur("cep")}
+                    className="w-full pr-10 bg-white border-2 border-[#7a1fa2] rounded-md h-12 text-black focus:border-[#7a1fa2]" 
+                  />
+                  <Label 
+                    className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-gray-500 font-medium bg-white px-1 ${
+                      focusedFields.cep || field.value ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
+                    }`}
+                  >
+                    CEP
+                  </Label>
+                  <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+                </div>
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
-        
+
         <FormField
           control={form.control}
           name="number"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm">Número</FormLabel>
               <FormControl>
-                <Input {...field} className="text-sm h-10 rounded-md" placeholder="123" />
+                <div className="relative w-full">
+                  <Input 
+                    {...field} 
+                    onFocus={() => handleFocus("number")}
+                    onBlur={() => handleBlur("number")}
+                    className="w-full pr-10 bg-white border-2 border-[#7a1fa2] rounded-md h-12 text-black focus:border-[#7a1fa2]" 
+                  />
+                  <Label 
+                    className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-gray-500 font-medium bg-white px-1 ${
+                      focusedFields.number || field.value ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
+                    }`}
+                  >
+                    Número
+                  </Label>
+                  <Hash className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+                </div>
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
@@ -81,14 +87,23 @@ export const AddressStep = ({ form }: AddressStepProps) => {
         name="street"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-sm">Rua/Logradouro</FormLabel>
             <FormControl>
-              <Input 
-                {...field} 
-                className="text-sm h-10 rounded-md" 
-                placeholder="Nome da rua"
-                disabled={isLoadingCep}
-              />
+              <div className="relative w-full">
+                <Input 
+                  {...field} 
+                  onFocus={() => handleFocus("street")}
+                  onBlur={() => handleBlur("street")}
+                  className="w-full pr-10 bg-white border-2 border-[#7a1fa2] rounded-md h-12 text-black focus:border-[#7a1fa2]" 
+                />
+                <Label 
+                  className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-gray-500 font-medium bg-white px-1 ${
+                    focusedFields.street || field.value ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
+                  }`}
+                >
+                  Rua/Logradouro
+                </Label>
+                <Home className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+              </div>
             </FormControl>
             <FormMessage className="text-xs" />
           </FormItem>
@@ -100,14 +115,23 @@ export const AddressStep = ({ form }: AddressStepProps) => {
         name="neighborhood"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-sm">Bairro</FormLabel>
             <FormControl>
-              <Input 
-                {...field} 
-                className="text-sm h-10 rounded-md" 
-                placeholder="Nome do bairro"
-                disabled={isLoadingCep}
-              />
+              <div className="relative w-full">
+                <Input 
+                  {...field} 
+                  onFocus={() => handleFocus("neighborhood")}
+                  onBlur={() => handleBlur("neighborhood")}
+                  className="w-full pr-10 bg-white border-2 border-[#7a1fa2] rounded-md h-12 text-black focus:border-[#7a1fa2]" 
+                />
+                <Label 
+                  className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-gray-500 font-medium bg-white px-1 ${
+                    focusedFields.neighborhood || field.value ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
+                  }`}
+                >
+                  Bairro
+                </Label>
+                <Building className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+              </div>
             </FormControl>
             <FormMessage className="text-xs" />
           </FormItem>
@@ -120,33 +144,51 @@ export const AddressStep = ({ form }: AddressStepProps) => {
           name="city"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm">Cidade</FormLabel>
               <FormControl>
-                <Input 
-                  {...field} 
-                  className="text-sm h-10 rounded-md" 
-                  placeholder="Nome da cidade"
-                  disabled={isLoadingCep}
-                />
+                <div className="relative w-full">
+                  <Input 
+                    {...field} 
+                    onFocus={() => handleFocus("city")}
+                    onBlur={() => handleBlur("city")}
+                    className="w-full pr-10 bg-white border-2 border-[#7a1fa2] rounded-md h-12 text-black focus:border-[#7a1fa2]" 
+                  />
+                  <Label 
+                    className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-gray-500 font-medium bg-white px-1 ${
+                      focusedFields.city || field.value ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
+                    }`}
+                  >
+                    Cidade
+                  </Label>
+                  <Navigation className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+                </div>
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
-        
+
         <FormField
           control={form.control}
           name="state"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm">Estado</FormLabel>
               <FormControl>
-                <Input 
-                  {...field} 
-                  className="text-sm h-10 rounded-md" 
-                  placeholder="UF"
-                  disabled={isLoadingCep}
-                />
+                <div className="relative w-full">
+                  <Input 
+                    {...field} 
+                    onFocus={() => handleFocus("state")}
+                    onBlur={() => handleBlur("state")}
+                    className="w-full pr-10 bg-white border-2 border-[#7a1fa2] rounded-md h-12 text-black focus:border-[#7a1fa2]" 
+                  />
+                  <Label 
+                    className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-gray-500 font-medium bg-white px-1 ${
+                      focusedFields.state || field.value ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
+                    }`}
+                  >
+                    Estado
+                  </Label>
+                  <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+                </div>
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
@@ -159,13 +201,23 @@ export const AddressStep = ({ form }: AddressStepProps) => {
         name="complement"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-sm">Complemento (Opcional)</FormLabel>
             <FormControl>
-              <Input 
-                {...field} 
-                className="text-sm h-10 rounded-md" 
-                placeholder="Apartamento, bloco, etc."
-              />
+              <div className="relative w-full">
+                <Input 
+                  {...field} 
+                  onFocus={() => handleFocus("complement")}
+                  onBlur={() => handleBlur("complement")}
+                  className="w-full pr-10 bg-white border-2 border-[#7a1fa2] rounded-md h-12 text-black focus:border-[#7a1fa2]" 
+                />
+                <Label 
+                  className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none text-gray-500 font-medium bg-white px-1 ${
+                    focusedFields.complement || field.value ? '-top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
+                  }`}
+                >
+                  Complemento (Opcional)
+                </Label>
+                <Building className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+              </div>
             </FormControl>
             <FormMessage className="text-xs" />
           </FormItem>
