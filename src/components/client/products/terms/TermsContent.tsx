@@ -1,12 +1,7 @@
 
-import React, { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
+import React from "react";
 
 export function TermsContent() {
-  const { toast } = useToast();
-
   const Secao = ({ titulo, children }) => (
     <div className="mb-4">
       <h2 className="text-md font-bold text-left text-purple-700 mb-1">{titulo}</h2>
