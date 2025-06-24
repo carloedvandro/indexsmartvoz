@@ -128,8 +128,6 @@ export const CircularTestimonials = ({
   function getImageStyle(index: number): React.CSSProperties {
     const gap = calculateGap(containerWidth);
     const maxStickUp = gap * 0.8;
-    const offset = (index - activeIndex + testimonialsLength) % testimonialsLength;
-    // const zIndex = testimonialsLength - Math.abs(offset);
     const isActive = index === activeIndex;
     const isLeft = (activeIndex - 1 + testimonialsLength) % testimonialsLength === index;
     const isRight = (activeIndex + 1) % testimonialsLength === index;
@@ -176,24 +174,97 @@ export const CircularTestimonials = ({
     exit: { opacity: 0, y: -20 },
   };
 
+  const containerStyles: React.CSSProperties = {
+    width: "100%",
+    maxWidth: "56rem",
+    padding: "2rem",
+  };
+
+  const gridStyles: React.CSSProperties = {
+    display: "grid",
+    gap: "5rem",
+  };
+
+  const imageContainerStyles: React.CSSProperties = {
+    position: "relative",
+    width: "100%",
+    height: "24rem",
+    perspective: "1000px",
+  };
+
+  const imageStyles: React.CSSProperties = {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    borderRadius: "1.5rem",
+    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)",
+  };
+
+  const contentStyles: React.CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  };
+
+  const nameStyles: React.CSSProperties = {
+    fontWeight: "bold",
+    marginBottom: "0.25rem",
+  };
+
+  const designationStyles: React.CSSProperties = {
+    marginBottom: "2rem",
+  };
+
+  const quoteStyles: React.CSSProperties = {
+    lineHeight: 1.75,
+  };
+
+  const arrowButtonsStyles: React.CSSProperties = {
+    display: "flex",
+    gap: "1.5rem",
+    paddingTop: "3rem",
+  };
+
+  const arrowButtonStyles: React.CSSProperties = {
+    width: "2.7rem",
+    height: "2.7rem",
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    transition: "background-color 0.3s",
+    border: "none",
+  };
+
+  // Media query styles for desktop
+  const isDesktop = containerWidth >= 768;
+  if (isDesktop) {
+    gridStyles.gridTemplateColumns = "1fr 1fr";
+    arrowButtonsStyles.paddingTop = "0";
+  }
+
   return (
-    <div className="testimonial-container">
-      <div className="testimonial-grid">
+    <div style={containerStyles}>
+      <div style={gridStyles}>
         {/* Images */}
-        <div className="image-container" ref={imageContainerRef}>
+        <div style={imageContainerStyles} ref={imageContainerRef}>
           {testimonials.map((testimonial, index) => (
             <img
               key={testimonial.src}
               src={testimonial.src}
               alt={testimonial.name}
-              className="testimonial-image"
+              style={{
+                ...imageStyles,
+                ...getImageStyle(index),
+              }}
               data-index={index}
-              style={getImageStyle(index)}
             />
           ))}
         </div>
         {/* Content */}
-        <div className="testimonial-content">
+        <div style={contentStyles}>
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
@@ -204,20 +275,29 @@ export const CircularTestimonials = ({
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
               <h3
-                className="name"
-                style={{ color: colorName, fontSize: fontSizeName }}
+                style={{
+                  ...nameStyles,
+                  color: colorName,
+                  fontSize: fontSizeName,
+                }}
               >
                 {activeTestimonial.name}
               </h3>
               <p
-                className="designation"
-                style={{ color: colorDesignation, fontSize: fontSizeDesignation }}
+                style={{
+                  ...designationStyles,
+                  color: colorDesignation,
+                  fontSize: fontSizeDesignation,
+                }}
               >
                 {activeTestimonial.designation}
               </p>
               <motion.p
-                className="quote"
-                style={{ color: colorTestimony, fontSize: fontSizeQuote }}
+                style={{
+                  ...quoteStyles,
+                  color: colorTestimony,
+                  fontSize: fontSizeQuote,
+                }}
               >
                 {activeTestimonial.quote.split(" ").map((word, i) => (
                   <motion.span
@@ -245,13 +325,13 @@ export const CircularTestimonials = ({
               </motion.p>
             </motion.div>
           </AnimatePresence>
-          <div className="arrow-buttons">
+          <div style={arrowButtonsStyles}>
             <button
-              className="arrow-button prev-button"
-              onClick={handlePrev}
               style={{
+                ...arrowButtonStyles,
                 backgroundColor: hoverPrev ? colorArrowHoverBg : colorArrowBg,
               }}
+              onClick={handlePrev}
               onMouseEnter={() => setHoverPrev(true)}
               onMouseLeave={() => setHoverPrev(false)}
               aria-label="Previous testimonial"
@@ -259,11 +339,11 @@ export const CircularTestimonials = ({
               <FaArrowLeft size={28} color={colorArrowFg} />
             </button>
             <button
-              className="arrow-button next-button"
-              onClick={handleNext}
               style={{
+                ...arrowButtonStyles,
                 backgroundColor: hoverNext ? colorArrowHoverBg : colorArrowBg,
               }}
+              onClick={handleNext}
               onMouseEnter={() => setHoverNext(true)}
               onMouseLeave={() => setHoverNext(false)}
               aria-label="Next testimonial"
@@ -273,73 +353,6 @@ export const CircularTestimonials = ({
           </div>
         </div>
       </div>
-      <style jsx>{`
-        .testimonial-container {
-          width: 100%;
-          max-width: 56rem;
-          padding: 2rem;
-        }
-        .testimonial-grid {
-          display: grid;
-          gap: 5rem;
-        }
-        .image-container {
-          position: relative;
-          width: 100%;
-          height: 24rem;
-          perspective: 1000px;
-        }
-        .testimonial-image {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 1.5rem;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-        .testimonial-content {
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
-        .name {
-          font-weight: bold;
-          margin-bottom: 0.25rem;
-        }
-        .designation {
-          margin-bottom: 2rem;
-        }
-        .quote {
-          line-height: 1.75;
-        }
-        .arrow-buttons {
-          display: flex;
-          gap: 1.5rem;
-          padding-top: 3rem;
-        }
-        .arrow-button {
-          width: 2.7rem;
-          height: 2.7rem;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: background-color 0.3s;
-          border: none;
-        }
-        .word {
-          display: inline-block;
-        }
-        @media (min-width: 768px) {
-          .testimonial-grid {
-            grid-template-columns: 1fr 1fr;
-          }
-          .arrow-buttons {
-            padding-top: 0;
-          }
-        }
-      `}</style>
     </div>
   );
 };
