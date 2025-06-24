@@ -401,10 +401,12 @@ const ImageContainer = ({
         }}
       />
     </div>
-    <style jsx>{`
-      .project-showcase-image-container:hover {
-        background-color: ${hoverOutlineColor} !important;
-      }
-    `}</style>
+    <style dangerouslySetInnerHTML={{
+      __html: `
+        .project-showcase-image-container:hover {
+          background-color: ${hoverOutlineColor} !important;
+        }
+      `
+    }} />
   </div>
 );
