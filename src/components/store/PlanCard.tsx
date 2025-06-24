@@ -29,7 +29,12 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
     !feature.includes("Frete Grátis") &&
     !feature.includes("WhatsApp Grátis") &&
     !feature.includes("Skeelo") &&
-    !feature.includes("Waze")
+    !feature.includes("Waze") &&
+    !feature.includes("Plano Basic") &&
+    !feature.includes("Plano Prime") &&
+    !feature.includes("Plano Premium") &&
+    !feature.includes("Plano Gold") &&
+    !feature.includes("Plano Master")
   );
 
   // Get plan type based on data size for display
