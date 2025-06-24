@@ -72,12 +72,6 @@ export function TermsContent() {
     <div className="p-6 space-y-4 text-sm leading-relaxed text-gray-700">
       <div className="bg-white p-6 text-gray-800 font-sans">
         <div className="max-w-3xl mx-auto">
-          <div className="flex flex-col items-start mb-6">
-            <h1 className="text-lg font-semibold text-left">
-              Termo de contratação digital – serviço de linha pré-paga com renovação mensal
-            </h1>
-          </div>
-
           <Secao titulo="1. Objetivo do serviço">
             Disponibilização de linha de telefonia móvel no modelo pré-pago, com vigência mensal e renovação mediante pagamento.
           </Secao>
