@@ -6,7 +6,7 @@ import { PriceSummary } from "@/components/client/products/PriceSummary";
 import { NavigationButtons } from "@/components/client/products/NavigationButtons";
 import { PlanSelectionHeader } from "@/components/client/products/plan-selection/PlanSelectionHeader";
 import { PlanSelectionForm } from "@/components/client/products/plan-selection/PlanSelectionForm";
-import { internetOptions, mapUrlPlanToInternet } from "@/components/client/products/plan-selection/planOptions";
+import { internetOptions, mapUrlPlanToInternet, mapPlanValueToInternet } from "@/components/client/products/plan-selection/planOptions";
 import { useToast } from "@/hooks/use-toast";
 
 interface PlanSelectionStepProps {
@@ -36,6 +36,31 @@ export function PlanSelectionStep({
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
   
+  // Auto-select plan based on localStorage data from plan selection
+  useEffect(() => {
+    const storedPlan = localStorage.getItem('selectedPlan');
+    if (storedPlan && !selectedInternet) {
+      try {
+        const planData = JSON.parse(storedPlan);
+        console.log('🎯 Plano selecionado encontrado:', planData);
+        
+        // Try to map the plan value to internet option
+        const mappedInternet = mapPlanValueToInternet(planData.price);
+        if (mappedInternet) {
+          console.log('✅ Auto-selecionando plano:', mappedInternet);
+          setSelectedInternet(mappedInternet);
+          
+          // Auto-set a default DDD if none is selected
+          if (!selectedDDD) {
+            setSelectedDDD("11");
+          }
+        }
+      } catch (error) {
+        console.error('❌ Erro ao processar plano selecionado:', error);
+      }
+    }
+  }, [selectedInternet, selectedDDD]);
+
   // Initialize selectedInternet and selectedDDD from selectedLines if available
   useEffect(() => {
     if (selectedLines.length > 0) {
