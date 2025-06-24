@@ -1,3 +1,4 @@
+
 export const internetOptions = [
   { value: "80GB", label: "80GB", price: 99.99 },
   { value: "100GB", label: "100GB", price: 119.99 },
@@ -35,12 +36,22 @@ export const mapPlanIdToInternet = (planId: string) => {
 };
 
 export const mapPlanValueToInternet = (value: number) => {
+  console.log('🔍 Mapeando valor:', value);
+  
+  // Mapear os valores reais que vêm do localStorage
   const valueMap: { [key: number]: string } = {
-    99.99: "80GB",
-    119.99: "100GB", 
-    129.99: "120GB",
+    // Valores dos planos reais
+    84.99: "80GB",
+    94.99: "80GB", // Caso venha como 94.99
+    99.99: "80GB", // Preço base do 80GB
+    104.99: "100GB",
+    119.99: "100GB", // Preço base do 100GB
+    124.99: "120GB",
+    129.99: "120GB", // Preço base do 120GB
     144.99: "140GB"
   };
   
-  return valueMap[value] || null;
+  const result = valueMap[value] || null;
+  console.log('🔍 Resultado do mapeamento:', result);
+  return result;
 };

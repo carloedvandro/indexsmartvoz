@@ -39,27 +39,32 @@ export function PlanSelectionStep({
   // Auto-select plan based on localStorage data from plan selection
   useEffect(() => {
     const storedPlan = localStorage.getItem('selectedPlan');
-    if (storedPlan && !selectedInternet) {
+    console.log('🎯 Verificando plano armazenado:', storedPlan);
+    
+    if (storedPlan) {
       try {
         const planData = JSON.parse(storedPlan);
         console.log('🎯 Plano selecionado encontrado:', planData);
         
         // Try to map the plan value to internet option
         const mappedInternet = mapPlanValueToInternet(planData.price);
-        if (mappedInternet) {
+        console.log('🎯 Mapeamento do plano:', mappedInternet, 'para preço:', planData.price);
+        
+        if (mappedInternet && selectedInternet !== mappedInternet) {
           console.log('✅ Auto-selecionando plano:', mappedInternet);
           setSelectedInternet(mappedInternet);
-          
-          // Auto-set a default DDD if none is selected
-          if (!selectedDDD) {
-            setSelectedDDD("11");
-          }
+        }
+        
+        // Auto-set a default DDD if none is selected
+        if (!selectedDDD) {
+          console.log('✅ Auto-selecionando DDD padrão: 11');
+          setSelectedDDD("11");
         }
       } catch (error) {
         console.error('❌ Erro ao processar plano selecionado:', error);
       }
     }
-  }, [selectedInternet, selectedDDD]);
+  }, []); // Removido as dependências para executar apenas uma vez
 
   // Initialize selectedInternet and selectedDDD from selectedLines if available
   useEffect(() => {
@@ -68,7 +73,7 @@ export function PlanSelectionStep({
       if (line?.internet && !selectedInternet) setSelectedInternet(line.internet);
       if (line?.ddd && !selectedDDD) setSelectedDDD(line.ddd);
     }
-  }, [selectedLines, selectedInternet, selectedDDD]);
+  }, [selectedLines]);
 
   // Update selected lines when internet or DDD changes
   useEffect(() => {
