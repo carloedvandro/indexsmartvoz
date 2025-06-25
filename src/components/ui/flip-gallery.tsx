@@ -38,8 +38,8 @@ const flipAnimationBottomReverse = [
 ];
 
 export default function FlipGallery() {
-  const containerRef = useRef(null);
-  const uniteRef = useRef([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const uniteRef = useRef<NodeListOf<HTMLDivElement> | []>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // initialise first image once
@@ -51,11 +51,12 @@ export default function FlipGallery() {
   }, []);
 
   const defineFirstImg = () => {
+    if (Array.isArray(uniteRef.current)) return;
     uniteRef.current.forEach(setActiveImage);
     setImageTitle();
   };
 
-  const setActiveImage = (el) => {
+  const setActiveImage = (el: HTMLDivElement) => {
     el.style.backgroundImage = `url('${images[currentIndex].url}')`;
   };
 
@@ -64,10 +65,10 @@ export default function FlipGallery() {
     if (!gallery) return;
     gallery.setAttribute('data-title', images[currentIndex].title);
     gallery.style.setProperty('--title-y', '0');
-    gallery.style.setProperty('--title-opacity', 1);
+    gallery.style.setProperty('--title-opacity', '1');
   };
 
-  const updateGallery = (nextIndex, isReverse = false) => {
+  const updateGallery = (nextIndex: number, isReverse = false) => {
     const gallery = containerRef.current;
     if (!gallery) return;
 
@@ -77,15 +78,16 @@ export default function FlipGallery() {
       ? flipAnimationBottomReverse
       : flipAnimationBottom;
 
-    gallery.querySelector('.overlay-top').animate(topAnim, flipTiming);
-    gallery.querySelector('.overlay-bottom').animate(bottomAnim, flipTiming);
+    gallery.querySelector('.overlay-top')?.animate(topAnim, flipTiming);
+    gallery.querySelector('.overlay-bottom')?.animate(bottomAnim, flipTiming);
 
     // hide title
     gallery.style.setProperty('--title-y', '-1rem');
-    gallery.style.setProperty('--title-opacity', 0);
+    gallery.style.setProperty('--title-opacity', '0');
     gallery.setAttribute('data-title', '');
 
     // update images with slight delay so animation looks continuous
+    if (Array.isArray(uniteRef.current)) return;
     uniteRef.current.forEach((el, idx) => {
       const delay =
         (isReverse && (idx !== 1 && idx !== 2)) ||
@@ -100,7 +102,7 @@ export default function FlipGallery() {
     setTimeout(setImageTitle, FLIP_SPEED * 0.5);
   };
 
-  const updateIndex = (increment) => {
+  const updateIndex = (increment: number) => {
     const inc = Number(increment);
     const newIndex = (currentIndex + inc + images.length) % images.length;
     const isReverse = inc < 0;
@@ -112,7 +114,7 @@ export default function FlipGallery() {
     <div className='min-h-screen flex items-center justify-center bg-black font-sans'>
       <div
         className='relative bg-white/10 border border-white/25 p-2'
-        style={{ '--gallery-bg-color': 'rgba(255 255 255 / 0.075)' }}
+        style={{ '--gallery-bg-color': 'rgba(255 255 255 / 0.075)' } as React.CSSProperties}
       >
         {/* flip gallery */}
         <div
