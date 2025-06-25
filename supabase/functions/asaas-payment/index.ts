@@ -40,7 +40,6 @@ interface CustomerData {
 
 interface ChargeData {
   customer: string;
-  billingType?: string; // Mudou para opcional para permitir todos os tipos
   value: number;
   dueDate: string;
   description: string;
@@ -65,26 +64,83 @@ function validateEnvironmentVariables(): string {
 }
 
 /**
+ * Valida dados de entrada
+ */
+function validateRequestData(requestData: RequestData): void {
+  if (!requestData.name || requestData.name.trim().length === 0) {
+    throw new Error('Nome é obrigatório');
+  }
+  if (!requestData.email || !requestData.email.includes('@')) {
+    throw new Error('Email válido é obrigatório');
+  }
+  if (!requestData.value || requestData.value <= 0) {
+    throw new Error('Valor deve ser maior que zero');
+  }
+  if (!requestData.dueDate) {
+    throw new Error('Data de vencimento é obrigatória');
+  }
+}
+
+/**
+ * Formata data para o padrão esperado pelo Asaas (YYYY-MM-DD)
+ */
+function formatDueDate(dateString: string): string {
+  try {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      // Se não for uma data válida, usar data futura padrão (3 dias)
+      const futureDate = new Date();
+      futureDate.setDate(futureDate.getDate() + 3);
+      return futureDate.toISOString().split('T')[0];
+    }
+    return date.toISOString().split('T')[0];
+  } catch (error) {
+    console.error('❌ [ASAAS-PAYMENT] Erro ao formatar data:', error);
+    // Fallback para 3 dias no futuro
+    const futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() + 3);
+    return futureDate.toISOString().split('T')[0];
+  }
+}
+
+/**
  * Prepara os dados do cliente para o Asaas
  */
 function prepareCustomerData(requestData: RequestData): CustomerData {
   const customerData: CustomerData = {
-    name: requestData.name,
-    email: requestData.email,
-    cpfCnpj: requestData.cpfCnpj || "",
-    phone: requestData.phone || "",
-    mobilePhone: requestData.whatsapp || "",
+    name: requestData.name.trim(),
+    email: requestData.email.trim().toLowerCase(),
   };
 
-  // Adicionar endereço se disponível
-  if (requestData.address && requestData.city && requestData.state && requestData.zipCode) {
-    customerData.address = requestData.address;
-    customerData.city = requestData.city;
-    customerData.state = requestData.state;
-    customerData.postalCode = requestData.zipCode;
+  // Adicionar CPF/CNPJ se disponível (apenas números)
+  if (requestData.cpfCnpj) {
+    customerData.cpfCnpj = requestData.cpfCnpj.replace(/\D/g, '');
   }
 
-  console.log('👤 [ASAAS-PAYMENT] Dados do cliente preparados');
+  // Adicionar telefones se disponíveis (apenas números)
+  if (requestData.phone) {
+    customerData.phone = requestData.phone.replace(/\D/g, '');
+  }
+  if (requestData.whatsapp) {
+    customerData.mobilePhone = requestData.whatsapp.replace(/\D/g, '');
+  }
+
+  // Adicionar endereço se todos os campos obrigatórios estiverem presentes
+  if (requestData.address && requestData.city && requestData.state && requestData.zipCode) {
+    customerData.address = requestData.address.trim();
+    customerData.city = requestData.city.trim();
+    customerData.state = requestData.state.trim();
+    customerData.postalCode = requestData.zipCode.replace(/\D/g, '');
+  }
+
+  console.log('👤 [ASAAS-PAYMENT] Dados do cliente preparados:', {
+    name: customerData.name,
+    email: customerData.email,
+    hasCpf: !!customerData.cpfCnpj,
+    hasPhone: !!customerData.phone,
+    hasAddress: !!customerData.address
+  });
+  
   return customerData;
 }
 
@@ -100,7 +156,7 @@ function getAsaasHeaders(apiKey: string): Record<string, string> {
 }
 
 /**
- * Função para fazer requisições com retry
+ * Função para fazer requisições com retry e melhor tratamento de erro
  */
 async function fetchWithRetry(url: string, options: any, maxRetries = 3): Promise<Response> {
   for (let i = 0; i < maxRetries; i++) {
@@ -108,7 +164,7 @@ async function fetchWithRetry(url: string, options: any, maxRetries = 3): Promis
       console.log(`🔄 [ASAAS-PAYMENT] Tentativa ${i + 1} para ${url}`);
       
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 segundos timeout
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
       
       const response = await fetch(url, {
         ...options,
@@ -117,8 +173,11 @@ async function fetchWithRetry(url: string, options: any, maxRetries = 3): Promis
       
       clearTimeout(timeoutId);
       
+      // Se não for bem-sucedida, logar detalhes do erro
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        const errorText = await response.text();
+        console.error(`❌ [ASAAS-PAYMENT] Erro HTTP ${response.status}:`, errorText);
+        throw new Error(`HTTP ${response.status}: ${response.statusText} - ${errorText}`);
       }
       
       return response;
@@ -141,7 +200,7 @@ async function fetchWithRetry(url: string, options: any, maxRetries = 3): Promis
  */
 async function getOrCreateCustomer(customerData: CustomerData, headers: Record<string, string>): Promise<string> {
   try {
-    // Verificar se cliente já existe
+    // Verificar se cliente já existe pelo email
     console.log('🔍 [ASAAS-PAYMENT] Verificando cliente existente...');
     const searchUrl = `https://sandbox.asaas.com/api/v3/customers?email=${encodeURIComponent(customerData.email)}`;
     
@@ -159,7 +218,7 @@ async function getOrCreateCustomer(customerData: CustomerData, headers: Record<s
       const customerId = searchResult.data[0].id;
       console.log('✅ [ASAAS-PAYMENT] Cliente existente encontrado:', customerId);
 
-      // Atualizar dados do cliente
+      // Atualizar dados do cliente existente
       console.log('🔄 [ASAAS-PAYMENT] Atualizando cliente...');
       await fetchWithRetry(`https://sandbox.asaas.com/api/v3/customers/${customerId}`, {
         method: 'PUT',
@@ -179,13 +238,19 @@ async function getOrCreateCustomer(customerData: CustomerData, headers: Record<s
       });
 
       const newCustomer = await createResponse.json();
+      
+      if (!newCustomer.id) {
+        console.error('❌ [ASAAS-PAYMENT] Resposta inválida ao criar cliente:', newCustomer);
+        throw new Error('Falha ao criar cliente no Asaas');
+      }
+      
       const customerId = newCustomer.id;
       console.log('✅ [ASAAS-PAYMENT] Novo cliente criado:', customerId);
       return customerId;
     }
   } catch (error) {
     console.error('❌ [ASAAS-PAYMENT] Erro ao gerenciar cliente:', error.message);
-    throw new Error('Erro ao criar/atualizar cliente no Asaas');
+    throw new Error('Erro ao criar/atualizar cliente no Asaas: ' + error.message);
   }
 }
 
@@ -193,17 +258,20 @@ async function getOrCreateCustomer(customerData: CustomerData, headers: Record<s
  * Prepara dados da cobrança
  */
 function prepareChargeData(requestData: RequestData, customerId: string): ChargeData {
+  const formattedDueDate = formatDueDate(requestData.dueDate);
+  
   const chargeData: ChargeData = {
     customer: customerId,
-    // billingType removido para permitir todos os tipos de pagamento
-    value: requestData.value,
-    dueDate: requestData.dueDate,
+    // billingType removido intencionalmente para permitir todos os tipos de pagamento
+    value: Number(requestData.value.toFixed(2)), // Garantir 2 casas decimais
+    dueDate: formattedDueDate,
     description: `Plano ${requestData.planName || 'Smartvoz'} - ${requestData.planType || 'Telefonia'} (DDD ${requestData.planDdd || 'N/A'})`,
     externalReference: `smartvoz_${requestData.userId || 'guest'}_${Date.now()}`
   };
 
-  // Configurar callback de retorno automatico
-  const returnUrl = requestData.returnUrl || `${Deno.env.get('SUPABASE_URL')?.replace('/rest/v1', '') || 'https://maelrohlhrhihntydydh.supabase.co'}/client/payment-return`;
+  // Configurar callback de retorno automático
+  const baseUrl = Deno.env.get('SUPABASE_URL')?.replace('/rest/v1', '') || 'https://maelrohlhrhihntydydh.supabase.co';
+  const returnUrl = requestData.returnUrl || `${baseUrl}/client/payment-return`;
   
   chargeData.callback = {
     successUrl: returnUrl,
@@ -212,8 +280,11 @@ function prepareChargeData(requestData: RequestData, customerId: string): Charge
   
   console.log('🔗 [ASAAS-PAYMENT] Callback configurado:', chargeData.callback);
   console.log('💰 [ASAAS-PAYMENT] Dados da cobrança:', {
-    ...chargeData,
-    billingType: 'UNDEFINED (todos os tipos)'
+    customer: chargeData.customer,
+    value: chargeData.value,
+    dueDate: chargeData.dueDate,
+    billingType: 'UNDEFINED (todos os tipos permitidos)',
+    hasCallback: !!chargeData.callback
   });
   
   return chargeData;
@@ -232,6 +303,12 @@ async function createCharge(chargeData: ChargeData, headers: Record<string, stri
   });
 
   const charge = await chargeResponse.json();
+  
+  if (!charge.id) {
+    console.error('❌ [ASAAS-PAYMENT] Resposta inválida ao criar cobrança:', charge);
+    throw new Error('Falha ao criar cobrança no Asaas');
+  }
+  
   console.log('✅ [ASAAS-PAYMENT] Cobrança criada:', {
     id: charge.id,
     status: charge.status,
@@ -249,11 +326,16 @@ async function createCharge(chargeData: ChargeData, headers: Record<string, stri
 function handleError(error: Error): Response {
   console.error('❌ [ASAAS-PAYMENT] Erro geral:', error);
   
-  // Retornar erro mais específico
   let errorMessage = 'Erro interno do servidor';
   let statusCode = 500;
   
-  if (error.message.includes('fetch')) {
+  if (error.message.includes('HTTP 400')) {
+    errorMessage = 'Dados inválidos enviados para o Asaas. Verifique os campos obrigatórios.';
+    statusCode = 400;
+  } else if (error.message.includes('HTTP 401')) {
+    errorMessage = 'Erro de autenticação com o Asaas. Verifique a API key.';
+    statusCode = 401;
+  } else if (error.message.includes('fetch')) {
     errorMessage = 'Erro de conectividade com o Asaas. Tente novamente.';
     statusCode = 503;
   } else if (error.message.includes('timeout') || error.message.includes('AbortError')) {
@@ -288,6 +370,10 @@ serve(async (req) => {
     const body = await req.text();
     console.log('📄 [ASAAS-PAYMENT] Body recebido (length):', body.length);
 
+    if (!body || body.trim().length === 0) {
+      throw new Error('Body da requisição está vazio');
+    }
+
     const requestData: RequestData = JSON.parse(body);
     console.log('📋 [ASAAS-PAYMENT] Dados parseados:', {
       name: requestData.name,
@@ -299,6 +385,9 @@ serve(async (req) => {
       returnUrl: requestData.returnUrl,
       billingType: 'TODOS OS TIPOS (undefined)'
     });
+
+    // Validar dados de entrada
+    validateRequestData(requestData);
 
     // Validar variáveis de ambiente
     const asaasApiKey = validateEnvironmentVariables();
