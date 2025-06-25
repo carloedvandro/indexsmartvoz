@@ -1,10 +1,9 @@
 
-import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -15,19 +14,26 @@ import { ContactInfoStep } from "./steps/ContactInfoStep";
 import { AddressStep } from "./steps/AddressStep";
 import { AccountInfoStep } from "./steps/AccountInfoStep";
 import { PasswordStep } from "./steps/PasswordStep";
-import { registerUserWithAddress } from "@/services/user/userRegisterTransaction";
-
-const stepTitles = ["Dados Pessoais", "Contato", "Endereço", "Conta", "Senha"];
-const totalSteps = stepTitles.length;
+import { useStepNavigation } from "./hooks/useStepNavigation";
+import { useStepValidation } from "./hooks/useStepValidation";
+import { useFormSubmission } from "./hooks/useFormSubmission";
 
 export const StepFormContainer = () => {
-  const [currentStep, setCurrentStep] = useState(1);
   const [searchParams] = useSearchParams();
   const sponsorId = searchParams.get("sponsor");
-  const navigate = useNavigate();
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  
+  const {
+    currentStep,
+    totalSteps,
+    stepTitles,
+    isLastStep,
+    error,
+    setError,
+    handleNext,
+    handlePrevious,
+    handleBack
+  } = useStepNavigation();
   
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
@@ -53,112 +59,13 @@ export const StepFormContainer = () => {
     mode: "onChange"
   });
 
-  const validateCurrentStep = async (): Promise<boolean> => {
-    console.log(`🔍 [STEP ${currentStep}] === INICIANDO VALIDAÇÃO ===`);
-    
-    const fieldsToValidate: (keyof RegisterFormData)[] = [];
-    
-    switch (currentStep) {
-      case 1:
-        fieldsToValidate.push("fullName", "email", "cpf", "birthDate");
-        break;
-      case 2:
-        fieldsToValidate.push("whatsapp");
-        break;
-      case 3:
-        fieldsToValidate.push("cep", "street", "neighborhood", "number", "city", "state");
-        break;
-      case 4:
-        fieldsToValidate.push("customId");
-        break;
-      case 5:
-        fieldsToValidate.push("password", "passwordConfirmation");
-        break;
-    }
+  const { validateCurrentStep } = useStepValidation(form);
+  const { isSubmitting, onSubmit } = useFormSubmission();
 
-    console.log(`🔍 [STEP ${currentStep}] Campos para validar:`, fieldsToValidate);
-    
-    // Obter valores atuais do formulário
-    const currentValues = form.getValues();
-    console.log(`📋 [STEP ${currentStep}] Valores atuais:`, {
-      customId: currentValues.customId,
-      sponsorCustomId: currentValues.sponsorCustomId,
-      fullName: currentValues.fullName ? '[PRESENT]' : '[EMPTY]',
-      email: currentValues.email ? '[PRESENT]' : '[EMPTY]',
-      password: currentValues.password ? '[PROTECTED]' : '[EMPTY]',
-      passwordConfirmation: currentValues.passwordConfirmation ? '[PROTECTED]' : '[EMPTY]'
-    });
-    
+  const handleNextStep = async () => {
     try {
-      console.log(`🔄 [STEP ${currentStep}] Executando form.trigger...`);
-      const isValid = await form.trigger(fieldsToValidate);
-      console.log(`✅/❌ [STEP ${currentStep}] Resultado form.trigger:`, isValid);
-      
-      if (!isValid) {
-        const errors = form.formState.errors;
-        console.log(`❌ [STEP ${currentStep}] Erros encontrados:`, errors);
-        
-        // Encontrar o primeiro erro e mostrá-lo
-        for (const field of fieldsToValidate) {
-          if (errors[field]) {
-            const errorMessage = errors[field]?.message || `Erro no campo ${field}`;
-            console.log(`🚨 [STEP ${currentStep}] Primeiro erro: ${field} - ${errorMessage}`);
-            toast({
-              title: "Erro de validação",
-              description: errorMessage,
-              variant: "destructive",
-            });
-            break;
-          }
-        }
-        
-        return false;
-      }
-      
-      console.log(`🎉 [STEP ${currentStep}] === VALIDAÇÃO PASSOU COM SUCESSO! ===`);
-      return true;
-      
-    } catch (error) {
-      console.error(`💥 [STEP ${currentStep}] Erro durante validação:`, error);
-      toast({
-        title: "Erro de validação",
-        description: "Ocorreu um erro durante a validação. Tente novamente.",
-        variant: "destructive",
-      });
-      return false;
-    }
-  };
-
-  const handleNext = async () => {
-    console.log(`🚀 [STEP ${currentStep}] === CLICOU EM PRÓXIMO ===`);
-    console.log(`📊 [STEP ${currentStep}] Estado atual: currentStep=${currentStep}, totalSteps=${totalSteps}`);
-    
-    try {
-      console.log(`🔄 [STEP ${currentStep}] Chamando validateCurrentStep...`);
-      const isValid = await validateCurrentStep();
-      console.log(`🔍 [STEP ${currentStep}] validateCurrentStep retornou:`, isValid);
-      
-      if (isValid && currentStep < totalSteps) {
-        const nextStep = currentStep + 1;
-        console.log(`➡️ [STEP ${currentStep}] AVANÇANDO PARA STEP ${nextStep}`);
-        setCurrentStep(nextStep);
-        setError(null);
-        
-        // Log de confirmação
-        setTimeout(() => {
-          console.log(`✅ [STEP ${nextStep}] === STEP ${nextStep} CARREGADO COM SUCESSO ===`);
-        }, 100);
-        
-      } else {
-        console.log(`⛔ [STEP ${currentStep}] NÃO FOI POSSÍVEL AVANÇAR. isValid=${isValid}, currentStep=${currentStep}, totalSteps=${totalSteps}`);
-        
-        if (!isValid) {
-          console.log(`❌ [STEP ${currentStep}] VALIDAÇÃO FALHOU - permanecendo no step ${currentStep}`);
-        }
-        if (currentStep >= totalSteps) {
-          console.log(`⚠️ [STEP ${currentStep}] JÁ ESTÁ NO ÚLTIMO STEP`);
-        }
-      }
+      const isValid = await validateCurrentStep(currentStep);
+      handleNext(isValid);
     } catch (error) {
       console.error(`💥 [STEP ${currentStep}] ERRO NO handleNext:`, error);
       toast({
@@ -169,58 +76,14 @@ export const StepFormContainer = () => {
     }
   };
 
-  const handlePrevious = () => {
-    if (currentStep > 1) {
-      console.log(`⬅️ Voltando do step ${currentStep} para ${currentStep - 1}`);
-      setCurrentStep(currentStep - 1);
-      setError(null);
-    }
-  };
-
-  const onSubmit = async (data: RegisterFormData) => {
+  const handleFormSubmit = async (data: RegisterFormData) => {
     try {
-      setIsSubmitting(true);
       setError(null);
-      
-      console.log("🚀 Iniciando cadastro completo:", {
-        email: data.email,
-        fullName: data.fullName,
-        customId: data.customId,
-        sponsorCustomId: data.sponsorCustomId,
-        hasWhatsapp: !!data.whatsapp,
-        hasAddress: !!(data.cep && data.street && data.city),
-        hasCpf: !!data.cpf
-      });
-      
-      await registerUserWithAddress(data);
-      
-      console.log("✅ Cadastro realizado com sucesso!");
-      
-      toast({
-        title: "Cadastro realizado com sucesso!",
-        description: "Redirecionando para verificação biométrica...",
-      });
-      
-      setTimeout(() => {
-        navigate("/client/facial-biometry");
-      }, 1500);
-      
+      await onSubmit(data);
     } catch (error: any) {
-      console.error("❌ Erro no cadastro:", error);
       const errorMessage = error.message || "Ocorreu um erro ao criar sua conta.";
       setError(errorMessage);
-      toast({
-        title: "Erro no cadastro",
-        description: errorMessage,
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
     }
-  };
-
-  const handleBack = () => {
-    navigate("/");
   };
 
   const renderCurrentStep = () => {
@@ -242,8 +105,6 @@ export const StepFormContainer = () => {
         return <PersonalInfoStep form={form} />;
     }
   };
-
-  const isLastStep = currentStep === totalSteps;
   
   console.log(`🔄 Renderizando StepFormContainer - currentStep: ${currentStep}, isLastStep: ${isLastStep}`);
 
@@ -263,7 +124,7 @@ export const StepFormContainer = () => {
         stepTitles={stepTitles}
       />
       
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-6">
         {renderCurrentStep()}
         
         <div className="flex justify-between mt-8 gap-4">
@@ -310,7 +171,7 @@ export const StepFormContainer = () => {
             <Button
               type="button"
               className="w-full bg-[#8425af] hover:bg-[#6c1e8f] text-white"
-              onClick={handleNext}
+              onClick={handleNextStep}
               disabled={isSubmitting}
             >
               Próximo
