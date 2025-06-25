@@ -179,7 +179,8 @@ export const useAsaasPayment = () => {
         value: total,
         dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
         description: `Pedido ${order.id} - ${planData.title}`,
-        orderId: order.id
+        orderId: order.id,
+        returnUrl: `${window.location.origin}/client/payment-return?payment_id=${order.id}`
       };
 
       console.log('🔄 Chamando Edge Function asaas-payment...');
@@ -212,11 +213,11 @@ export const useAsaasPayment = () => {
       console.log('✅ Pagamento criado com sucesso:', paymentData);
 
       // Atualizar o pedido com o ID do Asaas
-      if (paymentData.id) {
+      if (paymentData.paymentId) {
         await supabase
           .from('orders')
           .update({ 
-            asaas_payment_id: paymentData.id,
+            asaas_payment_id: paymentData.paymentId,
             status: 'payment_pending' 
           })
           .eq('id', order.id);
@@ -226,7 +227,7 @@ export const useAsaasPayment = () => {
       localStorage.setItem('orderData', JSON.stringify({
         orderId: order.id,
         protocol: order.id,
-        paymentId: paymentData.id,
+        paymentId: paymentData.paymentId,
         invoiceUrl: paymentData.invoiceUrl,
         selectedLines,
         selectedDueDate,
@@ -243,7 +244,7 @@ export const useAsaasPayment = () => {
         window.open(paymentData.invoiceUrl, '_blank');
       }
 
-      // Redirecionar para página de retorno
+      // Redirecionar para página de retorno após um tempo
       setTimeout(() => {
         window.location.href = '/client/payment-return';
       }, 1500);
