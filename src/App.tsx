@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -24,6 +25,7 @@ import ClientNavigation from "@/pages/client/navigation";
 import ClientPlanSelection from "@/pages/client/plan-selection";
 import InventoryReports from "@/pages/client/inventory-reports";
 import ClientTermsUpdated from "@/pages/client/terms-updated";
+import PaymentReturn from "@/pages/client/payment-return";
 
 // Admin pages
 import AdminLogin from "@/pages/admin/login";
@@ -59,6 +61,7 @@ function App() {
           <Route path="/client/register" element={<ClientRegister />} />
           <Route path="/client/reset-password" element={<ClientResetPassword />} />
           <Route path="/client/terms-updated" element={<ClientTermsUpdated />} />
+          <Route path="/client/payment-return" element={<PaymentReturn />} />
           
           {/* Protected Client Routes */}
           <Route path="/client" element={<ProtectedRoute />}>
