@@ -11,7 +11,7 @@ interface ChipActivationStepContentProps {
   onBack: () => void;
   onContinue: () => void;
   onStartScanning: (index: number) => void;
-  onUpdateDDD: (index: number, ddd: string) => void;
+  onUpdateDDD?: (index: number, ddd: string) => void; // Opcional, mas não usado mais
 }
 
 export function ChipActivationStepContent({
@@ -21,7 +21,6 @@ export function ChipActivationStepContent({
   onBack,
   onContinue,
   onStartScanning,
-  onUpdateDDD
 }: ChipActivationStepContentProps) {
   console.log('🔍 [CHIP-STEP-CONTENT] Renderizando step:', currentStep);
   console.log('📋 [CHIP-STEP-CONTENT] Lines:', selectedLines);
@@ -75,7 +74,7 @@ export function ChipActivationStepContent({
                       </p>
                     )}
                     {line.ddd && (
-                      <p className="text-sm text-green-600">DDD Selecionado: {line.ddd}</p>
+                      <p className="text-sm text-green-600">DDD: {line.ddd}</p>
                     )}
                     {line.barcode && (
                       <p className="text-sm text-green-600">✓ Código: {line.barcode}</p>
@@ -94,30 +93,7 @@ export function ChipActivationStepContent({
                   </button>
                 </div>
                 
-                {/* Campo para DDD após escanear */}
-                {line.barcode && (
-                  <div className="pt-3 border-t">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      DDD (opcional - deixe em branco para usar o selecionado):
-                    </label>
-                    <input
-                      type="text"
-                      placeholder={`DDD atual: ${line.ddd || 'Não selecionado'}`}
-                      maxLength={2}
-                      className="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8425af] text-center"
-                      onChange={(e) => {
-                        if (onUpdateDDD) {
-                          // Se campo estiver vazio, manter o DDD original, senão usar o novo
-                          const newDDD = e.target.value.trim() || line.ddd || '';
-                          onUpdateDDD(index, newDDD);
-                        }
-                      }}
-                    />
-                    <p className="text-xs text-gray-500 mt-1">
-                      DDD que será usado: {line.ddd || 'Não definido'}
-                    </p>
-                  </div>
-                )}
+                {/* Removido o campo de DDD - já vem preenchido automaticamente */}
               </div>
             ))}
           </div>
