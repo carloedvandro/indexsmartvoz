@@ -26,6 +26,7 @@ import ClientPlanSelection from "@/pages/client/plan-selection";
 import InventoryReports from "@/pages/client/inventory-reports";
 import ClientTermsUpdated from "@/pages/client/terms-updated";
 import PaymentReturn from "@/pages/client/payment-return";
+import ChipActivation from "@/pages/client/chip-activation";
 
 // Admin pages
 import AdminLogin from "@/pages/admin/login";
@@ -62,6 +63,7 @@ function App() {
           <Route path="/client/reset-password" element={<ClientResetPassword />} />
           <Route path="/client/terms-updated" element={<ClientTermsUpdated />} />
           <Route path="/client/payment-return" element={<PaymentReturn />} />
+          <Route path="/client/chip-activation" element={<ChipActivation />} />
           
           {/* Protected Client Routes */}
           <Route path="/client" element={<ProtectedRoute />}>
