@@ -1,5 +1,5 @@
 
-import { ImageData, FlipAnimationKeyframes } from './types';
+import { ImageData } from './types';
 
 export const images: ImageData[] = [
   { title: 'Joshua Hibbert', url: 'https://picsum.photos/id/870/600/1000' },
@@ -13,26 +13,26 @@ export const FLIP_SPEED = 750;
 export const flipTiming = { duration: FLIP_SPEED, iterations: 1 };
 
 // flip down
-export const flipAnimationTop: FlipAnimationKeyframes[] = [
+export const flipAnimationTop: Keyframe[] = [
   { transform: 'rotateX(0)' },
   { transform: 'rotateX(-90deg)' },
   { transform: 'rotateX(-90deg)' }
 ];
 
-export const flipAnimationBottom: FlipAnimationKeyframes[] = [
+export const flipAnimationBottom: Keyframe[] = [
   { transform: 'rotateX(90deg)' },
   { transform: 'rotateX(90deg)' },
   { transform: 'rotateX(0)' }
 ];
 
 // flip up
-export const flipAnimationTopReverse: FlipAnimationKeyframes[] = [
+export const flipAnimationTopReverse: Keyframe[] = [
   { transform: 'rotateX(-90deg)' },
   { transform: 'rotateX(-90deg)' },
   { transform: 'rotateX(0)' }
 ];
 
-export const flipAnimationBottomReverse: FlipAnimationKeyframes[] = [
+export const flipAnimationBottomReverse: Keyframe[] = [
   { transform: 'rotateX(0)' },
   { transform: 'rotateX(90deg)' },
   { transform: 'rotateX(90deg)' }
