@@ -271,7 +271,7 @@ function prepareChargeData(requestData: RequestData, customerId: string): Charge
     externalReference: `smartvoz_${requestData.userId || 'guest'}_${Date.now()}`
   };
 
-  // Configurar callback de retorno automático se returnUrl for fornecida
+  // Configurar callback de retorno automático APENAS se returnUrl for fornecida
   if (requestData.returnUrl) {
     chargeData.callback = {
       successUrl: requestData.returnUrl,
@@ -279,13 +279,7 @@ function prepareChargeData(requestData: RequestData, customerId: string): Charge
     };
     console.log('🔗 [ASAAS-PAYMENT] Callback configurado:', chargeData.callback);
   } else {
-    // URL padrão de retorno
-    const baseUrl = Deno.env.get('SUPABASE_URL')?.replace('/rest/v1', '') || 'https://maelrohlhrhihntydydh.supabase.co';
-    chargeData.callback = {
-      successUrl: `${baseUrl}/client/payment-return`,
-      autoRedirect: true
-    };
-    console.log('🔗 [ASAAS-PAYMENT] Callback padrão configurado:', chargeData.callback);
+    console.log('⚠️ [ASAAS-PAYMENT] Nenhuma URL de retorno configurada - pagamento sem callback');
   }
   
   console.log('💰 [ASAAS-PAYMENT] Dados da cobrança:', {
