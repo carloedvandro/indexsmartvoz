@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Check } from "lucide-react";
+import FlipGallery from "@/components/ui/flip-gallery";
 
 interface Plan {
   id: string;
@@ -69,11 +70,21 @@ export function PlanCarousel({
           <CarouselNext className="right-0" />
         </Carousel>
       ) : (
-        // Desktop: Horizontal grid
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {plans.map((plan) => (
-            <PlanCard key={plan.id} plan={plan} onSelectPlan={onSelectPlan} />
-          ))}
+        // Desktop: Horizontal grid with FlipGallery
+        <div className="flex gap-8 max-w-7xl mx-auto items-center">
+          {/* Plans Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 flex-1">
+            {plans.map((plan) => (
+              <PlanCard key={plan.id} plan={plan} onSelectPlan={onSelectPlan} />
+            ))}
+          </div>
+          
+          {/* FlipGallery */}
+          <div className="flex-shrink-0">
+            <div className="scale-75 origin-center">
+              <FlipGallery />
+            </div>
+          </div>
         </div>
       )}
 
