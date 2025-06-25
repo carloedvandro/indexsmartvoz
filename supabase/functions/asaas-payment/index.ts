@@ -24,6 +24,7 @@ interface RequestData {
   planType?: string;
   planDdd?: string;
   returnUrl?: string;
+  billingType?: string;
 }
 
 interface CustomerData {
@@ -40,6 +41,7 @@ interface CustomerData {
 
 interface ChargeData {
   customer: string;
+  billingType: string;
   value: number;
   dueDate: string;
   description: string;
@@ -262,28 +264,35 @@ function prepareChargeData(requestData: RequestData, customerId: string): Charge
   
   const chargeData: ChargeData = {
     customer: customerId,
-    // billingType removido intencionalmente para permitir todos os tipos de pagamento
+    billingType: requestData.billingType || 'UNDEFINED', // Define como 'UNDEFINED' em texto para permitir todos os tipos
     value: Number(requestData.value.toFixed(2)), // Garantir 2 casas decimais
     dueDate: formattedDueDate,
     description: `Plano ${requestData.planName || 'Smartvoz'} - ${requestData.planType || 'Telefonia'} (DDD ${requestData.planDdd || 'N/A'})`,
     externalReference: `smartvoz_${requestData.userId || 'guest'}_${Date.now()}`
   };
 
-  // Configurar callback de retorno automático
-  const baseUrl = Deno.env.get('SUPABASE_URL')?.replace('/rest/v1', '') || 'https://maelrohlhrhihntydydh.supabase.co';
-  const returnUrl = requestData.returnUrl || `${baseUrl}/client/payment-return`;
+  // Configurar callback de retorno automático se returnUrl for fornecida
+  if (requestData.returnUrl) {
+    chargeData.callback = {
+      successUrl: requestData.returnUrl,
+      autoRedirect: true
+    };
+    console.log('🔗 [ASAAS-PAYMENT] Callback configurado:', chargeData.callback);
+  } else {
+    // URL padrão de retorno
+    const baseUrl = Deno.env.get('SUPABASE_URL')?.replace('/rest/v1', '') || 'https://maelrohlhrhihntydydh.supabase.co';
+    chargeData.callback = {
+      successUrl: `${baseUrl}/client/payment-return`,
+      autoRedirect: true
+    };
+    console.log('🔗 [ASAAS-PAYMENT] Callback padrão configurado:', chargeData.callback);
+  }
   
-  chargeData.callback = {
-    successUrl: returnUrl,
-    autoRedirect: true
-  };
-  
-  console.log('🔗 [ASAAS-PAYMENT] Callback configurado:', chargeData.callback);
   console.log('💰 [ASAAS-PAYMENT] Dados da cobrança:', {
     customer: chargeData.customer,
     value: chargeData.value,
     dueDate: chargeData.dueDate,
-    billingType: 'UNDEFINED (todos os tipos permitidos)',
+    billingType: chargeData.billingType,
     hasCallback: !!chargeData.callback
   });
   
@@ -294,7 +303,7 @@ function prepareChargeData(requestData: RequestData, customerId: string): Charge
  * Cria cobrança no Asaas
  */
 async function createCharge(chargeData: ChargeData, headers: Record<string, string>): Promise<any> {
-  console.log('💰 [ASAAS-PAYMENT] Criando cobrança com todos os tipos de pagamento...');
+  console.log('💰 [ASAAS-PAYMENT] Criando cobrança com billingType:', chargeData.billingType);
 
   const chargeResponse = await fetchWithRetry('https://sandbox.asaas.com/api/v3/payments', {
     method: 'POST',
@@ -313,7 +322,7 @@ async function createCharge(chargeData: ChargeData, headers: Record<string, stri
     id: charge.id,
     status: charge.status,
     value: charge.value,
-    billingType: charge.billingType || 'TODOS OS TIPOS',
+    billingType: charge.billingType,
     callbackConfigured: !!charge.callback
   });
 
@@ -383,7 +392,7 @@ serve(async (req) => {
       planName: requestData.planName,
       userId: requestData.userId,
       returnUrl: requestData.returnUrl,
-      billingType: 'TODOS OS TIPOS (undefined)'
+      billingType: requestData.billingType || 'UNDEFINED (padrão)'
     });
 
     // Validar dados de entrada
@@ -420,7 +429,7 @@ serve(async (req) => {
         pixCopyPaste: charge.pixCopyPaste,
         pixQrCode: charge.pixQrCode,
         customerId: customerId,
-        billingType: charge.billingType || 'TODOS OS TIPOS',
+        billingType: charge.billingType || 'UNDEFINED',
         callbackUrl: chargeData.callback?.successUrl,
         autoRedirect: chargeData.callback?.autoRedirect
       }),
