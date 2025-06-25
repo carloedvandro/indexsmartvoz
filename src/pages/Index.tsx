@@ -2,11 +2,10 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { NavigationDock } from "@/components/navigation/NavigationDock";
 
 export default function Index() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col relative">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col">
       <header className="w-full py-4 px-6 bg-white shadow-sm">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center gap-2">
@@ -84,9 +83,6 @@ export default function Index() {
           </p>
         </div>
       </footer>
-
-      {/* Navigation Dock */}
-      <NavigationDock />
     </div>
   );
 }

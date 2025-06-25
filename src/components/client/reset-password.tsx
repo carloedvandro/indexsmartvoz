@@ -6,7 +6,7 @@ import { resetPassword } from "@/services/user/userReset";
 import { Mail } from "lucide-react";
 import { RainbowButton } from "@/components/ui/rainbow-button";
 import ParticlesBackground from "@/components/client/products/ParticlesBackground";
-import { motion, Variants } from "motion/react";
+import { motion } from "framer-motion";
 import { FloatingLabelInput } from "@/components/client/register/fields/FloatingLabelInput";
 
 export default function ResetPassword() {
@@ -14,7 +14,7 @@ export default function ResetPassword() {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
-  const containerVariants: Variants = {
+  const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -24,7 +24,7 @@ export default function ResetPassword() {
     },
   };
 
-  const itemVariants: Variants = {
+  const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,

@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { resetPassword } from "@/services/user/userReset";
 import { Mail } from "lucide-react";
 import { RainbowButton } from "@/components/ui/rainbow-button";
-import { motion, Variants } from "motion/react";
+import { motion } from "framer-motion";
 import { containerVariants, itemVariants } from "@/utils/animations";
 import { FloatingLabelInput } from "@/components/client/register/fields/FloatingLabelInput";
 
@@ -48,10 +48,10 @@ export default function ResetPassword() {
         <div className="w-full max-w-[400px] space-y-6">
           <div className="mb-[-25px]">
             <img 
-              src="/lovable-uploads/5bded3e2-dd4c-4996-9027-b3a0abbb766c.png" 
-              alt="Smartvoz" 
-              className="w-auto mx-auto h-[90px] object-contain"
-            />
+                src="/lovable-uploads/5bded3e2-dd4c-4996-9027-b3a0abbb766c.png" 
+                alt="Smartvoz" 
+                className="w-auto mx-auto h-[90px] object-contain"
+              />
           </div>
 
           <motion.form onSubmit={handleSubmit} className="space-y-6" variants={containerVariants}>

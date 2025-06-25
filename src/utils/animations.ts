@@ -1,7 +1,5 @@
 
-import { Variants } from "motion/react";
-
-export const containerVariants: Variants = {
+export const containerVariants = {
   hidden: { opacity: 0 },
   visible: { 
     opacity: 1,
@@ -13,7 +11,7 @@ export const containerVariants: Variants = {
   }
 };
 
-export const itemVariants: Variants = {
+export const itemVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: { 
     opacity: 1, 
