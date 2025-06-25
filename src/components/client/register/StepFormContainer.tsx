@@ -70,7 +70,6 @@ export const StepFormContainer = () => {
         break;
       case 4:
         fieldsToValidate.push("customId");
-        // sponsorCustomId é opcional, não incluir na validação obrigatória
         break;
       case 5:
         fieldsToValidate.push("password", "passwordConfirmation");
@@ -89,9 +88,6 @@ export const StepFormContainer = () => {
       password: currentValues.password ? '[PROTECTED]' : '[EMPTY]',
       passwordConfirmation: currentValues.passwordConfirmation ? '[PROTECTED]' : '[EMPTY]'
     });
-    
-    // Limpar erros anteriores
-    form.clearErrors();
     
     try {
       console.log(`🔄 [STEP ${currentStep}] Executando form.trigger...`);
@@ -117,32 +113,6 @@ export const StepFormContainer = () => {
         }
         
         return false;
-      }
-
-      // Validação adicional específica para step 4
-      if (currentStep === 4) {
-        const customIdValue = currentValues.customId;
-        console.log(`🔍 [STEP 4] Validação extra - customId:`, customIdValue);
-        
-        if (!customIdValue || customIdValue.trim().length < 3) {
-          console.log(`❌ [STEP 4] customId inválido:`, customIdValue);
-          toast({
-            title: "Erro de validação",
-            description: "ID personalizado deve ter pelo menos 3 caracteres",
-            variant: "destructive",
-          });
-          return false;
-        }
-
-        if (!/^[a-zA-Z0-9]+$/.test(customIdValue)) {
-          console.log(`❌ [STEP 4] customId formato inválido:`, customIdValue);
-          toast({
-            title: "Erro de validação", 
-            description: "ID personalizado deve conter apenas letras e números",
-            variant: "destructive",
-          });
-          return false;
-        }
       }
       
       console.log(`🎉 [STEP ${currentStep}] === VALIDAÇÃO PASSOU COM SUCESSO! ===`);

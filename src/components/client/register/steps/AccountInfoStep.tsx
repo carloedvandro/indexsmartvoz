@@ -22,17 +22,6 @@ export const AccountInfoStep = ({ form, disableSponsor }: AccountInfoStepProps) 
     customIdLength: customIdValue ? customIdValue.length : 0
   });
 
-  // Log quando os valores mudam
-  const handleCustomIdChange = (value: string) => {
-    console.log("🔄 CustomId mudou para:", value, "length:", value.length);
-    form.setValue("customId", value);
-  };
-
-  const handleSponsorChange = (value: string) => {
-    console.log("🔄 SponsorCustomId mudou para:", value);
-    form.setValue("sponsorCustomId", value);
-  };
-
   return (
     <div className="space-y-4">
       <div className="text-center mb-6">
@@ -50,10 +39,7 @@ export const AccountInfoStep = ({ form, disableSponsor }: AccountInfoStepProps) 
                 id="sponsorCustomId"
                 type="text"
                 value={field.value || ""}
-                onChange={(e) => {
-                  field.onChange(e);
-                  handleSponsorChange(e.target.value);
-                }}
+                onChange={field.onChange}
                 label="ID do Patrocinador (Opcional)"
                 icon={User}
                 disabled={disableSponsor}
@@ -75,10 +61,7 @@ export const AccountInfoStep = ({ form, disableSponsor }: AccountInfoStepProps) 
                 id="customId"
                 type="text"
                 value={field.value}
-                onChange={(e) => {
-                  field.onChange(e);
-                  handleCustomIdChange(e.target.value);
-                }}
+                onChange={field.onChange}
                 label="Seu ID Personalizado*"
                 icon={CreditCard}
                 placeholder=""
