@@ -11,10 +11,13 @@ export default function ClientESIM() {
     device_type?: 'android' | 'ios';
     imei?: string;
     eid?: string;
+    iccid?: string;
     internet?: string;
     ddd?: string;
     dueDate?: number;
     price?: number;
+    phone_number?: string;
+    protocol_id?: string;
   }>({});
 
   const handleBack = () => {
@@ -61,9 +64,25 @@ export default function ClientESIM() {
   };
 
   const handleEIDSubmit = (eid: string) => {
+    // Generate ICCID from EID (using last 19 digits of EID)
+    const iccid = eid.length >= 19 ? eid.slice(-19) : eid;
+    
+    // Generate a unique protocol ID
+    const protocol_id = `PROT-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+    
+    // Generate phone number based on DDD
+    const ddd = activationData.ddd || '11';
+    const phone_number = `${ddd}9${Math.floor(10000000 + Math.random() * 90000000)}`;
+    
     // Verificar se o EID já não foi definido ou se mudou
     if (!activationData.eid || activationData.eid !== eid) {
-      setActivationData({ ...activationData, eid });
+      setActivationData({ 
+        ...activationData, 
+        eid,
+        iccid,
+        protocol_id,
+        phone_number
+      });
     }
     handleContinue();
   };
