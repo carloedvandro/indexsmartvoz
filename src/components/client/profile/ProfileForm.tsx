@@ -77,7 +77,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       custom_id: profile.custom_id || "",
       full_name: profile.full_name || "",
       person_type: profile.person_type || "",
-      cnpj: profile.cnpj || profile.cpf || "", // Usar CPF se CNPJ não estiver disponível
+      cnpj: profile.cnpj || profile.cpf || "",
       birth_date: profile.birth_date || "",
       mobile: profile.mobile || "",
       whatsapp: profile.whatsapp || "",
@@ -88,8 +88,8 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       address_number: existingNumber,
       neighborhood: profile.neighborhood || "",
       complement: profile.complement || "",
-      state: profile.state || "", // Este valor já vem correto da tabela user_addresses via profileService
-      city: profile.city || "", // Este valor já vem correto da tabela user_addresses via profileService
+      state: profile.state || "",
+      city: profile.city || "",
     },
   });
 
@@ -108,14 +108,14 @@ export function ProfileForm({ profile }: ProfileFormProps) {
         custom_id: data.custom_id,
         full_name: data.full_name,
         person_type: data.person_type,
-        cnpj: removeMask(data.cnpj), // Remove máscara antes de salvar
-        cpf: removeMask(data.cnpj), // Também atualizar o campo CPF
+        cnpj: removeMask(data.cnpj),
+        cpf: removeMask(data.cnpj),
         birth_date: data.birth_date,
-        mobile: removeMask(data.mobile), // Remove máscara antes de salvar
-        whatsapp: removeMask(data.whatsapp), // Remove máscara antes de salvar
+        mobile: removeMask(data.mobile),
+        whatsapp: removeMask(data.whatsapp),
         secondary_whatsapp: data.secondary_whatsapp ? removeMask(data.secondary_whatsapp) : null,
         email: data.email,
-        zip_code: removeMask(data.zip_code), // Remove máscara antes de salvar
+        zip_code: removeMask(data.zip_code),
         address: `${data.address}, ${data.address_number}`,
         state: data.state,
         city: data.city,
