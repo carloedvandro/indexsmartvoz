@@ -185,7 +185,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
             disabled={isLoading}
             className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-2 rounded-md w-full sm:w-auto"
           >
-            {isLoading ? "Salvando..." : "Solicitar alteração"}
+            {isLoading ? "Salvando..." : "Atualizar"}
           </Button>
         </div>
       </div>
