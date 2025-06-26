@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { ESIMActivationFlow } from "@/components/client/esim/ChipActivationFlow";
 import { useNavigate } from "react-router-dom";
-import { createESIMActivation } from "@/services/esim/esimActivationService";
 
 export default function ClientESIM() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -12,13 +11,10 @@ export default function ClientESIM() {
     device_type?: 'android' | 'ios';
     imei?: string;
     eid?: string;
-    iccid?: string;
     internet?: string;
     ddd?: string;
     dueDate?: number;
     price?: number;
-    phone_number?: string;
-    protocol_id?: string;
   }>({});
 
   const handleBack = () => {
@@ -51,8 +47,7 @@ export default function ClientESIM() {
       internet: planData.internet,
       ddd: planData.ddd,
       dueDate: planData.dueDate,
-      price: planData.price,
-      phone_number: `${planData.ddd}999999999`
+      price: planData.price
     });
     handleContinue();
   };
@@ -65,49 +60,11 @@ export default function ClientESIM() {
     handleContinue();
   };
 
-  const handleEIDSubmit = async (eid: string) => {
-    console.log('📱 [ESIM-PAGE] Recebendo EID:', eid);
-    
-    // Gerar ICCID fictício baseado no EID para demonstração
-    const iccid = eid.substring(0, 8) || '07418877';
-    
-    // Atualizar dados de ativação
-    const finalData = { 
-      ...activationData, 
-      eid,
-      iccid,
-      activation_type: activationData.type,
-      phone_number: activationData.phone_number || `${activationData.ddd || '15'}999999999`
-    };
-    
-    setActivationData(finalData);
-    
-    try {
-      console.log('📱 [ESIM-PAGE] Criando ativação com dados:', finalData);
-      
-      // Criar a ativação no banco de dados
-      const result = await createESIMActivation({
-        phone_number: finalData.phone_number!,
-        activation_type: finalData.activation_type!,
-        device_type: finalData.device_type!,
-        imei: finalData.imei,
-        eid: finalData.eid,
-        iccid: finalData.iccid
-      });
-      
-      console.log('✅ [ESIM-PAGE] Ativação criada:', result);
-      
-      // Atualizar dados com o resultado
-      setActivationData({
-        ...finalData,
-        id: result.id,
-        protocol_id: result.protocol_id
-      });
-      
-    } catch (error) {
-      console.error('❌ [ESIM-PAGE] Erro ao criar ativação:', error);
+  const handleEIDSubmit = (eid: string) => {
+    // Verificar se o EID já não foi definido ou se mudou
+    if (!activationData.eid || activationData.eid !== eid) {
+      setActivationData({ ...activationData, eid });
     }
-    
     handleContinue();
   };
 
