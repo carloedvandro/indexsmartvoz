@@ -101,8 +101,11 @@ export function ProfileForm({ profile }: ProfileFormProps) {
   });
 
   const onSubmit = async (data: ProfileFormData) => {
+    console.log("Form submit started with data:", data);
+    
     try {
       setIsLoading(true);
+      console.log("Loading state set to true");
       
       const updateData = {
         custom_id: data.custom_id,
@@ -117,18 +120,27 @@ export function ProfileForm({ profile }: ProfileFormProps) {
         email: data.email,
         zip_code: removeMask(data.zip_code),
         address: `${data.address}, ${data.address_number}`,
+        neighborhood: data.neighborhood,
+        complement: data.complement,
         state: data.state,
         city: data.city,
       };
 
+      console.log("Calling updateProfile with:", { profileId: profile.id, updateData });
+
       await updateProfile(profile.id, updateData);
+      
+      console.log("Profile updated successfully, invalidating queries");
       await queryClient.invalidateQueries({ queryKey: ["profile"] });
       
       toast({
         title: "Sucesso",
         description: "Perfil atualizado com sucesso!",
       });
+      
+      console.log("Success toast shown");
     } catch (error: any) {
+      console.error("Error in form submission:", error);
       toast({
         title: "Erro",
         description: error.message || "Erro ao atualizar perfil",
@@ -136,11 +148,18 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       });
     } finally {
       setIsLoading(false);
+      console.log("Loading state set to false");
     }
   };
 
+  const handleFormSubmit = (e: React.FormEvent) => {
+    console.log("Form submission triggered");
+    e.preventDefault();
+    form.handleSubmit(onSubmit)(e);
+  };
+
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleFormSubmit} className="space-y-6">
       <ProfileImageSection profile={profile} />
       
       <div className="px-2 sm:px-6 py-6 space-y-6">
@@ -184,6 +203,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
             type="submit"
             disabled={isLoading}
             className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-2 rounded-md w-full sm:w-auto"
+            onClick={() => console.log("Button clicked, isLoading:", isLoading)}
           >
             {isLoading ? "Salvando..." : "Atualizar"}
           </Button>
