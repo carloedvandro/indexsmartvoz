@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -85,11 +86,18 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       zip_code: profile.zip_code || "",
       address: existingStreet,
       address_number: existingNumber,
-      neighborhood: profile.neighborhood || "", // Agora vem dos dados de endereço
-      complement: profile.complement || "", // Agora vem dos dados de endereço
-      state: profile.state || "",
-      city: profile.city || "",
+      neighborhood: profile.neighborhood || "",
+      complement: profile.complement || "",
+      state: profile.state || "", // Este valor já vem correto da tabela user_addresses via profileService
+      city: profile.city || "", // Este valor já vem correto da tabela user_addresses via profileService
     },
+  });
+
+  console.log('Profile data loaded:', {
+    state: profile.state,
+    city: profile.city,
+    neighborhood: profile.neighborhood,
+    complement: profile.complement
   });
 
   const onSubmit = async (data: ProfileFormData) => {
