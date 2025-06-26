@@ -9,10 +9,10 @@ import { PersonalDataSection } from "./personal-data/PersonalDataSection";
 import { ContactSection } from "./ContactSection";
 import { AddressSection } from "./AddressSection";
 import { ProfileWithSponsor } from "@/types/profile";
-import { updateProfile } from "@/components/admin/UserFormUtils";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { removeMask } from "@/utils/masks";
+import { supabase } from "@/integrations/supabase/client";
 
 const profileSchema = z.object({
   sponsor: z.string().optional(),
@@ -100,6 +100,90 @@ export function ProfileForm({ profile }: ProfileFormProps) {
     complement: profile.complement
   });
 
+  const updateClientProfile = async (profileId: string, updateData: any) => {
+    console.log("Starting profile update with data:", updateData);
+    
+    // Atualizar tabela profiles
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .update({
+        custom_id: updateData.custom_id,
+        full_name: updateData.full_name,
+        person_type: updateData.person_type,
+        cnpj: updateData.cnpj,
+        cpf: updateData.cpf,
+        birth_date: updateData.birth_date,
+        mobile: updateData.mobile,
+        whatsapp: updateData.whatsapp,
+        secondary_whatsapp: updateData.secondary_whatsapp,
+        email: updateData.email,
+        updated_at: new Date().toISOString()
+      })
+      .eq("id", profileId);
+
+    if (profileError) {
+      console.error("Error updating profiles table:", profileError);
+      throw new Error(`Erro ao atualizar perfil: ${profileError.message}`);
+    }
+
+    console.log("Profile table updated successfully");
+
+    // Atualizar ou inserir endereço na tabela user_addresses
+    const addressData = {
+      user_id: profileId,
+      cep: updateData.zip_code,
+      street: updateData.address.split(',')[0]?.trim() || updateData.address,
+      number: updateData.address_number,
+      neighborhood: updateData.neighborhood,
+      city: updateData.city,
+      state: updateData.state,
+      complement: updateData.complement,
+      updated_at: new Date().toISOString()
+    };
+
+    console.log("Updating address with data:", addressData);
+
+    // Verificar se já existe um endereço para este usuário
+    const { data: existingAddress, error: checkError } = await supabase
+      .from("user_addresses")
+      .select("id")
+      .eq("user_id", profileId)
+      .single();
+
+    if (checkError && checkError.code !== 'PGRST116') {
+      console.error("Error checking existing address:", checkError);
+      throw new Error(`Erro ao verificar endereço: ${checkError.message}`);
+    }
+
+    if (existingAddress) {
+      // Atualizar endereço existente
+      const { error: addressError } = await supabase
+        .from("user_addresses")
+        .update(addressData)
+        .eq("user_id", profileId);
+
+      if (addressError) {
+        console.error("Error updating address:", addressError);
+        throw new Error(`Erro ao atualizar endereço: ${addressError.message}`);
+      }
+      console.log("Address updated successfully");
+    } else {
+      // Inserir novo endereço
+      const { error: addressError } = await supabase
+        .from("user_addresses")
+        .insert({
+          ...addressData,
+          created_at: new Date().toISOString()
+        });
+
+      if (addressError) {
+        console.error("Error inserting address:", addressError);
+        throw new Error(`Erro ao inserir endereço: ${addressError.message}`);
+      }
+      console.log("Address inserted successfully");
+    }
+  };
+
   const onSubmit = async (data: ProfileFormData) => {
     console.log("Form submit started with data:", data);
     
@@ -119,16 +203,17 @@ export function ProfileForm({ profile }: ProfileFormProps) {
         secondary_whatsapp: data.secondary_whatsapp ? removeMask(data.secondary_whatsapp) : null,
         email: data.email,
         zip_code: removeMask(data.zip_code),
-        address: `${data.address}, ${data.address_number}`,
+        address: data.address,
+        address_number: data.address_number,
         neighborhood: data.neighborhood,
         complement: data.complement,
         state: data.state,
         city: data.city,
       };
 
-      console.log("Calling updateProfile with:", { profileId: profile.id, updateData });
+      console.log("Calling updateClientProfile with:", { profileId: profile.id, updateData });
 
-      await updateProfile(profile.id, updateData);
+      await updateClientProfile(profile.id, updateData);
       
       console.log("Profile updated successfully, invalidating queries");
       await queryClient.invalidateQueries({ queryKey: ["profile"] });
