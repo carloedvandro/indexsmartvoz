@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -7,11 +7,9 @@ import { ProfileImageSection } from "./ProfileImageSection";
 import { PersonalDataSection } from "./personal-data/PersonalDataSection";
 import { ContactSection } from "./ContactSection";
 import { AddressSection } from "./AddressSection";
+import { SponsorUserSection } from "./SponsorUserSection";
 import { ProfileWithSponsor } from "@/types/profile";
-import { updateProfile } from "@/components/admin/UserFormUtils";
-import { useToast } from "@/hooks/use-toast";
-import { useQueryClient } from "@tanstack/react-query";
-import { removeMask } from "@/utils/masks";
+import { useProfileUpdate, ProfileUpdateData } from "@/hooks/useProfileUpdate";
 
 const profileSchema = z.object({
   sponsor: z.string().optional(),
@@ -40,9 +38,7 @@ interface ProfileFormProps {
 }
 
 export function ProfileForm({ profile }: ProfileFormProps) {
-  const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
+  const { isLoading, handleProfileUpdate } = useProfileUpdate();
 
   // Extrair número e bairro do endereço existente se disponível
   const addressParts = profile.address?.split(',') || [];
@@ -76,7 +72,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       custom_id: profile.custom_id || "",
       full_name: profile.full_name || "",
       person_type: profile.person_type || "",
-      cnpj: profile.cnpj || profile.cpf || "", // Usar CPF se CNPJ não estiver disponível
+      cnpj: profile.cnpj || profile.cpf || "",
       birth_date: profile.birth_date || "",
       mobile: profile.mobile || "",
       whatsapp: profile.whatsapp || "",
@@ -85,88 +81,36 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       zip_code: profile.zip_code || "",
       address: existingStreet,
       address_number: existingNumber,
-      neighborhood: profile.neighborhood || "", // Agora vem dos dados de endereço
-      complement: profile.complement || "", // Agora vem dos dados de endereço
+      neighborhood: profile.neighborhood || "",
+      complement: profile.complement || "",
       state: profile.state || "",
       city: profile.city || "",
     },
   });
 
-  const onSubmit = async (data: ProfileFormData) => {
-    try {
-      setIsLoading(true);
-      
-      const updateData = {
-        custom_id: data.custom_id,
-        full_name: data.full_name,
-        person_type: data.person_type,
-        cnpj: removeMask(data.cnpj), // Remove máscara antes de salvar
-        cpf: removeMask(data.cnpj), // Também atualizar o campo CPF
-        birth_date: data.birth_date,
-        mobile: removeMask(data.mobile), // Remove máscara antes de salvar
-        whatsapp: removeMask(data.whatsapp), // Remove máscara antes de salvar
-        secondary_whatsapp: data.secondary_whatsapp ? removeMask(data.secondary_whatsapp) : null,
-        email: data.email,
-        zip_code: removeMask(data.zip_code), // Remove máscara antes de salvar
-        address: `${data.address}, ${data.address_number}`,
-        state: data.state,
-        city: data.city,
-      };
+  console.log('Profile data loaded:', {
+    state: profile.state,
+    city: profile.city,
+    neighborhood: profile.neighborhood,
+    complement: profile.complement
+  });
 
-      await updateProfile(profile.id, updateData);
-      await queryClient.invalidateQueries({ queryKey: ["profile"] });
-      
-      toast({
-        title: "Sucesso",
-        description: "Perfil atualizado com sucesso!",
-      });
-    } catch (error: any) {
-      toast({
-        title: "Erro",
-        description: error.message || "Erro ao atualizar perfil",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  const onSubmit = async (data: ProfileFormData) => {
+    await handleProfileUpdate(profile.id, data as ProfileUpdateData);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    console.log("Form submission triggered");
+    e.preventDefault();
+    form.handleSubmit(onSubmit)(e);
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleFormSubmit} className="space-y-6">
       <ProfileImageSection profile={profile} />
       
       <div className="px-2 sm:px-6 py-6 space-y-6">
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div className="w-full">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Patrocinador
-              </label>
-              <input
-                {...form.register("sponsor")}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50"
-                disabled
-                readOnly
-              />
-            </div>
-            
-            <div className="w-full">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Usuário <span className="text-red-500">*</span>
-              </label>
-              <input
-                {...form.register("custom_id")}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
-              />
-              {form.formState.errors.custom_id && (
-                <p className="text-red-500 text-sm mt-1">
-                  {form.formState.errors.custom_id.message}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-
+        <SponsorUserSection form={form} sponsorInfo={getSponsorInfo()} />
         <PersonalDataSection form={form} />
         <ContactSection form={form} />
         <AddressSection form={form} />
@@ -176,8 +120,9 @@ export function ProfileForm({ profile }: ProfileFormProps) {
             type="submit"
             disabled={isLoading}
             className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-2 rounded-md w-full sm:w-auto"
+            onClick={() => console.log("Button clicked, isLoading:", isLoading)}
           >
-            {isLoading ? "Salvando..." : "Solicitar alteração"}
+            {isLoading ? "Salvando..." : "Atualizar"}
           </Button>
         </div>
       </div>
