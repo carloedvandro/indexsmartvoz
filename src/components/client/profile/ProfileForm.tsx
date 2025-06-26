@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -48,7 +47,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
   // Extrair número e bairro do endereço existente se disponível
   const addressParts = profile.address?.split(',') || [];
   const existingStreet = addressParts[0]?.trim() || "";
-  const existingNumber = addressParts[1]?.trim() || "";
+  const existingNumber = profile.address_number || addressParts[1]?.trim() || "";
 
   // Construir informações do patrocinador
   const getSponsorInfo = () => {
@@ -86,8 +85,8 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       zip_code: profile.zip_code || "",
       address: existingStreet,
       address_number: existingNumber,
-      neighborhood: "", // Campo que não estava sendo salvo no cadastro
-      complement: "", // Campo que não estava sendo salvo no cadastro
+      neighborhood: profile.neighborhood || "", // Agora vem dos dados de endereço
+      complement: profile.complement || "", // Agora vem dos dados de endereço
       state: profile.state || "",
       city: profile.city || "",
     },

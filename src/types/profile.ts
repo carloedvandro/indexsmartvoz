@@ -14,6 +14,10 @@ export type Profile = Tables<"profiles"> & {
   ifsc_code?: string | null;
   paypal_email?: string | null;
   profile_image?: string | null;
+  // Campos extras de endereço vindos da tabela user_addresses
+  address_number?: string | null;
+  neighborhood?: string | null;
+  complement?: string | null;
 };
 
 export type Sponsor = {

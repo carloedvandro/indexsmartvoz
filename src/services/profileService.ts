@@ -31,7 +31,19 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
       return null;
     }
 
+    // Buscar dados de endereço da tabela user_addresses
+    const { data: addressData, error: addressError } = await supabase
+      .from("user_addresses")
+      .select("*")
+      .eq("user_id", userId)
+      .single();
+
+    if (addressError && addressError.code !== 'PGRST116') {
+      console.error("Error fetching address:", addressError);
+    }
+
     console.log("Fetched complete profile data:", profileData);
+    console.log("Fetched address data:", addressData);
 
     // Create a copy of the profile data with all fields
     const profile: ProfileWithSponsor = {
@@ -42,6 +54,18 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
     // Handle the sponsor separately to ensure proper typing
     if (profileData.sponsor) {
       profile.sponsor = mapSponsor(profileData.sponsor);
+    }
+
+    // Se existem dados de endereço, sobrescrever os campos do perfil
+    if (addressData) {
+      profile.zip_code = addressData.cep;
+      profile.address = `${addressData.street}, ${addressData.number}`;
+      profile.city = addressData.city;
+      profile.state = addressData.state;
+      // Manter campos extras para o formulário
+      profile.address_number = addressData.number;
+      profile.neighborhood = addressData.neighborhood;
+      profile.complement = addressData.complement;
     }
 
     return profile;
