@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -7,9 +8,11 @@ import { ProfileImageSection } from "./ProfileImageSection";
 import { PersonalDataSection } from "./personal-data/PersonalDataSection";
 import { ContactSection } from "./ContactSection";
 import { AddressSection } from "./AddressSection";
-import { SponsorUserSection } from "./SponsorUserSection";
 import { ProfileWithSponsor } from "@/types/profile";
-import { useProfileUpdate, ProfileUpdateData } from "@/hooks/useProfileUpdate";
+import { updateProfile } from "@/components/admin/UserFormUtils";
+import { useToast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
+import { removeMask } from "@/utils/masks";
 
 const profileSchema = z.object({
   sponsor: z.string().optional(),
@@ -38,7 +41,9 @@ interface ProfileFormProps {
 }
 
 export function ProfileForm({ profile }: ProfileFormProps) {
-  const { isLoading, handleProfileUpdate } = useProfileUpdate();
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   // Extrair número e bairro do endereço existente se disponível
   const addressParts = profile.address?.split(',') || [];
@@ -96,7 +101,55 @@ export function ProfileForm({ profile }: ProfileFormProps) {
   });
 
   const onSubmit = async (data: ProfileFormData) => {
-    await handleProfileUpdate(profile.id, data as ProfileUpdateData);
+    console.log("Form submit started with data:", data);
+    
+    try {
+      setIsLoading(true);
+      console.log("Loading state set to true");
+      
+      const updateData = {
+        custom_id: data.custom_id,
+        full_name: data.full_name,
+        person_type: data.person_type,
+        cnpj: removeMask(data.cnpj),
+        cpf: removeMask(data.cnpj),
+        birth_date: data.birth_date,
+        mobile: removeMask(data.mobile),
+        whatsapp: removeMask(data.whatsapp),
+        secondary_whatsapp: data.secondary_whatsapp ? removeMask(data.secondary_whatsapp) : null,
+        email: data.email,
+        zip_code: removeMask(data.zip_code),
+        address: `${data.address}, ${data.address_number}`,
+        neighborhood: data.neighborhood,
+        complement: data.complement,
+        state: data.state,
+        city: data.city,
+      };
+
+      console.log("Calling updateProfile with:", { profileId: profile.id, updateData });
+
+      await updateProfile(profile.id, updateData);
+      
+      console.log("Profile updated successfully, invalidating queries");
+      await queryClient.invalidateQueries({ queryKey: ["profile"] });
+      
+      toast({
+        title: "Sucesso",
+        description: "Perfil atualizado com sucesso!",
+      });
+      
+      console.log("Success toast shown");
+    } catch (error: any) {
+      console.error("Error in form submission:", error);
+      toast({
+        title: "Erro",
+        description: error.message || "Erro ao atualizar perfil",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+      console.log("Loading state set to false");
+    }
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -110,7 +163,37 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       <ProfileImageSection profile={profile} />
       
       <div className="px-2 sm:px-6 py-6 space-y-6">
-        <SponsorUserSection form={form} sponsorInfo={getSponsorInfo()} />
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Patrocinador
+              </label>
+              <input
+                {...form.register("sponsor")}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50"
+                disabled
+                readOnly
+              />
+            </div>
+            
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Usuário <span className="text-red-500">*</span>
+              </label>
+              <input
+                {...form.register("custom_id")}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+              />
+              {form.formState.errors.custom_id && (
+                <p className="text-red-500 text-sm mt-1">
+                  {form.formState.errors.custom_id.message}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+
         <PersonalDataSection form={form} />
         <ContactSection form={form} />
         <AddressSection form={form} />
