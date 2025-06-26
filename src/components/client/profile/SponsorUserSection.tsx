@@ -32,7 +32,7 @@ export function SponsorUserSection({ form, sponsorInfo }: SponsorUserSectionProp
           />
           {form.formState.errors.custom_id && (
             <p className="text-red-500 text-sm mt-1">
-              {form.formState.errors.custom_id.message}
+              {String(form.formState.errors.custom_id.message || "Campo obrigatório")}
             </p>
           )}
         </div>

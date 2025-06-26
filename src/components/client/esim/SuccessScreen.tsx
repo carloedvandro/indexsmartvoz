@@ -12,34 +12,57 @@ export function SuccessScreen({ data }: SuccessScreenProps) {
   const navigate = useNavigate();
 
   return (
-    <div className="text-center space-y-6 pt-28 bg-white">
-      <div className="flex justify-center">
-        <div className="w-16 h-16 bg-[#580180]/10 rounded-full flex items-center justify-center">
-          <Check className="w-8 h-8 text-[#580180]" />
+    <div className="min-h-screen bg-[#8425af] text-white flex items-center justify-center p-4">
+      <div className="max-w-lg w-full space-y-6">
+        <div className="space-y-4 text-center">
+          <h2 className="text-3xl font-bold">Deu certo!</h2>
+          <p className="text-2xl">Você solicitou a ativação do chip</p>
+          <p className="text-lg">
+            O prazo do sistema para concluir ativação e o funcionamento da linha neste chip é de até 48 horas.
+          </p>
+        </div>
+
+        <div className="border border-white/30 rounded-lg">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b border-white/20">
+                <th className="py-3 px-4">DDD</th>
+                <th className="py-3 px-4">Código de barras do SIM card</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-t border-white/20">
+                <td className="py-3 px-4">
+                  <div className="flex items-center gap-2">
+                    <Check className="text-green-400" size={16} />
+                    <span>{data.phone_number?.substring(0, 2) || '15'}</span>
+                  </div>
+                </td>
+                <td className="py-3 px-4">
+                  <div className="flex items-center gap-2">
+                    ICCID
+                    <span>{data.iccid || data.eid || '07418877'}</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p className="text-center text-sm">
+          Protocolo {data.protocol_id || data.id || '849bf203-1881-43bf-8bfc-b67ccd23228f'}
+        </p>
+
+        <div className="flex justify-center">
+          <Button
+            onClick={() => navigate("/client/dashboard")}
+            className="border border-white/30 hover:bg-white/10 text-white min-w-[200px] rounded-lg"
+            variant="ghost"
+          >
+            Entendi
+          </Button>
         </div>
       </div>
-
-      <h2 className="text-2xl font-semibold">Solicitação Enviada!</h2>
-      
-      <p className="text-gray-600">
-        Você receberá em breve um e-mail com as instruções para ativação do seu eSIM.
-      </p>
-
-      <div className="bg-gray-50 p-4 rounded-lg max-w-sm mx-auto">
-        <div className="space-y-2 text-left">
-          <p><strong>Tipo:</strong> {data.activation_type === 'self' ? 'Para Uso Pessoal' : 'Para Colaborador'}</p>
-          <p><strong>Dispositivo:</strong> {data.device_type === 'ios' ? 'iOS (iPhone)' : 'Android'}</p>
-          {data.imei && <p><strong>IMEI:</strong> {data.imei}</p>}
-          {data.eid && <p><strong>EID:</strong> {data.eid}</p>}
-        </div>
-      </div>
-
-      <Button 
-        onClick={() => navigate("/client/dashboard")}
-        className="bg-[#580180] hover:bg-[#4a0066] text-white"
-      >
-        Voltar para o Dashboard
-      </Button>
     </div>
   );
 }
