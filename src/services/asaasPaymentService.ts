@@ -8,6 +8,7 @@ type Line = {
   type: string;
   ddd: string;
   price: number;
+  barcode?: string;
   planId?: string;
   planName?: string;
 };
@@ -97,30 +98,54 @@ export const useAsaasPayment = () => {
         return false;
       }
 
-      // Buscar o plano selecionado
+      // Buscar o plano selecionado do localStorage primeiro
       let planData = null;
       const storedPlan = localStorage.getItem('selectedPlan');
       if (storedPlan) {
         try {
           planData = JSON.parse(storedPlan);
+          console.log('📋 Plano encontrado no localStorage:', planData);
         } catch (e) {
           console.error('Erro ao parse do plano:', e);
         }
       }
 
-      // Se não tem plano no localStorage, usar dados da linha
-      if (!planData && selectedLines.length > 0) {
+      // Se não tem plano no localStorage, buscar na base de dados
+      if (!planData) {
+        console.log('🔍 Buscando planos na base de dados...');
+        const { data: plans, error: plansError } = await supabase
+          .from('plans')
+          .select('*')
+          .eq('status', 'active')
+          .limit(1);
+
+        if (plansError || !plans || plans.length === 0) {
+          console.error('❌ Erro ao buscar planos:', plansError);
+          toast({
+            title: "Erro",
+            description: "Nenhum plano encontrado",
+            variant: "destructive",
+          });
+          return false;
+        }
+
+        // Usar o primeiro plano ativo encontrado
+        const firstPlan = plans[0];
         planData = {
-          name: selectedLines[0].internet,
-          price: selectedLines[0].price,
-          title: selectedLines[0].planName || selectedLines[0].internet
+          id: firstPlan.id,
+          name: firstPlan.title,
+          price: firstPlan.value,
+          title: firstPlan.title
         };
+        console.log('📋 Usando primeiro plano ativo:', planData);
       }
 
-      if (!planData) {
+      // Garantir que temos um plan_id válido
+      if (!planData || !planData.id) {
+        console.error('❌ Plan ID não encontrado');
         toast({
           title: "Erro",
-          description: "Dados do plano não encontrados",
+          description: "ID do plano não encontrado",
           variant: "destructive",
         });
         return false;
@@ -135,21 +160,24 @@ export const useAsaasPayment = () => {
         userName: profile.full_name,
         userCpf: profile.cpf,
         userPhone: profile.whatsapp || profile.phone,
+        planId: planData.id,
         planName: planData.title,
         total,
         dueDate: selectedDueDate,
         hasAddress: !!address
       });
 
-      // Preparar dados para criar o pedido
+      // Preparar dados para criar o pedido - GARANTINDO que plan_id não seja null
       const orderData = {
         user_id: user.id,
-        plan_id: planData.id || null,
+        plan_id: planData.id, // Garantindo que sempre tem um plan_id válido
         total_amount: total,
         payment_method: 'pix',
         status: 'pending',
         notes: `Plano: ${planData.title} - DDD: ${selectedLines[0]?.ddd} - Vencimento: ${selectedDueDate}`
       };
+
+      console.log('🔄 Criando pedido com dados:', orderData);
 
       // Criar o pedido no banco
       const { data: order, error: orderError } = await supabase
