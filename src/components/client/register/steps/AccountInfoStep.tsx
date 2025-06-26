@@ -71,18 +71,6 @@ export const AccountInfoStep = ({ form, disableSponsor }: AccountInfoStepProps) 
           </FormItem>
         )}
       />
-
-      <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-        <p className="text-sm text-blue-700">
-          <strong>Debug Info:</strong>
-        </p>
-        <p className="text-xs text-blue-600">
-          Custom ID: "{customIdValue}" (length: {customIdValue ? customIdValue.length : 0})
-        </p>
-        <p className="text-xs text-blue-600">
-          Sponsor ID: "{sponsorValue}" (disabled: {disableSponsor ? 'sim' : 'não'})
-        </p>
-      </div>
     </div>
   );
 };
