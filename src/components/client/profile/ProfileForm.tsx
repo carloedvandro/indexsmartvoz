@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -77,7 +76,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       custom_id: profile.custom_id || "",
       full_name: profile.full_name || "",
       person_type: profile.person_type || "",
-      cnpj: profile.cnpj || profile.cpf || "",
+      cnpj: profile.cnpj || profile.cpf || "", // Usar CPF se CNPJ não estiver disponível
       birth_date: profile.birth_date || "",
       mobile: profile.mobile || "",
       whatsapp: profile.whatsapp || "",
@@ -86,61 +85,42 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       zip_code: profile.zip_code || "",
       address: existingStreet,
       address_number: existingNumber,
-      neighborhood: profile.neighborhood || "",
-      complement: profile.complement || "",
+      neighborhood: profile.neighborhood || "", // Agora vem dos dados de endereço
+      complement: profile.complement || "", // Agora vem dos dados de endereço
       state: profile.state || "",
       city: profile.city || "",
     },
   });
 
-  console.log('Profile data loaded:', {
-    state: profile.state,
-    city: profile.city,
-    neighborhood: profile.neighborhood,
-    complement: profile.complement
-  });
-
   const onSubmit = async (data: ProfileFormData) => {
-    console.log("Form submit started with data:", data);
-    
     try {
       setIsLoading(true);
-      console.log("Loading state set to true");
       
       const updateData = {
         custom_id: data.custom_id,
         full_name: data.full_name,
         person_type: data.person_type,
-        cnpj: removeMask(data.cnpj),
-        cpf: removeMask(data.cnpj),
+        cnpj: removeMask(data.cnpj), // Remove máscara antes de salvar
+        cpf: removeMask(data.cnpj), // Também atualizar o campo CPF
         birth_date: data.birth_date,
-        mobile: removeMask(data.mobile),
-        whatsapp: removeMask(data.whatsapp),
+        mobile: removeMask(data.mobile), // Remove máscara antes de salvar
+        whatsapp: removeMask(data.whatsapp), // Remove máscara antes de salvar
         secondary_whatsapp: data.secondary_whatsapp ? removeMask(data.secondary_whatsapp) : null,
         email: data.email,
-        zip_code: removeMask(data.zip_code),
+        zip_code: removeMask(data.zip_code), // Remove máscara antes de salvar
         address: `${data.address}, ${data.address_number}`,
-        neighborhood: data.neighborhood,
-        complement: data.complement,
         state: data.state,
         city: data.city,
       };
 
-      console.log("Calling updateProfile with:", { profileId: profile.id, updateData });
-
       await updateProfile(profile.id, updateData);
-      
-      console.log("Profile updated successfully, invalidating queries");
       await queryClient.invalidateQueries({ queryKey: ["profile"] });
       
       toast({
         title: "Sucesso",
         description: "Perfil atualizado com sucesso!",
       });
-      
-      console.log("Success toast shown");
     } catch (error: any) {
-      console.error("Error in form submission:", error);
       toast({
         title: "Erro",
         description: error.message || "Erro ao atualizar perfil",
@@ -148,18 +128,11 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       });
     } finally {
       setIsLoading(false);
-      console.log("Loading state set to false");
     }
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    console.log("Form submission triggered");
-    e.preventDefault();
-    form.handleSubmit(onSubmit)(e);
-  };
-
   return (
-    <form onSubmit={handleFormSubmit} className="space-y-6">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       <ProfileImageSection profile={profile} />
       
       <div className="px-2 sm:px-6 py-6 space-y-6">
@@ -203,9 +176,8 @@ export function ProfileForm({ profile }: ProfileFormProps) {
             type="submit"
             disabled={isLoading}
             className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-2 rounded-md w-full sm:w-auto"
-            onClick={() => console.log("Button clicked, isLoading:", isLoading)}
           >
-            {isLoading ? "Salvando..." : "Atualizar"}
+            {isLoading ? "Salvando..." : "Solicitar alteração"}
           </Button>
         </div>
       </div>
