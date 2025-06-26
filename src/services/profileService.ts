@@ -31,9 +31,9 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
       return null;
     }
 
-    console.log("Fetched profile data:", profileData);
+    console.log("Fetched complete profile data:", profileData);
 
-    // Create a copy of the profile data
+    // Create a copy of the profile data with all fields
     const profile: ProfileWithSponsor = {
       ...profileData,
       sponsor: null // Initialize as null, will be updated if sponsor exists

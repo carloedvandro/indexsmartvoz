@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,6 +23,7 @@ const profileSchema = z.object({
   birth_date: z.string().min(1, "Data é obrigatória"),
   mobile: z.string().min(1, "Celular é obrigatório"),
   whatsapp: z.string().min(1, "WhatsApp é obrigatório"),
+  secondary_whatsapp: z.string().optional(),
   email: z.string().email("Email inválido"),
   zip_code: z.string().min(1, "CEP é obrigatório"),
   address: z.string().min(1, "Endereço é obrigatório"),
@@ -43,7 +45,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Extrair número e bairro do endereço existente
+  // Extrair número e bairro do endereço existente se disponível
   const addressParts = profile.address?.split(',') || [];
   const existingStreet = addressParts[0]?.trim() || "";
   const existingNumber = addressParts[1]?.trim() || "";
@@ -75,16 +77,17 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       custom_id: profile.custom_id || "",
       full_name: profile.full_name || "",
       person_type: profile.person_type || "",
-      cnpj: profile.cnpj || "",
+      cnpj: profile.cnpj || profile.cpf || "", // Usar CPF se CNPJ não estiver disponível
       birth_date: profile.birth_date || "",
       mobile: profile.mobile || "",
       whatsapp: profile.whatsapp || "",
+      secondary_whatsapp: profile.secondary_whatsapp || "",
       email: profile.email || "",
       zip_code: profile.zip_code || "",
       address: existingStreet,
       address_number: existingNumber,
-      neighborhood: "",
-      complement: "",
+      neighborhood: "", // Campo que não estava sendo salvo no cadastro
+      complement: "", // Campo que não estava sendo salvo no cadastro
       state: profile.state || "",
       city: profile.city || "",
     },
@@ -99,9 +102,11 @@ export function ProfileForm({ profile }: ProfileFormProps) {
         full_name: data.full_name,
         person_type: data.person_type,
         cnpj: removeMask(data.cnpj), // Remove máscara antes de salvar
+        cpf: removeMask(data.cnpj), // Também atualizar o campo CPF
         birth_date: data.birth_date,
         mobile: removeMask(data.mobile), // Remove máscara antes de salvar
         whatsapp: removeMask(data.whatsapp), // Remove máscara antes de salvar
+        secondary_whatsapp: data.secondary_whatsapp ? removeMask(data.secondary_whatsapp) : null,
         email: data.email,
         zip_code: removeMask(data.zip_code), // Remove máscara antes de salvar
         address: `${data.address}, ${data.address_number}`,
@@ -140,7 +145,9 @@ export function ProfileForm({ profile }: ProfileFormProps) {
               </label>
               <input
                 {...form.register("sponsor")}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50"
+                disabled
+                readOnly
               />
             </div>
             
