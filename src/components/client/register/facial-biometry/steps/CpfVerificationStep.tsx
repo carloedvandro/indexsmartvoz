@@ -150,6 +150,9 @@ export const CpfVerificationStep = ({
             >
               termos de uso
             </button>
+            {termsAccepted && (
+              <span className="ml-2 text-green-600 font-medium">✓ Aceito</span>
+            )}
           </p>
           <Button 
             onClick={handleSubmit} 
