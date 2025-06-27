@@ -72,19 +72,35 @@ export function useProductsNavigation({
 
     if (currentStep === 3 && acceptedTerms) {
       console.log('✅ Termos aceitos, iniciando pagamento...');
-      const success = await iniciarCobrancaAsaas(
-        selectedLines,
-        selectedDueDate,
-        acceptedTerms,
-        setIsAsaasProcessing
-      );
-      if (!success) {
-        console.log('❌ Falha no pagamento, permanecendo na mesma tela');
+      try {
+        const success = await iniciarCobrancaAsaas(
+          selectedLines,
+          selectedDueDate,
+          acceptedTerms,
+          setIsAsaasProcessing
+        );
+        if (!success) {
+          console.log('❌ Falha no pagamento, permanecendo na mesma tela');
+        }
+        // Se success for true, o usuário será redirecionado para o checkout do Asaas
+        return;
+      } catch (error) {
+        console.error('❌ Erro durante iniciação do pagamento:', error);
+        toast({
+          title: "Erro",
+          description: "Erro ao processar pagamento. Tente novamente.",
+          variant: "destructive",
+        });
       }
       return;
     }
 
-    if (currentStep === 5) {
+    // Navegação normal entre steps
+    if (currentStep === 1) {
+      setCurrentStep(2);
+    } else if (currentStep === 2) {
+      setCurrentStep(3);
+    } else if (currentStep === 5) {
       setCurrentStep(6);
     } else if (currentStep === 6) {
       setShowConfirmation(true);

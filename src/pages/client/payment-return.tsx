@@ -127,7 +127,7 @@ export default function PaymentReturn() {
           console.log(`🔄 [PAYMENT-RETURN] Tentativa ${checkAttempts + 1} - Status ainda pendente`);
           
           // Tentar verificar novamente em alguns segundos
-          if (checkAttempts < 20) { // Aumentei para 20 tentativas
+          if (checkAttempts < 20) {
             setTimeout(() => {
               setCheckAttempts(prev => prev + 1);
               checkPaymentStatus();
@@ -183,6 +183,7 @@ export default function PaymentReturn() {
       // Permitir navegação e ir para ativação do chip
       window.removeEventListener('beforeunload', () => {});
       window.removeEventListener('popstate', () => {});
+      console.log('🚀 [PAYMENT-RETURN] Redirecionando para chip-activation');
       navigate("/client/chip-activation", { replace: true });
     } else {
       // Permitir navegação e voltar para produtos
