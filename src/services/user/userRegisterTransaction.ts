@@ -6,7 +6,7 @@ import { isValidEmail } from "@/utils/validation/emailValidation";
 import { isValidCPF } from "@/utils/validation/cpfValidation";
 
 export const registerUserWithAddress = async (data: RegisterFormData) => {
-  // Validações iniciais
+  // Validações iniciais mais rigorosas
   if (!isValidEmail(data.email)) {
     throw new Error("Email inválido");
   }
@@ -16,63 +16,82 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
   if (!data.customId || data.customId.length < 3) {
     throw new Error("ID personalizado deve ter pelo menos 3 caracteres");
   }
+  if (!data.fullName || data.fullName.trim().length < 2) {
+    throw new Error("Nome completo é obrigatório");
+  }
+  if (!data.whatsapp || data.whatsapp.length < 10) {
+    throw new Error("WhatsApp é obrigatório");
+  }
 
-  log("info", "Starting user registration transaction", { 
+  log("info", "Starting complete user registration transaction", { 
     email: data.email, 
-    customId: data.customId 
+    customId: data.customId,
+    hasSponsor: !!data.sponsorCustomId
   });
 
   try {
-    // 1. PRIMEIRO: Verificar se email já existe
+    // 1. Verificar se email já existe
+    console.log("🔍 Verificando se email já existe...");
     const { data: existingEmail } = await supabase
       .from("profiles")
       .select("id")
       .eq("email", data.email)
-      .single();
+      .maybeSingle(); // Usar maybeSingle() ao invés de single()
 
     if (existingEmail) {
       throw new Error("Email já está em uso. Por favor, use outro email ou faça login.");
     }
 
-    // 2. SEGUNDO: Verificar se CPF já existe
+    // 2. Verificar se CPF já existe
+    console.log("🔍 Verificando se CPF já existe...");
     const { data: existingCPF } = await supabase
       .from("profiles")
       .select("id")
       .eq("cpf", data.cpf)
-      .single();
+      .maybeSingle();
 
     if (existingCPF) {
       throw new Error("CPF já está cadastrado. Utilize outro CPF ou faça login.");
     }
 
-    // 3. TERCEIRO: Verificar se custom ID já existe
+    // 3. Verificar se custom ID já existe
+    console.log("🔍 Verificando se custom ID já existe...");
     const { data: existingCustomId } = await supabase
       .from("profiles")
       .select("id")
       .eq("custom_id", data.customId)
-      .single();
+      .maybeSingle();
 
     if (existingCustomId) {
       throw new Error("ID personalizado já está em uso. Por favor, escolha outro ID.");
     }
 
-    // 4. QUARTO: Verificar se o patrocinador existe (ANTES de criar o usuário)
+    // 4. Verificar se o patrocinador existe (se fornecido)
     let sponsorId = null;
-    if (data.sponsorCustomId) {
+    if (data.sponsorCustomId && data.sponsorCustomId.trim()) {
+      console.log("🔍 Verificando patrocinador...");
       const { data: sponsor, error: sponsorError } = await supabase
         .from("profiles")
         .select("id")
-        .eq("custom_id", data.sponsorCustomId)
-        .single();
+        .eq("custom_id", data.sponsorCustomId.trim())
+        .maybeSingle();
 
-      if (sponsorError || !sponsor) {
-        log("error", "Sponsor not found", { sponsorCustomId: data.sponsorCustomId });
-        throw new Error("ID do patrocinador inválido ou não encontrado");
+      if (sponsorError) {
+        log("error", "Error checking sponsor", sponsorError);
+        throw new Error("Erro ao verificar patrocinador");
       }
+      
+      if (!sponsor) {
+        log("error", "Sponsor not found", { sponsorCustomId: data.sponsorCustomId });
+        throw new Error("ID do patrocinador não encontrado");
+      }
+      
       sponsorId = sponsor.id;
+      console.log("✅ Patrocinador encontrado:", sponsorId);
     }
 
-    // 5. AGORA SIM: Criar usuário no Supabase Auth (só depois de todas as validações)
+    // 5. Criar usuário no Supabase Auth
+    console.log("👤 Criando usuário no Auth...");
     const { data: authData, error: signUpError } = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
@@ -94,74 +113,71 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
     }
 
     if (!authData.user) {
-      throw new Error("Falha ao criar usuário");
+      throw new Error("Falha ao criar usuário - dados não retornados");
     }
 
     const userId = authData.user.id;
-    log("info", "User created in auth", { userId });
+    console.log("✅ Usuário criado no Auth:", userId);
 
-    try {
-      // 6. Atualizar perfil com dados completos
-      const { error: updateError } = await supabase
-        .from("profiles")
-        .update({
-          custom_id: data.customId,
-          store_url: data.customId,
-          cpf: data.cpf,
-          sponsor_id: sponsorId,
-          whatsapp: data.whatsapp,
-          secondary_whatsapp: data.secondaryWhatsapp,
-          birth_date: data.birthDate
-        })
-        .eq("id", userId);
+    // 6. Atualizar perfil com dados completos
+    console.log("📝 Atualizando perfil...");
+    const { error: updateError } = await supabase
+      .from("profiles")
+      .update({
+        full_name: data.fullName,
+        custom_id: data.customId,
+        store_url: data.customId,
+        cpf: data.cpf,
+        sponsor_id: sponsorId,
+        whatsapp: data.whatsapp,
+        secondary_whatsapp: data.secondaryWhatsapp || null,
+        birth_date: data.birthDate,
+        email: data.email,
+        role: 'client',
+        status: 'active'
+      })
+      .eq("id", userId);
 
-      if (updateError) {
-        log("error", "Error updating profile", updateError);
-        throw new Error("Erro ao atualizar perfil: " + updateError.message);
-      }
-
-      log("info", "Profile updated successfully", { userId });
-
-      // 7. Salvar endereço
-      const { error: addressError } = await supabase
-        .from("user_addresses")
-        .insert({
-          user_id: userId,
-          cep: data.cep,
-          street: data.street,
-          neighborhood: data.neighborhood,
-          number: data.number,
-          city: data.city,
-          state: data.state,
-          complement: data.complement || null,
-        });
-
-      if (addressError) {
-        log("error", "Error saving address", addressError);
-        throw new Error("Erro ao salvar endereço: " + addressError.message);
-      }
-
-      log("info", "Address saved successfully", { userId });
-      log("info", "User registration transaction completed successfully", { userId });
-
-      return authData;
-
-    } catch (error) {
-      // Se houve erro após criar o usuário, tentar deletar o usuário criado
-      log("error", "Error in post-creation steps, attempting cleanup", { userId, error });
-      
-      try {
-        await supabase.auth.admin.deleteUser(userId);
-        log("info", "User cleanup completed", { userId });
-      } catch (cleanupError) {
-        log("error", "Failed to cleanup user after error", { userId, cleanupError });
-      }
-      
-      throw error;
+    if (updateError) {
+      log("error", "Error updating profile", updateError);
+      throw new Error("Erro ao atualizar perfil: " + updateError.message);
     }
+
+    console.log("✅ Perfil atualizado com sucesso");
+
+    // 7. Salvar endereço
+    console.log("🏠 Salvando endereço...");
+    const { error: addressError } = await supabase
+      .from("user_addresses")
+      .insert({
+        user_id: userId,
+        cep: data.cep,
+        street: data.street,
+        neighborhood: data.neighborhood,
+        number: data.number,
+        city: data.city,
+        state: data.state,
+        complement: data.complement || null,
+      });
+
+    if (addressError) {
+      log("error", "Error saving address", addressError);
+      throw new Error("Erro ao salvar endereço: " + addressError.message);
+    }
+
+    console.log("✅ Endereço salvo com sucesso");
+    
+    log("info", "Complete user registration transaction completed successfully", { 
+      userId,
+      customId: data.customId,
+      hasSponsor: !!sponsorId
+    });
+
+    return authData;
 
   } catch (error: any) {
     log("error", "Error in registerUserWithAddress function", error);
+    console.error("💥 Erro na transação de cadastro:", error);
     throw error;
   }
 };
