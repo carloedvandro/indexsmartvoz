@@ -17,8 +17,6 @@ export function NavigationButtons({
 }: NavigationButtonsProps) {
   const navigate = useNavigate();
 
-  console.log('🔴 NavigationButtons renderizado com disabled:', disabled);
-
   // Always use the provided handler for back navigation
   const handleBackNavigation = () => {
     if (currentStep === 1) {

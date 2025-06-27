@@ -1,49 +1,72 @@
-
 import { useState } from "react";
 import { ProfileWithSponsor } from "@/types/profile";
-import { SearchFilters, UsersTable } from "./user-list";
+import { displayCustomId, SearchFilters, UsersTable } from "./user-list";
 
 export function AdminUsersList({ users = [], onEdit }) {
-  const [searchValue, setSearchValue] = useState("");
-  const [roleFilter, setRoleFilter] = useState("all");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [nameFilter, setNameFilter] = useState("");
+  const [emailFilter, setEmailFilter] = useState("");
+  const [groupFilter, setGroupFilter] = useState("");
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [expandedRows, setExpandedRows] = useState({});
 
-  const handleView = (user: any) => {
-    console.log("View user:", user);
+  // Handle individual user selection
+  const toggleUserSelection = (userId) => {
+    setSelectedUsers(prev => 
+      prev.includes(userId)
+        ? prev.filter(id => id !== userId)
+        : [...prev, userId]
+    );
   };
 
-  const handleDelete = (user: any) => {
-    console.log("Delete user:", user);
+  // Handle select all checkbox
+  const toggleSelectAll = () => {
+    if (selectedUsers.length === users.length) {
+      // If all are selected, deselect all
+      setSelectedUsers([]);
+    } else {
+      // Otherwise, select all
+      setSelectedUsers(users.map(user => user.id));
+    }
   };
 
-  const handleAsaasSuccess = () => {
-    console.log("Asaas account created successfully");
+  // Toggle row expansion
+  const toggleRowExpand = (userId) => {
+    setExpandedRows(prev => ({
+      ...prev,
+      [userId]: !prev[userId]
+    }));
   };
+
+  // Check if all users are selected
+  const areAllUsersSelected = users.length > 0 && selectedUsers.length === users.length;
 
   return (
     <div className="bg-white rounded-lg shadow">
       <SearchFilters 
-        searchValue={searchValue}
-        onSearchChange={setSearchValue}
-        roleFilter={roleFilter}
-        onRoleChange={setRoleFilter}
-        statusFilter={statusFilter}
-        onStatusChange={setStatusFilter}
+        nameFilter={nameFilter}
+        setNameFilter={setNameFilter}
+        emailFilter={emailFilter}
+        setEmailFilter={setEmailFilter}
+        groupFilter={groupFilter}
+        setGroupFilter={setGroupFilter}
       />
       
       <div className="px-4 py-2">
         <div className="bg-indigo-500 text-white py-1 px-3 rounded inline-block">
-          Mostrar usuários ({users.length || 0})
+          Mostrar usuários ({users.length || 8})
         </div>
       </div>
       
       <UsersTable 
         users={users}
-        isLoading={false}
-        onView={handleView}
+        selectedUsers={selectedUsers}
+        expandedRows={expandedRows}
+        toggleUserSelection={toggleUserSelection}
+        toggleRowExpand={toggleRowExpand}
+        toggleSelectAll={toggleSelectAll}
+        areAllUsersSelected={areAllUsersSelected}
         onEdit={onEdit}
-        onDelete={handleDelete}
-        onAsaasSuccess={handleAsaasSuccess}
+        displayCustomId={displayCustomId}
       />
     </div>
   );

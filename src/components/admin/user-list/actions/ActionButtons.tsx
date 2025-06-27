@@ -1,63 +1,86 @@
 
-import React from "react";
 import { Button } from "@/components/ui/button";
-import { Eye, Edit, Trash2 } from "lucide-react";
-import { AsaasAccountButton } from "./AsaasAccountButton";
-
-interface User {
-  id: string;
-  full_name: string;
-  email: string;
-  cpf?: string;
-  asaas_account_id?: string;
-}
+import { Eye, UserCheck, Edit, Info, Lock, LockOpen, ArrowRightToLine } from "lucide-react";
+import Image from "@/components/ui/image";
+import { useState } from "react";
+import { PlanDetailsDialog } from "./PlanDetailsDialog";
 
 interface ActionButtonsProps {
-  user: User;
-  onView: (user: User) => void;
-  onEdit: (user: User) => void;
-  onDelete: (user: User) => void;
-  onAsaasSuccess?: () => void;
+  user: any;
+  isUnlocked: boolean;
+  onEdit: (user: any) => void;
+  onInfoClick: () => void;
+  onToggleLock: () => void;
 }
 
-export function ActionButtons({ 
+export const ActionButtons = ({ 
   user, 
-  onView, 
+  isUnlocked, 
   onEdit, 
-  onDelete,
-  onAsaasSuccess 
-}: ActionButtonsProps) {
+  onInfoClick, 
+  onToggleLock 
+}: ActionButtonsProps) => {
+  const [isPlanDetailsOpen, setIsPlanDetailsOpen] = useState(false);
+
   return (
-    <div className="flex items-center gap-2">
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => onView(user)}
+    <>
+      <Button 
+        size="sm" 
+        variant="default" 
+        className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
+        disabled={!isUnlocked}
       >
         <Eye className="h-4 w-4" />
       </Button>
-      
-      <Button
-        variant="ghost"
-        size="sm"
+      <Button 
+        size="sm" 
+        variant="default" 
+        className="bg-cyan-500 hover:bg-cyan-600 h-8 w-8 p-0"
+        disabled={!isUnlocked}
+      >
+        <UserCheck className="h-4 w-4" />
+      </Button>
+      <Button 
+        size="sm" 
+        variant="default" 
+        className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
         onClick={() => onEdit(user)}
+        disabled={!isUnlocked}
       >
         <Edit className="h-4 w-4" />
       </Button>
-      
-      <AsaasAccountButton
-        user={user}
-        onSuccess={onAsaasSuccess}
-      />
-      
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => onDelete(user)}
-        className="text-red-600 hover:text-red-700"
+      <Button 
+        size="sm" 
+        variant="default" 
+        className="bg-indigo-600 hover:bg-indigo-700 h-8 w-8 p-0"
+        onClick={onInfoClick}
+        disabled={!isUnlocked}
       >
-        <Trash2 className="h-4 w-4" />
+        <Info className="h-4 w-4" />
       </Button>
-    </div>
+      
+      <Button 
+        size="sm" 
+        variant="default" 
+        className={`${isUnlocked ? "bg-red-500 hover:bg-red-600" : "bg-purple-600 hover:bg-purple-700"} h-8 w-8 p-0`}
+        onClick={onToggleLock}
+      >
+        {isUnlocked ? <LockOpen className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
+      </Button>
+      <Button 
+        size="sm" 
+        variant="default" 
+        className="bg-green-500 hover:bg-green-600 h-8 w-8 p-0"
+        onClick={() => setIsPlanDetailsOpen(true)}
+      >
+        <ArrowRightToLine className="h-4 w-4" />
+      </Button>
+
+      <PlanDetailsDialog 
+        isOpen={isPlanDetailsOpen} 
+        onOpenChange={setIsPlanDetailsOpen}
+        user={user}
+      />
+    </>
   );
-}
+};

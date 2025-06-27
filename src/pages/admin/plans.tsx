@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { AdminPageHeader } from "@/components/admin/common/AdminPageHeader";
 import { AdminTable } from "@/components/admin/common/AdminTable";
@@ -9,6 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Edit, Trash2, Plus, Search, Eye } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,11 +25,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { PlanForm } from "@/components/admin/plans/PlanForm";
 import { PlanDetailsDialog } from "@/components/admin/plans/PlanDetailsDialog";
 
 export default function AdminPlans() {
-  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [detailsDialogOpen, setDetailsDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
@@ -54,19 +61,8 @@ export default function AdminPlans() {
         throw error;
       }
       
-      // Processar os dados para adicionar valueType aos cashback_levels
-      const processedData = data?.map(plan => ({
-        ...plan,
-        cashback_levels: plan.cashback_levels?.map((level: any) => ({
-          ...level,
-          valueType: level.fixed_value !== null ? 'fixed' : 'percentage',
-          fixedValue: level.fixed_value,
-          percentage: level.percentage ? level.percentage * 100 : 0
-        }))
-      }));
-      
-      console.log('Plans fetched:', processedData);
-      return processedData || [];
+      console.log('Plans fetched:', data);
+      return data || [];
     }
   });
 
@@ -115,11 +111,9 @@ export default function AdminPlans() {
   });
 
   const handleEdit = (plan: any) => {
-    navigate(`/admin/plans/add-edit?id=${plan.id}`);
-  };
-
-  const handleAdd = () => {
-    navigate('/admin/plans/add-edit');
+    console.log('Editing plan:', plan);
+    setSelectedPlan(plan);
+    setEditDialogOpen(true);
   };
 
   const handleDetails = (plan: any) => {
@@ -145,6 +139,12 @@ export default function AdminPlans() {
       style: 'currency',
       currency: 'BRL'
     }).format(value);
+  };
+
+  const handleFormSuccess = () => {
+    setEditDialogOpen(false);
+    setSelectedPlan(null);
+    queryClient.invalidateQueries({ queryKey: ['admin-plans'] });
   };
 
   const columns = [
@@ -217,7 +217,7 @@ export default function AdminPlans() {
           title="Gestão de Planos"
           subtitle="Gerencie todos os planos do sistema"
           actions={
-            <Button onClick={handleAdd}>
+            <Button onClick={() => { setSelectedPlan(null); setEditDialogOpen(true); }}>
               <Plus className="h-4 w-4 mr-2" />
               Novo Plano
             </Button>
@@ -244,6 +244,25 @@ export default function AdminPlans() {
           loading={isLoading}
           emptyMessage="Nenhum plano encontrado"
         />
+
+        {/* Dialog de Edição/Criação */}
+        <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>
+                {selectedPlan ? 'Editar Plano' : 'Novo Plano'}
+              </DialogTitle>
+              <DialogDescription>
+                {selectedPlan ? 'Edite as informações do plano' : 'Preencha as informações do novo plano'}
+              </DialogDescription>
+            </DialogHeader>
+            <PlanForm
+              initialData={selectedPlan}
+              onSubmit={handleFormSuccess}
+              onCancel={() => setEditDialogOpen(false)}
+            />
+          </DialogContent>
+        </Dialog>
 
         {/* Dialog de Detalhes */}
         <PlanDetailsDialog

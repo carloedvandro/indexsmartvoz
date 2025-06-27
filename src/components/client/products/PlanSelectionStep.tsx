@@ -6,7 +6,7 @@ import { PriceSummary } from "@/components/client/products/PriceSummary";
 import { NavigationButtons } from "@/components/client/products/NavigationButtons";
 import { PlanSelectionHeader } from "@/components/client/products/plan-selection/PlanSelectionHeader";
 import { PlanSelectionForm } from "@/components/client/products/plan-selection/PlanSelectionForm";
-import { internetOptions, mapUrlPlanToInternet, mapPlanValueToInternet } from "@/components/client/products/plan-selection/planOptions";
+import { internetOptions, mapUrlPlanToInternet } from "@/components/client/products/plan-selection/planOptions";
 import { useToast } from "@/hooks/use-toast";
 
 interface PlanSelectionStepProps {
@@ -34,37 +34,44 @@ export function PlanSelectionStep({
   const [selectedInternet, setSelectedInternet] = useState<string>("");
   const [selectedDDD, setSelectedDDD] = useState<string>("");
   const [searchParams] = useSearchParams();
+  const planIdFromUrl = searchParams.get('plan');
   const { toast } = useToast();
   
-  // Auto-select plan based on localStorage data from plan selection
+  // Set initial plan based on URL parameter if present and no plan is already selected
   useEffect(() => {
-    const storedPlan = localStorage.getItem('selectedPlan');
-    console.log('🎯 Verificando plano armazenado:', storedPlan);
-    
-    if (storedPlan) {
-      try {
-        const planData = JSON.parse(storedPlan);
-        console.log('🎯 Plano selecionado encontrado:', planData);
+    if (planIdFromUrl && !selectedInternet) {
+      const mappedPlan = mapUrlPlanToInternet(planIdFromUrl);
+      if (mappedPlan) {
+        setSelectedInternet(mappedPlan.plan);
         
-        // Try to map the plan value to internet option
-        const mappedInternet = mapPlanValueToInternet(planData.price);
-        console.log('🎯 Mapeamento do plano:', mappedInternet, 'para preço:', planData.price);
-        
-        if (mappedInternet && selectedInternet !== mappedInternet) {
-          console.log('✅ Auto-selecionando plano:', mappedInternet);
-          setSelectedInternet(mappedInternet);
-        }
-        
-        // Auto-set a default DDD if none is selected
+        // Auto-set a default DDD if we have a plan from the URL and no DDD is already selected
         if (!selectedDDD) {
-          console.log('✅ Auto-selecionando DDD padrão: 11');
-          setSelectedDDD("11");
+          setSelectedDDD("11"); // Default to São Paulo DDD
         }
-      } catch (error) {
-        console.error('❌ Erro ao processar plano selecionado:', error);
+        
+        // Update selectedLines with the selected plan information
+        const linePrice = mappedPlan.price;
+        if (selectedLines.length === 0) {
+          setSelectedLines([{
+            id: 1,
+            internet: mappedPlan.plan,
+            ddd: selectedDDD || "11", // Default DDD
+            price: linePrice,
+            type: 'chip'
+          }]);
+        } else {
+          const updatedLines = [...selectedLines];
+          updatedLines[0] = {
+            ...updatedLines[0],
+            internet: mappedPlan.plan,
+            ddd: selectedDDD || "11", // Default DDD
+            price: linePrice
+          };
+          setSelectedLines(updatedLines);
+        }
       }
     }
-  }, []); // Removido as dependências para executar apenas uma vez
+  }, [planIdFromUrl, selectedDDD, selectedInternet, selectedLines, setSelectedLines]);
 
   // Initialize selectedInternet and selectedDDD from selectedLines if available
   useEffect(() => {
@@ -73,7 +80,7 @@ export function PlanSelectionStep({
       if (line?.internet && !selectedInternet) setSelectedInternet(line.internet);
       if (line?.ddd && !selectedDDD) setSelectedDDD(line.ddd);
     }
-  }, [selectedLines]);
+  }, [selectedLines, selectedInternet, selectedDDD]);
 
   // Update selected lines when internet or DDD changes
   useEffect(() => {

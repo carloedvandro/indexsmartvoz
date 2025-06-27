@@ -6,7 +6,7 @@ import { useUserRole, UserRole } from "@/hooks/useUserRole";
 import { LoadingState } from "@/components/client/dashboard/LoadingState";
 
 interface DynamicLayoutProps {
-  children?: ReactNode;
+  children: ReactNode;
   forceRole?: UserRole;
 }
 

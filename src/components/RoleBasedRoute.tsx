@@ -6,10 +6,9 @@ import { LoadingState } from '@/components/client/dashboard/LoadingState';
 
 interface RoleBasedRouteProps {
   allowedRoles: UserRole[];
-  children?: React.ReactNode;
 }
 
-export const RoleBasedRoute = ({ allowedRoles, children }: RoleBasedRouteProps) => {
+export const RoleBasedRoute = ({ allowedRoles }: RoleBasedRouteProps) => {
   const { role, loading, error } = useUserRole();
   const navigate = useNavigate();
   const location = useLocation();
@@ -51,5 +50,5 @@ export const RoleBasedRoute = ({ allowedRoles, children }: RoleBasedRouteProps) 
     return <LoadingState />;
   }
 
-  return children ? <>{children}</> : <Outlet />;
+  return <Outlet />;
 };
