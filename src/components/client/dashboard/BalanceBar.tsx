@@ -19,36 +19,28 @@ export function BalanceBar() {
   } = useBalanceBarLogic();
 
   return (
-    <div className="bg-white shadow-sm px-4 py-3 flex-shrink-0 relative z-50">
-      <div className="flex items-center justify-between max-w-7xl mx-auto">
-        <BalanceDisplay 
-          isVisible={isBalanceVisible}
-          onToggleVisibility={toggleBalanceVisibility}
-        />
-        
+    <div className="w-full bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between relative z-10" onClick={closeMenus}>
+      <div className="flex items-center gap-4 flex-1">
         <LogoSection />
-        
-        <div className="flex items-center gap-3">
-          <NotificationDropdown 
-            showNotifications={showNotifications}
-            onToggleNotifications={toggleNotifications}
-          />
-          
-          <UserMenuDropdown
-            showUserMenu={showUserMenu}
-            onToggleUserMenu={toggleUserMenu}
-            onLogout={handleLogout}
-            profile={profile}
-          />
-        </div>
+        <BalanceDisplay 
+          isVisible={isBalanceVisible} 
+          onToggleVisibility={toggleBalanceVisibility} 
+        />
       </div>
       
-      {(showNotifications || showUserMenu) && (
-        <div 
-          className="fixed inset-0 z-40" 
-          onClick={closeMenus}
+      <div className="flex items-center gap-2">
+        <NotificationDropdown 
+          showNotifications={showNotifications} 
+          onToggleNotifications={toggleNotifications} 
         />
-      )}
+        
+        <UserMenuDropdown 
+          showUserMenu={showUserMenu} 
+          onToggleUserMenu={toggleUserMenu} 
+          onLogout={handleLogout} 
+          profile={profile} 
+        />
+      </div>
     </div>
   );
 }

@@ -8,9 +8,9 @@ import {
 
 interface FaceOvalGuideProps {
   faceDetected: boolean;
-  captureProgress: number;
+  captureProgress: number; // 0-100 progress for animation
   faceProximity: "ideal" | "too-close" | "too-far" | "not-detected";
-  isCapturing?: boolean;
+  isCapturing?: boolean; // Prop para indicar se está capturando
 }
 
 export const FaceOvalGuide = ({ 
@@ -19,6 +19,7 @@ export const FaceOvalGuide = ({
   faceProximity,
   isCapturing = false
 }: FaceOvalGuideProps) => {
+  // Cores mais rigorosas baseadas no estado
   const getStrokeColor = () => {
     if (isCapturing) return "#16a34a"; // Verde durante captura ativa
     if (faceDetected && faceProximity === "ideal") return "#16a34a"; // Verde quando ideal
@@ -47,49 +48,6 @@ export const FaceOvalGuide = ({
             isCapturing={isCapturing}
             captureProgress={captureProgress}
           />
-
-          {/* Texto de status centralizado */}
-          {!faceDetected && (
-            <text 
-              x="128" 
-              y="270" 
-              textAnchor="middle" 
-              fill="white" 
-              fontSize="14" 
-              fontWeight="bold"
-              filter="url(#glow)"
-            >
-              Posicione seu rosto no oval
-            </text>
-          )}
-          
-          {faceDetected && faceProximity !== "ideal" && (
-            <text 
-              x="128" 
-              y="270" 
-              textAnchor="middle" 
-              fill="white" 
-              fontSize="14" 
-              fontWeight="bold"
-              filter="url(#glow)"
-            >
-              {faceProximity === "too-close" ? "Afaste um pouco" : "Aproxime um pouco"}
-            </text>
-          )}
-          
-          {isCapturing && (
-            <text 
-              x="128" 
-              y="50" 
-              textAnchor="middle" 
-              fill="white" 
-              fontSize="16" 
-              fontWeight="bold"
-              filter="url(#glow)"
-            >
-              Aguarde...
-            </text>
-          )}
         </svg>
       </div>
     </div>

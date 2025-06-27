@@ -54,6 +54,8 @@ import AdminReports from "@/pages/admin/reports";
 
 // Site Pages
 import CompanySite from "@/pages/CompanySite";
+import ModernSite from "@/pages/ModernSite";
+import SiteModel from "@/pages/SiteModel";
 
 // Public Store
 import PublicStore from "@/pages/public/store";
@@ -77,16 +79,16 @@ function App() {
             <Route path="/client/update-password" element={<ClientUpdatePassword />} />
             <Route path="/client/facial-biometry" element={<ClientFacialBiometry />} />
             <Route path="/client/plan-selection" element={<ClientPlanSelection />} />
-            <Route path="/client/navigation" element={<ClientNavigation />} />
-            <Route path="/client/notifications" element={<ClientNotifications />} />
-            <Route path="/client/network" element={<ClientNetwork />} />
 
             {/* Client Protected Routes - WITH LAYOUT */}
             <Route path="/client/dashboard" element={<DynamicLayout><ClientDashboard /></DynamicLayout>} />
             <Route path="/client/products" element={<DynamicLayout><ClientProducts /></DynamicLayout>} />
             <Route path="/client/profile" element={<DynamicLayout><ClientProfile /></DynamicLayout>} />
             <Route path="/client/financial" element={<DynamicLayout><ClientFinancial /></DynamicLayout>} />
+            <Route path="/client/network" element={<DynamicLayout><ClientNetwork /></DynamicLayout>} />
             <Route path="/client/store" element={<DynamicLayout><ClientStore /></DynamicLayout>} />
+            <Route path="/client/notifications" element={<DynamicLayout><ClientNotifications /></DynamicLayout>} />
+            <Route path="/client/navigation" element={<DynamicLayout><ClientNavigation /></DynamicLayout>} />
             <Route path="/client/financial-details" element={<DynamicLayout><ClientFinancialDetails /></DynamicLayout>} />
             <Route path="/client/earnings-forecast" element={<DynamicLayout><ClientEarningsForecast /></DynamicLayout>} />
             <Route path="/client/inventory-reports" element={<DynamicLayout><ClientInventoryReports /></DynamicLayout>} />
@@ -122,7 +124,11 @@ function App() {
 
             {/* Site Routes */}
             <Route path="/site" element={<CompanySite />} />
+            <Route path="/modern-site" element={<ModernSite />} />
+            <Route path="/site-model" element={<SiteModel />} />
 
+            {/* Public Store Routes */}
+            <Route path="/store/:storeUrl" element={<PublicStore />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>

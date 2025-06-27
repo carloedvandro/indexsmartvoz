@@ -2,6 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DashboardHeader } from "@/components/client/dashboard/DashboardHeader";
 import { NavigationContent } from "@/components/client/navigation/NavigationContent";
 
 export default function ClientNavigation() {
@@ -14,6 +15,7 @@ export default function ClientNavigation() {
   return (
     <div className="flex h-screen w-full bg-[#F8F9FE] overflow-hidden">
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <DashboardHeader />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           <div className="max-w-2xl mx-auto pt-8 px-4 pb-8">
             <div className="mb-6">

@@ -57,7 +57,7 @@ export function SuccessScreen({ selectedLines, protocol, onUnderstand, showBarco
                     {showBarcodes ? (
                       <div className="flex items-center gap-2">
                         <Check className="text-green-400" size={16} />
-                        <span>{line.ddd || 'Não informado'}</span>
+                        <span>32</span>
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">

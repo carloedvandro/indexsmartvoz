@@ -1,6 +1,7 @@
 
 import { ChipInstructions } from "./ChipInstructions";
 import { BarcodeInstructions } from "./BarcodeInstructions";
+import { BarcodeScannerComponent } from "./BarcodeScanner";
 import { NavigationButtons } from "./NavigationButtons";
 import { Line } from "../ChipActivationFlow";
 
@@ -11,7 +12,6 @@ interface ChipActivationStepContentProps {
   onBack: () => void;
   onContinue: () => void;
   onStartScanning: (index: number) => void;
-  onUpdateDDD: (index: number, ddd: string) => void;
 }
 
 export function ChipActivationStepContent({
@@ -20,8 +20,7 @@ export function ChipActivationStepContent({
   allBarcodesScanned,
   onBack,
   onContinue,
-  onStartScanning,
-  onUpdateDDD
+  onStartScanning
 }: ChipActivationStepContentProps) {
   console.log('🔍 [CHIP-STEP-CONTENT] Renderizando step:', currentStep);
   console.log('📋 [CHIP-STEP-CONTENT] Lines:', selectedLines);
@@ -54,75 +53,10 @@ export function ChipActivationStepContent({
   if (currentStep === 6) {
     return (
       <div className="flex flex-col space-y-6">
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold">Escaneie os códigos de barras</h2>
-          <p className="text-gray-600">
-            Clique no botão abaixo para escanear o código de barras do chip e ativar sua linha.
-          </p>
-          
-          <div className="space-y-3">
-            {selectedLines.map((line, index) => (
-              <div key={line.id} className="flex flex-col p-4 border rounded-lg space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <p className="font-medium">{line.internet} - {line.type}</p>
-                    <p className="text-sm text-gray-600">
-                      Valor: R$ {line.price?.toFixed(2)}
-                    </p>
-                    {line.orderData && (
-                      <p className="text-sm text-blue-600">
-                        Protocolo: {line.orderData.id}
-                      </p>
-                    )}
-                    {line.ddd && (
-                      <p className="text-sm text-green-600">DDD Selecionado: {line.ddd}</p>
-                    )}
-                    {line.barcode && (
-                      <p className="text-sm text-green-600">✓ Código: {line.barcode}</p>
-                    )}
-                  </div>
-                  <button
-                    onClick={() => onStartScanning(index)}
-                    className={`px-4 py-2 rounded text-sm font-medium ${
-                      line.barcode 
-                        ? 'bg-green-100 text-green-700 cursor-default' 
-                        : 'bg-[#8425af] text-white hover:bg-[#6c1e8f]'
-                    }`}
-                    disabled={!!line.barcode}
-                  >
-                    {line.barcode ? 'Escaneado' : 'Escanear Código'}
-                  </button>
-                </div>
-                
-                {/* Campo para DDD após escanear */}
-                {line.barcode && (
-                  <div className="pt-3 border-t">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      DDD (opcional - deixe em branco para usar o selecionado):
-                    </label>
-                    <input
-                      type="text"
-                      placeholder={`DDD atual: ${line.ddd || 'Não selecionado'}`}
-                      maxLength={2}
-                      className="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8425af] text-center"
-                      onChange={(e) => {
-                        if (onUpdateDDD) {
-                          // Se campo estiver vazio, manter o DDD original, senão usar o novo
-                          const newDDD = e.target.value.trim() || line.ddd || '';
-                          onUpdateDDD(index, newDDD);
-                        }
-                      }}
-                    />
-                    <p className="text-xs text-gray-500 mt-1">
-                      DDD que será usado: {line.ddd || 'Não definido'}
-                    </p>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-        
+        <BarcodeScannerComponent
+          selectedLines={selectedLines}
+          onStartScanning={onStartScanning}
+        />
         <NavigationButtons 
           onBack={onBack} 
           onContinue={onContinue} 

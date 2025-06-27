@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { validatePartialCPF } from "@/utils/validation/cpfValidation";
 import { Lock } from 'lucide-react';
-import { useNavigate } from "react-router-dom";
 
 interface CpfVerificationStepProps {
   onNext: () => void;
@@ -17,7 +16,6 @@ export const CpfVerificationStep = ({
   const [cpfDigits, setCpfDigits] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,10 +46,6 @@ export const CpfVerificationStep = ({
     }
   };
 
-  const handleTermsClick = () => {
-    navigate("/client/profile/terms");
-  };
-
   return (
     <div className="bg-white text-gray-800 flex flex-col ">
       <div className="flex-1 flex items-start justify-center p-6" style={{ paddingTop: '-8px' }}>
@@ -60,8 +54,6 @@ export const CpfVerificationStep = ({
             Olá, verificamos que você está realizando a
             <br />
             consulta/contratação dos nossos serviços SmartVoz.
-            <br />
-            Vamos tirar uma foto do seu rosto pra sua segurança.
             <br />
             Para dar continuidade precisamos realizar a sua biometria.
           </h2>
@@ -106,17 +98,6 @@ export const CpfVerificationStep = ({
             </div>
           </div>
         </div>
-        <p className="text-sm text-gray-600 text-center pb-2">
-          Ao continuar, você aceita nossos{' '}
-          <button 
-            onClick={handleTermsClick}
-            className="underline font-medium"
-            style={{ color: '#2400ff' }}
-            type="button"
-          >
-            termos de uso
-          </button>
-        </p>
         <Button 
           onClick={handleSubmit} 
           disabled={isLoading || cpfDigits.length < 5} 

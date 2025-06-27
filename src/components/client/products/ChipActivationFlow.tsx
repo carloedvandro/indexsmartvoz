@@ -10,9 +10,6 @@ export type Line = {
   ddd: string;
   price: number;
   barcode?: string;
-  planId?: string;
-  planName?: string;
-  orderData?: any;
 };
 
 interface ChipActivationFlowProps {
@@ -24,7 +21,6 @@ interface ChipActivationFlowProps {
   onStartScanning: (index: number) => void;
   onUpdateBarcode: (index: number, barcode: string) => void;
   onScanningClose: () => void;
-  onUpdateDDD?: (index: number, ddd: string) => void;
 }
 
 export function ChipActivationFlow({
@@ -36,7 +32,6 @@ export function ChipActivationFlow({
   onStartScanning,
   onUpdateBarcode,
   onScanningClose,
-  onUpdateDDD,
 }: ChipActivationFlowProps) {
   // Verifica se todos os códigos de barras foram escaneados
   const allBarcodesScanned = selectedLines.every(line => line.barcode);
@@ -45,7 +40,7 @@ export function ChipActivationFlow({
     <>
       <ScanningAnimationStyle />
       
-      {/* Logo fixada no topo - navbar simples */}
+      {/* Logo fixada no topo */}
       <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50 shadow-sm">
         <div className="flex items-center justify-center">
           <img
@@ -72,7 +67,6 @@ export function ChipActivationFlow({
               onBack={onBack}
               onContinue={onContinue}
               onStartScanning={onStartScanning}
-              onUpdateDDD={onUpdateDDD}
             />
           </div>
         </div>

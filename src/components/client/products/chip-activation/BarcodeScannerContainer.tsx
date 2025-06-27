@@ -1,5 +1,5 @@
 
-import { BarcodeScanner } from "./BarcodeScanner";
+import { BarcodeScanner } from "@/components/BarcodeScanner";
 
 interface BarcodeScannerContainerProps {
   scanningIndex: number | null;
