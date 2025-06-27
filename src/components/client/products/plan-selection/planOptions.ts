@@ -55,32 +55,3 @@ export const mapPlanValueToInternet = (value: number) => {
   console.log('🔍 Resultado do mapeamento:', result);
   return result;
 };
-
-// Função para obter o preço real de um plano do banco de dados
-export const getPlanPriceFromDatabase = (plansData: any[], gb: string): number => {
-  if (!plansData || plansData.length === 0) return 0;
-  
-  const matchingPlan = plansData.find(plan => {
-    const gbMatch = plan.title.match(/(\d+)GB/);
-    const planGb = gbMatch ? `${gbMatch[1]}GB` : plan.title;
-    return planGb === gb;
-  });
-  
-  return matchingPlan ? matchingPlan.value : 0;
-};
-
-// Função para obter o nome do plano COM o GB incluído
-export const getPlanName = (gb: string) => {
-  switch (gb) {
-    case "80GB":
-      return "Plano Basic 80GB";
-    case "100GB":
-      return "Plano Prime 100GB";
-    case "120GB":
-      return "Plano Premium 120GB";
-    case "140GB":
-      return "Plano Gold 140GB";
-    default:
-      return "Plano Smartvoz";
-  }
-};

@@ -27,19 +27,17 @@ export default function ClientRegister() {
 
   return (
     <div className="min-h-screen w-full">
-      {/* Header com logotipo */}
-      <header className="w-full py-6 px-4">
-        <div className="flex justify-center">
-          <img 
-            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
-            alt="Smartvoz Logo" 
-            className="h-[100px] object-contain mix-blend-multiply opacity-90 contrast-125"
-          />
-        </div>
-      </header>
-
-      <div className="flex flex-col justify-center items-center min-h-[calc(100vh-200px)] py-10 px-5 sm:px-4">
-        <div className="w-full max-w-[400px]">
+      <div className="flex flex-col justify-center items-center min-h-screen py-10 px-5 sm:px-4 -mt-14">
+        <div className="w-full max-w-[400px] mt-4">
+          <div className="flex flex-col items-center mb-2 -mt-5">
+            <div className="flex justify-center">
+              <img 
+                src="/lovable-uploads/5bded3e2-dd4c-4996-9027-b3a0abbb766c.png" 
+                alt="Smartvoz" 
+                className="w-auto h-[90px] object-contain"
+              />
+            </div>
+          </div>
           <RegisterFormContainer />
         </div>
       </div>

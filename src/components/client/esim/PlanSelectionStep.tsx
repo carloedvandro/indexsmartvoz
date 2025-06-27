@@ -105,12 +105,6 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   // Fix: The button should only be enabled when all three fields are filled
   const isDisabled = !selectedInternet || !selectedDDD || !selectedDueDate;
 
-  // Create internetOptions with id property for eSIM component compatibility
-  const internetOptionsWithId = internetOptions.map((option, index) => ({
-    ...option,
-    id: `esim-plan-${index}`
-  }));
-
   return (
     <div className="max-w-[379px] mx-auto w-full" style={{ marginTop: "24px" }}>
       <div className="space-y-6">
@@ -122,7 +116,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             setSelectedInternet={setSelectedInternet}
             selectedDDD={selectedDDD}
             setSelectedDDD={setSelectedDDD}
-            internetOptions={internetOptionsWithId}
+            internetOptions={internetOptions}
           />
 
           <div className="w-full max-w-[340px] mx-auto">
