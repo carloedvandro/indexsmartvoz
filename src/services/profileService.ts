@@ -45,35 +45,21 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
       return null;
     }
 
-    // Buscar dados de endereço da tabela user_addresses usando fallback methods
+    // Buscar dados de endereço da tabela user_addresses
     let addressData: UserAddress | null = null;
     
     try {
-      // Try using RPC first
-      const { data: rpcAddressData, error: rpcError } = await supabase
-        .rpc('get_user_address', { p_user_id: userId })
+      const { data: directAddressData, error: directError } = await supabase
+        .from("user_addresses" as any)
+        .select("*")
+        .eq("user_id", userId)
         .single();
-      
-      if (!rpcError && rpcAddressData) {
-        addressData = rpcAddressData;
-      }
-    } catch (rpcError) {
-      console.log("RPC method failed, trying direct table access");
-      
-      try {
-        // Fallback to direct table access
-        const { data: directAddressData, error: directError } = await supabase
-          .from("user_addresses" as any)
-          .select("*")
-          .eq("user_id", userId)
-          .single();
 
-        if (!directError && directAddressData) {
-          addressData = directAddressData;
-        }
-      } catch (directError) {
-        console.log("Direct table access also failed, address data will be null");
+      if (!directError && directAddressData) {
+        addressData = directAddressData;
       }
+    } catch (directError) {
+      console.log("Direct table access failed, address data will be null");
     }
 
     console.log("Fetched complete profile data:", profileData);

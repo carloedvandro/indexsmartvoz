@@ -79,29 +79,19 @@ export class AsaasPaymentService {
         throw new Error('Erro ao buscar perfil do usuário');
       }
 
-      // Get user address using RPC function or fallback
+      // Get user address using direct table access
       let addressData = null;
       
       try {
-        const { data: rpcAddressData } = await supabase
-          .rpc('get_user_address', { p_user_id: paymentData.userId })
+        const { data: directAddressData } = await supabase
+          .from("user_addresses" as any)
+          .select("*")
+          .eq("user_id", paymentData.userId)
           .single();
         
-        addressData = rpcAddressData;
-      } catch (rpcError) {
-        console.log("RPC failed, trying direct access");
-        
-        try {
-          const { data: directAddressData } = await supabase
-            .from("user_addresses" as any)
-            .select("*")
-            .eq("user_id", paymentData.userId)
-            .single();
-          
-          addressData = directAddressData;
-        } catch (directError) {
-          console.log("Direct access also failed, proceeding without address");
-        }
+        addressData = directAddressData;
+      } catch (directError) {
+        console.log("Direct access failed, proceeding without address");
       }
 
       // Create customer in Asaas
@@ -159,3 +149,22 @@ export class AsaasPaymentService {
     }
   }
 }
+
+// Hook function that was missing
+export const useAsaasPayment = () => {
+  // This is a placeholder - you'll need to implement the actual hook logic
+  const iniciarCobrancaAsaas = async (
+    selectedLines: any[],
+    selectedDueDate: number | null,
+    acceptedTerms: boolean,
+    setIsAsaasProcessing: (processing: boolean) => void
+  ) => {
+    console.log("iniciarCobrancaAsaas called with:", { selectedLines, selectedDueDate, acceptedTerms });
+    // Implementation needed based on your specific requirements
+    return true;
+  };
+
+  return {
+    iniciarCobrancaAsaas
+  };
+};

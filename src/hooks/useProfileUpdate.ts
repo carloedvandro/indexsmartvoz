@@ -57,7 +57,7 @@ export const useProfileUpdate = () => {
 
     console.log("Profile table updated successfully");
 
-    // Atualizar ou inserir endereço na tabela user_addresses usando RPC ou direct query
+    // Atualizar ou inserir endereço na tabela user_addresses
     const addressData = {
       user_id: profileId,
       cep: removeMask(updateData.zip_code),
@@ -73,94 +73,42 @@ export const useProfileUpdate = () => {
     console.log("Updating address with data:", addressData);
 
     try {
-      // Verificar se já existe um endereço para este usuário usando query raw
-      const { data: existingAddress, error: checkError } = await supabase
-        .rpc('get_user_address', { p_user_id: profileId })
+      // Check if address exists
+      const { data: existingAddress } = await supabase
+        .from("user_addresses" as any)
+        .select("id")
+        .eq("user_id", profileId)
         .single();
 
-      if (checkError && checkError.code !== 'PGRST116') {
-        console.log("Address doesn't exist, will create new one");
-      }
-
       if (existingAddress) {
-        // Atualizar endereço existente usando RPC
+        // Update existing address
         const { error: addressError } = await supabase
-          .rpc('update_user_address', {
-            p_user_id: profileId,
-            p_cep: addressData.cep,
-            p_street: addressData.street,
-            p_number: addressData.number,
-            p_neighborhood: addressData.neighborhood,
-            p_city: addressData.city,
-            p_state: addressData.state,
-            p_complement: addressData.complement
-          });
+          .from("user_addresses" as any)
+          .update(addressData)
+          .eq("user_id", profileId);
 
         if (addressError) {
-          console.error("Error updating address:", addressError);
           throw new Error(`Erro ao atualizar endereço: ${addressError.message}`);
         }
         console.log("Address updated successfully");
       } else {
-        // Inserir novo endereço usando RPC
+        // Insert new address
         const { error: addressError } = await supabase
-          .rpc('create_user_address', {
-            p_user_id: profileId,
-            p_cep: addressData.cep,
-            p_street: addressData.street,
-            p_number: addressData.number,
-            p_neighborhood: addressData.neighborhood,
-            p_city: addressData.city,
-            p_state: addressData.state,
-            p_complement: addressData.complement
+          .from("user_addresses" as any)
+          .insert({
+            ...addressData,
+            created_at: new Date().toISOString()
           });
 
         if (addressError) {
-          console.error("Error inserting address:", addressError);
           throw new Error(`Erro ao inserir endereço: ${addressError.message}`);
         }
         console.log("Address inserted successfully");
       }
     } catch (error) {
-      // Fallback: try using direct table access (will work if types are updated)
-      console.log("Trying fallback method for address operations");
-      
-      try {
-        // Check if address exists
-        const { data: existingAddress } = await supabase
-          .from("user_addresses" as any)
-          .select("id")
-          .eq("user_id", profileId)
-          .single();
-
-        if (existingAddress) {
-          // Update existing address
-          const { error: addressError } = await supabase
-            .from("user_addresses" as any)
-            .update(addressData)
-            .eq("user_id", profileId);
-
-          if (addressError) {
-            throw new Error(`Erro ao atualizar endereço: ${addressError.message}`);
-          }
-        } else {
-          // Insert new address
-          const { error: addressError } = await supabase
-            .from("user_addresses" as any)
-            .insert({
-              ...addressData,
-              created_at: new Date().toISOString()
-            });
-
-          if (addressError) {
-            throw new Error(`Erro ao inserir endereço: ${addressError.message}`);
-          }
-        }
-      } catch (fallbackError) {
-        console.error("Fallback method also failed:", fallbackError);
-        // Don't throw error for address operations to prevent profile update failure
-        console.warn("Address update failed, but profile was updated successfully");
-      }
+      console.error("Address operation failed:", error);
+      // Don't throw error for address operations to prevent profile update failure
+      console.warn("Address update failed, but profile was updated successfully");
     }
   };
 
