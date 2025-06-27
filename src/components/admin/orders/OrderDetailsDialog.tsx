@@ -40,6 +40,10 @@ export function OrderDetailsDialog({ order, open, onOpenChange }: OrderDetailsDi
         return 'default';
       case 'pending':
         return 'secondary';
+      case 'paid':
+        return 'outline';
+      case 'chip_activation':
+        return 'secondary';
       case 'rejected':
         return 'destructive';
       case 'cancelled':
@@ -55,12 +59,29 @@ export function OrderDetailsDialog({ order, open, onOpenChange }: OrderDetailsDi
         return 'Confirmado';
       case 'pending':
         return 'Pendente';
+      case 'paid':
+        return 'Pago';
+      case 'chip_activation':
+        return 'Ativação de Chip';
       case 'rejected':
         return 'Rejeitado';
       case 'cancelled':
         return 'Cancelado';
       default:
         return status;
+    }
+  };
+
+  const getPaymentMethodLabel = (method: string) => {
+    switch (method) {
+      case 'pix':
+        return 'PIX';
+      case 'card':
+        return 'Cartão';
+      case 'boleto':
+        return 'Boleto';
+      default:
+        return method || 'Não informado';
     }
   };
 
@@ -140,15 +161,27 @@ export function OrderDetailsDialog({ order, open, onOpenChange }: OrderDetailsDi
             </div>
           </div>
 
-          {/* Valor Total */}
+          {/* Informações de Pagamento */}
           <div className="space-y-4 border-t pt-4">
-            <h3 className="text-lg font-semibold">Resumo Financeiro</h3>
-            <div>
-              <label className="text-sm font-medium text-gray-600">Valor Total</label>
-              <p className="mt-1 text-xl font-bold text-green-600">
-                {formatCurrency(order.total_amount || order.plan?.value || 0)}
-              </p>
+            <h3 className="text-lg font-semibold">Informações de Pagamento</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium text-gray-600">Método de Pagamento</label>
+                <p className="mt-1 font-medium">{getPaymentMethodLabel(order.payment_method)}</p>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-gray-600">Valor Total</label>
+                <p className="mt-1 text-xl font-bold text-green-600">
+                  {formatCurrency(order.total_amount || order.plan?.value || 0)}
+                </p>
+              </div>
             </div>
+            {order.asaas_payment_id && (
+              <div>
+                <label className="text-sm font-medium text-gray-600">ID Pagamento Asaas</label>
+                <p className="mt-1 text-xs text-gray-500 font-mono">{order.asaas_payment_id}</p>
+              </div>
+            )}
           </div>
 
           {/* Notas */}

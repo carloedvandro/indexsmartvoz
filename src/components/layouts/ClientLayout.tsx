@@ -1,9 +1,10 @@
 
 import { ReactNode } from "react";
+import { Outlet } from "react-router-dom";
 import { BalanceBar } from "@/components/client/dashboard/BalanceBar";
 
 interface ClientLayoutProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export const ClientLayout = ({ children }: ClientLayoutProps) => {
@@ -12,7 +13,7 @@ export const ClientLayout = ({ children }: ClientLayoutProps) => {
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <BalanceBar />
         <div className="flex-1 overflow-y-auto scrollbar-hide">
-          {children}
+          {children || <Outlet />}
         </div>
       </main>
     </div>

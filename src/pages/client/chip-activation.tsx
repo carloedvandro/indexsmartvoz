@@ -4,69 +4,257 @@ import { useNavigate } from "react-router-dom";
 import { ChipActivationFlow } from "@/components/client/products/ChipActivationFlow";
 import { SuccessScreen } from "@/components/client/products/SuccessScreen";
 import { useToast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function ChipActivation() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [currentStep, setCurrentStep] = useState(5); // Start at chip activation step
+  const [currentStep, setCurrentStep] = useState(4); // Start at chip instructions step
   const [selectedLines, setSelectedLines] = useState<any[]>([]);
   const [protocol, setProtocol] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [scanningIndex, setScanningIndex] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [orderData, setOrderData] = useState<any>(null);
 
   useEffect(() => {
-    // Load order data from localStorage
-    const orderData = localStorage.getItem('orderData');
-    if (orderData) {
-      const order = JSON.parse(orderData);
-      setSelectedLines(order.selectedLines);
-      setProtocol(order.protocol);
-    } else {
+    loadOrderData();
+  }, []);
+
+  const loadOrderData = async () => {
+    try {
+      // Primeiro tentar carregar do localStorage
+      const storedOrderData = localStorage.getItem('orderData');
+      const storedPlan = localStorage.getItem('selectedPlan');
+      console.log('🔍 [CHIP-ACTIVATION] Verificando orderData:', storedOrderData);
+      console.log('🔍 [CHIP-ACTIVATION] Verificando selectedPlan:', storedPlan);
+      
+      if (storedOrderData) {
+        const order = JSON.parse(storedOrderData);
+        console.log('📋 [CHIP-ACTIVATION] Order do localStorage:', order);
+        setOrderData(order);
+        await loadOrderFromDatabase(order.orderId || order.protocol);
+      } else {
+        // Se não tiver no localStorage, buscar o pedido mais recente do usuário
+        await loadLatestOrder();
+      }
+    } catch (error) {
+      console.error('❌ [CHIP-ACTIVATION] Erro ao carregar orderData:', error);
+      await loadLatestOrder();
+    }
+  };
+
+  const loadOrderFromDatabase = async (orderId: string) => {
+    try {
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      
+      if (userError || !user) {
+        console.error('❌ [CHIP-ACTIVATION] Usuário não autenticado:', userError);
+        navigate("/client/login");
+        return;
+      }
+
+      // Buscar o pedido específico
+      const { data: order, error: orderError } = await supabase
+        .from('orders')
+        .select(`
+          *,
+          plans(
+            id,
+            title,
+            description,
+            value
+          )
+        `)
+        .eq('id', orderId)
+        .eq('user_id', user.id)
+        .single();
+
+      if (orderError) {
+        console.error('❌ [CHIP-ACTIVATION] Erro ao buscar order:', orderError);
+        await loadLatestOrder();
+        return;
+      }
+
+      if (order) {
+        console.log('📋 [CHIP-ACTIVATION] Order encontrada no banco:', order);
+        
+        // Recuperar DDD do plano selecionado (localStorage ou notes do pedido)
+        let dddFromPlan = '';
+        try {
+          const storedPlan = localStorage.getItem('selectedPlan');
+          if (storedPlan) {
+            const planData = JSON.parse(storedPlan);
+            dddFromPlan = planData.ddd || '';
+            console.log('📱 [CHIP-ACTIVATION] DDD recuperado do localStorage:', dddFromPlan);
+          }
+          
+          // Se não tem no localStorage, tentar extrair do notes
+          if (!dddFromPlan && order.notes) {
+            const dddMatch = order.notes.match(/DDD:\s*(\d+)/i);
+            if (dddMatch) {
+              dddFromPlan = dddMatch[1];
+              console.log('📱 [CHIP-ACTIVATION] DDD recuperado das notes:', dddFromPlan);
+            }
+          }
+        } catch (error) {
+          console.log('⚠️ [CHIP-ACTIVATION] Erro ao obter DDD:', error);
+        }
+        
+        // Criar linha baseada nos dados reais do pedido com DDD já preenchido
+        const line = {
+          id: 1,
+          internet: order.plans?.title || "Plano eSIM",
+          type: "eSIM",
+          ddd: dddFromPlan, // DDD já definido, não precisa solicitar novamente
+          price: order.plans?.value || order.total_amount || 0,
+          planId: order.plan_id,
+          planName: order.plans?.title,
+          orderData: order // Manter referência aos dados completos
+        };
+        
+        setSelectedLines([line]);
+        setProtocol(order.id);
+        setOrderData(order);
+        setLoading(false);
+        
+        console.log('✅ [CHIP-ACTIVATION] Linha configurada com DDD:', line);
+      } else {
+        await loadLatestOrder();
+      }
+    } catch (error) {
+      console.error('💥 [CHIP-ACTIVATION] Erro ao carregar order do banco:', error);
+      await loadLatestOrder();
+    }
+  };
+
+  const loadLatestOrder = async () => {
+    try {
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      
+      if (userError || !user) {
+        console.error('❌ [CHIP-ACTIVATION] Usuário não autenticado:', userError);
+        toast({
+          title: "Erro",
+          description: "Usuário não autenticado. Redirecionando...",
+          variant: "destructive"
+        });
+        navigate("/client/login");
+        return;
+      }
+
+      console.log('👤 [CHIP-ACTIVATION] Usuário autenticado:', user.id);
+
+      // Buscar o pedido pago mais recente
+      const { data: orders, error: orderError } = await supabase
+        .from('orders')
+        .select(`
+          *,
+          plans(
+            id,
+            title,
+            description,
+            value
+          )
+        `)
+        .eq('user_id', user.id)
+        .eq('status', 'paid')
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      if (orderError) {
+        console.error('❌ [CHIP-ACTIVATION] Erro ao buscar orders:', orderError);
+        throw orderError;
+      }
+
+      if (orders && orders.length > 0) {
+        const latestOrder = orders[0];
+        console.log('📋 [CHIP-ACTIVATION] Latest order encontrada:', latestOrder);
+        
+        // Tentar recuperar DDD das notes do pedido
+        let dddFromOrder = '';
+        if (latestOrder.notes) {
+          const dddMatch = latestOrder.notes.match(/DDD:\s*(\d+)/i);
+          if (dddMatch) {
+            dddFromOrder = dddMatch[1];
+            console.log('📱 [CHIP-ACTIVATION] DDD recuperado das notes do pedido:', dddFromOrder);
+          }
+        }
+        
+        const line = {
+          id: 1,
+          internet: latestOrder.plans?.title || "Plano eSIM",
+          type: "eSIM", 
+          ddd: dddFromOrder, // DDD recuperado do pedido
+          price: latestOrder.plans?.value || latestOrder.total_amount || 0,
+          planId: latestOrder.plan_id,
+          planName: latestOrder.plans?.title,
+          orderData: latestOrder
+        };
+        
+        setSelectedLines([line]);
+        setProtocol(latestOrder.id);
+        setOrderData(latestOrder);
+        setLoading(false);
+      } else {
+        console.warn('⚠️ [CHIP-ACTIVATION] Nenhuma order paga encontrada');
+        toast({
+          title: "Erro",
+          description: "Nenhum pedido encontrado. Redirecionando para produtos...",
+          variant: "destructive"
+        });
+        navigate("/client/products");
+      }
+    } catch (error) {
+      console.error('💥 [CHIP-ACTIVATION] Erro ao carregar latest order:', error);
       toast({
         title: "Erro",
-        description: "Dados do pedido não encontrados. Redirecionando...",
+        description: "Erro ao carregar dados do pedido. Redirecionando...",
         variant: "destructive"
       });
-      navigate("/client/checkout");
+      navigate("/client/products");
     }
-  }, [navigate]);
+  };
 
-  const createOrderRecord = async (orderData: any, barcodes: string[]) => {
+  const createOrderRecord = async (barcodes: string[]) => {
     try {
       const { data: session } = await supabase.auth.getSession();
       if (!session.session?.user) {
         throw new Error('Usuário não autenticado');
       }
 
-      // Buscar o plano selecionado para obter o plan_id
-      const selectedPlan = JSON.parse(localStorage.getItem('selectedPlan') || '{}');
+      console.log('💾 [CHIP-ACTIVATION] Salvando códigos escaneados:', barcodes);
+      console.log('💾 [CHIP-ACTIVATION] Protocol usado:', protocol);
       
-      // Criar o registro de contratação com os códigos escaneados
-      const { data: order, error } = await supabase
+      // Preparar notas com os códigos escaneados e DDD
+      const lineWithBarcode = selectedLines[0];
+      const notesText = `${lineWithBarcode?.planName || 'Plano eSIM'} - DDD: ${lineWithBarcode?.ddd || 'Não informado'} - Códigos escaneados: ${barcodes.join(', ')} - Ativação solicitada em ${new Date().toISOString()}`;
+      
+      // Atualizar o pedido existente
+      console.log('📝 [CHIP-ACTIVATION] Atualizando order:', protocol);
+      
+      const { data: updatedOrder, error: updateError } = await supabase
         .from('orders')
-        .insert({
-          user_id: session.session.user.id,
-          plan_id: selectedPlan.id,
-          total_amount: orderData.total,
-          status: 'pending',
-          notes: `Pagamento via ${orderData.paymentMethod === 'pix' ? 'PIX' : 'Cartão'} - Vencimento dia ${orderData.selectedDueDate} - Códigos escaneados: ${barcodes.join(', ')}`
+        .update({
+          notes: notesText,
+          status: 'chip_activation'
         })
+        .eq('id', protocol)
         .select()
         .single();
 
-      if (error) throw error;
+      if (updateError) {
+        console.error('❌ [CHIP-ACTIVATION] Erro ao atualizar order:', updateError);
+        throw updateError;
+      }
 
-      console.log('Registro de contratação criado com códigos escaneados:', order);
-      
-      return order;
+      console.log('✅ [CHIP-ACTIVATION] Order atualizada com códigos:', updatedOrder);
+      return updatedOrder;
     } catch (error) {
-      console.error('Erro ao criar registro de contratação:', error);
+      console.error('❌ [CHIP-ACTIVATION] Erro ao processar:', error);
       toast({
-        title: "Erro",
-        description: "Erro ao processar contratação. Tente novamente.",
+        title: "Erro ao processar solicitação",
+        description: error instanceof Error ? error.message : "Erro desconhecido. Tente novamente.",
         variant: "destructive"
       });
       throw error;
@@ -74,44 +262,57 @@ export default function ChipActivation() {
   };
 
   const handleContinue = async () => {
-    if (currentStep === 5) {
-      setCurrentStep(6);
-    } else if (currentStep === 6) {
-      // Verificar se todos os códigos foram escaneados
-      const allBarcodesScanned = selectedLines.every(line => line.barcode);
-      
-      if (!allBarcodesScanned) {
-        toast({
-          title: "Erro",
-          description: "Todos os códigos de barras devem ser escaneados antes de continuar.",
-          variant: "destructive"
-        });
-        return;
-      }
+    console.log('🔄 [CHIP-ACTIVATION] handleContinue - currentStep:', currentStep);
+    console.log('📋 [CHIP-ACTIVATION] selectedLines:', selectedLines);
 
-      try {
-        // Obter dados do pedido do localStorage
-        const orderData = JSON.parse(localStorage.getItem('orderData') || '{}');
-        const barcodes = selectedLines.map(line => line.barcode).filter(Boolean);
+    try {
+      if (currentStep === 4) {
+        setCurrentStep(5);
+      } else if (currentStep === 5) {
+        setCurrentStep(6);
+      } else if (currentStep === 6) {
+        // Verificar se todos os códigos foram escaneados
+        const allBarcodesScanned = selectedLines.every(line => line.barcode && line.barcode.length > 0);
         
-        // Criar o registro de contratação com os códigos escaneados
-        await createOrderRecord(orderData, barcodes);
+        console.log('🔍 [CHIP-ACTIVATION] Verificando códigos escaneados:', {
+          selectedLines,
+          allBarcodesScanned,
+          barcodes: selectedLines.map(line => line.barcode)
+        });
+
+        if (!allBarcodesScanned) {
+          toast({
+            title: "Atenção",
+            description: "Por favor, escaneie o código de barras antes de continuar.",
+            variant: "destructive"
+          });
+          return;
+        }
+
+        const barcodes = selectedLines.map(line => line.barcode).filter(Boolean);
+        console.log('📄 [CHIP-ACTIVATION] Processando códigos:', barcodes);
+        
+        // Atualizar o pedido com códigos escaneados
+        await createOrderRecord(barcodes);
         
         toast({
           title: "Sucesso!",
-          description: "Solicitação de contratação enviada para aprovação."
+          description: "Solicitação de ativação enviada para processamento.",
+          variant: "default"
         });
 
+        console.log('✅ [CHIP-ACTIVATION] Mostrando tela de confirmação');
         setShowConfirmation(true);
-      } catch (error) {
-        console.error('Erro ao processar contratação:', error);
       }
+    } catch (error) {
+      console.error('❌ [CHIP-ACTIVATION] Erro no handleContinue:', error);
+      // Error toast is already shown in createOrderRecord
     }
   };
 
   const handleBack = () => {
-    if (currentStep === 5) {
-      navigate("/client/checkout");
+    if (currentStep === 4) {
+      navigate("/client/payment-return");
     } else {
       setCurrentStep(currentStep - 1);
     }
@@ -120,19 +321,38 @@ export default function ChipActivation() {
   const handleUnderstand = () => {
     // Clear order data and navigate to dashboard
     localStorage.removeItem('orderData');
-    localStorage.removeItem('selectedPlan');
     navigate("/client/dashboard");
   };
 
   const handleUpdateBarcode = (index: number, barcode: string) => {
+    console.log('📱 [CHIP-ACTIVATION] Atualizando código:', { index, barcode });
+    
     const updatedLines = [...selectedLines];
     updatedLines[index] = {
       ...updatedLines[index],
       barcode
     };
     setSelectedLines(updatedLines);
+    
+    console.log('✅ [CHIP-ACTIVATION] Código atualizado:', updatedLines[index]);
   };
 
+  // Removida função handleUpdateDDD - não é mais necessária
+  // O DDD já vem definido dos dados do pedido
+
+  // Show loading while data is being loaded
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Carregando dados do pedido...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show success screen if confirmation is active
   if (showConfirmation) {
     return <SuccessScreen selectedLines={selectedLines} protocol={protocol} onUnderstand={handleUnderstand} showBarcodes={true} />;
   }
@@ -147,7 +367,8 @@ export default function ChipActivation() {
         onContinue={handleContinue} 
         onStartScanning={index => setScanningIndex(index)} 
         onUpdateBarcode={handleUpdateBarcode} 
-        onScanningClose={() => setScanningIndex(null)} 
+        onScanningClose={() => setScanningIndex(null)}
+        // Removido onUpdateDDD - não é mais necessário
       />
     </div>
   );

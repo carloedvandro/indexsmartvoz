@@ -1,55 +1,135 @@
 
-import { Button } from "@/components/ui/button";
-import { Line } from "../ChipActivationFlow";
-import { Info } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useZxing } from "react-zxing";
 
 interface BarcodeScannerProps {
-  selectedLines: Line[];
-  onStartScanning: (index: number) => void;
+  onResult: (result: string) => void;
+  onClose: () => void;
 }
 
-export function BarcodeScannerComponent({ selectedLines, onStartScanning }: BarcodeScannerProps) {
-  return (
-    <div className="flex flex-col items-center w-full max-w-[342px] mx-auto">
-      <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-2 w-full">
-        <Info size={16} className="text-blue-500 mt-0.5 flex-shrink-0" />
-        <p className="text-xs text-blue-700">
-          O código de barras do chip deve ter 20 dígitos e começar com 8955. Posicione o código no centro da câmera.
-        </p>
-      </div>
+export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [hasScanned, setHasScanned] = useState(false);
+  const [isScanning, setIsScanning] = useState(true);
+
+  const {
+    ref: videoRef,
+  } = useZxing({
+    onDecodeResult(result) {
+      const barcode = result.getText();
+      console.log("🔍 [BARCODE-SCANNER] Código detectado:", barcode);
       
-      <div className="space-y-4 w-full">
-        {selectedLines.map((line, index) => (
-          <div key={line.id} className="flex flex-col space-y-3 w-full">
-            <div className="p-6 border rounded-lg w-full">
-              <div className="flex flex-col space-y-4">
-                <p className="font-medium">Código de barras do SIM card</p>
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Linha: DDD {line.ddd}</p>
-                  <Button
-                    onClick={() => onStartScanning(index)}
-                    className="bg-[#8425af] hover:bg-[#6c1e8f] px-4 h-[42px] flex items-center"
-                  >
-                    {line.barcode ? 'Escanear novamente' : 'Escanear código'}
-                  </Button>
-                </div>
+      // Aceitar códigos de barras com diferentes formatos - relaxar validação
+      if (barcode.length >= 8 && /^\d+$/.test(barcode)) {
+        console.log("✅ [BARCODE-SCANNER] Código válido aceito:", barcode);
+        
+        // Toca o som de beep com volume máximo
+        const beepSound = audioRef.current;
+        if (beepSound) {
+          beepSound.volume = 1.0;
+          beepSound.currentTime = 0;
+          const playPromise = beepSound.play();
+          
+          if (playPromise !== undefined) {
+            playPromise.catch(error => {
+              console.error("Erro ao tocar o som:", error);
+            });
+          }
+        }
+        
+        setHasScanned(true);
+        setIsScanning(false);
+        onResult(barcode);
+        
+        // Pequeno delay antes de fechar
+        setTimeout(() => {
+          onClose();
+        }, 1000);
+      } else {
+        console.log("❌ [BARCODE-SCANNER] Código rejeitado:", { barcode, length: barcode.length, isNumeric: /^\d+$/.test(barcode) });
+      }
+    },
+    timeBetweenDecodingAttempts: 100,
+    constraints: {
+      video: {
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
+        facingMode: "environment"
+      }
+    },
+  });
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (overlayRef.current && !overlayRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [onClose]);
+
+  // Pre-carrega o som do beep
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.load();
+    }
+  }, []);
+
+  return (
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+      <audio ref={audioRef} src="/beep.mp3" preload="auto" />
+      <div ref={overlayRef} className="relative p-4">
+        <button
+          onClick={onClose}
+          className="absolute -top-2 -right-2 bg-white rounded-full p-1 shadow-lg z-10"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-5 h-5"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+
+        <div className="relative">
+          <video
+            ref={videoRef}
+            className="w-[354px] h-[200px] object-cover rounded-lg"
+          />
+          <div className="absolute inset-0 border-2 border-[#8425af] rounded-lg">
+            <div className="absolute top-0 left-0 right-0 bg-white/90 text-center py-2 rounded-t-lg font-medium text-sm">
+              {isScanning ? "Posicione o código de barras na área" : "Código detectado!"}
+            </div>
+          </div>
+          {isScanning && (
+            <div className="absolute left-0 right-0 h-1 bg-red-600 top-1/2 transform -translate-y-1/2 animate-pulse" 
+                 style={{ boxShadow: '0 0 8px rgba(255, 0, 0, 0.8)' }} />
+          )}
+          {hasScanned && (
+            <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center">
+              <div className="bg-green-500 text-white px-4 py-2 rounded font-medium">
+                ✓ Código Capturado
               </div>
             </div>
-            {line.barcode && (
-              <div className="py-3 w-full">
-                <p className="text-sm font-medium text-gray-700">Código escaneado:</p>
-                <div className="flex flex-col gap-2 mt-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-gray-700">ICCID:</span>
-                    <p className="text-sm font-mono p-2 border border-[#e2e8f0] rounded w-full">
-                      {line.barcode}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
+          )}
+        </div>
+        
+        <div className="mt-4 text-center text-white text-sm space-y-1">
+          <p>Mantenha o código de barras bem iluminado</p>
+          <p>e dentro da área de escaneamento</p>
+          <p className="text-yellow-200">Aceita códigos com 8+ dígitos numéricos</p>
+        </div>
       </div>
     </div>
   );

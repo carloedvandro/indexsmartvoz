@@ -1,63 +1,365 @@
 
-import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+}
 
-interface PaymentRequest {
-  // Dados básicos obrigatórios
+interface RequestData {
   name: string;
   email: string;
   value: number;
   dueDate: string;
-  
-  // Dados opcionais do cliente
+  planName: string;
+  userId: string;
   cpfCnpj?: string;
   phone?: string;
+  whatsapp?: string;
   address?: string;
   city?: string;
   state?: string;
   zipCode?: string;
-  birthDate?: string;
-  whatsapp?: string;
-  
-  // Dados do plano
-  planName?: string;
   planType?: string;
   planDdd?: string;
+  returnUrl?: string;
+  billingType?: string;
+}
+
+interface CustomerData {
+  name: string;
+  email: string;
+  cpfCnpj?: string;
+  phone?: string;
+  mobilePhone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+}
+
+interface ChargeData {
+  customer: string;
+  billingType: string;
+  value: number;
+  dueDate: string;
+  description: string;
+  externalReference: string;
+  callback?: {
+    successUrl: string;
+    autoRedirect: boolean;
+  };
+}
+
+/**
+ * Valida as variáveis de ambiente necessárias
+ */
+function validateEnvironmentVariables(): string {
+  const asaasApiKey = Deno.env.get('ASAAS_API_KEY');
+  if (!asaasApiKey) {
+    console.error('❌ [ASAAS-PAYMENT] ASAAS_API_KEY não configurada');
+    throw new Error('Chave da API do Asaas não configurada');
+  }
+  console.log('🔐 [ASAAS-PAYMENT] ASAAS_API_KEY configurada');
+  return asaasApiKey;
+}
+
+/**
+ * Valida dados de entrada
+ */
+function validateRequestData(requestData: RequestData): void {
+  if (!requestData.name || requestData.name.trim().length === 0) {
+    throw new Error('Nome é obrigatório');
+  }
+  if (!requestData.email || !requestData.email.includes('@')) {
+    throw new Error('Email válido é obrigatório');
+  }
+  if (!requestData.value || requestData.value <= 0) {
+    throw new Error('Valor deve ser maior que zero');
+  }
+  if (!requestData.dueDate) {
+    throw new Error('Data de vencimento é obrigatória');
+  }
+}
+
+/**
+ * Formata data para o padrão esperado pelo Asaas (YYYY-MM-DD)
+ */
+function formatDueDate(dateString: string): string {
+  try {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      // Se não for uma data válida, usar data futura padrão (3 dias)
+      const futureDate = new Date();
+      futureDate.setDate(futureDate.getDate() + 3);
+      return futureDate.toISOString().split('T')[0];
+    }
+    return date.toISOString().split('T')[0];
+  } catch (error) {
+    console.error('❌ [ASAAS-PAYMENT] Erro ao formatar data:', error);
+    // Fallback para 3 dias no futuro
+    const futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() + 3);
+    return futureDate.toISOString().split('T')[0];
+  }
+}
+
+/**
+ * Prepara os dados do cliente para o Asaas
+ */
+function prepareCustomerData(requestData: RequestData): CustomerData {
+  const customerData: CustomerData = {
+    name: requestData.name.trim(),
+    email: requestData.email.trim().toLowerCase(),
+  };
+
+  // Adicionar CPF/CNPJ se disponível (apenas números)
+  if (requestData.cpfCnpj) {
+    customerData.cpfCnpj = requestData.cpfCnpj.replace(/\D/g, '');
+  }
+
+  // Adicionar telefones se disponíveis (apenas números)
+  if (requestData.phone) {
+    customerData.phone = requestData.phone.replace(/\D/g, '');
+  }
+  if (requestData.whatsapp) {
+    customerData.mobilePhone = requestData.whatsapp.replace(/\D/g, '');
+  }
+
+  // Adicionar endereço se todos os campos obrigatórios estiverem presentes
+  if (requestData.address && requestData.city && requestData.state && requestData.zipCode) {
+    customerData.address = requestData.address.trim();
+    customerData.city = requestData.city.trim();
+    customerData.state = requestData.state.trim();
+    customerData.postalCode = requestData.zipCode.replace(/\D/g, '');
+  }
+
+  console.log('👤 [ASAAS-PAYMENT] Dados do cliente preparados:', {
+    name: customerData.name,
+    email: customerData.email,
+    hasCpf: !!customerData.cpfCnpj,
+    hasPhone: !!customerData.phone,
+    hasAddress: !!customerData.address
+  });
   
-  // Configuração
-  webhookUrl?: string;
+  return customerData;
+}
+
+/**
+ * Configura headers para requisições ao Asaas
+ */
+function getAsaasHeaders(apiKey: string): Record<string, string> {
+  return {
+    'Content-Type': 'application/json',
+    'access_token': apiKey,
+    'User-Agent': 'Smartvoz/1.0'
+  };
+}
+
+/**
+ * Função para fazer requisições com retry e melhor tratamento de erro
+ */
+async function fetchWithRetry(url: string, options: any, maxRetries = 3): Promise<Response> {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      console.log(`🔄 [ASAAS-PAYMENT] Tentativa ${i + 1} para ${url}`);
+      
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+      
+      const response = await fetch(url, {
+        ...options,
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
+      
+      // Se não for bem-sucedida, logar detalhes do erro
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`❌ [ASAAS-PAYMENT] Erro HTTP ${response.status}:`, errorText);
+        throw new Error(`HTTP ${response.status}: ${response.statusText} - ${errorText}`);
+      }
+      
+      return response;
+    } catch (error) {
+      console.error(`❌ [ASAAS-PAYMENT] Erro na tentativa ${i + 1}:`, error.message);
+      
+      if (i === maxRetries - 1) {
+        throw error;
+      }
+      
+      // Aguardar antes da próxima tentativa
+      await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
+    }
+  }
+  throw new Error('Máximo de tentativas excedido');
+}
+
+/**
+ * Busca ou cria cliente no Asaas
+ */
+async function getOrCreateCustomer(customerData: CustomerData, headers: Record<string, string>): Promise<string> {
+  try {
+    // Verificar se cliente já existe pelo email
+    console.log('🔍 [ASAAS-PAYMENT] Verificando cliente existente...');
+    const searchUrl = `https://sandbox.asaas.com/api/v3/customers?email=${encodeURIComponent(customerData.email)}`;
+    
+    const searchResponse = await fetchWithRetry(searchUrl, {
+      method: 'GET',
+      headers: headers
+    });
+
+    const searchResult = await searchResponse.json();
+    console.log('🔍 [ASAAS-PAYMENT] Resultado da busca:', { 
+      totalCount: searchResult.totalCount
+    });
+
+    if (searchResult.totalCount > 0 && searchResult.data?.length > 0) {
+      const customerId = searchResult.data[0].id;
+      console.log('✅ [ASAAS-PAYMENT] Cliente existente encontrado:', customerId);
+
+      // Atualizar dados do cliente existente
+      console.log('🔄 [ASAAS-PAYMENT] Atualizando cliente...');
+      await fetchWithRetry(`https://sandbox.asaas.com/api/v3/customers/${customerId}`, {
+        method: 'PUT',
+        headers: headers,
+        body: JSON.stringify(customerData)
+      });
+      
+      console.log('✅ [ASAAS-PAYMENT] Cliente atualizado');
+      return customerId;
+    } else {
+      // Criar novo cliente
+      console.log('👤 [ASAAS-PAYMENT] Criando novo cliente...');
+      const createResponse = await fetchWithRetry('https://sandbox.asaas.com/api/v3/customers', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(customerData)
+      });
+
+      const newCustomer = await createResponse.json();
+      
+      if (!newCustomer.id) {
+        console.error('❌ [ASAAS-PAYMENT] Resposta inválida ao criar cliente:', newCustomer);
+        throw new Error('Falha ao criar cliente no Asaas');
+      }
+      
+      const customerId = newCustomer.id;
+      console.log('✅ [ASAAS-PAYMENT] Novo cliente criado:', customerId);
+      return customerId;
+    }
+  } catch (error) {
+    console.error('❌ [ASAAS-PAYMENT] Erro ao gerenciar cliente:', error.message);
+    throw new Error('Erro ao criar/atualizar cliente no Asaas: ' + error.message);
+  }
+}
+
+/**
+ * Prepara dados da cobrança
+ */
+function prepareChargeData(requestData: RequestData, customerId: string): ChargeData {
+  const formattedDueDate = formatDueDate(requestData.dueDate);
   
-  // Metadados
-  userId?: string;
-  selectedDueDate?: number;
+  const chargeData: ChargeData = {
+    customer: customerId,
+    billingType: requestData.billingType || 'UNDEFINED', // Define como 'UNDEFINED' em texto para permitir todos os tipos
+    value: Number(requestData.value.toFixed(2)), // Garantir 2 casas decimais
+    dueDate: formattedDueDate,
+    description: `Plano ${requestData.planName || 'Smartvoz'} - ${requestData.planType || 'Telefonia'} (DDD ${requestData.planDdd || 'N/A'})`,
+    externalReference: `smartvoz_${requestData.userId || 'guest'}_${Date.now()}`
+  };
+
+  // Configurar callback de retorno automático APENAS se returnUrl for fornecida
+  if (requestData.returnUrl) {
+    chargeData.callback = {
+      successUrl: requestData.returnUrl,
+      autoRedirect: true
+    };
+    console.log('🔗 [ASAAS-PAYMENT] Callback configurado:', chargeData.callback);
+  } else {
+    console.log('⚠️ [ASAAS-PAYMENT] Nenhuma URL de retorno configurada - pagamento sem callback');
+  }
+  
+  console.log('💰 [ASAAS-PAYMENT] Dados da cobrança:', {
+    customer: chargeData.customer,
+    value: chargeData.value,
+    dueDate: chargeData.dueDate,
+    billingType: chargeData.billingType,
+    hasCallback: !!chargeData.callback
+  });
+  
+  return chargeData;
 }
 
-// Função para validar e limpar CPF/CNPJ
-function cleanDocument(doc: string): string {
-  return doc.replace(/[^\d]/g, '');
+/**
+ * Cria cobrança no Asaas
+ */
+async function createCharge(chargeData: ChargeData, headers: Record<string, string>): Promise<any> {
+  console.log('💰 [ASAAS-PAYMENT] Criando cobrança com billingType:', chargeData.billingType);
+
+  const chargeResponse = await fetchWithRetry('https://sandbox.asaas.com/api/v3/payments', {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(chargeData)
+  });
+
+  const charge = await chargeResponse.json();
+  
+  if (!charge.id) {
+    console.error('❌ [ASAAS-PAYMENT] Resposta inválida ao criar cobrança:', charge);
+    throw new Error('Falha ao criar cobrança no Asaas');
+  }
+  
+  console.log('✅ [ASAAS-PAYMENT] Cobrança criada:', {
+    id: charge.id,
+    status: charge.status,
+    value: charge.value,
+    billingType: charge.billingType,
+    callbackConfigured: !!charge.callback
+  });
+
+  return charge;
 }
 
-// Função para validar email
-function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
-// Função para validar telefone
-function cleanPhone(phone: string): string {
-  return phone.replace(/[^\d]/g, '');
+/**
+ * Processa erro e retorna resposta apropriada
+ */
+function handleError(error: Error): Response {
+  console.error('❌ [ASAAS-PAYMENT] Erro geral:', error);
+  
+  let errorMessage = 'Erro interno do servidor';
+  let statusCode = 500;
+  
+  if (error.message.includes('HTTP 400')) {
+    errorMessage = 'Dados inválidos enviados para o Asaas. Verifique os campos obrigatórios.';
+    statusCode = 400;
+  } else if (error.message.includes('HTTP 401')) {
+    errorMessage = 'Erro de autenticação com o Asaas. Verifique a API key.';
+    statusCode = 401;
+  } else if (error.message.includes('fetch')) {
+    errorMessage = 'Erro de conectividade com o Asaas. Tente novamente.';
+    statusCode = 503;
+  } else if (error.message.includes('timeout') || error.message.includes('AbortError')) {
+    errorMessage = 'Timeout na conexão com o Asaas. Tente novamente.';
+    statusCode = 504;
+  }
+  
+  return new Response(
+    JSON.stringify({ 
+      error: errorMessage,
+      details: error.message,
+      timestamp: new Date().toISOString()
+    }),
+    { 
+      status: statusCode,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    }
+  );
 }
 
 serve(async (req) => {
-  console.log('🚀 [ASAAS-PAYMENT] Função iniciada');
-  console.log('📋 [ASAAS-PAYMENT] Método:', req.method);
-  console.log('📋 [ASAAS-PAYMENT] Headers:', Object.fromEntries(req.headers.entries()));
-
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     console.log('✅ [ASAAS-PAYMENT] Respondendo CORS preflight');
@@ -65,381 +367,72 @@ serve(async (req) => {
   }
 
   try {
-    console.log('📋 [ASAAS-PAYMENT] Content-Type:', req.headers.get('content-type'));
-    
+    console.log('🚀 [ASAAS-PAYMENT] Função iniciada');
+    console.log('📋 [ASAAS-PAYMENT] Método:', req.method);
+
     const body = await req.text();
     console.log('📄 [ASAAS-PAYMENT] Body recebido (length):', body.length);
-    console.log('📄 [ASAAS-PAYMENT] Body recebido (preview):', body.substring(0, 500));
-    
-    const requestData: PaymentRequest = JSON.parse(body);
-    console.log('📋 [ASAAS-PAYMENT] Dados completos parseados:', {
+
+    if (!body || body.trim().length === 0) {
+      throw new Error('Body da requisição está vazio');
+    }
+
+    const requestData: RequestData = JSON.parse(body);
+    console.log('📋 [ASAAS-PAYMENT] Dados parseados:', {
       name: requestData.name,
       email: requestData.email,
       value: requestData.value,
       dueDate: requestData.dueDate,
-      hasCpf: !!requestData.cpfCnpj,
-      hasPhone: !!requestData.phone,
-      hasAddress: !!requestData.address,
-      hasWhatsapp: !!requestData.whatsapp,
       planName: requestData.planName,
-      planType: requestData.planType,
-      userId: requestData.userId
+      userId: requestData.userId,
+      returnUrl: requestData.returnUrl,
+      billingType: requestData.billingType || 'UNDEFINED (padrão)'
     });
 
-    // Verificar variáveis de ambiente
-    const ASAAS_API_KEY = Deno.env.get('ASAAS_API_KEY');
-    console.log('🔐 [ASAAS-PAYMENT] Variáveis de ambiente:');
-    console.log('  - ASAAS_API_KEY:', ASAAS_API_KEY ? `CONFIGURADA (${ASAAS_API_KEY.length} chars)` : 'AUSENTE');
+    // Validar dados de entrada
+    validateRequestData(requestData);
+
+    // Validar variáveis de ambiente
+    const asaasApiKey = validateEnvironmentVariables();
     
-    if (!ASAAS_API_KEY) {
-      console.error('❌ [ASAAS-PAYMENT] ASAAS_API_KEY não configurada');
-      return new Response(
-        JSON.stringify({ error: { message: 'Configuração do pagamento não encontrada' } }),
-        { 
-          status: 500, 
-          headers: { 'Content-Type': 'application/json', ...corsHeaders }
-        }
-      );
-    }
-
-    // Validar dados obrigatórios
-    if (!requestData.name || requestData.name.trim().length < 2) {
-      console.error('❌ [ASAAS-PAYMENT] Nome inválido:', requestData.name);
-      return new Response(
-        JSON.stringify({ error: { message: 'Nome deve ter pelo menos 2 caracteres' } }),
-        { 
-          status: 400, 
-          headers: { 'Content-Type': 'application/json', ...corsHeaders }
-        }
-      );
-    }
-
-    if (!requestData.email || !isValidEmail(requestData.email)) {
-      console.error('❌ [ASAAS-PAYMENT] Email inválido:', requestData.email);
-      return new Response(
-        JSON.stringify({ error: { message: 'Email inválido' } }),
-        { 
-          status: 400, 
-          headers: { 'Content-Type': 'application/json', ...corsHeaders }
-        }
-      );
-    }
-
-    // Preparar dados completos do cliente para o Asaas
-    console.log('👤 [ASAAS-PAYMENT] Preparando dados completos do cliente...');
+    // Preparar dados do cliente
+    const customerData = prepareCustomerData(requestData);
     
-    const customerData: any = {
-      name: requestData.name.trim(),
-      email: requestData.email.toLowerCase().trim()
-    };
-
-    // Adicionar CPF/CNPJ se fornecido e válido
-    if (requestData.cpfCnpj) {
-      const cleanedDoc = cleanDocument(requestData.cpfCnpj);
-      if (cleanedDoc.length === 11 || cleanedDoc.length === 14) {
-        customerData.cpfCnpj = cleanedDoc;
-        console.log('📄 [ASAAS-PAYMENT] CPF/CNPJ adicionado (length):', cleanedDoc.length);
-      } else {
-        console.log('⚠️ [ASAAS-PAYMENT] CPF/CNPJ inválido ignorado (length):', cleanedDoc.length);
-      }
-    }
-
-    // Adicionar telefone se fornecido e válido
-    if (requestData.phone) {
-      const cleanedPhone = cleanPhone(requestData.phone);
-      if (cleanedPhone.length >= 10 && cleanedPhone.length <= 11) {
-        customerData.phone = cleanedPhone;
-        console.log('📞 [ASAAS-PAYMENT] Telefone adicionado (length):', cleanedPhone.length);
-      } else {
-        console.log('⚠️ [ASAAS-PAYMENT] Telefone inválido ignorado (length):', cleanedPhone.length);
-      }
-    }
-
-    // Adicionar WhatsApp se fornecido
-    if (requestData.whatsapp) {
-      const cleanedWhatsapp = cleanPhone(requestData.whatsapp);
-      if (cleanedWhatsapp.length >= 10 && cleanedWhatsapp.length <= 11) {
-        customerData.mobilePhone = cleanedWhatsapp;
-        console.log('📱 [ASAAS-PAYMENT] WhatsApp adicionado (length):', cleanedWhatsapp.length);
-      }
-    }
-
-    // Adicionar endereço se fornecido
-    if (requestData.address && requestData.city && requestData.state) {
-      customerData.address = requestData.address;
-      customerData.city = requestData.city;
-      customerData.state = requestData.state;
-      if (requestData.zipCode) {
-        customerData.postalCode = cleanDocument(requestData.zipCode);
-      }
-      console.log('🏠 [ASAAS-PAYMENT] Endereço completo adicionado');
-    }
-
-    // Adicionar data de nascimento se fornecida
-    if (requestData.birthDate) {
-      customerData.birthDate = requestData.birthDate;
-      console.log('🎂 [ASAAS-PAYMENT] Data de nascimento adicionada');
-    }
-
-    console.log('👤 [ASAAS-PAYMENT] Dados completos do cliente preparados:', {
-      ...customerData,
-      cpfCnpj: customerData.cpfCnpj ? 'PRESENTE' : 'AUSENTE',
-      phone: customerData.phone ? 'PRESENTE' : 'AUSENTE',
-      mobilePhone: customerData.mobilePhone ? 'PRESENTE' : 'AUSENTE',
-      address: customerData.address ? 'PRESENTE' : 'AUSENTE'
-    });
-
-    // Headers corretos para requisições do Asaas
-    const asaasHeaders = {
-      'access_token': ASAAS_API_KEY,
-      'Content-Type': 'application/json',
-      'User-Agent': 'Smartvoz/1.0'
-    };
-
-    console.log('🔍 [ASAAS-PAYMENT] Headers preparados para Asaas');
-
-    // Primeiro, tentar buscar cliente existente por email
-    console.log('🔍 [ASAAS-PAYMENT] Verificando se cliente já existe...');
-    let customerId: string;
-
-    try {
-      const searchUrl = `https://www.asaas.com/api/v3/customers?email=${encodeURIComponent(customerData.email)}`;
-      console.log('🔍 [ASAAS-PAYMENT] URL de busca:', searchUrl);
-      
-      const searchResponse = await fetch(searchUrl, {
-        method: 'GET',
-        headers: asaasHeaders
-      });
-
-      console.log('🔍 [ASAAS-PAYMENT] Status da busca:', searchResponse.status);
-      console.log('🔍 [ASAAS-PAYMENT] Status text:', searchResponse.statusText);
-
-      if (searchResponse.ok) {
-        const searchResult = await searchResponse.json();
-        console.log('🔍 [ASAAS-PAYMENT] Resultado da busca:', {
-          totalCount: searchResult.totalCount,
-          hasData: !!searchResult.data,
-          dataLength: searchResult.data?.length || 0
-        });
-        
-        if (searchResult.data && searchResult.data.length > 0) {
-          customerId = searchResult.data[0].id;
-          console.log('✅ [ASAAS-PAYMENT] Cliente existente encontrado:', customerId);
-          
-          // Atualizar dados do cliente existente com informações mais completas
-          console.log('🔄 [ASAAS-PAYMENT] Atualizando dados do cliente existente...');
-          const updateResponse = await fetch(`https://www.asaas.com/api/v3/customers/${customerId}`, {
-            method: 'PUT',
-            headers: asaasHeaders,
-            body: JSON.stringify(customerData)
-          });
-          
-          if (updateResponse.ok) {
-            console.log('✅ [ASAAS-PAYMENT] Cliente atualizado com sucesso');
-          } else {
-            console.log('⚠️ [ASAAS-PAYMENT] Aviso: Não foi possível atualizar cliente');
-          }
-        } else {
-          // Cliente não existe, criar novo
-          console.log('👤 [ASAAS-PAYMENT] Criando novo cliente no Asaas...');
-          
-          const customerResponse = await fetch('https://www.asaas.com/api/v3/customers', {
-            method: 'POST',
-            headers: asaasHeaders,
-            body: JSON.stringify(customerData)
-          });
-
-          console.log('👤 [ASAAS-PAYMENT] Status da criação do cliente:', customerResponse.status);
-          console.log('👤 [ASAAS-PAYMENT] Status text:', customerResponse.statusText);
-          
-          if (customerResponse.ok) {
-            const customer = await customerResponse.json();
-            customerId = customer.id;
-            console.log('✅ [ASAAS-PAYMENT] Cliente criado com sucesso:', customerId);
-          } else {
-            const errorText = await customerResponse.text();
-            console.error('❌ [ASAAS-PAYMENT] Erro ao criar cliente:', errorText);
-            console.error('❌ [ASAAS-PAYMENT] Status:', customerResponse.status);
-            
-            return new Response(
-              JSON.stringify({ 
-                error: { 
-                  message: `Erro ao criar cliente no Asaas. Status: ${customerResponse.status}`,
-                  details: errorText,
-                  status_code: customerResponse.status
-                } 
-              }),
-              { 
-                status: 400, 
-                headers: { 'Content-Type': 'application/json', ...corsHeaders }
-              }
-            );
-          }
-        }
-      } else {
-        const searchErrorText = await searchResponse.text();
-        console.error('❌ [ASAAS-PAYMENT] Erro ao buscar cliente - Status:', searchResponse.status);
-        console.error('❌ [ASAAS-PAYMENT] Erro ao buscar cliente - Response:', searchErrorText);
-        
-        // Verificar se é erro de autenticação
-        if (searchResponse.status === 401) {
-          console.error('🔐 [ASAAS-PAYMENT] ERRO DE AUTENTICAÇÃO - API Key pode estar incorreta');
-          console.error('🔐 [ASAAS-PAYMENT] API Key format check:', {
-            starts_with_dollar: ASAAS_API_KEY.startsWith('$'),
-            length: ASAAS_API_KEY.length,
-            preview: ASAAS_API_KEY.substring(0, 10) + '...'
-          });
-        }
-        
-        return new Response(
-          JSON.stringify({ 
-            error: { 
-              message: `Erro de autenticação com Asaas. Verifique a API key. Status: ${searchResponse.status}`,
-              details: searchErrorText,
-              status_code: searchResponse.status,
-              debug_info: {
-                api_key_length: ASAAS_API_KEY.length,
-                api_key_format: ASAAS_API_KEY.startsWith('$') ? 'SANDBOX' : 'PRODUCTION'
-              }
-            } 
-          }),
-          { 
-            status: 401, 
-            headers: { 'Content-Type': 'application/json', ...corsHeaders }
-          }
-        );
-      }
-    } catch (searchError) {
-      console.error('❌ [ASAAS-PAYMENT] Exceção ao buscar/criar cliente:', searchError);
-      return new Response(
-        JSON.stringify({ 
-          error: { 
-            message: 'Erro de conexão com o Asaas',
-            details: searchError instanceof Error ? searchError.message : String(searchError)
-          } 
-        }),
-        { 
-          status: 500, 
-          headers: { 'Content-Type': 'application/json', ...corsHeaders }
-        }
-      );
-    }
-
-    // Criar cobrança com descrição detalhada
-    console.log('💰 [ASAAS-PAYMENT] Criando cobrança no Asaas...');
+    // Configurar headers
+    const asaasHeaders = getAsaasHeaders(asaasApiKey);
     
-    const description = requestData.planName && requestData.planType 
-      ? `Plano ${requestData.planName} - ${requestData.planType}${requestData.planDdd ? ` (DDD ${requestData.planDdd})` : ''}`
-      : 'Plano Smartvoz';
+    // Buscar ou criar cliente
+    const customerId = await getOrCreateCustomer(customerData, asaasHeaders);
     
-    const paymentData = {
-      customer: customerId,
-      billingType: 'PIX',
-      value: requestData.value,
-      dueDate: requestData.dueDate,
-      description: description,
-      ...(requestData.webhookUrl && { 
-        externalReference: `smartvoz_${requestData.userId || 'unknown'}_${Date.now()}`,
-        postalService: false 
-      })
-    };
+    // Preparar dados da cobrança
+    const chargeData = prepareChargeData(requestData, customerId);
+    
+    // Criar cobrança
+    const charge = await createCharge(chargeData, asaasHeaders);
 
-    console.log('💰 [ASAAS-PAYMENT] Dados da cobrança:', {
-      customer: customerId,
-      billingType: paymentData.billingType,
-      value: paymentData.value,
-      dueDate: paymentData.dueDate,
-      description: paymentData.description,
-      externalReference: paymentData.externalReference,
-      hasWebhook: !!requestData.webhookUrl
-    });
-
-    const paymentResponse = await fetch('https://www.asaas.com/api/v3/payments', {
-      method: 'POST',
-      headers: asaasHeaders,
-      body: JSON.stringify(paymentData)
-    });
-
-    console.log('💰 [ASAAS-PAYMENT] Resposta da cobrança - Status:', paymentResponse.status);
-    console.log('💰 [ASAAS-PAYMENT] Resposta da cobrança - Status text:', paymentResponse.statusText);
-
-    if (!paymentResponse.ok) {
-      const errorText = await paymentResponse.text();
-      console.error('❌ [ASAAS-PAYMENT] Erro ao criar cobrança:', errorText);
-      console.error('❌ [ASAAS-PAYMENT] Status:', paymentResponse.status);
-      
-      return new Response(
-        JSON.stringify({ 
-          error: { 
-            message: `Erro ao criar cobrança. Status: ${paymentResponse.status}`,
-            details: errorText,
-            status_code: paymentResponse.status
-          } 
-        }),
-        { 
-          status: 400, 
-          headers: { 'Content-Type': 'application/json', ...corsHeaders }
-        }
-      );
-    }
-
-    const payment = await paymentResponse.json();
-    console.log('✅ [ASAAS-PAYMENT] Cobrança criada com sucesso:', {
-      id: payment.id,
-      status: payment.status,
-      hasInvoiceUrl: !!payment.invoiceUrl,
-      hasPixQrCode: !!payment.pixQrCode,
-      description: payment.description
-    });
-
-    const successResponse = {
-      customerId,
-      paymentId: payment.id,
-      invoiceUrl: payment.invoiceUrl,
-      pixQrCode: payment.pixQrCode,
-      status: payment.status,
-      description: payment.description,
-      value: payment.value,
-      dueDate: payment.dueDate
-    };
-
-    console.log('🎉 [ASAAS-PAYMENT] Sucesso! Retornando resposta:', {
-      customerId,
-      paymentId: payment.id,
-      hasInvoiceUrl: !!payment.invoiceUrl,
-      description: payment.description
-    });
-
+    // Retornar dados da cobrança
     return new Response(
-      JSON.stringify(successResponse),
+      JSON.stringify({
+        success: true,
+        paymentId: charge.id,
+        status: charge.status,
+        value: charge.value,
+        dueDate: charge.dueDate,
+        invoiceUrl: charge.invoiceUrl,
+        bankSlipUrl: charge.bankSlipUrl,
+        pixCopyPaste: charge.pixCopyPaste,
+        pixQrCode: charge.pixQrCode,
+        customerId: customerId,
+        billingType: charge.billingType || 'UNDEFINED',
+        callbackUrl: chargeData.callback?.successUrl,
+        autoRedirect: chargeData.callback?.autoRedirect
+      }),
       { 
-        status: 200, 
-        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       }
     );
 
   } catch (error) {
-    console.error('💥 [ASAAS-PAYMENT] Erro geral:', error);
-    console.error('💥 [ASAAS-PAYMENT] Stack trace:', error instanceof Error ? error.stack : 'N/A');
-    console.error('💥 [ASAAS-PAYMENT] Tipo do erro:', typeof error);
-    console.error('💥 [ASAAS-PAYMENT] Nome do erro:', error instanceof Error ? error.name : 'N/A');
-    
-    return new Response(
-      JSON.stringify({ 
-        error: { 
-          message: 'Erro interno do servidor',
-          details: error instanceof Error ? error.message : String(error),
-          debug_info: {
-            error_type: typeof error,
-            error_name: error instanceof Error ? error.name : 'Unknown',
-            timestamp: new Date().toISOString()
-          }
-        } 
-      }),
-      { 
-        status: 500, 
-        headers: { 'Content-Type': 'application/json', ...corsHeaders }
-      }
-    );
+    return handleError(error);
   }
-});
+})

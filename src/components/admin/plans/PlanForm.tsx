@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -104,15 +103,21 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
         const cashbackData = cashbackLevels.map(level => ({
           plan_id: planId,
           level: level.level,
-          percentage: level.percentage / 100, // Converter para decimal
+          percentage: level.valueType === 'percentage' ? (level.percentage || 0) / 100 : null,
+          fixed_value: level.valueType === 'fixed' ? level.fixedValue : null,
           description: level.description || null
         }));
+
+        console.log('Inserting cashback data:', cashbackData);
 
         const { error: cashbackError } = await supabase
           .from('plan_cashback_levels')
           .insert(cashbackData);
 
-        if (cashbackError) throw cashbackError;
+        if (cashbackError) {
+          console.error('Cashback error:', cashbackError);
+          throw cashbackError;
+        }
       }
 
       // Deletar benefits existentes se estiver editando
@@ -172,7 +177,8 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
     } else {
       setCashbackLevels(prev => [...prev, { ...cashbackData, id: Date.now() }]);
     }
-    setCashbackModalOpen(false);
+    // Não fechar o modal automaticamente - usuário deve fechar manualmente
+    // setCashbackModalOpen(false);
   };
 
   const handleEditCashback = (cashback: any) => {
@@ -193,7 +199,8 @@ export function PlanForm({ initialData, onSubmit, onCancel, isLoading }: PlanFor
     } else {
       setBenefits(prev => [...prev, { ...benefitData, id: Date.now() }]);
     }
-    setBenefitsModalOpen(false);
+    // Não fechar o modal automaticamente - usuário deve fechar manualmente
+    // setBenefitsModalOpen(false);
   };
 
   const handleEditBenefit = (benefit: any) => {

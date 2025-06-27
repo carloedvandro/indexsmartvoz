@@ -1,3 +1,6 @@
 
-[functions.verify-document]
+[functions.asaas-payment]
 verify_jwt = true
+
+[functions.asaas-webhook]
+verify_jwt = false

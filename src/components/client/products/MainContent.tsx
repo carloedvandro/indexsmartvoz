@@ -1,7 +1,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { OrderReviewStep } from "./OrderReviewStep";
-import { ContractTermsStep } from "./ContractTermsStep";
+import TermoContratacaoSmartvoz from "./TermoContratacaoSmartvoz";
 import { PlanSelectionStep } from "./PlanSelectionStep";
 import { NavigationButtons } from "./NavigationButtons";
 import { useStepValidator } from "./StepValidator";
@@ -40,16 +40,32 @@ export function MainContent({
 
   // Check if continue button should be disabled
   const isContinueDisabled = () => {
+    console.log('🔍 Estado atual completo:', {
+      currentStep,
+      acceptedTerms,
+      hasInternet: selectedLines[0]?.internet,
+      hasDDD: selectedLines[0]?.ddd,
+      selectedDueDate,
+      typeof_acceptedTerms: typeof acceptedTerms
+    });
+
     if (currentStep === 1) {
       // Only enable if internet plan, DDD and due date are selected
       return !selectedLines[0]?.internet || !selectedLines[0]?.ddd || !selectedDueDate;
     }
     
     if (currentStep === 3) {
-      return !acceptedTerms;
+      const disabled = !acceptedTerms;
+      console.log('🎯 Step 3 - Botão desabilitado?', disabled, 'acceptedTerms:', acceptedTerms);
+      return disabled;
     }
     
     return false;
+  };
+
+  const handleTermsChange = (accepted: boolean) => {
+    console.log('🔄 MainContent recebeu mudança de termos:', accepted);
+    setAcceptedTerms(accepted);
   };
 
   const containerVariants = {
@@ -73,6 +89,9 @@ export function MainContent({
       transition: { duration: 0.5, ease: "easeOut" }
     }
   };
+
+  const buttonDisabled = isContinueDisabled();
+  console.log('🔧 Botão vai ser renderizado com disabled:', buttonDisabled);
 
   return (
     <motion.div 
@@ -101,9 +120,9 @@ export function MainContent({
               )}
 
               {currentStep === 3 && (
-                <ContractTermsStep
+                <TermoContratacaoSmartvoz
                   acceptedTerms={acceptedTerms}
-                  onTermsChange={setAcceptedTerms}
+                  onTermsChange={handleTermsChange}
                 />
               )}
             </motion.div>
@@ -115,7 +134,7 @@ export function MainContent({
                   currentStep={currentStep}
                   handleBack={handleBack}
                   handleContinue={validateAndContinue}
-                  disabled={isContinueDisabled()}
+                  disabled={buttonDisabled}
                 />
               </motion.div>
             )}

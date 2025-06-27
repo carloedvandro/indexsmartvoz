@@ -19,10 +19,12 @@ import { deleteUser } from "@/services/user/userDelete";
 
 interface DeleteUserDialogProps {
   user: any;
-  isUnlocked: boolean;
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => Promise<void>;
 }
 
-export const DeleteUserDialog = ({ user, isUnlocked }: DeleteUserDialogProps) => {
+export const DeleteUserDialog = ({ user, isOpen, onClose, onConfirm }: DeleteUserDialogProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteTransactions, setDeleteTransactions] = useState(false);
   const { toast } = useToast();
@@ -39,13 +41,8 @@ export const DeleteUserDialog = ({ user, isUnlocked }: DeleteUserDialogProps) =>
 
     setIsDeleting(true);
     try {
-      await deleteUser(user.id);
-      toast({
-        title: "Sucesso",
-        description: "Usuário excluído com sucesso",
-      });
-      // Refresh the page to update the user list
-      window.location.reload();
+      await onConfirm();
+      onClose();
     } catch (error: any) {
       console.error("Error deleting user:", error);
       toast({
@@ -59,17 +56,7 @@ export const DeleteUserDialog = ({ user, isUnlocked }: DeleteUserDialogProps) =>
   };
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button 
-          size="sm" 
-          variant="default" 
-          className="bg-red-500 hover:bg-red-600 h-8 w-8 p-0"
-          disabled={isDeleting || !isUnlocked}
-        >
-          <Trash className="h-4 w-4" />
-        </Button>
-      </AlertDialogTrigger>
+    <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent className="bg-white">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-center text-2xl">Tem certeza?</AlertDialogTitle>

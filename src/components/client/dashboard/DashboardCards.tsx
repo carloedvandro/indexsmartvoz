@@ -1,39 +1,33 @@
-
 import React from 'react';
-import { ProfileCard } from "./ProfileCard";
-import { NetworkCard } from "./NetworkCard";
-import { SalesDetailsCard } from "./stats/SalesDetailsCard";
-import { ProfileWithSponsor } from '@/types/profile';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
 
-interface DashboardCardsProps {
-  profile: ProfileWithSponsor;
-  networkStats: {
-    level1Count: number;
-    level2Count: number;
-    level3Count: number;
-    level4Count: number;
-  } | null;
-  handleNetworkClick: () => void;
+interface DashboardCardProps {
+  title: string;
+  value: string | number;
+  description?: string;
+  type?: "default" | "warning" | "success";
 }
 
-export function DashboardCards({ profile, networkStats, handleNetworkClick }: DashboardCardsProps) {
+const typeToColorMap = {
+  default: "text-muted-foreground",
+  warning: "text-yellow-500",
+  success: "text-green-500",
+};
+
+export function DashboardCard({ title, value, description, type = "default" }: DashboardCardProps) {
+  const colorClass = typeToColorMap[type] || typeToColorMap["default"];
+  const { toast } = useToast();
+
   return (
-    <div className="container">
-      <div className="max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-3">
-        <div className="w-full">
-          <SalesDetailsCard />
-        </div>
-        <div className="w-full">
-          <ProfileCard profile={profile} />
-        </div>
-        <div className="w-full">
-          <NetworkCard 
-            networkStats={networkStats} 
-            onClick={handleNetworkClick} 
-          />
-        </div>
-      </div>
-    </div>
+    <Card className="shadow-sm">
+      <CardHeader>
+        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="text-2xl font-bold">{value}</div>
+        {description && <p className={`text-xs ${colorClass}`}>{description}</p>}
+      </CardContent>
+    </Card>
   );
 }
-

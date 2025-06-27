@@ -5,7 +5,9 @@ import { Edit, Trash2 } from "lucide-react";
 interface CashbackLevel {
   id?: any;
   level: number;
-  percentage: number;
+  percentage?: number;
+  fixedValue?: number;
+  valueType?: 'percentage' | 'fixed';
   description: string;
 }
 
@@ -24,6 +26,31 @@ export function CashbackList({ cashbackLevels, onEdit, onDelete }: CashbackListP
     );
   }
 
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(value);
+  };
+
+  const getValueDisplay = (cashback: CashbackLevel) => {
+    if (cashback.fixedValue !== undefined && cashback.fixedValue !== null) {
+      return formatCurrency(cashback.fixedValue);
+    } else if (cashback.percentage !== undefined && cashback.percentage !== null) {
+      return `${cashback.percentage}%`;
+    }
+    return 'N/A';
+  };
+
+  const getValueType = (cashback: CashbackLevel) => {
+    if (cashback.fixedValue !== undefined && cashback.fixedValue !== null) {
+      return 'Valor Fixo';
+    } else if (cashback.percentage !== undefined && cashback.percentage !== null) {
+      return 'Percentual';
+    }
+    return 'N/A';
+  };
+
   return (
     <div className="space-y-3">
       {cashbackLevels.map((cashback) => (
@@ -32,7 +59,10 @@ export function CashbackList({ cashbackLevels, onEdit, onDelete }: CashbackListP
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2">
                 <span className="font-medium">Nível {cashback.level}</span>
-                <span className="font-bold text-green-600">{cashback.percentage}%</span>
+                <span className="font-bold text-green-600">{getValueDisplay(cashback)}</span>
+                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                  {getValueType(cashback)}
+                </span>
               </div>
               {cashback.description && (
                 <p className="text-sm text-gray-600">{cashback.description}</p>

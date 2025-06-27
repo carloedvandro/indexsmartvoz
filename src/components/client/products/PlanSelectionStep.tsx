@@ -6,7 +6,8 @@ import { PriceSummary } from "@/components/client/products/PriceSummary";
 import { NavigationButtons } from "@/components/client/products/NavigationButtons";
 import { PlanSelectionHeader } from "@/components/client/products/plan-selection/PlanSelectionHeader";
 import { PlanSelectionForm } from "@/components/client/products/plan-selection/PlanSelectionForm";
-import { internetOptions, mapUrlPlanToInternet } from "@/components/client/products/plan-selection/planOptions";
+import { getPlanPriceFromDatabase } from "@/components/client/products/plan-selection/planOptions";
+import { usePlans } from "@/hooks/usePlans";
 import { useToast } from "@/hooks/use-toast";
 
 interface PlanSelectionStepProps {
@@ -34,45 +35,9 @@ export function PlanSelectionStep({
   const [selectedInternet, setSelectedInternet] = useState<string>("");
   const [selectedDDD, setSelectedDDD] = useState<string>("");
   const [searchParams] = useSearchParams();
-  const planIdFromUrl = searchParams.get('plan');
+  const { data: plansData, isLoading } = usePlans();
   const { toast } = useToast();
   
-  // Set initial plan based on URL parameter if present and no plan is already selected
-  useEffect(() => {
-    if (planIdFromUrl && !selectedInternet) {
-      const mappedPlan = mapUrlPlanToInternet(planIdFromUrl);
-      if (mappedPlan) {
-        setSelectedInternet(mappedPlan.plan);
-        
-        // Auto-set a default DDD if we have a plan from the URL and no DDD is already selected
-        if (!selectedDDD) {
-          setSelectedDDD("11"); // Default to São Paulo DDD
-        }
-        
-        // Update selectedLines with the selected plan information
-        const linePrice = mappedPlan.price;
-        if (selectedLines.length === 0) {
-          setSelectedLines([{
-            id: 1,
-            internet: mappedPlan.plan,
-            ddd: selectedDDD || "11", // Default DDD
-            price: linePrice,
-            type: 'chip'
-          }]);
-        } else {
-          const updatedLines = [...selectedLines];
-          updatedLines[0] = {
-            ...updatedLines[0],
-            internet: mappedPlan.plan,
-            ddd: selectedDDD || "11", // Default DDD
-            price: linePrice
-          };
-          setSelectedLines(updatedLines);
-        }
-      }
-    }
-  }, [planIdFromUrl, selectedDDD, selectedInternet, selectedLines, setSelectedLines]);
-
   // Initialize selectedInternet and selectedDDD from selectedLines if available
   useEffect(() => {
     if (selectedLines.length > 0) {
@@ -80,12 +45,12 @@ export function PlanSelectionStep({
       if (line?.internet && !selectedInternet) setSelectedInternet(line.internet);
       if (line?.ddd && !selectedDDD) setSelectedDDD(line.ddd);
     }
-  }, [selectedLines, selectedInternet, selectedDDD]);
+  }, [selectedLines]);
 
   // Update selected lines when internet or DDD changes
   useEffect(() => {
-    if (selectedInternet && selectedDDD) {
-      const linePrice = getLinePrice();
+    if (selectedInternet && selectedDDD && plansData) {
+      const linePrice = getPlanPriceFromDatabase(plansData, selectedInternet);
       if (selectedLines.length === 0) {
         setSelectedLines([{
           id: 1,
@@ -105,10 +70,11 @@ export function PlanSelectionStep({
         setSelectedLines(updatedLines);
       }
     }
-  }, [selectedInternet, selectedDDD]);
+  }, [selectedInternet, selectedDDD, plansData]);
 
   const getLinePrice = () => {
-    return internetOptions.find(option => option.value === selectedInternet)?.price || 0;
+    if (!plansData) return 0;
+    return getPlanPriceFromDatabase(plansData, selectedInternet);
   };
 
   const handleContinue = () => {
@@ -146,6 +112,17 @@ export function PlanSelectionStep({
   // Fix: The button should only be enabled when all three fields are filled
   const isDisabled = !selectedInternet || !selectedDDD || !selectedDueDate;
 
+  if (isLoading) {
+    return (
+      <div className="max-w-[379px] mx-auto w-full" style={{ marginTop: "24px" }}>
+        <div className="space-y-6">
+          <PlanSelectionHeader />
+          <div className="text-center">Carregando planos...</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-[379px] mx-auto w-full" style={{ marginTop: "24px" }}>
       <div className="space-y-6">
@@ -157,7 +134,6 @@ export function PlanSelectionStep({
             setSelectedInternet={setSelectedInternet}
             selectedDDD={selectedDDD}
             setSelectedDDD={setSelectedDDD}
-            internetOptions={internetOptions}
           />
 
           <div className="w-full max-w-[340px] mx-auto">

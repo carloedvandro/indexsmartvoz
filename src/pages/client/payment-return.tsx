@@ -28,17 +28,48 @@ export default function PaymentReturn() {
   const paymentId = searchParams.get('payment_id');
   const status = searchParams.get('status');
 
+  // Impedir navegação para trás
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+
+    const handlePopState = (e: PopStateEvent) => {
+      e.preventDefault();
+      window.history.pushState(null, '', window.location.href);
+      toast({
+        title: "Navegação bloqueada",
+        description: "Complete o processo de pagamento antes de sair desta página.",
+        variant: "destructive"
+      });
+    };
+
+    // Adicionar estado no histórico para bloquear voltar
+    window.history.pushState(null, '', window.location.href);
+    
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [toast]);
+
   useEffect(() => {
     checkPaymentStatus();
   }, []);
 
   const checkPaymentStatus = async () => {
     console.log('🔍 [PAYMENT-RETURN] Verificando status do pagamento...');
+    console.log('🔍 [PAYMENT-RETURN] Parâmetros da URL:', { sessionId, paymentId, status });
     
     try {
       const { data: { user }, error: userError } = await supabase.auth.getUser();
       
       if (userError || !user) {
+        console.error('❌ [PAYMENT-RETURN] Erro de autenticação:', userError);
         toast({
           title: "Erro",
           description: "Usuário não autenticado. Redirecionando...",
@@ -48,13 +79,21 @@ export default function PaymentReturn() {
         return;
       }
 
-      // Buscar pedido do usuário mais recente
-      const { data: orders, error: orderError } = await supabase
+      console.log('👤 [PAYMENT-RETURN] Usuário autenticado:', user.id);
+
+      // Buscar pedido do usuário mais recente ou por payment_id se disponível
+      let query = supabase
         .from('orders')
         .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(1);
+        .eq('user_id', user.id);
+
+      if (paymentId) {
+        query = query.eq('asaas_payment_id', paymentId);
+      } else {
+        query = query.order('created_at', { ascending: false }).limit(1);
+      }
+
+      const { data: orders, error: orderError } = await query;
 
       if (orderError) {
         console.error('❌ [PAYMENT-RETURN] Erro ao buscar orders:', orderError);
@@ -62,14 +101,19 @@ export default function PaymentReturn() {
         return;
       }
 
+      console.log('📋 [PAYMENT-RETURN] Orders encontradas:', orders);
+
       if (orders && orders.length > 0) {
         const latestOrder = orders[0];
         setPaymentDetails(latestOrder);
 
         console.log('📋 [PAYMENT-RETURN] Order encontrada:', {
-          status: latestOrder.status,
           id: latestOrder.id,
-          amount: latestOrder.total_amount
+          status: latestOrder.status,
+          amount: latestOrder.total_amount,
+          asaas_payment_id: latestOrder.asaas_payment_id,
+          created_at: latestOrder.created_at,
+          updated_at: latestOrder.updated_at
         });
 
         if (latestOrder.status === 'paid') {
@@ -80,20 +124,33 @@ export default function PaymentReturn() {
           });
         } else if (latestOrder.status === 'pending') {
           setPaymentStatus('pending');
+          console.log(`🔄 [PAYMENT-RETURN] Tentativa ${checkAttempts + 1} - Status ainda pendente`);
+          
           // Tentar verificar novamente em alguns segundos
-          if (checkAttempts < 10) {
+          if (checkAttempts < 20) { // Aumentei para 20 tentativas
             setTimeout(() => {
               setCheckAttempts(prev => prev + 1);
               checkPaymentStatus();
             }, 3000);
+          } else {
+            console.warn('⚠️ [PAYMENT-RETURN] Máximo de tentativas atingido');
+            setPaymentStatus('failed');
+            toast({
+              title: "Timeout",
+              description: "Não foi possível confirmar o pagamento. Entre em contato com o suporte.",
+              variant: "destructive"
+            });
           }
         } else {
+          console.log('❌ [PAYMENT-RETURN] Status não reconhecido:', latestOrder.status);
           setPaymentStatus('failed');
         }
       } else {
+        console.warn('⚠️ [PAYMENT-RETURN] Nenhuma order encontrada');
         setPaymentStatus('pending');
+        
         // Tentar verificar novamente se não encontrou o pedido
-        if (checkAttempts < 5) {
+        if (checkAttempts < 10) {
           setTimeout(() => {
             setCheckAttempts(prev => prev + 1);
             checkPaymentStatus();
@@ -120,11 +177,18 @@ export default function PaymentReturn() {
           paymentMethod: 'pix'
         };
         localStorage.setItem('orderData', JSON.stringify(orderData));
+        console.log('💾 [PAYMENT-RETURN] Dados salvos para próxima etapa:', orderData);
       }
       
-      navigate("/client/chip-activation");
+      // Permitir navegação e ir para ativação do chip
+      window.removeEventListener('beforeunload', () => {});
+      window.removeEventListener('popstate', () => {});
+      navigate("/client/chip-activation", { replace: true });
     } else {
-      navigate("/client/products");
+      // Permitir navegação e voltar para produtos
+      window.removeEventListener('beforeunload', () => {});
+      window.removeEventListener('popstate', () => {});
+      navigate("/client/products", { replace: true });
     }
   };
 
@@ -159,7 +223,7 @@ export default function PaymentReturn() {
       case 'confirmed':
         return 'Seu pagamento foi processado com sucesso. Você pode prosseguir para a ativação do chip.';
       case 'pending':
-        return 'Estamos aguardando a confirmação do seu pagamento. Isso pode levar alguns minutos.';
+        return `Estamos aguardando a confirmação do seu pagamento. Isso pode levar alguns minutos. (Tentativa ${checkAttempts + 1}/20)`;
       case 'failed':
         return 'Não foi possível confirmar seu pagamento. Tente novamente ou entre em contato com o suporte.';
       default:
@@ -168,99 +232,118 @@ export default function PaymentReturn() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center">
-      <div className="w-full max-w-md mx-auto p-4">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Card className="text-center">
-            <CardHeader className="pb-4">
-              <div className="mb-4">
-                {getStatusIcon()}
-              </div>
-              <CardTitle className="text-2xl font-bold text-gray-800">
-                {getStatusTitle()}
-              </CardTitle>
-            </CardHeader>
-            
-            <CardContent className="space-y-6">
-              <p className="text-gray-600">
-                {getStatusDescription()}
-              </p>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+      {/* Logo fixada no topo */}
+      <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50 shadow-sm">
+        <div className="flex items-center justify-center">
+          <img
+            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
+            alt="Smartvoz"
+            className="h-16 object-contain"
+          />
+        </div>
+      </div>
 
-              {paymentDetails && (
-                <div className="bg-gray-50 rounded-lg p-4 space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Protocolo:</span>
-                    <span className="font-medium">{paymentDetails.id}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Valor:</span>
-                    <span className="font-medium">R$ {paymentDetails.total_amount?.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Status:</span>
-                    <span className={`font-medium ${
-                      paymentDetails.status === 'paid' ? 'text-green-600' : 
-                      paymentDetails.status === 'pending' ? 'text-yellow-600' : 'text-red-600'
-                    }`}>
-                      {paymentDetails.status === 'paid' ? 'Pago' : 
-                       paymentDetails.status === 'pending' ? 'Pendente' : 'Falhou'}
-                    </span>
-                  </div>
+      <div className="pt-20 flex items-center justify-center min-h-screen">
+        <div className="w-full max-w-md mx-auto p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Card className="text-center">
+              <CardHeader className="pb-4">
+                <div className="mb-4">
+                  {getStatusIcon()}
                 </div>
-              )}
+                <CardTitle className="text-2xl font-bold text-gray-800">
+                  {getStatusTitle()}
+                </CardTitle>
+              </CardHeader>
+              
+              <CardContent className="space-y-6">
+                <p className="text-gray-600">
+                  {getStatusDescription()}
+                </p>
 
-              <div className="space-y-3">
-                {paymentStatus === 'confirmed' && (
-                  <Button 
-                    onClick={handleContinue} 
-                    className="w-full h-12 text-lg"
-                  >
-                    Continuar para Ativação
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
+                {paymentDetails && (
+                  <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Protocolo:</span>
+                      <span className="font-medium">{paymentDetails.id}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Valor:</span>
+                      <span className="font-medium">R$ {paymentDetails.total_amount?.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Status:</span>
+                      <span className={`font-medium ${
+                        paymentDetails.status === 'paid' ? 'text-green-600' : 
+                        paymentDetails.status === 'pending' ? 'text-yellow-600' : 'text-red-600'
+                      }`}>
+                        {paymentDetails.status === 'paid' ? 'Pago' : 
+                         paymentDetails.status === 'pending' ? 'Pendente' : 'Falhou'}
+                      </span>
+                    </div>
+                    {paymentDetails.asaas_payment_id && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">ID Asaas:</span>
+                        <span className="font-medium text-xs">{paymentDetails.asaas_payment_id}</span>
+                      </div>
+                    )}
+                  </div>
                 )}
 
-                {paymentStatus === 'pending' && (
-                  <Button 
-                    onClick={checkPaymentStatus} 
-                    variant="outline" 
-                    className="w-full"
-                  >
-                    Verificar Novamente
-                  </Button>
-                )}
-
-                {paymentStatus === 'failed' && (
-                  <div className="space-y-2">
+                <div className="space-y-3">
+                  {paymentStatus === 'confirmed' && (
                     <Button 
-                      onClick={() => navigate("/client/products")} 
-                      className="w-full"
+                      onClick={handleContinue} 
+                      className="w-full h-12 text-lg"
                     >
-                      Tentar Novamente
+                      Continuar para Ativação
+                      <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
+                  )}
+
+                  {paymentStatus === 'pending' && (
                     <Button 
-                      onClick={() => navigate("/client/dashboard")} 
+                      onClick={checkPaymentStatus} 
                       variant="outline" 
                       className="w-full"
                     >
-                      Voltar ao Dashboard
+                      Verificar Novamente
                     </Button>
-                  </div>
-                )}
-              </div>
+                  )}
 
-              {paymentStatus === 'checking' && (
-                <p className="text-sm text-gray-500">
-                  Tentativa {checkAttempts + 1} de verificação...
-                </p>
-              )}
-            </CardContent>
-          </Card>
-        </motion.div>
+                  {paymentStatus === 'failed' && (
+                    <div className="space-y-2">
+                      <Button 
+                        onClick={() => navigate("/client/products", { replace: true })} 
+                        className="w-full"
+                      >
+                        Tentar Novamente
+                      </Button>
+                      <Button 
+                        onClick={() => navigate("/client/dashboard", { replace: true })} 
+                        variant="outline" 
+                        className="w-full"
+                      >
+                        Voltar ao Dashboard
+                      </Button>
+                    </div>
+                  )}
+                </div>
+
+                {paymentStatus === 'checking' && (
+                  <p className="text-sm text-gray-500">
+                    Tentativa {checkAttempts + 1} de verificação...
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
       </div>
     </div>
   );

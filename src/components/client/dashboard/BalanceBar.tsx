@@ -4,8 +4,10 @@ import { LogoSection } from './balance/LogoSection';
 import { NotificationDropdown } from './balance/NotificationDropdown';
 import { UserMenuDropdown } from './balance/UserMenuDropdown';
 import { useBalanceBarLogic } from './balance/hooks/useBalanceBarLogic';
+import { useLocation } from 'react-router-dom';
 
 export function BalanceBar() {
+  const location = useLocation();
   const {
     isBalanceVisible,
     showNotifications,
@@ -18,26 +20,38 @@ export function BalanceBar() {
     closeMenus
   } = useBalanceBarLogic();
 
+  // Hide BalanceBar on registration and payment process pages
+  const hiddenRoutes = [
+    '/client/register',
+    '/client/facial-biometry', 
+    '/client/plan-selection',
+    '/client/products',
+    '/client/esim'
+  ];
+
+  const shouldHide = hiddenRoutes.some(route => location.pathname.startsWith(route));
+
+  if (shouldHide) {
+    return null;
+  }
+
   return (
-    <div className="w-full bg-white border-b border-gray-200 px-4 py-3">
-      <div className="flex items-center justify-between w-full">
-        {/* Saldo - lado esquerdo com margem para alinhar com conteúdo */}
+    <div className="bg-white shadow-sm px-4 py-3 flex-shrink-0 relative z-50">
+      <div className="flex items-center justify-between max-w-7xl mx-auto">
         <BalanceDisplay 
           isVisible={isBalanceVisible}
           onToggleVisibility={toggleBalanceVisibility}
         />
         
-        {/* Logotipo Smartvoz no centro - hidden no mobile */}
         <LogoSection />
         
-        {/* Ícones - lado direito */}
-        <div className="flex items-center gap-3 ml-auto">
+        <div className="flex items-center gap-3">
           <NotificationDropdown 
             showNotifications={showNotifications}
             onToggleNotifications={toggleNotifications}
           />
           
-          <UserMenuDropdown 
+          <UserMenuDropdown
             showUserMenu={showUserMenu}
             onToggleUserMenu={toggleUserMenu}
             onLogout={handleLogout}
@@ -46,10 +60,9 @@ export function BalanceBar() {
         </div>
       </div>
       
-      {/* Overlay para fechar menus ao clicar fora */}
       {(showNotifications || showUserMenu) && (
         <div 
-          className="fixed inset-0 z-0" 
+          className="fixed inset-0 z-40" 
           onClick={closeMenus}
         />
       )}
