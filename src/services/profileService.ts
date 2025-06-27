@@ -3,20 +3,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { ProfileWithSponsor } from "@/types/profile";
 import { mapSponsor } from "@/utils/mappers/profileMapper";
 
-interface UserAddress {
-  id: string;
-  user_id: string;
-  cep: string;
-  street: string;
-  neighborhood: string;
-  number: string;
-  city: string;
-  state: string;
-  complement?: string;
-  created_at: string;
-  updated_at: string;
-}
-
 export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor | null> => {
   try {
     console.log("Fetching profile for user ID:", userId);
@@ -46,20 +32,14 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
     }
 
     // Buscar dados de endereço da tabela user_addresses
-    let addressData: UserAddress | null = null;
-    
-    try {
-      const { data: directAddressData, error: directError } = await supabase
-        .from("user_addresses" as any)
-        .select("*")
-        .eq("user_id", userId)
-        .single();
+    const { data: addressData, error: addressError } = await supabase
+      .from("user_addresses")
+      .select("*")
+      .eq("user_id", userId)
+      .single();
 
-      if (!directError && directAddressData) {
-        addressData = directAddressData;
-      }
-    } catch (directError) {
-      console.log("Direct table access failed, address data will be null");
+    if (addressError && addressError.code !== 'PGRST116') {
+      console.error("Error fetching address:", addressError);
     }
 
     console.log("Fetched complete profile data:", profileData);

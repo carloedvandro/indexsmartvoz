@@ -22,78 +22,46 @@ export function useTermsAcceptance({ onAccept, onClose }: UseTermsAcceptanceProp
       // Verificar se o usuário está logado
       const { data: { session } } = await supabase.auth.getSession();
       
-      if (!session?.user) {
-        console.log('⚠️ Usuário não logado, permitindo aceite offline');
-        
-        // Se não estiver logado, apenas marcar como aceito localmente
-        if (onAccept) {
-          onAccept(true);
-        }
-        
-        toast({
-          title: "Sucesso",
-          description: "Termos aceitos com sucesso.",
-        });
-        
-        onClose();
-        return;
+      if (!session) {
+        throw new Error('Usuário não está logado');
       }
 
-      console.log('✅ Usuário logado, tentando registrar aceite via Edge Function...');
+      console.log('✅ Usuário logado, enviando aceite...');
       
       // Registrar aceite via Edge Function
-      const { data, error: functionError } = await supabase.functions.invoke('registro-termo', {
+      const { data, error } = await supabase.functions.invoke('registro-termo', {
         body: {
           aceite: true,
           receberComunicados: true
         }
       });
 
-      if (functionError) {
-        console.error('❌ Erro na função:', functionError);
-        
-        // Como fallback, aceitar localmente
-        console.log('⚠️ Aceitando termos localmente como fallback');
-        
-        if (onAccept) {
-          onAccept(true);
-        }
-        
-        toast({
-          title: "Sucesso",
-          description: "Termos aceitos com sucesso.",
-        });
-        
-        onClose();
-        return;
+      console.log('📤 Resposta da função:', { data, error });
+
+      if (error) {
+        console.error('❌ Erro na função:', error);
+        throw error;
       }
 
-      console.log('✅ Aceite registrado via Edge Function');
+      console.log('✅ Aceite registrado com sucesso');
+      
+      toast({
+        title: "Sucesso",
+        description: "Aceite registrado com sucesso.",
+      });
       
       if (onAccept) {
         onAccept(true);
       }
-      
-      toast({
-        title: "Sucesso",
-        description: "Termos aceitos com sucesso.",
-      });
       
       onClose();
     } catch (error) {
-      console.error('❌ Erro geral ao registrar aceite:', error);
-      
-      // Sempre permitir que o usuário continue
-      if (onAccept) {
-        onAccept(true);
-      }
-      
+      console.error('❌ Erro ao registrar aceite:', error);
       toast({
-        title: "Sucesso",
-        description: "Termos aceitos com sucesso.",
+        title: "Erro",
+        description: "Erro ao registrar o aceite. Tente novamente.",
+        variant: "destructive",
       });
-      
-      onClose();
     } finally {
       setEnviando(false);
     }

@@ -17,7 +17,7 @@ export const saveUserAddress = async (userId: string, addressData: AddressData) 
 
   try {
     const { error } = await supabase
-      .from("user_addresses" as any)
+      .from("user_addresses")
       .insert({
         user_id: userId,
         cep: addressData.cep,
@@ -30,6 +30,7 @@ export const saveUserAddress = async (userId: string, addressData: AddressData) 
       });
 
     if (error) {
+      log("error", "Error saving address", error);
       throw new Error("Erro ao salvar endereço: " + error.message);
     }
 
@@ -44,12 +45,13 @@ export const saveUserAddress = async (userId: string, addressData: AddressData) 
 export const getUserAddress = async (userId: string) => {
   try {
     const { data, error } = await supabase
-      .from("user_addresses" as any)
+      .from("user_addresses")
       .select("*")
       .eq("user_id", userId)
       .single();
 
     if (error && error.code !== 'PGRST116') {
+      log("error", "Error fetching address", error);
       throw error;
     }
 

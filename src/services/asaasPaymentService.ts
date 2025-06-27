@@ -1,170 +1,268 @@
 
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
-interface AsaasCustomer {
-  name: string;
-  cpfCnpj: string;
-  email?: string;
-  phone?: string;
-  mobilePhone?: string;
-  address?: string;
-  addressNumber?: string;
-  complement?: string;
-  province?: string;
-  city?: string;
-  state?: string;
-  postalCode?: string;
-}
+type Line = {
+  id: number;
+  internet: string;
+  type: string;
+  ddd: string;
+  price: number;
+  planId?: string;
+  planName?: string;
+};
 
-interface AsaasPayment {
-  customer: string;
-  billingType: 'BOLETO' | 'CREDIT_CARD' | 'PIX' | 'DEBIT_CARD';
-  dueDate: string;
-  value: number;
-  description?: string;
-  externalReference?: string;
-}
-
-interface PaymentData {
-  planId: string;
-  userId: string;
-  amount: number;
-  paymentMethod: 'pix' | 'boleto' | 'credit_card';
-  dueDate?: string;
-}
-
-export class AsaasPaymentService {
-  private baseURL = 'https://www.asaas.com/api/v3';
-  private apiKey: string;
-
-  constructor(apiKey: string) {
-    this.apiKey = apiKey;
-  }
-
-  private async makeRequest(endpoint: string, method: 'GET' | 'POST' = 'GET', data?: any) {
-    const response = await fetch(`${this.baseURL}${endpoint}`, {
-      method,
-      headers: {
-        'access_token': this.apiKey,
-        'Content-Type': 'application/json',
-      },
-      body: data ? JSON.stringify(data) : undefined,
-    });
-
-    if (!response.ok) {
-      throw new Error(`Asaas API error: ${response.status}`);
-    }
-
-    return response.json();
-  }
-
-  async createCustomer(customerData: AsaasCustomer) {
-    return this.makeRequest('/customers', 'POST', customerData);
-  }
-
-  async createPayment(paymentData: AsaasPayment) {
-    return this.makeRequest('/payments', 'POST', paymentData);
-  }
-
-  async processPayment(paymentData: PaymentData) {
-    try {
-      // Get user profile and address
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', paymentData.userId)
-        .single();
-
-      if (profileError) {
-        throw new Error('Erro ao buscar perfil do usuário');
-      }
-
-      // Get user address using direct table access
-      let addressData = null;
-      
-      try {
-        const { data: directAddressData } = await supabase
-          .from("user_addresses" as any)
-          .select("*")
-          .eq("user_id", paymentData.userId)
-          .single();
-        
-        addressData = directAddressData;
-      } catch (directError) {
-        console.log("Direct access failed, proceeding without address");
-      }
-
-      // Create customer in Asaas
-      const customerData: AsaasCustomer = {
-        name: profile.full_name || 'Cliente',
-        cpfCnpj: profile.cpf || profile.cnpj || '',
-        email: profile.email,
-        phone: profile.phone || undefined,
-        mobilePhone: profile.mobile || profile.whatsapp || undefined,
-      };
-
-      // Add address data if available
-      if (addressData) {
-        customerData.address = addressData.street;
-        customerData.addressNumber = addressData.number;
-        customerData.complement = addressData.complement || undefined;
-        customerData.province = addressData.neighborhood;
-        customerData.city = addressData.city;
-        customerData.state = addressData.state;
-        customerData.postalCode = addressData.cep;
-      }
-
-      const customer = await this.createCustomer(customerData);
-
-      // Create payment
-      const payment = await this.createPayment({
-        customer: customer.id,
-        billingType: paymentData.paymentMethod.toUpperCase() as any,
-        dueDate: paymentData.dueDate || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-        value: paymentData.amount,
-        description: `Pagamento do plano`,
-        externalReference: paymentData.planId,
-      });
-
-      // Save order to database
-      const { error: orderError } = await supabase
-        .from('orders')
-        .insert({
-          user_id: paymentData.userId,
-          plan_id: paymentData.planId,
-          total_amount: paymentData.amount,
-          payment_method: paymentData.paymentMethod,
-          asaas_payment_id: payment.id,
-          status: 'pending',
-        });
-
-      if (orderError) {
-        throw new Error('Erro ao salvar pedido');
-      }
-
-      return payment;
-    } catch (error) {
-      console.error('Erro no processamento do pagamento:', error);
-      throw error;
-    }
-  }
-}
-
-// Hook function that was missing
 export const useAsaasPayment = () => {
-  // This is a placeholder - you'll need to implement the actual hook logic
   const iniciarCobrancaAsaas = async (
-    selectedLines: any[],
+    selectedLines: Line[],
     selectedDueDate: number | null,
     acceptedTerms: boolean,
     setIsAsaasProcessing: (processing: boolean) => void
-  ) => {
-    console.log("iniciarCobrancaAsaas called with:", { selectedLines, selectedDueDate, acceptedTerms });
-    // Implementation needed based on your specific requirements
-    return true;
+  ): Promise<boolean> => {
+    try {
+      console.log('🔄 Iniciando cobrança Asaas...');
+      setIsAsaasProcessing(true);
+
+      // Verificar se o usuário está autenticado
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) {
+        console.error('❌ Usuário não autenticado:', userError);
+        toast({
+          title: "Erro de autenticação",
+          description: "Faça login novamente para continuar.",
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      // Validações básicas
+      if (!selectedLines || selectedLines.length === 0) {
+        toast({
+          title: "Erro",
+          description: "Nenhuma linha selecionada",
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      if (!selectedDueDate) {
+        toast({
+          title: "Erro",
+          description: "Data de vencimento não selecionada",
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      if (!acceptedTerms) {
+        toast({
+          title: "Erro",
+          description: "É necessário aceitar os termos",
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      // Buscar dados do usuário
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (profileError || !profile) {
+        console.error('❌ Erro ao buscar perfil:', profileError);
+        toast({
+          title: "Erro",
+          description: "Dados do usuário não encontrados",
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      // Buscar endereço do usuário
+      const { data: address, error: addressError } = await supabase
+        .from('user_addresses')
+        .select('*')
+        .eq('user_id', user.id)
+        .single();
+
+      if (addressError || !address) {
+        console.error('❌ Erro ao buscar endereço:', addressError);
+        toast({
+          title: "Erro",
+          description: "Endereço não encontrado. Complete seu cadastro primeiro.",
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      // Buscar o plano selecionado
+      let planData = null;
+      const storedPlan = localStorage.getItem('selectedPlan');
+      if (storedPlan) {
+        try {
+          planData = JSON.parse(storedPlan);
+        } catch (e) {
+          console.error('Erro ao parse do plano:', e);
+        }
+      }
+
+      // Se não tem plano no localStorage, usar dados da linha
+      if (!planData && selectedLines.length > 0) {
+        planData = {
+          name: selectedLines[0].internet,
+          price: selectedLines[0].price,
+          title: selectedLines[0].planName || selectedLines[0].internet
+        };
+      }
+
+      if (!planData) {
+        toast({
+          title: "Erro",
+          description: "Dados do plano não encontrados",
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      // Calcular total
+      const total = selectedLines.reduce((acc, line) => acc + line.price, 0);
+
+      console.log('📋 Dados preparados para pagamento:', {
+        userId: user.id,
+        userEmail: user.email,
+        userName: profile.full_name,
+        userCpf: profile.cpf,
+        userPhone: profile.whatsapp || profile.phone,
+        planName: planData.title,
+        total,
+        dueDate: selectedDueDate,
+        hasAddress: !!address
+      });
+
+      // Preparar dados para criar o pedido
+      const orderData = {
+        user_id: user.id,
+        plan_id: planData.id || null,
+        total_amount: total,
+        payment_method: 'pix',
+        status: 'pending',
+        notes: `Plano: ${planData.title} - DDD: ${selectedLines[0]?.ddd} - Vencimento: ${selectedDueDate}`
+      };
+
+      // Criar o pedido no banco
+      const { data: order, error: orderError } = await supabase
+        .from('orders')
+        .insert(orderData)
+        .select()
+        .single();
+
+      if (orderError) {
+        console.error('❌ Erro ao criar pedido:', orderError);
+        toast({
+          title: "Erro",
+          description: "Erro ao criar pedido: " + orderError.message,
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      console.log('✅ Pedido criado:', order);
+
+      // Preparar dados para a Edge Function do Asaas
+      const asaasData = {
+        name: profile.full_name || 'Cliente',
+        email: user.email,
+        cpfCnpj: profile.cpf || '',
+        phone: profile.whatsapp || profile.phone || '',
+        value: total,
+        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+        description: `Pedido ${order.id} - ${planData.title}`,
+        orderId: order.id,
+        returnUrl: `${window.location.origin}/client/payment-return?payment_id=${order.id}`
+      };
+
+      console.log('🔄 Chamando Edge Function asaas-payment...');
+
+      // Chamar a Edge Function do Asaas
+      const { data: paymentData, error: paymentError } = await supabase.functions.invoke('asaas-payment', {
+        body: asaasData
+      });
+
+      if (paymentError) {
+        console.error('❌ Erro na Edge Function:', paymentError);
+        toast({
+          title: "Erro no pagamento",
+          description: "Erro ao processar pagamento: " + paymentError.message,
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      if (paymentData.error) {
+        console.error('❌ Erro retornado pela Edge Function:', paymentData.error);
+        toast({
+          title: "Erro no pagamento",
+          description: paymentData.error.message || "Erro desconhecido",
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      console.log('✅ Pagamento criado com sucesso:', paymentData);
+
+      // Atualizar o pedido com o ID do Asaas
+      if (paymentData.paymentId) {
+        await supabase
+          .from('orders')
+          .update({ 
+            asaas_payment_id: paymentData.paymentId,
+            status: 'payment_pending' 
+          })
+          .eq('id', order.id);
+      }
+
+      // Salvar dados para uso posterior
+      localStorage.setItem('orderData', JSON.stringify({
+        orderId: order.id,
+        protocol: order.id,
+        paymentId: paymentData.paymentId,
+        invoiceUrl: paymentData.invoiceUrl,
+        selectedLines,
+        selectedDueDate,
+        total
+      }));
+
+      toast({
+        title: "Pagamento criado!",
+        description: "Redirecionando para pagamento...",
+      });
+
+      // Abrir link de pagamento em nova aba
+      if (paymentData.invoiceUrl) {
+        window.open(paymentData.invoiceUrl, '_blank');
+      }
+
+      // Redirecionar para página de retorno após um tempo
+      setTimeout(() => {
+        window.location.href = '/client/payment-return';
+      }, 1500);
+
+      return true;
+
+    } catch (error) {
+      console.error('💥 Erro inesperado:', error);
+      toast({
+        title: "Erro inesperado",
+        description: error instanceof Error ? error.message : "Erro desconhecido",
+        variant: "destructive",
+      });
+      return false;
+    } finally {
+      setIsAsaasProcessing(false);
+    }
   };
 
-  return {
-    iniciarCobrancaAsaas
-  };
+  return { iniciarCobrancaAsaas };
 };

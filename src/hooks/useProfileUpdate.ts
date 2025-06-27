@@ -72,43 +72,44 @@ export const useProfileUpdate = () => {
 
     console.log("Updating address with data:", addressData);
 
-    try {
-      // Check if address exists
-      const { data: existingAddress } = await supabase
-        .from("user_addresses" as any)
-        .select("id")
-        .eq("user_id", profileId)
-        .single();
+    // Verificar se já existe um endereço para este usuário
+    const { data: existingAddress, error: checkError } = await supabase
+      .from("user_addresses")
+      .select("id")
+      .eq("user_id", profileId)
+      .single();
 
-      if (existingAddress) {
-        // Update existing address
-        const { error: addressError } = await supabase
-          .from("user_addresses" as any)
-          .update(addressData)
-          .eq("user_id", profileId);
+    if (checkError && checkError.code !== 'PGRST116') {
+      console.error("Error checking existing address:", checkError);
+      throw new Error(`Erro ao verificar endereço: ${checkError.message}`);
+    }
 
-        if (addressError) {
-          throw new Error(`Erro ao atualizar endereço: ${addressError.message}`);
-        }
-        console.log("Address updated successfully");
-      } else {
-        // Insert new address
-        const { error: addressError } = await supabase
-          .from("user_addresses" as any)
-          .insert({
-            ...addressData,
-            created_at: new Date().toISOString()
-          });
+    if (existingAddress) {
+      // Atualizar endereço existente
+      const { error: addressError } = await supabase
+        .from("user_addresses")
+        .update(addressData)
+        .eq("user_id", profileId);
 
-        if (addressError) {
-          throw new Error(`Erro ao inserir endereço: ${addressError.message}`);
-        }
-        console.log("Address inserted successfully");
+      if (addressError) {
+        console.error("Error updating address:", addressError);
+        throw new Error(`Erro ao atualizar endereço: ${addressError.message}`);
       }
-    } catch (error) {
-      console.error("Address operation failed:", error);
-      // Don't throw error for address operations to prevent profile update failure
-      console.warn("Address update failed, but profile was updated successfully");
+      console.log("Address updated successfully");
+    } else {
+      // Inserir novo endereço
+      const { error: addressError } = await supabase
+        .from("user_addresses")
+        .insert({
+          ...addressData,
+          created_at: new Date().toISOString()
+        });
+
+      if (addressError) {
+        console.error("Error inserting address:", addressError);
+        throw new Error(`Erro ao inserir endereço: ${addressError.message}`);
+      }
+      console.log("Address inserted successfully");
     }
   };
 
