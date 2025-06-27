@@ -1,50 +1,74 @@
 
-import { FormField, FormItem, FormControl, FormMessage } from "@/components/ui/form";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
-import { MapPin, Hash, Home, Building, Navigation } from "lucide-react";
-import { FloatingLabelInput } from "../fields/FloatingLabelInput";
+import { useState } from "react";
+import { fetchCepData } from "@/services/cepService";
 
 interface AddressStepProps {
   form: UseFormReturn<RegisterFormData>;
 }
 
 export const AddressStep = ({ form }: AddressStepProps) => {
+  const [isLoadingCep, setIsLoadingCep] = useState(false);
+
+  const handleCepBlur = async (cep: string) => {
+    const cleanCep = cep.replace(/\D/g, '');
+    if (cleanCep.length === 8) {
+      setIsLoadingCep(true);
+      try {
+        const cepData = await fetchCepData(cleanCep);
+        if (cepData) {
+          form.setValue("street", cepData.logradouro || "");
+          form.setValue("neighborhood", cepData.bairro || "");
+          form.setValue("city", cepData.localidade || "");
+          form.setValue("state", cepData.uf || "");
+        }
+      } catch (error) {
+        console.error("Erro ao buscar CEP:", error);
+      } finally {
+        setIsLoadingCep(false);
+      }
+    }
+  };
+
   return (
     <div className="space-y-4">
+      <div className="text-center mb-6">
+        <h2 className="text-xl font-semibold text-gray-900">Informações de Endereço</h2>
+        <p className="text-gray-600 text-sm mt-1">Informe seu endereço completo</p>
+      </div>
+
       <div className="grid grid-cols-2 gap-4">
         <FormField
           control={form.control}
           name="cep"
           render={({ field }) => (
             <FormItem>
+              <FormLabel className="text-sm">CEP</FormLabel>
               <FormControl>
-                <FloatingLabelInput
-                  id="cep"
-                  value={field.value}
-                  onChange={field.onChange}
-                  label="CEP"
-                  icon={MapPin}
+                <Input 
+                  {...field} 
+                  className="text-sm h-10 rounded-md" 
+                  placeholder="00000-000"
+                  onBlur={(e) => handleCepBlur(e.target.value)}
+                  disabled={isLoadingCep}
                 />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
-
+        
         <FormField
           control={form.control}
           name="number"
           render={({ field }) => (
             <FormItem>
+              <FormLabel className="text-sm">Número</FormLabel>
               <FormControl>
-                <FloatingLabelInput
-                  id="number"
-                  value={field.value}
-                  onChange={field.onChange}
-                  label="Número"
-                  icon={Hash}
-                />
+                <Input {...field} className="text-sm h-10 rounded-md" placeholder="123" />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
@@ -57,13 +81,13 @@ export const AddressStep = ({ form }: AddressStepProps) => {
         name="street"
         render={({ field }) => (
           <FormItem>
+            <FormLabel className="text-sm">Rua/Logradouro</FormLabel>
             <FormControl>
-              <FloatingLabelInput
-                id="street"
-                value={field.value}
-                onChange={field.onChange}
-                label="Rua/Logradouro"
-                icon={Home}
+              <Input 
+                {...field} 
+                className="text-sm h-10 rounded-md" 
+                placeholder="Nome da rua"
+                disabled={isLoadingCep}
               />
             </FormControl>
             <FormMessage className="text-xs" />
@@ -76,13 +100,13 @@ export const AddressStep = ({ form }: AddressStepProps) => {
         name="neighborhood"
         render={({ field }) => (
           <FormItem>
+            <FormLabel className="text-sm">Bairro</FormLabel>
             <FormControl>
-              <FloatingLabelInput
-                id="neighborhood"
-                value={field.value}
-                onChange={field.onChange}
-                label="Bairro"
-                icon={Building}
+              <Input 
+                {...field} 
+                className="text-sm h-10 rounded-md" 
+                placeholder="Nome do bairro"
+                disabled={isLoadingCep}
               />
             </FormControl>
             <FormMessage className="text-xs" />
@@ -96,32 +120,32 @@ export const AddressStep = ({ form }: AddressStepProps) => {
           name="city"
           render={({ field }) => (
             <FormItem>
+              <FormLabel className="text-sm">Cidade</FormLabel>
               <FormControl>
-                <FloatingLabelInput
-                  id="city"
-                  value={field.value}
-                  onChange={field.onChange}
-                  label="Cidade"
-                  icon={Navigation}
+                <Input 
+                  {...field} 
+                  className="text-sm h-10 rounded-md" 
+                  placeholder="Nome da cidade"
+                  disabled={isLoadingCep}
                 />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
-
+        
         <FormField
           control={form.control}
           name="state"
           render={({ field }) => (
             <FormItem>
+              <FormLabel className="text-sm">Estado</FormLabel>
               <FormControl>
-                <FloatingLabelInput
-                  id="state"
-                  value={field.value}
-                  onChange={field.onChange}
-                  label="Estado"
-                  icon={MapPin}
+                <Input 
+                  {...field} 
+                  className="text-sm h-10 rounded-md" 
+                  placeholder="UF"
+                  disabled={isLoadingCep}
                 />
               </FormControl>
               <FormMessage className="text-xs" />
@@ -135,13 +159,12 @@ export const AddressStep = ({ form }: AddressStepProps) => {
         name="complement"
         render={({ field }) => (
           <FormItem>
+            <FormLabel className="text-sm">Complemento (Opcional)</FormLabel>
             <FormControl>
-              <FloatingLabelInput
-                id="complement"
-                value={field.value}
-                onChange={field.onChange}
-                label="Complemento (Opcional)"
-                icon={Building}
+              <Input 
+                {...field} 
+                className="text-sm h-10 rounded-md" 
+                placeholder="Apartamento, bloco, etc."
               />
             </FormControl>
             <FormMessage className="text-xs" />

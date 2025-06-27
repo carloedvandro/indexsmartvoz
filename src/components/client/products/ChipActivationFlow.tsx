@@ -24,7 +24,7 @@ interface ChipActivationFlowProps {
   onStartScanning: (index: number) => void;
   onUpdateBarcode: (index: number, barcode: string) => void;
   onScanningClose: () => void;
-  // Removido onUpdateDDD - não é mais necessário
+  onUpdateDDD?: (index: number, ddd: string) => void;
 }
 
 export function ChipActivationFlow({
@@ -36,6 +36,7 @@ export function ChipActivationFlow({
   onStartScanning,
   onUpdateBarcode,
   onScanningClose,
+  onUpdateDDD,
 }: ChipActivationFlowProps) {
   // Verifica se todos os códigos de barras foram escaneados
   const allBarcodesScanned = selectedLines.every(line => line.barcode);
@@ -71,7 +72,7 @@ export function ChipActivationFlow({
               onBack={onBack}
               onContinue={onContinue}
               onStartScanning={onStartScanning}
-              // Removido onUpdateDDD - não é mais necessário
+              onUpdateDDD={onUpdateDDD}
             />
           </div>
         </div>

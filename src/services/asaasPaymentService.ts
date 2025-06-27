@@ -1,6 +1,6 @@
 
+import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/hooks/use-toast";
 
 type Line = {
   id: number;
@@ -8,150 +8,195 @@ type Line = {
   type: string;
   ddd: string;
   price: number;
+  barcode?: string;
   planId?: string;
   planName?: string;
 };
 
 export const useAsaasPayment = () => {
+  const { toast } = useToast();
+
   const iniciarCobrancaAsaas = async (
     selectedLines: Line[],
     selectedDueDate: number | null,
     acceptedTerms: boolean,
-    setIsAsaasProcessing: (processing: boolean) => void
-  ): Promise<boolean> => {
+    setIsAsaasProcessing: (value: boolean) => void
+  ) => {
+    console.log('🚀 [ASAAS-SERVICE] Iniciando cobrança Asaas...');
+    console.log('📋 [ASAAS-SERVICE] selectedLines:', selectedLines);
+    console.log('📋 [ASAAS-SERVICE] selectedDueDate:', selectedDueDate);
+    console.log('📋 [ASAAS-SERVICE] acceptedTerms:', acceptedTerms);
+
+    if (!selectedLines?.length || !selectedDueDate) {
+      console.error('❌ [ASAAS-SERVICE] Dados incompletos para pagamento');
+      toast({ 
+        title: "Erro", 
+        description: "Dados do plano ou vencimento ausentes.", 
+        variant: "destructive" 
+      });
+      return false;
+    }
+
+    setIsAsaasProcessing(true);
+
     try {
-      console.log('🔄 Iniciando cobrança Asaas...');
-      setIsAsaasProcessing(true);
-
-      // Verificar se o usuário está autenticado
+      // Buscar dados reais do usuário autenticado
+      console.log('👤 [ASAAS-SERVICE] Buscando dados do usuário autenticado...');
       const { data: { user }, error: userError } = await supabase.auth.getUser();
+      
       if (userError || !user) {
-        console.error('❌ Usuário não autenticado:', userError);
-        toast({
-          title: "Erro de autenticação",
-          description: "Faça login novamente para continuar.",
-          variant: "destructive",
+        console.error('❌ [ASAAS-SERVICE] Usuário não autenticado:', userError);
+        toast({ 
+          title: "Erro", 
+          description: "Usuário não autenticado. Faça login novamente.", 
+          variant: "destructive" 
         });
+        setIsAsaasProcessing(false);
         return false;
       }
 
-      // Validações básicas
-      if (!selectedLines || selectedLines.length === 0) {
-        toast({
-          title: "Erro",
-          description: "Nenhuma linha selecionada",
-          variant: "destructive",
-        });
-        return false;
-      }
-
-      if (!selectedDueDate) {
-        toast({
-          title: "Erro",
-          description: "Data de vencimento não selecionada",
-          variant: "destructive",
-        });
-        return false;
-      }
-
-      if (!acceptedTerms) {
-        toast({
-          title: "Erro",
-          description: "É necessário aceitar os termos",
-          variant: "destructive",
-        });
-        return false;
-      }
-
-      // Buscar dados do usuário
+      // Buscar perfil completo do usuário
+      console.log('📋 [ASAAS-SERVICE] Buscando perfil completo do usuário:', user.id);
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
         .single();
 
-      if (profileError || !profile) {
-        console.error('❌ Erro ao buscar perfil:', profileError);
-        toast({
-          title: "Erro",
-          description: "Dados do usuário não encontrados",
-          variant: "destructive",
+      if (profileError) {
+        console.error('❌ [ASAAS-SERVICE] Erro ao buscar perfil:', profileError);
+        toast({ 
+          title: "Erro", 
+          description: "Erro ao buscar dados do usuário.", 
+          variant: "destructive" 
         });
+        setIsAsaasProcessing(false);
         return false;
       }
 
-      // Buscar endereço do usuário
-      const { data: address, error: addressError } = await supabase
-        .from('user_addresses')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
-
-      if (addressError || !address) {
-        console.error('❌ Erro ao buscar endereço:', addressError);
-        toast({
-          title: "Erro",
-          description: "Endereço não encontrado. Complete seu cadastro primeiro.",
-          variant: "destructive",
-        });
-        return false;
-      }
-
-      // Buscar o plano selecionado
-      let planData = null;
-      const storedPlan = localStorage.getItem('selectedPlan');
-      if (storedPlan) {
-        try {
-          planData = JSON.parse(storedPlan);
-        } catch (e) {
-          console.error('Erro ao parse do plano:', e);
-        }
-      }
-
-      // Se não tem plano no localStorage, usar dados da linha
-      if (!planData && selectedLines.length > 0) {
-        planData = {
-          name: selectedLines[0].internet,
-          price: selectedLines[0].price,
-          title: selectedLines[0].planName || selectedLines[0].internet
-        };
-      }
-
-      if (!planData) {
-        toast({
-          title: "Erro",
-          description: "Dados do plano não encontrados",
-          variant: "destructive",
-        });
-        return false;
-      }
-
-      // Calcular total
-      const total = selectedLines.reduce((acc, line) => acc + line.price, 0);
-
-      console.log('📋 Dados preparados para pagamento:', {
-        userId: user.id,
-        userEmail: user.email,
-        userName: profile.full_name,
-        userCpf: profile.cpf,
-        userPhone: profile.whatsapp || profile.phone,
-        planName: planData.title,
-        total,
-        dueDate: selectedDueDate,
-        hasAddress: !!address
-      });
-
-      // Preparar dados para criar o pedido
-      const orderData = {
-        user_id: user.id,
-        plan_id: planData.id || null,
-        total_amount: total,
-        payment_method: 'pix',
-        status: 'pending',
-        notes: `Plano: ${planData.title} - DDD: ${selectedLines[0]?.ddd} - Vencimento: ${selectedDueDate}`
+      // Montar dados completos do cliente
+      const clientData = {
+        name: profile?.full_name || user.user_metadata?.full_name || "Cliente",
+        email: profile?.email || user.email || "cliente@placeholder.com",
+        cpfCnpj: profile?.cpf || profile?.cnpj || "",
+        phone: profile?.mobile || profile?.phone || "",
+        address: profile?.address || "",
+        city: profile?.city || "",
+        state: profile?.state || "",
+        zipCode: profile?.zip_code || "",
+        birthDate: profile?.birth_date || "",
+        whatsapp: profile?.whatsapp || ""
       };
 
-      // Criar o pedido no banco
+      console.log('👤 [ASAAS-SERVICE] Dados completos do cliente:', {
+        name: clientData.name,
+        email: clientData.email,
+        hasCpf: !!clientData.cpfCnpj,
+        hasPhone: !!clientData.phone,
+        hasAddress: !!clientData.address,
+        hasWhatsapp: !!clientData.whatsapp
+      });
+
+      const plan = selectedLines[0];
+      const value = plan.price;
+      const dueDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+
+      console.log('💰 [ASAAS-SERVICE] Dados do pagamento:', { 
+        planName: plan.internet,
+        planType: plan.type,
+        value, 
+        dueDate
+      });
+
+      // URL de retorno após pagamento - usando o domínio atual da aplicação
+      const returnUrl = `${window.location.origin}/client/payment-return`;
+      const webhookUrl = `${window.location.origin}/functions/asaas-webhook`;
+
+      console.log('🔗 [ASAAS-SERVICE] Chamando Edge Function com dados completos...');
+      console.log('🔗 [ASAAS-SERVICE] Return URL:', returnUrl);
+      console.log('🔗 [ASAAS-SERVICE] Webhook URL:', webhookUrl);
+
+      // Chama Edge Function via Supabase client com dados completos
+      const { data, error } = await supabase.functions.invoke('asaas-payment', {
+        body: {
+          // Dados do cliente
+          name: clientData.name,
+          email: clientData.email,
+          cpfCnpj: clientData.cpfCnpj,
+          phone: clientData.phone,
+          // Dados de endereço
+          address: clientData.address,
+          city: clientData.city,
+          state: clientData.state,
+          zipCode: clientData.zipCode,
+          // Dados pessoais adicionais
+          birthDate: clientData.birthDate,
+          whatsapp: clientData.whatsapp,
+          // Dados do pagamento
+          value,
+          dueDate,
+          // Dados do plano
+          planName: plan.internet,
+          planType: plan.type,
+          planDdd: plan.ddd,
+          // URLs de configuração - ADICIONADAS
+          returnUrl: returnUrl,
+          webhookUrl: webhookUrl,
+          // Metadados para referência
+          userId: user.id,
+          selectedDueDate: selectedDueDate
+        }
+      });
+
+      console.log('📡 [ASAAS-SERVICE] Resposta do Edge Function:', {
+        hasData: !!data,
+        hasError: !!error,
+        errorDetails: error
+      });
+
+      if (error) {
+        console.error('❌ [ASAAS-SERVICE] Erro na Edge Function:', error);
+        setIsAsaasProcessing(false);
+        toast({ 
+          title: "Erro no servidor", 
+          description: `Erro: ${error.message}. Tente novamente.`, 
+          variant: "destructive" 
+        });
+        return false;
+      }
+
+      console.log('📡 [ASAAS-SERVICE] Dados retornados:', data);
+
+      if (data?.error || !data?.invoiceUrl) {
+        console.error('❌ [ASAAS-SERVICE] Erro na resposta do Asaas:', data?.error);
+        setIsAsaasProcessing(false);
+        toast({ 
+          title: "Erro ao gerar cobrança", 
+          description: data?.error?.message || "Erro desconhecido", 
+          variant: "destructive" 
+        });
+        return false;
+      }
+
+      // Buscar plan_id baseado no plano selecionado
+      const { data: planData } = await supabase
+        .from('plans')
+        .select('id')
+        .ilike('title', `%${plan.internet}%`)
+        .limit(1)
+        .single();
+
+      // Criar registro de order local antes do redirecionamento
+      const orderData = {
+        user_id: user.id,
+        plan_id: planData?.id || '00000000-0000-0000-0000-000000000000', // UUID padrão se não encontrar
+        asaas_payment_id: data.paymentId,
+        total_amount: value,
+        status: 'pending' as const,
+        payment_method: 'pix',
+        notes: `Pagamento via Asaas - Payment ID: ${data.paymentId} - Vencimento dia ${selectedDueDate}`
+      };
+
       const { data: order, error: orderError } = await supabase
         .from('orders')
         .insert(orderData)
@@ -159,108 +204,48 @@ export const useAsaasPayment = () => {
         .single();
 
       if (orderError) {
-        console.error('❌ Erro ao criar pedido:', orderError);
-        toast({
-          title: "Erro",
-          description: "Erro ao criar pedido: " + orderError.message,
-          variant: "destructive",
-        });
-        return false;
+        console.error('❌ [ASAAS-SERVICE] Erro ao criar order local:', orderError);
+        // Não bloqueia o fluxo, apenas loga o erro
+      } else {
+        console.log('✅ [ASAAS-SERVICE] Order criada localmente:', order);
       }
 
-      console.log('✅ Pedido criado:', order);
-
-      // Preparar dados para a Edge Function do Asaas
-      const asaasData = {
-        name: profile.full_name || 'Cliente',
-        email: user.email,
-        cpfCnpj: profile.cpf || '',
-        phone: profile.whatsapp || profile.phone || '',
-        value: total,
-        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
-        description: `Pedido ${order.id} - ${planData.title}`,
-        orderId: order.id,
-        returnUrl: `${window.location.origin}/client/payment-return?payment_id=${order.id}`
-      };
-
-      console.log('🔄 Chamando Edge Function asaas-payment...');
-
-      // Chamar a Edge Function do Asaas
-      const { data: paymentData, error: paymentError } = await supabase.functions.invoke('asaas-payment', {
-        body: asaasData
-      });
-
-      if (paymentError) {
-        console.error('❌ Erro na Edge Function:', paymentError);
-        toast({
-          title: "Erro no pagamento",
-          description: "Erro ao processar pagamento: " + paymentError.message,
-          variant: "destructive",
-        });
-        return false;
-      }
-
-      if (paymentData.error) {
-        console.error('❌ Erro retornado pela Edge Function:', paymentData.error);
-        toast({
-          title: "Erro no pagamento",
-          description: paymentData.error.message || "Erro desconhecido",
-          variant: "destructive",
-        });
-        return false;
-      }
-
-      console.log('✅ Pagamento criado com sucesso:', paymentData);
-
-      // Atualizar o pedido com o ID do Asaas
-      if (paymentData.paymentId) {
-        await supabase
-          .from('orders')
-          .update({ 
-            asaas_payment_id: paymentData.paymentId,
-            status: 'payment_pending' 
-          })
-          .eq('id', order.id);
-      }
-
-      // Salvar dados para uso posterior
-      localStorage.setItem('orderData', JSON.stringify({
-        orderId: order.id,
-        protocol: order.id,
-        paymentId: paymentData.paymentId,
-        invoiceUrl: paymentData.invoiceUrl,
+      // Armazena referência local do pedido para pós-processamento
+      const sessionData = {
+        customerId: data.customerId,
+        paymentId: data.paymentId,
+        invoiceUrl: data.invoiceUrl,
+        plan,
+        dueDate,
+        acceptedTerms,
         selectedLines,
         selectedDueDate,
-        total
-      }));
+        clientData,
+        userId: user.id,
+        orderId: order?.id
+      };
 
-      toast({
-        title: "Pagamento criado!",
-        description: "Redirecionando para pagamento...",
-      });
+      localStorage.setItem('asaasPaymentSession', JSON.stringify(sessionData));
+      console.log('💾 [ASAAS-SERVICE] Dados da sessão salvos no localStorage');
 
-      // Abrir link de pagamento em nova aba
-      if (paymentData.invoiceUrl) {
-        window.open(paymentData.invoiceUrl, '_blank');
-      }
+      console.log('✅ [ASAAS-SERVICE] Redirecionando para checkout Asaas:', data.invoiceUrl);
 
-      // Redirecionar para página de retorno após um tempo
-      setTimeout(() => {
-        window.location.href = '/client/payment-return';
-      }, 1500);
-
+      // Redirecionar para checkout Asaas imediatamente
+      window.location.href = data.invoiceUrl;
       return true;
-
-    } catch (error) {
-      console.error('💥 Erro inesperado:', error);
-      toast({
-        title: "Erro inesperado",
-        description: error instanceof Error ? error.message : "Erro desconhecido",
-        variant: "destructive",
+    } catch (e) {
+      console.error('💥 [ASAAS-SERVICE] Erro na requisição de pagamento:', e);
+      console.error('💥 [ASAAS-SERVICE] Tipo do erro:', typeof e);
+      console.error('💥 [ASAAS-SERVICE] Nome do erro:', e instanceof Error ? e.name : 'N/A');
+      console.error('💥 [ASAAS-SERVICE] Stack trace:', e instanceof Error ? e.stack : 'N/A');
+      
+      setIsAsaasProcessing(false);
+      toast({ 
+        title: "Falha na requisição de pagamento", 
+        description: "Tente novamente ou escolha outra forma.", 
+        variant: "destructive" 
       });
       return false;
-    } finally {
-      setIsAsaasProcessing(false);
     }
   };
 

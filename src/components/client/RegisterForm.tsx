@@ -7,6 +7,7 @@ import { Form } from "@/components/ui/form";
 import { RainbowButton } from "@/components/ui/rainbow-button";
 import { registerFormSchema } from "./register/RegisterSchema";
 import type { RegisterFormData } from "./register/RegisterSchema";
+import { FormFields } from "./register/FormFields";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 
@@ -81,12 +82,7 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
         onSubmit={form.handleSubmit(handleFormSubmit)} 
         className="space-y-4"
       >
-        <div className="text-center mb-4">
-          <p className="text-sm text-gray-600">
-            Este componente foi substituído pelo formulário em etapas. 
-            Use o StepFormContainer em vez disso.
-          </p>
-        </div>
+        <FormFields form={form} disableSponsor={!!sponsorId} />
         <RainbowButton 
           type="submit" 
           className="w-full"
