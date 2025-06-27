@@ -16,22 +16,44 @@ export const saveUserAddress = async (userId: string, addressData: AddressData) 
   log("info", "Saving user address", { userId, addressData });
 
   try {
-    const { error } = await supabase
-      .from("user_addresses")
-      .insert({
-        user_id: userId,
-        cep: addressData.cep,
-        street: addressData.street,
-        neighborhood: addressData.neighborhood,
-        number: addressData.number,
-        city: addressData.city,
-        state: addressData.state,
-        complement: addressData.complement || null,
+    // Use RPC function to create address
+    const { data, error } = await supabase
+      .rpc('create_user_address', {
+        p_user_id: userId,
+        p_cep: addressData.cep,
+        p_street: addressData.street,
+        p_neighborhood: addressData.neighborhood,
+        p_number: addressData.number,
+        p_city: addressData.city,
+        p_state: addressData.state,
+        p_complement: addressData.complement || null
       });
 
     if (error) {
-      log("error", "Error saving address", error);
-      throw new Error("Erro ao salvar endereço: " + error.message);
+      log("error", "Error saving address with RPC", error);
+      
+      // Fallback to direct table access
+      try {
+        const { error: fallbackError } = await supabase
+          .from("user_addresses" as any)
+          .insert({
+            user_id: userId,
+            cep: addressData.cep,
+            street: addressData.street,
+            neighborhood: addressData.neighborhood,
+            number: addressData.number,
+            city: addressData.city,
+            state: addressData.state,
+            complement: addressData.complement || null,
+          });
+
+        if (fallbackError) {
+          throw new Error("Erro ao salvar endereço: " + fallbackError.message);
+        }
+      } catch (fallbackError: any) {
+        log("error", "Fallback method also failed", fallbackError);
+        throw fallbackError;
+      }
     }
 
     log("info", "Address saved successfully", { userId });
@@ -44,15 +66,31 @@ export const saveUserAddress = async (userId: string, addressData: AddressData) 
 
 export const getUserAddress = async (userId: string) => {
   try {
+    // Use RPC function to get address
     const { data, error } = await supabase
-      .from("user_addresses")
-      .select("*")
-      .eq("user_id", userId)
+      .rpc('get_user_address', { p_user_id: userId })
       .single();
 
     if (error && error.code !== 'PGRST116') {
-      log("error", "Error fetching address", error);
-      throw error;
+      log("error", "Error fetching address with RPC", error);
+      
+      // Fallback to direct table access
+      try {
+        const { data: fallbackData, error: fallbackError } = await supabase
+          .from("user_addresses" as any)
+          .select("*")
+          .eq("user_id", userId)
+          .single();
+
+        if (fallbackError && fallbackError.code !== 'PGRST116') {
+          throw fallbackError;
+        }
+
+        return fallbackData;
+      } catch (fallbackError: any) {
+        log("error", "Fallback method also failed", fallbackError);
+        throw fallbackError;
+      }
     }
 
     return data;

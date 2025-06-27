@@ -3,6 +3,20 @@ import { supabase } from "@/integrations/supabase/client";
 import { ProfileWithSponsor } from "@/types/profile";
 import { mapSponsor } from "@/utils/mappers/profileMapper";
 
+interface UserAddress {
+  id: string;
+  user_id: string;
+  cep: string;
+  street: string;
+  neighborhood: string;
+  number: string;
+  city: string;
+  state: string;
+  complement?: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor | null> => {
   try {
     console.log("Fetching profile for user ID:", userId);
@@ -31,15 +45,35 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
       return null;
     }
 
-    // Buscar dados de endereço da tabela user_addresses
-    const { data: addressData, error: addressError } = await supabase
-      .from("user_addresses")
-      .select("*")
-      .eq("user_id", userId)
-      .single();
+    // Buscar dados de endereço da tabela user_addresses usando fallback methods
+    let addressData: UserAddress | null = null;
+    
+    try {
+      // Try using RPC first
+      const { data: rpcAddressData, error: rpcError } = await supabase
+        .rpc('get_user_address', { p_user_id: userId })
+        .single();
+      
+      if (!rpcError && rpcAddressData) {
+        addressData = rpcAddressData;
+      }
+    } catch (rpcError) {
+      console.log("RPC method failed, trying direct table access");
+      
+      try {
+        // Fallback to direct table access
+        const { data: directAddressData, error: directError } = await supabase
+          .from("user_addresses" as any)
+          .select("*")
+          .eq("user_id", userId)
+          .single();
 
-    if (addressError && addressError.code !== 'PGRST116') {
-      console.error("Error fetching address:", addressError);
+        if (!directError && directAddressData) {
+          addressData = directAddressData;
+        }
+      } catch (directError) {
+        console.log("Direct table access also failed, address data will be null");
+      }
     }
 
     console.log("Fetched complete profile data:", profileData);
