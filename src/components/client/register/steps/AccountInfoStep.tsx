@@ -1,9 +1,8 @@
 
-import { FormField, FormItem, FormControl, FormMessage } from "@/components/ui/form";
-import { FloatingLabelInput } from "../fields/FloatingLabelInput";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { RegisterFormData } from "../RegisterSchema";
-import { User, CreditCard } from "lucide-react";
 
 interface AccountInfoStepProps {
   form: UseFormReturn<RegisterFormData>;
@@ -11,17 +10,6 @@ interface AccountInfoStepProps {
 }
 
 export const AccountInfoStep = ({ form, disableSponsor }: AccountInfoStepProps) => {
-  console.log("🎨 === RENDERIZANDO AccountInfoStep ===", { disableSponsor });
-  
-  const sponsorValue = form.watch("sponsorCustomId");
-  const customIdValue = form.watch("customId");
-  
-  console.log("📋 AccountInfoStep valores em tempo real:", { 
-    sponsorCustomId: sponsorValue,
-    customId: customIdValue,
-    customIdLength: customIdValue ? customIdValue.length : 0
-  });
-
   return (
     <div className="space-y-4">
       <div className="text-center mb-6">
@@ -34,16 +22,13 @@ export const AccountInfoStep = ({ form, disableSponsor }: AccountInfoStepProps) 
         name="sponsorCustomId"
         render={({ field }) => (
           <FormItem>
+            <FormLabel className="text-sm">ID do Patrocinador</FormLabel>
             <FormControl>
-              <FloatingLabelInput
-                id="sponsorCustomId"
-                type="text"
-                value={field.value || ""}
-                onChange={field.onChange}
-                label="ID do Patrocinador "
-                icon={User}
-                disabled={disableSponsor}
-                placeholder=""
+              <Input 
+                {...field} 
+                disabled={disableSponsor} 
+                className="bg-transparent text-sm h-10 rounded-md" 
+                placeholder="ID de quem te indicou"
               />
             </FormControl>
             <FormMessage className="text-xs" />
@@ -56,15 +41,12 @@ export const AccountInfoStep = ({ form, disableSponsor }: AccountInfoStepProps) 
         name="customId"
         render={({ field }) => (
           <FormItem>
+            <FormLabel className="text-sm">Seu ID Personalizado</FormLabel>
             <FormControl>
-              <FloatingLabelInput
-                id="customId"
-                type="text"
-                value={field.value}
-                onChange={field.onChange}
-                label="Seu ID Personalizado*"
-                icon={CreditCard}
-                placeholder=""
+              <Input 
+                {...field} 
+                className="text-sm h-10 rounded-md" 
+                placeholder="Escolha um ID único para você"
               />
             </FormControl>
             <FormMessage className="text-xs" />

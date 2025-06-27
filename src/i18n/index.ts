@@ -16,7 +16,7 @@ const resources = {
       "full_name": "Nome Completo",
       "email": "Email",
       "cpf": "CPF",
-      "referral_id": "ID de Indicação ",
+      "referral_id": "ID de Indicação (opcional)",
       "custom_id": "Seu ID Personalizado",
       "recaptcha_error": "Por favor, complete a verificação reCAPTCHA",
       "custom_id_in_use": "Este ID personalizado já está em uso",
