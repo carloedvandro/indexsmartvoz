@@ -39,60 +39,36 @@ export function useTermsAcceptance({ onAccept, onClose }: UseTermsAcceptanceProp
         return;
       }
 
-      console.log('✅ Usuário logado, tentando registrar aceite...');
+      console.log('✅ Usuário logado, tentando registrar aceite via Edge Function...');
       
-      // Tentar inserir/atualizar diretamente na tabela terms_acceptance
-      const { error: upsertError } = await supabase
-        .from('terms_acceptance')
-        .upsert({
-          user_id: session.user.id,
-          accepted: true,
-          receive_communications: true,
-          accepted_at: new Date().toISOString(),
-          ip_address: 'unknown'
-        }, {
-          onConflict: 'user_id'
-        });
-
-      if (upsertError) {
-        console.error('❌ Erro ao inserir na tabela:', upsertError);
-        
-        // Se falhar, tentar via Edge Function
-        try {
-          const { data, error: functionError } = await supabase.functions.invoke('registro-termo', {
-            body: {
-              aceite: true,
-              receberComunicados: true
-            }
-          });
-
-          if (functionError) {
-            console.error('❌ Erro na função:', functionError);
-            throw functionError;
-          }
-
-          console.log('✅ Aceite registrado via Edge Function');
-        } catch (functionError) {
-          console.error('❌ Falha total ao registrar aceite:', functionError);
-          
-          // Como último recurso, aceitar localmente
-          console.log('⚠️ Aceitando termos localmente como fallback');
-          
-          if (onAccept) {
-            onAccept(true);
-          }
-          
-          toast({
-            title: "Sucesso",
-            description: "Termos aceitos com sucesso.",
-          });
-          
-          onClose();
-          return;
+      // Registrar aceite via Edge Function
+      const { data, error: functionError } = await supabase.functions.invoke('registro-termo', {
+        body: {
+          aceite: true,
+          receberComunicados: true
         }
-      } else {
-        console.log('✅ Aceite registrado diretamente na tabela');
+      });
+
+      if (functionError) {
+        console.error('❌ Erro na função:', functionError);
+        
+        // Como fallback, aceitar localmente
+        console.log('⚠️ Aceitando termos localmente como fallback');
+        
+        if (onAccept) {
+          onAccept(true);
+        }
+        
+        toast({
+          title: "Sucesso",
+          description: "Termos aceitos com sucesso.",
+        });
+        
+        onClose();
+        return;
       }
+
+      console.log('✅ Aceite registrado via Edge Function');
       
       if (onAccept) {
         onAccept(true);
