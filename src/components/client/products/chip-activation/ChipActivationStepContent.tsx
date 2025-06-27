@@ -22,9 +22,6 @@ export function ChipActivationStepContent({
   onContinue,
   onStartScanning
 }: ChipActivationStepContentProps) {
-  console.log('🔍 [CHIP-STEP-CONTENT] Renderizando step:', currentStep);
-  console.log('📋 [CHIP-STEP-CONTENT] Lines:', selectedLines);
-
   // Each step is rendered as its own screen
   if (currentStep === 4) {
     return (
@@ -66,17 +63,5 @@ export function ChipActivationStepContent({
     );
   }
   
-  // Fallback para steps não reconhecidos
-  console.warn('⚠️ [CHIP-STEP-CONTENT] Step não reconhecido:', currentStep);
-  return (
-    <div className="flex flex-col space-y-6">
-      <div className="text-center">
-        <p className="text-gray-600">Passo não encontrado: {currentStep}</p>
-      </div>
-      <NavigationButtons 
-        onBack={onBack} 
-        onContinue={onContinue}
-      />
-    </div>
-  );
+  return null;
 }

@@ -108,11 +108,11 @@ export const useAsaasPayment = () => {
         dueDate
       });
 
-      // URL de retorno após pagamento - usando o domínio atual da aplicação
+      // URL de retorno após pagamento
       const returnUrl = `${window.location.origin}/client/payment-return`;
       const webhookUrl = `${window.location.origin}/functions/asaas-webhook`;
 
-      console.log('🔗 [ASAAS-SERVICE] Chamando Edge Function com dados completos...');
+      console.log('📡 [ASAAS-SERVICE] Chamando Edge Function com dados completos...');
       console.log('🔗 [ASAAS-SERVICE] Return URL:', returnUrl);
       console.log('🔗 [ASAAS-SERVICE] Webhook URL:', webhookUrl);
 
@@ -139,7 +139,7 @@ export const useAsaasPayment = () => {
           planName: plan.internet,
           planType: plan.type,
           planDdd: plan.ddd,
-          // URLs de configuração - ADICIONADAS
+          // URLs de configuração
           returnUrl: returnUrl,
           webhookUrl: webhookUrl,
           // Metadados para referência

@@ -1,67 +1,56 @@
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { QrCode, CheckCircle } from "lucide-react";
 import { Line } from "../ChipActivationFlow";
+import { Info } from "lucide-react";
 
-interface BarcodeScannerComponentProps {
+interface BarcodeScannerProps {
   selectedLines: Line[];
   onStartScanning: (index: number) => void;
 }
 
-export function BarcodeScannerComponent({
-  selectedLines,
-  onStartScanning
-}: BarcodeScannerComponentProps) {
-  console.log('📱 [BARCODE-SCANNER] Linhas para escanear:', selectedLines);
-
+export function BarcodeScannerComponent({ selectedLines, onStartScanning }: BarcodeScannerProps) {
   return (
-    <div className="space-y-4">
-      <div className="text-center mb-6">
-        <h2 className="text-xl font-semibold mb-2">Escaneie os códigos de barras</h2>
-        <p className="text-gray-600">
-          Escaneie o código de barras de cada chip para finalizar a ativação
+    <div className="flex flex-col items-center w-full max-w-[342px] mx-auto">
+      <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-2 w-full">
+        <Info size={16} className="text-blue-500 mt-0.5 flex-shrink-0" />
+        <p className="text-xs text-blue-700">
+          O código de barras do chip deve ter 20 dígitos e começar com 8955. Posicione o código no centro da câmera.
         </p>
       </div>
-
-      {selectedLines.map((line, index) => (
-        <Card key={line.id || index} className="w-full">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <h3 className="font-medium">{line.internet}</h3>
-                <p className="text-sm text-gray-600">{line.type}</p>
-                {line.ddd && <p className="text-sm text-gray-600">DDD: {line.ddd}</p>}
-                <p className="text-sm font-medium text-green-600">R$ {line.price.toFixed(2)}</p>
-              </div>
-              
-              <div className="flex items-center gap-3">
-                {line.barcode ? (
-                  <div className="flex items-center gap-2 text-green-600">
-                    <CheckCircle className="h-5 w-5" />
-                    <span className="text-sm font-medium">Escaneado</span>
-                  </div>
-                ) : (
+      
+      <div className="space-y-4 w-full">
+        {selectedLines.map((line, index) => (
+          <div key={line.id} className="flex flex-col space-y-3 w-full">
+            <div className="p-6 border rounded-lg w-full">
+              <div className="flex flex-col space-y-4">
+                <p className="font-medium">Código de barras do SIM card</p>
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-gray-500">Linha: DDD {line.ddd}</p>
                   <Button
                     onClick={() => onStartScanning(index)}
-                    className="flex items-center gap-2"
-                    size="sm"
+                    className="bg-[#8425af] hover:bg-[#6c1e8f] px-4 h-[42px] flex items-center"
                   >
-                    <QrCode className="h-4 w-4" />
-                    Escanear
+                    {line.barcode ? 'Escanear novamente' : 'Escanear código'}
                   </Button>
-                )}
+                </div>
               </div>
             </div>
-            
             {line.barcode && (
-              <div className="mt-3 p-2 bg-gray-50 rounded text-xs font-mono">
-                {line.barcode}
+              <div className="py-3 w-full">
+                <p className="text-sm font-medium text-gray-700">Código escaneado:</p>
+                <div className="flex flex-col gap-2 mt-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-gray-700">ICCID:</span>
+                    <p className="text-sm font-mono p-2 border border-[#e2e8f0] rounded w-full">
+                      {line.barcode}
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
-          </CardContent>
-        </Card>
-      ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

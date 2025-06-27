@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -27,48 +28,17 @@ export default function PaymentReturn() {
   const paymentId = searchParams.get('payment_id');
   const status = searchParams.get('status');
 
-  // Impedir navegação para trás
-  useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-      e.returnValue = '';
-    };
-
-    const handlePopState = (e: PopStateEvent) => {
-      e.preventDefault();
-      window.history.pushState(null, '', window.location.href);
-      toast({
-        title: "Navegação bloqueada",
-        description: "Complete o processo de pagamento antes de sair desta página.",
-        variant: "destructive"
-      });
-    };
-
-    // Adicionar estado no histórico para bloquear voltar
-    window.history.pushState(null, '', window.location.href);
-    
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    window.addEventListener('popstate', handlePopState);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [toast]);
-
   useEffect(() => {
     checkPaymentStatus();
   }, []);
 
   const checkPaymentStatus = async () => {
     console.log('🔍 [PAYMENT-RETURN] Verificando status do pagamento...');
-    console.log('🔍 [PAYMENT-RETURN] Parâmetros da URL:', { sessionId, paymentId, status });
     
     try {
       const { data: { user }, error: userError } = await supabase.auth.getUser();
       
       if (userError || !user) {
-        console.error('❌ [PAYMENT-RETURN] Erro de autenticação:', userError);
         toast({
           title: "Erro",
           description: "Usuário não autenticado. Redirecionando...",
@@ -78,21 +48,13 @@ export default function PaymentReturn() {
         return;
       }
 
-      console.log('👤 [PAYMENT-RETURN] Usuário autenticado:', user.id);
-
-      // Buscar pedido do usuário mais recente ou por payment_id se disponível
-      let query = supabase
+      // Buscar pedido do usuário mais recente
+      const { data: orders, error: orderError } = await supabase
         .from('orders')
         .select('*')
-        .eq('user_id', user.id);
-
-      if (paymentId) {
-        query = query.eq('asaas_payment_id', paymentId);
-      } else {
-        query = query.order('created_at', { ascending: false }).limit(1);
-      }
-
-      const { data: orders, error: orderError } = await query;
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(1);
 
       if (orderError) {
         console.error('❌ [PAYMENT-RETURN] Erro ao buscar orders:', orderError);
@@ -100,19 +62,14 @@ export default function PaymentReturn() {
         return;
       }
 
-      console.log('📋 [PAYMENT-RETURN] Orders encontradas:', orders);
-
       if (orders && orders.length > 0) {
         const latestOrder = orders[0];
         setPaymentDetails(latestOrder);
 
         console.log('📋 [PAYMENT-RETURN] Order encontrada:', {
-          id: latestOrder.id,
           status: latestOrder.status,
-          amount: latestOrder.total_amount,
-          asaas_payment_id: latestOrder.asaas_payment_id,
-          created_at: latestOrder.created_at,
-          updated_at: latestOrder.updated_at
+          id: latestOrder.id,
+          amount: latestOrder.total_amount
         });
 
         if (latestOrder.status === 'paid') {
@@ -123,33 +80,20 @@ export default function PaymentReturn() {
           });
         } else if (latestOrder.status === 'pending') {
           setPaymentStatus('pending');
-          console.log(`🔄 [PAYMENT-RETURN] Tentativa ${checkAttempts + 1} - Status ainda pendente`);
-          
           // Tentar verificar novamente em alguns segundos
-          if (checkAttempts < 20) { // Aumentei para 20 tentativas
+          if (checkAttempts < 10) {
             setTimeout(() => {
               setCheckAttempts(prev => prev + 1);
               checkPaymentStatus();
             }, 3000);
-          } else {
-            console.warn('⚠️ [PAYMENT-RETURN] Máximo de tentativas atingido');
-            setPaymentStatus('failed');
-            toast({
-              title: "Timeout",
-              description: "Não foi possível confirmar o pagamento. Entre em contato com o suporte.",
-              variant: "destructive"
-            });
           }
         } else {
-          console.log('❌ [PAYMENT-RETURN] Status não reconhecido:', latestOrder.status);
           setPaymentStatus('failed');
         }
       } else {
-        console.warn('⚠️ [PAYMENT-RETURN] Nenhuma order encontrada');
         setPaymentStatus('pending');
-        
         // Tentar verificar novamente se não encontrou o pedido
-        if (checkAttempts < 10) {
+        if (checkAttempts < 5) {
           setTimeout(() => {
             setCheckAttempts(prev => prev + 1);
             checkPaymentStatus();
@@ -176,18 +120,11 @@ export default function PaymentReturn() {
           paymentMethod: 'pix'
         };
         localStorage.setItem('orderData', JSON.stringify(orderData));
-        console.log('💾 [PAYMENT-RETURN] Dados salvos para próxima etapa:', orderData);
       }
       
-      // Permitir navegação e ir para ativação do chip
-      window.removeEventListener('beforeunload', () => {});
-      window.removeEventListener('popstate', () => {});
-      navigate("/client/chip-activation", { replace: true });
+      navigate("/client/chip-activation");
     } else {
-      // Permitir navegação e voltar para produtos
-      window.removeEventListener('beforeunload', () => {});
-      window.removeEventListener('popstate', () => {});
-      navigate("/client/products", { replace: true });
+      navigate("/client/products");
     }
   };
 
@@ -222,7 +159,7 @@ export default function PaymentReturn() {
       case 'confirmed':
         return 'Seu pagamento foi processado com sucesso. Você pode prosseguir para a ativação do chip.';
       case 'pending':
-        return `Estamos aguardando a confirmação do seu pagamento. Isso pode levar alguns minutos. (Tentativa ${checkAttempts + 1}/20)`;
+        return 'Estamos aguardando a confirmação do seu pagamento. Isso pode levar alguns minutos.';
       case 'failed':
         return 'Não foi possível confirmar seu pagamento. Tente novamente ou entre em contato com o suporte.';
       default:
@@ -273,12 +210,6 @@ export default function PaymentReturn() {
                        paymentDetails.status === 'pending' ? 'Pendente' : 'Falhou'}
                     </span>
                   </div>
-                  {paymentDetails.asaas_payment_id && (
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">ID Asaas:</span>
-                      <span className="font-medium text-xs">{paymentDetails.asaas_payment_id}</span>
-                    </div>
-                  )}
                 </div>
               )}
 
@@ -306,13 +237,13 @@ export default function PaymentReturn() {
                 {paymentStatus === 'failed' && (
                   <div className="space-y-2">
                     <Button 
-                      onClick={() => navigate("/client/products", { replace: true })} 
+                      onClick={() => navigate("/client/products")} 
                       className="w-full"
                     >
                       Tentar Novamente
                     </Button>
                     <Button 
-                      onClick={() => navigate("/client/dashboard", { replace: true })} 
+                      onClick={() => navigate("/client/dashboard")} 
                       variant="outline" 
                       className="w-full"
                     >

@@ -30,7 +30,6 @@ interface PaymentRequest {
   planDdd?: string;
   
   // Configuração
-  returnUrl?: string;
   webhookUrl?: string;
   
   // Metadados
@@ -84,8 +83,7 @@ serve(async (req) => {
       hasWhatsapp: !!requestData.whatsapp,
       planName: requestData.planName,
       planType: requestData.planType,
-      userId: requestData.userId,
-      returnUrl: requestData.returnUrl
+      userId: requestData.userId
     });
 
     // Verificar variáveis de ambiente
@@ -191,21 +189,21 @@ serve(async (req) => {
       address: customerData.address ? 'PRESENTE' : 'AUSENTE'
     });
 
-    // Headers corretos para requisições do Asaas Sandbox
+    // Headers corretos para requisições do Asaas
     const asaasHeaders = {
       'access_token': ASAAS_API_KEY,
       'Content-Type': 'application/json',
       'User-Agent': 'Smartvoz/1.0'
     };
 
-    console.log('🔍 [ASAAS-PAYMENT] Headers preparados para Asaas Sandbox');
+    console.log('🔍 [ASAAS-PAYMENT] Headers preparados para Asaas');
 
     // Primeiro, tentar buscar cliente existente por email
     console.log('🔍 [ASAAS-PAYMENT] Verificando se cliente já existe...');
     let customerId: string;
 
     try {
-      const searchUrl = `https://sandbox.asaas.com/api/v3/customers?email=${encodeURIComponent(customerData.email)}`;
+      const searchUrl = `https://www.asaas.com/api/v3/customers?email=${encodeURIComponent(customerData.email)}`;
       console.log('🔍 [ASAAS-PAYMENT] URL de busca:', searchUrl);
       
       const searchResponse = await fetch(searchUrl, {
@@ -230,7 +228,7 @@ serve(async (req) => {
           
           // Atualizar dados do cliente existente com informações mais completas
           console.log('🔄 [ASAAS-PAYMENT] Atualizando dados do cliente existente...');
-          const updateResponse = await fetch(`https://sandbox.asaas.com/api/v3/customers/${customerId}`, {
+          const updateResponse = await fetch(`https://www.asaas.com/api/v3/customers/${customerId}`, {
             method: 'PUT',
             headers: asaasHeaders,
             body: JSON.stringify(customerData)
@@ -245,7 +243,7 @@ serve(async (req) => {
           // Cliente não existe, criar novo
           console.log('👤 [ASAAS-PAYMENT] Criando novo cliente no Asaas...');
           
-          const customerResponse = await fetch('https://sandbox.asaas.com/api/v3/customers', {
+          const customerResponse = await fetch('https://www.asaas.com/api/v3/customers', {
             method: 'POST',
             headers: asaasHeaders,
             body: JSON.stringify(customerData)
@@ -327,31 +325,24 @@ serve(async (req) => {
       );
     }
 
-    // Criar cobrança com descrição detalhada e callback configurado
-    console.log('💰 [ASAAS-PAYMENT] Criando cobrança no Asaas Sandbox...');
+    // Criar cobrança com descrição detalhada
+    console.log('💰 [ASAAS-PAYMENT] Criando cobrança no Asaas...');
     
     const description = requestData.planName && requestData.planType 
       ? `Plano ${requestData.planName} - ${requestData.planType}${requestData.planDdd ? ` (DDD ${requestData.planDdd})` : ''}`
       : 'Plano Smartvoz';
     
-    const paymentData: any = {
+    const paymentData = {
       customer: customerId,
       billingType: 'PIX',
       value: requestData.value,
       dueDate: requestData.dueDate,
       description: description,
-      externalReference: `smartvoz_${requestData.userId || 'unknown'}_${Date.now()}`,
-      postalService: false
+      ...(requestData.webhookUrl && { 
+        externalReference: `smartvoz_${requestData.userId || 'unknown'}_${Date.now()}`,
+        postalService: false 
+      })
     };
-
-    // Configurar callback URLs se fornecidas
-    if (requestData.returnUrl) {
-      paymentData.callback = {
-        successUrl: requestData.returnUrl,
-        autoRedirect: true
-      };
-      console.log('🔗 [ASAAS-PAYMENT] Callback configurado:', paymentData.callback);
-    }
 
     console.log('💰 [ASAAS-PAYMENT] Dados da cobrança:', {
       customer: customerId,
@@ -360,11 +351,10 @@ serve(async (req) => {
       dueDate: paymentData.dueDate,
       description: paymentData.description,
       externalReference: paymentData.externalReference,
-      hasCallback: !!paymentData.callback,
-      callbackUrl: paymentData.callback?.successUrl
+      hasWebhook: !!requestData.webhookUrl
     });
 
-    const paymentResponse = await fetch('https://sandbox.asaas.com/api/v3/payments', {
+    const paymentResponse = await fetch('https://www.asaas.com/api/v3/payments', {
       method: 'POST',
       headers: asaasHeaders,
       body: JSON.stringify(paymentData)
