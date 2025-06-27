@@ -21,7 +21,7 @@ export function SponsorUserSection({ form }: SponsorUserSectionProps) {
         />
         {form.formState.errors.sponsor && (
           <p className="text-red-500 text-sm mt-1">
-            {form.formState.errors.sponsor.message}
+            {String(form.formState.errors.sponsor.message || "Erro no campo patrocinador")}
           </p>
         )}
       </div>
@@ -37,7 +37,7 @@ export function SponsorUserSection({ form }: SponsorUserSectionProps) {
         />
         {form.formState.errors.custom_id && (
           <p className="text-red-500 text-sm mt-1">
-            {form.formState.errors.custom_id.message}
+            {String(form.formState.errors.custom_id.message || "Erro no campo usuário")}
           </p>
         )}
       </div>
