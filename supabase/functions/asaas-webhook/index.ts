@@ -4,7 +4,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, asaas-access-token',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
 /**
@@ -27,25 +27,12 @@ serve(async (req: Request) => {
   }
 
   try {
-    // Verificar token de acesso do Asaas (se configurado)
-    const asaasToken = req.headers.get('asaas-access-token');
-    const expectedToken = Deno.env.get('ASAAS_WEBHOOK_TOKEN');
-    
-    if (expectedToken && asaasToken !== expectedToken) {
-      console.error('❌ [ASAAS-WEBHOOK] Token de acesso inválido');
-      return new Response("Token de acesso inválido", { 
-        status: 401,
-        headers: corsHeaders 
-      });
-    }
-
     const event = await req.json();
     console.log('📨 [ASAAS-WEBHOOK] Evento recebido:', {
       event: event.event,
       paymentId: event.payment?.id,
       status: event.payment?.status,
-      value: event.payment?.value,
-      headers: Object.fromEntries(req.headers.entries())
+      value: event.payment?.value
     });
 
     // Inicializar cliente Supabase com service role para bypass RLS
@@ -118,14 +105,20 @@ serve(async (req: Request) => {
       }
 
       console.log('✅ [ASAAS-WEBHOOK] Order atualizada com sucesso:', order);
+
+      // TODO: Aqui você pode adicionar notificações, emails, etc.
+      // Exemplo: Enviar notificação para o usuário
+      // await notifyUser(userId, 'Pagamento confirmado!');
     }
 
     // Processar outros eventos se necessário
     else if (event.event === "PAYMENT_OVERDUE") {
       console.log('⏰ [ASAAS-WEBHOOK] Pagamento vencido:', event.payment?.id);
+      // TODO: Implementar lógica para pagamento vencido
     }
     else if (event.event === "PAYMENT_DELETED") {
       console.log('🗑️ [ASAAS-WEBHOOK] Pagamento cancelado:', event.payment?.id);
+      // TODO: Implementar lógica para pagamento cancelado
     }
 
     return new Response("OK", { 

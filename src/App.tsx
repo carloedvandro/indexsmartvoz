@@ -1,5 +1,6 @@
 
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -67,6 +68,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
+        <Sonner />
         <BrowserRouter>
           <Routes>
             {/* Root */}
@@ -78,7 +80,6 @@ function App() {
             <Route path="/client/reset-password" element={<ClientResetPassword />} />
             <Route path="/client/update-password" element={<ClientUpdatePassword />} />
             <Route path="/client/facial-biometry" element={<ClientFacialBiometry />} />
-            <Route path="/client/plan-selection" element={<ClientPlanSelection />} />
 
             {/* Client Protected Routes - WITH LAYOUT */}
             <Route path="/client/dashboard" element={<DynamicLayout><ClientDashboard /></DynamicLayout>} />
@@ -98,6 +99,7 @@ function App() {
             <Route path="/client/upgrade" element={<DynamicLayout><ClientUpgrade /></DynamicLayout>} />
             <Route path="/client/checkout" element={<DynamicLayout><ClientCheckout /></DynamicLayout>} />
             <Route path="/client/esim" element={<DynamicLayout><ClientESIM /></DynamicLayout>} />
+            <Route path="/client/plan-selection" element={<DynamicLayout><ClientPlanSelection /></DynamicLayout>} />
             <Route path="/client/chip-activation" element={<DynamicLayout><ClientChipActivation /></DynamicLayout>} />
             <Route path="/client/payment-return" element={<DynamicLayout><ClientPaymentReturn /></DynamicLayout>} />
 

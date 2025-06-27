@@ -1,7 +1,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 interface NetworkPlan {
   id: string;
@@ -17,8 +17,6 @@ interface NetworkPlan {
 }
 
 export const useNetworkPlans = () => {
-  const { toast } = useToast();
-
   return useQuery({
     queryKey: ['networkPlans'],
     queryFn: async () => {
@@ -32,11 +30,7 @@ export const useNetworkPlans = () => {
 
         if (plansError) {
           console.error('Error fetching plans:', plansError);
-          toast({
-            title: "Erro",
-            description: "Erro ao carregar planos",
-            variant: "destructive",
-          });
+          toast.error('Erro ao carregar planos');
           return [];
         }
 
@@ -48,11 +42,7 @@ export const useNetworkPlans = () => {
 
         if (commissionsError) {
           console.error('Error fetching commissions:', commissionsError);
-          toast({
-            title: "Erro",
-            description: "Erro ao carregar comissões",
-            variant: "destructive",
-          });
+          toast.error('Erro ao carregar comissões');
           return [];
         }
 
@@ -71,11 +61,7 @@ export const useNetworkPlans = () => {
         return plansWithCommissions;
       } catch (error) {
         console.error('Error in useNetworkPlans:', error);
-        toast({
-          title: "Erro",
-          description: "Erro ao carregar dados dos planos",
-          variant: "destructive",
-        });
+        toast.error('Erro ao carregar dados dos planos');
         return [];
       }
     }

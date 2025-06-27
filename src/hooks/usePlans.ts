@@ -1,7 +1,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 interface PlanBenefit {
   id: string;
@@ -29,8 +29,6 @@ interface Plan {
 }
 
 export const usePlans = () => {
-  const { toast } = useToast();
-
   return useQuery({
     queryKey: ['plans'],
     queryFn: async () => {
@@ -47,22 +45,14 @@ export const usePlans = () => {
 
         if (error) {
           console.error('Error fetching plans:', error);
-          toast({
-            title: "Erro",
-            description: "Erro ao carregar planos",
-            variant: "destructive",
-          });
+          toast.error('Erro ao carregar planos');
           return [];
         }
 
         return plans || [];
       } catch (error) {
         console.error('Error in usePlans:', error);
-        toast({
-          title: "Erro",
-          description: "Erro ao carregar dados dos planos",
-          variant: "destructive",
-        });
+        toast.error('Erro ao carregar dados dos planos');
         return [];
       }
     }
