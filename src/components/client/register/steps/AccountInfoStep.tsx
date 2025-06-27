@@ -11,14 +11,15 @@ interface AccountInfoStepProps {
 }
 
 export const AccountInfoStep = ({ form, disableSponsor }: AccountInfoStepProps) => {
-  console.log("🎨 Renderizando AccountInfoStep", { disableSponsor });
+  console.log("🎨 === RENDERIZANDO AccountInfoStep ===", { disableSponsor });
   
   const sponsorValue = form.watch("sponsorCustomId");
   const customIdValue = form.watch("customId");
   
-  console.log("📋 AccountInfoStep valores:", { 
+  console.log("📋 AccountInfoStep valores em tempo real:", { 
     sponsorCustomId: sponsorValue,
-    customId: customIdValue 
+    customId: customIdValue,
+    customIdLength: customIdValue ? customIdValue.length : 0
   });
 
   return (
@@ -39,7 +40,7 @@ export const AccountInfoStep = ({ form, disableSponsor }: AccountInfoStepProps) 
                 type="text"
                 value={field.value || ""}
                 onChange={field.onChange}
-                label="ID do Patrocinador (Opcional)"
+                label="ID do Patrocinador "
                 icon={User}
                 disabled={disableSponsor}
                 placeholder=""

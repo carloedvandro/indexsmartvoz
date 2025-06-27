@@ -6,7 +6,8 @@ import { PriceSummary } from "@/components/client/products/PriceSummary";
 import { NavigationButtons } from "@/components/client/products/NavigationButtons";
 import { PlanSelectionHeader } from "@/components/client/products/plan-selection/PlanSelectionHeader";
 import { PlanSelectionForm } from "@/components/client/products/plan-selection/PlanSelectionForm";
-import { internetOptions, mapUrlPlanToInternet, mapPlanValueToInternet } from "@/components/client/products/plan-selection/planOptions";
+import { getPlanPriceFromDatabase } from "@/components/client/products/plan-selection/planOptions";
+import { usePlans } from "@/hooks/usePlans";
 import { useToast } from "@/hooks/use-toast";
 
 interface PlanSelectionStepProps {
@@ -34,38 +35,9 @@ export function PlanSelectionStep({
   const [selectedInternet, setSelectedInternet] = useState<string>("");
   const [selectedDDD, setSelectedDDD] = useState<string>("");
   const [searchParams] = useSearchParams();
+  const { data: plansData, isLoading } = usePlans();
   const { toast } = useToast();
   
-  // Auto-select plan based on localStorage data from plan selection
-  useEffect(() => {
-    const storedPlan = localStorage.getItem('selectedPlan');
-    console.log('🎯 Verificando plano armazenado:', storedPlan);
-    
-    if (storedPlan) {
-      try {
-        const planData = JSON.parse(storedPlan);
-        console.log('🎯 Plano selecionado encontrado:', planData);
-        
-        // Try to map the plan value to internet option
-        const mappedInternet = mapPlanValueToInternet(planData.price);
-        console.log('🎯 Mapeamento do plano:', mappedInternet, 'para preço:', planData.price);
-        
-        if (mappedInternet && selectedInternet !== mappedInternet) {
-          console.log('✅ Auto-selecionando plano:', mappedInternet);
-          setSelectedInternet(mappedInternet);
-        }
-        
-        // Auto-set a default DDD if none is selected
-        if (!selectedDDD) {
-          console.log('✅ Auto-selecionando DDD padrão: 11');
-          setSelectedDDD("11");
-        }
-      } catch (error) {
-        console.error('❌ Erro ao processar plano selecionado:', error);
-      }
-    }
-  }, []); // Removido as dependências para executar apenas uma vez
-
   // Initialize selectedInternet and selectedDDD from selectedLines if available
   useEffect(() => {
     if (selectedLines.length > 0) {
@@ -77,8 +49,8 @@ export function PlanSelectionStep({
 
   // Update selected lines when internet or DDD changes
   useEffect(() => {
-    if (selectedInternet && selectedDDD) {
-      const linePrice = getLinePrice();
+    if (selectedInternet && selectedDDD && plansData) {
+      const linePrice = getPlanPriceFromDatabase(plansData, selectedInternet);
       if (selectedLines.length === 0) {
         setSelectedLines([{
           id: 1,
@@ -98,10 +70,11 @@ export function PlanSelectionStep({
         setSelectedLines(updatedLines);
       }
     }
-  }, [selectedInternet, selectedDDD]);
+  }, [selectedInternet, selectedDDD, plansData]);
 
   const getLinePrice = () => {
-    return internetOptions.find(option => option.value === selectedInternet)?.price || 0;
+    if (!plansData) return 0;
+    return getPlanPriceFromDatabase(plansData, selectedInternet);
   };
 
   const handleContinue = () => {
@@ -139,6 +112,17 @@ export function PlanSelectionStep({
   // Fix: The button should only be enabled when all three fields are filled
   const isDisabled = !selectedInternet || !selectedDDD || !selectedDueDate;
 
+  if (isLoading) {
+    return (
+      <div className="max-w-[379px] mx-auto w-full" style={{ marginTop: "24px" }}>
+        <div className="space-y-6">
+          <PlanSelectionHeader />
+          <div className="text-center">Carregando planos...</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-[379px] mx-auto w-full" style={{ marginTop: "24px" }}>
       <div className="space-y-6">
@@ -150,7 +134,6 @@ export function PlanSelectionStep({
             setSelectedInternet={setSelectedInternet}
             selectedDDD={selectedDDD}
             setSelectedDDD={setSelectedDDD}
-            internetOptions={internetOptions}
           />
 
           <div className="w-full max-w-[340px] mx-auto">
