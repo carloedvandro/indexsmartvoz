@@ -126,6 +126,56 @@ export const useAsaasPayment = () => {
         return false;
       }
 
+      // Buscar ou criar um plano padrão baseado no internet selecionado
+      let planId = planData.id;
+      
+      if (!planId) {
+        console.log('🔍 Buscando plano baseado no internet:', selectedLines[0].internet);
+        
+        // Buscar plano existente baseado no título
+        const { data: existingPlans, error: planSearchError } = await supabase
+          .from('plans')
+          .select('id')
+          .ilike('title', `%${selectedLines[0].internet}%`)
+          .eq('status', 'active')
+          .limit(1);
+
+        if (planSearchError) {
+          console.error('❌ Erro ao buscar planos:', planSearchError);
+        }
+
+        if (existingPlans && existingPlans.length > 0) {
+          planId = existingPlans[0].id;
+          console.log('✅ Plano encontrado:', planId);
+        } else {
+          // Criar plano se não existir
+          console.log('🔄 Criando novo plano...');
+          const { data: newPlan, error: createPlanError } = await supabase
+            .from('plans')
+            .insert({
+              title: `Plano ${selectedLines[0].internet}`,
+              description: `Plano de ${selectedLines[0].internet} com minutos ilimitados`,
+              value: selectedLines[0].price,
+              status: 'active'
+            })
+            .select('id')
+            .single();
+
+          if (createPlanError) {
+            console.error('❌ Erro ao criar plano:', createPlanError);
+            toast({
+              title: "Erro",
+              description: "Erro ao criar plano: " + createPlanError.message,
+              variant: "destructive",
+            });
+            return false;
+          }
+
+          planId = newPlan.id;
+          console.log('✅ Novo plano criado:', planId);
+        }
+      }
+
       // Calcular total
       const total = selectedLines.reduce((acc, line) => acc + line.price, 0);
 
@@ -136,15 +186,16 @@ export const useAsaasPayment = () => {
         userCpf: profile.cpf,
         userPhone: profile.whatsapp || profile.phone,
         planName: planData.title,
+        planId: planId,
         total,
         dueDate: selectedDueDate,
         hasAddress: !!address
       });
 
-      // Preparar dados para criar o pedido
+      // Preparar dados para criar o pedido - garantindo que plan_id nunca seja null
       const orderData = {
         user_id: user.id,
-        plan_id: planData.id || null,
+        plan_id: planId, // Garantimos que sempre tem um valor
         total_amount: total,
         payment_method: 'pix',
         status: 'pending',
