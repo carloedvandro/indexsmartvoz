@@ -50,20 +50,20 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
       complement: data.complement || ""
     };
 
-    console.log("🚀 Enviando dados para edge function registro-usuarios:", {
+    console.log("🚀 Enviando dados para edge function Registro-Usuarios:", {
       email: payload.email,
       customId: payload.customId,
       hasSponsor: !!payload.sponsorCustomId,
       hasAddress: !!(payload.cep && payload.street && payload.city)
     });
 
-    // Chamar a edge function registro-usuarios
-    const { data: result, error } = await supabase.functions.invoke('registro-usuarios', {
+    // Chamar a edge function Registro-Usuarios (com R maiúsculo)
+    const { data: result, error } = await supabase.functions.invoke('Registro-Usuarios', {
       body: payload
     });
 
     if (error) {
-      log("error", "Error calling registro-usuarios function", error);
+      log("error", "Error calling Registro-Usuarios function", error);
       console.error("💥 Erro na edge function:", error);
       throw new Error(error.message || "Erro ao processar cadastro");
     }
