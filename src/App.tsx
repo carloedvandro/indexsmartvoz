@@ -83,7 +83,6 @@ function App() {
             </Route>
           </Route>
           
-          {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<ProtectedRoute />}>
             <Route path="" element={<RoleBasedRoute allowedRoles={['admin']} />}>
