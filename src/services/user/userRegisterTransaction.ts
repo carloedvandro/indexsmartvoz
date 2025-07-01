@@ -115,10 +115,11 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
     if (!authData.user) {
       throw new Error("Falha ao criar usuário - dados não retornados");
     }
-
+ console.log('=== AGUARDANDO TRIGGER DE PERFIL ===');
+      await new Promise(resolve => setTimeout(resolve, 1000));
     const userId = authData.user.id;
     console.log("✅ Usuário criado no Auth:", userId);
-
+debugger;
     // 6. Atualizar perfil com dados completos
     console.log("📝 Atualizando perfil...");
     const { error: updateError } = await supabase
