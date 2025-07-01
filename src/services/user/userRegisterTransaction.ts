@@ -76,12 +76,36 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
     }
 
     console.log("✅ Cadastro realizado com sucesso via edge function:", result);
-    log("info", "User registration completed successfully via edge function", { 
-      userId: result.user?.id,
+
+    // IMPORTANTE: Fazer login automático após cadastro bem-sucedido
+    console.log("🔐 Fazendo login automático após cadastro...");
+    const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (loginError) {
+      console.error("💥 Erro no login automático:", loginError);
+      log("error", "Auto-login failed after registration", loginError);
+      throw new Error("Cadastro realizado mas erro no login automático: " + loginError.message);
+    }
+
+    if (!loginData.user) {
+      console.error("💥 Login automático não retornou usuário");
+      throw new Error("Cadastro realizado mas erro no login automático");
+    }
+
+    console.log("✅ Login automático realizado com sucesso:", loginData.user.id);
+    log("info", "User registration and auto-login completed successfully", { 
+      userId: loginData.user.id,
       customId: data.customId
     });
 
-    return result;
+    return {
+      ...result,
+      user: loginData.user,
+      session: loginData.session
+    };
 
   } catch (error: any) {
     log("error", "Error in registerUserWithAddress function", error);

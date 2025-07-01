@@ -26,13 +26,14 @@ export const useFormSubmission = () => {
       
       const result = await registerUserWithAddress(data);
       
-      console.log("✅ Cadastro realizado com sucesso!", result);
+      console.log("✅ Cadastro e login automático realizados com sucesso!", result);
       
       toast({
         title: "Cadastro realizado com sucesso!",
         description: "Redirecionando para verificação biométrica...",
       });
       
+      // Redirecionar imediatamente para biometria facial, pois usuário já está logado
       setTimeout(() => {
         navigate("/client/facial-biometry");
       }, 1500);
