@@ -65,7 +65,6 @@ function App() {
           <Route path="/client/payment-return" element={<PaymentReturn />} />
           <Route path="/client/chip-activation" element={<ChipActivation />} />
           
-          {/* Protected Client Routes */}
           <Route path="/client" element={<ProtectedRoute />}>
             <Route path="" element={<DynamicLayout />}>
               <Route path="dashboard" element={<ClientDashboard />} />
