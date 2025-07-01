@@ -14,7 +14,7 @@ export const useFormSubmission = () => {
     try {
       setIsSubmitting(true);
       
-      console.log("🚀 Iniciando cadastro completo:", {
+      console.log("🚀 Iniciando cadastro completo via edge function:", {
         email: data.email,
         fullName: data.fullName,
         customId: data.customId,
@@ -24,9 +24,9 @@ export const useFormSubmission = () => {
         hasCpf: !!data.cpf
       });
       
-      await registerUserWithAddress(data);
+      const result = await registerUserWithAddress(data);
       
-      console.log("✅ Cadastro realizado com sucesso!");
+      console.log("✅ Cadastro realizado com sucesso!", result);
       
       toast({
         title: "Cadastro realizado com sucesso!",
