@@ -12,8 +12,8 @@ interface RequestData {
   email: string;
   value: number;
   dueDate: string;
-  planName: string;
-  userId: string;
+  planName?: string;
+  userId?: string;
   cpfCnpj?: string;
   phone?: string;
   whatsapp?: string;
@@ -25,6 +25,8 @@ interface RequestData {
   planDdd?: string;
   returnUrl?: string;
   billingType?: string;
+  orderId?: string;
+  description?: string;
 }
 
 interface CustomerData {
@@ -61,7 +63,14 @@ function validateEnvironmentVariables(): string {
     console.error('❌ [ASAAS-PAYMENT] ASAAS_API_KEY não configurada');
     throw new Error('Chave da API do Asaas não configurada');
   }
-  console.log('🔐 [ASAAS-PAYMENT] ASAAS_API_KEY configurada');
+  
+  // Verificar formato da API key
+  console.log('🔐 [ASAAS-PAYMENT] API Key format check:', {
+    starts_with_dollar: asaasApiKey.startsWith('$aact_'),
+    length: asaasApiKey.length,
+    preview: asaasApiKey.substring(0, 10) + "..."
+  });
+  
   return asaasApiKey;
 }
 
@@ -175,10 +184,18 @@ async function fetchWithRetry(url: string, options: any, maxRetries = 3): Promis
       
       clearTimeout(timeoutId);
       
+      console.log(`🔍 [ASAAS-PAYMENT] Status da resposta: ${response.status}`);
+      
       // Se não for bem-sucedida, logar detalhes do erro
       if (!response.ok) {
         const errorText = await response.text();
         console.error(`❌ [ASAAS-PAYMENT] Erro HTTP ${response.status}:`, errorText);
+        
+        if (response.status === 401) {
+          console.error('🔐 [ASAAS-PAYMENT] ERRO DE AUTENTICAÇÃO - API Key pode estar incorreta');
+          throw new Error('Erro de autenticação com Asaas. Verifique a API key.');
+        }
+        
         throw new Error(`HTTP ${response.status}: ${response.statusText} - ${errorText}`);
       }
       
@@ -203,8 +220,10 @@ async function fetchWithRetry(url: string, options: any, maxRetries = 3): Promis
 async function getOrCreateCustomer(customerData: CustomerData, headers: Record<string, string>): Promise<string> {
   try {
     // Verificar se cliente já existe pelo email
-    console.log('🔍 [ASAAS-PAYMENT] Verificando cliente existente...');
+    console.log('🔍 [ASAAS-PAYMENT] Verificando se cliente já existe...');
     const searchUrl = `https://sandbox.asaas.com/api/v3/customers?email=${encodeURIComponent(customerData.email)}`;
+    console.log('🔍 [ASAAS-PAYMENT] URL de busca:', searchUrl);
+    console.log('🔍 [ASAAS-PAYMENT] Headers preparados para Asaas');
     
     const searchResponse = await fetchWithRetry(searchUrl, {
       method: 'GET',
@@ -264,11 +283,11 @@ function prepareChargeData(requestData: RequestData, customerId: string): Charge
   
   const chargeData: ChargeData = {
     customer: customerId,
-    billingType: requestData.billingType || 'UNDEFINED', // Define como 'UNDEFINED' em texto para permitir todos os tipos
+    billingType: 'UNDEFINED', // Permite todos os tipos de pagamento
     value: Number(requestData.value.toFixed(2)), // Garantir 2 casas decimais
     dueDate: formattedDueDate,
-    description: `Plano ${requestData.planName || 'Smartvoz'} - ${requestData.planType || 'Telefonia'} (DDD ${requestData.planDdd || 'N/A'})`,
-    externalReference: `smartvoz_${requestData.userId || 'guest'}_${Date.now()}`
+    description: requestData.description || `Plano ${requestData.planName || 'Smartvoz'} - ${requestData.planType || 'Telefonia'} (DDD ${requestData.planDdd || 'N/A'})`,
+    externalReference: `smartvoz_${requestData.orderId || requestData.userId || 'guest'}_${Date.now()}`
   };
 
   // Configurar callback de retorno automático APENAS se returnUrl for fornecida
@@ -297,7 +316,7 @@ function prepareChargeData(requestData: RequestData, customerId: string): Charge
  * Cria cobrança no Asaas
  */
 async function createCharge(chargeData: ChargeData, headers: Record<string, string>): Promise<any> {
-  console.log('💰 [ASAAS-PAYMENT] Criando cobrança com billingType:', chargeData.billingType);
+  console.log('💰 [ASAAS-PAYMENT] Criando cobrança...');
 
   const chargeResponse = await fetchWithRetry('https://sandbox.asaas.com/api/v3/payments', {
     method: 'POST',
@@ -332,12 +351,12 @@ function handleError(error: Error): Response {
   let errorMessage = 'Erro interno do servidor';
   let statusCode = 500;
   
-  if (error.message.includes('HTTP 400')) {
+  if (error.message.includes('autenticação') || error.message.includes('API key')) {
+    errorMessage = 'Erro de autenticação com Asaas. Verifique a configuração da API key.';
+    statusCode = 401;
+  } else if (error.message.includes('HTTP 400')) {
     errorMessage = 'Dados inválidos enviados para o Asaas. Verifique os campos obrigatórios.';
     statusCode = 400;
-  } else if (error.message.includes('HTTP 401')) {
-    errorMessage = 'Erro de autenticação com o Asaas. Verifique a API key.';
-    statusCode = 401;
   } else if (error.message.includes('fetch')) {
     errorMessage = 'Erro de conectividade com o Asaas. Tente novamente.';
     statusCode = 503;
@@ -383,10 +402,7 @@ serve(async (req) => {
       email: requestData.email,
       value: requestData.value,
       dueDate: requestData.dueDate,
-      planName: requestData.planName,
-      userId: requestData.userId,
-      returnUrl: requestData.returnUrl,
-      billingType: requestData.billingType || 'UNDEFINED (padrão)'
+      orderId: requestData.orderId
     });
 
     // Validar dados de entrada
@@ -423,9 +439,7 @@ serve(async (req) => {
         pixCopyPaste: charge.pixCopyPaste,
         pixQrCode: charge.pixQrCode,
         customerId: customerId,
-        billingType: charge.billingType || 'UNDEFINED',
-        callbackUrl: chargeData.callback?.successUrl,
-        autoRedirect: chargeData.callback?.autoRedirect
+        billingType: charge.billingType
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }

@@ -176,11 +176,21 @@ export const useAsaasPayment = () => {
         email: user.email,
         cpfCnpj: profile.cpf || '',
         phone: profile.whatsapp || profile.phone || '',
+        whatsapp: profile.whatsapp || '',
         value: total,
         dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
         description: `Pedido ${order.id} - ${planData.title}`,
+        planName: planData.title,
+        planType: selectedLines[0]?.type || 'Telefonia',
+        planDdd: selectedLines[0]?.ddd || '',
         orderId: order.id,
-        returnUrl: `${window.location.origin}/client/payment-return?payment_id=${order.id}`
+        userId: user.id,
+        address: address.street,
+        city: address.city,
+        state: address.state,
+        zipCode: address.cep,
+        returnUrl: `${window.location.origin}/client/payment-return?payment_id=${order.id}`,
+        billingType: 'UNDEFINED' // Permite todos os tipos de pagamento
       };
 
       console.log('🔄 Chamando Edge Function asaas-payment...');
@@ -204,7 +214,7 @@ export const useAsaasPayment = () => {
         console.error('❌ Erro retornado pela Edge Function:', paymentData.error);
         toast({
           title: "Erro no pagamento",
-          description: paymentData.error.message || "Erro desconhecido",
+          description: paymentData.error || "Erro desconhecido",
           variant: "destructive",
         });
         return false;
