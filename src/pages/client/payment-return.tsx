@@ -203,7 +203,7 @@ export default function PaymentReturn() {
         console.log('💾 [PAYMENT-RETURN] Dados salvos para próxima etapa:', orderData);
       }
       
-      // Ir para ativação do chip
+      // Ir para seleção do tipo de ativação
       navigate("/client/chip-activation", { replace: true });
     } else {
       // Voltar para produtos
