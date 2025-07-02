@@ -118,39 +118,6 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           </p>
         </div>
 
-        {deviceInfo && (
-          <div className="text-center p-4 bg-green-50 rounded-lg space-y-3">
-            <div className="space-y-1">
-              <h3 className="text-xl font-semibold text-green-800">
-                {deviceInfo.model}
-              </h3>
-              <p className="text-base text-green-700">
-                {deviceInfo.brand} / {deviceInfo.specs?.tac}
-              </p>
-            </div>
-            <div className="space-y-1 mt-2">
-              <p className="text-base text-green-700">
-                Fabricante: {deviceInfo.specs?.manufacturer}
-              </p>
-              <p className="text-base text-green-700">
-                Modelo: {deviceInfo.specs?.modelNumber}
-              </p>
-              <p className="text-base text-green-700">
-                TAC: {deviceInfo.specs?.tac}
-              </p>
-              <p className="text-base text-green-700">
-                Número de Série: {deviceInfo.specs?.serialNumber}
-              </p>
-              <p className="text-base text-green-700">
-                Dígito Verificador: {deviceInfo.specs?.checkDigit}
-              </p>
-            </div>
-            <p className="text-base font-medium text-green-600">
-              Dispositivo compatível com eSIM
-            </p>
-          </div>
-        )}
-
         {!deviceInfo && imei.length === 15 && !isValidating && (
           <div className="text-center p-4 bg-red-50 rounded-lg">
             <p className="text-sm text-red-600">

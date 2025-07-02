@@ -39,24 +39,22 @@ export const validateDeviceIdentifier = async (
       console.log('TAC completo:', tac);
       console.log('Device Type:', deviceType);
       
-      const deviceDetails = getDeviceInfo(tac, deviceType);
-      console.log('Device Details:', deviceDetails);
 
       // Construir as especificações detalhadas do dispositivo
       const specs = {
         tac: tac,
         serialNumber: serialNumber,
         checkDigit: checkDigit,
-        marketName: deviceDetails.model,
-        modelNumber: deviceDetails.modelNumber,
-        manufacturer: deviceDetails.brand
+        marketName: "",
+        modelNumber: "",
+        manufacturer: ""
       };
 
       return {
         isValid: true,
         deviceInfo: {
-          brand: deviceDetails.brand,
-          model: deviceDetails.model,
+          brand: "",
+          model: "",
           specs: specs
         }
       };
@@ -98,8 +96,6 @@ export const validateDeviceIdentifier = async (
         };
       }
 
-      // Verificação com o banco de dados Supabase
-      console.log('Verificando EID com o banco de dados:', cleanValue);
       const { data, error } = await supabase.rpc('validate_device_identifier', {
         p_device_type: deviceType,
         p_identifier_type: identifierType,

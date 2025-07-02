@@ -17,17 +17,13 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   const [deviceInfo, setDeviceInfo] = useState<{ brand: string; model: string; } | null>(null);
   const { toast } = useToast();
   
-  // Use ref to store the EXACT validated EID
   const validatedEidRef = useRef<string>("");
   
-  // Track if validation has been attempted
   const [validationAttempted, setValidationAttempted] = useState(false);
   
-  // Audio para feedback
   const audioRef = useRef<HTMLAudioElement | null>(null);
   
   useEffect(() => {
-    // Criar elemento de áudio
     audioRef.current = new Audio('/beep.mp3');
   }, []);
 
@@ -39,7 +35,6 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   };
 
   const validateEID = async (value: string) => {
-    // Não permitir validação se o EID não tiver exatamente 32 caracteres
     if (value.length !== 32) {
       console.log("EID deve ter exatamente 32 caracteres");
       setIsValidEID(false);
@@ -58,18 +53,13 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
       if (validation.isValid && validation.deviceInfo) {
         setIsValidEID(true);
         setDeviceInfo(validation.deviceInfo);
-        validatedEidRef.current = value; // Armazenar o EID exato validado
+        validatedEidRef.current = value; 
         playBeep();
-        
-        // Commenting out the toast notification
-        // toast({
-        //   title: "Dispositivo identificado",
-        //   description: `${validation.deviceInfo.brand} ${validation.deviceInfo.model}`,
-        // });
+
       } else {
         setIsValidEID(false);
         setDeviceInfo(null);
-        validatedEidRef.current = ""; // Limpar o EID validado
+        validatedEidRef.current = ""; 
         
         toast({
           variant: "destructive",
@@ -96,11 +86,9 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Verificação RIGOROSA - o EID deve ser EXATAMENTE igual ao validado
     if (eid === validatedEidRef.current && isValidEID && !isValidating) {
       onSubmit(eid);
     } else {
-      // Se o EID foi modificado ou não é válido
       if (eid !== validatedEidRef.current) {
         toast({
           variant: "destructive",
@@ -109,7 +97,6 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
         });
       }
       
-      // Forçar uma nova validação se tiver comprimento correto
       if (eid.length === 32) {
         validateEID(eid);
       }
@@ -117,29 +104,24 @@ export function EIDForm({ onSubmit, onBack, deviceType }: EIDFormProps) {
   };
 
   const handleEidChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Limitar a 32 caracteres e permitir apenas dígitos hexadecimais
     const rawValue = e.target.value.replace(/[^0-9a-fA-F]/g, '');
     
     if (rawValue.length <= 32) {
       const upperValue = rawValue.toUpperCase();
       
-      // Definir o novo valor
       setEID(upperValue);
       
-      // Se o valor for diferente do EID validado, redefinir a validação
       if (upperValue !== validatedEidRef.current) {
         setIsValidEID(false);
-        // Mantemos deviceInfo para melhor UX até que seja feita nova validação
       }
     }
   };
 
-  // Efeito para validar automaticamente quando o EID tiver 32 caracteres
   useEffect(() => {
     if (eid.length === 32 && eid !== validatedEidRef.current) {
       const timeoutId = setTimeout(() => {
         validateEID(eid);
-      }, 500); // Aguardar meio segundo para evitar múltiplas validações
+      }, 500); 
       
       return () => clearTimeout(timeoutId);
     }

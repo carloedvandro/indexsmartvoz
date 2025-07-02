@@ -14,7 +14,6 @@ export default function PlanSelection() {
   const handleSelectPlan = (plan: any) => {
     setSelectedPlan(plan);
 
-    // Store complete plan information in localStorage for next steps
     const planData = {
       id: plan.id,
       name: plan.name,
@@ -30,35 +29,13 @@ export default function PlanSelection() {
       description: `${plan.name} ${plan.gb} por R$ ${plan.price.toFixed(2)}`
     });
 
-    // Navigate to product configuration (existing page)
     navigate("/client/products");
-  };
-
-  const handleBack = () => {
-    navigate("/client/facial-biometry");
   };
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        
-      </div>
-
-      {/* Plans Section */}
       <div className="max-w-6xl mx-auto px-4 py-8">
         <PlansSection onSelectPlan={handleSelectPlan} />
-      </div>
-
-      {/* Progress Indicator */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-4">
-          <div className="flex justify-center">
-            <div className="text-sm text-gray-600">
-              Passo 2 de 4: Seleção do Plano
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

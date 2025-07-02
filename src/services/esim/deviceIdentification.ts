@@ -52,7 +52,6 @@ export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
     for (const prefix of prefixes) {
       if (iphoneModels[prefix]) {
         const modelInfo = iphoneModels[prefix];
-        console.log('Modelo iPhone encontrado:', modelInfo);
         return {
           brand: 'Apple',
           model: modelInfo.model,
@@ -63,7 +62,6 @@ export const getDeviceInfo = (tac: string, deviceType: string): DeviceInfo => {
     
     // Se não encontrou modelo específico, tentar identificar por padrões conhecidos do iPhone
     const iphoneInfo = identifyIPhoneModel(tac);
-    console.log('iPhone genérico identificado:', iphoneInfo);
     return { 
       brand: 'Apple', 
       model: iphoneInfo.model,
