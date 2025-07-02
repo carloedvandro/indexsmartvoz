@@ -5,6 +5,17 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Package, Smartphone, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
+export type Line = {
+  id: number;
+  internet: string;
+  type: string;
+  ddd: string;
+  price: number;
+  barcode?: string;
+  planId?: string;
+  planName?: string;
+};
+
 interface ChipActivationFlowProps {
   onBack: () => void;
 }

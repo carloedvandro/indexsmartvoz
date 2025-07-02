@@ -23,7 +23,7 @@ export function ChipTypeSelection({ onSelect, onBack }: ChipTypeSelectionProps) 
 
   const chipOptions = [
     {
-      id: 'physical',
+      id: 'physical' as const,
       title: 'Chip Físico (SIM-card)',
       description: 'Ativação tradicional com chip físico que será inserido no aparelho',
       icon: CreditCard,
@@ -35,7 +35,7 @@ export function ChipTypeSelection({ onSelect, onBack }: ChipTypeSelectionProps) 
       ]
     },
     {
-      id: 'virtual',
+      id: 'virtual' as const,
       title: 'Chip Virtual (eSIM)',
       description: 'Ativação digital sem necessidade de chip físico',
       icon: Smartphone,

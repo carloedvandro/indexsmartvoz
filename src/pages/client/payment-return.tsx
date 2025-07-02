@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -146,11 +147,11 @@ export default function PaymentReturn() {
           console.log(`🔄 [PAYMENT-RETURN] Tentativa ${checkAttempts + 1} - Status ainda pendente: ${targetOrder.status}`);
           
           // Tentar verificar novamente em alguns segundos, mas com limite menor
-          if (checkAttempts < 15) {
+          if (checkAttempts < 12) {
             setTimeout(() => {
               setCheckAttempts(prev => prev + 1);
               checkPaymentStatus();
-            }, 2500); // Reduzido para 2.5 segundos
+            }, 3000); // Reduzido para 3 segundos
           } else {
             console.warn('⚠️ [PAYMENT-RETURN] Máximo de tentativas atingido');
             setPaymentStatus('confirmed'); // Assumir confirmado após muitas tentativas
@@ -242,7 +243,7 @@ export default function PaymentReturn() {
       case 'confirmed':
         return 'Seu pagamento foi processado com sucesso. Você pode prosseguir para a ativação do chip.';
       case 'pending':
-        return `Estamos aguardando a confirmação do seu pagamento. Isso pode levar alguns minutos. (Tentativa ${checkAttempts + 1}/15)`;
+        return `Estamos aguardando a confirmação do seu pagamento. Isso pode levar alguns minutos. (Tentativa ${checkAttempts + 1}/12)`;
       case 'failed':
         return 'Não foi possível confirmar seu pagamento. Tente novamente ou entre em contato com o suporte.';
       default:
