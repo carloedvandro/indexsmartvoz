@@ -39,7 +39,8 @@ export const useNetworkMembersStatus = () => {
 
         const membersData = networkData
           ?.map(item => item.member)
-          .filter(Boolean) as NetworkMember[];
+          .filter(Boolean)
+          .flat() as NetworkMember[];
 
         setMembers(membersData || []);
       } catch (error) {

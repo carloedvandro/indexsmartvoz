@@ -1,54 +1,50 @@
 
 import { supabase } from "@/integrations/supabase/client";
-import { validatePasswordStrength } from "@/utils/passwordValidation";
 
-export const resetPassword = async (email: string) => {
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${window.location.origin}/client/update-password`,
-  });
-
-  if (error) {
-    throw error;
-  }
-};
-
-export const adminResetPassword = async (email: string) => {
-  const { error } = await supabase.auth.resetPasswordForEmail(email);
-
-  if (error) {
-    throw error;
-  }
-};
-
-export const adminSetUserPassword = async (userId: string, newPassword: string) => {
-  // Validate password strength first
-  const validation = validatePasswordStrength(newPassword);
-  if (!validation.isValid) {
-    throw new Error(validation.message);
-  }
-
-  // Get current admin's session
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
-    throw new Error("Não autenticado");
-  }
-
+export const resetUserPassword = async (email: string): Promise<{ success: boolean; message: string }> => {
   try {
-    const { error } = await supabase.rpc(
-      'admin_set_user_password',
-      {
-        admin_user_id: session.user.id,
-        target_user_id: userId,
-        new_password: newPassword
-      }
-    );
+    console.log('Iniciando reset de senha para:', email);
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/client/update-password`,
+    });
 
     if (error) {
-      console.error('Error in adminSetUserPassword:', error);
+      console.error('Erro no reset de senha:', error);
+      return {
+        success: false,
+        message: 'Erro ao enviar email de recuperação. Verifique se o email está correto.'
+      };
+    }
+
+    return {
+      success: true,
+      message: 'Email de recuperação enviado com sucesso! Verifique sua caixa de entrada.'
+    };
+  } catch (error) {
+    console.error('Erro inesperado no reset de senha:', error);
+    return {
+      success: false,
+      message: 'Erro inesperado. Tente novamente mais tarde.'
+    };
+  }
+};
+
+export const updateUserProfile = async (userId: string, updates: any): Promise<boolean> => {
+  try {
+    const { error } = await supabase
+      .from('profiles')
+      .update(updates)
+      .eq('id', userId);
+
+    if (error) {
+      console.error('Erro ao atualizar perfil:', error);
       throw error;
     }
-  } catch (error: any) {
-    console.error('Error in adminSetUserPassword:', error);
-    throw new Error(error.message || "Erro ao definir nova senha");
+
+    return true;
+  } catch (error) {
+    console.error('Erro ao atualizar perfil do usuário:', error);
+    return false;
   }
 };

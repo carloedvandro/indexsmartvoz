@@ -5,39 +5,27 @@ import { UseFormReturn } from "react-hook-form";
 
 interface SponsorUserSectionProps {
   form: UseFormReturn<any>;
-  disabled?: boolean;
 }
 
-export function SponsorUserSection({ form, disabled = false }: SponsorUserSectionProps) {
+export function SponsorUserSection({ form }: SponsorUserSectionProps) {
   return (
     <div className="space-y-4">
-      <div className="space-y-2">
-        <h3 className="text-lg font-medium">Informações do Patrocinador</h3>
-        <p className="text-sm text-gray-600">
-          Informe o ID do usuário que te indicou (opcional)
-        </p>
-      </div>
+      <h3 className="text-lg font-medium">Informações do Padrinho</h3>
       
       <FormField
         control={form.control}
-        name="sponsorCustomId"
+        name="sponsor_user"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>ID do Patrocinador</FormLabel>
+            <FormLabel>Usuário Padrinho</FormLabel>
             <FormControl>
-              <Input
-                placeholder="Digite o ID do seu patrocinador"
-                disabled={disabled}
-                {...field}
+              <Input 
+                placeholder="Digite o código do seu padrinho" 
+                {...field} 
+                disabled
               />
             </FormControl>
-            <FormMessage>
-              {form.formState.errors.sponsorCustomId?.message && (
-                <span className="text-red-500 text-sm">
-                  {String(form.formState.errors.sponsorCustomId.message)}
-                </span>
-              )}
-            </FormMessage>
+            <FormMessage />
           </FormItem>
         )}
       />
