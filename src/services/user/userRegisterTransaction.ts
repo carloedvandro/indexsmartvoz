@@ -69,14 +69,14 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
       }
 
       // Adicionar sponsor_id ao payload
-      payload.sponsor_id = sponsor.id;
+      (payload as any).sponsor_id = sponsor.id;
       console.log("✅ Patrocinador encontrado:", sponsor.id);
     }
 
     console.log("🚀 Enviando dados para edge function criar-cliente:", {
       email: payload.email,
       custom_id: payload.custom_id,
-      hasSponsor: !!payload.sponsor_id,
+      hasSponsor: !!(payload as any).sponsor_id,
       hasAddress: !!(payload.zip_code && payload.address && payload.city)
     });
 
@@ -143,6 +143,10 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
 
     // IMPORTANTE: Fazer login automático após cadastro bem-sucedido
     console.log("🔐 Fazendo login automático após cadastro...");
+    
+    // Aguardar um momento para garantir que o usuário foi criado completamente
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
     const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
       email: data.email,
       password: data.password,
@@ -152,13 +156,41 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
       console.error("💥 Erro no login automático:", loginError);
       log("error", "Auto-login failed after registration", loginError);
       
+      // Se o erro for de credenciais inválidas, pode ser que precise aguardar mais
+      if (loginError.message.includes('Invalid login credentials')) {
+        console.log("⏳ Tentando login novamente após aguardar...");
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        
+        const { data: retryLoginData, error: retryLoginError } = await supabase.auth.signInWithPassword({
+          email: data.email,
+          password: data.password,
+        });
+        
+        if (retryLoginError) {
+          console.error("💥 Erro no segundo login automático:", retryLoginError);
+          throw new Error("Cadastro realizado com sucesso! Faça login com suas credenciais.");
+        }
+        
+        if (!retryLoginData.user) {
+          throw new Error("Cadastro realizado com sucesso! Faça login com suas credenciais.");
+        }
+        
+        console.log("✅ Login automático realizado com sucesso na segunda tentativa:", retryLoginData.user.id);
+        
+        return {
+          ...result,
+          user: retryLoginData.user,
+          session: retryLoginData.session
+        };
+      }
+      
       // Mesmo com erro no login, o cadastro foi realizado
-      throw new Error("Cadastro realizado com sucesso, mas houve erro no login automático. Tente fazer login manualmente.");
+      throw new Error("Cadastro realizado com sucesso! Faça login com suas credenciais.");
     }
 
     if (!loginData.user) {
       console.error("💥 Login automático não retornou usuário");
-      throw new Error("Cadastro realizado com sucesso, mas houve erro no login automático. Tente fazer login manualmente.");
+      throw new Error("Cadastro realizado com sucesso! Faça login com suas credenciais.");
     }
 
     console.log("✅ Login automático realizado com sucesso:", loginData.user.id);

@@ -9,6 +9,7 @@ const corsHeaders = {
 
 interface CreateClientData {
   email: string;
+  password: string;
   full_name: string;
   cpf: string;
   phone: string;
@@ -69,10 +70,13 @@ serve(async (req) => {
     });
 
     // Validações básicas
-    if (!clientData.email || !clientData.full_name) {
+    if (!clientData.email || !clientData.full_name || !clientData.password) {
       console.error('❌ [CRIAR-CLIENTE] Dados obrigatórios ausentes');
       return new Response(
-        JSON.stringify({ error: 'Email e nome são obrigatórios' }),
+        JSON.stringify({ 
+          success: false, 
+          error: 'Email, senha e nome são obrigatórios' 
+        }),
         { 
           status: 400, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
@@ -91,7 +95,10 @@ serve(async (req) => {
     if (!supabaseUrl || !serviceRoleKey) {
       console.error('❌ [CRIAR-CLIENTE] Variáveis de ambiente não configuradas');
       return new Response(
-        JSON.stringify({ error: 'Configuração do servidor incompleta' }),
+        JSON.stringify({ 
+          success: false, 
+          error: 'Configuração do servidor incompleta' 
+        }),
         { 
           status: 500, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
@@ -102,10 +109,6 @@ serve(async (req) => {
     // Criar cliente Supabase usando service role (Admin API)
     console.log('🔧 [CRIAR-CLIENTE] Criando cliente Supabase Admin...');
     const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey);
-
-    // Senha padrão forte
-    const DEFAULT_PASSWORD = "ClienteTemp2024@#$";
-    console.log('🔑 [CRIAR-CLIENTE] Senha padrão definida');
 
     console.log('👤 [CRIAR-CLIENTE] Criando usuário com Admin API...');
 
@@ -122,20 +125,93 @@ serve(async (req) => {
 
     console.log('📋 [CRIAR-CLIENTE] Metadata do usuário preparada');
 
+    // Verificar se email já existe
+    const { data: existingUser } = await supabaseAdmin
+      .from('profiles')
+      .select('id')
+      .eq('email', clientData.email)
+      .single();
+
+    if (existingUser) {
+      console.error('❌ [CRIAR-CLIENTE] Email já está em uso');
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: 'Email já está em uso' 
+        }),
+        { 
+          status: 422, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      );
+    }
+
+    // Verificar se CPF já existe
+    if (clientData.cpf) {
+      const { data: existingCPF } = await supabaseAdmin
+        .from('profiles')
+        .select('id')
+        .eq('cpf', clientData.cpf)
+        .single();
+
+      if (existingCPF) {
+        console.error('❌ [CRIAR-CLIENTE] CPF já está cadastrado');
+        return new Response(
+          JSON.stringify({ 
+            success: false, 
+            error: 'CPF já está cadastrado' 
+          }),
+          { 
+            status: 422, 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+          }
+        );
+      }
+    }
+
+    // Verificar se custom_id já existe
+    if (clientData.custom_id) {
+      const { data: existingCustomId } = await supabaseAdmin
+        .from('profiles')
+        .select('id')
+        .eq('custom_id', clientData.custom_id)
+        .single();
+
+      if (existingCustomId) {
+        console.error('❌ [CRIAR-CLIENTE] ID personalizado já está em uso');
+        return new Response(
+          JSON.stringify({ 
+            success: false, 
+            error: 'ID personalizado já está em uso' 
+          }),
+          { 
+            status: 422, 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+          }
+        );
+      }
+    }
+
     // Criar usuário usando Admin API (não afeta sessão atual)
     const { data: userData, error: createError } = await supabaseAdmin.auth.admin.createUser({
       email: clientData.email,
-      password: DEFAULT_PASSWORD,
+      password: clientData.password,
       email_confirm: true, // Confirma email automaticamente
       user_metadata: userMetadata
     });
 
     if (createError) {
       console.error('❌ [CRIAR-CLIENTE] Erro ao criar usuário:', createError);
+      let errorMessage = 'Erro ao criar usuário';
+      
+      if (createError.message.includes('already registered')) {
+        errorMessage = 'Email já está em uso';
+      }
+      
       return new Response(
         JSON.stringify({ 
-          error: `Erro ao criar usuário: ${createError.message}`,
-          details: createError,
+          success: false,
+          error: errorMessage
         }),
         { 
           status: 400, 
@@ -147,7 +223,10 @@ serve(async (req) => {
     if (!userData || !userData.user) {
       console.error('❌ [CRIAR-CLIENTE] Usuário não foi criado - dados não retornados');
       return new Response(
-        JSON.stringify({ error: 'Erro ao criar usuário - dados não retornados' }),
+        JSON.stringify({ 
+          success: false, 
+          error: 'Erro ao criar usuário - dados não retornados' 
+        }),
         { 
           status: 500, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
@@ -174,8 +253,8 @@ serve(async (req) => {
       console.error('❌ [CRIAR-CLIENTE] Erro ao verificar profile:', checkError);
       return new Response(
         JSON.stringify({ 
-          error: `Erro ao verificar profile: ${checkError.message}`,
-          details: checkError 
+          success: false,
+          error: `Erro ao verificar profile: ${checkError.message}`
         }),
         { 
           status: 500, 
@@ -201,8 +280,8 @@ serve(async (req) => {
         console.error('❌ [CRIAR-CLIENTE] Erro ao criar profile manualmente:', insertError);
         return new Response(
           JSON.stringify({ 
-            error: `Erro ao criar profile: ${insertError.message}`,
-            details: insertError 
+            success: false,
+            error: `Erro ao criar profile: ${insertError.message}`
           }),
           { 
             status: 500, 
@@ -251,8 +330,8 @@ serve(async (req) => {
       console.error('❌ [CRIAR-CLIENTE] Erro ao atualizar perfil:', profileError);
       return new Response(
         JSON.stringify({ 
-          error: `Erro ao atualizar perfil: ${profileError.message}`,
-          details: profileError,
+          success: false,
+          error: `Erro ao atualizar perfil: ${profileError.message}`
         }),
         { 
           status: 400, 
@@ -293,8 +372,8 @@ serve(async (req) => {
       console.error('❌ [CRIAR-CLIENTE] Erro ao inserir endereço:', addressError);
       return new Response(
         JSON.stringify({ 
+          success: false,
           error: `Erro ao inserir endereço: ${addressError.message}`,
-          details: addressError,
           debug_info: {
             user_id: userId,
             address_data: addressData
@@ -321,8 +400,7 @@ serve(async (req) => {
         phone: clientData.phone || clientData.mobile,
         whatsapp: clientData.whatsapp
       },
-      message: 'Cliente criado com sucesso',
-      defaultPassword: DEFAULT_PASSWORD
+      message: 'Cliente criado com sucesso'
     };
 
     console.log('🎉 [CRIAR-CLIENTE] Sucesso! Cliente criado completamente');
@@ -341,6 +419,7 @@ serve(async (req) => {
     
     return new Response(
       JSON.stringify({ 
+        success: false,
         error: 'Erro interno do servidor',
         details: error instanceof Error ? error.message : String(error),
         debug_info: {
