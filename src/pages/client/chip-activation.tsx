@@ -14,6 +14,7 @@ export default function ChipActivation() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState<'selection' | 'physical' | 'virtual'>('selection');
   const [activationData, setActivationData] = useState<any>({});
+  const [esimStep, setEsimStep] = useState(1);
 
   // Verificar se há dados do pedido
   useEffect(() => {
@@ -48,15 +49,44 @@ export default function ChipActivation() {
       setCurrentStep('physical');
     } else {
       setCurrentStep('virtual');
+      setEsimStep(1); // Começar no step 1 do eSIM (seleção de dispositivo)
     }
   };
 
   const handleBackToSelection = () => {
     setCurrentStep('selection');
+    setEsimStep(1);
   };
 
   const handleBackToDashboard = () => {
     navigate('/client/dashboard', { replace: true });
+  };
+
+  const handleEsimBack = () => {
+    if (esimStep === 1) {
+      handleBackToSelection();
+    } else {
+      setEsimStep(esimStep - 1);
+    }
+  };
+
+  const handleEsimContinue = () => {
+    setEsimStep(esimStep + 1);
+  };
+
+  const handleDeviceSelect = (device: 'android' | 'ios') => {
+    setActivationData({ ...activationData, device_type: device });
+    handleEsimContinue();
+  };
+
+  const handleIMEISubmit = (imei: string) => {
+    setActivationData({ ...activationData, imei });
+    handleEsimContinue();
+  };
+
+  const handleEIDSubmit = (eid: string) => {
+    setActivationData({ ...activationData, eid });
+    handleEsimContinue();
   };
 
   const renderCurrentStep = () => {
@@ -79,14 +109,14 @@ export default function ChipActivation() {
       case 'virtual':
         return (
           <ESIMActivationFlow
-            currentStep={1}
-            onBack={handleBackToSelection}
-            onContinue={() => {}}
-            onDeviceSelect={() => {}}
-            onTypeSelect={() => {}}
-            onPlanSelect={() => {}}
-            onIMEISubmit={() => {}}
-            onEIDSubmit={() => {}}
+            currentStep={esimStep}
+            onBack={handleEsimBack}
+            onContinue={handleEsimContinue}
+            onDeviceSelect={handleDeviceSelect}
+            onTypeSelect={() => {}} // Não usado no novo fluxo
+            onPlanSelect={() => {}} // Não usado no novo fluxo
+            onIMEISubmit={handleIMEISubmit}
+            onEIDSubmit={handleEIDSubmit}
             activationData={activationData}
           />
         );
@@ -98,18 +128,20 @@ export default function ChipActivation() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
-      {/* Logo fixada no topo */}
-      <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50 shadow-sm">
-        <div className="flex items-center justify-center">
-          <img
-            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
-            alt="Smartvoz"
-            className="h-16 object-contain"
-          />
+      {/* Logo fixada no topo - apenas para seleção inicial */}
+      {currentStep === 'selection' && (
+        <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50 shadow-sm">
+          <div className="flex items-center justify-center">
+            <img
+              src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
+              alt="Smartvoz"
+              className="h-16 object-contain"
+            />
+          </div>
         </div>
-      </div>
+      )}
 
-      <div className="pt-20 flex items-center justify-center min-h-screen">
+      <div className={`${currentStep === 'selection' ? 'pt-20' : ''} flex items-center justify-center min-h-screen`}>
         <div className="w-full max-w-md mx-auto p-4">
           {renderCurrentStep()}
         </div>

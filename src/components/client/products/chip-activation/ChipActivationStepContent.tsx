@@ -2,7 +2,17 @@
 import { ChipInstructions } from "./ChipInstructions";
 import { BarcodeInstructions } from "./BarcodeInstructions";
 import { NavigationButtons } from "./NavigationButtons";
-import { Line } from "../ChipActivationFlow";
+
+export type Line = {
+  id: number;
+  internet: string;
+  type: string;
+  ddd: string;
+  price: number;
+  barcode?: string;
+  planId?: string;
+  planName?: string;
+};
 
 interface ChipActivationStepContentProps {
   currentStep: number;
@@ -68,11 +78,6 @@ export function ChipActivationStepContent({
                     <p className="text-sm text-gray-600">
                       Valor: R$ {line.price?.toFixed(2)}
                     </p>
-                    {line.orderData && (
-                      <p className="text-sm text-blue-600">
-                        Protocolo: {line.orderData.id}
-                      </p>
-                    )}
                     {line.ddd && (
                       <p className="text-sm text-green-600">DDD: {line.ddd}</p>
                     )}
@@ -92,8 +97,6 @@ export function ChipActivationStepContent({
                     {line.barcode ? 'Escaneado' : 'Escanear Código'}
                   </button>
                 </div>
-                
-                {/* Removido o campo de DDD - já vem preenchido automaticamente */}
               </div>
             ))}
           </div>

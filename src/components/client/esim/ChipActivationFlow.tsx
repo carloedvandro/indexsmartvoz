@@ -5,7 +5,6 @@ import { IMEIForm } from "./IMEIForm";
 import { EIDForm } from "./EIDForm";
 import { SuccessScreen } from "./SuccessScreen";
 import { StepIndicator } from "./StepIndicator";
-import { PlanSelectionStep } from "./PlanSelectionStep";
 import { ESIMActivation } from "@/services/esim/esimActivationService";
 
 type ESIMActivationFlowProps = {
@@ -34,12 +33,8 @@ export function ESIMActivationFlow({
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 1:
-        return <PlanSelectionStep onBack={onBack} onContinue={onPlanSelect} />;
-      case 2:
-        return <ActivationType onSelect={onTypeSelect} onBack={onBack} />;
-      case 3:
         return <DeviceSelector onSelect={onDeviceSelect} onBack={onBack} />;
-      case 4:
+      case 2:
         return (
           <IMEIForm 
             onSubmit={onIMEISubmit} 
@@ -47,7 +42,7 @@ export function ESIMActivationFlow({
             deviceType={activationData.device_type as 'android' | 'ios'} 
           />
         );
-      case 5:
+      case 3:
         return (
           <EIDForm 
             onSubmit={onEIDSubmit} 
@@ -55,7 +50,7 @@ export function ESIMActivationFlow({
             deviceType={activationData.device_type as 'android' | 'ios'} 
           />
         );
-      case 6:
+      case 4:
         return <SuccessScreen data={activationData} />;
       default:
         return null;
@@ -65,17 +60,15 @@ export function ESIMActivationFlow({
   const getCurrentStepId = () => {
     switch (currentStep) {
       case 1:
-        return 'plan';
-      case 2:
-        return 'type';
-      case 3:
         return 'device';
-      case 4:
+      case 2:
         return 'imei';
-      case 5:
+      case 3:
         return 'eid';
+      case 4:
+        return 'success';
       default:
-        return 'plan';
+        return 'device';
     }
   };
 
