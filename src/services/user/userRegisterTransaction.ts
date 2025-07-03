@@ -34,45 +34,109 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
     const payload = {
       email: data.email,
       password: data.password,
-      fullName: data.fullName,
+      full_name: data.fullName,
       cpf: data.cpf,
-      customId: data.customId,
-      sponsorCustomId: data.sponsorCustomId || "",
+      phone: data.whatsapp,
+      mobile: data.whatsapp,
       whatsapp: data.whatsapp,
-      secondaryWhatsapp: data.secondaryWhatsapp || "",
-      birthDate: data.birthDate,
-      cep: data.cep,
-      street: data.street,
-      neighborhood: data.neighborhood,
-      number: data.number,
+      secondary_whatsapp: data.secondaryWhatsapp || "",
+      birth_date: data.birthDate,
+      person_type: "individual",
+      document_id: data.cpf,
+      address: `${data.street}, ${data.number}`,
       city: data.city,
       state: data.state,
-      complement: data.complement || ""
+      country: "Brasil",
+      zip_code: data.cep,
+      gender: "not_specified",
+      civil_status: "not_specified",
+      status: "active",
+      custom_id: data.customId
     };
 
-    console.log("🚀 Enviando dados para edge function Registro-Usuarios:", {
+    // Se tem patrocinador, buscar o ID do usuário
+    if (data.sponsorCustomId) {
+      console.log("🔍 Buscando patrocinador:", data.sponsorCustomId);
+      const { data: sponsor, error: sponsorError } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('custom_id', data.sponsorCustomId)
+        .single();
+
+      if (sponsorError || !sponsor) {
+        console.error("❌ Patrocinador não encontrado:", sponsorError);
+        throw new Error("ID do patrocinador não encontrado. Verifique se o ID está correto.");
+      }
+
+      // Adicionar sponsor_id ao payload
+      payload.sponsor_id = sponsor.id;
+      console.log("✅ Patrocinador encontrado:", sponsor.id);
+    }
+
+    console.log("🚀 Enviando dados para edge function criar-cliente:", {
       email: payload.email,
-      customId: payload.customId,
-      hasSponsor: !!payload.sponsorCustomId,
-      hasAddress: !!(payload.cep && payload.street && payload.city)
+      custom_id: payload.custom_id,
+      hasSponsor: !!payload.sponsor_id,
+      hasAddress: !!(payload.zip_code && payload.address && payload.city)
     });
 
-    // Chamar a edge function Registro-Usuarios (com R maiúsculo)
-    const { data: result, error } = await supabase.functions.invoke('Registro-Usuarios', {
+    // Chamar a edge function criar-cliente
+    const { data: result, error } = await supabase.functions.invoke('criar-cliente', {
       body: payload
     });
 
+    console.log("📋 Resposta da edge function:", { result, error });
+
+    // Verificar se houve erro na chamada da função
     if (error) {
-      log("error", "Error calling Registro-Usuarios function", error);
-      console.error("💥 Erro na edge function:", error);
-      throw new Error(error.message || "Erro ao processar cadastro");
+      console.error("💥 Erro na chamada da edge function:", error);
+      
+      // Tentar extrair mensagem de erro mais específica
+      let errorMessage = "Erro ao processar cadastro";
+      
+      if (error.message) {
+        errorMessage = error.message;
+      } else if (typeof error === 'string') {
+        errorMessage = error;
+      }
+      
+      // Melhorar mensagens de erro conhecidas
+      if (errorMessage.includes('already registered') || errorMessage.includes('já está cadastrado')) {
+        errorMessage = "Este email já possui uma conta. Faça login ou use a recuperação de senha.";
+      } else if (errorMessage.includes('Invalid email') || errorMessage.includes('email inválido')) {
+        errorMessage = "Email inválido. Verifique o formato do email.";
+      } else if (errorMessage.includes('CPF') && errorMessage.includes('já está')) {
+        errorMessage = "Este CPF já está cadastrado no sistema.";
+      } else if (errorMessage.includes('custom_id') && errorMessage.includes('já está')) {
+        errorMessage = "Este ID personalizado já está em uso. Escolha outro ID.";
+      }
+      
+      throw new Error(errorMessage);
     }
 
+    // Verificar se a resposta indica sucesso
     if (!result || !result.success) {
-      const errorMessage = result?.error || "Erro desconhecido no cadastro";
-      log("error", "Registration failed", { error: errorMessage });
+      const errorMessage = result?.error || result?.message || "Erro desconhecido no cadastro";
       console.error("💥 Cadastro falhou:", errorMessage);
-      throw new Error(errorMessage);
+      
+      // Melhorar mensagens de erro da edge function
+      let friendlyError = errorMessage;
+      
+      if (errorMessage.includes('Email já está em uso')) {
+        friendlyError = "Este email já possui uma conta. Faça login ou use a recuperação de senha.";
+      } else if (errorMessage.includes('CPF já está cadastrado')) {
+        friendlyError = "Este CPF já está cadastrado no sistema.";
+      } else if (errorMessage.includes('ID personalizado já está em uso')) {
+        friendlyError = "Este ID personalizado já está em uso. Escolha outro ID.";
+      } else if (errorMessage.includes('ID do patrocinador inválido')) {
+        friendlyError = "ID do patrocinador não encontrado. Verifique se o ID está correto.";
+      } else if (errorMessage.includes('dados obrigatórios ausentes')) {
+        friendlyError = "Alguns dados obrigatórios estão ausentes. Verifique todos os campos.";
+      } else if (errorMessage.includes('Configuração do servidor incompleta')) {
+        friendlyError = "Erro interno do servidor. Tente novamente em alguns minutos.";
+      }
+      
+      throw new Error(friendlyError);
     }
 
     console.log("✅ Cadastro realizado com sucesso via edge function:", result);
@@ -87,12 +151,14 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
     if (loginError) {
       console.error("💥 Erro no login automático:", loginError);
       log("error", "Auto-login failed after registration", loginError);
-      throw new Error("Cadastro realizado mas erro no login automático: " + loginError.message);
+      
+      // Mesmo com erro no login, o cadastro foi realizado
+      throw new Error("Cadastro realizado com sucesso, mas houve erro no login automático. Tente fazer login manualmente.");
     }
 
     if (!loginData.user) {
       console.error("💥 Login automático não retornou usuário");
-      throw new Error("Cadastro realizado mas erro no login automático");
+      throw new Error("Cadastro realizado com sucesso, mas houve erro no login automático. Tente fazer login manualmente.");
     }
 
     console.log("✅ Login automático realizado com sucesso:", loginData.user.id);
@@ -110,6 +176,8 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
   } catch (error: any) {
     log("error", "Error in registerUserWithAddress function", error);
     console.error("💥 Erro na transação de cadastro:", error);
+    
+    // Não alterar a mensagem se já for uma mensagem amigável
     throw error;
   }
 };

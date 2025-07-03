@@ -1,42 +1,46 @@
 
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 
 interface SponsorUserSectionProps {
   form: UseFormReturn<any>;
-  sponsorInfo: string;
+  disabled?: boolean;
 }
 
-export function SponsorUserSection({ form, sponsorInfo }: SponsorUserSectionProps) {
+export function SponsorUserSection({ form, disabled = false }: SponsorUserSectionProps) {
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="w-full">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Patrocinador
-          </label>
-          <input
-            {...form.register("sponsor")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50"
-            disabled
-            readOnly
-          />
-        </div>
-        
-        <div className="w-full">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Usuário <span className="text-red-500">*</span>
-          </label>
-          <input
-            {...form.register("custom_id")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-          {form.formState.errors.custom_id && (
-            <p className="text-red-500 text-sm mt-1">
-              {form.formState.errors.custom_id.message}
-            </p>
-          )}
-        </div>
+      <div className="space-y-2">
+        <h3 className="text-lg font-medium">Informações do Patrocinador</h3>
+        <p className="text-sm text-gray-600">
+          Informe o ID do usuário que te indicou (opcional)
+        </p>
       </div>
+      
+      <FormField
+        control={form.control}
+        name="sponsorCustomId"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>ID do Patrocinador</FormLabel>
+            <FormControl>
+              <Input
+                placeholder="Digite o ID do seu patrocinador"
+                disabled={disabled}
+                {...field}
+              />
+            </FormControl>
+            <FormMessage>
+              {form.formState.errors.sponsorCustomId?.message && (
+                <span className="text-red-500 text-sm">
+                  {String(form.formState.errors.sponsorCustomId.message)}
+                </span>
+              )}
+            </FormMessage>
+          </FormItem>
+        )}
+      />
     </div>
   );
 }

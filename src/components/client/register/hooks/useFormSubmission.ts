@@ -40,7 +40,11 @@ export const useFormSubmission = () => {
       
     } catch (error: any) {
       console.error("❌ Erro no cadastro:", error);
+      
+      // Usar a mensagem de erro específica que vem do serviço
       const errorMessage = error.message || "Ocorreu um erro ao criar sua conta.";
+      
+      console.log("🔍 Mensagem de erro capturada:", errorMessage);
       
       toast({
         title: "Erro no cadastro",
