@@ -1,57 +1,71 @@
 
-import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from 'react';
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+
+interface NetworkMember {
+  id: string;
+  full_name: string;
+  email: string;
+  status: string;
+  created_at: string;
+}
 
 export const useNetworkMembersStatus = () => {
-  return useQuery({
-    queryKey: ['network-members-status'],
-    queryFn: async () => {
-      console.log('🔍 Buscando status dos membros da rede...');
-      
-      // Get current user
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        console.log('❌ Usuário não autenticado');
-        throw new Error('Usuário não autenticado');
+  const [members, setMembers] = useState<NetworkMember[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const fetchNetworkMembers = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const { data: networkData, error } = await supabase
+          .from('network')
+          .select(`
+            member:profiles!network_member_id_fkey(
+              id,
+              full_name,
+              email,
+              status,
+              created_at
+            )
+          `)
+          .eq('user_id', user.id);
+
+        if (error) throw error;
+
+        const membersData = networkData
+          ?.map(item => item.member)
+          .filter(Boolean) as NetworkMember[];
+
+        setMembers(membersData || []);
+      } catch (error) {
+        console.error('Erro ao buscar membros da rede:', error);
+        toast({
+          variant: "destructive",
+          title: "Erro",
+          description: "Não foi possível carregar os membros da rede."
+        });
+      } finally {
+        setIsLoading(false);
       }
+    };
 
-      // Get all network members
-      const { data: networkMembers, error: networkError } = await supabase
-        .from('network')
-        .select(`
-          id,
-          user_id,
-          level,
-          profiles!inner(
-            id,
-            full_name,
-            email,
-            status,
-            created_at
-          )
-        `)
-        .or(`user_id.eq.${user.id},parent_id.eq.${user.id}`);
+    fetchNetworkMembers();
+  }, [toast]);
 
-      if (networkError) {
-        console.error('❌ Erro ao buscar membros da rede:', networkError);
-        throw networkError;
-      }
+  const activeMembers = members.filter(member => member.status === 'active').length;
+  const pendingMembers = members.filter(member => member.status === 'pending').length;
+  const inactiveMembers = members.filter(member => member.status === 'inactive').length;
 
-      console.log('✅ Membros da rede encontrados:', networkMembers?.length || 0);
-
-      const stats = {
-        total: networkMembers?.length || 0,
-        active: networkMembers?.filter(m => m.profiles?.status === 'active').length || 0,
-        pending: networkMembers?.filter(m => m.profiles?.status === 'pending').length || 0,
-        inactive: networkMembers?.filter(m => m.profiles?.status === 'inactive').length || 0,
-      };
-
-      return {
-        members: networkMembers || [],
-        stats
-      };
-    },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    refetchInterval: 30 * 1000, // 30 seconds
-  });
+  return {
+    members,
+    activeMembers,
+    pendingMembers,
+    inactiveMembers,
+    isLoading
+  };
 };
