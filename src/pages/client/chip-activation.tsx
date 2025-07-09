@@ -15,6 +15,11 @@ export default function ChipActivation() {
   const [currentStep, setCurrentStep] = useState<'selection' | 'physical' | 'virtual'>('selection');
   const [activationData, setActivationData] = useState<any>({});
   const [esimStep, setEsimStep] = useState(1);
+  
+  // Estados específicos para fluxo de chip físico
+  const [physicalChipStep, setPhysicalChipStep] = useState(4); // Começar no step 4 (guia de código de barras)
+  const [scanningIndex, setScanningIndex] = useState<number | null>(null);
+  const [selectedLines, setSelectedLines] = useState<any[]>([]);
 
   // Verificar se há dados do pedido
   useEffect(() => {
@@ -47,6 +52,19 @@ export default function ChipActivation() {
     // Ir para o fluxo correspondente
     if (type === 'physical') {
       setCurrentStep('physical');
+      setPhysicalChipStep(4); // Começar no step 4 (instruções do chip)
+      
+      // Configurar as linhas baseado nos dados do pedido
+      const lines = updatedData.selectedLines || [
+        {
+          id: 1,
+          internet: updatedData.planName || "Plano Smart",
+          type: "Mensal",
+          ddd: "",
+          price: updatedData.amount || 0,
+        }
+      ];
+      setSelectedLines(lines);
     } else {
       setCurrentStep('virtual');
       setEsimStep(1); // Começar no step 1 do eSIM (seleção de dispositivo)
@@ -56,6 +74,8 @@ export default function ChipActivation() {
   const handleBackToSelection = () => {
     setCurrentStep('selection');
     setEsimStep(1);
+    setPhysicalChipStep(4);
+    setScanningIndex(null);
   };
 
   const handleBackToDashboard = () => {
@@ -89,6 +109,49 @@ export default function ChipActivation() {
     handleEsimContinue();
   };
 
+  // Handlers para fluxo de chip físico
+  const handlePhysicalChipBack = () => {
+    if (physicalChipStep === 4) {
+      handleBackToSelection();
+    } else {
+      setPhysicalChipStep(physicalChipStep - 1);
+      setScanningIndex(null);
+    }
+  };
+
+  const handlePhysicalChipContinue = () => {
+    if (physicalChipStep === 4) {
+      setPhysicalChipStep(5); // Ir para instruções de código de barras
+    } else if (physicalChipStep === 5) {
+      setPhysicalChipStep(6); // Ir para escaneamento
+    } else if (physicalChipStep === 6) {
+      // Finalizar ativação
+      console.log('✅ [CHIP-ACTIVATION] Ativação concluída');
+      navigate('/client/dashboard', { replace: true });
+    }
+  };
+
+  const handleStartScanning = (index: number) => {
+    console.log('📱 [CHIP-ACTIVATION] Iniciando escaneamento para linha:', index);
+    setScanningIndex(index);
+  };
+
+  const handleUpdateBarcode = (index: number, barcode: string) => {
+    console.log('📋 [CHIP-ACTIVATION] Código escaneado:', barcode, 'para linha:', index);
+    
+    const updatedLines = [...selectedLines];
+    updatedLines[index] = { ...updatedLines[index], barcode };
+    setSelectedLines(updatedLines);
+    setScanningIndex(null);
+    
+    // Atualizar dados de ativação
+    setActivationData({ ...activationData, selectedLines: updatedLines });
+  };
+
+  const handleScanningClose = () => {
+    setScanningIndex(null);
+  };
+
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 'selection':
@@ -102,14 +165,14 @@ export default function ChipActivation() {
       case 'physical':
         return (
           <ChipActivationFlow
-            currentStep={4}
-            selectedLines={activationData.selectedLines || []}
-            scanningIndex={null}
-            onBack={handleBackToSelection}
-            onContinue={() => {}}
-            onStartScanning={() => {}}
-            onUpdateBarcode={() => {}}
-            onScanningClose={() => {}}
+            currentStep={physicalChipStep}
+            selectedLines={selectedLines}
+            scanningIndex={scanningIndex}
+            onBack={handlePhysicalChipBack}
+            onContinue={handlePhysicalChipContinue}
+            onStartScanning={handleStartScanning}
+            onUpdateBarcode={handleUpdateBarcode}
+            onScanningClose={handleScanningClose}
           />
         );
       
