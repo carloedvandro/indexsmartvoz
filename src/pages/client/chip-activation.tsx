@@ -15,8 +15,6 @@ export default function ChipActivation() {
   const [currentStep, setCurrentStep] = useState<'selection' | 'physical' | 'virtual'>('selection');
   const [activationData, setActivationData] = useState<any>({});
   const [esimStep, setEsimStep] = useState(1);
-  const [physicalChipStep, setPhysicalChipStep] = useState(4); // Começa no step 4 (guia de código de barras)
-  const [scanningIndex, setScanningIndex] = useState<number | null>(null);
 
   // Verificar se há dados do pedido
   useEffect(() => {
@@ -91,44 +89,6 @@ export default function ChipActivation() {
     handleEsimContinue();
   };
 
-  // Funções para controlar o fluxo do chip físico
-  const handlePhysicalChipBack = () => {
-    if (physicalChipStep === 4) {
-      handleBackToSelection();
-    } else {
-      setPhysicalChipStep(physicalChipStep - 1);
-      setScanningIndex(null);
-    }
-  };
-
-  const handlePhysicalChipContinue = () => {
-    if (physicalChipStep === 4) {
-      // Do step de guia para step de escaneamento
-      setPhysicalChipStep(6);
-    } else if (physicalChipStep === 6) {
-      // Finalizar ativação
-      console.log('🎉 [CHIP-ACTIVATION] Ativação finalizada');
-      navigate('/client/dashboard', { replace: true });
-    }
-  };
-
-  const handleStartScanning = (index: number) => {
-    setScanningIndex(index);
-  };
-
-  const handleUpdateBarcode = (index: number, barcode: string) => {
-    const updatedLines = [...(activationData.selectedLines || [])];
-    if (updatedLines[index]) {
-      updatedLines[index].barcode = barcode;
-      setActivationData({ ...activationData, selectedLines: updatedLines });
-    }
-    setScanningIndex(null);
-  };
-
-  const handleScanningClose = () => {
-    setScanningIndex(null);
-  };
-
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 'selection':
@@ -142,14 +102,14 @@ export default function ChipActivation() {
       case 'physical':
         return (
           <ChipActivationFlow
-            currentStep={physicalChipStep}
+            currentStep={4}
             selectedLines={activationData.selectedLines || []}
-            scanningIndex={scanningIndex}
-            onBack={handlePhysicalChipBack}
-            onContinue={handlePhysicalChipContinue}
-            onStartScanning={handleStartScanning}
-            onUpdateBarcode={handleUpdateBarcode}
-            onScanningClose={handleScanningClose}
+            scanningIndex={null}
+            onBack={handleBackToSelection}
+            onContinue={() => {}}
+            onStartScanning={() => {}}
+            onUpdateBarcode={() => {}}
+            onScanningClose={() => {}}
           />
         );
       
