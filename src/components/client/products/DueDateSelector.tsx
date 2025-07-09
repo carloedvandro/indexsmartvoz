@@ -1,13 +1,13 @@
 
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { CalendarStyle } from "@/hooks/useCalendarStyles";
+import { useCalendarStyles } from "@/hooks/useCalendarStyles";
 import { motion } from "framer-motion";
 
 interface DueDateSelectorProps {
   selectedDueDate: number | null;
   setSelectedDueDate: (date: number) => void;
-  calendarStyle?: CalendarStyle;
+  calendarStyle?: any;
   selectedCardClassName?: string;
 }
 

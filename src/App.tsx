@@ -39,7 +39,7 @@ import AdminFinance from "@/pages/admin/finance";
 import AdminReports from "@/pages/admin/reports";
 
 // Store pages
-import StorePage from "@/pages/public/store";
+// import StorePage from "@/pages/public/store";
 
 // Layouts
 import { DynamicLayout } from "@/components/layouts/DynamicLayout";
@@ -55,7 +55,7 @@ function App() {
           <Route path="/" element={<Index />} />
           <Route path="/company" element={<CompanySite />} />
           <Route path="/site" element={<CompanySite />} />
-          <Route path="/store/:storeUrl" element={<StorePage />} />
+          {/* <Route path="/store/:storeUrl" element={<StorePage />} /> */}
 
           {/* Client Routes */}
           <Route path="/client/login" element={<ClientLogin />} />

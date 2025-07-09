@@ -110,7 +110,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       <ProfileImageSection profile={profile} />
       
       <div className="px-2 sm:px-6 py-6 space-y-6">
-        <SponsorUserSection form={form} sponsorInfo={getSponsorInfo()} />
+        <SponsorUserSection form={form} />
         <PersonalDataSection form={form} />
         <ContactSection form={form} />
         <AddressSection form={form} />

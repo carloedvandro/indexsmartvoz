@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { resetPassword } from "@/services/user/userReset";
+import { resetUserPassword } from "@/services/user/userReset";
 import { Mail } from "lucide-react";
 import { RainbowButton } from "@/components/ui/rainbow-button";
 import ParticlesBackground from "@/components/client/products/ParticlesBackground";
@@ -41,7 +41,7 @@ export default function ResetPassword() {
     setLoading(true);
 
     try {
-      await resetPassword(email);
+      await resetUserPassword(email);
 
       toast({
         title: "Email enviado",

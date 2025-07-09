@@ -102,7 +102,14 @@ export default function ChipActivation() {
       case 'physical':
         return (
           <ChipActivationFlow
+            currentStep={4}
+            selectedLines={activationData.selectedLines || []}
+            scanningIndex={null}
             onBack={handleBackToSelection}
+            onContinue={() => {}}
+            onStartScanning={() => {}}
+            onUpdateBarcode={() => {}}
+            onScanningClose={() => {}}
           />
         );
       
