@@ -25,7 +25,7 @@ export function BarcodeGuideStep({
                 <span className="text-sm mt-1 text-[#8425af] font-medium">Identidade</span>
               </div>
               <div className="h-0.5 flex-1 bg-[#8425af] mx-2"></div>
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center space-y-4">
                 <div className="w-7 h-7 rounded-full border-2 border-[#8425af] flex items-center justify-center text-[#8425af]">
                   <Circle className="w-3 h-3 fill-[#8425af] stroke-[#8425af]" />
                 </div>
