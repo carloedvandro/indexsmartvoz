@@ -14,7 +14,7 @@ export function BarcodeGuideStep({
         
         <div className="pt-6 space-y-8 ">
           <div className="space-y-7 mt-6">
-            <h2 className="text-2xl font-bold scale-[0.98] origin-left">Confira como você encontra o código de barras do SIM card</h2>
+            <h2 className="text-2xl font-bold scale-[0.96] origin-left">Confira como você encontra o código de barras do SIM card</h2>
 
             {/* Stepper indicator */}
             <div className="flex items-center justify-between max-w-md mx-auto mb-4 mt-1">
