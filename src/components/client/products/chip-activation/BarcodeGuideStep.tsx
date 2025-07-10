@@ -50,7 +50,7 @@ export function BarcodeGuideStep({
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 space-y-4">
+          <div className="flex justify-end gap-3">
             <Button variant="outline" onClick={onBack} className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1">
               Voltar
             </Button>
