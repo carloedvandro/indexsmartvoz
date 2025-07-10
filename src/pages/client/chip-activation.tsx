@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChipActivationFlow } from "@/components/client/products/ChipActivationFlow";
 import { ESIMActivationFlow } from "@/components/client/esim/ChipActivationFlow";
+import { ConfirmationScreen } from "@/components/client/products/chip-activation/ConfirmationScreen";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 /**
  * Purpose: Página principal de ativação de chip após pagamento confirmado  
@@ -11,6 +14,7 @@ import { ESIMActivationFlow } from "@/components/client/esim/ChipActivationFlow"
 
 export default function ChipActivation() {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState<'selection' | 'physical' | 'virtual'>('selection');
   const [activationData, setActivationData] = useState<any>({});
   
@@ -31,6 +35,9 @@ export default function ChipActivation() {
   const [physicalChipStep, setPhysicalChipStep] = useState(4); // Começar no step 4 (guia de código de barras)
   const [scanningIndex, setScanningIndex] = useState<number | null>(null);
   const [selectedLines, setSelectedLines] = useState<any[]>([]);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [protocol, setProtocol] = useState("");
+  const [isUpdatingOrder, setIsUpdatingOrder] = useState(false);
 
   // Verificar se há dados do pedido e criar linha para ativação
   useEffect(() => {
@@ -59,6 +66,7 @@ export default function ChipActivation() {
       // Criar linha com os dados do plano para ativação (chip físico)
       const line = {
         id: 1,
+        number: `Linha ${parsedPlanData?.title || 'Principal'}`,
         internet: parsedPlanData?.title || parsedPlanData?.name || 'Plano Selecionado',
         type: 'Chip Físico',
         ddd: '11', // DDD padrão, pode ser ajustado conforme necessário
@@ -90,6 +98,58 @@ export default function ChipActivation() {
     setEsimStep(1);
     setPhysicalChipStep(4);
     setScanningIndex(null);
+    setShowConfirmation(false);
+  };
+
+  // Função para atualizar status do pedido
+  const updateOrderStatus = async () => {
+    try {
+      setIsUpdatingOrder(true);
+      
+      const orderData = localStorage.getItem('orderData');
+      if (!orderData) {
+        throw new Error('Dados do pedido não encontrados');
+      }
+
+      const parsedOrderData = JSON.parse(orderData);
+      
+      // Atualizar status do pedido para 'chip_activation'
+      const { error } = await supabase
+        .from('orders')
+        .update({ 
+          status: 'chip_activation',
+          updated_at: new Date().toISOString(),
+          notes: `Código de barras escaneado: ${selectedLines[0]?.barcode}`
+        })
+        .eq('id', parsedOrderData.id);
+
+      if (error) {
+        throw error;
+      }
+
+      // Gerar protocolo
+      const protocolNumber = `CHIP-${Date.now()}`;
+      setProtocol(protocolNumber);
+
+      console.log('✅ [CHIP-ACTIVATION] Pedido atualizado com sucesso');
+      
+      toast({
+        title: "Sucesso!",
+        description: "Ativação enviada para aprovação da empresa.",
+      });
+
+      return true;
+    } catch (error) {
+      console.error('❌ [CHIP-ACTIVATION] Erro ao atualizar pedido:', error);
+      toast({
+        title: "Erro",
+        description: "Erro ao processar ativação. Tente novamente.",
+        variant: "destructive",
+      });
+      return false;
+    } finally {
+      setIsUpdatingOrder(false);
+    }
   };
 
   // Handlers para eSIM
@@ -142,6 +202,11 @@ export default function ChipActivation() {
 
   // Handlers para chip físico
   const handlePhysicalChipBack = () => {
+    if (showConfirmation) {
+      setShowConfirmation(false);
+      return;
+    }
+    
     if (physicalChipStep === 4) {
       handleBackToSelection();
     } else {
@@ -150,7 +215,7 @@ export default function ChipActivation() {
     }
   };
 
-  const handlePhysicalChipContinue = () => {
+  const handlePhysicalChipContinue = async () => {
     if (physicalChipStep === 4) {
       setPhysicalChipStep(5); // Ir para instruções de código de barras
     } else if (physicalChipStep === 5) {
@@ -159,10 +224,18 @@ export default function ChipActivation() {
       // Verificar se todos os códigos foram escaneados
       const allBarcodesScanned = selectedLines.every(line => line.barcode && line.barcode.length > 0);
       if (allBarcodesScanned) {
-        console.log('✅ [CHIP-ACTIVATION] Ativação concluída!');
-        navigate('/client/dashboard', { replace: true });
+        console.log('✅ [CHIP-ACTIVATION] Todos os códigos escaneados, atualizando pedido...');
+        const success = await updateOrderStatus();
+        if (success) {
+          setShowConfirmation(true);
+        }
       } else {
         console.log('⚠️ [CHIP-ACTIVATION] Nem todos os códigos foram escaneados');
+        toast({
+          title: "Atenção",
+          description: "Por favor, escaneie o código de barras do chip antes de continuar.",
+          variant: "destructive",
+        });
       }
     }
   };
@@ -189,6 +262,25 @@ export default function ChipActivation() {
   const handleScanningClose = () => {
     setScanningIndex(null);
   };
+
+  const handleUnderstand = () => {
+    // Limpar dados do localStorage
+    localStorage.removeItem('orderData');
+    localStorage.removeItem('selectedPlan');
+    
+    // Navegar para o dashboard
+    navigate('/client/dashboard', { replace: true });
+  };
+
+  // Renderizar tela de confirmação
+  if (showConfirmation) {
+    return (
+      <ConfirmationScreen
+        selectedLines={selectedLines}
+        protocol={protocol}
+      />
+    );
+  }
 
   // Renderizar seleção de tipo de ativação
   if (currentStep === 'selection') {
@@ -252,6 +344,17 @@ export default function ChipActivation() {
           onUpdateBarcode={handleUpdateBarcode}
           onScanningClose={handleScanningClose}
         />
+        
+        {isUpdatingOrder && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+              <div className="flex items-center space-x-3">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#8425af]"></div>
+                <p>Processando ativação...</p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
