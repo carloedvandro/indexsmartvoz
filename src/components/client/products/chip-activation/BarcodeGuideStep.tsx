@@ -1,16 +1,15 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, Circle } from "lucide-react";
-
 interface BarcodeGuideStepProps {
   onBack: () => void;
   onContinue: () => void;
 }
-
-export function BarcodeGuideStep({ onBack, onContinue }: BarcodeGuideStepProps) {
-  return (
-    <div className="flex items-center justify-center min-h-screen">
+export function BarcodeGuideStep({
+  onBack,
+  onContinue
+}: BarcodeGuideStepProps) {
+  return <div className="flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md mx-auto p-4">
         
         <div className="pt-6 space-y-8 ">
@@ -47,29 +46,17 @@ export function BarcodeGuideStep({ onBack, onContinue }: BarcodeGuideStepProps) 
                 O código de barras está impresso no cartão do Chip, tem 20 números e começa com 8955, conforme o exemplo:
               </p>
 
-              <img
-                src="/lovable-uploads/8592bc80-f516-440a-a660-d17446a9528d.png"
-                alt="Exemplo de código de barras do SIM card"
-                className="w-full max-w-md mx-auto p-0"
-              />
+              <img src="/lovable-uploads/8592bc80-f516-440a-a660-d17446a9528d.png" alt="Exemplo de código de barras do SIM card" className="max-w-full h-auto" />
             </div>
           </div>
 
-          <div className="flex justify-end gap-4">
-            <Button
-              variant="outline"
-              onClick={onBack}
-              className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1"
-            >
+          <div className="flex justify-end gap-3">
+            <Button variant="outline" onClick={onBack} className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1">
               Voltar
             </Button>
-            <Button
-              className="bg-[#8425af] hover:bg-[#6c1e8f] flex-1"
-              onClick={onContinue}
-            >
+            <Button className="bg-[#8425af] hover:bg-[#6c1e8f] flex-1" onClick={onContinue}>
               Continuar
             </Button>
           </div>
-        </div></div></div>
-  );
+        </div></div></div>;
 }
