@@ -42,7 +42,7 @@ export function BarcodeGuideStep({
 
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">COMO ENCONTRAR?</h3>
-              <p className="text-gray-600 scale-[1.040] origin-left">
+              <p className="text-gray-600 scale-[1.045] origin-left">
                 O código de barras está impresso no cartão do Chip, tem 20 números e começa com 8955, conforme o exemplo:
               </p>
 
