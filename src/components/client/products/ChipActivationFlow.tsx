@@ -47,24 +47,24 @@ export function ChipActivationFlow({
   }
 
   return (
-       <div className="pt-20 flex items-center justify-center min-h-screen">
-          <div className="w-full max-w-md mx-auto p-4">
-      <ChipActivationStepContent
-        currentStep={currentStep}
-        selectedLines={selectedLines}
-        allBarcodesScanned={allBarcodesScanned}
-        onBack={onBack}
-        onContinue={onContinue}
-        onStartScanning={onStartScanning}
-      />
-      
-      <BarcodeScannerContainer
-        scanningIndex={scanningIndex}
-        onUpdateBarcode={onUpdateBarcode}
-        onScanningClose={onScanningClose}
-      />
+    <div className="pt-20 flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md mx-auto p-4">
+        <ChipActivationStepContent
+          currentStep={currentStep}
+          selectedLines={selectedLines}
+          allBarcodesScanned={allBarcodesScanned}
+          onBack={onBack}
+          onContinue={onContinue}
+          onStartScanning={onStartScanning}
+        />
+
+        <BarcodeScannerContainer
+          scanningIndex={scanningIndex}
+          onUpdateBarcode={onUpdateBarcode}
+          onScanningClose={onScanningClose}
+        />
+      </div>
     </div>
-    </div> 
 
   );
 }
