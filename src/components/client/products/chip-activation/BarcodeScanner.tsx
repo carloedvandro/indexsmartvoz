@@ -124,12 +124,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
             </div>
           )}
         </div>
-        
-        <div className="mt-4 text-center text-white text-sm space-y-1">
-          <p>Mantenha o código de barras bem iluminado</p>
-          <p>e dentro da área de escaneamento</p>
-          <p className="text-yellow-200">Aceita códigos com 8+ dígitos numéricos</p>
-        </div>
+      
       </div>
     </div>
   );
