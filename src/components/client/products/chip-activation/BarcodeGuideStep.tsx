@@ -10,7 +10,7 @@ export function BarcodeGuideStep({
   onContinue
 }: BarcodeGuideStepProps) {
   return <div className="flex items-center justify-center min-h-screen">
-      <div className="w-full max-w-sm mx-auto p-4">
+      <div className="w-full max-w-md mx-auto p-4">
         
         <div className="pt-6 space-y-8 ">
           <div className="space-y-7">
@@ -42,7 +42,7 @@ export function BarcodeGuideStep({
 
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">COMO ENCONTRAR?</h3>
-              <p className="text-gray-600 scale-105 origin-left">
+              <p className="text-gray-600">
                 O código de barras está impresso no cartão do Chip, tem 20 números e começa com 8955, conforme o exemplo:
               </p>
 
