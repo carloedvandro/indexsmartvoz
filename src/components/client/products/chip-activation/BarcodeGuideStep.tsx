@@ -20,7 +20,7 @@ export function BarcodeGuideStep({
             <div className="flex items-center justify-between max-w-md mx-auto mb-4">
               <div className="flex flex-col items-center">
                 <div className="w-8 h-8 rounded-full bg-[#8425af] flex items-center justify-center text-white">
-                  <Check className="w-5 h-5" />
+                  <Check className="w-4 h-4" />
                 </div>
                 <span className="text-sm mt-1 text-[#8425af] font-medium">Identidade</span>
               </div>
