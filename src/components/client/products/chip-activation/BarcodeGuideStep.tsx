@@ -50,7 +50,7 @@ export function BarcodeGuideStep({ onBack, onContinue }: BarcodeGuideStepProps) 
               <img
                 src="/lovable-uploads/8592bc80-f516-440a-a660-d17446a9528d.png"
                 alt="Exemplo de código de barras do SIM card"
-                className="max-w-full h-auto"
+                className="w-full max-w-md mx-auto p-4"
               />
             </div>
           </div>
