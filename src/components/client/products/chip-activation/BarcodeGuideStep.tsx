@@ -10,7 +10,7 @@ export function BarcodeGuideStep({
   onContinue
 }: BarcodeGuideStepProps) {
   return <div className="flex items-center justify-center min-h-screen">
-      <div className="w-full max-w-md mx-auto p-4">
+      <div className="w-full max-w-md mx-auto p-4 space-y-4">
         
         <div className="pt-6 space-y-8 ">
           <div className="space-y-7">
