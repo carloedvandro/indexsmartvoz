@@ -37,7 +37,6 @@ export function ChipActivationFlow({
 }: ChipActivationFlowProps) {
   const allBarcodesScanned = selectedLines.every(line => line.barcode);
 
-  // Renderizar o step de guia (step 4)
   if (currentStep === 4) {
     return (
       <BarcodeGuideStep

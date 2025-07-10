@@ -64,9 +64,10 @@ function App() {
           <Route path="/client/terms-updated" element={<ClientTermsUpdated />} />
           <Route path="/client/payment-return" element={<PaymentReturn />} />
           <Route path="/client/chip-activation" element={<ChipActivation />} />
-          
+
           <Route path="/client" element={<ProtectedRoute />}>
             <Route path="" element={<DynamicLayout />}>
+              <Route path="payment-return" element={<PaymentReturn />} />
               <Route path="dashboard" element={<ClientDashboard />} />
               <Route path="financial" element={<ClientFinancial />} />
               <Route path="network" element={<ClientNetwork />} />
@@ -82,16 +83,15 @@ function App() {
               <Route path="inventory-reports" element={<InventoryReports />} />
             </Route>
           </Route>
-          
+
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<ProtectedRoute />}>
             <Route path="" element={<RoleBasedRoute allowedRoles={['admin']} />}>
-              {/* Rota especial para add-edit sem sidebar */}
-              <Route 
-                path="plans/add-edit" 
-                element={<AdminPlanAddEdit />} 
+              <Route
+                path="plans/add-edit"
+                element={<AdminPlanAddEdit />}
               />
-              
+
               {/* Outras rotas admin com sidebar */}
               <Route path="" element={<DynamicLayout forceRole="admin" />}>
                 <Route path="dashboard" element={<AdminDashboard />} />
@@ -103,7 +103,7 @@ function App() {
               </Route>
             </Route>
           </Route>
-          
+
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>
       </QueryClientProvider>
