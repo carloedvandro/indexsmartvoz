@@ -37,58 +37,53 @@ export function ChipActivationStepContent({
     return (
       <div className="flex flex-col space-y-6">
         <ChipInstructions />
-        <NavigationButtons 
-          onBack={onBack} 
+        <NavigationButtons
+          onBack={onBack}
           onContinue={onContinue}
         />
       </div>
     );
   }
-  
+
   if (currentStep === 5) {
     return (
       <div className="flex flex-col space-y-6">
         <BarcodeInstructions />
-        <NavigationButtons 
-          onBack={onBack} 
+        <NavigationButtons
+          onBack={onBack}
           onContinue={onContinue}
         />
       </div>
     );
   }
-  
+
   if (currentStep === 6) {
     return (
       <div className="flex flex-col space-y-6">
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold">Escaneie os códigos de barras</h2>
-          <p className="text-gray-600">
-            Clique no botão abaixo para escanear o código de barras do chip e ativar sua linha.
-          </p>
-          
+          <div className="bg-blue-50 p-4 rounded-lg text-blue-800 text-sm ">
+            O código de barras do chip deve ter 20 digitos e começar com 8955. Posicione o código no centro da câmera.
+          </div>
           <div className="space-y-3">
             {selectedLines.map((line, index) => (
               <div key={line.id} className="flex flex-col p-4 border rounded-lg space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <p className="font-medium">{line.internet} - {line.type}</p>
-                    <p className="text-sm text-gray-600">
-                      Valor: R$ {line.price?.toFixed(2)}
-                    </p>
+                  <div className="">
+                    <p className="font-medium">Código de barras do SIM card</p>
                     {line.ddd && (
-                      <p className="text-sm text-green-600">DDD: {line.ddd}</p>
+                      <p className="text-sm text-gray-600">Linha DDD: {line.ddd}</p>
                     )}
                     {line.barcode && (
                       <p className="text-sm text-green-600">✓ Código: {line.barcode}</p>
                     )}
                   </div>
+
                   <button
                     onClick={() => onStartScanning(index)}
-                    className={`px-4 py-2 rounded text-sm font-medium ${
-                      line.barcode 
-                        ? 'bg-green-100 text-green-700 cursor-default' 
-                        : 'bg-[#8425af] text-white hover:bg-[#6c1e8f]'
-                    }`}
+                    className={`px-4 py-2 rounded text-sm font-medium ${line.barcode
+                      ? 'bg-green-100 text-green-700 cursor-default'
+                      : 'bg-[#8425af] text-white hover:bg-[#6c1e8f]'
+                      }`}
                     disabled={!!line.barcode}
                   >
                     {line.barcode ? 'Escaneado' : 'Escanear Código'}
@@ -98,23 +93,23 @@ export function ChipActivationStepContent({
             ))}
           </div>
         </div>
-        
-        <NavigationButtons 
-          onBack={onBack} 
-          onContinue={onContinue} 
+
+        <NavigationButtons
+          onBack={onBack}
+          onContinue={onContinue}
           disabled={!allBarcodesScanned}
         />
       </div>
     );
   }
-  
+
   return (
     <div className="flex flex-col space-y-6">
       <div className="text-center">
         <p className="text-gray-600">Passo não encontrado: {currentStep}</p>
       </div>
-      <NavigationButtons 
-        onBack={onBack} 
+      <NavigationButtons
+        onBack={onBack}
         onContinue={onContinue}
       />
     </div>
