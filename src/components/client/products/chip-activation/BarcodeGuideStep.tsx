@@ -46,7 +46,7 @@ export function BarcodeGuideStep({
                 O código de barras está impresso no cartão do Chip, tem 20 números e começa com 8955, conforme o exemplo:
               </p>
 
-              <img src="/lovable-uploads/8592bc80-f516-440a-a660-d17446a9528d.png" alt="Exemplo de código de barras do SIM card" className="max-w-full h-auto scale-[1.06]" />
+              <img src="/lovable-uploads/8592bc80-f516-440a-a660-d17446a9528d.png" alt="Exemplo de código de barras do SIM card" className="max-w-full h-auto scale-[1.04]" />
             </div>
           </div>
 
