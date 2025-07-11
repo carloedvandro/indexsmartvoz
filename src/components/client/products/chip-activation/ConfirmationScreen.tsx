@@ -39,7 +39,7 @@ export function ConfirmationScreen({ selectedLines, protocol }: ConfirmationScre
 
         <div className="rounded-lg border border-white/20 overflow-hidden bg-transparent">
           {/* Cabeçalho */}
-          <div className="bg-white/5 px-4 py-3 border-b border-white/20">
+          <div className="bg-transparent px-4 py-3 border-b border-white/20">
             <div className="flex text-sm font-medium">
               <span className="w-16">DDD</span>
               <span>Código de barras do SIM card</span>
@@ -69,7 +69,7 @@ export function ConfirmationScreen({ selectedLines, protocol }: ConfirmationScre
         <div className="flex justify-center">
           <Button
             onClick={handleUnderstand}
-            className="bg-purple-900 hover:bg-purple-800 text-white min-w-[200px] border border-white/20"
+            className="bg-transparent hover:bg-white/10 text-white min-w-[200px] border border-white/20"
           >
             Entendi
           </Button>
