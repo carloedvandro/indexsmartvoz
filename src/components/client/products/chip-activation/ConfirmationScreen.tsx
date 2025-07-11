@@ -33,7 +33,7 @@ export function ConfirmationScreen({ selectedLines, protocol }: ConfirmationScre
             Você solicitou a ativação do chip
           </p>
           <p className="text-lg text-white/90">
-            O prazo do sistema para concluir ativação e o funcionamento da linha neste chip é de até 48 horas.
+            O prazo do sistema para concluir ativação e o funcionamento da linha neste chip é de até 24 horas.
           </p>
         </div>
 
