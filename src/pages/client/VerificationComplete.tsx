@@ -90,7 +90,7 @@ export const VerificationComplete = () => {
         </div>
         
         <Button
-          onClick={irParaDashboard}
+          onClick={() => navigate('/client/user-dashboard')}
           className="w-full bg-white text-purple-800 hover:bg-gray-100 font-bold py-3"
         >
           Acessar Painel
