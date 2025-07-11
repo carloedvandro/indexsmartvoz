@@ -23,49 +23,32 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       const barcode = result.getText();
       console.log("🔍 [BARCODE-SCANNER] Código detectado:", barcode);
       
-      // Validar código com exatamente 20 dígitos que comece com 8955
-      if (barcode.length === 20 && /^8955\d{16}$/.test(barcode)) {
-        console.log("✅ [BARCODE-SCANNER] Código válido aceito:", barcode);
+      // Aceita qualquer código de barras detectado
+      console.log("✅ [BARCODE-SCANNER] Código aceito:", barcode);
+      
+      // Toca o som de beep com volume máximo
+      const beepSound = audioRef.current;
+      if (beepSound) {
+        beepSound.volume = 1.0;
+        beepSound.currentTime = 0;
+        const playPromise = beepSound.play();
         
-        // Toca o som de beep com volume máximo
-        const beepSound = audioRef.current;
-        if (beepSound) {
-          beepSound.volume = 1.0;
-          beepSound.currentTime = 0;
-          const playPromise = beepSound.play();
-          
-          if (playPromise !== undefined) {
-            playPromise.catch(error => {
-              console.error("Erro ao tocar o som:", error);
-            });
-          }
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.error("Erro ao tocar o som:", error);
+          });
         }
-        
-        setHasScanned(true);
-        setIsScanning(false);
-        onResult(barcode);
-        
-        // Pequeno delay antes de fechar
-        setTimeout(() => {
-          onClose();
-        }, 1000);
-      } else {
-        console.log("❌ [BARCODE-SCANNER] Código rejeitado:", { barcode, length: barcode.length, isValid: /^8955\d{16}$/.test(barcode) });
-        
-        // Mostrar mensagem de erro específica
-        if (barcode.length !== 20) {
-          setErrorMessage(`Código inválido: deve ter 20 dígitos (detectado: ${barcode.length})`);
-        } else if (!barcode.startsWith('8955')) {
-          setErrorMessage('Código inválido: deve começar com 8955');
-        } else {
-          setErrorMessage('Código de barras inválido');
-        }
-        
-        // Limpar mensagem de erro após 3 segundos
-        setTimeout(() => {
-          setErrorMessage('');
-        }, 3000);
       }
+      
+      setHasScanned(true);
+      setIsScanning(false);
+      setErrorMessage('');
+      onResult(barcode);
+      
+      // Pequeno delay antes de fechar
+      setTimeout(() => {
+        onClose();
+      }, 1000);
     },
     timeBetweenDecodingAttempts: 50,
     constraints: {
