@@ -41,8 +41,8 @@ export function BarcodeInputStep({
       {/* Caixa de entrada de dados */}
       <Card className="border border-gray-200 bg-purple-700">
         <CardContent className="p-4 text-white">
-          {selectedLines.map((line, index) => (
-            <div key={line.id} className="space-y-3">
+          {selectedLines.length > 0 && (
+            <div className="space-y-3">
               <div>
                 <h3 className="font-medium text-white text-base">
                   Código de barras do SIM card
@@ -51,17 +51,17 @@ export function BarcodeInputStep({
               
               <div className="flex justify-between items-center">
                 <p className="text-sm text-white">
-                  Linha: DDD {line.ddd}
+                  Linha: DDD {selectedLines[0].ddd}
                 </p>
                 <Button
-                  onClick={() => onStartScanning(index)}
+                  onClick={() => onStartScanning(0)}
                   className="bg-white hover:bg-gray-100 text-purple-700 px-6 py-2 rounded-lg font-medium"
                 >
-                  {line.barcode ? 'Escanear novamente' : 'Escanear código'}
+                  {selectedLines[0].barcode ? 'Escanear novamente' : 'Escanear código'}
                 </Button>
               </div>
 
-              {line.barcode && (
+              {selectedLines[0].barcode && (
                 <div className="mt-4 space-y-3">
                   <div>
                     <h4 className="font-medium text-white text-sm mb-2">
@@ -69,7 +69,7 @@ export function BarcodeInputStep({
                     </h4>
                     <input
                       type="text"
-                      value={`ICCID: ${line.barcode}`}
+                      value={`ICCID: ${selectedLines[0].barcode}`}
                       readOnly
                       className="w-full p-2 border border-white rounded bg-purple-700 text-white text-base pointer-events-none focus:outline-none"
                       tabIndex={-1}
@@ -78,7 +78,7 @@ export function BarcodeInputStep({
                 </div>
               )}
             </div>
-          ))}
+          )}
         </CardContent>
       </Card>
 
