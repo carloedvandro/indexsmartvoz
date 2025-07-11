@@ -39,23 +39,23 @@ export function BarcodeInputStep({
       </div>
 
       {/* Caixa de entrada de dados */}
-      <Card className="border border-gray-200">
-        <CardContent className="p-4">
+      <Card className="border border-gray-200 bg-purple-700">
+        <CardContent className="p-4 text-white">
           {selectedLines.map((line, index) => (
             <div key={line.id} className="space-y-3">
               <div>
-                <h3 className="font-medium text-gray-900 text-base">
+                <h3 className="font-medium text-white text-base">
                   Código de barras do SIM card
                 </h3>
               </div>
               
               <div className="flex justify-between items-center">
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-white">
                   Linha: DDD {line.ddd}
                 </p>
                 <Button
                   onClick={() => onStartScanning(index)}
-                  className="bg-purple-700 hover:bg-purple-800 text-white px-6 py-2 rounded-lg font-medium"
+                  className="bg-white hover:bg-gray-100 text-purple-700 px-6 py-2 rounded-lg font-medium"
                 >
                   {line.barcode ? 'Escanear novamente' : 'Escanear código'}
                 </Button>
@@ -64,7 +64,7 @@ export function BarcodeInputStep({
               {line.barcode && (
                 <div className="mt-4 space-y-3">
                   <div>
-                    <h4 className="font-medium text-gray-900 text-sm mb-2">
+                    <h4 className="font-medium text-white text-sm mb-2">
                       Código escaneado:
                     </h4>
                     <input
