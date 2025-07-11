@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
@@ -28,7 +27,7 @@ export const VerificationRejected = () => {
         </h1>
         
         <p className="text-white/90 mb-6 leading-relaxed">
-          A equipe da SmartVoz não conseguiu validar as informações enviadas no processo de verificação.
+          Nossa inteligência artificial não conseguiu confirmar que os dados do documento e a selfie pertencem à mesma pessoa.
           <br /><br />
           Motivos comuns: documento de terceiros, rosto não visível, divergência nos dados.
           <br /><br />

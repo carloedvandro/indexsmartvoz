@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle } from "lucide-react";
@@ -49,7 +48,7 @@ export const VerificationComplete = () => {
         </h1>
         
         <p className="text-white/90 mb-6">
-          Seus dados foram verificados com sucesso pelo sistema de validação segura da SmartVoz.
+          Seus dados foram validados com sucesso pela inteligência artificial.
         </p>
         
         {/* Detalhes dos dados */}
@@ -91,7 +90,7 @@ export const VerificationComplete = () => {
         </div>
         
         <Button
-          onClick={irParaDashboard}
+          onClick={() => navigate('/client/user-dashboard')}
           className="w-full bg-white text-purple-800 hover:bg-gray-100 font-bold py-3"
         >
           Acessar Painel
