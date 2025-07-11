@@ -1,19 +1,47 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 export default function ValidationSuccess() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [showPanel, setShowPanel] = useState(false);
 
-  const entrarDashboard = () => {
+  useEffect(() => {
+    // Auto-show panel after 1 second if status is approved
+    const statusAprovado = localStorage.getItem('statusValidacao') === 'aprovado';
+    if (statusAprovado) {
+      setTimeout(() => {
+        setShowPanel(true);
+      }, 1000);
+    }
+  }, []);
+
+  const mostrarPainel = () => {
+    setShowPanel(true);
+  };
+
+  const handlePlanos = () => {
     toast({
-      title: "Bem-vindo(a)!",
-      description: "Redirecionando para seu painel...",
+      title: "Carregando planos...",
+      description: "Redirecionando para seleção de planos.",
     });
-    
-    setTimeout(() => {
-      navigate('/client/dashboard');
-    }, 1000);
+    navigate('/client/plan-selection');
+  };
+
+  const handlePerfil = () => {
+    toast({
+      title: "Abrindo perfil",
+      description: "Carregando dados do usuário.",
+    });
+    navigate('/client/dashboard');
+  };
+
+  const handleSuporte = () => {
+    toast({
+      title: "Suporte",
+      description: "Funcionalidade em construção.",
+    });
   };
 
   return (
@@ -22,12 +50,39 @@ export default function ValidationSuccess() {
         <h1 className="text-[1.8rem] mb-4">Cadastro Validado com Sucesso!</h1>
         <p className="mt-3 text-[1.1rem] text-[#ffd700]">Seja bem-vindo(a) à sua área segura.</p>
         
-        <button 
-          onClick={entrarDashboard}
-          className="mt-5 px-6 py-3 bg-white text-[#2f145e] font-bold border-none rounded-[10px] cursor-pointer transition-colors duration-300 hover:bg-[#ddd]"
-        >
-          Entrar no Dashboard
-        </button>
+        {!showPanel && (
+          <button 
+            onClick={mostrarPainel}
+            className="mt-5 px-6 py-3 bg-white text-[#2f145e] font-bold border-none rounded-[10px] cursor-pointer transition-colors duration-300 hover:bg-[#ddd]"
+          >
+            Entrar no Dashboard
+          </button>
+        )}
+
+        {showPanel && (
+          <div className="mt-8 flex flex-col gap-3">
+            <button 
+              onClick={handlePlanos}
+              className="p-2.5 text-base bg-[#ffd700] text-[#2f145e] border-none rounded-lg cursor-pointer transition-colors duration-300 hover:bg-[#e6c200]"
+            >
+              Planos Disponíveis
+            </button>
+            
+            <button 
+              onClick={handlePerfil}
+              className="p-2.5 text-base bg-[#ffd700] text-[#2f145e] border-none rounded-lg cursor-pointer transition-colors duration-300 hover:bg-[#e6c200]"
+            >
+              Meu Perfil
+            </button>
+            
+            <button 
+              onClick={handleSuporte}
+              className="p-2.5 text-base bg-[#ffd700] text-[#2f145e] border-none rounded-lg cursor-pointer transition-colors duration-300 hover:bg-[#e6c200]"
+            >
+              Suporte
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
