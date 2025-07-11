@@ -1,0 +1,3 @@
+# Esta pasta deve conter os modelos do face-api.js
+# Baixe os modelos de: https://github.com/justadudewhohacks/face-api.js/tree/master/weights
+# Necessário: tiny_face_detector_model-weights_manifest.json e tiny_face_detector_model-shard1
