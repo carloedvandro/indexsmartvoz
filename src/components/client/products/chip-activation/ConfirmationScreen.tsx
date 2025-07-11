@@ -54,7 +54,7 @@ export function ConfirmationScreen({ selectedLines, protocol }: ConfirmationScre
                   <Check className="w-4 h-4 text-green-400" />
                   <span className="font-medium">{line.ddd}</span>
                 </div>
-                <div className="text-left -ml-2.5">
+                <div className="text-left -ml-4">
                   <div className="text-sm">ICCID {line.barcode}</div>
                 </div>
               </div>
