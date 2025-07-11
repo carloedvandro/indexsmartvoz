@@ -108,16 +108,29 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         </div>
 
         {/* Área da câmera ajustada para código de barras inferior (~85px altura) */}
-        <div className="relative bg-black h-[85px] w-[290px] mx-auto overflow-hidden">
+        <div className="relative bg-black h-[85px] w-[290px] mx-auto overflow-hidden border-2 border-red-500/30">
           <video
             ref={videoRef}
             className="w-full h-full object-cover"
+            style={{
+              objectPosition: 'center bottom' // Foca na parte inferior da imagem da câmera
+            }}
           />
+          
+          {/* Guias visuais para posicionamento do código de barras */}
+          <div className="absolute inset-0 pointer-events-none">
+            {/* Linhas guia horizontais */}
+            <div className="absolute top-[25%] left-2 right-2 h-0.5 bg-white/50"></div>
+            <div className="absolute bottom-[25%] left-2 right-2 h-0.5 bg-white/50"></div>
+            
+            {/* Zona de foco central */}
+            <div className="absolute top-[30%] bottom-[30%] left-4 right-4 border-2 border-white/70 border-dashed"></div>
+          </div>
           
           {/* Laser animado estilo supermercado */}
           {isScanning && (
             <div 
-              className="absolute left-0 w-full bg-red-500 laser-line"
+              className="absolute left-0 w-full bg-red-500 laser-line z-10"
               style={{ 
                 height: '3px',
                 boxShadow: '0 0 10px rgba(255, 0, 0, 0.8)',
@@ -128,8 +141,8 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
 
           {/* Overlay de sucesso quando escaneado */}
           {hasScanned && (
-            <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center">
-              <div className="bg-green-500 text-white px-6 py-3 rounded-lg font-medium shadow-lg">
+            <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center z-20">
+              <div className="bg-green-500 text-white px-4 py-2 rounded-lg font-medium shadow-lg text-sm">
                 ✓ Código Capturado
               </div>
             </div>
