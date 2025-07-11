@@ -138,8 +138,12 @@ export const useFacialCapture = ({
       console.log("💾 Fazendo upload da imagem...");
       await uploadFacialImage(imageSrc);
       
+      // Salvar imagem no localStorage
+      console.log("💾 Salvando imagem no localStorage...");
+      localStorage.setItem('selfieBase64', imageSrc);
+      
       toast({
-        title: "Captura Concluída",
+        title: "Captura Concluída", 
         description: "Selfie capturada com sucesso!",
       });
       
@@ -147,8 +151,13 @@ export const useFacialCapture = ({
       resetProgress();
       resetStability();
       
-      // Delay para melhor UX
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Delay para melhor UX e redirecionamento automático
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Redirecionar para próxima etapa automaticamente
+      console.log("🔄 Redirecionando para verificação de documento...");
+      window.location.href = '/client/document-verification';
+      
       onComplete(imageSrc);
     } catch (error) {
       console.error('❌ Erro durante upload da imagem:', error);
