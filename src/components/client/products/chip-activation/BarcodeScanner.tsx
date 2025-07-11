@@ -21,8 +21,8 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       const barcode = result.getText();
       console.log("🔍 [BARCODE-SCANNER] Código detectado:", barcode);
       
-      // Aceitar códigos de barras com diferentes formatos - relaxar validação
-      if (barcode.length >= 8 && /^\d+$/.test(barcode)) {
+      // Validar código com exatamente 20 dígitos que comece com 8955
+      if (barcode.length === 20 && /^8955\d{16}$/.test(barcode)) {
         console.log("✅ [BARCODE-SCANNER] Código válido aceito:", barcode);
         
         // Toca o som de beep com volume máximo
@@ -48,7 +48,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           onClose();
         }, 1000);
       } else {
-        console.log("❌ [BARCODE-SCANNER] Código rejeitado:", { barcode, length: barcode.length, isNumeric: /^\d+$/.test(barcode) });
+        console.log("❌ [BARCODE-SCANNER] Código rejeitado:", { barcode, length: barcode.length, isValid: /^8955\d{16}$/.test(barcode) });
       }
     },
     timeBetweenDecodingAttempts: 100,

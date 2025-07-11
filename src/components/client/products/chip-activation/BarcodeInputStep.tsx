@@ -56,15 +56,27 @@ export function BarcodeInputStep({
                 <Button
                   onClick={() => onStartScanning(index)}
                   className="bg-purple-700 hover:bg-purple-800 text-white px-6 py-2 rounded-lg font-medium"
-                  disabled={!!line.barcode}
                 >
-                  {line.barcode ? 'Código Escaneado' : 'Escanear código'}
+                  {line.barcode ? 'Escanear novamente' : 'Escanear código'}
                 </Button>
               </div>
 
               {line.barcode && (
-                <div className="mt-2 p-2 bg-green-50 rounded text-sm text-green-700">
-                  ✓ Código: {line.barcode}
+                <div className="mt-4 space-y-3">
+                  <div>
+                    <h4 className="font-medium text-gray-900 text-sm mb-2">
+                      Código escaneado:
+                    </h4>
+                    <div className="space-y-1">
+                      <label className="text-sm text-gray-600">ICCID:</label>
+                      <input
+                        type="text"
+                        value={line.barcode}
+                        readOnly
+                        className="w-full p-2 border border-gray-300 rounded bg-gray-50 text-gray-800 font-mono text-sm"
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
