@@ -86,11 +86,13 @@ export const StepRenderer = ({
       return (
         <DocumentCaptureStep
           onNext={onDocumentCapture}
+          onBack={onBack}
           selectedDocType={selectedDocType!}
           isBackSide={currentStep === 'document-back'}
           videoConstraints={documentVideoConstraints}
           step={0}
           totalSteps={0}
+          useOvalInterface={true}
         />
       );
     
