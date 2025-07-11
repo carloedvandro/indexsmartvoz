@@ -154,9 +154,9 @@ export const useFacialCapture = ({
       // Delay para melhor UX e redirecionamento automático
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Redirecionar para próxima etapa automaticamente
-      console.log("🔄 Redirecionando para verificação de documento...");
-      window.location.href = '/client/document-verification';
+      // Redirecionar para validação de documento automaticamente
+      console.log("🔄 Redirecionando para validação de documento...");
+      window.location.href = '/client/document-validation';
       
       onComplete(imageSrc);
     } catch (error) {
