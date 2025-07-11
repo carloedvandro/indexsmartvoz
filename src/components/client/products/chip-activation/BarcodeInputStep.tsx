@@ -47,12 +47,12 @@ export function BarcodeInputStep({
                 <h3 className="font-medium text-gray-900 text-base">
                   Código de barras do SIM card
                 </h3>
-                <p className="text-sm text-gray-500 mt-1">
-                  Linha: DDD {line.ddd}
-                </p>
               </div>
               
-              <div className="flex justify-end">
+              <div className="flex justify-between items-center">
+                <p className="text-sm text-gray-500">
+                  Linha: DDD {line.ddd}
+                </p>
                 <Button
                   onClick={() => onStartScanning(index)}
                   className="bg-purple-700 hover:bg-purple-800 text-white px-6 py-2 rounded-lg font-medium"
