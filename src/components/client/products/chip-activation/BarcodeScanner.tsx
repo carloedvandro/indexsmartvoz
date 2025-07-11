@@ -86,7 +86,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       {/* Modal do scanner */}
       <div 
         ref={overlayRef} 
-        className="relative w-full max-w-[440px] rounded-xl border-2 border-[#9b30d9] overflow-hidden bg-black"
+        className="relative w-full max-w-[400px] rounded-xl border-2 border-[#9b30d9] overflow-hidden bg-black"
         style={{ 
           boxShadow: '0 0 20px rgba(0, 0, 0, 0.25)'
         }}
@@ -114,9 +114,9 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           {/* Linha laser */}
           {isScanning && (
             <div 
-              className="absolute left-0 w-full h-0.5 bg-red-500 z-10"
+              className="absolute left-0 w-full h-[7px] bg-red-500 z-10"
               style={{ 
-                animation: 'laser-scan 1s infinite alternate'
+                animation: 'laser-scan 1s infinite alternate ease-in-out'
               }} 
             />
           )}
