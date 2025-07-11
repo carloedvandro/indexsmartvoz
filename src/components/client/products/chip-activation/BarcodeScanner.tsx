@@ -107,7 +107,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         </button>
 
         {/* Container da câmera */}
-        <div className="relative w-full h-[150px] overflow-hidden">
+        <div className="relative w-full h-[160px] overflow-hidden">
           <video
             ref={videoRef}
             className="w-full h-full object-cover"
@@ -116,7 +116,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           {/* Linha laser */}
           {isScanning && (
             <div 
-              className="absolute left-0 w-full h-[2px] bg-red-500 z-10 opacity-80"
+              className="absolute left-0 w-full h-[2px] bg-red-500 z-10 opacity-90"
               style={{ 
                 animation: 'laser-scan 1s infinite alternate ease-in-out'
               }} 
