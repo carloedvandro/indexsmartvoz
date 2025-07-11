@@ -53,70 +53,87 @@ export default function AdminClients() {
   const deleteMutation = useMutation({
     mutationFn: async (clientId: string) => {
       try {
-        // First, check if there are any dependencies that might prevent deletion
-        const { data: networkEntries } = await supabase
-          .from('network')
-          .select('id')
-          .eq('user_id', clientId);
+        console.log('Iniciando exclusão do cliente:', clientId);
 
-        const { data: orders } = await supabase
-          .from('orders')
-          .select('id')
-          .eq('user_id', clientId);
-
-        const { data: termsAcceptance } = await supabase
+        // Delete in correct order to avoid foreign key violations
+        // 1. Delete terms_acceptance first
+        const { error: termsError } = await supabase
           .from('terms_acceptance')
-          .select('id')
+          .delete()
           .eq('user_id', clientId);
-
-        // Delete related records first to avoid foreign key violations
-        if (termsAcceptance && termsAcceptance.length > 0) {
-          const { error: termsError } = await supabase
-            .from('terms_acceptance')
-            .delete()
-            .eq('user_id', clientId);
-          
-          if (termsError) {
-            console.error('Erro ao deletar termos de aceite:', termsError);
-            throw new Error('Erro ao remover dados relacionados (termos de aceite)');
-          }
+        
+        if (termsError && termsError.code !== 'PGRST116') { // Ignore "not found" errors
+          console.error('Erro ao deletar termos de aceite:', termsError);
+          throw new Error('Erro ao remover termos de aceite');
         }
 
-        if (networkEntries && networkEntries.length > 0) {
-          const { error: networkError } = await supabase
-            .from('network')
-            .delete()
-            .eq('user_id', clientId);
-          
-          if (networkError) {
-            console.error('Erro ao deletar rede:', networkError);
-            throw new Error('Erro ao remover dados relacionados (rede)');
-          }
+        // 2. Delete network entries
+        const { error: networkError } = await supabase
+          .from('network')
+          .delete()
+          .eq('user_id', clientId);
+        
+        if (networkError && networkError.code !== 'PGRST116') {
+          console.error('Erro ao deletar rede:', networkError);
+          throw new Error('Erro ao remover dados da rede');
         }
 
-        if (orders && orders.length > 0) {
-          const { error: ordersError } = await supabase
-            .from('orders')
-            .delete()
-            .eq('user_id', clientId);
-          
-          if (ordersError) {
-            console.error('Erro ao deletar pedidos:', ordersError);
-            throw new Error('Erro ao remover dados relacionados (pedidos)');
-          }
+        // 3. Delete orders
+        const { error: ordersError } = await supabase
+          .from('orders')
+          .delete()
+          .eq('user_id', clientId);
+        
+        if (ordersError && ordersError.code !== 'PGRST116') {
+          console.error('Erro ao deletar pedidos:', ordersError);
+          throw new Error('Erro ao remover pedidos');
         }
 
-        // Finally, delete the profile
-        const { error } = await supabase
+        // 4. Delete document verifications
+        const { error: docError } = await supabase
+          .from('document_verifications')
+          .delete()
+          .eq('user_id', clientId);
+        
+        if (docError && docError.code !== 'PGRST116') {
+          console.error('Erro ao deletar verificações de documento:', docError);
+          throw new Error('Erro ao remover verificações de documento');
+        }
+
+        // 5. Delete document captures
+        const { error: capturesError } = await supabase
+          .from('document_captures')
+          .delete()
+          .eq('user_id', clientId);
+        
+        if (capturesError && capturesError.code !== 'PGRST116') {
+          console.error('Erro ao deletar capturas de documento:', capturesError);
+          throw new Error('Erro ao remover capturas de documento');
+        }
+
+        // 6. Delete user addresses
+        const { error: addressError } = await supabase
+          .from('user_addresses')
+          .delete()
+          .eq('user_id', clientId);
+        
+        if (addressError && addressError.code !== 'PGRST116') {
+          console.error('Erro ao deletar endereços:', addressError);
+          throw new Error('Erro ao remover endereços');
+        }
+
+        // 7. Finally, delete the profile
+        const { error: profileError } = await supabase
           .from('profiles')
           .delete()
           .eq('id', clientId);
         
-        if (error) {
-          console.error('Erro ao deletar perfil:', error);
+        if (profileError) {
+          console.error('Erro ao deletar perfil:', profileError);
           throw new Error('Erro ao remover cliente');
         }
 
+        console.log('Cliente deletado com sucesso:', clientId);
         return { success: true };
       } catch (error) {
         console.error('Erro durante a exclusão:', error);
