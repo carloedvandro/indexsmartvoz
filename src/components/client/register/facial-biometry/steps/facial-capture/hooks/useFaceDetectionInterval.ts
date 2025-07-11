@@ -1,6 +1,7 @@
 
 import { useEffect, useRef } from "react";
 import { detectFaceInFrame } from "../utils/faceDetectionCore";
+import { detectFaceWithFaceApi, speakInstruction } from "../utils/faceApiDetection";
 
 interface UseFaceDetectionIntervalProps {
   webcamRef: React.RefObject<any>;
@@ -40,14 +41,32 @@ export const useFaceDetectionInterval = ({
             return;
           }
           
-          console.log("🔍 ANALISANDO FRAME DO VÍDEO");
-          const result = await detectFaceInFrame(video);
+          console.log("🔍 ANALISANDO FRAME COM FACE-API.JS");
           
-          console.log("📋 RESULTADO DETECÇÃO:", {
-            detected: result.detected,
-            proximity: result.proximity,
-            position: result.position
-          });
+          // Tentar face-api.js primeiro, fallback para detecção simples
+          let result;
+          try {
+            result = await detectFaceWithFaceApi(video);
+            console.log("🎯 FACE-API.JS RESULTADO:", {
+              detected: result.detected,
+              proximity: result.proximity,
+              confidence: result.confidence
+            });
+          } catch (error) {
+            console.log("⚠️ Face-api.js falhou, usando detecção fallback");
+            result = await detectFaceInFrame(video);
+          }
+          
+          // Dar instruções por voz se necessário
+          if (result.detected && result.proximity === "ideal") {
+            speakInstruction("Rosto posicionado corretamente");
+          } else if (result.detected && result.proximity === "too-close") {
+            speakInstruction("Afaste um pouco");
+          } else if (result.detected && result.proximity === "too-far") {
+            speakInstruction("Aproxime um pouco");
+          } else if (!result.detected) {
+            speakInstruction("Posicione o rosto dentro do oval");
+          }
           
           onDetectionResult(result.detected, result.position, result.proximity, result.lighting);
         } catch (error) {
@@ -58,7 +77,7 @@ export const useFaceDetectionInterval = ({
         console.log("⚠️ Elemento de vídeo não disponível");
         onDetectionResult(false, { x: 0, y: 0, size: 0 }, "not-detected", "good");
       }
-    }, 100); // Intervalo ainda mais rápido - 100ms
+    }, 800); // Intervalo otimizado para face-api.js - 800ms
 
     return () => {
       if (intervalRef.current) {
