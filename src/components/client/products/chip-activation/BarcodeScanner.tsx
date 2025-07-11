@@ -85,14 +85,14 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <audio ref={audioRef} src="/beep.mp3" preload="auto" />
       
-      {/* Modal do scanner */}
-      <div 
-        ref={overlayRef} 
-        className="relative w-full max-w-[340px] rounded-xl border-2 border-[#9b30d9] overflow-hidden bg-black"
-        style={{ 
-          boxShadow: '0 0 10px rgba(0, 0, 0, 0.25)'
-        }}
-      >
+        {/* Modal do scanner */}
+        <div 
+          ref={overlayRef} 
+          className="relative w-full max-w-[375px] rounded-xl border-2 border-[#9b30d9] overflow-hidden bg-black"
+          style={{ 
+            boxShadow: '0 0 10px rgba(0, 0, 0, 0.25)'
+          }}
+        >
         {/* Header do scanner */}
         <div className="absolute top-0 w-full bg-white/95 text-center py-2.5 font-bold z-20">
           Posicione o código de barras do chip
@@ -107,7 +107,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         </button>
 
         {/* Container da câmera */}
-        <div className="relative w-full h-[110px] overflow-hidden">
+        <div className="relative w-full h-[95px] overflow-hidden">
           <video
             ref={videoRef}
             className="w-full h-full object-cover"
@@ -116,7 +116,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           {/* Linha laser */}
           {isScanning && (
             <div 
-              className="absolute left-0 w-full h-[0.5px] bg-red-500 z-10 opacity-80"
+              className="absolute left-0 w-full h-[2px] bg-red-500 z-10 opacity-90"
               style={{ 
                 animation: 'laser-scan 1.5s infinite alternate ease-in-out'
               }}
