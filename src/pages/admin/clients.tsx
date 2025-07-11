@@ -52,12 +52,76 @@ export default function AdminClients() {
   // Mutation para deletar cliente
   const deleteMutation = useMutation({
     mutationFn: async (clientId: string) => {
-      const { error } = await supabase
-        .from('profiles')
-        .delete()
-        .eq('id', clientId);
-      
-      if (error) throw error;
+      try {
+        // First, check if there are any dependencies that might prevent deletion
+        const { data: networkEntries } = await supabase
+          .from('network')
+          .select('id')
+          .eq('user_id', clientId);
+
+        const { data: orders } = await supabase
+          .from('orders')
+          .select('id')
+          .eq('user_id', clientId);
+
+        const { data: termsAcceptance } = await supabase
+          .from('terms_acceptance')
+          .select('id')
+          .eq('user_id', clientId);
+
+        // Delete related records first to avoid foreign key violations
+        if (termsAcceptance && termsAcceptance.length > 0) {
+          const { error: termsError } = await supabase
+            .from('terms_acceptance')
+            .delete()
+            .eq('user_id', clientId);
+          
+          if (termsError) {
+            console.error('Erro ao deletar termos de aceite:', termsError);
+            throw new Error('Erro ao remover dados relacionados (termos de aceite)');
+          }
+        }
+
+        if (networkEntries && networkEntries.length > 0) {
+          const { error: networkError } = await supabase
+            .from('network')
+            .delete()
+            .eq('user_id', clientId);
+          
+          if (networkError) {
+            console.error('Erro ao deletar rede:', networkError);
+            throw new Error('Erro ao remover dados relacionados (rede)');
+          }
+        }
+
+        if (orders && orders.length > 0) {
+          const { error: ordersError } = await supabase
+            .from('orders')
+            .delete()
+            .eq('user_id', clientId);
+          
+          if (ordersError) {
+            console.error('Erro ao deletar pedidos:', ordersError);
+            throw new Error('Erro ao remover dados relacionados (pedidos)');
+          }
+        }
+
+        // Finally, delete the profile
+        const { error } = await supabase
+          .from('profiles')
+          .delete()
+          .eq('id', clientId);
+        
+        if (error) {
+          console.error('Erro ao deletar perfil:', error);
+          throw new Error('Erro ao remover cliente');
+        }
+
+        return { success: true };
+      } catch (error) {
+        console.error('Erro durante a exclusão:', error);
+        throw error;
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-clients'] });
@@ -65,11 +129,14 @@ export default function AdminClients() {
         title: "Cliente removido",
         description: "Cliente foi removido com sucesso.",
       });
+      setDeleteDialogOpen(false);
+      setClientToDelete(null);
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      console.error('Erro na mutation:', error);
       toast({
-        title: "Erro",
-        description: "Erro ao remover cliente.",
+        title: "Erro ao remover cliente",
+        description: error.message || "Ocorreu um erro inesperado ao tentar excluir o cliente.",
         variant: "destructive",
       });
     }
@@ -83,8 +150,6 @@ export default function AdminClients() {
   const confirmDelete = () => {
     if (clientToDelete) {
       deleteMutation.mutate(clientToDelete.id);
-      setDeleteDialogOpen(false);
-      setClientToDelete(null);
     }
   };
 
