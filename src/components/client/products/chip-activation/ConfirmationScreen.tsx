@@ -25,7 +25,7 @@ export function ConfirmationScreen({ selectedLines, protocol }: ConfirmationScre
   };
 
   return (
-    <div className="min-h-screen bg-purple-700 text-white flex items-center justify-center p-4">
+    <div className="min-h-screen text-white flex items-center justify-center p-4" style={{ backgroundColor: '#6A1B9A' }}>
       <div className="max-w-lg w-full space-y-6">
         <div className="space-y-4 text-center">
           <h2 className="text-4xl font-bold text-white">Deu certo!</h2>
