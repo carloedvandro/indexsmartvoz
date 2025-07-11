@@ -72,6 +72,9 @@ export const DocumentVerification = () => {
       const textoExtraido = resultado.data.text;
       console.log("Texto extraído:", textoExtraido);
 
+      // Salvar texto extraído para exibir na confirmação final
+      localStorage.setItem('documentoTextoExtraido', textoExtraido);
+
       setStatus("Comparando dados com a selfie e cadastro...");
 
       // Verificar se há selfie salva
