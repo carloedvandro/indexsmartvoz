@@ -3,6 +3,7 @@ import Webcam from "react-webcam";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import * as faceapi from 'face-api.js';
 
 interface FacialCaptureStepProps {
   onNext: (imageSrc: string) => void;
@@ -50,10 +51,13 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
     checkSession();
   }, [toast]);
 
-  // Initialize camera and start movement detection
+  // Load face-api models and initialize camera
   useEffect(() => {
     const iniciarCamera = async () => {
       try {
+        // Load face-api models
+        await carregarModelos();
+        
         const stream = await navigator.mediaDevices.getUserMedia({ 
           video: { facingMode: 'user' } 
         });
@@ -62,7 +66,10 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
           webcamRef.current.video.srcObject = stream;
         }
         
-        detectarMovimento();
+        // Wait a bit for video to start then begin detection
+        setTimeout(() => {
+          detectarMovimento();
+        }, 1000);
       } catch (err) {
         console.error('Erro ao acessar câmera:', err);
         toast({
@@ -76,24 +83,60 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
     iniciarCamera();
   }, [toast]);
 
-  const detectarMovimento = () => {
-    setEtapa(0);
+  // Load face-api models
+  const carregarModelos = async () => {
+    try {
+      await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
+      console.log('Modelos face-api carregados com sucesso');
+    } catch (error) {
+      console.error('Erro ao carregar modelos face-api:', error);
+      toast({
+        title: "Aviso",
+        description: "Modelos de detecção facial não carregados, continuando sem detecção automática",
+      });
+    }
+  };
+
+  // Helper function for delays
+  const aguardar = (ms: number) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  };
+
+  const detectarMovimento = async () => {
     falar("Aproxime o rosto do celular");
-    
-    setTimeout(() => {
-      setEtapa(1);
-      falar("Afaste o rosto do celular");
-      
-      setTimeout(() => {
-        setEtapa(2);
-        falar("Centralize o rosto dentro do oval");
-        
+    await aguardar(3000);
+    falar("Afaste o rosto do celular");
+    await aguardar(3000);
+    falar("Centralize o rosto dentro do oval");
+    await aguardar(3000);
+
+    // Start face detection loop
+    const detectar = async () => {
+      try {
+        if (webcamRef.current?.video) {
+          const detections = await faceapi.detectAllFaces(
+            webcamRef.current.video, 
+            new faceapi.TinyFaceDetectorOptions()
+          );
+          
+          if (detections.length > 0) {
+            setEtapa(3);
+            falar("Reconhecimento facial concluído");
+          } else {
+            setTimeout(detectar, 1000);
+          }
+        }
+      } catch (error) {
+        console.error('Erro na detecção facial:', error);
+        // Fallback to simple timer if face detection fails
         setTimeout(() => {
           setEtapa(3);
           falar("Reconhecimento facial concluído");
-        }, 3000);
-      }, 3000);
-    }, 3000);
+        }, 2000);
+      }
+    };
+    
+    detectar();
   };
 
   const tirarSelfie = () => {
