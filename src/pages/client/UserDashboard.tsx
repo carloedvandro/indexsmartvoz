@@ -111,7 +111,23 @@ export default function UserDashboard() {
           </CardHeader>
           <CardContent>
             <p className="mb-2">Documento validado com sucesso.</p>
-            <p>Protocolo: {protocolo}</p>
+            <p className="mb-4">Protocolo: {protocolo}</p>
+            <div className="flex justify-center gap-2 mt-2 flex-wrap">
+              {localStorage.getItem('documentoFrente') && (
+                <img 
+                  src={localStorage.getItem('documentoFrente')!} 
+                  alt="Documento Frente" 
+                  className="max-w-[45%] rounded-lg border-2 border-white"
+                />
+              )}
+              {localStorage.getItem('documentoVerso') && (
+                <img 
+                  src={localStorage.getItem('documentoVerso')!} 
+                  alt="Documento Verso" 
+                  className="max-w-[45%] rounded-lg border-2 border-white"
+                />
+              )}
+            </div>
           </CardContent>
         </Card>
 
