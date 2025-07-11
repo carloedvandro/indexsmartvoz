@@ -107,8 +107,8 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           </h3>
         </div>
 
-        {/* Área da câmera com altura fixa (~200px) */}
-        <div className="relative bg-black h-[200px] overflow-hidden">
+        {/* Área da câmera ajustada para código de barras inferior (~85px altura) */}
+        <div className="relative bg-black h-[85px] w-[290px] mx-auto overflow-hidden">
           <video
             ref={videoRef}
             className="w-full h-full object-cover"
