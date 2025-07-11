@@ -7,6 +7,7 @@ export default function ValidationSuccess() {
   const { toast } = useToast();
   const [showPanel, setShowPanel] = useState(false);
   const [notification, setNotification] = useState({ show: false, message: '', isError: false });
+  const [logEntries, setLogEntries] = useState<string[]>([]);
 
   useEffect(() => {
     // Check status on load
@@ -23,8 +24,15 @@ export default function ValidationSuccess() {
         message: '❌ Cadastro reprovado. Dados não conferem.',
         isError: true
       });
+      logAcesso('Tentativa de acesso reprovada.');
     }
   }, []);
+
+  const logAcesso = (mensagem: string) => {
+    const dataHora = new Date().toLocaleString('pt-BR');
+    const entry = `[${dataHora}] ${mensagem}`;
+    setLogEntries(prev => [entry, ...prev]);
+  };
 
   const mostrarPainel = () => {
     setShowPanel(true);
@@ -33,6 +41,7 @@ export default function ValidationSuccess() {
       message: '✅ Último acesso confirmado com sucesso!',
       isError: false
     });
+    logAcesso('Acesso ao painel confirmado.');
   };
 
   const handlePlanos = () => {
@@ -95,6 +104,18 @@ export default function ValidationSuccess() {
             >
               Suporte
             </button>
+            
+            <div className="mt-5 text-[0.85rem] bg-[#5c2b8b] p-2.5 rounded-[10px] max-h-[120px] overflow-y-auto">
+              {logEntries.length === 0 ? (
+                <p className="text-gray-300">Nenhum log registrado ainda.</p>
+              ) : (
+                logEntries.map((entry, index) => (
+                  <div key={index} className="mb-1">
+                    {entry}
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         )}
 
