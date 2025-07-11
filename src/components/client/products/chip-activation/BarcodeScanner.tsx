@@ -88,7 +88,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         {/* Modal do scanner */}
         <div 
           ref={overlayRef} 
-          className="relative w-full max-w-[343px] rounded-xl border-2 border-[#9b30d9] overflow-hidden bg-black"
+          className="relative w-full max-w-[344px] rounded-xl border-2 border-[#9b30d9] overflow-hidden bg-black"
           style={{ 
             boxShadow: '0 0 10px rgba(0, 0, 0, 0.25)'
           }}
