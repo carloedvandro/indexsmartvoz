@@ -69,22 +69,43 @@ export function ChipActivationFlow({
             />
           </div>
         </div>
-        <ChipActivationStepContent
-          currentStep={currentStep}
-          selectedLines={selectedLines}
-          allBarcodesScanned={allBarcodesScanned}
-          onBack={onBack}
-          onContinue={onContinue}
-          onStartScanning={onStartScanning}
-        />
-
-        <BarcodeScannerContainer
-          scanningIndex={scanningIndex}
-          onUpdateBarcode={onUpdateBarcode}
-          onScanningClose={onScanningClose}
-        />
+        
+        {currentStep === 6 ? (
+          // Para o step 6, renderizar sem o container extra já que tem layout próprio
+          <>
+            <ChipActivationStepContent
+              currentStep={currentStep}
+              selectedLines={selectedLines}
+              allBarcodesScanned={allBarcodesScanned}
+              onBack={onBack}
+              onContinue={onContinue}
+              onStartScanning={onStartScanning}
+            />
+            <BarcodeScannerContainer
+              scanningIndex={scanningIndex}
+              onUpdateBarcode={onUpdateBarcode}
+              onScanningClose={onScanningClose}
+            />
+          </>
+        ) : (
+          // Para outros steps, manter o layout original
+          <>
+            <ChipActivationStepContent
+              currentStep={currentStep}
+              selectedLines={selectedLines}
+              allBarcodesScanned={allBarcodesScanned}
+              onBack={onBack}
+              onContinue={onContinue}
+              onStartScanning={onStartScanning}
+            />
+            <BarcodeScannerContainer
+              scanningIndex={scanningIndex}
+              onUpdateBarcode={onUpdateBarcode}
+              onScanningClose={onScanningClose}
+            />
+          </>
+        )}
       </div>
     </div>
-
   );
 }

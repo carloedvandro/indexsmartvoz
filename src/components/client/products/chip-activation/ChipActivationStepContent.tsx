@@ -2,6 +2,7 @@
 import { ChipInstructions } from "./ChipInstructions";
 import { BarcodeInstructions } from "./BarcodeInstructions";
 import { NavigationButtons } from "./NavigationButtons";
+import { BarcodeInputStep } from "./BarcodeInputStep";
 
 export type Line = {
   id: number;
@@ -59,47 +60,13 @@ export function ChipActivationStepContent({
 
   if (currentStep === 6) {
     return (
-      <div className="flex flex-col space-y-6">
-        <div className="space-y-4">
-          <div className="bg-blue-50 p-4 rounded-lg text-blue-800 text-sm ">
-            O código de barras do chip deve ter 20 digitos e começar com 8955. Posicione o código no centro da câmera.
-          </div>
-          <div className="space-y-3">
-            {selectedLines.map((line, index) => (
-              <div key={line.id} className="flex flex-col p-4 border rounded-lg space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="">
-                    <p className="font-medium">Código de barras do SIM card</p>
-                    {line.ddd && (
-                      <p className="text-sm text-gray-600">Linha DDD: {line.ddd}</p>
-                    )}
-                    {line.barcode && (
-                      <p className="text-sm text-green-600">✓ Código: {line.barcode}</p>
-                    )}
-                  </div>
-
-                  <button
-                    onClick={() => onStartScanning(index)}
-                    className={`px-4 py-2 rounded text-sm font-medium ${line.barcode
-                      ? 'bg-green-100 text-green-700 cursor-default'
-                      : 'bg-[#8425af] text-white hover:bg-[#6c1e8f]'
-                      }`}
-                    disabled={!!line.barcode}
-                  >
-                    {line.barcode ? 'Escaneado' : 'Escanear Código'}
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <NavigationButtons
-          onBack={onBack}
-          onContinue={onContinue}
-          disabled={!allBarcodesScanned}
-        />
-      </div>
+      <BarcodeInputStep
+        selectedLines={selectedLines}
+        allBarcodesScanned={allBarcodesScanned}
+        onBack={onBack}
+        onContinue={onContinue}
+        onStartScanning={onStartScanning}
+      />
     );
   }
 
