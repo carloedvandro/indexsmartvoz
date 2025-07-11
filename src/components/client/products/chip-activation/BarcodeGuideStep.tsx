@@ -30,7 +30,7 @@ export function BarcodeGuideStep({
               </div>
               
               <div className="flex flex-col items-center">
-                <div className="w-7 h-7 rounded-full border-2 border-[#8425af] flex items-center justify-center text-[#8425af]">
+                <div className="w-7 h-7 rounded-full border-2 border-[#8425af] flex items-center justify-center text-[#8425af] animate-pulse">
                   <Circle className="w-3 h-3 fill-[#8425af] stroke-[#8425af]" />
                 </div>
                 <span className="text-sm mt-1 text-[#8425af] font-medium">SIM Card</span>
