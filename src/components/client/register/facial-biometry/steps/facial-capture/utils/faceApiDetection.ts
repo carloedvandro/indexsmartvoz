@@ -11,29 +11,17 @@ export const loadFaceApiModels = async (): Promise<boolean> => {
     // Carrega modelos do CDN se não estiverem localmente
     const MODEL_URL = 'https://cdn.jsdelivr.net/npm/face-api.js/models';
     
-    // Aguardar o carregamento completo do face-api.js
-    if (typeof faceapi === 'undefined') {
-      console.log("⚠️ face-api.js ainda não está disponível, aguardando...");
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    }
-    
     await Promise.all([
       faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
       faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
       faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL)
     ]);
     
-    // Verificar se os modelos foram carregados corretamente
-    if (!faceapi.nets.tinyFaceDetector.isLoaded) {
-      throw new Error("TinyFaceDetector não foi carregado");
-    }
-    
     modelsLoaded = true;
     console.log("✅ Modelos face-api.js carregados com sucesso!");
     return true;
   } catch (error) {
     console.error("❌ Erro ao carregar modelos face-api.js:", error);
-    modelsLoaded = false;
     return false;
   }
 };
@@ -48,15 +36,7 @@ export const detectFaceWithFaceApi = async (
   confidence: number;
 }> => {
   try {
-    // Garantir que os modelos estão carregados
-    const modelsLoaded = await loadFaceApiModels();
     if (!modelsLoaded) {
-      throw new Error("Modelos não puderam ser carregados");
-    }
-
-    // Verificar se o modelo específico está carregado
-    if (!faceapi.nets.tinyFaceDetector.isLoaded) {
-      console.log("🔄 Tentando carregar TinyFaceDetector novamente...");
       await loadFaceApiModels();
     }
 

@@ -72,9 +72,6 @@ export const DocumentVerification = () => {
       const textoExtraido = resultado.data.text;
       console.log("Texto extraído:", textoExtraido);
 
-      // Salvar texto extraído para exibir na confirmação final
-      localStorage.setItem('documentoTextoExtraido', textoExtraido);
-
       setStatus("Comparando dados com a selfie e cadastro...");
 
       // Verificar se há selfie salva
@@ -112,10 +109,6 @@ export const DocumentVerification = () => {
           description: "Os dados do documento não conferem com o cadastro",
           variant: "destructive",
         });
-        
-        setTimeout(() => {
-          navigate('/client/verification-rejected');
-        }, 2000);
       }
     } catch (error) {
       console.error("Erro durante análise:", error);
