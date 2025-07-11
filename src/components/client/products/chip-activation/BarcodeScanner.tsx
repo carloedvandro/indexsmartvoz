@@ -80,61 +80,43 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <audio ref={audioRef} src="/beep.mp3" preload="auto" />
       
-      {/* Modal centralizado com estilo supermercado */}
+      {/* Modal do scanner */}
       <div 
         ref={overlayRef} 
-        className="relative bg-white rounded-xl border-2 border-purple-700 w-full max-w-lg overflow-hidden shadow-2xl"
+        className="relative w-full max-w-[620px] rounded-xl border-2 border-[#9b30d9] overflow-hidden"
         style={{ 
-          borderRadius: '12px',
-          marginTop: '20vh' // Desloca para baixo conforme especificado
+          boxShadow: '0 0 20px rgba(0, 0, 0, 0.25)'
         }}
       >
-        {/* Botão de fechar (X) no canto superior direito */}
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-lg z-20 border border-gray-200"
-        >
-          <X className="w-5 h-5 text-black" />
-        </button>
-
-        {/* Título superior da caixa */}
-        <div className="bg-white p-4 text-center border-b border-gray-100">
-          <h3 className="text-base font-normal text-black">
-            Posicione o código de barras do chip
-          </h3>
+        {/* Header do scanner */}
+        <div className="absolute top-0 w-full bg-white/90 text-center py-2.5 font-bold z-20">
+          Posicione o código de barras do chip
         </div>
 
-        {/* Área da câmera ajustada para código de barras inferior (~85px altura) */}
-        <div className="relative bg-black h-[85px] w-[290px] mx-auto overflow-hidden border-2 border-red-500/30">
+        {/* Botão de fechar */}
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2.5 bg-white rounded-full border-none w-7 h-7 text-lg cursor-pointer z-20 flex items-center justify-center"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
+        {/* Container da câmera */}
+        <div className="relative h-[120px] bg-black">
           <video
             ref={videoRef}
             className="w-full h-full object-cover"
-            style={{
-              objectPosition: 'center bottom' // Foca na parte inferior da imagem da câmera
-            }}
           />
           
-          {/* Guias visuais para posicionamento do código de barras */}
-          <div className="absolute inset-0 pointer-events-none">
-            {/* Linhas guia horizontais */}
-            <div className="absolute top-[25%] left-2 right-2 h-0.5 bg-white/50"></div>
-            <div className="absolute bottom-[25%] left-2 right-2 h-0.5 bg-white/50"></div>
-            
-            {/* Zona de foco central */}
-            <div className="absolute top-[30%] bottom-[30%] left-4 right-4 border-2 border-white/70 border-dashed"></div>
-          </div>
-          
-          {/* Laser animado estilo supermercado */}
+          {/* Linha laser */}
           {isScanning && (
             <div 
-              className="absolute left-0 w-full bg-red-500 laser-line z-10"
+              className="absolute left-0 w-full h-0.5 bg-red-500 z-10"
               style={{ 
-                height: '3px',
-                boxShadow: '0 0 10px rgba(255, 0, 0, 0.8)',
-                animation: 'laser-scan 1.5s ease-in-out infinite'
+                animation: 'laser-scan 1.2s infinite alternate'
               }} 
             />
           )}
@@ -149,7 +131,6 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           )}
         </div>
       </div>
-
     </div>
   );
 }
