@@ -24,7 +24,6 @@ export const FacialBiometryFlow = ({
     handleDocumentTypeSelection,
     handleFacialCapture,
     handleDocumentCapture,
-    handleCombinedDocumentCapture,
     handleCompletion
   } = useBiometryFlow({
     onComplete,
@@ -52,8 +51,7 @@ export const FacialBiometryFlow = ({
           onDocumentTypeSelection={handleDocumentTypeSelection} 
           onFacialCapture={handleFacialCapture} 
           onDocumentCapture={handleDocumentCapture} 
-          onCombinedDocumentCapture={handleCombinedDocumentCapture}
-          onComplete={handleCompletion}
+          onComplete={handleCompletion} 
         />
       </div>
     </div>

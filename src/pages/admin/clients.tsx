@@ -52,93 +52,12 @@ export default function AdminClients() {
   // Mutation para deletar cliente
   const deleteMutation = useMutation({
     mutationFn: async (clientId: string) => {
-      try {
-        console.log('Iniciando exclusão do cliente:', clientId);
-
-        // Delete in correct order to avoid foreign key violations
-        // 1. Delete terms_acceptance first
-        const { error: termsError } = await supabase
-          .from('terms_acceptance')
-          .delete()
-          .eq('user_id', clientId);
-        
-        if (termsError && termsError.code !== 'PGRST116') { // Ignore "not found" errors
-          console.error('Erro ao deletar termos de aceite:', termsError);
-          throw new Error('Erro ao remover termos de aceite');
-        }
-
-        // 2. Delete network entries
-        const { error: networkError } = await supabase
-          .from('network')
-          .delete()
-          .eq('user_id', clientId);
-        
-        if (networkError && networkError.code !== 'PGRST116') {
-          console.error('Erro ao deletar rede:', networkError);
-          throw new Error('Erro ao remover dados da rede');
-        }
-
-        // 3. Delete orders
-        const { error: ordersError } = await supabase
-          .from('orders')
-          .delete()
-          .eq('user_id', clientId);
-        
-        if (ordersError && ordersError.code !== 'PGRST116') {
-          console.error('Erro ao deletar pedidos:', ordersError);
-          throw new Error('Erro ao remover pedidos');
-        }
-
-        // 4. Delete document verifications
-        const { error: docError } = await supabase
-          .from('document_verifications')
-          .delete()
-          .eq('user_id', clientId);
-        
-        if (docError && docError.code !== 'PGRST116') {
-          console.error('Erro ao deletar verificações de documento:', docError);
-          throw new Error('Erro ao remover verificações de documento');
-        }
-
-        // 5. Delete document captures
-        const { error: capturesError } = await supabase
-          .from('document_captures')
-          .delete()
-          .eq('user_id', clientId);
-        
-        if (capturesError && capturesError.code !== 'PGRST116') {
-          console.error('Erro ao deletar capturas de documento:', capturesError);
-          throw new Error('Erro ao remover capturas de documento');
-        }
-
-        // 6. Delete user addresses
-        const { error: addressError } = await supabase
-          .from('user_addresses')
-          .delete()
-          .eq('user_id', clientId);
-        
-        if (addressError && addressError.code !== 'PGRST116') {
-          console.error('Erro ao deletar endereços:', addressError);
-          throw new Error('Erro ao remover endereços');
-        }
-
-        // 7. Finally, delete the profile
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .delete()
-          .eq('id', clientId);
-        
-        if (profileError) {
-          console.error('Erro ao deletar perfil:', profileError);
-          throw new Error('Erro ao remover cliente');
-        }
-
-        console.log('Cliente deletado com sucesso:', clientId);
-        return { success: true };
-      } catch (error) {
-        console.error('Erro durante a exclusão:', error);
-        throw error;
-      }
+      const { error } = await supabase
+        .from('profiles')
+        .delete()
+        .eq('id', clientId);
+      
+      if (error) throw error;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-clients'] });
@@ -146,14 +65,11 @@ export default function AdminClients() {
         title: "Cliente removido",
         description: "Cliente foi removido com sucesso.",
       });
-      setDeleteDialogOpen(false);
-      setClientToDelete(null);
     },
-    onError: (error: any) => {
-      console.error('Erro na mutation:', error);
+    onError: (error) => {
       toast({
-        title: "Erro ao remover cliente",
-        description: error.message || "Ocorreu um erro inesperado ao tentar excluir o cliente.",
+        title: "Erro",
+        description: "Erro ao remover cliente.",
         variant: "destructive",
       });
     }
@@ -167,6 +83,8 @@ export default function AdminClients() {
   const confirmDelete = () => {
     if (clientToDelete) {
       deleteMutation.mutate(clientToDelete.id);
+      setDeleteDialogOpen(false);
+      setClientToDelete(null);
     }
   };
 

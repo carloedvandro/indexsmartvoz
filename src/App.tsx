@@ -20,9 +20,7 @@ import ClientProducts from "@/pages/client/products";
 import ClientNotifications from "@/pages/client/notifications";
 import ClientEsim from "@/pages/client/esim";
 import ClientFacialBiometry from "@/pages/client/facial-biometry";
-import DocumentValidation from "@/pages/client/DocumentValidation";
-import DocumentVersoCapture from "@/pages/client/DocumentVersoCapture";
-import ValidationSuccess from "@/pages/client/ValidationSuccess";
+import { DocumentVerification } from "@/pages/client/DocumentVerification";
 import { VerificationComplete } from "@/pages/client/VerificationComplete";
 import { VerificationRejected } from "@/pages/client/VerificationRejected";
 import UserDashboard from "@/pages/client/UserDashboard";
@@ -70,9 +68,7 @@ function App() {
           <Route path="/client/terms-updated" element={<ClientTermsUpdated />} />
           <Route path="/client/payment-return" element={<PaymentReturn />} />
           <Route path="/client/chip-activation" element={<ChipActivation />} />
-          <Route path="/client/document-validation" element={<DocumentValidation />} />
-          <Route path="/client/document-verso" element={<DocumentVersoCapture />} />
-          <Route path="/client/validation-success" element={<ValidationSuccess />} />
+          <Route path="/client/document-verification" element={<DocumentVerification />} />
           <Route path="/client/verification-complete" element={<VerificationComplete />} />
           <Route path="/client/verification-rejected" element={<VerificationRejected />} />
           <Route path="/client/user-dashboard" element={<UserDashboard />} />

@@ -84,80 +84,80 @@ export const CpfVerificationStep = ({
 
   return (
     <>
-      <div className="min-h-screen bg-primary flex flex-col items-center justify-center p-5">
-        <div className="bg-primary-foreground/10 backdrop-blur-sm p-6 rounded-xl shadow-2xl w-full max-w-md">
-          <h2 className="text-xl font-semibold text-white mb-4 text-center">
-            Termos de Validação
-          </h2>
-          
-          <div className="text-white/90 text-sm text-justify mb-6 leading-relaxed">
-            <p className="mb-4">
-              Ao prosseguir com o processo de verificação biométrica e documental, você concorda em fornecer seus dados para análise automatizada por IA. A coleta de imagens, documentos e dados pessoais é protegida por nossa política de privacidade.
+      <div className="bg-white text-gray-800 flex flex-col ">
+        <div className="flex-1 flex items-start justify-center p-6" style={{ paddingTop: '-8px' }}>
+          <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
+            <h2 className="text-sm text-gray-800 max-w-[280px] mx-auto text-center">
+              Olá, verificamos que você está realizando a
+              <br />
+              consulta/contratação dos nossos serviços SmartVoz.
+              <br />
+              Vamos tirar uma foto do seu rosto pra sua segurança.
+              <br />
+              Para dar continuidade precisamos realizar a sua biometria.
+            </h2>
+
+            <p className="text-sm text-gray-600 text-center mt-0 max-w-[280px] mx-auto">
+              Biometria é uma solução que utiliza a tecnologia para identificação do cliente.
             </p>
-            <p className="mb-4">
-              Digite os 5 primeiros dígitos do seu CPF para confirmar a leitura e seguir para a biometria:
-            </p>
+
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <div className="space-y-2">
+                <label htmlFor="cpf" className="block text-xs font-bold text-center text-gray-800">
+                  Insira os primeiros 5 dígitos do seu CPF:
+                </label>
+                <Input 
+                  id="cpf" 
+                  type="text" 
+                  value={cpfDigits} 
+                  onChange={e => {
+                    const value = e.target.value.replace(/\D/g, '').slice(0, 5);
+                    setCpfDigits(value);
+                  }} 
+                  placeholder="" 
+                  className="w-full h-9 text-black text-center text-base bg-white border border-gray-300" 
+                  maxLength={5} 
+                />
+              </div>
+            </form>
           </div>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Input 
-                id="cpf" 
-                type="text" 
-                value={cpfDigits} 
-                onChange={e => {
-                  const value = e.target.value.replace(/\D/g, '').slice(0, 5);
-                  setCpfDigits(value);
-                }} 
-                placeholder="12345" 
-                className="w-full h-12 text-black text-center text-lg bg-white border-0 rounded-lg" 
-                maxLength={5} 
-              />
+        {/* Botão fixado na parte inferior com o conjunto "Verified by" acima */}
+        <div className="fixed bottom-0 left-0 right-0 bg-white">
+          <div className="flex justify-center py-3">
+            <div className="flex items-center bg-transparent py-2 rounded-lg">
+              <div className="flex items-center gap-2">
+                <Lock className="w-6 h-6 text-gray-600" strokeWidth={2.5} />
+                <div className="h-8 w-[1px] bg-gray-400 mr-2"></div>
+              </div>
+              <div className="text-start ">
+                <div className="text-sm text-[#8425af] block">Verified by</div>
+                <div className="font-semibold text-sm  text-gray-800">Serasa Experian</div>
+              </div>
             </div>
-
-            <Button 
-              type="submit"
-              disabled={!isButtonEnabled} 
-              className="w-full h-12 bg-yellow-500 hover:bg-yellow-600 text-primary font-bold text-lg rounded-lg transition-colors"
-            >
-              {isLoading ? "VALIDANDO..." : "Prosseguir"}
-            </Button>
-
-            {cpfDigits.length > 0 && cpfDigits.length < 5 && (
-              <p className="text-red-400 text-sm text-center">
-                CPF inválido. Digite os 5 primeiros dígitos corretamente.
-              </p>
-            )}
-          </form>
-
-          <p className="text-white/80 text-xs text-center mt-4">
+          </div>
+          <p className="text-sm text-gray-600 text-center pb-2">
             Ao continuar, você aceita nossos{' '}
             <button 
               onClick={handleTermsClick}
               className={`underline font-medium ${
                 shouldHighlightTerms 
-                  ? 'text-yellow-400 animate-pulse' 
-                  : 'text-yellow-300'
+                  ? 'text-red-600 animate-pulse' 
+                  : 'text-[#2400ff]'
               }`}
               type="button"
             >
               termos de uso
             </button>
           </p>
-
-          {/* Verified by section */}
-          <div className="flex justify-center mt-6">
-            <div className="flex items-center bg-white/10 px-4 py-2 rounded-lg">
-              <div className="flex items-center gap-2">
-                <Lock className="w-5 h-5 text-white/80" strokeWidth={2} />
-                <div className="h-6 w-[1px] bg-white/40 mr-2"></div>
-              </div>
-              <div className="text-start">
-                <div className="text-xs text-yellow-300">Verified by</div>
-                <div className="font-semibold text-sm text-white">Serasa Experian</div>
-              </div>
-            </div>
-          </div>
+          <Button 
+            onClick={handleSubmit} 
+            disabled={!isButtonEnabled} 
+            className="w-full h-12 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? "VALIDANDO..." : "VALIDAR"}
+          </Button>
         </div>
       </div>
 

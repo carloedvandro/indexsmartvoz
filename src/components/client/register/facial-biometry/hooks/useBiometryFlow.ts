@@ -13,7 +13,6 @@ export type BiometryStep =
   | 'document-type'
   | 'document-front'
   | 'document-back'
-  | 'document-scanner-combined'
   | 'document-analysis'
   | 'completion';
 
@@ -50,7 +49,6 @@ export const useBiometryFlow = ({ onComplete, onBack }: UseBiometryFlowProps) =>
       'document-type': 'document-instructions',
       'document-front': 'document-type',
       'document-back': 'document-front',
-      'document-scanner-combined': 'document-type',
       'document-analysis': 'document-back',
       'completion': 'document-analysis'
     };
@@ -69,8 +67,7 @@ export const useBiometryFlow = ({ onComplete, onBack }: UseBiometryFlowProps) =>
 
   const handleDocumentTypeSelection = (type: 'rg' | 'cnh') => {
     setSelectedDocType(type);
-    // Use combined scanner instead of separate front/back steps
-    handleContinue('document-scanner-combined');
+    handleContinue('document-front');
   };
 
   const handleFacialCapture = (imageSrc: string) => {
@@ -90,15 +87,6 @@ export const useBiometryFlow = ({ onComplete, onBack }: UseBiometryFlowProps) =>
       setCapturedImages(prev => ({ ...prev, documentBack: imageSrc }));
       handleContinue('document-analysis');
     }
-  };
-
-  const handleCombinedDocumentCapture = (frontImage: string, backImage: string) => {
-    setCapturedImages(prev => ({ 
-      ...prev, 
-      documentFront: frontImage, 
-      documentBack: backImage 
-    }));
-    handleContinue('document-analysis');
   };
 
   const handleCompletion = () => {
@@ -127,7 +115,6 @@ export const useBiometryFlow = ({ onComplete, onBack }: UseBiometryFlowProps) =>
     handleDocumentTypeSelection,
     handleFacialCapture,
     handleDocumentCapture,
-    handleCombinedDocumentCapture,
     handleCompletion
   };
 };

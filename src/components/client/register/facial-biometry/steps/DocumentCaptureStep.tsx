@@ -5,14 +5,12 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { DocumentFrame } from "./document-capture/DocumentFrame";
 import { CaptureButton } from "./document-capture/CaptureButton";
-import { DocumentCaptureOval } from "./document-capture/DocumentCaptureOval";
 import { useDocumentCapture } from "./document-capture/useDocumentCapture";
 import { useDocumentDetection } from "./document-capture/useDocumentDetection";
 import { useDocumentCaptureProgress } from "./document-capture/useDocumentCaptureProgress";
 
 interface DocumentCaptureStepProps {
   onNext: (imageSrc: string) => void;
-  onBack?: () => void;
   selectedDocType: 'rg' | 'cnh';
   isBackSide?: boolean;
   videoConstraints: {
@@ -22,18 +20,15 @@ interface DocumentCaptureStepProps {
   };
   step: number;
   totalSteps: number;
-  useOvalInterface?: boolean;
 }
 
 export const DocumentCaptureStep = ({ 
   onNext, 
-  onBack,
   selectedDocType, 
   isBackSide = false,
   videoConstraints,
   step,
-  totalSteps,
-  useOvalInterface = false
+  totalSteps
 }: DocumentCaptureStepProps) => {
   const webcamRef = useRef<Webcam>(null);
   const { toast } = useToast();
@@ -117,19 +112,6 @@ export const DocumentCaptureStep = ({
     width: { ideal: 1280 },
     height: { ideal: 720 }
   };
-
-  // Use oval interface if requested
-  if (useOvalInterface) {
-    return (
-      <DocumentCaptureOval
-        onNext={onNext}
-        onBack={onBack || (() => {})}
-        selectedDocType={selectedDocType}
-        isBackSide={isBackSide}
-        videoConstraints={updatedVideoConstraints}
-      />
-    );
-  }
   
   return (
     <div className="relative h-[540px] bg-black overflow-hidden">
