@@ -109,7 +109,7 @@ body, #root {
 
 /* Animações personalizadas para o scanner */
 @keyframes laser-scan {
-  from { top: 25px; }
+  from { top: 20px; }
   to { top: 120px; }
 }
 
