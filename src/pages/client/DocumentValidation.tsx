@@ -55,12 +55,15 @@ export default function DocumentValidation() {
       if (step === 'front') {
         localStorage.setItem('docFrente', fotoBase64);
         setFrontCaptured(true);
-        setStep('back');
-        setMessage('Frente capturada! Agora capture o verso.');
+        setMessage('Frente capturada! Redirecionando para capturar o verso...');
         toast({
           title: "Frente Capturada",
-          description: "Agora posicione o verso do documento.",
+          description: "Redirecionando para capturar o verso do documento.",
         });
+        // Redirect to verso capture page
+        setTimeout(() => {
+          navigate('/client/document-verso');
+        }, 1500);
       } else {
         localStorage.setItem('docVerso', fotoBase64);
         validarDocumentos(fotoBase64);
