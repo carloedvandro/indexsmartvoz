@@ -116,7 +116,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           {/* Linha laser */}
           {isScanning && (
             <div 
-              className="absolute left-0 w-full h-[1px] bg-red-500 z-10 opacity-80"
+              className="absolute left-0 w-full h-[0.5px] bg-red-500 z-10 opacity-80"
               style={{ 
                 animation: 'laser-scan 1.5s infinite alternate ease-in-out'
               }}
