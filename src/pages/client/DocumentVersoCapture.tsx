@@ -77,7 +77,8 @@ export default function DocumentVersoCapture() {
         description: "Documento validado com sucesso!",
       });
 
-      navigate('/client/dashboard');
+      // Redirect to success page first
+      navigate('/client/validation-success');
     } else {
       setMessage('Validação falhou. Documento divergente. Processo bloqueado.');
       toast({
