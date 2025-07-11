@@ -37,21 +37,25 @@ export function ConfirmationScreen({ selectedLines, protocol }: ConfirmationScre
           </p>
         </div>
 
-        <div className="bg-white/10 rounded-lg p-4 border border-white/20">
-          <div className="space-y-3">
-            <div className="flex justify-between items-center text-white font-medium border-b border-white/20 pb-2">
+        <div className="bg-white/10 rounded-lg border border-white/20 overflow-hidden">
+          {/* Cabeçalho */}
+          <div className="bg-white/5 px-4 py-3 border-b border-white/20">
+            <div className="flex justify-between text-sm font-medium">
               <span>DDD</span>
               <span>Código de barras do SIM card</span>
             </div>
+          </div>
+          
+          {/* Conteúdo */}
+          <div className="px-4 py-4">
             {selectedLines.map((line, index) => (
-              <div key={index} className="flex justify-between items-center py-2">
-                <div className="flex items-center gap-2">
-                  <Check className="text-green-400" size={16} />
-                  <span className="text-white font-medium">{line.ddd}</span>
+              <div key={index} className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Check className="w-4 h-4 text-green-400" />
+                  <span className="font-medium">{line.ddd}</span>
                 </div>
                 <div className="text-right">
-                  <p className="text-white/90 text-sm">ICCID</p>
-                  <p className="font-mono text-sm text-white">{line.barcode}</p>
+                  <div className="text-sm">ICCID {line.barcode}</div>
                 </div>
               </div>
             ))}
@@ -59,8 +63,7 @@ export function ConfirmationScreen({ selectedLines, protocol }: ConfirmationScre
         </div>
 
         <div className="text-center">
-          <p className="text-white/80 text-sm mb-1">Protocolo</p>
-          <p className="font-mono text-lg font-semibold text-white">{protocol}</p>
+          <p className="text-white/80 text-sm">Protocolo {protocol.replace('CHIP-', '')}</p>
         </div>
 
         <div className="flex justify-center">
