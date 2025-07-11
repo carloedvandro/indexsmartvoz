@@ -13,6 +13,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [hasScanned, setHasScanned] = useState(false);
   const [isScanning, setIsScanning] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   
 
   const {
@@ -50,6 +51,20 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         }, 1000);
       } else {
         console.log("❌ [BARCODE-SCANNER] Código rejeitado:", { barcode, length: barcode.length, isValid: /^8955\d{16}$/.test(barcode) });
+        
+        // Mostrar mensagem de erro específica
+        if (barcode.length !== 20) {
+          setErrorMessage(`Código inválido: deve ter 20 dígitos (detectado: ${barcode.length})`);
+        } else if (!barcode.startsWith('8955')) {
+          setErrorMessage('Código inválido: deve começar com 8955');
+        } else {
+          setErrorMessage('Código de barras inválido');
+        }
+        
+        // Limpar mensagem de erro após 3 segundos
+        setTimeout(() => {
+          setErrorMessage('');
+        }, 3000);
       }
     },
     timeBetweenDecodingAttempts: 50,
@@ -128,6 +143,15 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
             <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center z-20">
               <div className="bg-green-500 text-white px-4 py-2 rounded-lg font-medium shadow-lg text-sm">
                 ✓ Código Capturado
+              </div>
+            </div>
+          )}
+          
+          {/* Overlay de erro quando código inválido */}
+          {errorMessage && (
+            <div className="absolute inset-0 bg-red-500/20 flex items-center justify-center z-20">
+              <div className="bg-red-500 text-white px-4 py-2 rounded-lg font-medium shadow-lg text-sm text-center">
+                {errorMessage}
               </div>
             </div>
           )}
