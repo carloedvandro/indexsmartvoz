@@ -37,7 +37,7 @@ export function ConfirmationScreen({ selectedLines, protocol }: ConfirmationScre
           </p>
         </div>
 
-        <div className="bg-white/10 rounded-lg border border-white/20 overflow-hidden">
+        <div className="rounded-lg border border-white/20 overflow-hidden bg-transparent">
           {/* Cabeçalho */}
           <div className="bg-white/5 px-4 py-3 border-b border-white/20">
             <div className="flex text-sm font-medium">
