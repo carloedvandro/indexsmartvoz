@@ -86,7 +86,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       {/* Modal do scanner */}
       <div 
         ref={overlayRef} 
-        className="relative w-full max-w-[480px] rounded-xl border-2 border-[#9b30d9] overflow-hidden bg-black"
+        className="relative w-full max-w-[440px] rounded-xl border-2 border-[#9b30d9] overflow-hidden bg-black"
         style={{ 
           boxShadow: '0 0 20px rgba(0, 0, 0, 0.25)'
         }}
@@ -105,7 +105,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         </button>
 
         {/* Container da câmera */}
-        <div className="relative w-full h-[80px] overflow-hidden">
+        <div className="relative w-full h-[100px] overflow-hidden">
           <video
             ref={videoRef}
             className="w-full h-full object-cover"

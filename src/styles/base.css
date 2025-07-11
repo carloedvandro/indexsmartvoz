@@ -109,8 +109,8 @@ body, #root {
 
 /* Animações personalizadas para o scanner */
 @keyframes laser-scan {
-  from { top: 10px; }
-  to { top: 60px; }
+  from { top: 30px; }
+  to { top: 70px; }
 }
 
 @keyframes pulse-icon {
