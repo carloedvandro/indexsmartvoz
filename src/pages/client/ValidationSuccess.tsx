@@ -6,19 +6,33 @@ export default function ValidationSuccess() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [showPanel, setShowPanel] = useState(false);
+  const [notification, setNotification] = useState({ show: false, message: '', isError: false });
 
   useEffect(() => {
-    // Auto-show panel after 1 second if status is approved
+    // Check status on load
     const statusAprovado = localStorage.getItem('statusValidacao') === 'aprovado';
+    const statusReprovado = localStorage.getItem('statusValidacao') === 'reprovado';
+    
     if (statusAprovado) {
       setTimeout(() => {
-        setShowPanel(true);
+        mostrarPainel();
       }, 1000);
+    } else if (statusReprovado) {
+      setNotification({
+        show: true,
+        message: '❌ Cadastro reprovado. Dados não conferem.',
+        isError: true
+      });
     }
   }, []);
 
   const mostrarPainel = () => {
     setShowPanel(true);
+    setNotification({
+      show: true,
+      message: '✅ Último acesso confirmado com sucesso!',
+      isError: false
+    });
   };
 
   const handlePlanos = () => {
@@ -81,6 +95,16 @@ export default function ValidationSuccess() {
             >
               Suporte
             </button>
+          </div>
+        )}
+
+        {notification.show && (
+          <div className={`mt-5 text-[0.95rem] p-2.5 rounded-[10px] ${
+            notification.isError 
+              ? 'bg-[#ff4c4c] text-white' 
+              : 'bg-[#4b267f]'
+          }`}>
+            {notification.message}
           </div>
         )}
       </div>
