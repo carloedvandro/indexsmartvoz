@@ -82,7 +82,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
 
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" style={{ paddingTop: '60px' }}>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" style={{ paddingTop: '80px' }}>
       <audio ref={audioRef} src="/beep.mp3" preload="auto" />
       
         {/* Modal do scanner */}
