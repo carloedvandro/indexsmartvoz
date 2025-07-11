@@ -120,48 +120,54 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
         onToggle={toggleCamera}
       />
       
-      <div className="absolute bottom-6 w-full flex justify-center items-center">
+      {/* Status visual centralizado */}
+      <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-10">
         {isProcessing && (
-          <div className="bg-black bg-opacity-70 text-white px-4 py-2 rounded-full text-sm animate-pulse">
+          <div className="bg-black bg-opacity-80 text-white px-4 py-2 rounded-full text-base animate-pulse">
             Processando imagem com segurança...
           </div>
         )}
         
         {!isProcessing && isCapturing && (
-          <div className="bg-red-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
+          <div className="bg-red-600 bg-opacity-80 text-white px-4 py-2 rounded-full text-base">
             🔴 Capturando... {Math.round(captureProgress)}%
           </div>
         )}
         
         {!isProcessing && !isCapturing && faceDetected && faceProximity === "ideal" && lightingQuality === "good" && isStable && (
-          <div className="bg-green-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
-            ✅ Pronto para capturar
+          <div className="bg-green-600 bg-opacity-80 text-white px-4 py-2 rounded-full text-base">
+            ✅ Rosto detectado com sucesso
           </div>
         )}
         
         {!isProcessing && !isCapturing && faceDetected && faceProximity === "ideal" && lightingQuality === "good" && !isStable && (
-          <div className="bg-yellow-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
+          <div className="bg-yellow-600 bg-opacity-80 text-white px-4 py-2 rounded-full text-base">
             ⏳ Estabilizando posição...
           </div>
         )}
         
         {!isProcessing && !isCapturing && lightingQuality !== "good" && (
-          <div className="bg-orange-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
+          <div className="bg-orange-600 bg-opacity-80 text-white px-4 py-2 rounded-full text-base">
             {getLightingMessage()}
           </div>
         )}
         
         {!isProcessing && !isCapturing && !faceDetected && lightingQuality === "good" && (
-          <div className="bg-red-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
+          <div className="bg-red-600 bg-opacity-80 text-white px-4 py-2 rounded-full text-base">
             ❌ Rosto não detectado
           </div>
         )}
         
         {!isProcessing && !isCapturing && faceDetected && faceProximity !== "ideal" && lightingQuality === "good" && (
-          <div className="bg-orange-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
+          <div className="bg-orange-600 bg-opacity-80 text-white px-4 py-2 rounded-full text-base">
             ⚠️ Ajuste a posição no oval
           </div>
         )}
+      </div>
+
+      {/* Instrução na parte inferior */}
+      <div className="absolute bottom-10 w-full text-center text-white text-lg z-10">
+        Posicione seu rosto no oval
       </div>
     </div>
   );
