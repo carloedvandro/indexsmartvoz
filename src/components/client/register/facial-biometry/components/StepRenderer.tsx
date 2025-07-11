@@ -5,6 +5,7 @@ import { CaptureInstructions } from "../CaptureInstructions";
 import { FacialCaptureStep } from "../steps/FacialCaptureStep";
 import { DocumentTypeStep } from "../steps/DocumentTypeStep";
 import { DocumentCaptureStep } from "../steps/DocumentCaptureStep";
+import { DocumentScannerCombined } from "../steps/document-capture/DocumentScannerCombined";
 import { CompletionStep } from "../steps/CompletionStep";
 import { AnalysisStep } from "../steps/AnalysisStep";
 import { DocumentInstructionsStep } from "../steps/DocumentInstructionsStep";
@@ -20,6 +21,7 @@ interface StepRendererProps {
   onDocumentTypeSelection: (type: 'rg' | 'cnh') => void;
   onFacialCapture: (imageSrc: string) => void;
   onDocumentCapture: (imageSrc: string) => void;
+  onCombinedDocumentCapture: (frontImage: string, backImage: string) => void;
   onComplete: () => void;
 }
 
@@ -33,6 +35,7 @@ export const StepRenderer = ({
   onDocumentTypeSelection,
   onFacialCapture,
   onDocumentCapture,
+  onCombinedDocumentCapture,
   onComplete
 }: StepRendererProps) => {
   switch (currentStep) {
@@ -93,6 +96,15 @@ export const StepRenderer = ({
           step={0}
           totalSteps={0}
           useOvalInterface={true}
+        />
+      );
+    
+    case 'document-scanner-combined':
+      return (
+        <DocumentScannerCombined
+          onComplete={onCombinedDocumentCapture}
+          onBack={onBack}
+          selectedDocType={selectedDocType!}
         />
       );
     
