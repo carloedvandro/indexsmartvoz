@@ -71,7 +71,7 @@ export function BarcodeInputStep({
                       type="text"
                       value={`ICCID: ${line.barcode}`}
                       readOnly
-                      className="w-full p-2 border border-gray-300 rounded bg-gray-50 text-gray-800 text-sm"
+                      className="w-full p-2 border border-gray-300 rounded bg-gray-50 text-gray-800 text-base"
                     />
                   </div>
                 </div>
