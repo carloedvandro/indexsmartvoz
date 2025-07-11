@@ -1,67 +1,85 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { supabase } from "@/integrations/supabase/client";
+import { Camera } from "lucide-react";
 
 export default function DocumentValidation() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [frontFile, setFrontFile] = useState<File | null>(null);
-  const [backFile, setBackFile] = useState<File | null>(null);
-  const [isValidating, setIsValidating] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [message, setMessage] = useState("");
+  const [isCapturing, setIsCapturing] = useState(false);
+  const [step, setStep] = useState<'front' | 'back'>('front');
+  const [frontCaptured, setFrontCaptured] = useState(false);
 
-  // Check if user is authenticated
   useEffect(() => {
-    const checkSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      if (!data.session) {
-        toast({
-          title: "Erro de Autenticação",
-          description: "Faça login para continuar.",
-          variant: "destructive",
-        });
-        navigate("/client/login");
-      }
-    };
-    checkSession();
-  }, [navigate, toast]);
-
-  const convertFileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const validarDocumentos = async () => {
-    if (!frontFile || !backFile) {
-      setMessage("Envie frente e verso do documento.");
-      toast({
-        title: "Documentos Incompletos",
-        description: "Por favor, envie a frente e verso do documento.",
-        variant: "destructive",
-      });
+    iniciarCamera();
+    // Check validation status
+    const selfie = localStorage.getItem('selfieBase64');
+    if (!selfie) {
+      navigate('/client/facial-biometry');
       return;
     }
+  }, [navigate]);
 
-    setIsValidating(true);
-    setMessage("Validando com IA...");
-
+  const iniciarCamera = async () => {
     try {
-      // Convert files to base64
-      const frontBase64 = await convertFileToBase64(frontFile);
-      const backBase64 = await convertFileToBase64(backFile);
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+    } catch (err) {
+      setMessage('Erro ao acessar a câmera');
+      toast({
+        title: "Erro na Câmera",
+        description: "Não foi possível acessar a câmera.",
+        variant: "destructive",
+      });
+    }
+  };
 
-      // Store document images in localStorage
-      localStorage.setItem('documentoFrente', frontBase64);
-      localStorage.setItem('documentoVerso', backBase64);
+  const tirarFotoDocumento = () => {
+    if (!videoRef.current) return;
+    
+    setIsCapturing(true);
+    const canvas = document.createElement('canvas');
+    canvas.width = videoRef.current.videoWidth;
+    canvas.height = videoRef.current.videoHeight;
+    const ctx = canvas.getContext('2d');
+    
+    if (ctx) {
+      ctx.drawImage(videoRef.current, 0, 0);
+      const fotoBase64 = canvas.toDataURL('image/jpeg');
+      
+      if (step === 'front') {
+        localStorage.setItem('docFrente', fotoBase64);
+        setFrontCaptured(true);
+        setStep('back');
+        setMessage('Frente capturada! Agora capture o verso.');
+        toast({
+          title: "Frente Capturada",
+          description: "Agora posicione o verso do documento.",
+        });
+      } else {
+        localStorage.setItem('docVerso', fotoBase64);
+        validarDocumentos(fotoBase64);
+      }
+    }
+    setIsCapturing(false);
+  };
+
+  const validarDocumentos = async (backPhoto: string) => {
+    setMessage("Validando com IA...");
+    
+    try {
+      // Get the front photo from localStorage
+      const frontPhoto = localStorage.getItem('docFrente');
+      
+      if (!frontPhoto) {
+        setMessage("Erro: Foto da frente não encontrada.");
+        return;
+      }
 
       // Check for selfie
       const selfie = localStorage.getItem('selfieBase64');
@@ -73,11 +91,14 @@ export default function DocumentValidation() {
           description: "Por favor, refaça a biometria facial.",
           variant: "destructive",
         });
-        setIsValidating(false);
         return;
       }
 
-      // Simulate document validation process
+      // Store document images in localStorage
+      localStorage.setItem('documentoFrente', frontPhoto);
+      localStorage.setItem('documentoVerso', backPhoto);
+
+      // Simulate validation process
       await new Promise(resolve => setTimeout(resolve, 2000));
 
       // Simulate OCR and validation logic
@@ -88,14 +109,15 @@ export default function DocumentValidation() {
       if (documentoValido && dadosBatendo && rostoBateComSelfie) {
         // Store extracted document data (simulated)
         const documentoExtraido = {
-          nome: "Nome do Documento", // This would come from OCR
-          cpf: "123.456.789-00", // This would come from OCR
-          nascimento: "01/01/1990", // This would come from OCR
+          nome: "Nome do Documento",
+          cpf: "123.456.789-00",
+          nascimento: "01/01/1990",
           numeroDocumento: "123456789"
         };
         
         localStorage.setItem('documentoExtraido', JSON.stringify(documentoExtraido));
         localStorage.setItem('protocoloGerado', `PROT-${Date.now()}`);
+        localStorage.setItem('statusValidacao', 'aprovado');
         
         setMessage("Documento validado com sucesso!");
         
@@ -125,43 +147,51 @@ export default function DocumentValidation() {
         description: "Ocorreu um erro durante a validação. Tente novamente.",
         variant: "destructive",
       });
-    } finally {
-      setIsValidating(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#2f145e] text-white font-sans flex flex-col items-center justify-center p-5">
-      <div className="bg-[#3a1c78] rounded-2xl p-5 w-full max-w-md text-center shadow-lg">
-        <h2 className="text-xl font-semibold mb-4">Validar Documento</h2>
+    <div className="m-0 p-0 font-sans bg-[#2f145e] text-white flex flex-col items-center justify-center min-h-screen">
+      <div className="w-[360px] p-5 bg-[#3d1a7a] rounded-2xl shadow-[0_0_20px_rgba(255,255,255,0.2)] text-center">
+        <h2 className="mb-4 text-xl">Escaneie seu documento</h2>
+        <p className="mb-2">
+          {step === 'front' 
+            ? "Posicione o RG ou CNH (frente)" 
+            : "Posicione o RG ou CNH (verso)"
+          }
+        </p>
         
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setFrontFile(e.target.files?.[0] || null)}
-          className="block w-full my-2.5 p-2 bg-white text-[#2f145e] rounded"
-          placeholder="Frente do documento"
-        />
-        
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setBackFile(e.target.files?.[0] || null)}
-          className="block w-full my-2.5 p-2 bg-white text-[#2f145e] rounded"
-          placeholder="Verso do documento"
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          playsInline
+          className="w-full rounded-xl mt-2.5"
         />
         
         <button
-          onClick={validarDocumentos}
-          disabled={isValidating}
-          className="mt-5 px-5 py-2.5 border-none rounded-lg bg-white text-[#2f145e] font-bold cursor-pointer disabled:opacity-50"
+          onClick={tirarFotoDocumento}
+          disabled={isCapturing}
+          className="mt-5 px-5 py-2.5 bg-white border-none rounded-lg text-[#2f145e] font-bold cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2 mx-auto"
         >
-          {isValidating ? "Validando..." : "Validar"}
+          <Camera size={16} />
+          {isCapturing 
+            ? "Capturando..." 
+            : step === 'front' 
+              ? "Capturar Frente" 
+              : "Capturar Verso"
+          }
         </button>
         
         {message && (
-          <div className="mt-5 text-base">
+          <div className="mt-3 font-bold text-[#ffd700]">
             {message}
+          </div>
+        )}
+        
+        {frontCaptured && (
+          <div className="mt-2 text-sm text-green-300">
+            ✓ Frente capturada com sucesso
           </div>
         )}
       </div>
