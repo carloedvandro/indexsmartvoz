@@ -80,14 +80,17 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-end justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
       <audio ref={audioRef} src="/beep.mp3" preload="auto" />
       
-      {/* Modal com bordas arredondadas e borda roxa */}
+      {/* Modal centralizado com estilo supermercado */}
       <div 
         ref={overlayRef} 
-        className="relative bg-white rounded-xl border-2 border-purple-700 w-full max-w-sm mb-16 overflow-hidden shadow-2xl"
-        style={{ borderRadius: '12px' }}
+        className="relative bg-white rounded-xl border-2 border-purple-700 w-full max-w-lg overflow-hidden shadow-2xl"
+        style={{ 
+          borderRadius: '12px',
+          marginTop: '20vh' // Desloca para baixo conforme especificado
+        }}
       >
         {/* Botão de fechar (X) no canto superior direito */}
         <button
@@ -104,23 +107,21 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           </h3>
         </div>
 
-        {/* Área da câmera */}
-        <div className="relative bg-gray-900">
+        {/* Área da câmera com altura fixa (~200px) */}
+        <div className="relative bg-black h-[200px] overflow-hidden">
           <video
             ref={videoRef}
-            className="w-full h-48 object-cover"
-            style={{ aspectRatio: '4/3' }}
+            className="w-full h-full object-cover"
           />
           
-          {/* Linha vermelha horizontal como guia */}
+          {/* Laser animado estilo supermercado */}
           {isScanning && (
             <div 
-              className="absolute left-0 right-0 bg-red-500 animate-scan-line"
+              className="absolute left-0 w-full bg-red-500 laser-line"
               style={{ 
-                height: '4px',
-                top: '55%',
+                height: '3px',
                 boxShadow: '0 0 10px rgba(255, 0, 0, 0.8)',
-                borderRadius: '2px'
+                animation: 'laser-scan 1.5s ease-in-out infinite'
               }} 
             />
           )}
@@ -135,6 +136,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           )}
         </div>
       </div>
+
     </div>
   );
 }
