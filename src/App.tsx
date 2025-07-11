@@ -22,6 +22,7 @@ import ClientEsim from "@/pages/client/esim";
 import ClientFacialBiometry from "@/pages/client/facial-biometry";
 import { DocumentVerification } from "@/pages/client/DocumentVerification";
 import { VerificationComplete } from "@/pages/client/VerificationComplete";
+import { VerificationRejected } from "@/pages/client/VerificationRejected";
 import ClientResetPassword from "@/pages/client/reset-password";
 import ClientNavigation from "@/pages/client/navigation";
 import ClientPlanSelection from "@/pages/client/plan-selection";
@@ -68,6 +69,7 @@ function App() {
           <Route path="/client/chip-activation" element={<ChipActivation />} />
           <Route path="/client/document-verification" element={<DocumentVerification />} />
           <Route path="/client/verification-complete" element={<VerificationComplete />} />
+          <Route path="/client/verification-rejected" element={<VerificationRejected />} />
 
           <Route path="/client" element={<ProtectedRoute />}>
             <Route path="" element={<DynamicLayout />}>

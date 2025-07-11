@@ -112,6 +112,10 @@ export const DocumentVerification = () => {
           description: "Os dados do documento não conferem com o cadastro",
           variant: "destructive",
         });
+        
+        setTimeout(() => {
+          navigate('/client/verification-rejected');
+        }, 2000);
       }
     } catch (error) {
       console.error("Erro durante análise:", error);
