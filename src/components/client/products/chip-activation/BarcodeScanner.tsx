@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useZxing } from "react-zxing";
 import { X } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface BarcodeScannerProps {
   onResult: (result: string) => void;
@@ -13,6 +15,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [hasScanned, setHasScanned] = useState(false);
   const [isScanning, setIsScanning] = useState(true);
+  const [manualIccid, setManualIccid] = useState("");
 
   const {
     ref: videoRef,
@@ -79,6 +82,38 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
     }
   }, []);
 
+  const handleManualValidation = () => {
+    const trimmedIccid = manualIccid.trim();
+    if (/^8955\d{16}$/.test(trimmedIccid)) {
+      console.log("✅ [BARCODE-SCANNER] ICCID manual válido:", trimmedIccid);
+      
+      // Toca o som de beep com volume máximo
+      const beepSound = audioRef.current;
+      if (beepSound) {
+        beepSound.volume = 1.0;
+        beepSound.currentTime = 0;
+        const playPromise = beepSound.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.error("Erro ao tocar o som:", error);
+          });
+        }
+      }
+      
+      setHasScanned(true);
+      setIsScanning(false);
+      onResult(trimmedIccid);
+      
+      // Pequeno delay antes de fechar
+      setTimeout(() => {
+        onClose();
+      }, 1000);
+    } else {
+      alert('ICCID inválido. Digite os 20 dígitos corretamente começando por 8955.');
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <audio ref={audioRef} src="/beep.mp3" preload="auto" />
@@ -86,7 +121,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       {/* Modal do scanner */}
       <div 
         ref={overlayRef} 
-        className="relative w-full max-w-[400px] rounded-xl border-2 border-[#9b30d9] overflow-hidden bg-black"
+        className="relative w-full max-w-[380px] rounded-xl border-2 border-[#9b30d9] overflow-hidden bg-black"
         style={{ 
           boxShadow: '0 0 20px rgba(0, 0, 0, 0.25)'
         }}
@@ -105,7 +140,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         </button>
 
         {/* Container da câmera */}
-        <div className="relative w-full h-[130px] overflow-hidden">
+        <div className="relative w-full h-[160px] overflow-hidden">
           <video
             ref={videoRef}
             className="w-full h-full object-cover"
@@ -114,9 +149,9 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           {/* Linha laser */}
           {isScanning && (
             <div 
-              className="absolute left-0 w-full h-[17px] bg-red-500 z-10"
+              className="absolute left-0 w-full h-[2px] bg-red-500 z-10 opacity-90"
               style={{ 
-                animation: 'laser-scan 1.2s infinite alternate ease-in-out'
+                animation: 'laser-scan 1s infinite alternate ease-in-out'
               }} 
             />
           )}
@@ -129,6 +164,28 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
               </div>
             </div>
           )}
+        </div>
+
+        {/* Input manual */}
+        <div className="bg-white p-2.5 flex flex-col items-center gap-2.5">
+          <label htmlFor="manualIccid" className="text-sm font-medium text-gray-700">
+            Ou digite o ICCID:
+          </label>
+          <Input
+            id="manualIccid"
+            type="text"
+            maxLength={20}
+            placeholder="Digite os 20 dígitos do ICCID"
+            value={manualIccid}
+            onChange={(e) => setManualIccid(e.target.value)}
+            className="w-[90%] text-base"
+          />
+          <Button
+            onClick={handleManualValidation}
+            className="bg-[#9b30d9] hover:bg-[#8425af] text-white px-4 py-2 text-sm"
+          >
+            Validar
+          </Button>
         </div>
       </div>
     </div>
