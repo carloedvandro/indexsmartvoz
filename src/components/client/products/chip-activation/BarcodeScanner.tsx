@@ -23,32 +23,44 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
       const barcode = result.getText();
       console.log("🔍 [BARCODE-SCANNER] Código detectado:", barcode);
       
-      // Aceita qualquer código de barras detectado
-      console.log("✅ [BARCODE-SCANNER] Código aceito:", barcode);
-      
-      // Toca o som de beep com volume máximo
-      const beepSound = audioRef.current;
-      if (beepSound) {
-        beepSound.volume = 1.0;
-        beepSound.currentTime = 0;
-        const playPromise = beepSound.play();
+      // Validar código com exatamente 20 dígitos
+      if (barcode.length === 20) {
+        console.log("✅ [BARCODE-SCANNER] Código válido aceito:", barcode);
         
-        if (playPromise !== undefined) {
-          playPromise.catch(error => {
-            console.error("Erro ao tocar o som:", error);
-          });
+        // Toca o som de beep com volume máximo
+        const beepSound = audioRef.current;
+        if (beepSound) {
+          beepSound.volume = 1.0;
+          beepSound.currentTime = 0;
+          const playPromise = beepSound.play();
+          
+          if (playPromise !== undefined) {
+            playPromise.catch(error => {
+              console.error("Erro ao tocar o som:", error);
+            });
+          }
         }
+        
+        setHasScanned(true);
+        setIsScanning(false);
+        setErrorMessage('');
+        onResult(barcode);
+        
+        // Pequeno delay antes de fechar
+        setTimeout(() => {
+          onClose();
+        }, 1000);
+      } else {
+        console.log("❌ [BARCODE-SCANNER] Código rejeitado:", { barcode, length: barcode.length });
+        
+        // Mostrar mensagem de erro
+        setErrorMessage(`Código deve ter 20 dígitos (detectado: ${barcode.length})`);
+        
+        // Limpar mensagem de erro após 3 segundos
+        setTimeout(() => {
+          setErrorMessage('');
+        }, 3000);
       }
-      
-      setHasScanned(true);
-      setIsScanning(false);
-      setErrorMessage('');
-      onResult(barcode);
-      
-      // Pequeno delay antes de fechar
-      setTimeout(() => {
-        onClose();
-      }, 1000);
     },
     timeBetweenDecodingAttempts: 50,
     constraints: {
