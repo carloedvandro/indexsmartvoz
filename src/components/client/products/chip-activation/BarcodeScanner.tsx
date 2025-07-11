@@ -1,6 +1,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useZxing } from "react-zxing";
+import { X } from "lucide-react";
 
 interface BarcodeScannerProps {
   onResult: (result: string) => void;
@@ -79,52 +80,60 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/70 flex items-end justify-center z-50 p-4">
       <audio ref={audioRef} src="/beep.mp3" preload="auto" />
-      <div ref={overlayRef} className="relative p-4">
+      
+      {/* Modal com bordas arredondadas e borda roxa */}
+      <div 
+        ref={overlayRef} 
+        className="relative bg-white rounded-xl border-2 border-purple-700 w-full max-w-sm mb-16 overflow-hidden shadow-2xl"
+        style={{ borderRadius: '12px' }}
+      >
+        {/* Botão de fechar (X) no canto superior direito */}
         <button
           onClick={onClose}
-          className="absolute -top-2 -right-2 bg-white rounded-full p-1 shadow-lg z-10"
+          className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-lg z-20 border border-gray-200"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-5 h-5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+          <X className="w-5 h-5 text-black" />
         </button>
 
-        <div className="relative">
+        {/* Título superior da caixa */}
+        <div className="bg-white p-4 text-center border-b border-gray-100">
+          <h3 className="text-base font-normal text-black">
+            Posicione o código de barras do chip
+          </h3>
+        </div>
+
+        {/* Área da câmera */}
+        <div className="relative bg-gray-900">
           <video
             ref={videoRef}
-            className="w-[354px] h-[140px] object-cover rounded-lg"
+            className="w-full h-48 object-cover"
+            style={{ aspectRatio: '4/3' }}
           />
-          <div className="absolute inset-0 border-2 border-[#8425af] rounded-lg">
-            <div className="absolute top-0 left-0 right-0 bg-white/90 text-center py-2 rounded-t-lg font-medium text-sm">
-              {isScanning ? "Posicione o código de barras na área" : "Código detectado!"}
-            </div>
-          </div>
+          
+          {/* Linha vermelha horizontal como guia */}
           {isScanning && (
-            <div className="absolute left-0 right-0 h-1 bg-red-600 top-1/2 transform -translate-y-1/2 animate-pulse" 
-                 style={{ boxShadow: '0 0 8px rgba(255, 0, 0, 0.8)' }} />
+            <div 
+              className="absolute left-0 right-0 bg-red-500 animate-scan-line"
+              style={{ 
+                height: '4px',
+                top: '55%',
+                boxShadow: '0 0 10px rgba(255, 0, 0, 0.8)',
+                borderRadius: '2px'
+              }} 
+            />
           )}
+
+          {/* Overlay de sucesso quando escaneado */}
           {hasScanned && (
             <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center">
-              <div className="bg-green-500 text-white px-4 py-2 rounded font-medium">
+              <div className="bg-green-500 text-white px-6 py-3 rounded-lg font-medium shadow-lg">
                 ✓ Código Capturado
               </div>
             </div>
           )}
         </div>
-      
       </div>
     </div>
   );
