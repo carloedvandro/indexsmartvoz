@@ -67,15 +67,12 @@ export function BarcodeInputStep({
                     <h4 className="font-medium text-gray-900 text-sm mb-2">
                       Código escaneado:
                     </h4>
-                    <div className="space-y-1">
-                      <label className="text-sm text-gray-600">ICCID:</label>
-                      <input
-                        type="text"
-                        value={line.barcode}
-                        readOnly
-                        className="w-full p-2 border border-gray-300 rounded bg-gray-50 text-gray-800 font-mono text-sm"
-                      />
-                    </div>
+                    <input
+                      type="text"
+                      value={`ICCID: ${line.barcode}`}
+                      readOnly
+                      className="w-full p-2 border border-gray-300 rounded bg-gray-50 text-gray-800 font-mono text-sm"
+                    />
                   </div>
                 </div>
               )}
