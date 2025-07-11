@@ -20,6 +20,8 @@ import ClientProducts from "@/pages/client/products";
 import ClientNotifications from "@/pages/client/notifications";
 import ClientEsim from "@/pages/client/esim";
 import ClientFacialBiometry from "@/pages/client/facial-biometry";
+import { DocumentVerification } from "@/pages/client/DocumentVerification";
+import { VerificationComplete } from "@/pages/client/VerificationComplete";
 import ClientResetPassword from "@/pages/client/reset-password";
 import ClientNavigation from "@/pages/client/navigation";
 import ClientPlanSelection from "@/pages/client/plan-selection";
@@ -64,6 +66,8 @@ function App() {
           <Route path="/client/terms-updated" element={<ClientTermsUpdated />} />
           <Route path="/client/payment-return" element={<PaymentReturn />} />
           <Route path="/client/chip-activation" element={<ChipActivation />} />
+          <Route path="/client/document-verification" element={<DocumentVerification />} />
+          <Route path="/client/verification-complete" element={<VerificationComplete />} />
 
           <Route path="/client" element={<ProtectedRoute />}>
             <Route path="" element={<DynamicLayout />}>
