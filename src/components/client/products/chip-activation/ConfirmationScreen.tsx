@@ -42,7 +42,7 @@ export function ConfirmationScreen({ selectedLines, protocol }: ConfirmationScre
           <div className="bg-transparent px-4 py-3 border-b border-white/20">
             <div className="flex text-sm font-medium">
               <span className="w-16">DDD</span>
-              <span>Código de barras do SIM card</span>
+              <span className="ml-2.5">Código de barras do SIM card</span>
             </div>
           </div>
           
