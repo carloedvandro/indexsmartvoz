@@ -182,35 +182,61 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#2f145e] text-white flex flex-col items-center justify-center">
-      {/* Oval guide */}
-      <div className="border-[3px] border-white rounded-[50%] w-[280px] h-[380px] flex items-center justify-center overflow-hidden relative shadow-[0_0_12px_rgba(255,255,255,0.3)]">
-        <Webcam
-          ref={webcamRef}
-          audio={false}
-          screenshotFormat="image/jpeg"
-          videoConstraints={{
-            facingMode: "user",
-            width: 1280,
-            height: 720
-          }}
-          className="w-full transform scale-x-[-1]"
-          style={{ transform: 'scaleX(-1)' }}
-        />
+    <div className="min-h-screen bg-primary flex flex-col items-center justify-center p-4">
+      <div className="flex flex-col items-center">
+        {/* Oval camera container with purple glow */}
+        <div className="relative w-[320px] h-[420px] mb-5">
+          {/* Purple glow effect */}
+          <div 
+            className="absolute inset-0 rounded-[50%/60%] overflow-hidden"
+            style={{
+              boxShadow: '0 0 24px #aa66ff'
+            }}
+          >
+            <Webcam
+              ref={webcamRef}
+              audio={false}
+              screenshotFormat="image/jpeg"
+              videoConstraints={{
+                facingMode: "user",
+                width: 1280,
+                height: 720
+              }}
+              className="w-full h-full object-cover transform scale-x-[-1]"
+              style={{ transform: 'scaleX(-1)' }}
+            />
+          </div>
+          
+          {/* White border overlay */}
+          <div 
+            className="absolute inset-0 border-[3px] border-white rounded-[50%/60%] pointer-events-none"
+          />
+          
+          {/* Face detection indicator */}
+          {etapa >= 3 && (
+            <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+              <div className="w-3 h-3 bg-white rounded-full"></div>
+            </div>
+          )}
+        </div>
+        
+        {/* Status message */}
+        <div className={`font-bold text-lg text-center transition-colors duration-300 ${
+          etapa >= 3 ? 'text-yellow-400' : 'text-white'
+        }`}>
+          {statusText}
+        </div>
+        
+        {/* Continue button - only show when face is detected */}
+        {etapa >= 3 && (
+          <Button 
+            onClick={tirarSelfie}
+            className="mt-6 px-8 py-3 bg-yellow-500 hover:bg-yellow-600 text-primary font-bold text-lg rounded-xl transition-all duration-300"
+          >
+            Continuar
+          </Button>
+        )}
       </div>
-      
-      {/* Status text with animation */}
-      <div className="mt-5 text-lg font-bold animate-pulse">
-        {statusText}
-      </div>
-      
-      {/* Continue button */}
-      <Button 
-        onClick={tirarSelfie}
-        className="mt-5 px-5 py-2 bg-white text-[#2f145e] font-bold rounded-lg hover:bg-gray-100"
-      >
-        Continuar
-      </Button>
     </div>
   );
 };
