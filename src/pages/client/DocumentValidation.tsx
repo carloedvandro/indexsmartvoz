@@ -131,64 +131,40 @@ export default function DocumentValidation() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#2f145e] flex flex-col items-center justify-center p-5">
-      {/* Header with Logo */}
-      <div className="fixed top-0 left-0 right-0 bg-[#2f145e] px-4 py-2 z-50">
-        <div className="flex justify-center">
-          <img 
-            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
-            alt="Smartvoz Logo" 
-            className="h-[85px] object-contain mix-blend-multiply opacity-90 contrast-125" 
-          />
-        </div>
+    <div className="min-h-screen bg-[#2f145e] text-white font-sans flex flex-col items-center justify-center p-5">
+      <div className="bg-[#3a1c78] rounded-2xl p-5 w-full max-w-md text-center shadow-lg">
+        <h2 className="text-xl font-semibold mb-4">Validar Documento</h2>
+        
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setFrontFile(e.target.files?.[0] || null)}
+          className="block w-full my-2.5 p-2 bg-white text-[#2f145e] rounded"
+          placeholder="Frente do documento"
+        />
+        
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setBackFile(e.target.files?.[0] || null)}
+          className="block w-full my-2.5 p-2 bg-white text-[#2f145e] rounded"
+          placeholder="Verso do documento"
+        />
+        
+        <button
+          onClick={validarDocumentos}
+          disabled={isValidating}
+          className="mt-5 px-5 py-2.5 border-none rounded-lg bg-white text-[#2f145e] font-bold cursor-pointer disabled:opacity-50"
+        >
+          {isValidating ? "Validando..." : "Validar"}
+        </button>
+        
+        {message && (
+          <div className="mt-5 text-base">
+            {message}
+          </div>
+        )}
       </div>
-
-      <Card className="bg-[#3a1c78] border-none shadow-lg w-full max-w-md text-center">
-        <CardHeader>
-          <CardTitle className="text-white text-xl">Validar Documento</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="front-file" className="text-white">
-              Frente do Documento
-            </Label>
-            <Input
-              id="front-file"
-              type="file"
-              accept="image/*"
-              onChange={(e) => setFrontFile(e.target.files?.[0] || null)}
-              className="bg-white text-[#2f145e]"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="back-file" className="text-white">
-              Verso do Documento
-            </Label>
-            <Input
-              id="back-file"
-              type="file"
-              accept="image/*"
-              onChange={(e) => setBackFile(e.target.files?.[0] || null)}
-              className="bg-white text-[#2f145e]"
-            />
-          </div>
-
-          <Button 
-            onClick={validarDocumentos}
-            disabled={isValidating}
-            className="w-full bg-white text-[#2f145e] hover:bg-gray-100 font-bold"
-          >
-            {isValidating ? "Validando..." : "Validar"}
-          </Button>
-
-          {message && (
-            <div className="text-white text-base mt-4">
-              {message}
-            </div>
-          )}
-        </CardContent>
-      </Card>
     </div>
   );
 }
