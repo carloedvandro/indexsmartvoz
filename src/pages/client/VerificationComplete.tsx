@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle } from "lucide-react";
@@ -40,7 +41,7 @@ export const VerificationComplete = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 to-purple-600 flex flex-col items-center justify-center p-4">
-      <div className="bg-white/5 p-8 rounded-2xl shadow-lg max-w-md w-full text-center">
+      <div className="px-4 py-4 bg-transparent rounded-2xl shadow-lg max-w-md w-full text-center">
         <CheckCircle className="w-16 h-16 text-white mx-auto mb-4" />
         
         <h1 className="text-2xl font-bold text-white mb-2">
