@@ -1,6 +1,6 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { User, FileText, Camera, AlertTriangle } from "lucide-react";
@@ -28,7 +28,7 @@ export default function UserDashboard() {
     setNomeUsuario(dados.nome || 'João da Silva');
     setCpfUsuario(dados.cpf || '123.456.789-00');
     setNascimentoUsuario(dados.nascimento || '01/01/1990');
-    const protocoloSalvo = localStorage.getItem('protocoloGerado') || 'P' + Date.now();
+    const protocoloSalvo = localStorage.getItem('protocoloGerado') || 'P1752276394642';
     setProtocolo(protocoloSalvo);
     const status = localStorage.getItem('statusValidacao') || '';
     setStatusValidacao(status);
@@ -53,62 +53,93 @@ export default function UserDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 to-purple-600">
-      <div className="container mx-auto p-6 max-w-[390px]">
-        {/* Notificação de Status */}
-        {statusValidacao === 'reprovado' && (
-          <Alert className="mb-4 bg-red-600/90 border-red-500 text-white animate-pulse">
-            <AlertTriangle className="h-4 w-4" />
-            <AlertDescription className="font-bold">
-              Sua validação foi reprovada. Verifique os dados e envie novamente.
-            </AlertDescription>
-          </Alert>
-        )}
+    <div className="min-h-screen bg-gradient-to-b from-purple-700 to-purple-500 flex flex-col">
+      {/* Header fixo branco */}
+      <div className="fixed top-0 left-0 right-0 bg-white py-3 flex justify-center items-center shadow-md z-50">
+        <img 
+          src="/lovable-uploads/25c69f01-7304-4dbf-8548-f4003901513c.png" 
+          alt="SmartVoz Logo" 
+          className="h-9"
+        />
+      </div>
 
-        {/* Card de Boas-vindas com estilo do SIM card */}
-        <div className="bg-black/10 backdrop-blur-sm rounded-lg border border-purple-300/30 shadow-lg p-4 mb-4">
-          <div className="flex items-center gap-2 mb-2">
-            <User className="h-5 w-5 text-white" />
-            <h2 className="text-xl font-semibold text-white">Bem-vindo(a), {nomeUsuario}</h2>
-          </div>
-          <p className="text-white/90 text-sm">CPF: {cpfUsuario}</p>
-          <p className="text-white/90 text-sm">Data de Nascimento: {nascimentoUsuario}</p>
-        </div>
-
-        {/* Card de Última Verificação com estilo do SIM card */}
-        <div className="bg-black/10 backdrop-blur-sm rounded-lg border border-purple-300/30 shadow-lg p-4 mb-4">
-          <div className="flex items-center gap-2 mb-2">
-            <FileText className="h-5 w-5 text-white" />
-            <h2 className="text-xl font-semibold text-white">Última verificação</h2>
-          </div>
-          <p className="text-white/90 text-sm mb-1">Documento validado com sucesso.</p>
-          <p className="text-white/90 text-sm">Protocolo: {protocolo}</p>
-        </div>
-
-        {/* Card de Histórico com estilo do SIM card */}
-        <div className="bg-black/10 backdrop-blur-sm rounded-lg border border-purple-300/30 shadow-lg p-4 mb-6">
-          <h2 className="text-xl font-semibold text-white mb-2">Histórico de Acessos</h2>
-          <p className="text-white/90 text-sm">Último acesso em: {ultimoAcesso}</p>
-        </div>
-
-        {/* Ações com estilo do SIM card */}
-        <div className="flex flex-wrap gap-3 justify-center mb-6">
-          <Button onClick={reenviarDocumento} className="bg-white/90 backdrop-blur-sm text-purple-800 hover:bg-white border border-purple-300/30 shadow-lg font-bold flex-1 min-w-[140px]">
-            <FileText className="h-4 w-4 mr-2" />
-            Reenviar Documento
-          </Button>
+      {/* Container principal com margem do header */}
+      <div className="flex-1 flex items-center justify-center px-6 pt-20 pb-10">
+        <div className="w-full max-width-[600px] bg-white/5 rounded-2xl p-6 shadow-2xl">
           
-          <Button onClick={atualizarSelfie} className="bg-white/90 backdrop-blur-sm text-purple-800 hover:bg-white border border-purple-300/30 shadow-lg font-bold flex-1 min-w-[140px]">
-            <Camera className="h-4 w-4 mr-2" />
-            Atualizar Selfie
-          </Button>
-        </div>
+          <h1 className="text-2xl font-semibold text-white text-center mb-6">
+            SmartVoz – Área Segura do Cliente
+          </h1>
 
-        {/* Botão para acessar dashboard com estilo do SIM card */}
-        <div className="text-center mb-6">
-          <Button onClick={acessarDashboard} className="bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 border border-purple-390/30 shadow-lg font-bold px-8">
-            Acessar Dashboard
-          </Button>
+          {/* Notificação de Status */}
+          {statusValidacao === 'reprovado' && (
+            <Alert className="mb-4 bg-red-600/90 border-red-500 text-white animate-pulse">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertDescription className="font-bold">
+                Sua validação foi reprovada. Verifique os dados e envie novamente.
+              </AlertDescription>
+            </Alert>
+          )}
+
+          {/* Card de Boas-vindas */}
+          <div className="bg-black/15 rounded-xl p-4 mb-4">
+            <h2 className="text-xl font-semibold text-white mb-2 flex items-center gap-2">
+              👤 Bem-vindo(a), {nomeUsuario}
+            </h2>
+            <p className="text-white/90 text-sm mb-1">
+              <strong>CPF:</strong> {cpfUsuario}
+            </p>
+            <p className="text-white/90 text-sm">
+              <strong>Data de Nascimento:</strong> {nascimentoUsuario}
+            </p>
+          </div>
+
+          {/* Card de Última Verificação */}
+          <div className="bg-black/15 rounded-xl p-4 mb-4">
+            <h2 className="text-xl font-semibold text-white mb-2 flex items-center gap-2">
+              📄 Última Verificação
+            </h2>
+            <p className="text-white/90 text-sm mb-1">
+              Documento validado com sucesso.
+            </p>
+            <p className="text-white/90 text-sm">
+              <strong>Protocolo:</strong> {protocolo}
+            </p>
+          </div>
+
+          {/* Card de Histórico */}
+          <div className="bg-black/15 rounded-xl p-4 mb-6">
+            <h2 className="text-xl font-semibold text-white mb-2 flex items-center gap-2">
+              ⏱ Histórico de Acessos
+            </h2>
+            <p className="text-white/90 text-sm">
+              Último acesso em: {ultimoAcesso}
+            </p>
+          </div>
+
+          {/* Ações */}
+          <div className="flex flex-wrap gap-3 justify-center">
+            <Button 
+              onClick={reenviarDocumento} 
+              className="bg-white text-purple-700 hover:bg-gray-100 font-bold flex-1 min-w-[140px] rounded-lg"
+            >
+              📄 Reenviar Documento
+            </Button>
+            
+            <Button 
+              onClick={atualizarSelfie} 
+              className="bg-white text-purple-700 hover:bg-gray-100 font-bold flex-1 min-w-[140px] rounded-lg"
+            >
+              📷 Atualizar Selfie
+            </Button>
+            
+            <Button 
+              onClick={acessarDashboard} 
+              className="bg-white text-purple-700 hover:bg-gray-100 font-bold w-full rounded-lg mt-2"
+            >
+              🔓 Acessar Dashboard
+            </Button>
+          </div>
         </div>
       </div>
     </div>
