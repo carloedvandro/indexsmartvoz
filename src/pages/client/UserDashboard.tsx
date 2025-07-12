@@ -65,12 +65,8 @@ export default function UserDashboard() {
 
       {/* Container principal com margem do header */}
       <div className="flex-1 flex items-center justify-center px-6 pt-20 pb-10">
-        <div className="w-full max-width-[600px] bg-white/5 rounded-2xl p-6 shadow-2xl">
+        <div className="w-full max-w-[600px] bg-white/5 rounded-2xl p-6 shadow-2xl">
           
-          <h1 className="text-2xl font-semibold text-white text-center mb-6">
-            SmartVoz – Área Segura do Cliente
-          </h1>
-
           {/* Notificação de Status */}
           {statusValidacao === 'reprovado' && (
             <Alert className="mb-4 bg-red-600/90 border-red-500 text-white animate-pulse">
