@@ -153,7 +153,7 @@ export const DocumentVerification = () => {
       <Button
         onClick={capturarEAnalisar}
         disabled={isProcessing}
-        className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-md text-base"
+        className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white hover:bg-white/20"
       >
         {isProcessing ? "Processando..." : "Escanear documento"}
       </Button>
