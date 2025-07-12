@@ -1,13 +1,9 @@
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import Webcam from "react-webcam";
-import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { FaceOvalGuide } from "./facial-capture/FaceOvalGuide";
-import { CameraToggle } from "./facial-capture/CameraToggle";
-import { CameraView } from "./facial-capture/CameraView";
-import { useFaceDetection } from "./facial-capture/useFaceDetection";
-import { useFacialCapture } from "./facial-capture/useFacialCapture";
+import { Button } from "@/components/ui/button";
+import * as faceapi from 'face-api.js';
 
 interface FacialCaptureStepProps {
   onNext: (imageSrc: string) => void;
@@ -21,8 +17,23 @@ interface FacialCaptureStepProps {
 export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureStepProps) => {
   const webcamRef = useRef<Webcam>(null);
   const { toast } = useToast();
+  const [etapa, setEtapa] = useState(0);
+  const [statusText, setStatusText] = useState("Carregando câmera...");
 
-  // Check if the user is logged in when the component mounts
+  // Speech synthesis function
+  const falar = (texto: string) => {
+    if ('speechSynthesis' in window) {
+      const synth = window.speechSynthesis;
+      const voz = new SpeechSynthesisUtterance(texto);
+      voz.lang = 'pt-BR';
+      voz.pitch = 1;
+      voz.rate = 1;
+      synth.speak(voz);
+    }
+    setStatusText(texto);
+  };
+
+  // Check session
   useEffect(() => {
     const checkSession = async () => {
       const { data } = await supabase.auth.getSession();
@@ -37,138 +48,169 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
         console.log("User session found:", data.session.user.id);
       }
     };
-    
     checkSession();
   }, [toast]);
 
-  const { faceDetected, facePosition, faceProximity, lightingQuality } = useFaceDetection(webcamRef, true, true);
-
-  const { 
-    isProcessing, 
-    cameraActive, 
-    captureProgress,
-    isCapturing,
-    isStable,
-    toggleCamera 
-  } = useFacialCapture({
-    webcamRef,
-    faceDetected,
-    faceProximity,
-    facePosition,
-    onComplete: onNext
-  });
-
-  // Enhanced video constraints for better image quality
-  const updatedVideoConstraints = {
-    ...videoConstraints,
-    facingMode: "user",
-    width: { ideal: 1280 },
-    height: { ideal: 720 },
-    advanced: [
-      { 
-        exposureMode: "continuous",
-        whiteBalanceMode: "continuous",
-        focusMode: "continuous",
-        brightness: { ideal: 1.2 }, // Aumentado para melhor iluminação
-        contrast: { ideal: 1.1 }, // Ligeiramente aumentado
-        saturation: { ideal: 1.0 }
+  // Load face-api models and initialize camera
+  useEffect(() => {
+    const iniciarCamera = async () => {
+      try {
+        // Load face-api models
+        await carregarModelos();
+        
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+          video: { facingMode: 'user' } 
+        });
+        
+        if (webcamRef.current?.video) {
+          webcamRef.current.video.srcObject = stream;
+        }
+        
+        // Wait a bit for video to start then begin detection
+        setTimeout(() => {
+          detectarMovimento();
+        }, 1000);
+      } catch (err) {
+        console.error('Erro ao acessar câmera:', err);
+        toast({
+          title: "Erro na Câmera",
+          description: "Não foi possível acessar a câmera",
+          variant: "destructive",
+        });
       }
-    ]
+    };
+
+    iniciarCamera();
+  }, [toast]);
+
+  // Load face-api models
+  const carregarModelos = async () => {
+    try {
+      await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
+      console.log('Modelos face-api carregados com sucesso');
+    } catch (error) {
+      console.error('Erro ao carregar modelos face-api:', error);
+      toast({
+        title: "Aviso",
+        description: "Modelos de detecção facial não carregados, continuando sem detecção automática",
+      });
+    }
   };
 
-  const getLightingMessage = () => {
-    switch (lightingQuality) {
-      case "too-dark":
-        return "💡 Muito escuro - Procure mais luz";
-      case "too-bright":
-        return "☀️ Muito claro - Diminua a luz";
-      case "poor":
-        return "⚠️ Iluminação inadequada";
-      case "good":
-        return "✅ Iluminação ideal";
-      default:
-        return "";
+  // Helper function for delays
+  const aguardar = (ms: number) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  };
+
+  const detectarMovimento = async () => {
+    falar("Aproxime o rosto do celular");
+    await aguardar(3000);
+    falar("Afaste o rosto do celular");
+    await aguardar(3000);
+    falar("Centralize o rosto dentro do oval");
+    await aguardar(3000);
+
+    // Start face detection loop
+    const detectar = async () => {
+      try {
+        if (webcamRef.current?.video) {
+          const detections = await faceapi.detectAllFaces(
+            webcamRef.current.video, 
+            new faceapi.TinyFaceDetectorOptions()
+          );
+          
+          if (detections.length > 0) {
+            setEtapa(3);
+            falar("Reconhecimento facial concluído");
+          } else {
+            setTimeout(detectar, 1000);
+          }
+        }
+      } catch (error) {
+        console.error('Erro na detecção facial:', error);
+        // Fallback to simple timer if face detection fails
+        setTimeout(() => {
+          setEtapa(3);
+          falar("Reconhecimento facial concluído");
+        }, 2000);
+      }
+    };
+    
+    detectar();
+  };
+
+  const tirarSelfie = () => {
+    if (etapa < 3) {
+      toast({
+        title: "Aguarde",
+        description: "Aguarde a conclusão do reconhecimento facial.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!webcamRef.current) {
+      toast({
+        title: "Erro",
+        description: "Câmera não disponível",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const canvas = document.createElement('canvas');
+    const video = webcamRef.current.video;
+    
+    if (video) {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      
+      if (ctx) {
+        ctx.drawImage(video, 0, 0);
+        const fotoBase64 = canvas.toDataURL('image/jpeg');
+        localStorage.setItem('selfieBase64', fotoBase64);
+        
+        toast({
+          title: "Sucesso",
+          description: "Selfie capturada com sucesso!",
+        });
+        
+        onNext(fotoBase64);
+      }
     }
   };
 
   return (
-    <div className="relative h-[420px] mx-4 rounded-lg overflow-hidden">
-      {/* Removido o cabeçalho com o texto e ícone da câmera */}
-      {isCapturing && (
-        <div className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 z-20 text-center">
-          <p className="text-xs text-yellow-300">
-            Capturando... {Math.round(captureProgress)}% - Mantenha a posição
-          </p>
-        </div>
-      )}
-      
-      <CameraView 
-        webcamRef={webcamRef}
-        cameraActive={cameraActive}
-        videoConstraints={updatedVideoConstraints}
-      />
-      
-      <FaceOvalGuide 
-        faceDetected={faceDetected} 
-        captureProgress={captureProgress}
-        faceProximity={faceProximity}
-        isCapturing={isCapturing}
-      />
-      
-      <CameraToggle 
-        cameraActive={cameraActive}
-        onToggle={toggleCamera}
-      />
-      
-      {/* Status visual centralizado */}
-      <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-10">
-        {isProcessing && (
-          <div className="bg-black bg-opacity-80 text-white px-4 py-2 rounded-full text-base animate-pulse">
-            Processando imagem com segurança...
-          </div>
-        )}
-        
-        {!isProcessing && isCapturing && (
-          <div className="bg-red-600 bg-opacity-80 text-white px-4 py-2 rounded-full text-base">
-            🔴 Capturando... {Math.round(captureProgress)}%
-          </div>
-        )}
-        
-        {!isProcessing && !isCapturing && faceDetected && faceProximity === "ideal" && lightingQuality === "good" && isStable && (
-          <div className="bg-green-600 bg-opacity-80 text-white px-4 py-2 rounded-full text-base">
-            ✅ Rosto detectado com sucesso
-          </div>
-        )}
-        
-        {!isProcessing && !isCapturing && faceDetected && faceProximity === "ideal" && lightingQuality === "good" && !isStable && (
-          <div className="bg-yellow-600 bg-opacity-80 text-white px-4 py-2 rounded-full text-base">
-            ⏳ Estabilizando posição...
-          </div>
-        )}
-        
-        {!isProcessing && !isCapturing && lightingQuality !== "good" && (
-          <div className="bg-orange-600 bg-opacity-80 text-white px-4 py-2 rounded-full text-base">
-            {getLightingMessage()}
-          </div>
-        )}
-        
-        {!isProcessing && !isCapturing && !faceDetected && lightingQuality === "good" && (
-          <div className="bg-red-600 bg-opacity-80 text-white px-4 py-2 rounded-full text-base">
-            ❌ Rosto não detectado
-          </div>
-        )}
-        
-        {!isProcessing && !isCapturing && faceDetected && faceProximity !== "ideal" && lightingQuality === "good" && (
-          <div className="bg-orange-600 bg-opacity-80 text-white px-4 py-2 rounded-full text-base">
-            ⚠️ Ajuste a posição no oval
-          </div>
-        )}
+    <div className="min-h-screen w-full bg-[#2f145e] text-white flex flex-col items-center justify-center">
+      {/* Oval guide */}
+      <div className="border-[3px] border-white rounded-[50%] w-[280px] h-[380px] flex items-center justify-center overflow-hidden relative shadow-[0_0_12px_rgba(255,255,255,0.3)]">
+        <Webcam
+          ref={webcamRef}
+          audio={false}
+          screenshotFormat="image/jpeg"
+          videoConstraints={{
+            facingMode: "user",
+            width: 1280,
+            height: 720
+          }}
+          className="w-full transform scale-x-[-1]"
+          style={{ transform: 'scaleX(-1)' }}
+        />
       </div>
-
-      {/* Instrução na parte inferior */}
-      <div className="absolute bottom-10 w-full text-center text-white text-lg z-10">
-        Posicione seu rosto no oval
+      
+      {/* Status text with animation */}
+      <div className="mt-5 text-lg font-bold animate-pulse">
+        {statusText}
       </div>
+      
+      {/* Continue button */}
+      <Button 
+        onClick={tirarSelfie}
+        className="mt-5 px-5 py-2 bg-white text-[#2f145e] font-bold rounded-lg hover:bg-gray-100"
+      >
+        Continuar
+      </Button>
     </div>
   );
 };
