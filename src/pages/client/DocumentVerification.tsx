@@ -146,7 +146,7 @@ export const DocumentVerification = () => {
         Posicione o documento na área visível
       </div>
       
-      <div className="mt-3 px-5 py-2.5 bg-black/50 rounded-lg text-white text-center">
+      <div className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white text-center">
         {status}
       </div>
       
