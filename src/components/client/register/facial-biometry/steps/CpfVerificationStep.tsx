@@ -125,7 +125,7 @@ export const CpfVerificationStep = ({
           </div>
           <p className="text-primary px-4 py-2 text-center">
             Ao continuar, você aceita nossos{' '}
-            <button onClick={handleTermsClick} className={`underline font-medium ${shouldHighlightTerms ? 'text-red-600 animate-pulse' : 'text-[#2400ff]'}`} type="button">
+            <button onClick={handleTermsClick} className={`underline font-medium ${shouldHighlightTerms ? 'text-red-600 animate-pulse' : 'text-primary'}`} type="button">
               termos de uso
             </button>
           </p>
