@@ -96,7 +96,7 @@ export default function UserDashboard() {
             Reenviar Documento
           </Button>
           
-          <Button onClick={atualizarSelfie} className="px-4 py-4 bg-transparent text-white hover:bg-white/20 border border-white/20 shadow-lg font-bold flex-1 min-w-[140px]">
+          <Button onClick={atualizarSelfie} className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white hover:bg-white/20 font-bold flex-1 min-w-[140px]">
             <Camera className="h-4 w-4 mr-2" />
             Atualizar Selfie
           </Button>
