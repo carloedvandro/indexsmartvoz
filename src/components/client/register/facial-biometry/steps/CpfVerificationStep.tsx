@@ -137,7 +137,7 @@ export const CpfVerificationStep = ({
               </div>
             </div>
           </div>
-          <p className="text-sm text-gray-600 text-center pb-2">
+          <p className="text-sm text-primary text-center pb-2">
             Ao continuar, você aceita nossos{' '}
             <button 
               onClick={handleTermsClick}
