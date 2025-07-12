@@ -103,7 +103,7 @@ export const CpfVerificationStep = ({
                 <Input id="cpf" type="text" value={cpfDigits} onChange={e => {
                 const value = e.target.value.replace(/\D/g, '').slice(0, 5);
                 setCpfDigits(value);
-              }} placeholder="" className="w-full h-9 text-white text-center text-base px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 placeholder:text-white/50" maxLength={5} />
+              }} placeholder="" maxLength={5} className="w-full h-9 text-white text-center text-base px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 " />
               </div>
             </form>
           </div>
