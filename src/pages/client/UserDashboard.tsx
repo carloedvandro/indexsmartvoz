@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { User, FileText, Camera, LogOut, AlertTriangle } from "lucide-react";
+import { User, FileText, Camera, AlertTriangle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -41,25 +41,6 @@ export default function UserDashboard() {
     const agora = new Date().toLocaleString('pt-BR');
     setUltimoAcesso(agora);
     localStorage.setItem('ultimoAcesso', agora);
-  };
-
-  const handleLogout = async () => {
-    try {
-      await supabase.auth.signOut();
-      localStorage.clear();
-      toast({
-        title: "Logout realizado",
-        description: "Você foi desconectado com sucesso.",
-      });
-      navigate('/');
-    } catch (error) {
-      console.error('Erro no logout:', error);
-      toast({
-        title: "Erro no logout",
-        description: "Ocorreu um erro ao sair da conta.",
-        variant: "destructive",
-      });
-    }
   };
 
   const reenviarDocumento = () => {
@@ -144,18 +125,6 @@ export default function UserDashboard() {
             className="bg-purple-700 text-white hover:bg-purple-800 font-bold px-8"
           >
             🔓 Acessar Dashboard
-          </Button>
-        </div>
-
-        {/* Logout */}
-        <div className="text-center">
-          <Button
-            onClick={handleLogout}
-            variant="outline"
-            className="border-white/50 text-white hover:bg-white/10 font-bold"
-          >
-            <LogOut className="h-4 w-4 mr-2" />
-            Sair da Conta
           </Button>
         </div>
       </div>
