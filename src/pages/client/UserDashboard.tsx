@@ -124,7 +124,7 @@ export default function UserDashboard() {
             onClick={acessarDashboard}
             className="bg-purple-700 text-white hover:bg-purple-800 font-bold px-8"
           >
-            🔓 Acessar Dashboard
+            Acessar Dashboard
           </Button>
         </div>
       </div>
