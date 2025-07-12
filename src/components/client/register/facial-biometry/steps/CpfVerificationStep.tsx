@@ -115,7 +115,7 @@ export const CpfVerificationStep = ({
                     setCpfDigits(value);
                   }} 
                   placeholder="" 
-                  className="w-full h-9 text-black text-center text-base bg-white border border-gray-300" 
+                  className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 w-full text-white text-center text-base" 
                   maxLength={5} 
                 />
               </div>
