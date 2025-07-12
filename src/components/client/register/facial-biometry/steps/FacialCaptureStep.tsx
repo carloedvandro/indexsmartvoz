@@ -182,7 +182,7 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#2f145e] text-white flex flex-col items-center justify-center">
+    <div className="min-h-screen w-full bg-primary text-white flex flex-col items-center justify-center">
       {/* Oval guide */}
       <div className="border-[3px] border-white rounded-[50%] w-[280px] h-[380px] flex items-center justify-center overflow-hidden relative shadow-[0_0_12px_rgba(255,255,255,0.3)]">
         <Webcam
