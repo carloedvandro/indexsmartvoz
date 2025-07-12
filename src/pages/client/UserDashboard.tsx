@@ -118,11 +118,11 @@ export default function UserDashboard() {
           </Button>
         </div>
 
-        {/* Botão para acessar dashboard com fundo transparente */}
+        {/* Botão para acessar dashboard com styling atualizado */}
         <div className="text-center mb-6">
           <Button
             onClick={acessarDashboard}
-            className="bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 border border-white/20 shadow-lg font-bold px-8"
+            className="px-4 py-4 bg-transparent text-white hover:bg-white/20 border border-white/20 shadow-lg font-bold"
           >
             Acessar Dashboard
           </Button>
