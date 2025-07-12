@@ -122,22 +122,20 @@ export const DocumentVerification = () => {
       setIsProcessing(false);
     }
   };
-  return <div className="min-h-screen bg-primary flex flex-col items-center p-4 relative">
-      <div className="flex-1 flex flex-col items-center justify-center">
-        <div className="w-[340px] h-[220px] border-4 border-gray-300 rounded-xl overflow-hidden relative bg-black">
-          <video ref={videoRef} autoPlay muted playsInline className="w-full h-full object-cover" />
-        </div>
-        
-        <div className="mt-3 text-lg text-white text-center">
-          Posicione o documento na área visível
-        </div>
-        
-        <div className="text-white text-center mt-0.5">
-          {status}
-        </div>
+  return <div className="min-h-screen bg-primary flex flex-col items-center justify-center p-4">
+      <div className="w-[340px] h-[220px] border-4 border-gray-300 rounded-xl overflow-hidden relative bg-black">
+        <video ref={videoRef} autoPlay muted playsInline className="w-full h-full object-cover" />
       </div>
       
-      <Button onClick={capturarEAnalisar} disabled={isProcessing} className="w-[390px] px-4 py-4 bg-transparent backdrop-blur-sm border border-white/30 shadow-lg mb-4 text-white hover:bg-white/20">
+      <div className="mt-3 text-lg text-white text-center">
+        Posicione o documento na área visível
+      </div>
+      
+      <div className="text-white text-center mt-0.5">
+        {status}
+      </div>
+      
+      <Button onClick={capturarEAnalisar} disabled={isProcessing} className="fixed bottom-4 left-1/2 transform -translate-x-1/2 w-[390px] px-4 py-4 bg-transparent backdrop-blur-sm border border-white/30 shadow-lg text-white hover:bg-white/20">
         {isProcessing ? "Processando..." : "Escanear documento"}
       </Button>
     </div>;
