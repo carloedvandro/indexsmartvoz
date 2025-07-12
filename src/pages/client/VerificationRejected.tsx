@@ -33,14 +33,14 @@ export const VerificationRejected = () => {
           <br /><br />
           Por segurança, seu acesso foi bloqueado.
         </p>
-        
-        <Button
-          onClick={tentarNovamente}
-          className="w-full bg-white text-purple-800 hover:bg-gray-100 font-bold py-3"
-        >
-          Tentar novamente
-        </Button>
       </div>
+      
+      <Button
+        onClick={tentarNovamente}
+        className="fixed bottom-0 left-0 right-0 w-full bg-white text-purple-800 hover:bg-gray-100 font-bold py-3 rounded-none"
+      >
+        Tentar novamente
+      </Button>
     </div>
   );
 };
