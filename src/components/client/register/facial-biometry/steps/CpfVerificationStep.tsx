@@ -110,7 +110,7 @@ export const CpfVerificationStep = ({
         </div>
 
         {/* Botão fixado na parte inferior com o conjunto "Verified by" acima */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white">
+        <div className="fixed bottom-0 left-0 right-0 bg-primary">
           <div className="flex justify-center py-3 bg-primary">
             <div className="flex items-center bg-transparent py-2 rounded-lg">
               <div className="flex items-center gap-2">
@@ -123,9 +123,9 @@ export const CpfVerificationStep = ({
               </div>
             </div>
           </div>
-          <p className="text-primary px-4 py-2 text-center">
+          <p className="text-white px-4 py-2 text-center">
             Ao continuar, você aceita nossos{' '}
-            <button onClick={handleTermsClick} className={`underline font-medium ${shouldHighlightTerms ? 'text-red-600 animate-pulse' : 'text-primary'}`} type="button">
+            <button onClick={handleTermsClick} className={`underline font-medium ${shouldHighlightTerms ? 'text-red-600 animate-pulse' : 'text-white'}`} type="button">
               termos de uso
             </button>
           </p>
