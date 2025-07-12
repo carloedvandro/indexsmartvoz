@@ -74,7 +74,7 @@ export const VerificationComplete = () => {
           Protocolo: {protocolo}
         </div>
         
-        <Button onClick={() => navigate('/client/user-dashboard')} className="w-full bg-white text-purple-800 hover:bg-gray-100 font-bold py-3">
+        <Button onClick={() => navigate('/client/user-dashboard')} className="w-full rounded-lg border border-white/20 overflow-hidden bg-transparent text-white hover:bg-white/10 font-bold py-3">
           Acessar Painel
         </Button>
       </div>
