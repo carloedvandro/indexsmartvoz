@@ -110,7 +110,7 @@ export default function UserDashboard() {
           
           <Button
             onClick={atualizarSelfie}
-            className="bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 border border-white/20 shadow-lg font-bold flex-1 min-w-[140px]"
+            className="px-4 py-4 bg-transparent text-white hover:bg-white/20 border border-white/20 shadow-lg font-bold flex-1 min-w-[140px]"
           >
             <Camera className="h-4 w-4 mr-2" />
             Atualizar Selfie
