@@ -73,7 +73,7 @@ export default function UserDashboard() {
         )}
 
         {/* Card de Boas-vindas com fundo transparente */}
-        <div className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/20 shadow-lg mb-4">
+        <div className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4">
           <div className="flex items-center gap-2 mb-2">
             <User className="h-5 w-5 text-white" />
             <h2 className="text-xl font-semibold text-white">Bem-vindo(a), {nomeUsuario}</h2>
