@@ -123,6 +123,10 @@ export const DocumentVerification = () => {
     }
   };
   return <div className="min-h-screen bg-primary flex flex-col items-center justify-center p-4">
+      <Button onClick={capturarEAnalisar} disabled={isProcessing} className="w-full mb-4 px-4 py-4 bg-transparent backdrop-blur-sm border border-white/30 shadow-lg text-white hover:bg-white/20">
+        {isProcessing ? "Processando..." : "Escanear documento"}
+      </Button>
+      
       <div className="w-[340px] h-[220px] border-4 border-gray-300 rounded-xl overflow-hidden relative bg-black">
         <video ref={videoRef} autoPlay muted playsInline className="w-full h-full object-cover" />
       </div>
@@ -134,9 +138,5 @@ export const DocumentVerification = () => {
       <div className="text-white text-center mt-0.5">
         {status}
       </div>
-      
-      <Button onClick={capturarEAnalisar} disabled={isProcessing} className="fixed bottom-0 left-0 right-0 w-full px-4 py-4 bg-transparent backdrop-blur-sm border border-white/30 shadow-lg text-white hover:bg-white/20 rounded-none">
-        {isProcessing ? "Processando..." : "Escanear documento"}
-      </Button>
     </div>;
 };
