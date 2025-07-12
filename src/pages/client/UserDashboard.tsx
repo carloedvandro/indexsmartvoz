@@ -62,7 +62,7 @@ export default function UserDashboard() {
         <h1 className="text-2xl font-bold text-white">Área Segura do Cliente</h1>
       </header>
 
-      <div className="p-6 max-w-[344px] mx-auto">
+      <div className="p-6 max-w-[390px] mx-auto">
         {/* Notificação de Status */}
         {statusValidacao === 'reprovado' && (
           <Alert className="mb-4 bg-red-600/90 border-red-500 text-white animate-pulse">
