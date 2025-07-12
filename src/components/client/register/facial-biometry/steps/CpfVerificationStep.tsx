@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,11 +6,9 @@ import { validatePartialCPF } from "@/utils/validation/cpfValidation";
 import { Lock } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import { TermsModal } from "@/components/client/products/terms/TermsModal";
-
 interface CpfVerificationStepProps {
   onNext: () => void;
 }
-
 export const CpfVerificationStep = ({
   onNext
 }: CpfVerificationStepProps) => {
@@ -19,9 +16,10 @@ export const CpfVerificationStep = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const navigate = useNavigate();
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!cpfDigits || cpfDigits.length < 5) {
@@ -32,7 +30,6 @@ export const CpfVerificationStep = ({
       });
       return;
     }
-
     if (!termsAccepted) {
       toast({
         title: "Termos não aceitos",
@@ -41,7 +38,6 @@ export const CpfVerificationStep = ({
       });
       return;
     }
-    
     try {
       setIsLoading(true);
       if (!validatePartialCPF(cpfDigits)) {
@@ -59,33 +55,31 @@ export const CpfVerificationStep = ({
       setIsLoading(false);
     }
   };
-
   const handleTermsClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsTermsModalOpen(true);
   };
-
   const handleTermsAccept = (accepted: boolean) => {
     setIsTermsModalOpen(false);
     if (accepted) {
       setTermsAccepted(true);
       toast({
         title: "Sucesso",
-        description: "Termos aceitos com sucesso!",
+        description: "Termos aceitos com sucesso!"
       });
     }
   };
 
   // Verificar se o botão deve estar habilitado
   const isButtonEnabled = termsAccepted && cpfDigits.length >= 5 && !isLoading;
-  
+
   // Verificar se deve destacar o link dos termos
   const shouldHighlightTerms = cpfDigits.length >= 5 && !termsAccepted;
-
-  return (
-    <>
+  return <>
       <div className="bg-white text-white flex flex-col ">
-        <div className="flex-1 flex items-start justify-center p-6 bg-primary" style={{ paddingTop: '-8px' }}>
+        <div className="flex-1 flex items-start justify-center p-6 bg-primary" style={{
+        paddingTop: '-8px'
+      }}>
           <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
             <h2 className="text-sm text-white max-w-[280px] mx-auto text-center">
               Olá, verificamos que você está realizando a
@@ -106,18 +100,10 @@ export const CpfVerificationStep = ({
                 <label htmlFor="cpf" className="block text-xs font-bold text-center text-white">
                   Insira os primeiros 5 dígitos do seu CPF:
                 </label>
-                <Input 
-                  id="cpf" 
-                  type="text" 
-                  value={cpfDigits} 
-                  onChange={e => {
-                    const value = e.target.value.replace(/\D/g, '').slice(0, 5);
-                    setCpfDigits(value);
-                  }} 
-                  placeholder="" 
-                  className="w-full h-9 text-white text-center text-base px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 placeholder:text-white/50" 
-                  maxLength={5} 
-                />
+                <Input id="cpf" type="text" value={cpfDigits} onChange={e => {
+                const value = e.target.value.replace(/\D/g, '').slice(0, 5);
+                setCpfDigits(value);
+              }} placeholder="" className="w-full h-9 text-white text-center text-base px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 placeholder:text-white/50" maxLength={5} />
               </div>
             </form>
           </div>
@@ -137,37 +123,21 @@ export const CpfVerificationStep = ({
               </div>
             </div>
           </div>
-          <p className="text-sm text-center pb-2" style={{ color: '#5f0889' }}>
+          <p style={{
+          color: '#5f0889'
+        }} className="#5f0889\n">
             Ao continuar, você aceita nossos{' '}
-            <button 
-              onClick={handleTermsClick}
-              className={`underline font-medium ${
-                shouldHighlightTerms 
-                  ? 'text-red-600 animate-pulse' 
-                  : 'text-[#2400ff]'
-              }`}
-              type="button"
-            >
+            <button onClick={handleTermsClick} className={`underline font-medium ${shouldHighlightTerms ? 'text-red-600 animate-pulse' : 'text-[#2400ff]'}`} type="button">
               termos de uso
             </button>
           </p>
-          <Button 
-            onClick={handleSubmit} 
-            disabled={!isButtonEnabled} 
-            className="w-full h-12 bg-primary text-white hover:bg-primary/90 font-medium uppercase text-base tracking-wider rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
-          >
+          <Button onClick={handleSubmit} disabled={!isButtonEnabled} className="w-full h-12 bg-primary text-white hover:bg-primary/90 font-medium uppercase text-base tracking-wider rounded-none disabled:opacity-50 disabled:cursor-not-allowed">
             {isLoading ? "VALIDANDO..." : "VALIDAR"}
           </Button>
         </div>
       </div>
 
-      <TermsModal 
-        isOpen={isTermsModalOpen}
-        onClose={() => setIsTermsModalOpen(false)}
-        onAccept={handleTermsAccept}
-      />
-    </>
-  );
+      <TermsModal isOpen={isTermsModalOpen} onClose={() => setIsTermsModalOpen(false)} onAccept={handleTermsAccept} />
+    </>;
 };
-
 export default CpfVerificationStep;
