@@ -136,7 +136,7 @@ export const DocumentVerification = () => {
       </div>
       
       
-      <Button onClick={capturarEAnalisar} disabled={isProcessing} className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white hover:bg-white/20 mt-20">
+      <Button onClick={capturarEAnalisar} disabled={isProcessing} className="w-[390px] px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white hover:bg-white/20 mt-20">
         {isProcessing ? "Processando..." : "Escanear documento"}
       </Button>
     </div>;
