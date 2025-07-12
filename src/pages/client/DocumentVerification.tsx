@@ -3,26 +3,30 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import Tesseract from 'tesseract.js';
-
 export const DocumentVerification = () => {
   const [status, setStatus] = useState("Aguardando documento...");
   const [isProcessing, setIsProcessing] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const navigate = useNavigate();
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   useEffect(() => {
     iniciarCamera();
   }, []);
-
   const iniciarCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
+      const stream = await navigator.mediaDevices.getUserMedia({
         video: {
-          facingMode: "environment", // Usa câmera traseira se disponível
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
-        } 
+          facingMode: "environment",
+          // Usa câmera traseira se disponível
+          width: {
+            ideal: 1280
+          },
+          height: {
+            ideal: 720
+          }
+        }
       });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
@@ -32,27 +36,22 @@ export const DocumentVerification = () => {
       toast({
         title: "Erro de Câmera",
         description: "Não foi possível acessar a câmera",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
-
   const capturarEAnalisar = async () => {
     if (!videoRef.current || isProcessing) return;
-    
     setIsProcessing(true);
     setStatus("Capturando documento...");
-
     try {
       const canvas = document.createElement('canvas');
       canvas.width = videoRef.current.videoWidth;
       canvas.height = videoRef.current.videoHeight;
       const ctx = canvas.getContext('2d');
-      
       if (!ctx) {
         throw new Error("Não foi possível criar contexto do canvas");
       }
-
       ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
       const imagemData = canvas.toDataURL('image/png');
 
@@ -62,24 +61,22 @@ export const DocumentVerification = () => {
 
       // Executar OCR
       const resultado = await Tesseract.recognize(imagemData, 'por', {
-        logger: (m) => {
+        logger: m => {
           if (m.status === 'recognizing text') {
             setStatus(`Processando OCR... ${Math.round(m.progress * 100)}%`);
           }
         }
       });
-
       const textoExtraido = resultado.data.text;
       console.log("Texto extraído:", textoExtraido);
 
       // Salvar texto extraído para exibir na confirmação final
       localStorage.setItem('documentoTextoExtraido', textoExtraido);
-
       setStatus("Comparando dados com a selfie e cadastro...");
 
       // Verificar se há selfie salva
       const selfie = localStorage.getItem('selfieBase64');
-      
+
       // Dados de exemplo do cadastro (em um sistema real, isso viria da API)
       const cadastro = {
         nome: "João da Silva",
@@ -92,16 +89,13 @@ export const DocumentVerification = () => {
       const nomeEncontrado = textoExtraido.includes("João") || textoExtraido.includes("JOÃO");
       const cpfEncontrado = textoExtraido.includes("123") || textoExtraido.includes("456") || textoExtraido.includes("789");
       const maeEncontrada = textoExtraido.includes("Maria") || textoExtraido.includes("MARIA");
-
       const validacaoPassou = nomeEncontrado && cpfEncontrado && maeEncontrada;
-
       if (selfie && validacaoPassou) {
         setStatus("Documento validado com sucesso!");
         toast({
           title: "Validação Concluída",
-          description: "Documento verificado com sucesso!",
+          description: "Documento verificado com sucesso!"
         });
-        
         setTimeout(() => {
           navigate('/client/verification-complete');
         }, 2000);
@@ -110,9 +104,8 @@ export const DocumentVerification = () => {
         toast({
           title: "Validação Falhou",
           description: "Os dados do documento não conferem com o cadastro",
-          variant: "destructive",
+          variant: "destructive"
         });
-        
         setTimeout(() => {
           navigate('/client/verification-rejected');
         }, 2000);
@@ -123,23 +116,15 @@ export const DocumentVerification = () => {
       toast({
         title: "Erro de Processamento",
         description: "Erro durante análise do documento",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsProcessing(false);
     }
   };
-
-  return (
-    <div className="min-h-screen bg-primary flex flex-col items-center justify-center p-4">
+  return <div className="min-h-screen bg-primary flex flex-col items-center justify-center p-4">
       <div className="w-[340px] h-[220px] border-4 border-gray-300 rounded-xl overflow-hidden relative bg-black">
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          playsInline
-          className="w-full h-full object-cover"
-        />
+        <video ref={videoRef} autoPlay muted playsInline className="w-full h-full object-cover" />
       </div>
       
       <div className="mt-3 text-lg text-white text-center">
@@ -151,13 +136,8 @@ export const DocumentVerification = () => {
       </div>
       
       
-      <Button
-        onClick={capturarEAnalisar}
-        disabled={isProcessing}
-        className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white hover:bg-white/20 mt-8"
-      >
+      <Button onClick={capturarEAnalisar} disabled={isProcessing} className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white hover:bg-white/20 mt-20">
         {isProcessing ? "Processando..." : "Escanear documento"}
       </Button>
-    </div>
-  );
+    </div>;
 };
