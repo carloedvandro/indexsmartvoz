@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -62,7 +61,7 @@ export default function UserDashboard() {
         <h1 className="text-2xl font-bold text-white">Área Segura do Cliente</h1>
       </header>
 
-      <div className="p-6 max-w-[390px] mx-auto">
+      <div className="p-6 max-w-[390px] mx-auto mt-8">
         {/* Notificação de Status */}
         {statusValidacao === 'reprovado' && (
           <Alert className="mb-4 bg-red-600/90 border-red-500 text-white animate-pulse">
