@@ -123,9 +123,7 @@ export const CpfVerificationStep = ({
               </div>
             </div>
           </div>
-          <p style={{
-          color: '#5f0889'
-        }} className="#5f0889\n">
+          <p className="text-primary px-4 py-2 text-center">
             Ao continuar, você aceita nossos{' '}
             <button onClick={handleTermsClick} className={`underline font-medium ${shouldHighlightTerms ? 'text-red-600 animate-pulse' : 'text-[#2400ff]'}`} type="button">
               termos de uso
