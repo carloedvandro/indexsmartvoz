@@ -65,81 +65,74 @@ export default function UserDashboard() {
 
       {/* Container principal com margem do header */}
       <div className="flex-1 flex items-center justify-center px-6 pt-20 pb-10">
-        <div className="w-full max-width-[600px] bg-white/5 rounded-2xl p-6 shadow-2xl">
+        {/* Notificação de Status */}
+        {statusValidacao === 'reprovado' && (
+          <Alert className="mb-4 bg-red-600/90 border-red-500 text-white animate-pulse">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertDescription className="font-bold">
+              Sua validação foi reprovada. Verifique os dados e envie novamente.
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {/* Card de Boas-vindas */}
+        <div className="bg-black/15 rounded-xl p-4 mb-4">
+          <h2 className="text-xl font-semibold text-white mb-2 flex items-center gap-2">
+            👤 Bem-vindo(a), {nomeUsuario}
+          </h2>
+          <p className="text-white/90 text-sm mb-1">
+            <strong>CPF:</strong> {cpfUsuario}
+          </p>
+          <p className="text-white/90 text-sm">
+            <strong>Data de Nascimento:</strong> {nascimentoUsuario}
+          </p>
+        </div>
+
+        {/* Card de Última Verificação */}
+        <div className="bg-black/15 rounded-xl p-4 mb-4">
+          <h2 className="text-xl font-semibold text-white mb-2 flex items-center gap-2">
+            📄 Última Verificação
+          </h2>
+          <p className="text-white/90 text-sm mb-1">
+            Documento validado com sucesso.
+          </p>
+          <p className="text-white/90 text-sm">
+            <strong>Protocolo:</strong> {protocolo}
+          </p>
+        </div>
+
+        {/* Card de Histórico */}
+        <div className="bg-black/15 rounded-xl p-4 mb-6">
+          <h2 className="text-xl font-semibold text-white mb-2 flex items-center gap-2">
+            ⏱ Histórico de Acessos
+          </h2>
+          <p className="text-white/90 text-sm">
+            Último acesso em: {ultimoAcesso}
+          </p>
+        </div>
+
+        {/* Ações */}
+        <div className="flex flex-wrap gap-3 justify-center">
+          <Button 
+            onClick={reenviarDocumento} 
+            className="bg-white text-purple-700 hover:bg-gray-100 font-bold flex-1 min-w-[140px] rounded-lg"
+          >
+            📄 Reenviar Documento
+          </Button>
           
-          <h1 className="text-2xl font-semibold text-white text-center mb-6">
-            SmartVoz – Área Segura do Cliente
-          </h1>
-
-          {/* Notificação de Status */}
-          {statusValidacao === 'reprovado' && (
-            <Alert className="mb-4 bg-red-600/90 border-red-500 text-white animate-pulse">
-              <AlertTriangle className="h-4 w-4" />
-              <AlertDescription className="font-bold">
-                Sua validação foi reprovada. Verifique os dados e envie novamente.
-              </AlertDescription>
-            </Alert>
-          )}
-
-          {/* Card de Boas-vindas */}
-          <div className="bg-black/15 rounded-xl p-4 mb-4">
-            <h2 className="text-xl font-semibold text-white mb-2 flex items-center gap-2">
-              👤 Bem-vindo(a), {nomeUsuario}
-            </h2>
-            <p className="text-white/90 text-sm mb-1">
-              <strong>CPF:</strong> {cpfUsuario}
-            </p>
-            <p className="text-white/90 text-sm">
-              <strong>Data de Nascimento:</strong> {nascimentoUsuario}
-            </p>
-          </div>
-
-          {/* Card de Última Verificação */}
-          <div className="bg-black/15 rounded-xl p-4 mb-4">
-            <h2 className="text-xl font-semibold text-white mb-2 flex items-center gap-2">
-              📄 Última Verificação
-            </h2>
-            <p className="text-white/90 text-sm mb-1">
-              Documento validado com sucesso.
-            </p>
-            <p className="text-white/90 text-sm">
-              <strong>Protocolo:</strong> {protocolo}
-            </p>
-          </div>
-
-          {/* Card de Histórico */}
-          <div className="bg-black/15 rounded-xl p-4 mb-6">
-            <h2 className="text-xl font-semibold text-white mb-2 flex items-center gap-2">
-              ⏱ Histórico de Acessos
-            </h2>
-            <p className="text-white/90 text-sm">
-              Último acesso em: {ultimoAcesso}
-            </p>
-          </div>
-
-          {/* Ações */}
-          <div className="flex flex-wrap gap-3 justify-center">
-            <Button 
-              onClick={reenviarDocumento} 
-              className="bg-white text-purple-700 hover:bg-gray-100 font-bold flex-1 min-w-[140px] rounded-lg"
-            >
-              📄 Reenviar Documento
-            </Button>
-            
-            <Button 
-              onClick={atualizarSelfie} 
-              className="bg-white text-purple-700 hover:bg-gray-100 font-bold flex-1 min-w-[140px] rounded-lg"
-            >
-              📷 Atualizar Selfie
-            </Button>
-            
-            <Button 
-              onClick={acessarDashboard} 
-              className="bg-white text-purple-700 hover:bg-gray-100 font-bold w-full rounded-lg mt-2"
-            >
-              🔓 Acessar Dashboard
-            </Button>
-          </div>
+          <Button 
+            onClick={atualizarSelfie} 
+            className="bg-white text-purple-700 hover:bg-gray-100 font-bold flex-1 min-w-[140px] rounded-lg"
+          >
+            📷 Atualizar Selfie
+          </Button>
+          
+          <Button 
+            onClick={acessarDashboard} 
+            className="bg-white text-purple-700 hover:bg-gray-100 font-bold w-full rounded-lg mt-2"
+          >
+            🔓 Acessar Dashboard
+          </Button>
         </div>
       </div>
     </div>
