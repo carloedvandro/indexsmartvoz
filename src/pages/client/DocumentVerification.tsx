@@ -146,7 +146,7 @@ export const DocumentVerification = () => {
         Posicione o documento na área visível
       </div>
       
-      <div className="text-white text-center">
+      <div className="text-white text-center mt-0.5">
         {status}
       </div>
       
