@@ -154,7 +154,7 @@ export const CpfVerificationStep = ({
           <Button 
             onClick={handleSubmit} 
             disabled={!isButtonEnabled} 
-            className="w-full h-12 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full h-12 bg-primary text-white hover:bg-primary/90 font-medium uppercase text-base tracking-wider rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? "VALIDANDO..." : "VALIDAR"}
           </Button>
