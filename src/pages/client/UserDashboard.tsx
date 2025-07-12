@@ -3,18 +3,17 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { User, FileText, Camera, AlertTriangle } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function UserDashboard() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [nomeUsuario, setNomeUsuario] = useState("Usuário");
-  const [cpfUsuario, setCpfUsuario] = useState("---");
-  const [nascimentoUsuario, setNascimentoUsuario] = useState("---");
-  const [protocolo, setProtocolo] = useState("N/A");
-  const [ultimoAcesso, setUltimoAcesso] = useState("");
+  const [nomeUsuario, setNomeUsuario] = useState("João da Silva");
+  const [cpfUsuario, setCpfUsuario] = useState("123.456.789-00");
+  const [nascimentoUsuario, setNascimentoUsuario] = useState("01/01/1990");
+  const [protocolo, setProtocolo] = useState("P1752276394642");
+  const [ultimoAcesso, setUltimoAcesso] = useState("11/07/2025, 20:26:34");
   const [statusValidacao, setStatusValidacao] = useState("");
 
   useEffect(() => {
@@ -53,9 +52,15 @@ export default function UserDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-700 to-purple-500 flex flex-col">
+    <div 
+      className="min-h-screen bg-gradient-to-b from-purple-700 to-purple-500 text-white flex flex-col items-center justify-start p-0"
+      style={{ 
+        fontFamily: "'Segoe UI', sans-serif",
+        background: "linear-gradient(to bottom, #6a0dad, #9b30ff)"
+      }}
+    >
       {/* Header fixo branco */}
-      <div className="fixed top-0 left-0 right-0 bg-white py-3 flex justify-center items-center shadow-md z-50">
+      <div className="w-full bg-white py-3 flex justify-center items-center shadow-md fixed top-0 z-50">
         <img 
           src="/lovable-uploads/25c69f01-7304-4dbf-8548-f4003901513c.png" 
           alt="SmartVoz Logo" 
@@ -63,81 +68,86 @@ export default function UserDashboard() {
         />
       </div>
 
-      {/* Container principal com margem do header */}
-      <div className="flex-1 px-6 pt-20 pb-10">
-        {/* Notificação de Status */}
-        {statusValidacao === 'reprovado' && (
-          <Alert className="mb-4 bg-red-600/90 border-red-500 text-white animate-pulse max-w-6xl mx-auto">
-            <AlertTriangle className="h-4 w-4" />
-            <AlertDescription className="font-bold">
-              Sua validação foi reprovada. Verifique os dados e envie novamente.
-            </AlertDescription>
-          </Alert>
-        )}
+      {/* Notificação de Status */}
+      {statusValidacao === 'reprovado' && (
+        <Alert className="mb-4 bg-red-600/90 border-red-500 text-white animate-pulse max-w-6xl mx-auto mt-20">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription className="font-bold">
+            Sua validação foi reprovada. Verifique os dados e envie novamente.
+          </AlertDescription>
+        </Alert>
+      )}
 
-        {/* Layout principal com cards e botões */}
-        <div className="max-w-6xl mx-auto mt-8">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
-            {/* Card de Boas-vindas */}
-            <div className="bg-black/15 rounded-xl p-6 lg:col-span-1">
-              <h2 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-                👤 Bem-vindo(a), {nomeUsuario}
-              </h2>
-              <p className="text-white/90 text-sm mb-2">
-                <strong>CPF:</strong> {cpfUsuario}
-              </p>
-              <p className="text-white/90 text-sm">
-                <strong>Data de Nascimento:</strong> {nascimentoUsuario}
-              </p>
-            </div>
+      {/* Container principal */}
+      <div 
+        className="w-full max-w-[600px] rounded-2xl p-6 flex flex-col justify-center shadow-2xl"
+        style={{
+          backgroundColor: "rgba(255, 255, 255, 0.05)",
+          margin: "120px auto 40px auto",
+          boxShadow: "0 0 24px rgba(0, 0, 0, 0.2)"
+        }}
+      >
+        <h1 className="text-2xl text-center mb-6">SmartVoz – Área Segura do Cliente</h1>
 
-            {/* Card de Última Verificação */}
-            <div className="bg-black/15 rounded-xl p-6 lg:col-span-1">
-              <h2 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-                📄 Última Verificação
-              </h2>
-              <p className="text-white/90 text-sm mb-2">
-                Documento validado com sucesso.
-              </p>
-              <p className="text-white/90 text-sm">
-                <strong>Protocolo:</strong> {protocolo}
-              </p>
-            </div>
+        {/* Card de Boas-vindas */}
+        <div 
+          className="rounded-xl p-4 mb-4"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.15)" }}
+        >
+          <h2 className="text-xl font-semibold mb-2">👤 Bem-vindo(a), {nomeUsuario}</h2>
+          <p className="text-sm mb-1">
+            <strong>CPF:</strong> {cpfUsuario}
+          </p>
+          <p className="text-sm">
+            <strong>Data de Nascimento:</strong> {nascimentoUsuario}
+          </p>
+        </div>
 
-            {/* Card de Histórico */}
-            <div className="bg-black/15 rounded-xl p-6 lg:col-span-1">
-              <h2 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-                ⏱ Histórico de Acessos
-              </h2>
-              <p className="text-white/90 text-sm">
-                Último acesso em: {ultimoAcesso}
-              </p>
-            </div>
+        {/* Card de Última Verificação */}
+        <div 
+          className="rounded-xl p-4 mb-4"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.15)" }}
+        >
+          <h2 className="text-xl font-semibold mb-2">📄 Última Verificação</h2>
+          <p className="text-sm mb-1">Documento validado com sucesso.</p>
+          <p className="text-sm">
+            <strong>Protocolo:</strong> {protocolo}
+          </p>
+        </div>
 
-            {/* Coluna de Ações */}
-            <div className="lg:col-span-1 flex flex-col gap-3">
-              <Button 
-                onClick={reenviarDocumento} 
-                className="bg-white text-purple-700 hover:bg-gray-100 font-bold rounded-lg h-12 text-sm"
-              >
-                📄 Reenviar Documento
-              </Button>
-              
-              <Button 
-                onClick={atualizarSelfie} 
-                className="bg-white text-purple-700 hover:bg-gray-100 font-bold rounded-lg h-12 text-sm"
-              >
-                📷 Atualizar Selfie
-              </Button>
-              
-              <Button 
-                onClick={acessarDashboard} 
-                className="bg-white text-purple-700 hover:bg-gray-100 font-bold rounded-lg h-12 text-sm"
-              >
-                🔓 Acessar Dashboard
-              </Button>
-            </div>
-          </div>
+        {/* Card de Histórico */}
+        <div 
+          className="rounded-xl p-4 mb-4"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.15)" }}
+        >
+          <h2 className="text-xl font-semibold mb-2">⏱ Histórico de Acessos</h2>
+          <p className="text-sm">
+            Último acesso em: {ultimoAcesso}
+          </p>
+        </div>
+
+        {/* Ações */}
+        <div className="flex flex-wrap gap-3 justify-center mt-6">
+          <Button 
+            onClick={reenviarDocumento}
+            className="bg-white text-purple-700 hover:bg-gray-100 font-bold rounded-lg py-2 px-4 flex-1 min-w-[40%]"
+          >
+            📄 Reenviar Documento
+          </Button>
+          
+          <Button 
+            onClick={atualizarSelfie}
+            className="bg-white text-purple-700 hover:bg-gray-100 font-bold rounded-lg py-2 px-4 flex-1 min-w-[40%]"
+          >
+            📷 Atualizar Selfie
+          </Button>
+          
+          <Button 
+            onClick={acessarDashboard}
+            className="bg-white text-purple-700 hover:bg-gray-100 font-bold rounded-lg py-2 px-4 flex-1 min-w-[40%]"
+          >
+            🔓 Acessar Dashboard
+          </Button>
         </div>
       </div>
     </div>
