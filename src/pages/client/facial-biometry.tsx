@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FacialBiometryFlow } from "@/components/client/register/facial-biometry/FacialBiometryFlow";
+import { NewFacialBiometryFlow } from "@/components/client/biometry/NewFacialBiometryFlow";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -74,21 +74,24 @@ export default function FacialBiometry() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-white">
-      {/* Header com Logo - completamente branco sem sombra */}
-      <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50" style={{ boxShadow: 'none', border: 'none' }}>
-        <div className="flex justify-center">
-          <img src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" alt="Smartvoz Logo" className="h-[85px] object-contain mix-blend-multiply opacity-90 contrast-125" />
-        </div>
-      </div>
-
-      <div className="flex flex-col justify-center items-center min-h-screen">
-        <div className="w-full h-full max-w-md">
-          <FacialBiometryFlow 
-            onComplete={handleVerificationComplete} 
-            onBack={handleBack} 
+    <div className="min-h-screen w-full">
+      {/* Logo fixada no topo */}
+      <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50">
+        <div className="flex items-center justify-center">
+          <img 
+            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
+            alt="Smartvoz" 
+            className="h-16 object-contain" 
           />
         </div>
+      </div>
+      
+      {/* Novo fluxo de biometria com padding-top para não ficar atrás da logo */}
+      <div className="pt-20">
+        <NewFacialBiometryFlow 
+          onComplete={handleVerificationComplete} 
+          onBack={handleBack} 
+        />
       </div>
     </div>
   );
