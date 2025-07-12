@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -93,7 +94,7 @@ export default function UserDashboard() {
         </div>
 
         {/* Card de Histórico com fundo transparente */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 shadow-lg p-4 mb-6">
+        <div className="px-4 py-4 bg-transparent rounded-lg border border-white/20 shadow-lg mb-6">
           <h2 className="text-xl font-semibold text-white mb-2">Histórico de Acessos</h2>
           <p className="text-white/90 text-sm">Último acesso em: {ultimoAcesso}</p>
         </div>
