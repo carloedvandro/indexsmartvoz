@@ -99,7 +99,7 @@ export default function UserDashboard() {
         </div>
 
         {/* Ações com botões transparentes */}
-        <div className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/20 shadow-lg mb-4 flex flex-wrap gap-3 justify-center">
+        <div className="px-4 py-4 bg-transparent flex flex-wrap gap-3 justify-center mb-6">
           <Button
             onClick={reenviarDocumento}
             className="px-4 py-4 bg-transparent text-white hover:bg-white/20 border border-white/20 shadow-lg font-bold flex-1 min-w-[140px]"
