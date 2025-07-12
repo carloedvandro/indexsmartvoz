@@ -59,10 +59,10 @@ export default function UserDashboard() {
     <div className="min-h-screen bg-gradient-to-br from-purple-900 to-purple-600">
       {/* Header */}
       <header className="p-4 text-center">
-        <h1 className="text-2xl font-bold text-white">Painel do Usuário</h1>
+        <h1 className="text-2xl font-bold text-white">Área Segura do Cliente</h1>
       </header>
 
-      <div className="container mx-auto p-6 max-w-[344px]">
+      <div className="p-6 max-w-[344px] mx-auto">
         {/* Notificação de Status */}
         {statusValidacao === 'reprovado' && (
           <Alert className="mb-4 bg-red-600/90 border-red-500 text-white animate-pulse">
