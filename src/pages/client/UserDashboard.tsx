@@ -58,7 +58,7 @@ export default function UserDashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 to-purple-600">
       {/* Header */}
-      <header className="bg-black/20 p-4 text-center border-b border-white/10">
+      <header className="p-4 text-center">
         <h1 className="text-2xl font-bold text-white">Painel do Usuário</h1>
       </header>
 
@@ -73,37 +73,37 @@ export default function UserDashboard() {
           </Alert>
         )}
 
-        {/* Card de Boas-vindas - Mais compacto */}
-        <div className="bg-black/15 rounded-lg p-4 mb-4">
+        {/* Card de Boas-vindas com estilo do SIM card */}
+        <div className="bg-black/10 backdrop-blur-sm rounded-lg border border-purple-300/30 shadow-lg p-4 mb-4">
           <div className="flex items-center gap-2 mb-2">
-            <User className="h-5 w-5" />
+            <User className="h-5 w-5 text-white" />
             <h2 className="text-xl font-semibold text-white">Bem-vindo(a), {nomeUsuario}</h2>
           </div>
           <p className="text-white/90 text-sm">CPF: {cpfUsuario}</p>
           <p className="text-white/90 text-sm">Data de Nascimento: {nascimentoUsuario}</p>
         </div>
 
-        {/* Card de Última Verificação - Mais compacto */}
-        <div className="bg-black/15 rounded-lg p-4 mb-4">
+        {/* Card de Última Verificação com estilo do SIM card */}
+        <div className="bg-black/10 backdrop-blur-sm rounded-lg border border-purple-300/30 shadow-lg p-4 mb-4">
           <div className="flex items-center gap-2 mb-2">
-            <FileText className="h-5 w-5" />
+            <FileText className="h-5 w-5 text-white" />
             <h2 className="text-xl font-semibold text-white">Última verificação</h2>
           </div>
           <p className="text-white/90 text-sm mb-1">Documento validado com sucesso.</p>
           <p className="text-white/90 text-sm">Protocolo: {protocolo}</p>
         </div>
 
-        {/* Card de Histórico - Mais compacto */}
-        <div className="bg-black/15 rounded-lg p-4 mb-6">
+        {/* Card de Histórico com estilo do SIM card */}
+        <div className="bg-black/10 backdrop-blur-sm rounded-lg border border-purple-300/30 shadow-lg p-4 mb-6">
           <h2 className="text-xl font-semibold text-white mb-2">Histórico de Acessos</h2>
           <p className="text-white/90 text-sm">Último acesso em: {ultimoAcesso}</p>
         </div>
 
-        {/* Ações - Layout mais limpo */}
+        {/* Ações com estilo do SIM card */}
         <div className="flex flex-wrap gap-3 justify-center mb-6">
           <Button
             onClick={reenviarDocumento}
-            className="bg-white text-purple-800 hover:bg-gray-100 font-bold flex-1 min-w-[140px]"
+            className="bg-white/90 backdrop-blur-sm text-purple-800 hover:bg-white border border-purple-300/30 shadow-lg font-bold flex-1 min-w-[140px]"
           >
             <FileText className="h-4 w-4 mr-2" />
             Reenviar Documento
@@ -111,18 +111,18 @@ export default function UserDashboard() {
           
           <Button
             onClick={atualizarSelfie}
-            className="bg-white text-purple-800 hover:bg-gray-100 font-bold flex-1 min-w-[140px]"
+            className="bg-white/90 backdrop-blur-sm text-purple-800 hover:bg-white border border-purple-300/30 shadow-lg font-bold flex-1 min-w-[140px]"
           >
             <Camera className="h-4 w-4 mr-2" />
             Atualizar Selfie
           </Button>
         </div>
 
-        {/* Botão para acessar dashboard */}
+        {/* Botão para acessar dashboard com estilo do SIM card */}
         <div className="text-center mb-6">
           <Button
             onClick={acessarDashboard}
-            className="bg-purple-700 text-white hover:bg-purple-800 font-bold px-8"
+            className="bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 border border-purple-300/30 shadow-lg font-bold px-8"
           >
             Acessar Dashboard
           </Button>
