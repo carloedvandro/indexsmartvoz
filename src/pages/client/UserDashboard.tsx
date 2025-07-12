@@ -62,7 +62,7 @@ export default function UserDashboard() {
         <h1 className="text-2xl font-bold text-white">Painel do Usuário</h1>
       </header>
 
-      <div className="container mx-auto p-6 max-w-[344px]">
+      <div className="container mx-auto p-6 max-w-[360px]">
         {/* Notificação de Status */}
         {statusValidacao === 'reprovado' && (
           <Alert className="mb-4 bg-red-600/90 border-red-500 text-white animate-pulse">
