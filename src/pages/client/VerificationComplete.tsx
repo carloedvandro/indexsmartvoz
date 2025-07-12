@@ -77,7 +77,7 @@ export const VerificationComplete = () => {
         </div>
       </div>
       
-      <Button onClick={() => navigate('/client/user-dashboard')} className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 w-full max-w-md text-white hover:w-full font-bold">
+      <Button onClick={() => navigate('/client/user-dashboard')} className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-2 w-full max-w-md text-white hover:w-full font-bold">
         Acessar Painel
       </Button>
     </div>;
