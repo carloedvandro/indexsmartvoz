@@ -84,10 +84,10 @@ export const CpfVerificationStep = ({
 
   return (
     <>
-      <div className="bg-white text-gray-800 flex flex-col ">
+      <div className="bg-white text-white flex flex-col ">
         <div className="flex-1 flex items-start justify-center p-6 bg-primary" style={{ paddingTop: '-8px' }}>
           <div className="w-full max-w-[280px] bg-transparent rounded-lg space-y-3">
-            <h2 className="text-sm text-gray-800 max-w-[280px] mx-auto text-center">
+            <h2 className="text-sm text-white max-w-[280px] mx-auto text-center">
               Olá, verificamos que você está realizando a
               <br />
               consulta/contratação dos nossos serviços SmartVoz.
@@ -97,13 +97,13 @@ export const CpfVerificationStep = ({
               Para dar continuidade precisamos realizar a sua biometria.
             </h2>
 
-            <p className="text-sm text-gray-600 text-center mt-0 max-w-[280px] mx-auto">
+            <p className="text-sm text-white text-center mt-0 max-w-[280px] mx-auto">
               Biometria é uma solução que utiliza a tecnologia para identificação do cliente.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-3">
               <div className="space-y-2">
-                <label htmlFor="cpf" className="block text-xs font-bold text-center text-gray-800">
+                <label htmlFor="cpf" className="block text-xs font-bold text-center text-white">
                   Insira os primeiros 5 dígitos do seu CPF:
                 </label>
                 <Input 
@@ -115,7 +115,7 @@ export const CpfVerificationStep = ({
                     setCpfDigits(value);
                   }} 
                   placeholder="" 
-                  className="w-full h-9 text-black text-center text-base px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4" 
+                  className="w-full h-9 text-white text-center text-base px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 placeholder:text-white/50" 
                   maxLength={5} 
                 />
               </div>
@@ -128,12 +128,12 @@ export const CpfVerificationStep = ({
           <div className="flex justify-center py-3 bg-primary">
             <div className="flex items-center bg-transparent py-2 rounded-lg">
               <div className="flex items-center gap-2">
-                <Lock className="w-6 h-6 text-gray-600" strokeWidth={2.5} />
-                <div className="h-8 w-[1px] bg-gray-400 mr-2"></div>
+                <Lock className="w-6 h-6 text-white" strokeWidth={2.5} />
+                <div className="h-8 w-[1px] bg-white/40 mr-2"></div>
               </div>
               <div className="text-start ">
-                <div className="text-sm text-[#8425af] block">Verified by</div>
-                <div className="font-semibold text-sm  text-gray-800">Serasa Experian</div>
+                <div className="text-sm text-white/80 block">Verified by</div>
+                <div className="font-semibold text-sm text-white">Serasa Experian</div>
               </div>
             </div>
           </div>
