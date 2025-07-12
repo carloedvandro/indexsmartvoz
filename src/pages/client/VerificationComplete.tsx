@@ -41,7 +41,7 @@ export const VerificationComplete = () => {
         </h1>
         
         <p className="text-white/90 mb-6">
-          Sua identidade foi verificada com sucesso Todos os documentos foram validados e voc esta pronto para prosseguir
+          Sua identidade foi verificada com sucesso Todos os documentos foram validados e você está pronto para prosseguir
         </p>
         
         {/* Detalhes dos dados */}
