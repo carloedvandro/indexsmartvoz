@@ -6,21 +6,22 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { User, FileText, Camera, AlertTriangle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+
 export default function UserDashboard() {
   const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [nomeUsuario, setNomeUsuario] = useState("Usuário");
   const [cpfUsuario, setCpfUsuario] = useState("---");
   const [nascimentoUsuario, setNascimentoUsuario] = useState("---");
   const [protocolo, setProtocolo] = useState("N/A");
   const [ultimoAcesso, setUltimoAcesso] = useState("");
   const [statusValidacao, setStatusValidacao] = useState("");
+
   useEffect(() => {
     carregarDadosUsuario();
     atualizarUltimoAcesso();
   }, []);
+
   const carregarDadosUsuario = () => {
     // Carregar dados do localStorage (simulando dados persistidos)
     const dados = JSON.parse(localStorage.getItem('dadosCadastrais') || '{}');
@@ -32,34 +33,37 @@ export default function UserDashboard() {
     const status = localStorage.getItem('statusValidacao') || '';
     setStatusValidacao(status);
   };
+
   const atualizarUltimoAcesso = () => {
     const agora = new Date().toLocaleString('pt-BR');
     setUltimoAcesso(agora);
     localStorage.setItem('ultimoAcesso', agora);
   };
+
   const reenviarDocumento = () => {
     navigate('/client/document-verification');
   };
+
   const atualizarSelfie = () => {
     navigate('/client/facial-biometry');
   };
+
   const acessarDashboard = () => {
     navigate('/client/dashboard');
   };
-  return <div className="min-h-screen bg-gradient-to-br from-purple-900 to-purple-600">
-      {/* Header */}
-      <header className="p-4 text-center">
-        <h1 className="text-2xl font-bold text-white">Painel do Usuário</h1>
-      </header>
 
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 to-purple-600">
       <div className="container mx-auto p-6 max-w-[390px]">
         {/* Notificação de Status */}
-        {statusValidacao === 'reprovado' && <Alert className="mb-4 bg-red-600/90 border-red-500 text-white animate-pulse">
+        {statusValidacao === 'reprovado' && (
+          <Alert className="mb-4 bg-red-600/90 border-red-500 text-white animate-pulse">
             <AlertTriangle className="h-4 w-4" />
             <AlertDescription className="font-bold">
               Sua validação foi reprovada. Verifique os dados e envie novamente.
             </AlertDescription>
-          </Alert>}
+          </Alert>
+        )}
 
         {/* Card de Boas-vindas com estilo do SIM card */}
         <div className="bg-black/10 backdrop-blur-sm rounded-lg border border-purple-300/30 shadow-lg p-4 mb-4">
@@ -107,5 +111,6 @@ export default function UserDashboard() {
           </Button>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 }
