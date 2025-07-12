@@ -41,7 +41,7 @@ export const VerificationComplete = () => {
         </h1>
         
         <p className="text-white/90 mb-6">
-          Seus dados foram selecionados com sucesso pelo sistema de validação da SmartVoz.
+          Sua identidade foi verificada com sucesso Todos os documentos foram validados e voc esta pronto para prosseguir
         </p>
         
         {/* Detalhes dos dados */}
