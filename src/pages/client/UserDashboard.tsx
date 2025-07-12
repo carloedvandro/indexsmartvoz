@@ -93,7 +93,7 @@ export default function UserDashboard() {
         </div>
 
         {/* Card de Histórico com fundo transparente */}
-        <div className="px-4 py-4 bg-transparent rounded-lg border border-[#8425af] shadow-lg mb-6">
+        <div className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4">
           <h2 className="text-xl font-semibold text-white mb-2">Histórico de Acessos</h2>
           <p className="text-white/90 text-sm">Último acesso em: {ultimoAcesso}</p>
         </div>
