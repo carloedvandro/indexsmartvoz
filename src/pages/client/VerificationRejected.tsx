@@ -27,11 +27,7 @@ export const VerificationRejected = () => {
         </h1>
         
         <p className="text-white/90 mb-6 leading-relaxed">
-          Nossa inteligência artificial não conseguiu confirmar que os dados do documento e a selfie pertencem à mesma pessoa.
-          <br /><br />
-          Motivos comuns: documento de terceiros, rosto não visível, divergência nos dados.
-          <br /><br />
-          Por segurança, seu acesso foi bloqueado.
+          Nossa equipe da SmartVoz não conseguiu confirmar que os dados do documento e a selfie pertencem à mesma pessoa.
         </p>
       </div>
       
