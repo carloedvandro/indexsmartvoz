@@ -75,22 +75,14 @@ export default function UserDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 to-purple-600">
-      {/* Header branco com logo */}
-      <header className="w-full bg-white py-3 flex justify-center items-center shadow-sm">
-        <img
-          src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
-          alt="SmartVoz Logo"
-          className="h-9 object-contain"
-        />
-      </header>
-
-      <div className="container mx-auto p-6 max-w-2xl">
-        <h1 className="text-2xl font-bold text-white text-center mb-6">Painel do Usuário</h1>
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 to-purple-600 p-6">
+      <div className="container mx-auto max-w-2xl">
+        {/* Título centralizado */}
+        <h1 className="text-3xl font-bold text-white text-center mb-8">Painel do Usuário</h1>
 
         {/* Notificação de Status */}
         {statusValidacao === 'reprovado' && (
-          <Alert className="mb-4 bg-red-600/90 border-red-500 text-white animate-pulse">
+          <Alert className="mb-6 bg-red-600/90 border-red-500 text-white animate-pulse">
             <AlertTriangle className="h-4 w-4" />
             <AlertDescription className="font-bold">
               Sua validação foi reprovada. Verifique os dados e envie novamente.
@@ -98,69 +90,69 @@ export default function UserDashboard() {
           </Alert>
         )}
 
-        {/* Card de Boas-vindas - Mais compacto */}
-        <div className="bg-black/15 rounded-lg p-4 mb-4">
-          <div className="flex items-center gap-2 mb-2">
-            <User className="h-5 w-5" />
+        {/* Card de Boas-vindas */}
+        <div className="bg-black/20 rounded-lg p-6 mb-6">
+          <div className="flex items-center gap-3 mb-4">
+            <User className="h-6 w-6 text-white" />
             <h2 className="text-xl font-semibold text-white">Bem-vindo(a), {nomeUsuario}</h2>
           </div>
-          <p className="text-white/90 text-sm">CPF: {cpfUsuario}</p>
-          <p className="text-white/90 text-sm">Data de Nascimento: {nascimentoUsuario}</p>
+          <p className="text-white/90 mb-2">CPF: {cpfUsuario}</p>
+          <p className="text-white/90">Data de Nascimento: {nascimentoUsuario}</p>
         </div>
 
-        {/* Card de Última Verificação - Mais compacto */}
-        <div className="bg-black/15 rounded-lg p-4 mb-4">
-          <div className="flex items-center gap-2 mb-2">
-            <FileText className="h-5 w-5" />
+        {/* Card de Última Verificação */}
+        <div className="bg-black/20 rounded-lg p-6 mb-6">
+          <div className="flex items-center gap-3 mb-4">
+            <FileText className="h-6 w-6 text-white" />
             <h2 className="text-xl font-semibold text-white">Última verificação</h2>
           </div>
-          <p className="text-white/90 text-sm mb-1">Documento validado com sucesso.</p>
-          <p className="text-white/90 text-sm">Protocolo: {protocolo}</p>
+          <p className="text-white/90 mb-2">Documento validado com sucesso.</p>
+          <p className="text-white/90">Protocolo: {protocolo}</p>
         </div>
 
-        {/* Card de Histórico - Mais compacto */}
-        <div className="bg-black/15 rounded-lg p-4 mb-6">
-          <h2 className="text-xl font-semibold text-white mb-2">Histórico de Acessos</h2>
-          <p className="text-white/90 text-sm">Último acesso em: {ultimoAcesso}</p>
+        {/* Card de Histórico */}
+        <div className="bg-black/20 rounded-lg p-6 mb-8">
+          <h2 className="text-xl font-semibold text-white mb-4">Histórico de Acessos</h2>
+          <p className="text-white/90">Último acesso em: {ultimoAcesso}</p>
         </div>
 
-        {/* Ações - Layout mais limpo */}
-        <div className="flex flex-wrap gap-3 justify-center mb-6">
+        {/* Botões de Ação */}
+        <div className="flex flex-wrap gap-4 justify-center mb-6">
           <Button
             onClick={reenviarDocumento}
-            className="bg-white text-purple-800 hover:bg-gray-100 font-bold flex-1 min-w-[140px]"
+            className="bg-white text-purple-800 hover:bg-gray-100 font-bold px-8 py-3 rounded-lg"
           >
-            <FileText className="h-4 w-4 mr-2" />
+            <FileText className="h-5 w-5 mr-2" />
             Reenviar Documento
           </Button>
           
           <Button
             onClick={atualizarSelfie}
-            className="bg-white text-purple-800 hover:bg-gray-100 font-bold flex-1 min-w-[140px]"
+            className="bg-white text-purple-800 hover:bg-gray-100 font-bold px-8 py-3 rounded-lg"
           >
-            <Camera className="h-4 w-4 mr-2" />
+            <Camera className="h-5 w-5 mr-2" />
             Atualizar Selfie
           </Button>
         </div>
 
-        {/* Botão para acessar dashboard */}
-        <div className="text-center mb-6">
+        {/* Botão Acessar Dashboard */}
+        <div className="text-center mb-8">
           <Button
             onClick={acessarDashboard}
-            className="bg-purple-700 text-white hover:bg-purple-800 font-bold px-8"
+            className="bg-yellow-400 text-purple-900 hover:bg-yellow-300 font-bold px-12 py-4 rounded-lg text-lg"
           >
             🔓 Acessar Dashboard
           </Button>
         </div>
 
-        {/* Logout */}
+        {/* Botão de Logout */}
         <div className="text-center">
           <Button
             onClick={handleLogout}
             variant="outline"
-            className="border-white/50 text-white hover:bg-white/10 font-bold"
+            className="border-white/50 text-white hover:bg-white/10 font-bold px-8 py-3 rounded-lg"
           >
-            <LogOut className="h-4 w-4 mr-2" />
+            <LogOut className="h-5 w-5 mr-2" />
             Sair da Conta
           </Button>
         </div>
