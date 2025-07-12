@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, User, Calendar, CreditCard, Shield } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 
 interface VerificationSuccessStepProps {
   protocol: string;
@@ -20,105 +20,60 @@ export const VerificationSuccessStep = ({
   onContinue 
 }: VerificationSuccessStepProps) => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6">
-      <div className="w-full max-w-md space-y-6">
+    <div className="min-h-screen bg-gradient-to-b from-[#5f0889] to-[#9b30ff] flex flex-col items-center justify-center p-6">
+      <div className="w-full max-w-md">
         
-        {/* Ícone de sucesso */}
-        <div className="text-center">
-          <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CheckCircle className="w-12 h-12 text-white" />
-          </div>
-          <h1 className="text-2xl font-bold text-white mb-2">
-            Verificação Concluída
-          </h1>
-          <p className="text-white/90">
-            Sua identidade foi verificada com sucesso!
-          </p>
-        </div>
-
-        {/* Card com dados verificados */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 p-6 space-y-4">
+        {/* Card principal com dados da verificação */}
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/30 p-6 mb-6">
           
-          {/* Foto do usuário */}
-          <div className="flex justify-center mb-4">
-            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-white/30">
-              <img 
-                src={selfieImage} 
-                alt="Foto do usuário" 
-                className="w-full h-full object-cover"
-                style={{ transform: 'scaleX(-1)' }} // Desfazer espelhamento
-              />
+          {/* Ícone de sucesso centralizado */}
+          <div className="text-center mb-6">
+            <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle className="w-10 h-10 text-white" strokeWidth={3} />
             </div>
+            
+            <h1 className="text-2xl font-bold text-white mb-2">
+              Verificação Concluída!
+            </h1>
+            
+            <p className="text-white/90 text-center leading-relaxed">
+              Sua identidade foi verificada com sucesso<br />
+              Todos os documentos foram validados e<br />
+              você está pronto para prosseguir
+            </p>
           </div>
 
-          {/* Dados verificados */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-3">
-              <User className="w-5 h-5 text-white/60" />
-              <div>
-                <p className="text-xs text-white/60 uppercase">Nome Completo</p>
-                <p className="text-white font-medium">{userData.name}</p>
-              </div>
+          {/* Dados do usuário */}
+          <div className="space-y-3 text-white">
+            <div>
+              <span className="text-white/80 text-sm">Nome: </span>
+              <span className="font-medium">{userData.name}</span>
             </div>
-
-            <div className="flex items-center gap-3">
-              <CreditCard className="w-5 h-5 text-white/60" />
-              <div>
-                <p className="text-xs text-white/60 uppercase">CPF</p>
-                <p className="text-white font-medium">{userData.cpf}</p>
-              </div>
+            
+            <div>
+              <span className="text-white/80 text-sm">CPF: </span>
+              <span className="font-medium">{userData.cpf}</span>
             </div>
-
-            <div className="flex items-center gap-3">
-              <Calendar className="w-5 h-5 text-white/60" />
-              <div>
-                <p className="text-xs text-white/60 uppercase">Data de Nascimento</p>
-                <p className="text-white font-medium">{userData.birthDate}</p>
-              </div>
+            
+            <div>
+              <span className="text-white/80 text-sm">Nascimento: </span>
+              <span className="font-medium">{userData.birthDate}</span>
             </div>
-
-            <div className="flex items-center gap-3">
-              <Shield className="w-5 h-5 text-white/60" />
-              <div>
-                <p className="text-xs text-white/60 uppercase">Protocolo da Verificação</p>
-                <p className="text-white font-medium font-mono">{protocol}</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Selo de verificação */}
-          <div className="border-t border-white/20 pt-4">
-            <div className="flex items-center justify-center gap-2 text-sm">
-              <Shield className="w-4 h-4 text-green-400" />
-              <span className="text-white/80">Verificado por</span>
-              <span className="text-white font-semibold">Serasa Experian</span>
+            
+            <div className="pt-4 border-t border-white/20">
+              <span className="text-white/80 text-sm">Protocolo: </span>
+              <span className="font-bold text-lg">{protocol}</span>
             </div>
           </div>
         </div>
 
-        {/* Mensagem adicional */}
-        <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 text-center">
-          <p className="text-green-100 text-sm">
-            🎉 Parabéns! Sua identidade foi confirmada com sucesso. 
-            Agora você pode prosseguir para escolher seu plano.
-          </p>
-        </div>
-
-        {/* Botão de continuar */}
+        {/* Botão de avançar */}
         <Button
           onClick={onContinue}
-          className="w-full py-4 bg-white text-[#5f0889] hover:bg-white/90 font-bold text-lg rounded-full"
+          className="w-full py-4 bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 font-bold text-lg rounded-lg"
         >
-          Avançar para Seleção de Plano
+          Avançar
         </Button>
-
-        {/* Informação de segurança */}
-        <div className="text-center">
-          <p className="text-xs text-white/60">
-            Seus dados estão protegidos e serão utilizados apenas para 
-            verificação de identidade conforme nossa política de privacidade.
-          </p>
-        </div>
       </div>
     </div>
   );

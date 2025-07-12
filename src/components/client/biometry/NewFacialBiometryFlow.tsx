@@ -21,9 +21,9 @@ export const NewFacialBiometryFlow = ({ onComplete, onBack }: NewFacialBiometryF
   const [verificationData, setVerificationData] = useState({
     protocol: '',
     userData: {
-      name: '',
-      cpf: '',
-      birthDate: ''
+      name: 'João da Silva',
+      cpf: '123.456.789-00',
+      birthDate: '01/01/1990'
     }
   });
 
@@ -41,13 +41,13 @@ export const NewFacialBiometryFlow = ({ onComplete, onBack }: NewFacialBiometryF
       const isVerified = Math.random() > 0.3; // 70% chance de sucesso para demo
       
       if (isVerified) {
-        // Dados simulados que viriam da API
+        // Dados que viriam da API de verificação
         setVerificationData({
           protocol: `P${Date.now()}`,
           userData: {
-            name: 'João da Silva Santos',
+            name: 'João da Silva',
             cpf: '123.456.789-00',
-            birthDate: '15/03/1990'
+            birthDate: '01/01/1990'
           }
         });
         setCurrentStep('success');
@@ -74,7 +74,7 @@ export const NewFacialBiometryFlow = ({ onComplete, onBack }: NewFacialBiometryF
     setDocumentImage('');
     setVerificationData({
       protocol: '',
-      userData: { name: '', cpf: '', birthDate: '' }
+      userData: { name: 'João da Silva', cpf: '123.456.789-00', birthDate: '01/01/1990' }
     });
     setCurrentStep('selfie');
   };
