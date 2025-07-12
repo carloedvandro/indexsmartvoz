@@ -20,7 +20,7 @@ export const VerificationRejected = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{backgroundColor: '#5f0889'}}>
       <div className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 max-w-md w-full text-center">
-        <X className="w-16 h-16 text-red-400 mx-auto mb-4" />
+        <X className="w-16 h-16 mx-auto mb-4" style={{color: '#ff0000'}} />
         
         <h1 className="text-2xl font-bold text-white mb-4">
           Verificação Reprovada
