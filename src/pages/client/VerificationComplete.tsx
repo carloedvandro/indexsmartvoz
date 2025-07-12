@@ -37,7 +37,7 @@ export const VerificationComplete = () => {
         <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
         
         <h1 className="text-2xl font-bold text-white mb-2">
-          Identidade Confirmada
+          Verificação Concluída!
         </h1>
         
         <p className="text-white/90 mb-6">
