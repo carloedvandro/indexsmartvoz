@@ -76,12 +76,18 @@ export default function UserDashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 to-purple-600">
-      {/* Header */}
-      <header className="bg-black/20 p-4 text-center border-b border-white/10">
-        <h1 className="text-2xl font-bold text-white">Painel do Usuário</h1>
+      {/* Header branco com logo */}
+      <header className="w-full bg-white py-3 flex justify-center items-center shadow-sm">
+        <img
+          src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
+          alt="SmartVoz Logo"
+          className="h-9 object-contain"
+        />
       </header>
 
       <div className="container mx-auto p-6 max-w-2xl">
+        <h1 className="text-2xl font-bold text-white text-center mb-6">Painel do Usuário</h1>
+
         {/* Notificação de Status */}
         {statusValidacao === 'reprovado' && (
           <Alert className="mb-4 bg-red-600/90 border-red-500 text-white animate-pulse">
