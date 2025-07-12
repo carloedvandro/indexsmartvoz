@@ -33,7 +33,7 @@ export const VerificationComplete = () => {
     navigate('/client/dashboard');
   };
   return <div className="min-h-screen bg-gradient-to-br from-purple-900 to-purple-600 flex flex-col items-center justify-center p-4">
-      <div className="px-4 py-4 rounded-lg border border-white/20 overflow-hidden bg-transparent max-w-md w-full text-center">
+      <div className="px-4 py-4 rounded-lg bg-transparent hover:bg-white/10 text-white min-w-[200px] border border-white/20 max-w-md w-full text-center">
         <CheckCircle className="w-16 h-16 text-white mx-auto mb-4" />
         
         <h1 className="text-2xl font-bold text-white mb-2">
