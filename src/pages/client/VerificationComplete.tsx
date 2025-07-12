@@ -32,7 +32,9 @@ export const VerificationComplete = () => {
   const irParaDashboard = () => {
     navigate('/client/dashboard');
   };
-  return <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{backgroundColor: '#5f0889'}}>
+  return <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{
+    backgroundColor: '#5f0889'
+  }}>
       <div className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 max-w-md w-full text-center">
         <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
         
@@ -75,7 +77,7 @@ export const VerificationComplete = () => {
         </div>
       </div>
       
-      <Button onClick={() => navigate('/client/user-dashboard')} className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 w-full max-w-md text-white hover:bg-white/10 font-bold">
+      <Button onClick={() => navigate('/client/user-dashboard')} className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-5 w-full max-w-md text-white hover:bg-white/10 font-bold">
         Acessar Painel
       </Button>
     </div>;
