@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -55,7 +56,7 @@ export default function UserDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 to-purple-600">
+    <div className="min-h-screen">
       {/* Header */}
       <header className="p-4 text-center">
         <h1 className="text-2xl font-bold text-white">Área Segura do Cliente</h1>
