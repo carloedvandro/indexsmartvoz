@@ -146,6 +146,10 @@ export const DocumentVerification = () => {
         Posicione o documento na área visível
       </div>
       
+      <div className="text-white text-center">
+        {status}
+      </div>
+      
       
       <Button
         onClick={capturarEAnalisar}
