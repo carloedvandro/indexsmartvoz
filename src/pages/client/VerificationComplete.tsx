@@ -41,7 +41,7 @@ export const VerificationComplete = () => {
         </h1>
         
         <p className="text-white/90 mb-6">
-          Seus dados foram validados com sucesso pela inteligência artificial.
+          Seus dados foram selecionados com sucesso pelo sistema de validação da SmartVoz.
         </p>
         
         {/* Detalhes dos dados */}
