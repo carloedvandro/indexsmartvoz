@@ -104,9 +104,7 @@ export default function UserDashboard() {
 
         {/* Botão para acessar dashboard com styling atualizado */}
         <div className="text-center mb-6">
-          <Button onClick={acessarDashboard} className="px-4 py-4 bg-transparent text-white hover:bg-white/20 border border-white/20 shadow-lg font-bold">
-            Acessar Dashboard
-          </Button>
+          <Button onClick={acessarDashboard} className="px-4 py-4 bg-transparent text-white hover:bg-white/20 border border-white/20 shadow-lg font-bold">Ir para Dashboard</Button>
         </div>
       </div>
     </div>;
