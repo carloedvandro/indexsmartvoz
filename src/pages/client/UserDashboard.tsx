@@ -55,7 +55,7 @@ export default function UserDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 to-purple-600">
+    <div className="min-h-screen" style={{backgroundColor: '#660099'}}>
       {/* Header */}
       <header className="p-4 text-center">
         <h1 className="text-2xl font-bold text-white">Área Segura do Cliente</h1>
