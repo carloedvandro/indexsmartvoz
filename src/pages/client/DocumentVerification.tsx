@@ -131,7 +131,7 @@ export const DocumentVerification = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary to-secondary flex flex-col items-center justify-center p-4">
+    <div className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 min-h-screen flex flex-col items-center justify-center">
       <div className="w-[340px] h-[220px] border-4 border-gray-300 rounded-xl overflow-hidden relative bg-black">
         <video
           ref={videoRef}
