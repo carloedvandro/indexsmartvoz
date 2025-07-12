@@ -84,7 +84,7 @@ export default function UserDashboard() {
         </div>
 
         {/* Card de Última Verificação com fundo transparente */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 shadow-lg p-4 mb-4">
+        <div className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/20 shadow-lg mb-4">
           <div className="flex items-center gap-2 mb-2">
             <FileText className="h-5 w-5 text-white" />
             <h2 className="text-xl font-semibold text-white">Última verificação</h2>
