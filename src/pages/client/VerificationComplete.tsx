@@ -32,7 +32,7 @@ export const VerificationComplete = () => {
   const irParaDashboard = () => {
     navigate('/client/dashboard');
   };
-  return <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{backgroundColor: '#660099'}}>
+  return <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{backgroundColor: '#5f0889'}}>
       <div className="px-4 py-4 rounded-lg border border-white/20 overflow-hidden bg-transparent max-w-md w-full text-center">
         <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
         
