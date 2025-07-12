@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -56,7 +55,7 @@ export default function UserDashboard() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 to-purple-600">
       {/* Header */}
       <header className="p-4 text-center">
         <h1 className="text-2xl font-bold text-white">Área Segura do Cliente</h1>
@@ -73,8 +72,8 @@ export default function UserDashboard() {
           </Alert>
         )}
 
-        {/* Card de Boas-vindas com estilo do SIM card */}
-        <div className="bg-black/10 backdrop-blur-sm rounded-lg border border-purple-300/30 shadow-lg p-4 mb-4">
+        {/* Card de Boas-vindas com fundo transparente */}
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 shadow-lg p-4 mb-4">
           <div className="flex items-center gap-2 mb-2">
             <User className="h-5 w-5 text-white" />
             <h2 className="text-xl font-semibold text-white">Bem-vindo(a), {nomeUsuario}</h2>
@@ -83,8 +82,8 @@ export default function UserDashboard() {
           <p className="text-white/90 text-sm">Data de Nascimento: {nascimentoUsuario}</p>
         </div>
 
-        {/* Card de Última Verificação com estilo do SIM card */}
-        <div className="bg-black/10 backdrop-blur-sm rounded-lg border border-purple-300/30 shadow-lg p-4 mb-4">
+        {/* Card de Última Verificação com fundo transparente */}
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 shadow-lg p-4 mb-4">
           <div className="flex items-center gap-2 mb-2">
             <FileText className="h-5 w-5 text-white" />
             <h2 className="text-xl font-semibold text-white">Última verificação</h2>
@@ -93,17 +92,17 @@ export default function UserDashboard() {
           <p className="text-white/90 text-sm">Protocolo: {protocolo}</p>
         </div>
 
-        {/* Card de Histórico com estilo do SIM card */}
-        <div className="bg-black/10 backdrop-blur-sm rounded-lg border border-purple-300/30 shadow-lg p-4 mb-6">
+        {/* Card de Histórico com fundo transparente */}
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 shadow-lg p-4 mb-6">
           <h2 className="text-xl font-semibold text-white mb-2">Histórico de Acessos</h2>
           <p className="text-white/90 text-sm">Último acesso em: {ultimoAcesso}</p>
         </div>
 
-        {/* Ações com estilo do SIM card */}
+        {/* Ações com botões transparentes */}
         <div className="flex flex-wrap gap-3 justify-center mb-6">
           <Button
             onClick={reenviarDocumento}
-            className="bg-white/90 backdrop-blur-sm text-purple-800 hover:bg-white border border-purple-300/30 shadow-lg font-bold flex-1 min-w-[140px]"
+            className="bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 border border-white/20 shadow-lg font-bold flex-1 min-w-[140px]"
           >
             <FileText className="h-4 w-4 mr-2" />
             Reenviar Documento
@@ -111,18 +110,18 @@ export default function UserDashboard() {
           
           <Button
             onClick={atualizarSelfie}
-            className="bg-white/90 backdrop-blur-sm text-purple-800 hover:bg-white border border-purple-300/30 shadow-lg font-bold flex-1 min-w-[140px]"
+            className="bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 border border-white/20 shadow-lg font-bold flex-1 min-w-[140px]"
           >
             <Camera className="h-4 w-4 mr-2" />
             Atualizar Selfie
           </Button>
         </div>
 
-        {/* Botão para acessar dashboard com estilo do SIM card */}
+        {/* Botão para acessar dashboard com fundo transparente */}
         <div className="text-center mb-6">
           <Button
             onClick={acessarDashboard}
-            className="bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 border border-purple-300/30 shadow-lg font-bold px-8"
+            className="bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 border border-white/20 shadow-lg font-bold px-8"
           >
             Acessar Dashboard
           </Button>
