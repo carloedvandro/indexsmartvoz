@@ -23,7 +23,7 @@ export const VerificationRejected = () => {
         <X className="w-16 h-16 text-red-400 mx-auto mb-4" />
         
         <h1 className="text-2xl font-bold text-white mb-4">
-          Verificação Reprovada ❌
+          Verificação Reprovada
         </h1>
         
         <p className="text-white/90 mb-6 leading-relaxed">
