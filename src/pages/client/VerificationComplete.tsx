@@ -33,7 +33,7 @@ export const VerificationComplete = () => {
     navigate('/client/dashboard');
   };
   return <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{backgroundColor: '#5f0889'}}>
-      <div className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/20 shadow-lg mb-4 max-w-md w-full text-center">
+      <div className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 max-w-md w-full text-center">
         <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
         
         <h1 className="text-2xl font-bold text-white mb-2">
