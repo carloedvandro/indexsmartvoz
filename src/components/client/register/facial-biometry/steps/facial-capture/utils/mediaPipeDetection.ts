@@ -4,10 +4,17 @@ import { Camera } from '@mediapipe/camera_utils';
 
 let faceDetection: FaceDetection | null = null;
 let camera: Camera | null = null;
+let isProcessing = false;
 
 export const initializeMediaPipe = async (): Promise<boolean> => {
   try {
     console.log("📦 Inicializando MediaPipe Face Detection...");
+    
+    // Limpar instância anterior se existir
+    if (faceDetection) {
+      console.log("🧹 Limpando instância anterior do MediaPipe...");
+      await cleanupMediaPipe();
+    }
     
     faceDetection = new FaceDetection({
       locateFile: (file) => {
@@ -38,6 +45,18 @@ export const detectFaceWithMediaPipe = async (
   confidence: number;
 }> => {
   try {
+    // Verificar se já está processando para evitar sobrecarga
+    if (isProcessing) {
+      console.log("⚠️ MediaPipe já está processando, pulando frame");
+      return {
+        detected: false,
+        position: { x: 0, y: 0, size: 0 },
+        proximity: "not-detected",
+        lighting: "good",
+        confidence: 0
+      };
+    }
+
     if (!faceDetection) {
       const initialized = await initializeMediaPipe();
       if (!initialized) {
@@ -45,8 +64,11 @@ export const detectFaceWithMediaPipe = async (
       }
     }
 
+    isProcessing = true;
+
     return new Promise((resolve) => {
       if (!faceDetection) {
+        isProcessing = false;
         resolve({
           detected: false,
           position: { x: 0, y: 0, size: 0 },
@@ -57,7 +79,23 @@ export const detectFaceWithMediaPipe = async (
         return;
       }
 
+      // Timeout para evitar travamento
+      const timeout = setTimeout(() => {
+        console.warn("⏰ MediaPipe timeout - liberando processamento");
+        isProcessing = false;
+        resolve({
+          detected: false,
+          position: { x: 0, y: 0, size: 0 },
+          proximity: "not-detected",
+          lighting: "good",
+          confidence: 0
+        });
+      }, 3000);
+
       faceDetection.onResults((results) => {
+        clearTimeout(timeout);
+        isProcessing = false;
+
         if (!results.detections || results.detections.length === 0) {
           resolve({
             detected: false,
@@ -89,7 +127,6 @@ export const detectFaceWithMediaPipe = async (
         const width = (box.width || 0) * video.videoWidth;
         const height = (box.height || 0) * video.videoHeight;
         
-        // Calcular proximidade baseada no tamanho da face
         const faceArea = width * height;
         const videoArea = video.videoWidth * video.videoHeight;
         const faceRatio = faceArea / videoArea;
@@ -102,7 +139,6 @@ export const detectFaceWithMediaPipe = async (
           proximity = "too-far";
         }
 
-        // Verificar se o rosto está centrado no oval
         const ovalCenterX = video.videoWidth / 2;
         const ovalCenterY = video.videoHeight / 2;
         const ovalWidth = 260;
@@ -113,10 +149,9 @@ export const detectFaceWithMediaPipe = async (
           Math.abs(centerY - ovalCenterY) < ovalHeight / 2;
 
         if (!isInOval && proximity === "ideal") {
-          proximity = "too-far"; // Força ajuste de posição
+          proximity = "too-far";
         }
 
-        // Detectar qualidade da iluminação
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         let lighting: "good" | "poor" | "too-dark" | "too-bright" = "good";
@@ -151,7 +186,6 @@ export const detectFaceWithMediaPipe = async (
           }
         }
 
-        // Corrigir acesso ao score - usar detectionConfidence ou um valor padrão
         const confidence = (detection as any).detectionConfidence || 0.5;
 
         resolve({
@@ -163,11 +197,24 @@ export const detectFaceWithMediaPipe = async (
         });
       });
 
-      // Processar o frame do vídeo
-      faceDetection.send({ image: video });
+      try {
+        faceDetection.send({ image: video });
+      } catch (error) {
+        clearTimeout(timeout);
+        isProcessing = false;
+        console.error("❌ Erro ao enviar frame para MediaPipe:", error);
+        resolve({
+          detected: false,
+          position: { x: 0, y: 0, size: 0 },
+          proximity: "not-detected",
+          lighting: "good",
+          confidence: 0
+        });
+      }
     });
 
   } catch (error) {
+    isProcessing = false;
     console.error("❌ Erro na detecção MediaPipe:", error);
     return {
       detected: false,
@@ -179,12 +226,10 @@ export const detectFaceWithMediaPipe = async (
   }
 };
 
-// Função para síntese de voz (mantida)
 export const speakInstruction = (text: string) => {
   try {
     const synth = window.speechSynthesis;
     
-    // Cancelar qualquer fala anterior
     synth.cancel();
     
     const utterance = new SpeechSynthesisUtterance(text);
@@ -199,14 +244,50 @@ export const speakInstruction = (text: string) => {
   }
 };
 
-// Cleanup function
-export const cleanupMediaPipe = () => {
-  if (faceDetection) {
-    faceDetection.close();
-    faceDetection = null;
-  }
-  if (camera) {
-    camera.stop();
-    camera = null;
+// Função de limpeza aprimorada
+export const cleanupMediaPipe = async (): Promise<void> => {
+  console.log("🧹 INICIANDO limpeza COMPLETA do MediaPipe...");
+  
+  try {
+    // Parar qualquer processamento ativo
+    isProcessing = false;
+    
+    // Parar síntese de voz
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      console.log("🔇 Síntese de voz cancelada");
+    }
+    
+    // Limpar FaceDetection
+    if (faceDetection) {
+      console.log("🛑 Fechando MediaPipe FaceDetection...");
+      try {
+        faceDetection.close();
+        console.log("✅ MediaPipe FaceDetection fechado");
+      } catch (error) {
+        console.warn("⚠️ Erro ao fechar FaceDetection:", error);
+      }
+      faceDetection = null;
+    }
+    
+    // Limpar Camera
+    if (camera) {
+      console.log("🛑 Parando MediaPipe Camera...");
+      try {
+        camera.stop();
+        console.log("✅ MediaPipe Camera parada");
+      } catch (error) {
+        console.warn("⚠️ Erro ao parar Camera:", error);
+      }
+      camera = null;
+    }
+    
+    // Aguardar um pouco para garantir limpeza
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    console.log("✅ Limpeza COMPLETA do MediaPipe concluída!");
+    
+  } catch (error) {
+    console.error("❌ Erro durante limpeza do MediaPipe:", error);
   }
 };
