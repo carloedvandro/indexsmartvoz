@@ -67,7 +67,11 @@ export const useBiometryFlow = ({ onComplete, onBack }: UseBiometryFlowProps) =>
 
   const handleDocumentTypeSelection = (type: 'rg' | 'cnh') => {
     setSelectedDocType(type);
-    handleContinue('document-front');
+    
+    // Após seleção do documento, redirecionar para tela de verificação
+    console.log("📄 Documento selecionado:", type);
+    console.log("🔄 Redirecionando para verificação de documentos...");
+    navigate("/client/document-verification");
   };
 
   const handleFacialCapture = (imageSrc: string) => {
