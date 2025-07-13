@@ -17,6 +17,7 @@ interface FacialCaptureStepProps {
 
 export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureStepProps) => {
   const webcamRef = useRef<Webcam>(null);
+  const streamRef = useRef<MediaStream | null>(null);
   const { toast } = useToast();
   const [etapa, setEtapa] = useState(0);
   const [statusText, setStatusText] = useState("Carregando câmera...");
@@ -32,6 +33,35 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
       synth.speak(voz);
     }
     setStatusText(texto);
+  };
+
+  // Função para limpar recursos da câmera
+  const cleanupCameraResources = () => {
+    console.log("🧹 Limpando recursos da câmera no FacialCaptureStep...");
+    
+    // Parar stream atual
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => {
+        console.log(`🛑 Parando track: ${track.kind} - ${track.label}`);
+        track.stop();
+      });
+      streamRef.current = null;
+    }
+    
+    // Limpar webcam
+    if (webcamRef.current?.video) {
+      const video = webcamRef.current.video;
+      if (video.srcObject) {
+        const stream = video.srcObject as MediaStream;
+        stream.getTracks().forEach(track => track.stop());
+        video.srcObject = null;
+      }
+    }
+    
+    // Cleanup MediaPipe
+    cleanupMediaPipe();
+    
+    console.log("✅ Todos os recursos da câmera liberados");
   };
 
   // Check session
@@ -63,6 +93,9 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
           video: { facingMode: 'user' } 
         });
         
+        // Armazenar referência do stream
+        streamRef.current = stream;
+        
         if (webcamRef.current?.video) {
           webcamRef.current.video.srcObject = stream;
         }
@@ -85,7 +118,8 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
 
     // Cleanup on unmount
     return () => {
-      cleanupMediaPipe();
+      console.log("🧹 FacialCaptureStep desmontando - limpando recursos");
+      cleanupCameraResources();
     };
   }, [toast]);
 
@@ -146,7 +180,14 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
           description: "Selfie capturada com sucesso!",
         });
         
-        onNext(fotoBase64);
+        // Limpar recursos da câmera antes de prosseguir
+        console.log("🧹 Limpando câmera antes de prosseguir...");
+        cleanupCameraResources();
+        
+        // Delay para garantir limpeza
+        setTimeout(() => {
+          onNext(fotoBase64);
+        }, 500);
       }
     }
   };

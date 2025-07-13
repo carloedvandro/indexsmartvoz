@@ -60,6 +60,32 @@ export const useFacialCapture = ({
     faceProximity
   });
 
+  // Função para limpar recursos da câmera
+  const cleanupCamera = useCallback(() => {
+    console.log("🧹 Limpando recursos da câmera...");
+    
+    if (webcamRef.current?.video) {
+      const video = webcamRef.current.video;
+      
+      // Parar o stream se existir
+      if (video.srcObject) {
+        const stream = video.srcObject as MediaStream;
+        stream.getTracks().forEach(track => {
+          console.log(`🛑 Parando track: ${track.kind} - ${track.label}`);
+          track.stop();
+        });
+        video.srcObject = null;
+      }
+    }
+    
+    // Parar todos os streams de mídia ativos
+    navigator.mediaDevices.getUserMedia({ video: false, audio: false }).catch(() => {
+      // Ignorar erros ao tentar parar streams inexistentes
+    });
+    
+    console.log("✅ Recursos da câmera liberados");
+  }, [webcamRef]);
+
   // Iniciar captura quando condições ideais forem atendidas
   useEffect(() => {
     if (isProcessing || isCapturing || !cameraActive) return;
@@ -151,8 +177,12 @@ export const useFacialCapture = ({
       resetProgress();
       resetStability();
       
-      // Delay para melhor UX e redirecionamento automático
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // IMPORTANTE: Limpar recursos da câmera antes de redirecionar
+      console.log("🧹 Limpando câmera antes do redirecionamento...");
+      cleanupCamera();
+      
+      // Delay para garantir que a câmera seja liberada
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
       // Redirecionar para próxima etapa automaticamente
       console.log("🔄 Redirecionando para verificação de documento...");
@@ -174,6 +204,9 @@ export const useFacialCapture = ({
   }
 
   const toggleCamera = useCallback(() => {
+    if (cameraActive) {
+      cleanupCamera();
+    }
     setCameraActive(prev => !prev);
     resetProgress();
     resetStability();
@@ -181,7 +214,15 @@ export const useFacialCapture = ({
       title: "Câmera",
       description: cameraActive ? "Câmera desativada" : "Câmera ativada",
     });
-  }, [resetProgress, resetStability, toast, cameraActive]);
+  }, [resetProgress, resetStability, toast, cameraActive, cleanupCamera]);
+
+  // Cleanup ao desmontar o componente
+  useEffect(() => {
+    return () => {
+      console.log("🧹 Componente desmontado - limpando câmera");
+      cleanupCamera();
+    };
+  }, [cleanupCamera]);
 
   return {
     isProcessing,
