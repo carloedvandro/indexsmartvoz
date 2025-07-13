@@ -72,7 +72,10 @@ export const useBiometryFlow = ({ onComplete, onBack }: UseBiometryFlowProps) =>
 
   const handleFacialCapture = (imageSrc: string) => {
     setCapturedImages(prev => ({ ...prev, facial: imageSrc }));
-    handleContinue('facial-analysis');
+    
+    // Após captura facial bem-sucedida, ir direto para verificação de documentos
+    console.log("✅ Biometria facial concluída - Redirecionando para verificação de documentos");
+    navigate("/client/document-verification");
   };
 
   const handleDocumentCapture = (imageSrc: string) => {

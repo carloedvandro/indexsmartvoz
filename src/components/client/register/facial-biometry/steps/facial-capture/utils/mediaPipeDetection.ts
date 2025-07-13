@@ -4,10 +4,27 @@ import { Camera } from '@mediapipe/camera_utils';
 
 let faceDetection: FaceDetection | null = null;
 let camera: Camera | null = null;
+let isInitialized = false;
 
+// Função para falar instruçoes
+export const speakInstruction = (text: string) => {
+  if ('speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'pt-BR';
+    utterance.rate = 1;
+    utterance.pitch = 1;
+    speechSynthesis.speak(utterance);
+  }
+};
+
+// Inicializar MediaPipe
 export const initializeMediaPipe = async (): Promise<boolean> => {
   try {
-    console.log("📦 Inicializando MediaPipe Face Detection...");
+    if (isInitialized && faceDetection) {
+      return true;
+    }
+
+    console.log("🟢 Inicializando MediaPipe Face Detection...");
     
     faceDetection = new FaceDetection({
       locateFile: (file) => {
@@ -16,11 +33,14 @@ export const initializeMediaPipe = async (): Promise<boolean> => {
     });
 
     faceDetection.setOptions({
-      model: 'short',
+      model: "short",
       minDetectionConfidence: 0.5,
     });
 
-    console.log("✅ MediaPipe Face Detection inicializado com sucesso!");
+    await faceDetection.initialize();
+    
+    isInitialized = true;
+    console.log("✅ MediaPipe inicializado com sucesso");
     return true;
   } catch (error) {
     console.error("❌ Erro ao inicializar MediaPipe:", error);
@@ -28,182 +48,150 @@ export const initializeMediaPipe = async (): Promise<boolean> => {
   }
 };
 
-export const detectFaceWithMediaPipe = async (
-  video: HTMLVideoElement
-): Promise<{
-  detected: boolean;
-  position: { x: number; y: number; size: number };
-  proximity: "ideal" | "too-close" | "too-far" | "not-detected";
-  lighting: "good" | "poor" | "too-dark" | "too-bright";
-  confidence: number;
-}> => {
+// Função principal de detecção com MediaPipe
+export const detectFaceWithMediaPipe = async (video: HTMLVideoElement) => {
   try {
-    if (!faceDetection) {
-      const initialized = await initializeMediaPipe();
-      if (!initialized) {
-        throw new Error("MediaPipe não pôde ser inicializado");
-      }
+    if (!faceDetection || !isInitialized) {
+      console.log("⚠️ MediaPipe não inicializado");
+      return {
+        detected: false,
+        position: { x: 0, y: 0, size: 0 },
+        proximity: "not-detected" as const,
+        lighting: "good" as const,
+        confidence: 0
+      };
     }
 
+    // Criar canvas para capturar frame do vídeo
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    
+    if (!ctx) {
+      throw new Error("Não foi possível criar contexto do canvas");
+    }
+
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
     return new Promise((resolve) => {
-      if (!faceDetection) {
-        resolve({
-          detected: false,
-          position: { x: 0, y: 0, size: 0 },
-          proximity: "not-detected",
-          lighting: "good",
-          confidence: 0
-        });
-        return;
-      }
+      faceDetection!.onResults((results) => {
+        if (results.detections && results.detections.length > 0) {
+          const detection = results.detections[0];
+          const bbox = detection.boundingBox;
+          
+          // Calcular posição e tamanho
+          const centerX = bbox.xCenter * canvas.width;
+          const centerY = bbox.yCenter * canvas.height;
+          const width = bbox.width * canvas.width;
+          const height = bbox.height * canvas.height;
+          const size = Math.max(width, height);
 
-      faceDetection.onResults((results) => {
-        if (!results.detections || results.detections.length === 0) {
+          // Determinar proximidade baseada no tamanho
+          let proximity: "ideal" | "too-close" | "too-far" | "not-detected";
+          if (size < 150) {
+            proximity = "too-far";
+          } else if (size > 300) {
+            proximity = "too-close";
+          } else {
+            proximity = "ideal";
+          }
+
+          // Análise básica de iluminação
+          const lighting = analyzeLighting(ctx, bbox, canvas.width, canvas.height);
+
+          console.log(`🎯 MediaPipe detectou rosto: posição (${centerX.toFixed(0)}, ${centerY.toFixed(0)}), tamanho: ${size.toFixed(0)}, proximidade: ${proximity}`);
+
+          resolve({
+            detected: true,
+            position: { x: centerX, y: centerY, size },
+            proximity,
+            lighting,
+            confidence: 0.8 // MediaPipe não fornece score direto, usar valor fixo
+          });
+        } else {
+          console.log("👤 Nenhum rosto detectado pelo MediaPipe");
           resolve({
             detected: false,
             position: { x: 0, y: 0, size: 0 },
-            proximity: "not-detected",
-            lighting: "good",
+            proximity: "not-detected" as const,
+            lighting: "good" as const,
             confidence: 0
           });
-          return;
         }
-
-        const detection = results.detections[0];
-        const box = detection.boundingBox;
-        
-        if (!box) {
-          resolve({
-            detected: false,
-            position: { x: 0, y: 0, size: 0 },
-            proximity: "not-detected",
-            lighting: "good",
-            confidence: 0
-          });
-          return;
-        }
-
-        // Converter coordenadas normalizadas para pixels
-        const centerX = (box.xCenter || 0) * video.videoWidth;
-        const centerY = (box.yCenter || 0) * video.videoHeight;
-        const width = (box.width || 0) * video.videoWidth;
-        const height = (box.height || 0) * video.videoHeight;
-        
-        // Calcular proximidade baseada no tamanho da face
-        const faceArea = width * height;
-        const videoArea = video.videoWidth * video.videoHeight;
-        const faceRatio = faceArea / videoArea;
-        
-        let proximity: "ideal" | "too-close" | "too-far" | "not-detected" = "ideal";
-        
-        if (faceRatio > 0.4) {
-          proximity = "too-close";
-        } else if (faceRatio < 0.08) {
-          proximity = "too-far";
-        }
-
-        // Verificar se o rosto está centrado no oval
-        const ovalCenterX = video.videoWidth / 2;
-        const ovalCenterY = video.videoHeight / 2;
-        const ovalWidth = 260;
-        const ovalHeight = 340;
-
-        const isInOval = 
-          Math.abs(centerX - ovalCenterX) < ovalWidth / 2 &&
-          Math.abs(centerY - ovalCenterY) < ovalHeight / 2;
-
-        if (!isInOval && proximity === "ideal") {
-          proximity = "too-far"; // Força ajuste de posição
-        }
-
-        // Detectar qualidade da iluminação
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        let lighting: "good" | "poor" | "too-dark" | "too-bright" = "good";
-        
-        if (ctx) {
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          ctx.drawImage(video, 0, 0);
-          
-          const imageData = ctx.getImageData(
-            centerX - width/2, 
-            centerY - height/2, 
-            width, 
-            height
-          );
-          const data = imageData.data;
-          
-          let totalBrightness = 0;
-          for (let i = 0; i < data.length; i += 4) {
-            const brightness = (data[i] + data[i + 1] + data[i + 2]) / 3;
-            totalBrightness += brightness;
-          }
-          
-          const avgBrightness = totalBrightness / (data.length / 4);
-          
-          if (avgBrightness < 50) {
-            lighting = "too-dark";
-          } else if (avgBrightness > 200) {
-            lighting = "too-bright";
-          } else if (avgBrightness < 80 || avgBrightness > 180) {
-            lighting = "poor";
-          }
-        }
-
-        resolve({
-          detected: true,
-          position: { x: centerX, y: centerY, size: Math.max(width, height) },
-          proximity,
-          lighting,
-          confidence: detection.score?.[0] || 0
-        });
       });
 
-      // Processar o frame do vídeo
-      faceDetection.send({ image: video });
+      // Processar imagem
+      faceDetection!.send({ image: imageData });
     });
-
   } catch (error) {
     console.error("❌ Erro na detecção MediaPipe:", error);
     return {
       detected: false,
       position: { x: 0, y: 0, size: 0 },
-      proximity: "not-detected",
-      lighting: "good",
+      proximity: "not-detected" as const,
+      lighting: "good" as const,
       confidence: 0
     };
   }
 };
 
-// Função para síntese de voz (mantida)
-export const speakInstruction = (text: string) => {
+// Análise de iluminação
+const analyzeLighting = (
+  ctx: CanvasRenderingContext2D,
+  bbox: any,
+  canvasWidth: number,
+  canvasHeight: number
+): "good" | "poor" | "too-dark" | "too-bright" => {
   try {
-    const synth = window.speechSynthesis;
+    // Área da face
+    const x = Math.max(0, (bbox.xCenter - bbox.width/2) * canvasWidth);
+    const y = Math.max(0, (bbox.yCenter - bbox.height/2) * canvasHeight);
+    const width = Math.min(canvasWidth - x, bbox.width * canvasWidth);
+    const height = Math.min(canvasHeight - y, bbox.height * canvasHeight);
+
+    const imageData = ctx.getImageData(x, y, width, height);
+    const data = imageData.data;
     
-    // Cancelar qualquer fala anterior
-    synth.cancel();
-    
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'pt-BR';
-    utterance.pitch = 1;
-    utterance.rate = 1;
-    utterance.volume = 0.8;
-    
-    synth.speak(utterance);
+    let totalBrightness = 0;
+    let pixelCount = 0;
+
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+      const brightness = (r + g + b) / 3;
+      totalBrightness += brightness;
+      pixelCount++;
+    }
+
+    const averageBrightness = totalBrightness / pixelCount;
+
+    if (averageBrightness < 50) return "too-dark";
+    if (averageBrightness > 200) return "too-bright";
+    if (averageBrightness < 80 || averageBrightness > 180) return "poor";
+    return "good";
   } catch (error) {
-    console.error("❌ Erro na síntese de voz:", error);
+    console.error("Erro na análise de iluminação:", error);
+    return "good";
   }
 };
 
-// Cleanup function
+// Cleanup
 export const cleanupMediaPipe = () => {
-  if (faceDetection) {
-    faceDetection.close();
-    faceDetection = null;
-  }
-  if (camera) {
-    camera.stop();
-    camera = null;
+  try {
+    if (camera) {
+      camera.stop();
+      camera = null;
+    }
+    if (faceDetection) {
+      faceDetection.close();
+      faceDetection = null;
+    }
+    isInitialized = false;
+    console.log("🛑 MediaPipe limpo");
+  } catch (error) {
+    console.error("Erro ao limpar MediaPipe:", error);
   }
 };
