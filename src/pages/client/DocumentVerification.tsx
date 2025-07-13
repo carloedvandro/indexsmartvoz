@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,20 +6,26 @@ import { Camera, RotateCcw } from "lucide-react";
 import Tesseract from 'tesseract.js';
 
 export const DocumentVerification = () => {
-  const [status, setStatus] = useState("Inicializando câmera...");
+  const [status, setStatus] = useState("Aguardando liberação da câmera...");
   const [isProcessing, setIsProcessing] = useState(false);
   const [cameraActive, setCameraActive] = useState(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
+  const [cameraInitialized, setCameraInitialized] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
-    iniciarCamera();
-    
-    // Cleanup ao desmontar
+    // Aguardar um pouco antes de tentar inicializar a câmera
+    // para garantir que a câmera frontal foi liberada
+    const initTimer = setTimeout(() => {
+      console.log("⏰ Tempo de espera concluído - iniciando câmera traseira");
+      iniciarCamera();
+    }, 2000); // 2 segundos de espera
+
     return () => {
+      clearTimeout(initTimer);
       if (streamRef.current) {
         streamRef.current.getTracks().forEach(track => track.stop());
       }
@@ -29,26 +34,79 @@ export const DocumentVerification = () => {
 
   const iniciarCamera = async () => {
     try {
-      setStatus("Inicializando câmera...");
+      setStatus("Verificando disponibilidade da câmera...");
       setCameraError(null);
+      setCameraInitialized(false);
 
       // Parar stream anterior se existir
       if (streamRef.current) {
+        console.log("🛑 Parando stream anterior...");
         streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
+        
+        // Aguardar um pouco após parar o stream anterior
+        await new Promise(resolve => setTimeout(resolve, 1000));
       }
 
-      const constraints = {
-        video: {
-          facingMode: "environment", // Câmera traseira para documentos
-          width: { ideal: 1280, max: 1920 },
-          height: { ideal: 720, max: 1080 }
+      // Verificar dispositivos disponíveis primeiro
+      console.log("🔍 Verificando dispositivos de câmera disponíveis...");
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoDevices = devices.filter(device => device.kind === 'videoinput');
+      console.log(`📱 ${videoDevices.length} dispositivos de vídeo encontrados:`, videoDevices);
+
+      if (videoDevices.length === 0) {
+        throw new Error("Nenhuma câmera encontrada no dispositivo");
+      }
+
+      // Tentar diferentes configurações de câmera
+      const cameraConfigs = [
+        {
+          video: {
+            facingMode: "environment", // Câmera traseira preferida
+            width: { ideal: 1280, max: 1920 },
+            height: { ideal: 720, max: 1080 }
+          },
+          audio: false
         },
-        audio: false
-      };
+        {
+          video: {
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          },
+          audio: false
+        },
+        {
+          video: true,
+          audio: false
+        }
+      ];
 
-      console.log("🎥 Tentando acessar câmera com constraints:", constraints);
+      let stream: MediaStream | null = null;
+      let lastError: Error | null = null;
 
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      for (let i = 0; i < cameraConfigs.length; i++) {
+        try {
+          console.log(`🎥 Tentativa ${i + 1}: Tentando acessar câmera com config:`, cameraConfigs[i]);
+          setStatus(`Inicializando câmera (tentativa ${i + 1}/3)...`);
+          
+          stream = await navigator.mediaDevices.getUserMedia(cameraConfigs[i]);
+          console.log(`✅ Câmera acessada com sucesso na tentativa ${i + 1}`);
+          break;
+        } catch (error: any) {
+          console.warn(`❌ Tentativa ${i + 1} falhou:`, error);
+          lastError = error;
+          
+          // Aguardar entre tentativas
+          if (i < cameraConfigs.length - 1) {
+            await new Promise(resolve => setTimeout(resolve, 1500));
+          }
+        }
+      }
+
+      if (!stream) {
+        throw lastError || new Error("Não foi possível acessar a câmera");
+      }
+
       streamRef.current = stream;
 
       if (videoRef.current) {
@@ -56,20 +114,22 @@ export const DocumentVerification = () => {
         
         // Aguardar o vídeo carregar
         videoRef.current.onloadedmetadata = () => {
-          console.log("✅ Câmera carregada com sucesso");
+          console.log("✅ Vídeo carregado - câmera pronta para uso");
           setCameraActive(true);
+          setCameraInitialized(true);
           setStatus("Posicione o documento na área visível");
         };
         
         videoRef.current.onerror = (error) => {
           console.error("❌ Erro no elemento de vídeo:", error);
-          setCameraError("Erro ao carregar vídeo da câmera");
-          setStatus("Erro na câmera");
+          setCameraError("Erro ao exibir vídeo da câmera");
+          setStatus("Erro no vídeo da câmera");
         };
       }
     } catch (error: any) {
       console.error("❌ Erro ao acessar a câmera:", error);
       setCameraActive(false);
+      setCameraInitialized(false);
       
       let errorMessage = "Erro desconhecido";
       
@@ -81,7 +141,7 @@ export const DocumentVerification = () => {
           errorMessage = "Câmera não encontrada. Verifique se há uma câmera disponível.";
           break;
         case "NotReadableError":
-          errorMessage = "Câmera em uso por outro aplicativo.";
+          errorMessage = "Câmera ocupada por outro aplicativo. Feche outros apps e tente novamente.";
           break;
         case "OverconstrainedError":
           errorMessage = "Configuração de câmera não suportada.";
@@ -102,10 +162,10 @@ export const DocumentVerification = () => {
   };
 
   const capturarEAnalisar = async () => {
-    if (!videoRef.current || isProcessing || !cameraActive) {
+    if (!videoRef.current || isProcessing || !cameraActive || !cameraInitialized) {
       toast({
         title: "Câmera não disponível",
-        description: "Aguarde a câmera carregar ou tente novamente",
+        description: "Aguarde a câmera carregar completamente ou tente novamente",
         variant: "destructive"
       });
       return;
@@ -197,9 +257,14 @@ export const DocumentVerification = () => {
     }
   };
 
-  const tentarNovamente = () => {
+  const tentarNovamente = async () => {
+    console.log("🔄 Tentando reinicializar câmera...");
     setCameraActive(false);
     setCameraError(null);
+    setCameraInitialized(false);
+    
+    // Aguardar um pouco antes de tentar novamente
+    await new Promise(resolve => setTimeout(resolve, 1000));
     iniciarCamera();
   };
 
@@ -207,7 +272,7 @@ export const DocumentVerification = () => {
     <div className="min-h-screen bg-primary flex flex-col items-center justify-center p-4">
       {/* Área da câmera */}
       <div className="w-[340px] h-[220px] border-4 border-gray-300 rounded-xl overflow-hidden relative bg-black">
-        {cameraActive ? (
+        {cameraActive && cameraInitialized ? (
           <video 
             ref={videoRef} 
             autoPlay 
@@ -218,7 +283,7 @@ export const DocumentVerification = () => {
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center">
             <Camera className="h-12 w-12 text-white/50 mb-2" />
-            <p className="text-white/70 text-sm text-center">
+            <p className="text-white/70 text-sm text-center px-2">
               {cameraError ? "Câmera indisponível" : "Carregando câmera..."}
             </p>
           </div>
@@ -231,7 +296,7 @@ export const DocumentVerification = () => {
       </div>
       
       {/* Status */}
-      <div className="text-white text-center mt-0.5 min-h-[24px]">
+      <div className="text-white text-center mt-0.5 min-h-[24px] px-4">
         {status}
       </div>
       
@@ -239,7 +304,7 @@ export const DocumentVerification = () => {
       <div className="flex flex-col gap-2 mt-[30px] w-full">
         <Button 
           onClick={capturarEAnalisar} 
-          disabled={isProcessing || !cameraActive}
+          disabled={isProcessing || !cameraActive || !cameraInitialized}
           className="px-4 py-4 bg-transparent backdrop-blur-sm border border-white/30 shadow-lg text-white hover:bg-white/20"
         >
           {isProcessing ? "Processando..." : "Escanear documento"}
