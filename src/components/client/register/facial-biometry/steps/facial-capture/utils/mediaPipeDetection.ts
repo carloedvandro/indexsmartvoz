@@ -151,12 +151,15 @@ export const detectFaceWithMediaPipe = async (
           }
         }
 
+        // Corrigir acesso ao score - usar detectionConfidence ou um valor padrão
+        const confidence = (detection as any).detectionConfidence || 0.5;
+
         resolve({
           detected: true,
           position: { x: centerX, y: centerY, size: Math.max(width, height) },
           proximity,
           lighting,
-          confidence: detection.score?.[0] || 0
+          confidence
         });
       });
 
