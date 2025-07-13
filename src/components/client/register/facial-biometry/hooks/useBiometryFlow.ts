@@ -94,14 +94,8 @@ export const useBiometryFlow = ({ onComplete, onBack }: UseBiometryFlowProps) =>
       return;
     }
 
-    if (onComplete) {
-      onComplete({
-        facialVerification: true,
-        documentVerification: true,
-      });
-    } else {
-      navigate("/client/dashboard");
-    }
+    // Navegar para a tela de verificação de documentos
+    navigate("/client/document-verification");
   };
 
   return {

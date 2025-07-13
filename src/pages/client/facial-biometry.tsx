@@ -1,11 +1,9 @@
 
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FacialBiometryFlow } from "@/components/client/register/facial-biometry/FacialBiometryFlow";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
 
 export default function FacialBiometry() {
   const navigate = useNavigate();
@@ -34,12 +32,11 @@ export default function FacialBiometry() {
 
       const userId = sessionData.session.user.id;
       
-      // Update user's profile with verification status - using only existing columns
+      // Update user's profile with verification status
       const { error } = await supabase
         .from('profiles')
         .update({
           facial_verification_status: verificationData.facialVerification ? 'verified' : 'failed',
-          document_verification_status: verificationData.documentVerification ? 'verified' : 'failed',
           facial_biometry_status: 'completed',
           facial_biometry_date: new Date().toISOString()
         })
@@ -51,17 +48,17 @@ export default function FacialBiometry() {
       }
 
       toast({
-        title: "Verificação Concluída",
-        description: "Agora vamos selecionar seu plano!",
+        title: "Biometria Facial Concluída",
+        description: "Agora vamos verificar seus documentos!",
       });
       
-      // Navigate to plan selection instead of dashboard
-      navigate("/client/plan-selection");
+      // Navigate to document verification
+      navigate("/client/document-verification");
     } catch (error: any) {
       console.error("Verification completion error:", error);
       toast({
-        title: "Erro ao finalizar verificação",
-        description: error.message || "Ocorreu um erro ao salvar os dados de verificação.",
+        title: "Erro ao finalizar biometria",
+        description: error.message || "Ocorreu um erro ao salvar os dados de biometria.",
         variant: "destructive",
       });
     } finally {
@@ -92,5 +89,4 @@ export default function FacialBiometry() {
       </div>
     </div>
   );
-};
-
+}
