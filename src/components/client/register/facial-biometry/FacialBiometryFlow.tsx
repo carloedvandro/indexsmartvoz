@@ -19,6 +19,7 @@ export const FacialBiometryFlow = ({
     selectedDocType,
     facialVideoConstraints,
     documentVideoConstraints,
+    isReleasingCamera,
     handleBack,
     handleContinue,
     handleDocumentTypeSelection,
@@ -45,7 +46,8 @@ export const FacialBiometryFlow = ({
           currentStep={currentStep} 
           selectedDocType={selectedDocType} 
           facialVideoConstraints={facialVideoConstraints} 
-          documentVideoConstraints={documentVideoConstraints} 
+          documentVideoConstraints={documentVideoConstraints}
+          isReleasingCamera={isReleasingCamera}
           onContinue={handleContinue} 
           onBack={handleBack} 
           onDocumentTypeSelection={handleDocumentTypeSelection} 

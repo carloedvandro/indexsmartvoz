@@ -33,8 +33,9 @@ export const StepRenderer = ({
   onDocumentTypeSelection,
   onFacialCapture,
   onDocumentCapture,
-  onComplete
-}: StepRendererProps) => {
+  onComplete,
+  isReleasingCamera
+}: StepRendererProps & { isReleasingCamera?: boolean }) => {
   switch (currentStep) {
     case 'cpf-verification':
       return <CpfVerificationStep onNext={() => onContinue('camera-access')} />;
@@ -79,7 +80,14 @@ export const StepRenderer = ({
       );
     
     case 'document-type':
-      return <DocumentTypeStep onSelectDocType={onDocumentTypeSelection} step={0} totalSteps={0} />;
+      return (
+        <DocumentTypeStep 
+          onSelectDocType={onDocumentTypeSelection} 
+          step={0} 
+          totalSteps={0}
+          isReleasingCamera={isReleasingCamera}
+        />
+      );
     
     default:
       return null;

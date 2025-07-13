@@ -2,15 +2,16 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { FileImage, FileText } from "lucide-react";
+import { FileImage, FileText, Loader2 } from "lucide-react";
 
 interface DocumentTypeStepProps {
   onSelectDocType: (type: 'rg' | 'cnh') => void;
   step: number;
   totalSteps: number;
+  isReleasingCamera?: boolean;
 }
 
-export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => {
+export const DocumentTypeStep = ({ onSelectDocType, isReleasingCamera }: DocumentTypeStepProps) => {
   const [selectedType, setSelectedType] = useState<'rg' | 'cnh' | null>(null);
 
   const handleSelect = (type: 'rg' | 'cnh') => {
@@ -38,8 +39,8 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
                 selectedType === 'rg' 
                 ? 'ring-2 ring-[#8425af] bg-[#8425af]/5 border-[#8425af]' 
                 : 'bg-white hover:bg-gray-50 border-gray-200'
-              }`}
-              onClick={() => handleSelect('rg')}
+              } ${isReleasingCamera ? 'opacity-50 pointer-events-none' : ''}`}
+              onClick={() => !isReleasingCamera && handleSelect('rg')}
             >
               <CardContent className="p-5 flex items-center">
                 <div className="mr-4 bg-[#8425af]/10 p-2 rounded-full">
@@ -57,8 +58,8 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
                 selectedType === 'cnh' 
                 ? 'ring-2 ring-[#8425af] bg-[#8425af]/5 border-[#8425af]' 
                 : 'bg-white hover:bg-gray-50 border-gray-200'
-              }`}
-              onClick={() => handleSelect('cnh')}
+              } ${isReleasingCamera ? 'opacity-50 pointer-events-none' : ''}`}
+              onClick={() => !isReleasingCamera && handleSelect('cnh')}
             >
               <CardContent className="p-5 flex items-center">
                 <div className="mr-4 bg-[#8425af]/10 p-2 rounded-full">
@@ -71,6 +72,20 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
               </CardContent>
             </Card>
           </div>
+
+          {isReleasingCamera && (
+            <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="flex items-center justify-center space-x-2">
+                <Loader2 className="h-5 w-5 animate-spin text-blue-600" />
+                <p className="text-sm text-blue-800 font-medium">
+                  Liberando câmera, aguarde...
+                </p>
+              </div>
+              <p className="text-xs text-blue-600 text-center mt-2">
+                Garantindo que a câmera seja completamente liberada antes de prosseguir
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -78,10 +93,17 @@ export const DocumentTypeStep = ({ onSelectDocType }: DocumentTypeStepProps) => 
       <div className="fixed bottom-0 left-0 right-0 bg-white">
         <Button
           onClick={handleContinue}
-          disabled={!selectedType}
-          className="w-full h-12 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none"
+          disabled={!selectedType || isReleasingCamera}
+          className="w-full h-12 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none disabled:opacity-50"
         >
-          AVANÇAR
+          {isReleasingCamera ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              LIBERANDO CÂMERA...
+            </>
+          ) : (
+            'AVANÇAR'
+          )}
         </Button>
       </div>
     </div>
