@@ -17,17 +17,41 @@ export const DocumentVerification = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Aguardar um pouco antes de tentar inicializar a câmera
-    // para garantir que a câmera frontal foi liberada
-    const initTimer = setTimeout(() => {
-      console.log("⏰ Tempo de espera concluído - iniciando câmera traseira");
-      iniciarCamera();
-    }, 2000); // 2 segundos de espera
-
-    return () => {
-      clearTimeout(initTimer);
+    // Forçar limpeza completa antes de tentar inicializar
+    const initCamera = async () => {
+      console.log("📱 Iniciando limpeza completa de recursos de câmera...");
+      
+      // Parar qualquer stream ativo primeiro
       if (streamRef.current) {
         streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
+      }
+      
+      // Limpar qualquer video element
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+      }
+      
+      // Forçar liberação de todos os recursos de mídia
+      await verificarELiberarCamera();
+      
+      // Aguardar antes de tentar inicializar
+      console.log("⏰ Iniciando câmera em 3 segundos...");
+      setTimeout(() => {
+        iniciarCamera();
+      }, 3000);
+    };
+
+    initCamera();
+
+    return () => {
+      console.log("🧹 Limpando recursos na desmontagem do componente");
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
+      }
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
       }
     };
   }, []);
