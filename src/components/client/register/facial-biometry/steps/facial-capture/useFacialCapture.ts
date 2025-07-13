@@ -151,11 +151,13 @@ export const useFacialCapture = ({
       resetProgress();
       resetStability();
       
-      // Delay para melhor UX
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Delay para melhor UX e redirecionamento automático
+      await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Chamar onComplete para continuar o fluxo
-      console.log("🔄 Continuando para próxima etapa...");
+      // Redirecionar para próxima etapa automaticamente
+      console.log("🔄 Redirecionando para verificação de documento...");
+      window.location.href = '/client/document-verification';
+      
       onComplete(imageSrc);
     } catch (error) {
       console.error('❌ Erro durante upload da imagem:', error);

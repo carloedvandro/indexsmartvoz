@@ -1,113 +1,209 @@
 
-// @ts-ignore
 import { FaceDetection } from '@mediapipe/face_detection';
-// @ts-ignore  
 import { Camera } from '@mediapipe/camera_utils';
 
-let faceDetection: any = null;
-let camera: any = null;
+let faceDetection: FaceDetection | null = null;
+let camera: Camera | null = null;
 
-export const initializeMediaPipe = async (): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    try {
-      console.log("🔧 Inicializando MediaPipe Face Detection...");
-      
-      faceDetection = new FaceDetection({
-        locateFile: (file: string) => {
-          return `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`;
-        }
-      });
+export const initializeMediaPipe = async (): Promise<boolean> => {
+  try {
+    console.log("📦 Inicializando MediaPipe Face Detection...");
+    
+    faceDetection = new FaceDetection({
+      locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`;
+      }
+    });
 
-      faceDetection.setOptions({
-        model: 'short',
-        minDetectionConfidence: 0.5,
-      });
+    faceDetection.setOptions({
+      model: 'short',
+      minDetectionConfidence: 0.5,
+    });
 
-      faceDetection.onResults((results: any) => {
-        // Processar resultados da detecção
-        if (results.detections && results.detections.length > 0) {
-          console.log("✅ Rosto detectado pelo MediaPipe:", results.detections.length);
-        }
-      });
-
-      console.log("✅ MediaPipe inicializado com sucesso");
-      resolve();
-    } catch (error) {
-      console.error("❌ Erro ao inicializar MediaPipe:", error);
-      reject(error);
-    }
-  });
+    console.log("✅ MediaPipe Face Detection inicializado com sucesso!");
+    return true;
+  } catch (error) {
+    console.error("❌ Erro ao inicializar MediaPipe:", error);
+    return false;
+  }
 };
 
-export const detectFacesMediaPipe = async (
-  videoElement: HTMLVideoElement
-): Promise<any[]> => {
-  return new Promise((resolve) => {
-    if (!faceDetection || !videoElement) {
-      console.log("⚠️ MediaPipe não inicializado ou elemento de vídeo inválido");
-      resolve([]);
-      return;
+export const detectFaceWithMediaPipe = async (
+  video: HTMLVideoElement
+): Promise<{
+  detected: boolean;
+  position: { x: number; y: number; size: number };
+  proximity: "ideal" | "too-close" | "too-far" | "not-detected";
+  lighting: "good" | "poor" | "too-dark" | "too-bright";
+  confidence: number;
+}> => {
+  try {
+    if (!faceDetection) {
+      const initialized = await initializeMediaPipe();
+      if (!initialized) {
+        throw new Error("MediaPipe não pôde ser inicializado");
+      }
     }
 
-    try {
-      // Criar canvas para capturar frame do vídeo
-      const canvas = document.createElement('canvas');
-      canvas.width = videoElement.videoWidth;
-      canvas.height = videoElement.videoHeight;
-      const ctx = canvas.getContext('2d');
-      
-      if (!ctx) {
-        resolve([]);
+    return new Promise((resolve) => {
+      if (!faceDetection) {
+        resolve({
+          detected: false,
+          position: { x: 0, y: 0, size: 0 },
+          proximity: "not-detected",
+          lighting: "good",
+          confidence: 0
+        });
         return;
       }
 
-      // Desenhar frame atual do vídeo no canvas
-      ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+      faceDetection.onResults((results) => {
+        if (!results.detections || results.detections.length === 0) {
+          resolve({
+            detected: false,
+            position: { x: 0, y: 0, size: 0 },
+            proximity: "not-detected",
+            lighting: "good",
+            confidence: 0
+          });
+          return;
+        }
 
-      // Converter canvas para HTMLImageElement para MediaPipe
-      const img = new Image();
-      img.onload = () => {
-        // Processar com MediaPipe usando HTMLImageElement
-        faceDetection.send({ image: img });
+        const detection = results.detections[0];
+        const box = detection.boundingBox;
         
-        // Simular detecção básica para manter funcionalidade
-        // Em um ambiente real, você usaria os callbacks do MediaPipe
-        const mockDetection = [{
-          box: { x: 100, y: 100, width: 200, height: 200 },
-          confidence: 0.8
-        }];
+        if (!box) {
+          resolve({
+            detected: false,
+            position: { x: 0, y: 0, size: 0 },
+            proximity: "not-detected",
+            lighting: "good",
+            confidence: 0
+          });
+          return;
+        }
+
+        // Converter coordenadas normalizadas para pixels
+        const centerX = (box.xCenter || 0) * video.videoWidth;
+        const centerY = (box.yCenter || 0) * video.videoHeight;
+        const width = (box.width || 0) * video.videoWidth;
+        const height = (box.height || 0) * video.videoHeight;
         
-        resolve(mockDetection);
-      };
-      
-      img.onerror = () => {
-        console.log("⚠️ Erro ao carregar imagem para MediaPipe");
-        resolve([]);
-      };
-      
-      img.src = canvas.toDataURL();
-      
-    } catch (error) {
-      console.error("❌ Erro na detecção MediaPipe:", error);
-      resolve([]);
-    }
-  });
+        // Calcular proximidade baseada no tamanho da face
+        const faceArea = width * height;
+        const videoArea = video.videoWidth * video.videoHeight;
+        const faceRatio = faceArea / videoArea;
+        
+        let proximity: "ideal" | "too-close" | "too-far" | "not-detected" = "ideal";
+        
+        if (faceRatio > 0.4) {
+          proximity = "too-close";
+        } else if (faceRatio < 0.08) {
+          proximity = "too-far";
+        }
+
+        // Verificar se o rosto está centrado no oval
+        const ovalCenterX = video.videoWidth / 2;
+        const ovalCenterY = video.videoHeight / 2;
+        const ovalWidth = 260;
+        const ovalHeight = 340;
+
+        const isInOval = 
+          Math.abs(centerX - ovalCenterX) < ovalWidth / 2 &&
+          Math.abs(centerY - ovalCenterY) < ovalHeight / 2;
+
+        if (!isInOval && proximity === "ideal") {
+          proximity = "too-far"; // Força ajuste de posição
+        }
+
+        // Detectar qualidade da iluminação
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        let lighting: "good" | "poor" | "too-dark" | "too-bright" = "good";
+        
+        if (ctx) {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          ctx.drawImage(video, 0, 0);
+          
+          const imageData = ctx.getImageData(
+            centerX - width/2, 
+            centerY - height/2, 
+            width, 
+            height
+          );
+          const data = imageData.data;
+          
+          let totalBrightness = 0;
+          for (let i = 0; i < data.length; i += 4) {
+            const brightness = (data[i] + data[i + 1] + data[i + 2]) / 3;
+            totalBrightness += brightness;
+          }
+          
+          const avgBrightness = totalBrightness / (data.length / 4);
+          
+          if (avgBrightness < 50) {
+            lighting = "too-dark";
+          } else if (avgBrightness > 200) {
+            lighting = "too-bright";
+          } else if (avgBrightness < 80 || avgBrightness > 180) {
+            lighting = "poor";
+          }
+        }
+
+        resolve({
+          detected: true,
+          position: { x: centerX, y: centerY, size: Math.max(width, height) },
+          proximity,
+          lighting,
+          confidence: detection.score?.[0] || 0
+        });
+      });
+
+      // Processar o frame do vídeo
+      faceDetection.send({ image: video });
+    });
+
+  } catch (error) {
+    console.error("❌ Erro na detecção MediaPipe:", error);
+    return {
+      detected: false,
+      position: { x: 0, y: 0, size: 0 },
+      proximity: "not-detected",
+      lighting: "good",
+      confidence: 0
+    };
+  }
 };
 
-export const cleanupMediaPipe = (): void => {
+// Função para síntese de voz (mantida)
+export const speakInstruction = (text: string) => {
   try {
-    if (camera) {
-      camera.stop();
-      camera = null;
-    }
+    const synth = window.speechSynthesis;
     
-    if (faceDetection) {
-      faceDetection.close();
-      faceDetection = null;
-    }
+    // Cancelar qualquer fala anterior
+    synth.cancel();
     
-    console.log("🧹 MediaPipe limpo com sucesso");
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'pt-BR';
+    utterance.pitch = 1;
+    utterance.rate = 1;
+    utterance.volume = 0.8;
+    
+    synth.speak(utterance);
   } catch (error) {
-    console.error("❌ Erro ao limpar MediaPipe:", error);
+    console.error("❌ Erro na síntese de voz:", error);
+  }
+};
+
+// Cleanup function
+export const cleanupMediaPipe = () => {
+  if (faceDetection) {
+    faceDetection.close();
+    faceDetection = null;
+  }
+  if (camera) {
+    camera.stop();
+    camera = null;
   }
 };
