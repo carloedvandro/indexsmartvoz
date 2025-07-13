@@ -32,11 +32,54 @@ export const DocumentVerification = () => {
     };
   }, []);
 
+  // Função para verificar e liberar câmera ocupada
+  const verificarELiberarCamera = async (): Promise<boolean> => {
+    try {
+      console.log("🔍 Verificando se há câmeras ativas...");
+      
+      // Tentar obter uma lista de todas as tracks ativas
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoDevices = devices.filter(device => device.kind === 'videoinput');
+      
+      // Tentar acessar brevemente cada câmera para detectar se está ocupada
+      for (const device of videoDevices) {
+        try {
+          console.log(`🎥 Testando disponibilidade da câmera: ${device.label || device.deviceId}`);
+          const testStream = await navigator.mediaDevices.getUserMedia({
+            video: { deviceId: device.deviceId },
+            audio: false
+          });
+          
+          // Se conseguiu acessar, liberar imediatamente
+          testStream.getTracks().forEach(track => {
+            console.log(`✅ Liberando track da câmera: ${device.label || device.deviceId}`);
+            track.stop();
+          });
+        } catch (error: any) {
+          if (error.name === 'NotReadableError') {
+            console.log(`🔒 Câmera ocupada detectada: ${device.label || device.deviceId}`);
+          }
+        }
+      }
+      
+      // Aguardar um momento para garantir que todas as câmeras foram liberadas
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      console.log("✅ Processo de liberação de câmeras concluído");
+      return true;
+    } catch (error) {
+      console.warn("⚠️ Erro ao verificar câmeras:", error);
+      return false;
+    }
+  };
+
   const iniciarCamera = async () => {
     try {
-      setStatus("Verificando disponibilidade da câmera...");
+      setStatus("Verificando e liberando câmeras ocupadas...");
       setCameraError(null);
       setCameraInitialized(false);
+
+      // Primeiro, verificar e liberar câmeras ocupadas
+      await verificarELiberarCamera();
 
       // Parar stream anterior se existir
       if (streamRef.current) {
@@ -47,6 +90,8 @@ export const DocumentVerification = () => {
         // Aguardar um pouco após parar o stream anterior
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
+
+      setStatus("Verificando disponibilidade da câmera...");
 
       // Verificar dispositivos disponíveis primeiro
       console.log("🔍 Verificando dispositivos de câmera disponíveis...");
