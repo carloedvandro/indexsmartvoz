@@ -1,7 +1,7 @@
 
 import { useEffect, useRef } from "react";
+import { detectFaceWithMediaPipe, speakInstruction, initializeMediaPipe } from "../utils/mediaPipeDetection";
 import { detectFaceInFrame } from "../utils/faceDetectionCore";
-import { detectFaceWithFaceApi, speakInstruction } from "../utils/faceApiDetection";
 
 interface UseFaceDetectionIntervalProps {
   webcamRef: React.RefObject<any>;
@@ -15,6 +15,7 @@ export const useFaceDetectionInterval = ({
   onDetectionResult
 }: UseFaceDetectionIntervalProps) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const mediaPipeInitialized = useRef(false);
 
   useEffect(() => {
     if (!isActive) {
@@ -25,7 +26,18 @@ export const useFaceDetectionInterval = ({
       return;
     }
 
-    console.log("🟢 DETECÇÃO HABILITADA - Iniciando verificação contínua");
+    console.log("🟢 DETECÇÃO HABILITADA - Iniciando verificação contínua com MediaPipe");
+
+    // Inicializar MediaPipe uma vez
+    const initMediaPipe = async () => {
+      if (!mediaPipeInitialized.current) {
+        const success = await initializeMediaPipe();
+        mediaPipeInitialized.current = success;
+        console.log(`📦 MediaPipe inicializado: ${success}`);
+      }
+    };
+
+    initMediaPipe();
 
     intervalRef.current = setInterval(async () => {
       if (webcamRef.current?.video) {
@@ -41,19 +53,23 @@ export const useFaceDetectionInterval = ({
             return;
           }
           
-          console.log("🔍 ANALISANDO FRAME COM FACE-API.JS");
+          console.log("🔍 ANALISANDO FRAME COM MEDIAPIPE");
           
-          // Tentar face-api.js primeiro, fallback para detecção simples
+          // Tentar MediaPipe primeiro, fallback para detecção simples
           let result;
           try {
-            result = await detectFaceWithFaceApi(video);
-            console.log("🎯 FACE-API.JS RESULTADO:", {
-              detected: result.detected,
-              proximity: result.proximity,
-              confidence: result.confidence
-            });
+            if (mediaPipeInitialized.current) {
+              result = await detectFaceWithMediaPipe(video);
+              console.log("🎯 MEDIAPIPE RESULTADO:", {
+                detected: result.detected,
+                proximity: result.proximity,
+                confidence: result.confidence
+              });
+            } else {
+              throw new Error("MediaPipe não inicializado");
+            }
           } catch (error) {
-            console.log("⚠️ Face-api.js falhou, usando detecção fallback");
+            console.log("⚠️ MediaPipe falhou, usando detecção fallback");
             result = await detectFaceInFrame(video);
           }
           
@@ -77,7 +93,7 @@ export const useFaceDetectionInterval = ({
         console.log("⚠️ Elemento de vídeo não disponível");
         onDetectionResult(false, { x: 0, y: 0, size: 0 }, "not-detected", "good");
       }
-    }, 800); // Intervalo otimizado para face-api.js - 800ms
+    }, 500); // Intervalo otimizado para MediaPipe - 500ms
 
     return () => {
       if (intervalRef.current) {
