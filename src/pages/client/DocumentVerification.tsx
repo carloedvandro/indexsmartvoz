@@ -71,7 +71,6 @@ export const DocumentVerification = () => {
   };
 
   const iniciarCamera = async () => {
-    debugger;
     if (cameraActive || streamRef.current) {
       console.warn("⚠️ A câmera já está ativa.");
       return;
@@ -147,13 +146,30 @@ export const DocumentVerification = () => {
 
         videoRef.current.onloadedmetadata = () => {
           console.log("📹 Metadados do vídeo carregados, iniciando reprodução...");
-          videoRef.current?.play().then(() => {
-            console.log("✅ Vídeo iniciado com sucesso");
-            setStatus("Posicione o documento na área visível");
-          }).catch((error) => {
-            console.error("❌ Erro ao iniciar vídeo:", error);
-            setStatus("Erro ao iniciar vídeo");
-          });
+          
+          if (videoRef.current) {
+            // Verificar se o vídeo está pronto para reprodução
+            console.log("📊 Estado do vídeo:", {
+              readyState: videoRef.current.readyState,
+              videoWidth: videoRef.current.videoWidth,
+              videoHeight: videoRef.current.videoHeight,
+              currentTime: videoRef.current.currentTime
+            });
+            
+            videoRef.current.play().then(() => {
+              console.log("✅ Vídeo iniciado com sucesso");
+              setStatus("Posicione o documento na área visível");
+            }).catch((error) => {
+              console.error("❌ Erro ao iniciar vídeo:", error);
+              console.error("❌ Detalhes do erro:", {
+                name: error.name,
+                message: error.message,
+                code: error.code
+              });
+              setStatus("Erro ao iniciar vídeo - clique em 'Tentar novamente'");
+              setCameraError("Falha no autoplay do vídeo");
+            });
+          }
         };
 
         videoRef.current.onerror = (error) => {
