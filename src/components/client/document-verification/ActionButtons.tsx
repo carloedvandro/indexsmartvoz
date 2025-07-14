@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { RotateCcw } from "lucide-react";
+import { RotateCcw, Play } from "lucide-react";
 
 interface ActionButtonsProps {
   onCapture: () => void;
@@ -19,8 +19,30 @@ export const ActionButtons = ({
   videoReady,
   cameraError
 }: ActionButtonsProps) => {
+  const handleManualPlay = () => {
+    const video = document.querySelector('video');
+    if (video) {
+      console.log("🎬 Tentativa manual de reprodução do vídeo");
+      video.play().then(() => {
+        console.log("✅ Reprodução manual bem-sucedida");
+      }).catch((error) => {
+        console.error("❌ Falha na reprodução manual:", error);
+      });
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2 mt-[30px] w-full">
+      {cameraActive && !videoReady && cameraError === "Interação necessária para ativar câmera" && (
+        <Button
+          onClick={handleManualPlay}
+          className="px-4 py-4 bg-green-600 hover:bg-green-700 text-white"
+        >
+          <Play className="h-4 w-4 mr-2" />
+          Ativar Câmera
+        </Button>
+      )}
+
       <Button
         onClick={onCapture}
         disabled={isProcessing || !cameraActive || !videoReady}
