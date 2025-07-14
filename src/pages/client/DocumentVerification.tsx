@@ -34,11 +34,11 @@ export const DocumentVerification = () => {
   const verificarELiberarCamera = async (): Promise<boolean> => {
     try {
       console.log("🔍 Verificando se há câmeras ativas...");
-      
+
       // Tentar obter uma lista de todas as tracks ativas
       const devices = await navigator.mediaDevices.enumerateDevices();
       const videoDevices = devices.filter(device => device.kind === 'videoinput');
-      
+
       // Tentar acessar brevemente cada câmera para detectar se está ocupada
       for (const device of videoDevices) {
         try {
@@ -47,7 +47,7 @@ export const DocumentVerification = () => {
             video: { deviceId: device.deviceId },
             audio: false
           });
-          
+
           // Se conseguiu acessar, liberar imediatamente
           testStream.getTracks().forEach(track => {
             console.log(`✅ Liberando track da câmera: ${device.label || device.deviceId}`);
@@ -59,7 +59,7 @@ export const DocumentVerification = () => {
           }
         }
       }
-      
+
       // Aguardar um momento para garantir que todas as câmeras foram liberadas
       await new Promise(resolve => setTimeout(resolve, 2000));
       console.log("✅ Processo de liberação de câmeras concluído");
@@ -71,6 +71,7 @@ export const DocumentVerification = () => {
   };
 
   const iniciarCamera = async () => {
+    debugger;
     if (cameraActive || streamRef.current) {
       console.warn("⚠️ A câmera já está ativa.");
       return;
@@ -139,11 +140,11 @@ export const DocumentVerification = () => {
       if (videoRef.current) {
         console.log("🎥 Configurando vídeo da câmera...");
         videoRef.current.srcObject = stream;
-        
+
         // Configurar estados imediatamente após receber o stream
         setCameraActive(true);
         setCameraInitialized(true);
-        
+
         videoRef.current.onloadedmetadata = () => {
           console.log("📹 Metadados do vídeo carregados, iniciando reprodução...");
           videoRef.current?.play().then(() => {
@@ -154,7 +155,7 @@ export const DocumentVerification = () => {
             setStatus("Erro ao iniciar vídeo");
           });
         };
-        
+
         videoRef.current.onerror = (error) => {
           console.error("❌ Erro no elemento de vídeo:", error);
           setCameraError("Erro ao exibir vídeo da câmera");
