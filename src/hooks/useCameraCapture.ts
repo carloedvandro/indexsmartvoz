@@ -1,5 +1,5 @@
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
 import Tesseract from 'tesseract.js';
 
@@ -11,24 +11,24 @@ export const useCameraCapture = () => {
   const [videoReady, setVideoReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const initializationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
 
-  useEffect(() => {
-    const initTimer = setTimeout(() => {
-      iniciarCamera();
-    }, 2000);
+  const iniciarCamera = useCallback(async () => {
+    console.log("🎬 Tentando iniciar câmera...");
+    console.log("📹 Estado do videoRef:", {
+      exists: !!videoRef.current,
+      readyState: videoRef.current?.readyState,
+      networkState: videoRef.current?.networkState
+    });
 
-    return () => {
-      console.log("🧹 Limpando recursos na desmontagem do componente");
-      clearTimeout(initTimer);
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach(track => track.stop());
-        streamRef.current = null;
-      }
-    };
-  }, []);
+    if (!videoRef.current) {
+      console.error("❌ videoRef.current é null - aguardando elemento estar disponível");
+      setStatus("Aguardando elemento de vídeo...");
+      setCameraError("Elemento de vídeo não encontrado");
+      return;
+    }
 
-  const iniciarCamera = async () => {
     if (cameraActive || streamRef.current) {
       console.warn("⚠️ A câmera já está ativa.");
       return;
@@ -111,102 +111,103 @@ export const useCameraCapture = () => {
 
       streamRef.current = stream;
 
-      if (videoRef.current) {
-        console.log("🎥 Configurando vídeo da câmera...");
-        console.log("📹 Estado do videoRef antes da configuração:", {
-          exists: !!videoRef.current,
-          readyState: videoRef.current.readyState,
-          networkState: videoRef.current.networkState,
-          paused: videoRef.current.paused
-        });
-
-        videoRef.current.srcObject = stream;
-        setCameraActive(true);
-        setStatus("Carregando vídeo da câmera...");
-
-        // Event listeners para debug
-        videoRef.current.oncanplay = () => {
-          console.log("🎬 Evento oncanplay disparado");
-        };
-
-        videoRef.current.onloadstart = () => {
-          console.log("🎬 Evento onloadstart disparado");
-        };
-
-        videoRef.current.onloadeddata = () => {
-          console.log("🎬 Evento onloadeddata disparado");
-        };
-
-        videoRef.current.onloadedmetadata = () => {
-          console.log("📹 Metadados do vídeo carregados");
-          
-          if (videoRef.current) {
-            console.log("📊 Estado do vídeo após metadados:", {
-              readyState: videoRef.current.readyState,
-              videoWidth: videoRef.current.videoWidth,
-              videoHeight: videoRef.current.videoHeight,
-              currentTime: videoRef.current.currentTime,
-              duration: videoRef.current.duration,
-              paused: videoRef.current.paused,
-              ended: videoRef.current.ended
-            });
-            
-            // Verificar se o elemento está visível
-            const rect = videoRef.current.getBoundingClientRect();
-            console.log("📐 Posição do vídeo:", {
-              width: rect.width,
-              height: rect.height,
-              visible: rect.width > 0 && rect.height > 0
-            });
-
-            console.log("🎬 Tentando iniciar reprodução do vídeo...");
-            
-            videoRef.current.play().then(() => {
-              console.log("✅ Vídeo iniciado com sucesso");
-              setVideoReady(true);
-              setStatus("Posicione o documento na área visível");
-            }).catch((error) => {
-              console.error("❌ Erro ao iniciar vídeo:", {
-                name: error.name,
-                message: error.message,
-                code: error.code
-              });
-              
-              // Tentar forçar o play em alguns casos específicos
-              if (error.name === 'NotAllowedError') {
-                setStatus("Clique para ativar a câmera");
-                setCameraError("Interação necessária para ativar câmera");
-              } else {
-                setStatus("Erro ao iniciar vídeo - clique em 'Tentar novamente'");
-                setCameraError("Falha no autoplay do vídeo");
-              }
-              
-              setCameraActive(false);
-              setVideoReady(false);
-            });
-          }
-        };
-
-        videoRef.current.onerror = (error) => {
-          console.error("❌ Erro no elemento de vídeo:", error);
-          console.error("❌ Detalhes do erro do vídeo:", {
-            error: videoRef.current?.error,
-            networkState: videoRef.current?.networkState,
-            readyState: videoRef.current?.readyState
-          });
-          setCameraError("Erro ao exibir vídeo da câmera");
-          setStatus("Erro no vídeo da câmera");
-          setCameraActive(false);
-          setVideoReady(false);
-        };
-
-        // Forçar o load do vídeo
-        console.log("🔄 Forçando load do vídeo...");
-        videoRef.current.load();
-      } else {
-        console.error("❌ videoRef.current é null!");
-        throw new Error("Elemento de vídeo não encontrado");
+      // Verificar novamente se o videoRef ainda existe após o async
+      if (!videoRef.current) {
+        console.error("❌ videoRef.current se tornou null durante inicialização");
+        throw new Error("Elemento de vídeo foi desmontado durante inicialização");
       }
+
+      console.log("🎥 Configurando vídeo da câmera...");
+      console.log("📹 Estado do videoRef antes da configuração:", {
+        exists: !!videoRef.current,
+        readyState: videoRef.current.readyState,
+        networkState: videoRef.current.networkState,
+        paused: videoRef.current.paused
+      });
+
+      videoRef.current.srcObject = stream;
+      setCameraActive(true);
+      setStatus("Carregando vídeo da câmera...");
+
+      // Event listeners para debug
+      videoRef.current.oncanplay = () => {
+        console.log("🎬 Evento oncanplay disparado");
+      };
+
+      videoRef.current.onloadstart = () => {
+        console.log("🎬 Evento onloadstart disparado");
+      };
+
+      videoRef.current.onloadeddata = () => {
+        console.log("🎬 Evento onloadeddata disparado");
+      };
+
+      videoRef.current.onloadedmetadata = () => {
+        console.log("📹 Metadados do vídeo carregados");
+        
+        if (videoRef.current) {
+          console.log("📊 Estado do vídeo após metadados:", {
+            readyState: videoRef.current.readyState,
+            videoWidth: videoRef.current.videoWidth,
+            videoHeight: videoRef.current.videoHeight,
+            currentTime: videoRef.current.currentTime,
+            duration: videoRef.current.duration,
+            paused: videoRef.current.paused,
+            ended: videoRef.current.ended
+          });
+          
+          // Verificar se o elemento está visível
+          const rect = videoRef.current.getBoundingClientRect();
+          console.log("📐 Posição do vídeo:", {
+            width: rect.width,
+            height: rect.height,
+            visible: rect.width > 0 && rect.height > 0
+          });
+
+          console.log("🎬 Tentando iniciar reprodução do vídeo...");
+          
+          videoRef.current.play().then(() => {
+            console.log("✅ Vídeo iniciado com sucesso");
+            setVideoReady(true);
+            setStatus("Posicione o documento na área visível");
+          }).catch((error) => {
+            console.error("❌ Erro ao iniciar vídeo:", {
+              name: error.name,
+              message: error.message,
+              code: error.code
+            });
+            
+            // Tentar forçar o play em alguns casos específicos
+            if (error.name === 'NotAllowedError') {
+              setStatus("Clique para ativar a câmera");
+              setCameraError("Interação necessária para ativar câmera");
+            } else {
+              setStatus("Erro ao iniciar vídeo - clique em 'Tentar novamente'");
+              setCameraError("Falha no autoplay do vídeo");
+            }
+            
+            setCameraActive(false);
+            setVideoReady(false);
+          });
+        }
+      };
+
+      videoRef.current.onerror = (error) => {
+        console.error("❌ Erro no elemento de vídeo:", error);
+        console.error("❌ Detalhes do erro do vídeo:", {
+          error: videoRef.current?.error,
+          networkState: videoRef.current?.networkState,
+          readyState: videoRef.current?.readyState
+        });
+        setCameraError("Erro ao exibir vídeo da câmera");
+        setStatus("Erro no vídeo da câmera");
+        setCameraActive(false);
+        setVideoReady(false);
+      };
+
+      // Forçar o load do vídeo
+      console.log("🔄 Forçando load do vídeo...");
+      videoRef.current.load();
     } catch (error: any) {
       console.error("❌ Erro ao acessar a câmera:", {
         name: error.name,
@@ -242,7 +243,41 @@ export const useCameraCapture = () => {
         variant: "destructive"
       });
     }
-  };
+  }, [toast, cameraActive]);
+
+  useEffect(() => {
+    // Aguardar um momento para garantir que o componente foi montado
+    initializationTimeoutRef.current = setTimeout(() => {
+      console.log("🚀 Iniciando processo de inicialização da câmera");
+      console.log("📹 Estado inicial do videoRef:", !!videoRef.current);
+      
+      if (videoRef.current) {
+        iniciarCamera();
+      } else {
+        console.warn("⚠️ VideoRef ainda não está disponível, tentando novamente em 1s");
+        setTimeout(() => {
+          if (videoRef.current) {
+            iniciarCamera();
+          } else {
+            console.error("❌ VideoRef continua indisponível após timeout");
+            setStatus("Erro ao carregar elemento de vídeo");
+            setCameraError("Elemento de vídeo não foi inicializado");
+          }
+        }, 1000);
+      }
+    }, 500);
+
+    return () => {
+      console.log("🧹 Limpando recursos na desmontagem do componente");
+      if (initializationTimeoutRef.current) {
+        clearTimeout(initializationTimeoutRef.current);
+      }
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
+      }
+    };
+  }, [iniciarCamera]);
 
   const capturarEAnalisar = async (onSuccess: () => void, onFailure: () => void) => {
     if (!videoRef.current || isProcessing || !cameraActive || !videoReady) {
