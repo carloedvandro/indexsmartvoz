@@ -5,6 +5,7 @@ import { useCaptureValidation } from "./hooks/useCaptureValidation";
 import { useCaptureProgress } from "./hooks/useCaptureProgress";
 import { useFaceStability } from "./hooks/useFaceStability";
 import { uploadFacialImage } from "./utils/imageUpload";
+import { cleanupMediaPipe } from "./utils/mediaPipeDetection";
 import { CAPTURE_CONFIG } from "./config/captureConfig";
 
 interface UseFacialCaptureProps {
@@ -59,65 +60,89 @@ export const useFacialCapture = ({
     faceProximity
   });
 
-  // Função aprimorada para limpar recursos da câmera
-  const cleanupCamera = useCallback(async () => {
-    console.log("🧹 INICIANDO limpeza completa da câmera...");
+  // Função COMPLETA para limpar todos os recursos
+  const cleanupAllResources = useCallback(async () => {
+    console.log("🧹 INICIANDO limpeza COMPLETA de TODOS os recursos...");
     
     try {
       // 1. Parar webcam primeiro
       if (webcamRef.current?.video) {
         const video = webcamRef.current.video;
-        console.log("📹 Pausando vídeo...");
+        console.log("📹 Pausando e limpando vídeo...");
         video.pause();
         
         if (video.srcObject) {
           const stream = video.srcObject as MediaStream;
           console.log(`📡 Stream encontrado com ${stream.getTracks().length} tracks`);
           
-          // Parar cada track individualmente
           stream.getTracks().forEach((track, index) => {
             console.log(`🛑 Parando track ${index + 1}: ${track.kind} - ${track.label} - Estado: ${track.readyState}`);
             track.stop();
-            
-            // Verificar se realmente parou
-            setTimeout(() => {
-              console.log(`✅ Track ${index + 1} estado após stop: ${track.readyState}`);
-            }, 100);
           });
           
-          // Limpar srcObject
           video.srcObject = null;
           console.log("🧽 srcObject limpo");
         }
+        
+        // Forçar reload do vídeo
+        video.load();
       }
       
-      // 2. Forçar limpeza de todos os streams de mídia ativos
+      // 2. Limpar MediaPipe COMPLETAMENTE
+      console.log("🧹 Limpando MediaPipe...");
+      await cleanupMediaPipe();
+      
+      // 3. Parar síntese de voz
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        console.log("🔇 Síntese de voz cancelada");
+      }
+      
+      // 4. Forçar limpeza de todos os streams de mídia ativos globalmente
       console.log("🔍 Verificando streams ativos globalmente...");
       
       try {
         const devices = await navigator.mediaDevices.enumerateDevices();
         console.log(`📱 ${devices.length} dispositivos encontrados`);
         
-        // Tentat parar qualquer stream ativo
-        if (navigator.mediaDevices.getUserMedia) {
-          console.log("🛑 Forçando parada de streams globais...");
+        // Aguardar tempo suficiente para garantir liberação
+        console.log("⏳ Aguardando 3 segundos para liberação completa...");
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        
+        // Verificar se a câmera traseira está disponível
+        console.log("🔍 Verificando disponibilidade da câmera traseira...");
+        try {
+          const testStream = await navigator.mediaDevices.getUserMedia({ 
+            video: { facingMode: 'environment' } 
+          });
+          console.log("✅ Câmera traseira disponível - recursos liberados!");
+          testStream.getTracks().forEach(track => track.stop());
+          return true;
+        } catch (error) {
+          console.warn("⚠️ Câmera traseira ainda não disponível:", error);
           
-          // Hack para garantir que todos os streams sejam parados
-          navigator.mediaDevices.getUserMedia({ video: false, audio: false })
-            .then(() => console.log("✅ Streams globais verificados"))
-            .catch(() => console.log("ℹ️ Nenhum stream ativo para parar"));
+          // Segunda tentativa após mais tempo
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          try {
+            const testStream2 = await navigator.mediaDevices.getUserMedia({ 
+              video: { facingMode: 'environment' } 
+            });
+            console.log("✅ Câmera traseira disponível na segunda tentativa!");
+            testStream2.getTracks().forEach(track => track.stop());
+            return true;
+          } catch (error2) {
+            console.error("❌ Câmera ainda ocupada após tentativas:", error2);
+            return false;
+          }
         }
       } catch (error) {
         console.log("⚠️ Erro ao enumerar dispositivos:", error);
+        return false;
       }
       
-      // 3. Aguardar um pouco para garantir limpeza
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      console.log("✅ Limpeza da câmera CONCLUÍDA");
-      
     } catch (error) {
-      console.error("❌ Erro durante limpeza da câmera:", error);
+      console.error("❌ Erro durante limpeza completa:", error);
+      return false;
     }
   }, [webcamRef]);
 
@@ -199,7 +224,6 @@ export const useFacialCapture = ({
       console.log("💾 Fazendo upload da imagem...");
       await uploadFacialImage(imageSrc);
       
-      // Salvar imagem no localStorage
       console.log("💾 Salvando imagem no localStorage...");
       localStorage.setItem('selfieBase64', imageSrc);
       
@@ -208,33 +232,32 @@ export const useFacialCapture = ({
         description: "Selfie capturada com sucesso!",
       });
       
-      // Reset completo
       resetProgress();
       resetStability();
       
-      // LIMPEZA COMPLETA DA CÂMERA
-      console.log("🧹 Iniciando limpeza completa da câmera antes do redirecionamento...");
-      await cleanupCamera();
+      // LIMPEZA COMPLETA DE TODOS OS RECURSOS
+      console.log("🧹 Iniciando limpeza COMPLETA de todos os recursos...");
+      const resourcesReleased = await cleanupAllResources();
       
-      // TEMPO DE ESPERA MAIOR para garantir que a câmera seja liberada
-      console.log("⏳ Aguardando 3 segundos para garantir liberação da câmera...");
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      
-      // Verificar se realmente liberou
-      console.log("🔍 Verificando se a câmera foi liberada...");
-      try {
-        const testStream = await navigator.mediaDevices.getUserMedia({ 
-          video: { facingMode: 'environment' } 
+      if (resourcesReleased) {
+        console.log("✅ Todos os recursos liberados - redirecionando...");
+        toast({
+          title: "Recursos Liberados",
+          description: "Redirecionando para verificação de documento...",
         });
-        console.log("✅ Câmera traseira disponível para documento");
-        testStream.getTracks().forEach(track => track.stop());
-      } catch (error) {
-        console.warn("⚠️ Câmera ainda pode estar ocupada:", error);
-        // Aguardar mais um pouco
-        await new Promise(resolve => setTimeout(resolve, 2000));
+      } else {
+        console.warn("⚠️ Alguns recursos podem ainda estar ocupados");
+        toast({
+          title: "Aviso",
+          description: "Alguns recursos podem ainda estar ocupados, mas prosseguindo...",
+          variant: "destructive",
+        });
       }
       
-      // Redirecionar para próxima etapa
+      // Tempo adicional de segurança
+      console.log("⏳ Tempo de segurança adicional...");
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
       console.log("🔄 Redirecionando para verificação de documento...");
       window.location.href = '/client/document-verification';
       
@@ -255,7 +278,7 @@ export const useFacialCapture = ({
 
   const toggleCamera = useCallback(async () => {
     if (cameraActive) {
-      await cleanupCamera();
+      await cleanupAllResources();
     }
     setCameraActive(prev => !prev);
     resetProgress();
@@ -264,15 +287,15 @@ export const useFacialCapture = ({
       title: "Câmera",
       description: cameraActive ? "Câmera desativada" : "Câmera ativada",
     });
-  }, [resetProgress, resetStability, toast, cameraActive, cleanupCamera]);
+  }, [resetProgress, resetStability, toast, cameraActive, cleanupAllResources]);
 
   // Cleanup aprimorado ao desmontar o componente
   useEffect(() => {
     return () => {
-      console.log("🧹 Componente desmontado - iniciando limpeza completa");
-      cleanupCamera();
+      console.log("🧹 Componente useFacialCapture desmontado - limpeza final");
+      cleanupAllResources();
     };
-  }, [cleanupCamera]);
+  }, [cleanupAllResources]);
 
   return {
     isProcessing,
