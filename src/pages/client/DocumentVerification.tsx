@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,7 @@ export const DocumentVerification = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [cameraActive, setCameraActive] = useState(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
-  const [cameraInitialized, setCameraInitialized] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const navigate = useNavigate();
@@ -79,7 +80,7 @@ export const DocumentVerification = () => {
     try {
       setStatus("Verificando e liberando câmeras ocupadas...");
       setCameraError(null);
-      setCameraInitialized(false);
+      setVideoReady(false);
 
       if (streamRef.current) {
         streamRef.current.getTracks().forEach(track => track.stop());
@@ -123,8 +124,10 @@ export const DocumentVerification = () => {
         try {
           setStatus(`Inicializando câmera (tentativa ${i + 1}/3)...`);
           stream = await navigator.mediaDevices.getUserMedia(cameraConfigs[i]);
+          console.log(`✅ Stream da câmera obtido na tentativa ${i + 1}`);
           break;
         } catch (error: any) {
+          console.error(`❌ Tentativa ${i + 1} falhou:`, error);
           lastError = error;
           if (i < cameraConfigs.length - 1) {
             await new Promise(resolve => setTimeout(resolve, 1500));
@@ -140,15 +143,14 @@ export const DocumentVerification = () => {
         console.log("🎥 Configurando vídeo da câmera...");
         videoRef.current.srcObject = stream;
 
-        // Configurar estados imediatamente após receber o stream
+        // Definir que a câmera está ativa ANTES de tentar reproduzir
         setCameraActive(true);
-        setCameraInitialized(true);
+        setStatus("Carregando vídeo da câmera...");
 
         videoRef.current.onloadedmetadata = () => {
           console.log("📹 Metadados do vídeo carregados, iniciando reprodução...");
           
           if (videoRef.current) {
-            // Verificar se o vídeo está pronto para reprodução
             console.log("📊 Estado do vídeo:", {
               readyState: videoRef.current.readyState,
               videoWidth: videoRef.current.videoWidth,
@@ -158,6 +160,7 @@ export const DocumentVerification = () => {
             
             videoRef.current.play().then(() => {
               console.log("✅ Vídeo iniciado com sucesso");
+              setVideoReady(true);
               setStatus("Posicione o documento na área visível");
             }).catch((error) => {
               console.error("❌ Erro ao iniciar vídeo:", error);
@@ -168,6 +171,8 @@ export const DocumentVerification = () => {
               });
               setStatus("Erro ao iniciar vídeo - clique em 'Tentar novamente'");
               setCameraError("Falha no autoplay do vídeo");
+              setCameraActive(false);
+              setVideoReady(false);
             });
           }
         };
@@ -176,12 +181,17 @@ export const DocumentVerification = () => {
           console.error("❌ Erro no elemento de vídeo:", error);
           setCameraError("Erro ao exibir vídeo da câmera");
           setStatus("Erro no vídeo da câmera");
+          setCameraActive(false);
+          setVideoReady(false);
         };
+
+        // Forçar carregamento dos metadados
+        videoRef.current.load();
       }
     } catch (error: any) {
       console.error("❌ Erro ao acessar a câmera:", error);
       setCameraActive(false);
-      setCameraInitialized(false);
+      setVideoReady(false);
       let errorMessage = "Erro desconhecido";
 
       switch (error.name) {
@@ -212,7 +222,7 @@ export const DocumentVerification = () => {
   };
 
   const capturarEAnalisar = async () => {
-    if (!videoRef.current || isProcessing || !cameraActive || !cameraInitialized) {
+    if (!videoRef.current || isProcessing || !cameraActive || !videoReady) {
       toast({
         title: "Câmera não disponível",
         description: "Aguarde a câmera carregar completamente ou tente novamente",
@@ -297,9 +307,16 @@ export const DocumentVerification = () => {
   };
 
   const tentarNovamente = async () => {
+    console.log("🔄 Tentando novamente - limpando tudo...");
     setCameraActive(false);
     setCameraError(null);
-    setCameraInitialized(false);
+    setVideoReady(false);
+    
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
+    }
+    
     await new Promise(resolve => setTimeout(resolve, 1000));
     iniciarCamera();
   };
@@ -307,7 +324,7 @@ export const DocumentVerification = () => {
   return (
     <div className="min-h-screen bg-primary flex flex-col items-center justify-center p-4">
       <div className="w-[340px] h-[220px] border-4 border-gray-300 rounded-xl overflow-hidden relative bg-black">
-        {cameraActive && cameraInitialized ? (
+        {cameraActive && videoReady ? (
           <video
             ref={videoRef}
             autoPlay
@@ -336,7 +353,7 @@ export const DocumentVerification = () => {
       <div className="flex flex-col gap-2 mt-[30px] w-full">
         <Button
           onClick={capturarEAnalisar}
-          disabled={isProcessing || !cameraActive || !cameraInitialized}
+          disabled={isProcessing || !cameraActive || !videoReady}
           className="px-4 py-4 bg-transparent backdrop-blur-sm border border-white/30 shadow-lg text-white hover:bg-white/20"
         >
           {isProcessing ? "Processando..." : "Escanear documento"}
