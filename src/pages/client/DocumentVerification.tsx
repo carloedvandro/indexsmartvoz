@@ -137,14 +137,26 @@ export const DocumentVerification = () => {
       streamRef.current = stream;
 
       if (videoRef.current) {
+        console.log("🎥 Configurando vídeo da câmera...");
         videoRef.current.srcObject = stream;
+        
+        // Configurar estados imediatamente após receber o stream
+        setCameraActive(true);
+        setCameraInitialized(true);
+        
         videoRef.current.onloadedmetadata = () => {
-          videoRef.current?.play(); // 🔧 inicia vídeo
-          setCameraActive(true);
-          setCameraInitialized(true);
-          setStatus("Posicione o documento na área visível");
+          console.log("📹 Metadados do vídeo carregados, iniciando reprodução...");
+          videoRef.current?.play().then(() => {
+            console.log("✅ Vídeo iniciado com sucesso");
+            setStatus("Posicione o documento na área visível");
+          }).catch((error) => {
+            console.error("❌ Erro ao iniciar vídeo:", error);
+            setStatus("Erro ao iniciar vídeo");
+          });
         };
+        
         videoRef.current.onerror = (error) => {
+          console.error("❌ Erro no elemento de vídeo:", error);
           setCameraError("Erro ao exibir vídeo da câmera");
           setStatus("Erro no vídeo da câmera");
         };
