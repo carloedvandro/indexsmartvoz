@@ -22,7 +22,7 @@ export default function PaymentReturn() {
   const [searchParams] = useSearchParams();
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>('checking');
   const [paymentDetails, setPaymentDetails] = useState<any>(null);
-  const [generatedProtocol, setGeneratedProtocol] = useState<string | null>(null);
+  const [generatedProtocol, setGeneratedProtocol] = useState<string>('Carregando...');
   const [checkAttempts, setCheckAttempts] = useState(0);
 
   // Obter parâmetros da URL
@@ -61,6 +61,17 @@ export default function PaymentReturn() {
 
   useEffect(() => {
     checkPaymentStatus();
+  }, []);
+
+  // Gerar protocolo ao carregar a página (simula o fetch do JavaScript)
+  useEffect(() => {
+    // Aguardar um pouco antes de gerar o protocolo para simular a requisição
+    const timer = setTimeout(() => {
+      const protocol = ProtocolGenerator.generateProtocol();
+      setGeneratedProtocol(protocol);
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const checkPaymentStatus = async () => {
@@ -161,6 +172,11 @@ export default function PaymentReturn() {
           } else {
             console.warn('⚠️ [PAYMENT-RETURN] Máximo de tentativas atingido');
             setPaymentStatus('confirmed'); // Assumir confirmado após muitas tentativas
+            
+            // Gerar protocolo quando assumir confirmado
+            const protocol = ProtocolGenerator.generateProtocol();
+            setGeneratedProtocol(protocol);
+            
             toast({
               title: "Pagamento Processado",
               description: "Seu pedido foi processado. Você pode continuar para a próxima etapa.",
@@ -183,6 +199,11 @@ export default function PaymentReturn() {
         } else {
           console.warn('⚠️ [PAYMENT-RETURN] Máximo de tentativas sem pedido - assumindo confirmado');
           setPaymentStatus('confirmed');
+          
+          // Gerar protocolo quando assumir confirmado sem pedido
+          const protocol = ProtocolGenerator.generateProtocol();
+          setGeneratedProtocol(protocol);
+          
           toast({
             title: "Processamento Concluído",
             description: "Continuando para a próxima etapa...",
@@ -303,49 +324,48 @@ export default function PaymentReturn() {
             </div>
 
             {/* Tabela de detalhes */}
-            {paymentDetails && (
-              <table className="w-full text-base text-[#333] mb-8">
-                <tbody>
+            <table className="w-full text-base text-[#333] mb-8">
+              <tbody>
+                <tr>
+                  <td className="py-1">
+                    <strong>Protocolo:</strong>
+                  </td>
+                  <td className="text-right py-1">
+                    {generatedProtocol}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-1">
+                    <strong>Valor:</strong>
+                  </td>
+                  <td className="text-right py-1">
+                    R$ {paymentDetails?.total_amount?.toFixed(2) || '119,99'}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-1">
+                    <strong>Status:</strong>
+                  </td>
+                  <td className="text-right py-1">
+                    <strong className="text-green-600">
+                      {paymentDetails?.status === 'paid' ? 'Pago' : 
+                       paymentDetails?.status === 'pending' ? 'Pendente' : 
+                       paymentStatus === 'confirmed' ? 'Pago' : 'Processando'}
+                    </strong>
+                  </td>
+                </tr>
+                {paymentDetails?.asaas_payment_id && (
                   <tr>
                     <td className="py-1">
-                      <strong>Protocolo:</strong>
+                      <strong>ID Asaas:</strong>
                     </td>
-                    <td className="text-right py-1">
-                      {generatedProtocol || `#${paymentDetails.id?.substring(0, 8)}`}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="py-1">
-                      <strong>Valor:</strong>
-                    </td>
-                    <td className="text-right py-1">
-                      R$ {paymentDetails.total_amount?.toFixed(2) || '0,00'}
+                    <td className="text-right py-1 text-sm">
+                      {paymentDetails.asaas_payment_id}
                     </td>
                   </tr>
-                  <tr>
-                    <td className="py-1">
-                      <strong>Status:</strong>
-                    </td>
-                    <td className="text-right py-1">
-                      <strong className="text-green-600">
-                        {paymentDetails.status === 'paid' ? 'Pago' : 
-                         paymentDetails.status === 'pending' ? 'Pendente' : 'Processando'}
-                      </strong>
-                    </td>
-                  </tr>
-                  {paymentDetails.asaas_payment_id && (
-                    <tr>
-                      <td className="py-1">
-                        <strong>ID Asaas:</strong>
-                      </td>
-                      <td className="text-right py-1 text-sm">
-                        {paymentDetails.asaas_payment_id}
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            )}
+                )}
+              </tbody>
+            </table>
 
             {/* Botão de ação */}
             <div className="text-center">
