@@ -70,7 +70,13 @@ export class ReceiptGenerator {
     yPosition += 8;
     pdf.text(`CPF/CNPJ: ${data.recipientDoc}`, 20, yPosition);
     yPosition += 8;
-    pdf.text(`Instituicao: ${data.recipientBank}`, 20, yPosition);
+    
+    // Usar splitTextToSize para quebrar o texto do banco automaticamente
+    const bankText = pdf.splitTextToSize(data.recipientBank, 170);
+    bankText.forEach((line: string, index: number) => {
+      pdf.text(line, 20, yPosition + (index * 6));
+    });
+    yPosition += bankText.length * 6;
     
     // Espaçamento
     yPosition += 20;
