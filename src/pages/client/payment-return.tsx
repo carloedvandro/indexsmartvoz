@@ -328,7 +328,7 @@ export default function PaymentReturn() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="px-4 py-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4"
+            className="px-4 py-4 bg-[#5f0889]/10 backdrop-blur-sm rounded-lg border border-[#5f0889]/30 shadow-lg mb-4"
           >
             {/* Ícone e título */}
             <div className="text-center mb-6">
