@@ -322,7 +322,7 @@ export default function PaymentReturn() {
         </div>
       </div>
 
-      <div className="pt-20 flex items-center justify-center min-h-screen">
+      <div className="pt-20 flex items-center justify-center min-h-screen bg-[#5f0889]">
         <div className="w-full max-w-[500px] mx-auto p-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
