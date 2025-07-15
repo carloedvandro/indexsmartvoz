@@ -265,103 +265,122 @@ export default function PaymentReturn() {
       </div>
 
       <div className="pt-20 flex items-center justify-center min-h-screen">
-        <div className="w-full max-w-md mx-auto p-4">
+        <div className="w-full max-w-[500px] mx-auto p-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
+            className="border border-gray-200 rounded-xl p-8 bg-white shadow-lg"
           >
-            <Card className="text-center">
-              <CardHeader className="pb-4">
+            {/* Ícone e título */}
+            <div className="text-center mb-6">
+              {paymentStatus === 'confirmed' ? (
+                <img 
+                  src="https://cdn-icons-png.flaticon.com/512/845/845646.png" 
+                  alt="Check" 
+                  className="w-[60px] h-[60px] mx-auto mb-4"
+                />
+              ) : (
                 <div className="mb-4">
                   {getStatusIcon()}
                 </div>
-                <CardTitle className="text-2xl font-bold text-gray-800">
-                  {getStatusTitle()}
-                </CardTitle>
-              </CardHeader>
-              
-              <CardContent className="space-y-6">
-                <p className="text-gray-600">
-                  {getStatusDescription()}
-                </p>
+              )}
+              <h2 className="text-[#2e7d32] text-2xl font-normal mb-2">
+                {getStatusTitle()}
+              </h2>
+              <p className="text-[#555] text-base leading-relaxed">
+                {getStatusDescription()}
+              </p>
+            </div>
 
-                {paymentDetails && (
-                  <div className="bg-gray-50 rounded-lg p-4 space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Protocolo:</span>
-                      <span className="font-medium">{paymentDetails.id}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Valor:</span>
-                      <span className="font-medium">R$ {paymentDetails.total_amount?.toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Status:</span>
-                      <span className={`font-medium ${
-                        paymentDetails.status === 'paid' ? 'text-green-600' : 
-                        paymentDetails.status === 'pending' ? 'text-yellow-600' : 'text-red-600'
-                      }`}>
+            {/* Tabela de detalhes */}
+            {paymentDetails && (
+              <table className="w-full text-base text-[#333] mb-8">
+                <tbody>
+                  <tr>
+                    <td className="py-1">
+                      <strong>Protocolo:</strong>
+                    </td>
+                    <td className="text-right py-1">
+                      #{paymentDetails.id?.substring(0, 8) || 'N/A'}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-1">
+                      <strong>Valor:</strong>
+                    </td>
+                    <td className="text-right py-1">
+                      R$ {paymentDetails.total_amount?.toFixed(2) || '0,00'}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-1">
+                      <strong>Status:</strong>
+                    </td>
+                    <td className="text-right py-1">
+                      <strong className="text-green-600">
                         {paymentDetails.status === 'paid' ? 'Pago' : 
                          paymentDetails.status === 'pending' ? 'Pendente' : 'Processando'}
-                      </span>
-                    </div>
-                    {paymentDetails.asaas_payment_id && (
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">ID Asaas:</span>
-                        <span className="font-medium text-xs">{paymentDetails.asaas_payment_id}</span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                      </strong>
+                    </td>
+                  </tr>
+                  {paymentDetails.asaas_payment_id && (
+                    <tr>
+                      <td className="py-1">
+                        <strong>ID Asaas:</strong>
+                      </td>
+                      <td className="text-right py-1 text-sm">
+                        {paymentDetails.asaas_payment_id}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            )}
 
+            {/* Botão de ação */}
+            <div className="text-center">
+              {paymentStatus === 'confirmed' && (
+                <button
+                  onClick={handleContinue}
+                  className="inline-block px-6 py-3 bg-[#4a148c] text-white font-bold no-underline rounded-md hover:bg-[#6a1b9a] transition-colors"
+                >
+                  Continuar para Ativação →
+                </button>
+              )}
+
+              {paymentStatus === 'pending' && (
+                <button
+                  onClick={checkPaymentStatus}
+                  className="inline-block px-6 py-3 border border-[#4a148c] text-[#4a148c] font-bold no-underline rounded-md hover:bg-[#4a148c] hover:text-white transition-colors"
+                >
+                  Verificar Novamente
+                </button>
+              )}
+
+              {paymentStatus === 'failed' && (
                 <div className="space-y-3">
-                  {paymentStatus === 'confirmed' && (
-                    <Button 
-                      onClick={handleContinue} 
-                      className="w-full h-12 text-lg"
-                    >
-                      Continuar para Ativação
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
-                  )}
-
-                  {paymentStatus === 'pending' && (
-                    <Button 
-                      onClick={checkPaymentStatus} 
-                      variant="outline" 
-                      className="w-full"
-                    >
-                      Verificar Novamente
-                    </Button>
-                  )}
-
-                  {paymentStatus === 'failed' && (
-                    <div className="space-y-2">
-                      <Button 
-                        onClick={() => navigate("/client/products", { replace: true })} 
-                        className="w-full"
-                      >
-                        Tentar Novamente
-                      </Button>
-                      <Button 
-                        onClick={() => navigate("/client/dashboard", { replace: true })} 
-                        variant="outline" 
-                        className="w-full"
-                      >
-                        Voltar ao Dashboard
-                      </Button>
-                    </div>
-                  )}
+                  <button
+                    onClick={() => navigate("/client/products", { replace: true })}
+                    className="block w-full px-6 py-3 bg-[#4a148c] text-white font-bold no-underline rounded-md hover:bg-[#6a1b9a] transition-colors"
+                  >
+                    Tentar Novamente
+                  </button>
+                  <button
+                    onClick={() => navigate("/client/dashboard", { replace: true })}
+                    className="block w-full px-6 py-3 border border-[#4a148c] text-[#4a148c] font-bold no-underline rounded-md hover:bg-[#4a148c] hover:text-white transition-colors"
+                  >
+                    Voltar ao Dashboard
+                  </button>
                 </div>
+              )}
 
-                {paymentStatus === 'checking' && (
-                  <p className="text-sm text-gray-500">
-                    Tentativa {checkAttempts + 1} de verificação...
-                  </p>
-                )}
-              </CardContent>
-            </Card>
+              {paymentStatus === 'checking' && (
+                <p className="text-sm text-gray-500 mt-4">
+                  Tentativa {checkAttempts + 1} de verificação...
+                </p>
+              )}
+            </div>
           </motion.div>
         </div>
       </div>
