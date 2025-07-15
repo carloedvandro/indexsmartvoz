@@ -4,10 +4,11 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { ProtocolGenerator } from "@/services/protocolGenerator";
 import { supabase } from "@/integrations/supabase/client";
-import { CheckCircle, AlertCircle, Clock, ArrowRight } from "lucide-react";
+import { CheckCircle, AlertCircle, Clock, ArrowRight, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { ReceiptGenerator } from "@/services/receiptGenerator";
 
 /**
  * Purpose: Página de retorno após pagamento no Asaas
@@ -281,6 +282,33 @@ export default function PaymentReturn() {
     }
   };
 
+  const handleDownloadReceipt = () => {
+    if (paymentStatus === 'confirmed' && generatedProtocol !== 'Carregando...') {
+      const now = new Date();
+      const formattedDate = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()} às ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+      
+      const receiptData = {
+        transactionId: `E19540550202507152100VHMQEV3D1HO`, // ID gerado automaticamente
+        amount: `R$ ${paymentDetails?.total_amount?.toFixed(2).replace('.', ',') || '119,99'}`,
+        date: formattedDate,
+        protocol: generatedProtocol,
+        recipientName: 'SmartVoz Telecom',
+        recipientDoc: '***.988.112-**',
+        recipientBank: 'Banco Inter S.A.',
+        payerDoc: '***.817.710-**',
+        payerBank: 'Asaas I.P S.A.',
+        asaasPaymentId: paymentDetails?.asaas_payment_id
+      };
+
+      ReceiptGenerator.generatePaymentReceipt(receiptData);
+      
+      toast({
+        title: "Comprovante baixado!",
+        description: "O comprovante de pagamento foi gerado e baixado com sucesso."
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
       {/* Logo fixada no topo */}
@@ -367,15 +395,24 @@ export default function PaymentReturn() {
               </tbody>
             </table>
 
-            {/* Botão de ação */}
-            <div className="text-center">
+            {/* Botões de ação */}
+            <div className="text-center space-y-3">
               {paymentStatus === 'confirmed' && (
-                <button
-                  onClick={handleContinue}
-                  className="inline-block px-6 py-3 bg-[#4a148c] text-white font-bold no-underline rounded-md hover:bg-[#6a1b9a] transition-colors"
-                >
-                  Continuar para Ativação →
-                </button>
+                <>
+                  <button
+                    onClick={handleContinue}
+                    className="block w-full px-6 py-3 bg-[#4a148c] text-white font-bold no-underline rounded-md hover:bg-[#6a1b9a] transition-colors"
+                  >
+                    Continuar para Ativação →
+                  </button>
+                  <button
+                    onClick={handleDownloadReceipt}
+                    className="inline-flex items-center px-4 py-2 border border-[#4a148c] text-[#4a148c] font-medium no-underline rounded-md hover:bg-[#4a148c] hover:text-white transition-colors"
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Baixar Comprovante
+                  </button>
+                </>
               )}
 
               {paymentStatus === 'pending' && (
