@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { ProtocolGenerator } from "@/services/protocolGenerator";
 import { supabase } from "@/integrations/supabase/client";
 import { CheckCircle, AlertCircle, Clock, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ export default function PaymentReturn() {
   const [searchParams] = useSearchParams();
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>('checking');
   const [paymentDetails, setPaymentDetails] = useState<any>(null);
+  const [generatedProtocol, setGeneratedProtocol] = useState<string | null>(null);
   const [checkAttempts, setCheckAttempts] = useState(0);
 
   // Obter parâmetros da URL
@@ -134,6 +136,10 @@ export default function PaymentReturn() {
           console.log('✅ [PAYMENT-RETURN] Pagamento confirmado!');
           setPaymentStatus('confirmed');
           
+          // Gerar protocolo quando confirmado
+          const protocol = ProtocolGenerator.generateProtocol();
+          setGeneratedProtocol(protocol);
+          
           // Limpar navegação bloqueada
           window.removeEventListener('beforeunload', () => {});
           window.removeEventListener('popstate', () => {});
@@ -193,11 +199,14 @@ export default function PaymentReturn() {
     if (paymentStatus === 'confirmed') {
       // Salvar dados necessários para próxima etapa
       if (paymentDetails) {
+        // Gerar protocolo sequencial
+        const protocol = ProtocolGenerator.generateProtocol();
+        
         const orderData = {
           orderId: paymentDetails.id,
           status: 'paid',
           total: paymentDetails.total_amount,
-          protocol: paymentDetails.id,
+          protocol: protocol,
           paymentMethod: paymentDetails.payment_method || 'pix'
         };
         localStorage.setItem('orderData', JSON.stringify(orderData));
@@ -302,7 +311,7 @@ export default function PaymentReturn() {
                       <strong>Protocolo:</strong>
                     </td>
                     <td className="text-right py-1">
-                      #{paymentDetails.id?.substring(0, 8) || 'N/A'}
+                      {generatedProtocol || `#${paymentDetails.id?.substring(0, 8)}`}
                     </td>
                   </tr>
                   <tr>
