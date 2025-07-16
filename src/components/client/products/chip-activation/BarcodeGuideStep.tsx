@@ -59,7 +59,7 @@ export function BarcodeGuideStep({
           </div>
 
           <div className="flex justify-end gap-3">
-            <Button variant="outline" onClick={onBack} className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1">
+            <Button variant="outline" onClick={onBack} className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4">
               Voltar
             </Button>
             <Button className="bg-[#8425af] hover:bg-[#6c1e8f] flex-1 space-y-4" onClick={onContinue}>
