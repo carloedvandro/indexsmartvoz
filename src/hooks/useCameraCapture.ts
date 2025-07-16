@@ -246,7 +246,7 @@ export const useCameraCapture = () => {
   }, [toast, cameraActive]);
 
   useEffect(() => {
-    // Aguardar um momento para garantir que o componente foi montado
+    // Aguardar mais tempo para garantir que o DOM foi renderizado completamente
     initializationTimeoutRef.current = setTimeout(() => {
       console.log("🚀 Iniciando processo de inicialização da câmera");
       console.log("📹 Estado inicial do videoRef:", !!videoRef.current);
@@ -254,8 +254,8 @@ export const useCameraCapture = () => {
       if (videoRef.current) {
         iniciarCamera();
       } else {
-        console.warn("⚠️ VideoRef ainda não está disponível, tentando novamente em 1s");
-        setTimeout(() => {
+        console.warn("⚠️ VideoRef ainda não está disponível, tentando novamente em 2s");
+        const retryTimeout = setTimeout(() => {
           if (videoRef.current) {
             iniciarCamera();
           } else {
@@ -263,9 +263,11 @@ export const useCameraCapture = () => {
             setStatus("Erro ao carregar elemento de vídeo");
             setCameraError("Elemento de vídeo não foi inicializado");
           }
-        }, 1000);
+        }, 2000);
+        
+        return () => clearTimeout(retryTimeout);
       }
-    }, 500);
+    }, 1000);
 
     return () => {
       console.log("🧹 Limpando recursos na desmontagem do componente");
@@ -407,7 +409,21 @@ export const useCameraCapture = () => {
     }
     
     await new Promise(resolve => setTimeout(resolve, 1000));
-    iniciarCamera();
+    
+    // Verificar se o videoRef está disponível antes de tentar iniciar
+    if (videoRef.current) {
+      iniciarCamera();
+    } else {
+      console.warn("⚠️ VideoRef não disponível durante tentativa, aguardando...");
+      setTimeout(() => {
+        if (videoRef.current) {
+          iniciarCamera();
+        } else {
+          setStatus("Erro: Elemento de vídeo não encontrado");
+          setCameraError("Elemento de vídeo não foi inicializado");
+        }
+      }, 1500);
+    }
   };
 
   return {
