@@ -98,7 +98,7 @@ export function BarcodeInputStep({
               ? 'hover:opacity-90' 
               : 'text-purple-400 cursor-not-allowed'
           }`}
-          style={allBarcodesScanned ? { backgroundColor: '#5f0889' } : undefined}
+          style={{backgroundColor: '#5f0889'}}
         >
           Continuar
         </Button>
