@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export function BarcodeInstructions() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4">
       <div className="space-y-2">
         <h2 className="text-xl font-semibold">Escaneie o código de barras do chip</h2>
         <p className="text-gray-600">
