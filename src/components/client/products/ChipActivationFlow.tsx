@@ -49,7 +49,7 @@ export function ChipActivationFlow({
   }
 
   return (
-    <div className="pt-20 flex items-center justify-center min-h-screen bg-white">
+    <div className="pt-20 flex items-center justify-center min-h-screen" style={{ backgroundColor: '#5f0889' }}>
       <div className="w-full max-w-md mx-auto p-4">
         
         {currentStep === 6 ? (
