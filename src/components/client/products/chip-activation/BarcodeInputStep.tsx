@@ -40,17 +40,19 @@ export function BarcodeInputStep({
       </div>
 
       {/* Caixa principal */}
-      <div className="px-6 py-6 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4" style={{backgroundColor: '#5f0889'}}>
+      <div className="px-6 py-6 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4" style={{backgroundColor: '#5a008f', borderColor: '#7e3ccf'}}>
         {selectedLines.length > 0 && (
           <div className="space-y-4">
+            {/* Cabeçalho */}
             <div>
-              <h3 className="font-bold text-white text-lg mb-4">
+              <h3 className="font-bold text-white text-lg mb-5">
                 Código de barras do SIM card
               </h3>
             </div>
             
-            <div className="flex justify-between items-center mb-6">
-              <span className="text-white font-medium text-lg">
+            {/* DDD + botão */}
+            <div className="flex justify-between items-center mb-5">
+              <span className="text-white font-medium text-base">
                 Linha: DDD <strong>{selectedLines[0].ddd}</strong>
               </span>
               <Button
@@ -61,11 +63,16 @@ export function BarcodeInputStep({
               </Button>
             </div>
 
+            {/* ICCID container */}
             {selectedLines[0].barcode && (
-              <div className="backdrop-blur-sm rounded-lg p-4" style={{backgroundColor: '#7a00b9'}}>
-                <span className="font-bold text-gray-300">Código escaneado:</span>
-                <div className="mt-2 p-3 rounded-md text-white text-sm" style={{backgroundColor: '#9b2dde'}}>
-                  <strong>ICCID:</strong> {selectedLines[0].barcode}
+              <div className="rounded-lg p-4 border" style={{backgroundColor: '#7a00b9', borderColor: '#a060ff'}}>
+                <div className="flex items-center gap-4">
+                  <span className="text-white text-base">
+                    ✅ <strong>{selectedLines[0].ddd}</strong>
+                  </span>
+                  <span className="text-white text-base">
+                    <strong>ICCID</strong> {selectedLines[0].barcode}
+                  </span>
                 </div>
               </div>
             )}
