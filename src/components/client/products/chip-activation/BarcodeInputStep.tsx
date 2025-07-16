@@ -39,40 +39,36 @@ export function BarcodeInputStep({
       </div>
 
       {/* Caixa de entrada de dados */}
-      <div className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white">
+      <div className="px-6 py-6 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white">
         {selectedLines.length > 0 && (
-          <div className="space-y-3">
+          <div className="space-y-4">
             <div>
-              <h3 className="font-medium text-white text-base">
+              <h3 className="font-medium text-white text-lg mb-3">
                 Código de barras do SIM card
               </h3>
             </div>
             
-            <div className="flex justify-between items-center">
-              <p className="text-sm text-white">
+            <div className="flex justify-between items-center mb-6">
+              <p className="text-white font-medium">
                 Linha: DDD {selectedLines[0].ddd}
               </p>
               <Button
                 onClick={() => onStartScanning(0)}
-                className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white font-medium hover:bg-white/10"
+                className="bg-transparent hover:bg-green-400 hover:text-black border border-white text-white px-4 py-2 rounded transition-all duration-300"
               >
                 {selectedLines[0].barcode ? 'Escanear novamente' : 'Escanear código'}
               </Button>
             </div>
 
             {selectedLines[0].barcode && (
-              <div className="mt-4 space-y-3">
-                <div className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4" style={{ backgroundColor: '#5f0889' }}>
-                  <h4 className="font-medium text-white text-sm mb-2">
+              <div className="bg-purple-800/50 backdrop-blur rounded-lg p-4 border border-purple-400/30">
+                <div className="mb-2">
+                  <h4 className="font-bold text-gray-300 text-sm">
                     Código escaneado:
                   </h4>
-                  <input
-                    type="text"
-                    value={`ICCID: ${selectedLines[0].barcode}`}
-                    readOnly
-                    className="w-full p-2 border border-white rounded bg-purple-700 text-white text-base pointer-events-none focus:outline-none"
-                    tabIndex={-1}
-                  />
+                </div>
+                <div className="bg-purple-600/70 text-white p-3 rounded text-sm break-words">
+                  <strong>ICCID:</strong> {selectedLines[0].barcode}
                 </div>
               </div>
             )}
