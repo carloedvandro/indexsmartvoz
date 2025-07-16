@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from "react";
+import { SlideButton } from "@/components/ui/slide-button";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { ProtocolGenerator } from "@/services/protocolGenerator";
@@ -399,12 +400,12 @@ export default function PaymentReturn() {
             <div className="text-center space-y-3">
               {paymentStatus === 'confirmed' && (
                 <>
-                  <button
+                  <SlideButton
                     onClick={handleContinue}
-                    className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white font-bold no-underline transition-colors hover:bg-white/10"
+                    className="w-full"
                   >
                     Continuar para Ativação →
-                  </button>
+                  </SlideButton>
                   <button
                     onClick={handleDownloadReceipt}
                     className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 inline-flex items-center text-white font-medium no-underline transition-colors hover:bg-white/10"
