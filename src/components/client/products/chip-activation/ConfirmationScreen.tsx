@@ -69,7 +69,7 @@ export function ConfirmationScreen({ selectedLines, protocol }: ConfirmationScre
         <div className="flex justify-center">
           <Button
             onClick={handleUnderstand}
-            className="bg-transparent hover:bg-white/10 text-white min-w-[200px] border border-white/20"
+            className="px-4 py-2 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white break-words min-w-[200px]"
           >
             Entendi
           </Button>
