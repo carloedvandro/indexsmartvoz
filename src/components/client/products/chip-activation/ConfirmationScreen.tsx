@@ -47,7 +47,7 @@ export function ConfirmationScreen({ selectedLines, protocol }: ConfirmationScre
           </div>
           
           {/* Conteúdo */}
-          <div className="px-4 py-4 bg-transparent">
+          <div className="px-4 py-2 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white break-words">
             {selectedLines.map((line, index) => (
               <div key={index} className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
