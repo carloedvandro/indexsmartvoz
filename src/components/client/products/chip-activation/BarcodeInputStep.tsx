@@ -30,71 +30,75 @@ export function BarcodeInputStep({
 }: BarcodeInputStepProps) {
   return (
     <div className="space-y-6 -mt-20 pt-10">
-      {/* Mensagem sobre prazo do sistema */}
-      <div className="px-6 py-8 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-center" style={{backgroundColor: '#5f0889'}}>
-        <h2 className="text-white text-xl font-bold leading-relaxed">
-          O prazo do sistema para concluir ativação<br />
-          e o funcionamento da linha neste chip é de<br />
-          até 24 horas
-        </h2>
+      {/* Caixa de alerta azul informativa */}
+      <div className="px-4 py-4 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 flex items-start space-x-3" style={{backgroundColor: '#5f0889'}}>
+        <Info className="w-5 h-5 text-white mt-0.5 flex-shrink-0" />
+        <p className="text-white text-sm leading-relaxed">
+          O código de barras do chip deve ter 20 dígitos e começar com 8955. Posicione o código no centro da câmera.
+        </p>
       </div>
 
-      {/* Caixa principal */}
-      <div className="px-6 py-6 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4" style={{backgroundColor: '#5a008f', borderColor: '#7e3ccf'}}>
+      {/* Caixa de entrada de dados */}
+      <div className="px-6 py-6 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white" style={{backgroundColor: '#5f0889'}}>
         {selectedLines.length > 0 && (
           <div className="space-y-4">
-            {/* Cabeçalho */}
             <div>
-              <h3 className="font-bold text-white text-lg mb-5">
+              <h3 className="font-medium text-white text-lg mb-3">
                 Código de barras do SIM card
               </h3>
             </div>
             
-            {/* DDD + botão */}
-            <div className="flex justify-between items-center mb-5">
-              <span className="text-white font-medium text-base">
-                Linha: DDD <strong>{selectedLines[0].ddd}</strong>
-              </span>
+            <div className="flex justify-between items-center mb-6">
+              <p className="text-white font-medium">
+                Linha: DDD {selectedLines[0].ddd}
+              </p>
               <Button
                 onClick={() => onStartScanning(0)}
-                className="px-4 py-2 bg-transparent border border-white rounded-lg text-white font-bold hover:bg-green-500 hover:text-black transition-all duration-300"
+                className="px-4 py-2 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg text-white break-words max-w-sm ml-4"
+                style={{backgroundColor: '#5f0889'}}
               >
                 {selectedLines[0].barcode ? 'Escanear novamente' : 'Escanear código'}
               </Button>
             </div>
 
-            {/* ICCID container */}
             {selectedLines[0].barcode && (
-              <div className="rounded-lg p-4 border" style={{backgroundColor: '#7a00b9', borderColor: '#a060ff'}}>
-                <div className="flex items-center gap-4">
-                  <span className="text-white text-base">
-                    ✅ <strong>{selectedLines[0].ddd}</strong>
-                  </span>
-                  <span className="text-white text-base">
-                    <strong>ICCID</strong> {selectedLines[0].barcode}
-                  </span>
+              <>
+                <div className="mb-2">
+                  <h4 className="font-bold text-gray-300 text-sm">
+                    Código escaneado:
+                  </h4>
                 </div>
-              </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-white font-bold">ICCID:</span>
+                  <div className="px-4 py-2 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg text-white break-words max-w-md ml-4">
+                    {selectedLines[0].barcode}
+                  </div>
+                </div>
+              </>
             )}
           </div>
         )}
       </div>
 
       {/* Botões inferiores */}
-      <div className="flex justify-between gap-4 pt-4">
+      <div className="flex gap-3 pt-4">
         <Button 
           variant="outline" 
           onClick={onBack} 
-          className="px-6 py-3 text-white font-bold border-none rounded-lg"
-          style={{backgroundColor: '#4a0072'}}
+          className="flex-1 px-4 py-2 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white"
+          style={{ borderColor: '#5f0889', backgroundColor: '#5f0889', color: 'white' }}
         >
           Voltar
         </Button>
         <Button 
           onClick={onContinue}
           disabled={!allBarcodesScanned}
-          className="px-6 py-3 text-white font-bold border-none rounded-lg"
-          style={{backgroundColor: '#4a0072'}}
+          className={`flex-1 px-4 py-2 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white ${
+            allBarcodesScanned 
+              ? 'hover:opacity-90' 
+              : 'text-purple-400 cursor-not-allowed'
+          }`}
+          style={{backgroundColor: '#5f0889'}}
         >
           Continuar
         </Button>
