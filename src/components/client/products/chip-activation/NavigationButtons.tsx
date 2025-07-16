@@ -23,7 +23,8 @@ export function NavigationButtons({
         Voltar
       </Button>
       <Button 
-        className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white flex-1 items-center"
+        className="px-4 py-4 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white flex-1 items-center"
+        style={{backgroundColor: '#5f0889'}}
         onClick={onContinue}
         disabled={disabled}
       >
