@@ -39,7 +39,7 @@ export function ConfirmationScreen({ selectedLines, protocol }: ConfirmationScre
 
         <div className="px-4 py-2 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white break-words overflow-hidden">
           {/* Cabeçalho */}
-          <div className="bg-transparent px-4 py-3 border-b border-white/20">
+          <div className="px-4 py-2 bg-transparent backdrop-blur-sm border-b border-white/30">
             <div className="flex text-sm font-medium justify-between">
               <span className="w-16">DDD</span>
               <span className="text-right">Código de barras do SIM card</span>
