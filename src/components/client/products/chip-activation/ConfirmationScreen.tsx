@@ -37,29 +37,25 @@ export function ConfirmationScreen({ selectedLines, protocol }: ConfirmationScre
           </p>
         </div>
 
-        <div className="px-4 py-2 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white break-words overflow-hidden">
-          {/* Cabeçalho */}
-          <div className="px-4 py-2 bg-transparent backdrop-blur-sm border-b border-white/30">
-            <div className="flex text-sm font-medium justify-between">
-              <span className="w-16">DDD</span>
-              <span className="text-right">Código de barras do SIM card</span>
-            </div>
+        <div className="bg-white/10 rounded-lg border border-white/30 overflow-hidden">
+          {/* Cabeçalho da tabela */}
+          <div className="grid grid-cols-2 border-b border-white/30">
+            <div className="px-4 py-3 text-sm font-medium">DDD</div>
+            <div className="px-4 py-3 text-sm font-medium">Código de barras do SIM card</div>
           </div>
           
-          {/* Conteúdo */}
-          <div className="px-4 py-2 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white break-words">
-            {selectedLines.map((line, index) => (
-              <div key={index} className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <Check className="w-4 h-4 text-green-400" />
-                  <span className="font-medium">{line.ddd}</span>
-                </div>
-                <div className="text-left -ml-4">
-                  <div className="text-sm">ICCID {line.barcode}</div>
-                </div>
+          {/* Linhas da tabela */}
+          {selectedLines.map((line, index) => (
+            <div key={index} className="grid grid-cols-2 border-t border-white/30">
+              <div className="px-4 py-3 flex items-center gap-2">
+                <Check className="w-4 h-4 text-green-400" />
+                <span>{line.ddd}</span>
               </div>
-            ))}
-          </div>
+              <div className="px-4 py-3">
+                ICCID {line.barcode}
+              </div>
+            </div>
+          ))}
         </div>
 
         <div className="text-center">
