@@ -59,6 +59,7 @@ export function ChipActivationFlow({
 
   return (
     <div className="pt-20 flex items-center justify-center min-h-screen bg-white">
+      <div className="w-full max-w-md mx-auto p-4">
         <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50 shadow-sm">
           <div className="flex items-center justify-center">
             <img
@@ -104,6 +105,7 @@ export function ChipActivationFlow({
             />
           </>
         )}
+      </div>
     </div>
   );
 }
