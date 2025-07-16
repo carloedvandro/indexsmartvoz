@@ -3,6 +3,7 @@ import { ChipInstructions } from "./ChipInstructions";
 import { BarcodeInstructions } from "./BarcodeInstructions";
 import { NavigationButtons } from "./NavigationButtons";
 import { BarcodeInputStep } from "./BarcodeInputStep";
+import { ActivationConfirmation } from "./ActivationConfirmation";
 
 export type Line = {
   id: number;
@@ -66,6 +67,15 @@ export function ChipActivationStepContent({
         onBack={onBack}
         onContinue={onContinue}
         onStartScanning={onStartScanning}
+      />
+    );
+  }
+
+  if (currentStep === 7) {
+    return (
+      <ActivationConfirmation
+        selectedLines={selectedLines}
+        onFinish={onContinue}
       />
     );
   }
