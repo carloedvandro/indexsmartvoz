@@ -48,13 +48,13 @@ export function ChipActivationStepContent({
 
   if (currentStep === 5) {
     return (
-      <div className="flex flex-col space-y-6" style={{ backgroundColor: '#5f0889' }}>
+      <>
         <BarcodeInstructions />
         <NavigationButtons
           onBack={onBack}
           onContinue={onContinue}
         />
-      </div>
+      </>
     );
   }
 
