@@ -186,7 +186,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         </div>
         
         {/* Display do ICCID */}
-        <div className="absolute top-0 w-full bg-white/95 text-center py-2.5 font-bold z-20 text-sm">
+        <div className="text-white text-center py-3 px-4" style={{ backgroundColor: '#5f0889' }}>
           <div className="text-lg font-bold">
             {iccidDisplay}
           </div>
