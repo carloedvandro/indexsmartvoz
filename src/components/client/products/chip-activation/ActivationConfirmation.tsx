@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Check, Download } from "lucide-react";
-import { generateActivationReceipt, generateProtocol } from "@/utils/pdfGenerator";
+import { Check } from "lucide-react";
 
 export type Line = {
   id: number;
@@ -22,15 +21,18 @@ interface ActivationConfirmationProps {
 export function ActivationConfirmation({
   selectedLines,
   onFinish
- }: ActivationConfirmationProps) {
-  const protocolo = generateProtocol();
-
-  const handleDownloadReceipt = () => {
-    generateActivationReceipt({
-      selectedLines,
-      protocol: protocolo
-    });
+}: ActivationConfirmationProps) {
+  // Gera protocolo dinâmico baseado na data atual
+  const generateProtocol = () => {
+    const hoje = new Date();
+    const ano = hoje.getFullYear();
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+    const dia = String(hoje.getDate()).padStart(2, '0');
+    const sequencial = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+    return `${ano}${mes}${dia}${sequencial}`;
   };
+
+  const protocolo = generateProtocol();
 
   return (
     <div className="space-y-6 -mt-20 pt-10">
@@ -77,23 +79,13 @@ export function ActivationConfirmation({
           </span>
         </div>
 
-        {/* Botões */}
-        <div className="flex gap-4 justify-center">
-          <Button
-            onClick={handleDownloadReceipt}
-            className="px-6 py-3 rounded-lg border border-white bg-transparent text-white font-bold hover:bg-white hover:text-purple-800 transition-all duration-300 flex items-center gap-2"
-          >
-            <Download className="w-4 h-4" />
-            Baixar Comprovante
-          </Button>
-          
-          <Button
-            onClick={onFinish}
-            className="px-7 py-3 rounded-lg border border-white bg-transparent text-white font-bold hover:bg-white hover:text-purple-800 transition-all duration-300"
-          >
-            Entendi
-          </Button>
-        </div>
+        {/* Botão Entendi */}
+        <Button
+          onClick={onFinish}
+          className="px-7 py-3 rounded-lg border border-white bg-transparent text-white font-bold hover:bg-white hover:text-purple-800 transition-all duration-300"
+        >
+          Entendi
+        </Button>
       </div>
     </div>
   );
