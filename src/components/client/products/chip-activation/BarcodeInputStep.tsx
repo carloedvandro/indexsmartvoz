@@ -87,8 +87,8 @@ export function BarcodeInputStep({
         <Button 
           variant="outline" 
           onClick={onBack} 
-          className="flex-1 hover:bg-purple-50"
-          style={{ borderColor: '#5f0889', color: '#5f0889' }}
+          className="flex-1"
+          style={{ borderColor: '#5f0889', backgroundColor: '#5f0889', color: 'white' }}
         >
           Voltar
         </Button>
