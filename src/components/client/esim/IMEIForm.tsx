@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { SlideButton } from "@/components/ui/slide-button";
 import { Input } from "@/components/ui/input";
 import { validateDeviceIdentifier } from "@/services/esim/deviceValidationService";
 import { useToast } from "@/components/ui/use-toast";
@@ -133,13 +134,19 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           >
             Voltar
           </Button>
-          <Button
-            type="submit"
-            className="flex-1 bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3"
-            disabled={!isValidIMEI || isValidating || imei.length !== 15}
-          >
-            Continuar
-          </Button>
+          <div className="flex-1">
+            <SlideButton
+              onClick={() => {
+                if (isValidIMEI && !isValidating && imei.length === 15) {
+                  onSubmit(imei);
+                }
+              }}
+              className="w-full bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3"
+              disabled={!isValidIMEI || isValidating || imei.length !== 15}
+            >
+              Continuar
+            </SlideButton>
+          </div>
         </div>
       </form>
     </div>

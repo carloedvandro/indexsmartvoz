@@ -6,9 +6,10 @@ interface SlideButtonProps {
   onClick?: () => void;
   className?: string;
   disabled?: boolean;
+  style?: React.CSSProperties;
 }
 
-export function SlideButton({ children, onClick, className, disabled }: SlideButtonProps) {
+export function SlideButton({ children, onClick, className, disabled, style }: SlideButtonProps) {
   const [isSliding, setIsSliding] = useState(false);
 
   const handleClick = () => {
@@ -27,6 +28,7 @@ export function SlideButton({ children, onClick, className, disabled }: SlideBut
     <button
       onClick={handleClick}
       disabled={disabled}
+      style={style}
       className={cn(
         "relative overflow-hidden group transition-all duration-300",
         "px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white font-bold",
