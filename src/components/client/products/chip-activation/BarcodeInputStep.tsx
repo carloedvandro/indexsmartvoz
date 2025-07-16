@@ -92,9 +92,9 @@ export function BarcodeInputStep({
         <Button 
           onClick={onContinue}
           disabled={!allBarcodesScanned}
-          className={`flex-1 px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 ${
+          className={`flex-1 px-4 py-2 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white ${
             allBarcodesScanned 
-              ? 'text-white hover:opacity-90' 
+              ? 'hover:opacity-90' 
               : 'text-purple-400 cursor-not-allowed'
           }`}
           style={allBarcodesScanned ? { backgroundColor: '#5f0889' } : undefined}
