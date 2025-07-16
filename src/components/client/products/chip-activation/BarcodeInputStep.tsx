@@ -39,48 +39,46 @@ export function BarcodeInputStep({
       </div>
 
       {/* Caixa de entrada de dados */}
-      <Card className="border border-gray-200 bg-purple-700">
-        <CardContent className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white">
-          {selectedLines.length > 0 && (
-            <div className="space-y-3">
-              <div>
-                <h3 className="font-medium text-white text-base">
-                  Código de barras do SIM card
-                </h3>
-              </div>
-              
-              <div className="flex justify-between items-center">
-                <p className="text-sm text-white">
-                  Linha: DDD {selectedLines[0].ddd}
-                </p>
-                <Button
-                  onClick={() => onStartScanning(0)}
-                  className="bg-white hover:bg-gray-100 text-purple-700 px-6 py-2 rounded-lg font-medium"
-                >
-                  {selectedLines[0].barcode ? 'Escanear novamente' : 'Escanear código'}
-                </Button>
-              </div>
-
-              {selectedLines[0].barcode && (
-                <div className="mt-4 space-y-3">
-                  <div style={{ backgroundColor: '#5f0889' }}>
-                    <h4 className="font-medium text-white text-sm mb-2">
-                      Código escaneado:
-                    </h4>
-                    <input
-                      type="text"
-                      value={`ICCID: ${selectedLines[0].barcode}`}
-                      readOnly
-                      className="w-full p-2 border border-white rounded bg-purple-700 text-white text-base pointer-events-none focus:outline-none"
-                      tabIndex={-1}
-                    />
-                  </div>
-                </div>
-              )}
+      <div className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white">
+        {selectedLines.length > 0 && (
+          <div className="space-y-3">
+            <div>
+              <h3 className="font-medium text-white text-base">
+                Código de barras do SIM card
+              </h3>
             </div>
-          )}
-        </CardContent>
-      </Card>
+            
+            <div className="flex justify-between items-center">
+              <p className="text-sm text-white">
+                Linha: DDD {selectedLines[0].ddd}
+              </p>
+              <Button
+                onClick={() => onStartScanning(0)}
+                className="bg-white hover:bg-gray-100 text-purple-700 px-6 py-2 rounded-lg font-medium"
+              >
+                {selectedLines[0].barcode ? 'Escanear novamente' : 'Escanear código'}
+              </Button>
+            </div>
+
+            {selectedLines[0].barcode && (
+              <div className="mt-4 space-y-3">
+                <div style={{ backgroundColor: '#5f0889' }}>
+                  <h4 className="font-medium text-white text-sm mb-2">
+                    Código escaneado:
+                  </h4>
+                  <input
+                    type="text"
+                    value={`ICCID: ${selectedLines[0].barcode}`}
+                    readOnly
+                    className="w-full p-2 border border-white rounded bg-purple-700 text-white text-base pointer-events-none focus:outline-none"
+                    tabIndex={-1}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
 
       {/* Botões inferiores */}
       <div className="flex gap-3 pt-4">
