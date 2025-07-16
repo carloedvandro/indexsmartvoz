@@ -15,6 +15,18 @@ interface ConfirmationScreenProps {
 export function ConfirmationScreen({ selectedLines, protocol }: ConfirmationScreenProps) {
   const navigate = useNavigate();
 
+  // Gerar protocolo no formato 2025MMDD######
+  const generateProtocol = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const sequential = '000001'; // Número sequencial - pode vir do backend
+    return `${year}${month}${day}${sequential}`;
+  };
+
+  const protocolFormatted = generateProtocol();
+
   const handleUnderstand = () => {
     // Limpar dados do localStorage
     localStorage.removeItem('orderData');
@@ -63,7 +75,7 @@ export function ConfirmationScreen({ selectedLines, protocol }: ConfirmationScre
         </div>
 
         <div className="text-center">
-          <p className="text-white/80 text-sm">Protocolo {protocol.replace('CHIP-', '')}</p>
+          <p className="text-white/80 text-sm">Protocolo {protocolFormatted}</p>
         </div>
 
         <div className="flex justify-center">
