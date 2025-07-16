@@ -39,7 +39,7 @@ export function BarcodeInputStep({
       </div>
 
       {/* Caixa de entrada de dados */}
-      <div className="px-6 py-6 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white">
+      <div className="px-6 py-6 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white" style={{backgroundColor: '#5f0889'}}>
         {selectedLines.length > 0 && (
           <div className="space-y-4">
             <div>
