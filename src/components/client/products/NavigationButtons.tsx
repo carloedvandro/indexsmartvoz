@@ -1,6 +1,5 @@
 
 import { Button } from "@/components/ui/button";
-import { SlideButton } from "@/components/ui/slide-button";
 import { useNavigate } from "react-router-dom";
 
 interface NavigationButtonsProps {
@@ -38,13 +37,13 @@ export function NavigationButtons({
       >
         Voltar
       </Button>
-      <SlideButton 
+      <Button 
         className="bg-[#8425af] hover:bg-[#8425af]/90 text-white flex-1"
         onClick={handleContinue}
         disabled={disabled}
       >
         Continuar
-      </SlideButton>
+      </Button>
     </div>
   );
 }

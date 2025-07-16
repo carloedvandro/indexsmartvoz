@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { SlideButton } from "@/components/ui/slide-button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Smartphone, CreditCard, ArrowRight, ArrowLeft } from "lucide-react";
@@ -122,10 +121,10 @@ export function ChipTypeSelection({
       duration: 0.5,
       delay: 0.5
     }} className="flex flex-col space-y-3">
-        <SlideButton onClick={handleContinue} disabled={!selectedType} className="w-full h-12 text-lg">
+        <Button onClick={handleContinue} disabled={!selectedType} className="w-full h-12 text-lg">
           Continuar
           <ArrowRight className="ml-2 h-5 w-5" />
-        </SlideButton>
+        </Button>
         
         
       </motion.div>

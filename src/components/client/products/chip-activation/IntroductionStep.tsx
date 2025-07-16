@@ -1,6 +1,5 @@
 
 import { Button } from "@/components/ui/button";
-import { SlideButton } from "@/components/ui/slide-button";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface IntroductionStepProps {
@@ -42,12 +41,12 @@ export function IntroductionStep({ onContinue }: IntroductionStepProps) {
         </div>
 
         <div className="flex justify-end">
-          <SlideButton 
+          <Button 
             className="bg-[#8425af] hover:bg-[#6c1e8f]"
             onClick={onContinue}
           >
             Continuar
-          </SlideButton>
+          </Button>
         </div>
       </CardContent>
     </Card>

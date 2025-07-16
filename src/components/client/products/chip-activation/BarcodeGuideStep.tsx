@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { SlideButton } from "@/components/ui/slide-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, Circle } from "lucide-react";
 interface BarcodeGuideStepProps {
@@ -63,9 +62,9 @@ export function BarcodeGuideStep({
             <Button variant="outline" onClick={onBack} className="border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white flex-1">
               Voltar
             </Button>
-            <SlideButton className="bg-[#8425af] hover:bg-[#6c1e8f] flex-1 space-y-4" onClick={onContinue}>
+            <Button className="bg-[#8425af] hover:bg-[#6c1e8f] flex-1 space-y-4" onClick={onContinue}>
               Continuar
-            </SlideButton>
+            </Button>
           </div>
         </div></div></div>;
 }

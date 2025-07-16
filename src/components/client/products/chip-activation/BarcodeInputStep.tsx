@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { SlideButton } from "@/components/ui/slide-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Info } from "lucide-react";
 
@@ -91,7 +90,7 @@ export function BarcodeInputStep({
         >
           Voltar
         </Button>
-        <SlideButton 
+        <Button 
           onClick={onContinue}
           disabled={!allBarcodesScanned}
           className={`flex-1 px-4 py-2 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white ${
@@ -102,7 +101,7 @@ export function BarcodeInputStep({
           style={{backgroundColor: '#5f0889'}}
         >
           Continuar
-        </SlideButton>
+        </Button>
       </div>
     </div>
   );

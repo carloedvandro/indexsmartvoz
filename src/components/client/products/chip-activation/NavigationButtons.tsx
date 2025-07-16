@@ -1,6 +1,5 @@
 
 import { Button } from "@/components/ui/button";
-import { SlideButton } from "@/components/ui/slide-button";
 
 interface NavigationButtonsProps {
   onBack: () => void;
@@ -23,14 +22,14 @@ export function NavigationButtons({
       >
         Voltar
       </Button>
-      <SlideButton 
+      <Button 
         className="px-4 py-4 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white flex-1 items-center"
         style={{backgroundColor: '#5f0889'}}
         onClick={onContinue}
         disabled={disabled}
       >
         Continuar
-      </SlideButton>
+      </Button>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { SlideButton } from "@/components/ui/slide-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Trash2, ScanLine } from "lucide-react";
@@ -131,13 +130,13 @@ export function LineSelectionStep({
           >
             Voltar
           </Button>
-          <SlideButton 
+          <Button 
             className="bg-[#8425af] hover:bg-[#6c1e8f]"
             onClick={onContinue}
             disabled={!isFormValid}
           >
             Continuar
-          </SlideButton>
+          </Button>
         </div>
       </CardContent>
     </Card>

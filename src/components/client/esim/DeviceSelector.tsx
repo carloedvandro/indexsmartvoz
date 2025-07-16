@@ -1,6 +1,5 @@
 
 import { Button } from "@/components/ui/button";
-import { SlideButton } from "@/components/ui/slide-button";
 import { Info } from "lucide-react";
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -72,12 +71,12 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
         >
           Voltar
         </Button>
-        <SlideButton 
+        <Button 
           onClick={() => onSelect(selectedDevice)}
           className="bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3 flex-1"
         >
           Continuar
-        </SlideButton>
+        </Button>
       </div>
     </div>
   );
