@@ -90,7 +90,7 @@ export function BarcodeInputStep({
           Voltar
         </Button>
         <Button 
-          onClick={() => window.location.href = 'https://seudominio.com/ativacao'}
+          onClick={onContinue}
           disabled={!allBarcodesScanned}
           className={`flex-1 px-4 py-2 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white ${
             allBarcodesScanned 
