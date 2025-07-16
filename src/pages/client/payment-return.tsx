@@ -407,7 +407,7 @@ export default function PaymentReturn() {
                   </button>
                   <button
                     onClick={handleDownloadReceipt}
-                    className="inline-flex items-center px-4 py-2 border border-[#4a148c] text-[#4a148c] font-medium no-underline rounded-md hover:bg-[#4a148c] hover:text-white transition-colors"
+                    className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 inline-flex items-center text-white font-medium no-underline transition-colors hover:bg-white/10"
                   >
                     <Download className="w-4 h-4 mr-2" />
                     Baixar Comprovante
