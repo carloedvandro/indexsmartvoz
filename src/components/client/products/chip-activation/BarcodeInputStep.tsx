@@ -96,7 +96,7 @@ export function BarcodeInputStep({
           className={`flex-1 px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 ${
             allBarcodesScanned 
               ? 'text-white hover:opacity-90' 
-              : 'bg-purple-200 text-purple-400 cursor-not-allowed'
+              : 'text-purple-400 cursor-not-allowed'
           }`}
           style={allBarcodesScanned ? { backgroundColor: '#5f0889' } : undefined}
         >
