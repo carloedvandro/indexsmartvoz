@@ -72,7 +72,7 @@ export default function FacialBiometry() {
 
   return (
     <div className="min-h-screen w-full bg-white">
-      <div className="flex flex-col justify-center items-center min-h-screen">
+      <div className="flex flex-col justify-center items-center min-h-screen text-white" style={{ backgroundColor: '#5f0889' }}>
         <div className="w-full h-full max-w-md">
           <FacialBiometryFlow 
             onComplete={handleVerificationComplete} 
