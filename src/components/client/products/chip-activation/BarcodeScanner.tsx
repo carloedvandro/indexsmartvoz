@@ -14,6 +14,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   const [hasScanned, setHasScanned] = useState(false);
   const [isScanning, setIsScanning] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [iccidDisplay, setIccidDisplay] = useState("ICCID: Aguardando leitura...");
   
 
   const {
@@ -21,11 +22,17 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   } = useZxing({
     onDecodeResult(result) {
       const barcode = result.getText();
-      console.log("🔍 [BARCODE-SCANNER] Código detectado:", barcode);
       
-      // Validar código com exatamente 20 dígitos
-      if (barcode.length === 20) {
-        console.log("✅ [BARCODE-SCANNER] Código válido aceito:", barcode);
+      // Remove todos os caracteres não numéricos
+      const iccidRaw = barcode.replace(/[^\d]/g, '');
+      console.log("🔍 [BARCODE-SCANNER] ICCID detectado:", iccidRaw);
+      
+      // Validar ICCID: deve ter 19 ou 20 dígitos
+      if (/^\d{19,20}$/.test(iccidRaw)) {
+        console.log("✅ [BARCODE-SCANNER] ICCID válido aceito:", iccidRaw);
+        
+        // Atualiza o display do ICCID
+        setIccidDisplay(`ICCID: ${iccidRaw}`);
         
         // Toca o som de beep com volume máximo
         const beepSound = audioRef.current;
@@ -44,21 +51,23 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         setHasScanned(true);
         setIsScanning(false);
         setErrorMessage('');
-        onResult(barcode);
+        onResult(iccidRaw);
         
-        // Pequeno delay antes de fechar
+        // Delay maior para mostrar o ICCID capturado
         setTimeout(() => {
           onClose();
-        }, 1000);
+        }, 2000);
       } else {
-        console.log("❌ [BARCODE-SCANNER] Código rejeitado:", { barcode, length: barcode.length });
+        console.log("❌ [BARCODE-SCANNER] ICCID rejeitado:", { iccid: iccidRaw, length: iccidRaw.length });
         
-        // Mostrar mensagem de erro
-        setErrorMessage(`Código deve ter 20 dígitos (detectado: ${barcode.length})`);
+        // Mostrar mensagem de erro mais específica
+        setErrorMessage("Código inválido. Tente novamente.");
+        setIccidDisplay("ICCID: Código inválido");
         
         // Limpar mensagem de erro após 3 segundos
         setTimeout(() => {
           setErrorMessage('');
+          setIccidDisplay("ICCID: Aguardando leitura...");
         }, 3000);
       }
     },
@@ -149,6 +158,25 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
                 {errorMessage}
               </div>
             </div>
+          )}
+        </div>
+        
+        {/* Display do ICCID */}
+        <div className="bg-[#5e0fa3] text-white text-center py-3 px-4">
+          <div className="text-lg font-bold">
+            {iccidDisplay}
+          </div>
+          {hasScanned && (
+            <button
+              onClick={() => {
+                setHasScanned(false);
+                setIsScanning(true);
+                setIccidDisplay("ICCID: Aguardando leitura...");
+              }}
+              className="mt-2 bg-[#7f3cff] hover:bg-[#985bff] text-white px-4 py-2 rounded-lg font-medium transition-colors"
+            >
+              Escanear novamente
+            </button>
           )}
         </div>
       </div>
