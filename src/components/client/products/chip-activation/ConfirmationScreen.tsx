@@ -15,13 +15,17 @@ interface ConfirmationScreenProps {
 export function ConfirmationScreen({ selectedLines, protocol }: ConfirmationScreenProps) {
   const navigate = useNavigate();
 
-  // Gerar protocolo no formato 2025MMDD######
+  // Gerar protocolo único no formato 2025MMDD######
   const generateProtocol = () => {
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
-    const sequential = '000001'; // Número sequencial - pode vir do backend
+    
+    // Gerar número sequencial único baseado no timestamp
+    const timestamp = now.getTime();
+    const sequential = String(timestamp).slice(-6); // Últimos 6 dígitos do timestamp
+    
     return `${year}${month}${day}${sequential}`;
   };
 
