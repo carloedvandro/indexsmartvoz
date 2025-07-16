@@ -54,7 +54,7 @@ export function BarcodeInputStep({
               </p>
               <Button
                 onClick={() => onStartScanning(0)}
-                className="bg-transparent hover:bg-green-400 hover:text-black border border-white text-white px-4 py-2 rounded transition-all duration-300"
+                className="px-4 py-2 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white break-words max-w-sm ml-4"
               >
                 {selectedLines[0].barcode ? 'Escanear novamente' : 'Escanear código'}
               </Button>
