@@ -39,12 +39,23 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         if (beepSound) {
           beepSound.volume = 1.0;
           beepSound.currentTime = 0;
-          const playPromise = beepSound.play();
           
-          if (playPromise !== undefined) {
-            playPromise.catch(error => {
-              console.error("Erro ao tocar o som:", error);
-            });
+          // Garantir que o áudio está carregado antes de tocar
+          if (beepSound.readyState >= 2) { // HAVE_CURRENT_DATA
+            const playPromise = beepSound.play();
+            if (playPromise !== undefined) {
+              playPromise.catch(error => {
+                console.error("Erro ao tocar o som:", error);
+              });
+            }
+          } else {
+            // Se não estiver carregado, carregar e tocar
+            beepSound.load();
+            beepSound.addEventListener('canplay', () => {
+              beepSound.play().catch(error => {
+                console.error("Erro ao tocar o som:", error);
+              });
+            }, { once: true });
           }
         }
         
