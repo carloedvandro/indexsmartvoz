@@ -31,7 +31,7 @@ export function BarcodeInputStep({
   return (
     <div className="space-y-6 -mt-20 pt-10">
       {/* Caixa de alerta azul informativa */}
-      <div className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 flex items-start space-x-3">
+      <div className="px-4 py-4 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 flex items-start space-x-3" style={{backgroundColor: '#5f0889'}}>
         <Info className="w-5 h-5 text-white mt-0.5 flex-shrink-0" />
         <p className="text-white text-sm leading-relaxed">
           O código de barras do chip deve ter 20 dígitos e começar com 8955. Posicione o código no centro da câmera.
