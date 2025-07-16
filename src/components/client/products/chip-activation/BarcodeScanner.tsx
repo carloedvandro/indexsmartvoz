@@ -35,28 +35,39 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         setIccidDisplay(`ICCID: ${iccidRaw}`);
         
         // Toca o som de beep com volume máximo
-        const beepSound = audioRef.current;
-        if (beepSound) {
-          beepSound.volume = 1.0;
-          beepSound.currentTime = 0;
-          
-          // Garantir que o áudio está carregado antes de tocar
-          if (beepSound.readyState >= 2) { // HAVE_CURRENT_DATA
+        try {
+          const beepSound = audioRef.current;
+          if (beepSound) {
+            beepSound.volume = 1.0;
+            beepSound.currentTime = 0;
+            
+            console.log("🔊 [BARCODE-SCANNER] Tentando tocar o beep...");
+            
             const playPromise = beepSound.play();
-            if (playPromise !== undefined) {
-              playPromise.catch(error => {
-                console.error("Erro ao tocar o som:", error);
+            playPromise.then(() => {
+              console.log("✅ [BARCODE-SCANNER] Beep tocado com sucesso!");
+            }).catch(error => {
+              console.error("❌ [BARCODE-SCANNER] Erro ao tocar o beep:", error);
+              
+              // Fallback: criar novo áudio e tocar
+              const fallbackBeep = new Audio('/beep.mp3');
+              fallbackBeep.volume = 1.0;
+              fallbackBeep.play().catch(e => {
+                console.error("❌ [BARCODE-SCANNER] Fallback beep também falhou:", e);
               });
-            }
+            });
           } else {
-            // Se não estiver carregado, carregar e tocar
-            beepSound.load();
-            beepSound.addEventListener('canplay', () => {
-              beepSound.play().catch(error => {
-                console.error("Erro ao tocar o som:", error);
-              });
-            }, { once: true });
+            console.error("❌ [BARCODE-SCANNER] Referência do áudio não encontrada");
+            
+            // Fallback: criar novo áudio
+            const fallbackBeep = new Audio('/beep.mp3');
+            fallbackBeep.volume = 1.0;
+            fallbackBeep.play().catch(e => {
+              console.error("❌ [BARCODE-SCANNER] Fallback beep falhou:", e);
+            });
           }
+        } catch (error) {
+          console.error("❌ [BARCODE-SCANNER] Erro geral no áudio:", error);
         }
         
         setHasScanned(true);
