@@ -135,7 +135,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           }}
         >
         {/* Header do scanner */}
-        <div className="absolute top-0 w-full bg-white/95 text-center py-2.5 font-bold z-20">
+        <div className="absolute top-0 w-full bg-white/95 text-center py-2.5 font-bold z-20 text-sm">
           Posicione o código de barras do chip
         </div>
 
