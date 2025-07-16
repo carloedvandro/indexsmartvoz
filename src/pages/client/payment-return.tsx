@@ -401,7 +401,7 @@ export default function PaymentReturn() {
                 <>
                   <button
                     onClick={handleContinue}
-                    className="block w-full px-6 py-3 bg-[#4a148c] text-white font-bold no-underline rounded-md hover:bg-[#6a1b9a] transition-colors"
+                    className="block w-full px-6 py-3 bg-[#5f0889] text-white font-bold no-underline rounded-md hover:bg-[#7b1fa2] transition-colors"
                   >
                     Continuar para Ativação →
                   </button>
