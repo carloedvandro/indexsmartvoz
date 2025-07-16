@@ -22,7 +22,7 @@ export function NavigationButtons({
         Voltar
       </Button>
       <Button 
-        className="bg-[#8425af] hover:bg-[#6c1e8f] text-white px-4 h-[42px] flex-1 items-center"
+        className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white flex-1 items-center"
         onClick={onContinue}
         disabled={disabled}
       >
