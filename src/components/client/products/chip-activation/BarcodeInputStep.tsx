@@ -96,9 +96,10 @@ export function BarcodeInputStep({
           disabled={!allBarcodesScanned}
           className={`flex-1 ${
             allBarcodesScanned 
-              ? 'bg-purple-700 hover:bg-purple-800 text-white' 
+              ? 'text-white hover:opacity-90' 
               : 'bg-purple-200 text-purple-400 cursor-not-allowed'
           }`}
+          style={allBarcodesScanned ? { backgroundColor: '#5f0889' } : undefined}
         >
           Continuar
         </Button>
