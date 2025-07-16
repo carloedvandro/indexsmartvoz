@@ -69,7 +69,7 @@ export function BarcodeInputStep({
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-white font-bold">ICCID:</span>
-                  <div className="bg-purple-600/70 text-white p-2 rounded text-sm break-words max-w-sm ml-4">
+                  <div className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white break-words max-w-sm ml-4">
                     {selectedLines[0].barcode}
                   </div>
                 </div>
