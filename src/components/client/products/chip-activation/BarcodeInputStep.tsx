@@ -61,7 +61,7 @@ export function BarcodeInputStep({
             </div>
 
             {selectedLines[0].barcode && (
-              <div className="bg-purple-800/50 backdrop-blur rounded-lg p-4 border border-purple-400/30">
+              <>
                 <div className="mb-2">
                   <h4 className="font-bold text-gray-300 text-sm">
                     Código escaneado:
@@ -73,7 +73,7 @@ export function BarcodeInputStep({
                     {selectedLines[0].barcode}
                   </div>
                 </div>
-              </div>
+              </>
             )}
           </div>
         )}
