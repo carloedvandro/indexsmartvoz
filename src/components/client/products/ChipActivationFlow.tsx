@@ -70,7 +70,7 @@ export function ChipActivationFlow({
           </div>
         </div>
         
-        {currentStep === 6 || currentStep === 7 ? (
+        {currentStep === 6 ? (
           // Para o step 6, renderizar sem o container extra já que tem layout próprio
           <>
             <ChipActivationStepContent
