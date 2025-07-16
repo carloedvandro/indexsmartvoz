@@ -343,16 +343,16 @@ export default function PaymentReturn() {
                   {getStatusIcon()}
                 </div>
               )}
-              <h2 className="text-[#2e7d32] text-2xl font-normal mb-2">
+              <h2 className="text-white text-2xl font-normal mb-2">
                 {getStatusTitle()}
               </h2>
-              <p className="text-[#555] text-base leading-relaxed">
+              <p className="text-white text-base leading-relaxed">
                 {getStatusDescription()}
               </p>
             </div>
 
             {/* Tabela de detalhes */}
-            <table className="w-full text-base text-[#333] mb-8">
+            <table className="w-full text-base text-white mb-8">
               <tbody>
                 <tr>
                   <td className="py-1">
