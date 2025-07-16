@@ -68,7 +68,7 @@ export function BarcodeInputStep({
                   </h4>
                 </div>
                 <div className="bg-purple-600/70 text-white p-3 rounded text-sm break-words">
-                  <strong>ICCID:</strong> {selectedLines[0].barcode}
+                  {selectedLines[0].barcode}
                 </div>
               </div>
             )}
