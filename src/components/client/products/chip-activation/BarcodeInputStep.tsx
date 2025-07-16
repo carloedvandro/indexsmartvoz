@@ -63,7 +63,7 @@ export function BarcodeInputStep({
 
               {selectedLines[0].barcode && (
                 <div className="mt-4 space-y-3">
-                  <div>
+                  <div style={{ backgroundColor: '#5f0889' }}>
                     <h4 className="font-medium text-white text-sm mb-2">
                       Código escaneado:
                     </h4>
