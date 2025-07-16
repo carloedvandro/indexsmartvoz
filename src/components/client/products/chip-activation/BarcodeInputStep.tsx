@@ -40,7 +40,7 @@ export function BarcodeInputStep({
 
       {/* Caixa de entrada de dados */}
       <Card className="border border-gray-200 bg-purple-700">
-        <CardContent className="p-4 text-white">
+        <CardContent className="p-4 text-white" style={{ backgroundColor: '#5f0889' }}>
           {selectedLines.length > 0 && (
             <div className="space-y-3">
               <div>
