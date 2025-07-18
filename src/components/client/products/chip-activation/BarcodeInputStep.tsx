@@ -85,7 +85,7 @@ export function BarcodeInputStep({
         <Button 
           variant="outline" 
           onClick={onBack} 
-          className="flex-1 px-4 py-2 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white"
+          className="px-4 py-4 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white flex-1 items-center"
           style={{ borderColor: '#5f0889', backgroundColor: '#5f0889', color: 'white' }}
         >
           Voltar
