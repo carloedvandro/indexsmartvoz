@@ -27,7 +27,14 @@ export default {
       },
     },
     extend: {
-      colors,
+      colors: {
+        ...colors,
+        "color-1": "hsl(var(--color-1))",
+        "color-2": "hsl(var(--color-2))",
+        "color-3": "hsl(var(--color-3))",
+        "color-4": "hsl(var(--color-4))",
+        "color-5": "hsl(var(--color-5))",
+      },
       borderRadius,
       keyframes: {
         ...animations.keyframes,
@@ -36,10 +43,15 @@ export default {
             backgroundPosition: "var(--bg-size) 0",
           },
         },
+        rainbow: {
+          "0%": { "background-position": "0%" },
+          "100%": { "background-position": "200%" },
+        },
       },
       animation: {
         ...animations.animation,
         gradient: "gradient 8s linear infinite",
+        rainbow: "rainbow var(--speed, 2s) infinite linear",
       },
       maxWidth: {
         'sm': '384px',
