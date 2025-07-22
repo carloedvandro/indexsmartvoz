@@ -37,7 +37,7 @@ export const VerificationRejected = () => {
       
       <Button
         onClick={tentarNovamente}
-        className="w-full mt-4 px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white font-bold hover:bg-white/20"
+        className="max-w-md w-full mt-4 px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 text-white font-bold hover:bg-white/20"
       >
         Tentar novamente
       </Button>
