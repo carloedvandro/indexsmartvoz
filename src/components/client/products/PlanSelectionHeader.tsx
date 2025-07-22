@@ -1,19 +1,13 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { itemVariants } from "@/utils/animations";
 
 interface PlanSelectionHeaderProps {
-  variants: {
-    hidden: { opacity: number; y: number };
-    visible: {
-      opacity: number;
-      y: number;
-      transition: { duration: number; ease: string };
-    };
-  };
+  variants?: any;
 }
 
-export function PlanSelectionHeader({ variants }: PlanSelectionHeaderProps) {
+export function PlanSelectionHeader({ variants = itemVariants }: PlanSelectionHeaderProps) {
   return (
     <motion.div 
       className="space-y-3 max-w-[365px] mx-auto text-center pt-5"

@@ -29,8 +29,7 @@ export function DueDateSelector({
       transition: {
         duration: 0.5,
         repeat: Infinity,
-        repeatType: "reverse" as const,
-        ease: "easeInOut"
+        repeatType: "reverse" as const
       }
     },
     unselected: {
