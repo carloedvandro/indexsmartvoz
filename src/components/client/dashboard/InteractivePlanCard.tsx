@@ -103,7 +103,7 @@ export function InteractivePlanCard() {
       className="w-full mx-auto p-5"
     >
       {/* Plan Cards Slider */}
-      <div className="mb-5 relative">
+      <div className="mb-5 relative bg-transparent">
         <div 
           ref={scrollContainerRef}
           className="overflow-x-auto scrollbar-hide mb-3 flex gap-5 w-max px-5"
