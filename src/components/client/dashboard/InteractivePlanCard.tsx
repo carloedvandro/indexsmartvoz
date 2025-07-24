@@ -228,10 +228,9 @@ export function InteractivePlanCard() {
           background: linear-gradient(to bottom right, #6600ff, #cc00cc);
           color: white;
           border-radius: 2rem;
-          box-shadow: 0 10px 20px rgba(0,0,0,0.4), inset 4px 4px 10px rgba(255,255,255,0.05), inset -4px -4px 10px rgba(0,0,0,0.2);
           padding: 2rem;
           text-align: center;
-          width: 340px;
+          width: 420px;
           max-width: 100%;
           font-family: 'Segoe UI', sans-serif;
           position: relative;
