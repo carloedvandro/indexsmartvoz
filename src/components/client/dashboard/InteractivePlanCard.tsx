@@ -136,7 +136,7 @@ export function InteractivePlanCard() {
                 
                 <div className="giga-bloco">
                   <GradientText
-                    colors={["#ffffff", "#ff40aa", "#40aaff", "#ffffff"]}
+                    colors={["#ffffff", "#ffffff", "#ffffff"]}
                     animationSpeed={4}
                     className="text-6xl font-extrabold"
                   >
