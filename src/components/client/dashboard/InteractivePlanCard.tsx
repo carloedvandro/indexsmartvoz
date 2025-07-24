@@ -163,7 +163,7 @@ export function InteractivePlanCard() {
                   {level.title}
                 </h3>
                 
-                <p className="my-1 font-medium text-gray-700 text-sm">
+                <p className="my-1 font-medium text-gray-700 text-xs">
                   {level.indications} indicações{" "}
                   <strong className="text-gray-900">
                     {formatCurrency(level.commission)}
