@@ -61,7 +61,8 @@ export const NetworkCard = ({
         </div>
         <p className="text-center text-gray-500 text-base mb-6">Total de Indicados: {totalMembers}</p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6"
+             style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))' }}>
           {niveis.map((nivel, index) => (
             <motion.div
               key={index}
