@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { formatCurrency } from "@/utils/format";
 import { motion } from 'framer-motion';
 
@@ -49,6 +49,38 @@ const plans: Plan[] = [
   }
 ];
 
+// Animation component for numbers
+function AnimatedNumber({ value, delay = 0 }: { value: number; delay?: number }) {
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const increment = Math.ceil(value / 30);
+      let current = 0;
+      const interval = setInterval(() => {
+        current += increment;
+        if (current >= value) {
+          current = value;
+          clearInterval(interval);
+        }
+        setDisplayValue(current);
+      }, 20);
+      return () => clearInterval(interval);
+    }, delay);
+
+    return () => clearTimeout(timeout);
+  }, [value, delay]);
+
+  const formatNumber = (num: number) => {
+    if (num > 999) {
+      return num.toString().padStart(3, '0');
+    }
+    return num.toString().padStart(2, '0');
+  };
+
+  return <span className="numero">{formatNumber(displayValue)}</span>;
+}
+
 export function InteractivePlanCard() {
   const [currentPlan, setCurrentPlan] = useState(0);
 
@@ -66,6 +98,8 @@ export function InteractivePlanCard() {
   };
 
   const plan = plans[currentPlan];
+  const totalClients = plan.commissionLevels.reduce((total, level) => total + level.indications, 0);
+  const totalValue = calculateTotal(plan.commissionLevels);
 
   return (
     <motion.div 
@@ -166,42 +200,55 @@ export function InteractivePlanCard() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.1 }}
-        className="tabela-consumo"
+        className="tabela-container"
       >
         <h2 className="titulo">Consumo inteligente</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Nível</th>
-              <th>Clientes</th>
-              <th>Usuário</th>
-              <th>Por Nível</th>
-              <th>Acumulado</th>
-            </tr>
-          </thead>
-          <tbody>
-            {plan.commissionLevels.map((level) => (
-              <tr key={level.level}>
-                <td className="nivel">{level.level}º</td>
-                <td>{level.indications}</td>
-                <td className="usuario">
-                  {formatCurrency(level.commission)}<br/>
-                  <span>Por indicado</span>
-                </td>
-                <td>{formatCurrency(level.commission)}</td>
-                <td>{formatCurrency(level.monthlyValue)}</td>
-              </tr>
-            ))}
-            <tr className="total">
-              <td>Total</td>
-              <td>{plan.commissionLevels.reduce((total, level) => total + level.indications, 0)}</td>
-              <td>R$35,00</td>
-              <td>R$35,00</td>
-              <td>{formatCurrency(calculateTotal(plan.commissionLevels))}</td>
-            </tr>
-          </tbody>
-        </table>
-        <p className="rodape">Valor total a receber na recorrência</p>
+        <div className="tabela">
+          <div className="linha cabecalho">
+            <div className="coluna">Nível</div>
+            <div className="coluna">Clientes</div>
+            <div className="coluna">Usuário</div>
+            <div className="coluna">Por Nível</div>
+            <div className="coluna">Acumulado</div>
+          </div>
+
+          {plan.commissionLevels.map((level, index) => {
+            const gradientClass = ['gradient-laranja', 'gradient-roxo', 'gradient-azul', 'gradient-rosa'][index];
+            return (
+              <div key={level.level} className="linha">
+                <div className={`coluna nivel ${gradientClass}`}>{level.level}º</div>
+                <div className="coluna">{level.indications}</div>
+                <div className="coluna destaque">
+                  R$<AnimatedNumber value={level.commission} delay={index * 100} />,00<br/>
+                  <small>Por indicado</small>
+                </div>
+                <div className="coluna">
+                  R$<AnimatedNumber value={level.commission} delay={index * 100} />,00
+                </div>
+                <div className="coluna">
+                  R$<AnimatedNumber value={level.monthlyValue} delay={index * 100} />,00
+                </div>
+              </div>
+            );
+          })}
+
+          <div className="linha total">
+            <div className="coluna nivel">Total</div>
+            <div className="coluna">{totalClients}</div>
+            <div className="coluna destaque">
+              R$<AnimatedNumber value={35} delay={400} />,00
+            </div>
+            <div className="coluna">
+              R$<AnimatedNumber value={35} delay={400} />,00
+            </div>
+            <div className="coluna roxo-claro">
+              R$<AnimatedNumber value={totalValue} delay={400} />,00
+            </div>
+          </div>
+        </div>
+        <p className="nota-final">
+          Valor total a receber na recorrência <strong>R${totalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</strong>
+        </p>
       </motion.div>
 
       {/* Global Styles for Plan Card */}
@@ -328,79 +375,98 @@ export function InteractivePlanCard() {
           background: #884dd1;
         }
 
-        .tabela-consumo {
+        .tabela-container {
           font-family: 'Segoe UI', sans-serif;
-          max-width: 850px;
-          margin: 3rem auto;
-          background: #f2f2f2;
-          padding: 2rem;
-          border-radius: 1.2rem;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-          background: linear-gradient(145deg, #ffffff, #eaeaea);
-          border: 1px solid #ddd;
+          max-width: 860px;
+          margin: 2rem auto;
+          background: #fdfdfd;
+          border-radius: 1rem;
+          padding: 1rem 2rem;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+          background-image: radial-gradient(circle, #e4e0ff 1px, transparent 1px);
+          background-size: 50px 50px;
         }
 
         .titulo {
           text-align: center;
           font-size: 2rem;
-          font-weight: 600;
+          font-weight: 800;
           color: #111;
+          margin-bottom: 2rem;
           text-shadow: 1px 1px 2px #ccc;
-          margin-bottom: 1.5rem;
         }
 
-        .tabela-consumo table {
-          width: 100%;
-          border-collapse: collapse;
-          text-align: center;
+        .tabela {
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          gap: 10px;
         }
 
-        .tabela-consumo th {
-          background: linear-gradient(to right, #7209b7, #560bad);
-          color: #fff;
-          padding: 0.8rem;
-          border-radius: 0.5rem 0.5rem 0 0;
-          font-weight: 600;
-          text-shadow: 1px 1px 2px #00000088;
+        .linha {
+          display: contents;
         }
 
-        .tabela-consumo td {
+        .coluna {
+          background: white;
           padding: 1rem;
-          background: #fff;
-          border: 1px solid #eee;
-          font-size: 1rem;
-          position: relative;
-        }
-
-        .nivel {
-          border-left: 6px solid #ff006e;
-          font-weight: 600;
-        }
-
-        .usuario {
-          font-weight: bold;
-          color: #7b2cbf;
-        }
-
-        .usuario span {
-          font-size: 0.8rem;
-          color: #666;
-        }
-
-        .total td {
-          background: linear-gradient(to right, #7209b7, #3a0ca3);
-          color: #fff;
-          font-weight: bold;
-          text-shadow: 1px 1px 2px #00000088;
-        }
-
-        .rodape {
+          border-radius: 1rem;
           text-align: center;
-          margin-top: 1rem;
-          font-weight: bold;
-          color: #444;
+          font-weight: 500;
           font-size: 1rem;
-          text-shadow: 1px 1px 1px #ddd;
+          box-shadow: inset 0 0 10px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.05);
+          transition: all 0.3s ease;
+        }
+
+        .cabecalho .coluna {
+          background: linear-gradient(to right, #6a00ff, #b300ff);
+          color: white;
+          font-weight: bold;
+          text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+        }
+
+        .total .coluna {
+          font-weight: bold;
+          background: #ece4ff;
+          font-size: 1.05rem;
+        }
+
+        .destaque {
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: #222;
+        }
+
+        .roxo-claro {
+          background: linear-gradient(to bottom right, #7209b7, #b5179e);
+          color: white;
+          text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .gradient-laranja { 
+          border-left: 5px solid #ff6a00; 
+        }
+
+        .gradient-roxo { 
+          border-left: 5px solid #7b2cbf; 
+        }
+
+        .gradient-azul { 
+          border-left: 5px solid #3a86ff; 
+        }
+
+        .gradient-rosa { 
+          border-left: 5px solid #ff006e; 
+        }
+
+        .nota-final {
+          text-align: center;
+          font-size: 1.1rem;
+          margin-top: 2rem;
+          color: #444;
+        }
+
+        .numero {
+          font-variant-numeric: tabular-nums;
         }
       `}</style>
     </motion.div>
