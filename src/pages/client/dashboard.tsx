@@ -56,7 +56,7 @@ export default function ClientDashboard() {
         </div>
       </div>
 
-      <div className="container mb-10">
+      <div className="container mb-8">
         <InteractivePlanCard />
       </div>
 
