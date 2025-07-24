@@ -180,32 +180,40 @@ export function InteractivePlanCard() {
             transition={{ duration: 0.3 }}
             className="space-y-4"
           >
-            {plan.commissionLevels.map((level, index) => (
-              <div
-                key={level.level}
-                className="bg-white rounded-2xl p-5 pl-6"
-                style={{
-                  background: 'linear-gradient(135deg, #fff, #f5f2fc)',
-                  borderLeft: '8px solid #9c27b0',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
-                }}
-              >
-                <h3 className="text-primary font-bold text-xl mb-3">
+            {plan.commissionLevels.map((level, index) => {
+              const gradientColors = [
+                'linear-gradient(135deg, #ff6b35, #f7931e)', // Laranja
+                'linear-gradient(135deg, #a855f7, #7c3aed)', // Roxo
+                'linear-gradient(135deg, #3b82f6, #1d4ed8)', // Azul
+                'linear-gradient(135deg, #ec4899, #be185d)'  // Rosa/Magenta
+              ];
+              
+              return (
+                <div
+                  key={level.level}
+                  className="bg-white rounded-2xl p-5 pl-6 relative overflow-hidden"
+                  style={{
+                    background: gradientColors[index],
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.12)'
+                  }}
+                >
+                <h3 className="text-white font-bold text-xl mb-3 drop-shadow-lg">
                   {level.title}
                 </h3>
                 
-                <p className="my-1 font-normal text-gray-600">
+                <p className="my-1 font-normal text-white/90 drop-shadow-md">
                   {level.indications} indicações{" "}
-                  <strong className="text-gray-900">
+                  <strong className="text-white font-bold">
                     {formatCurrency(level.commission)}
                   </strong> por indicado
                 </p>
                 
-                <p className="my-1 font-bold text-primary text-lg">
+                <p className="my-1 font-bold text-white text-lg drop-shadow-lg">
                   Total: {formatCurrency(level.monthlyValue)}/mês
                 </p>
               </div>
-            ))}
+            );
+            })}
           </motion.div>
         </div>
       </div>
@@ -455,10 +463,10 @@ export function InteractivePlanCard() {
           transition: transform 0.3s ease;
         }
 
-        .nivel1 .col:first-child { border-left: 5px solid #ff6a00; }
-        .nivel2 .col:first-child { border-left: 5px solid #a64ac9; }
-        .nivel3 .col:first-child { border-left: 5px solid #5e60ce; }
-        .nivel4 .col:first-child { border-left: 5px solid #e91e63; }
+        .nivel1 .col:first-child { border-left: 5px solid #ff6b35; }
+        .nivel2 .col:first-child { border-left: 5px solid #a855f7; }
+        .nivel3 .col:first-child { border-left: 5px solid #3b82f6; }
+        .nivel4 .col:first-child { border-left: 5px solid #ec4899; }
         .total .col {
           background: #ede5ff;
           font-weight: bold;
