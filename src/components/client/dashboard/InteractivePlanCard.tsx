@@ -29,12 +29,12 @@ const plans: Plan[] = [
   },
   {
     gb: 120,
-    price: 124.99,
+    price: 134.99,
     commissionLevels: [
       { level: 1, title: "1º Nível", indications: 5, commission: 25.00, monthlyValue: 125.00 },
-      { level: 2, title: "2º Nível", indications: 25, commission: 7.00, monthlyValue: 175.00 },
-      { level: 3, title: "3º Nível", indications: 125, commission: 6.00, monthlyValue: 750.00 },
-      { level: 4, title: "4º Nível", indications: 625, commission: 6.00, monthlyValue: 3750.00 }
+      { level: 2, title: "2º Nível", indications: 25, commission: 5.00, monthlyValue: 125.00 },
+      { level: 3, title: "3º Nível", indications: 125, commission: 5.00, monthlyValue: 625.00 },
+      { level: 4, title: "4º Nível", indications: 625, commission: 5.00, monthlyValue: 3125.00 }
     ]
   },
   {
@@ -42,9 +42,9 @@ const plans: Plan[] = [
     price: 144.99,
     commissionLevels: [
       { level: 1, title: "1º Nível", indications: 5, commission: 30.00, monthlyValue: 150.00 },
-      { level: 2, title: "2º Nível", indications: 25, commission: 10.00, monthlyValue: 250.00 },
-      { level: 3, title: "3º Nível", indications: 125, commission: 7.00, monthlyValue: 875.00 },
-      { level: 4, title: "4º Nível", indications: 625, commission: 7.00, monthlyValue: 4375.00 }
+      { level: 2, title: "2º Nível", indications: 25, commission: 5.00, monthlyValue: 125.00 },
+      { level: 3, title: "3º Nível", indications: 125, commission: 5.00, monthlyValue: 625.00 },
+      { level: 4, title: "4º Nível", indications: 625, commission: 5.00, monthlyValue: 3125.00 }
     ]
   }
 ];
