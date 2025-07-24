@@ -224,16 +224,16 @@ export function InteractivePlanCard() {
             const nivelClass = ['nivel1', 'nivel2', 'nivel3', 'nivel4'][index];
             return (
               <div key={level.level} className={`tabela-row ${nivelClass}`}>
-                <div className="col" data-label="Nível">{level.level}º</div>
-                <div className="col" data-label="Clientes">{level.indications}</div>
-                <div className="col" data-label="Usuário">
+                <div className="col">{level.level}º</div>
+                <div className="col">{level.indications}</div>
+                <div className="col">
                   <strong>R$<AnimatedNumber value={level.commission} delay={index * 100} />,00</strong><br/>
                   <span>Por indicado</span>
                 </div>
-                <div className="col" data-label="Por Nível">
+                <div className="col">
                   R$<AnimatedNumber value={level.commission} delay={index * 100} />,00
                 </div>
-                <div className="col" data-label="Acumulado">
+                <div className="col">
                   R$<AnimatedNumber value={level.monthlyValue} delay={index * 100} />,00
                 </div>
               </div>
@@ -241,15 +241,15 @@ export function InteractivePlanCard() {
           })}
 
           <div className="tabela-row total">
-            <div className="col" data-label="Nível">Total</div>
-            <div className="col" data-label="Clientes">{totalClients}</div>
-            <div className="col" data-label="Usuário">
+            <div className="col">Total</div>
+            <div className="col">{totalClients}</div>
+            <div className="col">
               <strong>R$<AnimatedNumber value={35} delay={400} />,00</strong>
             </div>
-            <div className="col" data-label="Por Nível">
+            <div className="col">
               R$<AnimatedNumber value={35} delay={400} />,00
             </div>
-            <div className="col" data-label="Acumulado">
+            <div className="col">
               R$<AnimatedNumber value={totalValue} delay={400} />,00
             </div>
           </div>
@@ -419,62 +419,6 @@ export function InteractivePlanCard() {
           gap: 0.5rem;
           border-radius: 1rem;
           padding: 1rem;
-        }
-
-        @media (max-width: 768px) {
-          .tabela-wrapper {
-            grid-template-columns: 1fr;
-            gap: 1rem;
-            padding: 0.5rem;
-          }
-          
-          .tabela-header {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-          }
-          
-          .tabela-header .col {
-            background: linear-gradient(45deg, #8a2be2, #da70d6);
-            color: white;
-            font-weight: 700;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-            padding: 1rem;
-            border-radius: 1rem;
-            text-align: center;
-          }
-          
-          .tabela-row {
-            background: white;
-            border-radius: 1rem;
-            padding: 1rem;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-            margin-bottom: 1rem;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.5rem;
-          }
-          
-          .tabela-row .col {
-            background: transparent;
-            box-shadow: none;
-            padding: 0.5rem 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #f0f0f0;
-          }
-          
-          .tabela-row .col:last-child {
-            border-bottom: none;
-          }
-          
-          .tabela-row .col:before {
-            content: attr(data-label) ":";
-            font-weight: bold;
-            color: #666;
-          }
         }
 
         .tabela-header, .tabela-row {
