@@ -410,12 +410,6 @@ export function InteractivePlanCard() {
           align-items: center;
         }
 
-        .comissoes p strong {
-          font-family: 'Courier New', monospace;
-          min-width: 80px;
-          text-align: right;
-        }
-
         .nav-buttons {
           display: flex;
           justify-content: center;
