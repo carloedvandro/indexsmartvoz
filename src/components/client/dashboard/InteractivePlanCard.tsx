@@ -243,34 +243,18 @@ export function InteractivePlanCard() {
           </div>
 
           {plan.commissionLevels.map((level, index) => {
-            const borderColors = [
-              'from-orange-500 to-pink-500',
-              'from-purple-500 to-indigo-500', 
-              'from-blue-500 to-cyan-500',
-              'from-pink-500 to-red-500'
-            ];
-            
+            const nivelClass = ['nivel1', 'nivel2', 'nivel3', 'nivel4'][index];
             return (
-              <div key={level.level} className={`tabela-row ${['nivel1', 'nivel2', 'nivel3', 'nivel4'][index]}`}>
-                <div className="col flex justify-center">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.2 }}
-                    className="relative w-16 h-12 rounded-2xl bg-white shadow-lg flex items-center justify-center overflow-hidden"
+              <div key={level.level} className={`tabela-row ${nivelClass}`}>
+                <div className="col">
+                  <motion.span
+                    initial={{ scale: 0.95, y: 5 }}
+                    animate={{ scale: 1, y: 0 }}
+                    transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.2 }}
+                    className="text-lg font-black text-transparent bg-gradient-to-r from-gray-700 via-gray-800 to-black bg-clip-text"
                   >
-                    <div
-                      className={`absolute left-0 top-0 h-full w-2 rounded-l-2xl bg-gradient-to-b ${borderColors[index]}`}
-                    />
-                    <motion.span
-                      initial={{ scale: 0.95, y: 5 }}
-                      animate={{ scale: 1, y: 0 }}
-                      transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.2 }}
-                      className="text-lg font-black text-transparent bg-gradient-to-r from-gray-700 via-gray-800 to-black bg-clip-text"
-                    >
-                      {level.level}º
-                    </motion.span>
-                  </motion.div>
+                    {level.level}º
+                  </motion.span>
                 </div>
                 <div className="col">{level.indications}</div>
                 <div className="col">
