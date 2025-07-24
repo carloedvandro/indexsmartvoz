@@ -38,7 +38,7 @@ export const NetworkCard = ({
             <div className="absolute inset-0 rounded-[2.2rem] border border-white/40 pointer-events-none z-0" />
             <div className="relative z-10">
               <h3 className="text-left text-lg font-bold text-black drop-shadow-md mb-2">Nível 1</h3>
-              <p className="text-left text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
+              <p className="text-left text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
                 {networkStats?.level1Count || 0}
               </p>
               <p className="text-center text-sm font-medium text-black/70 mt-2">Indicados Diretos</p>
@@ -54,7 +54,7 @@ export const NetworkCard = ({
             <div className="absolute inset-0 rounded-[2.2rem] border border-white/40 pointer-events-none z-0" />
             <div className="relative z-10">
               <h3 className="text-left text-lg font-bold text-black drop-shadow-md mb-2">Nível 2</h3>
-              <p className="text-left text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
+              <p className="text-left text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
                 {networkStats?.level2Count || 0}
               </p>
               <p className="text-center text-sm font-medium text-black/70 mt-2">Indicados Indiretos</p>
@@ -70,7 +70,7 @@ export const NetworkCard = ({
             <div className="absolute inset-0 rounded-[2.2rem] border border-white/40 pointer-events-none z-0" />
             <div className="relative z-10">
               <h3 className="text-left text-lg font-bold text-black drop-shadow-md mb-2">Nível 3</h3>
-              <p className="text-left text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
+              <p className="text-left text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
                 {networkStats?.level3Count || 0}
               </p>
               <p className="text-center text-sm font-medium text-black/70 mt-2">Indicados Indiretos</p>
@@ -86,7 +86,7 @@ export const NetworkCard = ({
             <div className="absolute inset-0 rounded-[2.2rem] border border-white/40 pointer-events-none z-0" />
             <div className="relative z-10">
               <h3 className="text-left text-lg font-bold text-black drop-shadow-md mb-2">Nível 4</h3>
-              <p className="text-left text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
+              <p className="text-left text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
                 {networkStats?.level4Count || 0}
               </p>
               <p className="text-center text-sm font-medium text-black/70 mt-2">Indicados Indiretos</p>
