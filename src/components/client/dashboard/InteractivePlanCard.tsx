@@ -112,7 +112,7 @@ export function InteractivePlanCard() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.4 }}
-                    className="w-[380px] h-80 relative overflow-hidden rounded-3xl p-6 text-white text-center flex flex-col justify-center mx-auto"
+                    className="w-64 h-80 relative overflow-hidden rounded-3xl p-6 text-white text-center flex flex-col justify-center mx-auto"
                     style={{
                       background: `linear-gradient(135deg, #6b00b6, #9c27b0)`,
                       transition: 'all 0.4s ease-in-out'
