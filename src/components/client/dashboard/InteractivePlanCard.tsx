@@ -466,16 +466,6 @@ export function InteractivePlanCard() {
           font-weight: 500;
         }
 
-        .col:first-child {
-          text-align: left;
-          padding-left: 1.5rem;
-        }
-
-        .col:last-child {
-          text-align: right;
-          padding-right: 1.5rem;
-        }
-
         .th {
           background: linear-gradient(45deg, #8a2be2, #da70d6);
           color: white;
