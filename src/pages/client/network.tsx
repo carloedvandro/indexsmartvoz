@@ -86,11 +86,15 @@ export default function NetworkPage() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Profile Card */}
           <div className="lg:col-span-1">
-            {profile && (
-              <div className="bg-white rounded-lg shadow p-4 sticky top-24">
+            <div className="bg-white rounded-lg shadow p-4 sticky top-24">
+              {profile ? (
                 <ProfileCard profile={profile} />
-              </div>
-            )}
+              ) : (
+                <div className="text-center p-4">
+                  <p>Carregando perfil...</p>
+                </div>
+              )}
+            </div>
           </div>
           
           {/* Network Tree */}
