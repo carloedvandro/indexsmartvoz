@@ -266,7 +266,7 @@ export function InteractivePlanCard() {
           height: 320px;
           perspective: 1000px;
           cursor: pointer;
-          border-radius: 2rem;
+          border-radius: 1.5rem;
           box-shadow: inset 2px 2px 6px rgba(255,255,255,0.1), 
                       inset -2px -2px 6px rgba(0,0,0,0.2), 
                       0 10px 20px rgba(0,0,0,0.2);
@@ -279,7 +279,7 @@ export function InteractivePlanCard() {
           text-align: center;
           transition: transform 0.8s;
           transform-style: preserve-3d;
-          border-radius: 2rem;
+          border-radius: 1.5rem;
           overflow: hidden;
         }
 
@@ -293,53 +293,11 @@ export function InteractivePlanCard() {
           height: 100%;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          border-radius: 2rem;
-          padding: 2rem 1rem;
-          color: white;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
-
-        .card-front {
-          background: linear-gradient(145deg, #7f00ff, #e100ff);
-          box-shadow:
-            inset 1px 1px 6px rgba(255,255,255,0.15),
-            inset -2px -2px 8px rgba(0,0,0,0.25),
-            0 10px 20px rgba(0,0,0,0.3);
+          border-radius: 1.5rem;
         }
 
         .card-back {
           transform: rotateY(180deg);
-          background: linear-gradient(145deg, #4a1a5c, #7f00ff);
-          box-shadow:
-            inset 1px 1px 6px rgba(255,255,255,0.15),
-            inset -2px -2px 8px rgba(0,0,0,0.25),
-            0 10px 20px rgba(0,0,0,0.3);
-        }
-
-        .card-front h4, .card-back h3 {
-          font-size: 1rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-        }
-
-        .card-front .extras {
-          font-size: 0.85rem;
-          color: #f0f0f0;
-          text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-          margin-top: 1rem;
-        }
-
-        .card-front small {
-          margin-top: 1rem;
-          display: block;
-          font-size: 1rem;
-          font-weight: 600;
-          color: #fff;
-          text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
         @keyframes rotateLight {
