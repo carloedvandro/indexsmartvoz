@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { formatCurrency } from "@/utils/format";
 import { motion } from 'framer-motion';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, CarouselApi } from "@/components/ui/carousel";
+import Loader from "@/components/ui/box-loader";
 
 interface Plan {
   gb: number;
@@ -193,9 +194,12 @@ export function InteractivePlanCard() {
               boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
             }}
           >
-            <h3 className="text-primary font-bold text-xl mb-3">
-              {level.title}
-            </h3>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-primary font-bold text-xl">
+                {level.title}
+              </h3>
+              <Loader />
+            </div>
             
             <p className="my-1 font-medium text-gray-700">
               {level.indications} indicações {formatCurrency(level.commission)} por indicado
