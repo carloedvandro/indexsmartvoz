@@ -101,7 +101,7 @@ export function InteractivePlanCard() {
             >
               {/* Rotating light effect */}
               <div 
-                className="absolute w-[200%] h-[200%] -top-1/2 -left-1/2 z-0"
+                className="absolute w-[220%] h-[220%] -top-1/2 -left-1/2 z-0"
                 style={{
                   background: 'radial-gradient(circle at center, rgba(255,255,255,0.1), transparent 70%)',
                   animation: 'rotateLight 8s linear infinite'
