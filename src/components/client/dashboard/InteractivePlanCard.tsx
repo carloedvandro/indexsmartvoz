@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { formatCurrency } from "@/utils/format";
 import { motion } from 'framer-motion';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, CarouselApi } from "@/components/ui/carousel";
@@ -52,6 +52,7 @@ const plans: Plan[] = [
 
 export function InteractivePlanCard() {
   const [currentPlan, setCurrentPlan] = useState(0);
+  const [api, setApi] = useState<CarouselApi>();
 
   const changePlan = (direction: number) => {
     setCurrentPlan(prev => {
@@ -61,6 +62,22 @@ export function InteractivePlanCard() {
       return newIndex;
     });
   };
+
+  const handleCarouselSelect = useCallback(() => {
+    if (!api) return;
+    const selectedIndex = api.selectedScrollSnap();
+    setCurrentPlan(selectedIndex);
+  }, [api]);
+
+  useEffect(() => {
+    if (!api) return;
+    
+    api.on("select", handleCarouselSelect);
+    
+    return () => {
+      api.off("select", handleCarouselSelect);
+    };
+  }, [api, handleCarouselSelect]);
 
   const calculateTotal = (commissionLevels: CommissionLevel[]) => {
     return commissionLevels.reduce((total, level) => total + level.monthlyValue, 0);
@@ -79,59 +96,60 @@ export function InteractivePlanCard() {
       <div className="flex flex-col lg:flex-row gap-8 mb-8">
         {/* Left Side - Plan Card */}
         <div className="lg:w-1/3">
-          <div className="flex items-center justify-center gap-3">
-            <button 
-              onClick={() => changePlan(-1)}
-              className="bg-transparent border-none text-3xl cursor-pointer p-3 text-primary hover:text-primary/80 transition-colors hidden md:block"
-            >
-              ←
-            </button>
-            
-            <motion.div 
-              key={currentPlan}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4 }}
-              className="w-64 h-80 relative overflow-hidden rounded-3xl p-6 text-white text-center flex flex-col justify-center"
-              style={{
-                background: `linear-gradient(135deg, #6b00b6, #9c27b0)`,
-                boxShadow: '0 15px 35px rgba(0, 0, 0, 0.35)',
-                transition: 'all 0.4s ease-in-out'
-              }}
-            >
-              {/* Rotating light effect */}
-              <div 
-                className="absolute w-[220%] h-[250%] -top-1/2 -left-1/2 z-0"
-                style={{
-                  background: 'radial-gradient(circle at center, rgba(255,255,255,0.1), transparent 70%)',
-                  animation: 'rotateLight 8s linear infinite'
-                }}
-              />
-              
-              <div className="relative z-10">
-                <h4 className="font-bold tracking-wider mb-3 text-sm">
-                  ASSINATURA<br/>
-                  <span className="text-base">SEM FIDELIDADE</span>
-                </h4>
-                
-                <h1 className="text-6xl my-3 font-bold">
-                  {plan.gb}
-                </h1>
-                <div className="text-lg opacity-80">GB</div>
-                
-                <small className="text-base mt-4 block">
-                  Por <strong>{formatCurrency(plan.price)}</strong><br/>/mês
-                </small>
-              </div>
-            </motion.div>
-            
-            <button 
-              onClick={() => changePlan(1)}
-              className="bg-transparent border-none text-3xl cursor-pointer p-3 text-primary hover:text-primary/80 transition-colors hidden md:block"
-            >
-              →
-            </button>
-          </div>
+          <Carousel 
+            setApi={setApi}
+            opts={{
+              align: "center",
+              loop: true,
+            }}
+            className="w-full max-w-xs mx-auto"
+          >
+            <CarouselContent>
+              {plans.map((planItem, index) => (
+                <CarouselItem key={index}>
+                  <motion.div 
+                    key={`${index}-${currentPlan}`}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4 }}
+                    className="w-64 h-80 relative overflow-hidden rounded-3xl p-6 text-white text-center flex flex-col justify-center mx-auto"
+                    style={{
+                      background: `linear-gradient(135deg, #6b00b6, #9c27b0)`,
+                      boxShadow: '0 15px 35px rgba(0, 0, 0, 0.35)',
+                      transition: 'all 0.4s ease-in-out'
+                    }}
+                  >
+                    {/* Rotating light effect */}
+                    <div 
+                      className="absolute w-[220%] h-[250%] -top-1/2 -left-1/2 z-0"
+                      style={{
+                        background: 'radial-gradient(circle at center, rgba(255,255,255,0.1), transparent 70%)',
+                        animation: 'rotateLight 8s linear infinite'
+                      }}
+                    />
+                    
+                    <div className="relative z-10">
+                      <h4 className="font-bold tracking-wider mb-3 text-sm">
+                        ASSINATURA<br/>
+                        <span className="text-base">SEM FIDELIDADE</span>
+                      </h4>
+                      
+                      <h1 className="text-6xl my-3 font-bold">
+                        {planItem.gb}
+                      </h1>
+                      <div className="text-lg opacity-80">GB</div>
+                      
+                      <small className="text-base mt-4 block">
+                        Por <strong>{formatCurrency(planItem.price)}</strong><br/>/mês
+                      </small>
+                    </div>
+                  </motion.div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex" />
+            <CarouselNext className="hidden md:flex" />
+          </Carousel>
         </div>
 
         {/* Right Side - Commission Levels */}
