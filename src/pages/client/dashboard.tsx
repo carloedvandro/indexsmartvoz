@@ -44,7 +44,7 @@ export default function ClientDashboard() {
       <StatsCardsGrid />
 
       <div className="container mb-8 mt-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Profile Card */}
           <div className="lg:col-span-1">
             <ProfileCard profile={profile} />
