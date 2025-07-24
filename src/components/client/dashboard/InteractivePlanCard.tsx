@@ -259,7 +259,7 @@ export function InteractivePlanCard() {
         .giga-bloco {
           background: rgba(255,255,255,0.1);
           border-radius: 1rem;
-          padding: 1rem 2rem;
+          padding: 0.5rem 2rem;
           box-shadow: 0 0 0 4px rgba(255,255,255,0.05), 0 8px 16px rgba(0,0,0,0.3);
           margin: 1.5rem auto;
         }
