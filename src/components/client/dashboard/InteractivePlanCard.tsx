@@ -32,9 +32,9 @@ const plans: Plan[] = [
     price: 124.99,
     commissionLevels: [
       { level: 1, title: "1º Nível", indications: 5, commission: 25.00, monthlyValue: 125.00 },
-      { level: 2, title: "2º Nível", indications: 25, commission: 5.00, monthlyValue: 125.00 },
-      { level: 3, title: "3º Nível", indications: 125, commission: 5.00, monthlyValue: 625.00 },
-      { level: 4, title: "4º Nível", indications: 625, commission: 5.00, monthlyValue: 3125.00 }
+      { level: 2, title: "2º Nível", indications: 25, commission: 7.00, monthlyValue: 175.00 },
+      { level: 3, title: "3º Nível", indications: 125, commission: 6.00, monthlyValue: 750.00 },
+      { level: 4, title: "4º Nível", indications: 625, commission: 6.00, monthlyValue: 3750.00 }
     ]
   },
   {
@@ -42,9 +42,9 @@ const plans: Plan[] = [
     price: 144.99,
     commissionLevels: [
       { level: 1, title: "1º Nível", indications: 5, commission: 30.00, monthlyValue: 150.00 },
-      { level: 2, title: "2º Nível", indications: 25, commission: 5.00, monthlyValue: 125.00 },
-      { level: 3, title: "3º Nível", indications: 125, commission: 5.00, monthlyValue: 625.00 },
-      { level: 4, title: "4º Nível", indications: 625, commission: 5.00, monthlyValue: 3125.00 }
+      { level: 2, title: "2º Nível", indications: 25, commission: 10.00, monthlyValue: 250.00 },
+      { level: 3, title: "3º Nível", indications: 125, commission: 7.00, monthlyValue: 875.00 },
+      { level: 4, title: "4º Nível", indications: 625, commission: 7.00, monthlyValue: 4375.00 }
     ]
   }
 ];
@@ -77,9 +77,9 @@ export function InteractivePlanCard() {
       {/* Layout with Plan Card on Left and Levels on Right */}
       <div className="flex flex-col lg:flex-row gap-8 mb-8">
         {/* Left Side - Static Plan Card */}
-        <div className="lg:w-1/3 flex justify-center items-center">
-          <div className="card-container w-full flex justify-center">
-              <motion.div
+        <div className="lg:w-1/3 flex justify-center">
+          <div className="card-container">
+              <motion.div 
                 key={`card-${currentPlan}`}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -210,14 +210,10 @@ export function InteractivePlanCard() {
       {/* Global Styles for Plan Card */}
       <style>{`
         .card-container {
-          max-width: 100vw;
-          overflow: hidden;
-          padding: 1rem;
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 1.5rem;
-          justify-content: center;
         }
 
         .plano-card {
@@ -225,33 +221,36 @@ export function InteractivePlanCard() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          background: linear-gradient(to bottom right, #6600ff, #cc00cc);
+          background: radial-gradient(circle at top left, #6600ff, #cc00cc);
           color: white;
           border-radius: 2rem;
           box-shadow:
-            0 10px 20px rgba(0, 0, 0, 0.4),
-            inset 4px 4px 10px rgba(255, 255, 255, 0.1),
-            inset -4px -4px 10px rgba(0, 0, 0, 0.2);
+            0 10px 20px rgba(0,0,0,0.4),
+            inset 4px 4px 10px rgba(255,255,255,0.1),
+            inset -4px -4px 10px rgba(0,0,0,0.2);
           padding: 2.5rem 2rem;
           text-align: center;
-          width: 480px;
-          max-width: 100%;
+          min-height: 420px;
+          max-width: 420px;
+          width: 100%;
+          margin: auto;
           font-family: 'Segoe UI', sans-serif;
           position: relative;
         }
 
         .label-topo {
           font-weight: 700;
-          font-size: 1.2rem;
+          font-size: 1.1rem;
           text-transform: uppercase;
           text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+          transform: translateZ(6px);
           margin-bottom: 1.5rem;
           letter-spacing: 0.5px;
-          line-height: 1.5rem;
+          line-height: 1.3rem;
         }
 
         .label-topo span {
-          font-size: 1rem;
+          font-size: 0.95rem;
           display: block;
           opacity: 0.9;
         }
@@ -259,9 +258,9 @@ export function InteractivePlanCard() {
         .giga-bloco {
           background: rgba(255,255,255,0.1);
           border-radius: 1rem;
-          padding: 0.5rem 2rem;
+          padding: 1rem 2rem;
           box-shadow: 0 0 0 4px rgba(255,255,255,0.05), 0 8px 16px rgba(0,0,0,0.3);
-          margin: 1.5rem auto;
+          margin-bottom: 1.5rem;
         }
 
         .giga-numero {
@@ -272,7 +271,7 @@ export function InteractivePlanCard() {
         }
 
         .giga-unidade {
-          font-size: 2rem;
+          font-size: 1.7rem;
           margin-left: 0.4rem;
           vertical-align: middle;
           text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
@@ -282,20 +281,20 @@ export function InteractivePlanCard() {
         .beneficios {
           font-size: 1rem;
           text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-          margin-bottom: 2rem;
+          margin-bottom: 1.8rem;
           line-height: 1.4rem;
         }
 
         .preco-box {
           background: #ffffff22;
           border-radius: 0.7rem;
-          padding: 0.8rem 1.2rem;
+          padding: 0.7rem 1rem;
           box-shadow: inset 1px 1px 2px rgba(255,255,255,0.2), inset -1px -1px 2px rgba(0,0,0,0.2);
           text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
         .preco-label {
-          font-size: 1rem;
+          font-size: 0.9rem;
           margin-right: 0.2rem;
         }
 
@@ -305,7 +304,7 @@ export function InteractivePlanCard() {
         }
 
         .preco-mes {
-          font-size: 1rem;
+          font-size: 0.9rem;
           opacity: 0.85;
           margin-left: 0.2rem;
         }
