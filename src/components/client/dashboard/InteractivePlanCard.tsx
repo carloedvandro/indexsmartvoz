@@ -51,7 +51,6 @@ const plans: Plan[] = [
 
 export function InteractivePlanCard() {
   const [currentPlan, setCurrentPlan] = useState(0);
-  const [isFlipped, setIsFlipped] = useState(false);
 
   const changePlan = (direction: number) => {
     setCurrentPlan(prev => {
@@ -60,11 +59,6 @@ export function InteractivePlanCard() {
       if (newIndex >= plans.length) return 0;
       return newIndex;
     });
-    setIsFlipped(false); // Reset flip when changing plans
-  };
-
-  const toggleFlip = () => {
-    setIsFlipped(!isFlipped);
   };
 
   const calculateTotal = (commissionLevels: CommissionLevel[]) => {
@@ -82,65 +76,35 @@ export function InteractivePlanCard() {
     >
       {/* Layout with Plan Card on Left and Levels on Right */}
       <div className="flex flex-col lg:flex-row gap-8 mb-8">
-        {/* Left Side - 3D Flip Card */}
+        {/* Left Side - Static Plan Card */}
         <div className="lg:w-1/3 flex justify-center">
-          <div className="card-flip-container">
-            <div 
-              className={`card-flip ${isFlipped ? 'flipped' : ''}`}
-              onClick={toggleFlip}
+          <div className="card-container">
+            <motion.div 
+              key={`card-${currentPlan}`}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4 }}
+              className="plano-card"
             >
-              <div className="card-inner">
-                {/* Front of Card */}
-                <div className="card-front">
-                  <motion.div 
-                    key={`front-${currentPlan}`}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.4 }}
-                    className="plano-card"
-                  >
-                    <h4>
-                      ASSINATURA<br/>
-                      SEM FIDELIDADE
-                    </h4>
-                    
-                    <div className="giga-linha">
-                      <h1>{plan.gb}</h1>
-                      <span className="gb-label">GB</span>
-                    </div>
-                    
-                    <div className="extras">
-                      Ligações e SMS ilimitados<br/>
-                      para qualquer operadora do Brasil.
-                    </div>
-                    
-                    <small>
-                      Por {formatCurrency(plan.price)} /mês
-                    </small>
-                  </motion.div>
-                </div>
-
-                {/* Back of Card */}
-                <div className="card-back">
-                  <motion.div 
-                    key={`back-${currentPlan}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.4, delay: 0.2 }}
-                    className="commission-back"
-                  >
-                    <h3>Comissões</h3>
-                    <ul>
-                      {plan.commissionLevels.map((level) => (
-                        <li key={level.level}>
-                          {level.title}: {level.indications}x {formatCurrency(level.commission)} = {formatCurrency(level.monthlyValue)}
-                        </li>
-                      ))}
-                    </ul>
-                  </motion.div>
-                </div>
+              <h4>
+                ASSINATURA<br/>
+                SEM FIDELIDADE
+              </h4>
+              
+              <div className="giga-linha">
+                <h1>{plan.gb}</h1>
+                <span className="gb-label">GB</span>
               </div>
-            </div>
+              
+              <div className="extras">
+                Ligações e SMS ilimitados<br/>
+                para qualquer operadora do Brasil.
+              </div>
+              
+              <small>
+                Por {formatCurrency(plan.price)} /mês
+              </small>
+            </motion.div>
 
             {/* Navigation Buttons */}
             <div className="nav-buttons">
@@ -240,84 +204,18 @@ export function InteractivePlanCard() {
         </div>
       </motion.div>
 
-      {/* Global Styles for 3D Flip Card */}
+      {/* Global Styles for Plan Card */}
       <style>{`
-        .card-flip-container {
+        .card-container {
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 1.5rem;
         }
 
-        .card-flip {
+        .plano-card {
           width: 280px;
           height: 420px;
-          perspective: 1000px;
-          cursor: pointer;
-          border-radius: 2rem;
-          box-shadow: inset 2px 2px 6px rgba(255,255,255,0.1), inset -2px -2px 6px rgba(0,0,0,0.2), 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .card-inner {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          text-align: center;
-          transition: transform 0.8s;
-          transform-style: preserve-3d;
-          border-radius: 2rem;
-          overflow: hidden;
-        }
-
-        .card-flip.flipped .card-inner {
-          transform: rotateY(180deg);
-        }
-
-        .card-front, .card-back {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          border-radius: 2rem;
-          overflow: hidden;
-        }
-
-        .card-back {
-          transform: rotateY(180deg);
-          background: linear-gradient(145deg, #4a1b5f, #7b2d94);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .commission-back {
-          color: white;
-          padding: 2rem;
-          text-align: left;
-        }
-
-        .commission-back h3 {
-          font-size: 1.5rem;
-          font-weight: bold;
-          margin-bottom: 1rem;
-          text-align: center;
-          text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-        }
-
-        .commission-back ul {
-          list-style: none;
-          padding: 0;
-        }
-
-        .commission-back li {
-          font-size: 0.85rem;
-          margin-bottom: 0.5rem;
-          color: #f0f0f0;
-          text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-
-        .plano-card {
           background: linear-gradient(145deg, #7f00ff, #e100ff);
           box-shadow:
             inset 1px 1px 6px rgba(255,255,255,0.15),
@@ -329,7 +227,6 @@ export function InteractivePlanCard() {
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          height: 100%;
         }
 
         .plano-card h4 {
