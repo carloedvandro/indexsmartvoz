@@ -381,7 +381,6 @@ export function InteractivePlanCard() {
           margin: 2rem auto;
           padding: 1rem;
           font-family: 'Segoe UI', sans-serif;
-          background: radial-gradient(circle at top, #f8f8ff, #eef0ff);
           border-radius: 20px;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
           overflow: hidden;
