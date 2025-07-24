@@ -105,16 +105,6 @@ export function InteractivePlanCard() {
                 Por {formatCurrency(plan.price)} /mês
               </small>
             </motion.div>
-
-            {/* Navigation Buttons */}
-            <div className="nav-buttons">
-              <button onClick={() => changePlan(-1)}>
-                ← Anterior
-              </button>
-              <button onClick={() => changePlan(1)}>
-                Próximo →
-              </button>
-            </div>
           </div>
         </div>
 
