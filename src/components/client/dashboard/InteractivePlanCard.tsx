@@ -400,10 +400,14 @@ export function InteractivePlanCard() {
           font-size: 0.95rem;
           margin-top: 1rem;
           text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+          text-align: left;
         }
 
         .comissoes p {
           margin: 0.3rem 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
         }
 
         .nav-buttons {
