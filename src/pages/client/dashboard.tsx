@@ -54,7 +54,7 @@ export default function ClientDashboard() {
           
           {/* Network Card */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-120 p-4">
+            <div className="bg-transparent rounded-lg shadow-sm border border-gray-120 p-4">
               <NetworkCard networkStats={networkStats || {
                 level1Count: 0,
                 level2Count: 0,
