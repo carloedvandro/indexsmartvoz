@@ -77,9 +77,9 @@ export function InteractivePlanCard() {
       {/* Layout with Plan Card on Left and Levels on Right */}
       <div className="flex flex-col lg:flex-row gap-8 mb-8">
         {/* Left Side - Static Plan Card */}
-        <div className="lg:w-1/3 flex justify-center">
-          <div className="card-container">
-              <motion.div 
+        <div className="lg:w-1/3 flex justify-center items-center">
+          <div className="card-container w-full flex justify-center">
+              <motion.div
                 key={`card-${currentPlan}`}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
