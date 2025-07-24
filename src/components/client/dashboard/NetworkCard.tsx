@@ -54,7 +54,7 @@ export const NetworkCard = ({
 
   return (
     <div onClick={onClick} className="h-full cursor-pointer hover:opacity-95 transition-opacity">
-      <div className="bg-transparent rounded-xl p-6 w-full max-w-5xl mx-auto">
+      <div className="bg-transparent rounded-3xl p-6 w-full max-w-6xl mx-auto">
         <div className="flex items-center justify-center gap-2 mb-4">
           <Users className="text-yellow-400 w-6 h-6" />
           <h2 className="text-xl font-extrabold text-white drop-shadow">Minha Rede</h2>
@@ -70,15 +70,20 @@ export const NetworkCard = ({
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
-              className={`relative p-6 rounded-2xl shadow-[0_0_30px_rgba(255,255,255,0.35)] ${nivel.corFundo} ${nivel.borda} border-[6px] overflow-hidden backdrop-blur-[2px]`}
+              className={`relative py-10 px-8 rounded-[2rem] shadow-[0_0_40px_rgba(255,255,255,0.35)] ${nivel.corFundo} ${nivel.borda} border-[6px] overflow-hidden backdrop-blur-[2px]`}
             >
-              <div className="absolute inset-0 rounded-2xl border-4 border-white/30 pointer-events-none"></div>
-              <h3 className={`text-lg font-extrabold mb-1 relative z-10 ${nivel.corTexto}`}>
+              <div className="absolute inset-0 rounded-[2rem] border-4 border-white/30 pointer-events-none"></div>
+              <h3 className={`text-lg font-extrabold mb-2 relative z-10 ${nivel.corTexto}`}>
                 {nivel.titulo}
               </h3>
-              <p className={`text-5xl font-black drop-shadow-lg relative z-10 ${nivel.corTexto}`}>
+              <motion.p
+                className={`text-6xl font-black drop-shadow-2xl relative z-10 ${nivel.corTexto}`}
+                initial={{ scale: 0.85, rotateY: 90 }}
+                animate={{ scale: 1, rotateY: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+              >
                 {nivel.quantidade}
-              </p>
+              </motion.p>
               <p className={`text-sm mt-1 relative z-10 ${nivel.corTexto}`}>
                 {nivel.tipo}
               </p>
