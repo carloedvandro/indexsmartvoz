@@ -118,7 +118,7 @@ export function InteractivePlanCard() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="min-w-[280px] h-[420px] relative overflow-hidden p-6 text-white text-center flex flex-col justify-start items-center cursor-pointer"
+              className="min-w-[220px] md:min-w-[280px] h-[320px] md:h-[420px] relative overflow-hidden p-4 md:p-6 text-white text-center flex flex-col justify-start items-center cursor-pointer"
               style={{
                 background: getCardGradient(index),
                 borderRadius: '40px 40px 80px 80px',
@@ -137,23 +137,23 @@ export function InteractivePlanCard() {
               />
               
               <div className="relative z-10 flex flex-col items-center">
-                <h4 className="font-bold text-sm tracking-wider mt-3 mb-3">
-                  ASSINATURA<br/>
-                  <span className="text-base">SEM FIDELIDADE</span>
-                </h4>
+                  <h4 className="font-bold text-xs md:text-sm tracking-wider mt-2 md:mt-3 mb-2 md:mb-3">
+                    ASSINATURA<br/>
+                    <span className="text-sm md:text-base">SEM FIDELIDADE</span>
+                  </h4>
                 
-                <h1 className="text-6xl my-3 font-bold">
-                  {planItem.gb}
-                </h1>
-                <div className="text-lg opacity-80">GB</div>
+                  <h1 className="text-4xl md:text-6xl my-2 md:my-3 font-bold">
+                    {planItem.gb}
+                  </h1>
+                  <div className="text-base md:text-lg opacity-80">GB</div>
                 
-                <div className="text-sm mt-3 text-gray-200 px-2">
-                  Ligações e SMS ilimitados para qualquer operadora do Brasil.
-                </div>
+                  <div className="text-xs md:text-sm mt-2 md:mt-3 text-gray-200 px-1 md:px-2">
+                    Ligações e SMS ilimitados para qualquer operadora do Brasil.
+                  </div>
                 
-                <small className="text-base mt-4 block">
-                  Por <strong>{formatCurrency(planItem.price)}</strong><br/>/mês
-                </small>
+                  <small className="text-sm md:text-base mt-3 md:mt-4 block">
+                    Por <strong>{formatCurrency(planItem.price)}</strong><br/>/mês
+                  </small>
               </div>
             </motion.div>
           ))}
