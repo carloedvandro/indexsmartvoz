@@ -140,3 +140,97 @@ body, #root {
 .animate-blink {
   animation: blink-icon 1.5s ease-in-out infinite;
 }
+
+/* Box Loader Animations */
+@keyframes box1 {
+  0%,
+  50% {
+    transform: translate(100%, 0);
+  }
+  100% {
+    transform: translate(200%, 0);
+  }
+}
+
+@keyframes box2 {
+  0% {
+    transform: translate(0, 100%);
+  }
+  50% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(100%, 0);
+  }
+}
+
+@keyframes box3 {
+  0%,
+  50% {
+    transform: translate(100%, 100%);
+  }
+  100% {
+    transform: translate(0, 100%);
+  }
+}
+
+@keyframes box4 {
+  0% {
+    transform: translate(200%, 0);
+  }
+  50% {
+    transform: translate(200%, 100%);
+  }
+  100% {
+    transform: translate(100%, 100%);
+  }
+}
+
+/* Box Loader Styles */
+.boxes {
+  width: 60px;
+  height: 60px;
+  position: relative;
+  perspective: 400px;
+  transform-style: preserve-3d;
+  margin: 20px auto;
+}
+
+.box {
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  transform-style: preserve-3d;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.box-1 { animation-name: box1; }
+.box-2 { animation-name: box2; }
+.box-3 { animation-name: box3; }
+.box-4 { animation-name: box4; }
+
+.face {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-foreground)));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.face-front {
+  transform: translateZ(9px);
+}
+
+.face-right {
+  transform: rotateY(90deg) translateZ(9px);
+}
+
+.face-top {
+  transform: rotateX(90deg) translateZ(9px);
+}
+
+.face-back {
+  transform: rotateY(180deg) translateZ(9px);
+}
