@@ -141,6 +141,14 @@ export function InteractivePlanCard() {
                   <span className="preco-destaque">{formatCurrency(plan.price)}</span>
                   <span className="preco-mes">/mês</span>
                 </div>
+                
+                <div className="comissoes">
+                  {plan.commissionLevels.map((level, index) => (
+                    <p key={level.level}>
+                      <strong>Nível {level.level}:</strong> {formatCurrency(level.commission)}
+                    </p>
+                  ))}
+                </div>
               </motion.div>
               
               {/* Navigation Buttons */}
@@ -352,6 +360,19 @@ export function InteractivePlanCard() {
           font-size: 0.9rem;
           opacity: 0.85;
           margin-left: 0.2rem;
+        }
+
+        .comissoes {
+          background: #00000022;
+          border-radius: 0.8rem;
+          padding: 0.8rem 1rem;
+          font-size: 0.95rem;
+          margin-top: 1rem;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .comissoes p {
+          margin: 0.3rem 0;
         }
 
         .nav-buttons {
