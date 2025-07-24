@@ -276,7 +276,7 @@ export function InteractivePlanCard() {
     }} transition={{
       duration: 0.3,
       delay: 0.1
-    }} className="tabela-container">
+    }} className="-bottom-0 ">
         <h2 className="titulo">Consumo inteligente</h2>
         <div className="tabela-wrapper">
           <div className="tabela-header">
