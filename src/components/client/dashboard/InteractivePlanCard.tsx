@@ -128,7 +128,7 @@ export function InteractivePlanCard() {
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: index * 0.1 }}
-                        className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                        className="p-6 transition-all duration-300"
                       >
                         <h3 className="text-primary font-bold text-lg mb-3">
                           {level.title}
