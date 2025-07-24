@@ -429,7 +429,7 @@ export function InteractivePlanCard() {
         }
 
         .tabela-container {
-          max-width: 1500px;
+          max-width: 1800px;
           margin: 2rem auto;
           padding: 1rem;
           font-family: 'Segoe UI', sans-serif;
