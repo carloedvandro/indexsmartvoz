@@ -56,10 +56,10 @@ export const NetworkCard = ({
     <div onClick={onClick} className="h-full cursor-pointer hover:opacity-95 transition-opacity">
       <div className="bg-transparent rounded-xl p-6 w-full max-w-5xl mx-auto">
         <div className="flex items-center justify-center gap-2 mb-4">
-          <Users className="text-yellow-400 w-6 h-6" />
-          <h2 className="text-xl font-extrabold text-white drop-shadow">Minha Rede</h2>
+          <Users className="text-amber-400 w-6 h-6" />
+          <h2 className="text-xl font-extrabold text-gray-800 drop-shadow">Minha Rede</h2>
         </div>
-        <p className="text-center text-gray-400 text-base mb-6">Total de Indicados: {totalMembers}</p>
+        <p className="text-center text-gray-500 text-base mb-6">Total de Indicados: {totalMembers}</p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {niveis.map((nivel, index) => (
