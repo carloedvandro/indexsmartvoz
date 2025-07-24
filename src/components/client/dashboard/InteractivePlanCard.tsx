@@ -156,8 +156,8 @@ export function InteractivePlanCard() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="bg-transparent border-none shadow-none hover:bg-transparent focus:bg-transparent" />
+        <CarouselNext className="bg-transparent border-none shadow-none hover:bg-transparent focus:bg-transparent" />
       </Carousel>
 
       {/* Tabela de Consumo Inteligente */}
