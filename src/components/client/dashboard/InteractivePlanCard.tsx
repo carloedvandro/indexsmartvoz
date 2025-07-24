@@ -210,10 +210,14 @@ export function InteractivePlanCard() {
       {/* Global Styles for Plan Card */}
       <style>{`
         .card-container {
+          max-width: 100vw;
+          overflow: hidden;
+          padding: 1rem;
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 1.5rem;
+          justify-content: center;
         }
 
         .plano-card {
@@ -221,19 +225,14 @@ export function InteractivePlanCard() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          background: radial-gradient(circle at top left, #6600ff, #cc00cc);
+          background: linear-gradient(to bottom right, #6600ff, #cc00cc);
           color: white;
           border-radius: 2rem;
-          box-shadow:
-            0 10px 20px rgba(0,0,0,0.4),
-            inset 4px 4px 10px rgba(255,255,255,0.1),
-            inset -4px -4px 10px rgba(0,0,0,0.2);
-          padding: 2.5rem 2rem;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.4), inset 4px 4px 10px rgba(255,255,255,0.05), inset -4px -4px 10px rgba(0,0,0,0.2);
+          padding: 2rem;
           text-align: center;
-          min-height: 420px;
-          max-width: 420px;
-          width: 100%;
-          margin: auto;
+          width: 340px;
+          max-width: 100%;
           font-family: 'Segoe UI', sans-serif;
           position: relative;
         }
