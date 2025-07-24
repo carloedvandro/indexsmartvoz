@@ -230,7 +230,7 @@ export function InteractivePlanCard() {
           border-radius: 2rem;
           padding: 2rem;
           text-align: center;
-          width: 460px;
+          width: 480px;
           max-width: 100%;
           font-family: 'Segoe UI', sans-serif;
           position: relative;
