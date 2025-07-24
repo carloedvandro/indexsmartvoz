@@ -17,10 +17,10 @@ export const ProfileAvatar = ({ profileImage, fullName, isActive }: ProfileAvata
       <Tooltip>
         <TooltipTrigger>
           <div className="relative flex justify-center w-full">
-            <Avatar className={`h-32 w-32 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
+            <Avatar className={`h-24 w-24 border-2 ${isActive ? 'border-green-500' : 'border-red-500'}`}>
               <AvatarImage src={profileImage} alt={fullName || "Profile"} />
               <AvatarFallback>
-                <Users className="h-14 w-14" />
+                <Users className="h-10 w-10" />
               </AvatarFallback>
             </Avatar>
             <StatusIcon 
