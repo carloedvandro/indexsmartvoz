@@ -89,7 +89,7 @@ export function InteractivePlanCard() {
   };
 
   const getCardGradient = (planIndex: number) => {
-    const colors = ['#6b00b6', '#9c27b0', '#7b1fa2'];
+    const colors = ['#7400c8', '#9c27b0', '#7b1fa2'];
     return `linear-gradient(145deg, ${colors[planIndex]}, #ae4fff)`;
   };
 
