@@ -54,14 +54,12 @@ export default function ClientDashboard() {
           
           {/* Network Card */}
           <div className="lg:col-span-2">
-            <div className="bg-transparent rounded-lg shadow-sm border border-gray-120 p-4">
-              <NetworkCard networkStats={networkStats || {
-                level1Count: 0,
-                level2Count: 0,
-                level3Count: 0,
-                level4Count: 0
-              }} onClick={handleNetworkClick} />
-            </div>
+            <NetworkCard networkStats={networkStats || {
+              level1Count: 0,
+              level2Count: 0,
+              level3Count: 0,
+              level4Count: 0
+            }} onClick={handleNetworkClick} />
           </div>
         </div>
       </div>
