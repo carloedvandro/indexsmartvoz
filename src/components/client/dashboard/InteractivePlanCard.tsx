@@ -90,68 +90,66 @@ export function InteractivePlanCard() {
         <CarouselContent>
           {plans.map((plan, planIndex) => (
             <CarouselItem key={plan.gb}>
-              <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl shadow-xl p-6">
-                <div className="flex flex-col lg:flex-row gap-6">
-                  {/* Left Section - Plan Info */}
-                  <div className="bg-gradient-to-br from-primary to-primary/80 text-white p-8 rounded-2xl lg:w-1/3 text-center relative overflow-hidden">
-                    {/* Background Pattern */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+              <div className="flex flex-col lg:flex-row gap-6">
+                {/* Left Section - Plan Info */}
+                <div className="bg-gradient-to-br from-primary to-primary/80 text-white p-8 rounded-2xl lg:w-1/3 text-center relative overflow-hidden">
+                  {/* Background Pattern */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+                  
+                  <div className="relative z-10">
+                    <div className="mb-6">
+                      <span className="text-sm font-semibold uppercase tracking-wider opacity-90">
+                        ASSINATURA<br/>
+                        <strong className="text-base">SEM FIDELIDADE</strong>
+                      </span>
+                    </div>
                     
-                    <div className="relative z-10">
-                      <div className="mb-6">
-                        <span className="text-sm font-semibold uppercase tracking-wider opacity-90">
-                          ASSINATURA<br/>
-                          <strong className="text-base">SEM FIDELIDADE</strong>
-                        </span>
+                    <div className="my-8">
+                      <div className="text-6xl font-bold leading-none">
+                        {plan.gb}
                       </div>
-                      
-                      <div className="my-8">
-                        <div className="text-6xl font-bold leading-none">
-                          {plan.gb}
-                        </div>
-                        <div className="text-lg opacity-80 mt-1">GB</div>
-                      </div>
-                      
-                      <div className="text-sm leading-relaxed">
-                        <div className="opacity-90">Por</div>
-                        <div className="text-2xl font-bold my-1">{formatCurrency(plan.price)}</div>
-                        <div className="opacity-80">/mês</div>
-                      </div>
+                      <div className="text-lg opacity-80 mt-1">GB</div>
+                    </div>
+                    
+                    <div className="text-sm leading-relaxed">
+                      <div className="opacity-90">Por</div>
+                      <div className="text-2xl font-bold my-1">{formatCurrency(plan.price)}</div>
+                      <div className="opacity-80">/mês</div>
                     </div>
                   </div>
+                </div>
 
-                  {/* Right Section - Commission Levels */}
-                  <div className="lg:w-2/3">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {plan.commissionLevels.map((level, index) => (
-                        <motion.div
-                          key={level.level}
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.5, delay: index * 0.1 }}
-                          className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                        >
-                          <h3 className="text-primary font-bold text-lg mb-3">
-                            {level.title}
-                          </h3>
-                          
-                          <div className="space-y-2 text-sm text-gray-600">
-                            <p>
-                              {level.indications} indicações<br/>
-                              <strong className="text-gray-900">
-                                {formatCurrency(level.commission)}
-                              </strong> por indicado
-                            </p>
+                {/* Right Section - Commission Levels */}
+                <div className="lg:w-2/3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {plan.commissionLevels.map((level, index) => (
+                      <motion.div
+                        key={level.level}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                      >
+                        <h3 className="text-primary font-bold text-lg mb-3">
+                          {level.title}
+                        </h3>
+                        
+                        <div className="space-y-2 text-sm text-gray-600">
+                          <p>
+                            {level.indications} indicações<br/>
+                            <strong className="text-gray-900">
+                              {formatCurrency(level.commission)}
+                            </strong> por indicado
+                          </p>
+                        </div>
+                        
+                        <div className="mt-4 pt-3 border-t border-gray-100">
+                          <div className="font-bold text-gray-900">
+                            {formatCurrency(level.monthlyValue)}/mês
                           </div>
-                          
-                          <div className="mt-4 pt-3 border-t border-gray-100">
-                            <div className="font-bold text-gray-900">
-                              {formatCurrency(level.monthlyValue)}/mês
-                            </div>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
+                        </div>
+                      </motion.div>
+                    ))}
                   </div>
                 </div>
               </div>
