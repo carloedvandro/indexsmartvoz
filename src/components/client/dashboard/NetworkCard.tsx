@@ -33,15 +33,15 @@ export const NetworkCard = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0 * 0.2 }}
-            className="relative rounded-[2.2rem] p-6 border-2 border-orange-200/30 bg-gradient-to-br from-orange-100/20 to-orange-50/10 backdrop-blur-sm shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500"
+            className="relative rounded-[2.2rem] p-6 border-2 border-yellow-200 bg-gradient-to-br from-yellow-100 to-yellow-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500"
           >
-            <div className="absolute inset-0 rounded-[2.2rem] border border-white/20 pointer-events-none z-0" />
+            <div className="absolute inset-0 rounded-[2.2rem] border border-white/40 pointer-events-none z-0" />
             <div className="relative z-10">
-              <h3 className="text-left text-lg font-bold text-white drop-shadow-md mb-2">Nível 1</h3>
-              <p className="text-left text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-orange-400 to-red-500 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
+              <h3 className="text-left text-lg font-bold text-black drop-shadow-md mb-2">Nível 1</h3>
+              <p className="text-left text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
                 {networkStats?.level1Count || 0}
               </p>
-              <p className="text-center text-sm font-medium text-white/80 mt-2">Indicados Diretos</p>
+              <p className="text-center text-sm font-medium text-black/70 mt-2">Indicados Diretos</p>
             </div>
           </motion.div>
           
@@ -49,15 +49,15 @@ export const NetworkCard = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 1 * 0.2 }}
-            className="relative rounded-[2.2rem] p-6 border-2 border-purple-200/30 bg-gradient-to-br from-purple-100/20 to-purple-50/10 backdrop-blur-sm shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500"
+            className="relative rounded-[2.2rem] p-6 border-2 border-lime-200 bg-gradient-to-br from-lime-100 to-green-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500"
           >
-            <div className="absolute inset-0 rounded-[2.2rem] border border-white/20 pointer-events-none z-0" />
+            <div className="absolute inset-0 rounded-[2.2rem] border border-white/40 pointer-events-none z-0" />
             <div className="relative z-10">
-              <h3 className="text-left text-lg font-bold text-white drop-shadow-md mb-2">Nível 2</h3>
-              <p className="text-left text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-purple-400 to-violet-500 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
+              <h3 className="text-left text-lg font-bold text-black drop-shadow-md mb-2">Nível 2</h3>
+              <p className="text-left text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
                 {networkStats?.level2Count || 0}
               </p>
-              <p className="text-center text-sm font-medium text-white/80 mt-2">Indicados Indiretos</p>
+              <p className="text-center text-sm font-medium text-black/70 mt-2">Indicados Indiretos</p>
             </div>
           </motion.div>
           
@@ -65,15 +65,15 @@ export const NetworkCard = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 2 * 0.2 }}
-            className="relative rounded-[2.2rem] p-6 border-2 border-blue-200/30 bg-gradient-to-br from-blue-100/20 to-blue-50/10 backdrop-blur-sm shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500"
+            className="relative rounded-[2.2rem] p-6 border-2 border-sky-200 bg-gradient-to-br from-sky-100 to-blue-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500"
           >
-            <div className="absolute inset-0 rounded-[2.2rem] border border-white/20 pointer-events-none z-0" />
+            <div className="absolute inset-0 rounded-[2.2rem] border border-white/40 pointer-events-none z-0" />
             <div className="relative z-10">
-              <h3 className="text-left text-lg font-bold text-white drop-shadow-md mb-2">Nível 3</h3>
-              <p className="text-left text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-cyan-500 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
+              <h3 className="text-left text-lg font-bold text-black drop-shadow-md mb-2">Nível 3</h3>
+              <p className="text-left text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
                 {networkStats?.level3Count || 0}
               </p>
-              <p className="text-center text-sm font-medium text-white/80 mt-2">Indicados Indiretos</p>
+              <p className="text-center text-sm font-medium text-black/70 mt-2">Indicados Indiretos</p>
             </div>
           </motion.div>
           
@@ -81,15 +81,15 @@ export const NetworkCard = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 3 * 0.2 }}
-            className="relative rounded-[2.2rem] p-6 border-2 border-pink-200/30 bg-gradient-to-br from-pink-100/20 to-pink-50/10 backdrop-blur-sm shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500"
+            className="relative rounded-[2.2rem] p-6 border-2 border-pink-200 bg-gradient-to-br from-pink-100 to-pink-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500"
           >
-            <div className="absolute inset-0 rounded-[2.2rem] border border-white/20 pointer-events-none z-0" />
+            <div className="absolute inset-0 rounded-[2.2rem] border border-white/40 pointer-events-none z-0" />
             <div className="relative z-10">
-              <h3 className="text-left text-lg font-bold text-white drop-shadow-md mb-2">Nível 4</h3>
-              <p className="text-left text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-rose-500 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
+              <h3 className="text-left text-lg font-bold text-black drop-shadow-md mb-2">Nível 4</h3>
+              <p className="text-left text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
                 {networkStats?.level4Count || 0}
               </p>
-              <p className="text-center text-sm font-medium text-white/80 mt-2">Indicados Indiretos</p>
+              <p className="text-center text-sm font-medium text-black/70 mt-2">Indicados Indiretos</p>
             </div>
           </motion.div>
         </div>
