@@ -119,15 +119,6 @@ export function InteractivePlanCard() {
                       transition: 'all 0.4s ease-in-out'
                     }}
                   >
-                    {/* Rotating light effect */}
-                    <div 
-                      className="absolute w-[220%] h-[250%] -top-1/2 -left-1/2 z-0"
-                      style={{
-                        background: 'radial-gradient(circle at center, rgba(255,255,255,0.1), transparent 70%)',
-                        animation: 'rotateLight 8s linear infinite'
-                      }}
-                    />
-                    
                     <div className="relative z-10">
                       <h4 className="font-bold tracking-wider mb-3 text-sm">
                         ASSINATURA<br/>
