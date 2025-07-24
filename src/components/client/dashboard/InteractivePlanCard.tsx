@@ -84,7 +84,7 @@ export function InteractivePlanCard() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4 }}
-                className="flex flex-col lg:flex-row gap-18 mb-18"
+                className="plano-card"
               >
                 <div className="label-topo">
                   ASSINATURA<br/>
