@@ -33,7 +33,7 @@ export const NetworkCard = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0 * 0.2 }}
-            className="relative rounded-[2.2rem] p-6 border-2 border-yellow-200 bg-gradient-to-br from-yellow-100 to-yellow-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500"
+            className="relative rounded-[2.2rem] px-6 py-4 border-2 border-yellow-200 bg-gradient-to-br from-yellow-100 to-yellow-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500"
           >
             <div className="absolute inset-0 rounded-[2.2rem] border border-white/40 pointer-events-none z-0" />
             <div className="relative z-10">
@@ -49,7 +49,7 @@ export const NetworkCard = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 1 * 0.2 }}
-            className="relative rounded-[2.2rem] p-6 border-2 border-lime-200 bg-gradient-to-br from-lime-100 to-green-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500"
+            className="relative rounded-[2.2rem] px-6 py-4 border-2 border-lime-200 bg-gradient-to-br from-lime-100 to-green-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500"
           >
             <div className="absolute inset-0 rounded-[2.2rem] border border-white/40 pointer-events-none z-0" />
             <div className="relative z-10">
@@ -65,7 +65,7 @@ export const NetworkCard = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 2 * 0.2 }}
-            className="relative rounded-[2.2rem] p-6 border-2 border-sky-200 bg-gradient-to-br from-sky-100 to-blue-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500"
+            className="relative rounded-[2.2rem] px-6 py-4 border-2 border-sky-200 bg-gradient-to-br from-sky-100 to-blue-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500"
           >
             <div className="absolute inset-0 rounded-[2.2rem] border border-white/40 pointer-events-none z-0" />
             <div className="relative z-10">
@@ -81,7 +81,7 @@ export const NetworkCard = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 3 * 0.2 }}
-            className="relative rounded-[2.2rem] p-6 border-2 border-pink-200 bg-gradient-to-br from-pink-100 to-pink-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500"
+            className="relative rounded-[2.2rem] px-6 py-4 border-2 border-pink-200 bg-gradient-to-br from-pink-100 to-pink-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500"
           >
             <div className="absolute inset-0 rounded-[2.2rem] border border-white/40 pointer-events-none z-0" />
             <div className="relative z-10">
