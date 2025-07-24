@@ -22,33 +22,33 @@ export const NetworkCard = ({
       titulo: "Nível 1",
       quantidade: networkStats?.level1Count || 0,
       tipo: "Indicados Diretos",
-      corTexto: "text-black",
-      corFundo: "bg-gradient-to-br from-yellow-100 to-yellow-300",
-      borda: "border-yellow-300"
+      corTexto: "text-white",
+      corFundo: "bg-gradient-to-br from-orange-400 to-orange-600",
+      borda: "border-orange-500"
     },
     {
       titulo: "Nível 2",
       quantidade: networkStats?.level2Count || 0,
       tipo: "Indicados Indiretos",
-      corTexto: "text-black",
-      corFundo: "bg-gradient-to-br from-lime-100 to-green-300",
-      borda: "border-lime-300"
+      corTexto: "text-white",
+      corFundo: "bg-gradient-to-br from-purple-400 to-purple-600",
+      borda: "border-purple-500"
     },
     {
       titulo: "Nível 3",
       quantidade: networkStats?.level3Count || 0,
       tipo: "Indicados Indiretos",
-      corTexto: "text-black",
-      corFundo: "bg-gradient-to-br from-cyan-100 to-blue-300",
-      borda: "border-cyan-300"
+      corTexto: "text-white",
+      corFundo: "bg-gradient-to-br from-blue-400 to-blue-600",
+      borda: "border-blue-500"
     },
     {
       titulo: "Nível 4",
       quantidade: networkStats?.level4Count || 0,
       tipo: "Indicados Indiretos",
-      corTexto: "text-black",
-      corFundo: "bg-gradient-to-br from-pink-100 to-fuchsia-300",
-      borda: "border-fuchsia-300"
+      corTexto: "text-white",
+      corFundo: "bg-gradient-to-br from-pink-400 to-pink-600",
+      borda: "border-pink-500"
     }
   ];
 
