@@ -203,52 +203,53 @@ export function InteractivePlanCard() {
         className="tabela-container"
       >
         <h2 className="titulo">Consumo inteligente</h2>
-        <div className="tabela">
-          <div className="linha cabecalho">
-            <div className="coluna">Nível</div>
-            <div className="coluna">Clientes</div>
-            <div className="coluna">Usuário</div>
-            <div className="coluna">Por Nível</div>
-            <div className="coluna">Acumulado</div>
+        <div className="tabela-wrapper">
+          <div className="tabela-header">
+            <div className="col th">Nível</div>
+            <div className="col th">Clientes</div>
+            <div className="col th">Usuário</div>
+            <div className="col th">Por Nível</div>
+            <div className="col th">Acumulado</div>
           </div>
 
           {plan.commissionLevels.map((level, index) => {
-            const gradientClass = ['gradient-laranja', 'gradient-roxo', 'gradient-azul', 'gradient-rosa'][index];
+            const nivelClass = ['nivel1', 'nivel2', 'nivel3', 'nivel4'][index];
             return (
-              <div key={level.level} className="linha">
-                <div className={`coluna nivel ${gradientClass}`}>{level.level}º</div>
-                <div className="coluna">{level.indications}</div>
-                <div className="coluna destaque">
-                  R$<AnimatedNumber value={level.commission} delay={index * 100} />,00<br/>
-                  <small>Por indicado</small>
+              <div key={level.level} className={`tabela-row ${nivelClass}`}>
+                <div className="col">{level.level}º</div>
+                <div className="col">{level.indications}</div>
+                <div className="col">
+                  <strong>R$<AnimatedNumber value={level.commission} delay={index * 100} />,00</strong><br/>
+                  <span>Por indicado</span>
                 </div>
-                <div className="coluna">
+                <div className="col">
                   R$<AnimatedNumber value={level.commission} delay={index * 100} />,00
                 </div>
-                <div className="coluna">
+                <div className="col">
                   R$<AnimatedNumber value={level.monthlyValue} delay={index * 100} />,00
                 </div>
               </div>
             );
           })}
 
-          <div className="linha total">
-            <div className="coluna nivel">Total</div>
-            <div className="coluna">{totalClients}</div>
-            <div className="coluna destaque">
+          <div className="tabela-row total">
+            <div className="col">Total</div>
+            <div className="col">{totalClients}</div>
+            <div className="col">
+              <strong>R$<AnimatedNumber value={35} delay={400} />,00</strong>
+            </div>
+            <div className="col">
               R$<AnimatedNumber value={35} delay={400} />,00
             </div>
-            <div className="coluna">
-              R$<AnimatedNumber value={35} delay={400} />,00
-            </div>
-            <div className="coluna roxo-claro">
+            <div className="col">
               R$<AnimatedNumber value={totalValue} delay={400} />,00
             </div>
           </div>
         </div>
-        <p className="nota-final">
-          Valor total a receber na recorrência <strong>R${totalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</strong>
-        </p>
+
+        <div className="footer-box">
+          <p className="footer-label">Valor total a receber na recorrência <span className="valor">R${totalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span></p>
+        </div>
       </motion.div>
 
       {/* Global Styles for Plan Card */}
@@ -376,93 +377,96 @@ export function InteractivePlanCard() {
         }
 
         .tabela-container {
-          font-family: 'Segoe UI', sans-serif;
-          max-width: 860px;
+          max-width: 900px;
           margin: 2rem auto;
-          background: #fdfdfd;
-          border-radius: 1rem;
-          padding: 1rem 2rem;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-          background-image: radial-gradient(circle, #e4e0ff 1px, transparent 1px);
-          background-size: 50px 50px;
+          padding: 1rem;
+          font-family: 'Segoe UI', sans-serif;
+          background: radial-gradient(circle at top, #f8f8ff, #eef0ff);
+          border-radius: 20px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+          overflow: hidden;
         }
 
         .titulo {
           text-align: center;
-          font-size: 2rem;
+          font-size: 1.8rem;
           font-weight: 800;
+          margin-bottom: 1.5rem;
           color: #111;
-          margin-bottom: 2rem;
-          text-shadow: 1px 1px 2px #ccc;
+          text-shadow: 1px 1px 0 white;
         }
 
-        .tabela {
+        .tabela-wrapper {
           display: grid;
           grid-template-columns: repeat(5, 1fr);
-          gap: 10px;
+          gap: 0.5rem;
+          background: linear-gradient(to bottom, #fff, #f0f0ff);
+          border-radius: 1rem;
+          padding: 1rem;
         }
 
-        .linha {
+        .tabela-header, .tabela-row {
           display: contents;
         }
 
-        .coluna {
-          background: white;
+        .col {
           padding: 1rem;
+          background: white;
           border-radius: 1rem;
+          box-shadow: 0 3px 8px rgba(0,0,0,0.06);
           text-align: center;
+          font-size: 0.95rem;
           font-weight: 500;
-          font-size: 1rem;
-          box-shadow: inset 0 0 10px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.05);
-          transition: all 0.3s ease;
         }
 
-        .cabecalho .coluna {
-          background: linear-gradient(to right, #6a00ff, #b300ff);
+        .th {
+          background: linear-gradient(45deg, #8a2be2, #da70d6);
           color: white;
-          font-weight: bold;
-          text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
-        }
-
-        .total .coluna {
-          font-weight: bold;
-          background: #ece4ff;
-          font-size: 1.05rem;
-        }
-
-        .destaque {
-          font-size: 1.2rem;
           font-weight: 700;
+          text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .tabela-row:hover .col {
+          transform: translateY(-2px);
+          transition: transform 0.3s ease;
+        }
+
+        .nivel1 .col:first-child { border-left: 5px solid #ff6a00; }
+        .nivel2 .col:first-child { border-left: 5px solid #a64ac9; }
+        .nivel3 .col:first-child { border-left: 5px solid #5e60ce; }
+        .nivel4 .col:first-child { border-left: 5px solid #e91e63; }
+        .total .col {
+          background: #ede5ff;
+          font-weight: bold;
           color: #222;
         }
 
-        .roxo-claro {
-          background: linear-gradient(to bottom right, #7209b7, #b5179e);
-          color: white;
-          text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-
-        .gradient-laranja { 
-          border-left: 5px solid #ff6a00; 
-        }
-
-        .gradient-roxo { 
-          border-left: 5px solid #7b2cbf; 
-        }
-
-        .gradient-azul { 
-          border-left: 5px solid #3a86ff; 
-        }
-
-        .gradient-rosa { 
-          border-left: 5px solid #ff006e; 
-        }
-
-        .nota-final {
+        .footer-box {
+          margin-top: 2rem;
+          padding: 1rem;
+          border-radius: 1rem;
+          background: linear-gradient(90deg, #d1c4e9, #ede7f6);
+          box-shadow: inset 2px 2px 6px rgba(255,255,255,0.5), inset -2px -2px 6px rgba(0,0,0,0.05);
           text-align: center;
           font-size: 1.1rem;
-          margin-top: 2rem;
-          color: #444;
+          font-weight: 600;
+          color: #333;
+          animation: glow-pulse 3s infinite ease-in-out;
+        }
+
+        .footer-label .valor {
+          font-weight: bold;
+          color: #4a148c;
+          text-shadow: 1px 1px 1px rgba(255,255,255,0.6);
+        }
+
+        @keyframes glow-pulse {
+          0%, 100% {
+            box-shadow: inset 2px 2px 6px rgba(255,255,255,0.4), inset -2px -2px 6px rgba(0,0,0,0.04);
+          }
+          50% {
+            box-shadow: inset 3px 3px 12px rgba(255,255,255,0.8), inset -3px -3px 12px rgba(0,0,0,0.08);
+          }
         }
 
         .numero {
