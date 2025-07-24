@@ -400,7 +400,6 @@ export function InteractivePlanCard() {
           display: grid;
           grid-template-columns: repeat(5, 1fr);
           gap: 0.5rem;
-          background: linear-gradient(to bottom, #fff, #f0f0ff);
           border-radius: 1rem;
           padding: 1rem;
         }
