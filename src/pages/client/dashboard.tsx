@@ -35,14 +35,14 @@ export default function ClientDashboard() {
     opacity: 0
   }} animate={{
     opacity: 1
-  }} className="w-full mx-auto pt-24 -mt-[72px]">
+  }} className="max-w-[1800px] mx-auto pt-24 -mt-[72px]">
       <WelcomeSection profile={profile} />
 
       <FinancialCards />
 
       <StatsCardsGrid />
 
-      <div className="w-full mb-8 mt-16 px-5">
+      <div className="container mb-8 mt-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
           <div className="bg-white rounded-lg shadow-sm border border-gray-120 p-4">
             <NetworkCard networkStats={networkStats || {
@@ -58,7 +58,7 @@ export default function ClientDashboard() {
 
       <InteractivePlanCard />
 
-      <div className="w-full mb-8 px-5">
+      <div className="container mb-8">
         <InteractiveBrazilMap />
       </div>
     </motion.div>;
