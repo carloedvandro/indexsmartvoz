@@ -465,24 +465,24 @@ export function InteractivePlanCard() {
         }
 
         .nivel1 .col:first-child { 
-          border-left: 24px solid #ff6b35; 
-          border-top-left-radius: 24px;
-          border-bottom-left-radius: 24px;
+          border-left: 6px solid #ff6b35; 
+          border-top-left-radius: 16px;
+          border-bottom-left-radius: 16px;
         }
         .nivel2 .col:first-child { 
-          border-left: 24px solid #a855f7; 
-          border-top-left-radius: 24px;
-          border-bottom-left-radius: 24px;
+          border-left: 6px solid #a855f7; 
+          border-top-left-radius: 16px;
+          border-bottom-left-radius: 16px;
         }
         .nivel3 .col:first-child { 
-          border-left: 24px solid #3b82f6; 
-          border-top-left-radius: 24px;
-          border-bottom-left-radius: 24px;
+          border-left: 6px solid #3b82f6; 
+          border-top-left-radius: 16px;
+          border-bottom-left-radius: 16px;
         }
         .nivel4 .col:first-child { 
-          border-left: 24px solid #ec4899; 
-          border-top-left-radius: 24px;
-          border-bottom-left-radius: 24px;
+          border-left: 6px solid #ec4899; 
+          border-top-left-radius: 16px;
+          border-bottom-left-radius: 16px;
         }
         .total .col {
           background: #ede5ff;
