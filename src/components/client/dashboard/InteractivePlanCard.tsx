@@ -52,13 +52,15 @@ const plans: Plan[] = [
 
 export function InteractivePlanCard() {
   const [currentPlan, setCurrentPlan] = useState(0);
-  const [flippedCards, setFlippedCards] = useState<boolean[]>([false, false, false]);
   const [api, setApi] = useState<CarouselApi>();
 
-  const toggleCardFlip = (index: number) => {
-    setFlippedCards(prev => 
-      prev.map((flipped, i) => i === index ? !flipped : flipped)
-    );
+  const changePlan = (direction: number) => {
+    setCurrentPlan(prev => {
+      const newIndex = prev + direction;
+      if (newIndex < 0) return plans.length - 1;
+      if (newIndex >= plans.length) return 0;
+      return newIndex;
+    });
   };
 
   const handleCarouselSelect = useCallback(() => {
@@ -105,68 +107,33 @@ export function InteractivePlanCard() {
             <CarouselContent>
               {plans.map((planItem, index) => (
                 <CarouselItem key={index}>
-                  <div 
-                    className={`card-flip ${flippedCards[index] ? 'flip' : ''}`}
-                    onClick={() => toggleCardFlip(index)}
+                  <motion.div 
+                    key={`${index}-${currentPlan}`}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4 }}
+                    className="w-[380px] h-80 relative overflow-hidden rounded-3xl p-6 text-white text-center flex flex-col justify-center mx-auto"
+                    style={{
+                      background: `linear-gradient(135deg, #6b00b6, #9c27b0)`,
+                      transition: 'all 0.4s ease-in-out'
+                    }}
                   >
-                    <div className="card-inner">
-                      {/* Front Side - Plan Info */}
-                      <motion.div 
-                        key={`${index}-${currentPlan}-front`}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.4 }}
-                        className="card-front w-[380px] h-80 relative overflow-hidden rounded-3xl p-6 text-white text-center flex flex-col justify-center mx-auto"
-                        style={{
-                          background: `linear-gradient(135deg, #6b00b6, #9c27b0)`,
-                        }}
-                      >
-                        <div className="relative z-10">
-                          <h4 className="font-bold tracking-wider mb-3 text-sm">
-                            ASSINATURA<br/>
-                            <span className="text-base">SEM FIDELIDADE</span>
-                          </h4>
-                          
-                          <div className="giga-linha flex items-baseline justify-center gap-1 mt-4 mb-4">
-                            <h1 className="text-6xl font-bold text-white">
-                              {planItem.gb}
-                            </h1>
-                            <span className="text-xl text-white font-medium">GB</span>
-                          </div>
-                          
-                          <div className="text-sm mb-4 text-white/90">
-                            Ligações e SMS ilimitados<br/>
-                            para qualquer operadora do Brasil.
-                          </div>
-                          
-                          <small className="text-base mt-4 block">
-                            Por <strong>{formatCurrency(planItem.price)}</strong><br/>/mês
-                          </small>
-                        </div>
-                      </motion.div>
-
-                      {/* Back Side - Commissions */}
-                      <div className="card-back w-[380px] h-80 relative overflow-hidden rounded-3xl p-6 text-white text-center flex flex-col justify-center mx-auto"
-                        style={{
-                          background: `linear-gradient(135deg, #4a1a5c, #6b00b6)`,
-                        }}
-                      >
-                        <h3 className="text-xl font-bold mb-6 text-white">Comissões</h3>
-                        <ul className="space-y-3 text-sm">
-                          {planItem.commissionLevels.map((level) => (
-                            <li key={level.level} className="text-left">
-                              {level.title}: {level.indications}x {formatCurrency(level.commission)} = {formatCurrency(level.monthlyValue)}
-                            </li>
-                          ))}
-                        </ul>
-                        <div className="mt-4 pt-4 border-t border-white/20">
-                          <strong className="text-lg">
-                            Total: {formatCurrency(calculateTotal(planItem.commissionLevels))}
-                          </strong>
-                        </div>
-                      </div>
+                    <div className="relative z-10">
+                      <h4 className="font-bold tracking-wider mb-3 text-sm">
+                        ASSINATURA<br/>
+                        <span className="text-base">SEM FIDELIDADE</span>
+                      </h4>
+                      
+                      <h1 className="text-6xl my-3 font-bold">
+                        {planItem.gb}
+                      </h1>
+                      <div className="text-lg opacity-80">GB</div>
+                      
+                      <small className="text-base mt-4 block">
+                        Por <strong>{formatCurrency(planItem.price)}</strong><br/>/mês
+                      </small>
                     </div>
-                  </div>
+                  </motion.div>
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -259,47 +226,8 @@ export function InteractivePlanCard() {
         </div>
       </motion.div>
 
-      {/* Global style for card flip animation and scrollbar hiding */}
+      {/* Global style for rotating light animation and scrollbar hiding */}
       <style>{`
-        .card-flip {
-          width: 380px;
-          height: 320px;
-          perspective: 1000px;
-          cursor: pointer;
-          border-radius: 1.5rem;
-          box-shadow: inset 2px 2px 6px rgba(255,255,255,0.1), 
-                      inset -2px -2px 6px rgba(0,0,0,0.2), 
-                      0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .card-inner {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          text-align: center;
-          transition: transform 0.8s;
-          transform-style: preserve-3d;
-          border-radius: 1.5rem;
-          overflow: hidden;
-        }
-
-        .card-flip.flip .card-inner {
-          transform: rotateY(180deg);
-        }
-
-        .card-front, .card-back {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          border-radius: 1.5rem;
-        }
-
-        .card-back {
-          transform: rotateY(180deg);
-        }
-
         @keyframes rotateLight {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
