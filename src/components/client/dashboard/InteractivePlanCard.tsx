@@ -29,7 +29,7 @@ const plans: Plan[] = [
   },
   {
     gb: 120,
-    price: 134.99,
+    price: 124.99,
     commissionLevels: [
       { level: 1, title: "1º Nível", indications: 5, commission: 25.00, monthlyValue: 125.00 },
       { level: 2, title: "2º Nível", indications: 25, commission: 5.00, monthlyValue: 125.00 },
