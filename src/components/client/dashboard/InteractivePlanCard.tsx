@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { formatCurrency } from "@/utils/format";
 import { motion } from 'framer-motion';
+import { Orb3D } from '@/components/ui/3d-orb';
 
 interface Plan {
   gb: number;
@@ -118,8 +119,15 @@ export function InteractivePlanCard() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4 }}
-                className="plano-card"
+                className="plano-card relative overflow-hidden"
               >
+                {/* 3D Orb Background Effect */}
+                <div className="absolute top-4 right-4 opacity-30">
+                  <Orb3D size={80} color="#ffffff" intensity={0.6} speed={0.005} />
+                </div>
+                <div className="absolute bottom-4 left-4 opacity-20">
+                  <Orb3D size={60} color="#ff00ff" intensity={0.4} speed={0.008} />
+                </div>
                 <div className="label-topo">
                   ASSINATURA<br/>
                   <span>SEM FIDELIDADE</span>
