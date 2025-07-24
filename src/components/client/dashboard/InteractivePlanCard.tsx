@@ -139,6 +139,63 @@ export function InteractivePlanCard() {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
+
+      {/* Tabela de Consumo Inteligente */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        className="mt-8 bg-white rounded-2xl shadow-xl p-6"
+      >
+        <h2 className="text-2xl font-bold text-primary text-center mb-6">
+          Consumo Inteligente
+        </h2>
+        
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-slate-50">
+                <th className="px-4 py-3 text-center border-b border-gray-200 font-semibold text-gray-700">Nível</th>
+                <th className="px-4 py-3 text-center border-b border-gray-200 font-semibold text-gray-700">Clientes</th>
+                <th className="px-4 py-3 text-center border-b border-gray-200 font-semibold text-gray-700">Valor por Indicado</th>
+                <th className="px-4 py-3 text-center border-b border-gray-200 font-semibold text-gray-700">Total no Nível</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="hover:bg-gray-50 transition-colors">
+                <td className="px-4 py-3 text-center border-b border-gray-100">1º</td>
+                <td className="px-4 py-3 text-center border-b border-gray-100">5</td>
+                <td className="px-4 py-3 text-center border-b border-gray-100">R$ 20,00</td>
+                <td className="px-4 py-3 text-center border-b border-gray-100">R$ 100,00</td>
+              </tr>
+              <tr className="hover:bg-gray-50 transition-colors">
+                <td className="px-4 py-3 text-center border-b border-gray-100">2º</td>
+                <td className="px-4 py-3 text-center border-b border-gray-100">25</td>
+                <td className="px-4 py-3 text-center border-b border-gray-100">R$ 5,00</td>
+                <td className="px-4 py-3 text-center border-b border-gray-100">R$ 125,00</td>
+              </tr>
+              <tr className="hover:bg-gray-50 transition-colors">
+                <td className="px-4 py-3 text-center border-b border-gray-100">3º</td>
+                <td className="px-4 py-3 text-center border-b border-gray-100">125</td>
+                <td className="px-4 py-3 text-center border-b border-gray-100">R$ 5,00</td>
+                <td className="px-4 py-3 text-center border-b border-gray-100">R$ 625,00</td>
+              </tr>
+              <tr className="hover:bg-gray-50 transition-colors">
+                <td className="px-4 py-3 text-center border-b border-gray-100">4º</td>
+                <td className="px-4 py-3 text-center border-b border-gray-100">625</td>
+                <td className="px-4 py-3 text-center border-b border-gray-100">R$ 5,00</td>
+                <td className="px-4 py-3 text-center border-b border-gray-100">R$ 3.125,00</td>
+              </tr>
+              <tr className="bg-slate-100 font-bold">
+                <td className="px-4 py-3 text-center border-b border-gray-200">Total</td>
+                <td className="px-4 py-3 text-center border-b border-gray-200">780</td>
+                <td className="px-4 py-3 text-center border-b border-gray-200">-</td>
+                <td className="px-4 py-3 text-center border-b border-gray-200 text-primary font-bold">R$ 3.975,00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </motion.div>
     </motion.div>
   );
 }
