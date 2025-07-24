@@ -239,35 +239,9 @@ export function InteractivePlanCard() {
 
           {plan.commissionLevels.map((level, index) => {
             const nivelClass = ['nivel1', 'nivel2', 'nivel3', 'nivel4'][index];
-            const gradientColors = [
-              "from-orange-500 to-pink-500",
-              "from-purple-500 to-indigo-500", 
-              "from-blue-500 to-cyan-500",
-              "from-pink-500 to-red-500"
-            ];
             return (
-              <motion.div 
-                key={level.level} 
-                className={`tabela-row ${nivelClass}`}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-              >
-                <div className="col relative">
-                  <motion.div
-                    className={`relative w-16 h-12 rounded-xl bg-white shadow-lg flex items-center justify-center overflow-hidden mx-auto`}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                  >
-                    <div
-                      className={`absolute left-0 top-0 h-full w-1.5 rounded-l-xl bg-gradient-to-b ${gradientColors[index]}`}
-                    />
-                    <span className="text-lg font-extrabold text-gray-800 drop-shadow-[1px_1px_1px_rgba(0,0,0,0.25)]">
-                      {level.level}º
-                    </span>
-                  </motion.div>
-                </div>
+              <div key={level.level} className={`tabela-row ${nivelClass}`}>
+                <div className="col">{level.level}º</div>
                 <div className="col">{level.indications}</div>
                 <div className="col">
                   <strong>R$<AnimatedNumber value={level.commission} delay={index * 100} />,00</strong><br/>
@@ -279,7 +253,7 @@ export function InteractivePlanCard() {
                 <div className="col">
                   R$<AnimatedNumber value={level.monthlyValue} delay={index * 100} />,00
                 </div>
-              </motion.div>
+              </div>
             );
           })}
 
