@@ -167,14 +167,8 @@ export function InteractivePlanCard() {
           borderRadius: '40px 40px 80px 80px',
           boxShadow: '0 8px 25px rgba(0, 0, 0, 0.35)',
           scrollSnapAlign: 'center'
-        }} onClick={() => scrollToCard(index)}>
-              {/* Rotating light effect */}
-              <div style={{
-            background: 'radial-gradient(circle at center, rgba(255,255,255,0.15), transparent 60%)',
-            animation: 'rotateLight 10s linear infinite'
-          }} className="absolute -top-10 -left-10 w-[130%] absolute z-0" />
-              
-              <div className="relative z-10 flex flex-col items-center">
+          }} onClick={() => scrollToCard(index)}>
+              <div className="flex flex-col items-center">
                   <h4 className="font-bold text-xs md:text-sm tracking-wider mt-2 md:mt-3 mb-2 md:mb-3">
                     ASSINATURA<br />
                     <span className="text-sm md:text-base">SEM FIDELIDADE</span>
