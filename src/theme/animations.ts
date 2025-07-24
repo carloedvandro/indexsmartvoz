@@ -40,6 +40,14 @@ export const animations = {
       "0%": { "background-position": "0% 50%" },
       "50%": { "background-position": "100% 50%" },
       "100%": { "background-position": "0% 50%" }
+    },
+    "star-movement-bottom": {
+      "0%": { transform: "translate(0%, 0%)", opacity: "1" },
+      "100%": { transform: "translate(-100%, 0%)", opacity: "0" },
+    },
+    "star-movement-top": {
+      "0%": { transform: "translate(0%, 0%)", opacity: "1" },
+      "100%": { transform: "translate(100%, 0%)", opacity: "0" },
     }
   },
   animation: {
@@ -52,6 +60,8 @@ export const animations = {
     "scan-line": "scan-line 1.2s linear infinite",
     "laser-scan": "laser-scan 1.2s linear infinite",
     "progress-circle": "progress-circle 3s linear forwards",
-    "gradient": "gradient var(--animation-duration, 8s) linear infinite"
+    "gradient": "gradient var(--animation-duration, 8s) linear infinite",
+    "star-movement-bottom": "star-movement-bottom linear infinite alternate",
+    "star-movement-top": "star-movement-top linear infinite alternate"
   },
 };
