@@ -3,13 +3,11 @@ import { formatCurrency } from "@/utils/format";
 import { motion } from 'framer-motion';
 import { Orb3D } from '@/components/ui/3d-orb';
 import { GradientText } from '@/components/ui/gradient-text';
-
 interface Plan {
   gb: number;
   price: number;
   commissionLevels: CommissionLevel[];
 }
-
 interface CommissionLevel {
   level: number;
   title: string;
@@ -17,44 +15,101 @@ interface CommissionLevel {
   commission: number;
   monthlyValue: number;
 }
-
-const plans: Plan[] = [
-  {
-    gb: 100,
-    price: 104.99,
-    commissionLevels: [
-      { level: 1, title: "1º Nível", indications: 5, commission: 20.00, monthlyValue: 100.00 },
-      { level: 2, title: "2º Nível", indications: 25, commission: 5.00, monthlyValue: 125.00 },
-      { level: 3, title: "3º Nível", indications: 125, commission: 5.00, monthlyValue: 625.00 },
-      { level: 4, title: "4º Nível", indications: 625, commission: 5.00, monthlyValue: 3125.00 }
-    ]
-  },
-  {
-    gb: 120,
-    price: 124.99,
-    commissionLevels: [
-      { level: 1, title: "1º Nível", indications: 5, commission: 25.00, monthlyValue: 125.00 },
-      { level: 2, title: "2º Nível", indications: 25, commission: 5.00, monthlyValue: 125.00 },
-      { level: 3, title: "3º Nível", indications: 125, commission: 5.00, monthlyValue: 625.00 },
-      { level: 4, title: "4º Nível", indications: 625, commission: 5.00, monthlyValue: 3125.00 }
-    ]
-  },
-  {
-    gb: 140,
-    price: 144.99,
-    commissionLevels: [
-      { level: 1, title: "1º Nível", indications: 5, commission: 30.00, monthlyValue: 150.00 },
-      { level: 2, title: "2º Nível", indications: 25, commission: 5.00, monthlyValue: 125.00 },
-      { level: 3, title: "3º Nível", indications: 125, commission: 5.00, monthlyValue: 625.00 },
-      { level: 4, title: "4º Nível", indications: 625, commission: 5.00, monthlyValue: 3125.00 }
-    ]
-  }
-];
+const plans: Plan[] = [{
+  gb: 100,
+  price: 104.99,
+  commissionLevels: [{
+    level: 1,
+    title: "1º Nível",
+    indications: 5,
+    commission: 20.00,
+    monthlyValue: 100.00
+  }, {
+    level: 2,
+    title: "2º Nível",
+    indications: 25,
+    commission: 5.00,
+    monthlyValue: 125.00
+  }, {
+    level: 3,
+    title: "3º Nível",
+    indications: 125,
+    commission: 5.00,
+    monthlyValue: 625.00
+  }, {
+    level: 4,
+    title: "4º Nível",
+    indications: 625,
+    commission: 5.00,
+    monthlyValue: 3125.00
+  }]
+}, {
+  gb: 120,
+  price: 124.99,
+  commissionLevels: [{
+    level: 1,
+    title: "1º Nível",
+    indications: 5,
+    commission: 25.00,
+    monthlyValue: 125.00
+  }, {
+    level: 2,
+    title: "2º Nível",
+    indications: 25,
+    commission: 5.00,
+    monthlyValue: 125.00
+  }, {
+    level: 3,
+    title: "3º Nível",
+    indications: 125,
+    commission: 5.00,
+    monthlyValue: 625.00
+  }, {
+    level: 4,
+    title: "4º Nível",
+    indications: 625,
+    commission: 5.00,
+    monthlyValue: 3125.00
+  }]
+}, {
+  gb: 140,
+  price: 144.99,
+  commissionLevels: [{
+    level: 1,
+    title: "1º Nível",
+    indications: 5,
+    commission: 30.00,
+    monthlyValue: 150.00
+  }, {
+    level: 2,
+    title: "2º Nível",
+    indications: 25,
+    commission: 5.00,
+    monthlyValue: 125.00
+  }, {
+    level: 3,
+    title: "3º Nível",
+    indications: 125,
+    commission: 5.00,
+    monthlyValue: 625.00
+  }, {
+    level: 4,
+    title: "4º Nível",
+    indications: 625,
+    commission: 5.00,
+    monthlyValue: 3125.00
+  }]
+}];
 
 // Animation component for numbers
-function AnimatedNumber({ value, delay = 0 }: { value: number; delay?: number }) {
+function AnimatedNumber({
+  value,
+  delay = 0
+}: {
+  value: number;
+  delay?: number;
+}) {
   const [displayValue, setDisplayValue] = useState(0);
-
   useEffect(() => {
     const timeout = setTimeout(() => {
       const increment = Math.ceil(value / 30);
@@ -69,23 +124,18 @@ function AnimatedNumber({ value, delay = 0 }: { value: number; delay?: number })
       }, 20);
       return () => clearInterval(interval);
     }, delay);
-
     return () => clearTimeout(timeout);
   }, [value, delay]);
-
   const formatNumber = (num: number) => {
     if (num > 999) {
       return num.toString().padStart(3, '0');
     }
     return num.toString().padStart(2, '0');
   };
-
   return <span className="numero">{formatNumber(displayValue)}</span>;
 }
-
 export function InteractivePlanCard() {
   const [currentPlan, setCurrentPlan] = useState(0);
-
   const changePlan = (direction: number) => {
     setCurrentPlan(prev => {
       const newIndex = prev + direction;
@@ -94,34 +144,35 @@ export function InteractivePlanCard() {
       return newIndex;
     });
   };
-
   const calculateTotal = (commissionLevels: CommissionLevel[]) => {
     return commissionLevels.reduce((total, level) => total + level.monthlyValue, 0);
   };
-
   const plan = plans[currentPlan];
   const totalClients = plan.commissionLevels.reduce((total, level) => total + level.indications, 0);
   const totalValue = calculateTotal(plan.commissionLevels);
-
-  return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="max-w-7xl mx-auto"
-    >
+  return <motion.div initial={{
+    opacity: 0,
+    y: 20
+  }} animate={{
+    opacity: 1,
+    y: 0
+  }} transition={{
+    duration: 0.5
+  }} className="max-w-7xl mx-auto">
       {/* Layout with Plan Card on Left and Levels on Right */}
       <div className="flex flex-col lg:flex-row gap-6 mb-6">
         {/* Left Side - Static Plan Card */}
         <div className="lg:w-1/3 flex justify-center">
-          <div className="card-container">
-              <motion.div 
-                key={`card-${currentPlan}`}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4 }}
-                className="plano-card relative overflow-hidden"
-              >
+          <div className="-bottom-1/2 ">
+              <motion.div key={`card-${currentPlan}`} initial={{
+            opacity: 0,
+            scale: 0.9
+          }} animate={{
+            opacity: 1,
+            scale: 1
+          }} transition={{
+            duration: 0.4
+          }} className="plano-card relative overflow-hidden">
                 {/* 3D Orb Background Effect */}
                 <div className="absolute top-4 right-4 opacity-30">
                   <Orb3D size={80} color="#ffffff" intensity={0.6} speed={0.005} />
@@ -130,16 +181,12 @@ export function InteractivePlanCard() {
                   <Orb3D size={60} color="#ff00ff" intensity={0.4} speed={0.008} />
                 </div>
                 <div className="label-topo">
-                  ASSINATURA<br/>
+                  ASSINATURA<br />
                   <span>SEM FIDELIDADE</span>
                 </div>
                 
                 <div className="giga-bloco">
-                  <GradientText
-                    colors={["#ffffff", "#ffffff", "#ffffff"]}
-                    animationSpeed={4}
-                    className="text-6xl font-extrabold"
-                  >
+                  <GradientText colors={["#ffffff", "#ffffff", "#ffffff"]} animationSpeed={4} className="text-6xl font-extrabold">
                     {plan.gb}<span className="giga-unidade">GB</span>
                   </GradientText>
                 </div>
@@ -156,11 +203,9 @@ export function InteractivePlanCard() {
                 </div>
                 
                 <div className="comissoes">
-                  {plan.commissionLevels.map((level, index) => (
-                    <p key={level.level}>
+                  {plan.commissionLevels.map((level, index) => <p key={level.level}>
                       <strong>Nível {level.level}:</strong> {formatCurrency(level.commission)}
-                    </p>
-                  ))}
+                    </p>)}
                 </div>
               </motion.div>
               
@@ -178,31 +223,29 @@ export function InteractivePlanCard() {
 
         {/* Right Side - Commission Levels */}
         <div className="lg:w-2/3">
-          <motion.div 
-            key={`levels-${currentPlan}`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="space-y-4"
-          >
+          <motion.div key={`levels-${currentPlan}`} initial={{
+          opacity: 0,
+          y: 20
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          duration: 0.3
+        }} className="space-y-4">
             {plan.commissionLevels.map((level, index) => {
-              const borderColors = [
-                '#ff6b35', // Laranja - 1º nível
-                '#a855f7', // Roxo - 2º nível  
-                '#3b82f6', // Azul - 3º nível
-                '#ec4899'  // Rosa/Magenta - 4º nível
-              ];
-              
-              return (
-                <div
-                  key={level.level}
-                  className="bg-white rounded-2xl p-5 pl-6"
-                  style={{
-                    background: 'linear-gradient(135deg, #fff, #f5f2fc)',
-                    borderLeft: `8px solid ${borderColors[index]}`,
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
-                  }}
-                >
+            const borderColors = ['#ff6b35',
+            // Laranja - 1º nível
+            '#a855f7',
+            // Roxo - 2º nível  
+            '#3b82f6',
+            // Azul - 3º nível
+            '#ec4899' // Rosa/Magenta - 4º nível
+            ];
+            return <div key={level.level} className="bg-white rounded-2xl p-5 pl-6" style={{
+              background: 'linear-gradient(135deg, #fff, #f5f2fc)',
+              borderLeft: `8px solid ${borderColors[index]}`,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+            }}>
                   <h3 className="text-primary font-bold text-xl mb-3">
                     {level.title}
                   </h3>
@@ -217,21 +260,23 @@ export function InteractivePlanCard() {
                   <p className="my-1 font-bold text-primary text-lg">
                     Total: {formatCurrency(level.monthlyValue)}/mês
                   </p>
-                </div>
-              );
-            })}
+                </div>;
+          })}
           </motion.div>
         </div>
       </div>
 
       {/* Consumption Table Box */}
-      <motion.div 
-        key={`table-${currentPlan}`}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.1 }}
-        className="tabela-container"
-      >
+      <motion.div key={`table-${currentPlan}`} initial={{
+      opacity: 0,
+      y: 20
+    }} animate={{
+      opacity: 1,
+      y: 0
+    }} transition={{
+      duration: 0.3,
+      delay: 0.1
+    }} className="tabela-container">
         <h2 className="titulo">Consumo inteligente</h2>
         <div className="tabela-wrapper">
           <div className="tabela-header">
@@ -243,22 +288,26 @@ export function InteractivePlanCard() {
           </div>
 
           {plan.commissionLevels.map((level, index) => {
-            const nivelClass = ['nivel1', 'nivel2', 'nivel3', 'nivel4'][index];
-            return (
-              <div key={level.level} className={`tabela-row ${nivelClass}`}>
+          const nivelClass = ['nivel1', 'nivel2', 'nivel3', 'nivel4'][index];
+          return <div key={level.level} className={`tabela-row ${nivelClass}`}>
                 <div className="col">
-                  <motion.span
-                    initial={{ scale: 0.95, y: 5 }}
-                    animate={{ scale: 1, y: 0 }}
-                    transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.2 }}
-                    className="text-lg font-black text-transparent bg-gradient-to-r from-gray-700 via-gray-800 to-black bg-clip-text"
-                  >
+                  <motion.span initial={{
+                scale: 0.95,
+                y: 5
+              }} animate={{
+                scale: 1,
+                y: 0
+              }} transition={{
+                duration: 0.6,
+                ease: "easeOut",
+                delay: index * 0.2
+              }} className="text-lg font-black text-transparent bg-gradient-to-r from-gray-700 via-gray-800 to-black bg-clip-text">
                     {level.level}º
                   </motion.span>
                 </div>
                 <div className="col">{level.indications}</div>
                 <div className="col">
-                  <strong>R$<AnimatedNumber value={level.commission} delay={index * 100} />,00</strong><br/>
+                  <strong>R$<AnimatedNumber value={level.commission} delay={index * 100} />,00</strong><br />
                   <span>Por indicado</span>
                 </div>
                 <div className="col">
@@ -267,9 +316,8 @@ export function InteractivePlanCard() {
                 <div className="col">
                   R$<AnimatedNumber value={level.monthlyValue} delay={index * 100} />,00
                 </div>
-              </div>
-            );
-          })}
+              </div>;
+        })}
 
           <div className="tabela-row total">
             <div className="col">Total</div>
@@ -287,7 +335,9 @@ export function InteractivePlanCard() {
         </div>
 
         <div className="footer-box">
-          <p className="footer-label">Valor total a receber na recorrência <span className="valor">R${totalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span></p>
+          <p className="footer-label">Valor total a receber na recorrência <span className="valor">R${totalValue.toLocaleString('pt-BR', {
+              minimumFractionDigits: 2
+            })}</span></p>
         </div>
       </motion.div>
 
@@ -540,6 +590,5 @@ export function InteractivePlanCard() {
           font-variant-numeric: tabular-nums;
         }
       `}</style>
-    </motion.div>
-  );
+    </motion.div>;
 }
