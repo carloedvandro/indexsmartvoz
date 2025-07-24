@@ -166,45 +166,42 @@ export function InteractivePlanCard() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.1 }}
-        className="bg-white p-6 rounded-2xl mb-10"
-        style={{
-          boxShadow: '0 6px 16px rgba(0,0,0,0.09)'
-        }}
+        className="tabela-consumo"
       >
-        <h2 className="text-primary font-bold text-xl mb-4">
-          Consumo Inteligente
-        </h2>
-        
-        <div className="overflow-x-auto mt-3">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-purple-50">
-                <th className="border-b border-gray-300 p-3 text-center text-sm font-semibold text-gray-700">Nível</th>
-                <th className="border-b border-gray-300 p-3 text-center text-sm font-semibold text-gray-700">Clientes</th>
-                <th className="border-b border-gray-300 p-3 text-center text-sm font-semibold text-gray-700">Valor por Indicado</th>
-                <th className="border-b border-gray-300 p-3 text-center text-sm font-semibold text-gray-700">Total no Nível</th>
-              </tr>
-            </thead>
-            <tbody>
-              {plan.commissionLevels.map((level) => (
-                <tr key={level.level}>
-                  <td className="border-b border-gray-300 p-3 text-center text-sm">{level.title}</td>
-                  <td className="border-b border-gray-300 p-3 text-center text-sm">{level.indications}</td>
-                  <td className="border-b border-gray-300 p-3 text-center text-sm">{formatCurrency(level.commission)}</td>
-                  <td className="border-b border-gray-300 p-3 text-center text-sm">{formatCurrency(level.monthlyValue)}</td>
-                </tr>
-              ))}
-              <tr>
-                <td className="border-b border-gray-300 p-3 text-center text-sm font-bold" colSpan={3}>
-                  <strong>Total</strong>
+        <h2 className="titulo">Consumo inteligente</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Nível</th>
+              <th>Clientes</th>
+              <th>Usuário</th>
+              <th>Por Nível</th>
+              <th>Acumulado</th>
+            </tr>
+          </thead>
+          <tbody>
+            {plan.commissionLevels.map((level) => (
+              <tr key={level.level}>
+                <td className="nivel">{level.level}º</td>
+                <td>{level.indications}</td>
+                <td className="usuario">
+                  {formatCurrency(level.commission)}<br/>
+                  <span>Por indicado</span>
                 </td>
-                <td className="border-b border-gray-300 p-3 text-center text-sm font-bold">
-                  <strong>{formatCurrency(calculateTotal(plan.commissionLevels))}</strong>
-                </td>
+                <td>{formatCurrency(level.commission)}</td>
+                <td>{formatCurrency(level.monthlyValue)}</td>
               </tr>
-            </tbody>
-          </table>
-        </div>
+            ))}
+            <tr className="total">
+              <td>Total</td>
+              <td>{plan.commissionLevels.reduce((total, level) => total + level.indications, 0)}</td>
+              <td>R$35,00</td>
+              <td>R$35,00</td>
+              <td>{formatCurrency(calculateTotal(plan.commissionLevels))}</td>
+            </tr>
+          </tbody>
+        </table>
+        <p className="rodape">Valor total a receber na recorrência</p>
       </motion.div>
 
       {/* Global Styles for Plan Card */}
@@ -329,6 +326,81 @@ export function InteractivePlanCard() {
 
         .nav-buttons button:hover {
           background: #884dd1;
+        }
+
+        .tabela-consumo {
+          font-family: 'Segoe UI', sans-serif;
+          max-width: 850px;
+          margin: 3rem auto;
+          background: #f2f2f2;
+          padding: 2rem;
+          border-radius: 1.2rem;
+          box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+          background: linear-gradient(145deg, #ffffff, #eaeaea);
+          border: 1px solid #ddd;
+        }
+
+        .titulo {
+          text-align: center;
+          font-size: 2rem;
+          font-weight: 600;
+          color: #111;
+          text-shadow: 1px 1px 2px #ccc;
+          margin-bottom: 1.5rem;
+        }
+
+        .tabela-consumo table {
+          width: 100%;
+          border-collapse: collapse;
+          text-align: center;
+        }
+
+        .tabela-consumo th {
+          background: linear-gradient(to right, #7209b7, #560bad);
+          color: #fff;
+          padding: 0.8rem;
+          border-radius: 0.5rem 0.5rem 0 0;
+          font-weight: 600;
+          text-shadow: 1px 1px 2px #00000088;
+        }
+
+        .tabela-consumo td {
+          padding: 1rem;
+          background: #fff;
+          border: 1px solid #eee;
+          font-size: 1rem;
+          position: relative;
+        }
+
+        .nivel {
+          border-left: 6px solid #ff006e;
+          font-weight: 600;
+        }
+
+        .usuario {
+          font-weight: bold;
+          color: #7b2cbf;
+        }
+
+        .usuario span {
+          font-size: 0.8rem;
+          color: #666;
+        }
+
+        .total td {
+          background: linear-gradient(to right, #7209b7, #3a0ca3);
+          color: #fff;
+          font-weight: bold;
+          text-shadow: 1px 1px 2px #00000088;
+        }
+
+        .rodape {
+          text-align: center;
+          margin-top: 1rem;
+          font-weight: bold;
+          color: #444;
+          font-size: 1rem;
+          text-shadow: 1px 1px 1px #ddd;
         }
       `}</style>
     </motion.div>
