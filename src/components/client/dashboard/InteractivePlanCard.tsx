@@ -100,7 +100,7 @@ export function InteractivePlanCard() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-6xl mx-auto p-5"
+      className="w-full mx-auto p-5"
     >
       {/* Plan Cards Slider */}
       <div className="mb-5 relative">
@@ -112,14 +112,14 @@ export function InteractivePlanCard() {
             WebkitOverflowScrolling: 'touch'
           }}
         >
-          <div className="flex gap-5 w-max">
+          <div className="flex gap-5 w-max px-5">
             {plans.map((planItem, index) => (
               <motion.div 
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="min-w-[280px] h-[400px] relative overflow-hidden p-6 text-white text-center flex flex-col justify-start items-center cursor-pointer"
+                className="min-w-[280px] h-[420px] relative overflow-hidden p-6 text-white text-center flex flex-col justify-start items-center cursor-pointer"
                 style={{
                   background: getCardGradient(index),
                   borderRadius: '40px 40px 80px 80px',
@@ -219,7 +219,7 @@ export function InteractivePlanCard() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.1 }}
-        className="bg-white p-6 rounded-2xl mb-10"
+        className="bg-white p-6 rounded-2xl mt-5"
         style={{
           boxShadow: '0 6px 16px rgba(0,0,0,0.09)'
         }}
