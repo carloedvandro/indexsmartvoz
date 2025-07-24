@@ -181,38 +181,39 @@ export function InteractivePlanCard() {
             className="space-y-4"
           >
             {plan.commissionLevels.map((level, index) => {
-              const gradientColors = [
-                'linear-gradient(135deg, #ff6b35, #f7931e)', // Laranja
-                'linear-gradient(135deg, #a855f7, #7c3aed)', // Roxo
-                'linear-gradient(135deg, #3b82f6, #1d4ed8)', // Azul
-                'linear-gradient(135deg, #ec4899, #be185d)'  // Rosa/Magenta
+              const borderColors = [
+                '#ff6b35', // Laranja - 1º nível
+                '#a855f7', // Roxo - 2º nível  
+                '#3b82f6', // Azul - 3º nível
+                '#ec4899'  // Rosa/Magenta - 4º nível
               ];
               
               return (
                 <div
                   key={level.level}
-                  className="bg-white rounded-2xl p-5 pl-6 relative overflow-hidden"
+                  className="bg-white rounded-2xl p-5 pl-6"
                   style={{
-                    background: gradientColors[index],
-                    boxShadow: '0 8px 32px rgba(0,0,0,0.12)'
+                    background: 'linear-gradient(135deg, #fff, #f5f2fc)',
+                    borderLeft: `8px solid ${borderColors[index]}`,
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
                   }}
                 >
-                <h3 className="text-white font-bold text-xl mb-3 drop-shadow-lg">
-                  {level.title}
-                </h3>
-                
-                <p className="my-1 font-normal text-white/90 drop-shadow-md">
-                  {level.indications} indicações{" "}
-                  <strong className="text-white font-bold">
-                    {formatCurrency(level.commission)}
-                  </strong> por indicado
-                </p>
-                
-                <p className="my-1 font-bold text-white text-lg drop-shadow-lg">
-                  Total: {formatCurrency(level.monthlyValue)}/mês
-                </p>
-              </div>
-            );
+                  <h3 className="text-primary font-bold text-xl mb-3">
+                    {level.title}
+                  </h3>
+                  
+                  <p className="my-1 font-normal text-gray-600">
+                    {level.indications} indicações{" "}
+                    <strong className="text-gray-900">
+                      {formatCurrency(level.commission)}
+                    </strong> por indicado
+                  </p>
+                  
+                  <p className="my-1 font-bold text-primary text-lg">
+                    Total: {formatCurrency(level.monthlyValue)}/mês
+                  </p>
+                </div>
+              );
             })}
           </motion.div>
         </div>
