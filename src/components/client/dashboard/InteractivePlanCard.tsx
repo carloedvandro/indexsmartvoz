@@ -106,59 +106,57 @@ export function InteractivePlanCard() {
       <div className="mb-5 relative">
         <div 
           ref={scrollContainerRef}
-          className="overflow-x-auto scrollbar-hide mb-3"
+          className="overflow-x-auto scrollbar-hide mb-3 flex gap-5 w-max px-5"
           style={{
             scrollSnapType: 'x mandatory',
             WebkitOverflowScrolling: 'touch'
           }}
         >
-          <div className="flex gap-5 w-max px-5">
-            {plans.map((planItem, index) => (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="min-w-[280px] h-[420px] relative overflow-hidden p-6 text-white text-center flex flex-col justify-start items-center cursor-pointer"
+          {plans.map((planItem, index) => (
+            <motion.div 
+              key={index}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="min-w-[280px] h-[420px] relative overflow-hidden p-6 text-white text-center flex flex-col justify-start items-center cursor-pointer"
+              style={{
+                background: getCardGradient(index),
+                borderRadius: '40px 40px 80px 80px',
+                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.35)',
+                scrollSnapAlign: 'center'
+              }}
+              onClick={() => scrollToCard(index)}
+            >
+              {/* Rotating light effect */}
+              <div 
+                className="absolute -top-10 -left-10 w-[150%] h-[150%] z-0"
                 style={{
-                  background: getCardGradient(index),
-                  borderRadius: '40px 40px 80px 80px',
-                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.35)',
-                  scrollSnapAlign: 'center'
+                  background: 'radial-gradient(circle at center, rgba(255,255,255,0.15), transparent 60%)',
+                  animation: 'rotateLight 10s linear infinite'
                 }}
-                onClick={() => scrollToCard(index)}
-              >
-                {/* Rotating light effect */}
-                <div 
-                  className="absolute -top-10 -left-10 w-[150%] h-[150%] z-0"
-                  style={{
-                    background: 'radial-gradient(circle at center, rgba(255,255,255,0.15), transparent 60%)',
-                    animation: 'rotateLight 10s linear infinite'
-                  }}
-                />
+              />
+              
+              <div className="relative z-10 flex flex-col items-center">
+                <h4 className="font-bold text-sm tracking-wider mt-3 mb-3">
+                  ASSINATURA<br/>
+                  <span className="text-base">SEM FIDELIDADE</span>
+                </h4>
                 
-                <div className="relative z-10 flex flex-col items-center">
-                  <h4 className="font-bold text-sm tracking-wider mt-3 mb-3">
-                    ASSINATURA<br/>
-                    <span className="text-base">SEM FIDELIDADE</span>
-                  </h4>
-                  
-                  <h1 className="text-6xl my-3 font-bold">
-                    {planItem.gb}
-                  </h1>
-                  <div className="text-lg opacity-80">GB</div>
-                  
-                  <div className="text-sm mt-3 text-gray-200 px-2">
-                    Ligações e SMS ilimitados para qualquer operadora do Brasil.
-                  </div>
-                  
-                  <small className="text-base mt-4 block">
-                    Por <strong>{formatCurrency(planItem.price)}</strong><br/>/mês
-                  </small>
+                <h1 className="text-6xl my-3 font-bold">
+                  {planItem.gb}
+                </h1>
+                <div className="text-lg opacity-80">GB</div>
+                
+                <div className="text-sm mt-3 text-gray-200 px-2">
+                  Ligações e SMS ilimitados para qualquer operadora do Brasil.
                 </div>
-              </motion.div>
-            ))}
-          </div>
+                
+                <small className="text-base mt-4 block">
+                  Por <strong>{formatCurrency(planItem.price)}</strong><br/>/mês
+                </small>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
         {/* Dots Indicators */}
