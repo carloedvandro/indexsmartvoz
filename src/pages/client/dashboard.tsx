@@ -11,7 +11,7 @@ import { StatsCardsGrid } from "@/components/client/dashboard/stats/StatsCardsGr
 import { InteractiveBrazilMap } from "@/components/client/dashboard/InteractiveBrazilMap";
 import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
-import { FlipPlanCard } from "@/components/client/dashboard/FlipPlanCard";
+import { InteractivePlanCard } from "@/components/client/dashboard/InteractivePlanCard";
 import { Component as TestimonialComponent } from "@/components/ui/testimonial";
 import "@/styles/logo.css";
 export default function ClientDashboard() {
@@ -57,7 +57,7 @@ export default function ClientDashboard() {
         </div>
       </div>
 
-      <FlipPlanCard />
+      <InteractivePlanCard />
 
       <div className="w-full mb-8">
         <TestimonialComponent />
